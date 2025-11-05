@@ -81,7 +81,14 @@ vibey/
 
 ### Framework Status: ✅ Production Ready (Claude Code)
 
-**Recent Major Enhancements (Nov 2024):**
+**Latest Updates (Nov 5, 2024 - Phase 1 & 2 Production Readiness):**
+1. ✅ **Critical Scripts Added** - generate-config.py, update-config.py (unblocked first-time users)
+2. ✅ **100% Claude Compatibility** - Replaced all 24 bash prompts with native conversational questions
+3. ✅ **Sprint State Management** - Complete lifecycle tracking with 4 Python scripts
+4. ✅ **PROJECT-CONTEXT System** - Unified discovery output with archiving
+5. ✅ **Deployment Improvements** - Pre-flight checks, better error handling
+
+**Previous Major Enhancements (Nov 2024):**
 1. **Documentation Organization** - Moved to docs/ with 4-category taxonomy
 2. **Codebase Audit Workflow** - Automated analysis for existing projects
 3. **Git History Analysis** - Discover sprint patterns and velocity
@@ -91,11 +98,23 @@ vibey/
 ### Key Files and Their Purposes
 
 **Core Framework Files:**
-- `commands/vibey.md` - Dual-mode: initialization for new projects, management for existing
+- `commands/vibey.md` - Dual-mode: initialization for new projects, management for existing (1,400+ lines)
 - `agents/core/coordinator.md` - Intelligent routing for complex requests (650 lines)
 - `agents/core/vibey-manager.md` - Framework management agent (500 lines)
 - `config/schema.yaml` - Project configuration schema (400+ lines)
 - `templates/CLAUDE.md.template` - User project context template
+
+**Python Scripts (10 total):**
+- `scripts/generate-config.py` - Creates project-config.yaml from templates (203 lines)
+- `scripts/update-config.py` - Updates nested config values with dot notation (266 lines)
+- `scripts/manage-project-context.py` - PROJECT-CONTEXT.md lifecycle management (566 lines)
+- `scripts/create-sprint-state.py` - Generates sprint state from plan (304 lines)
+- `scripts/query-sprint-state.py` - Queries sprint progress and status (504 lines)
+- `scripts/update-sprint-state.py` - Tracks tasks, agents, gates (526 lines)
+- `scripts/update-sprint-marker.py` - Updates CLAUDE.md sprint marker (323 lines)
+- `scripts/check-version.py` - Version checking and upgrade detection (NEW)
+- `scripts/rollback-framework.py` - Framework rollback to previous backup (NEW)
+- `scripts/render-template.py` - Jinja2 template renderer
 
 **Workflows:**
 - `workflows/planning/sprint-planning.md` - Sprint planning process

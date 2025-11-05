@@ -250,82 +250,206 @@ echo "✓ CLAUDE.md regenerated"
 Checking framework integrity...
 ```
 
-**Health Check Function:**
+**Enhanced Health Check Function:**
 ```bash
 health_check_vibey_framework() {
   local issues=0
+  local warnings=0
 
-  echo "Checking framework files..."
+  echo "═══════════════════════════════════════════════════════════"
+  echo "  VIBEY FRAMEWORK HEALTH CHECK"
+  echo "═══════════════════════════════════════════════════════════"
+  echo ""
+
+  # 1. Check Python dependencies
+  echo "1. Checking Python environment..."
+  if command -v python3 &> /dev/null; then
+    echo "   ✓ Python 3 found"
+
+    if python3 -c "import yaml" 2>/dev/null; then
+      echo "   ✓ PyYAML installed"
+    else
+      echo "   ❌ PyYAML missing (required for config management)"
+      issues=$((issues + 1))
+    fi
+
+    if python3 -c "import jinja2" 2>/dev/null; then
+      echo "   ✓ Jinja2 installed"
+    else
+      echo "   ❌ Jinja2 missing (required for templates)"
+      issues=$((issues + 1))
+    fi
+  else
+    echo "   ❌ Python 3 not found"
+    issues=$((issues + 1))
+  fi
+  echo ""
+
+  # 2. Check framework files
+  echo "2. Checking framework files..."
 
   # Check marker file
   if [ ! -f ".claude/.vibey-initialized" ]; then
-    echo "❌ Missing .vibey-initialized marker"
+    echo "   ❌ Missing .vibey-initialized marker"
     issues=$((issues + 1))
   else
-    echo "✓ Vibey marker present"
+    echo "   ✓ Vibey marker present"
   fi
 
   # Check CLAUDE.md marker
   if [ -f ".claude/CLAUDE.md" ]; then
     if grep -q "VIBEY_FRAMEWORK_MANAGED" .claude/CLAUDE.md; then
-      echo "✓ CLAUDE.md has Vibey marker"
+      echo "   ✓ CLAUDE.md has Vibey marker"
     else
-      echo "⚠️ CLAUDE.md missing Vibey marker"
-      issues=$((issues + 1))
+      echo "   ⚠️  CLAUDE.md missing Vibey marker"
+      warnings=$((warnings + 1))
     fi
   else
-    echo "❌ CLAUDE.md missing"
+    echo "   ❌ CLAUDE.md missing"
     issues=$((issues + 1))
   fi
 
   # Check config
   if [ -f ".claude/project-config.yaml" ]; then
-    echo "✓ Configuration file present"
-    # Validate config
-    if python3 .claude/scripts/validate-config.py .claude/project-config.yaml 2>/dev/null; then
-      echo "✓ Configuration valid"
-    else
-      echo "❌ Configuration has errors"
-      issues=$((issues + 1))
+    echo "   ✓ Configuration file present"
+    # Validate config if validator exists
+    if [ -f ".claude/scripts/validate-config.py" ]; then
+      if python3 .claude/scripts/validate-config.py .claude/project-config.yaml 2>/dev/null; then
+        echo "   ✓ Configuration valid"
+      else
+        echo "   ❌ Configuration has errors"
+        issues=$((issues + 1))
+      fi
     fi
   else
-    echo "❌ Configuration file missing"
-    issues=$((issues + 1))
+    echo "   ⚠️  Configuration file missing (optional until first sprint)"
+    warnings=$((warnings + 1))
   fi
+  echo ""
 
-  # Check framework directories
-  for dir in agents workflows templates commands scripts; do
+  # 3. Check framework directories
+  echo "3. Checking framework directories..."
+  local required_dirs=("agents" "workflows" "templates" "commands" "scripts")
+  for dir in "${required_dirs[@]}"; do
     if [ -d ".claude/$dir" ]; then
-      echo "✓ .claude/$dir/ present"
+      # Count files in directory
+      file_count=$(find ".claude/$dir" -type f | wc -l)
+      echo "   ✓ .claude/$dir/ ($file_count files)"
     else
-      echo "❌ .claude/$dir/ missing"
+      echo "   ❌ .claude/$dir/ missing"
       issues=$((issues + 1))
     fi
   done
+  echo ""
 
-  # Check sprint context
+  # 4. Check critical scripts
+  echo "4. Checking critical scripts..."
+  local critical_scripts=("generate-config.py" "update-config.py" "manage-project-context.py" "create-sprint-state.py")
+  for script in "${critical_scripts[@]}"; do
+    if [ -f ".claude/scripts/$script" ]; then
+      if [ -x ".claude/scripts/$script" ]; then
+        echo "   ✓ $script (executable)"
+      else
+        echo "   ⚠️  $script (not executable)"
+        warnings=$((warnings + 1))
+      fi
+    else
+      echo "   ❌ $script missing"
+      issues=$((issues + 1))
+    fi
+  done
+  echo ""
+
+  # 5. Check framework version
+  echo "5. Checking framework version..."
+  if [ -f ".claude/scripts/check-version.py" ]; then
+    python3 .claude/scripts/check-version.py --quiet
+    version_status=$?
+    if [ $version_status -eq 0 ]; then
+      echo "   ✓ Framework is up to date"
+    elif [ $version_status -eq 1 ]; then
+      echo "   ⚠️  Framework update available"
+      warnings=$((warnings + 1))
+    else
+      echo "   ⚠️  Could not determine version"
+      warnings=$((warnings + 1))
+    fi
+  else
+    echo "   ⚠️  Version checker not available"
+    warnings=$((warnings + 1))
+  fi
+  echo ""
+
+  # 6. Check sprint context (if sprint active)
+  echo "6. Checking sprint context..."
   if [ -f ".claude/CLAUDE.md" ]; then
     if grep -q "current_sprint:" .claude/CLAUDE.md; then
-      echo "✓ Sprint context section present"
+      echo "   ✓ Sprint context section present"
+
+      # Check if sprint is active
+      if grep -q "active: true" .claude/CLAUDE.md; then
+        sprint_num=$(grep "number:" .claude/CLAUDE.md | head -1 | awk '{print $2}')
+        echo "   ✓ Active sprint: Sprint $sprint_num"
+
+        # Check sprint state file exists
+        if [ -f "docs/sprints/sprint-$sprint_num-state.yaml" ]; then
+          echo "   ✓ Sprint state file found"
+        else
+          echo "   ⚠️  Sprint state file missing"
+          warnings=$((warnings + 1))
+        fi
+      else
+        echo "   ℹ️  No active sprint"
+      fi
     else
-      echo "⚠️ Sprint context section missing (may need CLAUDE.md regeneration)"
+      echo "   ℹ️  No sprint context (not yet initialized)"
     fi
+  fi
+  echo ""
+
+  # 7. Check project directories
+  echo "7. Checking project directories..."
+  if [ -d "docs/sprints" ]; then
+    sprint_count=$(ls -1 docs/sprints/sprint-*-plan.md 2>/dev/null | wc -l)
+    echo "   ✓ docs/sprints/ ($sprint_count sprint plans)"
+  else
+    echo "   ⚠️  docs/sprints/ missing"
+    warnings=$((warnings + 1))
   fi
 
-  echo ""
-  if [ $issues -eq 0 ]; then
-    echo "✅ Framework health: GOOD (no issues detected)"
+  if [ -d "docs/archive/discovery" ]; then
+    echo "   ✓ docs/archive/discovery/ present"
   else
-    echo "⚠️ Framework health: ISSUES DETECTED ($issues issues found)"
+    echo "   ℹ️  docs/archive/discovery/ not created yet"
+  fi
+  echo ""
+
+  # Summary
+  echo "═══════════════════════════════════════════════════════════"
+  if [ $issues -eq 0 ] && [ $warnings -eq 0 ]; then
+    echo "✅ FRAMEWORK HEALTH: EXCELLENT"
+    echo "   No issues or warnings detected"
+  elif [ $issues -eq 0 ]; then
+    echo "✅ FRAMEWORK HEALTH: GOOD"
+    echo "   $warnings warning(s) detected (non-critical)"
+  else
+    echo "⚠️  FRAMEWORK HEALTH: ISSUES DETECTED"
+    echo "   $issues critical issue(s), $warnings warning(s)"
     echo ""
-    echo "Recommended actions:"
+    echo "RECOMMENDED ACTIONS:"
     if [ ! -f ".claude/.vibey-initialized" ]; then
-      echo "  - Run consistency validation (automatic on next /vibey)"
+      echo "  • Run /vibey to initialize framework"
+    fi
+    if python3 -c "import yaml" 2>/dev/null; then
+      :
+    else
+      echo "  • Install dependencies: pip install pyyaml jinja2"
     fi
     if [ $issues -gt 2 ]; then
-      echo "  - Consider running /vibey to repair framework"
+      echo "  • Consider re-deploying framework"
     fi
   fi
+  echo "═══════════════════════════════════════════════════════════"
 }
 
 health_check_vibey_framework

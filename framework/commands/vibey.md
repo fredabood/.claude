@@ -1002,9 +1002,41 @@ else
 fi
 ```
 
-3. **Deploy Framework**
+3. **Pre-Flight Checks**
 
 ```bash
+echo "Running pre-flight checks..."
+
+# Check Python 3 is available
+if ! command -v python3 &> /dev/null; then
+  echo "❌ Error: Python 3 is required but not found"
+  echo "Please install Python 3.7 or later"
+  exit 1
+fi
+
+# Check if dependencies installed
+if ! python3 -c "import yaml; import jinja2" 2>/dev/null; then
+  echo "📦 Installing required Python dependencies (PyYAML, Jinja2)..."
+  if pip install pyyaml jinja2; then
+    echo "✓ Dependencies installed successfully"
+  else
+    echo "❌ Error: Failed to install dependencies"
+    echo "Please manually install: pip install pyyaml jinja2"
+    exit 1
+  fi
+else
+  echo "✓ Dependencies already installed"
+fi
+
+echo "✓ Pre-flight checks passed"
+echo ""
+```
+
+4. **Deploy Framework**
+
+```bash
+echo "Deploying framework files..."
+
 # Copy framework components
 cp -r $FRAMEWORK_SOURCE/agents .claude/
 cp -r $FRAMEWORK_SOURCE/workflows .claude/
@@ -1027,33 +1059,32 @@ echo "Version: 2.0" >> .claude/.vibey-initialized
 if [ -d ".claude/agents" ] && [ -d ".claude/workflows" ] && [ -d ".claude/templates" ]; then
   echo "✓ Framework deployed successfully"
 else
-  echo "❌ Deployment failed"
+  echo "❌ Deployment failed - missing directories"
   exit 1
 fi
 ```
 
-4. **Clean Up**
+5. **Clean Up**
 
 ```bash
-# Remove .vibey directory if it exists
+# Remove .vibey directory if it exists (temporary installation location)
 if [ -d ".vibey" ]; then
   rm -rf .vibey
   echo "✓ Cleaned up temporary files"
 fi
 ```
 
-5. **Install Python Dependencies**
+6. **Create Initial Project Structure**
 
 ```bash
-# Check if dependencies installed
-if ! python3 -c "import yaml; import jinja2" 2>/dev/null; then
-  echo "📦 Installing Python dependencies..."
-  pip install pyyaml jinja2
-  echo "✓ Dependencies installed"
-fi
+# Create directory structure for Vibey workflows
+mkdir -p docs/sprints
+mkdir -p docs/archive/discovery
+
+echo "✓ Project structure created"
 ```
 
-6. **Initialize Git (if needed)**
+7. **Initialize Git (if needed)**
 
 ```bash
 if ! git rev-parse --is-inside-work-tree 2>/dev/null; then
@@ -1071,16 +1102,6 @@ Parse their response. If they agree, set `init_git="y"`. Otherwise set `init_git
     echo "✓ Git repository initialized"
   fi
 fi
-```
-
-7. **Create Initial Project Structure**
-
-```bash
-# Create directory structure
-mkdir -p docs/sprints
-mkdir -p docs/brainstorming
-
-echo "✓ Project structure created"
 ```
 
 **Deployment Complete:** Return to main menu flow

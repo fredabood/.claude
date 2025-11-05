@@ -6,7 +6,7 @@ Detailed reference for all Vibey framework components.
 
 ## Framework Components
 
-### Agents (11 Total)
+### Agents (12 Total)
 
 **Planning Agents**
 - `agents/planning/sprint-planning.md` - Sprint planning and roadmap management
@@ -28,17 +28,19 @@ Detailed reference for all Vibey framework components.
 
 **Core Agents**
 - `agents/core/coordinator.md` - Intelligent task coordination (Tiered mode)
+- `agents/core/vibey-manager.md` - Framework management and configuration
 
 **Architecture Agent**
 - `agents/architecture/architecture-specialist.md` - Architecture review and design
 
 ---
 
-### Workflows (15 Total)
+### Workflows (16 Total)
 
 **Planning Workflows**
 - `workflows/planning/sprint-planning.md` - Sprint planning process
 - `workflows/planning/architecture-review.md` - Architecture review process
+- `workflows/planning/codebase-audit-discovery.md` - Automated project analysis
 
 **Execution Workflows**
 - `workflows/execution/single-feature-development.md` - Feature development lifecycle
@@ -57,7 +59,7 @@ Detailed reference for all Vibey framework components.
 
 ---
 
-### Templates (21 Total)
+### Templates (22 Total)
 
 **Handoff Templates**
 Located in `templates/handoffs/`:
@@ -73,7 +75,9 @@ Located in `templates/handoffs/`:
 
 **Project Templates**
 - `templates/CLAUDE.md.template` - Project context template
-- `templates/fragments/` - Reusable template fragments
+- `templates/PROJECT-CONTEXT.md.template` - Discovery context template
+- `templates/sprint-state.yaml.template` - Sprint state structure
+- `templates/sprint-retrospective.md.template` - Sprint retrospective format
 
 ---
 
@@ -118,14 +122,25 @@ Located in `templates/handoffs/`:
 │   └── operations/
 ├── templates/                        # 22 handoff templates
 │   ├── handoffs/
-│   ├── fragments/
-│   └── .claude/CLAUDE.md.template
+│   ├── CLAUDE.md.template
+│   ├── PROJECT-CONTEXT.md.template
+│   ├── sprint-state.yaml.template
+│   └── sprint-retrospective.md.template
 ├── commands/                         # Slash commands
 │   └── vibey.md
 ├── config/                           # Configuration
 │   ├── schema.yaml
 │   └── config-templates/
-└── scripts/                          # Utilities
+└── scripts/                          # 10 Python utilities
+    ├── generate-config.py
+    ├── update-config.py
+    ├── manage-project-context.py
+    ├── create-sprint-state.py
+    ├── query-sprint-state.py
+    ├── update-sprint-state.py
+    ├── update-sprint-marker.py
+    ├── check-version.py
+    ├── rollback-framework.py
     ├── validate-config.py
     └── render-template.py
 ```

@@ -1,7 +1,7 @@
 # Vibey Framework Roadmap
 
-**Version:** 1.1
-**Last Updated:** 2025-11-04
+**Version:** 1.2.0
+**Last Updated:** 2024-11-05
 
 ---
 

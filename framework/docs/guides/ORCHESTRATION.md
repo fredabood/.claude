@@ -1,8 +1,47 @@
 # Vibey Framework Orchestration Modes
 
-**Purpose:** Understand how Claude automatically selects and launches agents based on your requests.
+⚠️ **DEPRECATED - Framework v2.0**
 
-**Last Updated:** 2025-01-XX
+**This document describes v1.0 orchestration modes (Simple/Balanced/Tiered) which have been replaced by Sprint-Driven Orchestration in v2.0.**
+
+**See instead:** [`SPRINT_DRIVEN_ORCHESTRATION.md`](SPRINT_DRIVEN_ORCHESTRATION.md)
+
+---
+
+## Migration Notice
+
+Vibey Framework v2.0 introduces **Sprint-Driven Orchestration**, replacing the three-mode system:
+
+**v1.0 (Deprecated):**
+- Simple Mode → Explicit keyword rules
+- Balanced Mode → Rules + agent triggers
+- Tiered Mode → Fast/Coordinator/Explicit paths
+
+**v2.0 (Current):**
+- Sprint Mode → Phase-specific orchestration from sprint plans
+- Ad-Hoc Mode → Flexible, autonomous decisions
+
+**Why the change?**
+- Simpler (1 approach vs 3 modes)
+- More adaptive (context-aware orchestration)
+- Cleaner CLAUDE.md (rules in sprint plans)
+- Better quality (orchestration designed per sprint)
+
+**Migration:** Update `project-config.yaml`:
+```yaml
+# OLD (v1.0)
+framework:
+  orchestration_mode: "balanced"  # or simple/tiered
+
+# NEW (v2.0)
+framework:
+  sprint_driven_orchestration:
+    enabled: true
+```
+
+---
+
+## Original Documentation (v1.0 - For Reference Only)
 
 ---
 

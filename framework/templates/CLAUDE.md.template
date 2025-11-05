@@ -167,163 +167,186 @@ Every sprint must pass these mandatory reviews:
 
 ---
 
+## Current Sprint Status
+
+```yaml
+current_sprint:
+  active: false
+  number: null
+  name: null
+  start_date: null
+  phase: null
+  plan_file: null
+  phase_anchor: null
+```
+
+_(This section is auto-updated by Sprint Planning Agent and Git Committer)_
+
+---
+
+## Operating Mode Detection
+
+At the start of each session, determine your operating mode:
+
+### Step 1: Check Sprint Marker
+Read the "Current Sprint Status" section above.
+- If `current_sprint.active: true` → **SPRINT MODE**
+- If `current_sprint.active: false` → Continue to Step 2
+
+### Step 2: Check User Intent
+Analyze the user's request:
+- Sprint keywords ("continue sprint", "sprint task", "execute phase") → **SPRINT MODE**
+- Ad-hoc keywords ("quick fix", "explore", "help understand") → **AD-HOC MODE**
+- Ambiguous → Continue to Step 3
+
+### Step 3: Check File System
+Look for active sprint plan:
+```bash
+find docs/sprints -name "sprint-*-plan.md" -exec grep -l "status: in-progress" {} \;
+```
+- If found → **SPRINT MODE** (ask user to confirm)
+- If not found → **AD-HOC MODE**
+
+---
+
 ## Agent Orchestration
 
-{% if framework and framework.orchestration_mode %}
-**Orchestration Mode:** {{ framework.orchestration_mode | upper }}
+{% if framework and framework.sprint_driven_orchestration and framework.sprint_driven_orchestration.enabled %}
+**Orchestration Strategy:** Sprint-Driven (v2.0)
 {% if framework.auto_agent_launch %}**Auto-launch agents:** Enabled{% else %}**Auto-launch agents:** Disabled (require explicit agent names){% endif %}
 {% if framework.require_quality_gates %}**Quality gates:** Required before sprint completion{% else %}**Quality gates:** Optional{% endif %}
 
-{% if framework.orchestration_mode == 'simple' %}
-### Simple & Transparent Mode
+### When in SPRINT MODE
 
-You follow **explicit orchestration rules** to select agents. When the user's request matches these patterns, launch the corresponding agent:
+**You are executing within a sprint - follow phase orchestration rules:**
 
-**Planning & Research:**
-- Keywords: "plan sprint", "roadmap", "prioritize", "backlog", "dependencies"
-  → Use `.claude/agents/planning/sprint-planning.md`
-- Keywords: "research", "documentation", "API docs", "investigate", "how does X work"
-  → Use `.claude/agents/planning/researcher.md`
+1. **Load Phase Context**
+   - Read: `{{ "{{ current_sprint.plan_file }}" }}`
+   - Navigate to: `{{ "{{ current_sprint.phase_anchor }}" }}`
+   - Extract orchestration rules from phase
 
-**Development:**
-- Keywords: "frontend", "UI", "component", "React", "Vue", "dashboard", "page"
-  → Use `.claude/agents/development/web-developer.md`
-- Keywords: "machine learning", "ML", "model", "training", "prediction", "feature engineering"
-  → Use `.claude/agents/development/ml-engineer.md`
+2. **Follow Orchestration Rules**
+   - Launch agents as specified in phase orchestration section
+   - Respect priority ordering (high → medium → low)
+   - Run mandatory agents always
+   - Run recommended agents unless user declines
+   - Optional agents only if user explicitly requests
 
-**Quality:**
-- Keywords: "security", "vulnerability", "authentication", "OWASP", "audit"
-  → Use `.claude/agents/quality/security-reviewer.md`
-- Keywords: "logging", "monitoring", "observability", "correlation ID", "telemetry"
-  → Use `.claude/agents/quality/observability-engineer.md`
-- Keywords: "performance", "slow", "optimize", "bottleneck", "latency"
-  → Use `.claude/agents/quality/performance-engineer.md`
+3. **Execute Quality Gates**
+   - Run all required quality gates for phase
+   - Block progression if blocking gates fail
+   - Report warnings for non-blocking gates
+   - Verify completion criteria met
 
-**Documentation:**
-- Keywords: "documentation", "docs", "README", "changelog", "API documentation"
-  → Use `.claude/agents/documentation/documentation-engineer.md`
-- Keywords: "diagram", "architecture diagram", "flow diagram", "Mermaid", "visualize"
-  → Use `.claude/agents/documentation/diagram-engineer.md`
-- Keywords: "commit", "git commit", "save changes", "version control"
-  → Use `.claude/agents/documentation/git-committer.md`
-- Keywords: "update CLAUDE.md", "maintain docs", "archive sprint"
-  → Use `.claude/agents/documentation/documentation-maintenance-engineer.md`
+4. **Update Progress**
+   - Mark tasks complete as you finish them
+   - Update sprint plan with progress
+   - Move to next phase when criteria met
+   - Update current_sprint section in this file
 
-**Sprint Phase Guidance:**
-- **Planning phase** → Use sprint planning agent, researcher if new tech
-- **Development phase** → Use development agents + concurrent quality agents
-- **Quality gates phase** → Use all quality agents (security, testing, logging, docs)
-- **Deployment phase** → Final security check, observability verification
+**Sprint Execution Example:**
+```yaml
+# Phase orchestration (from sprint plan)
+orchestration:
+  agents:
+    - name: "Security Reviewer"
+      priority: "high"
+      mode: "mandatory"
+      quality_gate:
+        metric: "security_score"
+        threshold: 85
+        blocking: true
 
-{% elif framework.orchestration_mode == 'balanced' %}
-### Balanced & Discoverable Mode (RECOMMENDED)
+  sequence:
+    order: ["Web Developer", "Security Reviewer", "Test Engineer", "Git Committer"]
 
-You use **two-layer orchestration**:
-1. **High-level structure** from this file (sprint phases, quality gates)
-2. **Agent trigger patterns** from agent files themselves
+  quality_gates:
+    required:
+      - gate: "security_review"
+        threshold: 85
+        blocking: true
+```
 
-**How it works:**
-- Each agent in `.claude/agents/` has a "Trigger Patterns" section
-- Pattern-match user requests against agent keywords, contexts, and file patterns
-- Launch relevant agents based on matches and priority
-- Use sprint phase to guide which agents are appropriate
+When user requests work, you:
+1. Match request against trigger conditions
+2. Launch agents in sequence order
+3. Run quality gates
+4. Update sprint progress
 
-**Sprint Phase Detection:**
-User request mentions:
-- "plan sprint", "roadmap", "prioritize" → **Planning phase**
-- "implement", "build", "create", "develop" → **Development phase**
-- "review", "audit", "test coverage", "security check" → **Quality gates phase**
-- "deploy", "release", "push to production" → **Deployment phase**
+### When in AD-HOC MODE
 
-**Agent Selection Process:**
-1. Scan all `.claude/agents/**/*.md` files for trigger patterns
-2. Match user request keywords against agent triggers
-3. Consider project type ({{ project.type }}) for relevant agents
-4. Consider sprint phase for appropriate agents
-5. Apply priority (High → Medium → Low)
-6. Launch matched agents in priority order
+**You are working outside sprint structure - operate flexibly:**
 
-**Multi-agent Requests:**
-If request involves multiple concerns, launch multiple agents:
-- "Implement secure authentication" → Web Developer + Security Reviewer
-- "Optimize slow API endpoint" → Performance Engineer + Test Engineer (verify no regressions)
-- "Add feature and document it" → Development agent + Documentation Engineer
+1. **Autonomous Operation**
+   - Use agent triggers as suggestions (not requirements)
+   - Make decisions based on task complexity and risk
+   - Prioritize speed and flexibility
+   - No formal sprint plan updates required
 
-**Quality Gate Enforcement:**
-{% if framework.require_quality_gates %}
-Before marking sprint complete, you MUST run:
-{% if quality_gates and quality_gates.required_reviews %}
-{% for review in quality_gates.required_reviews %}
-- {{ review | capitalize }} review{% endfor %}
+2. **Agent Decision Making**
+   ```python
+   # Assess task
+   complexity = assess_complexity(user_request)  # simple, medium, complex
+   risk_level = assess_risk(user_request)        # low, medium, high
+   urgency = detect_urgency(user_request)        # low, medium, high
+
+   # Decide agent usage
+   if complexity == "simple" and risk_level == "low" and urgency == "high":
+       # Handle directly, no agents
+       use_agents = false
+
+   elif complexity == "medium" or risk_level == "medium":
+       # Selective agent usage
+       use_agents = filter(triggered_agents, confidence > 0.7)
+
+   elif complexity == "complex" or risk_level == "high":
+       # Use all triggered agents
+       use_agents = triggered_agents
+       suggest_sprint_planning()  # Complex work should be planned
+   ```
+
+3. **Optional Quality Gates**
+   - Run quality gates for high-risk changes
+   - Skip for low-risk, urgent fixes
+   - Security-sensitive code always gets Security Reviewer
+
+4. **Explain Decisions**
+   Always explain why you chose to use or not use agents:
+   ```
+   "I'm going to {handle this directly / use Security Reviewer} because:
+   - Task complexity: {simple/medium/complex}
+   - Risk level: {low/medium/high}
+   - {Reasoning}
+   ```
+
 {% else %}
-- Security review (score ≥ {{ quality_gates.security_score_minimum if quality_gates.security_score_minimum else 85 }})
-- Test coverage check (≥ {{ quality_gates.test_coverage_minimum if quality_gates.test_coverage_minimum else 90 }}%)
-- Logging audit (score ≥ {{ quality_gates.logging_audit_minimum if quality_gates.logging_audit_minimum else 80 }})
-- Documentation update
-{% endif %}
-{% else %}
-Quality gates are optional but recommended.
+**Orchestration Strategy:** Agent Framework Enabled
+{% if framework.auto_agent_launch %}**Auto-launch agents:** Enabled{% else %}**Auto-launch agents:** Disabled{% endif %}
+{% if framework.require_quality_gates %}**Quality gates:** Required{% else %}**Quality gates:** Optional{% endif %}
 {% endif %}
 
-{% elif framework.orchestration_mode == 'tiered' %}
-### Intelligent & Adaptive Mode
+### Agent Trigger Patterns (Ad-Hoc Mode Reference)
 
-You use **tiered routing** with three paths:
+When in ad-hoc mode, these trigger patterns help identify relevant agents:
 
-**1. Fast Path (Simple requests - handle directly):**
-- Single-file changes (typo fixes, comment additions, variable renames)
-- Obvious single-agent tasks with explicit agent name
-- Quick documentation updates
-→ **No coordinator needed**, handle directly
+#### Planning Agents
+- **Sprint Planning:** sprint planning, plan sprint, roadmap, iteration, backlog, prioritize, dependencies
+- **Researcher:** research, documentation, API docs, investigate, how does X work, best practices
 
-**2. Smart Path (Complex requests - use coordinator):**
-- Multi-concern requests ("implement auth with JWT, email verification, and 2FA")
-- Interdependent features ("build dashboard with real-time updates")
-- Sprint planning with complex requirements
-- Major refactors affecting multiple systems
-- Uncertain routing needs
-→ **Launch Coordinator Agent:** `.claude/agents/core/coordinator.md`
+#### Development Agents
+- **Web Developer:** frontend, UI, component, {{ technology_stack.frontend.framework if technology_stack.frontend else 'React' }}, dashboard, page, implement, build
+- **ML Engineer:** machine learning, ML, model, training, prediction, feature engineering, dataset
 
-**3. Explicit Path (User names specific agent):**
-- User says "use the security reviewer agent"
-- User says "run performance optimization"
-→ **Use named agent directly**
+#### Quality Agents
+- **Security Reviewer:** security, vulnerability, authentication, authorization, OWASP, XSS, SQL injection, audit
+- **Observability Engineer:** logging, monitoring, observability, correlation ID, telemetry, tracing
+- **Performance Engineer:** performance, slow, optimize, bottleneck, latency, caching, profiling
 
-**Coordinator Agent Responsibilities:**
-The coordinator analyzes complex requests and:
-1. Reads project context (CLAUDE.md, configs, recent work)
-2. Determines which agents are needed
-3. Sequences agents in correct order
-4. Manages handoffs between agents
-5. Verifies quality gates
-6. Provides progress updates and reasoning
-
-**When to Use Coordinator:**
-Launch coordinator if request:
-- Involves 3+ concerns (security + performance + docs + ...)
-- Requires agent sequencing (research → plan → develop → audit)
-- Is ambiguous about which agents to use
-- Is sprint planning or major refactoring
-- Explicitly asks for coordination
-
-**Quality Gate Enforcement:**
-{% if framework.require_quality_gates %}
-Coordinator ensures these reviews run before sprint completion:
-{% if quality_gates and quality_gates.required_reviews %}
-{% for review in quality_gates.required_reviews %}
-- {{ review | capitalize }} review{% endfor %}
-{% else %}
-- Security review (score ≥ {{ quality_gates.security_score_minimum if quality_gates.security_score_minimum else 85 }})
-- Test coverage check (≥ {{ quality_gates.test_coverage_minimum if quality_gates.test_coverage_minimum else 90 }}%)
-- Logging audit (score ≥ {{ quality_gates.logging_audit_minimum if quality_gates.logging_audit_minimum else 80 }})
-- Documentation update
-{% endif %}
-Coordinator blocks sprint completion if gates fail.
-{% else %}
-Quality gates are optional.
-{% endif %}
-
-{% endif %}
+#### Documentation Agents
+- **Documentation Engineer:** documentation, docs, README, changelog, API documentation, user guide
+- **Diagram Engineer:** diagram, architecture diagram, flow diagram, Mermaid, visualize, chart
+- **Git Committer:** commit, git commit, save changes, version control, finalize sprint
+- **Documentation Maintenance Engineer:** update CLAUDE.md, maintain docs, archive sprint, keep current
 
 ### Available Agents
 
@@ -346,11 +369,6 @@ Quality gates are optional.
 - Documentation Maintenance Engineer - Keep CLAUDE.md current
 - Git Committer - Create clean commits with good messages
 
-{% if framework.orchestration_mode == 'tiered' %}
-**Core:** (`.claude/agents/core/`)
-- Coordinator Agent - Orchestrate complex multi-agent workflows
-{% endif %}
-
 ### Workflows
 
 Use workflows for structured, multi-step processes:
@@ -370,37 +388,31 @@ Use templates for agent-to-agent communication:
 
 Full list: `.claude/templates/handoffs/`
 
-### Orchestration Tips
+### Orchestration Best Practices
 
-{% if framework.orchestration_mode == 'simple' %}
-- **Follow the rules** - Match keywords to agents explicitly
-- **Update rules** - If new agents added, update orchestration rules in this file
-- **Be predictable** - Same input should trigger same agents
-{% elif framework.orchestration_mode == 'balanced' %}
-- **Trust pattern matching** - Agent trigger patterns are comprehensive
-- **Launch multiple agents** - Don't hesitate to use multiple agents for complex requests
-- **Respect priorities** - High priority agents (security, planning) run first
-- **Consider project type** - {{ project.type }} projects have specific agent needs
-{% elif framework.orchestration_mode == 'tiered' %}
-- **Use fast path when possible** - Don't over-coordinate simple tasks
-- **Trust the coordinator** - It understands project context deeply
-- **Provide coordinator context** - The more context, the better routing decisions
-- **Review coordinator reasoning** - Coordinator explains its decisions
-{% endif %}
+{% if framework and framework.sprint_driven_orchestration and framework.sprint_driven_orchestration.enabled %}
+**In Sprint Mode:**
+- **Trust the orchestration** - Phase rules are designed for this sprint's needs
+- **Follow sequence** - Agent order is intentional (dependencies, quality)
+- **Respect quality gates** - Blocking gates prevent poor quality from shipping
+- **Update progress** - Keep sprint plan current as you complete tasks
+
+**In Ad-Hoc Mode:**
+- **Assess before acting** - Consider complexity, risk, urgency
+- **Explain decisions** - Tell user why you used or skipped agents
+- **Suggest planning** - Complex work benefits from sprint planning
+- **Security always matters** - High-risk changes get Security Reviewer regardless
+
+**Always:**
 - **Quality gates are mandatory** - Don't skip required reviews
 - **Document with agents** - Use documentation agents, don't manually update docs
 - **Use workflows for structure** - Workflows provide step-by-step guidance
-
 {% else %}
-### Agent Framework
-
-This project uses the **Vibey Agent Framework** with 11 specialized agents and 15 workflows.
-
-**Available agents:** `.claude/agents/`
-**Workflows:** `.claude/workflows/`
-**Handoff templates:** `.claude/templates/handoffs/`
-
-See `.claude/README.md` for full documentation.
+**Agent Framework:**
+- This project uses the **Vibey Agent Framework**
+- **Available agents:** `.claude/agents/`
+- **Workflows:** `.claude/workflows/`
+- **Handoff templates:** `.claude/templates/handoffs/`
 {% endif %}
 
 ---
@@ -616,7 +628,7 @@ git push origin feature/your-feature-name
 ---
 
 **Last Updated:** {{ "now" | date("YYYY-MM-DD") }}
-**Framework:** Vibey v1.1
+**Framework:** Vibey v2.0 (Sprint-Driven Orchestration)
 **Configuration:** project-config.yaml
 
 ---

@@ -1,5 +1,15 @@
 # Coordinator Agent
 
+⚠️ **DEPRECATED - Framework v2.0**
+
+**This agent is deprecated in Vibey Framework v2.0.** Its intelligence has been moved to the Sprint Planning Agent, which now designs orchestration as part of sprint planning rather than dynamically during execution.
+
+**Replacement:** Sprint-Driven Orchestration (see `docs/guides/SPRINT_DRIVEN_ORCHESTRATION.md`)
+
+---
+
+## Original Documentation (v1.0 - For Reference Only)
+
 **Role:** Intelligent request router for complex, multi-step workflows
 **Type:** Core Agent (Orchestration)
 **When to Use:** Tiered orchestration mode ONLY - for complex requests requiring multiple agents

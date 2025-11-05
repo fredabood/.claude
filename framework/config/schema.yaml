@@ -52,16 +52,19 @@ framework:
   type: object
   required: false
   properties:
-    orchestration_mode:
-      type: string
-      required: true
-      enum: [simple, balanced, tiered]
-      default: balanced
-      description: |
-        How Claude orchestrates agents and workflows:
-        - simple: Follow explicit rules in CLAUDE.md
-        - balanced: High-level rules + agent trigger pattern matching (recommended)
-        - tiered: Fast path for simple requests, coordinator for complex ones
+    sprint_driven_orchestration:
+      type: object
+      required: false
+      properties:
+        enabled:
+          type: boolean
+          required: false
+          default: true
+          description: |
+            Enable sprint-driven orchestration where sprint planning generates
+            phase-specific agent orchestration rules. When enabled:
+            - Sprint mode: Follow orchestration rules embedded in sprint plans
+            - Ad-hoc mode: Flexible agent usage based on task complexity/risk
 
     auto_agent_launch:
       type: boolean
@@ -78,7 +81,7 @@ framework:
     version:
       type: string
       required: false
-      default: "1.0"
+      default: "2.0"
       description: "Vibey framework version"
 
     config_location:

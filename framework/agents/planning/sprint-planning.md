@@ -1,8 +1,8 @@
 # Sprint Planning Agent
 
-**Version:** 1.0
+**Version:** 2.0 (Sprint-Driven Orchestration)
 **Type:** Planning Agent
-**When to Use:** Planning sprint iterations, re-prioritizing roadmap, analyzing dependencies
+**When to Use:** Planning sprint iterations, re-prioritizing roadmap, analyzing dependencies, designing agent orchestration
 
 **Trigger Patterns:**
 - **Keywords:** sprint planning, plan sprint, roadmap, iteration, backlog, prioritize, dependencies, quarterly planning, sprint goals, sprint objectives
@@ -510,7 +510,458 @@ For detailed implementation plans, see individual phase documents:
 
 **Note:** Phase plans should be 75-120 lines (WHAT/WHY only). All code goes in the implementation guide.
 
-#### Step 3.3: Update Implementation Guide
+#### Step 3.3: Design Phase Orchestration (NEW - V2.0)
+**Action:** Generate agent orchestration rules for each sprint phase
+
+**Purpose:** Create phase-specific orchestration rules that determine which agents run, when, and with what quality gates during sprint execution.
+
+**For Each Phase in Sprint:**
+
+##### Substep 1: Analyze Phase Domains
+
+Examine phase tasks and categorize by domain:
+
+**Security Domain Detection:**
+```python
+security_indicators = {
+    'keywords': ['authentication', 'authorization', 'permissions', 'user input',
+                 'sensitive data', 'encryption', 'tokens', 'passwords', 'API keys',
+                 'OAuth', 'JWT', 'SAML', 'CSRF', 'XSS', 'SQL injection'],
+    'file_patterns': ['*/auth/*', '*/security/*', '*login*', '*password*'],
+    'contexts': ['handling user data', 'payment processing', 'admin functions']
+}
+
+# Evaluate
+security_critical = (
+    any(keyword in phase_tasks for keyword in security_indicators['keywords']) or
+    any(pattern in phase_files for pattern in security_indicators['file_patterns'])
+)
+```
+
+**Performance Domain Detection:**
+```python
+performance_indicators = {
+    'keywords': ['optimization', 'slow', 'latency', 'throughput', 'caching',
+                 'real-time', 'large dataset', 'streaming', 'response time'],
+    'contexts': ['high traffic', 'data processing', 'API endpoints']
+}
+
+performance_critical = any(keyword in phase_tasks for keyword in performance_indicators['keywords'])
+```
+
+**ML Domain Detection:**
+```python
+ml_indicators = {
+    'keywords': ['model', 'training', 'inference', 'prediction', 'ML', 'AI',
+                 'neural network', 'dataset', 'features', 'embedding'],
+    'file_patterns': ['*/models/*', '*/ml/*', '*/training/*']
+}
+
+ml_related = any(keyword in phase_tasks for keyword in ml_indicators['keywords'])
+```
+
+**Infrastructure Domain Detection:**
+```python
+infrastructure_indicators = {
+    'keywords': ['deployment', 'scaling', 'infrastructure', 'containers',
+                 'kubernetes', 'terraform', 'CI/CD', 'docker'],
+    'file_patterns': ['*/infrastructure/*', '*/deploy/*', '*.tf', 'Dockerfile']
+}
+
+infrastructure_related = any(keyword in phase_tasks for keyword in infrastructure_indicators['keywords'])
+```
+
+**Documentation Domain Detection:**
+```python
+documentation_indicators = {
+    'keywords': ['API changes', 'architecture changes', 'user-facing features',
+                 'breaking changes', 'deprecation', 'migration'],
+    'contexts': ['public API modifications', 'user documentation needed']
+}
+
+documentation_heavy = (
+    'API' in phase_name or
+    'architecture' in phase_name or
+    any(keyword in phase_tasks for keyword in documentation_indicators['keywords'])
+)
+```
+
+##### Substep 2: Select Agents by Domain
+
+Based on domain analysis, select required agents:
+
+**Security Domain → Security Reviewer**
+```yaml
+IF security_critical:
+  agent:
+    name: "Security Reviewer"
+    priority: "high"
+    mode: "mandatory"
+    trigger_conditions:
+      - "implementing authentication"
+      - "handling sensitive data"
+      - "user input validation"
+    quality_gate:
+      metric: "security_score"
+      threshold: {{ config.quality_gates.security_score_minimum if config.quality_gates else 85 }}
+      blocking: true
+```
+
+**Performance Domain → Performance Engineer**
+```yaml
+IF performance_critical:
+  agent:
+    name: "Performance Engineer"
+    priority: "medium"
+    mode: "recommended"
+    trigger_conditions:
+      - "performance optimization"
+      - "latency concerns"
+    quality_gate:
+      metric: "performance_score"
+      threshold: 80
+      blocking: false
+```
+
+**ML Domain → ML Engineer + Researcher**
+```yaml
+IF ml_related:
+  agents:
+    - name: "ML Engineer"
+      priority: "high"
+      mode: "mandatory"
+    - name: "Researcher"
+      priority: "high"
+      mode: "recommended"
+      trigger_conditions:
+        - "new ML technique"
+        - "unfamiliar algorithm"
+```
+
+**Always Include (based on project type):**
+```yaml
+# For web-app projects
+IF project.type == 'web-app':
+  - name: "Web Developer"
+    priority: "high"
+    mode: "mandatory"
+
+# For ML projects
+IF project.type == 'ml':
+  - name: "ML Engineer"
+    priority: "high"
+    mode: "mandatory"
+
+# Always include
+- name: "Test Engineer"
+  priority: "high"
+  mode: "mandatory"
+  quality_gate:
+    metric: "test_coverage"
+    threshold: {{ config.quality_gates.test_coverage_minimum if config.quality_gates else 90 }}
+    blocking: true
+
+- name: "Documentation Engineer"
+  priority: "medium"
+  mode: "recommended" if not documentation_heavy else "mandatory"
+
+- name: "Git Committer"
+  priority: "low"
+  mode: "mandatory"
+```
+
+##### Substep 3: Design Execution Sequence
+
+Order agents based on dependencies:
+
+**Standard Sequence Template:**
+```yaml
+sequence:
+  type: "sequential"
+  order:
+    # Phase 1: Research/Planning (if needed)
+    - "Researcher"                    # If new technology
+    - "Architecture Specialist"       # If architecture changes
+
+    # Phase 2: Development
+    - "Web Developer"                 # Or ML Engineer, etc.
+    # Security Reviewer can run during development for consultation
+
+    # Phase 3: Quality (after development)
+    - "Security Reviewer"             # Comprehensive audit
+    - "Test Engineer"                 # Coverage verification
+    - "Performance Engineer"          # If performance-critical
+    - "Observability Engineer"        # Logging audit
+
+    # Phase 4: Documentation
+    - "Documentation Engineer"
+    - "Diagram Engineer"              # If architecture changes
+
+    # Phase 5: Finalization
+    - "Git Committer"
+
+  # Optional: parallel execution groups
+  parallel_groups:
+    - ["Security Reviewer", "Test Engineer"]  # Can run simultaneously in quality phase
+```
+
+**Sequence Adaptations:**
+- **Security-critical phases:** Security Reviewer runs TWICE (design review + implementation audit)
+- **Research phases:** Researcher runs FIRST
+- **Quality phases:** All quality agents run in parallel
+- **Documentation phases:** Documentation + Diagram engineers run in parallel
+
+##### Substep 4: Define Phase Quality Gates
+
+```python
+quality_gates = {
+    'required': []
+}
+
+# Always required
+quality_gates['required'].append({
+    'gate': 'test_coverage',
+    'threshold': config.quality_gates.test_coverage_minimum,
+    'blocking': True
+})
+
+# Conditional based on domain
+if security_critical:
+    quality_gates['required'].append({
+        'gate': 'security_review',
+        'threshold': config.quality_gates.security_score_minimum,
+        'blocking': True
+    })
+
+if any_code_changes:
+    quality_gates['required'].append({
+        'gate': 'logging_audit',
+        'threshold': config.quality_gates.logging_audit_minimum,
+        'blocking': False  # Warning only
+    })
+
+if performance_critical:
+    quality_gates['optional'] = [{
+        'gate': 'performance_check',
+        'threshold': 80,
+        'blocking': False
+    }]
+
+if documentation_heavy:
+    quality_gates['required'].append({
+        'gate': 'documentation_complete',
+        'threshold': 100,
+        'blocking': True
+    })
+```
+
+##### Substep 5: Generate Orchestration YAML
+
+Format orchestration rules:
+
+```yaml
+orchestration:
+  # Agent selection and configuration
+  agents:
+    - name: "Security Reviewer"
+      priority: "high"
+      trigger_conditions:
+        - "implementing authentication"
+        - "handling sensitive data"
+      mode: "mandatory"
+      quality_gate:
+        metric: "security_score"
+        threshold: 85
+        blocking: true
+
+    - name: "Web Developer"
+      priority: "high"
+      trigger_conditions:
+        - "any development work"
+      mode: "mandatory"
+
+    - name: "Test Engineer"
+      priority: "high"
+      trigger_conditions:
+        - "after implementation"
+      mode: "mandatory"
+      quality_gate:
+        metric: "test_coverage"
+        threshold: 90
+        blocking: true
+
+    - name: "Documentation Engineer"
+      priority: "medium"
+      trigger_conditions:
+        - "API changes"
+      mode: "recommended"
+
+  # Execution sequence
+  sequence:
+    type: "sequential"
+    order:
+      - "Web Developer"
+      - "Security Reviewer"
+      - "Test Engineer"
+      - "Observability Engineer"
+      - "Documentation Engineer"
+      - "Git Committer"
+
+    # Optional: parallel execution
+    parallel_groups:
+      - ["Security Reviewer", "Test Engineer"]
+
+  # Quality gates
+  quality_gates:
+    required:
+      - gate: "security_review"
+        threshold: 85
+        blocking: true
+
+      - gate: "test_coverage"
+        threshold: 90
+        blocking: true
+
+      - gate: "logging_audit"
+        threshold: 80
+        blocking: false
+
+    optional:
+      - gate: "performance_check"
+        threshold: 80
+        blocking: false
+
+  # Phase completion criteria
+  completion_criteria:
+    - "All mandatory agents have run"
+    - "All blocking quality gates passed"
+    - "All phase tasks marked complete"
+    - "Code committed to git"
+
+  # Rationale for orchestration decisions
+  rationale: |
+    This phase implements authentication endpoints which are security-critical.
+    Security Reviewer runs with high priority to audit implementation.
+    Test Engineer ensures comprehensive test coverage of auth logic.
+    Observability Engineer verifies authentication events are properly logged.
+```
+
+##### Substep 6: Embed Orchestration in Phase Plan
+
+Add orchestration section to phase plan document:
+
+```markdown
+# Phase Plan: v0.X.Y - [Phase Name]
+
+[Existing phase plan content...]
+
+---
+
+## 🤖 Agent Orchestration
+
+This section defines which agents will be used during this phase and how they'll be orchestrated.
+
+```yaml
+orchestration:
+  [Generated YAML from Substep 5]
+```
+
+**Orchestration Rationale:**
+[Generated rationale explaining why these agents, this sequence, and these quality gates]
+
+**Expected Agent Execution:**
+1. **Web Developer** - Implement authentication endpoints (3-4 hours)
+2. **Security Reviewer** - Audit implementation for vulnerabilities (1 hour)
+3. **Test Engineer** - Write comprehensive tests for auth logic (2 hours)
+4. **Observability Engineer** - Verify auth logging (30 min)
+5. **Documentation Engineer** - Document auth API endpoints (1 hour)
+6. **Git Committer** - Commit phase work (15 min)
+
+Total estimated agent time: ~8 hours
+```
+
+##### Substep 7: Validate Phase Size (Context Window Constraint)
+
+**CRITICAL:** Each phase must fit within context window limits.
+
+```python
+# Calculate phase token count
+phase_content_tokens = estimate_tokens(phase_tasks + phase_description)
+orchestration_tokens = estimate_tokens(orchestration_yaml + rationale)
+buffer_tokens = 1000
+
+total_tokens = phase_content_tokens + orchestration_tokens + buffer_tokens
+
+MAX_PHASE_TOKENS = 8000  # Leaves room for code context during execution
+
+if total_tokens > MAX_PHASE_TOKENS:
+    # Split phase into sub-phases
+    print(f"⚠️ Phase {phase_name} exceeds context limit ({total_tokens} tokens)")
+    print(f"Splitting into sub-phases...")
+
+    sub_phases = split_phase_intelligently(
+        phase,
+        max_tokens=MAX_PHASE_TOKENS,
+        preserve_orchestration_coherence=True
+    )
+
+    for sub_phase in sub_phases:
+        generate_orchestration_rules(sub_phase)
+
+    print(f"✓ Created {len(sub_phases)} sub-phases")
+```
+
+**Phase Splitting Guidelines:**
+- Keep related tasks together
+- Each sub-phase has its own orchestration
+- Sub-phases reference each other for context
+- Example: "Phase 2: Backend Implementation" → "Phase 2A: Auth Endpoints" + "Phase 2B: User Management"
+
+##### Substep 8: Document Orchestration Design
+
+Add summary to sprint plan:
+
+```markdown
+## 🤖 Sprint Orchestration Summary
+
+This sprint uses **sprint-driven orchestration** where each phase has tailored agent orchestration rules.
+
+**Phase 1: Research & Architecture**
+- Primary Agents: Researcher, Security Reviewer, Diagram Engineer
+- Focus: Design validation, security architecture review
+- Quality Gates: Architecture security review (≥85)
+
+**Phase 2: Frontend Implementation**
+- Primary Agents: Web Developer, Test Engineer
+- Focus: UI components with tests
+- Quality Gates: Test coverage (≥90%)
+
+**Phase 3: Backend Implementation**
+- Primary Agents: Web Developer, Security Reviewer, Test Engineer, Observability Engineer
+- Focus: Secure API implementation with comprehensive testing
+- Quality Gates: Security (≥85), Test coverage (≥90%), Logging audit (≥80)
+
+**Phase 4: Quality Assurance**
+- Primary Agents: Security Reviewer, Test Engineer, Performance Engineer
+- Focus: Comprehensive quality checks
+- Quality Gates: Security (≥90), All tests passing, Performance acceptable
+
+**Phase 5: Documentation & Deployment**
+- Primary Agents: Documentation Engineer, Diagram Engineer, Git Committer
+- Focus: Complete documentation and sprint finalization
+- Quality Gates: Documentation complete
+
+**Orchestration Strategy:**
+Security-critical sprint with emphasis on Security Reviewer in multiple phases.
+Test Engineer ensures high coverage throughout. Observability Engineer validates
+logging for authentication events.
+```
+
+---
+
+**Orchestration Design Complete:** All phases now have embedded orchestration rules that Claude will follow during sprint execution.
+
+#### Step 3.4: Update Implementation Guide
 **Action:** Add code/SQL/commands to implementation guide
 
 **File Location:** `docs/sprints/v0.X.0/SPRINT_V0.X.0_IMPLEMENTATION_GUIDE.md`
@@ -1001,6 +1452,6 @@ Benefits:
 
 **End of Sprint Planning Agent Instructions**
 
-**Agent Version:** 1.0
+**Agent Version:** 2.0 (Sprint-Driven Orchestration)
 **Framework:** Vibey Agent Framework
-**Last Updated:** 2025-11-04
+**Last Updated:** 2025-11-05

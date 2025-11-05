@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Changed - Discovery Mode Consolidation
+- **Command Structure** - Consolidated Brainstorming Mode and Project Audit into unified "Discovery Mode"
+- **Menu Simplification** - Reduced main menu from 5 options to 4 options
+- **Discovery Mode** - Now offers 3 sub-options:
+  - Option A: Conversational Exploration (interactive Q&A)
+  - Option B: Project Audit (automated analysis)
+  - Option C: Both (audit + conversation)
+- **Command Removal** - Removed legacy `/vibey audit` command
+- **Command Access** - Discovery Mode accessible only via `/vibey think`
+
+### Improved
+- **User Experience** - Clearer discovery path with flexible approach selection
+- **Documentation** - Updated all command references and examples
+- **Error Messages** - Updated invalid command errors to show 4 commands instead of 5
+
+---
+
 ## [1.2.0] - 2024-11-05
 
 ### Added - Phase 1 & 2: Production Readiness

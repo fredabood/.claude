@@ -1,6 +1,6 @@
 # Vibey Agent Framework
 
-**Version:** 1.1
+**Version:** 1.2.0
 **Status:** Production Ready
 
 An intelligent agent orchestration framework for Claude Code that provides specialized agents, structured workflows, quality gates, and automatic agent selection for building production-quality software.

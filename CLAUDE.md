@@ -1,7 +1,7 @@
 # Vibey Agent Framework - Repository Context
 
 **Repository:** Vibey Agent Framework
-**Version:** 1.1 (Production Ready)
+**Version:** 1.2.0 (Production Ready)
 **Purpose:** Agentic orchestration framework for AI coding assistants
 
 ---

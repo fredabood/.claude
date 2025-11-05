@@ -35,7 +35,7 @@ Shows welcome and 5 main options:
 /vibey
 ```
 
-Shows brief welcome and same 5 options.
+Shows brief welcome and same 4 options.
 
 **How Detection Works:**
 - Checks for `.claude/.vibey-initialized` marker

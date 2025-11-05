@@ -210,25 +210,6 @@ Shows brief welcome and same 5 options.
 
 ---
 
-### `/vibey audit`
-
-**Purpose:** Codebase analysis (redirects to /vibey think)
-
-**Usage:**
-```
-/vibey audit
-```
-
-**What It Does:**
-Launches Discovery Mode with audit option pre-selected.
-
-**Equivalent To:**
-```
-/vibey think → Option A: Start with project audit
-```
-
----
-
 ## Command Workflows
 
 ### First-Time Project Setup

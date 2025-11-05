@@ -3,12 +3,11 @@
 **Purpose:** Your gateway to agentic development with Vibey
 
 **Usage:**
-- **Interactive:** `/vibey` - Show menu with 5 options
+- **Interactive:** `/vibey` - Show menu with 4 options
 - **Direct:** `/vibey <command>` - Skip menu and go directly to a task
   - `/vibey plan` - Sprint Planning
   - `/vibey code` - Execute Sprint
-  - `/vibey think` - Brainstorming Mode
-  - `/vibey audit` - Project Audit
+  - `/vibey think` - Discovery Mode
   - `/vibey manage` - Framework Management
 
 ---
@@ -218,11 +217,10 @@ if [ -n "$COMMAND_ARG" ]; then
       # Route to Option 2: Execute Sprint
       # Load: .claude/commands/vibey-code.md
       ;;
-    think|audit)
+    think)
       echo "💭 Launching Discovery Mode..."
       # Route to Option 3: Discovery Mode
       # Load: .claude/commands/vibey-think.md
-      # Note: 'audit' is a legacy alias for 'think' (both go to Discovery Mode)
       ;;
     manage)
       echo "⚙️ Launching Framework Management..."
@@ -256,7 +254,6 @@ fi
 - `/vibey plan` → Option 1 (Sprint Planning) → vibey-plan.md
 - `/vibey code` → Option 2 (Execute Sprint) → vibey-code.md
 - `/vibey think` → Option 3 (Discovery Mode) → vibey-think.md
-- `/vibey audit` → Option 3 (Discovery Mode) → vibey-think.md [legacy alias]
 - `/vibey manage` → Option 4 (Framework Management) → vibey-manage.md
 
 **Benefits:**
@@ -1211,7 +1208,6 @@ Experienced users can bypass the menu with positional arguments:
 - `/vibey plan` → Sprint Planning (Option 1)
 - `/vibey code` → Execute Sprint (Option 2)
 - `/vibey think` → Discovery Mode (Option 3)
-- `/vibey audit` → Discovery Mode (Option 3) [legacy alias]
 - `/vibey manage` → Framework Management (Option 4)
 
 **Benefits:**
@@ -1292,15 +1288,7 @@ Claude: 💭 Launching Discovery Mode...
         C. Both
 ```
 
-**Example 4: Legacy Audit Command**
-```
-User: /vibey audit
-
-Claude: 💭 Launching Discovery Mode...
-        [Same as /vibey think - routes to Discovery Mode]
-```
-
-**Example 5: Manage Framework Settings**
+**Example 4: Manage Framework Settings**
 ```
 User: /vibey manage
 

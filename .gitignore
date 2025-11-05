@@ -43,11 +43,11 @@ env/
 htmlcov/
 .tox/
 
-# Project-specific (these are generated in parent directory)
+# Project-specific (these are generated when Vibey is deployed)
 # Do NOT ignore these in the framework repo itself
-# project-config.yaml  # Generated in project root
-# CLAUDE.md            # Generated in project root
-# docs/                # Generated in project root
+# .claude/project-config.yaml  # Generated in user projects
+# .claude/CLAUDE.md            # Generated in user projects
+# docs/                        # User project documentation
 
 # Temporary files
 *.tmp

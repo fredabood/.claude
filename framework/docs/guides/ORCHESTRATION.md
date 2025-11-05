@@ -15,7 +15,7 @@ The Vibey framework includes 12 specialized agents and 15 workflows. Rather than
 - **Balanced & Discoverable** (Recommended) - Rules + pattern matching
 - **Intelligent & Adaptive** - Smart routing with fast/slow paths
 
-Your orchestration mode is configured in `project-config.yaml`:
+Your orchestration mode is configured in `.claude/project-config.yaml`:
 
 ```yaml
 framework:
@@ -30,7 +30,7 @@ framework:
 
 ### How It Works
 
-Claude follows **explicit orchestration rules** documented in your `CLAUDE.md` file.
+Claude follows **explicit orchestration rules** documented in your `.claude/CLAUDE.md` file.
 
 Example rules:
 ```markdown
@@ -62,10 +62,10 @@ Claude reads these rules at the start of every session and follows them.
 ### Pros & Cons
 
 **Pros:**
-- ✅ **Transparent** - All rules visible in CLAUDE.md
+- ✅ **Transparent** - All rules visible in .claude/CLAUDE.md
 - ✅ **Fast** - No overhead, Claude just follows instructions
 - ✅ **Simple** - Easy to understand and debug
-- ✅ **Customizable** - Modify rules directly in CLAUDE.md
+- ✅ **Customizable** - Modify rules directly in .claude/CLAUDE.md
 - ✅ **Predictable** - Same input always triggers same agents
 
 **Cons:**
@@ -73,14 +73,14 @@ Claude reads these rules at the start of every session and follows them.
 - ❌ **Maintenance burden** - Adding agents requires updating rules
 - ❌ **Can miss opportunities** - May not use agents when you'd benefit from them
 - ❌ **No context awareness** - Doesn't adapt based on sprint phase or project state
-- ❌ **CLAUDE.md bloat** - Rules can make CLAUDE.md very long
+- ❌ **CLAUDE.md bloat** - Rules can make .claude/CLAUDE.md very long
 
 ### Example Workflow
 
 **User:** "I need to implement user authentication"
 
 **Claude's Process:**
-1. Reads CLAUDE.md orchestration rules
+1. Reads .claude/CLAUDE.md orchestration rules
 2. Matches "authentication" → Security-related, use API Specialist
 3. Launches API Specialist agent
 4. Follows single feature development workflow
@@ -95,7 +95,7 @@ Claude reads these rules at the start of every session and follows them.
 
 Two-layer orchestration:
 
-1. **High-level structure** in CLAUDE.md (sprint phases, quality gates)
+1. **High-level structure** in .claude/CLAUDE.md (sprint phases, quality gates)
 2. **Agent trigger patterns** embedded in each agent file
 
 Each agent advertises when it should be used:
@@ -140,7 +140,7 @@ Claude pattern-matches your request against all agent triggers and launches rele
 - ✅ **Maintainable** - Update agent file to change triggers
 
 **Cons:**
-- ❌ **Two systems** - CLAUDE.md + agent triggers to maintain
+- ❌ **Two systems** - .claude/CLAUDE.md + agent triggers to maintain
 - ❌ **Pattern limitations** - May miss nuanced requests
 - ❌ **No sequencing** - Can't express "do A, then B, then C" easily
 - ❌ **Overlap issues** - Poorly designed patterns could trigger wrong agents
@@ -150,7 +150,7 @@ Claude pattern-matches your request against all agent triggers and launches rele
 **User:** "I need to implement user authentication with JWT tokens"
 
 **Claude's Process:**
-1. Reads CLAUDE.md for high-level structure (we're in development phase)
+1. Reads .claude/CLAUDE.md for high-level structure (we're in development phase)
 2. Scans agent trigger patterns for matches:
    - API Specialist: Matches "authentication", "JWT", "tokens"
    - Security Reviewer: Matches "authentication", "tokens"
@@ -274,24 +274,24 @@ You can switch modes at any time.
 ```
 
 **Claude will:**
-1. Update `project-config.yaml`
-2. Regenerate `CLAUDE.md` with new orchestration instructions
+1. Update `.claude/project-config.yaml`
+2. Regenerate `.claude/CLAUDE.md` with new orchestration instructions
 3. Confirm the change
 
 ### Manually
 
-**Edit `project-config.yaml`:**
+**Edit `.claude/project-config.yaml`:**
 ```yaml
 framework:
   orchestration_mode: "balanced"  # Change to: simple, balanced, or tiered
 ```
 
-**Then regenerate CLAUDE.md:**
+**Then regenerate .claude/CLAUDE.md:**
 ```bash
 python3 scripts/render-template.py \
-  -c project-config.yaml \
+  -c .claude/project-config.yaml \
   -t .claude/templates/CLAUDE.md.template \
-  -o CLAUDE.md
+  -o .claude/CLAUDE.md
 ```
 
 ---
@@ -303,7 +303,7 @@ python3 scripts/render-template.py \
 1. **Trust the system** - Let Claude orchestrate, don't micromanage
 2. **Provide context** - More details = better agent selection
 3. **Review quality gates** - Orchestration ensures quality checks run
-4. **Update CLAUDE.md** - Keep project context current
+4. **Update .claude/CLAUDE.md** - Keep project context current
 
 ### Mode-Specific Tips
 
@@ -361,7 +361,7 @@ Claude uses **fuzzy matching** - variations and synonyms work:
 
 **Check:**
 1. `framework.auto_agent_launch` is `true` in config
-2. CLAUDE.md is current (regenerate if needed)
+2. .claude/CLAUDE.md is current (regenerate if needed)
 3. Your request is specific enough for pattern matching
 
 **Solution:**
@@ -372,7 +372,7 @@ Claude uses **fuzzy matching** - variations and synonyms work:
 ### Wrong Agents Are Being Used
 
 **Simple Mode:**
-- Review orchestration rules in CLAUDE.md
+- Review orchestration rules in .claude/CLAUDE.md
 - Make rules more specific
 
 **Balanced Mode:**
@@ -401,13 +401,13 @@ Claude uses **fuzzy matching** - variations and synonyms work:
 
 **Simple Mode:**
 1. Create new agent file
-2. Add orchestration rule to CLAUDE.md template
-3. Regenerate CLAUDE.md
+2. Add orchestration rule to .claude/CLAUDE.md template
+3. Regenerate .claude/CLAUDE.md
 
 **Balanced Mode:**
 1. Create new agent file with trigger patterns
 2. Agent is automatically discoverable
-3. No CLAUDE.md changes needed
+3. No .claude/CLAUDE.md changes needed
 
 **Tiered Mode:**
 1. Create new agent file with trigger patterns
@@ -416,7 +416,7 @@ Claude uses **fuzzy matching** - variations and synonyms work:
 
 ### Project-Specific Rules
 
-All modes support **custom rules** in CLAUDE.md:
+All modes support **custom rules** in .claude/CLAUDE.md:
 
 ```markdown
 ## Project-Specific Orchestration Rules
@@ -435,7 +435,7 @@ For this project:
 
 No. Choose one mode per project. However, you can:
 - Use explicit agent names in any mode
-- Customize orchestration rules in CLAUDE.md for any mode
+- Customize orchestration rules in .claude/CLAUDE.md for any mode
 
 ### Which mode do you recommend?
 
@@ -470,7 +470,7 @@ Set `framework.auto_agent_launch: false` in config. Then you must explicitly nam
 - **Balanced (D):** Most projects, smart automation, good performance ← **Recommended**
 - **Tiered (F):** Large/complex projects, enterprise teams, maximum intelligence
 
-**Configure in `project-config.yaml`:**
+**Configure in `.claude/project-config.yaml`:**
 ```yaml
 framework:
   orchestration_mode: "balanced"

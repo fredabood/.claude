@@ -30,7 +30,7 @@ Discovers and documents:
 
 **Output:**
 - Comprehensive audit report with health scores (`docs/codebase-audit-report.md`)
-- Pre-filled project-config.yaml with detected values
+- Pre-filled .claude/project-config.yaml with detected values
 
 ### Component 2: Git History Analysis (Step 9)
 **Duration:** 10-20 minutes
@@ -49,7 +49,7 @@ Discovers and documents:
 **Output:**
 - Git history section in audit report (if combined)
 - OR standalone git history report (if run alone)
-- Pre-filled sprint cadence and velocity in project-config.yaml
+- Pre-filled sprint cadence and velocity in .claude/project-config.yaml
 
 ### Combination Options
 
@@ -854,10 +854,10 @@ Instead of explaining "We've been working on authentication, payment integration
 ### Step 11: Pre-fill Project Configuration (5 minutes)
 **Agent:** Sprint Planning Agent
 **Input:** Audit report, detected technology
-**Output:** Pre-filled project-config.yaml
+**Output:** Pre-filled .claude/project-config.yaml
 
 **Activities:**
-- Create project-config.yaml with detected values
+- Create .claude/project-config.yaml with detected values
 - Mark detected values with confidence scores
 - Flag uncertain values for user verification
 - Add recommendations based on audit
@@ -901,7 +901,7 @@ quality_gates:
 ```
 
 **Deliverables:**
-- Pre-filled `project-config.yaml`
+- Pre-filled `.claude/project-config.yaml`
 - Confidence scores for detected values
 - Improvement recommendations embedded as comments
 
@@ -1074,7 +1074,7 @@ git rev-parse --is-inside-work-tree 2>/dev/null
 - [ ] Project type detected correctly
 - [ ] Primary technology stack identified
 - [ ] Audit report generated
-- [ ] project-config.yaml pre-filled with detected values
+- [ ] .claude/project-config.yaml pre-filled with detected values
 - [ ] Ready for sprint planning
 
 ### Should Have
@@ -1102,7 +1102,7 @@ git rev-parse --is-inside-work-tree 2>/dev/null
    - Identified gaps and opportunities
    - Recommendations for first sprint
 
-2. **Pre-filled Project Config** (`project-config.yaml`)
+2. **Pre-filled Project Config** (`.claude/project-config.yaml`)
    - Technology stack (detected)
    - Current metrics (measured)
    - Recommended settings (based on audit)

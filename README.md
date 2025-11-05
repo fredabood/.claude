@@ -89,17 +89,17 @@ After running `/vibey`:
 
 ```
 your-project/
-├── .claude/                          # Framework (deployed from .vibey/framework/)
+├── .claude/                          # All Vibey framework files
 │   ├── agents/                       # 12 specialized agents
 │   ├── workflows/                    # 16 structured workflows
 │   ├── templates/                    # 22 handoff templates
 │   ├── commands/                     # /vibey command
 │   ├── config/                       # Schema and examples
 │   ├── scripts/                      # Validation and rendering
-│   └── docs/                         # User-facing documentation
-├── project-config.yaml               # Your project configuration
-├── CLAUDE.md                         # Project context for Claude
-├── docs/
+│   ├── docs/                         # User-facing documentation
+│   ├── project-config.yaml           # Your project configuration
+│   └── CLAUDE.md                     # Project context for Claude
+├── docs/                             # Your project documentation
 │   ├── sprints/
 │   │   └── sprint-001-plan.md        # First sprint plan
 │   ├── security/                     # Security reports

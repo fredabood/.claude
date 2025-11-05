@@ -608,7 +608,7 @@ jobs:
 ```
 
 **5.2: Update Project Documentation**
-- Add dashboard links to CLAUDE.md
+- Add dashboard links to .claude/CLAUDE.md
 - Update README with monitoring section
 - Document query definitions
 - Create troubleshooting guide

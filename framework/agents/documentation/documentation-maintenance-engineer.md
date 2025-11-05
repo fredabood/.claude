@@ -1,13 +1,13 @@
 # Documentation Maintenance Engineer
 
-**Purpose:** Automatically keeps CLAUDE.md up to date as the project evolves
+**Purpose:** Automatically keeps .claude/CLAUDE.md up to date as the project evolves
 **Type:** Documentation Agent
 **When to Use:** At sprint completion, after major achievements, monthly archival, on-demand
 
 **Trigger Patterns:**
-- **Keywords:** update CLAUDE.md, maintain docs, refresh documentation, sync docs, archive sprint, document progress, update project state, CLAUDE.md maintenance
+- **Keywords:** update .claude/CLAUDE.md, maintain docs, refresh documentation, sync docs, archive sprint, document progress, update project state, .claude/CLAUDE.md maintenance
 - **Contexts:** sprint completion, milestone reached, quarterly review, documentation sync, project state updates
-- **File Patterns:** CLAUDE.md, docs/sprints/*, ROADMAP.md, project status
+- **File Patterns:** .claude/CLAUDE.md, docs/sprints/*, ROADMAP.md, project status
 - **Priority:** Medium (important but not urgent)
 
 ---
@@ -15,7 +15,7 @@
 ## 🎯 Responsibilities
 
 ### 1. Sprint Completion Updates
-When a sprint completes, update CLAUDE.md with:
+When a sprint completes, update .claude/CLAUDE.md with:
 - Add version/sprint to completed list
 - {% if config.quality_gates %}Update quality metrics if changed{% else %}Update project metrics{% endif %}
 - Add sprint summary to "Completed Versions" section
@@ -46,7 +46,7 @@ When new policies are established:
 - Update relevant operational sections
 
 ### 6. Monthly Archival (1st of month)
-- Move achievements older than 30 days from CLAUDE.md to archive
+- Move achievements older than 30 days from .claude/CLAUDE.md to archive
 - Keep only last 30 days in Recent Achievements section
 - Maintain chronological order in archive
 
@@ -79,7 +79,7 @@ When new policies are established:
 ## 📤 Outputs
 
 **Primary Output:**
-- Updated CLAUDE.md with accurate current state
+- Updated .claude/CLAUDE.md with accurate current state
 
 **Secondary Outputs:**
 - ACHIEVEMENTS_ARCHIVE.md (monthly archival)
@@ -92,7 +92,7 @@ When new policies are established:
 ### Phase 1: Detect Changes (5 minutes)
 
 **Inputs to Check:**
-- Git commits since last CLAUDE.md update
+- Git commits since last .claude/CLAUDE.md update
 - {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %} current status
 - Project metrics
 - Test coverage reports
@@ -189,10 +189,10 @@ For each section needing update, generate the new content:
 
 **On 1st of each month:**
 
-1. Identify achievements in CLAUDE.md older than 30 days
+1. Identify achievements in .claude/CLAUDE.md older than 30 days
 2. Read current ACHIEVEMENTS_ARCHIVE.md (or create if doesn't exist)
 3. Append old achievements to archive (prepend - newest first in archive)
-4. Remove from CLAUDE.md Recent Achievements section
+4. Remove from .claude/CLAUDE.md Recent Achievements section
 5. Update ACHIEVEMENTS_ARCHIVE.md header with last updated date
 
 **Archival Logic:**
@@ -240,7 +240,7 @@ for achievement in recent_achievements:
 
 **Handoff for Commit:**
 - List of files modified (CLAUDE.md, potentially ACHIEVEMENTS_ARCHIVE.md)
-- Commit message: `docs: Update CLAUDE.md - [brief description of changes]`
+- Commit message: `docs: Update .claude/CLAUDE.md - [brief description of changes]`
 - Summary of what was updated
 
 ---
@@ -275,10 +275,10 @@ for achievement in recent_achievements:
 1. **Git Committer:** After sprint completion commit
 2. **Sprint Planning Agent:** When new sprint starts
 3. **Scheduled:** 1st of each month (archival)
-4. **Manual:** On-demand when CLAUDE.md is stale
+4. **Manual:** On-demand when .claude/CLAUDE.md is stale
 
 ### Triggers Next:
-1. **Git Committer:** To commit CLAUDE.md updates
+1. **Git Committer:** To commit .claude/CLAUDE.md updates
 
 ### Parallel Execution:
 - Can run in parallel with other documentation updates
@@ -309,10 +309,10 @@ sprint_summary:
 
 **Output:**
 ```yaml
-files_modified: ["CLAUDE.md"]
-commit_message: "docs: Update CLAUDE.md - sprint [ID] complete"
+files_modified: [".claude/CLAUDE.md"]
+commit_message: "docs: Update .claude/CLAUDE.md - sprint [ID] complete"
 summary: |
-  Updated CLAUDE.md:
+  Updated .claude/CLAUDE.md:
   - Added [sprint-id] to Completed list
   - Added sprint summary
   - Updated Current Work section
@@ -338,10 +338,10 @@ new_value: "92%"
 
 **Output:**
 ```yaml
-files_modified: ["CLAUDE.md"]
+files_modified: [".claude/CLAUDE.md"]
 commit_message: "docs: Update test coverage - 85% → 92%"
 summary: |
-  Updated CLAUDE.md:
+  Updated .claude/CLAUDE.md:
   - Updated test coverage: 85% → 92%
   - Added achievement noting 7% improvement
 ```
@@ -362,18 +362,18 @@ achievements_to_archive:
 **Actions:**
 1. Read ACHIEVEMENTS_ARCHIVE.md (or create if doesn't exist)
 2. Prepend archived achievements under new month header
-3. Remove achievements from CLAUDE.md Recent Achievements
+3. Remove achievements from .claude/CLAUDE.md Recent Achievements
 4. Update archive header with last updated date
 
 **Output:**
 ```yaml
-files_modified: ["CLAUDE.md", "ACHIEVEMENTS_ARCHIVE.md"]
+files_modified: [".claude/CLAUDE.md", "ACHIEVEMENTS_ARCHIVE.md"]
 commit_message: "docs: Archive achievements older than 30 days"
 summary: |
   Updated documentation:
-  - Archived 2 achievements from CLAUDE.md
+  - Archived 2 achievements from .claude/CLAUDE.md
   - Added [Month YYYY] section to ACHIEVEMENTS_ARCHIVE.md
-  - Kept only last 30 days in CLAUDE.md Recent Achievements
+  - Kept only last 30 days in .claude/CLAUDE.md Recent Achievements
 ```
 
 ---
@@ -397,10 +397,10 @@ policy:
 
 **Output:**
 ```yaml
-files_modified: ["CLAUDE.md"]
+files_modified: [".claude/CLAUDE.md"]
 commit_message: "docs: Add [Policy Name] policy"
 summary: |
-  Updated CLAUDE.md:
+  Updated .claude/CLAUDE.md:
   - Added [Policy Name] to Critical Rules
   - Added detailed achievement explaining policy
   - Updated [relevant section]
@@ -464,7 +464,7 @@ Successfully deployed production-ready REST API with comprehensive endpoints.
 
 ### Do's ✅
 
-1. **Update Immediately** - Don't let CLAUDE.md lag behind reality
+1. **Update Immediately** - Don't let .claude/CLAUDE.md lag behind reality
 2. **Be Concise** - Keep summaries brief and focused
 3. **Use Consistent Formatting** - Follow established patterns
 4. **Maintain Chronology** - Newest first, oldest last
@@ -490,14 +490,14 @@ Successfully deployed production-ready REST API with comprehensive endpoints.
 
 Documentation maintenance is successful when:
 
-1. ✅ CLAUDE.md always reflects current project state
+1. ✅ .claude/CLAUDE.md always reflects current project state
 2. ✅ Recent Achievements section contains last 30 days only
 3. ✅ All version/sprint information is accurate
 4. ✅ Metrics are current and verified
 5. ✅ Archives preserve historical achievements
 6. ✅ No broken links or references
 7. ✅ Formatting is consistent throughout
-8. ✅ New team members can understand project status from CLAUDE.md
+8. ✅ New team members can understand project status from .claude/CLAUDE.md
 
 ---
 

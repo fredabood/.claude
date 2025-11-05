@@ -486,7 +486,7 @@ GET /logs-*/_search
 
 ---
 
-### Step 9: Update CLAUDE.md & Commit (Day 3, End of Day)
+### Step 9: Update .claude/CLAUDE.md & Commit (Day 3, End of Day)
 **Agent:** Documentation Engineer + Git Committer
 **Duration:** 0.25 days
 **Input:** Audit report
@@ -495,19 +495,19 @@ GET /logs-*/_search
 **Activities:**
 
 **Documentation Engineer:**
-- Update CLAUDE.md with audit results
+- Update .claude/CLAUDE.md with audit results
 - Document logging score in quality metrics section
 - Update production readiness status
 - Document any logging patterns established
 
 **Git Committer:**
 - Stage audit report
-- Stage CLAUDE.md updates
+- Stage .claude/CLAUDE.md updates
 - Create commit: "Add logging audit report (score: X/100)"
 - Push to remote
 
 **Deliverables:**
-- Updated CLAUDE.md
+- Updated .claude/CLAUDE.md
 - Git commit with audit artifacts
 - Audit report in version control
 
@@ -526,7 +526,7 @@ graph TD
     E --> F[Observability Engineer<br/>Log Accessibility Audit]
     F --> G[Observability Engineer<br/>Consolidate Results]
     G --> H{Score >= 80?}
-    H -->|Yes| I[Documentation Engineer<br/>Update CLAUDE.md]
+    H -->|Yes| I[Documentation Engineer<br/>Update .claude/CLAUDE.md]
     H -->|No| J[Sprint Planning<br/>Remediation Plan]
     J --> I
     I --> K[Git Committer<br/>Commit & Push]
@@ -546,7 +546,7 @@ graph TD
 | Log Accessibility Audit | Observability Engineer | 0.5 days | Day 3 |
 | Consolidate Results | Observability Engineer | 0.25 days | Day 3.25 |
 | Remediation Plan (if fail) | Sprint Planning | 0.5 days | Day 3.75 |
-| Update CLAUDE.md & Commit | Documentation + Git | 0.25 days | Day 4 |
+| Update .claude/CLAUDE.md & Commit | Documentation + Git | 0.25 days | Day 4 |
 | **Total** | | **3-4 days** | **~1 week** |
 
 **If Pass (≥80/100):** 3 days
@@ -675,7 +675,7 @@ graph TD
 - [ ] All 5 audit categories completed
 - [ ] Total score calculated (out of 100)
 - [ ] Audit report created
-- [ ] CLAUDE.md updated with audit results
+- [ ] .claude/CLAUDE.md updated with audit results
 
 ### Should Have
 - [ ] Score ≥ 80/100 (production ready)

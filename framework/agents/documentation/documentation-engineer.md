@@ -7,7 +7,7 @@
 **Trigger Patterns:**
 - **Keywords:** documentation, docs, update docs, document, README, API documentation, user guide, changelog, release notes, docstring, comments, explain, how to use
 - **Contexts:** quality gate phase, feature completion, API changes, sprint completion, documentation review, README updates
-- **File Patterns:** README.md, CLAUDE.md, docs/*, CHANGELOG.md, *.md, API docs, user guides
+- **File Patterns:** README.md, .claude/CLAUDE.md, docs/*, CHANGELOG.md, *.md, API docs, user guides
 - **Priority:** High (required for quality gates)
 
 ---
@@ -38,7 +38,7 @@ git diff
 Update all relevant documentation to reflect completed work while maintaining quality and consistency.
 
 **Success Criteria:**
-- ✅ CLAUDE.md updated with changes
+- ✅ .claude/CLAUDE.md updated with changes
 - ✅ {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %} updated with progress
 - ✅ Sprint/phase documentation updated (if applicable)
 - ✅ Feature documentation created/updated (if needed)
@@ -54,24 +54,24 @@ Update all relevant documentation to reflect completed work while maintaining qu
 **Determine what documentation needs updating:**
 
 **Major Changes** (new features, architecture changes):
-- ✅ Update CLAUDE.md
+- ✅ Update .claude/CLAUDE.md
 - ✅ Update {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}
 - ✅ Create/update feature documentation
 - ✅ Update sprint documentation
 
 **Minor Changes** (bug fixes, small improvements):
-- ✅ Update CLAUDE.md (recent achievements)
+- ✅ Update .claude/CLAUDE.md (recent achievements)
 - ✅ Update sprint documentation (if in active sprint)
 
 **Documentation Only** (clarifications, fixes):
 - ✅ Update relevant docs only
-- ✅ Note in CLAUDE.md if significant
+- ✅ Note in .claude/CLAUDE.md if significant
 
 ---
 
-### Step 1: Update CLAUDE.md (MANDATORY)
+### Step 1: Update .claude/CLAUDE.md (MANDATORY)
 
-**File:** `CLAUDE.md`
+**File:** `.claude/CLAUDE.md`
 
 **Changes to make:**
 
@@ -365,7 +365,7 @@ If your roadmap tracks metrics, update them:
 git status
 
 # Review each change
-git diff CLAUDE.md
+git diff .claude/CLAUDE.md
 git diff {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}
 # [Review other changed files]
 
@@ -384,8 +384,8 @@ git diff {% if config.custom.roadmap_location %}{{ config.custom.roadmap_locatio
 Before marking complete:
 
 **Required Updates:**
-- [ ] CLAUDE.md "Last Updated" date updated
-- [ ] CLAUDE.md recent achievements section updated
+- [ ] .claude/CLAUDE.md "Last Updated" date updated
+- [ ] .claude/CLAUDE.md recent achievements section updated
 - [ ] {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %} current status updated
 {% if config.quality_gates and config.quality_gates.documentation and config.quality_gates.documentation.enabled %}- [ ] All required docs from quality gates updated: {% for doc in config.quality_gates.documentation.required_updates %}{{ doc }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
 
@@ -452,7 +452,7 @@ Before marking complete:
 ## Ready for Commit
 
 **Files to commit:**
-- CLAUDE.md
+- .claude/CLAUDE.md
 - {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}
 - [Other files]
 
@@ -479,7 +479,7 @@ docs: Update documentation for [Feature/Task]
 ## 📚 Reference Files
 
 **Read these before updating docs:**
-- `CLAUDE.md` - Current project state
+- `.claude/CLAUDE.md` - Current project state
 - {% if config.custom.roadmap_location %}`{{ config.custom.roadmap_location }}`{% else %}`ROADMAP.md`{% endif %} - Sprint status and progress
 {% if config.custom.architecture_doc %}- `{{ config.custom.architecture_doc }}` - Architecture documentation{% endif %}
 
@@ -519,11 +519,11 @@ When you're done, you should see:
 
 ```bash
 $ git status
-modified:   CLAUDE.md
+modified:   .claude/CLAUDE.md
 modified:   {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}
 new file:   docs/features/[feature-name].md  # if applicable
 
-$ git diff CLAUDE.md
+$ git diff .claude/CLAUDE.md
 [Shows your updates to recent achievements, current focus, etc.]
 
 $ git diff {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}

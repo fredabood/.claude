@@ -36,7 +36,7 @@ Analyze user requests to determine:
 
 ### 2. Context Understanding
 Before routing, gather context:
-- **Project state** - Read CLAUDE.md, project-config.yaml, recent sprint docs
+- **Project state** - Read .claude/CLAUDE.md, .claude/project-config.yaml, recent sprint docs
 - **Sprint phase** - Planning, development, quality gates, deployment
 - **Recent work** - Check git log, recent commits, current branch
 - **Quality status** - Test coverage, security audit status, logging audit status
@@ -73,7 +73,7 @@ Explain routing decisions to the user:
 
 **Required:**
 - User request (the task to accomplish)
-- Project context (CLAUDE.md, project-config.yaml)
+- Project context (CLAUDE.md, .claude/project-config.yaml)
 - Sprint state (current sprint, phase, recent work)
 
 **Optional but helpful:**
@@ -118,7 +118,7 @@ Explain routing decisions to the user:
 
 **Read key files:**
 1. **CLAUDE.md** - Project overview, tech stack, architecture, standards
-2. **project-config.yaml** - Framework settings, quality gates, orchestration mode
+2. **.claude/project-config.yaml** - Framework settings, quality gates, orchestration mode
 3. **Current sprint plan** - docs/sprints/sprint-{N}-plan.md (if exists)
 4. **Recent sprint summaries** - Understand what's been completed
 5. **Git status** - What's changed, what branch, any uncommitted work
@@ -189,7 +189,7 @@ Selected agents:
 **Phase 4: Documentation**
 - Documentation Engineer (update docs)
 - Diagram Engineer (if architecture changed)
-- Documentation Maintenance Engineer (if CLAUDE.md needs updating)
+- Documentation Maintenance Engineer (if .claude/CLAUDE.md needs updating)
 - Git Committer (save work)
 
 **Parallel vs. Sequential:**
@@ -555,7 +555,7 @@ Or I can make my best guess: [proposed agents]"
 
 ## 🎛️ Configuration
 
-The Coordinator respects these settings from `project-config.yaml`:
+The Coordinator respects these settings from `.claude/project-config.yaml`:
 
 ```yaml
 framework:

@@ -73,7 +73,7 @@
 
 **If Both Components:**
 - Comprehensive audit report with code analysis + git history (`docs/codebase-audit-report.md`)
-- Pre-filled `project-config.yaml` with tech stack, health scores, velocity, and sprint cadence
+- Pre-filled `.claude/project-config.yaml` with tech stack, health scores, velocity, and sprint cadence
 - Health scores across 10 dimensions (0-100)
 - Recent sprint summary (last 2-3 sprints)
 - Development velocity baseline
@@ -81,7 +81,7 @@
 
 **If Codebase Audit Only:**
 - Audit report with code analysis only (no git history section)
-- Pre-filled `project-config.yaml` with tech stack and health scores
+- Pre-filled `.claude/project-config.yaml` with tech stack and health scores
 - Health scores across 10 dimensions (0-100):
   - Project Structure, Technology Stack, Documentation, Security, Testing, Logging, Code Quality, Architecture, Deployment, Dependencies
 - Identified gaps and priorities
@@ -89,7 +89,7 @@
 
 **If Git History Only:**
 - Lightweight git history report
-- Pre-filled `project-config.yaml` with sprint cadence and velocity baselines
+- Pre-filled `.claude/project-config.yaml` with sprint cadence and velocity baselines
 - Recent sprint summary (last 2-3 sprints)
 - Development velocity (commits/week, lines/month)
 - Team activity patterns
@@ -98,7 +98,7 @@
 
 **If Neither:**
 - No audit report generated
-- Empty `project-config.yaml` (manually filled during sprint planning)
+- Empty `.claude/project-config.yaml` (manually filled during sprint planning)
 - All information provided manually through questions
 
 **Time:**
@@ -662,7 +662,7 @@ What's most valuable?
 **A:** Not easily. Both analyses are designed to run before first sprint planning. If you skip them during `/vibey`, you would need to:
 - Manually run the audit workflow later
 - Regenerate the audit report
-- Update project-config.yaml manually
+- Update .claude/project-config.yaml manually
 
 **Recommendation:** Choose "Both" if you have time - it's hard to go back later.
 

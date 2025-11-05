@@ -22,7 +22,7 @@ This workflow orchestrates comprehensive sprint planning: requirements gathering
 
 **For first sprint:**
 - None! Run `/vibey` command in Claude Code to initialize framework and plan first sprint simultaneously
-- Framework initialization workflow handles: project discovery → config generation → CLAUDE.md creation → first sprint planning
+- Framework initialization workflow handles: project discovery → config generation → .claude/CLAUDE.md creation → first sprint planning
 
 **For subsequent sprints:**
 - Current project state documented (CLAUDE.md)
@@ -39,8 +39,8 @@ Instead:
 1. Run `/vibey` command in Claude Code
 2. Framework initialization workflow will:
    - Discover project details conversationally
-   - Generate project-config.yaml
-   - Create CLAUDE.md
+   - Generate .claude/project-config.yaml
+   - Create .claude/CLAUDE.md
    - Set up directory structure
    - **Plan your first sprint** (integrated into initialization)
 3. After `/vibey` completes, you'll have Sprint 1 plan ready
@@ -54,11 +54,11 @@ Instead:
 ### Step 1: Analyze Current State (Day 1)
 **Agent:** Sprint Planning Agent
 **Duration:** 0.5 days
-**Input:** CLAUDE.md, {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}docs/sprints/ROADMAP.md{% endif %}, project status
+**Input:** .claude/CLAUDE.md, {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}docs/sprints/ROADMAP.md{% endif %}, project status
 **Output:** Current state analysis
 
 **Activities:**
-- Read CLAUDE.md for latest project state
+- Read .claude/CLAUDE.md for latest project state
 - Review ROADMAP.md for completed vs incomplete sprints
 - Assess technical debt and blockers
 - Review recent retrospectives for lessons learned
@@ -220,21 +220,21 @@ Instead:
 
 ---
 
-### Step 8: Update CLAUDE.md (Day 5)
+### Step 8: Update .claude/CLAUDE.md (Day 5)
 **Agent:** Documentation Engineer
 **Duration:** 0.5 days
 **Input:** Sprint Plan, updated ROADMAP
-**Output:** Updated CLAUDE.md
+**Output:** Updated .claude/CLAUDE.md
 
 **Activities:**
-- Update CLAUDE.md with new sprint focus
+- Update .claude/CLAUDE.md with new sprint focus
 - Document sprint objectives in current focus section
 {% if config.project.type == 'data-platform' %}- Update data source counts{% elif config.project.type == 'web-app' %}- Update feature counts{% elif config.project.type == 'api' %}- Update endpoint counts{% else %}- Update component counts{% endif %}
 - Update architecture status
 - Document any new patterns or approaches
 
 **Deliverables:**
-- Updated CLAUDE.md
+- Updated .claude/CLAUDE.md
 - Current focus updated
 - Sprint objectives documented
 - Architecture updates
@@ -246,13 +246,13 @@ Instead:
 ### Step 9: Commit Roadmap & Sprint Plan (Day 5)
 **Agent:** Git Committer
 **Duration:** 0.5 days
-**Input:** Sprint plan, ROADMAP.md, CLAUDE.md updates
+**Input:** Sprint plan, ROADMAP.md, .claude/CLAUDE.md updates
 **Output:** Committed and pushed changes
 
 **Activities:**
 - Stage sprint plan documents
 - Stage ROADMAP.md updates
-- Stage CLAUDE.md updates
+- Stage .claude/CLAUDE.md updates
 - Create descriptive commit message
 - Push to remote repository
 
@@ -276,7 +276,7 @@ graph LR
     E --> F[Sprint Planning<br/>Dependencies]
     F --> G[Sprint Planning<br/>Create Plan]
     G --> H[Sprint Planning<br/>Update Roadmap]
-    H --> I[Doc Engineer<br/>Update CLAUDE.md]
+    H --> I[Doc Engineer<br/>Update .claude/CLAUDE.md]
     I --> J[Git Committer<br/>Commit & Push]
 ```
 
@@ -293,7 +293,7 @@ graph LR
 | Dependencies & Priority | Sprint Planning | 1 day | Day 4 |
 | Create Sprint Plan | Sprint Planning | 1 day | Day 5 |
 | Update ROADMAP | Sprint Planning | 0.5 days | Day 5 |
-| Update CLAUDE.md | Documentation Engineer | 0.5 days | Day 5 |
+| Update .claude/CLAUDE.md | Documentation Engineer | 0.5 days | Day 5 |
 | Git Commit | Git Committer | 0.5 days | Day 5 |
 | **Total** | | **5 days** | **~1 week** |
 
@@ -309,7 +309,7 @@ graph LR
 - [ ] Dependency graph created
 - [ ] Sprint Plan created with phases and milestones
 - [ ] ROADMAP.md updated
-- [ ] CLAUDE.md updated
+- [ ] .claude/CLAUDE.md updated
 
 ### Should Have
 - [ ] Technical feasibility validated by architecture specialist

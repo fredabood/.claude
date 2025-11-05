@@ -738,14 +738,14 @@ grep -r "logger\|log\|logging" [feature files]
 **Completed in:** Step 6 (Documentation)
 **Evidence Required:**
 - README.md updated (if user-facing)
-- CLAUDE.md updated (if architecture changed)
+- .claude/CLAUDE.md updated (if architecture changed)
 - API documentation current
 - Code comments present
 
 **Verification:**
 ```bash
 # Check documentation files updated recently
-ls -lt README.md CLAUDE.md docs/
+ls -lt README.md .claude/CLAUDE.md docs/
 
 # Ensure feature is documented
 grep -r "[Feature Name]" docs/ README.md

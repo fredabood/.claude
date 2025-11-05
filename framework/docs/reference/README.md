@@ -95,7 +95,7 @@ Located in `templates/handoffs/`:
 **Available Templates:**
 - `web-app-config.yaml` - Full-stack web application
 - `api-config.yaml` - API service
-- `ml-project-config.yaml` - ML project
+- `ml-.claude/project-config.yaml` - ML project
 - `data-platform-config.yaml` - Data platform
 - `infrastructure-config.yaml` - Infrastructure project
 
@@ -119,7 +119,7 @@ Located in `templates/handoffs/`:
 ├── templates/                        # 22 handoff templates
 │   ├── handoffs/
 │   ├── fragments/
-│   └── CLAUDE.md.template
+│   └── .claude/CLAUDE.md.template
 ├── commands/                         # Slash commands
 │   └── vibey.md
 ├── config/                           # Configuration

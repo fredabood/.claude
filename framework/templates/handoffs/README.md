@@ -12,7 +12,7 @@ Handoff templates provide structured communication between agents in multi-step 
 
 - Uses Jinja2 syntax for config interpolation
 - Supports multiple project types (web-app, API, data-platform, ML, infrastructure)
-- Adapts to different technology stacks via `project-config.yaml`
+- Adapts to different technology stacks via `.claude/project-config.yaml`
 - Ensures consistent information transfer between workflow steps
 - Provides clear next steps and accountability
 
@@ -791,7 +791,7 @@ Handoff templates provide structured communication between agents in multi-step 
 **Related Workflows:**
 - Documentation Maintenance Workflow
 - Sprint Completion
-- CLAUDE.md Auto-Update
+- .claude/CLAUDE.md Auto-Update
 
 ---
 
@@ -878,7 +878,7 @@ Replace Jinja2 template variables with actual values:
 Templates automatically adapt based on `config.project.type`:
 
 ```yaml
-# project-config.yaml
+# .claude/project-config.yaml
 project:
   type: "web-app"  # Templates show web-app specific sections
 

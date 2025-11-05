@@ -7,7 +7,7 @@
 **Trigger Patterns:**
 - **Keywords:** sprint planning, plan sprint, roadmap, iteration, backlog, prioritize, dependencies, quarterly planning, sprint goals, sprint objectives
 - **Contexts:** beginning of sprint, project planning phase, roadmap updates, dependency analysis, feature prioritization
-- **File Patterns:** ROADMAP.md, docs/sprints/*, project-config.yaml, backlog files
+- **File Patterns:** ROADMAP.md, docs/sprints/*, .claude/project-config.yaml, backlog files
 - **Priority:** High (foundational planning activity)
 
 ---
@@ -34,7 +34,7 @@ The Sprint Planning Agent is responsible for:
 
 **Required:**
 1. **Current State Analysis:**
-   - CLAUDE.md - Project current state
+   - .claude/CLAUDE.md - Project current state
    - {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %} - Current sprint status and roadmap
    - `git status` - Recent changes
 
@@ -411,7 +411,7 @@ For detailed implementation plans, see individual phase documents:
 
 - Previous sprint: `docs/sprints/v0.PREV.0/SPRINT_V0.PREV.0_PLAN.md`
 - Architecture: {% if config.custom.architecture_doc %}{{ config.custom.architecture_doc }}{% else %}`docs/architecture/`{% endif %}
-- Current state: `CLAUDE.md`
+- Current state: `.claude/CLAUDE.md`
 ```
 
 #### Step 3.2: Create Phase Plans
@@ -594,9 +594,9 @@ For detailed implementation plans, see individual phase documents:
 ```
 
 #### Step 4.2: Update Project Context
-**Action:** Update current focus in CLAUDE.md
+**Action:** Update current focus in .claude/CLAUDE.md
 
-**Location:** `CLAUDE.md`
+**Location:** `.claude/CLAUDE.md`
 
 **Updates:**
 ```markdown
@@ -709,7 +709,7 @@ For detailed implementation plans, see individual phase documents:
 
 4. **Roadmap Updates:**
    - {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}`ROADMAP.md`{% endif %} - Updated with new sprint
-   - `CLAUDE.md` - Updated current focus
+   - `.claude/CLAUDE.md` - Updated current focus
 
 ### Supporting Documents
 
@@ -756,11 +756,11 @@ For detailed implementation plans, see individual phase documents:
 
 ### Do's ✅
 
-1. **Start with Current State:** Always read CLAUDE.md and roadmap first
+1. **Start with Current State:** Always read .claude/CLAUDE.md and roadmap first
 2. **Dependency-First:** Unblock early, sequence by dependencies
 3. **Parallel Tracks:** Identify independent work that can run concurrently
 4. **Clear Success Criteria:** Make Definition of Done measurable
-5. **Regular Updates:** Keep roadmap and CLAUDE.md current
+5. **Regular Updates:** Keep roadmap and .claude/CLAUDE.md current
 {% if config.quality_gates and config.quality_gates.security_review and config.quality_gates.security_review.enabled %}6. **Security Mandatory:** Every sprint ends with security review{% endif %}
 7. **Realistic Estimates:** Account for testing, documentation, reviews
 8. **Value Streams:** Group related features for coherent sprints
@@ -772,7 +772,7 @@ For detailed implementation plans, see individual phase documents:
 3. **Don't Overload:** Keep sprints to 6-8 weeks max (break into phases if larger)
 4. **Don't Skip Testing:** {{ 20 if not config.quality_gates or not config.quality_gates.unit_testing else 'Significant' }}% of sprint time for testing
 {% if config.quality_gates and config.quality_gates.security_review and config.quality_gates.security_review.enabled %}5. **Don't Defer Security:** Security review at end of EVERY sprint (mandatory){% endif %}
-6. **Don't Skip Docs:** Update roadmap and CLAUDE.md with every sprint change
+6. **Don't Skip Docs:** Update roadmap and .claude/CLAUDE.md with every sprint change
 7. **Don't Plan in Isolation:** Consider team velocity and capacity
 
 ### Sprint Planning Principles
@@ -791,7 +791,7 @@ MANDATORY security review at end of every sprint. All critical issues must be fi
 {{ config.coding_standards.test_coverage.minimum if config.coding_standards and config.coding_standards.test_coverage else 90 }}%+ coverage required for all new code.
 
 **Principle 5: Document as You Go**
-Update docs with every sprint. Roadmap and CLAUDE.md are living documents.
+Update docs with every sprint. Roadmap and .claude/CLAUDE.md are living documents.
 
 **Principle 6: Value Early, Often**
 Deliver value incrementally. MVP before advanced features.
@@ -806,7 +806,7 @@ Independent work streams should run concurrently. Don't artificially serialize.
 **Essential Commands:**
 ```bash
 # Read current state
-cat CLAUDE.md
+cat .claude/CLAUDE.md
 cat {% if config.custom.roadmap_location %}{{ config.custom.roadmap_location }}{% else %}ROADMAP.md{% endif %}
 
 # Check recent work
@@ -926,7 +926,7 @@ Benefits:
 **Solution:** Add 20% buffer, account for testing and documentation
 
 ### Pitfall 6: Documentation Debt
-**Problem:** Not updating roadmap and CLAUDE.md
+**Problem:** Not updating roadmap and .claude/CLAUDE.md
 **Solution:** Update docs as part of sprint planning workflow
 
 ---
@@ -938,7 +938,7 @@ Benefits:
 - **Scope Accuracy:** <20% scope changes mid-sprint
 - **Dependency Management:** Zero critical path blockers discovered mid-sprint
 {% if config.quality_gates and config.quality_gates.security_review and config.quality_gates.security_review.enabled %}- **Security Compliance:** 100% of sprints have security review{% endif %}
-- **Documentation Currency:** Roadmap and CLAUDE.md updated within 24 hours
+- **Documentation Currency:** Roadmap and .claude/CLAUDE.md updated within 24 hours
 
 **Planning Quality:**
 - **Dependency Accuracy:** >90% of dependencies identified upfront

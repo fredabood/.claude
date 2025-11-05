@@ -71,8 +71,8 @@ Includes:
 **Phase 3: Initialization (5-10 minutes)**
 - Conversational project discovery
 - Select orchestration mode (Simple/Balanced/Tiered)
-- Generate `project-config.yaml`
-- Generate `CLAUDE.md`
+- Generate `.claude/project-config.yaml`
+- Generate `.claude/CLAUDE.md`
 - Create documentation structure
 - Plan your first sprint
 

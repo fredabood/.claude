@@ -129,7 +129,7 @@ This workflow creates professional Mermaid diagrams and integrates them into you
 **Tasks:**
 
 **1. Update Core Documentation**
-   - `CLAUDE.md` - Current state, recent changes
+   - `.claude/CLAUDE.md` - Current state, recent changes
    - `README.md` - Project overview with embedded diagrams
    - {% if config.project.structure and config.project.structure.docs_directory %}`{{ config.project.structure.docs_directory }}/architecture/{% else %}`docs/architecture/{% endif %}` - Technical details
    - Sprint-specific docs (sprint completion documents)
@@ -239,13 +239,13 @@ All diagrams use consistent styling and accurate component names.
 2. **Documentation Engineer** writes:
    - Sprint completion document (`SPRINT_V1.2.0_COMPLETE.md`)
    - Embeds diagrams in relevant sections
-   - Updates CLAUDE.md with new capabilities
+   - Updates .claude/CLAUDE.md with new capabilities
    - Links to diagram files for detailed views
 
 3. **Git Committer** commits:
    - Diagram files in `docs/diagrams/`
    - Sprint completion document
-   - Updated CLAUDE.md
+   - Updated .claude/CLAUDE.md
    - Commit: "docs: Add Sprint v1.2.0 completion docs with architecture diagrams"
 
 **Result:** Complete sprint documentation with professional diagrams

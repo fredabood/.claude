@@ -1,16 +1,16 @@
-# CLAUDE.md Auto-Update Workflow
+# .claude/CLAUDE.md Auto-Update Workflow
 
-**Purpose:** Automatically keep CLAUDE.md up to date as the project evolves
+**Purpose:** Automatically keep .claude/CLAUDE.md up to date as the project evolves
 **Agent:** {% if config.agents %}{{ config.agents.documentation_maintenance or 'Documentation Maintenance Engineer' }}{% else %}Documentation Maintenance Engineer{% endif %}
 **Trigger:** Sprint completion, monthly archival, production score changes
 **Duration:** 20-30 minutes
-**Output:** Updated CLAUDE.md with current project state
+**Output:** Updated .claude/CLAUDE.md with current project state
 
 ---
 
 ## 📋 Workflow Overview
 
-This workflow ensures CLAUDE.md remains the accurate, concise single source of truth for project state by automatically updating it at key milestones. It prevents documentation drift, reduces manual maintenance burden, and ensures AI assistants always have current context.
+This workflow ensures .claude/CLAUDE.md remains the accurate, concise single source of truth for project state by automatically updating it at key milestones. It prevents documentation drift, reduces manual maintenance burden, and ensures AI assistants always have current context.
 
 **Key Benefits:**
 - Eliminates manual documentation maintenance
@@ -51,7 +51,7 @@ if [ $(date +%d) -eq 01 ]; then
 fi
 ```
 
-**Purpose:** Archive achievements older than 30 days to maintain CLAUDE.md readability
+**Purpose:** Archive achievements older than 30 days to maintain .claude/CLAUDE.md readability
 
 ---
 
@@ -99,7 +99,7 @@ if score_change >= 5:
 ---
 
 ### Trigger 4: Manual Invocation (On-Demand)
-**When:** CLAUDE.md is visibly out of sync with project state
+**When:** .claude/CLAUDE.md is visibly out of sync with project state
 **Frequency:** As needed
 **Priority:** High when invoked
 
@@ -115,14 +115,14 @@ if score_change >= 5:
 
 ### Step 1: Detect Changes (5 minutes)
 
-**Objective:** Identify what needs updating in CLAUDE.md
+**Objective:** Identify what needs updating in .claude/CLAUDE.md
 
 **Agent:** {% if config.agents %}{{ config.agents.documentation_maintenance or 'Documentation Maintenance Engineer' }}{% else %}Documentation Maintenance Engineer{% endif %}
 
 **Actions:**
-1. Read current CLAUDE.md
+1. Read current .claude/CLAUDE.md
 2. Read ROADMAP.md for sprint status
-3. Check git commits since last CLAUDE.md update
+3. Check git commits since last .claude/CLAUDE.md update
 4. {% if config.monitoring %}Query {{ config.monitoring.platform or 'monitoring system' }} for current scores/metrics{% else %}Query monitoring for current metrics{% endif %}
 5. {% if config.testing %}Check {{ config.testing.backend.framework or 'test' }} coverage reports{% else %}Check test coverage reports{% endif %}
 6. {% if config.project.type == 'api' %}Count API endpoints{% elif config.project.type == 'web-app' %}Count UI components{% elif config.project.type == 'data-platform' %}Count data sources integrated{% elif config.project.type == 'ml' %}Count ML models deployed{% else %}Count major features{% endif %}
@@ -136,7 +136,7 @@ if score_change >= 5:
 | {% if config.project.type == 'data-platform' %}Data Sources{% elif config.project.type == 'api' %}API Endpoints{% elif config.project.type == 'ml' %}ML Models{% else %}Features{% endif %} | {% if config.project.structure %}{{ config.project.structure.source_directory or 'src/' }}{% else %}Source code{% endif %} | New {% if config.project.type == 'data-platform' %}data source{% elif config.project.type == 'api' %}endpoint{% elif config.project.type == 'ml' %}model{% else %}feature{% endif %} files |
 | Test Coverage | {% if config.testing %}.coverage, {{ config.testing.backend.framework or 'test' }} output{% else %}Test reports{% endif %} | Coverage % change ≥ 5% |
 | New Policies | docs/operations/*.md | New policy documents |
-| Archival Needed | CLAUDE.md Recent Achievements | Achievements > 30 days old |
+| Archival Needed | .claude/CLAUDE.md Recent Achievements | Achievements > 30 days old |
 
 **Output:**
 ```yaml
@@ -194,15 +194,15 @@ changes_detected:
 1. Read {% if config.testing %}.coverage or {{ config.testing.backend.framework or 'test' }} JSON report{% else %}test coverage reports{% endif %}
 2. Extract current coverage percentage
 3. Extract test count
-4. Compare with CLAUDE.md current values
+4. Compare with .claude/CLAUDE.md current values
 
 **For Policy Changes:**
 1. Read new policy document in `docs/operations/`
 2. Extract: policy name, effective date, key requirements
-3. Identify which section of CLAUDE.md needs update (Critical Rules, Security & Production, etc.)
+3. Identify which section of .claude/CLAUDE.md needs update (Critical Rules, Security & Production, etc.)
 
 **For Monthly Archival:**
-1. Parse Recent Achievements section in CLAUDE.md
+1. Parse Recent Achievements section in .claude/CLAUDE.md
 2. Extract achievement entries with dates
 3. Filter to achievements older than 30 days
 4. Prepare full text for archival
@@ -251,7 +251,7 @@ context_gathered:
 
 ### Step 3: Generate Updates (10 minutes)
 
-**Objective:** Create precise edits for each section of CLAUDE.md
+**Objective:** Create precise edits for each section of .claude/CLAUDE.md
 
 **Agent:** {% if config.agents %}{{ config.agents.documentation_maintenance or 'Documentation Maintenance Engineer' }}{% else %}Documentation Maintenance Engineer{% endif %}
 
@@ -259,7 +259,7 @@ context_gathered:
 
 **3.1: Update Current Project State (if needed)**
 
-**Section:** Top of CLAUDE.md (typically lines 10-25)
+**Section:** Top of .claude/CLAUDE.md (typically lines 10-25)
 
 **Updates:**
 - Versions Complete: Add new version (e.g., "✅ v1.2.0")
@@ -284,7 +284,7 @@ NEW:
 
 **3.2: Add to Completed Versions (if sprint complete)**
 
-**Section:** Completed Versions section in CLAUDE.md
+**Section:** Completed Versions section in .claude/CLAUDE.md
 
 **Insert After:** Last completed version (maintain chronological order, newest first)
 
@@ -459,14 +459,14 @@ REMOVED (issue resolved in v1.2.0)
 2. Extract full achievement text
 3. Read ACHIEVEMENTS_ARCHIVE.md (create if doesn't exist)
 4. Prepend archived achievements to archive file
-5. Remove from CLAUDE.md
+5. Remove from .claude/CLAUDE.md
 
 **Archive File Structure:**
 ```markdown
 # {{ config.project.name or 'Project' }} Achievements Archive
 
 **Last Updated:** {TODAY} ({MONTH YEAR} achievements archived)
-**Active Achievements:** See CLAUDE.md "Recent Achievements" section (rolling 30-day window)
+**Active Achievements:** See .claude/CLAUDE.md "Recent Achievements" section (rolling 30-day window)
 **Created:** {DATE}
 
 This file contains detailed historical information about project achievements older than 30 days.
@@ -523,7 +523,7 @@ edits_generated:
 
 ### Step 4: Apply Updates (5 minutes)
 
-**Objective:** Execute all edits to CLAUDE.md and ACHIEVEMENTS_ARCHIVE.md
+**Objective:** Execute all edits to .claude/CLAUDE.md and ACHIEVEMENTS_ARCHIVE.md
 
 **Agent:** {% if config.agents %}{{ config.agents.documentation_maintenance or 'Documentation Maintenance Engineer' }}{% else %}Documentation Maintenance Engineer{% endif %}
 
@@ -564,7 +564,7 @@ for (const edit of editsGenerated) {
 for (Edit edit : editsGenerated) {
     if (edit.getAction().equals("replace")) {
         editFile(
-            "CLAUDE.md",
+            ".claude/CLAUDE.md",
             edit.getOldText(),
             edit.getNewText()
         );
@@ -575,13 +575,13 @@ for (Edit edit : editsGenerated) {
 ```{% else %}```
 # Execute all edits sequentially
 for each edit:
-    apply edit to CLAUDE.md
+    apply edit to .claude/CLAUDE.md
     verify success
 ```{% endif %}
 
 **Rollback Plan:**
 If any edit fails:
-1. Restore CLAUDE.md from git HEAD
+1. Restore .claude/CLAUDE.md from git HEAD
 2. Log error with specific edit that failed
 3. Create issue for human review
 
@@ -595,7 +595,7 @@ If any edit fails:
 
 ### Step 5: Verify & Quality Check (3 minutes)
 
-**Objective:** Ensure updates are correct and CLAUDE.md meets quality standards
+**Objective:** Ensure updates are correct and .claude/CLAUDE.md meets quality standards
 
 **Agent:** {% if config.agents %}{{ config.agents.documentation_maintenance or 'Documentation Maintenance Engineer' }}{% else %}Documentation Maintenance Engineer{% endif %}
 
@@ -603,7 +603,7 @@ If any edit fails:
 
 **1. Size Check:**
 ```bash
-{% if config.scripts %}{{ config.scripts.check_docs or 'python3 scripts/check_doc_sizes.py' }}{% else %}wc -l CLAUDE.md{% endif %}
+{% if config.scripts %}{{ config.scripts.check_docs or 'python3 scripts/check_doc_sizes.py' }}{% else %}wc -l .claude/CLAUDE.md{% endif %}
 # Recommended: < 100KB (~600 lines)
 # Warning: > 600 lines
 ```
@@ -650,7 +650,7 @@ verification_results:
 
 **Success Criteria:**
 - ✅ All verification checks pass
-- ✅ CLAUDE.md < 600 lines (recommended)
+- ✅ .claude/CLAUDE.md < 600 lines (recommended)
 - ✅ No accuracy issues detected
 - ✅ File properly formatted
 
@@ -658,7 +658,7 @@ verification_results:
 
 ### Step 6: Commit Changes (2 minutes)
 
-**Objective:** Commit updated CLAUDE.md to version control
+**Objective:** Commit updated .claude/CLAUDE.md to version control
 
 **Agent:** {% if config.agents %}{{ config.agents.git_committer or 'Git Committer' }}{% else %}Git Committer{% endif %}
 
@@ -671,7 +671,7 @@ verification_results:
 
 **Sprint Completion:**
 ```
-docs: Update CLAUDE.md - sprint v{X}.{Y} complete
+docs: Update .claude/CLAUDE.md - sprint v{X}.{Y} complete
 
 - Added v{X}.{Y} to Versions Complete{% if config.monitoring %}
 - Updated {{ config.monitoring.metric or 'Production Score' }} (if changed){% endif %}
@@ -681,7 +681,7 @@ docs: Update CLAUDE.md - sprint v{X}.{Y} complete
 
 **Monthly Archival:**
 ```
-docs: Archive {MONTH YEAR} achievements from CLAUDE.md
+docs: Archive {MONTH YEAR} achievements from .claude/CLAUDE.md
 
 - Archived {N} achievements older than 30 days
 - Moved to ACHIEVEMENTS_ARCHIVE.md
@@ -690,7 +690,7 @@ docs: Archive {MONTH YEAR} achievements from CLAUDE.md
 
 **{% if config.monitoring %}{{ config.monitoring.metric or 'Production Score' }}{% else %}Score{% endif %} Update:**
 ```
-docs: Update CLAUDE.md - {% if config.monitoring %}{{ config.monitoring.metric or 'production score' }}{% else %}production score{% endif %} {OLD} → {NEW}
+docs: Update .claude/CLAUDE.md - {% if config.monitoring %}{{ config.monitoring.metric or 'production score' }}{% else %}production score{% endif %} {OLD} → {NEW}
 
 - Updated {% if config.monitoring %}{{ config.monitoring.metric or 'Production Score' }}{% else %}Production Score{% endif %} in Current Project State
 - Added {% if config.project.type == 'data-platform' %}infrastructure{% elif config.project.type == 'api' %}performance{% elif config.project.type == 'ml' %}model quality{% else %}quality{% endif %} achievement to Recent Achievements
@@ -714,7 +714,7 @@ docs: Update CLAUDE.md - {% if config.monitoring %}{{ config.monitoring.metric o
 **Success Rate Target:** 95%+ automated updates succeed without human intervention
 
 **Quality Targets:**
-- CLAUDE.md always < 600 lines (recommended)
+- .claude/CLAUDE.md always < 600 lines (recommended)
 - Recent Achievements always ≤ 5 entries (30 days)
 - 0 stale information (version numbers, scores, etc.)
 - 100% of changes reflected within 1 hour of trigger
@@ -728,7 +728,7 @@ docs: Update CLAUDE.md - {% if config.monitoring %}{{ config.monitoring.metric o
 - **Sprint Planning Workflow** - Triggers update for new sprint focus
 
 **Downstream (This Workflow Triggers):**
-- **Git Commit Workflow** - Commits CLAUDE.md changes
+- **Git Commit Workflow** - Commits .claude/CLAUDE.md changes
 
 **Parallel Workflows:**
 - Can run in parallel with README updates
@@ -740,8 +740,8 @@ docs: Update CLAUDE.md - {% if config.monitoring %}{{ config.monitoring.metric o
 
 Workflow is successful when:
 
-1. ✅ All detected changes are accurately reflected in CLAUDE.md
-2. ✅ CLAUDE.md passes all verification checks (size, format, accuracy)
+1. ✅ All detected changes are accurately reflected in .claude/CLAUDE.md
+2. ✅ .claude/CLAUDE.md passes all verification checks (size, format, accuracy)
 3. ✅ Old achievements archived if monthly trigger
 4. ✅ Changes committed to version control with proper message
 5. ✅ No manual intervention required
@@ -751,8 +751,8 @@ Workflow is successful when:
 
 ## 🚨 Error Scenarios & Handling
 
-### Scenario 1: CLAUDE.md Locked (Concurrent Edit)
-**Cause:** Another process editing CLAUDE.md simultaneously
+### Scenario 1: .claude/CLAUDE.md Locked (Concurrent Edit)
+**Cause:** Another process editing .claude/CLAUDE.md simultaneously
 **Detection:** Edit tool returns file locked error
 **Handling:**
 1. Wait 30 seconds
@@ -761,15 +761,15 @@ Workflow is successful when:
 
 **Notification:**
 ```
-⚠️ CLAUDE.md Update Failed: File Locked
-Another process is editing CLAUDE.md. Manual intervention required.
+⚠️ .claude/CLAUDE.md Update Failed: File Locked
+Another process is editing .claude/CLAUDE.md. Manual intervention required.
 Detected changes: {list}
 ```
 
 ---
 
 ### Scenario 2: Section Structure Changed
-**Cause:** CLAUDE.md manually edited, section headers moved/renamed
+**Cause:** .claude/CLAUDE.md manually edited, section headers moved/renamed
 **Detection:** Edit tool can't find expected section
 **Handling:**
 1. Log warning with specific section not found
@@ -779,7 +779,7 @@ Detected changes: {list}
 
 **Notification:**
 ```
-⚠️ CLAUDE.md Update Warning: Section Not Found
+⚠️ .claude/CLAUDE.md Update Warning: Section Not Found
 Could not find "{section_name}" at expected location.
 Appended update to end of file. Manual review recommended.
 ```
@@ -796,7 +796,7 @@ Appended update to end of file. Manual review recommended.
 
 **Notification:**
 ```
-⚠️ CLAUDE.md Size Warning: {N} lines (target: < 600)
+⚠️ .claude/CLAUDE.md Size Warning: {N} lines (target: < 600)
 Updates applied successfully but file size exceeds target.
 Suggestions:
 - Archive achievements older than 20 days (instead of 30)
@@ -810,15 +810,15 @@ Suggestions:
 **Cause:** Detected changes don't match source data (edge case/bug)
 **Detection:** Verification step finds mismatch
 **Handling:**
-1. Rollback all changes (git restore CLAUDE.md)
+1. Rollback all changes (git restore .claude/CLAUDE.md)
 2. Log detailed error report
 3. Notify for manual investigation
 
 **Notification:**
 ```
-❌ CLAUDE.md Update Failed: Accuracy Check
+❌ .claude/CLAUDE.md Update Failed: Accuracy Check
 Verification found mismatches:
-{% if config.monitoring %}- {{ config.monitoring.metric or 'Production Score' }} in CLAUDE.md (X) doesn't match {{ config.monitoring.platform or 'monitoring' }} (Y){% endif %}
+{% if config.monitoring %}- {{ config.monitoring.metric or 'Production Score' }} in .claude/CLAUDE.md (X) doesn't match {{ config.monitoring.platform or 'monitoring' }} (Y){% endif %}
 - {% if config.project.type == 'data-platform' %}Data source{% elif config.project.type == 'api' %}Endpoint{% elif config.project.type == 'ml' %}Model{% else %}Feature{% endif %} count mismatch (CLAUDE.md: X, actual: Y)
 
 Changes rolled back. Manual investigation required.
@@ -839,7 +839,7 @@ Changes rolled back. Manual investigation required.
 # {{ config.project.name or 'Project' }} Achievements Archive
 
 **Purpose:** Historical archive of detailed project achievements
-**Active Achievements:** See CLAUDE.md "Recent Achievements" section
+**Active Achievements:** See .claude/CLAUDE.md "Recent Achievements" section
 **Created:** {TODAY} (auto-created during archival)
 
 ---
@@ -860,12 +860,12 @@ Changes rolled back. Manual investigation required.
 git log -1 --pretty=format:"%s"
 # Output: "feat: Complete sprint v1.2.0 - {% if config.project.type == 'data-platform' %}data pipeline optimization{% elif config.project.type == 'api' %}API rate limiting{% elif config.project.type == 'ml' %}model performance improvements{% else %}feature expansion{% endif %}"
 
-# CLAUDE.md Auto-Update workflow triggered automatically
+# .claude/CLAUDE.md Auto-Update workflow triggered automatically
 ```
 
 **Step 1: Detect Changes (3 min)**
 - ✅ Read ROADMAP.md: Found "✅ v1.2.0 COMPLETE"
-- ✅ Check CLAUDE.md: v1.2.0 NOT in Versions Complete → UPDATE NEEDED
+- ✅ Check .claude/CLAUDE.md: v1.2.0 NOT in Versions Complete → UPDATE NEEDED
 - ✅ Check {% if config.project.type == 'data-platform' %}data sources{% elif config.project.type == 'api' %}API endpoints{% elif config.project.type == 'ml' %}ML models{% else %}features{% endif %}: [X] new items → UPDATE NEEDED
 - ✅ Check {% if config.monitoring %}{{ config.monitoring.metric or 'production score' }}{% else %}production metrics{% endif %}: {% if config.monitoring %}Changed{% else %}No change{% endif %}
 - ✅ Check test coverage: {% if config.testing %}{{ config.coding_standards.test_coverage.minimum or '90' }}%{% else %}No change{% endif %}
@@ -884,7 +884,7 @@ git log -1 --pretty=format:"%s"
 - ✅ Generated Recent Achievement entry (~18 lines)
 
 **Step 4: Apply Updates (3 min)**
-- ✅ Applied 5 edits to CLAUDE.md
+- ✅ Applied 5 edits to .claude/CLAUDE.md
 - ✅ All edits successful
 - ✅ No archival needed (not monthly trigger)
 
@@ -896,11 +896,11 @@ git log -1 --pretty=format:"%s"
 - ✅ Chronological: v1.2.0 after v1.1.0 ✅
 
 **Step 6: Commit (2 min)**
-- ✅ Committed CLAUDE.md with proper message
+- ✅ Committed .claude/CLAUDE.md with proper message
 - ✅ Pushed to remote
 
 **Total Duration:** 22 minutes ✅
-**Result:** CLAUDE.md updated, accurate, < 600 lines
+**Result:** .claude/CLAUDE.md updated, accurate, < 600 lines
 
 ---
 
@@ -914,7 +914,7 @@ git log -1 --pretty=format:"%s"
 **Monthly:**
 - Verify archival occurred on schedule
 - Review ACHIEVEMENTS_ARCHIVE.md structure
-- Check CLAUDE.md size trend (should stay < 600 lines)
+- Check .claude/CLAUDE.md size trend (should stay < 600 lines)
 
 **Quarterly:**
 - Review workflow success rate (target: 95%+)
@@ -925,12 +925,12 @@ git log -1 --pretty=format:"%s"
 
 ## 💡 Best Practices
 
-1. **Keep CLAUDE.md Focused:** Only current/recent information (30 days)
+1. **Keep .claude/CLAUDE.md Focused:** Only current/recent information (30 days)
 2. **Archive Regularly:** Monthly archival prevents file bloat
 3. **Maintain Templates:** Update templates as project evolves
 4. **Test Updates:** Validate edits in non-production branch first
 5. **Monitor Automation:** Track success rate, fix issues promptly
-6. **Document Changes:** Note any CLAUDE.md structure changes in this workflow
+6. **Document Changes:** Note any .claude/CLAUDE.md structure changes in this workflow
 
 ---
 

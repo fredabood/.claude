@@ -144,7 +144,7 @@ vibey/
 
 **Detection Logic:**
 ```bash
-if [ -f "project-config.yaml" ] && [ -f "CLAUDE.md" ] && grep -q "VIBEY_FRAMEWORK_MANAGED" CLAUDE.md; then
+if [ -f ".claude/project-config.yaml" ] && [ -f ".claude/CLAUDE.md" ] && grep -q "VIBEY_FRAMEWORK_MANAGED" .claude/CLAUDE.md; then
   FRAMEWORK_STATE="initialized" → Launch Vibey Manager Agent
 else
   FRAMEWORK_STATE="new" → Run Full Initialization
@@ -152,9 +152,9 @@ fi
 ```
 
 **Detection Criteria:**
-1. `project-config.yaml` exists in project root
-2. `CLAUDE.md` exists in project root
-3. `CLAUDE.md` contains `<!-- VIBEY_FRAMEWORK_MANAGED -->` marker
+1. `.claude/project-config.yaml` exists (Vibey project configuration)
+2. `.claude/CLAUDE.md` exists (Vibey-managed project context)
+3. `.claude/CLAUDE.md` contains `<!-- VIBEY_FRAMEWORK_MANAGED -->` marker
 
 **Why the marker?**
 - Prevents false positives if project already has these files

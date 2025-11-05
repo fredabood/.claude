@@ -218,19 +218,15 @@ if [ -n "$COMMAND_ARG" ]; then
       # Route to Option 2: Execute Sprint
       # Load: .claude/commands/vibey-code.md
       ;;
-    think)
-      echo "💭 Launching Brainstorming Mode..."
-      # Route to Option 3: Brainstorming Mode
+    think|audit)
+      echo "💭 Launching Discovery Mode..."
+      # Route to Option 3: Discovery Mode
       # Load: .claude/commands/vibey-think.md
-      ;;
-    audit)
-      echo "🔍 Launching Project Audit..."
-      # Route to Option 4: Project Audit
-      # Load: .claude/commands/vibey-audit.md
+      # Note: 'audit' is a legacy alias for 'think' (both go to Discovery Mode)
       ;;
     manage)
       echo "⚙️ Launching Framework Management..."
-      # Route to Option 5: Framework Management
+      # Route to Option 4: Framework Management
       # Load: .claude/commands/vibey-manage.md
       ;;
     *)
@@ -240,8 +236,7 @@ if [ -n "$COMMAND_ARG" ]; then
       echo "Valid commands:"
       echo "  /vibey plan    - Sprint Planning"
       echo "  /vibey code    - Execute Sprint"
-      echo "  /vibey think   - Brainstorming Mode"
-      echo "  /vibey audit   - Project Audit"
+      echo "  /vibey think   - Discovery Mode"
       echo "  /vibey manage  - Framework Management"
       echo ""
       echo "Or run '/vibey' without arguments to see the interactive menu."
@@ -260,9 +255,9 @@ fi
 **Command Argument Mapping:**
 - `/vibey plan` → Option 1 (Sprint Planning) → vibey-plan.md
 - `/vibey code` → Option 2 (Execute Sprint) → vibey-code.md
-- `/vibey think` → Option 3 (Brainstorming Mode) → vibey-think.md
-- `/vibey audit` → Option 4 (Project Audit) → vibey-audit.md
-- `/vibey manage` → Option 5 (Framework Management) → vibey-manage.md
+- `/vibey think` → Option 3 (Discovery Mode) → vibey-think.md
+- `/vibey audit` → Option 3 (Discovery Mode) → vibey-think.md [legacy alias]
+- `/vibey manage` → Option 4 (Framework Management) → vibey-manage.md
 
 **Benefits:**
 - **Speed** - Experienced users can skip the menu
@@ -296,21 +291,19 @@ Vibey is an agentic orchestration framework that transforms Claude Code into a s
 **Using the /vibey Command:**
 
 **Interactive Menu:**
-Running `/vibey` gives you 5 options:
+Running `/vibey` gives you 4 options:
 1. **Sprint Planning** - Plan your first (or next) sprint with agent orchestration
 2. **Execute Sprint** - Execute your planned sprint with phase-specific orchestration
-3. **Brainstorming Mode** ⭐ - Collaborate with Claude to articulate what you want to build (RECOMMENDED to start here!)
-4. **Project Audit** - Analyze existing codebase and/or git history for insights
-5. **Framework Management** - Configure settings and manage your Vibey setup
+3. **Discovery Mode** ⭐ - Understand what you want to build (RECOMMENDED to start here!)
+4. **Framework Management** - Configure settings and manage your Vibey setup
 
 **Direct Commands (skip the menu):**
 - `/vibey plan` - Go directly to Sprint Planning
 - `/vibey code` - Go directly to Sprint Execution
-- `/vibey think` - Go directly to Brainstorming Mode
-- `/vibey audit` - Go directly to Project Audit
+- `/vibey think` - Go directly to Discovery Mode
 - `/vibey manage` - Go directly to Framework Management
 
-**First-time user?** Start with **Brainstorming Mode** (`/vibey think`) to explore your ideas, then export to Sprint Planning when ready!
+**First-time user?** Start with **Discovery Mode** (`/vibey think`) to explore your ideas and understand your project, then export to Sprint Planning when ready!
 
 Let's get started! 🚀
 ```
@@ -329,7 +322,7 @@ Welcome back! Vibey is ready to help.
 
 ## Step 3: Present Main Menu
 
-**Always present these 5 options** (regardless of first session or returning):
+**Always present these 4 options** (regardless of first session or returning):
 
 ```markdown
 ## What would you like to do?
@@ -375,47 +368,34 @@ Execute your planned sprint with phase-specific agent orchestration.
 
 ---
 
-### 3. 💭 Brainstorming Mode ⭐ RECOMMENDED FOR FIRST-TIME USERS
+### 3. 💭 Discovery Mode ⭐ RECOMMENDED FOR FIRST-TIME USERS
 
-Collaborate with Claude to articulate and refine your ideas.
+Understand what you want to build through conversation and/or automated analysis.
 
 **What you'll get:**
-- Interactive Q&A to explore your ideas
-- Claude asks clarifying questions
+- **Option A: Conversational Exploration** - Interactive Q&A to articulate your ideas
+- **Option B: Project Audit** - Automated codebase and git history analysis
+- **Option C: Both** - Audit first, then refine with conversation
 - Build context iteratively
-- Summarize into actionable plan
 - Export to sprint planning when ready
 
 **Best for:**
-- **First-time Vibey users** - Learn the framework while building your plan
+- **First-time Vibey users** - Learn the framework while building context
 - You have ideas but need help articulating them
+- Existing projects that need analysis before planning
+- Want baseline metrics and context before sprint planning
 - Exploring possibilities and tradeoffs
-- Refining requirements before planning
-- Building an effective prompt for Claude
 
-**Time:** 10-60 minutes depending on exploration depth
+**Time:** 10-105 minutes depending on discovery depth
 
----
-
-### 4. 🔍 Project Audit
-
-Analyze your existing project to accelerate sprint planning.
-
-**What you'll get:**
-- **Codebase Audit:** Tech stack detection, security analysis, test coverage, code health
-- **Git History Analysis:** Sprint patterns, velocity, recent work, team activity
-
-**Best for:**
-- Existing projects (not greenfield)
-- Want to skip basic discovery questions
-- Need baseline metrics before planning
-- Understanding current project state
-
-**Time:** 10-105 minutes depending on audit scope
+**Outputs:**
+- `.claude/PROJECT-CONTEXT.md` - Discovery findings and project context
+- `docs/codebase-audit-report.md` - Automated analysis (if audit selected)
+- Ready-to-use context for sprint planning
 
 ---
 
-### 5. ⚙️ Framework Management
+### 4. ⚙️ Framework Management
 
 Configure and manage your Vibey framework settings.
 
@@ -439,13 +419,12 @@ Configure and manage your Vibey framework settings.
 **Quick Access Commands:**
 - `/vibey plan` - Sprint Planning
 - `/vibey code` - Execute Sprint
-- `/vibey think` - Brainstorming Mode
-- `/vibey audit` - Project Audit
+- `/vibey think` - Discovery Mode
 - `/vibey manage` - Framework Management
 
 **Or:** Type your request directly (e.g., "I want to build user authentication")
 
-**Choose an option (1, 2, 3, 4, 5) or describe what you need:**
+**Choose an option (1, 2, 3, 4) or describe what you need:**
 ```
 
 ---
@@ -514,14 +493,34 @@ fi
 
 ---
 
-### Option 3: Brainstorming Mode
+### Option 3: Discovery Mode
 
-**Launch Brainstorming Session:**
+**Launch Discovery Mode:**
 
 ```markdown
-# 💭 Brainstorming Mode Activated
+# 💭 Discovery Mode Activated
 
-I'm here to help you explore and articulate your ideas. I'll ask questions to understand what you want to build, and together we'll refine it into a clear plan.
+I'll help you understand what you want to build through conversation and/or automated analysis.
+
+**Choose your discovery approach:**
+
+**A. Conversational Exploration** - Interactive Q&A to articulate your ideas
+**B. Project Audit** - Automated codebase and git history analysis
+**C. Both** - Audit first, then refine with conversation
+
+**Which would you like?**
+```
+
+**Route Based on User Choice:**
+
+---
+
+#### **Option A: Conversational Exploration**
+
+**Launch Conversational Session:**
+
+```markdown
+Great! I'll help you explore and articulate your ideas through conversation.
 
 **How This Works:**
 - Share your ideas (rough or detailed)
@@ -536,7 +535,7 @@ I'll track our conversation length and alert you when we're approaching context 
 **Ready when you are!** Tell me about your idea, or describe the problem you're trying to solve.
 ```
 
-**Brainstorming Loop:**
+**Conversational Loop:**
 
 For each user response:
 
@@ -596,35 +595,34 @@ For each user response:
 Based on our conversation, I can now:
 
 A. **Create a sprint plan** - Turn this into a structured sprint with phases and tasks
-B. **Continue brainstorming** - Explore more aspects or refine further
-C. **Export summary** - Save this conversation as a requirements document
+B. **Continue exploring** - Explore more aspects or refine further
+C. **Export summary** - Save this as PROJECT-CONTEXT.md
 D. **Start over** - Reset and explore a different idea
 
 What would you like to do?
 ```
 
 **If user chooses A (Create sprint plan):**
+- Save context to `.claude/PROJECT-CONTEXT.md`
 - Use gathered context as input to Sprint Planning Agent
 - Generate sprint plan with orchestration
 - Save to `docs/sprints/sprint-N-plan.md`
 
 **If user chooses B (Continue):**
-- Continue brainstorming loop
+- Continue conversational loop
 
 **If user chooses C (Export summary):**
-- Generate requirements document: `docs/brainstorming/session-[date].md`
-- Include all gathered context
+- Generate `.claude/PROJECT-CONTEXT.md` with all gathered context
 - Provide next steps
+- User can return to planning later
 
 **If user chooses D (Start over):**
 - Clear context summary
-- Restart brainstorming loop
-
-**Implementation:** Load `.claude/commands/vibey-think.md` for detailed Brainstorming Mode implementation
+- Restart conversational loop
 
 ---
 
-### Option 4: Project Audit
+#### **Option B: Project Audit**
 
 **Check Prerequisites:**
 
@@ -719,6 +717,7 @@ I can run two types of analysis. Choose what you need:
 ## ✅ Audit Complete!
 
 **Report saved to:** `docs/codebase-audit-report.md` [or git-history-analysis.md]
+**Context saved to:** `.claude/PROJECT-CONTEXT.md`
 
 **Key Findings:**
 - [Top 3-5 key insights from audit]
@@ -730,21 +729,51 @@ I can run two types of analysis. Choose what you need:
 
 **What's Next?**
 
-1. **Review the report** - See detailed findings and recommendations
-2. **Plan your first sprint** - Use audit insights to plan effectively
-3. **Return to main menu** - Choose another option
-
 Would you like to:
 A. Plan a sprint now (using audit data)
-B. Return to main menu
-C. Exit
+B. Continue with conversation (refine the audit findings)
+C. Return to main menu
 ```
-
-**Implementation:** Load `.claude/commands/vibey-audit.md` for detailed Project Audit implementation
 
 ---
 
-### Option 5: Framework Management
+#### **Option C: Both (Audit + Conversation)**
+
+**Workflow:**
+
+1. **Run Project Audit First**
+   - Execute audit (Full, Codebase Only, or Git Only based on user preference)
+   - Generate `docs/codebase-audit-report.md`
+   - Save findings to `.claude/PROJECT-CONTEXT.md`
+
+2. **Transition to Conversational Exploration**
+   ```markdown
+   ## ✅ Audit Complete!
+
+   I've analyzed your project. Let me summarize what I found, and then we can discuss:
+
+   **Key Findings:**
+   - [Summary of audit findings]
+
+   Now let's explore what you want to build. I'll use the audit as context.
+
+   **Tell me:** What would you like to focus on in your next sprint?
+   ```
+
+3. **Conversational Loop with Audit Context**
+   - Use audit data to pre-fill technical context
+   - Focus conversation on goals, features, priorities
+   - Skip tech stack and quality baseline questions (already known from audit)
+
+4. **Exit to Sprint Planning**
+   - Combined context (audit + conversation) saved to `.claude/PROJECT-CONTEXT.md`
+   - Ready for sprint planning with comprehensive understanding
+
+**Implementation:** Load `.claude/commands/vibey-think.md` for detailed Discovery Mode implementation
+
+---
+
+### Option 4: Framework Management
 
 **Launch Vibey Manager Agent:**
 
@@ -1126,19 +1155,24 @@ fi
 - **Phase breakdown** - Keep phases under 8,000 tokens (context window)
 - **Orchestration design** - Analyze domains → Select agents → Design sequence
 
-### For Brainstorming
+### For Discovery Mode
 
+**Conversational Exploration:**
 - **No judgment** - All ideas are valid during exploration
 - **Build incrementally** - Start broad, get specific
 - **Watch context window** - Track and warn about usage
 - **Export before limit** - Don't lose valuable context
 
-### For Project Audit
-
+**Project Audit:**
 - **Set expectations** - Audits take time, tell user upfront
 - **Show progress** - Update as each section completes
 - **Highlight critical** - Emphasize security/quality issues
 - **Actionable recommendations** - Provide next steps
+
+**Combined Approach:**
+- **Audit first** - Get baseline understanding of project
+- **Conversation second** - Refine goals and priorities
+- **Comprehensive context** - Best of both worlds
 
 ### For Sprint Execution
 
@@ -1156,27 +1190,29 @@ The `/vibey` command provides a **unified entry point** for all Vibey interactio
 
 **First Session:**
 1. Show introduction (what is Vibey, what you get)
-2. Present 5 options (sprint planning, execution, brainstorming, audit, management)
-3. **Recommend Brainstorming Mode** for first-time users
+2. Present 4 options (sprint planning, execution, discovery, management)
+3. **Recommend Discovery Mode** for first-time users
 
 **Returning Sessions:**
 1. Brief welcome message
-2. Present 5 options (same menu)
+2. Present 4 options (same menu)
 
 **All paths lead to productive work:**
 - **Sprint Planning** → Structured development with agent orchestration
 - **Execute Sprint** → Phase-by-phase execution with agent orchestration and quality gates
-- **Brainstorming** ⭐ → Idea exploration and requirements gathering (RECOMMENDED for first-time users, exports to Sprint Planning)
-- **Project Audit** → Baseline metrics and context for planning
+- **Discovery Mode** ⭐ → Understand what to build (RECOMMENDED for first-time users)
+  - **Option A:** Conversational exploration (idea articulation)
+  - **Option B:** Project audit (automated analysis)
+  - **Option C:** Both (audit + conversation)
 - **Framework Management** → Configure settings, update quality gates, health checks
 
 **Direct Command Access:**
 Experienced users can bypass the menu with positional arguments:
 - `/vibey plan` → Sprint Planning (Option 1)
 - `/vibey code` → Execute Sprint (Option 2)
-- `/vibey think` → Brainstorming Mode (Option 3)
-- `/vibey audit` → Project Audit (Option 4)
-- `/vibey manage` → Framework Management (Option 5)
+- `/vibey think` → Discovery Mode (Option 3)
+- `/vibey audit` → Discovery Mode (Option 3) [legacy alias]
+- `/vibey manage` → Framework Management (Option 4)
 
 **Benefits:**
 - **Speed** - Skip the menu, go directly to your task
@@ -1192,12 +1228,12 @@ Experienced users can bypass the menu with positional arguments:
 - Can pause/resume sprints at any time
 
 **Vibey Manager Agent Integration:**
-- Accessible via Option 5 (Framework Management)
+- Accessible via Option 4 (Framework Management)
 - Provides 8 management tasks (quality gates, tech stack, settings, regenerate, health check, view files, return, exit)
 - Loops back to management menu after each task
 - Can return to main menu at any time
 
-**No separate onboarding flow needed** - The menu works for first-time and experienced users alike. First-time users are guided toward **Brainstorming Mode** (Option 3) to build context before sprint planning.
+**No separate onboarding flow needed** - The menu works for first-time and experienced users alike. First-time users are guided toward **Discovery Mode** (Option 3) to build context before sprint planning.
 
 ---
 
@@ -1209,12 +1245,17 @@ Experienced users can bypass the menu with positional arguments:
 User: /vibey
 
 Claude: # Welcome to Vibey! 🎉
-        [Shows full introduction and menu with 5 options]
+        [Shows full introduction and menu with 4 options]
 
 User: 3
 
-Claude: # 💭 Brainstorming Mode Activated
-        [Launches brainstorming session]
+Claude: # 💭 Discovery Mode Activated
+        [Shows 3 discovery options: A, B, C]
+
+User: A
+
+Claude: Great! I'll help you explore and articulate your ideas through conversation.
+        [Launches conversational session]
 ```
 
 ### Direct Commands (Fast)
@@ -1238,23 +1279,25 @@ Claude: 🚀 Launching Sprint Execution...
         [Shows sprint dashboard with 9 execution options]
 ```
 
-**Example 3: Brainstorm First-Time User**
+**Example 3: Discovery Mode (First-Time User)**
 ```
 User: /vibey think
 
-Claude: 💭 Launching Brainstorming Mode...
-        I'm here to help you explore and refine your ideas.
-        Tell me about your idea - what problem are you trying to solve?
-        [Launches brainstorming immediately]
+Claude: 💭 Launching Discovery Mode...
+        I'll help you understand what you want to build.
+
+        Choose your discovery approach:
+        A. Conversational Exploration
+        B. Project Audit
+        C. Both
 ```
 
-**Example 4: Run Project Audit**
+**Example 4: Legacy Audit Command**
 ```
 User: /vibey audit
 
-Claude: 🔍 Launching Project Audit...
-        ## 🔍 Project Audit Options
-        [Shows audit options: Full, Codebase Only, Git History Only]
+Claude: 💭 Launching Discovery Mode...
+        [Same as /vibey think - routes to Discovery Mode]
 ```
 
 **Example 5: Manage Framework Settings**
@@ -1270,20 +1313,29 @@ Claude: ⚙️ Launching Framework Management...
 
 **First-Time User Journey (With Direct Commands):**
 ```bash
-/vibey think          # Explore ideas with brainstorming
+/vibey think          # Discovery Mode → Choose Option A (Conversational)
   → Export to planning
 /vibey plan           # Create sprint plan
 /vibey code           # Execute sprint
 /vibey manage         # Adjust quality gates mid-sprint
 ```
 
-**Experienced User Journey (With Direct Commands):**
+**Existing Project Journey:**
 ```bash
-/vibey plan           # Quick sprint planning
-/vibey code           # Jump straight to execution
-/vibey code           # Resume sprint next day
-/vibey audit          # Run audit before next sprint
-/vibey plan           # Plan next sprint with audit data
+/vibey think          # Discovery Mode → Choose Option C (Audit + Conversation)
+  → Audit runs first (70-125 min)
+  → Refine with conversation
+  → Export to planning
+/vibey plan           # Create sprint plan with rich context
+/vibey code           # Execute sprint
+```
+
+**Quick Audit Only:**
+```bash
+/vibey think          # Discovery Mode → Choose Option B (Audit Only)
+  → Select audit scope (Full, Code, or Git)
+  → Review findings
+/vibey plan           # Plan sprint with audit data
 ```
 
 **Error Handling:**
@@ -1295,8 +1347,7 @@ Claude: ❌ Invalid command: 'test'
         Valid commands:
           /vibey plan    - Sprint Planning
           /vibey code    - Execute Sprint
-          /vibey think   - Brainstorming Mode
-          /vibey audit   - Project Audit
+          /vibey think   - Discovery Mode
           /vibey manage  - Framework Management
 
         Or run '/vibey' without arguments to see the interactive menu.

@@ -67,8 +67,16 @@ echo "Would you like to:"
 echo "  1. Add audit data (analyze codebase)"
 echo "  2. Continue brainstorming (Q&A)"
 echo ""
-read -p "Your choice (1/2): " choice
+```
 
+**Ask the user:**
+"How would you like to expand on your existing context?"
+- Option 1: Add audit data (analyze codebase)
+- Option 2: Continue brainstorming (Q&A)
+
+Parse their response and set `choice` to "1" or "2" accordingly.
+
+```bash
 if [ "$choice" = "1" ]; then
   # Go to Audit flow (Step A1)
   # Will merge audit data into existing context
@@ -120,8 +128,14 @@ python3 .claude/scripts/manage-project-context.py list-archives
 echo ""
 echo "Enter the path to the archive you want to restore:"
 echo "(or press Enter to cancel)"
-read -p "Archive path: " ARCHIVE_PATH
+```
 
+**Ask the user:**
+"Which archive would you like to restore? (Provide the full path from the list above, or say 'cancel' to skip)"
+
+Parse their response and set `ARCHIVE_PATH` to the path they provide (empty string if they cancel).
+
+```bash
 if [ -n "$ARCHIVE_PATH" ]; then
   python3 .claude/scripts/manage-project-context.py restore --file "$ARCHIVE_PATH"
 
@@ -132,9 +146,18 @@ if [ -n "$ARCHIVE_PATH" ]; then
   echo "  A - Continue with this context (resume)"
   echo "  B - View the restored context"
   echo "  C - Start fresh (replace)"
+  echo ""
+```
 
-  read -p "Your choice (A/B/C): " next_choice
+**Ask the user:**
+"What would you like to do with the restored context?"
+- Option A: Continue with this context (resume)
+- Option B: View the restored context
+- Option C: Start fresh (replace)
 
+Parse their response and set `next_choice` to "A", "B", or "C" accordingly.
+
+```bash
   if [ "$next_choice" = "A" ]; then
     # Go back to Step 0 Choice A logic
     RESUME_CONTEXT=true

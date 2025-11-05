@@ -239,8 +239,14 @@ if [ "$CAN_COMPLETE" = "no" ]; then
 else
   echo "✅ Phase $CURRENT_PHASE_NUM ready for completion"
   echo ""
-  read -p "Mark Phase $CURRENT_PHASE_NUM as complete? [Y/n] " confirm
+```
 
+**Ask the user:**
+"Mark Phase $CURRENT_PHASE_NUM as complete?"
+
+Parse their response. If they agree (default yes), set `confirm=""`. If they say no, set `confirm="n"`.
+
+```bash
   if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
     # Mark phase complete in state
     python3 .claude/scripts/update-sprint-state.py \
@@ -324,9 +330,15 @@ PHASE_DETAILS=$(python3 .claude/scripts/query-sprint-state.py \
 
 echo "Incomplete tasks:"
 echo "$PHASE_DETAILS" | grep "○" | nl
+echo ""
+```
 
-read -p "Task description: " TASK_DESC
+**Ask the user:**
+"Which task would you like to mark as complete? (Provide the task description or number from the list above)"
 
+Parse their response and set `TASK_DESC` to the task description they provide.
+
+```bash
 python3 .claude/scripts/update-sprint-state.py \
   --state "$SPRINT_STATE" \
   update-task \
@@ -338,11 +350,20 @@ echo "✓ Task marked complete"
 ```
 
 **Option 2: Log agent execution**
-```bash
-read -p "Agent name: " AGENT_NAME
-read -p "Status (completed/failed): " AGENT_STATUS
-read -p "Notes (optional): " AGENT_NOTES
+```markdown
+```
 
+**Ask the user these questions:**
+1. "Which agent was executed?"
+2. "What was the status? (completed or failed)"
+3. "Any notes or observations? (optional - press enter to skip)"
+
+Parse their responses and set:
+- `AGENT_NAME` to their answer to question 1
+- `AGENT_STATUS` to their answer to question 2
+- `AGENT_NOTES` to their answer to question 3 (can be empty)
+
+```bash
 python3 .claude/scripts/update-sprint-state.py \
   --state "$SPRINT_STATE" \
   log-agent \
@@ -355,11 +376,20 @@ echo "✓ Agent execution logged"
 ```
 
 **Option 3: Add quality gate result**
-```bash
-read -p "Quality gate name: " GATE_NAME
-read -p "Status (passed/failed): " GATE_STATUS
-read -p "Score (optional): " GATE_SCORE
+```markdown
+```
 
+**Ask the user these questions:**
+1. "Which quality gate are you recording? (e.g., Security Audit, Test Coverage, Code Review)"
+2. "What was the result? (passed or failed)"
+3. "What was the score? (optional - press enter to skip)"
+
+Parse their responses and set:
+- `GATE_NAME` to their answer to question 1
+- `GATE_STATUS` to their answer to question 2
+- `GATE_SCORE` to their answer to question 3 (can be empty)
+
+```bash
 python3 .claude/scripts/update-sprint-state.py \
   --state "$SPRINT_STATE" \
   quality-gate \
@@ -372,9 +402,15 @@ echo "✓ Quality gate result recorded"
 ```
 
 **Option 4: Add note**
-```bash
-read -p "Note: " NOTE_TEXT
+```markdown
+```
 
+**Ask the user:**
+"What note or observation would you like to add to the sprint activity log?"
+
+Parse their response and set `NOTE_TEXT` to the note they provide.
+
+```bash
 python3 .claude/scripts/update-sprint-state.py \
   --state "$SPRINT_STATE" \
   log \
@@ -388,9 +424,15 @@ echo "✓ Note added to activity log"
 
 ### Option 7: Pause Sprint
 
-```bash
-read -p "Pause sprint? [Y/n] " confirm
+```markdown
+```
 
+**Ask the user:**
+"Pause sprint and save progress?"
+
+Parse their response. If they agree (default yes), set `confirm=""`. If they say no, set `confirm="n"`.
+
+```bash
 if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
   # Pause sprint in state
   python3 .claude/scripts/update-sprint-state.py \
@@ -439,8 +481,14 @@ if [ -n "$INCOMPLETE_PHASES" ]; then
   echo "2. Complete anyway (not recommended)"
   # Handle user choice
 else
-  read -p "Complete Sprint $SPRINT_NUMBER? [Y/n] " confirm
+```
 
+**Ask the user:**
+"All phases complete! Mark Sprint $SPRINT_NUMBER as complete and generate retrospective?"
+
+Parse their response. If they agree (default yes), set `confirm=""`. If they say no, set `confirm="n"`.
+
+```bash
   if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
     # Mark sprint complete
     python3 .claude/scripts/update-sprint-state.py \

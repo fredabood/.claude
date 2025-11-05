@@ -1,0 +1,60 @@
+# Vibey Framework .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Project-specific (these are generated in parent directory)
+# Do NOT ignore these in the framework repo itself
+# project-config.yaml  # Generated in project root
+# CLAUDE.md            # Generated in project root
+# docs/                # Generated in project root
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+.cache/
+
+# OS files
+Thumbs.db
+.DS_Store

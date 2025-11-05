@@ -1,0 +1,168 @@
+# Vibey Config Template: ML/AI Application
+# Use this template for machine learning and AI applications
+
+project:
+  name: "my-ml-app"
+  description: "Machine learning application"
+  version: "0.1.0"
+  repository: "https://github.com/org/my-ml-app"
+
+# =============================================================================
+# TECHNOLOGY STACK
+# =============================================================================
+
+technology_stack:
+  backend:
+    language: python
+    version: ">=3.9"
+    framework: fastapi  # For model serving API
+
+  database:
+    type: postgresql  # For feature store and metadata
+    orm: sqlalchemy
+
+  testing:
+    backend:
+      framework: pytest
+      coverage_tool: pytest-cov
+      mocking: pytest-mock
+
+  infrastructure:
+    iac: terraform
+    ci_cd: github-actions
+    containerization: docker
+
+# =============================================================================
+# ML-SPECIFIC STACK
+# =============================================================================
+
+custom:
+  ml_stack:
+    framework: pytorch  # Options: pytorch, tensorflow, scikit-learn, xgboost
+    experiment_tracking: mlflow  # Options: mlflow, wandb, neptune
+    model_serving: mlflow  # Options: mlflow, torchserve, tensorflow-serving, sagemaker
+    feature_store: feast  # Options: feast, databricks-feature-store, tecton
+
+    training:
+      platform: local  # Options: local, databricks, sagemaker, vertex-ai, azure-ml
+      accelerator: cpu  # Options: cpu, gpu, tpu
+
+    deployment:
+      platform: kubernetes  # Options: kubernetes, serverless, sagemaker, vertex-ai
+      scaling: auto  # Options: auto, manual
+
+# =============================================================================
+# CODING STANDARDS
+# =============================================================================
+
+coding_standards:
+  python:
+    formatter: black
+    line_length: 100  # Slightly longer for data science code
+    linter: ruff
+    type_checker: mypy
+
+  test_coverage:
+    minimum: 80  # Slightly lower for ML due to data dependencies
+    fail_under: 75
+
+# =============================================================================
+# PROJECT STRUCTURE
+# =============================================================================
+
+project_structure:
+  source_root: "src/"
+
+  directories:
+    models: "models/"
+    features: "features/"
+    training: "training/"
+    serving: "serving/"
+    notebooks: "notebooks/"
+    experiments: "experiments/"
+    tests: "tests/"
+
+  naming_conventions:
+    model_files: "{model_name}_v{version}.pkl"
+    experiment_files: "{date}_{experiment_name}"
+    feature_files: "{entity}_{feature_group}.py"
+
+# =============================================================================
+# ARCHITECTURE
+# =============================================================================
+
+architecture:
+  pattern: modular-monolith
+
+  layers:
+    - name: data
+      description: "Data ingestion and preprocessing"
+
+    - name: features
+      description: "Feature engineering and selection"
+
+    - name: training
+      description: "Model training and evaluation"
+
+    - name: serving
+      description: "Model deployment and inference"
+
+  design_patterns:
+    - "Pipeline Pattern"
+    - "Strategy Pattern (for model selection)"
+    - "Factory Pattern (for feature creation)"
+
+# =============================================================================
+# QUALITY GATES
+# =============================================================================
+
+quality_gates:
+  security_review:
+    enabled: true
+    checklist: "docs/ml-security-checklist.md"
+
+  unit_testing:
+    enabled: true
+    coverage_minimum: 80
+    all_tests_passing: true
+
+  model_validation:
+    enabled: true
+    minimum_metrics:
+      - accuracy: 0.85
+      - f1_score: 0.80
+
+  documentation:
+    enabled: true
+    required_updates:
+      - "README.md"
+      - "Model card"
+      - "Feature documentation"
+
+# =============================================================================
+# AGENT FRAMEWORK
+# =============================================================================
+
+agent_framework:
+  enabled: true
+  location: ".claude/"
+
+# =============================================================================
+# ENVIRONMENTS
+# =============================================================================
+
+environments:
+  - name: development
+    config:
+      model_registry: "dev"
+      data_path: "data/dev/"
+
+  - name: staging
+    config:
+      model_registry: "staging"
+      data_path: "data/staging/"
+
+  - name: production
+    config:
+      model_registry: "prod"
+      data_path: "data/prod/"

@@ -1,0 +1,148 @@
+# Vibey Config Template: Full-Stack Web Application
+# Use this template for traditional web applications with backend API + frontend UI
+
+project:
+  name: "my-web-app"
+  description: "Full-stack web application"
+  version: "0.1.0"
+  repository: "https://github.com/org/my-web-app"
+
+# =============================================================================
+# TECHNOLOGY STACK
+# =============================================================================
+
+technology_stack:
+  backend:
+    language: python  # Options: python, typescript, java, go
+    version: ">=3.9"
+    framework: fastapi  # Options: fastapi, flask, django, express, spring-boot
+
+  frontend:
+    language: typescript
+    framework: react  # Options: react, vue, angular, svelte
+    ui_library: material-ui  # Options: material-ui, tailwind, bootstrap, chakra-ui
+
+  database:
+    type: postgresql  # Options: postgresql, mysql, mongodb, sqlite
+    orm: sqlalchemy  # Options: sqlalchemy, prisma, typeorm
+
+  testing:
+    backend:
+      framework: pytest  # Options: pytest, unittest, jest, junit
+      coverage_tool: pytest-cov
+      mocking: pytest-mock
+
+    frontend:
+      framework: jest  # Options: jest, vitest
+      testing_library: react-testing-library
+      e2e: playwright  # Options: playwright, cypress
+
+  infrastructure:
+    iac: terraform  # Options: terraform, pulumi, cdk
+    ci_cd: github-actions  # Options: github-actions, gitlab-ci, circleci
+    containerization: docker
+
+# =============================================================================
+# CODING STANDARDS
+# =============================================================================
+
+coding_standards:
+  python:
+    formatter: black
+    line_length: 88
+    linter: ruff
+    type_checker: mypy
+
+  javascript:
+    formatter: prettier
+    linter: eslint
+
+  test_coverage:
+    minimum: 80
+    fail_under: 80
+
+# =============================================================================
+# PROJECT STRUCTURE
+# =============================================================================
+
+project_structure:
+  source_root: "src/"
+
+  directories:
+    backend: "backend/"
+    frontend: "frontend/"
+    shared: "shared/"
+    tests: "tests/"
+    docs: "docs/"
+
+  naming_conventions:
+    backend_modules: "snake_case"
+    frontend_components: "PascalCase"
+    test_files: "test_{module}.py"
+
+# =============================================================================
+# ARCHITECTURE
+# =============================================================================
+
+architecture:
+  pattern: layered
+
+  layers:
+    - name: presentation
+      description: "API routes and controllers"
+
+    - name: business
+      description: "Business logic and services"
+
+    - name: data
+      description: "Database models and repositories"
+
+  design_patterns:
+    - "Repository Pattern"
+    - "Dependency Injection"
+    - "Factory Pattern"
+
+# =============================================================================
+# QUALITY GATES
+# =============================================================================
+
+quality_gates:
+  security_review:
+    enabled: true
+    checklist: "docs/security-checklist.md"
+
+  unit_testing:
+    enabled: true
+    coverage_minimum: 80
+    all_tests_passing: true
+
+  documentation:
+    enabled: true
+    required_updates:
+      - "README.md"
+      - "API documentation"
+
+# =============================================================================
+# AGENT FRAMEWORK
+# =============================================================================
+
+agent_framework:
+  enabled: true
+  location: ".claude/"
+
+# =============================================================================
+# ENVIRONMENTS
+# =============================================================================
+
+environments:
+  - name: development
+    config:
+      debug: true
+
+  - name: staging
+    config:
+      debug: false
+
+  - name: production
+    config:
+      debug: false

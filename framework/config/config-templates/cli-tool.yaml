@@ -1,0 +1,118 @@
+# Vibey Config Template: CLI Tool
+# Use this template for command-line interface applications and utilities
+
+project:
+  name: "my-cli-tool"
+  description: "Command-line utility"
+  version: "0.1.0"
+  repository: "https://github.com/org/my-cli-tool"
+
+# =============================================================================
+# TECHNOLOGY STACK
+# =============================================================================
+
+technology_stack:
+  backend:
+    language: python  # Options: python, go, rust
+    version: ">=3.9"
+    framework: click  # Options: click, typer (Python); cobra (Go); clap (Rust)
+
+  database:
+    type: sqlite  # Local storage for CLI tools
+    orm: sqlalchemy
+
+  testing:
+    backend:
+      framework: pytest
+      coverage_tool: pytest-cov
+      mocking: pytest-mock
+
+  infrastructure:
+    ci_cd: github-actions
+    containerization: docker  # For distributing CLI as container
+
+# =============================================================================
+# CODING STANDARDS
+# =============================================================================
+
+coding_standards:
+  python:
+    formatter: black
+    line_length: 88
+    linter: ruff
+    type_checker: mypy
+
+  test_coverage:
+    minimum: 85
+    fail_under: 85
+
+# =============================================================================
+# PROJECT STRUCTURE
+# =============================================================================
+
+project_structure:
+  source_root: "src/"
+
+  directories:
+    cli: "cli/"
+    commands: "commands/"
+    utils: "utils/"
+    tests: "tests/"
+
+  naming_conventions:
+    commands: "{verb}_{noun}.py"  # e.g., list_users.py, create_project.py
+    test_files: "test_{module}.py"
+
+# =============================================================================
+# ARCHITECTURE
+# =============================================================================
+
+architecture:
+  pattern: modular-monolith
+
+  design_patterns:
+    - "Command Pattern"
+    - "Factory Pattern"
+    - "Singleton (for config)"
+
+# =============================================================================
+# QUALITY GATES
+# =============================================================================
+
+quality_gates:
+  security_review:
+    enabled: true
+
+  unit_testing:
+    enabled: true
+    coverage_minimum: 85
+    all_tests_passing: true
+
+  documentation:
+    enabled: true
+    required_updates:
+      - "README.md"
+      - "CLI help documentation"
+
+# =============================================================================
+# AGENT FRAMEWORK
+# =============================================================================
+
+agent_framework:
+  enabled: true
+  location: ".claude/"
+
+# =============================================================================
+# CLI-SPECIFIC CONFIGURATION
+# =============================================================================
+
+custom:
+  cli:
+    entry_point: "main"
+    config_file: "~/.my-cli-tool/config.yaml"
+    log_file: "~/.my-cli-tool/logs/cli.log"
+
+    distribution:
+      - pypi
+      - homebrew
+      - docker

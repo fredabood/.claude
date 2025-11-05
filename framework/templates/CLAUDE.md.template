@@ -1,0 +1,619 @@
+# {{ project.name }}
+
+{{ project.description }}
+
+**Version:** {{ project.version }}
+{% if project.repository %}**Repository:** {{ project.repository }}{% endif %}
+
+---
+
+## Quick Start
+
+Every session, follow this checklist:
+
+1. ✅ **Read this file** (CLAUDE.md) - Project state and critical rules
+2. 📋 **Check ROADMAP.md** - Current sprint status and completed versions
+3. 🔍 **Run `git status`** - Understand current state
+4. 🤖 **Check agent framework** - Review available agents and workflows
+
+---
+
+## Technology Stack
+
+{% if technology_stack.backend %}
+### Backend
+- **Language:** {{ technology_stack.backend.language }}{% if technology_stack.backend.version %} {{ technology_stack.backend.version }}{% endif %}
+{% if technology_stack.backend.framework %}- **Framework:** {{ technology_stack.backend.framework }}{% endif %}
+{% if technology_stack.backend.platform %}- **Platform:** {{ technology_stack.backend.platform }}{% endif %}
+{% endif %}
+
+{% if technology_stack.frontend %}
+### Frontend
+- **Language:** {{ technology_stack.frontend.language }}
+- **Framework:** {{ technology_stack.frontend.framework }}
+{% if technology_stack.frontend.ui_library %}- **UI Library:** {{ technology_stack.frontend.ui_library }}{% endif %}
+{% endif %}
+
+{% if technology_stack.database %}
+### Database
+- **Type:** {{ technology_stack.database.type }}
+{% if technology_stack.database.orm %}- **ORM:** {{ technology_stack.database.orm }}{% endif %}
+{% endif %}
+
+{% if technology_stack.testing %}
+### Testing
+{% if technology_stack.testing.backend %}- **Backend:** {{ technology_stack.testing.backend.framework }}{% if technology_stack.testing.backend.coverage_tool %} with {{ technology_stack.testing.backend.coverage_tool }}{% endif %}{% endif %}
+{% if technology_stack.testing.frontend %}- **Frontend:** {{ technology_stack.testing.frontend.framework }}{% if technology_stack.testing.frontend.testing_library %} with {{ technology_stack.testing.frontend.testing_library }}{% endif %}{% endif %}
+{% if technology_stack.testing.frontend and technology_stack.testing.frontend.e2e %}- **E2E:** {{ technology_stack.testing.frontend.e2e }}{% endif %}
+{% endif %}
+
+{% if technology_stack.infrastructure %}
+### Infrastructure
+{% if technology_stack.infrastructure.iac %}- **IaC:** {{ technology_stack.infrastructure.iac }}{% endif %}
+{% if technology_stack.infrastructure.ci_cd %}- **CI/CD:** {{ technology_stack.infrastructure.ci_cd }}{% endif %}
+{% if technology_stack.infrastructure.containerization %}- **Containers:** {{ technology_stack.infrastructure.containerization }}{% endif %}
+{% endif %}
+
+---
+
+## Coding Standards
+
+{% if coding_standards %}
+{% if coding_standards.python and technology_stack.backend.language == 'python' %}
+### Python
+- **Formatter:** {{ coding_standards.python.formatter }}{% if coding_standards.python.line_length %} ({{ coding_standards.python.line_length }} chars){% endif %}
+{% if coding_standards.python.linter %}- **Linter:** {{ coding_standards.python.linter }}{% endif %}
+{% if coding_standards.python.type_checker %}- **Type Checker:** {{ coding_standards.python.type_checker }}{% endif %}
+{% endif %}
+
+{% if coding_standards.javascript and (technology_stack.backend.language in ['javascript', 'typescript'] or technology_stack.frontend) %}
+### JavaScript/TypeScript
+{% if coding_standards.javascript.formatter %}- **Formatter:** {{ coding_standards.javascript.formatter }}{% endif %}
+{% if coding_standards.javascript.linter %}- **Linter:** {{ coding_standards.javascript.linter }}{% endif %}
+{% endif %}
+
+### Test Coverage
+{% if coding_standards.test_coverage %}- **Minimum:** {{ coding_standards.test_coverage.minimum }}%
+- **Build fails under:** {{ coding_standards.test_coverage.fail_under }}%{% endif %}
+{% endif %}
+
+---
+
+## Critical Rules
+
+{% if critical_rules %}
+{% for rule in critical_rules %}
+### {{ rule.id }}. {{ rule.rule }}
+{% if rule.rationale %}**Rationale:** {{ rule.rationale }}{% endif %}
+{% if rule.exception %}**Exception:** {{ rule.exception }}{% endif %}
+{% if rule.enforcement %}
+**Enforcement:**
+{% for item in rule.enforcement %}- {{ item }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% else %}
+### 1. NO CODE WITHOUT PLAN
+- All changes require a sprint plan or phase plan
+- Exception: Production emergencies (document within 24 hours)
+
+### 2. TEST EVERYTHING
+- Minimum {{ coding_standards.test_coverage.minimum if coding_standards.test_coverage else 90 }}% test coverage
+- All tests must pass before merging
+
+### 3. UPDATE DOCUMENTATION
+- Update CLAUDE.md with every change
+- Keep sprint documentation current
+- Document architectural decisions
+{% endif %}
+
+---
+
+## Quality Gates
+
+Every sprint must pass these mandatory reviews:
+
+{% if quality_gates %}
+{% if quality_gates.security_review and quality_gates.security_review.enabled %}
+### 1. Security Review
+{% if quality_gates.security_review.checklist %}- **Checklist:** {{ quality_gates.security_review.checklist }}{% endif %}
+- No critical or high vulnerabilities
+- Secrets properly managed
+- Authentication/authorization validated
+{% endif %}
+
+{% if quality_gates.unit_testing and quality_gates.unit_testing.enabled %}
+### 2. Unit Testing Review
+- Minimum {{ quality_gates.unit_testing.coverage_minimum }}% coverage
+{% if quality_gates.unit_testing.all_tests_passing %}- All tests passing{% endif %}
+- Edge cases covered
+- Integration tests included
+{% endif %}
+
+{% if quality_gates.logging_audit and quality_gates.logging_audit.enabled %}
+### 3. Logging Audit
+{% if quality_gates.logging_audit.checklist %}- **Checklist:** {{ quality_gates.logging_audit.checklist }}{% endif %}
+- Minimum score: {{ quality_gates.logging_audit.minimum_score }}/100
+- Correlation IDs propagating
+- Error context sufficient
+- Performance metrics tracked
+{% endif %}
+
+{% if quality_gates.documentation and quality_gates.documentation.enabled %}
+### 4. Documentation Review
+{% if quality_gates.documentation.required_updates %}- **Required updates:**
+{% for doc in quality_gates.documentation.required_updates %}  - {{ doc }}
+{% endfor %}
+{% endif %}
+- Architecture diagrams current
+- API documentation complete
+- README up to date
+{% endif %}
+{% else %}
+### 1. Security Review
+- No critical or high vulnerabilities
+- Secrets properly managed
+
+### 2. Unit Testing Review
+- Minimum 90% coverage
+- All tests passing
+
+### 3. Documentation Review
+- All documentation updated
+- Architecture diagrams current
+{% endif %}
+
+---
+
+## Agent Orchestration
+
+{% if framework and framework.orchestration_mode %}
+**Orchestration Mode:** {{ framework.orchestration_mode | upper }}
+{% if framework.auto_agent_launch %}**Auto-launch agents:** Enabled{% else %}**Auto-launch agents:** Disabled (require explicit agent names){% endif %}
+{% if framework.require_quality_gates %}**Quality gates:** Required before sprint completion{% else %}**Quality gates:** Optional{% endif %}
+
+{% if framework.orchestration_mode == 'simple' %}
+### Simple & Transparent Mode
+
+You follow **explicit orchestration rules** to select agents. When the user's request matches these patterns, launch the corresponding agent:
+
+**Planning & Research:**
+- Keywords: "plan sprint", "roadmap", "prioritize", "backlog", "dependencies"
+  → Use `.claude/agents/planning/sprint-planning.md`
+- Keywords: "research", "documentation", "API docs", "investigate", "how does X work"
+  → Use `.claude/agents/planning/researcher.md`
+
+**Development:**
+- Keywords: "frontend", "UI", "component", "React", "Vue", "dashboard", "page"
+  → Use `.claude/agents/development/web-developer.md`
+- Keywords: "machine learning", "ML", "model", "training", "prediction", "feature engineering"
+  → Use `.claude/agents/development/ml-engineer.md`
+
+**Quality:**
+- Keywords: "security", "vulnerability", "authentication", "OWASP", "audit"
+  → Use `.claude/agents/quality/security-reviewer.md`
+- Keywords: "logging", "monitoring", "observability", "correlation ID", "telemetry"
+  → Use `.claude/agents/quality/observability-engineer.md`
+- Keywords: "performance", "slow", "optimize", "bottleneck", "latency"
+  → Use `.claude/agents/quality/performance-engineer.md`
+
+**Documentation:**
+- Keywords: "documentation", "docs", "README", "changelog", "API documentation"
+  → Use `.claude/agents/documentation/documentation-engineer.md`
+- Keywords: "diagram", "architecture diagram", "flow diagram", "Mermaid", "visualize"
+  → Use `.claude/agents/documentation/diagram-engineer.md`
+- Keywords: "commit", "git commit", "save changes", "version control"
+  → Use `.claude/agents/documentation/git-committer.md`
+- Keywords: "update CLAUDE.md", "maintain docs", "archive sprint"
+  → Use `.claude/agents/documentation/documentation-maintenance-engineer.md`
+
+**Sprint Phase Guidance:**
+- **Planning phase** → Use sprint planning agent, researcher if new tech
+- **Development phase** → Use development agents + concurrent quality agents
+- **Quality gates phase** → Use all quality agents (security, testing, logging, docs)
+- **Deployment phase** → Final security check, observability verification
+
+{% elif framework.orchestration_mode == 'balanced' %}
+### Balanced & Discoverable Mode (RECOMMENDED)
+
+You use **two-layer orchestration**:
+1. **High-level structure** from this file (sprint phases, quality gates)
+2. **Agent trigger patterns** from agent files themselves
+
+**How it works:**
+- Each agent in `.claude/agents/` has a "Trigger Patterns" section
+- Pattern-match user requests against agent keywords, contexts, and file patterns
+- Launch relevant agents based on matches and priority
+- Use sprint phase to guide which agents are appropriate
+
+**Sprint Phase Detection:**
+User request mentions:
+- "plan sprint", "roadmap", "prioritize" → **Planning phase**
+- "implement", "build", "create", "develop" → **Development phase**
+- "review", "audit", "test coverage", "security check" → **Quality gates phase**
+- "deploy", "release", "push to production" → **Deployment phase**
+
+**Agent Selection Process:**
+1. Scan all `.claude/agents/**/*.md` files for trigger patterns
+2. Match user request keywords against agent triggers
+3. Consider project type ({{ project.type }}) for relevant agents
+4. Consider sprint phase for appropriate agents
+5. Apply priority (High → Medium → Low)
+6. Launch matched agents in priority order
+
+**Multi-agent Requests:**
+If request involves multiple concerns, launch multiple agents:
+- "Implement secure authentication" → Web Developer + Security Reviewer
+- "Optimize slow API endpoint" → Performance Engineer + Test Engineer (verify no regressions)
+- "Add feature and document it" → Development agent + Documentation Engineer
+
+**Quality Gate Enforcement:**
+{% if framework.require_quality_gates %}
+Before marking sprint complete, you MUST run:
+{% if quality_gates and quality_gates.required_reviews %}
+{% for review in quality_gates.required_reviews %}
+- {{ review | capitalize }} review{% endfor %}
+{% else %}
+- Security review (score ≥ {{ quality_gates.security_score_minimum if quality_gates.security_score_minimum else 85 }})
+- Test coverage check (≥ {{ quality_gates.test_coverage_minimum if quality_gates.test_coverage_minimum else 90 }}%)
+- Logging audit (score ≥ {{ quality_gates.logging_audit_minimum if quality_gates.logging_audit_minimum else 80 }})
+- Documentation update
+{% endif %}
+{% else %}
+Quality gates are optional but recommended.
+{% endif %}
+
+{% elif framework.orchestration_mode == 'tiered' %}
+### Intelligent & Adaptive Mode
+
+You use **tiered routing** with three paths:
+
+**1. Fast Path (Simple requests - handle directly):**
+- Single-file changes (typo fixes, comment additions, variable renames)
+- Obvious single-agent tasks with explicit agent name
+- Quick documentation updates
+→ **No coordinator needed**, handle directly
+
+**2. Smart Path (Complex requests - use coordinator):**
+- Multi-concern requests ("implement auth with JWT, email verification, and 2FA")
+- Interdependent features ("build dashboard with real-time updates")
+- Sprint planning with complex requirements
+- Major refactors affecting multiple systems
+- Uncertain routing needs
+→ **Launch Coordinator Agent:** `.claude/agents/core/coordinator.md`
+
+**3. Explicit Path (User names specific agent):**
+- User says "use the security reviewer agent"
+- User says "run performance optimization"
+→ **Use named agent directly**
+
+**Coordinator Agent Responsibilities:**
+The coordinator analyzes complex requests and:
+1. Reads project context (CLAUDE.md, configs, recent work)
+2. Determines which agents are needed
+3. Sequences agents in correct order
+4. Manages handoffs between agents
+5. Verifies quality gates
+6. Provides progress updates and reasoning
+
+**When to Use Coordinator:**
+Launch coordinator if request:
+- Involves 3+ concerns (security + performance + docs + ...)
+- Requires agent sequencing (research → plan → develop → audit)
+- Is ambiguous about which agents to use
+- Is sprint planning or major refactoring
+- Explicitly asks for coordination
+
+**Quality Gate Enforcement:**
+{% if framework.require_quality_gates %}
+Coordinator ensures these reviews run before sprint completion:
+{% if quality_gates and quality_gates.required_reviews %}
+{% for review in quality_gates.required_reviews %}
+- {{ review | capitalize }} review{% endfor %}
+{% else %}
+- Security review (score ≥ {{ quality_gates.security_score_minimum if quality_gates.security_score_minimum else 85 }})
+- Test coverage check (≥ {{ quality_gates.test_coverage_minimum if quality_gates.test_coverage_minimum else 90 }}%)
+- Logging audit (score ≥ {{ quality_gates.logging_audit_minimum if quality_gates.logging_audit_minimum else 80 }})
+- Documentation update
+{% endif %}
+Coordinator blocks sprint completion if gates fail.
+{% else %}
+Quality gates are optional.
+{% endif %}
+
+{% endif %}
+
+### Available Agents
+
+**Planning:** (`.claude/agents/planning/`)
+- Sprint Planning Agent - Plan iterations, prioritize features
+- Researcher Agent - Research new APIs, libraries, platforms
+
+**Development:** (`.claude/agents/development/`)
+- Web Developer - Build web UIs, dashboards, frontend/backend
+- ML Engineer - Train models, feature engineering, ML pipelines
+
+**Quality:** (`.claude/agents/quality/`)
+- Security Reviewer - Security audits, OWASP compliance
+- Observability Engineer - Logging audits, monitoring setup
+- Performance Engineer - Performance optimization, profiling
+
+**Documentation:** (`.claude/agents/documentation/`)
+- Documentation Engineer - Update docs after features
+- Diagram Engineer - Create Mermaid architecture diagrams
+- Documentation Maintenance Engineer - Keep CLAUDE.md current
+- Git Committer - Create clean commits with good messages
+
+{% if framework.orchestration_mode == 'tiered' %}
+**Core:** (`.claude/agents/core/`)
+- Coordinator Agent - Orchestrate complex multi-agent workflows
+{% endif %}
+
+### Workflows
+
+Use workflows for structured, multi-step processes:
+- `.claude/workflows/sprint-planning.md` - Plan new sprints
+- `.claude/workflows/single-feature-development.md` - Implement features
+- `.claude/workflows/frontend-feature-development.md` - Build UI features
+{% if project.type == 'ml' %}- `.claude/workflows/ml-model-development.md` - Train and evaluate models{% endif %}
+
+### Handoff Templates
+
+Use templates for agent-to-agent communication:
+- `.claude/templates/handoffs/api-spec-template.md` - API specifications
+- `.claude/templates/handoffs/security-report-template.md` - Security findings
+- `.claude/templates/handoffs/database-schema-design-template.md` - DB changes
+- `.claude/templates/handoffs/ml-evaluation-report-template.md` - ML model results
+- `.claude/templates/handoffs/frontend-design-template.md` - UI specifications
+
+Full list: `.claude/templates/handoffs/`
+
+### Orchestration Tips
+
+{% if framework.orchestration_mode == 'simple' %}
+- **Follow the rules** - Match keywords to agents explicitly
+- **Update rules** - If new agents added, update orchestration rules in this file
+- **Be predictable** - Same input should trigger same agents
+{% elif framework.orchestration_mode == 'balanced' %}
+- **Trust pattern matching** - Agent trigger patterns are comprehensive
+- **Launch multiple agents** - Don't hesitate to use multiple agents for complex requests
+- **Respect priorities** - High priority agents (security, planning) run first
+- **Consider project type** - {{ project.type }} projects have specific agent needs
+{% elif framework.orchestration_mode == 'tiered' %}
+- **Use fast path when possible** - Don't over-coordinate simple tasks
+- **Trust the coordinator** - It understands project context deeply
+- **Provide coordinator context** - The more context, the better routing decisions
+- **Review coordinator reasoning** - Coordinator explains its decisions
+{% endif %}
+- **Quality gates are mandatory** - Don't skip required reviews
+- **Document with agents** - Use documentation agents, don't manually update docs
+- **Use workflows for structure** - Workflows provide step-by-step guidance
+
+{% else %}
+### Agent Framework
+
+This project uses the **Vibey Agent Framework** with 11 specialized agents and 15 workflows.
+
+**Available agents:** `.claude/agents/`
+**Workflows:** `.claude/workflows/`
+**Handoff templates:** `.claude/templates/handoffs/`
+
+See `.claude/README.md` for full documentation.
+{% endif %}
+
+---
+
+## Project Structure
+
+{% if project_structure %}
+**Source Root:** `{{ project_structure.source_root }}`
+
+{% if project_structure.directories %}
+### Directories
+{% for name, path in project_structure.directories.items() %}
+- **{{ name }}:** `{{ path }}`
+{% endfor %}
+{% endif %}
+
+{% if project_structure.naming_conventions %}
+### Naming Conventions
+{% for name, pattern in project_structure.naming_conventions.items() %}
+- **{{ name }}:** `{{ pattern }}`
+{% endfor %}
+{% endif %}
+{% else %}
+```
+{{ project.name }}/
+├── src/           # Source code
+├── tests/         # Test files
+├── docs/          # Documentation
+└── scripts/       # Utility scripts
+```
+{% endif %}
+
+---
+
+{% if architecture %}
+## Architecture
+
+**Pattern:** {{ architecture.pattern }}
+
+{% if architecture.layers %}
+### Layers
+{% for layer in architecture.layers %}
+- **{{ layer.name }}:** {{ layer.description }}
+{% endfor %}
+{% endif %}
+
+{% if architecture.design_patterns %}
+### Design Patterns
+{% for pattern in architecture.design_patterns %}
+- {{ pattern }}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+---
+
+## Agent Framework
+
+{% if agent_framework and agent_framework.enabled %}
+**Location:** `{{ agent_framework.location }}`
+
+The project uses the Vibey agent framework for systematic development:
+
+{% if agent_framework.agents %}
+- **Total Agents:** {{ agent_framework.agents.total if agent_framework.agents.total else 'See .claude/agents/' }}
+{% if agent_framework.agents.backend %}- **Backend Agents:** {{ agent_framework.agents.backend }}{% endif %}
+{% if agent_framework.agents.frontend %}- **Frontend Agents:** {{ agent_framework.agents.frontend }}{% endif %}
+{% endif %}
+{% if agent_framework.workflows %}- **Workflows:** {{ agent_framework.workflows }} (see .claude/workflows/){% endif %}
+{% if agent_framework.templates %}- **Handoff Templates:** {{ agent_framework.templates }} (see .claude/handoffs/){% endif %}
+
+**Agent Usage:**
+- Use agents for complex, multi-step tasks
+- Follow workflow patterns for consistency
+- Fill handoff templates when passing work between agents
+
+**Key Workflows:**
+- **Sprint Planning** - 3-5 day planning cycle
+- **Architecture Review** - Technical feasibility validation
+- **Single Feature Development** - End-to-end feature implementation
+- **Logging Audit** - Mandatory end-of-sprint review
+
+For full agent documentation, see `.claude/README.md`
+{% else %}
+Agent framework not enabled for this project.
+{% endif %}
+
+---
+
+## Current Status
+
+{% if environments %}
+### Environments
+{% for env in environments %}
+- **{{ env.name }}**{% if env.description %} - {{ env.description }}{% endif %}
+{% endfor %}
+{% endif %}
+
+### Sprint Status
+📋 **Current Sprint:** See `docs/sprints/ROADMAP.md`
+
+### Recent Achievements
+_(Last 30 days - updated by Documentation Maintenance Engineer)_
+
+- 🚀 Project initialized with Vibey framework
+- ✅ Configuration complete
+- 📝 Documentation structure established
+
+---
+
+## Common Commands
+
+{% if technology_stack.backend.language == 'python' %}
+### Python Development
+```bash
+# Install dependencies
+pip install -r requirements.txt  # or: poetry install
+
+# Run tests
+{{ technology_stack.testing.backend.framework if technology_stack.testing and technology_stack.testing.backend else 'pytest' }}
+
+# Format code
+{{ coding_standards.python.formatter if coding_standards and coding_standards.python else 'black' }} .
+
+# Lint
+{{ coding_standards.python.linter if coding_standards and coding_standards.python else 'ruff' }} check .
+
+# Type check
+{{ coding_standards.python.type_checker if coding_standards and coding_standards.python else 'mypy' }} .
+```
+{% endif %}
+
+{% if technology_stack.frontend %}
+### Frontend Development
+```bash
+# Install dependencies
+npm install  # or: yarn install
+
+# Run dev server
+npm run dev
+
+# Run tests
+{{ technology_stack.testing.frontend.framework if technology_stack.testing and technology_stack.testing.frontend else 'npm test' }}
+
+# Build
+npm run build
+```
+{% endif %}
+
+{% if technology_stack.infrastructure.containerization == 'docker' %}
+### Docker
+```bash
+# Build image
+docker build -t {{ project.name }} .
+
+# Run container
+docker run -p 8000:8000 {{ project.name }}
+
+# Docker Compose
+docker-compose up
+```
+{% endif %}
+
+### Git Workflow
+```bash
+# Check status
+git status
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Commit changes
+git add .
+git commit -m "feat: your feature description"
+
+# Push changes
+git push origin feature/your-feature-name
+```
+
+---
+
+## Documentation
+
+### Key Documents
+- **CLAUDE.md** (this file) - Project context for AI assistants
+- **ROADMAP.md** - Sprint planning and product roadmap
+- **docs/sprints/** - Sprint plans and phase documentation
+{% if agent_framework and agent_framework.enabled %}- **.claude/README.md** - Agent framework documentation{% endif %}
+
+### Documentation Standards
+- Update CLAUDE.md with every significant change
+- Archive achievements older than 30 days
+- Keep sprint documentation current
+- Use section references (§X.Y) to prevent duplication
+
+---
+
+## Getting Help
+
+### For Developers
+1. Read this file (CLAUDE.md)
+2. Check ROADMAP.md for current sprint
+3. Review sprint plans in docs/sprints/
+{% if agent_framework and agent_framework.enabled %}4. Consult agent framework: .claude/README.md{% endif %}
+
+### For Claude Code
+1. Always read CLAUDE.md first
+2. Check ROADMAP.md for sprint status
+3. Follow critical rules above
+4. Use agent framework when appropriate
+5. Run all quality gates before completion
+
+---
+
+**Last Updated:** {{ "now" | date("YYYY-MM-DD") }}
+**Framework:** Vibey v0.1.0
+**Configuration:** project-config.yaml

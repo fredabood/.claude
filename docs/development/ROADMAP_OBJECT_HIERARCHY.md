@@ -573,9 +573,20 @@ A **Task** is a **context-window sized work unit** - the smallest unit of work i
 
 ### Task Types
 
-**1. Development Task** - Builds functionality
-**2. Completion Gate Task** - Hygiene checks (docs, CI/CD)
-**3. Production Gate Task** - Production readiness checks (security, testing)
+**1. Development Task** (`task_type: development`)
+   - Builds functionality
+   - **Can serve as development gates for external sprints**
+   - Can depend on external development tasks
+
+**2. Completion Gate Task** (`task_type: completion_gate`)
+   - Hygiene checks (docs, CI/CD)
+   - **Cannot be depended on by external sprints**
+   - Highly isolated
+
+**3. Production Gate Task** (`task_type: production_gate`)
+   - Production readiness checks (security, testing)
+   - **Cannot be depended on by external sprints**
+   - Highly isolated
 
 ### Status Options for Tasks
 
@@ -779,8 +790,8 @@ task:
 - Highly isolated: only depend on sprint gate_check status
 
 **Development Tasks vs Gate Tasks:**
-- Development tasks: Build functionality, can depend on external tasks
-- Gate tasks: Quality validation, highly isolated, depend only on sprint status
+- Development tasks: Build functionality, can depend on external tasks, **can serve as development gates for external sprints**
+- Gate tasks: Quality validation, highly isolated, depend only on sprint status, **cannot be depended on by external sprints**
 
 **Restricted Status Set:**
 - Tasks cannot be `production_ready` or `deployed`
@@ -932,48 +943,78 @@ if all_tracks_completed(roadmap):
 
 The Vibey framework uses a sophisticated three-tier gate system to manage dependencies and quality.
 
+### Key Distinction: Development Tasks vs Quality Gates
+
+**Development Tasks** (`task_type: development`):
+- Build functionality
+- ✅ **Can serve as development gates for external sprints**
+- External sprints CAN depend on these
+- Example: Sprint B depends on "registration endpoint" task from Sprint A
+
+**Quality Gate Tasks** (`task_type: completion_gate | production_gate`):
+- Validate quality
+- ❌ **Cannot be depended on by external sprints**
+- Highly isolated
+- Example: Sprint B CANNOT depend on "security audit" task from Sprint A
+
 ### Gate Types Overview
 
 | Gate Type | Purpose | Scope | Can Be Depended On? |
 |-----------|---------|-------|---------------------|
-| **Development Gates** | External dependencies | Cross-sprint/track | ✅ Yes |
+| **Development Gates** | External dependencies (dev tasks/sprints) | Cross-sprint/track | ✅ Yes (if dev task) |
 | **Completion Gates** | Hygiene checks | Within sprint | ❌ No |
 | **Production Gates** | Production readiness | Within sprint | ❌ No |
 
 ### Development Gates
 
-**Development Gates** are external dependencies - tasks or sprints outside the current sprint that must complete before the current sprint can progress.
+**Development Gates** are external dependencies - development tasks or sprints outside the current sprint that must complete before the current sprint can progress.
+
+**Key Principle:** All tasks with `task_type: development` can serve as development gates for external sprints.
 
 **Characteristics:**
 - External to the current sprint
-- Can be tasks from other sprints
+- Can be **development tasks** from other sprints (task_type: development)
 - Can be entire sprints
 - Required for functionality
-- **Can be depended on by other sprints**
+- **Development tasks can be depended on by other sprints**
+- **Quality gate tasks CANNOT be depended on by other sprints**
+
+**What Can Be a Development Gate:**
+- ✅ Development tasks (task_type: development) from any sprint
+- ✅ Entire sprints (which include dev tasks + quality gates internally)
+- ❌ Quality gate tasks (task_type: completion_gate | production_gate)
 
 **Example:**
 ```yaml
-# Sprint backend-2 depends on sprint backend-1
+# Sprint backend-2 depends on sprint backend-1 (entire sprint)
 development_gates:
   - type: "sprint"
     target_id: "backend-1"
     target_status: "completed"
     reason: "Order system needs authentication functionality"
 
-# OR depends on specific task from another sprint
+# Sprint backend-2 depends on specific DEVELOPMENT task from another sprint
 development_gates:
   - type: "task"
-    target_id: "infrastructure-1-task-003"
+    target_id: "infrastructure-1-task-003"  # This is a development task
     target_status: "completed"
     reason: "Need database connection configured"
+
+# ❌ INVALID: Cannot depend on quality gate task
+development_gates:
+  - type: "task"
+    target_id: "infrastructure-1-gate-p001"  # This is a quality gate task
+    target_status: "completed"
+    reason: "WRONG! Cannot depend on quality gates"
 ```
 
 **Rules:**
-1. ✅ Can depend on tasks/sprints from OTHER sprints
+1. ✅ Can depend on **development tasks** from OTHER sprints
 2. ✅ Can depend on completion of entire sprints
-3. ❌ CANNOT depend on quality gates of other sprints
-4. ✅ Other sprints CAN depend on completion of sprints with development gates
+3. ❌ CANNOT depend on **quality gate tasks** of other sprints
+4. ✅ Development tasks from any sprint can serve as development gates
 5. ✅ Blocks sprint from progressing if not satisfied
+6. ✅ External sprints depend on WHAT (development tasks/sprint completion), not HOW (quality gates)
 
 ---
 
@@ -1130,22 +1171,33 @@ task:
 ```
 Does Sprint B need something from Sprint A?
 │
-├─ Need Sprint A's FUNCTIONALITY?
+├─ Need Sprint A's FUNCTIONALITY (entire sprint)?
 │  └─ ✅ Development Gate: Sprint B depends on Sprint A completion
 │
 ├─ Need Sprint A to be PRODUCTION READY?
 │  └─ ✅ Development Gate: Sprint B depends on Sprint A production_ready
 │
+├─ Need a specific DEVELOPMENT TASK from Sprint A?
+│  └─ ✅ Development Gate: Sprint B depends on specific development task
+│      (e.g., backend-1-task-002 - implements registration endpoint)
+│
 ├─ Need Sprint A's SECURITY AUDIT to pass?
 │  └─ ❌ WRONG! Sprint B depends on Sprint A completion
-│      (Sprint A's security audit is internal quality gate)
+│      (Sprint A's security audit is internal quality gate, cannot be depended on)
 │
-└─ Need Sprint A's TESTS to pass?
-   └─ ❌ WRONG! Sprint B depends on Sprint A completion
-       (Sprint A's tests are internal quality gates)
+├─ Need Sprint A's TESTS to pass?
+│  └─ ❌ WRONG! Sprint B depends on Sprint A completion
+│      (Sprint A's tests are internal quality gates, cannot be depended on)
+│
+└─ Need Sprint A's QUALITY GATE TASK?
+   └─ ❌ WRONG! Quality gate tasks cannot be depended on by external sprints
+       (Only development tasks can serve as development gates)
 ```
 
-**Key Principle:** External sprints depend on WHAT was built (completion), not HOW it was validated (quality gates).
+**Key Principles:**
+1. External sprints depend on **WHAT** was built (development tasks/completion), not **HOW** it was validated (quality gates)
+2. **Development tasks** (task_type: development) can serve as development gates
+3. **Quality gate tasks** (task_type: completion_gate | production_gate) cannot be depended on by external sprints
 
 ---
 

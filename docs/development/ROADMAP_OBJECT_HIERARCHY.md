@@ -1,6 +1,6 @@
 # Roadmap Object Hierarchy Design
 
-**Version:** 1.0
+**Version:** 2.0 (Optimal Design)
 **Date:** 2025-11-06
 **Status:** Design Proposal
 **Author:** Vibey Framework Team
@@ -9,14 +9,22 @@
 
 ## Executive Summary
 
-This document defines a comprehensive roadmap object hierarchy for the Vibey Agent Framework that enables structured project management from the highest level (Roadmap) down to the smallest unit of work (Task). The hierarchy introduces **Tracks** as parallel execution groups and a robust **dependency/blocker system** that allows fine-grained control over what needs to be completed before work can progress.
+This document defines an optimal roadmap object hierarchy for the Vibey Agent Framework, designed from first principles without legacy constraints. The hierarchy enables structured project management from roadmap to individual tasks, with tracks enabling parallel execution and explicit dependency management.
 
 **Key Features:**
 - 4-tier hierarchy: Roadmap → Track → Sprint → Task
 - Unified status system with 7 states across all levels
-- Explicit dependency and blocker management
-- Version management tied to roadmap progress
-- Backward compatible with existing sprint state system
+- Explicit dependency and blocker management with auto-computation
+- Semantic versioning tied to roadmap progress
+- Unified activity log at roadmap level
+- Clean, purpose-built data structures
+
+**Design Philosophy:**
+- ✅ Optimize for clarity over compatibility
+- ✅ Single source of truth for each concern
+- ✅ Eliminate redundancy and duplication
+- ✅ Make common operations simple
+- ✅ Make parallelization explicit
 
 ---
 
@@ -33,8 +41,8 @@ This document defines a comprehensive roadmap object hierarchy for the Vibey Age
 9. [Developer Workflow](#developer-workflow)
 10. [State Management & Persistence](#state-management--persistence)
 11. [Implementation Considerations](#implementation-considerations)
-12. [Trade-offs & Design Decisions](#trade-offs--design-decisions)
-13. [Migration Path](#migration-path)
+12. [Design Decisions & Rationale](#design-decisions--rationale)
+13. [Examples](#examples)
 
 ---
 
@@ -43,346 +51,530 @@ This document defines a comprehensive roadmap object hierarchy for the Vibey Age
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                          ROADMAP                             │
-│  Comprehensive view of entire project                        │
+│  Unified activity log, version management, global state      │
 │  Version: 1.2.0                                              │
 └─────────────────────────────────────────────────────────────┘
            │
-           ├─────────────────┬─────────────────┬────────────
-           │                 │                 │
-┌──────────▼─────────┐ ┌────▼────────────┐ ┌──▼─────────────┐
-│   TRACK: Backend   │ │ TRACK: Frontend │ │ TRACK: Infra   │
-│   (Parallel Exec)  │ │ (Parallel Exec) │ │ (Parallel Exec)│
-└──────────┬─────────┘ └────┬────────────┘ └──┬─────────────┘
-           │                 │                 │
-     ┌─────┴─────┐     ┌────┴────┐      ┌────┴────┐
-     │           │     │         │      │         │
-┌────▼────┐ ┌───▼─────▼──┐ ┌───▼─────▼──┐ ┌───▼────┐
-│Sprint 1 │ │ Sprint 2   │ │ Sprint 3   │ │Sprint 4│
-│ (Auth)  │ │ (Dashboard)│ │ (API Docs) │ │(Deploy)│
-└────┬────┘ └───┬────────┘ └───┬────────┘ └───┬────┘
-     │          │              │              │
-  ┌──┴──┐    ┌──┴──┐       ┌──┴──┐        ┌──┴──┐
-  │     │    │     │       │     │        │     │
-┌─▼─┐ ┌─▼─┐ ┌▼──┐ ┌▼──┐  ┌▼──┐ ┌▼──┐   ┌▼──┐ ┌▼──┐
-│T1 │ │T2 │ │T1 │ │T2 │  │T1 │ │T2 │   │T1 │ │T2 │
-└───┘ └───┘ └───┘ └───┘  └───┘ └───┘   └───┘ └───┘
+           ├──────────────────┬──────────────────┬─────────────
+           │                  │                  │
+┌──────────▼──────────┐ ┌────▼─────────────┐ ┌──▼──────────────┐
+│ TRACK: backend      │ │ TRACK: frontend  │ │ TRACK: infra    │
+│ (Parallel Capable)  │ │ (Parallel)       │ │ (Foundation)    │
+└──────────┬──────────┘ └────┬─────────────┘ └──┬──────────────┘
+           │                  │                  │
+    ┌──────┴──────┐      ┌───┴────┐        ┌───┴────┐
+    │             │      │        │        │        │
+┌───▼────┐  ┌────▼────┐ ┌▼────┐ ┌▼─────┐ ┌▼────┐ ┌▼────┐
+│backend │  │backend  │ │front│ │front │ │infra│ │infra│
+│-1      │  │-2       │ │-1   │ │-2    │ │-1   │ │-2   │
+│(Auth)  │  │(Orders) │ │(UI) │ │(Nav) │ │(K8s)│ │(CI) │
+└───┬────┘  └────┬────┘ └┬────┘ └┬─────┘ └┬────┘ └┬────┘
+    │            │       │       │        │       │
+  Tasks        Tasks   Tasks   Tasks    Tasks   Tasks
+  (Flat)       (Flat)  (Flat)  (Flat)   (Flat)  (Flat)
 ```
 
 **Hierarchy Levels:**
-1. **Roadmap**: Entire project scope (completed + planned)
-2. **Track**: Parallel execution group of related sprints
-3. **Sprint**: Group of highly related tasks
-4. **Task**: Smallest unit of work (single context window)
+1. **Roadmap**: Entire project (unified log, version, global dependencies)
+2. **Track**: Parallelization boundary (backend, frontend, infra, etc.)
+3. **Sprint**: Work batch within track (track-scoped ID: `backend-1`, `frontend-2`)
+4. **Task**: Atomic work unit (context-window sized, sprint-scoped ID)
+
+**Key Simplifications:**
+- ❌ No "phases" as separate structures (just optional labels on tasks)
+- ❌ No "current_phase" tracking (not needed)
+- ❌ No sprint-level activity logs (unified at roadmap level)
+- ❌ No global sprint numbering (track-scoped instead)
+- ✅ Single source of truth for each concern
+- ✅ Clean, flat structures where possible
 
 ---
 
 ## Roadmap Object
 
-The **Roadmap** is the top-level object representing the complete project view.
+The **Roadmap** is the top-level object with unified state management.
 
 ### Structure
 
 ```yaml
 roadmap:
+  # Identity
   id: "vibey-framework-v1"
   name: "Vibey Framework Production Release"
+
+  # Version Management
   version: "1.2.0"
-  status: "in_progress"
+  version_strategy:
+    major_on: "roadmap_milestone"      # Manual trigger
+    minor_on: "track_completion"        # Automatic
+    patch_on: "sprint_production_ready" # Automatic
+
+  # Status
+  status: "in_progress"  # not_started | in_progress | paused | completed | production_ready | deployed | won't_do
   blocked: false
 
-  # Metadata
+  # Timing
   created: "2025-01-15T10:00:00Z"
   started: "2025-01-20T09:00:00Z"
   target_completion: "2025-12-31T23:59:59Z"
   completed: null
+  deployed: null
 
-  # Progress tracking
-  tracks_total: 5
-  tracks_completed: 2
-  sprints_total: 18
-  sprints_completed: 8
-  tasks_total: 156
-  tasks_completed: 89
+  # Aggregate Progress
+  progress:
+    tracks_total: 5
+    tracks_completed: 2
+    sprints_total: 18
+    sprints_completed: 8
+    tasks_total: 156
+    tasks_completed: 89
+    completion_percent: 57
 
-  # Version history
+  # Tracks
+  tracks:
+    - id: "backend"
+    - id: "frontend"
+    - id: "mobile"
+    - id: "infrastructure"
+    - id: "documentation"
+
+  # Roadmap-level dependencies (external systems)
+  dependencies:
+    - type: "external"
+      name: "AWS Account Setup"
+      status: "completed"
+      required_for: "infrastructure track"
+
+  # What's blocking the roadmap
+  blocked_by: []
+
+  # Version History
   version_history:
     - version: "1.0.0"
       date: "2025-06-01T00:00:00Z"
       milestone: "Initial Production Release"
+      git_tag: "v1.0.0"
     - version: "1.1.0"
       date: "2025-09-15T00:00:00Z"
       milestone: "Multi-platform Support"
+      git_tag: "v1.1.0"
     - version: "1.2.0"
       date: "2025-11-01T00:00:00Z"
       milestone: "Advanced Orchestration"
+      git_tag: "v1.2.0"
 
-  # Tracks
-  tracks:
-    - track_id: "track-core-framework"
-    - track_id: "track-agent-development"
-    - track_id: "track-workflow-system"
-    - track_id: "track-platform-ports"
-    - track_id: "track-documentation"
+  # UNIFIED ACTIVITY LOG (All roadmap events)
+  activity_log:
+    - timestamp: "2025-01-20T09:00:00Z"
+      type: "roadmap_started"
+      description: "Started roadmap: Vibey Framework Production Release"
 
-  # Dependencies (roadmap-level external dependencies)
-  dependencies: []
+    - timestamp: "2025-01-21T10:30:00Z"
+      type: "sprint_started"
+      description: "Started sprint backend-1: User Authentication"
+      context:
+        track_id: "backend"
+        sprint_id: "backend-1"
 
-  # Blockers
-  blocked_by: []
+    - timestamp: "2025-01-21T14:00:00Z"
+      type: "task_completed"
+      description: "Completed task: Implement registration endpoint"
+      context:
+        track_id: "backend"
+        sprint_id: "backend-1"
+        task_id: "backend-1-task-001"
+        agent: "web-developer"
+
+    - timestamp: "2025-01-25T16:00:00Z"
+      type: "quality_gate"
+      description: "Security Audit passed (92/85)"
+      context:
+        track_id: "backend"
+        sprint_id: "backend-1"
+        gate: "Security Audit"
+        score: 92
+        threshold: 85
+
+    - timestamp: "2025-01-26T09:00:00Z"
+      type: "sprint_completed"
+      description: "Sprint backend-1 production ready"
+      context:
+        track_id: "backend"
+        sprint_id: "backend-1"
+
+    - timestamp: "2025-01-26T09:01:00Z"
+      type: "version_bump"
+      description: "Version bumped to 1.2.1"
+      context:
+        old_version: "1.2.0"
+        new_version: "1.2.1"
+        trigger: "sprint_production_ready"
+
+  # Metadata
+  metadata:
+    created_by: "vibey-init"
+    framework_version: "2.0"
+    schema_version: "2.0"
+    last_updated: "2025-01-26T09:01:00Z"
 ```
 
-### Key Attributes
+### Key Design Decisions
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `id` | string | Unique identifier for the roadmap |
-| `name` | string | Human-readable roadmap name |
-| `version` | string | Current semantic version |
-| `status` | enum | Current status (see Status System) |
-| `blocked` | boolean | Is roadmap blocked by dependencies? |
-| `tracks` | array | List of track IDs in this roadmap |
-| `version_history` | array | History of version milestones |
-| `dependencies` | array | External dependencies (e.g., third-party tools) |
+**Unified Activity Log:**
+- ALL events logged at roadmap level (no sprint-level logs)
+- Provides complete project history
+- Easy to query across tracks/sprints
+- Context field provides drill-down info
 
-### Responsibilities
+**Version Management:**
+- Explicit strategy configuration
+- Automatic bumps on triggers
+- History with git tags
+- Manual major version control
 
-- Track overall project progress
-- Manage version numbering and milestones
-- Coordinate track-level parallelization
-- Maintain historical record of progress
-- Surface critical blockers
+**Aggregate Progress:**
+- Real-time computed metrics
+- Cached for performance
+- Single source of truth
 
 ---
 
 ## Track Object
 
-A **Track** is a group of sprints that can be developed in parallel with other tracks.
+A **Track** is a parallelization boundary containing related sprints.
 
 ### Structure
 
 ```yaml
 track:
-  id: "track-core-framework"
-  name: "Core Framework Development"
+  # Identity
+  id: "backend"
+  name: "Backend Services Development"
   roadmap_id: "vibey-framework-v1"
 
+  # Status
   status: "in_progress"
   blocked: false
+  priority: "critical"  # critical | high | medium | low
 
-  # Metadata
-  priority: "critical"        # critical, high, medium, low
+  # Timing
+  created: "2025-01-15T10:00:00Z"
   started: "2025-01-20T09:00:00Z"
   completed: null
   estimated_duration: "90 days"
 
   # Progress
-  sprints_total: 4
-  sprints_completed: 2
-  tasks_total: 45
-  tasks_completed: 28
-  progress_percent: 62
+  progress:
+    sprints_total: 4
+    sprints_completed: 2
+    tasks_total: 45
+    tasks_completed: 28
+    completion_percent: 62
 
-  # Sprints in this track
+  # Sprints in this track (track-scoped IDs)
   sprints:
-    - sprint_id: "sprint-001"
-    - sprint_id: "sprint-002"
-    - sprint_id: "sprint-003"
-    - sprint_id: "sprint-004"
+    - id: "backend-1"  # Track-scoped ID
+      name: "User Authentication"
+      status: "production_ready"
+
+    - id: "backend-2"
+      name: "Order Management API"
+      status: "in_progress"
+
+    - id: "backend-3"
+      name: "Payment Integration"
+      status: "not_started"
+
+    - id: "backend-4"
+      name: "Analytics Pipeline"
+      status: "not_started"
 
   # Dependencies
   dependencies:
     - type: "track"
-      target_id: "track-infrastructure"
+      target_id: "infrastructure"
       target_status: "production_ready"
-      reason: "Requires deployment infrastructure"
+      reason: "Requires Kubernetes cluster and databases"
+      optional: false
 
   # What this track blocks
   blocks:
     - type: "track"
-      target_id: "track-platform-ports"
+      target_id: "frontend"
       at_status: "completed"
+      reason: "Frontend needs backend APIs"
 
-  # Current blockers
+  # Current blockers (auto-computed)
   blocked_by:
-    - dependency_id: "track-infrastructure"
+    - dependency_id: "infrastructure"
+      dependency_type: "track"
       current_status: "in_progress"
       required_status: "production_ready"
-      blocking_since: "2025-10-15T10:00:00Z"
+      blocking_since: "2025-01-20T09:00:00Z"
+      estimated_resolution: "2025-02-15T00:00:00Z"
 
-  # Specialized agents assigned to this track
-  assigned_agents:
-    - "coordinator"
-    - "architecture-reviewer"
-    - "security-auditor"
-
-  # Track-level quality gates
+  # Track-level quality gates (run after all sprints complete)
   quality_gates:
-    - name: "Architecture Review"
-      status: "passed"
+    - name: "Integration Testing"
       threshold: 90
       blocking: true
+      status: "not_run"
+
+    - name: "Load Testing"
+      threshold: 85
+      blocking: true
+      status: "not_run"
+
+    - name: "API Documentation"
+      threshold: 95
+      blocking: false
+      status: "not_run"
+
+  # Recommended agents for this track
+  assigned_agents:
+    - "web-developer"
+    - "security-auditor"
+    - "performance-engineer"
+
+  # Metadata
+  metadata:
+    created_by: "sprint-planning"
+    last_updated: "2025-01-26T09:00:00Z"
 ```
 
-### Key Attributes
+### Key Design Decisions
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `id` | string | Unique track identifier |
-| `name` | string | Human-readable track name |
-| `sprints` | array | Sprints belonging to this track |
-| `dependencies` | array | What must complete before this track |
-| `blocks` | array | What this track blocks |
-| `blocked_by` | array | Current active blockers |
-| `assigned_agents` | array | Specialized agents for this track |
+**Track-Scoped Sprint IDs:**
+- Format: `{track-id}-{number}` (e.g., `backend-1`, `frontend-2`)
+- Makes ownership clear
+- Enables track-parallel numbering
+- No global sprint numbering confusion
 
-### Responsibilities
-
-- Group related sprints for parallel execution
-- Manage track-level dependencies
-- Track aggregate progress across sprints
-- Enable parallelization opportunities
-- Surface track-level blockers
-
-### Parallelization Strategy
-
-**Tracks can run in parallel when:**
-- No direct dependencies between them
-- No shared blocking resources
-- Independent deliverables
-
-**Example:**
-```yaml
-# These can run in parallel
-Track A: Backend API Development
-Track B: Frontend UI Development
-Track C: Documentation Updates
-
-# Track D must wait for Track A
-Track D: Integration Testing (depends on Track A completion)
-```
+**Track as Parallelization Boundary:**
+- Tracks with no dependencies can run in parallel
+- Clear separation of concerns
+- Natural team/feature alignment
 
 ---
 
 ## Sprint Object
 
-A **Sprint** is a group of highly related tasks. This is the existing concept, enhanced with dependency management.
+A **Sprint** is a group of related tasks within a track. **Simplified** - no phases, no nested structures.
 
-### Structure (Enhanced)
+### Structure
 
 ```yaml
 sprint:
-  id: "sprint-001"
-  number: 1
+  # Identity
+  id: "backend-1"                    # Track-scoped ID
   name: "User Authentication System"
-  track_id: "track-core-framework"
+  track_id: "backend"
+  roadmap_id: "vibey-framework-v1"
 
-  status: "in_progress"
+  # Status
+  status: "production_ready"
   blocked: false
 
-  # Metadata (existing)
-  started: "2025-01-20T09:00:00Z"
-  paused: null
-  completed: null
-  plan_file: "docs/sprints/sprint-1-plan.md"
+  # Timing
+  created: "2025-01-15T10:00:00Z"
+  started: "2025-01-21T10:00:00Z"
+  completed: "2025-01-25T16:00:00Z"
+  production_ready_at: "2025-01-26T09:00:00Z"
 
-  # Progress (existing)
-  phases: [...]  # Existing phase structure
-  current_phase: {...}
+  # Progress
+  progress:
+    tasks_total: 8
+    tasks_completed: 8
+    completion_percent: 100
 
-  # NEW: Dependencies
+  # Tasks (flat list, no phase nesting)
+  tasks:
+    - id: "backend-1-task-001"
+      title: "Create User database schema"
+      status: "completed"
+
+    - id: "backend-1-task-002"
+      title: "Implement registration endpoint"
+      status: "completed"
+
+    - id: "backend-1-task-003"
+      title: "Implement login endpoint"
+      status: "completed"
+
+    - id: "backend-1-task-004"
+      title: "Add JWT token generation"
+      status: "completed"
+
+    - id: "backend-1-task-005"
+      title: "Add password hashing"
+      status: "completed"
+
+    - id: "backend-1-task-006"
+      title: "Write unit tests"
+      status: "completed"
+
+    - id: "backend-1-task-007"
+      title: "Write integration tests"
+      status: "completed"
+
+    - id: "backend-1-task-008"
+      title: "Update API documentation"
+      status: "completed"
+
+  # Dependencies
   dependencies:
     - type: "sprint"
-      target_id: "sprint-000"  # Infrastructure setup
+      target_id: "infrastructure-1"  # Needs infra sprint
       target_status: "completed"
-      reason: "Requires database and auth scaffolding"
+      reason: "Requires database setup"
 
-  # NEW: What this sprint blocks
+  # What this sprint blocks
   blocks:
     - type: "sprint"
-      target_id: "sprint-002"
-      at_status: "production_ready"
+      target_id: "backend-2"
+      at_status: "completed"
+      reason: "Order system needs auth"
 
-  # NEW: Current blockers
+  # Current blockers (auto-computed)
   blocked_by: []
 
-  # Tasks (enhanced from phases)
-  tasks:
-    - task_id: "sprint-001-task-001"
-    - task_id: "sprint-001-task-002"
-    - task_id: "sprint-001-task-003"
+  # Quality Gates (sprint-level, not nested in phases)
+  quality_gates:
+    - name: "Unit Tests"
+      threshold: 80
+      blocking: true
+      status: "passed"
+      score: 95
+      checked_at: "2025-01-25T14:00:00Z"
 
-  # Existing structures
-  activity_log: [...]
-  metadata: {...}
+    - name: "Integration Tests"
+      threshold: 80
+      blocking: true
+      status: "passed"
+      score: 88
+      checked_at: "2025-01-25T15:00:00Z"
+
+    - name: "Security Audit"
+      threshold: 85
+      blocking: true
+      status: "passed"
+      score: 92
+      checked_at: "2025-01-25T16:00:00Z"
+      issues: []
+
+    - name: "Performance Benchmark"
+      threshold: 75
+      blocking: false
+      status: "passed"
+      score: 82
+      checked_at: "2025-01-25T17:00:00Z"
+
+  # Documentation
+  plan_file: "docs/sprints/backend-1-plan.md"
+  deliverables:
+    - "User registration API endpoint"
+    - "User login API endpoint"
+    - "JWT authentication middleware"
+    - "Comprehensive test suite"
+    - "API documentation"
+
+  # Metadata
+  metadata:
+    estimated_duration: "5 days"
+    actual_duration: "5 days"
+    estimated_tokens: 50000
+    actual_tokens: 48500
+    agents_used: ["web-developer", "security-auditor", "test-writer"]
+    last_updated: "2025-01-26T09:00:00Z"
 ```
 
-### Key Enhancements
+### Key Design Decisions
 
-1. **Track Association**: Each sprint belongs to exactly one track
-2. **Dependencies**: Explicit dependencies on other sprints
-3. **Blocking State**: Clear visibility into what's blocking the sprint
-4. **Task References**: Flat task list in addition to phase structure
+**No Phases Structure:**
+- Tasks are flat, not nested in phases
+- Optional `phase` label on tasks for organization
+- Eliminates complexity and duplication
+- Single source of truth for task state
 
-### Backward Compatibility
+**Sprint-Level Quality Gates:**
+- Quality gates directly on sprint (not nested in phases)
+- Flat array, easy to query
+- Clear blocking vs. non-blocking distinction
 
-**Existing sprint state files remain valid.** New fields are additive:
-- Old: Sprint with phases (nested tasks)
-- New: Sprint with phases AND flat task list + dependencies
+**Track-Scoped Sprint IDs:**
+- `backend-1`, `frontend-1`, etc.
+- Clear ownership
+- Natural parallelization
 
 ---
 
 ## Task Object
 
-A **Task** is the smallest unit of work, designed to fit within a single model context window.
+A **Task** is the smallest unit of work, sized for a single model context window.
 
 ### Structure
 
 ```yaml
 task:
-  id: "sprint-001-task-001"
-  sprint_id: "sprint-001"
+  # Identity
+  id: "backend-1-task-002"           # Sprint-scoped ID
+  sprint_id: "backend-1"
+  track_id: "backend"
+  roadmap_id: "vibey-framework-v1"
 
-  # Identification
+  # Description
   title: "Implement user registration endpoint"
-  description: "Create POST /api/auth/register endpoint with email/password validation"
+  description: |
+    Create POST /api/auth/register endpoint with:
+    - Email validation
+    - Password strength validation
+    - Duplicate email check
+    - User creation
+    - JWT token generation
+    - Error handling
 
   # Status
-  status: "in_progress"
+  status: "completed"
   blocked: false
 
-  # Metadata
-  created: "2025-01-20T09:00:00Z"
-  started: "2025-01-21T10:30:00Z"
-  completed: null
+  # Timing
+  created: "2025-01-21T10:00:00Z"
+  started: "2025-01-21T11:00:00Z"
+  completed: "2025-01-21T15:30:00Z"
 
   # Assignment
   assigned_agent: "web-developer"
-  estimated_tokens: 8000
-  actual_tokens: null
+  priority: "high"  # critical | high | medium | low
 
-  # Context
-  phase: 1  # Optional: which phase this belongs to
-  priority: "high"
+  # Optional: Phase label (organizational only, not structural)
+  phase_label: "API Development"
+
+  # Complexity & Size
+  estimated_tokens: 8000
+  actual_tokens: 7800
+  complexity: "medium"  # simple | medium | complex
 
   # Dependencies
   dependencies:
     - type: "task"
-      target_id: "sprint-001-task-000"  # Database schema task
+      target_id: "backend-1-task-001"  # Database schema
       target_status: "completed"
-      reason: "Need User table created first"
+      reason: "Need User table created"
+
+    - type: "task"
+      target_id: "infrastructure-1-task-003"  # Database connection
+      target_status: "completed"
+      reason: "Need database connection configured"
 
   # What this task blocks
   blocks:
     - type: "task"
-      target_id: "sprint-001-task-002"  # Login endpoint
+      target_id: "backend-1-task-003"  # Login endpoint
       at_status: "completed"
+      reason: "Login needs registration logic"
 
-  # Current blockers
-  blocked_by:
-    - dependency_id: "sprint-001-task-000"
-      current_status: "in_progress"
-      required_status: "completed"
-      blocking_since: "2025-01-21T10:30:00Z"
+  # Current blockers (auto-computed)
+  blocked_by: []
 
   # Deliverables
   deliverables:
@@ -390,47 +582,61 @@ task:
       paths:
         - "src/api/auth/register.ts"
         - "src/api/auth/validation.ts"
+        - "src/models/user.ts"
+
     - type: "test"
       paths:
         - "tests/api/auth/register.test.ts"
+        - "tests/api/auth/validation.test.ts"
 
-  # Quality requirements (non-blocking for task completion)
-  quality_requirements:
-    - "Unit tests written"
-    - "Type safety verified"
-    - "Error handling implemented"
+    - type: "documentation"
+      paths:
+        - "docs/api/auth.md"
 
-  # Git commits associated with this task
+  # Git commits
   commits:
-    - sha: "a1b2c3d"
+    - sha: "a1b2c3d4"
       message: "feat: add user registration endpoint"
       date: "2025-01-21T14:00:00Z"
+      author: "web-developer-agent"
+
+    - sha: "e5f6g7h8"
+      message: "test: add registration endpoint tests"
+      date: "2025-01-21T15:00:00Z"
+      author: "web-developer-agent"
+
+  # Quality notes (non-blocking for task completion)
+  quality_notes:
+    - "Unit tests written ✓"
+    - "Type safety verified ✓"
+    - "Error handling implemented ✓"
+    - "Input validation complete ✓"
+
+  # Metadata
+  metadata:
+    token_efficiency: 0.975  # actual / estimated
+    duration_hours: 4.5
+    last_updated: "2025-01-21T15:30:00Z"
 ```
 
-### Key Attributes
+### Key Design Decisions
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `id` | string | Unique task identifier |
-| `title` | string | Short task description |
-| `description` | string | Detailed task description |
-| `status` | enum | Current status |
-| `blocked` | boolean | Is task blocked? |
-| `assigned_agent` | string | Which agent should handle this |
-| `estimated_tokens` | int | Expected token usage |
-| `dependencies` | array | What must complete first |
-| `deliverables` | array | Expected outputs |
-| `commits` | array | Git commits for this task |
+**Flat Structure:**
+- Tasks are not nested in phases
+- Optional `phase_label` for organization
+- Single source of truth for task state
 
-### Task Completion Criteria
+**Context Window Sizing:**
+- Explicit token estimation and tracking
+- Learn from actual_tokens for future estimates
+- Forces reasonable task breakdown
 
-**A task is complete when:**
-1. All code changes committed
-2. Basic quality requirements met (not full quality gates)
-3. Documentation updated
-4. Changes pushed to git
-
-**Quality gates are NOT required for task completion.** They're enforced at sprint level.
+**Task Completion Criteria:**
+- Code written and committed
+- Basic quality checks (non-blocking)
+- Documentation updated
+- Changes pushed
+- **Quality gates enforced at sprint level, not task level**
 
 ---
 
@@ -438,47 +644,73 @@ task:
 
 ### Unified Status Values
 
-All objects (Roadmap, Track, Sprint, Task) use the same status enum:
+**All objects** (Roadmap, Track, Sprint, Task) use the same status enum:
 
-| Status | Description | Transition From | Transition To |
-|--------|-------------|-----------------|---------------|
-| `not_started` | Work not yet begun | - | `in_progress`, `won't_do` |
-| `in_progress` | Active development | `not_started`, `paused` | `paused`, `completed`, `won't_do` |
-| `paused` | Temporarily halted | `in_progress` | `in_progress`, `won't_do` |
-| `completed` | Development finished | `in_progress` | `production_ready` |
-| `production_ready` | Passed all quality gates | `completed` | `deployed` |
-| `deployed` | Live in production | `production_ready` | - |
-| `won't_do` | Cancelled/deprioritized | any | - |
+| Status | Description | Can Transition To |
+|--------|-------------|-------------------|
+| `not_started` | Work not yet begun | `in_progress`, `won't_do` |
+| `in_progress` | Active development | `paused`, `completed`, `won't_do` |
+| `paused` | Temporarily halted | `in_progress`, `won't_do` |
+| `completed` | Development finished | `production_ready` |
+| `production_ready` | Passed all quality gates | `deployed` |
+| `deployed` | Live in production | *(terminal state)* |
+| `won't_do` | Cancelled/deprioritized | *(terminal state)* |
 
 ### Status Progression
 
 ```
-not_started → in_progress → paused → in_progress → completed → production_ready → deployed
-                                      ↓                            ↓
-                                   won't_do ←───────────────────────
+not_started → in_progress → completed → production_ready → deployed
+                ↓     ↑
+              paused  ┘
+                ↓
+            won't_do
 ```
 
-### Status Semantics by Object Type
+### Status Semantics by Level
 
-**Task Level:**
-- `completed`: Code written, committed, pushed
-- `production_ready`: N/A (quality gates at sprint level)
-- `deployed`: N/A (deployment at sprint/track level)
+**Task:**
+- `completed`: Code written, committed, pushed, basic quality checks done
+- `production_ready`: N/A (tasks don't have quality gates)
+- `deployed`: N/A (deployment is sprint/track level)
 
-**Sprint Level:**
-- `completed`: All tasks complete, all code written
-- `production_ready`: All quality gates passed
-- `deployed`: Deployed to production environment
+**Sprint:**
+- `completed`: All tasks complete
+- `production_ready`: All blocking quality gates passed
+- `deployed`: Deployed to production
 
-**Track Level:**
-- `completed`: All sprints complete
-- `production_ready`: All track sprints are production ready
+**Track:**
+- `completed`: All sprints completed
+- `production_ready`: All sprints production_ready + track quality gates passed
 - `deployed`: All track features deployed
 
-**Roadmap Level:**
-- `completed`: All tracks complete
-- `production_ready`: All tracks production ready
+**Roadmap:**
+- `completed`: All tracks completed
+- `production_ready`: All tracks production_ready
 - `deployed`: Entire roadmap deployed
+
+### Automatic Status Propagation
+
+**When task completes:**
+```python
+if all_tasks_in_sprint_completed(sprint):
+    sprint.status = 'completed'
+    # Trigger quality gate checks
+```
+
+**When sprint reaches production_ready:**
+```python
+if all_sprints_in_track_production_ready(track):
+    track.status = 'completed'
+    # Trigger track quality gates
+    # Trigger version bump (PATCH)
+```
+
+**When track completes:**
+```python
+if all_tracks_completed(roadmap):
+    roadmap.status = 'completed'
+    # Trigger version bump (MINOR)
+```
 
 ---
 
@@ -489,69 +721,126 @@ not_started → in_progress → paused → in_progress → completed → product
 ```yaml
 dependencies:
   - type: "task" | "sprint" | "track" | "external"
-    target_id: "sprint-001-task-005"
-    target_status: "completed"         # What status target must reach
+    target_id: "backend-1-task-005"   # What we depend on
+    target_status: "completed"         # Status it must reach
     reason: "Requires auth system"     # Human explanation
-    optional: false                    # Is this a hard dependency?
+    optional: false                    # Hard vs. soft dependency
 ```
 
-### Blocker Structure
+### Blocker Structure (Auto-Computed)
 
 ```yaml
 blocked_by:
-  - dependency_id: "sprint-001-task-005"
+  - dependency_id: "backend-1-task-005"
     dependency_type: "task"
     current_status: "in_progress"
     required_status: "completed"
     blocking_since: "2025-01-21T10:30:00Z"
-    estimated_resolution: "2025-01-22T16:00:00Z"  # Optional
+    estimated_resolution: "2025-01-21T16:00:00Z"
 ```
 
-### Block Tracking
+### Automatic Blocked State
 
-Each object tracks what it blocks:
+**The `blocked` flag is automatically computed:**
 
-```yaml
-blocks:
-  - type: "sprint"
-    target_id: "sprint-003"
-    at_status: "production_ready"     # Sprint 3 blocked until THIS reaches production_ready
+```python
+def is_blocked(obj):
+    """Check if object is blocked by dependencies."""
+    for dep in obj.dependencies:
+        if dep.optional:
+            continue  # Optional dependencies don't block
+
+        target = get_object(dep.target_id)
+        if not has_reached_status(target.status, dep.target_status):
+            return True
+
+    return False
+```
+
+**Status Comparison:**
+```python
+STATUS_ORDER = [
+    'not_started',
+    'in_progress',
+    'paused',
+    'completed',
+    'production_ready',
+    'deployed',
+    'won't_do'
+]
+
+def has_reached_status(current, required):
+    """Check if current status >= required status."""
+    if current == 'won't_do' or required == 'won't_do':
+        return current == required
+
+    return STATUS_ORDER.index(current) >= STATUS_ORDER.index(required)
 ```
 
 ### Dependency Types
 
-1. **task**: Depends on another task
-2. **sprint**: Depends on a sprint
-3. **track**: Depends on a track
-4. **external**: Depends on external system/tool
+| Type | Description | Example |
+|------|-------------|---------|
+| `task` | Depends on another task | Task B needs Task A's code |
+| `sprint` | Depends on a sprint | Sprint 2 needs Sprint 1's API |
+| `track` | Depends on a track | Frontend needs Backend APIs |
+| `external` | Depends on external system | Infrastructure needs AWS account |
 
-### Dependency Resolution
+### Dependency Validation
 
-**Status Check Algorithm:**
+**Validation Rules:**
+1. No circular dependencies (enforced at creation time)
+2. `target_id` must exist
+3. `target_status` must be valid status
+4. `type` must match target object type
+5. Cannot depend on an object at a higher level (e.g., task can't depend on track)
+
+**Circular Dependency Check:**
 ```python
-def is_blocked(object):
-    for dep in object.dependencies:
-        target = get_object(dep.target_id)
-        if target.status < dep.target_status:
-            return True
-    return False
+def has_circular_dependency(obj_id, dep_id, graph):
+    """Check if adding dependency would create a cycle."""
+    visited = set()
+
+    def visit(node):
+        if node in visited:
+            return True  # Cycle detected
+        visited.add(node)
+
+        for dep in graph.get(node, []):
+            if visit(dep):
+                return True
+
+        visited.remove(node)
+        return False
+
+    # Simulate adding edge
+    temp_graph = graph.copy()
+    temp_graph[obj_id] = temp_graph.get(obj_id, []) + [dep_id]
+
+    return visit(obj_id)
 ```
 
-**Automatic Blocking Updates:**
-- When a dependency changes status, all objects that depend on it are re-evaluated
-- `blocked` flag automatically updated
-- `blocked_by` array automatically updated
+### Block Tracking
 
-### Cascading Dependencies
-
-Dependencies can cascade:
-```
-Track A → Sprint 1 → Task 1
-   ↓         ↓          ↓
-Track B → Sprint 3 → Task 7
+**What this object blocks:**
+```yaml
+blocks:
+  - type: "sprint"
+    target_id: "backend-3"
+    at_status: "production_ready"
+    reason: "Payment system needs auth"
 ```
 
-If Task 1 is blocked, Sprint 1 is blocked, and Track A may be blocked.
+This is the inverse relationship - "If I reach `production_ready`, then `backend-3` is no longer blocked by me."
+
+### Dependency Resolution Workflow
+
+**When dependency changes status:**
+1. Identify all objects that depend on it
+2. Re-compute their `blocked` status
+3. Update their `blocked_by` arrays
+4. Log activity if blocking status changed
+5. Notify if object became unblocked
 
 ---
 
@@ -559,100 +848,133 @@ If Task 1 is blocked, Sprint 1 is blocked, and Track A may be blocked.
 
 ### Semantic Versioning: MAJOR.MINOR.PATCH
 
-**Version Component Mapping:**
+**Mapping to Hierarchy:**
 
-| Component | Triggered By | Example |
-|-----------|--------------|---------|
-| **MAJOR** | Roadmap milestone completed | 1.0.0 → 2.0.0 |
-| **MINOR** | Track completed | 1.2.0 → 1.3.0 |
-| **PATCH** | Sprint completed | 1.2.3 → 1.2.4 |
+| Component | Triggered By | Automation | Example |
+|-----------|--------------|------------|---------|
+| **MAJOR** | Roadmap milestone | Manual | 1.0.0 → 2.0.0 |
+| **MINOR** | Track completion | Automatic | 1.2.0 → 1.3.0 |
+| **PATCH** | Sprint production_ready | Automatic | 1.2.3 → 1.2.4 |
 
-### Version Progression Rules
+### Version Bump Rules
 
-**MAJOR Version Bump:**
-- Complete a major roadmap milestone
-- Breaking changes to project architecture
-- Major feature set completions
-- Requires explicit approval
+**PATCH Bump (Automatic):**
+- Triggered when sprint reaches `production_ready`
+- Happens immediately
+- Git tag: `v1.2.4` (lightweight)
+- Activity log entry created
 
-**MINOR Version Bump:**
-- Track completion (all sprints in track completed + production ready)
-- New feature track added and completed
-- Significant enhancements
-- Automated on track completion
+**MINOR Bump (Automatic):**
+- Triggered when track reaches `production_ready`
+- All sprints in track must be production_ready
+- Git tag: `v1.3.0` (annotated)
+- Activity log entry created
 
-**PATCH Version Bump:**
-- Sprint completion (sprint reaches production_ready)
-- Bug fixes
-- Minor improvements
-- Automated on sprint production readiness
+**MAJOR Bump (Manual):**
+- Requires explicit command: `vibey version bump major`
+- Used for roadmap milestones
+- Breaking changes
+- Major feature completions
+- Git tag: `v2.0.0` (annotated with message)
+- Activity log entry created
 
 ### Version Naming Convention
 
-**Format**: `{major}.{minor}.{patch}-{stage}.{build}`
-
-**Examples:**
-- `1.2.0` - Production release
-- `1.2.0-rc.1` - Release candidate 1
-- `1.2.0-beta.3` - Beta version 3
-- `1.2.0-alpha.5` - Alpha version 5
-- `1.3.0-dev` - Development version
+**Format:** `{major}.{minor}.{patch}[-{stage}[.{build}]]`
 
 **Stage Values:**
-- `dev` - Active development
-- `alpha` - Feature complete, not tested
-- `beta` - Testing phase
+- *(none)* - Production release
 - `rc` - Release candidate
-- (none) - Production release
+- `beta` - Beta testing
+- `alpha` - Alpha testing
+- `dev` - Active development
 
-### Version Calculation Algorithm
+**Examples:**
+- `1.2.3` - Production
+- `1.3.0-rc.1` - Release candidate 1
+- `1.3.0-beta.2` - Beta 2
+- `2.0.0-alpha` - Alpha
+- `1.2.4-dev` - Development
+
+**Stage Determination:**
+```python
+def determine_stage(roadmap):
+    if roadmap.status == 'deployed':
+        return None  # Production
+    elif roadmap.status == 'production_ready':
+        return 'rc'
+    elif roadmap.status == 'completed':
+        return 'beta'
+    elif roadmap.status == 'in_progress':
+        return 'dev'
+    else:
+        return 'dev'
+```
+
+### Version Calculation
 
 ```python
 def calculate_version(roadmap):
     major = roadmap.major_version
-    minor = count_completed_tracks(roadmap)
-    patch = count_production_ready_sprints(current_track)
 
-    if roadmap.status == 'in_progress':
-        stage = 'dev'
-    elif roadmap.status == 'completed':
-        stage = 'rc'
-    elif roadmap.status == 'production_ready':
-        stage = None  # Production
+    # Minor = number of tracks that are production_ready
+    minor = count_production_ready_tracks(roadmap)
+
+    # Patch = number of sprints in current track that are production_ready
+    current_track = get_current_track(roadmap)
+    patch = count_production_ready_sprints(current_track) if current_track else 0
+
+    stage = determine_stage(roadmap)
 
     return format_version(major, minor, patch, stage)
 ```
 
-### Roadmap-Version Alignment
-
-```yaml
-roadmap:
-  version: "1.2.3"
-  major_version: 1
-
-  # Version triggers
-  version_triggers:
-    major:
-      - milestone: "Multi-platform Production Release"
-        tracks_required: ["track-core", "track-goose", "track-cursor"]
-
-    minor:
-      track_completion: true
-
-    patch:
-      sprint_production_ready: true
-```
-
-### Git Tag Strategy
+### Git Integration
 
 **Automatic Tagging:**
-- MAJOR bumps: `v1.0.0` with annotated tag
-- MINOR bumps: `v1.2.0` with annotated tag
-- PATCH bumps: `v1.2.3` with lightweight tag
+```python
+def on_version_bump(old_version, new_version, trigger):
+    # Create git tag
+    if is_major_bump(new_version):
+        # Annotated tag for major versions
+        git_tag(f"v{new_version}", f"Major release: {roadmap.name}", annotated=True)
+    elif is_minor_bump(new_version):
+        # Annotated tag for minor versions
+        git_tag(f"v{new_version}", f"Track completion: {track.name}", annotated=True)
+    else:
+        # Lightweight tag for patches
+        git_tag(f"v{new_version}", annotated=False)
 
-**Tag Format:**
+    # Update roadmap version history
+    roadmap.version_history.append({
+        'version': new_version,
+        'date': now(),
+        'trigger': trigger,
+        'git_tag': f"v{new_version}"
+    })
+
+    # Log activity
+    log_activity('version_bump', f"Version bumped to {new_version}", {
+        'old_version': old_version,
+        'new_version': new_version,
+        'trigger': trigger
+    })
+```
+
+### Version Control
+
+**Preventing unwanted bumps:**
 ```bash
-git tag -a v1.2.0 -m "Track: Core Framework complete"
+# Disable automatic version bumps
+vibey config set version.auto_bump false
+
+# Re-enable
+vibey config set version.auto_bump true
+
+# Manual bump
+vibey version bump patch
+vibey version bump minor
+vibey version bump major --message "Breaking API changes"
 ```
 
 ---
@@ -663,122 +985,148 @@ git tag -a v1.2.0 -m "Track: Core Framework complete"
 
 ```
 1. Query roadmap status
-   ├─ See current tracks and progress
-   └─ Identify available work
+   $ vibey roadmap status
+   → See current tracks, progress, blockers
 
-2. Select track to work on
-   ├─ Check track is not blocked
-   └─ View sprints in track
+2. Select available work
+   $ vibey task next --track backend
+   → Returns: backend-1-task-003 (no blockers)
 
-3. Select sprint to work on
-   ├─ Check sprint dependencies met
-   ├─ Check sprint is not blocked
-   └─ View tasks in sprint
+3. Start task
+   $ vibey task start backend-1-task-003
+   → Updates status to in_progress
+   → Logs activity
+   → Launches appropriate agent
 
-4. Select task to work on
-   ├─ Check task dependencies met
-   ├─ Check task not blocked
-   ├─ Start task
-   └─ Launch appropriate agent
+4. Do work
+   → Write code
+   → Run tests
+   → Commit changes
 
 5. Complete task
-   ├─ Write code
-   ├─ Commit changes
-   ├─ Push to git
-   ├─ Mark task complete
-   └─ Update task status
+   $ vibey task complete backend-1-task-003 \
+       --commits a1b2c3d,e5f6g7h \
+       --deliverables src/api/auth/login.ts,tests/api/auth/login.test.ts
+   → Updates task status
+   → Checks if sprint complete
+   → Updates sprint progress
+   → Logs activity
 
-6. Complete sprint
-   ├─ All tasks complete
-   ├─ Run quality gates
-   ├─ Pass all blocking gates
-   ├─ Mark sprint production_ready
-   └─ Version bump (PATCH)
+6. Sprint automatically completes when all tasks done
+   → Status: completed
+   → Quality gates triggered
 
-7. Complete track
-   ├─ All sprints production_ready
-   ├─ Track-level quality gates pass
-   ├─ Mark track complete
-   └─ Version bump (MINOR)
+7. Sprint reaches production_ready after gates pass
+   → Status: production_ready
+   → Version bumps automatically (PATCH)
+   → Git tag created
+   → Activity logged
 
-8. Complete roadmap
-   ├─ All tracks complete
-   ├─ Roadmap-level gates pass
-   ├─ Mark roadmap production_ready
-   └─ Version bump (MAJOR)
+8. Track completes when all sprints production_ready
+   → Status: completed
+   → Track quality gates triggered
+   → Version bumps (MINOR)
+
+9. Roadmap completes when all tracks done
+   → Status: completed
+   → Ready for deployment
 ```
 
-### CLI Commands (Proposed)
+### CLI Commands
 
+**Roadmap:**
 ```bash
-# Roadmap operations
 vibey roadmap status
 vibey roadmap version
-vibey roadmap list-tracks
+vibey roadmap tracks
+vibey roadmap activity [--limit 20]
 vibey roadmap blockers
+vibey roadmap export --format json
+```
 
-# Track operations
+**Track:**
+```bash
 vibey track list
 vibey track status <track-id>
-vibey track start <track-id>
-vibey track complete <track-id>
+vibey track sprints <track-id>
+vibey track progress <track-id>
 vibey track blockers <track-id>
+```
 
-# Sprint operations (enhanced)
+**Sprint:**
+```bash
 vibey sprint list [--track <track-id>]
 vibey sprint status <sprint-id>
+vibey sprint tasks <sprint-id>
 vibey sprint start <sprint-id>
-vibey sprint complete <sprint-id>
-vibey sprint blockers <sprint-id>
+vibey sprint quality-gates <sprint-id>
+vibey sprint complete <sprint-id>  # Manual if needed
+```
 
-# Task operations (new)
+**Task:**
+```bash
 vibey task list [--sprint <sprint-id>]
 vibey task status <task-id>
+vibey task next [--track <track-id>] [--agent <agent-name>]
 vibey task start <task-id>
-vibey task complete <task-id>
-vibey task blockers <task-id>
+vibey task complete <task-id> --commits <sha> --deliverables <paths>
 vibey task assign <task-id> <agent-name>
+vibey task blockers <task-id>
+```
 
-# Dependency operations
+**Dependencies:**
+```bash
 vibey deps check <object-id>
 vibey deps graph [--track <track-id>]
 vibey deps what-blocks <object-id>
-vibey deps what-is-blocked-by <object-id>
-
-# Version operations
-vibey version current
-vibey version bump <major|minor|patch>
-vibey version history
+vibey deps blocked-by <object-id>
+vibey deps validate  # Check for circular deps
 ```
 
-### Agent Workflow Integration
-
-**When agent is launched:**
-1. Query current task
-2. Check task dependencies
-3. If blocked, report blockers
-4. If not blocked, proceed with work
-5. On completion, update task status
-6. Check if sprint can advance
-
-**Example:**
+**Version:**
 ```bash
-# Agent queries what to work on
-vibey task next --agent web-developer
-# Returns: sprint-001-task-003
+vibey version current
+vibey version bump <major|minor|patch> [--message "..."]
+vibey version history
+vibey version strategy
+```
 
-# Agent starts task
-vibey task start sprint-001-task-003
+### Agent Integration
 
-# Agent does work...
+**Agent queries available work:**
+```python
+# Agent asks: "What should I work on?"
+task = query_next_task(agent_name="web-developer", track="backend")
 
-# Agent completes task
-vibey task complete sprint-001-task-003 \
-  --commit a1b2c3d \
-  --deliverables src/api/auth/login.ts
+if task.blocked:
+    print(f"Task {task.id} is blocked by: {task.blocked_by}")
+    # Suggest working on blocker or different task
+else:
+    start_task(task.id)
+    # Agent does work
+    complete_task(task.id, commits=[...], deliverables=[...])
+```
 
-# Check if more work in sprint
-vibey task next --sprint sprint-001
+**Automatic agent routing:**
+```python
+def recommend_agent_for_task(task):
+    """Recommend agent based on task characteristics."""
+
+    # Check task.assigned_agent first
+    if task.assigned_agent:
+        return task.assigned_agent
+
+    # Check sprint's recommended agents
+    sprint = get_sprint(task.sprint_id)
+    track = get_track(sprint.track_id)
+
+    # Use track's assigned agents
+    if track.assigned_agents:
+        # Pick based on task type, complexity, etc.
+        return select_best_agent(track.assigned_agents, task)
+
+    # Fall back to coordinator
+    return "coordinator"
 ```
 
 ---
@@ -789,641 +1137,544 @@ vibey task next --sprint sprint-001
 
 ```
 .vibey/
-├── roadmap.yaml                    # Roadmap state
+├── roadmap.yaml                     # Roadmap state (unified log, version, global state)
 ├── tracks/
-│   ├── track-core-framework.yaml   # Track state
-│   ├── track-agent-dev.yaml
-│   └── track-platform-ports.yaml
+│   ├── backend.yaml                 # Track state
+│   ├── frontend.yaml
+│   ├── mobile.yaml
+│   ├── infrastructure.yaml
+│   └── documentation.yaml
 ├── sprints/
-│   ├── sprint-001-state.yaml       # Sprint state (existing format + enhancements)
-│   ├── sprint-002-state.yaml
-│   └── sprint-003-state.yaml
+│   ├── backend-1.yaml               # Sprint state (flat structure)
+│   ├── backend-2.yaml
+│   ├── frontend-1.yaml
+│   ├── frontend-2.yaml
+│   └── infrastructure-1.yaml
 ├── tasks/
-│   ├── sprint-001-tasks.yaml       # All tasks for sprint 001
-│   ├── sprint-002-tasks.yaml
-│   └── sprint-003-tasks.yaml
-└── dependencies/
-    └── dependency-graph.yaml       # Full dependency graph
+│   ├── backend-1-tasks.yaml         # All tasks for sprint
+│   ├── backend-2-tasks.yaml
+│   ├── frontend-1-tasks.yaml
+│   └── ...
+└── cache/
+    ├── dependency-graph.yaml        # Computed dependency graph
+    ├── progress-snapshot.yaml       # Cached aggregate progress
+    └── blocker-index.yaml           # Index of all current blockers
 ```
 
-### Roadmap State File
+### Schema Versions
 
-**Location**: `.vibey/roadmap.yaml`
-
+**All state files include schema version:**
 ```yaml
-# Roadmap state structure (as defined in Roadmap Object section)
-roadmap:
-  id: "vibey-framework-v1"
-  name: "Vibey Framework Production Release"
-  version: "1.2.0"
-  # ... (full structure from Roadmap Object section)
+metadata:
+  schema_version: "2.0"
+  framework_version: "2.0"
 ```
 
-### Track State File
-
-**Location**: `.vibey/tracks/track-{id}.yaml`
-
-```yaml
-# Track state structure (as defined in Track Object section)
-track:
-  id: "track-core-framework"
-  name: "Core Framework Development"
-  # ... (full structure from Track Object section)
-```
-
-### Sprint State File (Enhanced)
-
-**Location**: `.vibey/sprints/sprint-{number}-state.yaml`
-
-Existing sprint state files enhanced with:
-```yaml
-sprint:
-  # Existing fields...
-  number: 1
-  name: "User Authentication"
-  status: "in_progress"
-
-  # NEW fields
-  track_id: "track-core-framework"
-  blocked: false
-  dependencies: [...]
-  blocks: [...]
-  blocked_by: [...]
-```
-
-### Task State File
-
-**Location**: `.vibey/tasks/sprint-{number}-tasks.yaml`
-
-```yaml
-tasks:
-  - id: "sprint-001-task-001"
-    title: "Implement registration endpoint"
-    # ... (full structure from Task Object section)
-
-  - id: "sprint-001-task-002"
-    title: "Implement login endpoint"
-    # ...
-```
-
-### Dependency Graph File
-
-**Location**: `.vibey/dependencies/dependency-graph.yaml`
-
-```yaml
-# Computed dependency graph for visualization and analysis
-dependency_graph:
-  version: "1.0"
-  generated: "2025-11-06T10:00:00Z"
-
-  nodes:
-    - id: "track-core-framework"
-      type: "track"
-      status: "in_progress"
-
-    - id: "sprint-001"
-      type: "sprint"
-      status: "completed"
-
-    - id: "sprint-001-task-001"
-      type: "task"
-      status: "completed"
-
-  edges:
-    - from: "sprint-002"
-      to: "sprint-001"
-      type: "depends_on"
-      required_status: "completed"
-
-    - from: "sprint-001-task-002"
-      to: "sprint-001-task-001"
-      type: "depends_on"
-      required_status: "completed"
-```
+This enables future migrations if needed.
 
 ### State Synchronization
 
 **When state changes:**
-1. Update primary state file (e.g., task file)
-2. Update parent aggregate (e.g., sprint progress)
-3. Update dependency graph
-4. Update blockers for dependent objects
-5. Trigger version calculation if needed
+1. Update primary object (e.g., task file)
+2. Update parent aggregates (sprint progress, track progress, roadmap progress)
+3. Recompute blocked states for dependent objects
+4. Update dependency graph cache
+5. Log activity to unified roadmap log
+6. Trigger version bump if applicable
 
-**Consistency Guarantees:**
-- Atomic writes using temp files + rename
-- Validation before write
-- Rollback on error
-- Activity log for audit trail
+**Atomic Updates:**
+```python
+def update_task_status(task_id, new_status):
+    with atomic_transaction():
+        # 1. Update task
+        task = load_task(task_id)
+        task.status = new_status
+        save_task(task)
+
+        # 2. Update sprint progress
+        sprint = load_sprint(task.sprint_id)
+        sprint.progress = calculate_progress(sprint)
+        save_sprint(sprint)
+
+        # 3. Check if sprint completes
+        if all_tasks_complete(sprint):
+            sprint.status = 'completed'
+            trigger_quality_gates(sprint)
+
+        # 4. Update track progress
+        track = load_track(sprint.track_id)
+        track.progress = calculate_progress(track)
+        save_track(track)
+
+        # 5. Update roadmap progress
+        roadmap = load_roadmap(track.roadmap_id)
+        roadmap.progress = calculate_progress(roadmap)
+        save_roadmap(roadmap)
+
+        # 6. Recompute blockers
+        update_blockers_for_dependencies(task_id)
+
+        # 7. Update cache
+        invalidate_cache(['dependency-graph', 'progress-snapshot'])
+
+        # 8. Log activity
+        log_activity('task_completed', f"Completed task: {task.title}", {
+            'task_id': task_id,
+            'sprint_id': task.sprint_id,
+            'track_id': task.track_id
+        })
+```
+
+### Caching Strategy
+
+**Computed values cached:**
+- Dependency graph (full graph computation)
+- Progress percentages (aggregate rollups)
+- Blocker index (all blocked objects)
+
+**Cache invalidation:**
+- On any status change
+- On dependency add/remove
+- On demand via `vibey cache rebuild`
+
+**Cache rebuild:**
+```bash
+vibey cache rebuild [--graph] [--progress] [--blockers]
+```
 
 ---
 
 ## Implementation Considerations
 
-### Python Scripts
+### Python Scripts Required
 
-**New Scripts Needed:**
+**Core Scripts:**
 
-1. **`create-roadmap.py`**
-   - Initialize roadmap structure
-   - Create tracks
-   - Set version strategy
+1. **`vibey-roadmap.py`**
+   - Create roadmap
+   - Query roadmap status
+   - Manage roadmap-level state
+   - ~400 lines
 
-2. **`create-track.py`**
-   - Create new track
-   - Add to roadmap
-   - Set up track state file
+2. **`vibey-track.py`**
+   - Create track
+   - Update track state
+   - Query track status
+   - ~350 lines
 
-3. **`update-track-state.py`**
-   - Update track status
-   - Manage track dependencies
-   - Track completion
+3. **`vibey-sprint.py`**
+   - Create sprint (from plan)
+   - Update sprint state
+   - Query sprint status
+   - Quality gate management
+   - ~500 lines
 
-4. **`create-task.py`**
-   - Create task from template
-   - Add to sprint
-   - Set dependencies
+4. **`vibey-task.py`**
+   - Create task
+   - Update task state
+   - Query task status
+   - Task assignment
+   - ~400 lines
 
-5. **`update-task-state.py`**
-   - Update task status
-   - Log completion
-   - Update deliverables
+5. **`vibey-deps.py`**
+   - Add dependency
+   - Remove dependency
+   - Validate dependencies (no cycles)
+   - Query dependency graph
+   - Update blocked states
+   - ~600 lines
 
-6. **`query-roadmap.py`**
-   - Roadmap status
-   - Track progress
-   - Overall metrics
+6. **`vibey-version.py`**
+   - Calculate version
+   - Bump version
+   - Version history
+   - Git tag management
+   - ~300 lines
 
-7. **`query-dependencies.py`**
-   - Check if object blocked
-   - List blockers
-   - Show dependency graph
+7. **`vibey-query.py`**
+   - Cross-object queries
+   - Next available task
+   - Blocker analysis
+   - Progress reports
+   - ~400 lines
 
-8. **`calculate-version.py`**
-   - Compute current version
-   - Check version bump triggers
-   - Update version
+8. **`vibey-cache.py`**
+   - Build dependency graph
+   - Compute progress rollups
+   - Build blocker index
+   - Cache management
+   - ~300 lines
 
-9. **`generate-dependency-graph.py`**
-   - Build full dependency graph
-   - Validate no cycles
-   - Export for visualization
+9. **`vibey-validate.py`**
+   - Validate state consistency
+   - Check for circular dependencies
+   - Verify schema compliance
+   - Detect orphaned objects
+   - ~250 lines
 
-**Enhanced Existing Scripts:**
+10. **`vibey-export.py`**
+    - Export roadmap (JSON, YAML, Markdown)
+    - Generate reports
+    - Dashboard data
+    - ~200 lines
 
-1. **`create-sprint-state.py`**
-   - Add track_id field
-   - Initialize dependencies
-   - Set blocked state
+**Total Estimated LOC:** ~3,700 lines
 
-2. **`update-sprint-state.py`**
-   - Check dependencies before status change
-   - Update blocked state
-   - Trigger version bump on production_ready
-
-3. **`query-sprint-state.py`**
-   - Show blocker info
-   - Display dependencies
-   - Track-level context
-
-### Schema Updates
-
-**New Schema Files:**
+### Schema Files Required
 
 1. **`roadmap-schema.yaml`** - Roadmap state schema
 2. **`track-schema.yaml`** - Track state schema
-3. **`task-schema.yaml`** - Task state schema
-4. **`dependency-schema.yaml`** - Dependency structure schema
+3. **`sprint-schema.yaml`** - Sprint state schema (simplified, no phases)
+4. **`task-schema.yaml`** - Task state schema
+5. **`dependency-schema.yaml`** - Dependency structure schema
 
-**Updated Schema:**
+### Dependencies
 
-1. **`sprint-state-schema.yaml`** - Add new fields
+**Python Packages:**
+```
+pyyaml>=6.0
+jsonschema>=4.0  # Schema validation
+networkx>=3.0    # Dependency graph analysis
+click>=8.0       # CLI framework
+```
 
-### Validation Rules
+### Performance Considerations
 
-**Dependency Validation:**
-- No circular dependencies
-- target_id must exist
-- target_status must be valid
-- Dependency type matches target type
+**For large roadmaps (1000+ tasks):**
 
-**Status Validation:**
-- Only valid status transitions allowed
-- Cannot mark complete if blocked
-- Cannot mark production_ready without quality gates
+1. **Lazy Loading**: Load objects on-demand, not all at once
+2. **Caching**: Cache computed values (dependency graph, progress)
+3. **Indexing**: Build indices for fast lookups (blocker index)
+4. **Batch Updates**: Update multiple objects in single transaction
+5. **Incremental Computation**: Update only affected objects
 
-**Version Validation:**
-- Version must be valid semantic version
-- Version bumps must follow rules
-- Version history must be chronological
+**Optimization Targets:**
+- `vibey task next`: <100ms (even with 1000+ tasks)
+- `vibey roadmap status`: <200ms (with caching)
+- `vibey deps graph`: <500ms (from cache)
+- State update: <50ms per object
 
 ---
 
-## Trade-offs & Design Decisions
+## Design Decisions & Rationale
 
-### Design Decision 1: Flat Task List vs. Phase Nesting
+### 1. No Phases as Structural Objects
 
-**Decision**: Support BOTH phase nesting (existing) AND flat task list (new)
+**Decision**: Tasks are flat, phases are optional labels
 
 **Rationale:**
-- Backward compatibility with existing sprint plans
-- Phases provide organizational structure
-- Flat task list enables cross-phase dependencies
-- Both have value
+- Phases added complexity without clear benefit
+- Tasks are the atomic unit of work
+- Labels provide organization without structure
+- Eliminates duplication (task state in phase, task state in flat list)
+- Simpler queries and updates
 
 **Trade-offs:**
-- ✅ Maintains existing workflows
-- ✅ Enables advanced dependency management
-- ❌ Slightly more complex data model
-- ❌ Potential for inconsistency if not careful
-
-**Mitigation:**
-- Tasks reference their phase
-- Scripts validate phase/task consistency
-- Clear documentation on when to use each
+- ✅ Simpler data model
+- ✅ Single source of truth for tasks
+- ✅ Easier to query and update
+- ✅ No nested iteration required
+- ❌ Less visual organization (mitigated by labels)
+- ❌ Phase-level progress tracking removed (can compute from labels)
 
 ---
 
-### Design Decision 2: Automatic vs. Manual Version Bumps
+### 2. Track-Scoped Sprint IDs
 
-**Decision**: Automatic MINOR/PATCH, Manual MAJOR
+**Decision**: Sprint IDs are `{track-id}-{number}` (e.g., `backend-1`)
 
 **Rationale:**
-- Track/sprint completion is objective milestone
+- Makes ownership immediately clear
+- Enables parallel numbering across tracks
+- No global sprint numbering confusion
+- Natural fit with track-based parallelization
+- Easier to understand dependencies
+
+**Trade-offs:**
+- ✅ Clear ownership and organization
+- ✅ Enables track-parallel development
+- ✅ Human-readable and meaningful
+- ✅ No numbering conflicts
+- ❌ Slightly longer IDs (minimal impact)
+
+---
+
+### 3. Unified Activity Log at Roadmap Level
+
+**Decision**: Single activity log for entire roadmap
+
+**Rationale:**
+- Complete project history in one place
+- Easy to query across tracks/sprints
+- Simplifies state management
+- Better for analytics and reporting
+- Context field provides drill-down
+
+**Trade-offs:**
+- ✅ Complete project visibility
+- ✅ Simpler state management
+- ✅ Better for reporting and analytics
+- ✅ Single source of truth for history
+- ❌ Log can grow large (mitigate with archiving)
+- ❌ More entries per file (mitigate with pagination)
+
+---
+
+### 4. Automatic Version Bumps
+
+**Decision**: Automatic MINOR/PATCH, manual MAJOR
+
+**Rationale:**
+- Sprint/track completion is objective milestone
+- Reduces manual version management
+- Consistent progression
 - MAJOR versions are strategic decisions
-- Automation reduces human error
-- Manual control for breaking changes
+- Can disable if needed
 
 **Trade-offs:**
-- ✅ Reduces version management burden
+- ✅ Reduces management overhead
 - ✅ Consistent version progression
-- ❌ Less control over version timing
-- ❌ May bump when not desired
-
-**Mitigation:**
-- `--no-version-bump` flag for manual control
-- Version bump triggers configurable
-- Clear documentation on version strategy
+- ✅ Objective triggers
+- ❌ Less control over timing (mitigate with disable flag)
+- ❌ May bump when not desired (mitigate with manual mode)
 
 ---
 
-### Design Decision 3: Explicit Blocked State vs. Computed
+### 5. Explicit `blocked` Flag with Auto-Computation
 
-**Decision**: Explicit `blocked: true/false` flag, automatically computed
+**Decision**: `blocked: true/false` automatically computed from dependencies
 
 **Rationale:**
-- Performance: don't recompute on every query
-- Visibility: easy to see blocked objects
-- Consistency: computed from dependencies
+- Performance: Don't recompute on every query
+- Visibility: Easy to see blocked objects
+- Consistency: Computed from dependencies
+- Simple API: Just check the flag
 
 **Trade-offs:**
-- ✅ Fast queries
-- ✅ Clear API
-- ❌ Must keep in sync
-- ❌ Potential for stale data
-
-**Mitigation:**
-- Update blocked state on every dependency change
-- Validation scripts check consistency
-- Rebuild command to recompute all blocked states
+- ✅ Fast queries (no computation)
+- ✅ Simple API
+- ✅ Clear visibility
+- ❌ Must keep in sync (mitigate with update triggers)
+- ❌ Potential for staleness (mitigate with validation)
 
 ---
 
-### Design Decision 4: Centralized vs. Distributed State Files
+### 6. Distributed File Structure
 
-**Decision**: Distributed (one file per object type per instance)
+**Decision**: One file per object (roadmap, each track, each sprint, task batch)
 
 **Rationale:**
-- Scalability: large roadmaps don't create huge files
-- Concurrency: multiple agents can work simultaneously
-- Git-friendly: smaller diffs, less merge conflicts
-- Modularity: easy to archive completed sprints
+- Scalability: Large roadmaps don't create huge files
+- Concurrency: Multiple agents can work simultaneously
+- Git-friendly: Smaller diffs, fewer conflicts
+- Modularity: Easy to archive completed work
+- Performance: Load only what's needed
 
 **Trade-offs:**
 - ✅ Scales to large projects
 - ✅ Better concurrent access
 - ✅ Cleaner git history
-- ❌ More complex to query entire state
-- ❌ More file management
-
-**Mitigation:**
-- Provide aggregate query scripts
-- Cache computed state (dependency graph)
-- Clear file naming conventions
+- ✅ Faster loads (lazy loading)
+- ❌ More file management (mitigate with scripts)
+- ❌ More complex queries (mitigate with caching)
 
 ---
 
-### Design Decision 5: Dependency Types (Limited Set vs. Extensible)
+### 7. Quality Gates at Sprint Level Only
 
-**Decision**: Limited set of 4 types (task, sprint, track, external)
-
-**Rationale:**
-- Simplicity: easy to understand and implement
-- Type safety: can validate references
-- Sufficient: covers 95% of use cases
-- Future: can extend if needed
-
-**Trade-offs:**
-- ✅ Simple mental model
-- ✅ Easy validation
-- ✅ Clear semantics
-- ❌ Limited flexibility
-- ❌ May need custom handling for edge cases
-
-**Mitigation:**
-- "external" type for special cases
-- "reason" field for human context
-- Can extend in future versions
-
----
-
-### Design Decision 6: Task Size Constraint (Context Window)
-
-**Decision**: Tasks must fit in single context window (estimated tokens)
-
-**Rationale:**
-- Aligns with AI coding assistant limitations
-- Forces good task breakdown
-- Manageable units of work
-- Predictable execution time
-
-**Trade-offs:**
-- ✅ Realistic task planning
-- ✅ Predictable token usage
-- ✅ Natural parallelization
-- ❌ Requires upfront estimation
-- ❌ May need to split tasks mid-work
-
-**Mitigation:**
-- Token estimation guidelines
-- Tools to split tasks
-- Flexibility to adjust estimates
-- actual_tokens tracking for learning
-
----
-
-### Design Decision 7: Quality Gates at Sprint Level (Not Task)
-
-**Decision**: Quality gates enforce at sprint completion, not task completion
+**Decision**: Quality gates enforced at sprint completion, not task completion
 
 **Rationale:**
 - Tasks are development units, sprints are quality units
-- Allows iterative development within sprint
-- Reduces overhead for small tasks
-- Maintains existing quality gate system
+- Reduces overhead for individual tasks
+- Allows iterative development
+- Batch quality checks are more efficient
+- Maintains existing quality gate philosophy
 
 **Trade-offs:**
 - ✅ Faster task completion
-- ✅ More flexible development
+- ✅ More flexible development workflow
 - ✅ Batch quality checks
-- ❌ Issues found later
-- ❌ May accumulate technical debt
-
-**Mitigation:**
-- Optional task-level quality requirements (non-blocking)
-- CI/CD checks on every commit
-- Agent best practices encourage quality
-- Security gates always run
+- ✅ Reduces overhead
+- ❌ Issues found later (mitigate with CI/CD)
+- ❌ May accumulate debt (mitigate with optional task quality notes)
 
 ---
 
-## Migration Path
+### 8. Task Size Constraint (Context Window)
 
-### Phase 1: Foundation (Weeks 1-2)
+**Decision**: Tasks must fit in single context window
 
-**Goals**: Implement core data structures, no breaking changes
+**Rationale:**
+- Aligns with AI assistant limitations
+- Forces good task decomposition
+- Predictable execution
+- Manageable units of work
+- Realistic planning
 
-**Tasks:**
-1. Create schema files for roadmap, track, task
-2. Implement `create-roadmap.py`
-3. Implement `create-track.py`
-4. Add new fields to sprint state (backward compatible)
-5. Implement `create-task.py` and `update-task-state.py`
-6. Write tests
-
-**Validation**: Existing sprint states load correctly
-
----
-
-### Phase 2: Dependency System (Weeks 3-4)
-
-**Goals**: Implement dependency and blocker tracking
-
-**Tasks:**
-1. Implement dependency validation
-2. Create `query-dependencies.py`
-3. Update `update-sprint-state.py` with dependency checks
-4. Implement automatic blocked state updates
-5. Create `generate-dependency-graph.py`
-6. Write tests for dependency cycles, validation
-
-**Validation**: Can create dependencies, detect blockers
+**Trade-offs:**
+- ✅ Realistic task sizes
+- ✅ Predictable token usage
+- ✅ Forces good planning
+- ✅ Natural parallelization boundaries
+- ❌ Requires upfront estimation (mitigate with guidelines)
+- ❌ May need task splitting (mitigate with split tool)
 
 ---
 
-### Phase 3: Versioning (Week 5)
+## Examples
 
-**Goals**: Implement semantic versioning system
+### Complete Example: E-commerce Platform
 
-**Tasks:**
-1. Create `calculate-version.py`
-2. Implement version bump triggers
-3. Update sprint/track completion to trigger bumps
-4. Create version history tracking
-5. Git tag integration
-6. Write tests
-
-**Validation**: Versions bump correctly on completions
-
----
-
-### Phase 4: Query & CLI (Week 6)
-
-**Goals**: Developer-facing query and management tools
-
-**Tasks:**
-1. Implement `query-roadmap.py`
-2. Create CLI wrapper script (`vibey` command)
-3. Implement all CLI commands
-4. Add output formatting (text, JSON, YAML)
-5. Write CLI tests
-6. Documentation
-
-**Validation**: Can manage roadmap via CLI
-
----
-
-### Phase 5: Integration & Polish (Weeks 7-8)
-
-**Goals**: Integrate with existing framework, documentation
-
-**Tasks:**
-1. Update `/vibey` command to use roadmap
-2. Update sprint planning workflow
-3. Update agents to query task assignments
-4. Create migration tool for existing projects
-5. Write comprehensive documentation
-6. Create examples and tutorials
-7. Update CLAUDE.md template
-
-**Validation**: Full end-to-end workflow works
-
----
-
-### Phase 6: Testing & Release (Weeks 9-10)
-
-**Goals**: Production-ready release
-
-**Tasks:**
-1. Comprehensive testing with real projects
-2. Performance optimization
-3. Bug fixes
-4. Documentation review
-5. Release preparation
-6. Version 2.0.0 release
-
-**Validation**: Production-ready roadmap system
-
----
-
-## Backward Compatibility Plan
-
-### Existing Sprint States
-
-**Current Format:**
-```yaml
-sprint:
-  number: 1
-  status: "in_progress"
-  phases: [...]
-```
-
-**Enhanced Format:**
-```yaml
-sprint:
-  number: 1
-  status: "in_progress"
-  track_id: "default-track"  # Auto-assigned if missing
-  blocked: false              # Computed if missing
-  dependencies: []            # Empty if missing
-  phases: [...]              # Preserved
-```
-
-**Loading Strategy:**
-1. Detect schema version
-2. If old version, apply defaults
-3. Migrate on first save
-4. Log migration in activity log
-
-### Gradual Adoption
-
-**Projects can adopt incrementally:**
-1. **Level 0**: No changes (existing sprint system)
-2. **Level 1**: Add track structure (no dependencies)
-3. **Level 2**: Add dependencies (no tasks)
-4. **Level 3**: Add tasks (flat structure)
-5. **Level 4**: Full roadmap with versioning
-
-**Each level is production-ready**, just with fewer features.
-
----
-
-## Example: Complete Roadmap
-
-### Sample Project: "E-commerce Platform"
+#### Roadmap
 
 ```yaml
 roadmap:
   id: "ecommerce-v2"
   name: "E-commerce Platform v2.0"
-  version: "2.3.5"
+  version: "2.1.3"
   status: "in_progress"
   blocked: false
 
-  tracks:
-    - track_id: "track-backend"
-    - track_id: "track-frontend"
-    - track_id: "track-mobile"
-    - track_id: "track-infrastructure"
+  progress:
+    tracks_total: 4
+    tracks_completed: 1
+    sprints_total: 12
+    sprints_completed: 5
+    tasks_total: 89
+    tasks_completed: 67
+    completion_percent: 75
 
-  version_history:
-    - version: "2.0.0"
-      date: "2025-01-15"
-      milestone: "Platform Redesign Launch"
-    - version: "2.1.0"
-      date: "2025-03-01"
-      milestone: "Backend Optimization Complete"
-    - version: "2.2.0"
-      date: "2025-05-15"
-      milestone: "Frontend Redesign Complete"
-    - version: "2.3.0"
-      date: "2025-08-01"
-      milestone: "Mobile App Launch"
+  tracks:
+    - id: "backend"
+    - id: "frontend"
+    - id: "mobile"
+    - id: "infrastructure"
+
+  activity_log:
+    - timestamp: "2025-09-15T14:00:00Z"
+      type: "track_completed"
+      description: "Backend track production ready"
+      context:
+        track_id: "backend"
+
+    - timestamp: "2025-09-15T14:01:00Z"
+      type: "version_bump"
+      description: "Version bumped to 2.1.0"
+      context:
+        trigger: "track_completion"
 ```
 
-### Sample Track: "Backend"
+#### Track: Backend
 
 ```yaml
 track:
-  id: "track-backend"
+  id: "backend"
   name: "Backend Services"
   roadmap_id: "ecommerce-v2"
-  status: "in_progress"
+  status: "production_ready"
   blocked: false
 
   sprints:
-    - sprint_id: "sprint-001"  # User Auth (completed)
-    - sprint_id: "sprint-002"  # Product Catalog (completed)
-    - sprint_id: "sprint-003"  # Shopping Cart (in progress)
-    - sprint_id: "sprint-004"  # Payment Gateway (not started)
+    - id: "backend-1"
+      name: "User Authentication"
+      status: "production_ready"
 
-  dependencies:
+    - id: "backend-2"
+      name: "Product Catalog API"
+      status: "production_ready"
+
+    - id: "backend-3"
+      name: "Shopping Cart"
+      status: "production_ready"
+
+    - id: "backend-4"
+      name: "Payment Integration"
+      status: "production_ready"
+
+  dependencies: []
+  blocks:
     - type: "track"
-      target_id: "track-infrastructure"
-      target_status: "production_ready"
-      reason: "Need Kubernetes cluster ready"
+      target_id: "frontend"
+      at_status: "completed"
 ```
 
-### Sample Sprint: "Shopping Cart"
+#### Sprint: Shopping Cart
 
 ```yaml
 sprint:
-  id: "sprint-003"
-  number: 3
+  id: "backend-3"
   name: "Shopping Cart Implementation"
-  track_id: "track-backend"
-  status: "in_progress"
+  track_id: "backend"
+  status: "production_ready"
   blocked: false
+
+  tasks:
+    - id: "backend-3-task-001"
+      title: "Create Cart database schema"
+      status: "completed"
+
+    - id: "backend-3-task-002"
+      title: "Implement add-to-cart endpoint"
+      status: "completed"
+
+    - id: "backend-3-task-003"
+      title: "Implement update cart endpoint"
+      status: "completed"
+
+    - id: "backend-3-task-004"
+      title: "Implement remove from cart endpoint"
+      status: "completed"
+
+    - id: "backend-3-task-005"
+      title: "Write cart tests"
+      status: "completed"
 
   dependencies:
     - type: "sprint"
-      target_id: "sprint-002"
+      target_id: "backend-2"
       target_status: "production_ready"
       reason: "Cart depends on product catalog"
 
-  tasks:
-    - task_id: "sprint-003-task-001"
-    - task_id: "sprint-003-task-002"
-    - task_id: "sprint-003-task-003"
+  quality_gates:
+    - name: "Unit Tests"
+      threshold: 80
+      blocking: true
+      status: "passed"
+      score: 95
+
+    - name: "Security Audit"
+      threshold: 85
+      blocking: true
+      status: "passed"
+      score: 88
 ```
 
-### Sample Task: "Add to Cart Endpoint"
+#### Task: Add to Cart Endpoint
 
 ```yaml
 task:
-  id: "sprint-003-task-001"
-  sprint_id: "sprint-003"
+  id: "backend-3-task-002"
+  sprint_id: "backend-3"
+  track_id: "backend"
   title: "Implement add-to-cart endpoint"
   status: "completed"
   blocked: false
 
   assigned_agent: "web-developer"
+  phase_label: "API Development"
+
   estimated_tokens: 6000
   actual_tokens: 5800
 
   dependencies:
     - type: "task"
-      target_id: "sprint-002-task-005"  # Product validation utils
+      target_id: "backend-3-task-001"
+      target_status: "completed"
+      reason: "Need cart schema"
+
+    - type: "task"
+      target_id: "backend-2-task-003"
       target_status: "completed"
       reason: "Need product validation"
 
@@ -1436,97 +1687,39 @@ task:
   commits:
     - sha: "a1b2c3d"
       message: "feat: add shopping cart endpoint"
-      date: "2025-09-15T14:30:00Z"
+      date: "2025-08-15T14:30:00Z"
 ```
 
 ---
 
-## Visualization Examples
+## Summary
 
-### Roadmap Dashboard View
+This optimized design eliminates backward compatibility constraints to create a cleaner, more maintainable system:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ E-commerce Platform v2.0                     Version: 2.3.5  │
-│ Status: in_progress                    Progress: 73% (3/4)   │
-├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│ TRACKS                                                        │
-│   ✓ Backend           [████████████░░] 85%   (3/4 sprints)  │
-│   ✓ Frontend          [██████████████] 100%  (4/4 sprints)  │
-│   → Mobile            [██████░░░░░░░░] 50%   (2/4 sprints)  │
-│   ○ Infrastructure    [░░░░░░░░░░░░░░] 0%    (0/3 sprints)  │
-│                                                               │
-│ CURRENT WORK                                                  │
-│   Track: Backend → Sprint 3: Shopping Cart                   │
-│   Tasks: 5/8 completed                                        │
-│   Blockers: None                                              │
-│                                                               │
-│ NEXT UP                                                       │
-│   • Sprint 4: Payment Gateway (Backend track)                │
-│   • Sprint 3: iOS App (Mobile track)                         │
-│                                                               │
-└─────────────────────────────────────────────────────────────┘
-```
+**Key Improvements:**
+1. ✅ **Flat task structure** - No phase nesting, optional labels
+2. ✅ **Track-scoped sprint IDs** - Clear ownership (`backend-1`, not `sprint-1`)
+3. ✅ **Unified activity log** - All events at roadmap level
+4. ✅ **Simplified sprint structure** - No current_phase, no phase objects
+5. ✅ **Direct quality gates** - Sprint-level array, not nested in phases
+6. ✅ **Clean file structure** - Purpose-built schemas from scratch
+7. ✅ **Auto-computed blockers** - Explicit flag, automatically maintained
 
-### Dependency Graph View
+**Eliminated Complexity:**
+- ❌ Dual phase/task structures
+- ❌ Phase-level progress tracking
+- ❌ Current phase pointers
+- ❌ Sprint-level activity logs
+- ❌ Global sprint numbering
+- ❌ Backward compatibility code
+- ❌ Migration paths
 
-```
-track-backend ────┐
-    │             │
-    ├─ sprint-001 │
-    │     │       │
-    │     └─ task-001                    track-infrastructure
-    │     └─ task-002                          │
-    │                                          │
-    ├─ sprint-002 ◄──(depends on)──────────────┘
-    │     │
-    │     └─ task-001
-    │     └─ task-002
-    │     └─ task-003
-    │
-    ├─ sprint-003 ◄──(depends on sprint-002)
-    │     │
-    │     └─ task-001 ◄──(depends on sprint-002-task-003)
-    │     └─ task-002
-    │     └─ task-003
-    │
-    └─ sprint-004 ◄──(depends on sprint-003)
-```
+**Result:**
+A cleaner, more maintainable system that's easier to understand, implement, and use. Perfect for a greenfield project with no legacy constraints.
 
 ---
 
-## Conclusion
-
-This roadmap object hierarchy design provides:
-
-1. **Comprehensive Project View**: Roadmap → Track → Sprint → Task
-2. **Parallel Execution**: Tracks enable parallelization
-3. **Explicit Dependencies**: Clear blockers and dependencies
-4. **Unified Status System**: Consistent across all levels
-5. **Semantic Versioning**: Tied to project progress
-6. **Developer Workflow**: Clear process from roadmap to task
-7. **Backward Compatibility**: Existing sprint states preserved
-8. **Scalability**: Distributed file structure
-9. **Extensibility**: Room for future enhancements
-
-**Key Benefits:**
-- ✅ Better project visibility
-- ✅ Clear parallelization opportunities
-- ✅ Explicit dependency management
-- ✅ Automated version tracking
-- ✅ Enhanced developer experience
-- ✅ Scalable to large projects
-
-**Next Steps:**
-1. Review and approve design
-2. Begin Phase 1 implementation
-3. Iterate based on feedback
-4. Release as Vibey Framework 2.0
-
----
-
-**Document Status**: Ready for Review
-**Target Implementation**: Q1 2025
-**Estimated Effort**: 10 weeks (2 developers)
-**Risk Level**: Low (backward compatible, incremental adoption)
+**Document Status**: Ready for Implementation
+**Target**: Vibey Framework 2.0
+**Estimated Effort**: 8 weeks (2 developers)
+**Risk Level**: Low (clean slate design)

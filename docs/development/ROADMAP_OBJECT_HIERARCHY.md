@@ -1958,10 +1958,110 @@ Current design doesn't distinguish these.
 
 ### Context Budget Guidelines
 
-**Total Context Budget**: ~10,000 tokens for all documentation
-- Leaves room for code, examples, system prompts
+#### Model Configuration Tracking
 
-**Token Allocation per Document:**
+**CRITICAL REQUIREMENT**: Vibey framework MUST track the model being used and its context window size in project configuration.
+
+**Why This Matters:**
+- Different models have different context windows (8K, 32K, 128K, 200K+)
+- Token budgets for documentation should scale with model capacity
+- Users may switch models mid-project (need to adjust budgets)
+- Prevents context overflow or underutilization
+
+**Configuration Location**: `.vibey/project-config.yaml` or `.claude/project-config.yaml`
+
+```yaml
+model:
+  name: "claude-sonnet-4"
+  provider: "anthropic"
+  context_window: 200000
+
+  # Model-specific token budgets
+  token_budgets:
+    hierarchy_docs: 10000      # Total for CLAUDE.md + ROADMAP + track + sprint + task
+    claude_md: 1000
+    roadmap_md: 1500
+    track_md: 2000
+    sprint_md: 3000
+    task_md: 2500
+
+  # Safety margins
+  reserved_for_code: 20000     # Tokens reserved for code files
+  reserved_for_output: 10000   # Tokens for error messages, test output
+  reserved_for_system: 5000    # Tokens for system prompts
+```
+
+**Scripts Should:**
+1. Validate doc sizes against configured budgets
+2. Warn when docs exceed budget
+3. Suggest adjustments if model changes
+4. Calculate remaining context budget
+
+---
+
+#### Token Budget Profiles by Model Size
+
+**Profile: Small Context (8K-16K tokens)**
+
+Example models: GPT-3.5 Turbo (16K), older models
+
+```yaml
+# Tight budget - minimal docs
+token_budgets:
+  hierarchy_docs: 4000        # 25% of context
+  claude_md: 300
+  roadmap_md: 500
+  track_md: 700
+  sprint_md: 1200
+  task_md: 1300
+  reserved_for_code: 6000
+  reserved_for_output: 4000
+  reserved_for_system: 2000
+```
+
+**Status**: ⚠️ **Not Recommended** - Context too limited for effective Vibey workflow
+
+---
+
+**Profile: Medium Context (32K-64K tokens)**
+
+Example models: GPT-4 (32K), Claude 2 (100K but conservative), Gemini Pro
+
+```yaml
+# Moderate budget - compressed docs
+token_budgets:
+  hierarchy_docs: 8000        # 25% of 32K context
+  claude_md: 600
+  roadmap_md: 1000
+  track_md: 1500
+  sprint_md: 2500
+  task_md: 2400
+  reserved_for_code: 12000
+  reserved_for_output: 8000
+  reserved_for_system: 4000
+```
+
+**Status**: ✅ **Viable** - Requires terse documentation style
+
+---
+
+**Profile: Large Context (128K-200K tokens)** ⭐ **RECOMMENDED DEFAULT**
+
+Example models: Claude Sonnet 3.5 (200K), Claude Opus 3 (200K), GPT-4 Turbo (128K)
+
+```yaml
+# Comfortable budget - detailed docs
+token_budgets:
+  hierarchy_docs: 10000       # 5% of 200K context
+  claude_md: 1000
+  roadmap_md: 1500
+  track_md: 2000
+  sprint_md: 3000
+  task_md: 2500
+  reserved_for_code: 30000
+  reserved_for_output: 15000
+  reserved_for_system: 5000
+```
 
 | Document | Target Tokens | Max Tokens | Purpose |
 |----------|---------------|------------|---------|
@@ -1972,13 +2072,222 @@ Current design doesn't distinguish these.
 | `task-{id}.md` | 1500 | 2500 | Task objective, dep summaries, guidance |
 | **Total** | **6000** | **10000** | Full context hierarchy |
 
-**Remaining Budget**: 4,000 - 14,000 tokens for:
-- Code files
-- Error messages
-- Test output
-- System prompts
+**Remaining Budget**: 50,000 tokens for code, errors, test output
 
-**Design Principle**: Each document must stay within its token budget while providing complete context for its level.
+**Status**: ✅ **Recommended** - Balanced detail and context capacity
+
+---
+
+**Profile: Extra Large Context (500K-1M+ tokens)**
+
+Example models: Claude Sonnet 4 (200K+ effective), Gemini 1.5 Pro (1M)
+
+```yaml
+# Generous budget - comprehensive docs
+token_budgets:
+  hierarchy_docs: 15000       # <2% of 1M context
+  claude_md: 1500
+  roadmap_md: 2500
+  track_md: 3000
+  sprint_md: 4500
+  task_md: 3500
+  reserved_for_code: 50000
+  reserved_for_output: 20000
+  reserved_for_system: 5000
+```
+
+**Status**: ✅ **Optimal** - Maximum detail, examples, and guidance
+
+---
+
+#### User-Configurable Budgets
+
+**REQUIREMENT**: Users MUST be able to adjust token budgets via configuration.
+
+**Why Users Need Control:**
+1. **Project complexity varies** - Complex projects need more context
+2. **Team preferences differ** - Some teams prefer terse vs verbose
+3. **Model capabilities change** - New models released with different windows
+4. **Workflow variations** - Some users read more code, others more docs
+
+**Configuration Methods:**
+
+**Method 1: Direct Configuration**
+```yaml
+# .vibey/project-config.yaml
+model:
+  context_window: 200000
+  token_budgets:
+    claude_md: 1200        # User increased from 1000
+    roadmap_md: 1500
+    track_md: 2500         # User increased from 2000
+    sprint_md: 3500        # User increased from 3000
+    task_md: 2500
+```
+
+**Method 2: Profile + Overrides**
+```yaml
+model:
+  context_window: 200000
+  budget_profile: "large"  # Use large context profile
+  budget_overrides:
+    sprint_md: 4000        # Override just sprint budget
+    task_md: 3000          # Override just task budget
+```
+
+**Method 3: CLI Commands**
+```bash
+# Set budget for specific doc type
+vibey config set token_budgets.sprint_md 4000
+
+# Set entire profile
+vibey config set budget_profile medium
+
+# Show current budgets
+vibey config get token_budgets
+
+# Validate all docs against budgets
+vibey validate docs --budget-check
+```
+
+---
+
+#### Budget Calculation Formula
+
+**Recommended approach: Scale with context window**
+
+```python
+def calculate_token_budgets(context_window: int) -> dict:
+    """Calculate token budgets based on context window size."""
+
+    # Allocate percentages
+    HIERARCHY_DOCS_PERCENT = 0.05  # 5% for hierarchy docs
+    CODE_PERCENT = 0.20            # 20% for code files
+    OUTPUT_PERCENT = 0.10          # 10% for output/errors
+    SYSTEM_PERCENT = 0.03          # 3% for system prompts
+    # Remaining 62% for additional context as needed
+
+    hierarchy_budget = int(context_window * HIERARCHY_DOCS_PERCENT)
+
+    # Distribute hierarchy budget across docs
+    return {
+        'hierarchy_docs': hierarchy_budget,
+        'claude_md': int(hierarchy_budget * 0.10),      # 10% of hierarchy
+        'roadmap_md': int(hierarchy_budget * 0.15),     # 15% of hierarchy
+        'track_md': int(hierarchy_budget * 0.20),       # 20% of hierarchy
+        'sprint_md': int(hierarchy_budget * 0.30),      # 30% of hierarchy
+        'task_md': int(hierarchy_budget * 0.25),        # 25% of hierarchy
+        'reserved_for_code': int(context_window * CODE_PERCENT),
+        'reserved_for_output': int(context_window * OUTPUT_PERCENT),
+        'reserved_for_system': int(context_window * SYSTEM_PERCENT),
+    }
+
+# Example outputs:
+# 32K context:  hierarchy_docs=1600, sprint=480, task=400
+# 200K context: hierarchy_docs=10000, sprint=3000, task=2500
+# 1M context:   hierarchy_docs=50000, sprint=15000, task=12500
+```
+
+---
+
+#### Budget Validation and Warnings
+
+**Scripts Should Validate:**
+
+```python
+def validate_doc_size(doc_path: str, doc_type: str, config: dict) -> dict:
+    """Validate document size against budget."""
+    actual_tokens = count_tokens(doc_path)
+    budget = config['token_budgets'][f'{doc_type}_md']
+
+    status = {
+        'path': doc_path,
+        'type': doc_type,
+        'actual': actual_tokens,
+        'budget': budget,
+        'utilization': actual_tokens / budget,
+    }
+
+    if actual_tokens > budget:
+        status['warning'] = f"Exceeds budget by {actual_tokens - budget} tokens"
+    elif actual_tokens > budget * 0.9:
+        status['warning'] = f"Near budget limit ({status['utilization']:.0%})"
+
+    return status
+
+# Example output:
+# sprint-backend-2.md: 3200 tokens / 3000 budget (107% - EXCEEDS BUDGET)
+# task-backend-2-task-5.md: 2800 tokens / 2500 budget (112% - EXCEEDS BUDGET)
+```
+
+**Warning Messages:**
+```bash
+$ vibey validate docs --budget-check
+
+⚠️  Document Budget Warnings:
+
+sprint-backend-2.md:
+  Actual: 3200 tokens
+  Budget: 3000 tokens
+  Status: EXCEEDS BUDGET by 200 tokens (107%)
+
+  Suggestions:
+  - Reduce dependency summaries (currently 800 tokens)
+  - Shorten task descriptions
+  - Remove redundant context
+  - Or increase budget: vibey config set token_budgets.sprint_md 3500
+
+task-backend-2-task-5.md:
+  Actual: 2400 tokens
+  Budget: 2500 tokens
+  Status: OK (96% utilized)
+
+Total hierarchy usage: 9800 / 10000 tokens (98%)
+```
+
+---
+
+#### Dynamic Budget Recommendations
+
+**When model changes:**
+
+```bash
+$ vibey config set model.context_window 32000
+
+⚠️  Model context window changed: 200000 → 32000
+
+Current token budgets may be too large for new model.
+
+Recommended budgets for 32K context:
+  hierarchy_docs: 8000 (currently 10000)
+  sprint_md: 2500 (currently 3000)
+  task_md: 2400 (currently 2500)
+
+Apply recommended budgets?
+  [y] Yes, update to recommended
+  [n] No, keep current (may cause context overflow)
+  [c] Custom budgets
+
+Choice: _
+```
+
+---
+
+#### Design Principles
+
+1. **Default to large context profile** - Most modern models support 128K-200K
+2. **Allow user override** - Users know their needs best
+3. **Validate on save** - Warn when docs exceed budget
+4. **Auto-adjust on model change** - Suggest new budgets when model changes
+5. **Provide escape hatch** - Users can disable validation if needed
+
+```yaml
+model:
+  token_budgets:
+    validation_enabled: true    # Warn on budget exceeded
+    strict_mode: false          # Don't fail, just warn
+    auto_adjust: true           # Suggest adjustments on model change
+```
 
 ---
 

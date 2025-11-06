@@ -1,6 +1,6 @@
 # Roadmap Object Hierarchy Design
 
-**Version:** 2.0 (Optimal Design)
+**Version:** 2.1 (Gate Model)
 **Date:** 2025-11-06
 **Status:** Design Proposal
 **Author:** Vibey Framework Team
@@ -9,20 +9,29 @@
 
 ## Executive Summary
 
-This document defines an optimal roadmap object hierarchy for the Vibey Agent Framework, designed from first principles without legacy constraints. The hierarchy enables structured project management from roadmap to individual tasks, with tracks enabling parallel execution and explicit dependency management.
+This document defines an optimal roadmap object hierarchy for the Vibey Agent Framework, designed from first principles without legacy constraints. The hierarchy enables structured project management from roadmap to individual tasks, with tracks enabling parallel execution and a sophisticated three-tier gate system for quality and dependency management.
 
 **Key Features:**
 - 4-tier hierarchy: Roadmap → Track → Sprint → Task
-- Unified status system with 7 states across all levels
-- Explicit dependency and blocker management with auto-computation
-- Semantic versioning tied to roadmap progress
+- Sprint redefined as **logical unit of work pushable to production**
+- Task redefined as **context-window sized work unit** (no production concerns)
+- Three-tier gate system:
+  - **Development Gates**: External dependencies (other sprints/tasks)
+  - **Completion Gates**: Quality checks blocking completion (docs, CI/CD)
+  - **Production Gates**: Quality checks blocking production (security, testing)
+- Quality gates are task objects within the sprint
+- Gate-check statuses: `completion_gate_check`, `production_gate_check`
 - Unified activity log at roadmap level
+- Semantic versioning tied to roadmap progress
 - Clean, purpose-built data structures
 
 **Design Philosophy:**
 - ✅ Optimize for clarity over compatibility
 - ✅ Single source of truth for each concern
-- ✅ Eliminate redundancy and duplication
+- ✅ Sprints are production-deployable units
+- ✅ Tasks are context-window sized units
+- ✅ Quality gates are highly isolated task objects
+- ✅ External dependencies are development gates
 - ✅ Make common operations simple
 - ✅ Make parallelization explicit
 
@@ -36,13 +45,18 @@ This document defines an optimal roadmap object hierarchy for the Vibey Agent Fr
 4. [Sprint Object](#sprint-object)
 5. [Task Object](#task-object)
 6. [Status System](#status-system)
-7. [Dependency & Blocker Model](#dependency--blocker-model)
-8. [Versioning Strategy](#versioning-strategy)
-9. [Developer Workflow](#developer-workflow)
-10. [State Management & Persistence](#state-management--persistence)
-11. [Implementation Considerations](#implementation-considerations)
-12. [Design Decisions & Rationale](#design-decisions--rationale)
-13. [Examples](#examples)
+7. [Gate System](#gate-system)
+   - [Development Gates](#development-gates)
+   - [Quality Gates](#quality-gates)
+   - [Completion Gates](#completion-gates)
+   - [Production Gates](#production-gates)
+8. [Dependency & Blocker Model](#dependency--blocker-model)
+9. [Versioning Strategy](#versioning-strategy)
+10. [Developer Workflow](#developer-workflow)
+11. [State Management & Persistence](#state-management--persistence)
+12. [Implementation Considerations](#implementation-considerations)
+13. [Design Decisions & Rationale](#design-decisions--rationale)
+14. [Examples](#examples)
 
 ---
 
@@ -77,8 +91,14 @@ This document defines an optimal roadmap object hierarchy for the Vibey Agent Fr
 **Hierarchy Levels:**
 1. **Roadmap**: Entire project (unified log, version, global dependencies)
 2. **Track**: Parallelization boundary (backend, frontend, infra, etc.)
-3. **Sprint**: Work batch within track (track-scoped ID: `backend-1`, `frontend-2`)
-4. **Task**: Atomic work unit (context-window sized, sprint-scoped ID)
+3. **Sprint**: **Logical unit of work pushable to production** (track-scoped ID: `backend-1`, `frontend-2`)
+   - Has completion gates and production gates
+   - Can reach `production_ready` and `deployed` statuses
+   - Contains development tasks and quality gate tasks
+4. **Task**: **Context-window sized work unit** (sprint-scoped ID)
+   - Sized to fit within model's context window
+   - No production concerns (`production_ready`/`deployed` statuses not applicable)
+   - Can be a development task OR a quality gate task (completion/production)
 
 **Key Simplifications:**
 - ❌ No "phases" as separate structures (just optional labels on tasks)
@@ -87,6 +107,8 @@ This document defines an optimal roadmap object hierarchy for the Vibey Agent Fr
 - ❌ No global sprint numbering (track-scoped instead)
 - ✅ Single source of truth for each concern
 - ✅ Clean, flat structures where possible
+- ✅ Quality gates are task objects (not separate structure)
+- ✅ Sprint is production-deployable unit
 
 ---
 
@@ -359,7 +381,14 @@ track:
 
 ## Sprint Object
 
-A **Sprint** is a group of related tasks within a track. **Simplified** - no phases, no nested structures.
+A **Sprint** is a **logical unit of work pushable to production** within a track.
+
+**Key Characteristics:**
+- Production-deployable unit
+- Contains development tasks AND quality gate tasks
+- Has `completion_gate_check` and `production_gate_check` statuses
+- Can reach `production_ready` and `deployed` statuses
+- Quality gates are tasks, not separate structures
 
 ### Structure
 
@@ -371,60 +400,109 @@ sprint:
   track_id: "backend"
   roadmap_id: "vibey-framework-v1"
 
-  # Status
-  status: "production_ready"
+  # Status (sprint has all statuses)
+  status: "production_ready"  # not_started | in_progress | paused | completion_gate_check | completed | production_gate_check | production_ready | deployed | won't_do
   blocked: false
 
   # Timing
   created: "2025-01-15T10:00:00Z"
   started: "2025-01-21T10:00:00Z"
+  completion_gate_check_at: "2025-01-25T12:00:00Z"
   completed: "2025-01-25T16:00:00Z"
+  production_gate_check_at: "2025-01-25T18:00:00Z"
   production_ready_at: "2025-01-26T09:00:00Z"
 
   # Progress
   progress:
-    tasks_total: 8
-    tasks_completed: 8
+    development_tasks_total: 5
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 2
+    completion_gate_tasks_completed: 2
+    production_gate_tasks_total: 3
+    production_gate_tasks_completed: 3
+    tasks_total: 10
+    tasks_completed: 10
     completion_percent: 100
 
-  # Tasks (flat list, no phase nesting)
+  # Tasks (flat list: development tasks + quality gate tasks)
   tasks:
+    # DEVELOPMENT TASKS (build functionality)
     - id: "backend-1-task-001"
       title: "Create User database schema"
       status: "completed"
+      task_type: "development"
 
     - id: "backend-1-task-002"
       title: "Implement registration endpoint"
       status: "completed"
+      task_type: "development"
 
     - id: "backend-1-task-003"
       title: "Implement login endpoint"
       status: "completed"
+      task_type: "development"
 
     - id: "backend-1-task-004"
       title: "Add JWT token generation"
       status: "completed"
+      task_type: "development"
 
     - id: "backend-1-task-005"
       title: "Add password hashing"
       status: "completed"
+      task_type: "development"
 
-    - id: "backend-1-task-006"
-      title: "Write unit tests"
+    # COMPLETION GATE TASKS (hygiene for completion)
+    - id: "backend-1-gate-c001"
+      title: "Documentation Review"
       status: "completed"
+      task_type: "completion_gate"
+      gate_info:
+        blocks_status: "completed"
+        threshold: 90
+        score: 95
 
-    - id: "backend-1-task-007"
-      title: "Write integration tests"
+    - id: "backend-1-gate-c002"
+      title: "Git/CI/CD Hygiene Check"
       status: "completed"
+      task_type: "completion_gate"
+      gate_info:
+        blocks_status: "completed"
+        threshold: 85
+        score: 92
 
-    - id: "backend-1-task-008"
-      title: "Update API documentation"
+    # PRODUCTION GATE TASKS (production readiness)
+    - id: "backend-1-gate-p001"
+      title: "Security Audit"
       status: "completed"
+      task_type: "production_gate"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 85
+        score: 92
 
-  # Dependencies
-  dependencies:
+    - id: "backend-1-gate-p002"
+      title: "Unit Test Coverage"
+      status: "completed"
+      task_type: "production_gate"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 80
+        score: 95
+
+    - id: "backend-1-gate-p003"
+      title: "Integration Testing"
+      status: "completed"
+      task_type: "production_gate"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 80
+        score: 88
+
+  # Development Gates (external dependencies)
+  development_gates:
     - type: "sprint"
-      target_id: "infrastructure-1"  # Needs infra sprint
+      target_id: "infrastructure-1"
       target_status: "completed"
       reason: "Requires database setup"
 
@@ -437,37 +515,6 @@ sprint:
 
   # Current blockers (auto-computed)
   blocked_by: []
-
-  # Quality Gates (sprint-level, not nested in phases)
-  quality_gates:
-    - name: "Unit Tests"
-      threshold: 80
-      blocking: true
-      status: "passed"
-      score: 95
-      checked_at: "2025-01-25T14:00:00Z"
-
-    - name: "Integration Tests"
-      threshold: 80
-      blocking: true
-      status: "passed"
-      score: 88
-      checked_at: "2025-01-25T15:00:00Z"
-
-    - name: "Security Audit"
-      threshold: 85
-      blocking: true
-      status: "passed"
-      score: 92
-      checked_at: "2025-01-25T16:00:00Z"
-      issues: []
-
-    - name: "Performance Benchmark"
-      threshold: 75
-      blocking: false
-      status: "passed"
-      score: 82
-      checked_at: "2025-01-25T17:00:00Z"
 
   # Documentation
   plan_file: "docs/sprints/backend-1-plan.md"
@@ -484,25 +531,31 @@ sprint:
     actual_duration: "5 days"
     estimated_tokens: 50000
     actual_tokens: 48500
-    agents_used: ["web-developer", "security-auditor", "test-writer"]
+    agents_used: ["web-developer", "security-auditor", "test-writer", "docs-writer"]
     last_updated: "2025-01-26T09:00:00Z"
 ```
 
 ### Key Design Decisions
 
-**No Phases Structure:**
-- Tasks are flat, not nested in phases
-- Optional `phase` label on tasks for organization
-- Eliminates complexity and duplication
-- Single source of truth for task state
+**Sprint as Production-Deployable Unit:**
+- Sprint is the smallest unit that can be pushed to production
+- Has both completion and production gates
+- Can reach `production_ready` and `deployed` statuses
 
-**Sprint-Level Quality Gates:**
-- Quality gates directly on sprint (not nested in phases)
-- Flat array, easy to query
-- Clear blocking vs. non-blocking distinction
+**Quality Gates are Tasks:**
+- No separate quality_gates structure
+- Gates are task objects with `task_type: completion_gate | production_gate`
+- Completion gates block `completed` status
+- Production gates block `production_ready` status
+- Highly isolated: only depend on sprint being in gate_check status
+
+**Development Gates vs Quality Gates:**
+- `development_gates`: External dependencies (other sprints/tasks)
+- Quality gates: Internal task objects for quality validation
+- Clear separation of concerns
 
 **Track-Scoped Sprint IDs:**
-- `backend-1`, `frontend-1`, etc.
+- Format: `backend-1`, `frontend-1`, etc.
 - Clear ownership
 - Natural parallelization
 
@@ -510,9 +563,31 @@ sprint:
 
 ## Task Object
 
-A **Task** is the smallest unit of work, sized for a single model context window.
+A **Task** is a **context-window sized work unit** - the smallest unit of work in the framework.
 
-### Structure
+**Key Characteristics:**
+- Sized to fit within model's context window
+- No production concerns (no `production_ready` or `deployed` statuses)
+- Can be a **development task** OR a **quality gate task**
+- Quality gate tasks are highly isolated (only depend on sprint gate_check status)
+
+### Task Types
+
+**1. Development Task** - Builds functionality
+**2. Completion Gate Task** - Hygiene checks (docs, CI/CD)
+**3. Production Gate Task** - Production readiness checks (security, testing)
+
+### Status Options for Tasks
+
+**Tasks have restricted status set (no production statuses):**
+- `not_started`
+- `in_progress`
+- `paused`
+- `completion_gate_check`
+- `completed`
+- `won't_do`
+
+### Structure: Development Task
 
 ```yaml
 task:
@@ -521,6 +596,9 @@ task:
   sprint_id: "backend-1"
   track_id: "backend"
   roadmap_id: "vibey-framework-v1"
+
+  # Task Type
+  task_type: "development"           # development | completion_gate | production_gate
 
   # Description
   title: "Implement user registration endpoint"
@@ -533,8 +611,8 @@ task:
     - JWT token generation
     - Error handling
 
-  # Status
-  status: "completed"
+  # Status (no production_ready or deployed)
+  status: "completed"  # not_started | in_progress | paused | completion_gate_check | completed | won't_do
   blocked: false
 
   # Timing
@@ -554,7 +632,7 @@ task:
   actual_tokens: 7800
   complexity: "medium"  # simple | medium | complex
 
-  # Dependencies
+  # Dependencies (can depend on other tasks, even outside sprint)
   dependencies:
     - type: "task"
       target_id: "backend-1-task-001"  # Database schema
@@ -562,7 +640,7 @@ task:
       reason: "Need User table created"
 
     - type: "task"
-      target_id: "infrastructure-1-task-003"  # Database connection
+      target_id: "infrastructure-1-task-003"  # Database connection (external sprint)
       target_status: "completed"
       reason: "Need database connection configured"
 
@@ -605,13 +683,6 @@ task:
       date: "2025-01-21T15:00:00Z"
       author: "web-developer-agent"
 
-  # Quality notes (non-blocking for task completion)
-  quality_notes:
-    - "Unit tests written ✓"
-    - "Type safety verified ✓"
-    - "Error handling implemented ✓"
-    - "Input validation complete ✓"
-
   # Metadata
   metadata:
     token_efficiency: 0.975  # actual / estimated
@@ -619,47 +690,173 @@ task:
     last_updated: "2025-01-21T15:30:00Z"
 ```
 
+### Structure: Quality Gate Task
+
+```yaml
+task:
+  # Identity
+  id: "backend-1-gate-p001"          # Sprint-scoped ID
+  sprint_id: "backend-1"
+  track_id: "backend"
+  roadmap_id: "vibey-framework-v1"
+
+  # Task Type
+  task_type: "production_gate"       # completion_gate | production_gate
+
+  # Description
+  title: "Security Audit"
+  description: |
+    Run security audit on authentication system:
+    - SQL injection vulnerability check
+    - XSS vulnerability check
+    - CSRF protection verification
+    - Password security audit
+    - JWT security review
+
+  # Status
+  status: "completed"
+  blocked: false
+
+  # Gate Information
+  gate_info:
+    blocks_status: "production_ready"  # What status this gate blocks
+    threshold: 85                       # Minimum score to pass
+    score: 92                           # Actual score achieved
+    is_blocking: true                   # Is this a blocking gate?
+
+  # Timing
+  created: "2025-01-25T10:00:00Z"
+  started: "2025-01-25T18:00:00Z"
+  completed: "2025-01-25T19:30:00Z"
+
+  # Assignment
+  assigned_agent: "security-auditor"
+  priority: "critical"
+
+  # Complexity & Size
+  estimated_tokens: 6000
+  actual_tokens: 5500
+  complexity: "medium"
+
+  # Dependencies (HIGHLY ISOLATED - only depends on sprint status)
+  dependencies:
+    - type: "sprint"
+      target_id: "backend-1"
+      target_status: "production_gate_check"
+      reason: "Sprint must be ready for production gates"
+
+  # Audit results
+  audit_results:
+    issues_found: 0
+    issues_fixed: 0
+    recommendations:
+      - "Consider adding rate limiting to prevent brute force"
+      - "Implement password rotation policy"
+
+  # Metadata
+  metadata:
+    token_efficiency: 0.92
+    duration_hours: 1.5
+    last_updated: "2025-01-25T19:30:00Z"
+```
+
 ### Key Design Decisions
+
+**Task as Context-Window Unit:**
+- Sized to fit within model's context window
+- No production concerns at task level
+- Sprint handles production readiness
 
 **Flat Structure:**
 - Tasks are not nested in phases
 - Optional `phase_label` for organization
 - Single source of truth for task state
 
-**Context Window Sizing:**
-- Explicit token estimation and tracking
-- Learn from actual_tokens for future estimates
-- Forces reasonable task breakdown
+**Quality Gates are Tasks:**
+- No separate structure
+- Just tasks with `task_type: completion_gate | production_gate`
+- Have `gate_info` object with threshold/score
+- Highly isolated: only depend on sprint gate_check status
 
-**Task Completion Criteria:**
-- Code written and committed
-- Basic quality checks (non-blocking)
-- Documentation updated
-- Changes pushed
-- **Quality gates enforced at sprint level, not task level**
+**Development Tasks vs Gate Tasks:**
+- Development tasks: Build functionality, can depend on external tasks
+- Gate tasks: Quality validation, highly isolated, depend only on sprint status
+
+**Restricted Status Set:**
+- Tasks cannot be `production_ready` or `deployed`
+- These are sprint-level statuses
+- Tasks are context-window units, not production units
 
 ---
 
 ## Status System
 
-### Unified Status Values
+### Status Sets by Object Type
 
-**All objects** (Roadmap, Track, Sprint, Task) use the same status enum:
+**Different objects have different available statuses:**
 
-| Status | Description | Can Transition To |
-|--------|-------------|-------------------|
-| `not_started` | Work not yet begun | `in_progress`, `won't_do` |
-| `in_progress` | Active development | `paused`, `completed`, `won't_do` |
-| `paused` | Temporarily halted | `in_progress`, `won't_do` |
-| `completed` | Development finished | `production_ready` |
-| `production_ready` | Passed all quality gates | `deployed` |
-| `deployed` | Live in production | *(terminal state)* |
-| `won't_do` | Cancelled/deprioritized | *(terminal state)* |
+**Sprints and Tracks (Full Status Set):**
+- `not_started`
+- `in_progress`
+- `paused`
+- `completion_gate_check` **(NEW)**
+- `completed`
+- `production_gate_check` **(NEW)**
+- `production_ready`
+- `deployed`
+- `won't_do`
 
-### Status Progression
+**Tasks (Restricted Status Set):**
+- `not_started`
+- `in_progress`
+- `paused`
+- `completion_gate_check` **(NEW)**
+- `completed`
+- `won't_do`
+
+**Roadmap (Full Status Set):**
+- `not_started`
+- `in_progress`
+- `paused`
+- `completion_gate_check`
+- `completed`
+- `production_gate_check`
+- `production_ready`
+- `deployed`
+- `won't_do`
+
+### Status Descriptions
+
+| Status | Description | Applicable To |
+|--------|-------------|---------------|
+| `not_started` | Work not yet begun | All |
+| `in_progress` | Active development | All |
+| `paused` | Temporarily halted | All |
+| `completion_gate_check` | Ready for completion gates to run | All |
+| `completed` | Development finished, completion gates passed | All |
+| `production_gate_check` | Ready for production gates to run | Sprint, Track, Roadmap |
+| `production_ready` | Passed all production gates | Sprint, Track, Roadmap |
+| `deployed` | Live in production | Sprint, Track, Roadmap |
+| `won't_do` | Cancelled/deprioritized | All |
+
+### Status Progression: Sprints/Tracks
 
 ```
-not_started → in_progress → completed → production_ready → deployed
+not_started → in_progress → completion_gate_check → completed →
+                ↓     ↑                                  ↓
+              paused  ┘                                  ↓
+                ↓                                        ↓
+            won't_do                                     ↓
+                                                         ↓
+                                    production_gate_check → production_ready → deployed
+                                             ↓
+                                         won't_do
+```
+
+### Status Progression: Tasks
+
+```
+not_started → in_progress → completion_gate_check → completed
                 ↓     ↑
               paused  ┘
                 ↓
@@ -669,48 +866,362 @@ not_started → in_progress → completed → production_ready → deployed
 ### Status Semantics by Level
 
 **Task:**
-- `completed`: Code written, committed, pushed, basic quality checks done
-- `production_ready`: N/A (tasks don't have quality gates)
-- `deployed`: N/A (deployment is sprint/track level)
+- `completion_gate_check`: Task ready for gate checks (if it's a development task)
+- `completed`: Task finished
+- No `production_ready` or `deployed` (tasks are not production units)
 
 **Sprint:**
-- `completed`: All tasks complete
-- `production_ready`: All blocking quality gates passed
-- `deployed`: Deployed to production
+- `completion_gate_check`: All development tasks complete, ready for completion gates
+- `completed`: All development tasks + all completion gate tasks complete
+- `production_gate_check`: Ready for production gates to run
+- `production_ready`: All production gate tasks complete (sprint can be deployed)
+- `deployed`: Sprint deployed to production
 
 **Track:**
+- `completion_gate_check`: All sprints in completion_gate_check or beyond
 - `completed`: All sprints completed
-- `production_ready`: All sprints production_ready + track quality gates passed
-- `deployed`: All track features deployed
+- `production_gate_check`: All sprints production_ready, track ready for track-level gates
+- `production_ready`: Track quality gates passed
+- `deployed`: All track sprints deployed
 
 **Roadmap:**
 - `completed`: All tracks completed
 - `production_ready`: All tracks production_ready
 - `deployed`: Entire roadmap deployed
 
-### Automatic Status Propagation
+### Automatic Status Progression
 
-**When task completes:**
+**When all development tasks in sprint complete:**
 ```python
-if all_tasks_in_sprint_completed(sprint):
-    sprint.status = 'completed'
-    # Trigger quality gate checks
+if all_development_tasks_completed(sprint):
+    sprint.status = 'completion_gate_check'
+    # Trigger completion gate tasks to run
 ```
 
-**When sprint reaches production_ready:**
+**When all completion gate tasks pass:**
 ```python
-if all_sprints_in_track_production_ready(track):
-    track.status = 'completed'
-    # Trigger track quality gates
+if all_completion_gates_passed(sprint):
+    sprint.status = 'completed'
+    sprint.status = 'production_gate_check'  # Move immediately to production gate check
+    # Trigger production gate tasks to run
+```
+
+**When all production gate tasks pass:**
+```python
+if all_production_gates_passed(sprint):
+    sprint.status = 'production_ready'
     # Trigger version bump (PATCH)
 ```
 
-**When track completes:**
+**When all sprints in track reach production_ready:**
+```python
+if all_sprints_production_ready(track):
+    track.status = 'production_ready'
+    # Trigger version bump (MINOR)
+```
+
+**When all tracks complete:**
 ```python
 if all_tracks_completed(roadmap):
     roadmap.status = 'completed'
-    # Trigger version bump (MINOR)
 ```
+
+---
+
+## Gate System
+
+The Vibey framework uses a sophisticated three-tier gate system to manage dependencies and quality.
+
+### Gate Types Overview
+
+| Gate Type | Purpose | Scope | Can Be Depended On? |
+|-----------|---------|-------|---------------------|
+| **Development Gates** | External dependencies | Cross-sprint/track | ✅ Yes |
+| **Completion Gates** | Hygiene checks | Within sprint | ❌ No |
+| **Production Gates** | Production readiness | Within sprint | ❌ No |
+
+### Development Gates
+
+**Development Gates** are external dependencies - tasks or sprints outside the current sprint that must complete before the current sprint can progress.
+
+**Characteristics:**
+- External to the current sprint
+- Can be tasks from other sprints
+- Can be entire sprints
+- Required for functionality
+- **Can be depended on by other sprints**
+
+**Example:**
+```yaml
+# Sprint backend-2 depends on sprint backend-1
+development_gates:
+  - type: "sprint"
+    target_id: "backend-1"
+    target_status: "completed"
+    reason: "Order system needs authentication functionality"
+
+# OR depends on specific task from another sprint
+development_gates:
+  - type: "task"
+    target_id: "infrastructure-1-task-003"
+    target_status: "completed"
+    reason: "Need database connection configured"
+```
+
+**Rules:**
+1. ✅ Can depend on tasks/sprints from OTHER sprints
+2. ✅ Can depend on completion of entire sprints
+3. ❌ CANNOT depend on quality gates of other sprints
+4. ✅ Other sprints CAN depend on completion of sprints with development gates
+5. ✅ Blocks sprint from progressing if not satisfied
+
+---
+
+### Quality Gates
+
+**Quality Gates** are internal validation tasks that ensure the work product is high quality. They exist solely within the context of the current sprint.
+
+**Key Principle:** Quality gates are **task objects**, not separate structures.
+
+**Characteristics:**
+- Exist within the sprint as tasks
+- Highly isolated (minimal dependencies)
+- Only depend on sprint being in correct gate_check status
+- **Cannot be depended on by external sprints**
+- Are themselves tasks with `task_type: completion_gate | production_gate`
+
+**Rules:**
+1. ✅ Quality gates are task objects within the sprint
+2. ✅ Only dependency: sprint being in gate_check status
+3. ❌ CANNOT depend on external tasks/sprints
+4. ❌ CANNOT be depended on by external sprints
+5. ✅ External sprints CAN depend on sprint completion (which internally waits for gates)
+6. ✅ Highly isolated and self-contained
+
+**Why Quality Gates Can't Be External Dependencies:**
+This prevents the anti-pattern of Sprint B depending on "Sprint A's security audit". Instead:
+- ✅ Sprint B depends on "Sprint A completion"
+- ✅ Sprint A's completion internally depends on its security audit
+- ✅ Clear boundary: quality is internal concern
+
+---
+
+### Completion Gates
+
+**Completion Gates** are quality gates that block the sprint from reaching `completed` status.
+
+**Purpose:** Hygiene checks - ensuring code quality, documentation, and CI/CD practices.
+
+**Typical Completion Gates:**
+- Documentation review
+- Code style/linting
+- Git commit hygiene
+- CI/CD pipeline success
+- Code review completion
+- Basic functionality validation
+
+**Example:**
+```yaml
+task:
+  id: "backend-1-gate-c001"
+  title: "Documentation Review"
+  task_type: "completion_gate"
+
+  gate_info:
+    blocks_status: "completed"   # Blocks sprint from completing
+    threshold: 90
+    score: 95
+    is_blocking: true
+
+  # HIGHLY ISOLATED - only depends on sprint status
+  dependencies:
+    - type: "sprint"
+      target_id: "backend-1"
+      target_status: "completion_gate_check"
+      reason: "Sprint must be ready for completion gates"
+```
+
+**Workflow:**
+1. All development tasks in sprint complete
+2. Sprint moves to `completion_gate_check` status
+3. Completion gate tasks triggered
+4. Completion gates run their checks
+5. If all pass → sprint moves to `completed`
+6. If any fail → sprint stays in `completion_gate_check`, gates must be re-run
+
+---
+
+### Production Gates
+
+**Production Gates** are quality gates that block the sprint from reaching `production_ready` status.
+
+**Purpose:** Production readiness checks - ensuring the code is safe and ready for production deployment.
+
+**Typical Production Gates:**
+- Security audit
+- Unit test coverage (with thresholds)
+- Integration testing
+- Performance benchmarking
+- Load testing
+- Logging audit
+- Data validation
+- Error handling audit
+- API documentation completeness
+
+**Example:**
+```yaml
+task:
+  id: "backend-1-gate-p001"
+  title: "Security Audit"
+  task_type: "production_gate"
+
+  gate_info:
+    blocks_status: "production_ready"   # Blocks sprint from production_ready
+    threshold: 85
+    score: 92
+    is_blocking: true
+
+  # HIGHLY ISOLATED - only depends on sprint status
+  dependencies:
+    - type: "sprint"
+      target_id: "backend-1"
+      target_status: "production_gate_check"
+      reason: "Sprint must be ready for production gates"
+
+  audit_results:
+    issues_found: 0
+    issues_fixed: 0
+    recommendations:
+      - "Consider adding rate limiting"
+```
+
+**Workflow:**
+1. Sprint reaches `completed` status (all dev tasks + completion gates done)
+2. Sprint moves to `production_gate_check` status
+3. Production gate tasks triggered
+4. Production gates run their checks
+5. If all pass → sprint moves to `production_ready`
+6. If any fail → sprint stays in `production_gate_check`, gates must be re-run
+
+---
+
+### Gate Isolation Rules
+
+**Quality gates (completion + production) must be highly isolated:**
+
+✅ **Allowed Dependencies:**
+- Sprint being in correct gate_check status
+- Nothing else
+
+❌ **Prohibited Dependencies:**
+- Other tasks (internal or external)
+- Other sprints
+- External systems (beyond what's needed for the check itself)
+
+**Rationale:**
+- Quality gates should validate the sprint's work, not depend on external work
+- Isolation ensures gates can run whenever sprint is ready
+- Prevents complex dependency chains through quality checks
+
+---
+
+### Gate vs. Development Dependency: Decision Tree
+
+```
+Does Sprint B need something from Sprint A?
+│
+├─ Need Sprint A's FUNCTIONALITY?
+│  └─ ✅ Development Gate: Sprint B depends on Sprint A completion
+│
+├─ Need Sprint A to be PRODUCTION READY?
+│  └─ ✅ Development Gate: Sprint B depends on Sprint A production_ready
+│
+├─ Need Sprint A's SECURITY AUDIT to pass?
+│  └─ ❌ WRONG! Sprint B depends on Sprint A completion
+│      (Sprint A's security audit is internal quality gate)
+│
+└─ Need Sprint A's TESTS to pass?
+   └─ ❌ WRONG! Sprint B depends on Sprint A completion
+       (Sprint A's tests are internal quality gates)
+```
+
+**Key Principle:** External sprints depend on WHAT was built (completion), not HOW it was validated (quality gates).
+
+---
+
+### Complete Example: Sprint with All Gate Types
+
+```yaml
+sprint:
+  id: "backend-1"
+  name: "User Authentication System"
+  status: "production_ready"
+
+  tasks:
+    # DEVELOPMENT TASKS
+    - id: "backend-1-task-001"
+      title: "Create User schema"
+      task_type: "development"
+      status: "completed"
+
+    - id: "backend-1-task-002"
+      title: "Implement registration"
+      task_type: "development"
+      status: "completed"
+
+    # COMPLETION GATE TASKS
+    - id: "backend-1-gate-c001"
+      title: "Documentation Review"
+      task_type: "completion_gate"
+      status: "completed"
+      gate_info:
+        blocks_status: "completed"
+        threshold: 90
+        score: 95
+
+    - id: "backend-1-gate-c002"
+      title: "Git/CI/CD Hygiene"
+      task_type: "completion_gate"
+      status: "completed"
+      gate_info:
+        blocks_status: "completed"
+        threshold: 85
+        score: 92
+
+    # PRODUCTION GATE TASKS
+    - id: "backend-1-gate-p001"
+      title: "Security Audit"
+      task_type: "production_gate"
+      status: "completed"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 85
+        score: 92
+
+    - id: "backend-1-gate-p002"
+      title: "Unit Test Coverage"
+      task_type: "production_gate"
+      status: "completed"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 80
+        score: 95
+
+  # DEVELOPMENT GATES (external dependencies)
+  development_gates:
+    - type: "sprint"
+      target_id: "infrastructure-1"
+      target_status: "completed"
+      reason: "Need database setup"
+```
+
+**Status Progression for this Sprint:**
+1. `not_started` → `in_progress` (development work begins)
+2. `in_progress` → `completion_gate_check` (all dev tasks done)
+3. `completion_gate_check` → `completed` (completion gates pass)
+4. `completed` → `production_gate_check` (automatically transition)
+5. `production_gate_check` → `production_ready` (production gates pass)
+6. `production_ready` → `deployed` (manual deployment)
 
 ---
 

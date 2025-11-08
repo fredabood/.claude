@@ -51,18 +51,25 @@ class ContextLoader:
             print(f"❌ Task not found: {task_id}")
             sys.exit(1)
 
-        print(f"**Task:** {task['name']}")
+        print(f"**Task:** {task.get('title', task.get('name', 'Unknown'))}")
         print(f"**Sprint:** {task['sprint_id']}")
-        print(f"**Type:** {task.get('type', 'development')}\n")
+        print(f"**Type:** {task.get('task_type', task.get('type', 'development'))}\n")
 
         # Show dependency graph snapshot
         dep_graph = self.roadmap_cache.get_dependency_graph()
         direct_deps = dep_graph.get(task_id, [])
 
+        reverse_dep_graph = self.roadmap_cache.get_reverse_dependency_graph()
+        direct_dependents = [dep_id for dep_id in reverse_dep_graph.get(task_id, []) if '-task-' in dep_id]
+
         print(f"📊 Dependency Graph Snapshot:")
         print(f"   Direct dependencies: {len(direct_deps)}")
         if direct_deps:
             for dep_id in direct_deps:
+                print(f"     - {dep_id}")
+        print(f"   Direct dependents (downstream): {len(direct_dependents)}")
+        if direct_dependents:
+            for dep_id in direct_dependents:
                 print(f"     - {dep_id}")
         print(f"   Branch: {self.roadmap_cache.current_branch}")
         print(f"   Total objects in graph: {len(dep_graph)}\n")
@@ -76,6 +83,11 @@ class ContextLoader:
         if 'dependencies' not in task or not task['dependencies']:
             print(f"\n✅ No dependencies - context loading complete")
             print(f"   Total context: ~{current_tokens:,} tokens")
+
+            # Still show downstream impact if requested
+            if show_full:
+                self._display_full_context(task, current_sprint_context, {})
+
             return {
                 'task': task,
                 'current_sprint': current_sprint_context,
@@ -126,15 +138,10 @@ class ContextLoader:
     def _find_task(self, task_id: str) -> Optional[Dict]:
         """Find task by ID."""
 
-        if not self.tasks_dir.exists():
-            return None
-
-        for task_file in self.tasks_dir.glob("*-tasks.yaml"):
-            tasks_data = load_yaml(task_file)
-            if tasks_data and 'tasks' in tasks_data:
-                for task in tasks_data['tasks']:
-                    if task['id'] == task_id:
-                        return task
+        # Use cache to get all tasks (cache knows all task locations)
+        for task in self.roadmap_cache.get_all_tasks():
+            if task.get('id') == task_id:
+                return task
 
         return None
 
@@ -259,7 +266,7 @@ class ContextLoader:
             'sprint_name': sprint.get('name', 'Unknown'),
             'sprint_status': sprint.get('status', 'unknown'),
             'outputs': task_summary.get('outputs', []),
-            'task_name': task['name']
+            'task_name': task.get('title', task.get('name', 'Unknown'))
         }
 
     def _load_summary(self, task_id: str, task: Dict) -> Dict:
@@ -282,7 +289,7 @@ class ContextLoader:
             'sprint_name': sprint.get('name', 'Unknown'),
             'sprint_summary': sprint.get('dependency_summary', 'No summary available'),
             'task_summary': sprint.get('task_summaries', {}).get(task_id, {}),
-            'task_name': task['name']
+            'task_name': task.get('title', task.get('name', 'Unknown'))
         }
 
         if self.cache:
@@ -316,7 +323,7 @@ class ContextLoader:
             'sprint_summary': sprint.get('dependency_summary', ''),
             'task_summary': sprint.get('task_summaries', {}).get(task_id, {}),
             'sprint_docs': docs,
-            'task_name': task['name']
+            'task_name': task.get('title', task.get('name', 'Unknown'))
         }
 
     def _estimate_tokens(self, context: Dict) -> int:
@@ -340,6 +347,16 @@ class ContextLoader:
             total += len(summary_str.split()) * 1.3
 
         return int(total)
+
+    def _get_dependency_reason(self, dependent_task: Dict, dependency_id: str) -> str:
+        """Get the reason why dependent_task depends on dependency_id."""
+
+        if 'dependencies' in dependent_task:
+            for dep in dependent_task['dependencies']:
+                if dep.get('target_id') == dependency_id:
+                    return dep.get('reason', 'Dependency relationship')
+
+        return 'Depends on this task'
 
     def _display_full_context(self, task: Dict, current_sprint: Dict, dependencies: Dict) -> None:
         """Display full context details."""
@@ -372,6 +389,28 @@ class ContextLoader:
                     for doc_name, content in context['sprint_docs'].items():
                         print(f"\n{doc_name}:")
                         print(content[:300] + "..." if len(content) > 300 else content)
+
+        # Show downstream impact (who depends on this task)
+        reverse_dep_graph = self.roadmap_cache.get_reverse_dependency_graph()
+        task_id = task['id']
+        direct_dependents = [dep_id for dep_id in reverse_dep_graph.get(task_id, []) if '-task-' in dep_id]
+
+        if direct_dependents:
+            print(f"\n\n⚠️  DOWNSTREAM IMPACT ({len(direct_dependents)} tasks depend on this)")
+            print("-" * 80)
+            print("These tasks are blocked or affected by your work:")
+
+            for idx, dependent_id in enumerate(direct_dependents, 1):
+                dependent_task = self._find_task(dependent_id)
+                if dependent_task:
+                    task_name = dependent_task.get('title', dependent_task.get('name', 'Unknown'))
+                    print(f"\n{idx}. {task_name} ({dependent_id})")
+                    print(f"   Sprint: {dependent_task['sprint_id']}")
+                    print(f"   Status: {dependent_task.get('status', 'unknown')}")
+
+                    # Find reason from dependency
+                    reason = self._get_dependency_reason(dependent_task, task_id)
+                    print(f"   Why they depend on you: {reason}")
 
 
 def main():

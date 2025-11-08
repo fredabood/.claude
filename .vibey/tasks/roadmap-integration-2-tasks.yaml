@@ -37,11 +37,11 @@ tasks:
   task_type: development
   title: Implement Task Status Updates
   description: Enable task status updates through `/vibey code` interface
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348412+00:00'
-  started: null
-  completed: null
+  started: '2025-11-08T18:38:00.955433+00:00'
+  completed: '2025-11-08T18:39:42.383280+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

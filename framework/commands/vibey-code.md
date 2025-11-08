@@ -193,16 +193,17 @@ $RECENT_ACTIVITY
 ## What would you like to do?
 
 1. **Continue current phase** - Resume work with phase orchestration
-2. **View phase orchestration rules** - See agent sequence and quality gates
-3. **Check quality gate status** - Run quality checks for current phase
-4. **Mark phase complete** - Finish current phase and move to next
-5. **View sprint plan** - Review full sprint plan document
-6. **Update sprint progress** - Log completed tasks or activities
-7. **Pause sprint** - Save progress and pause sprint execution
-8. **Complete sprint** - Finish sprint and generate retrospective
-9. **Return to main menu**
+2. **Start a task** - Mark a task as in progress
+3. **Complete current task** - Finish task you're working on
+4. **View all tasks** - See all sprint tasks with status
+5. **Check quality gate status** - Run quality checks for current phase
+6. **Mark phase complete** - Finish current phase and move to next
+7. **View sprint plan** - Review full sprint plan document
+8. **Pause sprint** - Save progress and pause sprint execution
+9. **Complete sprint** - Finish sprint and generate retrospective
+10. **Return to main menu**
 
-**Choose an option (1-9):**
+**Choose an option (1-10) or describe what you want to work on:**
 ```
 
 ---
@@ -254,18 +255,222 @@ What specific task would you like to work on?
 
 ---
 
-### Option 2: View Phase Orchestration
+### Option 2: Start a Task
 
-Display full orchestration rules for current phase including:
-- Agent sequence and order
-- Trigger conditions for each agent
+```bash
+# Get all not-started tasks for this sprint
+NOT_STARTED_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') == 'not_started']
+
+if tasks:
+    print('Available tasks:\n')
+    for i, t in enumerate(tasks, 1):
+        assigned = t.get('assigned_agents', [])
+        agent_str = f\" (suggested: {', '.join(assigned)})\" if assigned else ''
+        print(f\"{i}. {t.get('title', t.get('id', 'Unknown'))}{agent_str}\")
+        if t.get('description'):
+            desc_short = t.get('description', '')[:80] + '...' if len(t.get('description', '')) > 80 else t.get('description', '')
+            print(f\"   {desc_short}\")
+        print(f\"   ID: {t.get('id', 'unknown')}\")
+        print()
+else:
+    print('No tasks available to start.')
+")
+
+echo "$NOT_STARTED_TASKS"
+```
+
+**Ask the user:**
+"Which task would you like to start? (Enter number or task ID, or describe what you want to work on)"
+
+Parse their response:
+- If they provide a number: Get task at that index
+- If they provide a task ID: Use that ID directly
+- If they describe work naturally: Try to match description to task title
+
+```bash
+# Example: User says "I want to work on the dashboard" or selects "2"
+# Map to task ID
+if [[ "$user_input" =~ ^[0-9]+$ ]]; then
+  # Numeric selection
+  TASK_ID=$(python3 -c "
+import sys, json
+data = json.loads('$NOT_STARTED_TASKS')
+# Extract task ID from line containing 'ID: '
+lines = '$NOT_STARTED_TASKS'.split('\n')
+task_lines = [l for l in lines if 'ID: ' in l]
+if len(task_lines) >= int('$user_input'):
+    print(task_lines[int('$user_input')-1].split('ID: ')[1].strip())
+")
+else
+  # Try to match description or use as task ID
+  TASK_ID="$user_input"
+fi
+
+# Start the task
+if python3 .claude/scripts/roadmap start "$TASK_ID" 2>/dev/null; then
+  echo "✅ Task started: $TASK_ID"
+  echo ""
+  echo "Task is now marked as in progress. Continue working on it!"
+  echo ""
+
+  # Show updated dashboard
+  # (Reload dashboard display from Step 2)
+else
+  echo "❌ Could not start task. Please check the task ID."
+fi
+```
+
+---
+
+### Option 3: Complete Current Task
+
+```bash
+# Get in-progress tasks
+IN_PROGRESS_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') == 'in_progress']
+
+if tasks:
+    print('Currently in progress:\n')
+    for t in tasks:
+        print(f\"🔄 {t.get('title', t.get('id', 'Unknown'))}\")
+        print(f\"   ID: {t.get('id', 'unknown')}\")
+        print()
+else:
+    print('No tasks currently in progress.')
+")
+
+echo "$IN_PROGRESS_TASKS"
+```
+
+**Ask the user:**
+"Which task have you completed? (Enter task ID or number)"
+
+```bash
+# Parse user selection
+if [[ "$user_input" =~ ^[0-9]+$ ]]; then
+  # Get task at index
+  TASK_ID=$(python3 -c "
+import sys
+lines = '$IN_PROGRESS_TASKS'.split('\n')
+task_lines = [l for l in lines if 'ID: ' in l]
+if len(task_lines) >= int('$user_input'):
+    print(task_lines[int('$user_input')-1].split('ID: ')[1].strip())
+")
+else
+  TASK_ID="$user_input"
+fi
+
+# Complete the task
+if python3 .claude/scripts/roadmap complete "$TASK_ID" 2>/dev/null; then
+  echo "✅ Task completed: $TASK_ID"
+  echo ""
+
+  # Update progress display
+  TASKS_COMPLETED_NEW=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_completed', 0))")
+  TASKS_TOTAL_NEW=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_total', 0))")
+
+  echo "Sprint progress: $TASKS_COMPLETED_NEW/$TASKS_TOTAL_NEW tasks completed"
+  echo ""
+
+  # Check if sprint complete
+  if [ "$TASKS_COMPLETED_NEW" -eq "$TASKS_TOTAL_NEW" ]; then
+    echo "🎉 All tasks completed! Ready to complete the sprint."
+  else
+    echo "Next recommended task:"
+    python3 .claude/scripts/roadmap recommend --limit 1 2>/dev/null || echo "Continue with remaining tasks."
+  fi
+
+  # Show updated dashboard
+  # (Reload dashboard from Step 2)
+else
+  echo "❌ Could not complete task. Please check the task ID."
+fi
+```
+
+---
+
+### Option 4: View All Tasks
+
+```bash
+# Display all tasks with full details
+echo "## 📋 All Sprint Tasks"
+echo ""
+
+python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']
+
+# Group by status
+statuses = {
+    'completed': [],
+    'in_progress': [],
+    'not_started': [],
+    'blocked': []
+}
+
+for t in tasks:
+    status = t.get('status', 'not_started')
+    if t.get('blocked'):
+        statuses['blocked'].append(t)
+    else:
+        statuses.get(status, statuses['not_started']).append(t)
+
+# Display by status
+if statuses['in_progress']:
+    print('### 🔄 In Progress\n')
+    for t in statuses['in_progress']:
+        print(f\"**{t.get('title', 'Unknown')}** (ID: {t.get('id', 'unknown')})\")
+        if t.get('assigned_agents'):
+            print(f\"Assigned: {', '.join(t.get('assigned_agents'))}\" )
+        if t.get('description'):
+            print(f\"{t.get('description')[:200]}\")
+        print()
+
+if statuses['completed']:
+    print('### ✅ Completed\n')
+    for t in statuses['completed']:
+        print(f\"- {t.get('title', 'Unknown')}\")
+    print()
+
+if statuses['not_started']:
+    print('### ⏸️  Not Started\n')
+    for t in statuses['not_started']:
+        print(f\"**{t.get('title', 'Unknown')}** (ID: {t.get('id', 'unknown')})\")
+        if t.get('assigned_agents'):
+            print(f\"Suggested: {', '.join(t.get('assigned_agents'))}\")
+        if t.get('estimated_hours'):
+            print(f\"Estimated: {t.get('estimated_hours')} hours\")
+        print()
+
+if statuses['blocked']:
+    print('### 🚫 Blocked\n')
+    for t in statuses['blocked']:
+        print(f\"**{t.get('title', 'Unknown')}** (ID: {t.get('id', 'unknown')})\")
+        print(f\"Reason: {t.get('blocked_reason', 'Unknown')}\")
+        print()
+"
+```
+
+**Return to dashboard menu**
+
+---
+
+### Old Options Note
+
+(Options 2-4 above replace old phase orchestration view. Continuing with remaining options renumbered...)
 - Quality gates with thresholds
 - Completion criteria
 - Rationale for orchestration design
 
 ---
 
-### Option 3: Check Quality Gate Status
+### Option 5 (continued): Check Quality Gate Status
 
 ```bash
 # Note: Phase numbers are tracked in sprint plan markdown for documentation purposes
@@ -303,7 +508,7 @@ echo "✓ Security Audit completed with score: $SECURITY_SCORE"
 
 ---
 
-### Option 4: Mark Phase Complete
+### Option 6: Mark Phase Complete
 
 ```bash
 # Check if phase can be completed
@@ -351,14 +556,17 @@ fi
 
 ---
 
-### Option 5: View Sprint Plan
+### Option 7: View Sprint Plan
 
 Open and display full sprint plan document:
 - `docs/sprints/sprint-{{ sprint_number }}-plan.md`
 
 ---
 
-### Option 6: Update Sprint Progress
+### Option 8 (Deprecated): Update Sprint Progress
+
+Note: This option is now automated through Options 2-3 (Start/Complete tasks).
+Task status updates automatically update sprint progress.
 
 ```markdown
 ## Log Sprint Activity
@@ -490,7 +698,7 @@ echo "  - Sprint retrospective"
 
 ---
 
-### Option 7: Pause Sprint
+### Option 8: Pause Sprint
 
 ```markdown
 ```
@@ -526,7 +734,7 @@ fi
 
 ---
 
-### Option 8: Complete Sprint
+### Option 9: Complete Sprint
 
 ```bash
 # Check if all tasks are complete
@@ -641,7 +849,7 @@ fi
 
 ---
 
-### Option 9: Return to Main Menu
+### Option 10: Return to Main Menu
 
 Return to main `/vibey` menu
 

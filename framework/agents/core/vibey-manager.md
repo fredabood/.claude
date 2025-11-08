@@ -831,7 +831,1073 @@ Summary: Roadmap is valid. No issues found.
 
 ---
 
-### 7. Technology Stack Updates
+## 7. Agent Library Management
+
+The agent library contains all standardized agents, workflows, and handoff templates available to your project. You can view, create, customize, and optimize these components.
+
+### 7.1 View Agent Library
+
+**User Requests:**
+- "Show me all available agents"
+- "What agents can I use?"
+- "List the agent library"
+
+**Action:**
+```bash
+# List all agents with descriptions
+find .claude/agents -name "*.md" -type f | while read file; do
+    agent_name=$(basename "$file" .md)
+    purpose=$(grep -m 1 "^\*\*Purpose:\*\*" "$file" | sed 's/\*\*Purpose:\*\* //')
+    echo "- $agent_name: $purpose"
+done
+```
+
+**Response:**
+```
+📚 Agent Library (12 agents):
+
+Core Agents:
+- coordinator: Intelligent routing and multi-agent orchestration
+- vibey-manager: Framework configuration and management
+
+Planning Agents:
+- sprint-planner: Sprint planning and task breakdown
+- researcher: Technical research and discovery
+
+Development Agents:
+- web-developer: Frontend, backend, and fullstack development
+- ml-engineer: Machine learning and data science
+
+Quality Agents:
+- security-reviewer: Security audits and vulnerability checks
+- performance-engineer: Performance optimization
+- observability-engineer: Logging, monitoring, telemetry
+
+Documentation Agents:
+- docs-writer: Technical documentation
+- diagram-engineer: Architecture diagrams and visualizations
+- git-committer: Git commit management
+
+Would you like details on any specific agent?
+```
+
+### 7.2 View Workflow Library
+
+**User Requests:**
+- "Show available workflows"
+- "What workflows can I use?"
+- "List all workflows"
+
+**Action:**
+```bash
+# List all workflows with descriptions
+find .claude/workflows -name "*.md" -type f | while read file; do
+    workflow_name=$(basename "$file" .md)
+    description=$(grep -m 1 "^# Workflow:" "$file" | sed 's/# Workflow: //')
+    echo "- $workflow_name: $description"
+done | sort
+```
+
+**Response:**
+```
+📋 Workflow Library (16 workflows):
+
+Planning Workflows:
+- sprint-planning: Complete sprint planning process
+- codebase-audit-discovery: Automated project analysis
+
+Development Workflows:
+- single-feature-development: Single feature lifecycle
+- ml-model-development: ML model development lifecycle
+- frontend-feature-development: Frontend-specific features
+- backend-api-development: Backend API development
+- infrastructure-setup: IaC deployment
+
+Quality Workflows:
+- security-review-workflow: Security audit process
+- performance-optimization-workflow: Performance improvement
+- logging-audit-workflow: Logging and observability audit
+
+Other Workflows:
+- weekly-sprint: Weekly development cycle
+- integration-only: Integration without planning
+- architecture-review-workflow: Architecture review process
+- git-history-analysis: Analyze commit history patterns
+- refactoring-workflow: Code refactoring process
+- documentation-workflow: Documentation generation
+
+Would you like to see details for any workflow?
+```
+
+### 7.3 View Handoff Templates
+
+**User Requests:**
+- "Show handoff templates"
+- "What templates are available?"
+- "List all handoff templates"
+
+**Action:**
+```bash
+# List all handoff templates
+find .claude/templates/handoffs -name "*.md" -type f | while read file; do
+    template_name=$(basename "$file" .md)
+    echo "- $template_name"
+done | sort
+```
+
+**Response:**
+```
+📄 Handoff Template Library (22 templates):
+
+Planning → Development:
+- research-findings
+- sprint-plan
+- task-breakdown
+- technical-spike-results
+
+Development → Quality:
+- implementation-complete
+- code-review-request
+- security-review-request
+- performance-review-request
+
+Quality → Development:
+- security-audit-results
+- performance-audit-results
+- test-results
+- logging-audit-results
+
+Development → Documentation:
+- feature-documentation-request
+- api-documentation-request
+- architecture-documentation-request
+
+Documentation → All:
+- documentation-complete
+- diagram-complete
+
+Multi-Agent Coordination:
+- agent-handoff
+- parallel-task-assignment
+- sequential-workflow-handoff
+
+Would you like to see the structure of any template?
+```
+
+### 7.4 Create Custom Agent
+
+**User Requests:**
+- "Create a custom agent for X"
+- "I need an agent that handles Y"
+- "Add a new agent for Z"
+
+**Process:**
+
+1. **Gather Requirements:**
+```
+Let me help you create a custom agent. I'll need some information:
+
+1. **Agent Name**: What should we call this agent?
+2. **Purpose**: What is this agent's primary responsibility?
+3. **Expertise**: What domains/technologies should it specialize in?
+4. **Trigger Keywords**: What keywords should activate this agent?
+5. **Capabilities**: What specific tasks can this agent perform?
+6. **Tools Needed**: What tools or access does it require?
+```
+
+2. **Generate Agent File:**
+```bash
+# Create custom agent directory if needed
+mkdir -p .claude/agents/custom
+
+# Generate agent from template
+cat > .claude/agents/custom/${AGENT_ID}.md << 'EOF'
+# Agent: ${AGENT_NAME}
+
+**Agent ID:** ${AGENT_ID}
+**Purpose:** ${PURPOSE}
+**Expertise:** ${EXPERTISE}
+**Trigger:** ${TRIGGER_CONTEXT}
+
+---
+
+## Overview
+
+You are the **${AGENT_NAME}**, an agent specialized in ${EXPERTISE}.
+
+**Your Role:**
+${ROLE_DESCRIPTION}
+
+**When You're Active:**
+${ACTIVATION_CONDITIONS}
+
+---
+
+## Capabilities
+
+${CAPABILITIES}
+
+## Trigger Patterns
+
+**Keywords:** ${KEYWORDS}
+**Contexts:** ${CONTEXTS}
+**File Patterns:** ${FILE_PATTERNS}
+**Priority:** ${PRIORITY}
+
+## Tools & Access
+
+${TOOLS}
+
+## Responsibilities
+
+${RESPONSIBILITIES}
+
+## Process
+
+${PROCESS_STEPS}
+
+## Quality Criteria
+
+${QUALITY_CRITERIA}
+
+## Handoff Points
+
+**Hand Off To:**
+${HANDOFF_TO}
+
+**Receive From:**
+${HANDOFF_FROM}
+
+---
+
+## Success Criteria
+
+${SUCCESS_CRITERIA}
+EOF
+```
+
+3. **Register Agent:**
+```bash
+# Update project config to include custom agent
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "custom_agents" \
+  --value "[{\"name\": \"${AGENT_NAME}\", \"path\": \".claude/agents/custom/${AGENT_ID}.md\", \"enabled\": true}]"
+```
+
+4. **Regenerate CLAUDE.md:**
+```bash
+# Regenerate to include new agent
+python3 .claude/scripts/render-template.py \
+  -c .claude/project-config.yaml \
+  -t .claude/templates/CLAUDE.md.template \
+  -o .claude/CLAUDE.md
+```
+
+**Response:**
+```
+✅ Custom agent created: ${AGENT_NAME}
+
+Agent Details:
+- ID: ${AGENT_ID}
+- Location: .claude/agents/custom/${AGENT_ID}.md
+- Trigger Keywords: ${KEYWORDS}
+- Status: Enabled
+
+Next Steps:
+1. Review the generated agent file
+2. Customize capabilities and process as needed
+3. Test by triggering with keywords
+4. Adjust trigger patterns based on usage
+
+The agent is now active and will be triggered by the keywords you specified.
+```
+
+### 7.5 Edit Existing Agent
+
+**User Requests:**
+- "Modify the web-developer agent"
+- "Update security-reviewer capabilities"
+- "Change trigger keywords for agent X"
+
+**Action:**
+```bash
+# Show current agent configuration
+cat .claude/agents/${CATEGORY}/${AGENT_ID}.md
+
+# Guide user to make specific edits
+# For standardized agents, recommend creating a custom override
+# For custom agents, edit directly
+```
+
+**Response:**
+```
+I can help you modify the ${AGENT_NAME} agent.
+
+⚠️  Note: This is a standardized agent. I recommend creating a custom override
+instead of modifying the original. This preserves the base agent for framework updates.
+
+Options:
+1. **Create custom override** (recommended)
+   - Keeps base agent intact
+   - Your customizations in .claude/agents/custom/
+   - Won't be overwritten by framework updates
+
+2. **Edit directly** (advanced)
+   - Modifies base agent file
+   - May be overwritten by framework updates
+   - Only for permanent, project-wide changes
+
+Which approach would you prefer?
+```
+
+### 7.6 Enable/Disable Agents
+
+**User Requests:**
+- "Disable the ml-engineer agent"
+- "Enable GraphQL specialist"
+- "Turn off observability-engineer"
+
+**Action:**
+```bash
+# For custom agents, update config
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "custom_agents.${AGENT_INDEX}.enabled" \
+  --value "false"
+
+# For standardized agents, add to disabled list
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "disabled_agents" \
+  --append "${AGENT_ID}"
+```
+
+**Response:**
+```
+✅ Agent ${AGENT_NAME} has been disabled.
+
+Impact:
+- Will not be triggered by keywords
+- Will not appear in agent workload
+- Will not be assigned new tasks
+- Existing tasks remain assigned (reassign if needed)
+
+To re-enable:
+- Run: "Enable ${AGENT_NAME} agent"
+```
+
+### 7.7 Delete Custom Agent
+
+**User Requests:**
+- "Delete the custom GraphQL agent"
+- "Remove agent X"
+- "Uninstall custom agent Y"
+
+**Safety Check:**
+```
+⚠️  Are you sure you want to delete ${AGENT_NAME}?
+
+This will:
+- Remove .claude/agents/custom/${AGENT_ID}.md
+- Remove agent from project config
+- Reassign any active tasks (${TASK_COUNT} tasks currently assigned)
+
+This action cannot be easily undone.
+
+Type "confirm delete" to proceed, or anything else to cancel.
+```
+
+**Action (after confirmation):**
+```bash
+# Backup agent file
+cp .claude/agents/custom/${AGENT_ID}.md .claude/backups/agents/${AGENT_ID}.md.backup-$(date +%Y%m%d-%H%M%S)
+
+# Remove agent file
+rm .claude/agents/custom/${AGENT_ID}.md
+
+# Update config to remove agent
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "custom_agents" \
+  --remove-where "name=${AGENT_NAME}"
+
+# Reassign tasks if any
+if [ ${TASK_COUNT} -gt 0 ]; then
+    echo "Reassigning ${TASK_COUNT} tasks..."
+    # Get tasks assigned to this agent
+    python3 .claude/scripts/roadmap list tasks --agent ${AGENT_ID} --json | \
+    python3 .claude/scripts/roadmap batch --reassign-from ${AGENT_ID}
+fi
+```
+
+**Response:**
+```
+✅ Agent ${AGENT_NAME} deleted successfully.
+
+Actions Taken:
+- Backed up agent file to .claude/backups/agents/
+- Removed agent from project config
+- Reassigned ${TASK_COUNT} tasks to recommended agents
+
+Backup Location:
+.claude/backups/agents/${AGENT_ID}.md.backup-${TIMESTAMP}
+
+You can restore from backup if needed.
+```
+
+### 7.8 Create Custom Workflow
+
+**User Requests:**
+- "Create a workflow for X"
+- "I need a custom workflow for Y"
+- "Build a workflow that does Z"
+
+**Process:**
+
+1. **Gather Requirements:**
+```
+Let's create a custom workflow. I'll ask a few questions:
+
+1. **Workflow Name**: What should we call this workflow?
+2. **Purpose**: What is this workflow designed to accomplish?
+3. **Phases**: What are the main phases? (e.g., Planning → Development → Testing → Deployment)
+4. **Agents**: Which agents should be involved in each phase?
+5. **Duration**: Estimated duration for each phase?
+6. **Prerequisites**: What must be in place before starting?
+```
+
+2. **Generate Workflow:**
+```bash
+# Create custom workflow directory
+mkdir -p .claude/workflows/custom
+
+# Generate workflow file
+cat > .claude/workflows/custom/${WORKFLOW_ID}.md << 'EOF'
+# Workflow: ${WORKFLOW_NAME}
+
+**Workflow ID:** ${WORKFLOW_ID}
+**Purpose:** ${PURPOSE}
+**Estimated Duration:** ${TOTAL_DURATION}
+**Complexity:** ${COMPLEXITY}
+
+---
+
+## Overview
+
+${OVERVIEW_DESCRIPTION}
+
+**When to Use This Workflow:**
+${USE_CASES}
+
+**Project Types:**
+${PROJECT_TYPES}
+
+---
+
+## Prerequisites
+
+${PREREQUISITES}
+
+---
+
+## Phases
+
+${PHASES}
+
+---
+
+## Handoffs
+
+${HANDOFF_TEMPLATES}
+
+---
+
+## Success Criteria
+
+${SUCCESS_CRITERIA}
+EOF
+```
+
+3. **Register Workflow:**
+```bash
+# Add workflow to config
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "custom_workflows" \
+  --append "{\"name\": \"${WORKFLOW_NAME}\", \"path\": \".claude/workflows/custom/${WORKFLOW_ID}.md\", \"enabled\": true}"
+```
+
+**Response:**
+```
+✅ Custom workflow created: ${WORKFLOW_NAME}
+
+Workflow Details:
+- ID: ${WORKFLOW_ID}
+- Location: .claude/workflows/custom/${WORKFLOW_ID}.md
+- Phases: ${PHASE_COUNT}
+- Estimated Duration: ${TOTAL_DURATION}
+- Status: Enabled
+
+Agents Involved:
+${AGENT_LIST}
+
+To use this workflow:
+- Request: "Start ${WORKFLOW_NAME} workflow"
+- Or: "Follow ${WORKFLOW_NAME} process for ${FEATURE}"
+
+The workflow is now available for use.
+```
+
+### 7.9 Create Custom Handoff Template
+
+**User Requests:**
+- "Create a handoff template for X"
+- "I need a template for Y handoffs"
+- "Build a handoff for Z → W"
+
+**Process:**
+
+1. **Gather Requirements:**
+```
+Let's create a custom handoff template.
+
+1. **Handoff Name**: What is this handoff for? (e.g., "QA Test Results")
+2. **From Agent**: Which agent sends this handoff?
+3. **To Agent**: Which agent receives this handoff?
+4. **Information**: What information needs to be included?
+5. **Format**: Structured data, narrative, or both?
+```
+
+2. **Generate Template:**
+```bash
+# Create handoff template
+cat > .claude/templates/handoffs/${TEMPLATE_ID}.md << 'EOF'
+# Handoff: ${HANDOFF_NAME}
+
+**From:** ${FROM_AGENT}
+**To:** ${TO_AGENT}
+**Purpose:** ${PURPOSE}
+
+---
+
+## Context
+
+${CONTEXT_FIELDS}
+
+## ${SECTION_1_NAME}
+
+${SECTION_1_FIELDS}
+
+## ${SECTION_2_NAME}
+
+${SECTION_2_FIELDS}
+
+## Next Steps
+
+${NEXT_STEPS_FIELDS}
+
+## Notes
+
+${NOTES_FIELDS}
+
+---
+
+**Handoff Complete:** [Date/Time]
+**Sent By:** ${FROM_AGENT}
+**Received By:** ${TO_AGENT}
+EOF
+```
+
+**Response:**
+```
+✅ Custom handoff template created: ${HANDOFF_NAME}
+
+Template Details:
+- ID: ${TEMPLATE_ID}
+- Location: .claude/templates/handoffs/${TEMPLATE_ID}.md
+- From: ${FROM_AGENT}
+- To: ${TO_AGENT}
+
+Sections:
+${SECTION_LIST}
+
+To use this template:
+- ${FROM_AGENT} will populate and send to ${TO_AGENT}
+- Reference in workflow files
+- Ensures consistent information transfer
+
+The template is now available for use.
+```
+
+---
+
+## 8. AI-Powered Library Optimization
+
+Vibey can analyze your project roadmap and automatically recommend optimizations to your agent library, workflows, and handoffs.
+
+### 8.1 Analyze Project Roadmap
+
+**User Requests:**
+- "Analyze my roadmap for optimization opportunities"
+- "Scan the project and recommend agents"
+- "What agents should I add based on my roadmap?"
+- "Optimize my agent library"
+
+**Action:**
+```bash
+# Run AI-powered roadmap analysis
+python3 .claude/scripts/analyze-project-roadmap.py \
+  --roadmap .vibey/roadmap.yaml \
+  --agents .claude/agents \
+  --workflows .claude/workflows \
+  --output /tmp/optimization-report.md
+```
+
+**Analysis Process:**
+
+The analyzer examines:
+1. **All roadmap tasks** - Keywords, descriptions, technologies
+2. **Current agent library** - Capabilities and workload
+3. **Current workflow library** - Coverage of task types
+4. **Task patterns** - Common sequences and dependencies
+5. **Technology stack** - Specialized tools and frameworks
+
+**Findings Categories:**
+- Missing specialized agents
+- Unused/underutilized agents
+- Workflow gaps
+- Handoff inefficiencies
+- Technology-specific enhancements
+
+**Response:**
+```
+🔍 Roadmap Analysis Complete
+
+Analyzed:
+- 24 tasks across 3 sprints
+- 12 current agents
+- 16 current workflows
+- Technology stack: Python, React, PostgreSQL, AWS
+
+📊 Findings (8 recommendations):
+
+🟢 High Impact:
+1. **Create "Terraform Specialist" agent** (Confidence: 95%)
+   - 8 tasks involve Terraform/IaC (33% of roadmap)
+   - Currently handled by infrastructure-specialist (overloaded)
+   - Would reduce infrastructure agent workload by 40%
+
+2. **Create "React Component Builder" workflow** (Confidence: 88%)
+   - 6 tasks follow similar pattern: design → implement → test → document
+   - No standardized workflow exists
+   - Would save ~2 hours per component task
+
+🟡 Medium Impact:
+3. **Enhance web-developer with GraphQL expertise** (Confidence: 75%)
+   - 4 tasks involve GraphQL schema/resolvers
+   - Web-developer lacks specific GraphQL patterns
+   - Add GraphQL section to web-developer agent
+
+4. **Create "Database Migration" handoff template** (Confidence: 70%)
+   - 3 tasks require database changes
+   - No standardized handoff between backend → database
+   - Would improve consistency and reduce errors
+
+🔵 Low Impact:
+5. **Disable ml-engineer agent** (Confidence: 60%)
+   - 0 tasks assigned
+   - Not used in last 3 sprints
+   - Can re-enable if ML tasks added
+
+Would you like me to implement any of these recommendations?
+```
+
+### 8.2 Auto-Generate Recommended Agents
+
+**User Requests:**
+- "Create the Terraform Specialist agent"
+- "Implement recommendation #1"
+- "Generate all recommended agents"
+
+**Action:**
+```bash
+# Generate agent based on AI analysis
+python3 .claude/scripts/generate-agent.py \
+  --analysis /tmp/optimization-report.md \
+  --recommendation "terraform-specialist" \
+  --output .claude/agents/custom/terraform-specialist.md
+```
+
+**Agent Generation Process:**
+
+1. **Extract task patterns** from roadmap
+2. **Identify common keywords** (terraform, infrastructure, aws, etc.)
+3. **Analyze technology stack** (Terraform, AWS CLI, etc.)
+4. **Generate capabilities** based on task descriptions
+5. **Create process steps** from task sequences
+6. **Define quality criteria** from project standards
+
+**Generated Agent Structure:**
+```markdown
+# Agent: Terraform Specialist
+
+**Agent ID:** terraform-specialist
+**Purpose:** Infrastructure as Code development and deployment using Terraform
+**Expertise:** Terraform, AWS, Infrastructure as Code, Cloud Architecture
+**Trigger:** Terraform, IaC, infrastructure, AWS resources
+
+---
+
+## Overview
+
+You are the **Terraform Specialist**, an agent specialized in Infrastructure as Code
+development using Terraform.
+
+**Your Role:**
+- Design and implement Terraform modules
+- Manage AWS infrastructure with Terraform
+- Optimize infrastructure costs and performance
+- Ensure infrastructure security best practices
+
+**When You're Active:**
+- Tasks involve Terraform code
+- Infrastructure provisioning or changes required
+- Cloud resource management needed
+- Infrastructure as Code development
+
+---
+
+## Capabilities
+
+### Terraform Development
+- Design reusable Terraform modules
+- Implement infrastructure for AWS services
+- Manage state files and backends
+- Handle infrastructure versioning
+
+### AWS Integration
+- Provision EC2, RDS, S3, Lambda, etc.
+- Configure VPCs, security groups, IAM
+- Set up CloudWatch monitoring
+- Implement cost optimization strategies
+
+### Best Practices
+- Follow Terraform best practices
+- Implement proper state management
+- Use workspaces for environments
+- Validate with terraform validate and tflint
+
+## Trigger Patterns
+
+**Keywords:**
+- terraform
+- infrastructure
+- iac
+- provision
+- aws
+- cloud resources
+
+**File Patterns:**
+- `**/*.tf`
+- `**/*.tfvars`
+- `**/terraform/**/*`
+
+**Priority:** High (when infrastructure context detected)
+
+---
+
+## Process
+
+1. **Design Phase**
+   - Review infrastructure requirements
+   - Design module structure
+   - Plan resource dependencies
+
+2. **Implementation Phase**
+   - Write Terraform code
+   - Create variables and outputs
+   - Document module usage
+
+3. **Validation Phase**
+   - Run terraform validate
+   - Run terraform plan
+   - Review security implications
+
+4. **Deployment Phase**
+   - Run terraform apply
+   - Verify resource creation
+   - Document infrastructure changes
+
+5. **Documentation Phase**
+   - Update infrastructure documentation
+   - Document module inputs/outputs
+   - Create runbooks for operations
+
+---
+
+## Quality Criteria
+
+- ✅ All Terraform code validates successfully
+- ✅ State is managed in remote backend
+- ✅ Resources tagged appropriately
+- ✅ Security groups follow least privilege
+- ✅ Costs estimated and reviewed
+- ✅ Documentation complete and current
+
+---
+
+## Success Criteria
+
+You've successfully completed your work when:
+- ✅ Infrastructure code is written and validated
+- ✅ Resources are provisioned successfully
+- ✅ Security best practices followed
+- ✅ Documentation updated
+- ✅ Handoff to operations team complete
+```
+
+**Auto-register and enable:**
+```bash
+# Add to custom agents
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "custom_agents" \
+  --append "{\"name\": \"Terraform Specialist\", \"path\": \".claude/agents/custom/terraform-specialist.md\", \"enabled\": true}"
+
+# Assign relevant tasks
+python3 .claude/scripts/roadmap batch \
+  --filter "keyword:terraform OR keyword:infrastructure" \
+  --assign terraform-specialist
+```
+
+**Response:**
+```
+✅ Agent "Terraform Specialist" created and activated
+
+Agent Details:
+- Auto-generated from roadmap analysis
+- Based on 8 infrastructure tasks
+- Capabilities extracted from task patterns
+- Trigger keywords: terraform, infrastructure, iac, aws
+
+Actions Taken:
+1. Created agent file: .claude/agents/custom/terraform-specialist.md
+2. Registered in project config
+3. Assigned 8 relevant tasks from roadmap
+
+Workload Impact:
+- infrastructure-specialist: 12 tasks → 4 tasks (67% reduction)
+- terraform-specialist: 0 tasks → 8 tasks (new agent)
+
+Next Steps:
+- Review generated agent for accuracy
+- Customize capabilities if needed
+- Test agent with a Terraform task
+```
+
+### 8.3 Auto-Generate Recommended Workflows
+
+**User Requests:**
+- "Create the React Component Builder workflow"
+- "Generate workflow from recommendation #2"
+- "Implement all recommended workflows"
+
+**Action:**
+```bash
+# Generate workflow based on AI analysis
+python3 .claude/scripts/generate-workflow.py \
+  --analysis /tmp/optimization-report.md \
+  --recommendation "react-component-builder" \
+  --output .claude/workflows/custom/react-component-builder.md
+```
+
+**Workflow Generation Process:**
+
+1. **Identify task sequences** - Common phase patterns
+2. **Extract agent usage** - Which agents worked on similar tasks
+3. **Determine durations** - Average time per phase
+4. **Map handoff points** - Where information transfers occur
+5. **Define success criteria** - Quality standards from completed tasks
+
+**Response:**
+```
+✅ Workflow "React Component Builder" created
+
+Workflow Details:
+- Auto-generated from 6 similar tasks
+- 4 phases: Design → Implement → Test → Document
+- Estimated duration: 6 hours (based on historical data)
+- Agents: web-developer, docs-writer
+
+Phases:
+1. Design (1h) - Component architecture and props
+2. Implement (3h) - Build component with TypeScript
+3. Test (1.5h) - Unit and integration tests
+4. Document (0.5h) - Storybook and usage docs
+
+The workflow is now available for use.
+```
+
+### 8.4 Batch Apply Recommendations
+
+**User Requests:**
+- "Implement all high-impact recommendations"
+- "Apply recommendations 1, 2, and 4"
+- "Generate all recommended agents and workflows"
+
+**Action:**
+```bash
+# Batch apply recommendations
+python3 .claude/scripts/apply-recommendations.py \
+  --analysis /tmp/optimization-report.md \
+  --filter "impact:high" \
+  --auto-apply
+```
+
+**Response:**
+```
+🚀 Applying 2 high-impact recommendations...
+
+Progress:
+[1/2] Creating "Terraform Specialist" agent... ✅
+[2/2] Creating "React Component Builder" workflow... ✅
+
+Summary:
+✅ 1 agent created (terraform-specialist)
+✅ 1 workflow created (react-component-builder)
+✅ 8 tasks auto-assigned to new agent
+✅ Project config updated
+✅ CLAUDE.md regenerated
+
+Impact:
+- Expected workload reduction: 40% for infrastructure-specialist
+- Expected time savings: ~12 hours per sprint (2h × 6 component tasks)
+- Agent utilization improved: +15% overall
+
+Next Steps:
+1. Review generated agents/workflows
+2. Test with actual tasks
+3. Provide feedback for AI tuning
+```
+
+### 8.5 Continuous Optimization
+
+**User Requests:**
+- "Run optimization weekly"
+- "Monitor roadmap for new patterns"
+- "Auto-suggest optimizations"
+
+**Setup:**
+```bash
+# Enable continuous optimization in config
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "optimization.enabled" \
+  --value "true"
+
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "optimization.frequency" \
+  --value "weekly"
+
+python3 .claude/scripts/update-config.py \
+  --config .claude/project-config.yaml \
+  --key "optimization.auto_apply" \
+  --value "false"  # Requires approval
+```
+
+**Configuration:**
+```yaml
+optimization:
+  enabled: true
+  frequency: weekly  # daily, weekly, sprint, manual
+  auto_apply: false  # Require manual approval
+  confidence_threshold: 0.75  # Only suggest 75%+ confidence
+  impact_threshold: medium  # Only suggest medium+ impact
+  notify: true  # Notify when recommendations ready
+```
+
+**Response:**
+```
+✅ Continuous optimization enabled
+
+Settings:
+- Frequency: Weekly analysis
+- Auto-apply: Disabled (manual approval required)
+- Confidence threshold: ≥75%
+- Impact threshold: ≥Medium
+
+How it works:
+1. Every Monday, analyze roadmap for patterns
+2. Generate optimization recommendations
+3. Notify you via /vibey status
+4. You review and approve recommendations
+5. Approved recommendations auto-implemented
+
+You'll be notified when recommendations are ready.
+```
+
+### 8.6 Optimization Analytics
+
+**User Requests:**
+- "Show optimization impact"
+- "How much time have optimizations saved?"
+- "Analyze agent library performance"
+
+**Action:**
+```bash
+# Generate optimization analytics
+python3 .claude/scripts/optimization-analytics.py \
+  --since "2025-01-01" \
+  --output /tmp/optimization-analytics.md
+```
+
+**Response:**
+```
+📊 Optimization Analytics (Last 90 Days)
+
+Agents Created:
+- 3 custom agents generated
+- 8 agents customized/enhanced
+- 2 agents disabled (unused)
+
+Workflows Created:
+- 2 custom workflows generated
+- 4 workflows enhanced
+
+Impact Metrics:
+- Time saved: ~48 hours (estimated)
+  - React Component Builder: 24h (2h × 12 tasks)
+  - Terraform Specialist: 18h (faster task completion)
+  - GraphQL enhancements: 6h (reduced rework)
+
+Workload Distribution:
+- Before: web-developer overloaded (45% of all tasks)
+- After: Balanced across 5 agents (avg 20% each)
+
+Agent Utilization:
+- Before: 58% (7/12 agents actively used)
+- After: 83% (10/12 agents actively used)
+- Improvement: +25% utilization
+
+Task Completion:
+- Before optimization: 3.2 days avg
+- After optimization: 2.1 days avg
+- Improvement: 34% faster
+
+Recommendation Accuracy:
+- Recommendations implemented: 8
+- Positive impact: 7 (87.5%)
+- Neutral impact: 1 (12.5%)
+- Negative impact: 0 (0%)
+
+Next Analysis: Monday, November 15, 2025
+```
+
+---
+
+### 9. Technology Stack Updates
 
 **Update Tech Stack in Config:**
 

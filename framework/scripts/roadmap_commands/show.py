@@ -101,54 +101,58 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
         completion_gates = [t for t in tasks if t.is_quality_gate() and t.task_type == "completion_gate"]
         production_gates = [t for t in tasks if t.is_quality_gate() and t.task_type == "production_gate"]
 
+        # Safe attribute access with fallbacks
+        metadata = getattr(sprint, 'metadata', {})
+        estimated_duration = metadata.get('estimated_duration') if isinstance(metadata, dict) else getattr(sprint, 'estimated_duration', None)
+
         return {
             "type": "sprint",
             "id": sprint.id,
             "name": sprint.name,
-            "goal": sprint.goal if hasattr(sprint, 'goal') else "",
-            "status": sprint.status.value,
+            "goal": getattr(sprint, 'goal', ''),
+            "status": sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status),
             "blocked": sprint.blocked,
             "started": format_datetime(sprint.started),
             "completed": format_datetime(sprint.completed),
-            "estimated_duration": sprint.estimated_duration,
+            "estimated_duration": estimated_duration,
             "progress": {
                 "tasks": f"{sprint.progress.tasks_completed}/{sprint.progress.tasks_total}",
                 "completion": f"{sprint.progress.completion_percent}%",
             },
             "development_gates": [
                 {
-                    "target_id": gate.target_id,
-                    "type": gate.type.value,
-                    "target_status": gate.target_status,
+                    "target_id": getattr(gate, 'target_id', ''),
+                    "type": gate.type.value if hasattr(gate, 'type') else str(getattr(gate, 'type', '')),
+                    "target_status": getattr(gate, 'target_status', ''),
                 }
-                for gate in sprint.development_gates
+                for gate in (sprint.development_gates if hasattr(sprint, 'development_gates') else [])
             ],
             "tasks": {
                 "development": [
                     {
                         "id": task.id,
-                        "name": task.name,
-                        "status": task.status.value,
+                        "name": getattr(task, 'name', getattr(task, 'title', task.id)),
+                        "status": task.status.value if hasattr(task.status, 'value') else str(task.status),
                         "blocked": task.blocked,
-                        "assigned_agent": task.assigned_agent,
+                        "assigned_agent": getattr(task, 'assigned_agent', None),
                     }
                     for task in dev_tasks
                 ],
                 "completion_gates": [
                     {
                         "id": task.id,
-                        "name": task.name,
-                        "status": task.status.value,
-                        "gate_type": task.gate_info.gate_type if task.gate_info else None,
+                        "name": getattr(task, 'name', getattr(task, 'title', task.id)),
+                        "status": task.status.value if hasattr(task.status, 'value') else str(task.status),
+                        "gate_type": task.gate_info.gate_type if hasattr(task, 'gate_info') and task.gate_info else None,
                     }
                     for task in completion_gates
                 ],
                 "production_gates": [
                     {
                         "id": task.id,
-                        "name": task.name,
-                        "status": task.status.value,
-                        "gate_type": task.gate_info.gate_type if task.gate_info else None,
+                        "name": getattr(task, 'name', getattr(task, 'title', task.id)),
+                        "status": task.status.value if hasattr(task.status, 'value') else str(task.status),
+                        "gate_type": task.gate_info.gate_type if hasattr(task, 'gate_info') and task.gate_info else None,
                     }
                     for task in production_gates
                 ],
@@ -243,8 +247,10 @@ def print_sprint(data: Dict[str, Any]):
     print(f"Completed:   {data['completed']}")
     print(f"Duration:    {data['estimated_duration']}")
 
-    print(f"\n📄 Description:")
-    print(f"  {data['description']}")
+    # Show goal if available
+    if data.get('goal'):
+        print(f"\n🎯 Goal:")
+        print(f"  {data['goal']}")
 
     print(f"\n📊 Progress:")
     print(f"  Tasks:   {data['progress']['tasks']}")

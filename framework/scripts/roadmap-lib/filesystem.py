@@ -163,3 +163,38 @@ def get_file_system_manager(root_dir: Optional[Path] = None) -> FileSystemManage
         FileSystemManager instance
     """
     return FileSystemManager(root_dir)
+
+
+def load_yaml(file_path: Path) -> dict:
+    """
+    Load YAML file.
+
+    Args:
+        file_path: Path to YAML file
+
+    Returns:
+        Parsed YAML data as dict
+    """
+    import yaml
+
+    if not file_path.exists():
+        return {}
+
+    with open(file_path, 'r') as f:
+        return yaml.safe_load(f) or {}
+
+
+def save_yaml(file_path: Path, data: dict) -> None:
+    """
+    Save data to YAML file.
+
+    Args:
+        file_path: Path to YAML file
+        data: Data to save
+    """
+    import yaml
+
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False)

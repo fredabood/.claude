@@ -59,6 +59,7 @@ from .common import (
     DeliverableType,
     ActivityType,
     VersionBumpTrigger,
+    DependencyStatus,
 )
 
 __all__ = [
@@ -106,6 +107,7 @@ __all__ = [
     "DeliverableType",
     "ActivityType",
     "VersionBumpTrigger",
+    "DependencyStatus",
 ]
 
 __version__ = "2.1"

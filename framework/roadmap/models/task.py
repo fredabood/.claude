@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
-from .common import TaskStatus, Priority, TaskType, Complexity, DeliverableType, DependencyType
+from .common import TaskStatus, Priority, TaskType, Complexity, DeliverableType, DependencyType, DependencyStatus
 
 
 @dataclass
@@ -158,9 +158,14 @@ class Task:
     complexity: Complexity
 
     # Dependencies and blockers
-    dependencies: List[TaskDependency]
-    blocks: List[TaskDependency]
-    blocked_by: List[TaskBlocker]
+    dependencies: List[TaskDependency]      # Source of truth (static config)
+    blocks: List[TaskDependency]            # What this task blocks (forward index)
+    blocked_by: List[TaskBlocker]           # Computed blockers (DEPRECATED - use depends_on)
+
+    # NEW: Cached dependency tracking for fast updates
+    depends_on: List[DependencyStatus]      # Cached status of dependencies (for blocking check)
+    depended_on_by: List[str]               # IDs of objects that depend on this (reverse index)
+
     metadata: TaskMetadata
 
     # Optional fields
@@ -206,10 +211,11 @@ class Task:
         if self.completed and self.started and self.completed < self.started:
             raise ValueError("Completion date must be after or equal to start date")
 
-        # Validate blocked status
-        has_blockers = len(self.blocked_by) > 0
-        if self.blocked != has_blockers:
-            raise ValueError("Blocked flag must match blocker list")
+        # Validate blocked status matches depends_on (primary) or blocked_by (deprecated)
+        # blocked should be True if ANY dependency in depends_on is not satisfied
+        has_unsatisfied_deps = any(not dep.is_satisfied() for dep in self.depends_on)
+        if self.blocked != has_unsatisfied_deps:
+            raise ValueError(f"Blocked flag ({self.blocked}) must match unsatisfied dependencies ({has_unsatisfied_deps})")
 
         # Validate status transitions
         if self.status == TaskStatus.IN_PROGRESS and not self.started:
@@ -230,8 +236,28 @@ class Task:
             self.metadata.token_efficiency = self.actual_tokens / self.estimated_tokens
 
     def is_blocked(self) -> bool:
-        """Check if task is blocked."""
-        return len(self.blocked_by) > 0
+        """
+        Check if task is blocked.
+
+        Uses depends_on to check if any dependencies are unsatisfied.
+        """
+        return any(not dep.is_satisfied() for dep in self.depends_on)
+
+    def compute_blocked_status(self) -> bool:
+        """
+        Compute blocked status from depends_on array.
+
+        Returns True if ANY dependency is not satisfied.
+        """
+        return any(not dep.is_satisfied() for dep in self.depends_on)
+
+    def get_unsatisfied_dependencies(self) -> List[DependencyStatus]:
+        """Get list of dependencies that are not satisfied."""
+        return [dep for dep in self.depends_on if not dep.is_satisfied()]
+
+    def get_satisfied_dependencies(self) -> List[DependencyStatus]:
+        """Get list of dependencies that are satisfied."""
+        return [dep for dep in self.depends_on if dep.is_satisfied()]
 
     def is_development_task(self) -> bool:
         """Check if this is a development task."""

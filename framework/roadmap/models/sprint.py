@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
-from .common import Status, TaskType, DependencyType
+from .common import Status, TaskType, DependencyType, DependencyStatus
 
 
 @dataclass
@@ -128,9 +128,14 @@ class Sprint:
     created: datetime
     progress: SprintProgress
     tasks: List[TaskSummary]
-    development_gates: List[DevelopmentGate]
-    blocks: List[DevelopmentGate]  # What this sprint blocks
-    blocked_by: List[SprintBlocker]
+    development_gates: List[DevelopmentGate]  # Source of truth (static config)
+    blocks: List[DevelopmentGate]  # What this sprint blocks (forward index)
+    blocked_by: List[SprintBlocker]  # Computed blockers (DEPRECATED - use depends_on)
+
+    # NEW: Cached dependency tracking for fast updates
+    depends_on: List[DependencyStatus]  # Cached status of dependencies (for blocking check)
+    depended_on_by: List[str]  # IDs of objects that depend on this (reverse index)
+
     metadata: SprintMetadata
 
     # Optional timing
@@ -155,10 +160,10 @@ class Sprint:
         if self.started and self.started < self.created:
             raise ValueError("Start date must be after or equal to creation date")
 
-        # Validate blocked status
-        has_blockers = len(self.blocked_by) > 0
-        if self.blocked != has_blockers:
-            raise ValueError(f"Blocked flag ({self.blocked}) must match blocker list")
+        # Validate blocked status matches depends_on
+        has_unsatisfied_deps = any(not dep.is_satisfied() for dep in self.depends_on)
+        if self.blocked != has_unsatisfied_deps:
+            raise ValueError(f"Blocked flag ({self.blocked}) must match unsatisfied dependencies ({has_unsatisfied_deps})")
 
         # Validate status transitions
         if self.status == Status.IN_PROGRESS and not self.started:
@@ -189,8 +194,16 @@ class Sprint:
         return next((t for t in self.tasks if t.id == task_id), None)
 
     def is_blocked(self) -> bool:
-        """Check if sprint is blocked."""
-        return len(self.blocked_by) > 0
+        """Check if sprint is blocked using depends_on."""
+        return any(not dep.is_satisfied() for dep in self.depends_on)
+
+    def compute_blocked_status(self) -> bool:
+        """Compute blocked status from depends_on array."""
+        return any(not dep.is_satisfied() for dep in self.depends_on)
+
+    def get_unsatisfied_dependencies(self) -> List[DependencyStatus]:
+        """Get list of dependencies that are not satisfied."""
+        return [dep for dep in self.depends_on if not dep.is_satisfied()]
 
     def get_completion_percentage(self) -> int:
         """Get completion percentage."""

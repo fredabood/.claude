@@ -3,6 +3,8 @@ Common types and enums used across all roadmap models.
 """
 
 from enum import Enum
+from dataclasses import dataclass
+from datetime import datetime
 
 
 class Status(str, Enum):
@@ -112,3 +114,43 @@ class VersionBumpTrigger(str, Enum):
     TRACK_COMPLETION = "track_completion"
     SPRINT_PRODUCTION_READY = "sprint_production_ready"
     MANUAL = "manual"
+
+
+@dataclass
+class DependencyStatus:
+    """
+    Cached dependency status for fast blocking computation.
+
+    This is a denormalized cache of a dependency's current state,
+    allowing O(1) blocking checks without loading dependency files.
+
+    Used by Task, Sprint, and Track models.
+    """
+
+    blocker_id: str          # The dependency's ID (e.g., "backend-1-task-005")
+    blocker_type: str        # Type: task/sprint/track/external
+    required_status: str     # Status needed to unblock (e.g., "completed")
+    current_status: str      # Cached current status of blocker
+    last_checked: datetime   # When status was last synced
+
+    def is_satisfied(self) -> bool:
+        """
+        Check if this dependency is satisfied.
+
+        Uses status progression order:
+        not_started < in_progress < paused < completion_gate_check <
+        completed < production_gate_check < production_ready < deployed
+        """
+        status_order = [
+            "not_started", "in_progress", "paused",
+            "completion_gate_check", "completed",
+            "production_gate_check", "production_ready", "deployed"
+        ]
+
+        try:
+            current_idx = status_order.index(self.current_status)
+            required_idx = status_order.index(self.required_status)
+            return current_idx >= required_idx
+        except ValueError:
+            # Status not in list - check exact match
+            return self.current_status == self.required_status

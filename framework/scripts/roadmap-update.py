@@ -23,7 +23,7 @@ from roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Status, TaskStatus, ActivityType,
     TrackSummary, SprintSummary, Progress, Metadata,
-    Dependency, DependencyType, GateInfo,
+    Dependency, DependencyType, GateInfo, DependencyStatus,
 )
 from roadmap.serialization import (
     load_roadmap, load_track, load_sprint, load_tasks,
@@ -33,6 +33,122 @@ from filesystem import FileSystemManager, find_roadmap_root
 from activity import ActivityLogger
 from status import StatusManager
 from blockers import BlockerComputer
+
+
+def update_dependent_cache(
+    fs: FileSystemManager,
+    dependent_id: str,
+    blocker_id: str,
+    new_status: str
+) -> bool:
+    """
+    Update cached dependency status in a dependent object.
+
+    Args:
+        fs: Filesystem manager
+        dependent_id: ID of the dependent (task/sprint/track that depends on blocker)
+        blocker_id: ID of the blocker (dependency that changed status)
+        new_status: New status of the blocker
+
+    Returns:
+        True if updated successfully
+    """
+    # Determine object type from ID format
+    if '-task-' in dependent_id:
+        # It's a task
+        sprint_id = dependent_id.split('-task-')[0]
+        tasks_path = fs.get_tasks_path(sprint_id)
+
+        if not tasks_path.exists():
+            print(f"⚠️  Tasks file not found for dependent: {dependent_id}")
+            return False
+
+        tasks = load_tasks(tasks_path)
+        task = next((t for t in tasks if t.id == dependent_id), None)
+
+        if not task:
+            print(f"⚠️  Dependent task not found: {dependent_id}")
+            return False
+
+        # Update depends_on cache
+        modified = False
+        for dep_status in task.depends_on:
+            if dep_status.blocker_id == blocker_id:
+                dep_status.current_status = new_status
+                dep_status.last_checked = datetime.now(timezone.utc)
+                modified = True
+                break
+
+        if not modified:
+            print(f"⚠️  Blocker {blocker_id} not found in task {dependent_id} depends_on")
+            return False
+
+        # Recompute blocked status
+        task.blocked = task.compute_blocked_status()
+
+        # Save tasks
+        save_tasks(tasks, tasks_path)
+        return True
+
+    elif '-sprint-' in dependent_id:
+        # It's a sprint
+        sprint_path = fs.get_sprint_path(dependent_id)
+
+        if not sprint_path.exists():
+            print(f"⚠️  Sprint file not found: {dependent_id}")
+            return False
+
+        sprint = load_sprint(sprint_path)
+
+        # Update depends_on cache
+        modified = False
+        for dep_status in sprint.depends_on:
+            if dep_status.blocker_id == blocker_id:
+                dep_status.current_status = new_status
+                dep_status.last_checked = datetime.now(timezone.utc)
+                modified = True
+                break
+
+        if not modified:
+            print(f"⚠️  Blocker {blocker_id} not found in sprint {dependent_id} depends_on")
+            return False
+
+        # Recompute blocked status
+        sprint.blocked = sprint.compute_blocked_status()
+
+        # Save sprint
+        save_sprint(sprint, sprint_path)
+        return True
+
+    else:
+        # It's a track
+        track_path = fs.get_track_path(dependent_id)
+
+        if not track_path.exists():
+            print(f"⚠️  Track file not found: {dependent_id}")
+            return False
+
+        track = load_track(track_path)
+
+        # Update depends_on cache
+        modified = False
+        for dep_status in track.depends_on:
+            if dep_status.blocker_id == blocker_id:
+                dep_status.current_status = new_status
+                dep_status.last_checked = datetime.now(timezone.utc)
+                modified = True
+                break
+
+        if not modified:
+            print(f"⚠️  Blocker {blocker_id} not found in track {dependent_id} depends_on")
+            return False
+
+        # Recompute blocked status
+        track.blocked = track.compute_blocked_status()
+
+        # Save track
+        save_track(track, track_path)
+        return True
 
 
 def complete_task(
@@ -76,6 +192,13 @@ def complete_task(
     # Save tasks
     save_tasks(tasks, tasks_path)
     print(f"✅ Task '{task.title}' marked as completed")
+
+    # Update dependency caches for all dependents (Phase 3: Dependency Tracking v2.0)
+    for dependent_id in task.depended_on_by:
+        if update_dependent_cache(fs, dependent_id, task_id, "completed"):
+            print(f"  ✓ Updated dependent: {dependent_id}")
+        else:
+            print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
     # Update sprint progress
     update_sprint_progress(fs, sprint_id)
@@ -132,6 +255,13 @@ def start_task(
     # Save tasks
     save_tasks(tasks, tasks_path)
     print(f"✅ Task '{task.title}' marked as in progress")
+
+    # Update dependency caches for all dependents (Phase 3: Dependency Tracking v2.0)
+    for dependent_id in task.depended_on_by:
+        if update_dependent_cache(fs, dependent_id, task_id, "in_progress"):
+            print(f"  ✓ Updated dependent: {dependent_id}")
+        else:
+            print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
     # Update sprint progress
     update_sprint_progress(fs, sprint_id)
@@ -200,6 +330,7 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
     progressed, new_status, message = status_manager.progress_sprint_status(sprint)
 
     if progressed and new_status:
+        old_status = sprint.status
         sprint.status = new_status
 
         # Set appropriate timestamp based on new status
@@ -218,12 +349,19 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
         sprint.metadata.last_modified = now
         print(f"🎉 Sprint '{sprint.name}' progressed to {new_status.value}: {message}")
 
+        # Update dependency caches for all dependents when status changes (Phase 3: Dependency Tracking v2.0)
+        for dependent_id in sprint.depended_on_by:
+            if update_dependent_cache(fs, dependent_id, sprint_id, new_status.value):
+                print(f"  ✓ Updated dependent: {dependent_id}")
+            else:
+                print(f"  ⚠️  Failed to update dependent: {dependent_id}")
+
         # Log activity
         # logger = ActivityLogger(fs.root_dir)
         # logger.log_activity(
         #     ActivityType.STATUS_CHANGED,
         #     f"Sprint '{sprint.name}' progressed to {new_status.value}",
-        #     {"sprint_id": sprint_id, "old_status": sprint.status.value, "new_status": new_status.value}
+        #     {"sprint_id": sprint_id, "old_status": old_status.value, "new_status": new_status.value}
         # )
 
     # Compute blockers
@@ -282,15 +420,23 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
     progressed, new_status, message = status_manager.progress_track_status(track)
 
     if progressed and new_status:
+        old_status = track.status
         track.status = new_status
         print(f"🎉 Track '{track.name}' progressed to {new_status.value}: {message}")
+
+        # Update dependency caches for all dependents when status changes (Phase 3: Dependency Tracking v2.0)
+        for dependent_id in track.depended_on_by:
+            if update_dependent_cache(fs, dependent_id, track_id, new_status.value):
+                print(f"  ✓ Updated dependent: {dependent_id}")
+            else:
+                print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
         # Log activity
         # logger = ActivityLogger(fs.root_dir)
         # logger.log_activity(
         #     ActivityType.STATUS_CHANGED,
         #     f"Track '{track.name}' progressed to {new_status.value}",
-        #     {"track_id": track_id, "old_status": track.status.value, "new_status": new_status.value}
+        #     {"track_id": track_id, "old_status": old_status.value, "new_status": new_status.value}
         # )
 
     # Compute blockers
@@ -511,6 +657,13 @@ def complete_sprint(
     # Save sprint
     save_sprint(sprint, sprint_path)
     print(f"✅ Sprint '{sprint.name}' marked as completed")
+
+    # Update dependency caches for all dependents (Phase 3: Dependency Tracking v2.0)
+    for dependent_id in sprint.depended_on_by:
+        if update_dependent_cache(fs, dependent_id, sprint_id, "completed"):
+            print(f"  ✓ Updated dependent: {dependent_id}")
+        else:
+            print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
     # Update track progress
     track_id = sprint_id.rsplit('-', 1)[0]

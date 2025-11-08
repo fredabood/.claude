@@ -204,28 +204,22 @@ fi
 ```bash
 echo "📊 Creating sprint in roadmap..."
 
-# Create sprint entry in roadmap system
+# Create sprint entry in roadmap system using plan parser
 # This will:
+# - Parse the sprint plan markdown
+# - Extract tasks, features, quality gates
 # - Create .vibey/sprints/sprint-N.yaml with sprint metadata
-# - Create .vibey/tasks/sprint-N-tasks.yaml with tasks from plan
+# - Create .vibey/tasks/sprint-N-tasks.yaml with task details
 # - Update .vibey/tracks/main.yaml to reference the sprint
-# - Auto-detect dependencies between tasks
 
 SPRINT_ID="sprint-${SPRINT_NUMBER}"
 
-# For now, manually prompt user to create sprint YAML
-# TODO: Implement 'roadmap plan create' command to automate this
-echo ""
-echo "⚠️  Manual step required:"
-echo "   Create sprint YAML at: .vibey/sprints/${SPRINT_ID}.yaml"
-echo "   Create tasks YAML at: .vibey/tasks/${SPRINT_ID}-tasks.yaml"
-echo ""
-echo "   Or use the roadmap-update.py helper (once implemented)"
-echo ""
-read -p "Press Enter once sprint YAML files are created..."
-
-# Start the sprint
-python3 .claude/scripts/roadmap-update.py --start-sprint ${SPRINT_ID}
+# Create sprint from plan file
+python3 .claude/scripts/roadmap plan create \
+  --track-id "main" \
+  --from-plan "sprint-${SPRINT_NUMBER}-plan.md" \
+  --sprint-id "${SPRINT_ID}" \
+  --start
 
 echo "✓ Sprint ${SPRINT_ID} created and started in roadmap"
 ```

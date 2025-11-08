@@ -211,6 +211,17 @@ For more information on a command:
     context_parser.add_argument('--max-distance', type=int, default=2,
                                help='Maximum dependency distance to load (default: 2)')
 
+    # Plan command (Sprint Plan Management)
+    plan_parser = subparsers.add_parser('plan', help='Manage sprint plans')
+    plan_subparsers = plan_parser.add_subparsers(dest='plan_action', help='Plan action')
+
+    # plan create - Create sprint from plan file
+    plan_create = plan_subparsers.add_parser('create', help='Create sprint from plan file')
+    plan_create.add_argument('--track-id', type=str, required=True, help='Track ID for sprint')
+    plan_create.add_argument('--from-plan', type=str, required=True, help='Path to sprint plan markdown file')
+    plan_create.add_argument('--sprint-id', type=str, help='Sprint ID (auto-generated if not provided)')
+    plan_create.add_argument('--start', action='store_true', help='Start sprint immediately')
+
     return parser
 
 
@@ -330,6 +341,10 @@ def main():
     elif args.command == 'context':
         from roadmap_commands.context import handle_context
         handle_context(args)
+
+    elif args.command == 'plan':
+        from roadmap_commands.plan import handle_plan
+        handle_plan(args)
 
     else:
         print(f"❌ Unknown command: {args.command}")

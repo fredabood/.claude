@@ -105,7 +105,7 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
             "type": "sprint",
             "id": sprint.id,
             "name": sprint.name,
-            "description": sprint.description,
+            "goal": sprint.goal if hasattr(sprint, 'goal') else "",
             "status": sprint.status.value,
             "blocked": sprint.blocked,
             "started": format_datetime(sprint.started),

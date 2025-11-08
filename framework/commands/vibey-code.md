@@ -206,8 +206,9 @@ echo "$QUALITY_GATES"
 # (actual audit command depends on project type)
 SECURITY_SCORE=$(run_security_audit)
 
-# Note: Quality gates are stored in sprint YAML - this would update the gate status
-# For now, log as activity until quality gate tracking is enhanced
+# Update quality gate in roadmap
+python3 .claude/scripts/roadmap gate update "$SPRINT_ID" "Security Audit" "passed" --score "$SECURITY_SCORE"
+
 echo "✓ Security Audit completed with score: $SECURITY_SCORE"
 ```
 
@@ -362,9 +363,13 @@ Parse their responses and set:
 - `GATE_SCORE` to their answer to question 3 (can be empty)
 
 ```bash
-# Note: Quality gates are stored in sprint YAML
-# This would require a quality gate update command to be added to roadmap CLI
-# For now, just log the result
+# Update quality gate in roadmap
+if [ -n "$GATE_SCORE" ]; then
+  python3 .claude/scripts/roadmap gate update "$SPRINT_ID" "$GATE_NAME" "$GATE_STATUS" --score "$GATE_SCORE"
+else
+  python3 .claude/scripts/roadmap gate update "$SPRINT_ID" "$GATE_NAME" "$GATE_STATUS"
+fi
+
 echo "✓ Quality gate result recorded: $GATE_NAME = $GATE_STATUS"
 if [ -n "$GATE_SCORE" ]; then
   echo "  Score: $GATE_SCORE"

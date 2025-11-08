@@ -222,6 +222,21 @@ For more information on a command:
     plan_create.add_argument('--sprint-id', type=str, help='Sprint ID (auto-generated if not provided)')
     plan_create.add_argument('--start', action='store_true', help='Start sprint immediately')
 
+    # Gate command (Quality Gate Management)
+    gate_parser = subparsers.add_parser('gate', help='Manage quality gates')
+    gate_subparsers = gate_parser.add_subparsers(dest='gate_action', help='Gate action')
+
+    # gate update - Update quality gate status
+    gate_update = gate_subparsers.add_parser('update', help='Update quality gate status')
+    gate_update.add_argument('sprint_id', type=str, help='Sprint ID containing the gate')
+    gate_update.add_argument('gate', type=str, help='Quality gate name')
+    gate_update.add_argument('status', choices=['not_run', 'passed', 'failed'], help='Gate status')
+    gate_update.add_argument('--score', type=int, help='Optional score value')
+
+    # gate list - List quality gates
+    gate_list = gate_subparsers.add_parser('list', help='List quality gates for sprint')
+    gate_list.add_argument('sprint_id', type=str, help='Sprint ID to list gates for')
+
     return parser
 
 
@@ -346,13 +361,17 @@ def main():
         from roadmap_commands.plan import handle_plan
         handle_plan(args)
 
+    elif args.command == 'gate':
+        from roadmap_commands.gate import handle_gate
+        handle_gate(args)
+
     else:
         print(f"❌ Unknown command: {args.command}")
         parser.print_help()
         sys.exit(1)
 
     # Invalidate cache after state-changing commands
-    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress']:
+    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress', 'gate']:
         cache.invalidate()
 
 

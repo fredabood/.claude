@@ -512,7 +512,326 @@ Guide user through creating a custom agent:
 .claude/framework/scripts/roadmap agents --add custom-agent-id --file .claude/agents/custom/custom-agent.md
 ```
 
-### 6. Technology Stack Updates
+---
+
+## 6. Roadmap System Management
+
+The roadmap system (.vibey/) tracks all sprints, tasks, and dependencies for the project.
+
+### 6.1 View Roadmap Status
+
+**User Requests:**
+- "Show me the roadmap"
+- "What's the status of our sprints?"
+- "Overview of all tracks"
+
+**Action:**
+```bash
+# View comprehensive roadmap status
+python3 .claude/scripts/roadmap status
+
+# View as JSON for programmatic access
+python3 .claude/scripts/roadmap status --json
+```
+
+**Response:**
+```
+📊 Roadmap Status: vibey-framework-v2
+
+📈 Overall Progress: 67% complete
+
+🎯 Tracks (4):
+- ✅ roadmap-system: 6/6 sprints (100%) - COMPLETED
+- 🔄 core-framework: 1/3 sprints (33%) - IN PROGRESS
+- ⏸️  goose-port: 0/3 sprints (0%) - BLOCKED by roadmap-system
+- ⏸️  multi-platform: 0/4 sprints (0%) - BLOCKED by goose-port
+
+🏃 Active Sprints (1):
+- roadmap-integration-1: "CLI Integration & Sprint Creation" (in_progress)
+  - 5/5 tasks (100% complete)
+
+⏳ Upcoming Sprints (2):
+- roadmap-integration-2: "Legacy Script Deletion & Testing"
+- core-framework-4: "Default CLAUDE.md Generation"
+```
+
+### 6.2 Show Sprint Details
+
+**User Requests:**
+- "Show me sprint X"
+- "What tasks are in this sprint?"
+- "Details for sprint roadmap-integration-1"
+
+**Action:**
+```bash
+# Show sprint overview
+python3 .claude/scripts/roadmap show <sprint-id>
+
+# Show sprint with all tasks
+python3 .claude/scripts/roadmap show <sprint-id> --json | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+sprint = data['sprint']
+print(f\"Sprint: {sprint['name']}\")
+print(f\"Goal: {sprint['goal']}\")
+print(f\"Status: {sprint['status']}\")
+print(f\"Progress: {sprint['progress']['completion_percent']}%\")
+"
+
+# List all tasks in sprint
+python3 .claude/scripts/roadmap list tasks --json | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '<sprint-id>']
+for t in tasks:
+    print(f\"{t['id']}: {t['title']} ({t['status']})\")
+"
+```
+
+**Response:**
+```
+Sprint: CLI Integration & Sprint Creation
+Goal: Integrate roadmap CLI into /vibey commands
+Status: in_progress
+Progress: 100%
+
+Tasks:
+- roadmap-integration-1-task-001: Update /vibey deployment (completed)
+- roadmap-integration-1-task-002: Implement sprint plan parser (completed)
+- roadmap-integration-1-task-003: Update /vibey code dashboard (completed)
+- roadmap-integration-1-task-004: Update /vibey code progress tracking (completed)
+- roadmap-integration-1-task-005: Extend Vibey Manager with roadmap commands (in_progress)
+```
+
+### 6.3 View Dependencies
+
+**User Requests:**
+- "What does sprint X depend on?"
+- "Show me all blockers"
+- "What's blocking sprint Y?"
+- "What depends on task Z?"
+
+**Action:**
+```bash
+# Show all dependencies
+python3 .claude/scripts/roadmap deps
+
+# Show dependencies for specific sprint/task
+python3 .claude/scripts/roadmap deps <sprint-id or task-id>
+
+# Show only blockers
+python3 .claude/scripts/roadmap deps --blockers
+
+# Show dependents (what depends on this)
+python3 .claude/scripts/roadmap deps <sprint-id or task-id> --dependents
+```
+
+**Response:**
+```
+📊 Dependencies for roadmap-integration-1
+
+Dependencies (blocks this):
+- None (unblocked)
+
+Dependents (this blocks):
+- roadmap-integration-2 (sprint)
+- core-framework-4-task-001 (task)
+
+Blockers Summary:
+✅ All dependencies resolved - ready to work
+```
+
+### 6.4 View Agent Workload
+
+**User Requests:**
+- "Which agents are overloaded?"
+- "Show agent workload"
+- "Who can take on new tasks?"
+
+**Action:**
+```bash
+# View agent workload summary
+python3 .claude/scripts/roadmap agents --workload
+
+# View workload as JSON
+python3 .claude/scripts/roadmap agents --workload --json
+
+# View specific agent details
+python3 .claude/scripts/roadmap agents --agent web-developer
+```
+
+**Response:**
+```
+👥 Agent Workload
+
+🔴 Overloaded (>5 tasks):
+- web-developer: 7 in_progress, 3 pending (10 total)
+
+🟡 Busy (3-5 tasks):
+- sprint-planner: 2 in_progress, 2 pending (4 total)
+- security-reviewer: 1 in_progress, 3 pending (4 total)
+
+🟢 Available (<3 tasks):
+- ml-engineer: 1 in_progress, 0 pending (1 total)
+- observability-specialist: 0 in_progress, 2 pending (2 total)
+
+💡 Recommendation: Consider reassigning tasks from web-developer to other agents.
+```
+
+### 6.5 Find Blocked or At-Risk Tasks
+
+**User Requests:**
+- "Show me blocked tasks"
+- "What tasks are stuck?"
+- "Find tasks with missing dependencies"
+
+**Action:**
+```bash
+# Find blocked tasks
+python3 .claude/scripts/roadmap list tasks --status blocked --json
+
+# Find all tasks with blockers
+python3 .claude/scripts/roadmap deps --blockers | grep "task-"
+
+# Show tasks by status
+python3 .claude/scripts/roadmap list tasks --json | python3 -c "
+import sys, json
+from collections import Counter
+tasks = json.load(sys.stdin)
+status_counts = Counter(t['status'] for t in tasks)
+for status, count in status_counts.items():
+    print(f\"{status}: {count} tasks\")
+"
+```
+
+**Response:**
+```
+🚫 Blocked Tasks (3):
+- goose-port-1-task-001: Port agent architecture (blocked by roadmap-integration-2)
+- goose-port-1-task-002: Port workflow system (blocked by roadmap-integration-2)
+- multi-platform-1-task-001: Design adapter pattern (blocked by goose-port-1)
+
+Status Summary:
+- completed: 12 tasks
+- in_progress: 1 task
+- not_started: 8 tasks
+- blocked: 3 tasks
+```
+
+### 6.6 Task Recommendations
+
+**User Requests:**
+- "What should I work on next?"
+- "Recommend tasks for agent X"
+- "Which tasks are ready to start?"
+
+**Action:**
+```bash
+# Get task recommendations
+python3 .claude/scripts/roadmap recommend
+
+# Get recommendations for specific agent
+python3 .claude/scripts/roadmap recommend --agent web-developer --limit 5
+
+# Get agent recommendations for specific task
+python3 .claude/scripts/roadmap recommend --task backend-2-task-003
+```
+
+**Response:**
+```
+🎯 Task Recommendations (Next 5):
+
+High Priority:
+1. roadmap-integration-1-task-005: Extend Vibey Manager
+   - Priority: high
+   - Estimated: 2 hours
+   - Dependencies: None (ready to start)
+   - Recommended agents: coordinator, vibey-manager
+
+2. core-framework-4-task-001: Design default CLAUDE.md
+   - Priority: high
+   - Estimated: 4 hours
+   - Dependencies: None (ready to start)
+   - Recommended agents: sprint-planner, documentation-specialist
+
+Recommendation: Start with roadmap-integration-1-task-005 (sprint completion blocker)
+```
+
+### 6.7 Search Tasks and Sprints
+
+**User Requests:**
+- "Find tasks about authentication"
+- "Search for security-related sprints"
+- "What tasks mention the database?"
+
+**Action:**
+```bash
+# Search across all objects
+python3 .claude/scripts/roadmap find "authentication"
+
+# Search specific object types
+python3 .claude/scripts/roadmap find "security" --type sprint
+
+# Search and get JSON results
+python3 .claude/scripts/roadmap find "database" --json
+```
+
+**Response:**
+```
+🔍 Search results for "authentication":
+
+Sprints (1):
+- backend-2: "Authentication & Authorization System"
+
+Tasks (3):
+- backend-2-task-001: Design auth architecture
+- backend-2-task-002: Implement JWT tokens
+- backend-2-task-005: Add OAuth2 support
+```
+
+### 6.8 Validate Roadmap Structure
+
+**User Requests:**
+- "Check the roadmap for errors"
+- "Validate roadmap structure"
+- "Are there any broken dependencies?"
+
+**Action:**
+```bash
+# Validate roadmap
+python3 .claude/scripts/roadmap validate
+
+# Validate with detailed output
+python3 .claude/scripts/roadmap validate --verbose
+
+# Validate and attempt to fix issues
+python3 .claude/scripts/roadmap validate --fix
+```
+
+**Response:**
+```
+✅ Roadmap Validation Complete
+
+Structure:
+✓ All YAML files valid
+✓ All IDs unique
+✓ All cross-references valid
+
+Dependencies:
+✓ No circular dependencies
+✓ All dependency IDs exist
+✓ No orphaned blocks
+
+Tasks:
+✓ All tasks belong to valid sprints
+✓ All assigned agents exist
+✓ All estimated_hours present
+
+Summary: Roadmap is valid. No issues found.
+```
+
+---
+
+### 7. Technology Stack Updates
 
 **Update Tech Stack in Config:**
 

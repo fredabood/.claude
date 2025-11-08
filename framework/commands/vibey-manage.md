@@ -344,7 +344,7 @@ health_check_vibey_framework() {
 
   # 4. Check critical scripts
   echo "4. Checking critical scripts..."
-  local critical_scripts=("generate-config.py" "update-config.py" "manage-project-context.py" "create-sprint-state.py")
+  local critical_scripts=("generate-config.py" "update-config.py" "manage-project-context.py" "roadmap")
   for script in "${critical_scripts[@]}"; do
     if [ -f ".claude/scripts/$script" ]; then
       if [ -x ".claude/scripts/$script" ]; then

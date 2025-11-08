@@ -50,6 +50,7 @@ from ..models import (
     DeliverableType,
     ActivityType,
     VersionBumpTrigger,
+    DependencyStatus,
 )
 
 
@@ -293,6 +294,25 @@ def load_track(file_path: Union[str, Path]) -> Track:
         for b in track_data.get('blocked_by', [])
     ]
 
+    # Parse depends_on (new cached dependency tracking)
+    depends_on = [
+        DependencyStatus(
+            blocker_id=d['blocker_id'],
+            blocker_type=d['blocker_type'],
+            required_status=d['required_status'],
+            current_status=d['current_status'],
+            blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for tracks
+            last_checked=_parse_datetime(d['last_checked']),
+        )
+        for d in track_data.get('depends_on', [])
+    ]
+
+    # Parse depended_on_by (reverse index)
+    depended_on_by = track_data.get('depended_on_by', [])
+
+    # Compute blocked status from depends_on (override YAML value for consistency)
+    computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
+
     # Parse quality gates
     quality_gates = [
         QualityGate(
@@ -322,7 +342,7 @@ def load_track(file_path: Union[str, Path]) -> Track:
         name=track_data['name'],
         roadmap_id=track_data['roadmap_id'],
         status=Status(track_data['status']),
-        blocked=track_data['blocked'],
+        blocked=computed_blocked,  # Use computed value instead of YAML value
         priority=Priority(track_data['priority']),
         created=_parse_datetime(track_data['created']),
         started=_parse_datetime(track_data.get('started')),
@@ -333,6 +353,8 @@ def load_track(file_path: Union[str, Path]) -> Track:
         dependencies=dependencies,
         blocks=blocks,
         blocked_by=blocked_by,
+        depends_on=depends_on,
+        depended_on_by=depended_on_by,
         quality_gates=quality_gates,
         assigned_agents=track_data.get('assigned_agents', []),
         deliverables=track_data.get('deliverables', []),
@@ -443,6 +465,25 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         for b in sprint_data.get('blocked_by', [])
     ]
 
+    # Parse depends_on (new cached dependency tracking)
+    depends_on = [
+        DependencyStatus(
+            blocker_id=d['blocker_id'],
+            blocker_type=d['blocker_type'],
+            required_status=d['required_status'],
+            current_status=d['current_status'],
+            blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for sprints
+            last_checked=_parse_datetime(d['last_checked']),
+        )
+        for d in sprint_data.get('depends_on', [])
+    ]
+
+    # Parse depended_on_by (reverse index)
+    depended_on_by = sprint_data.get('depended_on_by', [])
+
+    # Compute blocked status from depends_on (override YAML value for consistency)
+    computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
+
     # Parse metadata
     meta_data = sprint_data['metadata']
     metadata = SprintMetadata(
@@ -461,7 +502,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         track_id=sprint_data['track_id'],
         roadmap_id=sprint_data['roadmap_id'],
         status=Status(sprint_data['status']),
-        blocked=sprint_data.get('blocked', False),
+        blocked=computed_blocked,  # Use computed value instead of YAML value
         created=_parse_datetime(sprint_data.get('created', datetime.now())),
         started=_parse_datetime(sprint_data.get('started')),
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
@@ -474,12 +515,30 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         development_gates=development_gates,
         blocks=blocks,
         blocked_by=blocked_by,
+        depends_on=depends_on,
+        depended_on_by=depended_on_by,
         plan_file=sprint_data.get('plan_file'),
         deliverables=sprint_data.get('deliverables', []),
         metadata=metadata,
     )
 
     return sprint
+
+
+def load_task(file_path: Union[str, Path]) -> Task:
+    """
+    Load a single task from YAML file.
+
+    Args:
+        file_path: Path to task YAML file
+
+    Returns:
+        Task object
+    """
+    tasks = load_tasks(file_path)
+    if len(tasks) != 1:
+        raise ValueError(f"Expected 1 task, found {len(tasks)}")
+    return tasks[0]
 
 
 def load_tasks(file_path: Union[str, Path]) -> List[Task]:
@@ -563,6 +622,25 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             for b in task_data.get('blocked_by', [])
         ]
 
+        # Parse depends_on (new cached dependency tracking)
+        depends_on = [
+            DependencyStatus(
+                blocker_id=d['blocker_id'],
+                blocker_type=d['blocker_type'],
+                required_status=d['required_status'],
+                current_status=d['current_status'],
+                blocks_transition_to=d.get('blocks_transition_to', 'in_progress'),  # Default to hard blocker
+                last_checked=_parse_datetime(d['last_checked']),
+            )
+            for d in task_data.get('depends_on', [])
+        ]
+
+        # Parse depended_on_by (reverse index)
+        depended_on_by = task_data.get('depended_on_by', [])
+
+        # Compute blocked status from depends_on (override YAML value for consistency)
+        computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
+
         # Parse deliverables
         deliverables = [
             Deliverable(
@@ -609,7 +687,7 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             title=task_data.get('title', task_data.get('name', 'Unknown')),
             description=task_data.get('description', ''),
             status=TaskStatus(task_data.get('status', 'not_started')),
-            blocked=task_data.get('blocked', False),
+            blocked=computed_blocked,  # Use computed value instead of YAML value
             created=_parse_datetime(task_data.get('created', datetime.now())),
             started=_parse_datetime(task_data.get('started')),
             completed=_parse_datetime(task_data.get('completed')),
@@ -624,6 +702,8 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             dependencies=dependencies,
             blocks=blocks,
             blocked_by=blocked_by,
+            depends_on=depends_on,
+            depended_on_by=depended_on_by,
             deliverables=deliverables,
             commits=commits,
             metadata=metadata,

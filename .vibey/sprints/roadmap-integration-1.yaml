@@ -30,6 +30,8 @@ sprint:
     at_status: not_started
     reason: Progress tracking requires foundation from Sprint 1
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   metadata:

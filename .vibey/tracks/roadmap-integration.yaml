@@ -37,6 +37,8 @@ track:
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   quality_gates:
   - name: Integration Testing
     threshold: 95

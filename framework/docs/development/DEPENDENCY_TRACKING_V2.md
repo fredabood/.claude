@@ -23,12 +23,14 @@ depends_on:
     blocker_type: task
     required_status: completed
     current_status: completed      # ← Cached!
+    blocks_transition_to: in_progress  # ← Can't start until this is done
     last_checked: 2025-11-08T15:30:00Z
 
   - blocker_id: frontend-2-sprint-001
     blocker_type: sprint
     required_status: completed
     current_status: in_progress    # ← Cached!
+    blocks_transition_to: completed  # ← Can start work, but can't complete
     last_checked: 2025-11-08T15:30:00Z
 ```
 
@@ -75,11 +77,12 @@ task.blocked = any(not dep.is_satisfied() for dep in task.depends_on)
 class DependencyStatus:
     """Cached dependency status for fast blocking computation."""
 
-    blocker_id: str          # e.g., "backend-1-task-005"
-    blocker_type: str        # task/sprint/track/external
-    required_status: str     # e.g., "completed"
-    current_status: str      # Cached current status
-    last_checked: datetime   # When status was synced
+    blocker_id: str              # e.g., "backend-1-task-005"
+    blocker_type: str            # task/sprint/track/external
+    required_status: str         # e.g., "completed"
+    current_status: str          # Cached current status
+    blocks_transition_to: str    # What status this blocks (e.g., "in_progress", "completed")
+    last_checked: datetime       # When status was synced
 
     def is_satisfied(self) -> bool:
         """Check if dependency is satisfied using status progression."""
@@ -91,6 +94,10 @@ class DependencyStatus:
         current_idx = status_order.index(self.current_status)
         required_idx = status_order.index(self.required_status)
         return current_idx >= required_idx
+
+    def blocks_transition(self, target_status: str) -> bool:
+        """Check if this dependency blocks a specific status transition."""
+        # Returns True if target >= blocks_transition_to AND not satisfied
 ```
 
 ## Update Flow
@@ -230,7 +237,8 @@ tasks:
     - blocker_id: backend-1-task-001
       blocker_type: task
       required_status: completed
-      current_status: in_progress   # ← Currently blocking!
+      current_status: in_progress        # ← Currently blocking!
+      blocks_transition_to: in_progress  # ← Can't even start work yet!
       last_checked: 2025-11-08T15:30:00Z
 
   # NEW: Reverse index (who depends on me)
@@ -252,13 +260,31 @@ tasks:
 ```python
 from roadmap.models import Task, DependencyStatus
 
-# Check if task is blocked (O(1))
+# Check if task is generally blocked (O(1))
 if task.is_blocked():
     print(f"Task is blocked by {len(task.get_unsatisfied_dependencies())} dependencies")
 
-# See what's blocking
+# Check if specific transition is allowed
+if task.can_transition_to("in_progress"):
+    task.status = TaskStatus.IN_PROGRESS
+    print("✓ Can start work")
+else:
+    blockers = task.get_blocking_dependencies_for("in_progress")
+    print(f"✗ Can't start: {len(blockers)} dependencies block 'in_progress'")
+    for dep in blockers:
+        print(f"  - {dep.blocker_id}: {dep.current_status} (need {dep.required_status})")
+
+if task.can_transition_to("completed"):
+    task.status = TaskStatus.COMPLETED
+    print("✓ Can complete")
+else:
+    blockers = task.get_blocking_dependencies_for("completed")
+    print(f"✗ Can't complete: {len(blockers)} dependencies block 'completed'")
+
+# See what's blocking any transition
 for dep in task.get_unsatisfied_dependencies():
     print(f"  - {dep.blocker_id}: {dep.current_status} (need {dep.required_status})")
+    print(f"    Blocks transition to: {dep.blocks_transition_to}")
 
 # Update dependent when completing
 for dependent_id in task.depended_on_by:
@@ -285,6 +311,95 @@ Models enforce these invariants:
 3. **Bidirectional consistency:**
    - If A depends on B, then B.depended_on_by contains A
    - Enforced by migration script, maintained by update logic
+
+## Common Blocking Patterns
+
+### Pattern 1: Hard Blocker (Can't Start Until Complete)
+
+**Use Case:** Task B requires database schema from Task A
+
+```yaml
+- id: task-B
+  depends_on:
+    - blocker_id: task-A
+      required_status: completed
+      blocks_transition_to: in_progress  # ← Can't even start!
+```
+
+**Result:**
+- Task B stays `not_started` until Task A is `completed`
+- `task.can_transition_to("in_progress")` returns `False`
+
+### Pattern 2: Soft Blocker (Can Start, Can't Complete)
+
+**Use Case:** Task B can work in parallel with Task A, but needs A done to finish
+
+```yaml
+- id: task-B
+  depends_on:
+    - blocker_id: task-A
+      required_status: completed
+      blocks_transition_to: completed  # ← Can start work!
+```
+
+**Result:**
+- Task B can start: `task.can_transition_to("in_progress")` returns `True`
+- Task B can't complete until A is done: `task.can_transition_to("completed")` returns `False`
+
+### Pattern 3: Production Gate (Development vs Deployment)
+
+**Use Case:** Sprint can complete development, but needs security review for production
+
+```yaml
+- id: sprint-1
+  depends_on:
+    - blocker_id: security-audit-task
+      required_status: completed
+      blocks_transition_to: production_ready  # ← Can develop, can't deploy!
+```
+
+**Result:**
+- Sprint can reach `completed` (development done)
+- Sprint can't reach `production_ready` until security audit passes
+
+### Pattern 4: Multiple Blockers at Different Stages
+
+**Use Case:** Task has different requirements for start vs finish
+
+```yaml
+- id: api-integration-task
+  depends_on:
+    # Must have API spec to start
+    - blocker_id: api-spec-task
+      required_status: completed
+      blocks_transition_to: in_progress
+
+    # Must have tests written to complete
+    - blocker_id: test-suite-task
+      required_status: completed
+      blocks_transition_to: completed
+```
+
+**Result:**
+- Can't start until API spec is done
+- Can work on implementation in parallel with test writing
+- Can't mark complete until both are done
+
+### Pattern 5: Sprint Dependency (Cross-Sprint Ordering)
+
+**Use Case:** Backend sprint must finish before frontend sprint can complete
+
+```yaml
+- id: frontend-sprint-2
+  depends_on:
+    - blocker_id: backend-sprint-1
+      required_status: production_ready
+      blocks_transition_to: completed  # ← Can start work, can't ship!
+```
+
+**Result:**
+- Frontend team can start building against mocked APIs
+- Frontend sprint can't complete until backend is production-ready
 
 ## Future Enhancements
 

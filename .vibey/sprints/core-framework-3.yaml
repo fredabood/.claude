@@ -26,6 +26,8 @@ sprint:
   development_gates: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   metadata:

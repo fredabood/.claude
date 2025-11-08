@@ -259,6 +259,37 @@ class Task:
         """Get list of dependencies that are satisfied."""
         return [dep for dep in self.depends_on if dep.is_satisfied()]
 
+    def can_transition_to(self, target_status: str) -> bool:
+        """
+        Check if task can transition to a specific status.
+
+        Args:
+            target_status: Target status (e.g., "in_progress", "completed")
+
+        Returns:
+            True if no dependencies block this transition
+
+        Examples:
+            if task.can_transition_to("in_progress"):
+                task.status = TaskStatus.IN_PROGRESS
+
+            if task.can_transition_to("completed"):
+                task.status = TaskStatus.COMPLETED
+        """
+        return not any(dep.blocks_transition(target_status) for dep in self.depends_on)
+
+    def get_blocking_dependencies_for(self, target_status: str) -> List[DependencyStatus]:
+        """
+        Get dependencies that block a specific transition.
+
+        Args:
+            target_status: Target status to check
+
+        Returns:
+            List of dependencies blocking that transition
+        """
+        return [dep for dep in self.depends_on if dep.blocks_transition(target_status)]
+
     def is_development_task(self) -> bool:
         """Check if this is a development task."""
         return self.task_type == TaskType.DEVELOPMENT

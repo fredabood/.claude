@@ -196,6 +196,18 @@ def save_track(track: Track, file_path: Union[str, Path]):
                 }
                 for b in track.blocked_by
             ],
+            'depends_on': [
+                {
+                    'blocker_id': d.blocker_id,
+                    'blocker_type': d.blocker_type,
+                    'required_status': d.required_status,
+                    'current_status': d.current_status,
+                    'blocks_transition_to': d.blocks_transition_to,
+                    'last_checked': _format_datetime(d.last_checked),
+                }
+                for d in track.depends_on
+            ],
+            'depended_on_by': track.depended_on_by,
             'quality_gates': [
                 {
                     'name': qg.name,
@@ -300,6 +312,18 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                 }
                 for b in sprint.blocked_by
             ],
+            'depends_on': [
+                {
+                    'blocker_id': d.blocker_id,
+                    'blocker_type': d.blocker_type,
+                    'required_status': d.required_status,
+                    'current_status': d.current_status,
+                    'blocks_transition_to': d.blocks_transition_to,
+                    'last_checked': _format_datetime(d.last_checked),
+                }
+                for d in sprint.depends_on
+            ],
+            'depended_on_by': sprint.depended_on_by,
             'plan_file': sprint.plan_file,
             'deliverables': sprint.deliverables,
             'metadata': {
@@ -409,6 +433,22 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
             }
             for b in task.blocked_by
         ]
+
+        # Add depends_on (cached dependency status)
+        task_data['depends_on'] = [
+            {
+                'blocker_id': d.blocker_id,
+                'blocker_type': d.blocker_type,
+                'required_status': d.required_status,
+                'current_status': d.current_status,
+                'blocks_transition_to': d.blocks_transition_to,
+                'last_checked': _format_datetime(d.last_checked),
+            }
+            for d in task.depends_on
+        ]
+
+        # Add depended_on_by (reverse index)
+        task_data['depended_on_by'] = task.depended_on_by
 
         # Add deliverables
         task_data['deliverables'] = [

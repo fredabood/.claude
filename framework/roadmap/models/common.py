@@ -131,6 +131,7 @@ class DependencyStatus:
     blocker_type: str        # Type: task/sprint/track/external
     required_status: str     # Status needed to unblock (e.g., "completed")
     current_status: str      # Cached current status of blocker
+    blocks_transition_to: str  # What status transition this blocks (e.g., "in_progress", "completed")
     last_checked: datetime   # When status was last synced
 
     def is_satisfied(self) -> bool:
@@ -154,3 +155,41 @@ class DependencyStatus:
         except ValueError:
             # Status not in list - check exact match
             return self.current_status == self.required_status
+
+    def blocks_transition(self, target_status: str) -> bool:
+        """
+        Check if this dependency blocks a specific status transition.
+
+        Args:
+            target_status: The status trying to transition to
+
+        Returns:
+            True if this dependency blocks that transition
+
+        Examples:
+            # Can start work if blocker allows in_progress
+            if not dep.blocks_transition("in_progress"):
+                task.status = "in_progress"
+
+            # Can complete if blocker allows completed
+            if not dep.blocks_transition("completed"):
+                task.status = "completed"
+        """
+        status_order = [
+            "not_started", "in_progress", "paused",
+            "completion_gate_check", "completed",
+            "production_gate_check", "production_ready", "deployed"
+        ]
+
+        try:
+            target_idx = status_order.index(target_status)
+            blocks_idx = status_order.index(self.blocks_transition_to)
+
+            # This dependency blocks if target >= blocks_transition_to
+            # AND dependency is not satisfied
+            if target_idx >= blocks_idx and not self.is_satisfied():
+                return True
+            return False
+        except ValueError:
+            # If not in order, check exact match
+            return target_status == self.blocks_transition_to and not self.is_satisfied()

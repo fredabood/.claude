@@ -55,12 +55,68 @@ roadmap validate                  # Health check
 
 ### Context & Summaries
 ```bash
-roadmap summarize <sprint-id>            # Generate dependency summary
-roadmap summarize <sprint-id> --task <id> # Generate task summary
-roadmap context <task-id>                 # View context for task
-roadmap context <task-id> --mode summary  # Specify context mode
-roadmap prepare <task-id>                 # Deep analysis (complex tasks)
-roadmap prepare <task-id> --show          # View preparation document
+# Generate summaries
+roadmap summarize <sprint-id>              # Generate dependency summary
+roadmap summarize <sprint-id> --task <id>  # Generate task summary
+roadmap summarize --all --completed        # Summarize all completed sprints
+roadmap summarize <sprint-id> --force      # Force regeneration
+
+# Load context
+roadmap context <task-id>                  # View context for task
+roadmap context <task-id> --mode summary   # Specify mode (minimal/summary/full)
+roadmap context <task-id> --show-full      # Display full context details
+roadmap context <task-id> --max-distance 3 # Load deeper dependencies
+
+# Preparation mode
+roadmap prepare <task-id>                  # Deep analysis (complex tasks)
+roadmap prepare <task-id> --show           # View preparation document
+roadmap prepare <task-id> --regenerate     # Force regeneration
+roadmap prepare --list                     # List tasks with prep docs
+```
+
+---
+
+## Context Loading Strategy
+
+### Context Modes
+
+| Mode | Size | Use Case | Content |
+|------|------|----------|---------|
+| **Minimal** | ~100 tokens | Far dependencies | Outputs only |
+| **Summary** | ~700 tokens | Direct dependencies | Sprint & task summaries |
+| **Full** | ~5,700 tokens | Current sprint | All documentation |
+
+### Hierarchical Loading
+
+**Distance-based mode selection:**
+- **Distance 1** (direct deps) → Summary mode
+- **Distance 2** (transitive) → Minimal mode
+- **Distance 3+** → Skipped
+
+**Result:** 57-90% reduction in context size while preserving critical information.
+
+### Six-Strategy Approach
+
+1. **Dependency Summaries** - Auto-generated 500-word overviews
+2. **Task Summaries** - Granular outputs/interfaces/gotchas
+3. **Context Modes** - Configurable detail levels
+4. **Hierarchical Loading** - Distance-based mode selection
+5. **Lazy Loading** - Caching and on-demand loading
+6. **Preparation Mode** - Deep analysis for complex tasks
+
+### Workflow
+
+```bash
+# On sprint completion
+roadmap summarize <sprint-id>         # Generate dependency summary
+roadmap summarize <sprint-id> --task <id>  # Generate task summaries
+
+# When starting a task
+roadmap context <task-id>             # Load hierarchical context
+
+# For complex tasks
+roadmap prepare <task-id>             # Deep analysis with full context
+roadmap prepare <task-id> --show      # Review preparation doc
 ```
 
 ---
@@ -246,13 +302,18 @@ roadmap recommend                 # Get next task
 # Start work
 roadmap start <task-id>
 roadmap assign <task-id> <agent>
+roadmap context <task-id>         # Load task context
 
 # During work
 roadmap deps <task-id> --blockers  # Check blockers
 roadmap show <sprint-id>           # Check progress
+roadmap prepare <task-id> --show   # Review prep doc (if complex)
 
 # Complete work
 roadmap complete <task-id>
+
+# End of sprint
+roadmap summarize <sprint-id>      # Generate dependency summary
 
 # End of day
 roadmap agents --workload          # Check distribution
@@ -388,6 +449,12 @@ roadmap find "authentication" --type task
 
 # List completed sprints
 roadmap list sprints --status completed
+
+# Context loading workflow
+roadmap context backend-1-task-003        # Load context for task
+roadmap prepare backend-1-task-015        # Complex task preparation
+roadmap summarize backend-1               # Generate sprint summary
+roadmap summarize backend-1 --task task-001  # Task summary
 ```
 
 ---

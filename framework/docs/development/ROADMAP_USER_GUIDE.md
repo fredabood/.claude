@@ -690,6 +690,169 @@ roadmap deps backend-1-task-005 --blockers
 roadmap list tasks --status not_started | xargs -I {} roadmap deps {} --blockers
 ```
 
+### 7. Context Loading & Summaries
+
+#### The Context Explosion Problem
+
+As projects grow, tasks accumulate dependencies. A task with 5 direct dependencies, each with 3 dependencies of their own, creates 15+ sprints worth of documentation to read - potentially 40+ files and 100,000+ tokens!
+
+**Solution:** Six-strategy hybrid approach with 57-90% context reduction.
+
+#### Strategy Overview
+
+| Strategy | Purpose | When to Use |
+|----------|---------|-------------|
+| **Dependency Summaries** | 500-word sprint overviews | After sprint completion |
+| **Task Summaries** | Granular outputs/interfaces | After sprint completion |
+| **Context Modes** | Configurable detail levels | When starting tasks |
+| **Hierarchical Loading** | Distance-based mode selection | When starting tasks |
+| **Lazy Loading** | Caching & on-demand loading | Automatic |
+| **Preparation Mode** | Deep analysis for complex tasks | Before complex tasks |
+
+#### Context Modes
+
+| Mode | Size | Use Case | Content |
+|------|------|----------|---------|
+| **Minimal** | ~100 tokens | Far dependencies (distance 2+) | Outputs only |
+| **Summary** | ~700 tokens | Direct dependencies (distance 1) | Sprint & task summaries |
+| **Full** | ~5,700 tokens | Current sprint | All documentation |
+
+#### Generate Summaries (After Sprint Completion)
+
+```bash
+# Generate sprint dependency summary
+roadmap summarize backend-1
+
+# Generate task summaries
+roadmap summarize backend-1 --task backend-1-task-001
+roadmap summarize backend-1 --task backend-1-task-002
+
+# Batch: summarize all completed sprints
+roadmap summarize --all --completed
+
+# Force regeneration
+roadmap summarize backend-1 --force
+```
+
+**What gets generated:**
+- **Dependency Summary** (~500 words) - Goals, outputs, interfaces, learnings
+- **Task Summaries** - Outputs, interfaces, gotchas per task
+- Saved to sprint YAML: `dependency_summary` and `task_summaries` fields
+
+#### Load Context (When Starting a Task)
+
+```bash
+# Load hierarchical context for a task
+roadmap context backend-1-task-015
+
+# Output:
+🔍 Loading context for task: backend-1-task-015
+**Task:** Implement user authentication
+**Sprint:** backend-1
+**Type:** development
+
+📄 Current Sprint Docs: ~5,700 tokens
+
+📚 Dependency Analysis:
+   Total dependencies: 5
+   🔵 backend-1-task-001 (summary) ~700 tokens
+   🔵 backend-1-task-002 (summary) ~700 tokens
+   ⚪ core-1-task-003 (minimal) ~100 tokens
+   ⚪ core-1-task-005 (minimal) ~100 tokens
+   ⚪ core-2-task-001 (minimal) ~100 tokens
+
+📊 Context Summary:
+   Current sprint: ~5,700 tokens
+   Dependencies: ~1,700 tokens
+   Total: ~7,400 tokens (78% reduction from full ~34,200 tokens)
+```
+
+**Hierarchical Loading:**
+- Distance 1 (direct deps) → Summary mode (~700 tokens)
+- Distance 2 (transitive) → Minimal mode (~100 tokens)
+- Distance 3+ → Skipped
+
+```bash
+# Override mode for all dependencies
+roadmap context backend-1-task-015 --mode full
+
+# Display full context details
+roadmap context backend-1-task-015 --show-full
+
+# Load deeper dependencies
+roadmap context backend-1-task-015 --max-distance 3
+```
+
+#### Preparation Mode (Complex Tasks)
+
+For tasks with many dependencies or complex integration requirements, use preparation mode:
+
+```bash
+# Generate preparation document (loads ALL dependencies)
+roadmap prepare backend-1-task-015
+
+# Output:
+✅ Preparation document generated
+   Path: .vibey/sprint_docs/backend-1/prep/backend-1-task-015.md
+   Dependencies analyzed: 5
+   Full context loaded: ~34,200 tokens
+```
+
+**Preparation document includes:**
+- Task overview and goals
+- Dependency analysis (what each provides, how to integrate)
+- Key learnings from dependency sprints
+- Critical integration points and interfaces
+- Implementation checklist
+- Questions to resolve before starting
+
+```bash
+# View existing preparation document
+roadmap prepare backend-1-task-015 --show
+
+# Regenerate if outdated
+roadmap prepare backend-1-task-015 --regenerate
+
+# List all tasks with prep docs
+roadmap prepare --list
+```
+
+#### Recommended Workflow
+
+```bash
+# 1. After completing a sprint
+roadmap complete backend-1
+roadmap summarize backend-1              # Generate dependency summary
+# (Task summaries can be generated individually or in batch)
+
+# 2. Before starting a new task
+roadmap recommend                         # Get next task
+roadmap context backend-1-task-015        # Load context
+
+# 3. If task is complex
+roadmap prepare backend-1-task-015        # Deep analysis
+roadmap prepare backend-1-task-015 --show # Review prep doc
+
+# 4. During implementation
+roadmap start backend-1-task-015
+# (Context already loaded, prep doc available for reference)
+```
+
+#### Benefits
+
+**Without context loading:**
+- Task with 5 dependencies → 15 sprints → 40+ files → 100,000+ tokens
+- Manual reading and synthesis required
+- Easy to miss critical integration details
+- Context doesn't fit in LLM window
+
+**With context loading:**
+- Same task → 7,400 tokens (78% reduction)
+- Automatic hierarchical loading
+- Critical information preserved
+- Fits comfortably in context window
+- Preparation docs for deep dives when needed
+
 ---
 
 ## Best Practices

@@ -199,17 +199,35 @@ if [ ! -f ".claude/CLAUDE.md" ]; then
 fi
 ```
 
-### Step 8: Create Sprint State File
+### Step 8: Create Sprint in Roadmap
 
 ```bash
-echo "📊 Creating sprint state tracking file..."
+echo "📊 Creating sprint in roadmap..."
 
-# Create sprint state file from plan
-python3 .claude/scripts/create-sprint-state.py \
-  --plan-file "docs/sprints/sprint-$SPRINT_NUMBER-plan.md" \
-  --output "docs/sprints/sprint-$SPRINT_NUMBER-state.yaml"
+# Create sprint entry in roadmap system
+# This will:
+# - Create .vibey/sprints/sprint-N.yaml with sprint metadata
+# - Create .vibey/tasks/sprint-N-tasks.yaml with tasks from plan
+# - Update .vibey/tracks/main.yaml to reference the sprint
+# - Auto-detect dependencies between tasks
 
-echo "✓ Sprint state file created: docs/sprints/sprint-$SPRINT_NUMBER-state.yaml"
+SPRINT_ID="sprint-${SPRINT_NUMBER}"
+
+# For now, manually prompt user to create sprint YAML
+# TODO: Implement 'roadmap plan create' command to automate this
+echo ""
+echo "⚠️  Manual step required:"
+echo "   Create sprint YAML at: .vibey/sprints/${SPRINT_ID}.yaml"
+echo "   Create tasks YAML at: .vibey/tasks/${SPRINT_ID}-tasks.yaml"
+echo ""
+echo "   Or use the roadmap-update.py helper (once implemented)"
+echo ""
+read -p "Press Enter once sprint YAML files are created..."
+
+# Start the sprint
+python3 .claude/scripts/roadmap-update.py --start-sprint ${SPRINT_ID}
+
+echo "✓ Sprint ${SPRINT_ID} created and started in roadmap"
 ```
 
 ### Step 9: Update Sprint Marker in CLAUDE.md
@@ -217,21 +235,15 @@ echo "✓ Sprint state file created: docs/sprints/sprint-$SPRINT_NUMBER-state.ya
 ```bash
 echo "📝 Updating CLAUDE.md with sprint context..."
 
-# Extract first phase info from sprint plan
-PHASE_1_NAME=$(grep -m 1 "^## Phase 1:" "docs/sprints/sprint-$SPRINT_NUMBER-plan.md" | sed 's/^## Phase 1: //')
+# Update CLAUDE.md sprint marker to point to roadmap sprint
+SPRINT_ID="sprint-${SPRINT_NUMBER}"
 
-# Update CLAUDE.md sprint marker from state file
-python3 .claude/scripts/update-sprint-marker.py \
-  --claude-md .claude/CLAUDE.md \
-  --sprint-number "$SPRINT_NUMBER" \
-  --sprint-name "$SPRINT_NAME" \
-  --plan-file "docs/sprints/sprint-$SPRINT_NUMBER-plan.md" \
-  --state-file "docs/sprints/sprint-$SPRINT_NUMBER-state.yaml" \
-  --phase-number 1 \
-  --phase-name "$PHASE_1_NAME" \
-  --active
+# Simple marker update - just update the sprint number section
+# The sprint details will be loaded from roadmap when needed
+sed -i.bak "s/<!-- CURRENT_SPRINT: .* -->/<!-- CURRENT_SPRINT: ${SPRINT_ID} -->/" .claude/CLAUDE.md
+sed -i.bak "s/\*\*Current Sprint:\*\* .*/\*\*Current Sprint:\*\* ${SPRINT_ID} (${SPRINT_NAME})/" .claude/CLAUDE.md
 
-echo "✓ CLAUDE.md updated with active sprint marker"
+echo "✓ CLAUDE.md updated with sprint marker: ${SPRINT_ID}"
 ```
 
 ### Step 10: Archive Project Context

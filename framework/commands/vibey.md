@@ -1090,21 +1090,34 @@ else
 fi
 ```
 
-5. **Clean Up**
+5. **Initialize Roadmap System**
 
 ```bash
-# Remove .vibey directory if it exists (temporary installation location)
-if [ -d ".vibey" ]; then
-  rm -rf .vibey
-  echo "✓ Cleaned up temporary files"
+echo ""
+echo "📊 Initializing roadmap system..."
+
+# Initialize roadmap with project defaults
+python3 .claude/scripts/roadmap init \
+  --name "${PROJECT_NAME}" \
+  --version "0.1.0" \
+  --bump-on sprint_completion \
+  --bump-type patch
+
+if [ -f ".vibey/roadmap.yaml" ]; then
+  echo "✓ Roadmap initialized (.vibey/)"
+  echo "  - Roadmap: .vibey/roadmap.yaml"
+  echo "  - Track: main"
+  echo "  - Ready for sprint planning"
+else
+  echo "❌ Roadmap initialization failed"
+  exit 1
 fi
 ```
 
 6. **Create Initial Project Structure**
 
 ```bash
-# Create directory structure for Vibey workflows
-mkdir -p docs/sprints
+# Create directory structure for documentation
 mkdir -p docs/archive/discovery
 
 echo "✓ Project structure created"

@@ -181,6 +181,14 @@ For more information on a command:
     prepare_parser.add_argument('--show', action='store_true', help='Show existing preparation doc')
     prepare_parser.add_argument('--list', action='store_true', help='List tasks with prep docs')
 
+    # Summarize command (Summary Generation)
+    summarize_parser = subparsers.add_parser('summarize', help='Generate dependency and task summaries')
+    summarize_parser.add_argument('sprint_id', nargs='?', type=str, help='Sprint ID to summarize')
+    summarize_parser.add_argument('--task', type=str, help='Generate summary for specific task')
+    summarize_parser.add_argument('--all', action='store_true', help='Summarize all sprints')
+    summarize_parser.add_argument('--completed', action='store_true', help='Only completed sprints (with --all)')
+    summarize_parser.add_argument('--force', action='store_true', help='Force regeneration')
+
     return parser
 
 
@@ -269,6 +277,10 @@ def main():
     elif args.command == 'prepare':
         from roadmap_commands.prepare import handle_prepare
         handle_prepare(args)
+
+    elif args.command == 'summarize':
+        from roadmap_commands.summarize import handle_summarize
+        handle_summarize(args)
 
     else:
         print(f"❌ Unknown command: {args.command}")

@@ -1,0 +1,344 @@
+tasks:
+  # ============================================================================
+  # Sprint: core-framework-3 - Framework Polish & Refinements
+  # ============================================================================
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Phase 1: Performance Optimization (Caching Layer)
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "core-framework-3-task-001"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Design and implement RoadmapCache class"
+    description: |
+      Implement in-memory caching layer for fast roadmap queries.
+
+      Requirements:
+      - Lazy-loaded indexes (task_index, sprint_index, track_index)
+      - Pre-computed dependency graphs (adjacency list, reverse edges)
+      - File modification tracking (mtimes)
+      - Cache statistics (hits, misses, hit rate)
+      - Invalidation on file changes
+      - O(1) lookups after first query
+
+      Design:
+      - In-memory dictionaries for indexes
+      - Build indexes on first access
+      - Track file mtimes for invalidation
+      - Partial and full invalidation support
+
+      Target Performance:
+      - Task lookup: < 5ms (vs 100ms without cache)
+      - Load all tasks: < 10ms (vs 150ms without cache)
+      - Dependency graph: < 20ms (vs 300ms without cache)
+
+    type: "development"
+    status: "not_started"
+
+    estimated_duration: "4 hours"
+    complexity: "medium"
+
+    assigned_agent: "web-developer"
+
+    dependencies: []
+
+    acceptance_criteria:
+      - RoadmapCache class with all indexes
+      - Lazy loading on first access
+      - Cache invalidation on file changes
+      - Unit tests with 90%+ coverage
+      - Performance benchmarks showing targets met
+
+  - id: "core-framework-3-task-002"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Integrate cache into roadmap CLI commands"
+    description: |
+      Update all roadmap CLI commands to use caching layer.
+
+      Commands to update:
+      - roadmap status (uses task index)
+      - roadmap show (uses all indexes)
+      - roadmap list (uses type-specific indexes)
+      - roadmap find (uses indexes + search)
+      - roadmap deps (uses dependency graphs)
+      - roadmap context (uses dependency graphs)
+      - roadmap recommend (uses task index + assignments)
+
+      Integration:
+      - Initialize cache once on CLI startup
+      - Invalidate cache after state-changing commands
+      - Track cache hit rate for monitoring
+      - Add --no-cache flag for debugging
+
+    type: "development"
+    status: "not_started"
+
+    estimated_duration: "3 hours"
+    complexity: "medium"
+
+    assigned_agent: "web-developer"
+
+    dependencies:
+      - type: "task"
+        target_id: "core-framework-3-task-001"
+        at_status: "completed"
+        reason: "Need RoadmapCache implementation"
+
+    acceptance_criteria:
+      - All query commands use cache
+      - State-changing commands invalidate cache
+      - --no-cache flag for debugging
+      - No performance regression
+      - Cache hit rate > 80% in typical workflows
+
+  - id: "core-framework-3-task-003"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Add optional persistent cache to disk"
+    description: |
+      Implement optional disk-based cache persistence for faster startup.
+
+      Cache Files (.vibey/.cache/, gitignored):
+      - task_index.json (id -> file_path mapping)
+      - sprint_index.json
+      - track_index.json
+      - dep_graph.json (pre-computed adjacency list)
+      - reverse_dep_graph.json
+      - last_scan.txt (timestamp of last full scan)
+
+      Features:
+      - Load cache from disk on startup if valid
+      - Check file mtimes to detect changes
+      - Rebuild cache if any files changed
+      - Write cache to disk after rebuild
+      - Add .vibey/.cache/ to .gitignore
+
+      Benefits:
+      - Startup time: < 10ms (vs 100ms rebuilding)
+      - Cross-invocation optimization
+      - Warm cache on first command
+
+    type: "development"
+    status: "not_started"
+
+    estimated_duration: "3 hours"
+    complexity: "medium"
+
+    assigned_agent: "web-developer"
+
+    dependencies:
+      - type: "task"
+        target_id: "core-framework-3-task-001"
+        at_status: "completed"
+        reason: "Need RoadmapCache implementation"
+
+    acceptance_criteria:
+      - Cache persisted to .vibey/.cache/
+      - Cache loaded on startup if valid
+      - Mtime checking detects file changes
+      - .vibey/.cache/ added to .gitignore
+      - Startup time < 10ms with warm cache
+
+  - id: "core-framework-3-task-004"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Performance benchmarking and validation"
+    description: |
+      Validate caching layer meets performance targets.
+
+      Benchmark Suite:
+      1. Small roadmap (Vibey: 53 tasks)
+         - roadmap status < 100ms
+         - roadmap list tasks < 100ms
+         - roadmap deps --all < 200ms
+         - roadmap context task-X < 300ms
+
+      2. Medium roadmap (200 tasks)
+         - roadmap status < 150ms
+         - roadmap list tasks < 150ms
+         - roadmap deps --all < 300ms
+         - roadmap context task-X < 400ms
+
+      3. Large roadmap (500 tasks)
+         - roadmap status < 200ms
+         - roadmap list tasks < 200ms
+         - roadmap deps --all < 500ms
+         - roadmap context task-X < 600ms
+
+      Create:
+      - scripts/benchmark-roadmap.py (test suite)
+      - scripts/generate-test-roadmap.py (synthetic data)
+      - docs/development/PERFORMANCE_BENCHMARKS.md
+
+    type: "testing"
+    status: "not_started"
+
+    estimated_duration: "2 hours"
+    complexity: "low"
+
+    assigned_agent: "test-engineer"
+
+    dependencies:
+      - type: "task"
+        target_id: "core-framework-3-task-002"
+        at_status: "completed"
+        reason: "Need cache integration in CLI"
+
+      - type: "task"
+        target_id: "core-framework-3-task-003"
+        at_status: "completed"
+        reason: "Need persistent cache for benchmarking"
+
+    acceptance_criteria:
+      - Benchmark suite runs successfully
+      - All performance targets met
+      - Results documented in PERFORMANCE_BENCHMARKS.md
+      - Synthetic roadmap generator works
+      - Benchmarks run in CI pipeline
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Phase 2: User Experience Enhancements
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "core-framework-3-task-005"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Improve CLI output formatting and colors"
+    description: |
+      Enhance CLI output with better formatting and colors.
+
+      Enhancements:
+      - Colored status indicators (✅ 🔵 ⚪ ❌)
+      - Progress bars for completion percentages
+      - Table formatting for list commands
+      - Tree view for dependency graphs
+      - Syntax highlighting for YAML output
+      - --plain flag for machine-readable output
+
+      Libraries:
+      - rich (terminal formatting)
+      - colorama (cross-platform colors)
+
+      Example:
+      Before: "status: completed"
+      After:  "✅ completed" (green)
+
+    type: "development"
+    status: "not_started"
+
+    estimated_duration: "3 hours"
+    complexity: "low"
+
+    assigned_agent: "web-developer"
+
+    dependencies: []
+
+    acceptance_criteria:
+      - Colored output for all commands
+      - Progress bars for percentages
+      - Table formatting for lists
+      - --plain flag works
+      - Cross-platform compatibility
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Phase 3: Documentation Updates
+  # ──────────────────────────────────────────────────────────────────────────
+
+  - id: "core-framework-3-task-gate-001"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Update documentation with caching and performance info"
+    description: |
+      Update all documentation to reflect caching layer and performance.
+
+      Updates:
+      - ROADMAP_QUICK_REFERENCE.md (mention caching)
+      - ROADMAP_USER_GUIDE.md (performance section)
+      - CLI.md (--no-cache flag, performance targets)
+      - ROADMAP_EXAMPLES.md (performance notes)
+      - ARCHITECTURE_DECISION_TEXT_VS_DATABASE.md (validation results)
+
+      New Documentation:
+      - PERFORMANCE_BENCHMARKS.md (benchmark results)
+      - CACHING_LAYER.md (cache design, usage, troubleshooting)
+
+      Performance Guidance:
+      - When to expect fast responses
+      - How caching works
+      - Troubleshooting slow queries
+      - Cache invalidation behavior
+
+    type: "documentation"
+    status: "not_started"
+
+    estimated_duration: "2 hours"
+    complexity: "low"
+
+    assigned_agent: "docs-writer"
+
+    dependencies:
+      - type: "task"
+        target_id: "core-framework-3-task-004"
+        at_status: "completed"
+        reason: "Need benchmark results"
+
+    acceptance_criteria:
+      - All documentation updated
+      - Performance targets documented
+      - Cache behavior explained
+      - Troubleshooting guide included
+      - Examples show performance characteristics
+
+# ============================================================================
+# Metadata
+# ============================================================================
+
+metadata:
+  sprint_id: "core-framework-3"
+  sprint_name: "Framework Polish & Refinements"
+  created_by: "vibey-framework-team"
+  created: "2025-11-07T20:00:00Z"
+  task_count: 6
+  estimated_total_duration: "17 hours"
+
+  notes: |
+    Sprint 3 focuses on performance optimization and user experience.
+
+    Key Features:
+    1. In-memory caching layer (RoadmapCache)
+    2. Optional persistent disk cache
+    3. Performance benchmarking suite
+    4. Enhanced CLI output (colors, tables, progress bars)
+    5. Comprehensive performance documentation
+
+    Performance Targets:
+    - Task lookup: < 5ms (20x faster)
+    - Load all tasks: < 10ms (15x faster)
+    - Dependency graph: < 20ms (15x faster)
+    - CLI response: < 100ms for typical commands
+
+    Architecture Decision:
+    - Text files + caching (not database)
+    - See: ARCHITECTURE_DECISION_TEXT_VS_DATABASE.md
+
+    Dependencies:
+    - RoadmapCache (task-001) is foundational
+    - CLI integration (task-002) enables usage
+    - Persistent cache (task-003) optimizes startup
+    - Benchmarks (task-004) validate design
+    - UX (task-005) can run in parallel
+    - Docs (task-gate-001) completes sprint

@@ -713,19 +713,30 @@ class RoadmapCache:
             # Initialize lists
             if task_id not in self._dep_graph:
                 self._dep_graph[task_id] = []
+            if task_id not in self._reverse_dep_graph:
+                self._reverse_dep_graph[task_id] = []
 
-            # Process dependencies
+            # Process dependencies (forward dependencies)
             deps = task.get('dependencies', [])
             for dep in deps:
                 target_id = dep.get('target_id')
                 if target_id:
                     # Add to dependency graph
-                    self._dep_graph[task_id].append(target_id)
+                    if target_id not in self._dep_graph[task_id]:
+                        self._dep_graph[task_id].append(target_id)
 
                     # Add to reverse graph
                     if target_id not in self._reverse_dep_graph:
                         self._reverse_dep_graph[target_id] = []
-                    self._reverse_dep_graph[target_id].append(task_id)
+                    if task_id not in self._reverse_dep_graph[target_id]:
+                        self._reverse_dep_graph[target_id].append(task_id)
+
+            # Process depended_on_by (reverse dependencies from v2.0)
+            # This ensures reverse graph includes cached information
+            depended_on_by = task.get('depended_on_by', [])
+            for dependent_id in depended_on_by:
+                if dependent_id not in self._reverse_dep_graph[task_id]:
+                    self._reverse_dep_graph[task_id].append(dependent_id)
 
         # Process sprints
         for sprint in self.get_all_sprints():
@@ -736,17 +747,28 @@ class RoadmapCache:
             # Initialize lists
             if sprint_id not in self._dep_graph:
                 self._dep_graph[sprint_id] = []
+            if sprint_id not in self._reverse_dep_graph:
+                self._reverse_dep_graph[sprint_id] = []
 
-            # Process dependencies
-            deps = sprint.get('dependencies', [])
+            # Process dependencies (forward dependencies)
+            # Note: Sprints use 'development_gates' not 'dependencies'
+            deps = sprint.get('development_gates', sprint.get('dependencies', []))
             for dep in deps:
                 target_id = dep.get('target_id')
                 if target_id:
-                    self._dep_graph[sprint_id].append(target_id)
+                    if target_id not in self._dep_graph[sprint_id]:
+                        self._dep_graph[sprint_id].append(target_id)
 
                     if target_id not in self._reverse_dep_graph:
                         self._reverse_dep_graph[target_id] = []
-                    self._reverse_dep_graph[target_id].append(sprint_id)
+                    if sprint_id not in self._reverse_dep_graph[target_id]:
+                        self._reverse_dep_graph[target_id].append(sprint_id)
+
+            # Process depended_on_by (reverse dependencies from v2.0)
+            depended_on_by = sprint.get('depended_on_by', [])
+            for dependent_id in depended_on_by:
+                if dependent_id not in self._reverse_dep_graph[sprint_id]:
+                    self._reverse_dep_graph[sprint_id].append(dependent_id)
 
         # Process tracks
         for track in self.get_all_tracks():
@@ -757,17 +779,27 @@ class RoadmapCache:
             # Initialize lists
             if track_id not in self._dep_graph:
                 self._dep_graph[track_id] = []
+            if track_id not in self._reverse_dep_graph:
+                self._reverse_dep_graph[track_id] = []
 
-            # Process dependencies
+            # Process dependencies (forward dependencies)
             deps = track.get('dependencies', [])
             for dep in deps:
                 target_id = dep.get('target_id')
                 if target_id:
-                    self._dep_graph[track_id].append(target_id)
+                    if target_id not in self._dep_graph[track_id]:
+                        self._dep_graph[track_id].append(target_id)
 
                     if target_id not in self._reverse_dep_graph:
                         self._reverse_dep_graph[target_id] = []
-                    self._reverse_dep_graph[target_id].append(track_id)
+                    if track_id not in self._reverse_dep_graph[target_id]:
+                        self._reverse_dep_graph[target_id].append(track_id)
+
+            # Process depended_on_by (reverse dependencies from v2.0)
+            depended_on_by = track.get('depended_on_by', [])
+            for dependent_id in depended_on_by:
+                if dependent_id not in self._reverse_dep_graph[track_id]:
+                    self._reverse_dep_graph[track_id].append(dependent_id)
 
         # Save to disk for faster subsequent loads
         self._save_to_disk()

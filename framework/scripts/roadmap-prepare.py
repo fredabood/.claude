@@ -66,39 +66,48 @@ class PreparationMode:
         print(f"🔍 Analyzing task: {task_data['name']}")
         print(f"   ID: {task_id}")
 
-        # Load all dependencies
+        # Load all dependencies (what this task depends on)
         dependencies = self._load_all_dependencies(task_data)
 
-        if not dependencies:
-            print(f"⚠️  No dependencies found - preparation mode most useful for tasks with 5+ dependencies")
+        # Load all dependents (what depends on this task)
+        dependents = self._load_all_dependents(task_data)
+
+        if not dependencies and not dependents:
+            print(f"⚠️  No dependencies or dependents found")
+            print(f"   Preparation mode most useful for tasks with dependencies/dependents")
             response = input("Continue anyway? (y/n): ")
             if response.lower() != 'y':
                 return
 
-        print(f"\n📚 Loading dependency documentation...")
-        print(f"   Dependencies: {len(dependencies)}")
+        print(f"\n📚 Loading context...")
+        print(f"   Dependencies (upstream): {len(dependencies)}")
+        print(f"   Dependents (downstream): {len(dependents)}")
 
         dep_docs = self._load_dependency_docs(dependencies)
+        dependent_docs = self._load_dependent_docs(dependents)
 
         # Estimate context size
-        total_tokens = sum(len(str(doc).split()) * 1.3 for doc in dep_docs.values())
-        print(f"   Context size: ~{int(total_tokens):,} tokens")
+        dep_tokens = sum(len(str(doc).split()) * 1.3 for doc in dep_docs.values())
+        dependent_tokens = sum(len(str(doc).split()) * 1.3 for doc in dependent_docs.values())
+        total_tokens = dep_tokens + dependent_tokens
+        print(f"   Total context size: ~{int(total_tokens):,} tokens")
 
         # Generate preparation prompt
         print(f"\n🤖 Generating preparation document...")
         print(f"   This may take 30-60 seconds...")
 
-        prep_doc = self._generate_prep_document(task_data, dep_docs)
+        prep_doc = self._generate_prep_document(task_data, dep_docs, dependent_docs)
 
         # Save preparation document
         prep_path.parent.mkdir(parents=True, exist_ok=True)
         prep_path.write_text(prep_doc)
 
         # Update task metadata
-        self._update_task_metadata(task_id, prep_path, len(dependencies), int(total_tokens))
+        self._update_task_metadata(task_id, prep_path, len(dependencies) + len(dependents), int(total_tokens))
 
         print(f"\n✅ Preparation document created: {prep_path}")
         print(f"   Dependencies analyzed: {len(dependencies)}")
+        print(f"   Dependents analyzed: {len(dependents)}")
         print(f"   Context used: ~{int(total_tokens):,} tokens")
         print(f"\n📖 Read before starting task:")
         print(f"   cat {prep_path}")
@@ -169,6 +178,41 @@ class PreparationMode:
         load_deps(task)
         return dependencies
 
+    def _load_all_dependents(self, task: Dict) -> List[Dict]:
+        """Load all dependents (tasks that depend on this one)."""
+
+        dependents = []
+        task_id = task['id']
+
+        # Use cache to get reverse dependency graph
+        reverse_dep_graph = self.cache.get_reverse_dependency_graph()
+        dependent_ids = reverse_dep_graph.get(task_id, [])
+
+        for dependent_id in dependent_ids:
+            # Only include task dependents (not sprints/tracks)
+            if '-task-' in dependent_id:
+                dependent_task = self._find_task(dependent_id)
+                if dependent_task:
+                    # Find why this dependent needs us
+                    reason = self._get_dependency_reason(dependent_task, task_id)
+                    dependents.append({
+                        'task': dependent_task,
+                        'type': 'task',
+                        'reason': reason
+                    })
+
+        return dependents
+
+    def _get_dependency_reason(self, dependent_task: Dict, dependency_id: str) -> str:
+        """Get the reason why dependent_task depends on dependency_id."""
+
+        if 'dependencies' in dependent_task:
+            for dep in dependent_task['dependencies']:
+                if dep.get('target_id') == dependency_id:
+                    return dep.get('reason', 'Dependency relationship')
+
+        return 'Depends on this task'
+
     def _load_dependency_docs(self, dependencies: List[Dict]) -> Dict[str, Dict]:
         """Load all documentation for dependencies."""
 
@@ -202,7 +246,27 @@ class PreparationMode:
 
         return dep_docs
 
-    def _generate_prep_document(self, task: Dict, dep_docs: Dict) -> str:
+    def _load_dependent_docs(self, dependents: List[Dict]) -> Dict[str, Dict]:
+        """Load summary information for dependents (lighter than full docs)."""
+
+        dependent_docs = {}
+
+        for dep in dependents:
+            task = dep['task']
+            task_id = task['id']
+
+            # For dependents, we don't load full docs - just task info + reason
+            # This keeps context focused while showing impact
+            dependent_docs[task_id] = {
+                'task_id': task_id,
+                'task': task,
+                'reason': dep['reason'],
+                'type': 'dependent'
+            }
+
+        return dependent_docs
+
+    def _generate_prep_document(self, task: Dict, dep_docs: Dict, dependent_docs: Dict = None) -> str:
         """Generate preparation document (currently uses template, will use Claude API)."""
 
         # For now, generate a structured template
@@ -297,6 +361,47 @@ This preparation document analyzes {len(dep_docs)} sprint dependencies to help y
 """
 
             prep_doc += "\n---\n"
+
+        # Add dependents section if we have them
+        if dependent_docs:
+            reverse_dep_graph = self.cache.get_reverse_dependency_graph()
+            direct_dependents = reverse_dep_graph.get(task_id, [])
+
+            prep_doc += f"""
+## Downstream Impact (Who Depends On This)
+
+**⚠️ IMPORTANT: {len(dependent_docs)} task(s) depend on your work.**
+
+Your implementation will directly impact downstream tasks. Understanding what they need helps you:
+- Design interfaces that meet their requirements
+- Provide necessary functionality and data
+- Avoid breaking changes
+- Plan for extensibility
+
+**Direct Dependents:** {len(direct_dependents)}
+{chr(10).join(f"  - {dep_id}" for dep_id in direct_dependents if '-task-' in dep_id)}
+
+"""
+
+            # List each dependent task
+            for idx, (dep_id, dep_data) in enumerate(dependent_docs.items(), 1):
+                task_dep = dep_data['task']
+
+                prep_doc += f"""
+### {idx}. {task_dep['name']}
+**Task ID:** {task_dep['id']}
+
+**Why they depend on you:**
+{dep_data.get('reason', 'Depends on this task')}
+
+**What they expect:**
+{task_dep.get('description', 'No description provided')}
+
+**Impact:** Getting this right is critical for their success.
+
+"""
+
+            prep_doc += "---\n\n"
 
         # Add integration guidance
         prep_doc += """

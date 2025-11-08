@@ -1,0 +1,3 @@
+# Cache directory - persistent disk cache for roadmap CLI
+# Cache is automatically rebuilt if stale or missing
+.cache/

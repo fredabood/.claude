@@ -4,16 +4,20 @@ Roadmap caching layer for performance optimization.
 Provides in-memory caching of roadmap objects with lazy loading,
 dependency graph pre-computation, and cache invalidation.
 
+Supports optional persistent disk cache for faster startup.
+
 Performance targets:
 - Task lookup: < 5ms (vs 100ms without cache)
 - Load all tasks: < 10ms (vs 150ms without cache)
 - Dependency graph: < 20ms (vs 300ms without cache)
+- Cache load from disk: < 10ms (vs ~100ms to rebuild)
 """
 
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 from collections import deque
 import time
+import json
 
 from filesystem import FileSystemManager, load_yaml
 
@@ -21,15 +25,23 @@ from filesystem import FileSystemManager, load_yaml
 class RoadmapCache:
     """In-memory cache for fast roadmap queries."""
 
-    def __init__(self, root_dir: Path):
+    # Cache directory (gitignored)
+    CACHE_DIR = ".cache"
+
+    def __init__(self, root_dir: Path, enable_disk_cache: bool = True):
         """
         Initialize roadmap cache.
 
         Args:
             root_dir: Root directory containing .vibey/
+            enable_disk_cache: Enable persistent disk cache for faster startup (default: True)
         """
         self.root_dir = Path(root_dir)
         self.fs = FileSystemManager(root_dir)
+        self.enable_disk_cache = enable_disk_cache
+
+        # Cache directory
+        self.cache_dir = self.fs.vibey_dir / self.CACHE_DIR
 
         # Lazy-loaded indexes (id -> file_path)
         self._task_index: Dict[str, Path] = {}
@@ -52,9 +64,14 @@ class RoadmapCache:
         self._hits = 0
         self._misses = 0
         self._builds = 0
+        self._disk_loads = 0
 
         # Cache state
         self._indexes_built = False
+
+        # Try loading from disk if enabled
+        if self.enable_disk_cache:
+            self._try_load_from_disk()
 
     # =========================================================================
     # Public API - Task Operations
@@ -308,6 +325,10 @@ class RoadmapCache:
             self._task_cache.clear()
             self._sprint_cache.clear()
             self._track_cache.clear()
+
+            # Delete disk cache (partial invalidation still clears all disk cache)
+            if self.enable_disk_cache:
+                self._delete_disk_cache()
         else:
             # Full invalidation
             self._task_index.clear()
@@ -321,12 +342,16 @@ class RoadmapCache:
             self._file_mtimes.clear()
             self._indexes_built = False
 
+            # Delete disk cache
+            if self.enable_disk_cache:
+                self._delete_disk_cache()
+
     def get_stats(self) -> Dict:
         """
         Get cache statistics.
 
         Returns:
-            Dict with hits, misses, hit_rate, builds
+            Dict with hits, misses, hit_rate, builds, disk_loads
         """
         total = self._hits + self._misses
         hit_rate = (self._hits / total * 100) if total > 0 else 0.0
@@ -337,6 +362,7 @@ class RoadmapCache:
             'total_queries': total,
             'hit_rate': round(hit_rate, 2),
             'index_builds': self._builds,
+            'disk_loads': self._disk_loads,
             'indexes_built': self._indexes_built,
             'tasks_indexed': len(self._task_index),
             'sprints_indexed': len(self._sprint_index),
@@ -374,6 +400,109 @@ class RoadmapCache:
         return True
 
     # =========================================================================
+    # Persistent Disk Cache Methods
+    # =========================================================================
+
+    def _try_load_from_disk(self):
+        """Try loading cache from disk if available and valid."""
+        if not self.cache_dir.exists():
+            return
+
+        indexes_file = self.cache_dir / "indexes.json"
+        graphs_file = self.cache_dir / "graphs.json"
+        mtimes_file = self.cache_dir / "mtimes.json"
+
+        # Check if all cache files exist
+        if not (indexes_file.exists() and graphs_file.exists() and mtimes_file.exists()):
+            return
+
+        try:
+            # Load file mtimes first to check validity
+            with open(mtimes_file, 'r') as f:
+                mtimes_data = json.load(f)
+                # Convert path strings back to Path objects
+                self._file_mtimes = {Path(p): mtime for p, mtime in mtimes_data.items()}
+
+            # Check if cache is still valid
+            if not self.check_validity():
+                # Cache is stale, clear and return
+                self._file_mtimes.clear()
+                return
+
+            # Load indexes
+            with open(indexes_file, 'r') as f:
+                indexes_data = json.load(f)
+                # Convert path strings back to Path objects
+                self._task_index = {k: Path(v) for k, v in indexes_data.get('tasks', {}).items()}
+                self._sprint_index = {k: Path(v) for k, v in indexes_data.get('sprints', {}).items()}
+                self._track_index = {k: Path(v) for k, v in indexes_data.get('tracks', {}).items()}
+
+            # Load dependency graphs
+            with open(graphs_file, 'r') as f:
+                graphs_data = json.load(f)
+                self._dep_graph = graphs_data.get('dependencies', {})
+                self._reverse_dep_graph = graphs_data.get('reverse_dependencies', {})
+
+            # Mark indexes as built
+            self._indexes_built = True
+            self._disk_loads += 1
+
+        except (json.JSONDecodeError, KeyError, OSError) as e:
+            # Cache load failed, clear and rebuild later
+            self._task_index.clear()
+            self._sprint_index.clear()
+            self._track_index.clear()
+            self._dep_graph = None
+            self._reverse_dep_graph = None
+            self._file_mtimes.clear()
+            self._indexes_built = False
+
+    def _save_to_disk(self):
+        """Save cache to disk for faster subsequent loads."""
+        if not self.enable_disk_cache:
+            return
+
+        # Create cache directory if needed
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+        # Save indexes
+        indexes_file = self.cache_dir / "indexes.json"
+        indexes_data = {
+            'tasks': {k: str(v) for k, v in self._task_index.items()},
+            'sprints': {k: str(v) for k, v in self._sprint_index.items()},
+            'tracks': {k: str(v) for k, v in self._track_index.items()},
+        }
+        with open(indexes_file, 'w') as f:
+            json.dump(indexes_data, f, indent=2)
+
+        # Save dependency graphs (if built)
+        if self._dep_graph is not None:
+            graphs_file = self.cache_dir / "graphs.json"
+            graphs_data = {
+                'dependencies': self._dep_graph,
+                'reverse_dependencies': self._reverse_dep_graph,
+            }
+            with open(graphs_file, 'w') as f:
+                json.dump(graphs_data, f, indent=2)
+
+        # Save file mtimes
+        mtimes_file = self.cache_dir / "mtimes.json"
+        mtimes_data = {str(p): mtime for p, mtime in self._file_mtimes.items()}
+        with open(mtimes_file, 'w') as f:
+            json.dump(mtimes_data, f, indent=2)
+
+    def _delete_disk_cache(self):
+        """Delete disk cache files."""
+        if not self.cache_dir.exists():
+            return
+
+        # Delete cache files
+        for cache_file in ['indexes.json', 'graphs.json', 'mtimes.json']:
+            file_path = self.cache_dir / cache_file
+            if file_path.exists():
+                file_path.unlink()
+
+    # =========================================================================
     # Private Methods - Index Building
     # =========================================================================
 
@@ -398,6 +527,9 @@ class RoadmapCache:
 
         elapsed = (time.time() - start_time) * 1000  # Convert to ms
         # print(f"Built indexes in {elapsed:.1f}ms")
+
+        # Save to disk for faster subsequent loads
+        self._save_to_disk()
 
     def _build_task_index(self):
         """Build task ID -> file path index."""
@@ -544,3 +676,6 @@ class RoadmapCache:
                     if target_id not in self._reverse_dep_graph:
                         self._reverse_dep_graph[target_id] = []
                     self._reverse_dep_graph[track_id].append(track_id)
+
+        # Save to disk for faster subsequent loads
+        self._save_to_disk()

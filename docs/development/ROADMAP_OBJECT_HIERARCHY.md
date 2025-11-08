@@ -1452,10 +1452,66 @@ blocks:
 
 This is the inverse relationship - "If I reach `production_ready`, then `backend-3` is no longer blocked by me."
 
+### Reverse Dependencies (Downstream Impact)
+
+**Computed field showing who depends on you:**
+```yaml
+depended_on_by:
+  - "backend-3-task-002"
+  - "backend-3-task-005"
+  - "frontend-2-task-001"
+```
+
+**Purpose:**
+- Automatically computed from dependency graph
+- Shows downstream impact (who will be affected by your changes)
+- Helps developers design better interfaces
+- Prevents breaking changes
+- Available in task preparation and context displays
+
+**Implementation:**
+- Denormalized cache for O(1) lookups
+- Maintained bidirectionally with `dependencies` field
+- If A depends on B, then B.depended_on_by contains A
+- Updated automatically when dependencies change
+- Available via reverse dependency graph in RoadmapCache
+
+**Usage in Development:**
+
+When preparing for a task:
+```markdown
+## Downstream Impact (Who Depends On This)
+
+**⚠️ IMPORTANT: 3 task(s) depend on your work.**
+
+1. Implement user profile endpoint (backend-3-task-002)
+   Why they depend on you: Need user authentication
+
+2. Add password reset flow (backend-3-task-005)
+   Why they depend on you: Need JWT token validation
+```
+
+When viewing task context:
+```
+📊 Dependency Graph Snapshot:
+   Direct dependencies: 2
+   Direct dependents (downstream): 3
+     - backend-3-task-002
+     - backend-3-task-005
+     - frontend-2-task-001
+```
+
+**Benefits:**
+- Know your consumers upfront
+- Design stable interfaces
+- Understand work's importance
+- Plan for extensibility
+- Avoid breaking changes
+
 ### Dependency Resolution Workflow
 
 **When dependency changes status:**
-1. Identify all objects that depend on it
+1. Identify all objects that depend on it (via `depended_on_by`)
 2. Re-compute their `blocked` status
 3. Update their `blocked_by` arrays
 4. Log activity if blocking status changed

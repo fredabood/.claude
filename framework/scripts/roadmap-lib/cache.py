@@ -18,6 +18,7 @@ from typing import Dict, List, Optional, Set, Tuple
 from collections import deque
 import time
 import json
+import subprocess
 
 from filesystem import FileSystemManager, load_yaml
 
@@ -25,7 +26,7 @@ from filesystem import FileSystemManager, load_yaml
 class RoadmapCache:
     """In-memory cache for fast roadmap queries."""
 
-    # Cache directory (gitignored)
+    # Cache directory (gitignored - performance only)
     CACHE_DIR = ".cache"
 
     def __init__(self, root_dir: Path, enable_disk_cache: bool = True):
@@ -40,8 +41,15 @@ class RoadmapCache:
         self.fs = FileSystemManager(root_dir)
         self.enable_disk_cache = enable_disk_cache
 
-        # Cache directory
+        # Detect current git branch
+        self.current_branch = self._get_current_branch()
+        self.is_main_branch = self.current_branch in ['main', 'master']
+
+        # Cache directory (gitignored - for indexes and mtimes only)
         self.cache_dir = self.fs.vibey_dir / self.CACHE_DIR
+
+        # Graphs location (versioned on feature branches, not on main)
+        self.graphs_file = self.fs.vibey_dir / "graphs.json"
 
         # Lazy-loaded indexes (id -> file_path)
         self._task_index: Dict[str, Path] = {}
@@ -400,20 +408,58 @@ class RoadmapCache:
         return True
 
     # =========================================================================
+    # Branch Detection
+    # =========================================================================
+
+    def _get_current_branch(self) -> str:
+        """
+        Get current git branch name.
+
+        Returns:
+            Branch name, or 'unknown' if not in a git repo
+        """
+        try:
+            result = subprocess.run(
+                ['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
+                cwd=self.root_dir,
+                capture_output=True,
+                text=True,
+                timeout=1
+            )
+            if result.returncode == 0:
+                return result.stdout.strip()
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+            pass
+
+        return 'unknown'
+
+    # =========================================================================
     # Persistent Disk Cache Methods
     # =========================================================================
 
     def _try_load_from_disk(self):
-        """Try loading cache from disk if available and valid."""
-        if not self.cache_dir.exists():
-            return
+        """
+        Try loading cache from disk if available and valid.
 
+        Loads two types of cache:
+        1. Performance cache (.cache/ - gitignored): indexes and mtimes
+        2. Versioned graphs (.vibey/graphs.json - versioned on feature branches)
+        """
+        # Try loading performance cache (indexes + mtimes)
+        if self.cache_dir.exists():
+            self._try_load_performance_cache()
+
+        # Try loading graphs (versioned on feature branches, not main)
+        if self.graphs_file.exists():
+            self._try_load_graphs()
+
+    def _try_load_performance_cache(self):
+        """Load performance cache (indexes and mtimes) from .cache/"""
         indexes_file = self.cache_dir / "indexes.json"
-        graphs_file = self.cache_dir / "graphs.json"
         mtimes_file = self.cache_dir / "mtimes.json"
 
-        # Check if all cache files exist
-        if not (indexes_file.exists() and graphs_file.exists() and mtimes_file.exists()):
+        # Both files must exist
+        if not (indexes_file.exists() and mtimes_file.exists()):
             return
 
         try:
@@ -437,35 +483,60 @@ class RoadmapCache:
                 self._sprint_index = {k: Path(v) for k, v in indexes_data.get('sprints', {}).items()}
                 self._track_index = {k: Path(v) for k, v in indexes_data.get('tracks', {}).items()}
 
-            # Load dependency graphs
-            with open(graphs_file, 'r') as f:
-                graphs_data = json.load(f)
-                self._dep_graph = graphs_data.get('dependencies', {})
-                self._reverse_dep_graph = graphs_data.get('reverse_dependencies', {})
-
             # Mark indexes as built
             self._indexes_built = True
             self._disk_loads += 1
 
-        except (json.JSONDecodeError, KeyError, OSError) as e:
+        except (json.JSONDecodeError, KeyError, OSError):
             # Cache load failed, clear and rebuild later
             self._task_index.clear()
             self._sprint_index.clear()
             self._track_index.clear()
-            self._dep_graph = None
-            self._reverse_dep_graph = None
             self._file_mtimes.clear()
             self._indexes_built = False
 
+    def _try_load_graphs(self):
+        """
+        Load dependency graphs from .vibey/graphs.json
+
+        On feature branches: graphs.json is versioned for session continuity
+        On main branch: graphs.json is ignored (always rebuild from YAML)
+        """
+        try:
+            with open(self.graphs_file, 'r') as f:
+                graphs_data = json.load(f)
+                self._dep_graph = graphs_data.get('dependencies', {})
+                self._reverse_dep_graph = graphs_data.get('reverse_dependencies', {})
+
+        except (json.JSONDecodeError, KeyError, OSError):
+            # Graphs load failed, will rebuild when requested
+            self._dep_graph = None
+            self._reverse_dep_graph = None
+
     def _save_to_disk(self):
-        """Save cache to disk for faster subsequent loads."""
+        """
+        Save cache to disk for faster subsequent loads.
+
+        Saves two types of cache:
+        1. Performance cache (.cache/ - gitignored): indexes and mtimes
+        2. Versioned graphs (.vibey/graphs.json - feature branches only)
+        """
         if not self.enable_disk_cache:
             return
 
+        # Save performance cache (always)
+        self._save_performance_cache()
+
+        # Save graphs (feature branches only, not main)
+        if self._dep_graph is not None:
+            self._save_graphs()
+
+    def _save_performance_cache(self):
+        """Save performance cache (indexes and mtimes) to .cache/"""
         # Create cache directory if needed
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save indexes
+        # Save indexes (absolute paths for fast loading)
         indexes_file = self.cache_dir / "indexes.json"
         indexes_data = {
             'tasks': {k: str(v) for k, v in self._task_index.items()},
@@ -475,32 +546,53 @@ class RoadmapCache:
         with open(indexes_file, 'w') as f:
             json.dump(indexes_data, f, indent=2)
 
-        # Save dependency graphs (if built)
-        if self._dep_graph is not None:
-            graphs_file = self.cache_dir / "graphs.json"
-            graphs_data = {
-                'dependencies': self._dep_graph,
-                'reverse_dependencies': self._reverse_dep_graph,
-            }
-            with open(graphs_file, 'w') as f:
-                json.dump(graphs_data, f, indent=2)
-
         # Save file mtimes
         mtimes_file = self.cache_dir / "mtimes.json"
         mtimes_data = {str(p): mtime for p, mtime in self._file_mtimes.items()}
         with open(mtimes_file, 'w') as f:
             json.dump(mtimes_data, f, indent=2)
 
-    def _delete_disk_cache(self):
-        """Delete disk cache files."""
-        if not self.cache_dir.exists():
+    def _save_graphs(self):
+        """
+        Save dependency graphs to .vibey/graphs.json
+
+        Only saves on feature branches (not main/master).
+        Main branch always rebuilds graphs from YAML (source of truth).
+        """
+        # Don't save graphs on main branch
+        if self.is_main_branch:
             return
 
-        # Delete cache files
-        for cache_file in ['indexes.json', 'graphs.json', 'mtimes.json']:
-            file_path = self.cache_dir / cache_file
-            if file_path.exists():
-                file_path.unlink()
+        # Save graphs for session continuity on feature branches
+        graphs_data = {
+            'dependencies': self._dep_graph,
+            'reverse_dependencies': self._reverse_dep_graph,
+            'metadata': {
+                'branch': self.current_branch,
+                'generated_at': time.time(),
+            }
+        }
+        with open(self.graphs_file, 'w') as f:
+            json.dump(graphs_data, f, indent=2)
+
+    def _delete_disk_cache(self):
+        """
+        Delete disk cache files.
+
+        Deletes:
+        1. Performance cache (.cache/): indexes.json, mtimes.json
+        2. Versioned graphs (.vibey/graphs.json) - feature branches only
+        """
+        # Delete performance cache
+        if self.cache_dir.exists():
+            for cache_file in ['indexes.json', 'mtimes.json']:
+                file_path = self.cache_dir / cache_file
+                if file_path.exists():
+                    file_path.unlink()
+
+        # Delete graphs (feature branches only)
+        if not self.is_main_branch and self.graphs_file.exists():
+            self.graphs_file.unlink()
 
     # =========================================================================
     # Private Methods - Index Building
@@ -675,7 +767,7 @@ class RoadmapCache:
 
                     if target_id not in self._reverse_dep_graph:
                         self._reverse_dep_graph[target_id] = []
-                    self._reverse_dep_graph[track_id].append(track_id)
+                    self._reverse_dep_graph[target_id].append(track_id)
 
         # Save to disk for faster subsequent loads
         self._save_to_disk()

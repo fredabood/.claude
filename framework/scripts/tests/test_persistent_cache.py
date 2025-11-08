@@ -98,23 +98,24 @@ def test_disk_cache_creation():
         task = cache.get_task('task-001')
         assert task is not None
 
-        # Check that cache files were created
+        # Check that performance cache files were created
         cache_dir = root_dir / '.vibey' / '.cache'
         assert cache_dir.exists()
         assert (cache_dir / 'indexes.json').exists()
         assert (cache_dir / 'mtimes.json').exists()
 
         print("✓ Cache directory created")
-        print("✓ indexes.json created")
-        print("✓ mtimes.json created")
+        print("✓ indexes.json created (performance cache)")
+        print("✓ mtimes.json created (performance cache)")
 
         # Trigger dependency graph build
         deps = cache.get_dependencies('task-001')
         assert len(deps) == 1
 
-        # Check that graphs file was created
-        assert (cache_dir / 'graphs.json').exists()
-        print("✓ graphs.json created")
+        # Check that graphs file was created in .vibey/ (versioned location)
+        graphs_file = root_dir / '.vibey' / 'graphs.json'
+        assert graphs_file.exists()
+        print("✓ graphs.json created (versioned location)")
 
         print()
 
@@ -292,12 +293,15 @@ def test_cache_file_format():
             print(f"  Sprints indexed: {len(indexes['sprints'])}")
             print(f"  Tracks indexed: {len(indexes['tracks'])}")
 
-        # Validate graphs.json
-        with open(cache_dir / 'graphs.json', 'r') as f:
+        # Validate graphs.json (now in .vibey/ root, versioned location)
+        graphs_file = root_dir / '.vibey' / 'graphs.json'
+        with open(graphs_file, 'r') as f:
             graphs = json.load(f)
             assert 'dependencies' in graphs
             assert 'reverse_dependencies' in graphs
-            print("✓ graphs.json is valid JSON")
+            assert 'metadata' in graphs  # New: metadata added
+            print("✓ graphs.json is valid JSON (versioned location)")
+            print(f"  Branch: {graphs['metadata'].get('branch', 'unknown')}")
 
         # Validate mtimes.json
         with open(cache_dir / 'mtimes.json', 'r') as f:

@@ -1,3 +1,8 @@
-# Cache directory - persistent disk cache for roadmap CLI
-# Cache is automatically rebuilt if stale or missing
+# Performance cache directory (gitignored - ephemeral)
+# Contains indexes.json and mtimes.json for fast CLI startup
+# Automatically rebuilt if stale or missing
 .cache/
+
+# Note: graphs.json is NOT ignored
+# - On feature branches: versioned for session continuity
+# - On main branch: prevented by pre-commit hook (always rebuild from YAML)

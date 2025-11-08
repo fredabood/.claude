@@ -135,10 +135,9 @@ Located in `templates/handoffs/`:
     ├── generate-config.py
     ├── update-config.py
     ├── manage-project-context.py
-    ├── create-sprint-state.py
-    ├── query-sprint-state.py
-    ├── update-sprint-state.py
-    ├── update-sprint-marker.py
+    ├── roadmap                     # Unified roadmap CLI
+    ├── roadmap_commands/           # Roadmap command handlers
+    ├── roadmap-lib/                # Roadmap core library
     ├── check-version.py
     ├── rollback-framework.py
     ├── validate-config.py

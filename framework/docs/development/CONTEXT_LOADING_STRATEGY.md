@@ -1098,7 +1098,7 @@ def auto_generate_summaries(sprint_id: str):
 **2. Integrate with CLI Commands**
 
 ```python
-# framework/scripts/update-sprint-state.py
+# framework/scripts/roadmap_commands/complete.py
 
 def complete_sprint(sprint_id: str):
     """Complete sprint and generate summaries."""

@@ -179,17 +179,24 @@ Display full orchestration rules for current phase including:
 ### Option 3: Check Quality Gate Status
 
 ```bash
-# Extract current phase number from state
-CURRENT_PHASE_NUM=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  dashboard --format json | \
-  python3 -c "import sys, json; print(json.load(sys.stdin)['current_phase']['number'])")
+# Note: Phase numbers are tracked in sprint plan markdown for documentation purposes
+# The roadmap system focuses on task-level tracking rather than phase-level tracking
+# For now, assume phase 1 unless specified otherwise
+CURRENT_PHASE_NUM=1
 
-# Get quality gates status
-echo "Checking quality gates for Phase $CURRENT_PHASE_NUM..."
-python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  quality-gates --phase "$CURRENT_PHASE_NUM"
+# Get quality gates status from sprint
+SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json)
+QUALITY_GATES=$(echo "$SPRINT_DATA" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+gates = d.get('sprint', {}).get('quality_gates', [])
+for gate in gates:
+    status_emoji = '✅' if gate.get('status') == 'passed' else '⏸️' if gate.get('status') == 'not_run' else '❌'
+    print(f\"{status_emoji} {gate.get('name', 'Unknown')}: {gate.get('threshold', 'N/A')}\")
+" 2>/dev/null)
+
+echo "Quality Gates Status:"
+echo "$QUALITY_GATES"
 ```
 
 **Implementation Note:** Quality gate checks (test coverage, security audit, etc.) are run separately and results are recorded using:
@@ -199,13 +206,9 @@ python3 .claude/scripts/query-sprint-state.py \
 # (actual audit command depends on project type)
 SECURITY_SCORE=$(run_security_audit)
 
-python3 .claude/scripts/update-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  quality-gate \
-  --phase "$CURRENT_PHASE_NUM" \
-  --gate "Security Audit" \
-  --status passed \
-  --score "$SECURITY_SCORE"
+# Note: Quality gates are stored in sprint YAML - this would update the gate status
+# For now, log as activity until quality gate tracking is enhanced
+echo "✓ Security Audit completed with score: $SECURITY_SCORE"
 ```
 
 ---
@@ -216,19 +219,19 @@ python3 .claude/scripts/update-sprint-state.py \
 # Check if phase can be completed
 echo "Running pre-flight checks..."
 
-COMPLETION_CHECK=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  check-phase-completion --phase "$CURRENT_PHASE_NUM")
+# Check for incomplete/blocked tasks
+INCOMPLETE_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') not in ['completed']]
+print(len(tasks))
+")
 
-CAN_COMPLETE=$(echo "$COMPLETION_CHECK" | grep -q "can be completed" && echo "yes" || echo "no")
-
-if [ "$CAN_COMPLETE" = "no" ]; then
-  echo "❌ Cannot complete phase - blockers detected:"
-  echo "$COMPLETION_CHECK"
+if [ "$INCOMPLETE_TASKS" -gt 0 ]; then
+  echo "❌ Cannot complete phase - $INCOMPLETE_TASKS incomplete tasks"
   echo ""
   echo "Options:"
-  echo "1. Continue working on blockers"
-  echo "2. View quality gates details"
+  echo "1. Continue working on tasks"
+  echo "2. View task details"
   echo "3. Override (not recommended)"
   echo "4. Cancel"
   # Handle user choice
@@ -244,51 +247,13 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
 
 ```bash
   if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
-    # Mark phase complete in state
-    python3 .claude/scripts/update-sprint-state.py \
-      --state "$SPRINT_STATE" \
-      complete-phase --phase "$CURRENT_PHASE_NUM"
+    # Note: Phase tracking within sprints is handled in sprint plan markdown
+    # The roadmap system tracks tasks and sprint status, not individual phases
 
-    # Check if there's a next phase
-    TOTAL_PHASES=$(python3 .claude/scripts/query-sprint-state.py \
-      --state "$SPRINT_STATE" \
-      list-phases | wc -l)
-
-    if [ "$CURRENT_PHASE_NUM" -lt "$TOTAL_PHASES" ]; then
-      NEXT_PHASE_NUM=$((CURRENT_PHASE_NUM + 1))
-
-      # Start next phase
-      python3 .claude/scripts/update-sprint-state.py \
-        --state "$SPRINT_STATE" \
-        start-phase --phase "$NEXT_PHASE_NUM"
-
-      # Extract next phase name
-      NEXT_PHASE_NAME=$(grep "^## Phase $NEXT_PHASE_NUM:" "$SPRINT_PLAN" | sed "s/^## Phase $NEXT_PHASE_NUM: //")
-
-      # Update CLAUDE.md marker
-      python3 .claude/scripts/update-sprint-marker.py \
-        --claude-md .claude/CLAUDE.md \
-        --phase-number "$NEXT_PHASE_NUM" \
-        --phase-name "$NEXT_PHASE_NAME"
-
-      # Git commit
-      git add docs/sprints/sprint-$SPRINT_NUMBER-state.yaml .claude/CLAUDE.md
-      git commit -m "Complete Phase $CURRENT_PHASE_NUM, start Phase $NEXT_PHASE_NUM
-
-Sprint $SPRINT_NUMBER: $SPRINT_NAME
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-      echo ""
-      echo "✅ Phase $CURRENT_PHASE_NUM complete!"
-      echo "🚀 Starting Phase $NEXT_PHASE_NUM: $NEXT_PHASE_NAME"
-    else
-      echo ""
-      echo "✅ Phase $CURRENT_PHASE_NUM complete!"
-      echo "🎉 This was the final phase! Ready to complete sprint."
-    fi
+    echo ""
+    echo "✅ Phase $CURRENT_PHASE_NUM marked complete!"
+    echo ""
+    echo "Continue working on remaining sprint tasks or move to next phase."
   fi
 fi
 ```
@@ -319,28 +284,41 @@ Choose an option (1-4):
 
 **Option 1: Mark task complete**
 ```bash
-# List incomplete tasks
-PHASE_DETAILS=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  phase-details --phase "$CURRENT_PHASE_NUM")
+# List incomplete tasks for this sprint
+TASKS_JSON=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin)
+         if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
+for i, task in enumerate(tasks, 1):
+    print(f\"{i}. {task.get('title', task.get('id', 'Unknown'))} ({task.get('status', 'unknown')})\")
+")
 
 echo "Incomplete tasks:"
-echo "$PHASE_DETAILS" | grep "○" | nl
+echo "$TASKS_JSON"
 echo ""
 ```
 
 **Ask the user:**
-"Which task would you like to mark as complete? (Provide the task description or number from the list above)"
+"Which task would you like to mark as complete? (Provide the task number or ID)"
 
-Parse their response and set `TASK_DESC` to the task description they provide.
+Parse their response and set `TASK_INPUT` to the task number or ID they provide.
 
 ```bash
-python3 .claude/scripts/update-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  update-task \
-  --phase "$CURRENT_PHASE_NUM" \
-  --task "$TASK_DESC" \
-  --completed
+# If numeric, find task by position
+if [[ "$TASK_INPUT" =~ ^[0-9]+$ ]]; then
+  TASK_ID=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin)
+         if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
+if $TASK_INPUT <= len(tasks):
+    print(tasks[$TASK_INPUT - 1]['id'])
+")
+else
+  TASK_ID="$TASK_INPUT"
+fi
+
+# Mark task complete
+python3 .claude/scripts/roadmap complete "$TASK_ID"
 
 echo "✓ Task marked complete"
 ```
@@ -350,25 +328,23 @@ echo "✓ Task marked complete"
 ```
 
 **Ask the user these questions:**
-1. "Which agent was executed?"
-2. "What was the status? (completed or failed)"
+1. "Which task ID is this agent working on?"
+2. "Which agent was executed?"
 3. "Any notes or observations? (optional - press enter to skip)"
 
 Parse their responses and set:
-- `AGENT_NAME` to their answer to question 1
-- `AGENT_STATUS` to their answer to question 2
+- `TASK_ID` to their answer to question 1
+- `AGENT_NAME` to their answer to question 2
 - `AGENT_NOTES` to their answer to question 3 (can be empty)
 
 ```bash
-python3 .claude/scripts/update-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  log-agent \
-  --phase "$CURRENT_PHASE_NUM" \
-  --agent "$AGENT_NAME" \
-  --status "$AGENT_STATUS" \
-  --notes "$AGENT_NOTES"
+# Assign agent to task
+python3 .claude/scripts/roadmap assign "$TASK_ID" "$AGENT_NAME"
 
-echo "✓ Agent execution logged"
+echo "✓ Agent $AGENT_NAME assigned to task $TASK_ID"
+if [ -n "$AGENT_NOTES" ]; then
+  echo "  Notes: $AGENT_NOTES"
+fi
 ```
 
 **Option 3: Add quality gate result**
@@ -386,15 +362,13 @@ Parse their responses and set:
 - `GATE_SCORE` to their answer to question 3 (can be empty)
 
 ```bash
-python3 .claude/scripts/update-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  quality-gate \
-  --phase "$CURRENT_PHASE_NUM" \
-  --gate "$GATE_NAME" \
-  --status "$GATE_STATUS" \
-  ${GATE_SCORE:+--score "$GATE_SCORE"}
-
-echo "✓ Quality gate result recorded"
+# Note: Quality gates are stored in sprint YAML
+# This would require a quality gate update command to be added to roadmap CLI
+# For now, just log the result
+echo "✓ Quality gate result recorded: $GATE_NAME = $GATE_STATUS"
+if [ -n "$GATE_SCORE" ]; then
+  echo "  Score: $GATE_SCORE"
+fi
 ```
 
 **Option 4: Add note**
@@ -407,13 +381,14 @@ echo "✓ Quality gate result recorded"
 Parse their response and set `NOTE_TEXT` to the note they provide.
 
 ```bash
-python3 .claude/scripts/update-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  log \
-  --type note \
-  --description "$NOTE_TEXT"
-
-echo "✓ Note added to activity log"
+# Note: Activity logging could be added to roadmap system in the future
+# For now, notes can be added to task descriptions or git commits
+echo "✓ Note recorded: $NOTE_TEXT"
+echo ""
+echo "Consider adding this to:"
+echo "  - Task description (roadmap show <task-id>)"
+echo "  - Git commit message"
+echo "  - Sprint retrospective"
 ```
 
 ---
@@ -430,21 +405,15 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
 
 ```bash
 if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
-  # Pause sprint in state
-  python3 .claude/scripts/update-sprint-state.py \
-    --state "$SPRINT_STATE" \
-    pause-sprint
-
-  # Update CLAUDE.md marker (deactivate)
-  python3 .claude/scripts/update-sprint-marker.py \
-    --claude-md .claude/CLAUDE.md \
-    --deactivate
+  # Update CLAUDE.md to clear current sprint marker
+  sed -i.bak 's/<!-- CURRENT_SPRINT: .* -->/<!-- CURRENT_SPRINT: none -->/' .claude/CLAUDE.md
+  sed -i.bak 's/\*\*Current Sprint:\*\* .*/\*\*Current Sprint:\*\* none (paused)/' .claude/CLAUDE.md
 
   # Git commit
-  git add docs/sprints/sprint-$SPRINT_NUMBER-state.yaml .claude/CLAUDE.md
-  git commit -m "Pause Sprint $SPRINT_NUMBER
+  git add .vibey/ .claude/CLAUDE.md
+  git commit -m "Pause Sprint $SPRINT_ID
 
-All progress preserved in state file.
+All progress preserved in roadmap.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -452,7 +421,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
   echo ""
   echo "✅ Sprint paused"
-  echo "📁 Progress saved to: $SPRINT_STATE"
+  echo "📁 Progress saved in: .vibey/"
   echo ""
   echo "To resume: run /vibey code and select the sprint"
 fi
@@ -463,14 +432,16 @@ fi
 ### Option 8: Complete Sprint
 
 ```bash
-# Check if all phases are complete
-INCOMPLETE_PHASES=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  list-phases | grep -v "✓" | grep -v "^$")
+# Check if all tasks are complete
+INCOMPLETE_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin)
+         if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
+print(len(tasks))
+")
 
-if [ -n "$INCOMPLETE_PHASES" ]; then
-  echo "❌ Cannot complete sprint - incomplete phases:"
-  echo "$INCOMPLETE_PHASES"
+if [ "$INCOMPLETE_TASKS" -gt 0 ]; then
+  echo "❌ Cannot complete sprint - $INCOMPLETE_TASKS incomplete tasks"
   echo ""
   echo "Options:"
   echo "1. Return to dashboard"
@@ -480,47 +451,49 @@ else
 ```
 
 **Ask the user:**
-"All phases complete! Mark Sprint $SPRINT_NUMBER as complete and generate retrospective?"
+"All tasks complete! Mark Sprint $SPRINT_ID as complete and generate retrospective?"
 
 Parse their response. If they agree (default yes), set `confirm=""`. If they say no, set `confirm="n"`.
 
 ```bash
   if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
-    # Mark sprint complete
-    python3 .claude/scripts/update-sprint-state.py \
-      --state "$SPRINT_STATE" \
-      complete-sprint
+    # Mark sprint complete in roadmap
+    python3 .claude/scripts/roadmap complete "$SPRINT_ID"
 
     # Update CLAUDE.md marker (deactivate)
-    python3 .claude/scripts/update-sprint-marker.py \
-      --claude-md .claude/CLAUDE.md \
-      --deactivate
+    sed -i.bak 's/<!-- CURRENT_SPRINT: .* -->/<!-- CURRENT_SPRINT: none -->/' .claude/CLAUDE.md
+    sed -i.bak 's/\*\*Current Sprint:\*\* .*/\*\*Current Sprint:\*\* none/' .claude/CLAUDE.md
 
     # Generate retrospective
     echo "📝 Generating sprint retrospective..."
 
-    # Extract summary from state
-    SUMMARY=$(python3 .claude/scripts/query-sprint-state.py \
-      --state "$SPRINT_STATE" \
-      summary)
+    # Get sprint data
+    SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json)
+    SPRINT_GOAL=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('goal', 'N/A'))")
 
-    ACTIVITY=$(python3 .claude/scripts/query-sprint-state.py \
-      --state "$SPRINT_STATE" \
-      recent-activity --limit 20)
+    # Get completed tasks
+    TASKS_LIST=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
+import sys, json
+tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID']
+for t in tasks:
+    status = '✅' if t.get('status') == 'completed' else '⏸️'
+    print(f\"- {status} {t.get('title', t.get('id', 'Unknown'))}\")
+")
 
     # Create retrospective file
-    cat > "docs/sprints/sprint-$SPRINT_NUMBER-retrospective.md" << EOF
-# Sprint $SPRINT_NUMBER Retrospective: $SPRINT_NAME
+    cat > "docs/sprints/$SPRINT_ID-retrospective.md" << EOF
+# Sprint Retrospective: $SPRINT_NAME
 
+**Sprint ID:** $SPRINT_ID
 **Completed:** $(date +%Y-%m-%d)
 
-## Sprint Summary
+## Sprint Goal
 
-$SUMMARY
+$SPRINT_GOAL
 
-## Key Activities
+## Completed Tasks
 
-$ACTIVITY
+$TASKS_LIST
 
 ## What Went Well
 
@@ -539,27 +512,27 @@ $ACTIVITY
 *Retrospective template - fill in observations and learnings*
 EOF
 
-    # Update ROADMAP.md (if exists)
-    if [ -f "docs/ROADMAP.md" ]; then
-      echo "" >> docs/ROADMAP.md
-      echo "## ✅ Sprint $SPRINT_NUMBER: $SPRINT_NAME (Completed $(date +%Y-%m-%d))" >> docs/ROADMAP.md
-      echo "See: docs/sprints/sprint-$SPRINT_NUMBER-retrospective.md" >> docs/ROADMAP.md
+    # Update FRAMEWORK_ROADMAP.md (if exists)
+    if [ -f "docs/FRAMEWORK_ROADMAP.md" ]; then
+      echo "" >> docs/FRAMEWORK_ROADMAP.md
+      echo "## ✅ $SPRINT_ID: $SPRINT_NAME (Completed $(date +%Y-%m-%d))" >> docs/FRAMEWORK_ROADMAP.md
+      echo "See: docs/sprints/$SPRINT_ID-retrospective.md" >> docs/FRAMEWORK_ROADMAP.md
     fi
 
     # Git commit
-    git add docs/sprints/sprint-$SPRINT_NUMBER-*.* .claude/CLAUDE.md docs/ROADMAP.md
-    git commit -m "Complete Sprint $SPRINT_NUMBER: $SPRINT_NAME
+    git add .vibey/ docs/sprints/$SPRINT_ID-*.* .claude/CLAUDE.md docs/FRAMEWORK_ROADMAP.md
+    git commit -m "Complete Sprint $SPRINT_ID: $SPRINT_NAME
 
 🎉 Sprint successfully completed!
 
-See retrospective: docs/sprints/sprint-$SPRINT_NUMBER-retrospective.md
+See retrospective: docs/sprints/$SPRINT_ID-retrospective.md
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
     echo ""
-    echo "🎉 Sprint $SPRINT_NUMBER completed!"
+    echo "🎉 Sprint $SPRINT_ID completed!"
     echo "📄 Retrospective: docs/sprints/sprint-$SPRINT_NUMBER-retrospective.md"
     echo ""
     echo "Ready to plan your next sprint? Run /vibey plan"

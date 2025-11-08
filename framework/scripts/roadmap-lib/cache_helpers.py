@@ -1,0 +1,287 @@
+"""
+Helper functions for using RoadmapCache in command handlers.
+
+Provides convenient functions for command handlers to use caching.
+"""
+
+from pathlib import Path
+from typing import Optional, List, Dict
+
+from cache import RoadmapCache
+from filesystem import find_roadmap_root, load_yaml, FileSystemManager
+
+
+def get_cached_task(cache: Optional[RoadmapCache], task_id: str, root_dir: Optional[Path] = None) -> Optional[Dict]:
+    """
+    Get task by ID, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        task_id: Task ID
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        Task dict, or None if not found
+    """
+    if cache:
+        return cache.get_task(task_id)
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return None
+
+    fs = FileSystemManager(root)
+    tasks_dir = fs.vibey_dir / fs.TASKS_DIR
+    if not tasks_dir.exists():
+        return None
+
+    # Linear scan
+    for task_file in tasks_dir.glob("*-tasks.yaml"):
+        data = load_yaml(task_file)
+        if data and 'tasks' in data:
+            for task in data['tasks']:
+                if task.get('id') == task_id:
+                    return task
+
+    return None
+
+
+def get_cached_sprint(cache: Optional[RoadmapCache], sprint_id: str, root_dir: Optional[Path] = None) -> Optional[Dict]:
+    """
+    Get sprint by ID, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        sprint_id: Sprint ID
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        Sprint dict, or None if not found
+    """
+    if cache:
+        return cache.get_sprint(sprint_id)
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return None
+
+    fs = FileSystemManager(root)
+    sprint_file = fs.get_sprint_path(sprint_id)
+    if not sprint_file.exists():
+        return None
+
+    data = load_yaml(sprint_file)
+    return data.get('sprint') if data else None
+
+
+def get_cached_track(cache: Optional[RoadmapCache], track_id: str, root_dir: Optional[Path] = None) -> Optional[Dict]:
+    """
+    Get track by ID, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        track_id: Track ID
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        Track dict, or None if not found
+    """
+    if cache:
+        return cache.get_track(track_id)
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return None
+
+    fs = FileSystemManager(root)
+    track_file = fs.get_track_path(track_id)
+    if not track_file.exists():
+        return None
+
+    data = load_yaml(track_file)
+    return data.get('track') if data else None
+
+
+def get_all_cached_tasks(cache: Optional[RoadmapCache], root_dir: Optional[Path] = None) -> List[Dict]:
+    """
+    Get all tasks, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        List of task dicts
+    """
+    if cache:
+        return cache.get_all_tasks()
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return []
+
+    fs = FileSystemManager(root)
+    tasks_dir = fs.vibey_dir / fs.TASKS_DIR
+    if not tasks_dir.exists():
+        return []
+
+    all_tasks = []
+    for task_file in tasks_dir.glob("*-tasks.yaml"):
+        data = load_yaml(task_file)
+        if data and 'tasks' in data:
+            all_tasks.extend(data['tasks'])
+
+    return all_tasks
+
+
+def get_all_cached_sprints(cache: Optional[RoadmapCache], root_dir: Optional[Path] = None) -> List[Dict]:
+    """
+    Get all sprints, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        List of sprint dicts
+    """
+    if cache:
+        return cache.get_all_sprints()
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return []
+
+    fs = FileSystemManager(root)
+    sprints_dir = fs.vibey_dir / fs.SPRINTS_DIR
+    if not sprints_dir.exists():
+        return []
+
+    all_sprints = []
+    for sprint_file in sprints_dir.glob("*.yaml"):
+        data = load_yaml(sprint_file)
+        if data and 'sprint' in data:
+            all_sprints.append(data['sprint'])
+
+    return all_sprints
+
+
+def get_all_cached_tracks(cache: Optional[RoadmapCache], root_dir: Optional[Path] = None) -> List[Dict]:
+    """
+    Get all tracks, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to load directly
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        List of track dicts
+    """
+    if cache:
+        return cache.get_all_tracks()
+
+    # Fallback: load directly
+    root = root_dir or find_roadmap_root()
+    if not root:
+        return []
+
+    fs = FileSystemManager(root)
+    tracks_dir = fs.vibey_dir / fs.TRACKS_DIR
+    if not tracks_dir.exists():
+        return []
+
+    all_tracks = []
+    for track_file in tracks_dir.glob("*.yaml"):
+        data = load_yaml(track_file)
+        if data and 'track' in data:
+            all_tracks.append(data['track'])
+
+    return all_tracks
+
+
+def get_cached_dependencies(cache: Optional[RoadmapCache], object_id: str, root_dir: Optional[Path] = None) -> List[str]:
+    """
+    Get dependencies for an object, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to compute directly
+        object_id: Task, sprint, or track ID
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        List of dependency IDs
+    """
+    if cache:
+        return cache.get_dependencies(object_id)
+
+    # Fallback: compute directly (slower)
+    # Try to find the object
+    obj = None
+
+    # Try as task
+    obj = get_cached_task(cache, object_id, root_dir)
+    if not obj:
+        # Try as sprint
+        obj = get_cached_sprint(cache, object_id, root_dir)
+    if not obj:
+        # Try as track
+        obj = get_cached_track(cache, object_id, root_dir)
+
+    if not obj:
+        return []
+
+    # Extract dependency IDs
+    deps = obj.get('dependencies', [])
+    return [dep.get('target_id') for dep in deps if dep.get('target_id')]
+
+
+def get_cached_dependents(cache: Optional[RoadmapCache], object_id: str, root_dir: Optional[Path] = None) -> List[str]:
+    """
+    Get dependents for an object, using cache if available.
+
+    Args:
+        cache: RoadmapCache instance, or None to compute directly
+        object_id: Task, sprint, or track ID
+        root_dir: Root directory (if cache is None)
+
+    Returns:
+        List of dependent IDs
+    """
+    if cache:
+        return cache.get_dependents(object_id)
+
+    # Fallback: compute directly (very slow - requires loading everything)
+    all_tasks = get_all_cached_tasks(cache, root_dir)
+    all_sprints = get_all_cached_sprints(cache, root_dir)
+    all_tracks = get_all_cached_tracks(cache, root_dir)
+
+    dependents = []
+
+    # Check all objects for dependencies on object_id
+    for task in all_tasks:
+        deps = task.get('dependencies', [])
+        for dep in deps:
+            if dep.get('target_id') == object_id:
+                dependents.append(task['id'])
+                break
+
+    for sprint in all_sprints:
+        deps = sprint.get('dependencies', [])
+        for dep in deps:
+            if dep.get('target_id') == object_id:
+                dependents.append(sprint['id'])
+                break
+
+    for track in all_tracks:
+        deps = track.get('dependencies', [])
+        for dep in deps:
+            if dep.get('target_id') == object_id:
+                dependents.append(track['id'])
+                break
+
+    return dependents

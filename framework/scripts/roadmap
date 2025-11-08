@@ -42,6 +42,7 @@ sys.path.insert(0, str(roadmap_lib_path))
 from roadmap.models import Status, TaskStatus
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from filesystem import FileSystemManager, find_roadmap_root
+from cache import RoadmapCache
 
 
 def create_parser():
@@ -74,6 +75,12 @@ For more information on a command:
         '--dir',
         type=Path,
         help='Root directory (defaults to searching upward for .vibey/)'
+    )
+
+    parser.add_argument(
+        '--no-cache',
+        action='store_true',
+        help='Disable caching (for debugging)'
     )
 
     # Create subparsers for commands
@@ -222,6 +229,23 @@ def main():
         parser.print_help()
         sys.exit(0)
 
+    # Initialize cache for query commands (unless disabled or init command)
+    cache = None
+    if not args.no_cache and args.command != 'init':
+        try:
+            root_dir = find_root_dir(args)
+            cache = RoadmapCache(root_dir)
+            # Attach cache to args for command handlers
+            args.cache = cache
+        except SystemExit:
+            # find_root_dir exits if no roadmap found
+            # This is OK for init command, but re-raise for others
+            if args.command != 'init':
+                raise
+            args.cache = None
+    else:
+        args.cache = None
+
     # Route to appropriate command handler
     if args.command == 'init':
         from roadmap_commands.init import handle_init
@@ -299,6 +323,10 @@ def main():
         print(f"❌ Unknown command: {args.command}")
         parser.print_help()
         sys.exit(1)
+
+    # Invalidate cache after state-changing commands
+    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress']:
+        cache.invalidate()
 
 
 if __name__ == '__main__':

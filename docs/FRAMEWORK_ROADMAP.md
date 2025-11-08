@@ -1,7 +1,7 @@
 # Vibey Framework Roadmap
 
 **Version:** 1.2.0
-**Last Updated:** 2024-11-05
+**Last Updated:** 2025-11-07
 
 ---
 
@@ -39,6 +39,37 @@
 - [ ] Identify what stays in config vs. moves to docs
 - [ ] Update workflows to read from docs
 - [ ] Migration guide for existing projects
+
+### 3. Roadmap Object Hierarchy System
+**Status:** Planned (Ready to Build)
+**Priority:** HIGH
+**Timeline:** 11 weeks (Q1 2025)
+**Description:** Implement the Roadmap Object Hierarchy as a core Vibey feature, enabling structured project management with a 4-tier hierarchy (Roadmap → Track → Sprint → Task), automatic versioning, quality gates, and dependency tracking.
+
+**Strategic Value:**
+- **Dogfooding:** Use it to manage Vibey's own development
+- **Validation:** Prove the design before Goose port
+- **Project Management:** Handle increasing framework complexity
+- **Goose Port:** Use it to manage the multi-platform port work
+
+**6 Sprints:**
+1. **Sprint 1 (2 weeks):** Core Data Model & YAML Schema
+2. **Sprint 2 (2 weeks):** State Management Scripts
+3. **Sprint 3 (2 weeks):** CLI Commands (Query)
+4. **Sprint 4 (2 weeks):** CLI Commands (Update & Version)
+5. **Sprint 5 (2 weeks):** Agent Integration & Auto-routing
+6. **Sprint 6 (1 week):** Documentation & Polish
+
+**Key Features:**
+- 4-tier hierarchy: Roadmap → Track → Sprint → Task
+- Three-tier gate system (development, completion, production)
+- Automatic semantic versioning
+- Git integration (tags, commits)
+- Agent routing and task assignment
+- Dependency tracking and blocker analysis
+- Rich CLI with visualization
+
+**See:** [Implementation Plan](./development/ROADMAP_IMPLEMENTATION_PLAN.md) | [Design Doc](./development/ROADMAP_OBJECT_HIERARCHY.md)
 
 ---
 
@@ -336,9 +367,10 @@ vibey-core/
 ### Feature Roadmap
 
 **Q1 2025 (Months 1-3)**
-- ✅ Complete Goose MVP (5-7 agents, 3-5 workflows)
-- ✅ Default CLAUDE.md implementation
+- ✅ **Roadmap Object Hierarchy System** (11 weeks) - Core project management feature
+- ✅ Default CLAUDE.md implementation (parallel)
 - ✅ Docs-driven migration planning
+- ✅ Begin Goose MVP (final weeks, using roadmap system to manage)
 
 **Q2 2025 (Months 4-6)**
 - ✅ Complete Goose port (all agents/workflows)

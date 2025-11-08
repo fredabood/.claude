@@ -37,33 +37,82 @@ This document defines an optimal roadmap object hierarchy for the Vibey Agent Fr
 
 ---
 
+## Implementation Status
+
+**Design Status:** ✅ Complete (v2.1 - Gate Model)
+**Implementation Status:** 📋 Planned for Q1 2025
+
+### Development Timeline
+
+This design will be implemented as a core Vibey framework feature starting January 2025.
+
+**Track:** `roadmap-system`
+**Duration:** 11 weeks
+**Priority:** HIGH
+**Sprints:** 6 sprints (see detailed breakdown below)
+
+### Key Milestones
+
+| Milestone | Timeline | Status |
+|-----------|----------|--------|
+| **Design Complete** | 2025-11-06 | ✅ Complete |
+| **Implementation Plan** | 2025-11-07 | ✅ Complete |
+| **Sprint 1: Core Data Model** | Week 1-2 | 📋 Planned |
+| **Sprint 2: State Management** | Week 3-4 | 📋 Planned |
+| **Sprint 3-4: CLI Commands** | Week 5-8 | 📋 Planned |
+| **Sprint 5: Agent Integration** | Week 9-10 | 📋 Planned |
+| **Sprint 6: Documentation** | Week 11 | 📋 Planned |
+| **Production Ready** | End of Q1 2025 | 🎯 Target |
+
+### Strategic Context
+
+**Why Build This Now:**
+1. **Dogfooding:** Vibey will use this system to manage its own development
+2. **Goose Port:** The roadmap system will manage the upcoming Goose port work
+3. **Complexity Management:** Framework growing beyond manual tracking capabilities
+4. **User Value:** Production-grade project management for all Vibey projects
+5. **Platform Validation:** Prove the design works before porting to other platforms
+
+**Integration Points:**
+- Builds on existing sprint state management system
+- Integrates with 12 specialized agents
+- Extends sprint planning workflow
+- Automates quality gate execution
+
+**See:**
+- [Implementation Plan](./ROADMAP_IMPLEMENTATION_PLAN.md) - Detailed sprint breakdowns and tasks
+- [Framework Roadmap](../FRAMEWORK_ROADMAP.md) - Overall framework timeline
+
+---
+
 ## Table of Contents
 
-1. [Object Hierarchy Overview](#object-hierarchy-overview)
-2. [Roadmap Object](#roadmap-object)
-3. [Track Object](#track-object)
-4. [Sprint Object](#sprint-object)
-5. [Task Object](#task-object)
-6. [Status System](#status-system)
-7. [Gate System](#gate-system)
+1. [Implementation Status](#implementation-status)
+2. [Object Hierarchy Overview](#object-hierarchy-overview)
+3. [Roadmap Object](#roadmap-object)
+4. [Track Object](#track-object)
+5. [Sprint Object](#sprint-object)
+6. [Task Object](#task-object)
+7. [Status System](#status-system)
+8. [Gate System](#gate-system)
    - [Development Gates](#development-gates)
    - [Quality Gates](#quality-gates)
    - [Completion Gates](#completion-gates)
    - [Production Gates](#production-gates)
-8. [Dependency & Blocker Model](#dependency--blocker-model)
-9. [Versioning Strategy](#versioning-strategy)
-10. [Developer Workflow](#developer-workflow)
-11. [State Management & Persistence](#state-management--persistence)
-12. [Documentation Structure & Context Management](#documentation-structure--context-management)
+9. [Dependency & Blocker Model](#dependency--blocker-model)
+10. [Versioning Strategy](#versioning-strategy)
+11. [Developer Workflow](#developer-workflow)
+12. [State Management & Persistence](#state-management--persistence)
+13. [Documentation Structure & Context Management](#documentation-structure--context-management)
     - [Context Self-Containment Goal](#context-self-containment-goal)
     - [Current Design Assessment](#current-design-assessment)
     - [Context Budget Guidelines](#context-budget-guidelines)
     - [Mandatory Documentation Sections](#mandatory-documentation-sections)
     - [Dependency Summary Requirements](#dependency-summary-requirements)
     - [Context Inheritance Rules](#context-inheritance-rules)
-13. [Implementation Considerations](#implementation-considerations)
-14. [Design Decisions & Rationale](#design-decisions--rationale)
-15. [Examples](#examples)
+14. [Implementation Considerations](#implementation-considerations)
+15. [Design Decisions & Rationale](#design-decisions--rationale)
+16. [Examples](#examples)
 
 ---
 

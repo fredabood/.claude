@@ -1,0 +1,389 @@
+# Sprint Object YAML Schema
+# Version: 2.1 (Gate Model)
+# Purpose: Defines the structure and validation rules for sprint YAML files
+
+schema_version: "2.1"
+object_type: "sprint"
+
+# Required fields
+required:
+  - id
+  - name
+  - track_id
+  - roadmap_id
+  - status
+  - blocked
+  - created
+  - progress
+  - tasks
+  - development_gates
+  - blocks
+  - blocked_by
+  - metadata
+
+# Field definitions
+fields:
+  # Identity
+  id:
+    type: string
+    pattern: "^[a-z0-9-]+-\\d+$"
+    description: "Track-scoped sprint ID (e.g., backend-1, frontend-2)"
+    example: "backend-1"
+
+  name:
+    type: string
+    min_length: 1
+    max_length: 200
+    description: "Human-readable name for the sprint"
+    example: "User Authentication System"
+
+  track_id:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+    description: "ID of the parent track"
+
+  roadmap_id:
+    type: string
+    pattern: "^[a-z0-9-]+$"
+    description: "ID of the parent roadmap"
+
+  # Status (full status set for sprints)
+  status:
+    type: string
+    enum:
+      - "not_started"
+      - "in_progress"
+      - "paused"
+      - "completion_gate_check"
+      - "completed"
+      - "production_gate_check"
+      - "production_ready"
+      - "deployed"
+      - "won't_do"
+    description: "Current status of the sprint"
+
+  blocked:
+    type: boolean
+    description: "Whether the sprint is blocked by dependencies"
+
+  # Timing
+  created:
+    type: datetime
+    description: "ISO 8601 datetime when sprint was created"
+
+  started:
+    type: datetime
+    nullable: true
+    description: "When work started on this sprint"
+
+  completion_gate_check_at:
+    type: datetime
+    nullable: true
+    description: "When sprint entered completion gate check status"
+
+  completed:
+    type: datetime
+    nullable: true
+    description: "When sprint completed (all dev tasks + completion gates done)"
+
+  production_gate_check_at:
+    type: datetime
+    nullable: true
+    description: "When sprint entered production gate check status"
+
+  production_ready_at:
+    type: datetime
+    nullable: true
+    description: "When sprint became production ready (all gates passed)"
+
+  deployed_at:
+    type: datetime
+    nullable: true
+    description: "When sprint was deployed to production"
+
+  # Progress
+  progress:
+    type: object
+    required:
+      - development_tasks_total
+      - development_tasks_completed
+      - completion_gate_tasks_total
+      - completion_gate_tasks_completed
+      - production_gate_tasks_total
+      - production_gate_tasks_completed
+      - tasks_total
+      - tasks_completed
+      - completion_percent
+    fields:
+      development_tasks_total:
+        type: integer
+        min: 0
+      development_tasks_completed:
+        type: integer
+        min: 0
+      completion_gate_tasks_total:
+        type: integer
+        min: 0
+      completion_gate_tasks_completed:
+        type: integer
+        min: 0
+      production_gate_tasks_total:
+        type: integer
+        min: 0
+      production_gate_tasks_completed:
+        type: integer
+        min: 0
+      tasks_total:
+        type: integer
+        min: 0
+      tasks_completed:
+        type: integer
+        min: 0
+      completion_percent:
+        type: integer
+        min: 0
+        max: 100
+
+  # Tasks (flat list: development + quality gate tasks)
+  tasks:
+    type: array
+    min_items: 1
+    items:
+      type: object
+      required:
+        - id
+        - title
+        - status
+        - task_type
+      fields:
+        id:
+          type: string
+          pattern: "^[a-z0-9-]+-\\d+-(task|gate-[cp])\\d+$"
+          description: "Sprint-scoped task ID (e.g., backend-1-task-001, backend-1-gate-p001)"
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+            - "not_started"
+            - "in_progress"
+            - "paused"
+            - "completion_gate_check"
+            - "completed"
+            - "won't_do"
+        task_type:
+          type: string
+          enum: ["development", "completion_gate", "production_gate"]
+          description: "Type of task"
+        gate_info:
+          type: object
+          nullable: true
+          description: "Only for quality gate tasks"
+          fields:
+            blocks_status:
+              type: string
+              enum: ["completed", "production_ready"]
+            threshold:
+              type: integer
+              min: 0
+              max: 100
+            score:
+              type: integer
+              min: 0
+              max: 100
+              nullable: true
+            is_blocking:
+              type: boolean
+
+  # Development Gates (external dependencies)
+  development_gates:
+    type: array
+    items:
+      type: object
+      required:
+        - type
+        - target_id
+        - target_status
+        - reason
+      fields:
+        type:
+          type: string
+          enum: ["sprint", "task", "external"]
+        target_id:
+          type: string
+        target_status:
+          type: string
+        reason:
+          type: string
+
+  # What this sprint blocks
+  blocks:
+    type: array
+    items:
+      type: object
+      required:
+        - type
+        - target_id
+        - at_status
+        - reason
+      fields:
+        type:
+          type: string
+          enum: ["sprint", "task"]
+        target_id:
+          type: string
+        at_status:
+          type: string
+        reason:
+          type: string
+
+  # Current blockers (auto-computed)
+  blocked_by:
+    type: array
+    items:
+      type: object
+      required:
+        - dependency_id
+        - dependency_type
+        - current_status
+        - required_status
+        - blocking_since
+      fields:
+        dependency_id:
+          type: string
+        dependency_type:
+          type: string
+        current_status:
+          type: string
+        required_status:
+          type: string
+        blocking_since:
+          type: datetime
+        estimated_resolution:
+          type: datetime
+          nullable: true
+
+  # Documentation
+  plan_file:
+    type: string
+    nullable: true
+    description: "Path to sprint plan document"
+
+  deliverables:
+    type: array
+    items:
+      type: string
+
+  # Metadata
+  metadata:
+    type: object
+    required:
+      - last_updated
+    fields:
+      estimated_duration:
+        type: string
+        nullable: true
+      actual_duration:
+        type: string
+        nullable: true
+      estimated_tokens:
+        type: integer
+        nullable: true
+      actual_tokens:
+        type: integer
+        nullable: true
+      agents_used:
+        type: array
+        items:
+          type: string
+        nullable: true
+      last_updated:
+        type: datetime
+
+# Validation Rules
+validation_rules:
+  - rule: "development_tasks_completed <= development_tasks_total"
+    message: "Completed dev tasks cannot exceed total dev tasks"
+
+  - rule: "completion_gate_tasks_completed <= completion_gate_tasks_total"
+    message: "Completed completion gate tasks cannot exceed total"
+
+  - rule: "production_gate_tasks_completed <= production_gate_tasks_total"
+    message: "Completed production gate tasks cannot exceed total"
+
+  - rule: "tasks_total == development_tasks_total + completion_gate_tasks_total + production_gate_tasks_total"
+    message: "Total tasks must equal sum of all task types"
+
+  - rule: "tasks_completed == development_tasks_completed + completion_gate_tasks_completed + production_gate_tasks_completed"
+    message: "Completed tasks must equal sum of completed task types"
+
+  - rule: "completion_percent == (tasks_completed / tasks_total * 100) if tasks_total > 0 else 0"
+    message: "Completion percent must match calculated value"
+
+  - rule: "sprint id must start with track_id"
+    message: "Sprint ID must be track-scoped (e.g., backend-1)"
+
+  - rule: "all task ids must start with sprint id"
+    message: "Task IDs must be sprint-scoped"
+
+  - rule: "all task ids must be unique"
+    message: "Task IDs must be unique within sprint"
+
+  - rule: "if status == 'in_progress' then started is not null"
+    message: "In-progress sprints must have a start date"
+
+  - rule: "if status == 'completion_gate_check' then all development tasks must be completed"
+    message: "Cannot enter completion gate check until all dev tasks done"
+
+  - rule: "if status == 'completed' then completed is not null and all completion gates must pass"
+    message: "Cannot be completed until all completion gates pass"
+
+  - rule: "if status == 'production_gate_check' then all completion gates must pass"
+    message: "Cannot enter production gate check until completion gates pass"
+
+  - rule: "if status == 'production_ready' then production_ready_at is not null and all production gates must pass"
+    message: "Cannot be production ready until all production gates pass"
+
+  - rule: "blocked == true if blocked_by is not empty else false"
+    message: "Blocked flag must match blocker list"
+
+  - rule: "quality gate tasks (completion_gate or production_gate) must have gate_info object"
+    message: "Gate tasks must have gate_info with threshold and blocking status"
+
+  - rule: "development tasks must not have gate_info"
+    message: "Development tasks cannot have gate_info"
+
+# Documentation
+documentation:
+  description: |
+    The Sprint object is a logical unit of work pushable to production.
+
+    Key characteristics:
+    - Production-deployable unit
+    - Contains development tasks AND quality gate tasks
+    - Has completion_gate_check and production_gate_check statuses
+    - Can reach production_ready and deployed statuses
+    - Quality gates are task objects, not separate structures
+
+  task_types: |
+    1. Development Tasks (task_type: development)
+       - Build functionality
+       - Can serve as development gates for external sprints
+       - Can depend on external development tasks
+
+    2. Completion Gate Tasks (task_type: completion_gate)
+       - Hygiene checks (docs, CI/CD)
+       - Cannot be depended on by external sprints
+       - Highly isolated
+
+    3. Production Gate Tasks (task_type: production_gate)
+       - Production readiness checks (security, testing)
+       - Cannot be depended on by external sprints
+       - Highly isolated
+
+  usage: |
+    Sprints are stored in .vibey/sprints/{sprint-id}.yaml files.
+    Each sprint file contains complete state including all tasks.
+
+  references:
+    - "docs/development/ROADMAP_OBJECT_HIERARCHY.md#sprint-object"

@@ -1,0 +1,152 @@
+roadmap:
+  # Identity
+  id: "vibey-framework-v2"
+  name: "Vibey Multi-Platform Agent Framework"
+
+  # Version Management
+  version: "1.2.0"
+  version_strategy:
+    major_on: "roadmap_milestone"      # Manual trigger for breaking changes
+    minor_on: "track_completion"        # Automatic on track production_ready
+    patch_on: "sprint_production_ready" # Automatic on sprint production_ready
+
+  # Status
+  status: "in_progress"
+  blocked: false
+
+  # Timing
+  created: "2024-11-01T00:00:00Z"
+  started: "2024-11-01T00:00:00Z"
+  target_completion: "2025-12-31T23:59:59Z"
+  completed: null
+  deployed: null
+
+  # Aggregate Progress
+  progress:
+    tracks_total: 4
+    tracks_completed: 0
+    sprints_total: 16
+    sprints_completed: 1
+    tasks_total: 53  # roadmap-system track tasks
+    tasks_completed: 9
+    completion_percent: 17
+
+  # Tracks
+  tracks:
+    - id: "core-framework"
+      name: "Core Framework Enhancements"
+      status: "in_progress"
+      priority: "high"
+
+    - id: "roadmap-system"
+      name: "Roadmap Object Hierarchy Implementation"
+      status: "not_started"
+      priority: "critical"
+
+    - id: "goose-port"
+      name: "Goose Platform Port"
+      status: "not_started"
+      priority: "high"
+
+    - id: "multi-platform"
+      name: "Multi-Platform Architecture"
+      status: "not_started"
+      priority: "medium"
+
+  # Roadmap-level dependencies (external systems)
+  dependencies: []
+
+  # What's blocking the roadmap
+  blocked_by: []
+
+  # Version History
+  version_history:
+    - version: "1.0.0"
+      date: "2024-09-01T00:00:00Z"
+      milestone: "Initial Production Release"
+      git_tag: "v1.0.0"
+      description: "First production-ready release with 12 agents and 16 workflows"
+
+    - version: "1.1.0"
+      date: "2024-10-15T00:00:00Z"
+      milestone: "Sprint State Management"
+      git_tag: "v1.1.0"
+      description: "Added comprehensive sprint state management system"
+
+    - version: "1.2.0"
+      date: "2024-11-05T00:00:00Z"
+      milestone: "Vibey Manager & Production Readiness"
+      git_tag: "v1.2.0"
+      description: "Added Vibey Manager agent and completed Phase 12"
+
+  # UNIFIED ACTIVITY LOG (All roadmap events)
+  activity_log:
+    - timestamp: "2024-11-01T00:00:00Z"
+      type: "roadmap_started"
+      description: "Started Vibey Multi-Platform Framework roadmap"
+
+    - timestamp: "2024-11-07T00:00:00Z"
+      type: "design_completed"
+      description: "Completed Roadmap Object Hierarchy design (v2.1)"
+      context:
+        document: "docs/development/ROADMAP_OBJECT_HIERARCHY.md"
+        version: "2.1"
+
+    - timestamp: "2024-11-07T01:00:00Z"
+      type: "planning_completed"
+      description: "Completed Implementation Plan for roadmap-system track"
+      context:
+        document: "docs/development/ROADMAP_IMPLEMENTATION_PLAN.md"
+        track_id: "roadmap-system"
+
+    - timestamp: "2024-11-07T02:00:00Z"
+      type: "roadmap_initialized"
+      description: "Initialized Vibey's own roadmap for dogfooding"
+      context:
+        file: ".vibey/roadmap.yaml"
+
+    - timestamp: "2025-11-07T03:00:00Z"
+      type: "sprint_started"
+      description: "Started Sprint 1: Core Data Model & YAML Schema"
+      context:
+        track_id: "roadmap-system"
+        sprint_id: "roadmap-system-1"
+
+    - timestamp: "2025-11-07T05:00:00Z"
+      type: "sprint_completed"
+      description: "Completed Sprint 1: Core Data Model & YAML Schema"
+      context:
+        track_id: "roadmap-system"
+        sprint_id: "roadmap-system-1"
+        deliverables:
+          - "4 YAML schemas"
+          - "Python data models (dataclasses)"
+          - "Validation logic"
+          - "Serialization/deserialization"
+          - "Example roadmap"
+
+    - timestamp: "2025-11-07T05:00:00Z"
+      type: "sprint_started"
+      description: "Started Sprint 2: State Management Scripts"
+      context:
+        track_id: "roadmap-system"
+        sprint_id: "roadmap-system-2"
+
+  # Metadata
+  metadata:
+    created_by: "vibey-framework-team"
+    framework_version: "2.0"
+    schema_version: "2.1"
+    last_updated: "2025-11-07T05:00:00Z"
+    purpose: "Dogfooding: Vibey framework managing its own development"
+    description: |
+      This roadmap manages the Vibey Agent Framework's own development,
+      demonstrating the roadmap system's capabilities through real-world usage.
+
+      Key Goals:
+      1. Build roadmap system and use it immediately (dogfooding)
+      2. Prepare for multi-platform expansion (Goose, Cursor)
+      3. Extract platform-agnostic core
+      4. Unified CLI for all platforms
+
+      Timeline: Q1 2025 - Q4 2025 (12 months)

@@ -110,6 +110,143 @@ your-project/
 
 ---
 
+## 🗺️ Roadmap Object Hierarchy System
+
+**NEW in v1.2**: Vibey includes a comprehensive project management system for tracking development work.
+
+### What Is It?
+
+The Roadmap Object Hierarchy provides structured project tracking through a four-tier system:
+
+```
+Roadmap (project vision)
+  └── Track (major feature area)
+      └── Sprint (2-week work unit)
+          └── Task (atomic work item)
+```
+
+### Key Features
+
+✅ **Intelligent Agent Routing** - Automatic task-to-agent matching based on keywords and task types
+✅ **Automatic Status Progression** - Smart state transitions based on completion criteria
+✅ **Dependency Management** - Graph-based dependency tracking with circular detection
+✅ **Quality Gate System** - Three-tier gates (development, completion, production)
+✅ **Version Management** - Semantic versioning with strategy-based bumping
+✅ **Batch Operations** - Mass updates across multiple tasks
+✅ **Health Validation** - Comprehensive roadmap health checks
+✅ **CLI Interface** - Full command-line interface for roadmap management
+
+### Quick Example
+
+```bash
+# Initialize roadmap for your project
+roadmap init --id my-project --name "My Project"
+
+# View status
+roadmap status
+
+# Get intelligent task recommendations
+roadmap recommend
+
+# Get agent recommendations for a task
+roadmap recommend --task backend-1-task-003
+
+# Start working
+roadmap start backend-1-task-001
+roadmap assign backend-1-task-001 web-developer
+
+# Complete work
+roadmap complete backend-1-task-001
+
+# Check agent workload
+roadmap agents --workload
+
+# Validate roadmap health
+roadmap validate
+```
+
+### Use Cases
+
+**Solo Developers:**
+- Track complex projects with multiple workstreams
+- Never lose track of dependencies
+- Automatic progress calculation
+- Clear visibility into what's next
+
+**Teams:**
+- Intelligent agent/developer assignment recommendations
+- Workload distribution tracking
+- Structured handoffs between team members
+- Quality gates ensure completeness
+
+**AI-Assisted Development:**
+- Agents know exactly what to work on
+- Automatic routing to specialized agents
+- Context preservation across sessions
+- **Dogfooding:** Vibey uses this system to manage itself!
+
+### Roadmap CLI Commands
+
+**Query Commands:**
+- `roadmap status` - Show overall status
+- `roadmap show <id>` - Show object details
+- `roadmap list [type]` - List tracks/sprints/tasks
+- `roadmap find <query>` - Search objects
+- `roadmap deps [id]` - Show dependencies and blockers
+
+**Update Commands:**
+- `roadmap start <id>` - Start sprint or task
+- `roadmap complete <id>` - Complete sprint or task
+- `roadmap assign <task> <agent>` - Assign task to agent
+- `roadmap progress --refresh` - Refresh progress calculations
+- `roadmap batch <op> <scope>` - Batch operations
+
+**Agent Commands:**
+- `roadmap recommend` - Get task recommendations (priority-based)
+- `roadmap recommend --task <id>` - Get agent recommendations for a task
+- `roadmap recommend --agent <name>` - Get tasks for an agent
+- `roadmap agents --workload` - View agent workload distribution
+- `roadmap agents --capabilities` - View agent capabilities
+
+**Management Commands:**
+- `roadmap version {--show|--bump}` - Version management
+- `roadmap validate [--fix]` - Health checks and validation
+
+### Documentation
+
+**Complete Roadmap System Documentation:**
+- **[User Guide](framework/docs/development/ROADMAP_USER_GUIDE.md)** - Comprehensive user guide (700+ lines)
+- **[CLI Reference](framework/scripts/CLI.md)** - Complete CLI documentation (730+ lines)
+- **[Examples](framework/docs/development/ROADMAP_EXAMPLES.md)** - Practical examples and workflows (900+ lines)
+- **[Implementation Plan](framework/docs/development/ROADMAP_IMPLEMENTATION_PLAN.md)** - Technical implementation details
+- **[Object Hierarchy](framework/docs/development/ROADMAP_OBJECT_HIERARCHY.md)** - System architecture
+
+### Getting Started with Roadmaps
+
+1. **Add roadmap CLI to PATH:**
+```bash
+export PATH="$PATH:/path/to/vibey/framework/scripts"
+```
+
+2. **Initialize roadmap:**
+```bash
+cd your-project
+roadmap init
+```
+
+3. **Create your first track and sprint** (see User Guide for details)
+
+4. **Start working:**
+```bash
+roadmap recommend  # Get next task
+roadmap start <task-id>  # Begin work
+roadmap complete <task-id>  # Mark done
+```
+
+**Vibey's own development is managed using this system!** See `.vibey/tracks/roadmap-system.yaml` for a real-world example.
+
+---
+
 ## Installation
 
 ### Prerequisites

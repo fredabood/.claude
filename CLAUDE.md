@@ -11,9 +11,10 @@
 Every session working on this repository:
 
 1. ✅ **Read this file** (CLAUDE.md) - Framework repository context
-2. 📋 **Check docs/ROADMAP.md** - Multi-platform strategy and compatibility plans
-3. 🔍 **Run `git status`** - Understand current state
-4. 📚 **Review recent commits** - Context on recent changes
+2. 📋 **Check docs/FRAMEWORK_ROADMAP.md** - Multi-platform strategy and development roadmap
+3. 🎯 **Check .vibey/roadmap.yaml** - Current sprint/task status (Vibey dogfooding its own system)
+4. 🔍 **Run `git status`** - Understand current state
+5. 📚 **Review recent commits** - Context on recent changes
 
 ---
 
@@ -43,6 +44,15 @@ This is the **Vibey Agent Framework** - an intelligent agent orchestration syste
 
 ```
 vibey/
+├── .vibey/                       # Roadmap system (Vibey managing itself)
+│   ├── roadmap.yaml              # Vibey's development roadmap
+│   ├── tracks/                   # Track definitions
+│   │   ├── core-framework.yaml
+│   │   ├── roadmap-system.yaml
+│   │   ├── goose-port.yaml
+│   │   └── multi-platform.yaml
+│   ├── sprints/                  # Sprint state files
+│   └── tasks/                    # Task state files
 ├── agents/                       # 12 specialized agents
 │   ├── core/                     # Coordinator, Vibey Manager
 │   ├── planning/                 # Sprint Planning, Researcher
@@ -70,7 +80,10 @@ vibey/
 │   ├── getting-started/          # Installation, user journey
 │   ├── guides/                   # Orchestration, workflow selection
 │   ├── reference/                # Component reference
-│   └── development/              # Framework development docs
+│   ├── development/              # Framework development docs
+│   │   ├── ROADMAP_OBJECT_HIERARCHY.md
+│   │   └── ROADMAP_IMPLEMENTATION_PLAN.md
+│   └── FRAMEWORK_ROADMAP.md      # Multi-platform strategy
 ├── tools/                        # Additional utilities
 └── README.md                     # Main documentation
 ```
@@ -81,7 +94,14 @@ vibey/
 
 ### Framework Status: ✅ Production Ready (Claude Code)
 
-**Latest Updates (Nov 5, 2024 - Phase 1 & 2 Production Readiness):**
+**Latest Updates (Nov 7, 2025 - Roadmap System Planning):**
+1. 🎯 **Roadmap Object Hierarchy** - Comprehensive design complete (v2.1 Gate Model)
+2. 📋 **Implementation Plan** - Detailed 6-sprint plan (11 weeks, Q1 2025)
+3. 🔄 **Dogfooding Initialized** - Vibey now manages its own development with roadmap system
+4. 📁 **File Reorganization** - ROADMAP.md → FRAMEWORK_ROADMAP.md for clarity
+5. 🎯 **Next Phase** - Begin Sprint 1: Core Data Model & YAML Schema
+
+**Previous Updates (Nov 5, 2024 - Phase 1 & 2 Production Readiness):**
 1. ✅ **Critical Scripts Added** - generate-config.py, update-config.py (unblocked first-time users)
 2. ✅ **100% Claude Compatibility** - Replaced all 24 bash prompts with native conversational questions
 3. ✅ **Sprint State Management** - Complete lifecycle tracking with 4 Python scripts
@@ -561,23 +581,31 @@ Format: `MAJOR.MINOR.PATCH`
 
 ## Session Context
 
-**Last Major Update:** 2025-11-04
-**Phase Completed:** Phase 12 (Vibey Manager)
-**Next Milestone:** Default CLAUDE.md + Platform compatibility work
+**Last Major Update:** 2025-11-07
+**Phase Completed:** Roadmap System Planning
+**Next Milestone:** Sprint 1 - Core Data Model & YAML Schema (roadmap-system track)
 
 **Recent Changes:**
-- Added comprehensive platform compatibility assessment
-- Created detailed multi-platform roadmap
-- Documented Goose and Cursor port requirements
-- Established success metrics and risk assessment
+- ✅ Completed Roadmap Object Hierarchy design (v2.1 Gate Model)
+- ✅ Created comprehensive Implementation Plan (6 sprints, 11 weeks)
+- ✅ Initialized Vibey's dogfooding roadmap (.vibey/roadmap.yaml)
+- ✅ Reorganized documentation (ROADMAP.md → FRAMEWORK_ROADMAP.md)
+- ✅ Updated all cross-references and integration points
 
 **Current Focus:**
-- Maintaining Claude Code production quality
-- Planning Goose MVP port (recommended next step)
-- Exploring docs-driven architecture migration
+- **Roadmap System Implementation** - Build the object hierarchy (Q1 2025)
+- **Dogfooding** - Use roadmap system to manage its own development
+- **Core Framework** - Default CLAUDE.md and docs-driven migration (parallel)
+- **Goose Port Planning** - Preparing for multi-platform expansion (Q2 2025)
+
+**Active Tracks:**
+1. **roadmap-system** (🎯 Ready to Build) - 6 sprints, 11 weeks, CRITICAL priority
+2. **core-framework** (🔄 In Progress) - Claude Code enhancements
+3. **goose-port** (⏳ Blocked) - Waiting for roadmap-system completion
+4. **multi-platform** (⏳ Blocked) - Waiting for roadmap-system + goose-port
 
 ---
 
-**Framework Version:** 1.1 (Production Ready)
-**Target Platforms:** Claude Code (current), Goose (planned), Cursor (research)
-**Status:** Ready for multi-platform expansion
+**Framework Version:** 1.2.0 (Production Ready)
+**Target Platforms:** Claude Code (current), Goose (Q2 2025), Cursor (research), Multi-platform (Q3-Q4 2025)
+**Status:** Production ready for Claude Code, actively building roadmap system for expansion

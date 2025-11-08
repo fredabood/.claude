@@ -1,0 +1,120 @@
+track:
+  # Identity
+  id: "goose-port"
+  name: "Goose Platform Port"
+  roadmap_id: "vibey-framework-v2"
+
+  # Status
+  status: "not_started"
+  blocked: true  # Blocked by roadmap-system track
+  priority: "high"
+
+  # Timing
+  created: "2024-11-07T02:00:00Z"
+  started: null
+  completed: null
+  estimated_duration: "3.5 months"
+
+  # Progress
+  progress:
+    sprints_total: 7
+    sprints_completed: 0
+    tasks_total: 0  # To be planned
+    tasks_completed: 0
+    completion_percent: 0
+
+  # Sprints in this track
+  sprints:
+    - id: "goose-port-1"
+      name: "Goose Platform Research & POC"
+      status: "not_started"
+      estimated_duration: "2 weeks"
+
+    - id: "goose-port-2"
+      name: "Recipe System Design"
+      status: "not_started"
+      estimated_duration: "1 week"
+
+    - id: "goose-port-3"
+      name: "Convert 5-7 Core Agents to Extensions"
+      status: "not_started"
+      estimated_duration: "3 weeks"
+
+    - id: "goose-port-4"
+      name: "Convert 3-5 Core Workflows to Recipes"
+      status: "not_started"
+      estimated_duration: "2 weeks"
+
+    - id: "goose-port-5"
+      name: "MVP Testing & Iteration"
+      status: "not_started"
+      estimated_duration: "2 weeks"
+
+    - id: "goose-port-6"
+      name: "Convert Remaining Agents & Workflows"
+      status: "not_started"
+      estimated_duration: "4 weeks"
+
+    - id: "goose-port-7"
+      name: "Goose Documentation & Launch"
+      status: "not_started"
+      estimated_duration: "2 weeks"
+
+  # Dependencies
+  dependencies:
+    - type: "track"
+      target_id: "roadmap-system"
+      target_status: "completed"
+      reason: "Need roadmap system to manage Goose port work"
+      optional: false
+
+  # What this track blocks
+  blocks:
+    - type: "track"
+      target_id: "multi-platform"
+      at_status: "not_started"
+      reason: "Multi-platform needs Goose port experience"
+
+  # Current blockers
+  blocked_by:
+    - dependency_id: "roadmap-system"
+      dependency_type: "track"
+      current_status: "not_started"
+      required_status: "completed"
+      blocking_since: "2024-11-07T02:00:00Z"
+      estimated_resolution: "2025-03-31T00:00:00Z"
+
+  # Track-level quality gates
+  quality_gates:
+    - name: "Goose Recipe Compatibility"
+      threshold: 90
+      blocking: true
+      status: "not_run"
+
+    - name: "MCP Integration Testing"
+      threshold: 85
+      blocking: true
+      status: "not_run"
+
+    - name: "Cross-LLM Testing"
+      threshold: 80
+      blocking: false
+      status: "not_run"
+
+  # Recommended agents
+  assigned_agents:
+    - "web-developer"
+    - "coordinator"
+    - "docs-writer"
+    - "test-engineer"
+
+  # Metadata
+  metadata:
+    created_by: "vibey-framework-team"
+    design_doc: "docs/FRAMEWORK_ROADMAP.md#goose-compatibility-analysis"
+    last_updated: "2024-11-07T02:00:00Z"
+    notes: |
+      Port Vibey framework to Goose platform.
+      - 75-85% compatible (high confidence)
+      - Natural mappings: Workflows → Recipes, Agents → Extensions
+      - Estimated: 150-225 hours over 3.5 months

@@ -1,0 +1,276 @@
+"""
+Task data model.
+
+A Task is a context-window sized work unit - the smallest unit of work.
+"""
+
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import List, Optional
+
+from .common import TaskStatus, Priority, TaskType, Complexity, DeliverableType, DependencyType
+
+
+@dataclass
+class GateInfo:
+    """Information for quality gate tasks."""
+
+    blocks_status: str  # "completed" or "production_ready"
+    threshold: int  # 0-100
+    is_blocking: bool
+    score: Optional[int] = None  # 0-100
+
+    def __post_init__(self):
+        """Validate gate info."""
+        if self.blocks_status not in ["completed", "production_ready"]:
+            raise ValueError("blocks_status must be 'completed' or 'production_ready'")
+        if not 0 <= self.threshold <= 100:
+            raise ValueError("Threshold must be between 0 and 100")
+        if self.score is not None and not 0 <= self.score <= 100:
+            raise ValueError("Score must be between 0 and 100")
+
+    def has_passed(self) -> bool:
+        """Check if gate has passed."""
+        return self.score is not None and self.score >= self.threshold
+
+
+@dataclass
+class AuditResults:
+    """Results from quality gate execution."""
+
+    issues_found: int
+    issues_fixed: int
+    recommendations: List[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Validate audit results."""
+        if self.issues_found < 0:
+            raise ValueError("Issues found cannot be negative")
+        if self.issues_fixed < 0:
+            raise ValueError("Issues fixed cannot be negative")
+        if self.issues_fixed > self.issues_found:
+            raise ValueError("Issues fixed cannot exceed issues found")
+
+
+@dataclass
+class TaskDependency:
+    """Dependency for a task."""
+
+    type: DependencyType
+    target_id: str
+    target_status: str
+    reason: str
+
+
+@dataclass
+class TaskBlocker:
+    """Current blocker for a task."""
+
+    dependency_id: str
+    dependency_type: str
+    current_status: str
+    required_status: str
+    blocking_since: datetime
+    estimated_resolution: Optional[datetime] = None
+
+
+@dataclass
+class Deliverable:
+    """Task deliverable."""
+
+    type: DeliverableType
+    paths: List[str]
+
+
+@dataclass
+class GitCommit:
+    """Git commit associated with task."""
+
+    sha: str
+    message: str
+    date: datetime
+    author: str
+
+    def __post_init__(self):
+        """Validate commit."""
+        if not (7 <= len(self.sha) <= 40):
+            raise ValueError("SHA must be 7-40 characters")
+        # Basic hex validation
+        try:
+            int(self.sha, 16)
+        except ValueError:
+            raise ValueError(f"SHA must be hexadecimal: {self.sha}")
+
+
+@dataclass
+class TaskMetadata:
+    """Task metadata."""
+
+    last_updated: datetime
+    token_efficiency: Optional[float] = None
+    duration_hours: Optional[float] = None
+
+    def __post_init__(self):
+        """Validate metadata."""
+        if self.token_efficiency is not None and self.token_efficiency < 0:
+            raise ValueError("Token efficiency cannot be negative")
+        if self.duration_hours is not None and self.duration_hours < 0:
+            raise ValueError("Duration hours cannot be negative")
+
+
+@dataclass
+class Task:
+    """
+    Task object - a context-window sized work unit.
+
+    Key characteristics:
+    - Sized to fit within model's context window
+    - No production concerns (no production_ready or deployed statuses)
+    - Can be a development task OR a quality gate task
+    """
+
+    # Identity
+    id: str
+    sprint_id: str
+    track_id: str
+    roadmap_id: str
+
+    # Task Type
+    task_type: TaskType
+
+    # Description
+    title: str
+    description: str
+
+    # Status (restricted set - no production statuses)
+    status: TaskStatus
+    blocked: bool
+
+    # Timing
+    created: datetime
+
+    # Assignment
+    assigned_agent: str
+    priority: Priority
+
+    # Complexity & Size
+    estimated_tokens: int
+    complexity: Complexity
+
+    # Dependencies and blockers
+    dependencies: List[TaskDependency]
+    blocks: List[TaskDependency]
+    blocked_by: List[TaskBlocker]
+    metadata: TaskMetadata
+
+    # Optional fields
+    started: Optional[datetime] = None
+    completed: Optional[datetime] = None
+    phase_label: Optional[str] = None
+    actual_tokens: Optional[int] = None
+
+    # Gate-specific (only for quality gate tasks)
+    gate_info: Optional[GateInfo] = None
+    audit_results: Optional[AuditResults] = None
+
+    # Deliverables and commits
+    deliverables: List[Deliverable] = field(default_factory=list)
+    commits: List[GitCommit] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Validate task data."""
+        # Validate task ID is sprint-scoped
+        if not self.id.startswith(f"{self.sprint_id}-"):
+            raise ValueError(f"Task ID {self.id} must start with sprint ID {self.sprint_id}")
+
+        # Validate task type and gate_info consistency
+        if self.task_type == TaskType.DEVELOPMENT:
+            if self.gate_info is not None:
+                raise ValueError("Development tasks cannot have gate_info")
+        else:  # completion_gate or production_gate
+            if self.gate_info is None:
+                raise ValueError("Quality gate tasks must have gate_info")
+
+            # Validate gate type matches blocks_status
+            if self.task_type == TaskType.COMPLETION_GATE:
+                if self.gate_info.blocks_status != "completed":
+                    raise ValueError("Completion gates must block 'completed' status")
+            elif self.task_type == TaskType.PRODUCTION_GATE:
+                if self.gate_info.blocks_status != "production_ready":
+                    raise ValueError("Production gates must block 'production_ready' status")
+
+        # Validate dates
+        if self.started and self.started < self.created:
+            raise ValueError("Start date must be after or equal to creation date")
+
+        if self.completed and self.started and self.completed < self.started:
+            raise ValueError("Completion date must be after or equal to start date")
+
+        # Validate blocked status
+        has_blockers = len(self.blocked_by) > 0
+        if self.blocked != has_blockers:
+            raise ValueError("Blocked flag must match blocker list")
+
+        # Validate status transitions
+        if self.status == TaskStatus.IN_PROGRESS and not self.started:
+            raise ValueError("In-progress tasks must have a start date")
+
+        if self.status == TaskStatus.COMPLETED and not self.completed:
+            raise ValueError("Completed tasks must have a completion date")
+
+        # Validate tokens
+        if self.estimated_tokens <= 0:
+            raise ValueError("Estimated tokens must be positive")
+
+        if self.actual_tokens is not None and self.actual_tokens < 0:
+            raise ValueError("Actual tokens cannot be negative")
+
+        # Calculate token efficiency if both values present
+        if self.actual_tokens is not None and self.metadata.token_efficiency is None:
+            self.metadata.token_efficiency = self.actual_tokens / self.estimated_tokens
+
+    def is_blocked(self) -> bool:
+        """Check if task is blocked."""
+        return len(self.blocked_by) > 0
+
+    def is_development_task(self) -> bool:
+        """Check if this is a development task."""
+        return self.task_type == TaskType.DEVELOPMENT
+
+    def is_quality_gate(self) -> bool:
+        """Check if this is a quality gate task."""
+        return self.task_type in [TaskType.COMPLETION_GATE, TaskType.PRODUCTION_GATE]
+
+    def is_completion_gate(self) -> bool:
+        """Check if this is a completion gate."""
+        return self.task_type == TaskType.COMPLETION_GATE
+
+    def is_production_gate(self) -> bool:
+        """Check if this is a production gate."""
+        return self.task_type == TaskType.PRODUCTION_GATE
+
+    def has_passed_gate(self) -> bool:
+        """Check if quality gate has passed (only for gate tasks)."""
+        if not self.is_quality_gate() or not self.gate_info:
+            return False
+        return self.gate_info.has_passed()
+
+    def get_token_efficiency(self) -> Optional[float]:
+        """Get token efficiency ratio."""
+        if self.actual_tokens is None:
+            return None
+        return self.actual_tokens / self.estimated_tokens
+
+    def add_commit(self, sha: str, message: str, author: str, date: Optional[datetime] = None):
+        """Add a git commit to this task."""
+        if date is None:
+            date = datetime.utcnow()
+        commit = GitCommit(sha=sha, message=message, date=date, author=author)
+        self.commits.append(commit)
+        self.metadata.last_updated = datetime.utcnow()
+
+    def add_deliverable(self, deliverable_type: DeliverableType, paths: List[str]):
+        """Add a deliverable to this task."""
+        deliverable = Deliverable(type=deliverable_type, paths=paths)
+        self.deliverables.append(deliverable)
+        self.metadata.last_updated = datetime.utcnow()

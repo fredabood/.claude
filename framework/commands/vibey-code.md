@@ -65,13 +65,100 @@ SPRINT_STATUS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(
 START_DATE=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('started', 'Not started'))")
 PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(f\"{p.get('tasks_completed', 0)}/{p.get('tasks_total', 0)}\")")
 
+# Extract sprint number from ID (e.g., "roadmap-integration-2" -> "2" or "main-1" -> "1")
+SPRINT_NUMBER=$(echo "$SPRINT_ID" | grep -oE '[0-9]+$')
+
 # Get tasks for this sprint
 TASKS_DATA=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "import sys, json; data=json.load(sys.stdin); tasks=[t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']; print(json.dumps(tasks))")
 
 # Count task statuses
+TASKS_TOTAL=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len(json.load(sys.stdin)))")
 TASKS_IN_PROGRESS=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'in_progress']))")
 TASKS_COMPLETED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'completed']))")
+TASKS_NOT_STARTED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'not_started']))")
 TASKS_BLOCKED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('blocked') == True]))")
+
+# Calculate completion percentage
+COMPLETION_PERCENT=$([[ $TASKS_TOTAL -gt 0 ]] && echo "scale=0; ($TASKS_COMPLETED * 100) / $TASKS_TOTAL" | bc || echo "0")
+
+# Build task list for display
+PHASE_LIST=$(python3 -c "
+import sys, json
+tasks = json.loads('$TASKS_DATA')
+total = len(tasks)
+completed = sum(1 for t in tasks if t.get('status') == 'completed')
+in_progress = sum(1 for t in tasks if t.get('status') == 'in_progress')
+not_started = sum(1 for t in tasks if t.get('status') == 'not_started')
+blocked = sum(1 for t in tasks if t.get('blocked'))
+
+print(f'''**Task Progress:** {completed}/{total} completed ({int(completed/total*100) if total > 0 else 0}%)
+
+Progress Bar: [{'█' * int(completed/total*10) if total > 0 else ''}{'░' * (10 - int(completed/total*10) if total > 0 else 10)}]
+
+**Task Status:**
+- ✅ Completed: {completed}
+- 🔄 In Progress: {in_progress}
+- ⏸️  Not Started: {not_started}
+''' + (f'- 🚫 Blocked: {blocked}\n' if blocked > 0 else ''))
+")
+
+# Get current in-progress tasks
+CURRENT_PHASE_DATA=$(python3 -c "
+import sys, json
+tasks = json.loads('$TASKS_DATA')
+in_progress = [t for t in tasks if t.get('status') == 'in_progress']
+not_started = [t for t in tasks if t.get('status') == 'not_started']
+
+if in_progress:
+    print('**Currently Working On:**\n')
+    for t in in_progress:
+        assigned = t.get('assigned_agents', [])
+        agent_str = f\" (assigned: {', '.join(assigned)})\" if assigned else ''
+        print(f\"🔄 {t.get('title', t.get('id', 'Unknown'))}{agent_str}\")
+        if t.get('description'):
+            desc_short = t.get('description', '')[:100] + '...' if len(t.get('description', '')) > 100 else t.get('description', '')
+            print(f\"   {desc_short}\")
+        print()
+elif not_started:
+    print('**Next Tasks:**\n')
+    for i, t in enumerate(not_started[:3]):  # Show first 3 not started tasks
+        print(f\"{i+1}. {t.get('title', t.get('id', 'Unknown'))}\")
+    print()
+else:
+    print('**All tasks completed!** 🎉\n')
+    print('Ready to complete the sprint.')
+")
+
+# Get quality gates status
+QUALITY_GATES_SUMMARY=$(echo "$SPRINT_DATA" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+gates = d.get('sprint', {}).get('quality_gates', [])
+if gates:
+    passed = sum(1 for g in gates if g.get('status') == 'passed')
+    total = len(gates)
+    print(f'**Quality Gates:** {passed}/{total} passed')
+else:
+    print('')
+")
+
+# Get recent activity (last 5 task updates)
+RECENT_ACTIVITY=$(python3 -c "
+import sys, json
+from datetime import datetime
+tasks = json.loads('$TASKS_DATA')
+
+# Get tasks with recent updates (completed tasks)
+completed_tasks = [(t, t.get('completed_at', '')) for t in tasks if t.get('status') == 'completed' and t.get('completed_at')]
+completed_tasks.sort(key=lambda x: x[1], reverse=True)
+
+if completed_tasks:
+    print('**Recent Completions:**\n')
+    for t, _ in completed_tasks[:5]:
+        print(f\"✅ {t.get('title', t.get('id', 'Unknown'))}\")
+else:
+    print('No tasks completed yet.')
+")
 ```
 
 ```markdown
@@ -87,9 +174,11 @@ TASKS_BLOCKED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t 
 
 $PHASE_LIST
 
+$QUALITY_GATES_SUMMARY
+
 ---
 
-## 📋 Current Phase Details
+## 📋 Current Tasks
 
 $CURRENT_PHASE_DATA
 

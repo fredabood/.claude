@@ -11,10 +11,10 @@ track:
   estimated_duration: 6 weeks
   progress:
     sprints_total: 3
-    sprints_completed: 1
-    tasks_total: 5
-    tasks_completed: 5
-    completion_percent: 100
+    sprints_completed: 2
+    tasks_total: 11
+    tasks_completed: 6
+    completion_percent: 54
   sprints:
   - id: roadmap-integration-1
     name: Foundation & Sprint Planning Integration
@@ -24,10 +24,10 @@ track:
     started: '2025-11-08T18:18:23.298235+00:00'
   - id: roadmap-integration-2
     name: Progress Tracking & Vibey Manager
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 0
-    started: null
+    status: production_gate_check
+    estimated_duration: 48 hours
+    tasks_count: 6
+    started: '2025-11-08T18:34:27.347348+00:00'
   - id: roadmap-integration-3
     name: Migration & Deprecation
     status: not_started

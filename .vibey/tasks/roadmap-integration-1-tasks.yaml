@@ -1,0 +1,154 @@
+tasks:
+  - id: roadmap-integration-1-task-001
+    sprint_id: roadmap-integration-1
+    track_id: roadmap-integration
+    roadmap_id: vibey-framework-v2
+
+    name: Update vibey.md deployment to initialize roadmap
+    description: |
+      Modify framework/commands/vibey.md (lines 1100-1134) to call roadmap-init.py
+      after framework deployment. Should create .vibey/ directory structure with
+      roadmap.yaml, tracks/, sprints/, and tasks/ directories.
+    type: development
+    status: not_started
+    assigned_agent: web-developer
+    estimated_effort: 4 hours
+    priority: critical
+    dependencies: []
+    acceptance_criteria:
+      - roadmap-init.py called after framework deployment
+      - .vibey/roadmap.yaml created with project metadata
+      - .vibey/tracks/, sprints/, tasks/ directories exist
+      - Deployment test validates roadmap initialization
+    files_involved:
+      - framework/commands/vibey.md
+      - framework/scripts/roadmap-init.py
+
+  - id: roadmap-integration-1-task-002
+    sprint_id: roadmap-integration-1
+    track_id: roadmap-integration
+    roadmap_id: vibey-framework-v2
+
+    name: Update vibey-plan.md to create roadmap sprint entries
+    description: |
+      Modify framework/commands/vibey-plan.md (lines 200-235) to call
+      roadmap-update.py after sprint plan creation. Should create sprint
+      entry in .vibey/sprints/ with metadata and link to plan document.
+    type: development
+    status: not_started
+    assigned_agent: web-developer
+    estimated_effort: 6 hours
+    priority: critical
+    dependencies:
+      - type: task
+        target_id: roadmap-integration-1-task-001
+        reason: Deployment must initialize roadmap before planning can create sprints
+    acceptance_criteria:
+      - roadmap-update.py called with create_sprint action
+      - .vibey/sprints/{sprint-id}.yaml created
+      - Sprint linked to appropriate track
+      - Sprint plan reference preserved
+    files_involved:
+      - framework/commands/vibey-plan.md
+      - framework/scripts/roadmap-update.py
+
+  - id: roadmap-integration-1-task-003
+    sprint_id: roadmap-integration-1
+    track_id: roadmap-integration
+    roadmap_id: vibey-framework-v2
+
+    name: Implement task extraction from sprint plans
+    description: |
+      Add functionality to extract tasks from markdown sprint plans and create
+      corresponding entries in .vibey/tasks/{sprint-id}-tasks.yaml. Should
+      parse task descriptions, dependencies, and agents from plan structure.
+    type: development
+    status: not_started
+    assigned_agent: web-developer
+    estimated_effort: 8 hours
+    priority: high
+    dependencies:
+      - type: task
+        target_id: roadmap-integration-1-task-002
+        reason: Sprint creation must work before task extraction
+    acceptance_criteria:
+      - Tasks extracted from sprint plan markdown
+      - .vibey/tasks/{sprint-id}-tasks.yaml created
+      - Task dependencies detected and recorded
+      - Agent assignments preserved
+    files_involved:
+      - framework/scripts/roadmap-update.py
+      - framework/scripts/roadmap-lib/parsing.py (new file)
+
+  - id: roadmap-integration-1-task-004
+    sprint_id: roadmap-integration-1
+    track_id: roadmap-integration
+    roadmap_id: vibey-framework-v2
+
+    name: Create integration tests for deployment and planning
+    description: |
+      Write comprehensive integration tests that validate:
+      1. New project deployment initializes roadmap
+      2. Sprint planning creates roadmap entries
+      3. Task extraction works correctly
+      4. All files created with correct structure
+    type: testing
+    status: not_started
+    assigned_agent: test-engineer
+    estimated_effort: 6 hours
+    priority: high
+    dependencies:
+      - type: task
+        target_id: roadmap-integration-1-task-003
+        reason: Tests validate implemented features
+    acceptance_criteria:
+      - Test coverage >80% for new code
+      - Integration tests pass on fresh project
+      - Test validates .vibey/ structure
+      - Test validates roadmap.yaml content
+    files_involved:
+      - framework/tests/integration/test_roadmap_integration.py (new)
+
+  - id: roadmap-integration-1-task-005
+    sprint_id: roadmap-integration-1
+    track_id: roadmap-integration
+    roadmap_id: vibey-framework-v2
+
+    name: Update deployment and planning documentation
+    description: |
+      Update documentation to reflect new roadmap initialization and sprint
+      planning workflow. Include:
+      1. Updated deployment steps
+      2. Sprint planning workflow changes
+      3. .vibey/ directory structure explanation
+      4. Migration notes for existing projects
+    type: documentation
+    status: not_started
+    assigned_agent: docs-writer
+    estimated_effort: 4 hours
+    priority: medium
+    dependencies:
+      - type: task
+        target_id: roadmap-integration-1-task-004
+        reason: Documentation describes tested features
+    acceptance_criteria:
+      - Deployment docs updated in QUICK_START.md
+      - Sprint planning docs updated
+      - .vibey/ structure documented
+      - Migration notes added
+    files_involved:
+      - docs/getting-started/QUICK_START.md
+      - docs/guides/WORKFLOW_SELECTION_GUIDE.md
+      - docs/development/ROADMAP_INTEGRATION_GAP.md
+
+metadata:
+  sprint_id: roadmap-integration-1
+  track_id: roadmap-integration
+  total_tasks: 5
+  estimated_total_effort: 28 hours
+  critical_path:
+    - roadmap-integration-1-task-001
+    - roadmap-integration-1-task-002
+    - roadmap-integration-1-task-003
+    - roadmap-integration-1-task-004
+    - roadmap-integration-1-task-005

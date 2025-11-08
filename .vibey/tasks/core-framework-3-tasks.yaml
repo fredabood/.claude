@@ -252,6 +252,83 @@ tasks:
       - --plain flag works
       - Cross-platform compatibility
 
+  - id: "core-framework-3-task-006"
+    sprint_id: "core-framework-3"
+    track_id: "core-framework"
+    roadmap_id: "vibey-framework-v2"
+
+    name: "Add agent management functionality to Vibey Manager"
+    description: |
+      Extend Vibey Manager agent with comprehensive agent management capabilities.
+
+      New Capabilities:
+      1. List Available Agents
+         - Show all 12 specialized agents
+         - Display agent specialties and capabilities
+         - Show trigger patterns for orchestration
+
+      2. View Agent Workload
+         - Show tasks assigned to each agent
+         - Display workload by status (not_started, in_progress, completed)
+         - Show agent capacity and availability
+
+      3. Agent Assignment
+         - Assign tasks to specific agents
+         - Reassign tasks between agents
+         - Batch assignment operations
+
+      4. Agent Recommendations
+         - Recommend best agent for a given task
+         - Recommend next tasks for a given agent
+         - Show confidence scores and reasoning
+
+      5. Agent Capabilities
+         - View detailed agent capabilities
+         - Show task types each agent handles
+         - Display keyword matching for orchestration
+
+      Commands to Add:
+      - "Show me agent workload"
+      - "Which agents are available?"
+      - "Assign task X to agent Y"
+      - "Which agent should handle task X?"
+      - "What tasks should the web-developer work on?"
+      - "Show me all security agent capabilities"
+
+      Integration:
+      - Use roadmap agents command (roadmap-lib/agents.py)
+      - Use roadmap recommend command
+      - Use roadmap assign command
+      - Add conversational wrappers for CLI commands
+
+      Files to Modify:
+      - framework/agents/core/vibey-manager.md (add Agent Management section)
+      - Add examples and usage patterns
+
+    type: "development"
+    status: "not_started"
+
+    estimated_duration: "4 hours"
+    complexity: "medium"
+
+    assigned_agent: "web-developer"
+
+    dependencies: []
+
+    acceptance_criteria:
+      - Vibey Manager can list all agents with capabilities
+      - Vibey Manager can show agent workload
+      - Vibey Manager can assign/reassign tasks
+      - Vibey Manager can recommend agents for tasks
+      - Vibey Manager can recommend tasks for agents
+      - All agent commands have conversational interface
+      - Examples demonstrate each capability
+      - Integration tests validate functionality
+
+    files_involved:
+      - framework/agents/core/vibey-manager.md
+      - framework/scripts/roadmap-lib/agents.py (existing)
+
   # ──────────────────────────────────────────────────────────────────────────
   # Phase 3: Documentation Updates
   # ──────────────────────────────────────────────────────────────────────────
@@ -312,8 +389,9 @@ metadata:
   sprint_name: "Framework Polish & Refinements"
   created_by: "vibey-framework-team"
   created: "2025-11-07T20:00:00Z"
-  task_count: 6
-  estimated_total_duration: "17 hours"
+  last_updated: "2025-11-07T12:00:00Z"
+  task_count: 7
+  estimated_total_duration: "21 hours"
 
   notes: |
     Sprint 3 focuses on performance optimization and user experience.
@@ -323,7 +401,8 @@ metadata:
     2. Optional persistent disk cache
     3. Performance benchmarking suite
     4. Enhanced CLI output (colors, tables, progress bars)
-    5. Comprehensive performance documentation
+    5. Agent management in Vibey Manager
+    6. Comprehensive performance documentation
 
     Performance Targets:
     - Task lookup: < 5ms (20x faster)

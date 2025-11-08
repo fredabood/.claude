@@ -19,7 +19,7 @@ track:
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 23  # 5 + 13 + 5 = 23
+    tasks_total: 24  # 5 + 13 + 6 = 24 (updated: core-framework-3 now has 7 tasks)
     tasks_completed: 0
     completion_percent: 0
 
@@ -47,8 +47,8 @@ track:
       name: "Framework Polish & Refinements"
       status: "not_started"
       estimated_duration: "2 weeks"
-      tasks_count: 5
-      description: "Quality improvements, performance optimization, UX enhancements"
+      tasks_count: 7
+      description: "Quality improvements, performance optimization, UX enhancements, agent management"
 
   # Dependencies
   dependencies: []

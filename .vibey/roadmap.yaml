@@ -23,13 +23,13 @@ roadmap:
 
   # Aggregate Progress
   progress:
-    tracks_total: 4
+    tracks_total: 5
     tracks_completed: 0
-    sprints_total: 16
+    sprints_total: 19
     sprints_completed: 1
-    tasks_total: 53  # roadmap-system track tasks
+    tasks_total: 59  # roadmap-system (53) + roadmap-integration (5) + core-framework (1 added)
     tasks_completed: 9
-    completion_percent: 17
+    completion_percent: 15
 
   # Tracks
   tracks:
@@ -42,6 +42,11 @@ roadmap:
       name: "Roadmap Object Hierarchy Implementation"
       status: "not_started"
       priority: "critical"
+
+    - id: "roadmap-integration"
+      name: "Roadmap Integration into /vibey Commands"
+      status: "not_started"
+      priority: "high"
 
     - id: "goose-port"
       name: "Goose Platform Port"
@@ -131,6 +136,25 @@ roadmap:
       context:
         track_id: "roadmap-system"
         sprint_id: "roadmap-system-2"
+
+    - timestamp: "2025-11-07T10:00:00Z"
+      type: "planning_completed"
+      description: "Completed roadmap-integration gap analysis and planning"
+      context:
+        document: "docs/development/ROADMAP_INTEGRATION_GAP.md"
+        track_id: "roadmap-integration"
+        issue: "Two parallel sprint state systems"
+        sprints: 3
+        estimated_duration: "6 weeks"
+
+    - timestamp: "2025-11-07T12:00:00Z"
+      type: "task_started"
+      description: "Added agent management task to core-framework-3 sprint"
+      context:
+        task_id: "core-framework-3-task-006"
+        sprint_id: "core-framework-3"
+        track_id: "core-framework"
+        feature: "Agent management in Vibey Manager"
 
   # Metadata
   metadata:

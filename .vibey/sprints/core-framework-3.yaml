@@ -17,7 +17,7 @@ sprint:
 
   # Progress
   progress:
-    tasks_total: 6
+    tasks_total: 7
     tasks_completed: 0
     completion_percent: 0
 

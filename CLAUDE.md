@@ -82,7 +82,8 @@ vibey/
 │   ├── reference/                # Component reference
 │   ├── development/              # Framework development docs
 │   │   ├── ROADMAP_OBJECT_HIERARCHY.md
-│   │   └── ROADMAP_IMPLEMENTATION_PLAN.md
+│   │   ├── ROADMAP_IMPLEMENTATION_PLAN.md
+│   │   └── ROADMAP_INTEGRATION_GAP.md
 │   └── FRAMEWORK_ROADMAP.md      # Multi-platform strategy
 ├── tools/                        # Additional utilities
 └── README.md                     # Main documentation
@@ -94,10 +95,12 @@ vibey/
 
 ### Framework Status: ✅ Production Ready (Claude Code)
 
-**Latest Updates (Nov 7, 2025 - Roadmap System Planning):**
+**Latest Updates (Nov 7, 2025 - Roadmap System Planning & Integration Gap):**
 1. 🎯 **Roadmap Object Hierarchy** - Comprehensive design complete (v2.1 Gate Model)
 2. 📋 **Implementation Plan** - Detailed 6-sprint plan (11 weeks, Q1 2025)
 3. 🔄 **Dogfooding Initialized** - Vibey now manages its own development with roadmap system
+4. ⚠️ **Integration Gap Identified** - Roadmap system not yet integrated with `/vibey` commands (see docs/development/ROADMAP_INTEGRATION_GAP.md)
+5. 🎯 **New Track Created** - roadmap-integration track added to fix the gap (3 sprints, 6 weeks)
 4. 📁 **File Reorganization** - ROADMAP.md → FRAMEWORK_ROADMAP.md for clarity
 5. 🎯 **Next Phase** - Begin Sprint 1: Core Data Model & YAML Schema
 

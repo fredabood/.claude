@@ -5,6 +5,8 @@
 **Status:** Planning Phase
 **Design Document:** [ROADMAP_OBJECT_HIERARCHY.md](./ROADMAP_OBJECT_HIERARCHY.md)
 
+> **⚠️ Integration Gap:** This implementation plan covers building the roadmap system infrastructure. For integration with the `/vibey` command workflow, see [ROADMAP_INTEGRATION_GAP.md](./ROADMAP_INTEGRATION_GAP.md).
+
 ---
 
 ## Executive Summary

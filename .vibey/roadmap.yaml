@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 1
     sprints_total: 24
     sprints_completed: 9
-    tasks_total: 71
-    tasks_completed: 67
-    completion_percent: 94
+    tasks_total: 76
+    tasks_completed: 75
+    completion_percent: 98
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -241,17 +241,47 @@ roadmap:
     context:
       task_id: roadmap-integration-2-task-002
       sprint_id: roadmap-integration-2
-  - timestamp: '2025-11-08T18:39:42.432288Z'
+  - timestamp: '2025-11-08T18:39:42.432288+00:00'
     type: task_completed
     description: Task 'Implement Task Status Updates' completed
     context:
       task_id: roadmap-integration-2-task-002
       sprint_id: roadmap-integration-2
+  - timestamp: '2025-11-08T19:24:31.639905+00:00'
+    type: task_completed
+    description: Task 'Extend Vibey Manager with Roadmap Commands' completed
+    context:
+      task_id: roadmap-integration-2-task-003
+      sprint_id: roadmap-integration-2
+  - timestamp: '2025-11-08T19:24:31.894301+00:00'
+    type: task_completed
+    description: Task 'Add Real-time Progress Visualization' completed
+    context:
+      task_id: roadmap-integration-2-task-004
+      sprint_id: roadmap-integration-2
+  - timestamp: '2025-11-08T19:24:32.157093+00:00'
+    type: task_completed
+    description: Task 'Create Integration Tests' completed
+    context:
+      task_id: roadmap-integration-2-task-005
+      sprint_id: roadmap-integration-2
+  - timestamp: '2025-11-08T19:24:32.422060+00:00'
+    type: task_completed
+    description: Task 'Update Documentation' completed
+    context:
+      task_id: roadmap-integration-2-task-006
+      sprint_id: roadmap-integration-2
+  - timestamp: '2025-11-08T19:30:07.321656Z'
+    type: task_completed
+    description: Task 'Create Track Completion Summary' completed
+    context:
+      task_id: roadmap-integration-3-task-004
+      sprint_id: roadmap-integration-3
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-08T18:39:42.432293Z'
+    last_updated: '2025-11-08T19:30:07.321662Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

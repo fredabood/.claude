@@ -68,11 +68,11 @@ tasks:
   task_type: development
   title: Extend Vibey Manager with Roadmap Commands
   description: Add roadmap management capabilities to Vibey Manager agent
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348414+00:00'
   started: null
-  completed: null
+  completed: '2025-11-08T19:24:31.591128+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -99,11 +99,11 @@ tasks:
   task_type: development
   title: Add Real-time Progress Visualization
   description: Display progress updates as work happens
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348416+00:00'
   started: null
-  completed: null
+  completed: '2025-11-08T19:24:31.845047+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -130,11 +130,11 @@ tasks:
   task_type: development
   title: Create Integration Tests
   description: Test progress tracking and Vibey Manager roadmap integration
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348417+00:00'
   started: null
-  completed: null
+  completed: '2025-11-08T19:24:32.107356+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -161,11 +161,11 @@ tasks:
   task_type: development
   title: Update Documentation
   description: Document progress tracking and roadmap management workflows
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348419+00:00'
   started: null
-  completed: null
+  completed: '2025-11-08T19:24:32.371894+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

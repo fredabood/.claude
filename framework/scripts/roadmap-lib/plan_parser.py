@@ -78,6 +78,7 @@ class SprintPlanParser:
         features = []
         current_feature = None
         in_features = False
+        current_field = None
 
         for line in self.lines:
             # Section detection
@@ -85,35 +86,48 @@ class SprintPlanParser:
                 in_features = True
                 continue
 
-            if in_features and line.startswith('##') and 'Feature' not in line:
+            # Exit features section if we hit another ## heading
+            if in_features and line.startswith('##') and not line.startswith('###'):
                 break
 
             if in_features:
-                # Feature heading: ### 1. Feature Name
-                match = re.match(r'^###\s*\d*\.?\s*(.+)$', line)
-                if match:
+                # Feature heading: ### 1. Feature Name or ### Feature Name
+                if line.startswith('###'):
+                    # Save previous feature
                     if current_feature:
                         features.append(current_feature)
 
+                    # Extract name (remove ### and optional number)
+                    name = line.replace('###', '').strip()
+                    # Remove leading number like "1. " or "1) "
+                    name = re.sub(r'^\d+[\.\)]\s*', '', name)
+
                     current_feature = {
-                        'name': match.group(1).strip(),
+                        'name': name,
                         'what': '',
                         'why': '',
                         'how': ''
                     }
+                    current_field = None
                     continue
 
                 if current_feature:
                     # Extract What/Why/How
                     if line.startswith('**What:**'):
+                        current_field = 'what'
                         current_feature['what'] = line.replace('**What:**', '').strip()
                     elif line.startswith('**Why:**'):
+                        current_field = 'why'
                         current_feature['why'] = line.replace('**Why:**', '').strip()
                     elif line.startswith('**How:**'):
+                        current_field = 'how'
                         current_feature['how'] = line.replace('**How:**', '').strip()
-                    # Accumulate multi-line content
-                    elif line.strip().startswith('-') and current_feature.get('how'):
-                        current_feature['how'] += '\n' + line.strip()
+                    # Accumulate multi-line content for current field
+                    elif line.strip().startswith('-') and current_field:
+                        if current_feature[current_field]:
+                            current_feature[current_field] += '\n' + line.strip()
+                        else:
+                            current_feature[current_field] = line.strip()
 
         # Add last feature
         if current_feature:

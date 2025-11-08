@@ -14,7 +14,7 @@ sys.path.insert(0, str(framework_root))
 
 from roadmap.models import Roadmap, VersionStrategy
 from roadmap.serialization import load_roadmap, save_roadmap
-from .filesystem import FileSystemManager
+from filesystem import FileSystemManager
 
 
 class VersionManager:

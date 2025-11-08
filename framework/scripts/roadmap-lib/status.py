@@ -18,7 +18,7 @@ from roadmap.models import (
     Status, TaskStatus,
 )
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks, save_sprint
-from .filesystem import FileSystemManager
+from filesystem import FileSystemManager
 
 
 class StatusManager:

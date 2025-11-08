@@ -15,7 +15,7 @@ sys.path.insert(0, str(framework_root))
 
 from roadmap.models import Task, TaskStatus
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
-from .filesystem import FileSystemManager
+from filesystem import FileSystemManager
 
 
 # Agent capabilities mapping

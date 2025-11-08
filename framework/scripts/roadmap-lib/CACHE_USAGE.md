@@ -326,6 +326,91 @@ def handle_show(args):
 
 ---
 
+## Branch-Scoped Versioned Graphs
+
+### Overview
+
+Dependency graphs are versioned on **feature branches only** to enable session continuity across work sessions. The main branch always rebuilds graphs from YAML (source of truth).
+
+**Why?**
+- **Session continuity**: AI assistants can resume work with complete graph context
+- **Audit/reproducibility**: Track exact dependency state when recommendations were made
+- **Main branch cleanliness**: Always rebuild from source of truth, no cache pollution
+
+### How It Works
+
+```
+feature/new-api branch:
+  .vibey/graphs.json          ← Versioned, committed
+
+main branch:
+  .vibey/graphs.json          ← Not allowed (pre-commit hook prevents)
+  .vibey/.cache/              ← Performance cache (gitignored)
+    ├── indexes.json
+    └── mtimes.json
+```
+
+### Usage
+
+**On Feature Branches:**
+```bash
+# graphs.json is automatically saved and versioned
+roadmap list tasks
+
+# Commit includes graphs.json for session continuity
+git commit -am "feat: implement auth"
+
+# On next session (even after git pull), graph context is preserved
+git checkout feature/new-api
+roadmap context backend-3-task-015  # Uses versioned graph immediately
+```
+
+**On Main Branch:**
+```bash
+# graphs.json is never saved
+roadmap list tasks  # Builds graph from scratch
+
+# Pre-commit hook prevents accidental commits
+git add .vibey/graphs.json  # Will be rejected if on main
+git commit  # Hook blocks if graphs.json staged
+```
+
+### File Locations
+
+| File | Location | Versioned? | Purpose |
+|------|----------|------------|---------|
+| `graphs.json` | `.vibey/` | Feature branches only | Session continuity, audit trail |
+| `indexes.json` | `.vibey/.cache/` | No (gitignored) | Performance optimization |
+| `mtimes.json` | `.vibey/.cache/` | No (gitignored) | Cache validation |
+
+### Benefits
+
+1. **Session Continuity**: Resume work with complete dependency context
+2. **Audit Trail**: Know what graph the AI saw when making recommendations
+3. **Reproducibility**: Recreate exact context for evaluation
+4. **Main Branch Integrity**: Always rebuild from YAML source of truth
+
+### Graph Snapshot Format
+
+```json
+{
+  "dependencies": {
+    "task-001": ["task-002", "task-003"],
+    "sprint-001": ["sprint-002"]
+  },
+  "reverse_dependencies": {
+    "task-002": ["task-001"],
+    "task-003": ["task-001"]
+  },
+  "metadata": {
+    "branch": "feature/new-api",
+    "generated_at": 1699358400.0
+  }
+}
+```
+
+---
+
 ## FAQs
 
 **Q: When is cache invalidated?**
@@ -343,6 +428,12 @@ A: Use `cache.check_validity()` to detect, then `cache.invalidate()`.
 **Q: Does cache work for the `init` command?**
 A: No, cache is not initialized for `init` (no roadmap exists yet).
 
+**Q: Why are graphs versioned on feature branches but not main?**
+A: For session continuity on long-running branches while keeping main clean (always rebuilds from source).
+
+**Q: What happens if I accidentally commit graphs.json to main?**
+A: Pre-commit hook prevents this. If it gets through, delete it and re-commit.
+
 ---
 
 ## See Also
@@ -352,3 +443,4 @@ A: No, cache is not initialized for `init` (no roadmap exists yet).
 - `test_roadmap_cache.py` - Unit tests
 - `test_cli_cache_integration.py` - Integration tests
 - `benchmark_cache.py` - Performance benchmarks
+- `.git/hooks/pre-commit` - Hook preventing graphs.json on main

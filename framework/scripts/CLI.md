@@ -536,6 +536,23 @@ roadmap context backend-3-task-015 --max-distance 3
 - Distance 2 (transitive) → Minimal mode
 - Distance 3+ → Skipped
 
+**Dependency Graph Snapshot:**
+Each context load displays a snapshot of the dependency graph at the time of analysis:
+```
+📊 Dependency Graph Snapshot:
+   Direct dependencies: 3
+     - backend-1-task-001
+     - backend-1-task-002
+     - backend-2-task-005
+   Branch: feature/new-api
+   Total objects in graph: 47
+```
+
+This snapshot helps with:
+- **Audit trail**: Know exactly what the AI saw when making recommendations
+- **Reproducibility**: Recreate the exact context for evaluation
+- **Debugging**: Understand why certain dependencies were loaded
+
 **Benefits:** 57-90% reduction in context size while preserving critical information.
 
 #### `roadmap summarize <sprint_id>`
@@ -605,11 +622,36 @@ roadmap prepare --list
 
 **Preparation document includes:**
 - Task overview and goals
+- **Dependency graph snapshot** (for reproducibility and audit)
 - Dependency analysis (what each provides, how to integrate)
 - Key learnings from dependency sprints
 - Critical integration points and interfaces
 - Implementation checklist
 - Questions to resolve before starting
+
+**Dependency Graph Snapshot:**
+The preparation document captures the exact dependency graph state:
+```markdown
+## Dependency Graph Snapshot
+
+**Direct Dependencies:** 5
+  - backend-1-task-001
+  - backend-1-task-002
+  - backend-2-task-005
+  - backend-2-task-007
+  - shared-task-003
+
+**Transitive Dependencies Loaded:** 12
+**Graph Metadata:**
+  - Branch: feature/new-api
+  - Timestamp: 2025-11-07T15:30:00Z
+  - Total dependency objects in graph: 47
+```
+
+This enables:
+- **Later evaluation**: Did the AI follow the actual dependencies?
+- **Reproducibility**: Recreate the exact context that influenced recommendations
+- **Audit trail**: Track what information was available at preparation time
 
 **When to use:** Before starting complex tasks with multiple dependencies or integration requirements.
 
@@ -620,8 +662,32 @@ roadmap prepare --list
 These options work with all commands:
 
 - `--dir PATH` - Root directory (defaults to searching upward for .vibey/)
+- `--no-cache` - Disable caching (for debugging)
+- `--plain` - Plain output with no colors or formatting (for scripting)
 - `--version` - Show version information
 - `--help` - Show help
+
+### Plain Mode (`--plain`)
+
+Use plain mode for machine-readable output or when piping to other tools:
+
+```bash
+# Plain output (no colors, simple formatting)
+roadmap --plain list tracks
+
+# Good for scripting
+roadmap --plain status | grep "in_progress"
+
+# Respects NO_COLOR environment variable
+NO_COLOR=1 roadmap list tasks
+```
+
+**Plain mode features:**
+- No ANSI color codes
+- Simple text-based formatting
+- Status shown as text instead of icons
+- Progress shown as ratios (5/10 instead of progress bars)
+- Tables use simple borders
 
 ## Examples
 
@@ -741,20 +807,50 @@ roadmap deps backend-1 --blockers
 roadmap show backend-1-task-003
 ```
 
-## Status Icons
+## Status Icons and Formatting
 
-The CLI uses emoji icons to show status at a glance:
+The CLI uses colorful formatting and emoji icons for better readability:
 
-- ⚪ **not_started** - Not yet started
-- 🔵 **in_progress** - Currently in progress
-- ⏸️ **paused** - Paused/on hold
-- 🚧 **completion_gate_check** - Checking completion gates
-- ✅ **completed** - Completed
-- 🔍 **production_gate_check** - Checking production gates
-- 🚀 **production_ready** - Ready for production
-- 🌟 **deployed** - Deployed to production
-- ❌ **won't_do** - Won't be done
-- ⚠️ - Blocked indicator
+### Status Indicators
+
+- ⚪ **not_started** - Not yet started (white/gray)
+- 🔵 **in_progress** - Currently in progress (blue)
+- ⏸️ **paused** - Paused/on hold (yellow)
+- 🚧 **completion_gate_check** - Checking completion gates (yellow)
+- ✅ **completed** - Completed (green)
+- 🔍 **production_gate_check** - Checking production gates (cyan)
+- 🚀 **production_ready** - Ready for production (bright green)
+- 🌟 **deployed** - Deployed to production (bright green)
+- ❌ **won't_do** - Won't be done (red)
+- ⚠️ **BLOCKED** - Blocked indicator (red warning)
+
+### Progress Bars
+
+Progress bars use color-coded indicators:
+- 🟢 Green: 75-100% complete
+- 🟡 Yellow: 50-74% complete
+- 🔴 Red: 0-49% complete
+
+Example output:
+```
+████████████████████░░░░░░░░ 65% (13/20)
+```
+
+### Table Formatting
+
+List commands display data in formatted tables with:
+- Unicode box-drawing characters for borders
+- Aligned columns with padding
+- Dimmed IDs for reduced visual noise
+- Color-coded status and warnings
+
+Example:
+```
+Status      │ Track Name                  │ ID             │ Sprints │ Completion │ Progress
+────────────┼─────────────────────────────┼────────────────┼─────────┼────────────┼─────────
+🔵 in_progress │ Core Framework Enhancements │ core-framework │ 0/3     │ 0%         │ ░░░░░░░░ 0%
+✅ completed   │ Roadmap System              │ roadmap-system │ 6/6     │ 100%       │ ████████ 100%
+```
 
 ## JSON Output
 

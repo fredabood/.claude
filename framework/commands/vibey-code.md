@@ -9,16 +9,19 @@
 ### Step 1: Check for Active Sprint
 
 ```bash
-# Read current sprint status from CLAUDE.md
+# Read current sprint ID from CLAUDE.md
+# Format: <!-- CURRENT_SPRINT: sprint-1 -->
 if [ -f ".claude/CLAUDE.md" ]; then
-  SPRINT_ACTIVE=$(grep -A 1 "current_sprint:" .claude/CLAUDE.md | grep "active:" | awk '{print $2}')
+  SPRINT_ID=$(grep "<!-- CURRENT_SPRINT:" .claude/CLAUDE.md | sed 's/.*CURRENT_SPRINT: \([^ ]*\) .*/\1/')
 
-  if [ "$SPRINT_ACTIVE" = "true" ]; then
-    SPRINT_NUMBER=$(grep -A 2 "current_sprint:" .claude/CLAUDE.md | grep "number:" | awk '{print $2}')
-    SPRINT_NAME=$(grep -A 3 "current_sprint:" .claude/CLAUDE.md | grep "name:" | sed 's/.*name: //' | tr -d '"')
-    CURRENT_PHASE=$(grep -A 5 "current_sprint:" .claude/CLAUDE.md | grep "phase:" | sed 's/.*phase: //' | tr -d '"')
-    SPRINT_PLAN=$(grep -A 6 "current_sprint:" .claude/CLAUDE.md | grep "plan_file:" | awk '{print $2}' | tr -d '"')
-    SPRINT_STATE=$(grep -A 7 "current_sprint:" .claude/CLAUDE.md | grep "state_file:" | awk '{print $2}' | tr -d '"')
+  if [ -n "$SPRINT_ID" ]; then
+    # Sprint ID found - verify it exists in roadmap
+    if python3 .claude/scripts/roadmap show "$SPRINT_ID" --json >/dev/null 2>&1; then
+      echo "✓ Active sprint: $SPRINT_ID"
+    else
+      echo "⚠️  Sprint $SPRINT_ID not found in roadmap"
+      SPRINT_ID=""
+    fi
   fi
 fi
 ```
@@ -53,29 +56,22 @@ You don't have an active sprint. Would you like to:
 ### Step 2: Display Sprint Dashboard
 
 ```bash
-# Query sprint state for dashboard data
-DASHBOARD_DATA=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  dashboard --format json)
+# Query roadmap for sprint data
+SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json)
 
 # Extract key metrics
-SPRINT_STATUS=$(echo "$DASHBOARD_DATA" | python3 -c "import sys, json; print(json.load(sys.stdin)['sprint']['status'])")
-START_DATE=$(echo "$DASHBOARD_DATA" | python3 -c "import sys, json; print(json.load(sys.stdin)['sprint']['started'] or 'Not started')")
+SPRINT_NAME=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('name', 'Unknown'))")
+SPRINT_STATUS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('status', 'unknown'))")
+START_DATE=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('started', 'Not started'))")
+PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(f\"{p.get('tasks_completed', 0)}/{p.get('tasks_total', 0)}\")")
 
-# Get current phase details
-CURRENT_PHASE_DATA=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  current-phase)
+# Get tasks for this sprint
+TASKS_DATA=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "import sys, json; tasks=[t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID']; print(json.dumps(tasks))")
 
-# Get phase list
-PHASE_LIST=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  list-phases)
-
-# Get recent activity
-RECENT_ACTIVITY=$(python3 .claude/scripts/query-sprint-state.py \
-  --state "$SPRINT_STATE" \
-  recent-activity --limit 5)
+# Count task statuses
+TASKS_IN_PROGRESS=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'in_progress']))")
+TASKS_COMPLETED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'completed']))")
+TASKS_BLOCKED=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('blocked') == True]))")
 ```
 
 ```markdown

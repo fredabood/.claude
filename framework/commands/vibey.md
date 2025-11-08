@@ -24,12 +24,12 @@ if [ -f ".claude/project-config.yaml" ] && [ -f ".claude/CLAUDE.md" ] && grep -q
 else
   FRAMEWORK_STATE="new"
 
-  # Check for Vibey marker file (single source of truth)
-  if [ -f ".claude/.vibey-initialized" ]; then
+  # Check for .vibey/ directory (marker for Vibey deployment)
+  if [ -d ".vibey" ]; then
     # Vibey has been deployed before (at least partially)
     FIRST_SESSION=false
   else
-    # No marker file - truly first time using Vibey
+    # No .vibey/ directory - truly first time using Vibey
     FIRST_SESSION=true
   fi
 fi
@@ -37,14 +37,15 @@ fi
 
 **Detection Logic:**
 - **FRAMEWORK_STATE="initialized"** → All Vibey files present and configured
-- **FRAMEWORK_STATE="new" + FIRST_SESSION=true** → No `.vibey-initialized` marker (show welcome intro)
-- **FRAMEWORK_STATE="new" + FIRST_SESSION=false** → Marker exists but not fully configured (show brief setup message)
+- **FRAMEWORK_STATE="new" + FIRST_SESSION=true** → No `.vibey/` directory (show welcome intro)
+- **FRAMEWORK_STATE="new" + FIRST_SESSION=false** → `.vibey/` exists but not fully configured (show brief setup message)
 
 **Two Vibey Markers Working Together:**
 
-1. **`.claude/.vibey-initialized`** (Deployment marker)
-   - Created: During framework deployment (Section 5A)
-   - Purpose: Indicates Vibey framework files have been deployed
+1. **`.vibey/` directory** (Deployment marker)
+   - Created: During framework deployment (roadmap initialization)
+   - Purpose: Indicates Vibey framework is deployed (persistent state directory)
+   - Contains: roadmap.yaml, ai-reference.md, tracks/, sprints/, tasks/
    - Used for: First session detection
    - Committed: Yes (tells team Vibey is configured)
 
@@ -56,7 +57,7 @@ fi
    - Location: First line of `.claude/CLAUDE.md`
 
 **Why two markers?**
-- `.vibey-initialized` = "Vibey files deployed" (tracks deployment)
+- `.vibey/` directory = "Vibey framework deployed" (tracks deployment + persistent state)
 - `VIBEY_FRAMEWORK_MANAGED` = "CLAUDE.md is Vibey-managed" (tracks configuration)
 - Both needed to confirm full initialization
 
@@ -69,7 +70,7 @@ Step 1: Check for FULL initialization
     → FRAMEWORK_STATE="initialized" + FIRST_SESSION=false
 
 Step 2: Check for PARTIAL deployment
-└─ .claude/.vibey-initialized exists?
+└─ .vibey/ directory exists?
     ├─ YES → FRAMEWORK_STATE="new" + FIRST_SESSION=false (resume setup)
     └─ NO  → FRAMEWORK_STATE="new" + FIRST_SESSION=true (show welcome)
 
@@ -83,28 +84,29 @@ After detecting framework state, validate that markers and files are consistent:
 ```bash
 # Validate Vibey state consistency
 validate_vibey_state() {
-  local has_marker=$([ -f ".claude/.vibey-initialized" ] && echo "true" || echo "false")
+  local has_vibey=$([ -d ".vibey" ] && echo "true" || echo "false")
   local has_agents=$([ -d ".claude/agents" ] && echo "true" || echo "false")
   local has_workflows=$([ -d ".claude/workflows" ] && echo "true" || echo "false")
   local has_config=$([ -f ".claude/project-config.yaml" ] && echo "true" || echo "false")
+  local has_roadmap=$([ -f ".vibey/roadmap.yaml" ] && echo "true" || echo "false")
 
-  # Case 1: Marker exists but framework files missing
-  if [ "$has_marker" = "true" ] && [ "$has_agents" = "false" ]; then
+  # Case 1: .vibey/ exists but framework files missing
+  if [ "$has_vibey" = "true" ] && [ "$has_agents" = "false" ]; then
     echo "⚠️ Inconsistent state detected!"
     echo ""
-    echo "The .vibey-initialized marker exists, but framework files are missing."
+    echo "The .vibey/ directory exists, but framework files are missing."
     echo "This usually happens if .claude/ was partially deleted."
     echo ""
     echo "Options:"
-    echo "  1. Delete marker and start fresh (recommended)"
-    echo "  2. Re-deploy framework files (keeps marker)"
+    echo "  1. Delete .vibey/ and start fresh (recommended)"
+    echo "  2. Re-deploy framework files (keeps .vibey/)"
     echo "  3. Cancel"
     echo ""
 ```
 
 **Ask the user which option they'd like:**
-"I found an inconsistent state - the marker exists but framework files are missing. What would you like to do?"
-- Option 1: Delete marker and start fresh (recommended)
+"I found an inconsistent state - .vibey/ exists but framework files are missing. What would you like to do?"
+- Option 1: Delete .vibey/ and start fresh (recommended)
 - Option 2: Re-deploy framework files
 - Option 3: Cancel
 
@@ -112,8 +114,8 @@ Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
 
 ```bash
     if [ "$fix_choice" = "1" ]; then
-      rm .claude/.vibey-initialized
-      echo "✓ Marker removed. Please run /vibey again to start fresh."
+      rm -rf .vibey/
+      echo "✓ .vibey/ removed. Please run /vibey again to start fresh."
       exit 0
     elif [ "$fix_choice" = "2" ]; then
       echo "Continuing with framework deployment..."
@@ -124,23 +126,23 @@ Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
     fi
   fi
 
-  # Case 2: Framework files exist but marker missing
-  if [ "$has_marker" = "false" ] && [ "$has_agents" = "true" ]; then
+  # Case 2: Framework files exist but .vibey/ missing
+  if [ "$has_vibey" = "false" ] && [ "$has_agents" = "true" ]; then
     echo "⚠️ Inconsistent state detected!"
     echo ""
-    echo "Framework files exist but .vibey-initialized marker is missing."
-    echo "This usually happens if the marker was accidentally deleted."
+    echo "Framework files exist but .vibey/ directory is missing."
+    echo "This usually happens if .vibey/ was accidentally deleted."
     echo ""
     echo "Options:"
-    echo "  1. Restore marker (recommended - preserves your setup)"
+    echo "  1. Re-initialize .vibey/ (recommended - preserves framework)"
     echo "  2. Delete all Vibey files and start fresh"
     echo "  3. Cancel"
     echo ""
 ```
 
 **Ask the user which option they'd like:**
-"Framework files exist but the marker is missing. What would you like to do?"
-- Option 1: Restore marker (recommended - preserves your setup)
+"Framework files exist but .vibey/ directory is missing. What would you like to do?"
+- Option 1: Re-initialize .vibey/ (recommended)
 - Option 2: Delete all and start fresh
 - Option 3: Cancel
 
@@ -148,10 +150,9 @@ Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
 
 ```bash
     if [ "$fix_choice" = "1" ]; then
-      touch .claude/.vibey-initialized
-      echo "Restored: $(date)" > .claude/.vibey-initialized
-      echo "Version: 2.0" >> .claude/.vibey-initialized
-      echo "✓ Marker restored"
+      # Re-initialize .vibey/ directory
+      # Roadmap init will be called during next deployment step
+      echo "Continuing to re-initialize .vibey/..."
       # Update state variables
       FIRST_SESSION=false
       return 0
@@ -159,7 +160,7 @@ Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
       rm -rf .claude/agents .claude/workflows .claude/templates .claude/commands .claude/scripts .claude/docs .claude/config
       [ -f ".claude/project-config.yaml" ] && rm .claude/project-config.yaml
       [ -f ".claude/CLAUDE.md" ] && rm .claude/CLAUDE.md
-      echo "✓ Vibey files removed. Please run /vibey again to start fresh."
+      echo "✓ All Vibey files removed. Please run /vibey again to start fresh."
       exit 0
     else
       echo "Cancelled"
@@ -167,27 +168,67 @@ Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
     fi
   fi
 
-  # Case 3: Config exists but marker missing
-  if [ "$has_marker" = "false" ] && [ "$has_config" = "true" ]; then
-    echo "⚠️ Found project-config.yaml but no Vibey marker."
+  # Case 3: Config exists but .vibey/ missing
+  if [ "$has_vibey" = "false" ] && [ "$has_config" = "true" ]; then
+    echo "⚠️ Found project-config.yaml but no .vibey/ directory."
     echo ""
     echo "This might be an older Vibey installation."
 ```
 
 **Ask the user:**
-"I found a project config but no Vibey marker. This might be an older installation. Would you like me to restore the marker?"
+"I found a project config but no .vibey/ directory. This might be an older installation. Would you like me to initialize .vibey/?"
 
 Parse their response. If they say yes/okay/sure (default to yes), set `restore_choice=""`. If they say no, set `restore_choice="n"`.
 
 ```bash
     if [ "$restore_choice" != "n" ]; then
-      touch .claude/.vibey-initialized
-      echo "Restored: $(date)" > .claude/.vibey-initialized
-      echo "Version: 2.0" >> .claude/.vibey-initialized
-      echo "✓ Marker restored"
+      # Re-initialize will happen in deployment steps
+      echo "Continuing to initialize .vibey/..."
       FIRST_SESSION=false
     fi
   fi
+
+  # Case 4: .vibey/ exists but roadmap missing
+  if [ "$has_vibey" = "true" ] && [ "$has_roadmap" = "false" ]; then
+    echo "⚠️ Inconsistent state detected!"
+    echo ""
+    echo "The .vibey/ directory exists, but .vibey/roadmap.yaml is missing."
+    echo "This usually happens if .vibey/roadmap.yaml was deleted or deployment was interrupted."
+    echo ""
+    echo "Options:"
+    echo "  1. Re-initialize roadmap (recommended - preserves framework)"
+    echo "  2. Start fresh (deletes all Vibey files)"
+    echo "  3. Cancel"
+    echo ""
+```
+
+**Ask the user which option they'd like:**
+".vibey/ exists but roadmap is missing. What would you like to do?"
+- Option 1: Re-initialize roadmap (recommended)
+- Option 2: Start fresh
+- Option 3: Cancel
+
+Parse their response and set `fix_choice` to "1", "2", or "3" accordingly.
+
+```bash
+    if [ "$fix_choice" = "1" ]; then
+      echo "Re-initializing roadmap system..."
+      # Note: Roadmap init will be called during deployment
+      # Just continue with deployment process
+      return 0
+    elif [ "$fix_choice" = "2" ]; then
+      rm -rf .vibey/
+      rm -rf .claude/agents .claude/workflows .claude/templates .claude/commands .claude/scripts .claude/docs .claude/config
+      [ -f ".claude/project-config.yaml" ] && rm .claude/project-config.yaml
+      [ -f ".claude/CLAUDE.md" ] && rm .claude/CLAUDE.md
+      echo "✓ All Vibey files removed. Please run /vibey again to start fresh."
+      exit 0
+    else
+      echo "Cancelled"
+      exit 1
+    fi
+  fi
+
 }
 
 # Run validation
@@ -948,7 +989,7 @@ if [ -d ".claude" ]; then
     echo ""
     echo "⚠️ SAFETY CHECK: Vibey framework files already exist!"
     echo ""
-    echo "It looks like Vibey was previously deployed but the .vibey-initialized marker is missing."
+    echo "It looks like Vibey was previously deployed but the .vibey/ directory is missing."
     echo "Re-deploying could overwrite any customizations you've made."
     echo ""
     echo "Options:"
@@ -971,10 +1012,14 @@ Parse their response and set `safety_choice` to "1", "2", "3", or "4" accordingl
 ```bash
     if [ "$safety_choice" = "1" ]; then
       # Just recreate marker
-      touch .claude/.vibey-initialized
-      echo "Restored: $(date)" > .claude/.vibey-initialized
-      echo "Version: 2.0" >> .claude/.vibey-initialized
-      echo "✓ Marker restored. Existing files preserved."
+      mkdir -p .vibey
+      python3 .claude/scripts/render-template.py \
+        -c .claude/project-config.yaml \
+        -t .claude/templates/ai-reference.md.template \
+        -o .vibey/ai-reference.md \
+        -v "framework_version=2.0" \
+        -v "deployment_date=$(date)"
+      echo "✓ Marker restored (.vibey/ai-reference.md). Existing files preserved."
       return 0  # Skip deployment
     elif [ "$safety_choice" = "2" ]; then
       # Backup before deploying
@@ -1073,13 +1118,8 @@ cp -r $FRAMEWORK_SOURCE/scripts .claude/
 cp -r $FRAMEWORK_SOURCE/docs .claude/
 
 # Create Vibey marker file (indicates Vibey has been deployed)
-# This file helps detect first-time vs returning sessions
-touch .claude/.vibey-initialized
-echo "Deployed: $(date)" > .claude/.vibey-initialized
-echo "Version: 2.0" >> .claude/.vibey-initialized
-
-# Note: .vibey-initialized should be committed to git so team members
-# know Vibey is configured for this project
+# This file helps AI assistants and detects first-time vs returning sessions
+# Note: We'll create this AFTER project config is generated (see below)
 
 # Verify deployment
 if [ -d ".claude/agents" ] && [ -d ".claude/workflows" ] && [ -d ".claude/templates" ]; then
@@ -1096,20 +1136,55 @@ fi
 echo ""
 echo "📊 Initializing roadmap system..."
 
-# Initialize roadmap with project defaults
-python3 .claude/scripts/roadmap init \
-  --name "${PROJECT_NAME}" \
-  --version "0.1.0" \
-  --bump-on sprint_completion \
-  --bump-type patch
-
+# Check if roadmap already exists
 if [ -f ".vibey/roadmap.yaml" ]; then
-  echo "✓ Roadmap initialized (.vibey/)"
+  echo "✓ Roadmap already exists (.vibey/)"
   echo "  - Roadmap: .vibey/roadmap.yaml"
-  echo "  - Track: main"
-  echo "  - Ready for sprint planning"
+  echo "  - Preserving existing tracks, sprints, and tasks"
+  echo "  - Skipping initialization"
 else
-  echo "❌ Roadmap initialization failed"
+  # Initialize roadmap with project defaults
+  python3 .claude/scripts/roadmap init \
+    --name "${PROJECT_NAME}" \
+    --version "0.1.0" \
+    --bump-on sprint_completion \
+    --bump-type patch
+
+  if [ -f ".vibey/roadmap.yaml" ]; then
+    echo "✓ Roadmap initialized (.vibey/)"
+    echo "  - Roadmap: .vibey/roadmap.yaml"
+    echo "  - Track: main"
+    echo "  - Ready for sprint planning"
+  else
+    echo "❌ Roadmap initialization failed"
+    exit 1
+  fi
+fi
+```
+
+5a. **Create AI Reference Marker**
+
+After roadmap initialization, create the AI reference file that serves as the framework marker:
+
+```bash
+echo ""
+echo "📝 Creating AI reference file..."
+
+# Render ai-reference.md from template
+python3 .claude/scripts/render-template.py \
+  -c .claude/project-config.yaml \
+  -t .claude/templates/ai-reference.md.template \
+  -o .vibey/ai-reference.md \
+  -v "framework_version=2.0" \
+  -v "deployment_date=$(date)"
+
+if [ -f ".vibey/ai-reference.md" ]; then
+  echo "✓ AI reference created (.vibey/ai-reference.md)"
+  echo "  - Framework metadata for AI assistants"
+  echo "  - Quick reference and command guide"
+  echo "  - Should be committed to git"
+else
+  echo "❌ AI reference creation failed"
   exit 1
 fi
 ```

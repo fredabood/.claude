@@ -168,9 +168,13 @@ cp -r framework/scripts .claude/
 cp -r framework/docs .claude/
 
 # Create marker
-touch .claude/.vibey-initialized
-echo "Deployed: $(date)" > .claude/.vibey-initialized
-echo "Version: 1.2.0" >> .claude/.vibey-initialized
+mkdir -p .vibey
+python3 .claude/scripts/render-template.py \
+  -c .claude/project-config.yaml \
+  -t .claude/templates/ai-reference.md.template \
+  -o .vibey/ai-reference.md \
+  -v "framework_version=1.2.0" \
+  -v "deployment_date=$(date)"
 ```
 
 ---
@@ -508,7 +512,7 @@ Choose Option 5: Framework health check
 python3 .claude/scripts/check-version.py
 
 # Check files
-ls -la .claude/.vibey-initialized
+ls -la .vibey/ai-reference.md
 ls -la .claude/CLAUDE.md
 ls -la .claude/project-config.yaml
 
@@ -539,7 +543,12 @@ cd /path/to/your/project
 cp -r /path/to/vibey/framework/* .claude/
 
 # 3. Update marker
-echo "Version: 1.2.0" > .claude/.vibey-initialized
+python3 .claude/scripts/render-template.py \
+  -c .claude/project-config.yaml \
+  -t .claude/templates/ai-reference.md.template \
+  -o .vibey/ai-reference.md \
+  -v "framework_version=1.2.0" \
+  -v "deployment_date=$(date)"
 ```
 
 ---
@@ -601,14 +610,18 @@ python3 .claude/scripts/render-template.py \
 
 ### "Framework version unknown"
 
-**Meaning:** .vibey-initialized marker missing or invalid.
+**Meaning:** .vibey/ai-reference.md marker missing or invalid.
 
 **Solution:**
 ```bash
 # Recreate marker
-touch .claude/.vibey-initialized
-echo "Deployed: $(date)" > .claude/.vibey-initialized
-echo "Version: 1.2.0" >> .claude/.vibey-initialized
+mkdir -p .vibey
+python3 .claude/scripts/render-template.py \
+  -c .claude/project-config.yaml \
+  -t .claude/templates/ai-reference.md.template \
+  -o .vibey/ai-reference.md \
+  -v "framework_version=1.2.0" \
+  -v "deployment_date=$(date)"
 ```
 
 ---
@@ -634,8 +647,8 @@ python3 -c "import yaml; print('PyYAML:', yaml.__version__)"
 python3 -c "import jinja2; print('Jinja2:', jinja2.__version__)"
 
 # 5. Framework state
-ls -la .claude/.vibey-initialized
-cat .claude/.vibey-initialized
+ls -la .vibey/ai-reference.md
+cat .vibey/ai-reference.md
 
 # 6. Error messages (copy exact text)
 ```

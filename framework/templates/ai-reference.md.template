@@ -1,0 +1,115 @@
+# Vibey Framework - AI Reference
+
+**Framework Version:** {{ framework_version }}
+**Deployed:** {{ deployment_date }}
+**Project:** {{ project_name }}
+
+---
+
+## Quick Reference for AI Assistants
+
+This file serves as a reference point for AI coding assistants working with this Vibey-managed project. It contains essential framework metadata and quick links to key resources.
+
+### Framework Status
+
+- ✅ **Vibey Framework Deployed** (v{{ framework_version }})
+- 📁 **Framework Location:** `.claude/` directory
+- 📊 **Roadmap System:** `.vibey/roadmap.yaml`
+- 📋 **Project Config:** `.claude/project-config.yaml`
+- 📄 **Project Context:** `.claude/CLAUDE.md`
+
+### Session Startup Checklist
+
+Every session working on this project, AI assistants should:
+
+1. ✅ Read `.claude/CLAUDE.md` - Main project context (auto-loaded by Claude Code)
+2. 📊 Check `.vibey/roadmap.yaml` - Current sprint/task status
+3. 🔍 Run `git status` - Understand current repository state
+4. 📚 Review recent commits - Context on recent changes
+5. 🎯 Check active sprint - Use `python3 .claude/scripts/roadmap status`
+
+### Framework Configuration
+
+**Orchestration Mode:** {{ orchestration_mode | default('balanced') }}
+**Project Type:** {{ project_type | default('unknown') }}
+**Quality Gates Enabled:** {{ quality_gates_enabled | default('Yes') }}
+
+### Key Commands
+
+**Roadmap Management:**
+```bash
+# View roadmap status
+python3 .claude/scripts/roadmap status
+
+# Show sprint details
+python3 .claude/scripts/roadmap show <sprint-id>
+
+# List tasks
+python3 .claude/scripts/roadmap list tasks
+
+# Complete a task
+python3 .claude/scripts/roadmap complete <task-id>
+```
+
+**Framework Management:**
+```bash
+# Use the /vibey command for:
+# - Sprint planning (/vibey plan)
+# - Sprint execution (/vibey code)
+# - Framework management (/vibey manage)
+```
+
+### Directory Structure
+
+```
+.claude/                    # Framework installation
+├── agents/                 # 12 specialized agents
+├── workflows/             # 16 structured workflows
+├── templates/             # 22 handoff templates
+├── scripts/               # Python utilities + roadmap CLI
+├── config/                # Configuration schema
+├── docs/                  # Framework documentation
+├── commands/              # Slash commands
+├── project-config.yaml    # Project configuration
+└── CLAUDE.md              # Project context (auto-loaded)
+
+.vibey/                     # Roadmap system (persistent)
+├── roadmap.yaml           # Roadmap definition
+├── tracks/                # Track state files
+├── sprints/               # Sprint state files
+└── tasks/                 # Task state files
+```
+
+### Important Notes
+
+**For AI Assistants:**
+- This project uses the Vibey Agent Framework for structured development
+- Follow the orchestration mode specified above when selecting approaches
+- Always check roadmap status before starting work
+- Use quality gates before marking tasks complete
+- Reference `.claude/CLAUDE.md` for full project context
+
+**Framework Persistence:**
+- The `.vibey/` directory is persistent and committed to git
+- Never delete `.vibey/` - it contains critical roadmap state
+- The `.claude/` directory contains framework files (may be updated)
+- This `ai-reference.md` file indicates framework is deployed
+
+### Getting Help
+
+**Framework Documentation:** `.claude/docs/`
+- Quick Start: `.claude/docs/getting-started/QUICK_START.md`
+- User Journey: `.claude/docs/getting-started/USER_JOURNEY.md`
+- Troubleshooting: `.claude/docs/TROUBLESHOOTING.md`
+- Commands Reference: `.claude/docs/reference/COMMANDS.md`
+
+**Ask Claude:**
+Claude can explain any component of the framework. Just ask:
+- "Explain the [agent-name] agent"
+- "What workflows are available for [task-type]?"
+- "How do I use quality gates?"
+
+---
+
+**Last Updated:** {{ deployment_date }}
+**Framework Repository:** https://github.com/yourusername/vibey (if applicable)

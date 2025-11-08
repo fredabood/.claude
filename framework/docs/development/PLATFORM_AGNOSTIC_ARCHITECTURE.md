@@ -21,14 +21,14 @@ This document defines Vibey's platform-agnostic architecture where `.vibey/` ser
 
 **1. Platform Coupling**
 - Framework deployed to `.claude/` (Claude Code specific)
-- `.vibey/` deleted after initialization
-- Roadmap system needs `.vibey/` but it gets deleted
-- No clear path for Goose, Cursor support
+- `.vibey/` now persists (as of v2.0) but was historically temporary
+- Roadmap system integration complete (Sprint 2, roadmap-integration track)
+- Goose and Cursor ports still need architecture work
 
-**2. State Management Conflict**
-- Roadmap state lives in `.vibey/`
-- But `.vibey/` is temporary
-- Unclear where multi-platform state should live
+**2. State Management Resolution** ✅ RESOLVED
+- Roadmap state lives in `.vibey/` (persistent)
+- `.vibey/` committed to git (never deleted)
+- Multi-platform state location now clear: `.vibey/roadmap.yaml`
 
 **3. Docs vs Configs Tension**
 - Original vision: "Docs-driven" (move away from configs)
@@ -1248,9 +1248,10 @@ def get_summary(sprint_id: str) -> str:
 - Knowledge compounds over time
 
 ### 4. Roadmap State Permanence
-- `.vibey/roadmap/` never deleted
-- Survives platform changes
+- `.vibey/` directory persists (never deleted as of v2.0)
+- Survives platform changes and re-deployments
 - Single source of truth for status/progress
+- Committed to git for team collaboration
 
 ### 5. Clean Separation of Concerns
 ```

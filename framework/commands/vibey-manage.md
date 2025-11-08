@@ -288,12 +288,12 @@ health_check_vibey_framework() {
   # 2. Check framework files
   echo "2. Checking framework files..."
 
-  # Check marker file
-  if [ ! -f ".claude/.vibey-initialized" ]; then
-    echo "   ❌ Missing .vibey-initialized marker"
+  # Check .vibey/ directory (deployment marker)
+  if [ ! -d ".vibey" ]; then
+    echo "   ❌ Missing .vibey/ directory"
     issues=$((issues + 1))
   else
-    echo "   ✓ Vibey marker present"
+    echo "   ✓ Vibey directory present (.vibey/)"
   fi
 
   # Check CLAUDE.md marker
@@ -437,7 +437,7 @@ health_check_vibey_framework() {
     echo "   $issues critical issue(s), $warnings warning(s)"
     echo ""
     echo "RECOMMENDED ACTIONS:"
-    if [ ! -f ".claude/.vibey-initialized" ]; then
+    if [ ! -d ".vibey" ]; then
       echo "  • Run /vibey to initialize framework"
     fi
     if python3 -c "import yaml" 2>/dev/null; then

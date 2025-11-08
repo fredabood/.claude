@@ -38,7 +38,7 @@ Shows welcome and 5 main options:
 Shows brief welcome and same 4 options.
 
 **How Detection Works:**
-- Checks for `.claude/.vibey-initialized` marker
+- Checks for `.vibey/ai-reference.md` marker
 - Checks for `.claude/CLAUDE.md` with Vibey marker
 - Checks for `.claude/project-config.yaml`
 - If all present: Management Mode
@@ -508,7 +508,7 @@ python3 .claude/scripts/render-template.py \
 
 Vibey doesn't currently use environment variables, but configuration is managed through:
 - `.claude/project-config.yaml` - Project configuration
-- `.claude/.vibey-initialized` - Framework marker
+- `.vibey/ai-reference.md` - Framework marker
 - `.claude/CLAUDE.md` - Generated context file
 
 ---

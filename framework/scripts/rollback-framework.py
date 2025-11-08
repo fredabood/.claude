@@ -76,15 +76,9 @@ def list_backups() -> int:
             size = sum(f.stat().st_size for f in backup_path.rglob('*') if f.is_file())
             size_mb = size / (1024 * 1024)
 
-            # Read version from backup marker if available
-            marker = backup_path / '.vibey-initialized'
+            # Note: Marker is now .vibey/ai-reference.md (outside .claude/ backup)
+            # Backups don't include the marker anymore
             version = "unknown"
-            if marker.exists():
-                with open(marker, 'r') as f:
-                    for line in f:
-                        if line.startswith("Version:"):
-                            version = line.split(":", 1)[1].strip()
-                            break
 
             print(f"{i}. {backup_path.name}")
             print(f"   Created: {timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
@@ -175,25 +169,15 @@ def rollback(backup_path: Path, dry_run: bool = False) -> int:
         print(f"Restoring from: {backup_path}")
         shutil.copytree(backup_path, claude_dir)
 
-        # Step 3: Update marker
-        marker = claude_dir / '.vibey-initialized'
-        if marker.exists():
-            # Append rollback info
-            with open(marker, 'a') as f:
-                f.write(f"Rolled back: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-
+        # Step 3: Note about marker
+        # Marker (.vibey/ai-reference.md) is outside .claude/ so not affected by rollback
         print()
         print("✅ Rollback complete!")
         print()
         print(f"Restored from backup: {backup_path.name}")
-
-        # Show version info
-        if marker.exists():
-            with open(marker, 'r') as f:
-                for line in f:
-                    if line.startswith("Version:"):
-                        print(f"Framework version: {line.split(':', 1)[1].strip()}")
-                        break
+        print()
+        print("⚠️  Note: Framework marker (.vibey/ai-reference.md) was not affected by rollback")
+        print("   If you need to update it, run /vibey")
 
         print()
         print("Safety backup saved to: .claude-rollback-backup/")

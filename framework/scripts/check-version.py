@@ -21,7 +21,7 @@ VERSION_DATE = "2024-11-05"
 
 def read_deployed_version(marker_file: Path) -> Optional[Tuple[str, str]]:
     """
-    Read version from deployed .vibey-initialized marker file.
+    Read version from deployed .vibey/ai-reference.md marker file.
 
     Returns:
         Tuple of (version, deployed_date) or None if not found
@@ -31,17 +31,20 @@ def read_deployed_version(marker_file: Path) -> Optional[Tuple[str, str]]:
 
     try:
         with open(marker_file, 'r') as f:
-            lines = f.readlines()
+            content = f.read()
+            lines = content.splitlines()
 
         version = None
         deployed_date = None
 
         for line in lines:
             line = line.strip()
-            if line.startswith("Version:"):
-                version = line.split(":", 1)[1].strip()
-            elif line.startswith("Deployed:"):
-                deployed_date = line.split(":", 1)[1].strip()
+            # Format: **Framework Version:** 2.0
+            if line.startswith("**Framework Version:**"):
+                version = line.split("**Framework Version:**")[1].strip()
+            # Format: **Deployed:** ...
+            elif line.startswith("**Deployed:**"):
+                deployed_date = line.split("**Deployed:**")[1].strip()
 
         return (version, deployed_date) if version else None
     except Exception as e:
@@ -106,7 +109,7 @@ To upgrade:
 Or manually:
 1. git pull (in framework repository)
 2. Re-deploy: cp -r framework/* .claude/
-3. Update marker: echo "Version: {available_version}" > .claude/.vibey-initialized
+3. Regenerate marker: Run /vibey to update .vibey/ai-reference.md
 
 Changes in {available_version}:
 - 100% Claude Code compatibility (all bash prompts replaced)
@@ -166,8 +169,8 @@ def main():
     parser.add_argument(
         '--deployed-marker',
         type=Path,
-        default=Path('.claude/.vibey-initialized'),
-        help='Path to deployed .vibey-initialized marker file (default: .claude/.vibey-initialized)'
+        default=None,  # Will auto-detect
+        help='Path to marker file (default: .vibey/ai-reference.md)'
     )
     parser.add_argument(
         '--verbose', '-v',
@@ -190,6 +193,24 @@ def main():
     if args.version:
         print(f"Vibey Framework v{FRAMEWORK_VERSION} ({VERSION_DATE})")
         return 0
+
+    # Auto-detect marker file if not specified
+    if args.deployed_marker is None:
+        args.deployed_marker = Path('.vibey/ai-reference.md')
+
+    # Check if .vibey/ directory exists first
+    vibey_dir = Path('.vibey')
+    if not vibey_dir.exists():
+        print("❌ No .vibey/ directory found")
+        print("   Vibey may not be deployed. Run /vibey to initialize.")
+        return 1
+
+    if not args.deployed_marker.exists():
+        print("⚠️  .vibey/ exists but ai-reference.md is missing")
+        print(f"   Expected: {args.deployed_marker}")
+        print()
+        print("   Run /vibey to regenerate the AI reference file.")
+        return 1
 
     # Check version
     if args.quiet:

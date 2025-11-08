@@ -497,6 +497,124 @@ roadmap agents
 - **observability-engineer** - Logging, monitoring, tracing
 - **coordinator** - Project coordination, orchestration
 
+#### `roadmap context <task_id>`
+
+Load and analyze context for a task with hierarchical dependency loading.
+
+**Usage:**
+```bash
+roadmap context <task_id> [--mode MODE] [--show-full] [--max-distance N]
+```
+
+**Options:**
+- `--mode MODE` - Force specific context mode for all dependencies (minimal/summary/full)
+- `--show-full` - Display full context details
+- `--max-distance N` - Maximum dependency distance to load (default: 2)
+
+**Examples:**
+```bash
+# Load hierarchical context for task
+roadmap context backend-3-task-015
+
+# Override mode for all dependencies
+roadmap context backend-3-task-015 --mode summary
+
+# Display full context details
+roadmap context backend-3-task-015 --show-full
+
+# Load deeper dependencies
+roadmap context backend-3-task-015 --max-distance 3
+```
+
+**Context Modes:**
+- **Minimal** (~100 tokens) - Outputs only, for far dependencies (distance 2+)
+- **Summary** (~700 tokens) - Sprint & task summaries, for direct dependencies (distance 1)
+- **Full** (~5,700 tokens) - All documentation, for current sprint
+
+**Hierarchical Loading:**
+- Distance 1 (direct deps) → Summary mode
+- Distance 2 (transitive) → Minimal mode
+- Distance 3+ → Skipped
+
+**Benefits:** 57-90% reduction in context size while preserving critical information.
+
+#### `roadmap summarize <sprint_id>`
+
+Generate dependency and task summaries for completed sprints.
+
+**Usage:**
+```bash
+roadmap summarize <sprint_id> [--task TASK_ID] [--all --completed] [--force]
+```
+
+**Options:**
+- `--task TASK_ID` - Generate summary for specific task
+- `--all --completed` - Summarize all completed sprints
+- `--force` - Force regeneration of existing summaries
+
+**Examples:**
+```bash
+# Generate sprint dependency summary
+roadmap summarize backend-1
+
+# Generate task summary
+roadmap summarize backend-1 --task backend-1-task-001
+
+# Batch: summarize all completed sprints
+roadmap summarize --all --completed
+
+# Force regeneration
+roadmap summarize backend-1 --force
+```
+
+**What gets generated:**
+- **Dependency Summary** (~500 words) - Goals, outputs, interfaces, learnings
+- **Task Summaries** - Outputs, interfaces, gotchas per task
+- Saved to sprint YAML: `dependency_summary` and `task_summaries` fields
+
+**When to use:** After sprint completion, to enable efficient context loading for future tasks.
+
+#### `roadmap prepare <task_id>`
+
+Generate deep preparation document for complex tasks with many dependencies.
+
+**Usage:**
+```bash
+roadmap prepare <task_id> [--show] [--regenerate] [--list]
+```
+
+**Options:**
+- `--show` - View existing preparation document
+- `--regenerate` - Force regeneration of prep doc
+- `--list` - List all tasks with preparation documents
+
+**Examples:**
+```bash
+# Generate preparation document (loads ALL dependencies)
+roadmap prepare backend-3-task-015
+
+# View existing preparation document
+roadmap prepare backend-3-task-015 --show
+
+# Regenerate if outdated
+roadmap prepare backend-3-task-015 --regenerate
+
+# List all tasks with prep docs
+roadmap prepare --list
+```
+
+**Preparation document includes:**
+- Task overview and goals
+- Dependency analysis (what each provides, how to integrate)
+- Key learnings from dependency sprints
+- Critical integration points and interfaces
+- Implementation checklist
+- Questions to resolve before starting
+
+**When to use:** Before starting complex tasks with multiple dependencies or integration requirements.
+
+**Saved to:** `.vibey/sprint_docs/<sprint>/prep/<task>.md`
+
 ## Global Options
 
 These options work with all commands:
@@ -519,6 +637,12 @@ roadmap recommend
 # Or find tasks for a specific agent
 roadmap recommend --agent web-developer
 
+# Before starting: Load context
+roadmap context backend-1-task-002
+
+# If task is complex, review preparation doc
+roadmap prepare backend-1-task-002 --show
+
 # Start working on recommended task
 roadmap start backend-1-task-002
 roadmap assign backend-1-task-002 web-developer
@@ -528,6 +652,10 @@ roadmap deps backend-1-task-002
 
 # Complete the task
 roadmap complete backend-1-task-002
+
+# End of sprint: Generate summaries
+roadmap complete backend-1
+roadmap summarize backend-1
 
 # End of day: Check overall progress
 roadmap status

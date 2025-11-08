@@ -14,7 +14,8 @@ This document provides hands-on, practical examples of using the Roadmap system 
 3. [Example 3: Machine Learning Model](#example-3-machine-learning-model)
 4. [Example 4: Infrastructure Migration](#example-4-infrastructure-migration)
 5. [Example 5: Documentation Sprint](#example-5-documentation-sprint)
-6. [Workflow Patterns](#workflow-patterns)
+6. [Example 6: Context Loading for Complex Tasks](#example-6-context-loading-for-complex-tasks)
+7. [Workflow Patterns](#workflow-patterns)
 
 ---
 
@@ -887,6 +888,307 @@ roadmap assign docs-1-task-gate-001 test-engineer
 roadmap complete docs-1-task-gate-001
 roadmap complete docs-1
 ```
+
+---
+
+## Example 6: Context Loading for Complex Tasks
+
+### Scenario
+You're implementing a complex authentication task (`backend-3-task-015`) that depends on multiple completed sprints. Without context loading, you'd need to read 15+ sprints (40+ files, 100,000+ tokens). With context loading, you get exactly what you need.
+
+### Project State
+
+**Completed Sprints:**
+- `core-1`: Core framework (3 tasks completed)
+- `core-2`: Configuration system (5 tasks completed)
+- `backend-1`: Database layer (8 tasks completed)
+- `backend-2`: API endpoints (7 tasks completed)
+
+**Current Sprint:**
+- `backend-3`: Authentication & Authorization (in progress)
+
+**Current Task:**
+- `backend-3-task-015`: "Implement JWT authentication with refresh tokens"
+- Dependencies: 5 tasks across 3 completed sprints
+
+### Step 1: Load Context Before Starting
+
+```bash
+# Check context for the task
+roadmap context backend-3-task-015
+```
+
+**Output:**
+```
+🔍 Loading context for task: backend-3-task-015
+
+**Task:** Implement JWT authentication with refresh tokens
+**Sprint:** backend-3
+**Type:** development
+
+📄 Current Sprint Docs: ~5,700 tokens
+
+📚 Dependency Analysis:
+   Total dependencies: 5
+   🔵 backend-2-task-003 (summary) ~700 tokens
+   🔵 backend-2-task-007 (summary) ~700 tokens
+   🔵 backend-1-task-002 (summary) ~700 tokens
+   ⚪ core-2-task-001 (minimal) ~100 tokens
+   ⚪ core-1-task-005 (minimal) ~100 tokens
+
+📊 Context Summary:
+   Current sprint: ~5,700 tokens
+   Dependencies: ~2,400 tokens
+   Total: ~8,100 tokens (78% reduction from full ~37,500 tokens)
+```
+
+### Step 2: Review Loaded Context
+
+**Distance 1 (Summary Mode):**
+- `backend-2-task-003`: API middleware implementation
+  - **Outputs:** Express middleware pattern, error handling utilities
+  - **Interfaces:** `middleware/auth.js`, `utils/errors.js`
+  - **Gotchas:** Middleware order matters, async error handling
+
+- `backend-2-task-007`: User session management
+  - **Outputs:** Session store interface, Redis integration
+  - **Interfaces:** `SessionStore` class, `redis-client.js`
+  - **Gotchas:** Session TTL must sync with Redis, handle reconnections
+
+- `backend-1-task-002`: User model & database schema
+  - **Outputs:** User schema, password hashing utilities
+  - **Interfaces:** `models/User.js`, `hashPassword()`, `verifyPassword()`
+  - **Gotchas:** Use bcrypt async methods, salt rounds = 12
+
+**Distance 2 (Minimal Mode):**
+- `core-2-task-001`: Configuration system
+  - **Outputs:** `config/` loader, environment validation
+
+- `core-1-task-005`: Error handling patterns
+  - **Outputs:** Custom error classes, error middleware
+
+### Step 3: Task Appears Complex - Use Preparation Mode
+
+```bash
+# Generate deep preparation document
+roadmap prepare backend-3-task-015
+```
+
+**Output:**
+```
+🔍 Analyzing task dependencies...
+   Loading core-1 (full docs)      ✅ ~5,800 tokens
+   Loading core-2 (full docs)      ✅ ~6,200 tokens
+   Loading backend-1 (full docs)   ✅ ~7,100 tokens
+   Loading backend-2 (full docs)   ✅ ~8,400 tokens
+   Loading backend-3 (full docs)   ✅ ~5,700 tokens
+
+✅ Preparation document generated
+   Path: .vibey/sprint_docs/backend-3/prep/backend-3-task-015.md
+   Dependencies analyzed: 5
+   Full context loaded: ~37,500 tokens
+   Document size: ~4,200 words
+```
+
+### Step 4: Review Preparation Document
+
+```bash
+roadmap prepare backend-3-task-015 --show
+```
+
+**Preparation Document Excerpt:**
+```markdown
+# Task Preparation: Implement JWT Authentication
+
+## Task Overview
+Implement JWT-based authentication with refresh token rotation for the Task Manager API.
+
+## Dependencies Analysis
+
+### backend-2-task-003: API Middleware (CRITICAL)
+**What it provides:**
+- Express middleware pattern for request processing
+- Error handling utilities for API responses
+- Request validation framework
+
+**How to integrate:**
+- Extend existing middleware chain with auth middleware
+- Use `ApiError` class for auth failures
+- Follow async middleware pattern from task-003
+
+**Key learnings from backend-2:**
+- Middleware order is critical (auth before other middleware)
+- Use next() properly to avoid hanging requests
+- Centralized error handling prevents code duplication
+
+### backend-2-task-007: Session Management (CRITICAL)
+**What it provides:**
+- SessionStore interface for persistence
+- Redis integration for session storage
+- TTL management and cleanup
+
+**How to integrate:**
+- Store refresh tokens in Redis via SessionStore
+- Implement token rotation using session updates
+- Use existing Redis connection pool
+
+**Critical integration points:**
+- Session TTL should match refresh token expiry
+- Handle Redis connection failures gracefully
+- Use SessionStore.invalidate() for logout
+
+### backend-1-task-002: User Model (REQUIRED)
+**What it provides:**
+- User schema with password fields
+- Password hashing utilities (bcrypt)
+- Database queries for user lookup
+
+**How to integrate:**
+- Use User.findByEmail() for authentication
+- Call verifyPassword() for credential checks
+- Store tokenVersion in User schema for revocation
+
+**Gotchas:**
+- ALWAYS use async bcrypt methods
+- Salt rounds set to 12 (don't change)
+- Add tokenVersion field to User schema
+
+## Implementation Checklist
+
+### Phase 1: JWT Setup
+- [ ] Install jsonwebtoken and dependencies
+- [ ] Create JWT signing/verification utilities
+- [ ] Implement access token generation (15min TTL)
+- [ ] Implement refresh token generation (7 day TTL)
+
+### Phase 2: Auth Middleware
+- [ ] Create authMiddleware using backend-2 pattern
+- [ ] Verify access token from Authorization header
+- [ ] Attach user to req.user
+- [ ] Handle token expiration with proper error codes
+
+### Phase 3: Refresh Token System
+- [ ] Store refresh tokens in Redis via SessionStore
+- [ ] Implement token rotation on refresh
+- [ ] Add token version to User model for revocation
+- [ ] Create /auth/refresh endpoint
+
+### Phase 4: Security Hardening
+- [ ] Implement CSRF protection for refresh
+- [ ] Add rate limiting to auth endpoints
+- [ ] Log authentication events
+- [ ] Add security headers
+
+## Questions to Resolve
+1. Should we use HttpOnly cookies or Authorization header for refresh tokens?
+2. What's the refresh token rotation strategy (immediate or grace period)?
+3. Do we need device tracking for multi-device sessions?
+```
+
+### Step 5: Start Implementation
+
+```bash
+# Start the task with full context loaded
+roadmap start backend-3-task-015
+roadmap assign backend-3-task-015 web-developer
+
+# Context already loaded, prep doc available for reference
+# Begin implementation following the checklist
+```
+
+### Step 6: Complete and Summarize Sprint
+
+```bash
+# After completing the task
+roadmap complete backend-3-task-015
+
+# Complete remaining tasks...
+roadmap complete backend-3
+
+# Generate dependency summary for future sprints
+roadmap summarize backend-3
+
+# Generate task summaries
+roadmap summarize backend-3 --task backend-3-task-015
+```
+
+**Generated Summary (excerpt):**
+```yaml
+dependency_summary: |
+  This sprint implemented: Authentication & Authorization
+
+  **Goals Achieved:**
+  1. JWT-based authentication with refresh token rotation
+  2. Role-based authorization middleware
+  3. Secure session management
+
+  **Key Outputs:**
+  - JWT utilities (sign, verify, refresh)
+  - Auth middleware for protected routes
+  - Refresh token system with Redis storage
+  - Role-based access control (RBAC)
+
+  **Critical Learnings:**
+  - Token rotation prevents replay attacks
+  - Separate access (15min) and refresh (7 day) token lifetimes
+  - Store refresh tokens in HttpOnly cookies for XSS protection
+  - Use tokenVersion in DB for instant revocation
+
+  **For dependencies:** Use auth middleware and JWT utilities.
+  **Full context:** See `.vibey/sprint_docs/backend-3/`
+
+task_summaries:
+  backend-3-task-015:
+    summary: "Implemented JWT authentication with refresh token rotation"
+    outputs:
+      - "JWT signing/verification utilities in auth/jwt.js"
+      - "Auth middleware in middleware/auth.js"
+      - "Refresh token rotation endpoint /auth/refresh"
+    interfaces:
+      - "authMiddleware(req, res, next)"
+      - "generateAccessToken(userId)"
+      - "generateRefreshToken(userId)"
+      - "verifyToken(token)"
+    gotchas:
+      - "Refresh tokens MUST be stored in HttpOnly cookies"
+      - "Access token expiry should be short (15min max)"
+      - "Token rotation invalidates old refresh token immediately"
+```
+
+### Step 7: Future Tasks Benefit from Summary
+
+When `backend-4` needs authentication context:
+
+```bash
+roadmap context backend-4-task-001
+```
+
+Loads:
+- **backend-3 summary** (~700 tokens) instead of full docs (~8,400 tokens)
+- Gets exactly what's needed: outputs, interfaces, gotchas
+- **88% reduction** in context size
+
+### Key Takeaways
+
+**Without Context Loading:**
+- Read 15 sprints manually
+- 40+ files to scan
+- 100,000+ tokens (doesn't fit in context window)
+- Easy to miss critical details
+- Time-consuming and error-prone
+
+**With Context Loading:**
+- `roadmap context` → 8,100 tokens (78% reduction)
+- `roadmap prepare` → Deep analysis for complex tasks
+- Automatic hierarchical loading
+- Critical information preserved
+- Future sprints benefit from summaries
+
+**Best Practice:**
+1. Always run `roadmap context <task-id>` before starting
+2. Use `roadmap prepare <task-id>` for complex/integration tasks
+3. Generate summaries after sprint completion
+4. Review prep docs to catch integration issues early
 
 ---
 

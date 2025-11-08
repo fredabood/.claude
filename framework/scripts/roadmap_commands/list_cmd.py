@@ -18,23 +18,10 @@ sys.path.insert(0, str(roadmap_lib_path))
 from roadmap.models import Status
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from filesystem import FileSystemManager, find_roadmap_root
-
-
-def format_status(status: Status) -> str:
-    """Format status with emoji."""
-    status_map = {
-        Status.NOT_STARTED: "⚪",
-        Status.IN_PROGRESS: "🔵",
-        Status.PAUSED: "⏸️",
-        Status.COMPLETION_GATE_CHECK: "🚧",
-        Status.COMPLETED: "✅",
-        Status.PRODUCTION_GATE_CHECK: "🔍",
-        Status.PRODUCTION_READY: "🚀",
-        Status.DEPLOYED: "🌟",
-        Status.WONT_DO: "❌",
-    }
-    emoji = status_map.get(status, "❓")
-    return f"{emoji} {status.value}"
+from formatting import (
+    table, header, status_indicator, progress_bar,
+    colorize, bold, dim, Color, warning
+)
 
 
 def list_tracks(fs: FileSystemManager, status_filter: Optional[str] = None) -> List[Dict[str, Any]]:
@@ -134,13 +121,13 @@ def list_tasks(fs: FileSystemManager, status_filter: Optional[str] = None) -> Li
 
                         tasks.append({
                             "id": task.id,
-                            "name": task.name,
+                            "name": task.title,  # Task model uses 'title' not 'name'
                             "sprint_id": sprint_summary.id,
                             "sprint_name": sprint_summary.name,
                             "track_id": track.id,
                             "track_name": track.name,
-                            "task_type": task.task_type,
-                            "status": task.status.value,
+                            "task_type": task.task_type.value if hasattr(task.task_type, 'value') else task.task_type,
+                            "status": task.status.value if hasattr(task.status, 'value') else task.status,
                             "blocked": task.blocked,
                             "assigned_agent": task.assigned_agent,
                         })
@@ -150,67 +137,135 @@ def list_tasks(fs: FileSystemManager, status_filter: Optional[str] = None) -> Li
 
 def print_tracks(tracks: List[Dict[str, Any]]):
     """Pretty print tracks list."""
-    print(f"\n🛤️  Tracks ({len(tracks)})")
-    print("="*80)
+    print(header(f"Tracks ({len(tracks)})", level=1))
 
     if not tracks:
-        print("  No tracks found.")
-    else:
-        for track in tracks:
-            blocked = " ⚠️" if track['blocked'] else ""
-            print(f"\n{format_status(Status(track['status']))} {track['name']}{blocked}")
-            print(f"   ID: {track['id']}")
-            print(f"   Progress: {track['progress']['sprints']} sprints, {track['progress']['completion']} complete")
+        print("  No tracks found.\n")
+        return
 
-    print("="*80 + "\n")
+    # Build table rows
+    headers = ["Status", "Track Name", "ID", "Sprints", "Completion", "Progress"]
+    rows = []
+
+    for track in tracks:
+        status_str = status_indicator(track['status'])
+        name = track['name']
+        if track['blocked']:
+            name = f"{name} {colorize('⚠️ BLOCKED', Color.RED)}"
+
+        # Parse progress for progress bar
+        sprints_parts = track['progress']['sprints'].split('/')
+        sprints_completed = int(sprints_parts[0])
+        sprints_total = int(sprints_parts[1])
+        completion_pct = int(track['progress']['completion'].replace('%', ''))
+
+        rows.append([
+            status_str,
+            name,
+            dim(track['id']),
+            track['progress']['sprints'],
+            track['progress']['completion'],
+            progress_bar(sprints_completed, sprints_total, width=20, show_percentage=False)
+        ])
+
+    print(table(headers, rows))
+    print()
 
 
 def print_sprints(sprints: List[Dict[str, Any]]):
     """Pretty print sprints list."""
-    print(f"\n🏃 Sprints ({len(sprints)})")
-    print("="*80)
+    print(header(f"Sprints ({len(sprints)})", level=1))
 
     if not sprints:
-        print("  No sprints found.")
-    else:
-        current_track = None
-        for sprint in sprints:
-            # Print track header if changed
-            if sprint['track_id'] != current_track:
-                current_track = sprint['track_id']
-                print(f"\n  Track: {sprint['track_name']} ({sprint['track_id']})")
+        print("  No sprints found.\n")
+        return
 
-            blocked = " ⚠️" if sprint['blocked'] else ""
-            print(f"    {format_status(Status(sprint['status']))} {sprint['name']}{blocked}")
-            print(f"       ID: {sprint['id']}")
-            print(f"       Progress: {sprint['progress']['tasks']} tasks, {sprint['progress']['completion']} complete")
+    # Group sprints by track
+    from itertools import groupby
+    sprints_sorted = sorted(sprints, key=lambda s: s['track_id'])
 
-    print("="*80 + "\n")
+    for track_id, track_sprints_iter in groupby(sprints_sorted, key=lambda s: s['track_id']):
+        track_sprints = list(track_sprints_iter)
+        first_sprint = track_sprints[0]
+
+        # Print track header
+        track_header = f"Track: {first_sprint['track_name']}"
+        print(f"\n{bold(colorize(track_header, Color.CYAN))} {dim(f'({track_id})')}")
+        print()
+
+        # Build table rows for this track's sprints
+        headers = ["Status", "Sprint Name", "ID", "Tasks", "Completion", "Progress"]
+        rows = []
+
+        for sprint in track_sprints:
+            status_str = status_indicator(sprint['status'])
+            name = sprint['name']
+            if sprint['blocked']:
+                name = f"{name} {colorize('⚠️ BLOCKED', Color.RED)}"
+
+            # Parse progress for progress bar
+            tasks_parts = sprint['progress']['tasks'].split('/')
+            tasks_completed = int(tasks_parts[0])
+            tasks_total = int(tasks_parts[1])
+
+            rows.append([
+                status_str,
+                name,
+                dim(sprint['id']),
+                sprint['progress']['tasks'],
+                sprint['progress']['completion'],
+                progress_bar(tasks_completed, tasks_total, width=20, show_percentage=False)
+            ])
+
+        print(table(headers, rows))
+        print()
 
 
 def print_tasks(tasks: List[Dict[str, Any]]):
     """Pretty print tasks list."""
-    print(f"\n✅ Tasks ({len(tasks)})")
-    print("="*80)
+    print(header(f"Tasks ({len(tasks)})", level=1))
 
     if not tasks:
-        print("  No tasks found.")
-    else:
-        current_sprint = None
-        for task in tasks:
-            # Print sprint header if changed
-            if task['sprint_id'] != current_sprint:
-                current_sprint = task['sprint_id']
-                print(f"\n  Track: {task['track_name']} → Sprint: {task['sprint_name']} ({task['sprint_id']})")
+        print("  No tasks found.\n")
+        return
 
-            blocked = " ⚠️" if task['blocked'] else ""
-            agent = f" (assigned: {task['assigned_agent']})" if task['assigned_agent'] else " (unassigned)"
-            type_marker = f" [{task['task_type']}]" if task['task_type'] != "development" else ""
+    # Group tasks by sprint
+    from itertools import groupby
+    tasks_sorted = sorted(tasks, key=lambda t: (t['track_id'], t['sprint_id']))
 
-            print(f"    {format_status(Status(task['status']) if task['task_type'] == 'development' else task['status'])} {task['name']}{type_marker}{agent}{blocked}")
-            print(f"       ID: {task['id']}")
+    for (track_id, sprint_id), sprint_tasks_iter in groupby(tasks_sorted, key=lambda t: (t['track_id'], t['sprint_id'])):
+        sprint_tasks = list(sprint_tasks_iter)
+        first_task = sprint_tasks[0]
 
-    print("="*80 + "\n")
+        # Print sprint header
+        track_label = f"Track: {first_task['track_name']}"
+        sprint_label = f"Sprint: {first_task['sprint_name']}"
+        print(f"\n{bold(colorize(track_label, Color.CYAN))} → {bold(colorize(sprint_label, Color.BLUE))} {dim(f'({sprint_id})')}")
+        print()
+
+        # Build table rows for this sprint's tasks
+        headers = ["Status", "Task Name", "ID", "Type", "Agent"]
+        rows = []
+
+        for task in sprint_tasks:
+            status_str = status_indicator(task['status'])
+            name = task['name']
+            if task['blocked']:
+                name = f"{name} {colorize('⚠️ BLOCKED', Color.RED)}"
+
+            task_type = task['task_type'] if task['task_type'] != 'development' else ''
+            agent = task['assigned_agent'] if task['assigned_agent'] else colorize('unassigned', Color.YELLOW)
+
+            rows.append([
+                status_str,
+                name,
+                dim(task['id']),
+                task_type,
+                agent
+            ])
+
+        print(table(headers, rows))
+        print()
 
 
 def handle_list(args):

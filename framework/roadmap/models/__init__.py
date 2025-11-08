@@ -50,6 +50,7 @@ from .task import (
 
 from .common import (
     Status,
+    TaskStatus,
     Priority,
     TaskType,
     GateStatus,
@@ -57,6 +58,7 @@ from .common import (
     Complexity,
     DeliverableType,
     ActivityType,
+    VersionBumpTrigger,
 )
 
 __all__ = [
@@ -95,6 +97,7 @@ __all__ = [
     "TaskMetadata",
     # Common
     "Status",
+    "TaskStatus",
     "Priority",
     "TaskType",
     "GateStatus",
@@ -102,6 +105,7 @@ __all__ = [
     "Complexity",
     "DeliverableType",
     "ActivityType",
+    "VersionBumpTrigger",
 ]
 
 __version__ = "2.1"

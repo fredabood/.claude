@@ -65,6 +65,16 @@ def _parse_datetime(value: Union[str, datetime, None]) -> Union[datetime, None]:
     return value
 
 
+def _map_complexity(value: str) -> str:
+    """Map old complexity values to new enum values (backward compatibility)."""
+    mapping = {
+        'low': 'simple',
+        'high': 'complex',
+        # 'medium' stays the same
+    }
+    return mapping.get(value, value)
+
+
 def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
     """
     Load a roadmap from YAML file.
@@ -353,31 +363,50 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
 
     sprint_data = data['sprint']
 
-    # Parse progress
+    # Parse progress (backward compatible with old format)
     prog_data = sprint_data['progress']
+
+    # For old format (no gate breakdown), assume all tasks are development tasks
+    tasks_total = prog_data['tasks_total']
+    tasks_completed = prog_data['tasks_completed']
+
     progress = SprintProgress(
-        development_tasks_total=prog_data['development_tasks_total'],
-        development_tasks_completed=prog_data['development_tasks_completed'],
-        completion_gate_tasks_total=prog_data['completion_gate_tasks_total'],
-        completion_gate_tasks_completed=prog_data['completion_gate_tasks_completed'],
-        production_gate_tasks_total=prog_data['production_gate_tasks_total'],
-        production_gate_tasks_completed=prog_data['production_gate_tasks_completed'],
-        tasks_total=prog_data['tasks_total'],
-        tasks_completed=prog_data['tasks_completed'],
+        development_tasks_total=prog_data.get('development_tasks_total', tasks_total),
+        development_tasks_completed=prog_data.get('development_tasks_completed', tasks_completed),
+        completion_gate_tasks_total=prog_data.get('completion_gate_tasks_total', 0),
+        completion_gate_tasks_completed=prog_data.get('completion_gate_tasks_completed', 0),
+        production_gate_tasks_total=prog_data.get('production_gate_tasks_total', 0),
+        production_gate_tasks_completed=prog_data.get('production_gate_tasks_completed', 0),
+        tasks_total=tasks_total,
+        tasks_completed=tasks_completed,
         completion_percent=prog_data['completion_percent'],
     )
 
-    # Parse tasks
-    tasks = [
-        TaskSummary(
-            id=t['id'],
-            title=t['title'],
-            status=Status(t['status']),
-            task_type=TaskType(t['task_type']),
-            gate_info=t.get('gate_info'),
-        )
-        for t in sprint_data['tasks']
-    ]
+    # Parse tasks (backward compatible - old format uses task_summaries dict)
+    if 'tasks' in sprint_data:
+        # New format: list of tasks
+        tasks = [
+            TaskSummary(
+                id=t['id'],
+                title=t['title'],
+                status=Status(t['status']),
+                task_type=TaskType(t['task_type']),
+                gate_info=t.get('gate_info'),
+            )
+            for t in sprint_data['tasks']
+        ]
+    else:
+        # Old format: task_summaries dict - create minimal TaskSummary objects
+        tasks = []
+        if 'task_summaries' in sprint_data:
+            for task_id, task_data in sprint_data['task_summaries'].items():
+                tasks.append(TaskSummary(
+                    id=task_id,
+                    title=task_data.get('summary', 'Unknown'),
+                    status=Status.COMPLETED,  # Old format doesn't track status
+                    task_type=TaskType.DEVELOPMENT,  # Assume development
+                    gate_info=None,
+                ))
 
     # Parse development gates
     development_gates = [
@@ -425,15 +454,15 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         agents_used=meta_data.get('agents_used'),
     )
 
-    # Create sprint
+    # Create sprint (backward compatible - many fields optional in old format)
     sprint = Sprint(
         id=sprint_data['id'],
         name=sprint_data['name'],
         track_id=sprint_data['track_id'],
         roadmap_id=sprint_data['roadmap_id'],
         status=Status(sprint_data['status']),
-        blocked=sprint_data['blocked'],
-        created=_parse_datetime(sprint_data['created']),
+        blocked=sprint_data.get('blocked', False),
+        created=_parse_datetime(sprint_data.get('created', datetime.now())),
         started=_parse_datetime(sprint_data.get('started')),
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
         completed=_parse_datetime(sprint_data.get('completed')),
@@ -499,13 +528,13 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 recommendations=ar_data.get('recommendations', []),
             )
 
-        # Parse dependencies
+        # Parse dependencies (backward compatible - old format uses 'at_status')
         dependencies = [
             TaskDependency(
                 type=DependencyType(d['type']),
                 target_id=d['target_id'],
-                target_status=d['target_status'],
-                reason=d['reason'],
+                target_status=d.get('target_status', d.get('at_status', 'completed')),
+                reason=d.get('reason', ''),
             )
             for d in task_data.get('dependencies', [])
         ]
@@ -554,34 +583,42 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             for c in task_data.get('commits', [])
         ]
 
-        # Parse metadata
-        meta_data = task_data['metadata']
-        metadata = TaskMetadata(
-            last_updated=_parse_datetime(meta_data['last_updated']),
-            token_efficiency=meta_data.get('token_efficiency'),
-            duration_hours=meta_data.get('duration_hours'),
-        )
+        # Parse metadata (backward compatible)
+        if 'metadata' in task_data:
+            meta_data = task_data['metadata']
+            metadata = TaskMetadata(
+                last_updated=_parse_datetime(meta_data['last_updated']),
+                token_efficiency=meta_data.get('token_efficiency'),
+                duration_hours=meta_data.get('duration_hours'),
+            )
+        else:
+            # Old format: minimal metadata
+            metadata = TaskMetadata(
+                last_updated=datetime.now(),
+                token_efficiency=None,
+                duration_hours=None,
+            )
 
-        # Create task
+        # Create task (backward compatible - many fields optional in old format)
         task = Task(
             id=task_data['id'],
             sprint_id=task_data['sprint_id'],
             track_id=task_data['track_id'],
             roadmap_id=task_data['roadmap_id'],
-            task_type=TaskType(task_data['task_type']),
-            title=task_data['title'],
-            description=task_data['description'],
-            status=TaskStatus(task_data['status']),
-            blocked=task_data['blocked'],
-            created=_parse_datetime(task_data['created']),
+            task_type=TaskType(task_data.get('task_type', 'development')),
+            title=task_data.get('title', task_data.get('name', 'Unknown')),
+            description=task_data.get('description', ''),
+            status=TaskStatus(task_data.get('status', 'not_started')),
+            blocked=task_data.get('blocked', False),
+            created=_parse_datetime(task_data.get('created', datetime.now())),
             started=_parse_datetime(task_data.get('started')),
             completed=_parse_datetime(task_data.get('completed')),
-            assigned_agent=task_data['assigned_agent'],
-            priority=Priority(task_data['priority']),
+            assigned_agent=task_data.get('assigned_agent'),
+            priority=Priority(task_data.get('priority', 'medium')),
             phase_label=task_data.get('phase_label'),
-            estimated_tokens=task_data['estimated_tokens'],
+            estimated_tokens=task_data.get('estimated_tokens', 1),  # Minimum 1 for validation
             actual_tokens=task_data.get('actual_tokens'),
-            complexity=Complexity(task_data['complexity']),
+            complexity=Complexity(_map_complexity(task_data.get('complexity', 'medium'))),
             gate_info=gate_info,
             audit_results=audit_results,
             dependencies=dependencies,

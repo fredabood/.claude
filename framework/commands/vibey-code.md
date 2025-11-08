@@ -206,6 +206,67 @@ $RECENT_ACTIVITY
 **Choose an option (1-10) or describe what you want to work on:**
 ```
 
+**Progress Auto-Update Function:**
+
+After any task status change (start, complete, block), automatically refresh the progress display:
+
+```bash
+function update_progress_display() {
+    # Refresh sprint data
+    SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null)
+
+    # Extract updated progress
+    UPDATED_PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+sprint = data.get('sprint', {})
+progress = sprint.get('progress', {})
+tasks_total = progress.get('tasks_total', 0)
+tasks_completed = progress.get('tasks_completed', 0)
+completion_percent = progress.get('completion_percent', 0)
+
+print(f'''
+📊 Updated Progress:
+- Completed: {tasks_completed}/{tasks_total} tasks ({completion_percent}%)
+- Progress: [{'█' * int(completion_percent/10)}{'░' * (10 - int(completion_percent/10))}]
+''')
+" 2>/dev/null)
+
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "$UPDATED_PROGRESS"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+
+    # Show next recommended task
+    NEXT_TASK=$(python3 .claude/scripts/roadmap recommend --limit 1 --json 2>/dev/null | python3 -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+    if data and len(data) > 0:
+        task = data[0]
+        print(f\"💡 Next recommended task: {task.get('title', 'Unknown')}\")
+        print(f\"   ID: {task.get('id', 'unknown')}\")
+        print(f\"   Estimated: {task.get('estimated_hours', 'N/A')} hours\")
+    else:
+        print('No pending tasks.')
+except:
+    pass
+" 2>/dev/null)
+
+    if [ ! -z "$NEXT_TASK" ]; then
+        echo "$NEXT_TASK"
+        echo ""
+    fi
+}
+```
+
+This function is called after:
+- Starting a task (Option 2)
+- Completing a task (Option 3)
+- Marking a phase complete (Option 6)
+- Any other state change
+
 ---
 
 ### Option 1: Continue Current Phase
@@ -316,8 +377,8 @@ if python3 .claude/scripts/roadmap start "$TASK_ID" 2>/dev/null; then
   echo "Task is now marked as in progress. Continue working on it!"
   echo ""
 
-  # Show updated dashboard
-  # (Reload dashboard display from Step 2)
+  # Auto-update progress display
+  update_progress_display
 else
   echo "❌ Could not start task. Please check the task ID."
 fi
@@ -370,23 +431,16 @@ if python3 .claude/scripts/roadmap complete "$TASK_ID" 2>/dev/null; then
   echo "✅ Task completed: $TASK_ID"
   echo ""
 
-  # Update progress display
-  TASKS_COMPLETED_NEW=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_completed', 0))")
-  TASKS_TOTAL_NEW=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_total', 0))")
-
-  echo "Sprint progress: $TASKS_COMPLETED_NEW/$TASKS_TOTAL_NEW tasks completed"
-  echo ""
+  # Auto-update progress display with full visualization
+  update_progress_display
 
   # Check if sprint complete
-  if [ "$TASKS_COMPLETED_NEW" -eq "$TASKS_TOTAL_NEW" ]; then
-    echo "🎉 All tasks completed! Ready to complete the sprint."
-  else
-    echo "Next recommended task:"
-    python3 .claude/scripts/roadmap recommend --limit 1 2>/dev/null || echo "Continue with remaining tasks."
-  fi
+  TASKS_COMPLETED=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_completed', 0))")
+  TASKS_TOTAL=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_total', 0))")
 
-  # Show updated dashboard
-  # (Reload dashboard from Step 2)
+  if [ "$TASKS_COMPLETED" -eq "$TASKS_TOTAL" ] && [ "$TASKS_TOTAL" -gt 0 ]; then
+    echo "🎉 All sprint tasks completed! Ready to complete the sprint."
+  fi
 else
   echo "❌ Could not complete task. Please check the task ID."
 fi
@@ -549,6 +603,10 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
     echo ""
     echo "✅ Phase $CURRENT_PHASE_NUM marked complete!"
     echo ""
+
+    # Auto-update progress display after phase completion
+    update_progress_display
+
     echo "Continue working on remaining sprint tasks or move to next phase."
   fi
 fi

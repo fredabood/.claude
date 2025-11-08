@@ -1,131 +1,133 @@
 track:
-  # Identity
-  id: "roadmap-integration"
-  name: "Roadmap Integration into /vibey Commands"
-  roadmap_id: "vibey-framework-v2"
-
-  # Status
-  status: "not_started"
+  id: roadmap-integration
+  name: Roadmap Integration into /vibey Commands
+  roadmap_id: vibey-framework-v2
+  status: not_started
   blocked: false
-  priority: "high"
-
-  # Timing
-  created: "2025-11-07T10:00:00Z"
+  priority: high
+  created: '2025-11-07T10:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: "6 weeks"
-
-  # Progress
+  estimated_duration: 6 weeks
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 5  # Sprint 1 only, more will be added
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-
-  # Sprints in this track
   sprints:
-    - id: "roadmap-integration-1"
-      name: "Foundation & Sprint Planning Integration"
-      status: "not_started"
-      estimated_duration: "2 weeks"
-      tasks_count: 5
-      description: "Initialize roadmap during deployment and sprint planning"
-
-    - id: "roadmap-integration-2"
-      name: "Progress Tracking & Vibey Manager"
-      status: "not_started"
-      estimated_duration: "2 weeks"
-      tasks_count: 0  # TBD
-      description: "Track progress in roadmap and extend Vibey Manager"
-
-    - id: "roadmap-integration-3"
-      name: "Migration & Deprecation"
-      status: "not_started"
-      estimated_duration: "2 weeks"
-      tasks_count: 0  # TBD
-      description: "Provide migration path and deprecate legacy system"
-
-  # Dependencies
+  - id: roadmap-integration-1
+    name: Foundation & Sprint Planning Integration
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 5
+    started: null
+  - id: roadmap-integration-2
+    name: Progress Tracking & Vibey Manager
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 0
+    started: null
+  - id: roadmap-integration-3
+    name: Migration & Deprecation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 0
+    started: null
   dependencies: []
-
-  # What this track blocks
   blocks: []
-
-  # Current blockers
   blocked_by: []
-
-  # Track-level quality gates
   quality_gates:
-    - name: "Integration Testing"
-      threshold: 95
-      blocking: true
-      status: "not_run"
-
-    - name: "Migration Testing"
-      threshold: 100
-      blocking: true
-      status: "not_run"
-
-    - name: "Documentation Complete"
-      threshold: 90
-      blocking: true
-      status: "not_run"
-
-  # Recommended agents
+  - name: Integration Testing
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  - name: Migration Testing
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  - name: Documentation Complete
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: null
+    score: null
   assigned_agents:
-    - "web-developer"
-    - "docs-writer"
-    - "test-engineer"
-
-  # Deliverables
+  - web-developer
+  - docs-writer
+  - test-engineer
   deliverables:
-    - "Roadmap initialization in /vibey deployment"
-    - "Roadmap sprint creation in /vibey plan"
-    - "Roadmap progress tracking in /vibey code"
-    - "Extended Vibey Manager with roadmap commands"
-    - "Migration script: legacy → roadmap"
-    - "Updated /vibey command workflow documentation"
-    - "User migration guide"
-    - "Deprecation of legacy sprint-state scripts"
-
-  # Strategic Context
+  - Roadmap initialization in /vibey deployment
+  - Roadmap sprint creation in /vibey plan
+  - Roadmap progress tracking in /vibey code
+  - Extended Vibey Manager with roadmap commands
+  - 'Migration script: legacy → roadmap'
+  - Updated /vibey command workflow documentation
+  - User migration guide
+  - Deprecation of legacy sprint-state scripts
   strategic_value:
-    - "Enables multi-sprint dependency tracking for users"
-    - "Unifies state management (eliminate code duplication)"
-    - "Foundation for advanced roadmap features"
-    - "Critical for user adoption of roadmap system"
-    - "Removes technical debt from legacy sprint-state system"
-
-  # Metadata
+  - Enables multi-sprint dependency tracking for users
+  - Unifies state management (eliminate code duplication)
+  - Foundation for advanced roadmap features
+  - Critical for user adoption of roadmap system
+  - Removes technical debt from legacy sprint-state system
   metadata:
-    created_by: "vibey-framework-team"
-    last_updated: "2025-11-07T10:00:00Z"
-    notes: |
-      Critical integration track to connect the roadmap state management framework
+    created_by: vibey-framework-team
+    last_updated: '2025-11-07T10:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: 'Critical integration track to connect the roadmap state management framework
+
       with the user-facing /vibey command workflow.
 
+
       Problem:
+
       - Two parallel sprint state systems exist
+
       - Legacy system (docs/sprints/*.yaml) used by /vibey commands
+
       - New roadmap system (.vibey/) built but not integrated
+
       - Users cannot leverage roadmap capabilities
 
+
       Solution:
+
       - Update /vibey deployment to initialize roadmap structure
+
       - Update /vibey plan to create roadmap entries
+
       - Update /vibey code to track progress in roadmap
+
       - Extend Vibey Manager agent with roadmap commands
+
       - Provide migration script for existing projects
+
       - Deprecate legacy scripts after transition
 
+
       Impact:
+
       - Eliminates ~1,657 lines of duplicated code
+
       - Enables multi-sprint planning, dependencies, blockers
+
       - Unlocks full roadmap system potential for users
 
+
       References:
+
       - docs/development/ROADMAP_INTEGRATION_GAP.md
+
       - framework/commands/vibey.md
+
       - framework/commands/vibey-plan.md
+
       - framework/agents/core/vibey-manager.md
+
+      '

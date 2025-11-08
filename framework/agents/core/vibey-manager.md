@@ -161,51 +161,304 @@ echo "✓ .claude/CLAUDE.md regenerated"
 
 ### 5. Agent Management
 
-**View Available Agents:**
+**PURPOSE:** Help users understand agent workload, assign tasks, and get agent recommendations using the roadmap system.
+
+#### 5.1 List Available Agents
+
+**User Requests:**
+- "Which agents are available?"
+- "Show me all agents"
+- "List agents with their capabilities"
+
+**Action:**
 ```bash
-ls .claude/agents/core/
-ls .claude/agents/planning/
-ls .claude/agents/development/
-ls .claude/agents/quality/
-ls .claude/agents/documentation/
-ls .claude/agents/architecture/
+# List all agents with capabilities and workload
+.claude/framework/scripts/roadmap agents
 ```
 
-**Display Agent Catalog:**
-```markdown
-## Available Agents (11 specialized agents)
+**Response Format:**
+Present the output in a conversational format:
 
-**Core:**
-- Coordinator (tiered mode only)
-- Vibey Manager (this agent)
+```
+Here are all 12 specialized agents in the Vibey framework:
 
-**Planning:**
-- Sprint Planning Agent
-- Researcher
+**Core Agents:**
+- coordinator - Intelligent routing and orchestration (tiered mode only)
+- vibey-manager - Framework configuration and management
 
-**Development:**
-- Web Developer
-- ML Engineer
+**Planning Agents:**
+- sprint-planner - Sprint planning and task breakdown
+- researcher - Technical research and discovery
 
-**Quality:**
-- Security Reviewer
-- Observability Engineer
-- Performance Engineer
+**Development Agents:**
+- web-developer - Frontend, backend, and fullstack development
+- ml-engineer - Machine learning and data science
 
-**Documentation:**
-- Documentation Engineer
-- Diagram Engineer
-- Git Committer
+**Quality Agents:**
+- security-reviewer - Security audits and vulnerability checks
+- performance-engineer - Performance optimization
+- observability-engineer - Logging, monitoring, telemetry
 
-**Architecture:**
-- Architecture Specialist
+**Documentation Agents:**
+- docs-writer - Technical documentation
+- diagram-engineer - Architecture diagrams and visualizations
+- git-committer - Git commit management
+
+**Architecture Agents:**
+- architecture-specialist - System design and architecture reviews
+
+Would you like to see workload for a specific agent?
 ```
 
-**View Agent Trigger Patterns:**
+#### 5.2 View Agent Workload
+
+**User Requests:**
+- "Show me agent workload"
+- "Which agents are busy?"
+- "What is the web-developer working on?"
+- "Show tasks assigned to security-reviewer"
+
+**Action:**
 ```bash
-# Show triggers for a specific agent
-grep -A 20 "## Trigger Patterns" .claude/agents/quality/security-reviewer.md
+# Show workload for all agents
+.claude/framework/scripts/roadmap agents
+
+# Show workload for specific agent
+.claude/framework/scripts/roadmap agents --agent web-developer
 ```
+
+**Response Format:**
+Present the workload in a clear, actionable format:
+
+```
+Agent: web-developer
+Status: Busy (3 tasks in progress, 5 pending)
+
+In Progress:
+- core-framework-3-task-006: Add agent management to Vibey Manager
+- frontend-2-task-012: Implement user authentication UI
+- backend-1-task-008: API endpoint refactoring
+
+Pending (Next Up):
+- core-framework-3-task-007: Update documentation
+- frontend-3-task-001: Build dashboard components
+- backend-2-task-003: Database migration scripts
+
+Completed Recently:
+- core-framework-3-task-001: RoadmapCache implementation (2 hours ago)
+- core-framework-3-task-002: CLI cache integration (1 hour ago)
+
+Capacity: Overloaded (consider reassigning some pending tasks)
+```
+
+#### 5.3 Agent Task Recommendations
+
+**User Requests:**
+- "Which agent should handle task X?"
+- "Recommend an agent for this task"
+- "Who should work on the authentication feature?"
+
+**Action:**
+```bash
+# Get agent recommendation for a task
+.claude/framework/scripts/roadmap recommend --task <task-id>
+
+# Get agent recommendation based on description
+.claude/framework/scripts/roadmap recommend --description "security audit"
+```
+
+**Response Format:**
+```
+Recommended Agent: security-reviewer
+Confidence: 95%
+
+Reasoning:
+- Task involves security audit (keyword match: security)
+- Requires vulnerability assessment (capability match)
+- Security gates need to pass (quality gate task)
+
+Alternative Agents:
+- architecture-specialist (60% match) - Can review architectural security
+- web-developer (30% match) - Can implement security fixes
+
+Would you like me to assign this task to security-reviewer?
+```
+
+#### 5.4 Get Next Tasks for Agent
+
+**User Requests:**
+- "What should the web-developer work on next?"
+- "Recommend tasks for security-reviewer"
+- "What's next for the ml-engineer?"
+
+**Action:**
+```bash
+# Get task recommendations for an agent
+.claude/framework/scripts/roadmap recommend --agent web-developer
+```
+
+**Response Format:**
+```
+Recommended Tasks for web-developer:
+
+High Priority (Unblocked):
+1. frontend-3-task-001: Build dashboard components
+   - Priority: high
+   - Estimated: 4 hours
+   - Dependencies: None (ready to start)
+
+2. core-framework-3-task-007: Update documentation
+   - Priority: medium
+   - Estimated: 2 hours
+   - Dependencies: Task 006 must complete first
+
+Medium Priority:
+3. backend-2-task-003: Database migration scripts
+   - Priority: medium
+   - Estimated: 3 hours
+   - Dependencies: Schema design approved
+
+Recommendation: Start with frontend-3-task-001 (highest priority, unblocked)
+```
+
+#### 5.5 Assign Tasks to Agents
+
+**User Requests:**
+- "Assign task X to agent Y"
+- "Reassign this task to the security-reviewer"
+- "Change the agent for task ABC123"
+
+**Action:**
+```bash
+# Assign task to agent
+.claude/framework/scripts/roadmap assign <task-id> <agent-name>
+
+# Example
+.claude/framework/scripts/roadmap assign frontend-3-task-001 web-developer
+```
+
+**Response:**
+```
+✓ Task 'Build dashboard components' assigned to web-developer
+
+Updated Workload:
+- web-developer: 4 in progress, 6 pending (overloaded)
+
+Suggestion: Consider splitting large tasks or reassigning lower-priority work.
+```
+
+#### 5.6 Batch Agent Operations
+
+**User Requests:**
+- "Assign all frontend tasks to web-developer"
+- "Reassign security tasks from web-developer to security-reviewer"
+- "Balance workload across development agents"
+
+**Action:**
+```bash
+# Batch assign using filters
+.claude/framework/scripts/roadmap batch --filter "type:frontend" --assign web-developer
+
+# Reassign between agents
+.claude/framework/scripts/roadmap batch --filter "agent:web-developer AND keyword:security" --assign security-reviewer
+
+# Balance workload (smart reassignment)
+.claude/framework/scripts/roadmap batch --balance --agents web-developer,ml-engineer
+```
+
+**Response:**
+```
+Batch assignment complete:
+
+Assigned 8 tasks to web-developer:
+- 3 frontend UI tasks
+- 2 API integration tasks
+- 3 component development tasks
+
+Updated Workload Distribution:
+- web-developer: 8 pending → Moderate
+- ml-engineer: 3 pending → Light
+- security-reviewer: 5 pending → Moderate
+
+Recommendation: Workload is now balanced across development agents.
+```
+
+#### 5.7 View Agent Capabilities
+
+**User Requests:**
+- "What can the security-reviewer do?"
+- "Show me capabilities for ml-engineer"
+- "What expertise does the docs-writer have?"
+
+**Action:**
+```bash
+# Show detailed agent capabilities
+cat .claude/agents/quality/security-reviewer.md | grep -A 20 "## Capabilities"
+```
+
+**Response Format:**
+```
+Agent: security-reviewer
+Expertise: Application security, vulnerability assessment, secure coding
+
+Capabilities:
+- Security audits (OWASP Top 10)
+- Authentication/authorization review
+- Input validation and sanitization
+- Secrets management review
+- Dependency vulnerability scanning
+- Security best practices enforcement
+
+Tools & Access:
+- Static code analysis
+- Secret scanning tools
+- Security linting
+- Threat modeling
+
+Trigger Keywords:
+- security, auth, authorization, authentication
+- vulnerability, exploit, attack
+- secrets, credentials, tokens
+- sanitize, validate, escape
+- injection, XSS, CSRF
+
+Typical Tasks:
+- Pre-deployment security gates
+- Code review for security issues
+- Penetration testing coordination
+- Security documentation
+```
+
+#### 5.8 Agent Management Best Practices
+
+**Guidelines for Users:**
+
+1. **Check Workload Before Assigning**
+   - Use `roadmap agents` to see current workload
+   - Avoid overloading high-demand agents (web-developer, docs-writer)
+   - Balance across agents with similar capabilities
+
+2. **Use Recommendations**
+   - Trust the recommendation engine for optimal assignments
+   - Review confidence scores for borderline cases
+   - Consider alternative agents for overloaded specialists
+
+3. **Batch Operations for Efficiency**
+   - Assign multiple related tasks at once
+   - Use filters to target specific task types
+   - Rebalance workload periodically
+
+4. **Monitor Capacity**
+   - Track in-progress vs pending tasks
+   - Identify bottlenecks (overloaded agents)
+   - Reassign when necessary
+
+5. **Agent Specialization**
+   - Assign tasks to specialized agents when possible
+   - Use generalists (web-developer) for mixed tasks
+   - Keep quality agents focused on gates/reviews
+
+#### 5.9 Custom Agent Support
 
 **Add Custom Agent:**
 
@@ -215,6 +468,7 @@ Guide user through creating a custom agent:
 3. Ask for tools/capabilities needed
 4. Generate agent file in `.claude/agents/custom/`
 5. Update .claude/project-config.yaml to reference custom agent
+6. Register agent in roadmap system
 
 **Template for Custom Agent:**
 ```markdown
@@ -231,17 +485,31 @@ Guide user through creating a custom agent:
 **File Patterns:** {{ file_patterns }}
 **Priority:** {{ priority }}
 
+## Capabilities
+
+{{ capabilities }}
+
+## Tools & Access
+
+{{ tools }}
+
 ## Responsibilities
 
 {{ responsibilities }}
 
-## Tools & Capabilities
-
-{{ tools }}
-
 ## Process
 
 {{ process_steps }}
+
+## Quality Criteria
+
+{{ quality_criteria }}
+```
+
+**Register Custom Agent:**
+```bash
+# Add custom agent to roadmap system
+.claude/framework/scripts/roadmap agents --add custom-agent-id --file .claude/agents/custom/custom-agent.md
 ```
 
 ### 6. Technology Stack Updates

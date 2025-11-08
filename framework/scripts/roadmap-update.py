@@ -8,7 +8,7 @@ Handles all write operations: completing tasks, progressing status, adding track
 import sys
 import argparse
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 
 # Add framework to path
@@ -41,13 +41,12 @@ def complete_task(
     completed_by: str = "system"
 ) -> bool:
     """Mark a task as completed."""
-    # Extract sprint ID from task ID
-    parts = task_id.split('-')
-    if len(parts) < 3:
+    # Extract sprint ID from task ID (everything before -task-)
+    if '-task-' not in task_id:
         print(f"❌ Invalid task ID format: {task_id}")
         return False
 
-    sprint_id = '-'.join(parts[:2])
+    sprint_id = task_id.split('-task-')[0]
     tasks_path = fs.get_tasks_path(sprint_id)
 
     if not tasks_path.exists():
@@ -70,13 +69,13 @@ def complete_task(
 
     # Update task
     task.status = TaskStatus.COMPLETED
-    task.completed = datetime.utcnow()
-    task.metadata.last_modified = datetime.utcnow()
+    task.completed = datetime.now(timezone.utc)
+    task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = completed_by
 
     # Save tasks
     save_tasks(tasks, tasks_path)
-    print(f"✅ Task '{task.name}' marked as completed")
+    print(f"✅ Task '{task.title}' marked as completed")
 
     # Update sprint progress
     update_sprint_progress(fs, sprint_id)
@@ -85,7 +84,7 @@ def complete_task(
     logger = ActivityLogger(fs.root_dir)
     logger.log_activity(
         ActivityType.TASK_COMPLETED,
-        f"Task '{task.name}' completed",
+        f"Task '{task.title}' completed",
         {"task_id": task_id, "sprint_id": sprint_id}
     )
 
@@ -98,13 +97,12 @@ def start_task(
     started_by: str = "system"
 ) -> bool:
     """Mark a task as in progress."""
-    # Extract sprint ID from task ID
-    parts = task_id.split('-')
-    if len(parts) < 3:
+    # Extract sprint ID from task ID (everything before -task-)
+    if '-task-' not in task_id:
         print(f"❌ Invalid task ID format: {task_id}")
         return False
 
-    sprint_id = '-'.join(parts[:2])
+    sprint_id = task_id.split('-task-')[0]
     tasks_path = fs.get_tasks_path(sprint_id)
 
     if not tasks_path.exists():
@@ -127,13 +125,13 @@ def start_task(
 
     # Update task
     task.status = TaskStatus.IN_PROGRESS
-    task.started = datetime.utcnow()
-    task.metadata.last_modified = datetime.utcnow()
+    task.started = datetime.now(timezone.utc)
+    task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = started_by
 
     # Save tasks
     save_tasks(tasks, tasks_path)
-    print(f"✅ Task '{task.name}' marked as in progress")
+    print(f"✅ Task '{task.title}' marked as in progress")
 
     # Update sprint progress
     update_sprint_progress(fs, sprint_id)
@@ -142,7 +140,7 @@ def start_task(
     logger = ActivityLogger(fs.root_dir)
     logger.log_activity(
         ActivityType.TASK_STARTED,
-        f"Task '{task.name}' started",
+        f"Task '{task.title}' started",
         {"task_id": task_id, "sprint_id": sprint_id}
     )
 
@@ -163,18 +161,38 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
 
     tasks = load_tasks(tasks_path)
 
-    # Calculate progress
-    total_tasks = len([t for t in tasks if not t.is_quality_gate()])
-    completed_tasks = len([
-        t for t in tasks
-        if not t.is_quality_gate() and t.status == TaskStatus.COMPLETED
-    ])
+    # Calculate progress by task type
+    from roadmap.models import TaskType
 
+    # Development tasks
+    dev_tasks = [t for t in tasks if t.task_type == TaskType.DEVELOPMENT]
+    dev_total = len(dev_tasks)
+    dev_completed = len([t for t in dev_tasks if t.status == TaskStatus.COMPLETED])
+
+    # Completion gate tasks
+    comp_gate_tasks = [t for t in tasks if t.task_type == TaskType.COMPLETION_GATE]
+    comp_gate_total = len(comp_gate_tasks)
+    comp_gate_completed = len([t for t in comp_gate_tasks if t.status == TaskStatus.COMPLETED])
+
+    # Production gate tasks
+    prod_gate_tasks = [t for t in tasks if t.task_type == TaskType.PRODUCTION_GATE]
+    prod_gate_total = len(prod_gate_tasks)
+    prod_gate_completed = len([t for t in prod_gate_tasks if t.status == TaskStatus.COMPLETED])
+
+    # Total tasks and completion
+    total_tasks = dev_total + comp_gate_total + prod_gate_total
+    completed_tasks = dev_completed + comp_gate_completed + prod_gate_completed
     completion_percent = int((completed_tasks / total_tasks * 100)) if total_tasks > 0 else 0
 
     # Update sprint progress
     sprint.progress.tasks_total = total_tasks
     sprint.progress.tasks_completed = completed_tasks
+    sprint.progress.development_tasks_total = dev_total
+    sprint.progress.development_tasks_completed = dev_completed
+    sprint.progress.completion_gate_tasks_total = comp_gate_total
+    sprint.progress.completion_gate_tasks_completed = comp_gate_completed
+    sprint.progress.production_gate_tasks_total = prod_gate_total
+    sprint.progress.production_gate_tasks_completed = prod_gate_completed
     sprint.progress.completion_percent = completion_percent
 
     # Check if sprint can auto-progress
@@ -183,15 +201,30 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
 
     if progressed and new_status:
         sprint.status = new_status
+
+        # Set appropriate timestamp based on new status
+        now = datetime.now(timezone.utc)
+        if new_status == Status.COMPLETION_GATE_CHECK:
+            sprint.completion_gate_check_at = now
+        elif new_status == Status.COMPLETED:
+            sprint.completed = now
+        elif new_status == Status.PRODUCTION_GATE_CHECK:
+            sprint.production_gate_check_at = now
+        elif new_status == Status.PRODUCTION_READY:
+            sprint.production_ready_at = now
+        elif new_status == Status.DEPLOYED:
+            sprint.deployed_at = now
+
+        sprint.metadata.last_modified = now
         print(f"🎉 Sprint '{sprint.name}' progressed to {new_status.value}: {message}")
 
         # Log activity
-        logger = ActivityLogger(fs.root_dir)
-        logger.log_activity(
-            ActivityType.STATUS_CHANGED,
-            f"Sprint '{sprint.name}' progressed to {new_status.value}",
-            {"sprint_id": sprint_id, "old_status": sprint.status.value, "new_status": new_status.value}
-        )
+        # logger = ActivityLogger(fs.root_dir)
+        # logger.log_activity(
+        #     ActivityType.STATUS_CHANGED,
+        #     f"Sprint '{sprint.name}' progressed to {new_status.value}",
+        #     {"sprint_id": sprint_id, "old_status": sprint.status.value, "new_status": new_status.value}
+        # )
 
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
@@ -214,7 +247,7 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
 
     track = load_track(track_path)
 
-    # Calculate progress
+    # Calculate progress AND update sprint summaries
     total_sprints = len(track.sprints)
     completed_sprints = 0
     total_tasks = 0
@@ -224,6 +257,10 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
         sprint_path = fs.get_sprint_path(sprint_summary.id)
         if sprint_path.exists():
             sprint = load_sprint(sprint_path)
+
+            # Update sprint summary with current sprint state
+            sprint_summary.status = sprint.status
+            sprint_summary.started = sprint.started
 
             if sprint.status in [Status.COMPLETED, Status.PRODUCTION_GATE_CHECK, Status.PRODUCTION_READY, Status.DEPLOYED]:
                 completed_sprints += 1
@@ -249,12 +286,12 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
         print(f"🎉 Track '{track.name}' progressed to {new_status.value}: {message}")
 
         # Log activity
-        logger = ActivityLogger(fs.root_dir)
-        logger.log_activity(
-            ActivityType.STATUS_CHANGED,
-            f"Track '{track.name}' progressed to {new_status.value}",
-            {"track_id": track_id, "old_status": track.status.value, "new_status": new_status.value}
-        )
+        # logger = ActivityLogger(fs.root_dir)
+        # logger.log_activity(
+        #     ActivityType.STATUS_CHANGED,
+        #     f"Track '{track.name}' progressed to {new_status.value}",
+        #     {"track_id": track_id, "old_status": track.status.value, "new_status": new_status.value}
+        # )
 
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
@@ -317,12 +354,12 @@ def update_roadmap_progress(fs: FileSystemManager):
         print(f"🎉 Roadmap '{roadmap.name}' progressed to {new_status.value}: {message}")
 
         # Log activity
-        logger = ActivityLogger(fs.root_dir)
-        logger.log_activity(
-            ActivityType.STATUS_CHANGED,
-            f"Roadmap '{roadmap.name}' progressed to {new_status.value}",
-            {"old_status": roadmap.status.value, "new_status": new_status.value}
-        )
+        # logger = ActivityLogger(fs.root_dir)
+        # logger.log_activity(
+        #     ActivityType.STATUS_CHANGED,
+        #     f"Roadmap '{roadmap.name}' progressed to {new_status.value}",
+        #     {"old_status": roadmap.status.value, "new_status": new_status.value}
+        # )
 
     # Save roadmap
     save_roadmap(roadmap, roadmap_path)
@@ -364,18 +401,18 @@ def assign_task(
 
     # Update task
     task.assigned_agent = agent
-    task.metadata.last_modified = datetime.utcnow()
+    task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = assigned_by
 
     # Save tasks
     save_tasks(tasks, tasks_path)
-    print(f"✅ Task '{task.name}' assigned to {agent}")
+    print(f"✅ Task '{task.title}' assigned to {agent}")
 
     # Log activity
     logger = ActivityLogger(fs.root_dir)
     logger.log_activity(
         ActivityType.TASK_STARTED,
-        f"Task '{task.name}' assigned to {agent}",
+        f"Task '{task.title}' assigned to {agent}",
         {"task_id": task_id, "agent": agent}
     )
 
@@ -401,8 +438,8 @@ def start_sprint(
 
     # Update sprint
     sprint.status = Status.IN_PROGRESS
-    sprint.started = datetime.utcnow()
-    sprint.metadata.last_modified = datetime.utcnow()
+    sprint.started = datetime.now(timezone.utc)
+    sprint.metadata.last_modified = datetime.now(timezone.utc)
     sprint.metadata.last_modified_by = started_by
 
     # Save sprint
@@ -418,7 +455,7 @@ def start_sprint(
         # If track not started, start it
         if track.status == Status.NOT_STARTED:
             track.status = Status.IN_PROGRESS
-            track.started = datetime.utcnow()
+            track.started = datetime.now(timezone.utc)
             save_track(track, track_path)
             print(f"✅ Track '{track.name}' started")
 
@@ -467,8 +504,8 @@ def complete_sprint(
 
     # Update sprint
     sprint.status = Status.COMPLETED
-    sprint.completed = datetime.utcnow()
-    sprint.metadata.last_modified = datetime.utcnow()
+    sprint.completed = datetime.now(timezone.utc)
+    sprint.metadata.last_modified = datetime.now(timezone.utc)
     sprint.metadata.last_modified_by = completed_by
 
     # Save sprint

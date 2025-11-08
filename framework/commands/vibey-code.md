@@ -66,7 +66,7 @@ START_DATE=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys
 PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(f\"{p.get('tasks_completed', 0)}/{p.get('tasks_total', 0)}\")")
 
 # Get tasks for this sprint
-TASKS_DATA=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "import sys, json; tasks=[t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID']; print(json.dumps(tasks))")
+TASKS_DATA=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "import sys, json; data=json.load(sys.stdin); tasks=[t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']; print(json.dumps(tasks))")
 
 # Count task statuses
 TASKS_IN_PROGRESS=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len([t for t in json.load(sys.stdin) if t.get('status') == 'in_progress']))")
@@ -223,7 +223,8 @@ echo "Running pre-flight checks..."
 # Check for incomplete/blocked tasks
 INCOMPLETE_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
 import sys, json
-tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') not in ['completed']]
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') not in ['completed']]
 print(len(tasks))
 ")
 
@@ -288,7 +289,8 @@ Choose an option (1-4):
 # List incomplete tasks for this sprint
 TASKS_JSON=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
 import sys, json
-tasks = [t for t in json.load(sys.stdin)
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', [])
          if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
 for i, task in enumerate(tasks, 1):
     print(f\"{i}. {task.get('title', task.get('id', 'Unknown'))} ({task.get('status', 'unknown')})\")
@@ -309,7 +311,8 @@ Parse their response and set `TASK_INPUT` to the task number or ID they provide.
 if [[ "$TASK_INPUT" =~ ^[0-9]+$ ]]; then
   TASK_ID=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
 import sys, json
-tasks = [t for t in json.load(sys.stdin)
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', [])
          if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
 if $TASK_INPUT <= len(tasks):
     print(tasks[$TASK_INPUT - 1]['id'])
@@ -440,7 +443,8 @@ fi
 # Check if all tasks are complete
 INCOMPLETE_TASKS=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
 import sys, json
-tasks = [t for t in json.load(sys.stdin)
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', [])
          if t.get('sprint_id') == '$SPRINT_ID' and t.get('status') != 'completed']
 print(len(tasks))
 ")
@@ -479,7 +483,8 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
     # Get completed tasks
     TASKS_LIST=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
 import sys, json
-tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '$SPRINT_ID']
+data = json.load(sys.stdin)
+tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']
 for t in tasks:
     status = '✅' if t.get('status') == 'completed' else '⏸️'
     print(f\"- {status} {t.get('title', t.get('id', 'Unknown'))}\")

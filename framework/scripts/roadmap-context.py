@@ -24,20 +24,21 @@ sys.path.insert(0, str(scripts_dir))
 sys.path.insert(0, str(scripts_dir / "roadmap-lib"))
 
 from filesystem import find_roadmap_root, load_yaml
+from cache import RoadmapCache
 
 
 class ContextLoader:
     """Loads dependency context based on mode and distance."""
 
-    def __init__(self, root_dir: Path, max_distance: int = 2, cache: bool = True):
+    def __init__(self, root_dir: Path, max_distance: int = 2, cache: Optional['RoadmapCache'] = None):
         self.root_dir = root_dir
         self.vibey_dir = root_dir / ".vibey"
         self.sprint_docs_dir = self.vibey_dir / "sprint_docs"
         self.sprints_dir = self.vibey_dir / "roadmap" / "sprints"
         self.tasks_dir = self.vibey_dir / "roadmap" / "tasks"
         self.max_distance = max_distance
-        self.cache = cache
-        self.summary_cache = {} if cache else None
+        self.roadmap_cache = cache or RoadmapCache(root_dir)
+        self.summary_cache = {}  # For caching summaries during session
 
     def load_context_for_task(self, task_id: str, show_full: bool = False) -> Dict:
         """Load all context needed for a task."""
@@ -53,6 +54,18 @@ class ContextLoader:
         print(f"**Task:** {task['name']}")
         print(f"**Sprint:** {task['sprint_id']}")
         print(f"**Type:** {task.get('type', 'development')}\n")
+
+        # Show dependency graph snapshot
+        dep_graph = self.roadmap_cache.get_dependency_graph()
+        direct_deps = dep_graph.get(task_id, [])
+
+        print(f"📊 Dependency Graph Snapshot:")
+        print(f"   Direct dependencies: {len(direct_deps)}")
+        if direct_deps:
+            for dep_id in direct_deps:
+                print(f"     - {dep_id}")
+        print(f"   Branch: {self.roadmap_cache.current_branch}")
+        print(f"   Total objects in graph: {len(dep_graph)}\n")
 
         # Load current sprint docs (always full)
         current_sprint_context = self._load_current_sprint(task['sprint_id'])

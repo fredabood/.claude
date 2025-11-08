@@ -37,7 +37,9 @@ def handle_prepare(args):
         print("❌ No roadmap found. Run 'roadmap init' first.")
         sys.exit(1)
 
-    prep_mode = PreparationMode(root_dir)
+    # Pass cache to preparation mode (if available from args)
+    cache = getattr(args, 'cache', None)
+    prep_mode = PreparationMode(root_dir, cache=cache)
 
     # List mode
     if args.list:

@@ -25,15 +25,17 @@ sys.path.insert(0, str(scripts_dir))
 sys.path.insert(0, str(scripts_dir / "roadmap-lib"))
 
 from filesystem import find_roadmap_root, load_yaml, save_yaml
+from cache import RoadmapCache
 
 
 class PreparationMode:
     """Deep dependency analysis for complex tasks."""
 
-    def __init__(self, root_dir: Path):
+    def __init__(self, root_dir: Path, cache: Optional['RoadmapCache'] = None):
         self.root_dir = root_dir
         self.vibey_dir = root_dir / ".vibey"
         self.sprint_docs_dir = self.vibey_dir / "sprint_docs"
+        self.cache = cache or RoadmapCache(root_dir)
 
     def prepare_task(self, task_id: str, regenerate: bool = False, show: bool = False) -> None:
         """Generate or show preparation document for task."""
@@ -206,6 +208,14 @@ class PreparationMode:
         # For now, generate a structured template
         # TODO: Replace with actual Claude API call
 
+        # Load dependency graph snapshot
+        dep_graph = self.cache.get_dependency_graph()
+        task_id = task['id']
+        direct_deps = dep_graph.get(task_id, [])
+
+        # Get all dependencies loaded (for audit trail)
+        all_loaded_deps = list(dep_docs.keys())
+
         prep_doc = f"""# Task Preparation: {task['name']}
 # Task ID: {task['id']}
 # Generated: {datetime.now().isoformat()}
@@ -219,6 +229,23 @@ class PreparationMode:
 **Estimated Duration:** {task.get('estimated_duration', 'Not specified')}
 
 **Type:** {task.get('type', 'development')}
+
+---
+
+## Dependency Graph Snapshot
+
+**Captured at preparation time for audit/reproducibility.**
+
+**Direct Dependencies:** {len(direct_deps)}
+{chr(10).join(f"  - {dep_id}" for dep_id in direct_deps)}
+
+**Transitive Dependencies Loaded:** {len(all_loaded_deps)}
+{chr(10).join(f"  - {dep_id}" for dep_id in all_loaded_deps)}
+
+**Graph Metadata:**
+  - Branch: {self.cache.current_branch}
+  - Timestamp: {datetime.now().isoformat()}
+  - Total dependency objects in graph: {len(dep_graph)}
 
 ---
 

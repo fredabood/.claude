@@ -37,5 +37,7 @@ def handle_context(args):
         print("❌ No roadmap found. Run 'roadmap init' first.")
         sys.exit(1)
 
-    loader = ContextLoader(root_dir, max_distance=args.max_distance)
+    # Pass cache to context loader (if available from args)
+    cache = getattr(args, 'cache', None)
+    loader = ContextLoader(root_dir, max_distance=args.max_distance, cache=cache)
     context = loader.load_context_for_task(args.task_id, show_full=args.show_full)

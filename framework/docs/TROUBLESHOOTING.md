@@ -308,10 +308,12 @@ Then: /vibey code
 # Check if sprint plan exists
 ls docs/sprints/sprint-1-plan.md
 
-# Generate state from plan
-python3 .claude/scripts/create-sprint-state.py \
-  --plan-file docs/sprints/sprint-1-plan.md \
-  --output docs/sprints/sprint-1-state.yaml
+# Create sprint from plan using roadmap CLI
+python3 .claude/scripts/roadmap plan create \
+  --track-id main \
+  --from-plan sprint-1-plan.md \
+  --sprint-id sprint-1 \
+  --start
 ```
 
 ---
@@ -320,27 +322,33 @@ python3 .claude/scripts/create-sprint-state.py \
 
 **Error:**
 ```
-❌ Cannot complete phase - blockers detected
+❌ Cannot complete phase - incomplete tasks
 ```
 
-**Solution 1: Check Quality Gates**
+**Solution 1: Check Task Status**
 ```bash
-# View quality gate status
-python3 .claude/scripts/query-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  quality-gates --phase 1
+# List all tasks for the sprint
+python3 .claude/scripts/roadmap list tasks --json | \
+  python3 -c "import sys, json; \
+  data = json.load(sys.stdin); \
+  tasks = [t for t in data['tasks'] if t['sprint_id'] == 'sprint-1']; \
+  for t in tasks: print(f\"{t['id']}: {t['status']}\")"
 ```
 
-**Solution 2: Update Quality Gates**
+**Solution 2: Complete Tasks**
 ```bash
-# Mark quality gate as passed
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  quality-gate \
-  --phase 1 \
-  --gate "Security Audit" \
-  --status passed \
-  --score 85
+# Complete individual tasks
+python3 .claude/scripts/roadmap complete task-001
+python3 .claude/scripts/roadmap complete task-002
+```
+
+**Solution 3: Check Quality Gates**
+```bash
+# View quality gates for sprint
+python3 .claude/scripts/roadmap gate list sprint-1
+
+# Update quality gate if needed
+python3 .claude/scripts/roadmap gate update sprint-1 "Security Audit" passed --score 85
 ```
 
 **Solution 3: Override (Not Recommended)**

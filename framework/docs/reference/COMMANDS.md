@@ -353,92 +353,116 @@ python3 .claude/scripts/manage-project-context.py list-archives
 
 ---
 
-### Sprint State Management
+### Roadmap Management
 
-**Create Sprint State:**
+**View Roadmap Status:**
 ```bash
-python3 .claude/scripts/create-sprint-state.py \
-  --plan-file docs/sprints/sprint-1-plan.md \
-  --output docs/sprints/sprint-1-state.yaml
+# Overview of all tracks and sprints
+python3 .claude/scripts/roadmap status
+
+# JSON output for programmatic access
+python3 .claude/scripts/roadmap status --json
 ```
 
-**Query Sprint State:**
+**Sprint Management:**
 ```bash
-# Dashboard
-python3 .claude/scripts/query-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  dashboard
+# Create sprint from plan file
+python3 .claude/scripts/roadmap plan create \
+  --track-id main \
+  --from-plan sprint-1-plan.md \
+  --sprint-id sprint-1 \
+  --start
 
-# Current phase
-python3 .claude/scripts/query-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  current-phase
+# List all sprints
+python3 .claude/scripts/roadmap list sprints
 
-# List phases
-python3 .claude/scripts/query-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  list-phases
+# Start a sprint
+python3 .claude/scripts/roadmap start sprint-1
 
-# Recent activity
-python3 .claude/scripts/query-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  recent-activity --limit 5
+# Complete a sprint
+python3 .claude/scripts/roadmap complete sprint-1
 ```
 
-**Update Sprint State:**
+**Task Management:**
 ```bash
-# Update task
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  update-task \
-  --phase 1 \
-  --task "Implement authentication" \
-  --completed
+# List all tasks
+python3 .claude/scripts/roadmap list tasks
 
-# Log agent
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  log-agent \
-  --phase 1 \
-  --agent "Security Reviewer" \
-  --status completed
+# List tasks with JSON output
+python3 .claude/scripts/roadmap list tasks --json
 
-# Quality gate
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  quality-gate \
-  --phase 1 \
-  --gate "Security Audit" \
-  --status passed \
-  --score 85
+# Start a task
+python3 .claude/scripts/roadmap start task-001
 
-# Complete phase
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  complete-phase --phase 1
+# Complete a task
+python3 .claude/scripts/roadmap complete task-001
 
-# Pause sprint
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  pause-sprint
-
-# Complete sprint
-python3 .claude/scripts/update-sprint-state.py \
-  --state docs/sprints/sprint-1-state.yaml \
-  complete-sprint
+# Assign task to agent
+python3 .claude/scripts/roadmap assign task-001 web-developer
 ```
 
-**Update Sprint Marker:**
+**Quality Gate Management:**
 ```bash
-python3 .claude/scripts/update-sprint-marker.py \
-  --claude-md .claude/CLAUDE.md \
-  --sprint-number 1 \
-  --sprint-name "Authentication System" \
-  --plan-file docs/sprints/sprint-1-plan.md \
-  --state-file docs/sprints/sprint-1-state.yaml \
-  --phase-number 1 \
-  --phase-name "Design & Planning" \
-  --active
+# List quality gates for a sprint
+python3 .claude/scripts/roadmap gate list sprint-1
+
+# Update quality gate status
+python3 .claude/scripts/roadmap gate update sprint-1 "Security Audit" passed --score 85
+
+# Update gate without score
+python3 .claude/scripts/roadmap gate update sprint-1 "Code Review" failed
+```
+
+**Dependency Management:**
+```bash
+# Show all dependencies
+python3 .claude/scripts/roadmap deps
+
+# Show dependencies for specific sprint/task
+python3 .claude/scripts/roadmap deps sprint-2
+
+# Show only blockers
+python3 .claude/scripts/roadmap deps --blockers
+
+# Show what depends on this (reverse dependencies)
+python3 .claude/scripts/roadmap deps task-001 --dependents
+```
+
+**Agent Management:**
+```bash
+# View agent workload
+python3 .claude/scripts/roadmap agents --workload
+
+# View specific agent details
+python3 .claude/scripts/roadmap agents --agent web-developer
+
+# Get task recommendations
+python3 .claude/scripts/roadmap recommend
+
+# Get recommendations for specific agent
+python3 .claude/scripts/roadmap recommend --agent web-developer --limit 5
+```
+
+**Search and Validation:**
+```bash
+# Search for tasks/sprints
+python3 .claude/scripts/roadmap find "authentication"
+
+# Search specific type
+python3 .claude/scripts/roadmap find "security" --type sprint
+
+# Validate roadmap structure
+python3 .claude/scripts/roadmap validate
+
+# Validate and fix issues
+python3 .claude/scripts/roadmap validate --fix
+```
+
+**Note:** Sprint markers in CLAUDE.md are updated via sed commands:
+```bash
+# Update CLAUDE.md sprint marker
+sed -i.bak 's/<!-- CURRENT_SPRINT: .* -->/<!-- CURRENT_SPRINT: sprint-1 -->/' .claude/CLAUDE.md
+sed -i.bak 's/\*\*Current Sprint:\*\* .*/\*\*Current Sprint:\*\* sprint-1/' .claude/CLAUDE.md
 ```
 
 ---

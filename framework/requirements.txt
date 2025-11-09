@@ -7,3 +7,6 @@ Jinja2>=3.1.0
 
 # Schema validation
 jsonschema>=4.0.0
+
+# ID generation (ULID - collision-free, sortable identifiers)
+python-ulid>=2.2.0

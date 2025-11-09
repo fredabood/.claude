@@ -11,17 +11,18 @@ track:
   estimated_duration: 3 months
   progress:
     sprints_total: 3
-    sprints_completed: 1
-    tasks_total: 7
-    tasks_completed: 7
-    completion_percent: 100
+    sprints_completed: 2
+    tasks_total: 25
+    tasks_completed: 20
+    completion_percent: 80
   sprints:
   - id: core-framework-2
     name: Config-to-Docs Architecture
-    status: not_started
+    status: completed
     estimated_duration: 4 weeks
     tasks_count: 13
-    started: null
+    started: '2025-11-09T09:00:00+00:00'
+    completed: '2025-11-09T13:20:00+00:00'
     dependencies:
       - type: sprint
         target_id: core-framework-3

@@ -12,7 +12,7 @@ track:
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 18
+    tasks_total: 19
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -20,7 +20,7 @@ track:
     name: Hierarchical Structure & Core Generation
     status: not_started
     estimated_duration: 2 weeks
-    tasks_count: 7
+    tasks_count: 8
     started: null
   - id: documentation-system-2
     name: Documentation Synchronization & Context Management
@@ -80,14 +80,16 @@ track:
   - test-engineer
   - docs-writer
   deliverables:
+  - ULID-based ID generation system (collision-free, immutable)
   - Hierarchical directory structure in .vibey/roadmap/
+  - Hybrid approach: ULID IDs + human-readable directory slugs
   - Table of contents JSON generation system
   - Markdown view generation from YAML
   - Documentation synchronization engine
   - Sync manifest tracking system
   - Context management CLI commands
   - Project documentation tracking (.meta.json)
-  - Migration script for existing tracks
+  - Migration script for existing tracks (includes ULID migration)
   - Updated roadmap Python scripts
   - Comprehensive documentation system guide
   strategic_value:

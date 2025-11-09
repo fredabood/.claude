@@ -13,8 +13,8 @@ track:
     sprints_total: 3
     sprints_completed: 1
     tasks_total: 19
-    tasks_completed: 5
-    completion_percent: 26
+    tasks_completed: 6
+    completion_percent: 31
   sprints:
   - id: documentation-system-1
     name: Hierarchical Structure & Core Generation

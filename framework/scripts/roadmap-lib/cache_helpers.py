@@ -26,23 +26,31 @@ def get_cached_task(cache: Optional[RoadmapCache], task_id: str, root_dir: Optio
     if cache:
         return cache.get_task(task_id)
 
-    # Fallback: load directly
+    # Fallback: load directly from hierarchical structure
     root = root_dir or find_roadmap_root()
     if not root:
         return None
 
     fs = FileSystemManager(root)
-    tasks_dir = fs.vibey_dir / fs.TASKS_DIR
-    if not tasks_dir.exists():
-        return None
 
-    # Linear scan
-    for task_file in tasks_dir.glob("*-tasks.yaml"):
-        data = load_yaml(task_file)
-        if data and 'tasks' in data:
-            for task in data['tasks']:
-                if task.get('id') == task_id:
-                    return task
+    # Search hierarchical structure for task
+    # Try to find task directory by ID
+    task_dir = fs.dir_manager.find_directory_by_id(task_id)
+    if task_dir:
+        task_file = task_dir / "task.yaml"
+        if task_file.exists():
+            data = load_yaml(task_file)
+            return data.get('task') if data else None
+
+    # Fallback: linear scan through all tracks/sprints/tasks
+    for track_slug, _ in fs.dir_manager.list_tracks():
+        for sprint_slug, _ in fs.dir_manager.list_sprints(track_slug):
+            for task_slug, tid in fs.dir_manager.list_tasks(track_slug, sprint_slug):
+                if tid == task_id:
+                    paths = fs.dir_manager.get_paths(track_slug, sprint_slug, task_slug)
+                    task_file = paths.task_path("task.yaml")
+                    data = load_yaml(task_file)
+                    return data.get('task') if data else None
 
     return None
 
@@ -119,21 +127,24 @@ def get_all_cached_tasks(cache: Optional[RoadmapCache], root_dir: Optional[Path]
     if cache:
         return cache.get_all_tasks()
 
-    # Fallback: load directly
+    # Fallback: load directly from hierarchical structure
     root = root_dir or find_roadmap_root()
     if not root:
         return []
 
     fs = FileSystemManager(root)
-    tasks_dir = fs.vibey_dir / fs.TASKS_DIR
-    if not tasks_dir.exists():
-        return []
-
     all_tasks = []
-    for task_file in tasks_dir.glob("*-tasks.yaml"):
-        data = load_yaml(task_file)
-        if data and 'tasks' in data:
-            all_tasks.extend(data['tasks'])
+
+    # Traverse hierarchical structure
+    for track_slug, _ in fs.dir_manager.list_tracks():
+        for sprint_slug, _ in fs.dir_manager.list_sprints(track_slug):
+            for task_slug, _ in fs.dir_manager.list_tasks(track_slug, sprint_slug):
+                paths = fs.dir_manager.get_paths(track_slug, sprint_slug, task_slug)
+                task_file = paths.task_path("task.yaml")
+                if task_file.exists():
+                    data = load_yaml(task_file)
+                    if data and 'task' in data:
+                        all_tasks.append(data['task'])
 
     return all_tasks
 
@@ -152,21 +163,23 @@ def get_all_cached_sprints(cache: Optional[RoadmapCache], root_dir: Optional[Pat
     if cache:
         return cache.get_all_sprints()
 
-    # Fallback: load directly
+    # Fallback: load directly from hierarchical structure
     root = root_dir or find_roadmap_root()
     if not root:
         return []
 
     fs = FileSystemManager(root)
-    sprints_dir = fs.vibey_dir / fs.SPRINTS_DIR
-    if not sprints_dir.exists():
-        return []
-
     all_sprints = []
-    for sprint_file in sprints_dir.glob("*.yaml"):
-        data = load_yaml(sprint_file)
-        if data and 'sprint' in data:
-            all_sprints.append(data['sprint'])
+
+    # Traverse hierarchical structure
+    for track_slug, _ in fs.dir_manager.list_tracks():
+        for sprint_slug, _ in fs.dir_manager.list_sprints(track_slug):
+            paths = fs.dir_manager.get_paths(track_slug, sprint_slug)
+            sprint_file = paths.sprint_path("sprint.yaml")
+            if sprint_file.exists():
+                data = load_yaml(sprint_file)
+                if data and 'sprint' in data:
+                    all_sprints.append(data['sprint'])
 
     return all_sprints
 
@@ -185,21 +198,22 @@ def get_all_cached_tracks(cache: Optional[RoadmapCache], root_dir: Optional[Path
     if cache:
         return cache.get_all_tracks()
 
-    # Fallback: load directly
+    # Fallback: load directly from hierarchical structure
     root = root_dir or find_roadmap_root()
     if not root:
         return []
 
     fs = FileSystemManager(root)
-    tracks_dir = fs.vibey_dir / fs.TRACKS_DIR
-    if not tracks_dir.exists():
-        return []
-
     all_tracks = []
-    for track_file in tracks_dir.glob("*.yaml"):
-        data = load_yaml(track_file)
-        if data and 'track' in data:
-            all_tracks.append(data['track'])
+
+    # Traverse hierarchical structure
+    for track_slug, _ in fs.dir_manager.list_tracks():
+        paths = fs.dir_manager.get_paths(track_slug)
+        track_file = paths.track_path("track.yaml")
+        if track_file.exists():
+            data = load_yaml(track_file)
+            if data and 'track' in data:
+                all_tracks.append(data['track'])
 
     return all_tracks
 

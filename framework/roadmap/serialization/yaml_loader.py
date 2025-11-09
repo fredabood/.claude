@@ -543,26 +543,47 @@ def load_task(file_path: Union[str, Path]) -> Task:
 
 def load_tasks(file_path: Union[str, Path]) -> List[Task]:
     """
-    Load tasks from YAML file.
+    Load tasks from YAML file or hierarchical directory.
+
+    Supports both formats:
+    - Legacy: single file with {'tasks': [...]} (flat structure)
+    - Hierarchical: directory with task subdirectories containing task.yaml
 
     Args:
-        file_path: Path to tasks YAML file
+        file_path: Path to tasks file or sprint directory
 
     Returns:
         List of Task objects
     """
     file_path = Path(file_path)
 
-    with open(file_path, 'r') as f:
-        data = yaml.safe_load(f)
+    # Check if this is a directory (hierarchical structure)
+    if file_path.is_dir():
+        # Load tasks from hierarchical structure
+        tasks_data = []
+        for item in file_path.iterdir():
+            # Skip non-directories and special directories
+            if not item.is_dir() or item.name.startswith('.') or item.name == 'context':
+                continue
 
-    # Tasks can be a list or dict with 'tasks' key
-    if isinstance(data, list):
-        tasks_data = data
-    elif 'tasks' in data:
-        tasks_data = data['tasks']
+            task_file = item / "task.yaml"
+            if task_file.exists():
+                with open(task_file, 'r') as f:
+                    task_yaml = yaml.safe_load(f)
+                    if task_yaml and 'task' in task_yaml:
+                        tasks_data.append(task_yaml['task'])
     else:
-        raise ValueError("Invalid tasks file format")
+        # Legacy flat structure
+        with open(file_path, 'r') as f:
+            data = yaml.safe_load(f)
+
+        # Tasks can be a list or dict with 'tasks' key
+        if isinstance(data, list):
+            tasks_data = data
+        elif 'tasks' in data:
+            tasks_data = data['tasks']
+        else:
+            raise ValueError("Invalid tasks file format")
 
     tasks = []
     for task_data in tasks_data:

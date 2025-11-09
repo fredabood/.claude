@@ -1,22 +1,42 @@
 """
 File system management utilities for roadmap state.
 
-Handles directory structure, file paths, and roadmap discovery.
+Handles hierarchical directory structure, file paths, and roadmap discovery.
+
+This module has been updated to use the hierarchical directory structure:
+.vibey/roadmap/{track-slug}/{sprint-slug}/{task-slug}/
+
+Legacy flat structure (.vibey/tracks/, .vibey/sprints/, .vibey/tasks/) is deprecated.
 """
 
 import os
+import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict
+
+# Add framework to path for DirectoryManager import
+# Handle both running from repo root and from framework/scripts/
+script_dir = Path(__file__).resolve().parent
+repo_root = script_dir.parent.parent.parent  # Go up from roadmap-lib → scripts → framework → repo
+
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
+try:
+    from framework.roadmap.directory_manager import DirectoryManager
+except ModuleNotFoundError:
+    # Fallback: try relative import for running from framework/scripts/
+    roadmap_dir = repo_root / "framework" / "roadmap"
+    if str(roadmap_dir.parent) not in sys.path:
+        sys.path.insert(0, str(roadmap_dir.parent))
+    from roadmap.directory_manager import DirectoryManager
 
 
 class FileSystemManager:
-    """Manages roadmap file system structure."""
+    """Manages hierarchical roadmap file system structure."""
 
     VIBEY_DIR = ".vibey"
-    TRACKS_DIR = "tracks"
-    SPRINTS_DIR = "sprints"
-    TASKS_DIR = "tasks"
-
+    ROADMAP_DIR = "roadmap"
     ROADMAP_FILE = "roadmap.yaml"
 
     def __init__(self, root_dir: Optional[Path] = None):
@@ -28,86 +48,202 @@ class FileSystemManager:
         """
         self.root_dir = Path(root_dir) if root_dir else Path.cwd()
         self.vibey_dir = self.root_dir / self.VIBEY_DIR
+        self.roadmap_root = self.vibey_dir / self.ROADMAP_DIR
+
+        # Initialize DirectoryManager for hierarchical structure
+        self.dir_manager = DirectoryManager(str(self.roadmap_root))
+
+        # Cache for ID-to-slug mappings (populated on demand)
+        self._id_to_slug_cache: Dict[str, str] = {}
 
     def ensure_structure(self):
-        """Ensure .vibey directory structure exists."""
-        dirs = [
-            self.vibey_dir,
-            self.vibey_dir / self.TRACKS_DIR,
-            self.vibey_dir / self.SPRINTS_DIR,
-            self.vibey_dir / self.TASKS_DIR,
-        ]
-
-        for dir_path in dirs:
-            dir_path.mkdir(parents=True, exist_ok=True)
+        """Ensure .vibey/roadmap directory structure exists."""
+        self.vibey_dir.mkdir(parents=True, exist_ok=True)
+        self.dir_manager.create_roadmap_root()
 
     def get_roadmap_path(self) -> Path:
         """Get path to roadmap.yaml."""
         return self.vibey_dir / self.ROADMAP_FILE
 
     def get_track_path(self, track_id: str) -> Path:
-        """Get path to track YAML file."""
-        return self.vibey_dir / self.TRACKS_DIR / f"{track_id}.yaml"
+        """
+        Get path to track.yaml file in hierarchical structure.
+
+        Args:
+            track_id: Track ID (e.g., 'core-framework' or 'track_01JB...')
+
+        Returns:
+            Path to track.yaml
+        """
+        track_slug = self._resolve_slug(track_id, 'track')
+        return self.roadmap_root / track_slug / "track.yaml"
 
     def get_sprint_path(self, sprint_id: str) -> Path:
-        """Get path to sprint YAML file."""
-        return self.vibey_dir / self.SPRINTS_DIR / f"{sprint_id}.yaml"
+        """
+        Get path to sprint.yaml file in hierarchical structure.
+
+        Args:
+            sprint_id: Sprint ID
+
+        Returns:
+            Path to sprint.yaml
+        """
+        track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
+        return self.roadmap_root / track_slug / sprint_slug / "sprint.yaml"
 
     def get_tasks_path(self, sprint_id: str) -> Path:
-        """Get path to tasks YAML file."""
-        return self.vibey_dir / self.TASKS_DIR / f"{sprint_id}-tasks.yaml"
+        """
+        Get path to tasks in hierarchical structure.
+
+        Note: In hierarchical structure, tasks are individual files in
+        {track}/{sprint}/{task}/task.yaml, not a single tasks file.
+        This method returns the sprint directory for compatibility.
+
+        Args:
+            sprint_id: Sprint ID
+
+        Returns:
+            Path to sprint directory containing task subdirectories
+        """
+        track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
+        return self.roadmap_root / track_slug / sprint_slug
 
     def roadmap_exists(self) -> bool:
         """Check if roadmap.yaml exists."""
         return self.get_roadmap_path().exists()
 
     def track_exists(self, track_id: str) -> bool:
-        """Check if track file exists."""
-        return self.get_track_path(track_id).exists()
+        """Check if track exists in hierarchical structure."""
+        try:
+            track_path = self.get_track_path(track_id)
+            return track_path.exists()
+        except (ValueError, FileNotFoundError):
+            return False
 
     def sprint_exists(self, sprint_id: str) -> bool:
-        """Check if sprint file exists."""
-        return self.get_sprint_path(sprint_id).exists()
+        """Check if sprint exists in hierarchical structure."""
+        try:
+            sprint_path = self.get_sprint_path(sprint_id)
+            return sprint_path.exists()
+        except (ValueError, FileNotFoundError):
+            return False
 
     def tasks_exist(self, sprint_id: str) -> bool:
-        """Check if tasks file exists."""
-        return self.get_tasks_path(sprint_id).exists()
+        """Check if tasks exist for a sprint."""
+        try:
+            sprint_dir = self.get_tasks_path(sprint_id)
+            # Check if sprint directory exists and has task subdirectories
+            if not sprint_dir.exists():
+                return False
+
+            # Check for task subdirectories (not 'context' and not starting with '.')
+            has_tasks = any(
+                item.is_dir() and not item.name.startswith('.') and item.name != 'context'
+                for item in sprint_dir.iterdir()
+            )
+            return has_tasks
+        except (ValueError, FileNotFoundError):
+            return False
 
     def list_tracks(self) -> list[str]:
-        """List all track IDs."""
-        tracks_dir = self.vibey_dir / self.TRACKS_DIR
-        if not tracks_dir.exists():
-            return []
-
-        return [
-            f.stem
-            for f in tracks_dir.glob("*.yaml")
-            if f.is_file()
-        ]
+        """List all track IDs from hierarchical structure."""
+        tracks = self.dir_manager.list_tracks()
+        # Return IDs (second element of tuples)
+        return [track_id for slug, track_id in tracks]
 
     def list_sprints(self) -> list[str]:
-        """List all sprint IDs."""
-        sprints_dir = self.vibey_dir / self.SPRINTS_DIR
-        if not sprints_dir.exists():
-            return []
+        """
+        List all sprint IDs from hierarchical structure.
 
-        return [
-            f.stem
-            for f in sprints_dir.glob("*.yaml")
-            if f.is_file()
-        ]
+        Returns:
+            List of sprint IDs across all tracks
+        """
+        sprint_ids = []
+        for track_slug, _ in self.dir_manager.list_tracks():
+            sprints = self.dir_manager.list_sprints(track_slug)
+            sprint_ids.extend([sprint_id for _, sprint_id in sprints])
+        return sprint_ids
 
     def list_sprint_tasks(self) -> list[str]:
-        """List all sprint IDs that have tasks."""
-        tasks_dir = self.vibey_dir / self.TASKS_DIR
-        if not tasks_dir.exists():
-            return []
+        """
+        List all sprint IDs that have tasks.
 
-        return [
-            f.stem.replace("-tasks", "")
-            for f in tasks_dir.glob("*-tasks.yaml")
-            if f.is_file()
-        ]
+        Returns:
+            List of sprint IDs that contain task subdirectories
+        """
+        sprint_ids_with_tasks = []
+
+        for track_slug, _ in self.dir_manager.list_tracks():
+            for sprint_slug, sprint_id in self.dir_manager.list_sprints(track_slug):
+                tasks = self.dir_manager.list_tasks(track_slug, sprint_slug)
+                if tasks:
+                    sprint_ids_with_tasks.append(sprint_id)
+
+        return sprint_ids_with_tasks
+
+    # Private helper methods for slug resolution
+
+    def _resolve_slug(self, object_id: str, object_type: str) -> str:
+        """
+        Resolve object ID to directory slug.
+
+        Args:
+            object_id: Object ID (may be slug or ULID)
+            object_type: 'track', 'sprint', or 'task'
+
+        Returns:
+            Directory slug
+        """
+        # Check cache
+        cache_key = f"{object_type}:{object_id}"
+        if cache_key in self._id_to_slug_cache:
+            return self._id_to_slug_cache[cache_key]
+
+        # If ID looks like a slug (no underscores, lowercase), try it directly
+        if '_' not in object_id and object_id.islower():
+            # Verify it exists
+            if object_type == 'track':
+                test_path = self.roadmap_root / object_id
+                if test_path.exists():
+                    self._id_to_slug_cache[cache_key] = object_id
+                    return object_id
+
+        # Search for directory by ID
+        found_dir = self.dir_manager.find_directory_by_id(object_id)
+        if found_dir:
+            slug = found_dir.name
+            self._id_to_slug_cache[cache_key] = slug
+            return slug
+
+        # Fallback: assume ID is the slug
+        # This handles legacy IDs that are already slug-like (e.g., 'core-framework')
+        return object_id
+
+    def _resolve_sprint_path(self, sprint_id: str) -> tuple[str, str]:
+        """
+        Resolve sprint ID to (track_slug, sprint_slug) tuple.
+
+        Args:
+            sprint_id: Sprint ID
+
+        Returns:
+            Tuple of (track_slug, sprint_slug)
+        """
+        # Search all tracks for the sprint
+        for track_slug, _ in self.dir_manager.list_tracks():
+            for sprint_slug, sid in self.dir_manager.list_sprints(track_slug):
+                if sid == sprint_id:
+                    return track_slug, sprint_slug
+
+        # Fallback: try to extract from sprint_id pattern (track-id-N)
+        # e.g., 'core-framework-2' → track='core-framework', sprint='sprint-2'
+        parts = sprint_id.rsplit('-', 1)
+        if len(parts) == 2:
+            track_slug = parts[0]
+            sprint_slug = sprint_id  # Use full ID as slug
+            return track_slug, sprint_slug
+
+        raise ValueError(f"Cannot resolve sprint path for: {sprint_id}")
 
 
 def find_roadmap_root(start_path: Optional[Path] = None) -> Optional[Path]:

@@ -624,47 +624,58 @@ class RoadmapCache:
         self._save_to_disk()
 
     def _build_task_index(self):
-        """Build task ID -> file path index."""
-        tasks_dir = self.fs.vibey_dir / self.fs.TASKS_DIR
-        if not tasks_dir.exists():
-            return
+        """Build task ID -> file path index (hierarchical structure)."""
+        # Traverse hierarchical structure
+        for track_slug, _ in self.fs.dir_manager.list_tracks():
+            for sprint_slug, _ in self.fs.dir_manager.list_sprints(track_slug):
+                for task_slug, _ in self.fs.dir_manager.list_tasks(track_slug, sprint_slug):
+                    paths = self.fs.dir_manager.get_paths(track_slug, sprint_slug, task_slug)
+                    task_file = paths.task_path("task.yaml")
 
-        for task_file in tasks_dir.glob("*-tasks.yaml"):
-            # Track file mtime
-            self._file_mtimes[task_file] = task_file.stat().st_mtime
+                    if not task_file.exists():
+                        continue
 
-            # Load and index tasks
-            data = load_yaml(task_file)
-            if data and 'tasks' in data:
-                for task in data['tasks']:
-                    task_id = task.get('id')
-                    if task_id:
-                        self._task_index[task_id] = task_file
+                    # Track file mtime
+                    self._file_mtimes[task_file] = task_file.stat().st_mtime
+
+                    # Load and index task
+                    data = load_yaml(task_file)
+                    if data and 'task' in data:
+                        task_id = data['task'].get('id')
+                        if task_id:
+                            self._task_index[task_id] = task_file
 
     def _build_sprint_index(self):
-        """Build sprint ID -> file path index."""
-        sprints_dir = self.fs.vibey_dir / self.fs.SPRINTS_DIR
-        if not sprints_dir.exists():
-            return
+        """Build sprint ID -> file path index (hierarchical structure)."""
+        # Traverse hierarchical structure
+        for track_slug, _ in self.fs.dir_manager.list_tracks():
+            for sprint_slug, _ in self.fs.dir_manager.list_sprints(track_slug):
+                paths = self.fs.dir_manager.get_paths(track_slug, sprint_slug)
+                sprint_file = paths.sprint_path("sprint.yaml")
 
-        for sprint_file in sprints_dir.glob("*.yaml"):
-            # Track file mtime
-            self._file_mtimes[sprint_file] = sprint_file.stat().st_mtime
+                if not sprint_file.exists():
+                    continue
 
-            # Load and index sprint
-            data = load_yaml(sprint_file)
-            if data and 'sprint' in data:
-                sprint_id = data['sprint'].get('id')
-                if sprint_id:
-                    self._sprint_index[sprint_id] = sprint_file
+                # Track file mtime
+                self._file_mtimes[sprint_file] = sprint_file.stat().st_mtime
+
+                # Load and index sprint
+                data = load_yaml(sprint_file)
+                if data and 'sprint' in data:
+                    sprint_id = data['sprint'].get('id')
+                    if sprint_id:
+                        self._sprint_index[sprint_id] = sprint_file
 
     def _build_track_index(self):
-        """Build track ID -> file path index."""
-        tracks_dir = self.fs.vibey_dir / self.fs.TRACKS_DIR
-        if not tracks_dir.exists():
-            return
+        """Build track ID -> file path index (hierarchical structure)."""
+        # Traverse hierarchical structure
+        for track_slug, _ in self.fs.dir_manager.list_tracks():
+            paths = self.fs.dir_manager.get_paths(track_slug)
+            track_file = paths.track_path("track.yaml")
 
-        for track_file in tracks_dir.glob("*.yaml"):
+            if not track_file.exists():
+                continue
+
             # Track file mtime
             self._file_mtimes[track_file] = track_file.stat().st_mtime
 
@@ -677,20 +688,22 @@ class RoadmapCache:
 
     def _load_task_from_file(self, file_path: Path, task_id: str) -> Optional[Dict]:
         """
-        Load specific task from file.
+        Load specific task from file (hierarchical structure).
 
         Args:
-            file_path: Path to tasks file
+            file_path: Path to task.yaml file
             task_id: Task ID to find
 
         Returns:
             Task dict, or None if not found
         """
         data = load_yaml(file_path)
-        if data and 'tasks' in data:
-            for task in data['tasks']:
-                if task.get('id') == task_id:
-                    return task
+
+        # New hierarchical format: single task per file
+        if data and 'task' in data:
+            task = data['task']
+            if task.get('id') == task_id:
+                return task
 
         return None
 

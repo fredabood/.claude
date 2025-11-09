@@ -32,7 +32,9 @@ track:
   blocked_by:
   - goose-port
   depends_on:
-  - goose-port
+  - blocker_id: goose-port
+    current_status: not_started
+    last_checked: '2025-11-09T21:40:22.270181+00:00'
   depended_on_by: []
   quality_gates:
   - name: Terminal Integration Testing
@@ -71,43 +73,18 @@ track:
     last_updated: '2025-11-09T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
     implementation_plan: null
-    notes: |
-      Aider is the highest-priority new platform port due to:
-
-      1. Excellent Compatibility (95%)
-         - Configuration-driven (YAML)
-         - Model abstraction
-         - Custom prompts/templates
-         - Similar agent concepts
-
-      2. Low Effort (1 sprint = 2 weeks)
-         - Simple adapter implementation
-         - Terminal-based (no GUI complexity)
-         - Well-documented API
-
-      3. Strategic Value
-         - 40k+ GitHub stars
-         - Large terminal user base
-         - Git-centric workflow alignment
-         - Open source community
-
-      Adapter Strategy:
-      - Map Vibey agents → Aider model roles/prompts
-      - Map Vibey workflows → Aider command sequences
-      - Map Vibey handoffs → Git commits with metadata
-      - Generate .aider/ directory with configs
-      - Template: aider.conf.yml.j2
-
-      Key Features to Support:
-      - Auto-commit messages (from handoff templates)
-      - Multi-file editing (workflow steps)
-      - Model provider configuration
-      - Custom prompt injection (agent instructions)
-
-      Validation:
-      - Test with real Aider installation
-      - Verify git commits work as expected
-      - Ensure multi-file workflows execute correctly
-      - Documentation for terminal users
-
-      Timeline: Q2 2025 (after Goose port complete)
+    notes: "Aider is the highest-priority new platform port due to:\n\n1. Excellent\
+      \ Compatibility (95%)\n   - Configuration-driven (YAML)\n   - Model abstraction\n\
+      \   - Custom prompts/templates\n   - Similar agent concepts\n\n2. Low Effort\
+      \ (1 sprint = 2 weeks)\n   - Simple adapter implementation\n   - Terminal-based\
+      \ (no GUI complexity)\n   - Well-documented API\n\n3. Strategic Value\n   -\
+      \ 40k+ GitHub stars\n   - Large terminal user base\n   - Git-centric workflow\
+      \ alignment\n   - Open source community\n\nAdapter Strategy:\n- Map Vibey agents\
+      \ → Aider model roles/prompts\n- Map Vibey workflows → Aider command sequences\n\
+      - Map Vibey handoffs → Git commits with metadata\n- Generate .aider/ directory\
+      \ with configs\n- Template: aider.conf.yml.j2\n\nKey Features to Support:\n\
+      - Auto-commit messages (from handoff templates)\n- Multi-file editing (workflow\
+      \ steps)\n- Model provider configuration\n- Custom prompt injection (agent instructions)\n\
+      \nValidation:\n- Test with real Aider installation\n- Verify git commits work\
+      \ as expected\n- Ensure multi-file workflows execute correctly\n- Documentation\
+      \ for terminal users\n\nTimeline: Q2 2025 (after Goose port complete)\n"

@@ -44,7 +44,9 @@ track:
   blocked_by:
   - goose-port
   depends_on:
-  - goose-port
+  - blocker_id: goose-port
+    current_status: not_started
+    last_checked: '2025-11-09T21:40:22.284163+00:00'
   depended_on_by: []
   quality_gates:
   - name: MCP Server Integration
@@ -91,104 +93,42 @@ track:
     last_updated: '2025-11-09T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
     implementation_plan: null
-    notes: |
-      JetBrains AI Assistant is strategic for enterprise/professional market:
-
-      1. Compatibility (80%)
-         - MCP protocol support (SAME as Claude Code!)
-         - Agent2Agent (A2A) protocol
-         - Multi-agent ecosystem vision
-         - Plugin API extensibility
-
-      2. Higher Effort (3 sprints = 5.5 weeks)
-         - MCP server implementation
-         - IDE settings XML complexity
-         - Multi-IDE testing matrix
-         - Enterprise features (security, compliance)
-
-      3. Strategic Value
-         - Professional developer market
-         - Enterprise adoption potential
-         - Multi-language support (all JetBrains IDEs)
-         - MCP standardization alignment
-         - Premium positioning
-
-      MCP Integration Strategy:
-      JetBrains AI Assistant supports MCP (Model Context Protocol),
-      the SAME protocol used by Claude Code! This means we can:
-
-      1. Create Vibey MCP Server
-         - Expose agents as MCP tools
-         - Expose workflows as MCP resources
-         - Expose quality gates as MCP prompts
-
-      2. Register with JetBrains AI
-         - IDE discovers Vibey MCP server
-         - Agents become available tools
-         - Workflows become available operations
-
-      3. Multi-Agent Coordination
-         - Vibey agents + Junie + Claude Agent
-         - Orchestrate between multiple agents
-         - Quality gates across all agents
-
-      Adapter Strategy:
-      - Map Vibey agents → MCP tools
-      - Map Vibey workflows → MCP resources
-      - Map Vibey context → MCP prompts
-      - Generate .idea/ai/ directory
-      - Templates: mcp-server.json.j2, ai-settings.xml.j2
-
-      MCP Server Example (Vibey Agent as Tool):
-      {
-        "tools": [
-          {
-            "name": "web-developer",
-            "description": "Full-stack web development",
-            "inputSchema": {
-              "type": "object",
-              "properties": {
-                "feature_spec": {"type": "string"},
-                "tech_stack": {"type": "string"}
-              }
-            }
-          }
-        ]
-      }
-
-      IDE Coverage (All JetBrains):
-      - IntelliJ IDEA (Java, Kotlin, Scala)
-      - PyCharm (Python)
-      - WebStorm (JavaScript, TypeScript)
-      - GoLand (Go)
-      - PhpStorm (PHP)
-      - RustRover (Rust)
-      - RubyMine (Ruby)
-      - CLion (C, C++)
-
-      This single adapter reaches 8+ programming language communities!
-
-      Enterprise Features:
-      - Security: SSO, SAML integration
-      - Compliance: Audit logs, data governance
-      - Self-hosted: On-premise deployment option
-      - Team management: Shared configurations
-
-      Validation:
-      - Test MCP server with JetBrains AI
-      - Verify multi-agent coordination (Junie + Vibey)
-      - Test across multiple IDEs (IntelliJ, PyCharm, WebStorm)
-      - Enterprise security audit
-      - Performance testing
-
-      Marketing Angle:
-      "Professional-Grade AI Orchestration for JetBrains"
-      - Vibey: Enterprise orchestration & quality gates
-      - JetBrains AI: Best-in-class IDE features
-      - Together: Production-ready development at scale
-
-      Timeline: Q4 2025 (after Windsurf port, MCP research complete)
-
-      Note: MCP alignment is CRITICAL for future-proofing.
-      As more platforms adopt MCP (GitHub Copilot already has),
-      Vibey's MCP adapter becomes reusable across platforms.
+    notes: "JetBrains AI Assistant is strategic for enterprise/professional market:\n\
+      \n1. Compatibility (80%)\n   - MCP protocol support (SAME as Claude Code!)\n\
+      \   - Agent2Agent (A2A) protocol\n   - Multi-agent ecosystem vision\n   - Plugin\
+      \ API extensibility\n\n2. Higher Effort (3 sprints = 5.5 weeks)\n   - MCP server\
+      \ implementation\n   - IDE settings XML complexity\n   - Multi-IDE testing matrix\n\
+      \   - Enterprise features (security, compliance)\n\n3. Strategic Value\n   -\
+      \ Professional developer market\n   - Enterprise adoption potential\n   - Multi-language\
+      \ support (all JetBrains IDEs)\n   - MCP standardization alignment\n   - Premium\
+      \ positioning\n\nMCP Integration Strategy:\nJetBrains AI Assistant supports\
+      \ MCP (Model Context Protocol),\nthe SAME protocol used by Claude Code! This\
+      \ means we can:\n\n1. Create Vibey MCP Server\n   - Expose agents as MCP tools\n\
+      \   - Expose workflows as MCP resources\n   - Expose quality gates as MCP prompts\n\
+      \n2. Register with JetBrains AI\n   - IDE discovers Vibey MCP server\n   - Agents\
+      \ become available tools\n   - Workflows become available operations\n\n3. Multi-Agent\
+      \ Coordination\n   - Vibey agents + Junie + Claude Agent\n   - Orchestrate between\
+      \ multiple agents\n   - Quality gates across all agents\n\nAdapter Strategy:\n\
+      - Map Vibey agents → MCP tools\n- Map Vibey workflows → MCP resources\n- Map\
+      \ Vibey context → MCP prompts\n- Generate .idea/ai/ directory\n- Templates:\
+      \ mcp-server.json.j2, ai-settings.xml.j2\n\nMCP Server Example (Vibey Agent\
+      \ as Tool):\n{\n  \"tools\": [\n    {\n      \"name\": \"web-developer\",\n\
+      \      \"description\": \"Full-stack web development\",\n      \"inputSchema\"\
+      : {\n        \"type\": \"object\",\n        \"properties\": {\n          \"\
+      feature_spec\": {\"type\": \"string\"},\n          \"tech_stack\": {\"type\"\
+      : \"string\"}\n        }\n      }\n    }\n  ]\n}\n\nIDE Coverage (All JetBrains):\n\
+      - IntelliJ IDEA (Java, Kotlin, Scala)\n- PyCharm (Python)\n- WebStorm (JavaScript,\
+      \ TypeScript)\n- GoLand (Go)\n- PhpStorm (PHP)\n- RustRover (Rust)\n- RubyMine\
+      \ (Ruby)\n- CLion (C, C++)\n\nThis single adapter reaches 8+ programming language\
+      \ communities!\n\nEnterprise Features:\n- Security: SSO, SAML integration\n\
+      - Compliance: Audit logs, data governance\n- Self-hosted: On-premise deployment\
+      \ option\n- Team management: Shared configurations\n\nValidation:\n- Test MCP\
+      \ server with JetBrains AI\n- Verify multi-agent coordination (Junie + Vibey)\n\
+      - Test across multiple IDEs (IntelliJ, PyCharm, WebStorm)\n- Enterprise security\
+      \ audit\n- Performance testing\n\nMarketing Angle:\n\"Professional-Grade AI\
+      \ Orchestration for JetBrains\"\n- Vibey: Enterprise orchestration & quality\
+      \ gates\n- JetBrains AI: Best-in-class IDE features\n- Together: Production-ready\
+      \ development at scale\n\nTimeline: Q4 2025 (after Windsurf port, MCP research\
+      \ complete)\n\nNote: MCP alignment is CRITICAL for future-proofing.\nAs more\
+      \ platforms adopt MCP (GitHub Copilot already has),\nVibey's MCP adapter becomes\
+      \ reusable across platforms.\n"

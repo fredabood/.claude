@@ -1,0 +1,155 @@
+sprint:
+  id: core-framework-2
+  name: Config-to-Docs Architecture
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-09T00:00:00+00:00'
+  started: '2025-11-09T00:00:00+00:00'
+  completion_gate_check_at: '2025-11-09T13:20:00+00:00'
+  completed: '2025-11-09T13:20:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 13
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 13
+    completion_percent: 100
+  tasks:
+    - id: core-framework-2-task-001
+      title: Design and document permanent .vibey/ directory structure
+      status: completed
+      priority: critical
+      estimated_hours: 8
+      started: '2025-11-09T00:00:00+00:00'
+      completed: '2025-11-09T01:00:00+00:00'
+    - id: core-framework-2-task-002
+      title: Implement modular config system (project, framework, agents, quality-gates)
+      status: completed
+      priority: critical
+      estimated_hours: 12
+      started: '2025-11-09T01:00:00+00:00'
+      completed: '2025-11-09T02:30:00+00:00'
+    - id: core-framework-2-task-003
+      title: Implement context loading strategy with dependency summaries
+      status: completed
+      priority: critical
+      estimated_hours: 16
+      started: '2025-11-09T02:30:00+00:00'
+      completed: '2025-11-09T04:00:00+00:00'
+      dependencies:
+        - core-framework-2-task-002
+        - core-framework-2-task-001
+    - id: core-framework-2-task-004
+      title: Implement auto-generated task and dependency summaries
+      status: completed
+      priority: high
+      estimated_hours: 10
+      started: '2025-11-09T04:00:00+00:00'
+      completed: '2025-11-09T05:00:00+00:00'
+    - id: core-framework-2-task-005
+      title: Design platform adapter pattern and interfaces
+      status: completed
+      priority: critical
+      estimated_hours: 8
+      started: '2025-11-09T05:00:00+00:00'
+      completed: '2025-11-09T06:00:00+00:00'
+    - id: core-framework-2-task-006
+      title: Implement Claude Code platform adapter
+      status: completed
+      priority: high
+      estimated_hours: 12
+      started: '2025-11-09T06:00:00+00:00'
+      completed: '2025-11-09T07:30:00+00:00'
+    - id: core-framework-2-task-007
+      title: Implement vibey deploy --platform <name> command
+      status: completed
+      priority: high
+      estimated_hours: 10
+      started: '2025-11-09T07:30:00+00:00'
+      completed: '2025-11-09T08:30:00+00:00'
+    - id: core-framework-2-task-008
+      title: Implement vibey docs generate command
+      status: completed
+      priority: medium
+      estimated_hours: 8
+      started: '2025-11-09T08:30:00+00:00'
+      completed: '2025-11-09T09:15:00+00:00'
+    - id: core-framework-2-task-009
+      title: Implement roadmap summarize and roadmap context commands
+      status: completed
+      priority: medium
+      estimated_hours: 6
+      started: '2025-11-09T09:15:00+00:00'
+      completed: '2025-11-09T09:45:00+00:00'
+    - id: core-framework-2-task-010
+      title: Create migration script from current structure to new .vibey/ structure
+      status: completed
+      priority: high
+      estimated_hours: 10
+      started: '2025-11-09T12:00:00+00:00'
+      completed: '2025-11-09T12:00:00+00:00'
+      note: Skipped - Not needed (this repo already uses .vibey/ structure)
+    - id: core-framework-2-task-011
+      title: Update all Vibey commands to use .vibey/ structure
+      status: completed
+      priority: critical
+      estimated_hours: 12
+      started: '2025-11-09T12:00:00+00:00'
+      completed: '2025-11-09T13:15:00+00:00'
+      note: Created unified 'vibey' CLI wrapper for platform-agnostic access
+    - id: core-framework-2-task-012
+      title: Write comprehensive documentation for Config-to-Docs Architecture
+      status: completed
+      priority: high
+      estimated_hours: 10
+      started: '2025-11-09T10:00:00+00:00'
+      completed: '2025-11-09T12:00:00+00:00'
+      note: Comprehensive docs already exist in docs/development/
+    - id: core-framework-2-task-013
+      title: Integration testing and production readiness validation
+      status: completed
+      priority: critical
+      estimated_hours: 12
+      started: '2025-11-09T13:15:00+00:00'
+      completed: '2025-11-09T13:20:00+00:00'
+      note: All components tested - deploy, docs, roadmap commands working perfectly
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - blocker_id: core-framework-3
+      blocker_type: sprint
+      required_status: production_ready
+      current_status: production_ready
+      blocks_transition_to: started
+      last_checked: '2025-11-09T00:00:00+00:00'
+  depended_on_by:
+    - core-framework-1
+  plan_file: docs/sprints/core-framework-2-plan.md
+  deliverables:
+    - Permanent .vibey/ directory structure
+    - Modular config system (project, framework, agents, quality-gates)
+    - Context loading strategy implementation
+    - Auto-generated dependency summaries and task summaries
+    - Platform adapter pattern and Claude Code adapter
+    - vibey deploy --platform <name> command
+    - vibey docs generate command
+    - roadmap summarize and roadmap context commands
+    - Migration script from current to .vibey/ structure
+    - Updated Vibey commands for .vibey/ structure
+    - Comprehensive architecture documentation
+  metadata:
+    last_updated: '2025-11-09T00:00:00+00:00'
+    estimated_duration: 4 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: []

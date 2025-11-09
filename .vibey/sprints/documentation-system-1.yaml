@@ -3,20 +3,32 @@ sprint:
   name: Hierarchical Structure & Core Generation
   track_id: documentation-system
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
-  priority: high
   created: '2025-11-09T00:00:00+00:00'
-  started: null
+  started: '2025-11-09T21:31:07.984389+00:00'
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
-  actual_duration: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
-  dependencies: []
+  tasks: []
+  development_gates: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - ULID-based ID generation system
   - Hierarchical directory structure implementation
@@ -26,247 +38,10 @@ sprint:
   - Updated roadmap state management scripts
   - Unit tests for generation systems
   - Documentation for new structure
-  tasks:
-  - id: documentation-system-1-task-000
-    name: Implement ULID-based ID generation system
-    description: |
-      Build deterministic, collision-free ID generation system using ULIDs
-      with human-readable directory slugs for best of both worlds.
-
-      Implementation:
-      - Add python-ulid dependency to requirements.txt
-      - Create framework/roadmap/id_generator.py
-      - Implement generate_track_id() → track_{ulid}
-      - Implement generate_sprint_id() → sprint_{ulid}
-      - Implement generate_task_id() → task_{ulid}
-      - Implement extract_timestamp(id) → datetime
-      - Support hybrid approach: ULID IDs + human-readable directory slugs
-
-      Hybrid Design:
-      - IDs: track_01JB3QVDZ8TRK9XN1FJFHGWPRM (immutable, collision-free)
-      - Directories: documentation-system/ (human-readable, mutable slug)
-      - Validation: .id files in directories ensure slug ↔ ID mapping
-      - Benefits: Stable references + browseable structure
-
-      Example Structure:
-      .vibey/roadmap/
-      └── documentation-system/               # Human-readable slug
-          ├── .id → track_01JB3QVDZ8...       # Immutable ID reference
-          ├── track.yaml                      # id: track_01JB3QVDZ8...
-          └── hierarchical-structure/         # Sprint slug
-              ├── .id → sprint_01JB3QVE2C...  # Sprint ID
-              └── sprint.yaml                 # id: sprint_01JB3QVE2C...
-
-      Acceptance Criteria:
-      - ULID library integrated (python-ulid)
-      - ID generators work for all levels (track/sprint/task)
-      - IDs are unique (no collisions in 10,000 generations)
-      - IDs are sortable (lexicographically by creation time)
-      - Timestamp extraction works correctly
-      - Directory validation via .id files implemented
-      - Unit tests pass (uniqueness, sortability, extraction)
-    status: not_started
-    estimated_effort: 2 days
-    assigned_agent: web-developer
-    dependencies: []
-
-  - id: documentation-system-1-task-001
-    name: Design and implement hierarchical directory structure
-    description: |
-      Create the hierarchical directory structure in .vibey/roadmap/ with proper
-      naming conventions and organizational patterns.
-
-      Implementation:
-      - Create .vibey/roadmap/ root directory
-      - Implement track directory creation (track-id/)
-      - Implement sprint directory creation (track-id/sprint-id/)
-      - Implement task directory creation (track-id/sprint-id/task-id/)
-      - Create /context/ directories at all levels
-      - Add path helper functions for consistent path construction
-
-      Acceptance Criteria:
-      - Directory structure matches design specification
-      - Path helper functions work for all levels (roadmap/track/sprint/task)
-      - Context directories created automatically
-      - Proper error handling for invalid paths
-    status: not_started
-    estimated_effort: 3 days
-    assigned_agent: web-developer
-    dependencies:
-    - documentation-system-1-task-000
-
-  - id: documentation-system-1-task-002
-    name: Build table_of_contents.json generation system
-    description: |
-      Implement system to generate table_of_contents.json files at each level
-      of the hierarchy (roadmap, track, sprint).
-
-      Implementation:
-      - Design JSON schema for TOC files
-      - Create TOC generator for roadmap level
-      - Create TOC generator for track level
-      - Create TOC generator for sprint level
-      - Include parent links, current object, children list
-      - Add status and progress metadata
-
-      Acceptance Criteria:
-      - TOC JSON matches specification
-      - Generated at roadmap/track/sprint levels
-      - Includes correct parent/child relationships
-      - Metadata accurate (status, progress)
-      - Fast generation (<100ms per TOC)
-    status: not_started
-    estimated_effort: 3 days
-    assigned_agent: web-developer
-    dependencies:
-    - documentation-system-1-task-001
-
-  - id: documentation-system-1-task-003
-    name: Create markdown view generation from YAML
-    description: |
-      Build system to generate human-readable markdown files from YAML
-      roadmap objects (roadmap.md, track.md, sprint.md, task.md).
-
-      Implementation:
-      - Design Jinja2 templates for each level
-      - Create markdown generator for roadmap
-      - Create markdown generator for tracks
-      - Create markdown generator for sprints
-      - Create markdown generator for tasks
-      - Include status, progress, dependencies, context links
-
-      Acceptance Criteria:
-      - MD files generated from YAML source
-      - GitHub-friendly markdown formatting
-      - All relevant information included
-      - Links to context files work
-      - Templates easy to customize
-    status: not_started
-    estimated_effort: 4 days
-    assigned_agent: web-developer
-    dependencies:
-    - documentation-system-1-task-001
-
-  - id: documentation-system-1-task-004
-    name: Implement context directory management
-    description: |
-      Create CLI commands and helper functions for managing context
-      directories at track, sprint, and task levels.
-
-      Implementation:
-      - Add vibey roadmap add-context command
-      - Support --track, --sprint, --task flags
-      - Auto-create context directories if missing
-      - Copy/move files to appropriate context directory
-      - Update TOC to reference context files
-      - Validate context files exist
-
-      Acceptance Criteria:
-      - CLI command works for all three levels
-      - Context directories created automatically
-      - Files copied/moved correctly
-      - TOC updated to show context files
-      - Error handling for invalid paths
-    status: not_started
-    estimated_effort: 3 days
-    assigned_agent: web-developer
-    dependencies:
-    - documentation-system-1-task-002
-
-  - id: documentation-system-1-task-005
-    name: Update roadmap state management scripts
-    description: |
-      Update all Python scripts to use new hierarchical structure instead
-      of flat directory layout.
-
-      Implementation:
-      - Update framework/roadmap/state_manager.py
-      - Update framework/scripts/roadmap.py
-      - Change paths from .vibey/tracks/ to .vibey/roadmap/[track-id]/
-      - Change paths from .vibey/sprints/ to .vibey/roadmap/[track-id]/[sprint-id]/
-      - Change paths from .vibey/tasks/ to .vibey/roadmap/[track-id]/[sprint-id]/[task-id]/
-      - Use path helper functions consistently
-      - Update all YAML loading/saving
-
-      Acceptance Criteria:
-      - All scripts use new hierarchical paths
-      - Backward compatibility maintained temporarily
-      - Path helper functions used consistently
-      - YAML loading/saving works correctly
-      - No broken references
-    status: not_started
-    estimated_effort: 4 days
-    assigned_agent: web-developer
-    dependencies:
-    - documentation-system-1-task-001
-    - documentation-system-1-task-002
-    - documentation-system-1-task-003
-
-  - id: documentation-system-1-task-006
-    name: Create unit tests for generation systems
-    description: |
-      Build comprehensive unit tests for TOC generation, markdown generation,
-      and context management systems.
-
-      Implementation:
-      - Test TOC generation at all levels
-      - Test markdown generation from YAML
-      - Test context directory management
-      - Test path helper functions
-      - Test edge cases (missing files, invalid paths)
-      - Test integration between systems
-
-      Acceptance Criteria:
-      - 90%+ code coverage for generation systems
-      - All edge cases tested
-      - Integration tests pass
-      - Tests run in <5 seconds
-      - Clear test documentation
-    status: not_started
-    estimated_effort: 3 days
-    assigned_agent: test-engineer
-    dependencies:
-    - documentation-system-1-task-002
-    - documentation-system-1-task-003
-    - documentation-system-1-task-004
-
-  - id: documentation-system-1-task-007
-    name: Document new hierarchical structure
-    description: |
-      Create comprehensive documentation for the new hierarchical structure,
-      including usage examples and migration guides.
-
-      Implementation:
-      - Document directory structure specification
-      - Explain table_of_contents.json format
-      - Provide examples for each level
-      - Document context directory usage
-      - Create CLI command reference
-      - Write migration preparation guide
-
-      Acceptance Criteria:
-      - Complete structure specification documented
-      - Examples provided for all use cases
-      - CLI commands documented with examples
-      - Migration guide clear and actionable
-      - Integrated into main documentation
-    status: not_started
-    estimated_effort: 2 days
-    assigned_agent: docs-writer
-    dependencies:
-    - documentation-system-1-task-002
-    - documentation-system-1-task-003
-    - documentation-system-1-task-004
-
   metadata:
-    sprint_goal: |
-      Implement the foundational hierarchical directory structure and core
-      generation systems (TOC, markdown views) that form the basis of the new
-      documentation management system.
-    success_criteria:
-    - Hierarchical structure fully implemented in .vibey/roadmap/
-    - TOC generation working at all levels
-    - Markdown views generated from YAML
-    - Context management CLI commands functional
-    - All tests passing (90%+ coverage)
-    - Documentation complete and clear
+    last_updated: '2025-11-09T21:30:52.026078+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

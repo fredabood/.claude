@@ -38,7 +38,9 @@ track:
   blocked_by:
   - goose-port
   depends_on:
-  - goose-port
+  - blocker_id: goose-port
+    current_status: not_started
+    last_checked: '2025-11-09T21:40:22.274961+00:00'
   depended_on_by: []
   quality_gates:
   - name: VS Code Integration Testing
@@ -84,61 +86,23 @@ track:
     last_updated: '2025-11-09T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
     implementation_plan: null
-    notes: |
-      Continue.dev is high-priority for multi-IDE reach:
-
-      1. Compatibility (80%)
-         - Custom slash commands (perfect for agents!)
-         - Context provider API (workflow context)
-         - Configuration-driven (config.json)
-         - Model-agnostic
-
-      2. Moderate Effort (2 sprints = 3.5 weeks)
-         - IDE extension complexity
-         - Context provider implementation
-         - Multi-IDE testing (VS Code + JetBrains)
-
-      3. Strategic Value
-         - VS Code: 75% of developers
-         - JetBrains: Professional developers
-         - Open source community
-         - Active development
-
-      Adapter Strategy:
-      - Map Vibey agents → Continue slash commands
-      - Map Vibey workflows → Command sequences
-      - Map Vibey context → Context providers
-      - Generate .continue/ directory
-      - Templates: config.json.j2, commands/*.j2
-
-      Key Mappings:
-      - Agent: web-developer → /web-developer slash command
-      - Workflow steps → Prompt templates
-      - Handoffs → Context provider data
-      - Quality gates → Validation commands
-
-      Continue Slash Command Example:
-      {
-        "name": "web-developer",
-        "description": "Full-stack web development agent",
-        "prompt": "{{ agent.instructions | from_template }}"
-      }
-
-      Context Provider Example:
-      {
-        "name": "vibey-workflow",
-        "type": "custom",
-        "config": {
-          "workflow": "{{ workflow.id }}",
-          "context": "{{ workflow.context }}"
-        }
-      }
-
-      Validation:
-      - Test in VS Code
-      - Test in IntelliJ IDEA
-      - Test in PyCharm
-      - Verify context providers load
-      - Ensure commands execute correctly
-
-      Timeline: Q3 2025 (after Aider port)
+    notes: "Continue.dev is high-priority for multi-IDE reach:\n\n1. Compatibility\
+      \ (80%)\n   - Custom slash commands (perfect for agents!)\n   - Context provider\
+      \ API (workflow context)\n   - Configuration-driven (config.json)\n   - Model-agnostic\n\
+      \n2. Moderate Effort (2 sprints = 3.5 weeks)\n   - IDE extension complexity\n\
+      \   - Context provider implementation\n   - Multi-IDE testing (VS Code + JetBrains)\n\
+      \n3. Strategic Value\n   - VS Code: 75% of developers\n   - JetBrains: Professional\
+      \ developers\n   - Open source community\n   - Active development\n\nAdapter\
+      \ Strategy:\n- Map Vibey agents → Continue slash commands\n- Map Vibey workflows\
+      \ → Command sequences\n- Map Vibey context → Context providers\n- Generate .continue/\
+      \ directory\n- Templates: config.json.j2, commands/*.j2\n\nKey Mappings:\n-\
+      \ Agent: web-developer → /web-developer slash command\n- Workflow steps → Prompt\
+      \ templates\n- Handoffs → Context provider data\n- Quality gates → Validation\
+      \ commands\n\nContinue Slash Command Example:\n{\n  \"name\": \"web-developer\"\
+      ,\n  \"description\": \"Full-stack web development agent\",\n  \"prompt\": \"\
+      {{ agent.instructions | from_template }}\"\n}\n\nContext Provider Example:\n\
+      {\n  \"name\": \"vibey-workflow\",\n  \"type\": \"custom\",\n  \"config\": {\n\
+      \    \"workflow\": \"{{ workflow.id }}\",\n    \"context\": \"{{ workflow.context\
+      \ }}\"\n  }\n}\n\nValidation:\n- Test in VS Code\n- Test in IntelliJ IDEA\n\
+      - Test in PyCharm\n- Verify context providers load\n- Ensure commands execute\
+      \ correctly\n\nTimeline: Q3 2025 (after Aider port)\n"

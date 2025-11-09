@@ -1,0 +1,284 @@
+track:
+  id: mcp-server
+  name: MCP Server Foundation
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: critical
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 weeks
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 9
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: mcp-server-1
+    name: MCP Protocol & Core Implementation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 5
+    started: null
+  - id: mcp-server-2
+    name: Integration, Testing & Documentation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 4
+    started: null
+  dependencies: []
+  blocks:
+  - type: track
+    target_id: jetbrains-port
+    at_status: not_started
+    reason: JetBrains AI requires MCP server to be functional
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Multi-platform architecture benefits from MCP foundation
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - jetbrains-port
+  - multi-platform
+  quality_gates:
+  - name: MCP Protocol Compliance
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Full compliance with MCP spec 2025-06-18
+    score: null
+  - name: Multi-Platform Testing
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Works with Claude Code, JetBrains AI, VS Code, GitHub Copilot
+    score: null
+  - name: Performance
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Response time <500ms for all operations
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Vibey MCP server Python package (vibey_mcp/)
+  - Tool exposure (agents → MCP tools)
+  - Resource exposure (workflows → MCP resources)
+  - Prompt exposure (quality gates → MCP prompts)
+  - MCP server configuration system
+  - Claude Code integration (MCP-based)
+  - VS Code integration example
+  - JetBrains AI integration example
+  - GitHub Copilot integration example
+  - Comprehensive MCP server documentation
+  - Deployment guide
+  - API reference
+  strategic_value:
+  - 'Platform Multiplier: 1 server → 4+ platforms supported'
+  - 'Time Savings: 8-10 weeks saved vs building individual adapters'
+  - 'Future-Proof: MCP is industry standard (Anthropic, OpenAI, Google)'
+  - 'Maintenance Efficiency: Update 1 server vs 4 adapters'
+  - 'Extensibility: New MCP platforms = free support'
+  - 'Standards Alignment: Protocol-based, not custom integrations'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/MCP_VS_ADAPTER_STRATEGY.md
+    implementation_plan: null
+    notes: |
+      CRITICAL STRATEGIC TRACK - HIGHEST ROI IN ROADMAP
+
+      This track builds the foundation for multi-platform support via
+      MCP (Model Context Protocol) - the emerging industry standard
+      for connecting AI systems to external tools and data.
+
+      WHY MCP-FIRST?
+
+      1. Platform Multiplier Effect (4:1 ROI)
+         - Build 1 MCP server
+         - Support 4+ platforms immediately:
+           * Claude Code (current)
+           * JetBrains AI (8+ IDEs)
+           * GitHub Copilot (40M users)
+           * VS Code (75% market share)
+         - Future platforms: FREE if MCP-compatible
+
+      2. Massive Time Savings (8-10 weeks)
+         - JetBrains adapter: 5.5 weeks → 1 week (81% savings)
+         - Copilot adapter: 6-8 weeks → 1 week (88% savings)
+         - VS Code adapter: 3.5 weeks → 1 week (71% savings)
+         - Total: ~14 weeks saved - 4 weeks invested = 10 weeks net
+
+      3. Industry Standard Alignment
+         - Anthropic: Created MCP (Nov 2024)
+         - OpenAI: Adopted MCP (March 2025)
+         - Google DeepMind: MCP support (April 2025)
+         - JetBrains: Full MCP integration
+         - VS Code: Full spec support (June 2025)
+         - Becoming the standard for AI tool integration
+
+      4. Maintenance Efficiency
+         - Update 1 server vs 4 separate adapters
+         - Centralized logic, less duplication
+         - Protocol-based (stable interface)
+
+      MCP PROTOCOL OVERVIEW
+
+      MCP exposes 3 types of capabilities:
+
+      1. Tools (functions AI can call)
+         - Vibey agents → MCP tools
+         - AI discovers and invokes agents
+         - Schema validation built-in
+
+      2. Resources (data AI can read)
+         - Vibey workflows → MCP resources
+         - Vibey handoffs → MCP resources
+         - Vibey configs → MCP resources
+
+      3. Prompts (templates AI can use)
+         - Vibey quality gates → MCP prompts
+         - Pre-configured review processes
+         - Consistent validation
+
+      IMPLEMENTATION STRATEGY
+
+      Sprint 1: Core MCP Server (2 weeks)
+      - Research MCP spec (2025-06-18)
+      - Design Vibey MCP server architecture
+      - Implement tool exposure (agents)
+      - Implement resource exposure (workflows)
+      - Implement prompt exposure (quality gates)
+      - Python MCP SDK integration
+
+      Sprint 2: Integration & Testing (2 weeks)
+      - Claude Code integration (replace custom adapter)
+      - VS Code integration (validate MCP client)
+      - JetBrains AI integration (MCP config)
+      - GitHub Copilot integration (MCP config)
+      - Performance testing (<500ms)
+      - Documentation & deployment guide
+
+      TECHNICAL ARCHITECTURE
+
+      vibey_mcp/
+      ├── server.py          # Main MCP server
+      ├── tools.py           # Agent → Tool mapping
+      ├── resources.py       # Workflow → Resource mapping
+      ├── prompts.py         # Quality Gate → Prompt mapping
+      ├── config.py          # Server configuration
+      └── schemas/           # JSON schemas
+
+      MAPPING EXAMPLES
+
+      Agent → Tool:
+      {
+        "name": "web-developer",
+        "description": "Full-stack web development",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "feature_spec": {"type": "string"}
+          }
+        }
+      }
+
+      Workflow → Resource:
+      {
+        "uri": "vibey://workflow/feature-development",
+        "name": "Feature Development Workflow",
+        "mimeType": "application/json"
+      }
+
+      Quality Gate → Prompt:
+      {
+        "name": "security-review",
+        "description": "Security audit workflow",
+        "arguments": [
+          {"name": "codebase", "required": true}
+        ]
+      }
+
+      PLATFORM COMPATIBILITY
+
+      ✅ MCP-Compatible (via this server):
+      - Claude Code
+      - JetBrains AI (IntelliJ, PyCharm, WebStorm, GoLand, etc.)
+      - GitHub Copilot
+      - VS Code (native MCP support)
+      - Any future MCP-compliant platform
+
+      ❌ Non-MCP (still need custom adapters):
+      - Goose (TOML/YAML recipes)
+      - Aider (config files)
+      - Windsurf (Cascade API, though VS Code compatible)
+      - Cursor (.cursorrules)
+
+      VALIDATION CRITERIA
+
+      1. Protocol Compliance (100%)
+         - Implements MCP spec 2025-06-18 fully
+         - All 3 primitives (tools, resources, prompts)
+         - Correct error handling
+         - Schema validation
+
+      2. Multi-Platform Testing (95%)
+         - Works with Claude Code
+         - Works with VS Code
+         - Works with JetBrains AI
+         - Works with GitHub Copilot
+         - Documented integration for each
+
+      3. Performance (90%)
+         - <500ms response time
+         - Handles 100+ concurrent requests
+         - Memory efficient
+         - No bottlenecks
+
+      RISKS & MITIGATION
+
+      Risk: MCP spec changes
+      → Use stable version (2025-06-18)
+      → Version our server
+      → Monitor MCP changelog
+
+      Risk: Platform-specific features missing
+      → Use hybrid approach (MCP + adapter supplements)
+      → Document limitations
+      → Maintain adapter option
+
+      Risk: Learning curve
+      → Official Anthropic MCP course
+      → Reference implementations
+      → SDKs available
+
+      SUCCESS METRICS
+
+      - 4+ platforms working with MCP server
+      - <1 week to add new MCP platform
+      - 60% reduction in maintenance effort
+      - Community adoption (MCP server published)
+
+      TIMELINE & PRIORITY
+
+      Timeline: Q2 2025 (BEFORE Goose port)
+      Priority: CRITICAL (highest ROI in entire roadmap)
+      Duration: 4 weeks (2 sprints)
+
+      Dependencies: None (can start immediately)
+      Blocks: JetBrains port, Multi-platform track
+      Enables: 4+ platforms immediately
+
+      This is a GAME-CHANGING strategic move that will:
+      1. Accelerate multi-platform development by 32%
+      2. Position Vibey as MCP-native orchestration framework
+      3. Future-proof architecture with industry standard
+      4. Unlock 40M+ users (Copilot alone)
+
+      Recommend: START IMMEDIATELY, TOP PRIORITY after current session

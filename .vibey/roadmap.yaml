@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 9
+    tracks_total: 10
     tracks_completed: 4
-    sprints_total: 38
+    sprints_total: 40
     sprints_completed: 21
-    tasks_total: 163
+    tasks_total: 172
     tasks_completed: 163
-    completion_percent: 55
+    completion_percent: 52
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -34,6 +34,10 @@ roadmap:
     name: Roadmap Integration into /vibey Commands
     status: completed
     priority: high
+  - id: mcp-server
+    name: MCP Server Foundation
+    status: not_started
+    priority: critical
   - id: goose-port
     name: Goose Platform Port
     status: not_started

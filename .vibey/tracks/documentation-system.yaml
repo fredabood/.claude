@@ -1,0 +1,375 @@
+track:
+  id: documentation-system
+  name: Hierarchical Documentation & Context Management System
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 weeks
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    tasks_total: 18
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: documentation-system-1
+    name: Hierarchical Structure & Core Generation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: documentation-system-2
+    name: Documentation Synchronization & Context Management
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 6
+    started: null
+  - id: documentation-system-3
+    name: Migration & Project Documentation Tracking
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 5
+    started: null
+  dependencies:
+  - type: track
+    target_id: core-framework
+    target_status: completed
+    reason: Needs platform-agnostic architecture and config system
+    optional: false
+  blocks:
+  - type: track
+    target_id: mcp-server
+    at_status: not_started
+    reason: MCP server will be first track to use new hierarchical structure
+  blocked_by: []
+  depends_on:
+  - core-framework
+  depended_on_by:
+  - mcp-server
+  quality_gates:
+  - name: Hierarchical Structure Validation
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All roadmap objects properly organized in hierarchy
+    score: null
+  - name: Context Discovery Testing
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: AI can systematically discover and load context at all levels
+    score: null
+  - name: Synchronization Reliability
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Documentation synchronizes correctly from .vibey to docs/
+    score: null
+  - name: Migration Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All existing tracks migrated without data loss
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Hierarchical directory structure in .vibey/roadmap/
+  - Table of contents JSON generation system
+  - Markdown view generation from YAML
+  - Documentation synchronization engine
+  - Sync manifest tracking system
+  - Context management CLI commands
+  - Project documentation tracking (.meta.json)
+  - Migration script for existing tracks
+  - Updated roadmap Python scripts
+  - Comprehensive documentation system guide
+  strategic_value:
+  - 'Model Context Management: Systematic context loading during task execution'
+  - 'Knowledge Preservation: Research/analyses preserved alongside roadmap state'
+  - 'Scalability: Structure naturally scales to 100+ tracks'
+  - 'Discoverability: Hierarchical organization makes related docs easy to find'
+  - 'User-Friendly: Synchronized docs in familiar /docs/ location'
+  - 'Project Doc Tracking: Links documentation to roadmap objects that impact them'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/DOCUMENTATION_MANAGEMENT_STRATEGY.md
+    implementation_plan: null
+    notes: |
+      CRITICAL ARCHITECTURAL TRACK - Foundation for Knowledge Management
+
+      This track implements the hierarchical documentation and context management
+      system designed in DOCUMENTATION_MANAGEMENT_STRATEGY.md. It transforms how
+      Vibey manages documentation, context, and knowledge during roadmap execution.
+
+      PROBLEMS SOLVED:
+
+      1. Documentation Fragmentation
+         - Current: 3 separate locations (docs/development, docs/sprints, .vibey/*)
+         - Solution: Single hierarchical structure in .vibey/roadmap/
+         - Benefit: Co-location of all related documentation
+
+      2. Weak Model Context Tracking
+         - Current: No systematic association between docs and roadmap objects
+         - Solution: Context directories at track/sprint/task levels
+         - Benefit: AI can systematically load context during task execution
+
+      3. Inconsistent Storage Patterns
+         - Current: Different doc types follow different patterns
+         - Solution: Standardized hierarchy with consistent conventions
+         - Benefit: Predictable organization, easy to navigate
+
+      4. No Project Documentation Tracking
+         - Current: Can't link user docs to roadmap objects that impact them
+         - Solution: .meta.json sidecar files tracking impacts
+         - Benefit: Documentation changelog, impact analysis
+
+      5. Flat Directory Structure Limitations
+         - Current: docs/development/ has 14+ files, doesn't scale
+         - Solution: Hierarchical nesting (roadmap → track → sprint → task)
+         - Benefit: Scales naturally to 100+ tracks
+
+      ARCHITECTURAL DESIGN:
+
+      Source of Truth (.vibey/roadmap/):
+      .vibey/roadmap/
+      ├── .sync-manifest.json          # Tracks synchronized files
+      ├── table_of_contents.json       # Root navigation
+      ├── roadmap.yaml                 # Master roadmap (source)
+      ├── roadmap.md                   # Generated view
+      └── /[track-id]
+          ├── table_of_contents.json   # Track navigation
+          ├── [track-id].yaml          # Track definition (source)
+          ├── [track-id].md            # Generated view
+          ├── [track-id]-COMPLETED.md  # Generated summary
+          └── /context                 # Track-level research
+              ├── design.md
+              ├── architecture.md
+              └── implementation-plan.md
+          └── /[sprint-id]
+              ├── table_of_contents.json
+              ├── [sprint-id].yaml
+              ├── [sprint-id].md
+              ├── [sprint-id]-COMPLETED.md
+              └── /context             # Sprint-level research
+              └── /[task-id]
+                  ├── [task-id].yaml
+                  ├── [task-id].md
+                  └── /context         # Task execution artifacts
+                      ├── analysis.md
+                      ├── research.md
+                      ├── graphs.json
+                      └── decisions.md
+
+      User-Facing View (docs/roadmap/):
+      docs/roadmap/
+      ├── roadmap.md                   # Synchronized from .vibey
+      └── /[track-id]
+          ├── [track-id].md            # Synchronized
+          ├── [track-id]-COMPLETED.md  # Synchronized
+          └── [context files]          # Selectively synchronized
+
+      IMPLEMENTATION STRATEGY:
+
+      Sprint 1: Hierarchical Structure & Core Generation (2 weeks)
+      - Design and implement hierarchical directory structure
+      - Build table_of_contents.json generation system
+      - Create markdown view generation from YAML
+      - Implement context directory management
+      - Update roadmap state management scripts
+      - Test with new track creation
+
+      Sprint 2: Documentation Synchronization & Context Management (2 weeks)
+      - Build synchronization engine (.vibey → docs)
+      - Implement sync manifest tracking
+      - Create sync configuration system
+      - Add context management CLI commands
+      - Implement automatic sync triggers
+      - Test synchronization reliability
+
+      Sprint 3: Migration & Project Documentation Tracking (2 weeks)
+      - Build migration script for existing tracks
+      - Migrate all existing tracks to hierarchy
+      - Implement project documentation tracking
+      - Add documentation changelog generation
+      - Update all documentation
+      - Final testing and validation
+
+      KEY FEATURES:
+
+      1. Table of Contents (JSON)
+         - Navigation manifest at each level (roadmap/track/sprint)
+         - Shows parent, current object, children
+         - Includes status, progress metadata
+         - Enables programmatic traversal
+
+      2. Context Directories
+         - Track-level: Strategic analyses, architectural decisions
+         - Sprint-level: Sprint-wide research, design docs
+         - Task-level: Execution artifacts, research findings, decisions
+         - Flat within each directory (no sub-directories)
+
+      3. Generated Files (Committed to Git)
+         - YAML = Source of truth (state tracking)
+         - MD = Human-readable view (GitHub browsing)
+         - JSON = Navigation aid (programmatic traversal)
+         - All generated files committed (no build step required)
+
+      4. Documentation Synchronization
+         - Automatic: On state changes (task/sprint/track completion)
+         - Manual: Via vibey roadmap sync-docs
+         - Selective: Based on configuration (include/exclude patterns)
+         - Tracked: Sync manifest tracks what's been synchronized
+
+      5. Project Documentation Tracking
+         - .meta.json sidecar files track impacts
+         - Links project docs to roadmap objects
+         - Enables documentation changelog
+         - CLI support for linking and querying
+
+      NEW CLI COMMANDS:
+
+      # Generate documentation artifacts
+      vibey roadmap generate-docs --all
+      vibey roadmap generate-docs --track [track-id]
+      vibey roadmap generate-docs --sprint [sprint-id]
+
+      # Add context to roadmap objects
+      vibey roadmap add-context [file] --track [track-id]
+      vibey roadmap add-context [file] --sprint [sprint-id]
+      vibey roadmap add-context [file] --task [task-id]
+
+      # Synchronize documentation
+      vibey roadmap sync-docs --all
+      vibey roadmap sync-docs --track [track-id]
+      vibey roadmap sync-docs --summaries-only
+
+      # Track project documentation
+      vibey roadmap link-doc [file] --change-type [type] --section [section]
+      vibey roadmap list-docs --sprint [sprint-id]
+      vibey roadmap doc-changelog
+
+      # Navigate hierarchy
+      vibey roadmap show-toc
+      vibey roadmap show-toc --track [track-id]
+      vibey roadmap show-toc --sprint [sprint-id]
+
+      # Context loading (enhanced)
+      vibey roadmap context [task-id]
+      # Now loads task + sprint + track context hierarchically
+
+      MIGRATION APPROACH:
+
+      Phase 1: Implement for New Tracks
+      - Build hierarchical structure
+      - Test with mcp-server track (first to use new structure)
+      - Validate generation, synchronization, context management
+
+      Phase 2: Migrate Existing Tracks
+      - Run migration script on existing tracks
+      - Preserve all existing documentation
+      - Update all path references in scripts
+      - Validate no data loss
+
+      Phase 3: Deprecate Old Structure
+      - Remove backward compatibility
+      - Update all documentation
+      - Clean up old directories
+
+      TECHNICAL SPECIFICATIONS:
+
+      File Generation:
+      - Triggered by: State changes, manual commands
+      - Source: YAML files (single source of truth)
+      - Outputs: MD (human-readable), JSON (navigation)
+      - Templates: Jinja2 templates for MD generation
+
+      Synchronization:
+      - Engine: Python script (framework/scripts/sync_docs.py)
+      - Manifest: .vibey/roadmap/.sync-manifest.json
+      - Rules: Configurable include/exclude patterns
+      - Triggers: Automatic (state changes) or manual
+
+      Context Management:
+      - Storage: /context/ directories at all levels
+      - Flat structure: No sub-directories within /context/
+      - Discovery: Load hierarchically (task → sprint → track)
+      - CLI: vibey roadmap add-context
+
+      Project Doc Tracking:
+      - Metadata: .meta.json sidecar files
+      - Schema: {file, impacted_by: [{roadmap_object, change_type, date}]}
+      - CLI: vibey roadmap link-doc, list-docs, doc-changelog
+
+      VALIDATION CRITERIA:
+
+      1. Hierarchical Structure (100%)
+         - All roadmap objects in proper hierarchy
+         - Context directories at all levels
+         - Table of contents JSON at all levels
+         - Generated MD views for all objects
+
+      2. Context Discovery (95%)
+         - AI can load context by task/sprint/track
+         - Hierarchical loading works correctly
+         - Context directories properly populated
+         - CLI commands work reliably
+
+      3. Synchronization Reliability (100%)
+         - All markdown files synchronized correctly
+         - Sync manifest tracks all operations
+         - Incremental sync works (only changed files)
+         - No data loss or corruption
+
+      4. Migration Completeness (100%)
+         - All existing tracks migrated
+         - All existing documentation preserved
+         - All path references updated
+         - All scripts work with new structure
+
+      RISKS & MITIGATION:
+
+      Risk: Migration breaks existing workflows
+      → Test migration on copy of repo first
+      → Comprehensive testing before main repo migration
+      → Backup before migration
+
+      Risk: Synchronization performance issues
+      → Incremental sync (only changed files)
+      → Async synchronization option
+      → Configurable sync frequency
+
+      Risk: Path complexity increases
+      → Path helper functions in scripts
+      → Consistent path construction patterns
+      → Documentation with examples
+
+      SUCCESS METRICS:
+
+      - 100% of roadmap objects in hierarchical structure
+      - 100% of existing documentation migrated without loss
+      - Context directories used in 80%+ of tasks
+      - Synchronization working reliably (zero failures)
+      - Documentation changelog generated from roadmap activity
+      - AI agents successfully loading context hierarchically
+
+      TIMELINE & DEPENDENCIES:
+
+      Timeline: Q1 2025 (6 weeks, 3 sprints)
+      Priority: HIGH (foundational for knowledge management)
+      Dependencies: core-framework (completed)
+      Blocks: mcp-server (will be first track to use new structure)
+
+      This track is FOUNDATIONAL for Vibey's evolution into a knowledge
+      management system. It ensures that research, analyses, and context
+      created during roadmap execution are systematically preserved and
+      easily discoverable by both humans and AI agents.
+
+      Recommend: START SOON, implement before mcp-server track begins

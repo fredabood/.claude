@@ -1,0 +1,209 @@
+sprint:
+  id: documentation-system-2
+  name: Documentation Synchronization & Context Management
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  actual_duration: null
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  dependencies:
+  - type: sprint
+    target_id: documentation-system-1
+    target_status: completed
+    reason: Requires hierarchical structure and generation systems
+    optional: false
+  blocked_by: []
+  deliverables:
+  - Documentation synchronization engine
+  - Sync manifest tracking system
+  - Sync configuration system
+  - Enhanced context management commands
+  - Automatic sync triggers
+  - Synchronization reliability tests
+  tasks:
+  - id: documentation-system-2-task-001
+    name: Build documentation synchronization engine
+    description: |
+      Create the core synchronization engine that copies documentation from
+      .vibey/roadmap/ to docs/roadmap/ based on configuration rules.
+
+      Implementation:
+      - Create framework/docs/sync_engine.py
+      - Implement file synchronization logic
+      - Support include/exclude patterns (glob-based)
+      - Copy markdown files from .vibey to docs
+      - Preserve directory structure
+      - Skip YAML and JSON files
+      - Calculate checksums for change detection
+
+      Acceptance Criteria:
+      - Synchronizes markdown files correctly
+      - Respects include/exclude patterns
+      - Preserves directory structure
+      - Only syncs changed files (incremental)
+      - Handles missing directories gracefully
+      - Performance: <1 second for 50 files
+    status: not_started
+    estimated_effort: 4 days
+    assigned_agent: web-developer
+    dependencies: []
+
+  - id: documentation-system-2-task-002
+    name: Implement sync manifest tracking system
+    description: |
+      Create sync manifest (.vibey/roadmap/.sync-manifest.json) to track
+      what files have been synchronized and when.
+
+      Implementation:
+      - Design sync manifest JSON schema
+      - Track synchronized files with checksums
+      - Record sync timestamps
+      - Store source → target mappings
+      - Enable incremental sync (only changed files)
+      - Provide sync history
+
+      Acceptance Criteria:
+      - Manifest tracks all synchronized files
+      - Checksums enable change detection
+      - Incremental sync works correctly
+      - Sync history queryable
+      - Manifest updated atomically
+    status: not_started
+    estimated_effort: 3 days
+    assigned_agent: web-developer
+    dependencies:
+    - documentation-system-2-task-001
+
+  - id: documentation-system-2-task-003
+    name: Create sync configuration system
+    description: |
+      Build configuration system for controlling what gets synchronized
+      and when, integrated with project configuration.
+
+      Implementation:
+      - Add documentation.sync section to project.yaml schema
+      - Support enabled/disabled flag
+      - Configure target_dir (default: docs/roadmap)
+      - Configure include_patterns (glob patterns)
+      - Configure exclude_patterns (glob patterns)
+      - Configure sync_on triggers (task_complete, sprint_complete, etc.)
+      - Validate configuration
+
+      Acceptance Criteria:
+      - Configuration schema well-defined
+      - Validation prevents invalid configs
+      - Include/exclude patterns work correctly
+      - Triggers configurable
+      - Defaults are sensible
+    status: not_started
+    estimated_effort: 2 days
+    assigned_agent: web-developer
+    dependencies:
+    - documentation-system-2-task-001
+
+  - id: documentation-system-2-task-004
+    name: Add documentation synchronization CLI commands
+    description: |
+      Implement CLI commands for manual and automatic documentation
+      synchronization.
+
+      Implementation:
+      - Add vibey roadmap sync-docs command
+      - Support --all flag (sync everything)
+      - Support --track flag (sync specific track)
+      - Support --sprint flag (sync specific sprint)
+      - Support --summaries-only flag
+      - Support --dry-run flag (preview changes)
+      - Show sync summary (files copied, skipped, errors)
+
+      Acceptance Criteria:
+      - All sync commands work correctly
+      - Dry-run shows accurate preview
+      - Sync summary helpful and accurate
+      - Error messages clear
+      - Performance acceptable (<5 seconds for full sync)
+    status: not_started
+    estimated_effort: 3 days
+    assigned_agent: web-developer
+    dependencies:
+    - documentation-system-2-task-001
+    - documentation-system-2-task-002
+    - documentation-system-2-task-003
+
+  - id: documentation-system-2-task-005
+    name: Implement automatic sync triggers
+    description: |
+      Add automatic synchronization triggers on roadmap state changes
+      (task completion, sprint completion, etc.).
+
+      Implementation:
+      - Hook into state change events
+      - Trigger sync on task completion
+      - Trigger sync on sprint completion
+      - Trigger sync on track completion
+      - Trigger sync on context add
+      - Respect sync configuration (triggers enabled/disabled)
+      - Log sync operations
+
+      Acceptance Criteria:
+      - Sync triggered automatically on configured events
+      - Configuration controls which triggers are active
+      - Sync operations logged
+      - No performance degradation from hooks
+      - Errors don't block state changes
+    status: not_started
+    estimated_effort: 3 days
+    assigned_agent: web-developer
+    dependencies:
+    - documentation-system-2-task-004
+
+  - id: documentation-system-2-task-006
+    name: Create synchronization reliability tests
+    description: |
+      Build comprehensive tests for synchronization engine, ensuring
+      reliability and correctness under various scenarios.
+
+      Implementation:
+      - Test basic file synchronization
+      - Test incremental sync (only changed files)
+      - Test include/exclude patterns
+      - Test directory structure preservation
+      - Test sync manifest accuracy
+      - Test automatic triggers
+      - Test error handling (missing files, permissions)
+      - Test performance (large file sets)
+
+      Acceptance Criteria:
+      - 95%+ code coverage for sync engine
+      - All edge cases tested
+      - Error handling validated
+      - Performance benchmarks met
+      - Integration tests pass
+    status: not_started
+    estimated_effort: 3 days
+    assigned_agent: test-engineer
+    dependencies:
+    - documentation-system-2-task-004
+    - documentation-system-2-task-005
+
+  metadata:
+    sprint_goal: |
+      Implement the documentation synchronization system that copies user-facing
+      documentation from .vibey/roadmap/ to docs/roadmap/, ensuring users can
+      browse roadmap docs without navigating the internal workspace.
+    success_criteria:
+    - Synchronization engine works reliably
+    - Sync manifest tracks all operations
+    - Configuration system flexible
+    - Automatic triggers functional
+    - All tests passing (95%+ coverage)
+    - Performance acceptable (<5 seconds full sync)

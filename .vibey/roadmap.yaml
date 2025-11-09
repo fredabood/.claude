@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 10
+    tracks_total: 11
     tracks_completed: 4
-    sprints_total: 40
+    sprints_total: 43
     sprints_completed: 21
-    tasks_total: 172
+    tasks_total: 190
     tasks_completed: 163
-    completion_percent: 52
+    completion_percent: 48
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -33,6 +33,10 @@ roadmap:
   - id: roadmap-integration
     name: Roadmap Integration into /vibey Commands
     status: completed
+    priority: high
+  - id: documentation-system
+    name: Hierarchical Documentation & Context Management System
+    status: not_started
     priority: high
   - id: mcp-server
     name: MCP Server Foundation
@@ -375,6 +379,18 @@ roadmap:
       duration: '5 months (Nov 2024 - Nov 2025)'
       impact: Platform-agnostic architecture foundation complete
       note: Sprint 1 goals absorbed into Sprint 2 implementation
+  - timestamp: '2025-11-09T16:00:00+00:00'
+    type: track_added
+    description: 'Added Track: Hierarchical Documentation & Context Management System'
+    context:
+      track_id: documentation-system
+      sprints: 3
+      tasks: 18
+      estimated_duration: 6 weeks
+      priority: high
+      strategic_value: Foundation for knowledge management and model context tracking
+      design_doc: docs/development/DOCUMENTATION_MANAGEMENT_STRATEGY.md
+      blocks: mcp-server track (will be first to use new structure)
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'

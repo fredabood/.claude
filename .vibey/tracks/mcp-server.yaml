@@ -28,7 +28,12 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 4
     started: null
-  dependencies: []
+  dependencies:
+  - type: track
+    target_id: documentation-system
+    target_status: completed
+    reason: Will be first track to use new hierarchical documentation structure
+    optional: false
   blocks:
   - type: track
     target_id: jetbrains-port
@@ -38,8 +43,10 @@ track:
     target_id: multi-platform
     at_status: not_started
     reason: Multi-platform architecture benefits from MCP foundation
-  blocked_by: []
-  depends_on: []
+  blocked_by:
+  - documentation-system
+  depends_on:
+  - documentation-system
   depended_on_by:
   - jetbrains-port
   - multi-platform

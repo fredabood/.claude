@@ -1,0 +1,68 @@
+task:
+  id: documentation-system-1-task-004
+  sprint_id: documentation-system-1
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement context directory management
+  description: 'Create CLI commands and helper functions for managing context
+
+    directories at track, sprint, and task levels.
+
+
+    Implementation:
+
+    - Add vibey roadmap add-context command
+
+    - Support --track, --sprint, --task flags
+
+    - Auto-create context directories if missing
+
+    - Copy/move files to appropriate context directory
+
+    - Update TOC to reference context files
+
+    - Validate context files exist
+
+
+    Acceptance Criteria:
+
+    - CLI command works for all three levels
+
+    - Context directories created automatically
+
+    - Files copied/moved correctly
+
+    - TOC updated to show context files
+
+    - Error handling for invalid paths
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-09T21:29:34.189456+00:00'
+  started: null
+  completed: '2025-11-09T22:02:23.166736+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-1-task-002
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:34.189458+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,30 @@
+task:
+  id: core-framework-2-task-008
+  sprint_id: core-framework-2
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement vibey docs generate command
+  description: ''
+  status: completed
+  blocked: false
+  created: '2025-11-08T00:00:00+00:00'
+  started: '2025-11-09T08:30:00+00:00'
+  completed: '2025-11-09T09:15:00+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:38:59.491491+00:00'
+    token_efficiency: null
+    duration_hours: null

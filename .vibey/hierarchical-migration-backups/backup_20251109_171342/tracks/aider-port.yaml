@@ -1,0 +1,92 @@
+track:
+  id: aider-port
+  name: Aider Platform Port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    sprints_total: 1
+    sprints_completed: 0
+    tasks_total: 8
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: aider-port-1
+    name: Aider Platform Adapter Implementation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 8
+    started: null
+  dependencies:
+  - type: track
+    target_id: goose-port
+    target_status: completed
+    reason: Validate multi-platform adapter pattern before adding more platforms
+    optional: false
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: goose-port
+    current_status: not_started
+    last_checked: '2025-11-09T21:40:22.270181+00:00'
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  quality_gates:
+  - name: Terminal Integration Testing
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Validate .aider/ config generation works with Aider CLI
+    score: null
+  - name: Git Workflow Compatibility
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Ensure auto-commit messages integrate with Vibey workflows
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Aider platform adapter (Python)
+  - .aider/ deployment generation
+  - aider.conf.yml template
+  - Model role/prompt mapping
+  - Git hook integration
+  - Command sequence support
+  - Terminal workflow documentation
+  - Aider integration examples
+  strategic_value:
+  - 'Terminal Users: Reach developers who prefer CLI tools'
+  - 'Git Integration: Leverage Aider''s git-centric workflow'
+  - 'Open Source: Community goodwill, contribution potential'
+  - 'Lowest Effort: Quick win, 95% compatibility'
+  - 'Complements IDEs: Terminal + IDE coverage'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/PLATFORM_RESEARCH_2025.md
+    implementation_plan: null
+    notes: "Aider is the highest-priority new platform port due to:\n\n1. Excellent\
+      \ Compatibility (95%)\n   - Configuration-driven (YAML)\n   - Model abstraction\n\
+      \   - Custom prompts/templates\n   - Similar agent concepts\n\n2. Low Effort\
+      \ (1 sprint = 2 weeks)\n   - Simple adapter implementation\n   - Terminal-based\
+      \ (no GUI complexity)\n   - Well-documented API\n\n3. Strategic Value\n   -\
+      \ 40k+ GitHub stars\n   - Large terminal user base\n   - Git-centric workflow\
+      \ alignment\n   - Open source community\n\nAdapter Strategy:\n- Map Vibey agents\
+      \ → Aider model roles/prompts\n- Map Vibey workflows → Aider command sequences\n\
+      - Map Vibey handoffs → Git commits with metadata\n- Generate .aider/ directory\
+      \ with configs\n- Template: aider.conf.yml.j2\n\nKey Features to Support:\n\
+      - Auto-commit messages (from handoff templates)\n- Multi-file editing (workflow\
+      \ steps)\n- Model provider configuration\n- Custom prompt injection (agent instructions)\n\
+      \nValidation:\n- Test with real Aider installation\n- Verify git commits work\
+      \ as expected\n- Ensure multi-file workflows execute correctly\n- Documentation\
+      \ for terminal users\n\nTimeline: Q2 2025 (after Goose port complete)\n"

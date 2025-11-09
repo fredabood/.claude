@@ -1,0 +1,74 @@
+task:
+  id: documentation-system-3-task-002
+  sprint_id: documentation-system-3
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate all existing tracks to hierarchy
+  description: 'Execute migration script on all existing tracks, validate results,
+
+    and clean up old structure.
+
+
+    Implementation:
+
+    - Run migration script with --dry-run first
+
+    - Review dry-run output for correctness
+
+    - Create full repository backup
+
+    - Execute migration script
+
+    - Validate all files migrated correctly
+
+    - Verify all paths updated in scripts
+
+    - Test roadmap CLI commands
+
+    - Clean up old flat directories
+
+    - Update .gitignore if needed
+
+
+    Acceptance Criteria:
+
+    - All 10 tracks migrated successfully
+
+    - All sprints and tasks migrated
+
+    - No data loss verified
+
+    - All CLI commands work with new structure
+
+    - Old directories cleaned up
+
+    - Backup preserved
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-09T21:29:48.458622+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-3-task-001
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:48.458624+00:00'
+    token_efficiency: null
+    duration_hours: null

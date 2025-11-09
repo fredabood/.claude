@@ -1,0 +1,73 @@
+task:
+  id: core-framework-3-task-003
+  sprint_id: core-framework-3
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add optional persistent cache to disk
+  description: 'Implement optional disk-based cache persistence for faster startup.
+
+
+    Cache Files (.vibey/.cache/, gitignored):
+
+    - task_index.json (id -> file_path mapping)
+
+    - sprint_index.json
+
+    - track_index.json
+
+    - dep_graph.json (pre-computed adjacency list)
+
+    - reverse_dep_graph.json
+
+    - last_scan.txt (timestamp of last full scan)
+
+
+    Features:
+
+    - Load cache from disk on startup if valid
+
+    - Check file mtimes to detect changes
+
+    - Rebuild cache if any files changed
+
+    - Write cache to disk after rebuild
+
+    - Add .vibey/.cache/ to .gitignore
+
+
+    Benefits:
+
+    - Startup time: < 10ms (vs 100ms rebuilding)
+
+    - Cross-invocation optimization
+
+    - Warm cache on first command
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-08T10:10:00.486568+00:00'
+  started: null
+  completed: '2025-11-08T15:15:04.018166+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: core-framework-3-task-001
+    target_status: completed
+    reason: Need RoadmapCache implementation
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-08T10:10:00.486566+00:00'
+    token_efficiency: null
+    duration_hours: null

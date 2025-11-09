@@ -1,0 +1,69 @@
+task:
+  id: documentation-system-1-task-002
+  sprint_id: documentation-system-1
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Build table_of_contents.json generation system
+  description: 'Implement system to generate table_of_contents.json files at each
+    level
+
+    of the hierarchy (roadmap, track, sprint).
+
+
+    Implementation:
+
+    - Design JSON schema for TOC files
+
+    - Create TOC generator for roadmap level
+
+    - Create TOC generator for track level
+
+    - Create TOC generator for sprint level
+
+    - Include parent links, current object, children list
+
+    - Add status and progress metadata
+
+
+    Acceptance Criteria:
+
+    - TOC JSON matches specification
+
+    - Generated at roadmap/track/sprint levels
+
+    - Includes correct parent/child relationships
+
+    - Metadata accurate (status, progress)
+
+    - Fast generation (<100ms per TOC)
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-09T21:29:34.189450+00:00'
+  started: null
+  completed: '2025-11-09T21:30:41.319042+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-1-task-001
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:34.189451+00:00'
+    token_efficiency: null
+    duration_hours: null

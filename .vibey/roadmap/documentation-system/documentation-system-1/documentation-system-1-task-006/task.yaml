@@ -1,0 +1,76 @@
+task:
+  id: documentation-system-1-task-006
+  sprint_id: documentation-system-1
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create unit tests for generation systems
+  description: 'Build comprehensive unit tests for TOC generation, markdown generation,
+
+    and context management systems.
+
+
+    Implementation:
+
+    - Test TOC generation at all levels
+
+    - Test markdown generation from YAML
+
+    - Test context directory management
+
+    - Test path helper functions
+
+    - Test edge cases (missing files, invalid paths)
+
+    - Test integration between systems
+
+
+    Acceptance Criteria:
+
+    - 90%+ code coverage for generation systems
+
+    - All edge cases tested
+
+    - Integration tests pass
+
+    - Tests run in <5 seconds
+
+    - Clear test documentation
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-09T21:29:34.189462+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-1-task-002
+    target_status: completed
+    reason: Required prerequisite
+  - type: task
+    target_id: documentation-system-1-task-003
+    target_status: completed
+    reason: Required prerequisite
+  - type: task
+    target_id: documentation-system-1-task-004
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:34.189463+00:00'
+    token_efficiency: null
+    duration_hours: null

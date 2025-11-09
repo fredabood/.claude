@@ -1,0 +1,134 @@
+track:
+  id: multi-platform
+  name: Multi-Platform Architecture
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: medium
+  created: '2024-11-07T02:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 months
+  progress:
+    sprints_total: 5
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: multi-platform-1
+    name: Extract Platform-Agnostic Core
+    status: not_started
+    estimated_duration: 3 weeks
+    tasks_count: null
+    started: null
+  - id: multi-platform-2
+    name: Design Adapter Pattern & Interface
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: null
+    started: null
+  - id: multi-platform-3
+    name: Build Unified vibey CLI
+    status: not_started
+    estimated_duration: 4 weeks
+    tasks_count: null
+    started: null
+  - id: multi-platform-4
+    name: Cursor POC & Evaluation
+    status: not_started
+    estimated_duration: 4 weeks
+    tasks_count: null
+    started: null
+  - id: multi-platform-5
+    name: Multi-Platform Documentation & Launch
+    status: not_started
+    estimated_duration: 3 weeks
+    tasks_count: null
+    started: null
+  dependencies:
+  - type: track
+    target_id: roadmap-system
+    target_status: completed
+    reason: Need roadmap system to be portable across platforms
+    optional: false
+  - type: track
+    target_id: goose-port
+    target_status: completed
+    reason: Learn from Goose port before building adapter pattern
+    optional: false
+  blocks: []
+  blocked_by:
+  - dependency_id: roadmap-system
+    dependency_type: track
+    current_status: not_started
+    required_status: completed
+    blocking_since: '2024-11-07T02:00:00+00:00'
+    estimated_resolution: '2025-03-31T00:00:00+00:00'
+  - dependency_id: goose-port
+    dependency_type: track
+    current_status: not_started
+    required_status: completed
+    blocking_since: '2024-11-07T02:00:00+00:00'
+    estimated_resolution: '2025-06-30T00:00:00+00:00'
+  depends_on:
+  - blocker_id: roadmap-system
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: completed
+    last_checked: '2025-11-08T16:01:27.402212+00:00'
+  - blocker_id: goose-port
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-11-08T16:01:27.404420+00:00'
+  depended_on_by: []
+  quality_gates:
+  - name: Cross-Platform Compatibility
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  - name: Unified CLI Testing
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  - name: Platform Adapter Tests
+    threshold: 85
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  assigned_agents:
+  - web-developer
+  - coordinator
+  - docs-writer
+  - test-engineer
+  - security-auditor
+  deliverables:
+  - Platform-agnostic core library
+  - Adapter interface specification
+  - Claude Code adapter (refactored)
+  - Goose adapter (complete)
+  - Cursor adapter (POC or complete)
+  - Unified vibey CLI tool
+  - Multi-platform documentation
+  strategic_value: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2024-11-07T02:00:00+00:00'
+    design_doc: docs/FRAMEWORK_ROADMAP.md#multi-platform-framework
+    implementation_plan: null
+    notes: 'Build the platform-agnostic architecture that enables Vibey
+
+      to work across Claude Code, Goose, Cursor, and future platforms.
+
+
+      Long-term vision: Single vibey CLI, multiple platform adapters.
+
+      '

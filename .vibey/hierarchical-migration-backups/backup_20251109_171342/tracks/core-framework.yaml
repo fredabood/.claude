@@ -1,0 +1,106 @@
+track:
+  id: core-framework
+  name: Core Framework Enhancements
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: high
+  created: '2024-11-01T00:00:00+00:00'
+  started: '2024-11-05T00:00:00+00:00'
+  completed: '2025-11-09T13:20:00+00:00'
+  estimated_duration: 3 months
+  progress:
+    sprints_total: 3
+    sprints_completed: 2
+    tasks_total: 20
+    tasks_completed: 20
+    completion_percent: 100
+  sprints:
+  - id: core-framework-2
+    name: Config-to-Docs Architecture
+    status: production_gate_check
+    estimated_duration: 4 weeks
+    tasks_count: 13
+    started: '2025-11-09T00:00:00+00:00'
+  - id: core-framework-1
+    name: Default CLAUDE.md Auto-Generation
+    status: completed
+    estimated_duration: 2 weeks
+    tasks_count: 5
+    started: '2025-11-09T09:00:00+00:00'
+  - id: core-framework-3
+    name: Framework Polish & Refinements
+    status: production_ready
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: '2025-11-08T15:06:21.452508+00:00'
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates:
+  - name: Backward Compatibility Testing
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  - name: Documentation Review
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: null
+    score: null
+  assigned_agents:
+  - web-developer
+  - docs-writer
+  - coordinator
+  deliverables:
+  - Auto-generated CLAUDE.md from configs
+  - Permanent .vibey/ directory structure
+  - Config-to-docs generation system
+  - Platform deployment as build artifacts
+  - Foundation for adapter pattern
+  - Modular config system (project, framework, agents, quality-gates)
+  - Context loading strategy implementation (prevent context explosion)
+  - Auto-generated dependency summaries and task summaries
+  - vibey deploy --platform <name> command
+  - vibey docs generate command
+  - roadmap summarize and roadmap context commands
+  strategic_value:
+  - 'Foundation for Multi-Platform: .vibey/ as platform-agnostic core'
+  - 'Clean Separation: Source (.vibey/) vs Deployment (.claude/, .goose/)'
+  - 'Config-Driven Docs: Generate documentation from source of truth'
+  - 'Roadmap State Permanence: .vibey/ never deleted, always available'
+  - 'Adapter Pattern Ready: Enables Track 3 (Goose) and Track 4 (Multi-Platform)'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/PLATFORM_AGNOSTIC_ARCHITECTURE.md
+    implementation_plan: docs/sprints/core-framework-2-plan.md
+    notes: "Core framework improvements that set foundation for multi-platform architecture.\n\
+      \n**SPRINT ORDERING CORRECTION (2025-11-09):**\n- Sprint 3 (Framework Polish)\
+      \ - ✅ COMPLETED\n- Sprint 2 (Config-to-Docs) - NOW (foundation layer)\n- Sprint\
+      \ 1 (Default CLAUDE.md) - LATER (depends on Sprint 2)\n\nRationale: Sprint 1\
+      \ requires config system and templates from Sprint 2.\n\nKey Insight: Keep .vibey/\
+      \ as permanent platform-agnostic home with two systems:\n\n1. YAML (Roadmap\
+      \ System) - State tracking\n   - Sprint status, progress, dependencies\n   -\
+      \ Updated by roadmap CLI\n   - Machine-readable\n   - .vibey/roadmap/*.yaml\n\
+      \n2. Markdown (Sprint Docs) - Rich context\n   - What to build, architecture\
+      \ decisions, learnings\n   - Iterated during development (NEVER regenerated)\n\
+      \   - Human and AI readable\n   - .vibey/sprint_docs/*/\n\n3. Platform Deployments\
+      \ - Generated artifacts\n   - .claude/, .goose/, .cursor/ (gitignored)\n   -\
+      \ Generated from .vibey/config/\n   - Tool-specific\n\nCritical distinction:\n\
+      - YAML tracks deterministic state (status, dependencies)\n- Markdown provides\
+      \ accumulated context (never lost!)\n- YAML links to Markdown (documentation.files.plan)\n\
+      - Both committed to git, non-overlapping purposes\n\nSprint 2 (Config-to-Docs\
+      \ Architecture) builds:\n- Permanent .vibey/ structure\n- Sprint docs linking\
+      \ system (YAML references Markdown via documentation field)\n- Context loading\
+      \ strategy (see CONTEXT_LOADING_STRATEGY.md)\n  * Dependency summaries (auto-generated)\n\
+      \  * Task summaries (task-level context)\n  * Context modes (minimal/summary/full)\n\
+      \  * Hierarchical loading (distance-based)\n  * 80-90% reduction in context\
+      \ size for complex dependencies\n- Platform deployment generation\n- Foundation\
+      \ for adapter pattern (Track 3 & 4)\n\nDocumentation:\n- PLATFORM_AGNOSTIC_ARCHITECTURE.md\
+      \ - Overall architecture\n- YAML_MARKDOWN_SEPARATION.md - Design principle\n\
+      - CONTEXT_LOADING_STRATEGY.md - Context explosion mitigation\n"

@@ -1,0 +1,67 @@
+task:
+  id: core-framework-3-task-001
+  sprint_id: core-framework-3
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design and implement RoadmapCache class
+  description: 'Implement in-memory caching layer for fast roadmap queries.
+
+
+    Requirements:
+
+    - Lazy-loaded indexes (task_index, sprint_index, track_index)
+
+    - Pre-computed dependency graphs (adjacency list, reverse edges)
+
+    - File modification tracking (mtimes)
+
+    - Cache statistics (hits, misses, hit rate)
+
+    - Invalidation on file changes
+
+    - O(1) lookups after first query
+
+
+    Design:
+
+    - In-memory dictionaries for indexes
+
+    - Build indexes on first access
+
+    - Track file mtimes for invalidation
+
+    - Partial and full invalidation support
+
+
+    Target Performance:
+
+    - Task lookup: < 5ms (vs 100ms without cache)
+
+    - Load all tasks: < 10ms (vs 150ms without cache)
+
+    - Dependency graph: < 20ms (vs 300ms without cache)
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-08T10:10:00.486540+00:00'
+  started: null
+  completed: '2025-11-08T15:11:05.496973+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-08T10:10:00.486529+00:00'
+    token_efficiency: null
+    duration_hours: null

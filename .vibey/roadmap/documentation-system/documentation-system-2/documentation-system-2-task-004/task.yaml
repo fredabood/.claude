@@ -1,0 +1,76 @@
+task:
+  id: documentation-system-2-task-004
+  sprint_id: documentation-system-2
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add documentation synchronization CLI commands
+  description: 'Implement CLI commands for manual and automatic documentation
+
+    synchronization.
+
+
+    Implementation:
+
+    - Add vibey roadmap sync-docs command
+
+    - Support --all flag (sync everything)
+
+    - Support --track flag (sync specific track)
+
+    - Support --sprint flag (sync specific sprint)
+
+    - Support --summaries-only flag
+
+    - Support --dry-run flag (preview changes)
+
+    - Show sync summary (files copied, skipped, errors)
+
+
+    Acceptance Criteria:
+
+    - All sync commands work correctly
+
+    - Dry-run shows accurate preview
+
+    - Sync summary helpful and accurate
+
+    - Error messages clear
+
+    - Performance acceptable (<5 seconds for full sync)
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-09T21:29:48.423975+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-2-task-001
+    target_status: completed
+    reason: Required prerequisite
+  - type: task
+    target_id: documentation-system-2-task-002
+    target_status: completed
+    reason: Required prerequisite
+  - type: task
+    target_id: documentation-system-2-task-003
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:48.423977+00:00'
+    token_efficiency: null
+    duration_hours: null

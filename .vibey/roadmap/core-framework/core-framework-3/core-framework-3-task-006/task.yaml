@@ -1,0 +1,47 @@
+task:
+  id: core-framework-3-task-006
+  sprint_id: core-framework-3
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add agent management functionality to Vibey Manager
+  description: "Extend Vibey Manager agent with comprehensive agent management capabilities.\n\
+    \nNew Capabilities:\n1. List Available Agents\n   - Show all 12 specialized agents\n\
+    \   - Display agent specialties and capabilities\n   - Show trigger patterns for\
+    \ orchestration\n\n2. View Agent Workload\n   - Show tasks assigned to each agent\n\
+    \   - Display workload by status (not_started, in_progress, completed)\n   - Show\
+    \ agent capacity and availability\n\n3. Agent Assignment\n   - Assign tasks to\
+    \ specific agents\n   - Reassign tasks between agents\n   - Batch assignment operations\n\
+    \n4. Agent Recommendations\n   - Recommend best agent for a given task\n   - Recommend\
+    \ next tasks for a given agent\n   - Show confidence scores and reasoning\n\n\
+    5. Agent Capabilities\n   - View detailed agent capabilities\n   - Show task types\
+    \ each agent handles\n   - Display keyword matching for orchestration\n\nCommands\
+    \ to Add:\n- \"Show me agent workload\"\n- \"Which agents are available?\"\n-\
+    \ \"Assign task X to agent Y\"\n- \"Which agent should handle task X?\"\n- \"\
+    What tasks should the web-developer work on?\"\n- \"Show me all security agent\
+    \ capabilities\"\n\nIntegration:\n- Use roadmap agents command (roadmap-lib/agents.py)\n\
+    - Use roadmap recommend command\n- Use roadmap assign command\n- Add conversational\
+    \ wrappers for CLI commands\n\nFiles to Modify:\n- framework/agents/core/vibey-manager.md\
+    \ (add Agent Management section)\n- Add examples and usage patterns\n"
+  status: completed
+  blocked: false
+  created: '2025-11-08T10:10:00.486582+00:00'
+  started: '2025-11-08T15:16:09.281987+00:00'
+  completed: '2025-11-08T15:17:16.374269+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-08T10:10:00.486581+00:00'
+    token_efficiency: null
+    duration_hours: null

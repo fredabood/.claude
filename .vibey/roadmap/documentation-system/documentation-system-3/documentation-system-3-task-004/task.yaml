@@ -1,0 +1,70 @@
+task:
+  id: documentation-system-3-task-004
+  sprint_id: documentation-system-3
+  track_id: documentation-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add documentation changelog generation
+  description: 'Implement system to generate documentation changelog from roadmap
+
+    activity, showing which sprints/tasks modified which docs.
+
+
+    Implementation:
+
+    - Parse .meta.json files across all project docs
+
+    - Group changes by roadmap object
+
+    - Group changes by time period
+
+    - Generate markdown changelog
+
+    - Support filtering by track/sprint/task
+
+    - Support date range filtering
+
+    - Include change descriptions
+
+    - Link to roadmap objects
+
+
+    Acceptance Criteria:
+
+    - Changelog generated from .meta.json files
+
+    - Grouped logically (by object, by time)
+
+    - Filtering works correctly
+
+    - Markdown formatting clear
+
+    - Links to roadmap objects work
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-09T21:29:48.458629+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: documentation-system-3-task-003
+    target_status: completed
+    reason: Required prerequisite
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-09T21:29:48.458630+00:00'
+    token_efficiency: null
+    duration_hours: null

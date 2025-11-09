@@ -1,0 +1,42 @@
+task:
+  id: roadmap-integration-1-task-002
+  sprint_id: roadmap-integration-1
+  track_id: roadmap-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update vibey-plan.md to create roadmap sprint entries
+  description: 'Modify framework/commands/vibey-plan.md (lines 200-235) to call
+
+    roadmap-update.py after sprint plan creation. Should create sprint
+
+    entry in .vibey/sprints/ with metadata and link to plan document.
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-08T13:18:26.791640+00:00'
+  started: '2025-11-08T18:19:00.859694+00:00'
+  completed: '2025-11-08T18:19:41.675945+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integration-1-task-001
+    target_status: completed
+    reason: Deployment must initialize roadmap before planning can create sprints
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-08T13:18:26.791637+00:00'
+    token_efficiency: null
+    duration_hours: null

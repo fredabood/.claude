@@ -1,0 +1,67 @@
+task:
+  id: core-framework-3-task-gate-001
+  sprint_id: core-framework-3
+  track_id: core-framework
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update documentation with caching and performance info
+  description: 'Update all documentation to reflect caching layer and performance.
+
+
+    Updates:
+
+    - ROADMAP_QUICK_REFERENCE.md (mention caching)
+
+    - ROADMAP_USER_GUIDE.md (performance section)
+
+    - CLI.md (--no-cache flag, performance targets)
+
+    - ROADMAP_EXAMPLES.md (performance notes)
+
+    - ARCHITECTURE_DECISION_TEXT_VS_DATABASE.md (validation results)
+
+
+    New Documentation:
+
+    - PERFORMANCE_BENCHMARKS.md (benchmark results)
+
+    - CACHING_LAYER.md (cache design, usage, troubleshooting)
+
+
+    Performance Guidance:
+
+    - When to expect fast responses
+
+    - How caching works
+
+    - Troubleshooting slow queries
+
+    - Cache invalidation behavior
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-08T10:10:00.486586+00:00'
+  started: '2025-11-08T15:17:16.668500+00:00'
+  completed: '2025-11-08T15:17:54.041325+00:00'
+  assigned_agent: docs-writer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: core-framework-3-task-004
+    target_status: completed
+    reason: Need benchmark results
+  blocks: []
+  blocked_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-08T10:10:00.486585+00:00'
+    token_efficiency: null
+    duration_hours: null

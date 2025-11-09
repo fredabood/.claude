@@ -2,19 +2,19 @@ track:
   id: core-framework
   name: Core Framework Enhancements
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: completed
   blocked: false
   priority: high
   created: '2024-11-01T00:00:00+00:00'
   started: '2024-11-05T00:00:00+00:00'
-  completed: null
+  completed: '2025-11-09T13:20:00+00:00'
   estimated_duration: 3 months
   progress:
     sprints_total: 3
-    sprints_completed: 2
+    sprints_completed: 3
     tasks_total: 25
-    tasks_completed: 20
-    completion_percent: 80
+    tasks_completed: 25
+    completion_percent: 100
   sprints:
   - id: core-framework-2
     name: Config-to-Docs Architecture
@@ -31,10 +31,12 @@ track:
         optional: false
   - id: core-framework-1
     name: Default CLAUDE.md Auto-Generation
-    status: not_started
+    status: completed
     estimated_duration: 2 weeks
     tasks_count: 5
-    started: null
+    started: '2025-11-09T09:00:00+00:00'
+    completed: '2025-11-09T13:20:00+00:00'
+    note: "Goals absorbed into Sprint 2 - all deliverables achieved via config-to-docs architecture"
     dependencies:
       - type: sprint
         target_id: core-framework-2

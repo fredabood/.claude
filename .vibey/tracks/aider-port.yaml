@@ -29,12 +29,14 @@ track:
     reason: Validate multi-platform adapter pattern before adding more platforms
     optional: false
   blocks: []
-  blocked_by:
-  - goose-port
+  blocked_by: []
   depends_on:
   - blocker_id: goose-port
     current_status: not_started
     last_checked: '2025-11-09T21:40:22.270181+00:00'
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: in_progress
   depended_on_by: []
   quality_gates:
   - name: Terminal Integration Testing

@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 11
-    tracks_completed: 4
-    sprints_total: 43
-    sprints_completed: 21
-    tasks_total: 191
-    tasks_completed: 163
-    completion_percent: 48
+    tracks_completed: 3
+    sprints_total: 37
+    sprints_completed: 12
+    tasks_total: 166
+    tasks_completed: 94
+    completion_percent: 56
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -88,7 +88,8 @@ roadmap:
     date: '2025-11-09T00:00:00+00:00'
     milestone: Config-to-Docs Architecture & Roadmap Integration Complete
     git_tag: v1.3.0
-    description: Platform-agnostic architecture with unified CLI, platform adapters, and complete roadmap integration track
+    description: Platform-agnostic architecture with unified CLI, platform adapters,
+      and complete roadmap integration track
   activity_log:
   - timestamp: '2024-11-01T00:00:00+00:00'
     type: roadmap_started
@@ -300,15 +301,16 @@ roadmap:
     context:
       task_id: roadmap-integration-2-task-006
       sprint_id: roadmap-integration-2
-  - timestamp: '2025-11-08T19:30:07.321656Z'
+  - timestamp: '2025-11-08T19:30:07.321656+00:00'
     type: task_completed
     description: Task 'Create Track Completion Summary' completed
     context:
       task_id: roadmap-integration-3-task-004
       sprint_id: roadmap-integration-3
   - timestamp: '2025-11-09T00:00:00+00:00'
-    type: sprint_ordering_corrected
-    description: Fixed core-framework sprint ordering - Sprint 2 must precede Sprint 1
+    type: planning_completed
+    description: Fixed core-framework sprint ordering - Sprint 2 must precede Sprint
+      1
     context:
       track_id: core-framework
       issue: Sprint 1 (Default CLAUDE.md) depends on Sprint 2 (Config-to-Docs)
@@ -330,11 +332,11 @@ roadmap:
       sprint_id: core-framework-2
       tasks_completed: 13
       deliverables:
-        - Platform-agnostic architecture
-        - Unified vibey CLI
-        - Claude Code adapter
-        - Modular config system
-        - Comprehensive documentation
+      - Platform-agnostic architecture
+      - Unified vibey CLI
+      - Claude Code adapter
+      - Modular config system
+      - Comprehensive documentation
   - timestamp: '2025-11-09T13:20:00+00:00'
     type: track_completed
     description: 'Completed Track: Roadmap Integration'
@@ -342,10 +344,10 @@ roadmap:
       track_id: roadmap-integration
       sprints_completed: 3
       total_tasks: 16
-      duration: '1 day'
+      duration: 1 day
       impact: Unified roadmap system with /vibey commands
   - timestamp: '2025-11-09T13:30:00+00:00'
-    type: version_released
+    type: version_bump
     description: Released v1.3.0 - Config-to-Docs Architecture
     context:
       version: 1.3.0
@@ -353,22 +355,22 @@ roadmap:
       tracks_completed: 2
       sprints_completed: 11
       major_features:
-        - Platform-agnostic architecture
-        - Unified CLI
-        - Platform adapter system
-        - Roadmap integration complete
+      - Platform-agnostic architecture
+      - Unified CLI
+      - Platform adapter system
+      - Roadmap integration complete
   - timestamp: '2025-11-09T14:00:00+00:00'
-    type: documentation_update
+    type: planning_completed
     description: Comprehensive documentation review and update
     context:
       files_updated: 8
       files_created: 5
       lines_added: 12635
       includes:
-        - README.md rewrite
-        - CHANGELOG.md v1.3.0
-        - Release notes (800+ lines)
-        - Architecture guides (3 docs)
+      - README.md rewrite
+      - CHANGELOG.md v1.3.0
+      - Release notes (800+ lines)
+      - Architecture guides (3 docs)
   - timestamp: '2025-11-09T14:30:00+00:00'
     type: track_completed
     description: 'Completed Track: Core Framework Enhancements'
@@ -376,11 +378,11 @@ roadmap:
       track_id: core-framework
       sprints_completed: 3
       total_tasks: 25
-      duration: '5 months (Nov 2024 - Nov 2025)'
+      duration: 5 months (Nov 2024 - Nov 2025)
       impact: Platform-agnostic architecture foundation complete
       note: Sprint 1 goals absorbed into Sprint 2 implementation
   - timestamp: '2025-11-09T16:00:00+00:00'
-    type: track_added
+    type: track_started
     description: 'Added Track: Hierarchical Documentation & Context Management System'
     context:
       track_id: documentation-system
@@ -391,11 +393,23 @@ roadmap:
       strategic_value: Foundation for knowledge management and model context tracking
       design_doc: docs/development/DOCUMENTATION_MANAGEMENT_STRATEGY.md
       blocks: mcp-server track (will be first to use new structure)
+  - timestamp: '2025-11-09T22:02:03.839416+00:00'
+    type: task_completed
+    description: Task 'Create markdown view generation from YAML' completed
+    context:
+      task_id: documentation-system-1-task-003
+      sprint_id: documentation-system-1
+  - timestamp: '2025-11-09T22:02:23.265625Z'
+    type: task_completed
+    description: Task 'Implement context directory management' completed
+    context:
+      task_id: documentation-system-1-task-004
+      sprint_id: documentation-system-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-09T00:00:00+00:00'
+    last_updated: '2025-11-09T22:02:23.265629Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

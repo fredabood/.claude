@@ -2,26 +2,26 @@ track:
   id: documentation-system
   name: Hierarchical Documentation & Context Management System
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
-  started: null
+  started: '2025-11-09T00:00:00+00:00'
   completed: null
   estimated_duration: 6 weeks
   progress:
     sprints_total: 3
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 19
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 5
+    completion_percent: 26
   sprints:
   - id: documentation-system-1
     name: Hierarchical Structure & Core Generation
-    status: not_started
+    status: production_ready
     estimated_duration: 2 weeks
     tasks_count: 8
-    started: null
+    started: '2025-11-09T21:31:07.984389+00:00'
   - id: documentation-system-2
     name: Documentation Synchronization & Context Management
     status: not_started
@@ -48,7 +48,10 @@ track:
   blocked_by: []
   depends_on:
   - blocker_id: core-framework
+    blocker_type: track
+    required_status: completed
     current_status: completed
+    blocks_transition_to: in_progress
     last_checked: '2025-11-09T21:31:48.927542+00:00'
   depended_on_by:
   - mcp-server

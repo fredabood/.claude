@@ -5,23 +5,30 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
-  actual_duration: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  dependencies:
-  - type: sprint
-    target_id: documentation-system-1
-    target_status: completed
-    reason: Requires hierarchical structure and generation systems
-    optional: false
+  tasks: []
+  development_gates: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Documentation synchronization engine
   - Sync manifest tracking system
@@ -30,19 +37,9 @@ sprint:
   - Automatic sync triggers
   - Synchronization reliability tests
   metadata:
-    sprint_goal: 'Implement the documentation synchronization system that copies user-facing
-
-      documentation from .vibey/roadmap/ to docs/roadmap/, ensuring users can
-
-      browse roadmap docs without navigating the internal workspace.
-
-      '
-    success_criteria:
-    - Synchronization engine works reliably
-    - Sync manifest tracks all operations
-    - Configuration system flexible
-    - Automatic triggers functional
-    - All tests passing (95%+ coverage)
-    - Performance acceptable (<5 seconds full sync)
     last_updated: '2025-11-09T21:30:52.028602+00:00'
-    created_by: vibey-framework-team
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

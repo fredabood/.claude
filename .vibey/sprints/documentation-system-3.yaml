@@ -5,23 +5,30 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
-  actual_duration: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  dependencies:
-  - type: sprint
-    target_id: documentation-system-2
-    target_status: completed
-    reason: Requires complete synchronization system before migration
-    optional: false
+  tasks: []
+  development_gates: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Migration script for existing tracks
   - All existing tracks migrated to hierarchy
@@ -30,19 +37,9 @@ sprint:
   - Complete system documentation
   - Final validation and testing
   metadata:
-    sprint_goal: 'Complete the documentation system implementation by migrating all
-
-      existing tracks to the new hierarchy and adding project documentation
-
-      tracking capabilities.
-
-      '
-    success_criteria:
-    - All existing tracks migrated successfully
-    - No data loss during migration
-    - Project documentation tracking functional
-    - Documentation changelog generation working
-    - Complete system documentation available
-    - All quality gates passing
     last_updated: '2025-11-09T21:30:52.030874+00:00'
-    created_by: vibey-framework-team
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

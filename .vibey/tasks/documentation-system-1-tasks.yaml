@@ -221,11 +221,11 @@ tasks:
     - Templates easy to customize
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:34.189453+00:00'
   started: null
-  completed: null
+  completed: '2025-11-09T22:02:03.742670+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
@@ -288,11 +288,11 @@ tasks:
     - Error handling for invalid paths
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:34.189456+00:00'
   started: null
-  completed: null
+  completed: '2025-11-09T22:02:23.166736+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null

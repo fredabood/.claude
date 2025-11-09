@@ -1,0 +1,501 @@
+# ML Pipeline Roadmap Example
+# Demonstrates roadmap system for machine learning projects
+
+roadmap:
+  id: ml-pipeline
+  name: Customer Churn Prediction ML Pipeline
+  version: 0.1.0
+  status: not_started
+  created_at: 2025-11-09T10:00:00Z
+  updated_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: End-to-end ML pipeline for predicting customer churn
+    project_type: ml-platform
+    tech_stack:
+      - Python
+      - PyTorch
+      - scikit-learn
+      - MLflow
+      - Apache Airflow
+      - PostgreSQL
+      - Docker
+
+  progress:
+    tracks_total: 4
+    tracks_completed: 0
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+
+  tracks:
+    - data-pipeline
+    - model-development
+    - ml-infrastructure
+    - monitoring
+
+# Track 1: Data Pipeline
+# Status: Can start immediately (no dependencies)
+---
+track:
+  id: data-pipeline
+  name: Data Pipeline & Feature Engineering
+  status: not_started
+  priority: critical
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Data ingestion, cleaning, feature engineering, and storage
+    owner: data-engineer
+    estimated_duration: 3 weeks
+
+  sprints:
+    - data-pipeline-1  # Data ingestion
+    - data-pipeline-2  # Feature engineering
+    - data-pipeline-3  # Data validation
+
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    completion_percent: 0
+
+# Sprint 1: Data Ingestion
+---
+sprint:
+  id: data-pipeline-1
+  name: Data Ingestion System
+  track_id: data-pipeline
+  status: not_started
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Ingest customer data from multiple sources (CRM, transactions, support tickets)
+    duration_estimate: 1 week
+    complexity: medium
+
+  tasks:
+    - data-pipeline-1-task-001  # Design data schema
+    - data-pipeline-1-task-002  # Implement CRM connector
+    - data-pipeline-1-task-003  # Implement transaction connector
+    - data-pipeline-1-task-004  # Implement support ticket connector
+    - data-pipeline-1-task-005  # Data deduplication logic
+    - data-pipeline-1-gate-c001  # Documentation gate
+    - data-pipeline-1-gate-p001  # Data quality tests
+
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gates_total: 1
+    completion_gates_passed: 0
+    production_gates_total: 1
+    production_gates_passed: 0
+    completion_percent: 0
+
+# Tasks for data-pipeline-1
+---
+tasks:
+  - id: data-pipeline-1-task-001
+    sprint_id: data-pipeline-1
+    task_type: development
+    status: not_started
+
+    title: Design unified customer data schema
+    description: |
+      Design PostgreSQL schema to store customer data from all sources.
+      Include: demographics, transaction history, support interactions, engagement metrics.
+
+    priority: critical
+    complexity: medium
+    estimated_tokens: 10000
+
+    metadata:
+      tags: [schema-design, database]
+      deliverables:
+        - schema.sql
+        - ER diagram
+        - data dictionary
+
+  - id: data-pipeline-1-task-002
+    sprint_id: data-pipeline-1
+    task_type: development
+    status: not_started
+
+    title: Implement CRM data connector
+    description: |
+      Build connector to extract customer demographics from Salesforce CRM.
+      Implement: API authentication, rate limiting, incremental sync, error handling.
+
+    priority: critical
+    complexity: medium
+    estimated_tokens: 15000
+
+    blocked_by:
+      - dependency_id: data-pipeline-1-task-001
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+
+    metadata:
+      tags: [connector, salesforce, api]
+      deliverables:
+        - src/connectors/salesforce_connector.py
+        - Unit tests
+
+  - id: data-pipeline-1-task-003
+    sprint_id: data-pipeline-1
+    task_type: development
+    status: not_started
+
+    title: Implement transaction data connector
+    description: |
+      Build connector to extract purchase transactions from internal database.
+      Implement: incremental sync, transaction batching, data validation.
+
+    priority: critical
+    complexity: medium
+    estimated_tokens: 12000
+
+    blocked_by:
+      - dependency_id: data-pipeline-1-task-001
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+
+    metadata:
+      tags: [connector, transactions, database]
+      deliverables:
+        - src/connectors/transaction_connector.py
+        - Unit tests
+
+  - id: data-pipeline-1-task-004
+    sprint_id: data-pipeline-1
+    task_type: development
+    status: not_started
+
+    title: Implement support ticket connector
+    description: |
+      Build connector to extract support interactions from Zendesk.
+      Implement: API authentication, pagination, sentiment tagging.
+
+    priority: high
+    complexity: medium
+    estimated_tokens: 14000
+
+    blocked_by:
+      - dependency_id: data-pipeline-1-task-001
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+
+    metadata:
+      tags: [connector, zendesk, api]
+      deliverables:
+        - src/connectors/zendesk_connector.py
+        - Unit tests
+
+  - id: data-pipeline-1-task-005
+    sprint_id: data-pipeline-1
+    task_type: development
+    status: not_started
+
+    title: Implement data deduplication logic
+    description: |
+      Detect and merge duplicate customer records across sources.
+      Use fuzzy matching on email, phone, name. Implement conflict resolution.
+
+    priority: high
+    complexity: high
+    estimated_tokens: 18000
+
+    blocked_by:
+      - dependency_id: data-pipeline-1-task-002
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+      - dependency_id: data-pipeline-1-task-003
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+      - dependency_id: data-pipeline-1-task-004
+        dependency_type: task
+        required_status: completed
+        blocks_transition_to: in_progress
+
+    metadata:
+      tags: [deduplication, data-quality]
+      deliverables:
+        - src/utils/deduplication.py
+        - Unit tests
+        - Deduplication report
+
+  - id: data-pipeline-1-gate-c001
+    sprint_id: data-pipeline-1
+    task_type: completion_gate
+    status: not_started
+
+    title: Data pipeline documentation complete
+    description: |
+      Complete documentation for all connectors, schema, and data flows.
+      Include: API docs, configuration guide, troubleshooting.
+
+    priority: high
+    estimated_tokens: 8000
+
+    gate_info:
+      gate_type: completion
+      validation_criteria:
+        - All connectors documented
+        - Configuration examples provided
+        - Data flow diagrams created
+      blocking_scope: sprint_completion
+
+  - id: data-pipeline-1-gate-p001
+    sprint_id: data-pipeline-1
+    task_type: production_gate
+    status: not_started
+
+    title: Data quality tests passing
+    description: |
+      Validate data quality: completeness, accuracy, consistency, timeliness.
+      Tests: schema validation, null checks, referential integrity, duplicate detection.
+
+    priority: critical
+    estimated_tokens: 15000
+
+    gate_info:
+      gate_type: production
+      validation_command: pytest tests/data_quality/ --cov=src/connectors --cov-fail-under=85
+      validation_criteria:
+        - Schema validation 100% pass
+        - Null rate <5% for critical fields
+        - Duplicate rate <1%
+        - Test coverage >85%
+      blocking_scope: production_deployment
+
+# Sprint 2: Feature Engineering
+---
+sprint:
+  id: data-pipeline-2
+  name: Feature Engineering
+  track_id: data-pipeline
+  status: not_started
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Engineer features for churn prediction model
+    duration_estimate: 1 week
+    complexity: high
+
+  blocked_by:
+    - dependency_id: data-pipeline-1
+      dependency_type: sprint
+      required_status: completed
+      blocks_transition_to: in_progress
+
+  tasks:
+    - data-pipeline-2-task-001  # RFM features
+    - data-pipeline-2-task-002  # Engagement features
+    - data-pipeline-2-task-003  # Support interaction features
+    - data-pipeline-2-task-004  # Feature store implementation
+    - data-pipeline-2-gate-c001  # Feature documentation
+    - data-pipeline-2-gate-p001  # Feature validation tests
+
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gates_total: 1
+    completion_gates_passed: 0
+    production_gates_total: 1
+    production_gates_passed: 0
+    completion_percent: 0
+
+# Track 2: Model Development
+# Status: Blocked by data-pipeline track
+---
+track:
+  id: model-development
+  name: ML Model Development
+  status: blocked
+  priority: critical
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Churn prediction model training, evaluation, and experimentation
+    owner: ml-engineer
+
+  blocked_by:
+    - dependency_id: data-pipeline
+      dependency_type: track
+      required_status: completed
+      blocks_transition_to: in_progress
+
+  sprints:
+    - model-development-1  # Baseline models
+    - model-development-2  # Model optimization
+    - model-development-3  # Model deployment
+
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    completion_percent: 0
+
+# Sprint 1: Baseline Models
+---
+sprint:
+  id: model-development-1
+  name: Baseline Model Development
+  track_id: model-development
+  status: blocked
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Train and evaluate baseline churn prediction models
+    duration_estimate: 2 weeks
+    complexity: high
+
+  blocked_by:
+    - dependency_id: data-pipeline
+      dependency_type: track
+      required_status: completed
+      blocks_transition_to: in_progress
+
+  tasks:
+    - model-development-1-task-001  # EDA and data analysis
+    - model-development-1-task-002  # Train logistic regression
+    - model-development-1-task-003  # Train random forest
+    - model-development-1-task-004  # Train XGBoost
+    - model-development-1-task-005  # Model comparison
+    - model-development-1-gate-c001  # Experiment tracking
+    - model-development-1-gate-p001  # Model validation
+
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gates_total: 1
+    completion_gates_passed: 0
+    production_gates_total: 1
+    production_gates_passed: 0
+    completion_percent: 0
+
+# Track 3: ML Infrastructure
+# Status: Can start immediately (independent)
+---
+track:
+  id: ml-infrastructure
+  name: ML Infrastructure & MLOps
+  status: not_started
+  priority: high
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: MLflow, model registry, training pipelines, CI/CD for ML
+    owner: ml-engineer
+
+  sprints:
+    - ml-infrastructure-1  # MLflow setup
+    - ml-infrastructure-2  # Training orchestration
+    - ml-infrastructure-3  # Model deployment pipeline
+
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    completion_percent: 0
+
+# Sprint 1: MLflow Setup
+---
+sprint:
+  id: ml-infrastructure-1
+  name: MLflow Experiment Tracking
+  track_id: ml-infrastructure
+  status: not_started
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Set up MLflow for experiment tracking and model registry
+    duration_estimate: 1 week
+    complexity: medium
+
+  tasks:
+    - ml-infrastructure-1-task-001  # MLflow server setup
+    - ml-infrastructure-1-task-002  # Experiment tracking integration
+    - ml-infrastructure-1-task-003  # Model registry setup
+    - ml-infrastructure-1-task-004  # Artifact storage (S3)
+    - ml-infrastructure-1-gate-c001  # MLflow documentation
+    - ml-infrastructure-1-gate-p001  # MLflow validation tests
+
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gates_total: 1
+    completion_gates_passed: 0
+    production_gates_total: 1
+    production_gates_passed: 0
+    completion_percent: 0
+
+# Track 4: Monitoring
+# Status: Blocked by model-development track
+---
+track:
+  id: monitoring
+  name: Model Monitoring & Observability
+  status: blocked
+  priority: high
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Monitor model performance, data drift, and prediction quality in production
+    owner: ml-engineer
+
+  blocked_by:
+    - dependency_id: model-development
+      dependency_type: track
+      required_status: completed
+      blocks_transition_to: in_progress
+
+  sprints:
+    - monitoring-1  # Performance monitoring
+    - monitoring-2  # Data drift detection
+    - monitoring-3  # Alerting and retraining
+
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    completion_percent: 0
+
+# Sprint 1: Performance Monitoring
+---
+sprint:
+  id: monitoring-1
+  name: Model Performance Monitoring
+  track_id: monitoring
+  status: blocked
+  created_at: 2025-11-09T10:00:00Z
+
+  metadata:
+    description: Track model accuracy, precision, recall in production
+    duration_estimate: 1 week
+    complexity: medium
+
+  blocked_by:
+    - dependency_id: model-development
+      dependency_type: track
+      required_status: completed
+      blocks_transition_to: in_progress
+
+  tasks:
+    - monitoring-1-task-001  # Metrics collection
+    - monitoring-1-task-002  # Dashboard creation
+    - monitoring-1-task-003  # Ground truth feedback loop
+    - monitoring-1-gate-c001  # Monitoring documentation
+    - monitoring-1-gate-p001  # Alerting validation
+
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gates_total: 1
+    completion_gates_passed: 0
+    production_gates_total: 1
+    production_gates_passed: 0
+    completion_percent: 0

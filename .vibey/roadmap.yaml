@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 37
     sprints_completed: 12
     tasks_total: 166
-    tasks_completed: 95
+    tasks_completed: 96
     completion_percent: 57
   tracks:
   - id: core-framework
@@ -411,17 +411,29 @@ roadmap:
     context:
       task_id: documentation-system-1-task-005
       sprint_id: documentation-system-1
-  - timestamp: '2025-11-09T22:25:25.742888Z'
+  - timestamp: '2025-11-09T22:25:25.742888+00:00'
     type: task_completed
     description: Task 'Update roadmap state management scripts' completed
     context:
       task_id: documentation-system-1-task-005
       sprint_id: documentation-system-1
+  - timestamp: '2025-11-09T22:32:00.134477+00:00'
+    type: task_started
+    description: Task 'Create unit tests for generation systems' started
+    context:
+      task_id: documentation-system-1-task-006
+      sprint_id: documentation-system-1
+  - timestamp: '2025-11-09T22:34:56.025923Z'
+    type: task_completed
+    description: Task 'Create unit tests for generation systems' completed
+    context:
+      task_id: documentation-system-1-task-006
+      sprint_id: documentation-system-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-09T22:25:25.742892Z'
+    last_updated: '2025-11-09T22:34:56.025927Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

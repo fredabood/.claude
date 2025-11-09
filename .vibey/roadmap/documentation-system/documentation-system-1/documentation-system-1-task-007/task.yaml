@@ -38,11 +38,11 @@ task:
     - Integrated into main documentation
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:34.189464+00:00'
-  started: null
-  completed: null
+  started: '2025-11-09T22:35:30.413101+00:00'
+  completed: '2025-11-09T22:37:33.533114+00:00'
   assigned_agent: docs-writer
   priority: medium
   phase_label: null

@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 5
+    tracks_total: 9
     tracks_completed: 4
-    sprints_total: 24
+    sprints_total: 38
     sprints_completed: 21
     tasks_total: 163
     tasks_completed: 163
-    completion_percent: 100
+    completion_percent: 55
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -40,6 +40,22 @@ roadmap:
     priority: high
   - id: multi-platform
     name: Multi-Platform Architecture
+    status: not_started
+    priority: medium
+  - id: aider-port
+    name: Aider Platform Port
+    status: not_started
+    priority: high
+  - id: continue-port
+    name: Continue.dev Platform Port
+    status: not_started
+    priority: high
+  - id: windsurf-port
+    name: Windsurf/Codeium Platform Port
+    status: not_started
+    priority: medium
+  - id: jetbrains-port
+    name: JetBrains AI Assistant Port
     status: not_started
     priority: medium
   dependencies: []

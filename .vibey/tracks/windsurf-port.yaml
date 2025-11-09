@@ -1,0 +1,147 @@
+track:
+  id: windsurf-port
+  name: Windsurf/Codeium Platform Port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 weeks
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 13
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: windsurf-port-1
+    name: Windsurf Adapter & Cascade Integration
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: windsurf-port-2
+    name: Agentic Workflow & VS Code Compatibility
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 6
+    started: null
+  dependencies:
+  - type: track
+    target_id: continue-port
+    target_status: completed
+    reason: Build on IDE extension adapter patterns
+    optional: true
+  blocks: []
+  blocked_by:
+  - goose-port
+  depends_on:
+  - goose-port
+  depended_on_by: []
+  quality_gates:
+  - name: Cascade Agent Integration
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Vibey workflows integrate with Cascade agent
+    score: null
+  - name: Agentic Workflow Testing
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Multi-step workflows execute correctly
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Windsurf platform adapter (Python)
+  - .windsurf/ deployment generation
+  - Cascade agent configuration templates
+  - Workflow → Cascade operation mapping
+  - VS Code extension compatibility layer
+  - Agentic workflow documentation
+  - Windsurf integration examples
+  strategic_value:
+  - 'Agentic IDE Leader: "First agentic IDE" market positioning'
+  - 'Cascade Agent Synergy: Multi-step autonomous workflows'
+  - 'Free BYOK: Cost-effective for users'
+  - 'Demonstrates Multi-Agent Value: Vibey orchestration + Cascade execution'
+  - 'Complements Cursor: Another AI-first IDE option'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/PLATFORM_RESEARCH_2025.md
+    implementation_plan: null
+    notes: |
+      Windsurf represents the "agentic IDE" category:
+
+      1. Compatibility (75%)
+         - Cascade agent = workflow-ready
+         - VS Code fork (extension compatibility)
+         - Configuration-driven
+         - Agentic architecture philosophy
+
+      2. Moderate Effort (2 sprints = 4 weeks)
+         - Cascade agent API integration
+         - Agentic workflow mapping
+         - VS Code compatibility testing
+
+      3. Strategic Value
+         - Market leader in agentic IDEs
+         - Demonstrates Vibey's orchestration value
+         - Free with own keys (accessible)
+         - Unique positioning vs Cursor
+
+      Adapter Strategy:
+      - Map Vibey agents → Cascade agent configurations
+      - Map Vibey workflows → Multi-step Cascade operations
+      - Map Vibey handoffs → Cascade state transitions
+      - Generate .windsurf/ directory
+      - Templates: cascade-config.json.j2
+
+      Key Concept: Cascade Agent as Workflow Engine
+      Windsurf's Cascade agent can execute multi-step operations,
+      making it ideal for Vibey workflow orchestration.
+
+      Vibey Workflow → Cascade Operation Example:
+      {
+        "operation": "feature-development",
+        "steps": [
+          {
+            "agent": "requirements-analyzer",
+            "cascade_role": "planner"
+          },
+          {
+            "agent": "web-developer",
+            "cascade_role": "implementer"
+          },
+          {
+            "agent": "test-engineer",
+            "cascade_role": "validator"
+          }
+        ]
+      }
+
+      Cascade Integration Benefits:
+      - Autonomous multi-step execution
+      - Codebase understanding (Cascade feature)
+      - Graphical interface for workflow progress
+      - Built-in agentic capabilities
+
+      Marketing Angle:
+      "Vibey + Windsurf = Ultimate Agentic Development Experience"
+      - Vibey: Multi-agent orchestration & quality gates
+      - Windsurf Cascade: Autonomous execution engine
+      - Together: Structured + Autonomous = Production-quality code
+
+      Validation:
+      - Test Cascade agent integration
+      - Verify multi-step workflows
+      - Ensure quality gates work
+      - Document agentic workflow patterns
+
+      Timeline: Q3 2025 (after Continue port)

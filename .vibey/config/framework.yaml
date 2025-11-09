@@ -1,0 +1,55 @@
+# Vibey Framework Configuration
+# Framework-level settings for Vibey deployment
+# Version: 1.0
+# Created: 2025-11-09
+
+framework:
+  version: "1.2.0"
+  platform: claude-code
+
+orchestration:
+  mode: balanced
+  agent_selection:
+    method: pattern-based
+    fallback: coordinator
+  enable_parallel: true
+  max_handoffs: 5
+
+context_loading:
+  strategy: hierarchical
+  max_context_size: 150000
+  dependency_mode: summary
+  distance_threshold: 2
+  enable_summaries: true
+  summary_length: 200
+
+quality:
+  enforce_gates: true
+  blocking_threshold: 90
+  auto_audit: true
+  audit_frequency: on-commit
+  skip_gates_for_hotfix: false
+
+performance:
+  cache_enabled: true
+  cache_persistence: true
+  cache_ttl: 3600
+  parallel_operations: true
+  max_workers: 4
+
+logging:
+  level: info
+  format: text
+  output: stdout
+
+deployment:
+  auto_generate: false
+  clean_before_deploy: true
+  validate_before_deploy: true
+  backup_before_deploy: true
+  backup_dir: ".vibey/backups"
+
+experimental:
+  enable_ai_routing: false
+  enable_auto_fix: false
+  multi_platform_deploy: false

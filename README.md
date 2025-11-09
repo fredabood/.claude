@@ -1,9 +1,63 @@
 # Vibey Agent Framework
 
-**Version:** 1.2.0
-**Status:** Production Ready
+**Version:** 1.3.0 (Config-to-Docs Architecture)
+**Status:** Production Ready (Platform-Agnostic Core)
 
-An intelligent agent orchestration framework for Claude Code that provides specialized agents, structured workflows, quality gates, and automatic agent selection for building production-quality software.
+An intelligent, platform-agnostic agent orchestration framework that provides specialized agents, structured workflows, quality gates, and automatic agent selection for building production-quality software across multiple AI coding platforms.
+
+**Platforms Supported:**
+- ✅ **Claude Code** (Production Ready)
+- 🚧 **Goose** (Coming Q2 2025)
+- 🔬 **Cursor** (Research Phase)
+
+---
+
+## 🎯 What's New in v1.3.0
+
+### Platform-Agnostic Architecture
+
+Vibey now uses a **config-to-docs** architecture that separates source configuration from platform-specific deployments:
+
+```
+.vibey/ (source)          →     .claude/ (deployment)
+├── config/                     ├── CLAUDE.md
+│   ├── project.yaml            ├── agents/
+│   ├── framework.yaml          └── workflows/
+│   ├── agents/
+│   └── workflows/
+```
+
+**Benefits:**
+- 🎯 **Single Source of Truth** - Configuration in `.vibey/config/`
+- 🔄 **Multi-Platform** - Deploy to Claude Code, Goose, Cursor from same source
+- ⚡ **Fast Regeneration** - Recreate deployments instantly
+- 🛡️ **Version Control** - `.vibey/` committed, deployments gitignored
+- 🔌 **Extensible** - Add new platforms via adapter pattern
+
+### New Unified CLI
+
+```bash
+# Deploy to any platform
+./vibey deploy --platform claude-code
+./vibey deploy --platform goose
+
+# Generate documentation
+./vibey docs generate
+
+# Manage roadmaps
+./vibey roadmap summarize sprint core-framework-2
+./vibey roadmap context task-id
+```
+
+### Permanent .vibey/ Directory
+
+The `.vibey/` directory is now **permanent** and contains:
+- **config/** - Platform-agnostic configuration
+- **roadmap/** - Project state tracking (YAML)
+- **sprint_docs/** - Rich context (Markdown)
+- **summaries/** - Auto-generated summaries
+- **templates/** - Custom templates
+- **backups/** - Deployment backups
 
 ---
 
@@ -21,28 +75,28 @@ cd /path/to/your-project
 git clone https://github.com/fredabood/vibey.git .vibey
 ```
 
-### 3. Start Claude Code and Initialize
+### 3. Deploy to Your Platform
 
 ```bash
-claude
+# For Claude Code users
+cd .vibey
+./vibey deploy --platform claude-code
+
+# For Goose users (coming soon)
+./vibey deploy --platform goose
 ```
 
-Then type in Claude Code:
-```
-/vibey
-```
-
-**That's it!** Claude will:
-- Deploy the framework to `.claude/` (or merge with existing)
-- Handle any file conflicts automatically
-- Guide you through 5-10 minute conversational setup
-- Clean up `.vibey/` directory when done
+**That's it!** The framework will:
+- Generate platform-specific deployment (`.claude/`, `.goose/`, etc.)
+- Create optimized instruction files
+- Set up all agents and workflows
+- Ready to use immediately!
 
 ---
 
 ## What Is Vibey?
 
-Vibey is an agent orchestration framework that transforms Claude Code into a specialized development team with:
+Vibey is a platform-agnostic agent orchestration framework that transforms AI coding assistants into specialized development teams with:
 
 ### 🤖 12 Specialized Agents
 - **Planning:** Sprint Planning Agent, Researcher
@@ -83,167 +137,165 @@ Vibey is an agent orchestration framework that transforms Claude Code into a spe
 
 ---
 
-## What You Get
+## Architecture Overview
 
-After running `/vibey`:
+### Source vs Deployment Separation
 
 ```
-your-project/
-├── .claude/                          # All Vibey framework files
-│   ├── agents/                       # 12 specialized agents
-│   ├── workflows/                    # 16 structured workflows
-│   ├── templates/                    # 22 handoff templates
-│   ├── commands/                     # /vibey command
-│   ├── config/                       # Schema and examples
-│   ├── scripts/                      # Validation and rendering
-│   ├── docs/                         # User-facing documentation
-│   ├── project-config.yaml           # Your project configuration
-│   └── CLAUDE.md                     # Project context for Claude
-├── docs/                             # Your project documentation
-│   ├── sprints/
-│   │   └── sprint-001-plan.md        # First sprint plan
-│   ├── security/                     # Security reports
-│   ├── architecture/                 # Architecture docs
-│   └── reference/                    # Reference documentation
-└── [your code]
+┌─────────────────────────────────────────────────────┐
+│                    .vibey/                          │
+│         Platform-Agnostic Source                    │
+│                                                     │
+│  ├── config/         (What to deploy)              │
+│  ├── roadmap/        (Project state - YAML)        │
+│  ├── sprint_docs/    (Rich context - Markdown)     │
+│  ├── summaries/      (Auto-generated)              │
+│  └── templates/      (User-customizable)           │
+└─────────────────────────────────────────────────────┘
+                          │
+                          │ Generate via Platform Adapters
+                          ▼
+        ┌─────────────────┬─────────────────┬─────────────────┐
+        │   .claude/      │   .goose/       │   .cursor/      │
+        │  (Generated)    │  (Generated)    │  (Generated)    │
+        │  CLAUDE.md      │  README.md      │  .cursorrules   │
+        │  agents/        │  extensions/    │  agents/        │
+        │  workflows/     │  recipes/       │  workflows/     │
+        └─────────────────┴─────────────────┴─────────────────┘
+```
+
+### Key Design Principles
+
+1. **Separation of Concerns**
+   - Source: `.vibey/` (platform-agnostic, version-controlled)
+   - Deployment: `.claude/`, `.goose/`, `.cursor/` (generated, gitignored)
+
+2. **Single Source of Truth**
+   - All configuration in `.vibey/config/`
+   - Platform deployments generated on-demand
+   - No manual editing of generated files
+
+3. **Platform Adapter Pattern**
+   - Each platform gets dedicated adapter
+   - Adapters handle platform-specific quirks
+   - Easy to add new platforms
+
+---
+
+## Vibey CLI Reference
+
+The `vibey` command is your unified interface to the framework:
+
+### Deploy Command
+
+Deploy framework to target platform:
+
+```bash
+# Deploy to Claude Code
+./vibey deploy --platform claude-code
+
+# List available platforms
+./vibey deploy --list-platforms
+
+# Deploy without backup
+./vibey deploy --platform claude-code --no-backup
+
+# Deploy without validation
+./vibey deploy --platform claude-code --no-validate
+```
+
+### Docs Command
+
+Generate documentation from configuration:
+
+```bash
+# Generate all documentation
+./vibey docs generate
+
+# Overwrite existing documentation
+./vibey docs generate --overwrite
+
+# Custom output directory
+./vibey docs generate --output custom-docs/
+```
+
+### Roadmap Command
+
+Interact with roadmap system:
+
+```bash
+# Summarize a sprint
+./vibey roadmap summarize sprint core-framework-2
+
+# Summarize a task
+./vibey roadmap summarize task core-framework-2-task-003
+
+# Load task context
+./vibey roadmap context core-framework-2-task-003
+
+# Load context with custom distance
+./vibey roadmap context task-id --max-distance 2
+
+# Output as JSON
+./vibey roadmap context task-id --format json
+```
+
+### Help
+
+```bash
+# Show help
+./vibey help
+./vibey --help
+
+# Command-specific help
+./vibey deploy --help
+./vibey docs --help
+./vibey roadmap --help
 ```
 
 ---
 
-## 🗺️ Roadmap Object Hierarchy System
+## Directory Structure
 
-**NEW in v1.2**: Vibey includes a comprehensive project management system for tracking development work.
-
-### What Is It?
-
-The Roadmap Object Hierarchy provides structured project tracking through a four-tier system:
+After deployment, your project will have:
 
 ```
-Roadmap (project vision)
-  └── Track (major feature area)
-      └── Sprint (2-week work unit)
-          └── Task (atomic work item)
+your-project/
+├── .vibey/                          # Platform-agnostic source (COMMITTED)
+│   ├── config/                      # Configuration files
+│   │   ├── project.yaml             # Project metadata
+│   │   ├── framework.yaml           # Framework settings
+│   │   ├── agents/                  # Agent configs (YAML)
+│   │   │   └── web-developer.yaml
+│   │   ├── workflows/               # Workflow configs (YAML)
+│   │   └── quality-gates.yaml       # Quality gate definitions
+│   ├── roadmap/                     # Roadmap state (YAML)
+│   │   ├── roadmap.yaml
+│   │   ├── tracks/
+│   │   ├── sprints/
+│   │   └── tasks/
+│   ├── sprint_docs/                 # Sprint documentation (Markdown)
+│   │   └── core-framework-2/
+│   │       ├── plan.md
+│   │       ├── architecture.md
+│   │       └── retrospective.md
+│   ├── summaries/                   # Auto-generated (GITIGNORED)
+│   │   ├── dependency_summaries/
+│   │   └── task_summaries/
+│   ├── templates/                   # Custom templates
+│   ├── backups/                     # Deployment backups (GITIGNORED)
+│   └── vibey                        # CLI command
+├── .claude/                         # Claude Code deployment (GITIGNORED)
+│   ├── CLAUDE.md                    # Generated instructions
+│   ├── agents/                      # Generated agent files
+│   │   └── web-developer.md
+│   └── workflows/                   # Generated workflow files
+├── .goose/                          # Goose deployment (GITIGNORED, future)
+│   ├── README.md
+│   ├── extensions/
+│   └── recipes/
+└── [your code]
 ```
-
-### Key Features
-
-✅ **Intelligent Agent Routing** - Automatic task-to-agent matching based on keywords and task types
-✅ **Automatic Status Progression** - Smart state transitions based on completion criteria
-✅ **Dependency Management** - Graph-based dependency tracking with circular detection
-✅ **Quality Gate System** - Three-tier gates (development, completion, production)
-✅ **Version Management** - Semantic versioning with strategy-based bumping
-✅ **Batch Operations** - Mass updates across multiple tasks
-✅ **Health Validation** - Comprehensive roadmap health checks
-✅ **CLI Interface** - Full command-line interface for roadmap management
-
-### Quick Example
-
-```bash
-# Initialize roadmap for your project
-roadmap init --id my-project --name "My Project"
-
-# View status
-roadmap status
-
-# Get intelligent task recommendations
-roadmap recommend
-
-# Get agent recommendations for a task
-roadmap recommend --task backend-1-task-003
-
-# Start working
-roadmap start backend-1-task-001
-roadmap assign backend-1-task-001 web-developer
-
-# Complete work
-roadmap complete backend-1-task-001
-
-# Check agent workload
-roadmap agents --workload
-
-# Validate roadmap health
-roadmap validate
-```
-
-### Use Cases
-
-**Solo Developers:**
-- Track complex projects with multiple workstreams
-- Never lose track of dependencies
-- Automatic progress calculation
-- Clear visibility into what's next
-
-**Teams:**
-- Intelligent agent/developer assignment recommendations
-- Workload distribution tracking
-- Structured handoffs between team members
-- Quality gates ensure completeness
-
-**AI-Assisted Development:**
-- Agents know exactly what to work on
-- Automatic routing to specialized agents
-- Context preservation across sessions
-- **Dogfooding:** Vibey uses this system to manage itself!
-
-### Roadmap CLI Commands
-
-**Query Commands:**
-- `roadmap status` - Show overall status
-- `roadmap show <id>` - Show object details
-- `roadmap list [type]` - List tracks/sprints/tasks
-- `roadmap find <query>` - Search objects
-- `roadmap deps [id]` - Show dependencies and blockers
-
-**Update Commands:**
-- `roadmap start <id>` - Start sprint or task
-- `roadmap complete <id>` - Complete sprint or task
-- `roadmap assign <task> <agent>` - Assign task to agent
-- `roadmap progress --refresh` - Refresh progress calculations
-- `roadmap batch <op> <scope>` - Batch operations
-
-**Agent Commands:**
-- `roadmap recommend` - Get task recommendations (priority-based)
-- `roadmap recommend --task <id>` - Get agent recommendations for a task
-- `roadmap recommend --agent <name>` - Get tasks for an agent
-- `roadmap agents --workload` - View agent workload distribution
-- `roadmap agents --capabilities` - View agent capabilities
-
-**Management Commands:**
-- `roadmap version {--show|--bump}` - Version management
-- `roadmap validate [--fix]` - Health checks and validation
-
-### Documentation
-
-**Complete Roadmap System Documentation:**
-- **[User Guide](framework/docs/development/ROADMAP_USER_GUIDE.md)** - Comprehensive user guide (700+ lines)
-- **[CLI Reference](framework/scripts/CLI.md)** - Complete CLI documentation (730+ lines)
-- **[Examples](framework/docs/development/ROADMAP_EXAMPLES.md)** - Practical examples and workflows (900+ lines)
-- **[Implementation Plan](framework/docs/development/ROADMAP_IMPLEMENTATION_PLAN.md)** - Technical implementation details
-- **[Object Hierarchy](framework/docs/development/ROADMAP_OBJECT_HIERARCHY.md)** - System architecture
-
-### Getting Started with Roadmaps
-
-1. **Add roadmap CLI to PATH:**
-```bash
-export PATH="$PATH:/path/to/vibey/framework/scripts"
-```
-
-2. **Initialize roadmap:**
-```bash
-cd your-project
-roadmap init
-```
-
-3. **Create your first track and sprint** (see User Guide for details)
-
-4. **Start working:**
-```bash
-roadmap recommend  # Get next task
-roadmap start <task-id>  # Begin work
-roadmap complete <task-id>  # Mark done
-```
-
-**Vibey's own development is managed using this system!** See `.vibey/tracks/roadmap-system.yaml` for a real-world example.
 
 ---
 
@@ -251,8 +303,8 @@ roadmap complete <task-id>  # Mark done
 
 ### Prerequisites
 
-- **Claude Code** - Latest version
-- **Python 3.7+** - For config validation and template rendering
+- **AI Coding Assistant** - Claude Code (or Goose/Cursor in future)
+- **Python 3.7+** - For CLI tools
 - **PyYAML & Jinja2** - Python dependencies
 
 ```bash
@@ -268,68 +320,95 @@ cd /path/to/your-project
 # Clone framework
 git clone https://github.com/fredabood/vibey.git .vibey
 
-# Start Claude Code
-claude
+# Make CLI executable
+chmod +x .vibey/vibey
+
+# Deploy to your platform
+.vibey/vibey deploy --platform claude-code
 ```
 
-### Use the `/vibey` Command
+### Add to PATH (Optional)
 
-In Claude Code, type:
+For easier access:
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export PATH="$PATH:/path/to/your-project/.vibey"
+
+# Then use anywhere in your project
+vibey deploy --platform claude-code
+vibey docs generate
 ```
-/vibey
+
+---
+
+## Configuration
+
+### .vibey/config/project.yaml
+
+Platform-agnostic project configuration:
+
+```yaml
+project:
+  name: "MyProject"
+  type: "web-app"  # or api, ml, data-platform, infrastructure
+  description: "Project description"
+  version: "1.0.0"
+
+tech_stack:
+  languages:
+    - python
+    - typescript
+  frameworks:
+    - fastapi
+    - react
+  databases:
+    - postgresql
 ```
 
-**This command has two modes:**
+### .vibey/config/framework.yaml
 
-#### First Time (Framework Initialization)
+Framework behavior settings:
 
-If running for the first time, Claude will:
+```yaml
+orchestration:
+  mode: "balanced"  # simple, balanced, or tiered
+  auto_agent_launch: true
+  require_quality_gates: true
 
-**Phase 1: Deployment**
-1. ✅ Detect if `.claude/` already exists
-2. ✅ Deploy framework to `.claude/` (or merge with existing)
-3. ✅ Preserve any custom agents/prompts if merging
-4. ✅ Clean up `.vibey/` directory
+context_loading:
+  strategy: "distance_based"
+  max_distance: 2
+  mode: "summary"  # minimal, summary, or full
+```
 
-**Phase 2: Pre-Checks**
-5. ✅ Check if git repo exists (offers to initialize if not)
-6. ✅ Verify Python dependencies installed
-7. ✅ Check for existing configuration
-8. ✅ Offer optional codebase/git history analysis
+### .vibey/config/quality-gates.yaml
 
-**Phase 3: Initialization**
-9. ✅ Start conversational project discovery
-10. ✅ Generate `project-config.yaml`
-11. ✅ Generate `CLAUDE.md`
-12. ✅ Create docs structure
-13. ✅ Plan first sprint
+Quality gate definitions:
 
-**Duration:** 5-10 minutes (+ optional analysis time)
-**Result:** Framework deployed, configured, and ready to use!
-
-#### After Initialization (Framework Management)
-
-If framework is already initialized, Claude will launch the **Vibey Manager Agent** to help you:
-
-- 🔧 **Change orchestration mode** (Simple → Balanced → Tiered)
-- 📊 **Adjust quality gates** (update thresholds)
-- 🤖 **View/modify agents** (add custom agents)
-- 💻 **Update tech stack** (reflect technology changes)
-- 📝 **Regenerate CLAUDE.md** (refresh framework instructions)
-- ✅ **Framework health check** (diagnose issues)
-- 🔄 **Sprint retrospective** (review and adjust)
-- ⚙️ **Advanced configuration** (fine-tune settings)
-
-**Duration:** 2-5 minutes per task
-**Result:** Optimized framework configuration!
+```yaml
+gates:
+  security:
+    threshold: 85
+    blocking: true
+  test_coverage:
+    threshold: 90
+    blocking: true
+  logging_audit:
+    threshold: 80
+    blocking: true
+  documentation:
+    threshold: 90
+    blocking: false
+```
 
 ---
 
 ## Usage
 
-### After Initialization
+### For Claude Code Users
 
-Once initialized, just tell Claude what you want to build:
+After deployment, Claude automatically reads the generated `CLAUDE.md`. Just tell Claude what you want:
 
 ```
 "I want to implement user authentication with JWT tokens"
@@ -337,337 +416,151 @@ Once initialized, just tell Claude what you want to build:
 
 Claude automatically:
 1. Detects this is a security-critical feature
-2. Launches appropriate agents:
-   - API Specialist (implement endpoints)
-   - Security Reviewer (audit implementation)
-   - Test Engineer (write tests)
-   - Documentation Engineer (document system)
+2. Launches appropriate agents (API Specialist, Security Reviewer, Test Engineer)
 3. Follows single-feature-development workflow
 4. Runs quality gates before completion
 
-**You don't specify agents or workflows** - Claude figures it out based on:
-- Your orchestration mode (Simple/Balanced/Tiered)
-- Agent trigger patterns
-- Project type
-- Sprint phase
+### Updating Configuration
 
-### Orchestration Modes
+Edit `.vibey/config/` files, then redeploy:
 
-**Simple Mode - Explicit Rules:**
-```
-You: "I need a security review"
-Claude: [Matches "security" → Launches Security Reviewer]
+```bash
+# Edit config
+vim .vibey/config/framework.yaml
+
+# Regenerate deployment
+./vibey deploy --platform claude-code
 ```
 
-**Balanced Mode ⭐ (Recommended):**
-```
-You: "Implement JWT authentication"
-Claude: [Pattern matches:
-  - "authentication" → Security Reviewer (high priority)
-  - "JWT", "implement" → API Specialist (medium priority)
-  - Implied: Test Engineer (development phase)
-  → Launches all three agents]
-```
+### Changing Platforms
 
-**Tiered Mode - Intelligent Coordination:**
-```
-You: "Implement auth with OAuth, JWT, 2FA, email verification, and password reset"
-Claude: [Detects complexity → Launches Coordinator Agent
-  → Coordinator analyzes, sequences 8 agents, manages handoffs, verifies quality gates]
-```
+Deploy to multiple platforms simultaneously:
 
-### Common Tasks
+```bash
+# Deploy to Claude Code
+./vibey deploy --platform claude-code
 
-**Plan Sprint:**
-```
-"Let's plan sprint 2"
-```
-
-**Build Feature:**
-```
-"Build the user profile page"
-```
-
-**Security Review:**
-```
-"Run a security review on the auth code"
-```
-
-**Performance Optimization:**
-```
-"The dashboard is loading slowly"
-```
-
-**Update Documentation:**
-```
-"Update the README with the new auth features"
+# Deploy to Goose (when available)
+./vibey deploy --platform goose
 ```
 
 ---
 
-## Quality Gates
+## Platform Adapters
 
-Every sprint enforces quality gates before completion:
+### Currently Supported
 
-### Security Review (≥85/100)
-- OWASP Top 10 compliance
-- Authentication/authorization
-- Input validation
-- Secrets management
+- **Claude Code** (`claude-code`) - ✅ Production Ready
+  - Generates: `CLAUDE.md`, `agents/*.md`, `workflows/*.md`
+  - Directory: `.claude/`
 
-### Test Coverage (≥90%)
-- Unit tests
-- Integration tests
-- Edge cases
-- Error paths
+### Coming Soon
 
-### Logging Audit (≥80/100)
-- Correlation IDs present
-- Error context sufficient
-- Log levels appropriate
-- Performance metrics tracked
+- **Goose** (`goose`) - 🚧 Q2 2025
+  - Generates: `README.md`, `extensions/*.toml`, `recipes/*.yaml`
+  - Directory: `.goose/`
 
-### Documentation Review
-- README.md current
-- CLAUDE.md updated
-- API documentation complete
-- Code comments present
+- **Cursor** (`cursor`) - 🔬 Research Phase
+  - Generates: `.cursorrules`, `agents/*.md`
+  - Directory: `.cursor/`
 
-**If any gate fails, Claude will:**
-- Report what failed
-- Fix the issues
-- Re-run the gate
-- Only proceed when ALL gates pass
+### Creating Custom Adapters
+
+See `docs/development/PLATFORM_ADAPTER_PATTERN.md` for adapter development guide.
 
 ---
 
-## Configuration
+## 🗺️ Roadmap System
 
-### project-config.yaml
+Vibey includes a comprehensive project management system for tracking development work.
 
-Generated by `/vibey`, stored in project root:
+### Quick Start
 
-```yaml
-project:
-  name: "MyProject"
-  type: "web-app"  # or api, ml, data-platform, infrastructure
-  description: "Project description"
+```bash
+# View roadmap status
+./vibey roadmap status
 
-technology_stack:
-  backend:
-    language: "python"
-    framework: "fastapi"
-  frontend:
-    language: "typescript"
-    framework: "react"
-  database:
-    type: "postgresql"
+# Summarize a sprint
+./vibey roadmap summarize sprint core-framework-2
 
-framework:
-  orchestration_mode: "balanced"  # simple, balanced, or tiered
-  auto_agent_launch: true
-  require_quality_gates: true
-
-quality_gates:
-  test_coverage_minimum: 90
-  security_score_minimum: 85
-  logging_audit_minimum: 80
-  required_reviews:
-    - security
-    - testing
-    - logging
-    - documentation
+# Get task context
+./vibey roadmap context task-id
 ```
 
-### CLAUDE.md
+### Documentation
 
-Generated by `/vibey`, provides project context to Claude:
-- Technology stack details
-- Architecture overview
-- Coding standards
-- Critical rules
-- Quality gate requirements
-- Orchestration instructions (mode-specific)
-- Available agents and workflows
-
-Claude reads this file at the start of every session.
-
----
-
-## Changing Orchestration Mode
-
-### Option 1: Ask Claude
-
-```
-"I'd like to switch to tiered orchestration mode"
-```
-
-Claude will update config and regenerate CLAUDE.md.
-
-### Option 2: Manual Edit
-
-Edit `project-config.yaml`:
-```yaml
-framework:
-  orchestration_mode: "tiered"  # Change from "balanced"
-```
-
-Then tell Claude:
-```
-"Regenerate CLAUDE.md with the new orchestration mode"
-```
-
----
-
-## Deployed Framework Structure
-
-After running `/vibey`, this is deployed to `.claude/`:
-
-```
-.claude/                              # Deployed framework (from .vibey/framework/)
-├── agents/                           # 12 specialized agents
-│   ├── core/
-│   │   ├── coordinator.md            # Intelligent router (650 lines)
-│   │   └── vibey-manager.md          # Framework manager (500 lines)
-│   ├── planning/
-│   │   ├── sprint-planning.md        # Sprint planning agent
-│   │   └── researcher.md             # Research agent
-│   ├── development/
-│   │   ├── web-developer.md          # Web development agent
-│   │   └── ml-engineer.md            # ML engineering agent
-│   ├── quality/
-│   │   ├── security-reviewer.md      # Security audit agent
-│   │   ├── observability-engineer.md # Logging/monitoring agent
-│   │   └── performance-engineer.md   # Performance optimization
-│   ├── documentation/
-│   │   ├── documentation-engineer.md # Documentation agent
-│   │   ├── diagram-engineer.md       # Diagram generation
-│   │   └── git-committer.md          # Git operations
-│   └── architecture/
-│       └── architecture-specialist.md # Architecture review
-├── workflows/                        # 16 structured workflows
-│   ├── planning/
-│   │   ├── sprint-planning.md        # Sprint planning process
-│   │   └── codebase-audit-discovery.md # Automated project analysis
-│   ├── single-feature-development.md # Feature development
-│   ├── ml-model-development.md       # ML model lifecycle
-│   ├── infrastructure-setup.md       # IaC deployment
-│   ├── performance-optimization.md   # Performance tuning
-│   └── [10 more workflows...]
-├── templates/                        # 22 handoff templates
-│   ├── CLAUDE.md.template            # Project context template
-│   └── handoffs/
-│       ├── api-specification-template.md
-│       ├── security-report-template.md
-│       ├── codebase-audit-report-template.md
-│       └── [19 more templates...]
-├── commands/
-│   └── vibey.md                      # /vibey slash command
-├── config/
-│   ├── schema.yaml                   # Config schema (400+ lines)
-│   └── config-templates/
-│       ├── web-app-config.yaml       # Web app example
-│       ├── api-config.yaml           # API example
-│       └── ml-project-config.yaml    # ML example
-├── scripts/
-│   ├── validate-config.py            # Config validator
-│   └── render-template.py            # Jinja2 renderer
-└── docs/                             # User-facing documentation
-    ├── README.md                     # Documentation index
-    ├── getting-started/              # Installation & setup guides
-    │   ├── QUICK_START.md            # Quick start (10 minutes)
-    │   └── USER_JOURNEY.md           # Detailed scenarios
-    ├── guides/                       # In-depth guides
-    │   ├── ORCHESTRATION.md          # Orchestration modes
-    │   └── WORKFLOW_SELECTION_GUIDE.md # Workflow selection
-    └── reference/                    # Component reference
-        └── README.md                 # Reference index
-```
-
-## Repository Structure
-
-The vibey repository contains both deployable and development files:
-
-```
-vibey/                                # Repository root
-├── framework/                        # DEPLOYABLE (becomes .claude/)
-│   ├── agents/                       # All agents (deployed)
-│   ├── workflows/                    # All workflows (deployed)
-│   ├── templates/                    # All templates (deployed)
-│   ├── commands/                     # /vibey command (deployed)
-│   ├── config/                       # Schema and examples (deployed)
-│   ├── scripts/                      # Validation tools (deployed)
-│   └── docs/                         # User documentation (deployed)
-├── docs/                             # Repository documentation (NOT deployed)
-│   ├── ROADMAP.md                    # Multi-platform strategy
-│   ├── SESSION_HANDOFF.md            # Session context
-│   ├── DEVELOPMENT_HISTORY.md        # Development history
-│   └── README.md                     # Development guide
-├── CLAUDE.md                         # Repository context (NOT deployed)
-├── README.md                         # This file (NOT deployed)
-├── LICENSE                           # Framework license (NOT deployed)
-└── .gitignore
-```
-
----
-
-## Supported Project Types
-
-- ✅ **Web Applications** - Frontend + Backend (React, Vue, Angular, FastAPI, Express, etc.)
-- ✅ **API Services** - Backend only (REST, GraphQL, gRPC)
-- ✅ **ML Projects** - Model training, experimentation, deployment (MLflow, W&B, TensorBoard)
-- ✅ **Data Platforms** - ETL, analytics, data pipelines (Airflow, dbt, Spark)
-- ✅ **Infrastructure** - IaC, cloud deployments (Terraform, Pulumi, CloudFormation)
-
-## Supported Technologies
-
-### Languages
-- Python, TypeScript, JavaScript, Java, Go, Rust
-
-### Frontend Frameworks
-- React, Vue, Angular, Svelte, Next.js, Nuxt
-
-### Backend Frameworks
-- FastAPI, Flask, Express, NestJS, Spring Boot, Django
-
-### Databases
-- PostgreSQL, MySQL, MongoDB, Redis, DynamoDB
-
-### ML Platforms
-- MLflow, Weights & Biases, TensorBoard, Databricks
-
-### Cloud Providers
-- AWS, Azure, GCP
-
-### IaC Tools
-- Terraform, Pulumi, CloudFormation, CDK
+- **[Roadmap User Guide](docs/development/ROADMAP_USER_GUIDE.md)** - Complete guide
+- **[CLI Reference](framework/scripts/CLI.md)** - CLI documentation
+- **[Examples](docs/development/ROADMAP_EXAMPLES.md)** - Practical examples
 
 ---
 
 ## Documentation
 
+### User Documentation
+
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get started in 10 minutes
+- **[CLI Reference](docs/CLI_REFERENCE.md)** - Complete CLI documentation
+- **[Migration Guide](docs/MIGRATION_GUIDE.md)** - Upgrade from v1.2 to v1.3
+
+### Developer Documentation
+
+- **[Platform-Agnostic Architecture](docs/development/PLATFORM_AGNOSTIC_ARCHITECTURE.md)** - System architecture
+- **[Platform Adapter Pattern](docs/development/PLATFORM_ADAPTER_PATTERN.md)** - Adapter development
+- **[YAML-Markdown Separation](docs/development/YAML_MARKDOWN_SEPARATION.md)** - Design principles
+- **[Contributing Guide](CONTRIBUTING.md)** - Contribution guidelines
+
 ### Framework Documentation
-- **README.md** - This file (installation and overview)
-- **QUICK_START.md** - Quick start guide (675 lines)
-- **USER_JOURNEY.md** - User adoption scenarios (1,800+ lines)
-- **docs/ORCHESTRATION.md** - Orchestration deep dive (500+ lines)
 
-### Configuration
-- **config/schema.yaml** - Config schema reference (400+ lines)
-- **config/config-templates/** - Example configs for each project type
+- **[Agents Reference](docs/AGENTS.md)** - All 12 agents
+- **[Workflows Reference](docs/WORKFLOWS.md)** - All 16 workflows
+- **[Configuration Reference](docs/CONFIGURATION.md)** - Config schema
+- **[Architecture Reference](docs/ARCHITECTURE.md)** - System architecture
 
-### Agents
-- **agents/** - 11 agent instructions (5,000+ lines total)
+---
 
-### Workflows
-- **workflows/** - 15 workflow guides (10,000+ lines total)
+## Supported Project Types
 
-### Templates
-- **templates/handoffs/** - 21 handoff templates (8,000+ lines total)
+- ✅ **Web Applications** - Frontend + Backend
+- ✅ **API Services** - Backend only (REST, GraphQL, gRPC)
+- ✅ **ML Projects** - Model training, experimentation, deployment
+- ✅ **Data Platforms** - ETL, analytics, data pipelines
+- ✅ **Infrastructure** - IaC, cloud deployments
 
 ---
 
 ## Troubleshooting
+
+### "vibey command not found"
+
+```bash
+# Make executable
+chmod +x .vibey/vibey
+
+# Or use full path
+./.vibey/vibey deploy --platform claude-code
+```
+
+### "Platform not registered"
+
+```bash
+# List available platforms
+./vibey deploy --list-platforms
+
+# Ensure spelling matches exactly
+./vibey deploy --platform claude-code  # ✅
+./vibey deploy --platform claude       # ❌
+```
+
+### "Configuration invalid"
+
+```bash
+# Check YAML syntax
+python3 framework/scripts/validate-config.py .vibey/config/project.yaml
+
+# Review error messages
+./vibey deploy --platform claude-code  # Shows validation errors
+```
 
 ### "PyYAML not found" or "Jinja2 not found"
 
@@ -675,46 +568,46 @@ vibey/                                # Repository root
 pip install pyyaml jinja2
 ```
 
-### "Claude isn't using agents"
-
-**Check:**
-1. `CLAUDE.md` is current (regenerate if needed)
-2. `framework.auto_agent_launch: true` in config
-3. Your request is specific enough for pattern matching
-
-**Solution:** Be more explicit or name the agent:
-```
-"Run a security review using the security reviewer agent"
-```
-
-### "Quality gates keep failing"
-
-**This is good!** Quality gates catch issues early.
-
-**Solutions:**
-- Read the quality gate report
-- Fix the identified issues
-- Re-run the quality check
-- Only proceed when gates pass
-
-### "Git commands don't work"
-
-Framework requires git for commit operations. Initialize if needed:
-```bash
-git init
-```
-
 ---
 
 ## Contributing
 
-Contributions welcome! Areas for improvement:
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-- Additional agents (DevOps, QA, etc.)
-- More workflows (incident response, release management)
+**Areas for improvement:**
+- Additional platform adapters (Cursor, Aider, etc.)
+- More agents (DevOps, QA, etc.)
+- Additional workflows
 - Language-specific templates
 - Framework translations
 - Example projects
+
+---
+
+## Version History
+
+### v1.3.0 - Config-to-Docs Architecture (Current)
+- ✅ Platform-agnostic architecture
+- ✅ Unified `vibey` CLI
+- ✅ Claude Code adapter
+- ✅ Permanent `.vibey/` directory
+- ✅ Platform adapter pattern
+
+### v1.2.0 - Vibey Manager & Production Readiness
+- ✅ Vibey Manager agent
+- ✅ Framework management commands
+- ✅ Sprint state management
+- ✅ Production-ready deployment
+
+### v1.1.0 - Sprint State Management
+- ✅ Comprehensive sprint tracking
+- ✅ Roadmap system
+
+### v1.0.0 - Initial Production Release
+- ✅ 12 specialized agents
+- ✅ 16 structured workflows
+- ✅ 22 handoff templates
+- ✅ Quality gate system
 
 ---
 
@@ -729,57 +622,35 @@ MIT License - see LICENSE file
 **Total Lines:** ~50,600+ across 68 components
 
 **Components:**
-- 12 specialized agents (including Vibey Manager)
-- 16 structured workflows (including Codebase Audit)
-- 22 handoff templates (including Audit Report)
+- 12 specialized agents
+- 16 structured workflows
+- 22 handoff templates
 - 3 orchestration modes
-- 1 coordinator agent
-- 5 deployment tools
+- 1 unified CLI
+- Platform adapter system
 - Complete documentation
 
-**Supported:**
-- 5 project types
-- 6+ programming languages
-- 20+ frameworks/platforms
-- 3 cloud providers
-- Universal tech stack support
-
----
-
-## Documentation
-
-**📚 [Complete Documentation →](docs/)**
-
-**Quick Links:**
-- **[Quick Start Guide](docs/getting-started/QUICK_START.md)** - Get up and running in 10 minutes
-- **[User Journey](docs/getting-started/USER_JOURNEY.md)** - Detailed installation scenarios
-- **[Orchestration Guide](docs/guides/ORCHESTRATION.md)** - Understanding orchestration modes
-- **[Workflow Selection](docs/guides/WORKFLOW_SELECTION_GUIDE.md)** - Choosing the right workflow
-
-**Reference:**
-- [All Documentation](docs/) - Complete documentation index
-- [Agents](agents/) - 11 specialized agents
-- [Workflows](workflows/) - 15 structured workflows
-- [Templates](templates/) - 21 handoff templates
-- [Config Schema](config/schema.yaml) - Configuration reference
+**Platforms:**
+- 1 production-ready (Claude Code)
+- 2 in development (Goose, Cursor)
 
 ---
 
 ## Support & Community
 
 **Issues:**
-- Report bugs or request features on GitHub Issues
+- Report bugs or request features on [GitHub Issues](https://github.com/fredabood/vibey/issues)
 
 **Questions:**
-- Ask Claude! The framework is self-documenting
+- Ask your AI assistant! The framework is self-documenting
+- Check the [documentation](docs/)
 
 ---
 
 **Ready to build production-quality software with Vibey!** 🚀
 
-Install in 3 steps:
 ```bash
 cd your-project
 git clone https://github.com/fredabood/vibey.git .vibey
-claude  # then type: /vibey
+.vibey/vibey deploy --platform claude-code
 ```

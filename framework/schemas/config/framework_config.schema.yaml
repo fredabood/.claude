@@ -1,0 +1,504 @@
+# Framework Configuration Schema
+# Version: 1.0
+# Created: 2025-11-09
+# Sprint: core-framework-2, Task 2
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Vibey Framework Configuration
+description: Framework-level settings for Vibey deployment
+type: object
+
+required:
+  - framework
+  - orchestration
+  - context_loading
+
+properties:
+  framework:
+    type: object
+    description: Core framework settings
+    required:
+      - version
+      - platform
+    properties:
+      version:
+        type: string
+        description: Framework version (semver)
+        pattern: '^[0-9]+\.[0-9]+\.[0-9]+.*$'
+        examples:
+          - "1.2.0"
+          - "2.0.0-beta"
+
+      platform:
+        type: string
+        description: Target platform for deployment
+        enum:
+          - claude-code
+          - goose
+          - cursor
+        examples:
+          - claude-code
+
+      deployment_dir:
+        type: string
+        description: Custom deployment directory (overrides platform default)
+        examples:
+          - ".claude"
+          - ".goose"
+          - ".custom"
+
+  orchestration:
+    type: object
+    description: Agent orchestration settings
+    required:
+      - mode
+    properties:
+      mode:
+        type: string
+        description: Orchestration mode
+        enum:
+          - simple     # Keyword-based routing
+          - balanced   # Pattern-based routing
+          - tiered     # Coordinator-based routing
+        default: balanced
+        examples:
+          - balanced
+
+      agent_selection:
+        type: object
+        description: Agent selection strategy
+        properties:
+          method:
+            type: string
+            description: Selection method
+            enum:
+              - keyword          # Simple keyword matching
+              - pattern-based    # Regex pattern matching
+              - coordinator      # Coordinator agent routing
+            default: pattern-based
+            examples:
+              - pattern-based
+
+          fallback:
+            type: string
+            description: Fallback strategy when no agent matches
+            enum:
+              - coordinator      # Route to coordinator
+              - default-agent    # Use default agent
+              - error            # Return error
+            default: coordinator
+            examples:
+              - coordinator
+
+          default_agent:
+            type: string
+            description: Default agent ID (if fallback is default-agent)
+            examples:
+              - web-developer
+
+      enable_parallel:
+        type: boolean
+        description: Allow multiple agents to work in parallel
+        default: true
+        examples:
+          - true
+
+      max_handoffs:
+        type: integer
+        description: Maximum number of agent handoffs per request
+        minimum: 1
+        maximum: 20
+        default: 5
+        examples:
+          - 5
+
+  context_loading:
+    type: object
+    description: Context loading strategy settings
+    required:
+      - strategy
+    properties:
+      strategy:
+        type: string
+        description: Context loading strategy
+        enum:
+          - full          # Load all context
+          - hierarchical  # Distance-based loading
+          - minimal       # Load only essentials
+        default: hierarchical
+        examples:
+          - hierarchical
+
+      max_context_size:
+        type: integer
+        description: Maximum context size in tokens
+        minimum: 10000
+        maximum: 500000
+        default: 150000
+        examples:
+          - 150000
+
+      dependency_mode:
+        type: string
+        description: Default mode for dependency context
+        enum:
+          - minimal   # ~5KB per dependency
+          - summary   # ~20KB per dependency
+          - full      # Complete context
+        default: summary
+        examples:
+          - summary
+
+      distance_threshold:
+        type: integer
+        description: Distance (hops) before using minimal context
+        minimum: 0
+        maximum: 10
+        default: 2
+        examples:
+          - 2
+
+      enable_summaries:
+        type: boolean
+        description: Enable auto-generated summaries
+        default: true
+        examples:
+          - true
+
+      summary_length:
+        type: integer
+        description: Target summary length in words
+        minimum: 50
+        maximum: 1000
+        default: 200
+        examples:
+          - 200
+
+  quality:
+    type: object
+    description: Quality gate settings
+    properties:
+      enforce_gates:
+        type: boolean
+        description: Enforce quality gates (block on failure)
+        default: true
+        examples:
+          - true
+
+      blocking_threshold:
+        type: integer
+        description: Minimum score (%) for blocking gates
+        minimum: 0
+        maximum: 100
+        default: 90
+        examples:
+          - 90
+
+      auto_audit:
+        type: boolean
+        description: Automatically run audits on code changes
+        default: true
+        examples:
+          - true
+
+      audit_frequency:
+        type: string
+        description: How often to run audits
+        enum:
+          - on-commit      # Every commit
+          - on-push        # Every push
+          - on-pr          # Every pull request
+          - on-demand      # Manual only
+        default: on-commit
+        examples:
+          - on-commit
+
+      skip_gates_for_hotfix:
+        type: boolean
+        description: Skip gates for hotfix branches
+        default: false
+        examples:
+          - false
+
+  performance:
+    type: object
+    description: Performance optimization settings
+    properties:
+      cache_enabled:
+        type: boolean
+        description: Enable caching
+        default: true
+        examples:
+          - true
+
+      cache_persistence:
+        type: boolean
+        description: Persist cache to disk
+        default: true
+        examples:
+          - true
+
+      cache_ttl:
+        type: integer
+        description: Cache TTL in seconds (0 = no expiry)
+        minimum: 0
+        default: 3600
+        examples:
+          - 3600
+
+      parallel_operations:
+        type: boolean
+        description: Enable parallel template rendering, validation, etc.
+        default: true
+        examples:
+          - true
+
+      max_workers:
+        type: integer
+        description: Maximum number of parallel workers
+        minimum: 1
+        maximum: 32
+        default: 4
+        examples:
+          - 4
+
+  logging:
+    type: object
+    description: Logging configuration
+    properties:
+      level:
+        type: string
+        description: Log level
+        enum:
+          - debug
+          - info
+          - warning
+          - error
+          - critical
+        default: info
+        examples:
+          - info
+
+      format:
+        type: string
+        description: Log format
+        enum:
+          - text
+          - json
+          - structured
+        default: text
+        examples:
+          - text
+
+      output:
+        type: string
+        description: Log output destination
+        enum:
+          - stdout
+          - stderr
+          - file
+        default: stdout
+        examples:
+          - stdout
+
+      file_path:
+        type: string
+        description: Log file path (if output is file)
+        examples:
+          - ".vibey/logs/framework.log"
+
+      rotation:
+        type: string
+        description: Log rotation strategy
+        enum:
+          - none
+          - daily
+          - size-based
+        default: none
+        examples:
+          - daily
+
+      max_size_mb:
+        type: integer
+        description: Max log file size in MB (for size-based rotation)
+        minimum: 1
+        default: 10
+        examples:
+          - 10
+
+  deployment:
+    type: object
+    description: Deployment settings
+    properties:
+      auto_generate:
+        type: boolean
+        description: Auto-generate deployment on config change
+        default: false
+        examples:
+          - false
+
+      clean_before_deploy:
+        type: boolean
+        description: Clean deployment directory before generating
+        default: true
+        examples:
+          - true
+
+      validate_before_deploy:
+        type: boolean
+        description: Validate configs before deployment
+        default: true
+        examples:
+          - true
+
+      backup_before_deploy:
+        type: boolean
+        description: Backup existing deployment before overwriting
+        default: true
+        examples:
+          - true
+
+      backup_dir:
+        type: string
+        description: Backup directory
+        default: ".vibey/backups"
+        examples:
+          - ".vibey/backups"
+
+  experimental:
+    type: object
+    description: Experimental features (use with caution)
+    properties:
+      enable_ai_routing:
+        type: boolean
+        description: Use AI to route requests to agents (requires API key)
+        default: false
+        examples:
+          - false
+
+      ai_model:
+        type: string
+        description: AI model for routing
+        enum:
+          - claude-sonnet
+          - claude-opus
+          - gpt-4
+          - gpt-3.5-turbo
+        default: claude-sonnet
+        examples:
+          - claude-sonnet
+
+      enable_auto_fix:
+        type: boolean
+        description: Automatically fix quality gate failures
+        default: false
+        examples:
+          - false
+
+      multi_platform_deploy:
+        type: boolean
+        description: Deploy to multiple platforms simultaneously
+        default: false
+        examples:
+          - false
+
+additionalProperties: false
+
+examples:
+  - # Production Configuration
+    framework:
+      version: "1.2.0"
+      platform: claude-code
+
+    orchestration:
+      mode: balanced
+      agent_selection:
+        method: pattern-based
+        fallback: coordinator
+      enable_parallel: true
+      max_handoffs: 5
+
+    context_loading:
+      strategy: hierarchical
+      max_context_size: 150000
+      dependency_mode: summary
+      distance_threshold: 2
+      enable_summaries: true
+      summary_length: 200
+
+    quality:
+      enforce_gates: true
+      blocking_threshold: 90
+      auto_audit: true
+      audit_frequency: on-commit
+      skip_gates_for_hotfix: false
+
+    performance:
+      cache_enabled: true
+      cache_persistence: true
+      cache_ttl: 3600
+      parallel_operations: true
+      max_workers: 4
+
+    logging:
+      level: info
+      format: text
+      output: stdout
+
+    deployment:
+      auto_generate: false
+      clean_before_deploy: true
+      validate_before_deploy: true
+      backup_before_deploy: true
+
+    experimental:
+      enable_ai_routing: false
+      enable_auto_fix: false
+      multi_platform_deploy: false
+
+  - # Development Configuration
+    framework:
+      version: "2.0.0-dev"
+      platform: claude-code
+
+    orchestration:
+      mode: tiered
+      agent_selection:
+        method: coordinator
+        fallback: coordinator
+      enable_parallel: true
+      max_handoffs: 10
+
+    context_loading:
+      strategy: full
+      max_context_size: 200000
+      dependency_mode: full
+      distance_threshold: 5
+      enable_summaries: false
+
+    quality:
+      enforce_gates: false
+      auto_audit: false
+
+    performance:
+      cache_enabled: false
+      parallel_operations: false
+
+    logging:
+      level: debug
+      format: structured
+      output: file
+      file_path: ".vibey/logs/framework-debug.log"
+      rotation: size-based
+      max_size_mb: 50
+
+    deployment:
+      auto_generate: true
+      clean_before_deploy: true
+      validate_before_deploy: true
+
+    experimental:
+      enable_ai_routing: true
+      ai_model: claude-opus
+      enable_auto_fix: true
+      multi_platform_deploy: true

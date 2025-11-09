@@ -1,0 +1,36 @@
+# Quality Gates Configuration
+# Version: 1.0
+# Created: 2025-11-09
+
+quality_gates:
+  - id: security-scan
+    name: "Security Vulnerability Scan"
+    type: security
+    threshold: 0
+    blocking: true
+    command: "bandit -r framework/"
+    description: "Zero critical/high vulnerabilities"
+    enabled: true
+
+  - id: test-coverage
+    name: "Test Coverage"
+    type: testing
+    threshold: 80
+    blocking: true
+    command: "pytest --cov=framework --cov-report=term"
+    description: "Minimum 80% code coverage"
+    enabled: true
+
+  - id: linting
+    name: "Code Linting"
+    type: code-quality
+    threshold: 100
+    blocking: true
+    command: "flake8 framework/"
+    description: "Zero linting errors"
+    enabled: true
+
+global_settings:
+  enforce_on_commit: true
+  enforce_on_pr: true
+  allow_override: false

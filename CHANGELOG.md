@@ -9,6 +9,69 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.3.0] - 2025-11-09
+
+### Added - Config-to-Docs Architecture (Sprint 2: core-framework)
+
+**Platform-Agnostic Core:**
+- ✨ **Unified CLI** - New `vibey` command for deploy, docs, and roadmap operations
+- 🏗️ **Platform Adapter System** - Extensible pattern for supporting multiple AI platforms
+- 📦 **Claude Code Adapter** - Production-ready adapter for Claude Code platform
+- 🗂️ **Permanent .vibey/ Directory** - Platform-agnostic source committed to version control
+- ⚙️ **Modular Config System** - Separated project, framework, agents, and quality-gates configs
+- 📚 **Auto-Generated Documentation** - Generate docs from config with `vibey docs generate`
+- 🎯 **Context Loading Strategy** - Distance-based dependency loading with auto-summaries
+- 🔄 **Deployment Generation** - Generate `.claude/` from `.vibey/config/` on-demand
+
+**New Commands:**
+- `vibey deploy --platform <name>` - Deploy framework to target platform
+- `vibey deploy --list-platforms` - List all available platforms
+- `vibey docs generate` - Generate documentation from configuration
+- `vibey roadmap summarize sprint <id>` - Summarize sprint progress
+- `vibey roadmap summarize task <id>` - Summarize task details
+- `vibey roadmap context <task-id>` - Load task context with dependencies
+
+**Platform Adapters:**
+- 📝 **Base Adapter** - Abstract base class for all platform adapters
+- 🤖 **Claude Adapter** - Generates CLAUDE.md, agents/*.md, workflows/*.md
+- 🏭 **Adapter Registry** - Factory pattern for adapter management
+
+**Documentation:**
+- 📖 **Platform-Agnostic Architecture** - Complete architecture design document
+- 📖 **Platform Adapter Pattern** - Adapter development guide
+- 📖 **YAML-Markdown Separation** - Design principle documentation
+- 📖 **Context Loading Strategy** - Context management strategy
+
+**Architecture Changes:**
+- 🔀 **Source vs Deployment Separation** - .vibey/ (source) → .claude/ (deployment)
+- 🎯 **Single Source of Truth** - All config in .vibey/config/, deployments generated
+- 🚫 **Gitignore Deployments** - .claude/, .goose/, .cursor/ are gitignored
+- ✅ **Commit Source** - .vibey/ is committed and versioned
+
+### Changed
+- 📂 **Framework Structure** - All framework code moved to `framework/` directory
+- 🔧 **Config Format** - YAML-based metadata (not full instructions)
+- 📝 **Template System** - Jinja2 templates generate rich instructions from metadata
+- 🗂️ **Directory Organization** - Clear separation between deployable and dev files
+
+### Improved
+- ⚡ **Deployment Speed** - Instant regeneration from config
+- 🔄 **Multi-Platform Support** - Foundation for Goose and Cursor adapters
+- 📦 **Backup System** - Auto-backup before overwriting deployments
+- ✅ **Validation** - Pre-deployment config validation
+- 🧪 **Testing** - Integration tests for all components
+
+### Fixed
+- 🐛 **Migration Issues** - Proper handling of .vibey/ structure transitions
+- 🔒 **Path Resolution** - Robust .vibey/ directory detection
+- 📝 **Template Rendering** - Fallback content when templates missing
+
+---
+
+## [1.2.0] - 2024-11-05 (Previous Release)
+
 ### Changed - Discovery Mode Consolidation
 - **Command Structure** - Consolidated Brainstorming Mode and Project Audit into unified "Discovery Mode"
 - **Menu Simplification** - Reduced main menu from 5 options to 4 options

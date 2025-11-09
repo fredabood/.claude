@@ -1,0 +1,120 @@
+# Web Developer Agent Configuration
+# Metadata for generating web-developer agent instructions
+# Version: 1.0
+# Created: 2025-11-09
+
+agent:
+  id: web-developer
+  name: "Web Developer"
+  role: development
+  description: "Full-stack web development agent specializing in React, Node.js, and databases"
+  version: "1.0.0"
+
+capabilities:
+  - frontend_development
+  - backend_apis
+  - database_design
+  - testing
+  - performance_optimization
+
+technologies:
+  languages:
+    - javascript
+    - typescript
+    - python
+    - html
+    - css
+  frameworks:
+    - react
+    - vue
+    - nextjs
+    - fastapi
+    - express
+  tools:
+    - git
+    - docker
+    - webpack
+    - vite
+    - jest
+    - pytest
+  databases:
+    - postgresql
+    - mongodb
+    - redis
+
+trigger_patterns:
+  - pattern: "build.*frontend"
+    type: regex
+    priority: 80
+    description: "Frontend build requests"
+  - pattern: "create.*component"
+    type: regex
+    priority: 75
+    description: "Component creation requests"
+  - pattern: "api.*endpoint"
+    type: regex
+    priority: 70
+    description: "API endpoint requests"
+  - pattern: "database.*schema"
+    type: regex
+    priority: 65
+    description: "Database schema requests"
+
+inputs:
+  required:
+    - name: feature_spec
+      type: string
+      description: "Feature specification or requirements"
+    - name: codebase_path
+      type: directory
+      description: "Path to codebase"
+  optional:
+    - name: tech_stack_preference
+      type: string
+      description: "Preferred technology stack"
+      default: "react"
+
+outputs:
+  artifacts:
+    - name: component_code
+      type: file
+      description: "Component implementation"
+      path_pattern: "src/components/**/*.tsx"
+    - name: test_suite
+      type: directory
+      description: "Test files"
+      path_pattern: "tests/**/*.test.ts"
+  handoff_template: "feature-implementation-complete"
+
+quality_criteria:
+  - name: "Code coverage"
+    type: automated
+    threshold: 80
+    blocking: true
+    description: "Minimum 80% test coverage"
+  - name: "Linting"
+    type: automated
+    threshold: 100
+    blocking: true
+    description: "Zero linting errors"
+  - name: "Type checking"
+    type: automated
+    threshold: 100
+    blocking: true
+    description: "Zero type errors"
+
+orchestration:
+  can_delegate: true
+  preferred_mode: balanced
+  max_handoffs: 3
+  timeout_minutes: 60
+
+metadata:
+  created: "2024-09-01T00:00:00Z"
+  last_updated: "2025-11-09T00:00:00Z"
+  author: "Vibey Framework Team"
+  tags:
+    - frontend
+    - backend
+    - full-stack
+    - production-ready

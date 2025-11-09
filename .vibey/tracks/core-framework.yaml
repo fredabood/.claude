@@ -16,18 +16,30 @@ track:
     tasks_completed: 7
     completion_percent: 100
   sprints:
-  - id: core-framework-1
-    name: Default CLAUDE.md Auto-Generation
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 5
-    started: null
   - id: core-framework-2
     name: Config-to-Docs Architecture
     status: not_started
     estimated_duration: 4 weeks
     tasks_count: 13
     started: null
+    dependencies:
+      - type: sprint
+        target_id: core-framework-3
+        target_status: production_ready
+        reason: Build on production framework base
+        optional: false
+  - id: core-framework-1
+    name: Default CLAUDE.md Auto-Generation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 5
+    started: null
+    dependencies:
+      - type: sprint
+        target_id: core-framework-2
+        target_status: completed
+        reason: Requires config system and template infrastructure from Sprint 2
+        optional: false
   - id: core-framework-3
     name: Framework Polish & Refinements
     status: production_ready
@@ -76,18 +88,22 @@ track:
   - 'Adapter Pattern Ready: Enables Track 3 (Goose) and Track 4 (Multi-Platform)'
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-07T20:00:00+00:00'
-    design_doc: null
-    implementation_plan: null
+    last_updated: '2025-11-09T00:00:00+00:00'
+    design_doc: docs/development/PLATFORM_AGNOSTIC_ARCHITECTURE.md
+    implementation_plan: docs/sprints/core-framework-2-plan.md
     notes: "Core framework improvements that set foundation for multi-platform architecture.\n\
-      \nKey Insight: Keep .vibey/ as permanent platform-agnostic home with two systems:\n\
-      \n1. YAML (Roadmap System) - State tracking\n   - Sprint status, progress, dependencies\n\
+      \n**SPRINT ORDERING CORRECTION (2025-11-09):**\n- Sprint 3 (Framework Polish)\
+      \ - ✅ COMPLETED\n- Sprint 2 (Config-to-Docs) - NOW (foundation layer)\n- Sprint\
+      \ 1 (Default CLAUDE.md) - LATER (depends on Sprint 2)\n\nRationale: Sprint\
+      \ 1 requires config system and templates from Sprint 2.\n\nKey Insight: Keep\
+      \ .vibey/ as permanent platform-agnostic home with two systems:\n\n1. YAML\
+      \ (Roadmap System) - State tracking\n   - Sprint status, progress, dependencies\n\
       \   - Updated by roadmap CLI\n   - Machine-readable\n   - .vibey/roadmap/*.yaml\n\
       \n2. Markdown (Sprint Docs) - Rich context\n   - What to build, architecture\
       \ decisions, learnings\n   - Iterated during development (NEVER regenerated)\n\
       \   - Human and AI readable\n   - .vibey/sprint_docs/*/\n\n3. Platform Deployments\
-      \ - Generated artifacts\n   - .claude/, .goose/, .cursor/ (gitignored)\n   -\
-      \ Generated from .vibey/config/\n   - Tool-specific\n\nCritical distinction:\n\
+      \ - Generated artifacts\n   - .claude/, .goose/, .cursor/ (gitignored)\n  \
+      \ - Generated from .vibey/config/\n   - Tool-specific\n\nCritical distinction:\n\
       - YAML tracks deterministic state (status, dependencies)\n- Markdown provides\
       \ accumulated context (never lost!)\n- YAML links to Markdown (documentation.files.plan)\n\
       - Both committed to git, non-overlapping purposes\n\nSprint 2 (Config-to-Docs\

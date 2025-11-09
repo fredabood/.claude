@@ -1,0 +1,92 @@
+# Quality Gates Configuration Schema
+# Version: 1.0
+# Created: 2025-11-09
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Vibey Quality Gates Configuration
+description: Quality gate definitions for project
+type: object
+
+required:
+  - quality_gates
+
+properties:
+  quality_gates:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - name
+        - type
+        - threshold
+        - blocking
+      properties:
+        id:
+          type: string
+          pattern: '^[a-z][a-z0-9-]*$'
+        name:
+          type: string
+        type:
+          type: string
+          enum: [security, testing, performance, code-quality, documentation, compliance]
+        threshold:
+          type: number
+          minimum: 0
+          maximum: 100
+        blocking:
+          type: boolean
+        command:
+          type: string
+          description: "Command to run for automated gates"
+        description:
+          type: string
+        enabled:
+          type: boolean
+          default: true
+
+  global_settings:
+    type: object
+    properties:
+      enforce_on_commit:
+        type: boolean
+        default: true
+      enforce_on_pr:
+        type: boolean
+        default: true
+      allow_override:
+        type: boolean
+        default: false
+      notification_channels:
+        type: array
+        items:
+          type: string
+
+additionalProperties: false
+
+examples:
+  - quality_gates:
+      - id: security-scan
+        name: "Security Vulnerability Scan"
+        type: security
+        threshold: 0
+        blocking: true
+        command: "bandit -r src/"
+        description: "Zero critical/high vulnerabilities"
+        enabled: true
+      - id: test-coverage
+        name: "Test Coverage"
+        type: testing
+        threshold: 80
+        blocking: true
+        command: "pytest --cov=src --cov-report=term"
+        description: "Minimum 80% code coverage"
+        enabled: true
+      - id: linting
+        name: "Code Linting"
+        type: code-quality
+        threshold: 100
+        blocking: true
+        command: "flake8 src/"
+        description: "Zero linting errors"
+        enabled: true

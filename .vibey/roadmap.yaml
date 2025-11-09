@@ -277,11 +277,20 @@ roadmap:
     context:
       task_id: roadmap-integration-3-task-004
       sprint_id: roadmap-integration-3
+  - timestamp: '2025-11-09T00:00:00+00:00'
+    type: sprint_ordering_corrected
+    description: Fixed core-framework sprint ordering - Sprint 2 must precede Sprint 1
+    context:
+      track_id: core-framework
+      issue: Sprint 1 (Default CLAUDE.md) depends on Sprint 2 (Config-to-Docs)
+      correction: Reordered sprints - Sprint 2 now first, Sprint 1 second
+      reason: Sprint 1 requires config system and templates from Sprint 2
+      updated_file: .vibey/tracks/core-framework.yaml
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-08T19:30:07.321662Z'
+    last_updated: '2025-11-09T00:00:00+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

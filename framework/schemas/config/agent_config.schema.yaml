@@ -1,0 +1,601 @@
+# Agent Configuration Schema
+# Version: 1.0
+# Created: 2025-11-09
+# Sprint: core-framework-2, Task 2
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Vibey Agent Configuration
+description: Agent definition schema (metadata only - templates generate full instructions)
+type: object
+
+required:
+  - agent
+  - capabilities
+  - trigger_patterns
+
+properties:
+  agent:
+    type: object
+    description: Agent identification and role
+    required:
+      - id
+      - name
+      - role
+    properties:
+      id:
+        type: string
+        description: Unique agent identifier (kebab-case)
+        pattern: '^[a-z][a-z0-9-]*$'
+        examples:
+          - web-developer
+          - ml-engineer
+          - security-engineer
+
+      name:
+        type: string
+        description: Human-readable agent name
+        minLength: 1
+        maxLength: 100
+        examples:
+          - "Web Developer"
+          - "ML Engineer"
+          - "Security Auditor"
+
+      role:
+        type: string
+        description: Agent role category
+        enum:
+          - core            # Coordinator, Vibey Manager
+          - planning        # Sprint Planner, Researcher
+          - development     # Web Developer, ML Engineer
+          - quality         # Security, Performance, Observability
+          - documentation   # Docs Writer, Diagram Generator, Git Committer
+          - architecture    # Architecture reviews
+        examples:
+          - development
+          - quality
+
+      description:
+        type: string
+        description: Brief agent description
+        maxLength: 500
+        examples:
+          - "Full-stack web development agent specializing in React, Node.js, and databases"
+
+      version:
+        type: string
+        description: Agent definition version
+        pattern: '^[0-9]+\.[0-9]+\.[0-9]+.*$'
+        examples:
+          - "1.0.0"
+
+  capabilities:
+    type: array
+    description: Agent capabilities (what the agent can do)
+    items:
+      type: string
+    minItems: 1
+    uniqueItems: true
+    examples:
+      - ["frontend_development", "backend_apis", "database_design", "testing"]
+      - ["security_auditing", "vulnerability_scanning", "penetration_testing"]
+
+  technologies:
+    type: object
+    description: Technologies the agent specializes in
+    properties:
+      languages:
+        type: array
+        description: Programming languages
+        items:
+          type: string
+        uniqueItems: true
+        examples:
+          - ["javascript", "typescript", "python"]
+
+      frameworks:
+        type: array
+        description: Frameworks and libraries
+        items:
+          type: string
+        uniqueItems: true
+        examples:
+          - ["react", "vue", "fastapi", "express"]
+
+      tools:
+        type: array
+        description: Development tools
+        items:
+          type: string
+        uniqueItems: true
+        examples:
+          - ["git", "docker", "webpack"]
+
+      databases:
+        type: array
+        description: Database systems
+        items:
+          type: string
+        uniqueItems: true
+        examples:
+          - ["postgresql", "mongodb", "redis"]
+
+  trigger_patterns:
+    type: array
+    description: Patterns that trigger this agent (regex or keywords)
+    items:
+      type: object
+      required:
+        - pattern
+        - type
+      properties:
+        pattern:
+          type: string
+          description: Trigger pattern (regex or keyword)
+          examples:
+            - "build.*frontend"
+            - "api.*endpoint"
+            - "security.*audit"
+
+        type:
+          type: string
+          description: Pattern type
+          enum:
+            - regex
+            - keyword
+            - exact
+          examples:
+            - regex
+            - keyword
+
+        priority:
+          type: integer
+          description: Pattern priority (higher = checked first)
+          minimum: 0
+          maximum: 100
+          default: 50
+          examples:
+            - 80
+
+        description:
+          type: string
+          description: Pattern purpose
+          examples:
+            - "Triggers on frontend build requests"
+    minItems: 1
+    examples:
+      - - pattern: "build.*frontend"
+          type: regex
+          priority: 80
+        - pattern: "create.*component"
+          type: regex
+          priority: 70
+
+  inputs:
+    type: object
+    description: Expected inputs for this agent
+    properties:
+      required:
+        type: array
+        description: Required inputs
+        items:
+          type: object
+          required:
+            - name
+            - type
+          properties:
+            name:
+              type: string
+              examples:
+                - "feature_spec"
+                - "codebase_path"
+
+            type:
+              type: string
+              enum:
+                - string
+                - number
+                - boolean
+                - object
+                - array
+                - file
+                - directory
+              examples:
+                - string
+                - file
+
+            description:
+              type: string
+              examples:
+                - "Feature specification document"
+
+      optional:
+        type: array
+        description: Optional inputs
+        items:
+          type: object
+          required:
+            - name
+            - type
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            description:
+              type: string
+            default:
+              description: Default value for optional input
+
+  outputs:
+    type: object
+    description: Outputs produced by this agent
+    properties:
+      artifacts:
+        type: array
+        description: File/directory artifacts
+        items:
+          type: object
+          required:
+            - name
+            - type
+          properties:
+            name:
+              type: string
+              examples:
+                - "component_code"
+                - "test_suite"
+
+            type:
+              type: string
+              enum:
+                - file
+                - directory
+                - report
+                - documentation
+              examples:
+                - file
+
+            description:
+              type: string
+              examples:
+                - "React component implementation"
+
+            path_pattern:
+              type: string
+              description: Expected file path pattern
+              examples:
+                - "src/components/**/*.tsx"
+
+      handoff_template:
+        type: string
+        description: Handoff template ID for passing work to next agent
+        examples:
+          - "feature-implementation-complete"
+          - "security-audit-report"
+
+  quality_criteria:
+    type: array
+    description: Quality criteria this agent enforces
+    items:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          examples:
+            - "Code coverage"
+            - "Security scan"
+
+        type:
+          type: string
+          enum:
+            - automated   # Automated check
+            - manual      # Manual review
+            - optional    # Nice-to-have
+          examples:
+            - automated
+
+        threshold:
+          type: number
+          description: Pass threshold (percentage or score)
+          examples:
+            - 80
+            - 95
+
+        blocking:
+          type: boolean
+          description: Blocks handoff if fails
+          default: false
+          examples:
+            - true
+
+        description:
+          type: string
+          examples:
+            - "Minimum 80% test coverage required"
+
+  orchestration:
+    type: object
+    description: Orchestration behavior for this agent
+    properties:
+      can_delegate:
+        type: boolean
+        description: Can delegate to other agents
+        default: true
+        examples:
+          - true
+
+      preferred_mode:
+        type: string
+        description: Preferred orchestration mode
+        enum:
+          - simple
+          - balanced
+          - tiered
+        examples:
+          - balanced
+
+      max_handoffs:
+        type: integer
+        description: Maximum handoffs before returning to user
+        minimum: 0
+        maximum: 10
+        default: 3
+        examples:
+          - 3
+
+      timeout_minutes:
+        type: integer
+        description: Maximum execution time
+        minimum: 1
+        maximum: 480
+        default: 60
+        examples:
+          - 30
+
+  metadata:
+    type: object
+    description: Additional metadata
+    properties:
+      created:
+        type: string
+        format: date-time
+        examples:
+          - "2025-01-01T00:00:00Z"
+
+      last_updated:
+        type: string
+        format: date-time
+        examples:
+          - "2025-11-09T00:00:00Z"
+
+      author:
+        type: string
+        examples:
+          - "Vibey Framework Team"
+
+      tags:
+        type: array
+        items:
+          type: string
+        uniqueItems: true
+        examples:
+          - ["frontend", "react", "production-ready"]
+
+      documentation_url:
+        type: string
+        format: uri
+        examples:
+          - "https://docs.vibey.dev/agents/web-developer"
+
+      template_file:
+        type: string
+        description: Override template file (default: .vibey/templates/agent.md.j2)
+        examples:
+          - ".vibey/templates/custom-agent.md.j2"
+
+additionalProperties: false
+
+examples:
+  - # Web Developer Agent
+    agent:
+      id: web-developer
+      name: "Web Developer"
+      role: development
+      description: "Full-stack web development agent specializing in React, Node.js, and databases"
+      version: "1.0.0"
+
+    capabilities:
+      - frontend_development
+      - backend_apis
+      - database_design
+      - testing
+      - performance_optimization
+
+    technologies:
+      languages:
+        - javascript
+        - typescript
+        - python
+        - html
+        - css
+      frameworks:
+        - react
+        - vue
+        - nextjs
+        - fastapi
+        - express
+      tools:
+        - git
+        - docker
+        - webpack
+        - vite
+        - jest
+        - pytest
+      databases:
+        - postgresql
+        - mongodb
+        - redis
+
+    trigger_patterns:
+      - pattern: "build.*frontend"
+        type: regex
+        priority: 80
+        description: "Frontend build requests"
+      - pattern: "create.*component"
+        type: regex
+        priority: 75
+      - pattern: "api.*endpoint"
+        type: regex
+        priority: 70
+      - pattern: "database.*schema"
+        type: regex
+        priority: 65
+
+    inputs:
+      required:
+        - name: feature_spec
+          type: string
+          description: "Feature specification or requirements"
+        - name: codebase_path
+          type: directory
+          description: "Path to codebase"
+      optional:
+        - name: tech_stack_preference
+          type: string
+          description: "Preferred technology stack"
+          default: "react"
+
+    outputs:
+      artifacts:
+        - name: component_code
+          type: file
+          description: "Component implementation"
+          path_pattern: "src/components/**/*.tsx"
+        - name: test_suite
+          type: directory
+          description: "Test files"
+          path_pattern: "tests/**/*.test.ts"
+      handoff_template: "feature-implementation-complete"
+
+    quality_criteria:
+      - name: "Code coverage"
+        type: automated
+        threshold: 80
+        blocking: true
+        description: "Minimum 80% test coverage"
+      - name: "Linting"
+        type: automated
+        threshold: 100
+        blocking: true
+        description: "Zero linting errors"
+      - name: "Type checking"
+        type: automated
+        threshold: 100
+        blocking: true
+        description: "Zero type errors"
+
+    orchestration:
+      can_delegate: true
+      preferred_mode: balanced
+      max_handoffs: 3
+      timeout_minutes: 60
+
+    metadata:
+      created: "2024-09-01T00:00:00Z"
+      last_updated: "2025-11-09T00:00:00Z"
+      author: "Vibey Framework Team"
+      tags:
+        - frontend
+        - backend
+        - full-stack
+        - production-ready
+
+  - # Security Engineer Agent
+    agent:
+      id: security-engineer
+      name: "Security Auditor"
+      role: quality
+      description: "Security auditing and vulnerability assessment"
+      version: "1.0.0"
+
+    capabilities:
+      - security_auditing
+      - vulnerability_scanning
+      - penetration_testing
+      - code_review
+      - compliance_checking
+
+    technologies:
+      languages:
+        - python
+        - javascript
+        - go
+      frameworks:
+        - owasp
+      tools:
+        - bandit
+        - safety
+        - snyk
+        - trivy
+        - semgrep
+
+    trigger_patterns:
+      - pattern: "security.*audit"
+        type: regex
+        priority: 90
+      - pattern: "vulnerability.*scan"
+        type: regex
+        priority: 85
+      - pattern: "pen.*test"
+        type: regex
+        priority: 80
+
+    inputs:
+      required:
+        - name: codebase_path
+          type: directory
+          description: "Path to codebase to audit"
+      optional:
+        - name: scan_depth
+          type: string
+          description: "Scan depth: quick, standard, deep"
+          default: "standard"
+
+    outputs:
+      artifacts:
+        - name: security_report
+          type: report
+          description: "Security audit findings"
+          path_pattern: "reports/security-*.md"
+      handoff_template: "security-audit-report"
+
+    quality_criteria:
+      - name: "Critical vulnerabilities"
+        type: automated
+        threshold: 0
+        blocking: true
+        description: "Zero critical vulnerabilities"
+      - name: "High vulnerabilities"
+        type: automated
+        threshold: 0
+        blocking: true
+        description: "Zero high vulnerabilities"
+
+    orchestration:
+      can_delegate: false
+      preferred_mode: simple
+      max_handoffs: 0
+      timeout_minutes: 30
+
+    metadata:
+      created: "2024-09-01T00:00:00Z"
+      last_updated: "2025-11-09T00:00:00Z"
+      author: "Vibey Framework Team"
+      tags:
+        - security
+        - quality
+        - compliance

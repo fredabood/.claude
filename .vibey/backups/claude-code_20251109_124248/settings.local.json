@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push:*)",
+      "Bash(git log:*)",
+      "Bash(/tmp/vibey-main.md)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(for file in framework/commands/vibey*.md)",
+      "Bash(done)",
+      "Bash(cat:*)",
+      "Bash(test:*)",
+      "Bash(chmod:*)",
+      "Bash(for script in /Users/fredabood/Repositories/vibey/framework/scripts/*.py)",
+      "Bash(do echo \"=== Testing: $script ===\")",
+      "Bash(python3:*)",
+      "Bash(do [ -f \"$script\" ])",
+      "Bash(xargs:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(__NEW_LINE__ echo \"=== Agents ===\")",
+      "Bash(for file in /home/coder/repositories/vibey/framework/agents/*/*.md)",
+      "Bash(PYTHONPATH=/Users/fredabood/Repositories/vibey/framework python3:*)",
+      "Bash(export PYTHONPATH=/Users/fredabood/Repositories/vibey/framework:*)",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 install:*)",
+      "Bash(./framework/scripts/tests/run_performance_tests.sh:*)",
+      "Bash(./framework/scripts/roadmap list:*)",
+      "Bash(./framework/scripts/roadmap:*)",
+      "Bash(for task_id in core-framework-3-task-001 core-framework-3-task-002 core-framework-3-task-003 core-framework-3-task-004 core-framework-3-task-005)",
+      "Bash(do echo \"Completing $task_id...\" ./framework/scripts/roadmap complete \"$task_id\")",
+      "Bash(git ls-tree:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

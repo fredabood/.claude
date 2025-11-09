@@ -1,8 +1,31 @@
-# Performance cache directory (gitignored - ephemeral)
+# Vibey Framework - .vibey/ Directory Gitignore
+# Updated: 2025-11-09 (Sprint: core-framework-2, Task 1)
+
+# Performance cache (implementation-specific, can be regenerated)
 # Contains indexes.json and mtimes.json for fast CLI startup
 # Automatically rebuilt if stale or missing
 .cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 # Note: graphs.json is NOT ignored
 # - On feature branches: versioned for session continuity
 # - On main branch: prevented by pre-commit hook (always rebuild from YAML)
+
+# Auto-generated summaries (can be regenerated on-demand)
+summaries/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# Editor-specific
+.vscode/
+.idea/
+*.sublime-*

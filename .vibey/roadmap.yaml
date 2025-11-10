@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 14
+    tracks_total: 16
     tracks_completed: 6
-    sprints_total: 44
+    sprints_total: 46
     sprints_completed: 19
-    tasks_total: 249
+    tasks_total: 273
     tasks_completed: 143
-    completion_percent: 57
+    completion_percent: 52
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -42,10 +42,18 @@ roadmap:
     name: MCP Server Foundation
     status: completed
     priority: critical
+  - id: infrastructure-fixes
+    name: Critical Infrastructure Fixes
+    status: not_started
+    priority: critical
   - id: testing-system
     name: Comprehensive Testing & Quality Assurance
     status: not_started
     priority: critical
+  - id: missing-agents
+    name: Missing Agents Implementation
+    status: not_started
+    priority: high
   - id: directory-migration
     name: Directory Migration (.claude/ → .vibey/)
     status: not_started
@@ -703,6 +711,66 @@ roadmap:
       - jetbrains-port
       - multi-platform
       reason: Current .claude/ deployment prevents multi-platform expansion
+  - timestamp: '2025-11-10T11:00:00+00:00'
+    type: planning_completed
+    description: Comprehensive gap analysis completed - identified critical infrastructure issues
+    context:
+      document: docs/development/DOCUMENTATION_GAP_ANALYSIS.md
+      lines: 891
+      gaps_identified: 10 categories
+      critical_findings:
+      - Roadmap CLI has import errors (completely broken)
+      - Roadmap not integrated into /vibey commands (built but inaccessible)
+      - Status inflation (tracks marked complete that aren't)
+      - 38% agent gap (8 missing agents)
+      - 0% platform port implementation (7 platforms documented, 0 implemented)
+  - timestamp: '2025-11-10T12:00:00+00:00'
+    type: planning_completed
+    description: Created comprehensive sprint plans to close all gaps
+    context:
+      document: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
+      lines: 1135
+      tracks: 5
+      sprints: 15
+      estimated_duration: 37 weeks (8 months)
+      estimated_effort: 1200-1500 hours
+  - timestamp: '2025-11-10T13:00:00+00:00'
+    type: track_added
+    description: 'Added Track: Critical Infrastructure Fixes'
+    context:
+      track_id: infrastructure-fixes
+      sprints: 1
+      tasks: 13
+      estimated_duration: 2 weeks
+      priority: critical
+      strategic_value: 'BLOCKER - Fixes roadmap CLI, integrates roadmap into /vibey commands, corrects status mismatches'
+      design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
+      blocks:
+      - directory-migration
+      - mcp-server
+      - all platform ports
+      - missing-agents
+      reason: Must have functional roadmap system before any other gap closure work
+  - timestamp: '2025-11-10T13:00:00+00:00'
+    type: track_added
+    description: 'Added Track: Missing Agents Implementation'
+    context:
+      track_id: missing-agents
+      sprints: 1
+      tasks: 11
+      estimated_duration: 3 weeks
+      priority: high
+      strategic_value: 'Closes 38% agent gap - implements 8 missing agents referenced throughout docs'
+      design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
+      missing_agents:
+      - test-engineer (67 references)
+      - docs-writer (55+ references)
+      - security-auditor (24 references)
+      - architecture-agent
+      - backend-engineer
+      - frontend-engineer
+      - database-specialist
+      - infrastructure-engineer
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'

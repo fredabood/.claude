@@ -1,0 +1,61 @@
+sprint:
+  id: infrastructure-fixes-1
+  name: Critical Infrastructure Fixes
+  track_id: infrastructure-fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 0
+    completion_percent: 0
+  tasks_file: .vibey/tasks/infrastructure-fixes-1-tasks.yaml
+  dependencies: []
+  blocked_by: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-10T10:00:00+00:00'
+    implementation_notes: |
+      Sprint 1 focuses on fixing critical infrastructure issues that block all other work:
+
+      **Phase 1: Fix Roadmap CLI (Days 1-3, 18 hours)**
+      - Task 001: Debug and fix roadmap CLI import error (8h)
+      - Task 002: Create roadmap CLI wrapper script (4h)
+      - Task 003: Add roadmap CLI tests (6h)
+
+      **Phase 2: Integrate Roadmap into /vibey Commands (Days 4-7, 40 hours)**
+      - Task 004: Update /vibey deployment to initialize roadmap (8h)
+      - Task 005: Update /vibey plan to create roadmap sprint entries (12h)
+      - Task 006: Update /vibey code to track roadmap progress (12h)
+      - Task 007: Add migration tool for existing projects (8h)
+
+      **Phase 3: Update Vibey Manager (Days 8-9, 14 hours)**
+      - Task 008: Add roadmap status commands to Vibey Manager (10h)
+      - Task 009: Create roadmap management examples (4h)
+
+      **Phase 4: Correct Track Status Mismatches (Day 10, 10 hours)**
+      - Task 010: Audit all track statuses (4h)
+      - Task 011: Correct roadmap-integration track status (2h)
+      - Task 012: Correct core-framework-2 sprint status (2h)
+      - Task 013: Update roadmap-system track status (2h)
+
+      **Success Criteria:**
+      - ✅ Roadmap CLI runs without errors
+      - ✅ All 15+ roadmap commands work
+      - ✅ /vibey deployment initializes roadmap
+      - ✅ /vibey plan creates roadmap sprint entries
+      - ✅ /vibey code updates roadmap progress
+      - ✅ Vibey Manager has roadmap commands
+      - ✅ Track statuses match reality
+
+      **Estimated Effort:** 82 hours (~2 weeks with 1 developer)

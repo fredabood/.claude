@@ -1,0 +1,36 @@
+task:
+  id: directory-migration-1-task-012
+  sprint_id: directory-migration-1
+  track_id: directory-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update PATH dependencies
+  description: Remove all hardcoded .claude/scripts/ paths, use vibey CLI instead
+  status: not_started
+  blocked: false
+  created: '2025-11-10T23:43:25.586527+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: 'Sprint 1: Unified CLI'
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: directory-migration-1-task-011
+    target_status: completed
+    reason: Sequential implementation required
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-10T23:43:25.586527+00:00'
+    token_efficiency: null
+    duration_hours: null

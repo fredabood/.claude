@@ -2,41 +2,38 @@ track:
   id: directory-migration
   name: Directory Migration (.claude/ → .vibey/)
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: true
   priority: critical
   created: '2025-11-10T10:00:00+00:00'
-  started: null
+  started: '2025-11-10T23:43:36.488746+00:00'
   completed: null
   estimated_duration: 6-8 weeks
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 12
+    tasks_completed: 1
+    completion_percent: 8
   sprints:
   - id: directory-migration-1
     name: Unified CLI Tool
-    status: not_started
+    status: in_progress
     estimated_duration: 2 weeks
     tasks_count: 12
-    started: null
-    completed: null
+    started: '2025-11-10T23:43:39.932492+00:00'
   - id: directory-migration-2
     name: Config Migration System
     status: not_started
     estimated_duration: 3 weeks
     tasks_count: 15
     started: null
-    completed: null
   - id: directory-migration-3
     name: Platform Adapter Implementation
     status: not_started
     estimated_duration: 3 weeks
     tasks_count: 18
     started: null
-    completed: null
   dependencies:
   - type: track
     target_id: testing-system

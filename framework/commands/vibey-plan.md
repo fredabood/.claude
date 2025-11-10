@@ -215,13 +215,31 @@ echo "📊 Creating sprint in roadmap..."
 SPRINT_ID="sprint-${SPRINT_NUMBER}"
 
 # Create sprint from plan file
-python3 .claude/scripts/roadmap plan create \
-  --track-id "main" \
-  --from-plan "sprint-${SPRINT_NUMBER}-plan.md" \
-  --sprint-id "${SPRINT_ID}" \
-  --start
+# Detect framework location
+if [ -f "framework/scripts/roadmap-create-from-plan.py" ]; then
+  ROADMAP_CREATE="framework/scripts/roadmap-create-from-plan.py"
+elif [ -f ".claude/scripts/roadmap-create-from-plan.py" ]; then
+  ROADMAP_CREATE=".claude/scripts/roadmap-create-from-plan.py"
+else
+  echo "⚠️  Warning: roadmap-create-from-plan.py not found, skipping roadmap integration"
+  echo "   Sprint plan created but not added to roadmap system"
+  ROADMAP_CREATE=""
+fi
 
-echo "✓ Sprint ${SPRINT_ID} created and started in roadmap"
+if [ -n "$ROADMAP_CREATE" ]; then
+  if python3 "$ROADMAP_CREATE" \
+    --plan "docs/sprints/sprint-${SPRINT_NUMBER}-plan.md" \
+    --track "main" \
+    --sprint "${SPRINT_ID}" \
+    --start; then
+    echo "✓ Sprint ${SPRINT_ID} created and started in roadmap"
+  else
+    echo "⚠️  Sprint plan created but roadmap integration failed"
+    echo "   You can manually add the sprint to roadmap later"
+  fi
+else
+  echo "✓ Sprint plan created (roadmap integration skipped)"
+fi
 ```
 
 ### Step 9: Update Sprint Marker in CLAUDE.md

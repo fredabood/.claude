@@ -13,8 +13,8 @@ track:
     sprints_total: 1
     sprints_completed: 0
     tasks_total: 13
-    tasks_completed: 2
-    completion_percent: 15
+    tasks_completed: 5
+    completion_percent: 38
   sprints:
   - id: infrastructure-fixes-1
     name: Critical Infrastructure Fixes

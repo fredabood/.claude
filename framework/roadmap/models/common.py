@@ -91,6 +91,8 @@ class ActivityType(str, Enum):
     ROADMAP_STARTED = "roadmap_started"
     ROADMAP_COMPLETED = "roadmap_completed"
     ROADMAP_DEPLOYED = "roadmap_deployed"
+    ROADMAP_INITIALIZED = "roadmap_initialized"
+    TRACK_ADDED = "track_added"
     TRACK_STARTED = "track_started"
     TRACK_COMPLETED = "track_completed"
     SPRINT_STARTED = "sprint_started"
@@ -104,7 +106,6 @@ class ActivityType(str, Enum):
     BLOCKER_RESOLVED = "blocker_resolved"
     DESIGN_COMPLETED = "design_completed"
     PLANNING_COMPLETED = "planning_completed"
-    ROADMAP_INITIALIZED = "roadmap_initialized"
 
 
 class VersionBumpTrigger(str, Enum):

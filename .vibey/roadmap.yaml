@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 6
     sprints_total: 46
     sprints_completed: 19
-    tasks_total: 273
-    tasks_completed: 143
-    completion_percent: 52
+    tasks_total: 235
+    tasks_completed: 156
+    completion_percent: 66
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -687,7 +687,7 @@ roadmap:
     context:
       task_id: documentation-system-3-task-005
       sprint_id: documentation-system-3
-  - timestamp: '2025-11-10T03:16:22.538794Z'
+  - timestamp: '2025-11-10T03:16:22.538794+00:00'
     type: sprint_started
     description: Sprint 'Test Framework & Unit Tests' started
     context:
@@ -701,7 +701,8 @@ roadmap:
       tasks: 45
       estimated_duration: 6-8 weeks
       priority: critical
-      strategic_value: Platform-agnostic architecture foundation - unblocks 6 platform port tracks
+      strategic_value: Platform-agnostic architecture foundation - unblocks 6 platform
+        port tracks
       design_doc: docs/development/DIRECTORY_MIGRATION_PLAN.md
       blocks:
       - goose-port
@@ -713,7 +714,8 @@ roadmap:
       reason: Current .claude/ deployment prevents multi-platform expansion
   - timestamp: '2025-11-10T11:00:00+00:00'
     type: planning_completed
-    description: Comprehensive gap analysis completed - identified critical infrastructure issues
+    description: Comprehensive gap analysis completed - identified critical infrastructure
+      issues
     context:
       document: docs/development/DOCUMENTATION_GAP_ANALYSIS.md
       lines: 891
@@ -743,7 +745,8 @@ roadmap:
       tasks: 13
       estimated_duration: 2 weeks
       priority: critical
-      strategic_value: 'BLOCKER - Fixes roadmap CLI, integrates roadmap into /vibey commands, corrects status mismatches'
+      strategic_value: BLOCKER - Fixes roadmap CLI, integrates roadmap into /vibey
+        commands, corrects status mismatches
       design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
       blocks:
       - directory-migration
@@ -760,7 +763,8 @@ roadmap:
       tasks: 11
       estimated_duration: 3 weeks
       priority: high
-      strategic_value: 'Closes 38% agent gap - implements 8 missing agents referenced throughout docs'
+      strategic_value: Closes 38% agent gap - implements 8 missing agents referenced
+        throughout docs
       design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
       missing_agents:
       - test-engineer (67 references)
@@ -771,11 +775,23 @@ roadmap:
       - frontend-engineer
       - database-specialist
       - infrastructure-engineer
+  - timestamp: '2025-11-10T14:54:32.002003+00:00'
+    type: task_started
+    description: Task 'Create roadmap CLI wrapper script' started
+    context:
+      task_id: infrastructure-fixes-1-task-002
+      sprint_id: infrastructure-fixes-1
+  - timestamp: '2025-11-10T15:31:14.988560Z'
+    type: task_completed
+    description: Task 'Create roadmap CLI wrapper script' completed
+    context:
+      task_id: infrastructure-fixes-1-task-002
+      sprint_id: infrastructure-fixes-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-10T03:16:22.538798Z'
+    last_updated: '2025-11-10T15:31:14.988565Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

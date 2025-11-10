@@ -1,0 +1,113 @@
+sprint:
+  # Identity
+  id: "backend-1"
+  name: "User Authentication System"
+  track_id: "backend"
+  roadmap_id: "example-project"
+
+  # Status
+  status: "in_progress"
+  blocked: false
+
+  # Timing
+  created: "2025-01-15T10:00:00Z"
+  started: "2025-01-16T10:00:00Z"
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+
+  # Progress
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 2
+    completion_gate_tasks_total: 1
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 2
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 2
+    completion_percent: 33
+
+  # Tasks (flat list: development tasks + quality gate tasks)
+  tasks:
+    # DEVELOPMENT TASKS (build functionality)
+    - id: "backend-1-task-001"
+      title: "Create User database schema"
+      status: "completed"
+      task_type: "development"
+
+    - id: "backend-1-task-002"
+      title: "Implement registration endpoint"
+      status: "completed"
+      task_type: "development"
+
+    - id: "backend-1-task-003"
+      title: "Implement login endpoint"
+      status: "in_progress"
+      task_type: "development"
+
+    # COMPLETION GATE TASKS (hygiene for completion)
+    - id: "backend-1-gate-c001"
+      title: "Documentation Review"
+      status: "not_started"
+      task_type: "completion_gate"
+      gate_info:
+        blocks_status: "completed"
+        threshold: 90
+        score: null
+        is_blocking: true
+
+    # PRODUCTION GATE TASKS (production readiness)
+    - id: "backend-1-gate-p001"
+      title: "Security Audit"
+      status: "not_started"
+      task_type: "production_gate"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 85
+        score: null
+        is_blocking: true
+
+    - id: "backend-1-gate-p002"
+      title: "Unit Test Coverage"
+      status: "not_started"
+      task_type: "production_gate"
+      gate_info:
+        blocks_status: "production_ready"
+        threshold: 80
+        score: null
+        is_blocking: true
+
+  # Development Gates (external dependencies)
+  development_gates: []
+
+  # What this sprint blocks
+  blocks:
+    - type: "sprint"
+      target_id: "backend-2"
+      at_status: "not_started"
+      reason: "Product catalog needs authentication"
+
+  # Current blockers (auto-computed)
+  blocked_by: []
+
+  # Documentation
+  plan_file: "docs/sprints/backend-1-plan.md"
+  deliverables:
+    - "User registration API endpoint"
+    - "User login API endpoint"
+    - "JWT authentication middleware"
+    - "User database schema"
+    - "Test suite for authentication"
+
+  # Metadata
+  metadata:
+    estimated_duration: "1 week"
+    actual_duration: null
+    estimated_tokens: 30000
+    actual_tokens: 15500
+    agents_used:
+      - "web-developer"
+    last_updated: "2025-01-18T16:30:00Z"

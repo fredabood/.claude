@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 46
     sprints_completed: 20
     tasks_total: 247
-    tasks_completed: 168
+    tasks_completed: 169
     completion_percent: 68
   tracks:
   - id: core-framework
@@ -912,17 +912,29 @@ roadmap:
     context:
       task_id: directory-migration-1-task-001
       sprint_id: directory-migration-1
-  - timestamp: '2025-11-10T23:44:55.855958Z'
+  - timestamp: '2025-11-10T23:44:55.855958+00:00'
     type: task_completed
     description: Task 'Create Python package structure' completed
     context:
       task_id: directory-migration-1-task-001
       sprint_id: directory-migration-1
+  - timestamp: '2025-11-10T23:47:02.012931+00:00'
+    type: task_started
+    description: Task 'Move framework/scripts/ to vibey/cli/' started
+    context:
+      task_id: directory-migration-1-task-002
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-10T23:47:33.472259Z'
+    type: task_completed
+    description: Task 'Move framework/scripts/ to vibey/cli/' completed
+    context:
+      task_id: directory-migration-1-task-002
+      sprint_id: directory-migration-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-10T23:44:55.855963Z'
+    last_updated: '2025-11-10T23:47:33.472271Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

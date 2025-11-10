@@ -1,0 +1,379 @@
+#!/usr/bin/env python3
+"""
+Roadmap CLI - Unified command-line interface for roadmap management.
+
+Usage:
+    roadmap <command> [options]
+
+Commands:
+    init        Initialize a new roadmap
+    status      Show roadmap status overview
+    show        Show details for a specific object
+    list        List objects (tracks, sprints, tasks)
+    find        Search for objects
+    deps        Show dependencies and blockers
+
+    start       Start a sprint or task
+    complete    Mark a sprint or task as complete
+    assign      Assign a task to an agent
+    batch       Batch update operations
+    progress    Update progress
+
+    recommend   Get task recommendations
+    agents      View agent workload and capabilities
+
+    version     Manage roadmap version
+    validate    Validate roadmap structure
+    help        Show help for commands
+"""
+
+import sys
+import argparse
+from pathlib import Path
+
+# Add framework to path
+framework_root = Path(__file__).parent.parent
+sys.path.insert(0, str(framework_root))
+
+# Add roadmap-lib to path
+roadmap_lib_path = Path(__file__).parent / "roadmap-lib"
+sys.path.insert(0, str(roadmap_lib_path))
+
+from roadmap.models import Status
+from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
+from filesystem import FileSystemManager, find_roadmap_root
+from cache import RoadmapCache
+
+
+def create_parser():
+    """Create the argument parser."""
+    parser = argparse.ArgumentParser(
+        prog='roadmap',
+        description='Unified CLI for roadmap management',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  roadmap init                     # Initialize new roadmap
+  roadmap status                   # Show status overview
+  roadmap show backend-1           # Show sprint details
+  roadmap list tracks              # List all tracks
+  roadmap find "authentication"    # Search for objects
+  roadmap deps backend-1           # Show dependencies and blockers
+
+For more information on a command:
+  roadmap <command> --help
+        """
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='roadmap CLI 1.0.0'
+    )
+
+    parser.add_argument(
+        '--dir',
+        type=Path,
+        help='Root directory (defaults to searching upward for .vibey/)'
+    )
+
+    parser.add_argument(
+        '--no-cache',
+        action='store_true',
+        help='Disable caching (for debugging)'
+    )
+
+    parser.add_argument(
+        '--plain',
+        action='store_true',
+        help='Plain output (no colors or formatting, for scripting)'
+    )
+
+    # Create subparsers for commands
+    subparsers = parser.add_subparsers(dest='command', help='Command to execute')
+
+    # Init command
+    init_parser = subparsers.add_parser('init', help='Initialize a new roadmap')
+    init_parser.add_argument('--id', type=str, help='Roadmap ID')
+    init_parser.add_argument('--name', type=str, help='Roadmap name')
+    init_parser.add_argument('--version', type=str, default='1.0.0', help='Initial version')
+    init_parser.add_argument('--bump-on', choices=['sprint_completion', 'track_completion', 'manual'],
+                           default='sprint_completion', help='When to bump version')
+    init_parser.add_argument('--bump-type', choices=['minor', 'patch'], default='minor',
+                           help='Version bump type')
+    init_parser.add_argument('--force', action='store_true', help='Force reinitialize')
+
+    # Status command
+    status_parser = subparsers.add_parser('status', help='Show roadmap status overview')
+    status_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Show command
+    show_parser = subparsers.add_parser('show', help='Show details for an object')
+    show_parser.add_argument('id', type=str, help='Object ID (track/sprint/task)')
+    show_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # List command
+    list_parser = subparsers.add_parser('list', help='List objects')
+    list_parser.add_argument('type', nargs='?', choices=['tracks', 'sprints', 'tasks'],
+                           help='Type of objects to list (defaults to all)')
+    list_parser.add_argument('--status', type=str, help='Filter by status')
+    list_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Find command
+    find_parser = subparsers.add_parser('find', help='Search for objects')
+    find_parser.add_argument('query', type=str, help='Search query')
+    find_parser.add_argument('--type', choices=['track', 'sprint', 'task'], help='Object type filter')
+    find_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Deps command
+    deps_parser = subparsers.add_parser('deps', help='Show dependencies and blockers')
+    deps_parser.add_argument('id', nargs='?', type=str, help='Object ID (optional, shows all if omitted)')
+    deps_parser.add_argument('--blockers', action='store_true', help='Show blockers only')
+    deps_parser.add_argument('--dependents', action='store_true', help='Show dependents only')
+    deps_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Start command
+    start_parser = subparsers.add_parser('start', help='Start a sprint or task')
+    start_parser.add_argument('id', type=str, help='Sprint or task ID')
+
+    # Complete command
+    complete_parser = subparsers.add_parser('complete', help='Mark as complete')
+    complete_parser.add_argument('id', type=str, help='Sprint or task ID')
+
+    # Assign command
+    assign_parser = subparsers.add_parser('assign', help='Assign task to agent')
+    assign_parser.add_argument('task_id', type=str, help='Task ID')
+    assign_parser.add_argument('agent', type=str, help='Agent name')
+
+    # Batch command
+    batch_parser = subparsers.add_parser('batch', help='Batch update operations')
+    batch_parser.add_argument('operation', choices=['complete', 'assign'], help='Operation to perform')
+    batch_parser.add_argument('scope', choices=['sprint', 'track', 'roadmap'], help='Scope of operation')
+    batch_parser.add_argument('id', nargs='?', type=str, help='Object ID (required for sprint/track scope)')
+    batch_parser.add_argument('--agent', type=str, help='Agent name (for assign operation)')
+    batch_parser.add_argument('--filter', type=str, help='Task filter (dev, gates)')
+    batch_parser.add_argument('--status', type=str, help='Status filter')
+
+    # Progress command
+    progress_parser = subparsers.add_parser('progress', help='Update progress')
+    progress_parser.add_argument('--refresh', action='store_true', help='Refresh all progress calculations')
+
+    # Recommend command
+    recommend_parser = subparsers.add_parser('recommend', help='Get task recommendations')
+    recommend_parser.add_argument('--task', type=str, help='Get agent recommendations for specific task')
+    recommend_parser.add_argument('--agent', type=str, help='Get task recommendations for specific agent')
+    recommend_parser.add_argument('--limit', type=int, help='Maximum number of recommendations (default: 5)')
+    recommend_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Agents command
+    agents_parser = subparsers.add_parser('agents', help='View agent workload and capabilities')
+    agents_parser.add_argument('--workload', action='store_true', help='Show agent workload')
+    agents_parser.add_argument('--capabilities', action='store_true', help='Show agent capabilities')
+    agents_parser.add_argument('--agent', type=str, help='Show details for specific agent')
+    agents_parser.add_argument('--json', action='store_true', help='Output as JSON')
+
+    # Version command
+    version_parser = subparsers.add_parser('version', help='Manage roadmap version')
+    version_group = version_parser.add_mutually_exclusive_group(required=True)
+    version_group.add_argument('--show', action='store_true', help='Show current version')
+    version_group.add_argument('--bump', action='store_true', help='Bump version')
+    version_parser.add_argument('--type', choices=['major', 'minor', 'patch'],
+                               help='Version bump type (uses roadmap strategy if not specified)')
+    version_parser.add_argument('--message', type=str, help='Version bump message')
+    version_parser.add_argument('--tag', action='store_true', help='Create git tag')
+
+    # Validate command
+    validate_parser = subparsers.add_parser('validate', help='Validate roadmap structure')
+    validate_parser.add_argument('--fix', action='store_true', help='Attempt to fix issues')
+    validate_parser.add_argument('--verbose', action='store_true', help='Show detailed output')
+
+    # Prepare command (Preparation Mode)
+    prepare_parser = subparsers.add_parser('prepare', help='Generate task preparation document')
+    prepare_parser.add_argument('task_id', nargs='?', type=str, help='Task ID to prepare')
+    prepare_parser.add_argument('--regenerate', action='store_true', help='Regenerate if exists')
+    prepare_parser.add_argument('--show', action='store_true', help='Show existing preparation doc')
+    prepare_parser.add_argument('--list', action='store_true', help='List tasks with prep docs')
+
+    # Summarize command (Summary Generation)
+    summarize_parser = subparsers.add_parser('summarize', help='Generate dependency and task summaries')
+    summarize_parser.add_argument('sprint_id', nargs='?', type=str, help='Sprint ID to summarize')
+    summarize_parser.add_argument('--task', type=str, help='Generate summary for specific task')
+    summarize_parser.add_argument('--all', action='store_true', help='Summarize all sprints')
+    summarize_parser.add_argument('--completed', action='store_true', help='Only completed sprints (with --all)')
+    summarize_parser.add_argument('--force', action='store_true', help='Force regeneration')
+
+    # Context command (Context Loading)
+    context_parser = subparsers.add_parser('context', help='Load and analyze context for a task')
+    context_parser.add_argument('task_id', type=str, help='Task ID to load context for')
+    context_parser.add_argument('--mode', choices=['minimal', 'summary', 'full'],
+                               help='Force specific context mode for all dependencies')
+    context_parser.add_argument('--show-full', action='store_true', help='Display full context details')
+    context_parser.add_argument('--max-distance', type=int, default=2,
+                               help='Maximum dependency distance to load (default: 2)')
+
+    # Plan command (Sprint Plan Management)
+    plan_parser = subparsers.add_parser('plan', help='Manage sprint plans')
+    plan_subparsers = plan_parser.add_subparsers(dest='plan_action', help='Plan action')
+
+    # plan create - Create sprint from plan file
+    plan_create = plan_subparsers.add_parser('create', help='Create sprint from plan file')
+    plan_create.add_argument('--track-id', type=str, required=True, help='Track ID for sprint')
+    plan_create.add_argument('--from-plan', type=str, required=True, help='Path to sprint plan markdown file')
+    plan_create.add_argument('--sprint-id', type=str, help='Sprint ID (auto-generated if not provided)')
+    plan_create.add_argument('--start', action='store_true', help='Start sprint immediately')
+
+    # Gate command (Quality Gate Management)
+    gate_parser = subparsers.add_parser('gate', help='Manage quality gates')
+    gate_subparsers = gate_parser.add_subparsers(dest='gate_action', help='Gate action')
+
+    # gate update - Update quality gate status
+    gate_update = gate_subparsers.add_parser('update', help='Update quality gate status')
+    gate_update.add_argument('sprint_id', type=str, help='Sprint ID containing the gate')
+    gate_update.add_argument('gate', type=str, help='Quality gate name')
+    gate_update.add_argument('status', choices=['not_run', 'passed', 'failed'], help='Gate status')
+    gate_update.add_argument('--score', type=int, help='Optional score value')
+
+    # gate list - List quality gates
+    gate_list = gate_subparsers.add_parser('list', help='List quality gates for sprint')
+    gate_list.add_argument('sprint_id', type=str, help='Sprint ID to list gates for')
+
+    return parser
+
+
+def find_root_dir(args):
+    """Find the roadmap root directory."""
+    if args.dir:
+        return args.dir
+
+    root = find_roadmap_root()
+    if not root:
+        print("❌ No roadmap found. Run 'roadmap init' first.")
+        sys.exit(1)
+
+    return root
+
+
+def main():
+    parser = create_parser()
+    args = parser.parse_args()
+
+    if not args.command:
+        parser.print_help()
+        sys.exit(0)
+
+    # Initialize formatting (set plain mode if --plain flag is set)
+    roadmap_lib_path = Path(__file__).parent / "roadmap-lib"
+    sys.path.insert(0, str(roadmap_lib_path))
+    from formatting import set_plain_mode
+    set_plain_mode(args.plain)
+
+    # Initialize cache for query commands (unless disabled or init command)
+    cache = None
+    if not args.no_cache and args.command != 'init':
+        try:
+            root_dir = find_root_dir(args)
+            cache = RoadmapCache(root_dir)
+            # Attach cache to args for command handlers
+            args.cache = cache
+        except SystemExit:
+            # find_root_dir exits if no roadmap found
+            # This is OK for init command, but re-raise for others
+            if args.command != 'init':
+                raise
+            args.cache = None
+    else:
+        args.cache = None
+
+    # Route to appropriate command handler
+    if args.command == 'init':
+        from roadmap_commands.init import handle_init
+        handle_init(args)
+
+    elif args.command == 'status':
+        from roadmap_commands.status import handle_status
+        handle_status(args)
+
+    elif args.command == 'show':
+        from roadmap_commands.show import handle_show
+        handle_show(args)
+
+    elif args.command == 'list':
+        from roadmap_commands.list_cmd import handle_list
+        handle_list(args)
+
+    elif args.command == 'find':
+        from roadmap_commands.find import handle_find
+        handle_find(args)
+
+    elif args.command == 'deps':
+        from roadmap_commands.deps import handle_deps
+        handle_deps(args)
+
+    elif args.command == 'start':
+        from roadmap_commands.start import handle_start
+        handle_start(args)
+
+    elif args.command == 'complete':
+        from roadmap_commands.complete import handle_complete
+        handle_complete(args)
+
+    elif args.command == 'assign':
+        from roadmap_commands.assign import handle_assign
+        handle_assign(args)
+
+    elif args.command == 'batch':
+        from roadmap_commands.batch import handle_batch
+        handle_batch(args)
+
+    elif args.command == 'progress':
+        from roadmap_commands.progress import handle_progress
+        handle_progress(args)
+
+    elif args.command == 'recommend':
+        from roadmap_commands.recommend import handle_recommend
+        handle_recommend(args)
+
+    elif args.command == 'agents':
+        from roadmap_commands.agents import handle_agents
+        handle_agents(args)
+
+    elif args.command == 'version':
+        from roadmap_commands.version import handle_version
+        handle_version(args)
+
+    elif args.command == 'validate':
+        from roadmap_commands.validate import handle_validate
+        handle_validate(args)
+
+    elif args.command == 'prepare':
+        from roadmap_commands.prepare import handle_prepare
+        handle_prepare(args)
+
+    elif args.command == 'summarize':
+        from roadmap_commands.summarize import handle_summarize
+        handle_summarize(args)
+
+    elif args.command == 'context':
+        from roadmap_commands.context import handle_context
+        handle_context(args)
+
+    elif args.command == 'plan':
+        from roadmap_commands.plan import handle_plan
+        handle_plan(args)
+
+    elif args.command == 'gate':
+        from roadmap_commands.gate import handle_gate
+        handle_gate(args)
+
+    else:
+        print(f"❌ Unknown command: {args.command}")
+        parser.print_help()
+        sys.exit(1)
+
+    # Invalidate cache after state-changing commands
+    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress', 'gate']:
+        cache.invalidate()
+
+
+if __name__ == '__main__':
+    main()

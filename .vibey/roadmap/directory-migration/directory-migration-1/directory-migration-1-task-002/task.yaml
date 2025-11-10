@@ -6,11 +6,11 @@ task:
   task_type: development
   title: Move framework/scripts/ to vibey/cli/
   description: Reorganize all Python scripts into the new CLI package structure
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-10T23:43:25.586527+00:00'
-  started: null
-  completed: null
+  started: '2025-11-10T23:47:01.825199+00:00'
+  completed: '2025-11-10T23:47:33.286363+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: 'Sprint 1: Unified CLI'

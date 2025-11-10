@@ -1,0 +1,99 @@
+track:
+  # Identity
+  id: "backend"
+  name: "Backend API Development"
+  roadmap_id: "example-project"
+
+  # Status
+  status: "in_progress"
+  blocked: false
+  priority: "critical"
+
+  # Timing
+  created: "2025-01-15T10:00:00Z"
+  started: "2025-01-16T09:00:00Z"
+  completed: null
+  estimated_duration: "12 weeks"
+
+  # Progress
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 6
+    tasks_completed: 2
+    completion_percent: 33
+
+  # Sprints in this track
+  sprints:
+    - id: "backend-1"
+      name: "User Authentication"
+      status: "in_progress"
+      estimated_duration: "1 week"
+      tasks_count: 3
+      started: "2025-01-16T10:00:00Z"
+
+    - id: "backend-2"
+      name: "Product Catalog API"
+      status: "not_started"
+      estimated_duration: "2 weeks"
+      tasks_count: 3
+
+  # Dependencies
+  dependencies: []
+
+  # What this track blocks
+  blocks:
+    - type: "track"
+      target_id: "frontend"
+      at_status: "completed"
+      reason: "Frontend needs backend APIs"
+
+  # Current blockers
+  blocked_by: []
+
+  # Track-level quality gates (run after all sprints complete)
+  quality_gates:
+    - name: "Integration Testing"
+      threshold: 90
+      blocking: true
+      status: "not_run"
+      description: "Full API integration tests"
+
+    - name: "API Documentation"
+      threshold: 95
+      blocking: true
+      status: "not_run"
+      description: "Complete API documentation"
+
+    - name: "Load Testing"
+      threshold: 85
+      blocking: false
+      status: "not_run"
+      description: "Performance under load"
+
+  # Recommended agents for this track
+  assigned_agents:
+    - "web-developer"
+    - "security-auditor"
+    - "test-engineer"
+
+  # Deliverables
+  deliverables:
+    - "User authentication API (registration, login, JWT)"
+    - "Product catalog API (CRUD operations)"
+    - "Comprehensive test suite"
+    - "API documentation"
+
+  # Strategic Context
+  strategic_value:
+    - "Foundation for all frontend features"
+    - "Enables user management and shopping functionality"
+    - "Scalable API architecture"
+
+  # Metadata
+  metadata:
+    created_by: "example-team"
+    last_updated: "2025-01-18T16:30:00Z"
+    notes: |
+      Backend track focuses on building RESTful APIs for the e-commerce platform.
+      Priority is on authentication first, then product catalog.

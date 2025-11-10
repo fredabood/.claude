@@ -11,22 +11,22 @@ from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-# Add framework to path
-framework_root = Path(__file__).parent.parent
-sys.path.insert(0, str(framework_root))
+# Add repository root to path for framework imports
+repo_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(repo_root))
 
-# Add roadmap-lib to path
-roadmap_lib_path = Path(__file__).parent / "roadmap-lib"
-sys.path.insert(0, str(roadmap_lib_path))
+# Add scripts dir to path for roadmap_lib package
+scripts_path = Path(__file__).parent
+sys.path.insert(0, str(scripts_path))
 
-from roadmap.models import (
+from framework.roadmap.models import (
     Roadmap, VersionStrategy, Status, Progress, Metadata,
     ActivityType,
 )
-from roadmap.serialization import save_roadmap
+from framework.roadmap.serialization import save_roadmap
 from roadmap.validation import Validator
-from filesystem import FileSystemManager
-from activity import ActivityLogger
+from roadmap_lib.filesystem import FileSystemManager
+from roadmap_lib.activity import ActivityLogger
 
 
 def prompt_input(prompt: str, default: Optional[str] = None) -> str:

@@ -12,19 +12,19 @@ from pathlib import Path
 from typing import Optional, Dict, Any, List
 from datetime import datetime
 
-# Add framework to path
-framework_root = Path(__file__).parent.parent
-sys.path.insert(0, str(framework_root))
+# Add repository root to path for framework imports
+repo_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(repo_root))
 
-# Add roadmap-lib to path
-roadmap_lib_path = Path(__file__).parent / "roadmap-lib"
-sys.path.insert(0, str(roadmap_lib_path))
+# Add scripts dir to path for roadmap_lib package
+scripts_path = Path(__file__).parent
+sys.path.insert(0, str(scripts_path))
 
-from roadmap.models import Roadmap, Track, Sprint, Task, Status
-from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
-from filesystem import FileSystemManager, find_roadmap_root
-from dependencies import DependencyResolver
-from blockers import BlockerComputer
+from framework.roadmap.models import Roadmap, Track, Sprint, Task, Status
+from framework.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
+from roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
+from roadmap_lib.dependencies import DependencyResolver
+from roadmap_lib.blockers import BlockerComputer
 
 
 def format_status(status: Status) -> str:
@@ -92,7 +92,6 @@ def query_track_details(fs: FileSystemManager, track_id: str) -> Dict[str, Any]:
     return {
         "id": track.id,
         "name": track.name,
-        "description": track.description,
         "status": track.status.value,
         "blocked": track.blocked,
         "started": format_datetime(track.started) if track.started else None,
@@ -354,7 +353,6 @@ def print_track_details(data: Dict[str, Any]):
     print(f"ID: {data['id']}")
     print(f"Status: {format_status(Status(data['status']))}")
     print(f"Blocked: {'Yes ⚠️' if data['blocked'] else 'No'}")
-    print(f"Description: {data['description']}")
 
     if data['started']:
         print(f"Started: {data['started']}")

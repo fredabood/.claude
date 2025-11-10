@@ -223,18 +223,24 @@ class Sprint:
 
     def all_development_tasks_completed(self) -> bool:
         """Check if all development tasks are completed."""
-        dev_tasks = self.get_development_tasks()
-        return all(t.status == Status.COMPLETED for t in dev_tasks)
+        # Use progress metrics instead of tasks list (which may be empty)
+        if self.progress.development_tasks_total == 0:
+            return True  # No dev tasks means they're all "done"
+        return self.progress.development_tasks_completed == self.progress.development_tasks_total
 
     def all_completion_gates_passed(self) -> bool:
         """Check if all completion gate tasks are completed."""
-        gate_tasks = self.get_completion_gate_tasks()
-        return all(t.status == Status.COMPLETED for t in gate_tasks)
+        # Use progress metrics instead of tasks list (which may be empty)
+        if self.progress.completion_gate_tasks_total == 0:
+            return True  # No gates means they're all "passed"
+        return self.progress.completion_gate_tasks_completed == self.progress.completion_gate_tasks_total
 
     def all_production_gates_passed(self) -> bool:
         """Check if all production gate tasks are completed."""
-        gate_tasks = self.get_production_gate_tasks()
-        return all(t.status == Status.COMPLETED for t in gate_tasks)
+        # Use progress metrics instead of tasks list (which may be empty)
+        if self.progress.production_gate_tasks_total == 0:
+            return True  # No gates means they're all "passed"
+        return self.progress.production_gate_tasks_completed == self.progress.production_gate_tasks_total
 
     def can_enter_completion_gate_check(self) -> bool:
         """Check if sprint can enter completion gate check status."""

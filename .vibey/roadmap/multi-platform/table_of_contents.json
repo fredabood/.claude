@@ -1,0 +1,24 @@
+{
+  "level": "track",
+  "parent": {
+    "type": "roadmap",
+    "path": "../",
+    "id": "vibey-framework-v2"
+  },
+  "current": {
+    "id": "multi-platform",
+    "name": "Multi-Platform Architecture",
+    "files": {
+      "yaml": "track.yaml",
+      "markdown": "track.md",
+      "summary": "multi-platform-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "sprints_total": 5,
+    "sprints_completed": 0,
+    "tasks_total": 0,
+    "tasks_completed": 0
+  }
+}

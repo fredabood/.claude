@@ -24,8 +24,8 @@ scripts_dir = Path(__file__).parent
 sys.path.insert(0, str(scripts_dir))
 sys.path.insert(0, str(scripts_dir / "roadmap-lib"))
 
-from filesystem import find_roadmap_root, load_yaml, save_yaml
-from cache import RoadmapCache
+from roadmap_lib.filesystem import find_roadmap_root, load_yaml, save_yaml
+from roadmap_lib.cache import RoadmapCache
 
 
 class PreparationMode:

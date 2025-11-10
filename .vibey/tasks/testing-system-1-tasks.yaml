@@ -1,0 +1,289 @@
+sprint_id: testing-system-1
+tasks:
+- id: testing-system-1-task-001
+  title: Set up pytest test framework infrastructure
+  status: not_started
+  priority: critical
+  estimated_tokens: 2000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  - web-developer
+  dependencies: []
+  blocked_by: []
+  description: |
+    Set up pytest infrastructure for Vibey framework testing:
+    - Install pytest, pytest-cov, pytest-mock
+    - Create tests/ directory structure
+    - Configure pytest.ini with test discovery settings
+    - Set up conftest.py with shared fixtures
+    - Configure coverage reporting (.coveragerc)
+    - Add pytest to requirements.txt
+  acceptance_criteria:
+  - pytest installed and configured
+  - tests/ directory created with proper structure
+  - pytest.ini configured
+  - conftest.py created
+  - Coverage reporting configured (>90% target)
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-002
+  title: Create RepoBuilder test utility
+  status: not_started
+  priority: critical
+  estimated_tokens: 3000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  - web-developer
+  dependencies:
+  - testing-system-1-task-001
+  blocked_by: []
+  description: |
+    Implement RepoBuilder utility class for creating mock repositories:
+    - TestRepo class representing a test repository
+    - create_web_app_repo() - React + Node.js template
+    - create_api_service_repo() - FastAPI template
+    - create_ml_project_repo() - Python + Jupyter template
+    - add_vibey_framework() - Deploy Vibey to test repo
+    - deploy_to_platform() - Platform-specific deployment
+    - Git initialization and commit helpers
+  acceptance_criteria:
+  - RepoBuilder class implemented
+  - 3 repository templates working
+  - add_vibey_framework() deploys correctly
+  - Platform deployment works
+  - Unit tests for RepoBuilder
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-003
+  title: Create StateValidator test utility
+  status: not_started
+  priority: critical
+  estimated_tokens: 3000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-1-task-001
+  blocked_by: []
+  description: |
+    Implement StateValidator utility for verifying repository state:
+    - validate_directory_structure() - Check dirs/files exist
+    - validate_yaml_structure() - Verify YAML schema compliance
+    - validate_git_state() - Check git status/branches
+    - validate_file_content() - Verify file contents
+    - ValidationResult class with detailed error reporting
+  acceptance_criteria:
+  - StateValidator class implemented
+  - All validation methods working
+  - ValidationResult provides clear errors
+  - Unit tests for StateValidator
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-004
+  title: Create GitValidator test utility
+  status: not_started
+  priority: high
+  estimated_tokens: 2500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-1-task-001
+  blocked_by: []
+  description: |
+    Implement GitValidator utility for validating git history:
+    - validate_commit_message() - Check conventional commit format
+    - validate_commit_order() - Verify expected commit sequence
+    - validate_file_changes() - Check files changed in commit
+    - validate_branch_state() - Verify branch exists/current
+    - get_commit_history() - Extract commit metadata
+  acceptance_criteria:
+  - GitValidator class implemented
+  - All validation methods working
+  - Supports conventional commit format
+  - Unit tests for GitValidator
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-005
+  title: Create MetricsCollector test utility
+  status: not_started
+  priority: high
+  estimated_tokens: 2000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-1-task-001
+  blocked_by: []
+  description: |
+    Implement MetricsCollector utility for tracking success metrics:
+    - track() - Record metric value
+    - get_metric() - Retrieve metric value
+    - get_all_metrics() - Get all tracked metrics
+    - assert_metric() - Verify metric meets threshold
+    - export_metrics() - Export to JSON for reporting
+    - Support for rates, percentages, durations, counts
+  acceptance_criteria:
+  - MetricsCollector class implemented
+  - All metric types supported
+  - Export to JSON works
+  - Unit tests for MetricsCollector
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-006
+  title: Create mock repository fixtures
+  status: not_started
+  priority: high
+  estimated_tokens: 4000
+  actual_tokens: null
+  assigned_agents:
+  - web-developer
+  dependencies:
+  - testing-system-1-task-002
+  blocked_by: []
+  description: |
+    Create mock repository templates as test fixtures:
+    - tests/fixtures/mock-repos/web-app/ (React + Node.js + PostgreSQL)
+    - tests/fixtures/mock-repos/api-service/ (FastAPI + MongoDB)
+    - tests/fixtures/mock-repos/ml-project/ (Python + Jupyter + TensorFlow)
+    - Each with realistic file structure, package.json/requirements.txt
+    - Basic implementation files (not just empty files)
+    - README.md explaining the mock project
+  acceptance_criteria:
+  - 3 mock repositories created
+  - Realistic file structures
+  - Basic implementation present
+  - READMEs document each mock project
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-007
+  title: Create expected state definitions
+  status: not_started
+  priority: medium
+  estimated_tokens: 2500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-1-task-003
+  blocked_by: []
+  description: |
+    Create YAML files defining expected repository states:
+    - tests/fixtures/expected-states/after-deployment.yaml
+    - tests/fixtures/expected-states/after-sprint-planning.yaml
+    - tests/fixtures/expected-states/after-feature-complete.yaml
+    - Define directory structure, files, YAML schemas
+    - Define git state (branch, commit messages)
+    - Define success metrics thresholds
+  acceptance_criteria:
+  - Expected state YAML files created
+  - Cover all major user journey milestones
+  - StateValidator can load and use them
+  - Well-documented structure
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-008
+  title: Write unit tests for core framework modules
+  status: not_started
+  priority: high
+  estimated_tokens: 8000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  - web-developer
+  dependencies:
+  - testing-system-1-task-002
+  - testing-system-1-task-003
+  - testing-system-1-task-004
+  - testing-system-1-task-005
+  blocked_by: []
+  description: |
+    Write 120 unit tests for core Vibey framework functionality:
+    - tests/unit/test_config.py (20 tests - config validation, rendering)
+    - tests/unit/test_roadmap.py (30 tests - roadmap state management)
+    - tests/unit/test_sprint_state.py (30 tests - sprint tracking)
+    - tests/unit/test_templates.py (20 tests - template rendering)
+    - tests/unit/test_utils.py (20 tests - utility functions)
+    - Use RepoBuilder, StateValidator, GitValidator utilities
+    - Aim for >90% code coverage
+  acceptance_criteria:
+  - 120 unit tests written
+  - All tests passing
+  - >90% code coverage achieved
+  - Clear test names and documentation
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-009
+  title: Configure coverage reporting
+  status: not_started
+  priority: medium
+  estimated_tokens: 1500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-1-task-008
+  blocked_by: []
+  description: |
+    Configure pytest-cov for coverage reporting:
+    - .coveragerc configuration file
+    - Exclude test files from coverage
+    - Configure HTML and terminal reports
+    - Set coverage threshold (>90%)
+    - Generate coverage badge
+    - Document how to run coverage locally
+  acceptance_criteria:
+  - .coveragerc configured
+  - Coverage reports generated
+  - >90% threshold enforced
+  - Documentation updated
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-1-task-010
+  title: Document test framework and write testing guide
+  status: not_started
+  priority: medium
+  estimated_tokens: 3000
+  actual_tokens: null
+  assigned_agents:
+  - docs-writer
+  dependencies:
+  - testing-system-1-task-008
+  - testing-system-1-task-009
+  blocked_by: []
+  description: |
+    Create comprehensive testing documentation:
+    - docs/testing/TESTING_GUIDE.md - How to run tests, write new tests
+    - tests/README.md - Test structure overview
+    - Document test utilities (RepoBuilder, StateValidator, etc.)
+    - Document mock fixtures
+    - Document how to add new test scenarios
+    - Best practices for testing Vibey
+  acceptance_criteria:
+  - TESTING_GUIDE.md created
+  - tests/README.md created
+  - All utilities documented
+  - Examples provided
+  created: '2025-11-10T04:00:00+00:00'
+  started: null
+  completed: null

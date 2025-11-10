@@ -1,0 +1,65 @@
+[run]
+# Source code to measure coverage for
+source =
+    framework
+    scripts
+
+# Files to omit from coverage
+omit =
+    */tests/*
+    */test_*
+    */__pycache__/*
+    */venv/*
+    */.venv/*
+    */site-packages/*
+    */.tox/*
+    */conftest.py
+
+# Branch coverage
+branch = True
+
+# Parallel execution support
+parallel = True
+
+[report]
+# Reporting options
+precision = 2
+show_missing = True
+skip_covered = False
+sort = Cover
+
+# Fail if coverage is below threshold
+fail_under = 90
+
+# Exclude lines from coverage
+exclude_lines =
+    # Standard pragma
+    pragma: no cover
+
+    # Debug code
+    def __repr__
+    if self\.debug
+
+    # Abstract methods
+    raise NotImplementedError
+    @abstractmethod
+
+    # Type checking
+    if TYPE_CHECKING:
+    if typing.TYPE_CHECKING:
+
+    # Defensive programming
+    assert False
+    raise AssertionError
+
+    # Non-runnable code
+    if __name__ == .__main__.:
+    if 0:
+    if False:
+
+[html]
+directory = htmlcov
+title = Vibey Framework Test Coverage
+
+[xml]
+output = coverage.xml

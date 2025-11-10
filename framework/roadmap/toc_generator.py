@@ -198,7 +198,7 @@ class TOCGenerator:
 
         # Default track YAML path
         if track_yaml_path is None:
-            track_yaml_path = track_dir / f"{track_slug}.yaml"
+            track_yaml_path = track_dir / "track.yaml"
         else:
             track_yaml_path = Path(track_yaml_path)
 
@@ -216,8 +216,8 @@ class TOCGenerator:
             id=track_info.get('id', 'unknown'),
             name=track_info.get('name', track_slug),
             files=TOCFile(
-                yaml=f"{track_slug}.yaml",
-                markdown=f"{track_slug}.md",
+                yaml="track.yaml",
+                markdown="track.md",
                 summary=f"{track_slug}-COMPLETED.md"
             ),
             context=context_files if context_files else None
@@ -237,7 +237,7 @@ class TOCGenerator:
         for item in sorted(track_dir.iterdir()):
             if item.is_dir() and not item.name.startswith('.') and item.name != 'context':
                 sprint_slug = item.name
-                sprint_yaml_path = item / f"{sprint_slug}.yaml"
+                sprint_yaml_path = item / "sprint.yaml"
 
                 if sprint_yaml_path.exists():
                     try:
@@ -294,7 +294,7 @@ class TOCGenerator:
 
         # Default sprint YAML path
         if sprint_yaml_path is None:
-            sprint_yaml_path = sprint_dir / f"{sprint_slug}.yaml"
+            sprint_yaml_path = sprint_dir / "sprint.yaml"
         else:
             sprint_yaml_path = Path(sprint_yaml_path)
 
@@ -312,8 +312,8 @@ class TOCGenerator:
             id=sprint_info.get('id', 'unknown'),
             name=sprint_info.get('name', sprint_slug),
             files=TOCFile(
-                yaml=f"{sprint_slug}.yaml",
-                markdown=f"{sprint_slug}.md",
+                yaml="sprint.yaml",
+                markdown="sprint.md",
                 summary=f"{sprint_slug}-COMPLETED.md"
             ),
             context=context_files if context_files else None

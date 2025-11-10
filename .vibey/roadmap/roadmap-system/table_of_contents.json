@@ -1,0 +1,24 @@
+{
+  "level": "track",
+  "parent": {
+    "type": "roadmap",
+    "path": "../",
+    "id": "vibey-framework-v2"
+  },
+  "current": {
+    "id": "roadmap-system",
+    "name": "Roadmap Object Hierarchy Implementation",
+    "files": {
+      "yaml": "track.yaml",
+      "markdown": "track.md",
+      "summary": "roadmap-system-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "sprints_total": 6,
+    "sprints_completed": 6,
+    "tasks_total": 53,
+    "tasks_completed": 53
+  }
+}

@@ -2,32 +2,34 @@ track:
   id: mcp-server
   name: MCP Server Foundation
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-10T12:00:00+00:00'
+  completed: '2025-11-10T21:30:00+00:00'
   estimated_duration: 4 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 0
-    tasks_total: 9
-    tasks_completed: 0
-    completion_percent: 0
+    sprints_completed: 2
+    tasks_total: 16
+    tasks_completed: 16
+    completion_percent: 100
   sprints:
   - id: mcp-server-1
-    name: MCP Protocol & Core Implementation
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 5
-    started: null
+    name: MCP Server Foundation
+    status: completed
+    estimated_duration: 1 week
+    tasks_count: 8
+    started: '2025-11-10T12:00:00+00:00'
+    completed: '2025-11-10T18:00:00+00:00'
   - id: mcp-server-2
-    name: Integration, Testing & Documentation
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 4
-    started: null
+    name: Sprint & Query Tools
+    status: completed
+    estimated_duration: 1 week
+    tasks_count: 8
+    started: '2025-11-10T18:00:00+00:00'
+    completed: '2025-11-10T21:30:00+00:00'
   dependencies:
   - type: track
     target_id: documentation-system

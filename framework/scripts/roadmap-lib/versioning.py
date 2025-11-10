@@ -12,9 +12,9 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from roadmap.models import Roadmap, VersionStrategy
-from roadmap.serialization import load_roadmap, save_roadmap
-from filesystem import FileSystemManager
+from framework.roadmap.models import Roadmap, VersionStrategy
+from framework.roadmap.serialization import load_roadmap, save_roadmap
+from .filesystem import FileSystemManager
 
 
 class VersionManager:

@@ -1,0 +1,22 @@
+{
+  "level": "sprint",
+  "parent": {
+    "type": "track",
+    "path": "../",
+    "id": "core-framework"
+  },
+  "current": {
+    "id": "core-framework-2",
+    "name": "Config-to-Docs Architecture",
+    "files": {
+      "yaml": "sprint.yaml",
+      "markdown": "sprint.md",
+      "summary": "core-framework-2-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "tasks_total": 13,
+    "tasks_completed": 13
+  }
+}

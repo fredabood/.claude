@@ -11,28 +11,35 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List
 
-# Add framework to path
-framework_root = Path(__file__).parent.parent
-sys.path.insert(0, str(framework_root))
+# Add repository root to path for framework imports
+repo_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(repo_root))
 
-# Add roadmap-lib to path
-roadmap_lib_path = Path(__file__).parent / "roadmap-lib"
-sys.path.insert(0, str(roadmap_lib_path))
+# Add scripts dir to path for roadmap_lib package
+scripts_path = Path(__file__).parent
+sys.path.insert(0, str(scripts_path))
 
-from roadmap.models import (
+from framework.roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Status, TaskStatus, ActivityType,
     TrackSummary, SprintSummary, Progress, Metadata,
     Dependency, DependencyType, GateInfo, DependencyStatus,
 )
-from roadmap.serialization import (
+from framework.roadmap.serialization import (
     load_roadmap, load_track, load_sprint, load_tasks,
     save_roadmap, save_track, save_sprint, save_tasks,
 )
-from filesystem import FileSystemManager, find_roadmap_root
-from activity import ActivityLogger
-from status import StatusManager
-from blockers import BlockerComputer
+from roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
+from roadmap_lib.activity import ActivityLogger
+from roadmap_lib.status import StatusManager
+from roadmap_lib.blockers import BlockerComputer
+
+# Import sync hooks for automatic documentation synchronization
+try:
+    from docs.sync_hooks import trigger_on_task_complete, trigger_on_sprint_complete, trigger_on_track_complete
+    SYNC_HOOKS_AVAILABLE = True
+except ImportError:
+    SYNC_HOOKS_AVAILABLE = False
 
 
 def update_dependent_cache(
@@ -210,6 +217,10 @@ def complete_task(
         f"Task '{task.title}' completed",
         {"task_id": task_id, "sprint_id": sprint_id}
     )
+
+    # Trigger automatic documentation sync if enabled
+    if SYNC_HOOKS_AVAILABLE:
+        trigger_on_task_complete(task_id, enabled=True, verbose=False)
 
     return True
 

@@ -1,0 +1,22 @@
+{
+  "level": "sprint",
+  "parent": {
+    "type": "track",
+    "path": "../",
+    "id": "documentation-system"
+  },
+  "current": {
+    "id": "documentation-system-1",
+    "name": "Hierarchical Structure & Core Generation",
+    "files": {
+      "yaml": "sprint.yaml",
+      "markdown": "sprint.md",
+      "summary": "documentation-system-1-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "tasks_total": 8,
+    "tasks_completed": 8
+  }
+}

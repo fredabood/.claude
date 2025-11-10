@@ -1,0 +1,24 @@
+{
+  "level": "track",
+  "parent": {
+    "type": "roadmap",
+    "path": "../",
+    "id": "vibey-framework-v2"
+  },
+  "current": {
+    "id": "continue-port",
+    "name": "Continue.dev Platform Port",
+    "files": {
+      "yaml": "track.yaml",
+      "markdown": "track.md",
+      "summary": "continue-port-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "sprints_total": 2,
+    "sprints_completed": 0,
+    "tasks_total": 12,
+    "tasks_completed": 0
+  }
+}

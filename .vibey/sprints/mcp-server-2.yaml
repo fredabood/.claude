@@ -1,0 +1,62 @@
+sprint:
+  id: mcp-server-2
+  name: Sprint & Query Tools
+  track_id: mcp-server
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-10T00:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-10T20:00:00+00:00'
+  estimated_duration: 1 week
+  progress:
+    development_tasks_total: 8
+    development_tasks_completed: 8
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 8
+    tasks_completed: 8
+    completion_percent: 100
+  tasks_file: .vibey/tasks/mcp-server-2-tasks.yaml
+  dependencies:
+  - type: sprint
+    target_id: mcp-server-1
+    target_status: completed
+    reason: Sprint 2 builds on Sprint 1 foundation
+    optional: false
+  blocked_by: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-10T20:00:00+00:00'
+    implementation_notes: |
+      Sprint 2 completed roadmap management tools:
+
+      **Sprint Management Tools (4 tools):**
+      1. vibey_start_sprint - Mark sprint as in progress
+      2. vibey_complete_sprint - Complete a sprint
+      3. vibey_query_sprint - Get detailed sprint info
+      4. vibey_refresh_progress - Recalculate all progress
+
+      **Query Tools (4 tools):**
+      1. vibey_query_track - Get detailed track info
+      2. vibey_list_blockers - List all blockers
+      3. vibey_list_dependencies - List dependencies
+      4. vibey_roadmap_status - Get roadmap overview
+
+      **Code Delivered:**
+      - framework/mcp/tools/sprint_tools.py (330 lines)
+      - framework/mcp/tools/query_tools.py (380 lines)
+      - framework/mcp/adapters/roadmap_adapter.py (+160 lines, now 620 total)
+      - server.py and tools/__init__.py updates
+
+      **Adapter Enhancements (5 new methods):**
+      - complete_sprint(sprint_id)
+      - refresh_progress()
+      - list_blockers(object_id)
+      - list_dependencies(object_id, include_satisfied)
+      - get_roadmap_status()
+
+      **Total:** ~875 new lines, 8 additional tools
+      **Cumulative:** 11 working MCP tools, ~3,200 lines total

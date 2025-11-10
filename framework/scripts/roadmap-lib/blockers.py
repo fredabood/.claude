@@ -13,13 +13,13 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from roadmap.models import (
+from framework.roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Blocker, TrackBlocker, TaskBlocker,
     Status, TaskStatus,
 )
-from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
-from filesystem import FileSystemManager
+from framework.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
+from .filesystem import FileSystemManager
 
 
 class BlockerComputer:

@@ -50,11 +50,11 @@ task:
     - Backup created before migration
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:48.458498+00:00'
-  started: null
-  completed: null
+  started: '2025-11-10T00:26:32.535276+00:00'
+  completed: '2025-11-10T02:07:39.597963+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
@@ -66,6 +66,8 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:

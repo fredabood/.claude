@@ -1,0 +1,22 @@
+{
+  "level": "sprint",
+  "parent": {
+    "type": "track",
+    "path": "../",
+    "id": "roadmap-integration"
+  },
+  "current": {
+    "id": "roadmap-integration-1",
+    "name": "Foundation & Sprint Planning Integration",
+    "files": {
+      "yaml": "sprint.yaml",
+      "markdown": "sprint.md",
+      "summary": "roadmap-integration-1-COMPLETED.md"
+    }
+  },
+  "children": [],
+  "metadata": {
+    "tasks_total": 5,
+    "tasks_completed": 5
+  }
+}

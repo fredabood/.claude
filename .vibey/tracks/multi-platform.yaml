@@ -48,6 +48,11 @@ track:
     started: null
   dependencies:
   - type: track
+    target_id: testing-system
+    target_status: completed
+    reason: Must pass comprehensive testing before platform expansion
+    optional: false
+  - type: track
     target_id: roadmap-system
     target_status: completed
     reason: Need roadmap system to be portable across platforms
@@ -72,6 +77,12 @@ track:
     blocking_since: '2024-11-07T02:00:00+00:00'
     estimated_resolution: '2025-06-30T00:00:00+00:00'
   depends_on:
+  - blocker_id: testing-system
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:00:00+00:00'
   - blocker_id: roadmap-system
     blocker_type: track
     required_status: completed
@@ -86,6 +97,12 @@ track:
     last_checked: '2025-11-08T16:01:27.404420+00:00'
   depended_on_by: []
   quality_gates:
+  - name: Comprehensive Testing
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All journey tests pass, platform deployment tests pass, >95% platform parity
+    score: null
   - name: Cross-Platform Compatibility
     threshold: 90
     blocking: true

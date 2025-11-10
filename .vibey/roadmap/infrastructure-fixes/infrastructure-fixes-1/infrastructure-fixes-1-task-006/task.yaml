@@ -20,11 +20,11 @@ task:
     - Keep legacy system for backward compatibility
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-10T17:36:00.145566+00:00'
+  completed: '2025-11-10T17:38:25.395118+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null

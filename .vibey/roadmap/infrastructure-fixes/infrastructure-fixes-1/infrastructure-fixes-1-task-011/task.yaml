@@ -14,10 +14,10 @@ task:
     - Document fix history
 
     '
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: null
+  started: '2025-11-10T18:28:47.173046+00:00'
   completed: null
   assigned_agent: coordinator
   priority: critical

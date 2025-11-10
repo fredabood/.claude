@@ -20,11 +20,11 @@ task:
     - Create backup before migration
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-10T17:38:38.714368+00:00'
+  completed: '2025-11-10T17:45:01.626152+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

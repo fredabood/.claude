@@ -516,7 +516,10 @@ Guide user through creating a custom agent:
 
 ## 6. Roadmap System Management
 
-The roadmap system (.vibey/) tracks all sprints, tasks, and dependencies for the project.
+The roadmap system (.vibey/roadmap/) tracks all sprints, tasks, and dependencies for the project in a hierarchical structure.
+
+**Roadmap CLI:**
+The roadmap system is accessed via `roadmap-cli.sh` wrapper or direct Python scripts. The wrapper automatically handles PYTHONPATH and supports both `framework/scripts/` and `.claude/scripts/` layouts.
 
 ### 6.1 View Roadmap Status
 
@@ -524,14 +527,32 @@ The roadmap system (.vibey/) tracks all sprints, tasks, and dependencies for the
 - "Show me the roadmap"
 - "What's the status of our sprints?"
 - "Overview of all tracks"
+- "How are we progressing?"
 
 **Action:**
 ```bash
-# View comprehensive roadmap status
-python3 .claude/scripts/roadmap status
+# Detect roadmap CLI location
+if [ -f "framework/scripts/roadmap-cli.sh" ]; then
+  ROADMAP_CLI="./framework/scripts/roadmap-cli.sh"
+elif [ -f ".claude/scripts/roadmap-cli.sh" ]; then
+  ROADMAP_CLI="./.claude/scripts/roadmap-cli.sh"
+else
+  # Fallback to direct Python scripts
+  if [ -f "framework/scripts/roadmap-query.py" ]; then
+    ROADMAP_CLI="python3 framework/scripts/roadmap-query.py"
+  else
+    ROADMAP_CLI="python3 .claude/scripts/roadmap-query.py"
+  fi
+fi
 
-# View as JSON for programmatic access
-python3 .claude/scripts/roadmap status --json
+# View all tracks
+$ROADMAP_CLI query --all-tracks
+
+# View specific track
+$ROADMAP_CLI query --track infrastructure-fixes
+
+# View as JSON for programmatic access (if using Python directly)
+python3 framework/scripts/roadmap-query.py --all-tracks --json
 ```
 
 **Response:**
@@ -560,31 +581,46 @@ python3 .claude/scripts/roadmap status --json
 **User Requests:**
 - "Show me sprint X"
 - "What tasks are in this sprint?"
-- "Details for sprint roadmap-integration-1"
+- "Details for sprint infrastructure-fixes-1"
+- "How's the current sprint going?"
 
 **Action:**
 ```bash
-# Show sprint overview
-python3 .claude/scripts/roadmap show <sprint-id>
+# Show sprint details (using CLI wrapper if available, otherwise direct Python)
+$ROADMAP_CLI query --sprint infrastructure-fixes-1
 
-# Show sprint with all tasks
-python3 .claude/scripts/roadmap show <sprint-id> --json | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-sprint = data['sprint']
-print(f\"Sprint: {sprint['name']}\")
-print(f\"Goal: {sprint['goal']}\")
-print(f\"Status: {sprint['status']}\")
-print(f\"Progress: {sprint['progress']['completion_percent']}%\")
-"
+# Show sprint with all tasks (reading YAML directly for reliability)
+SPRINT_YAML=$(find .vibey/roadmap -path "*/infrastructure-fixes-1/sprint.yaml" 2>/dev/null | head -1)
 
-# List all tasks in sprint
-python3 .claude/scripts/roadmap list tasks --json | python3 -c "
-import sys, json
-tasks = [t for t in json.load(sys.stdin) if t.get('sprint_id') == '<sprint-id>']
-for t in tasks:
-    print(f\"{t['id']}: {t['title']} ({t['status']})\")
+if [ -n "$SPRINT_YAML" ]; then
+  # Extract sprint metadata
+  SPRINT_NAME=$(grep "^  name:" "$SPRINT_YAML" | sed 's/^  name: //' | tr -d '"')
+  SPRINT_STATUS=$(grep "^  status:" "$SPRINT_YAML" | sed 's/^  status: //')
+  TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
+  TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
+  PROGRESS=$(grep "^  progress_percent:" "$SPRINT_YAML" | sed 's/^  progress_percent: //')
+
+  echo "Sprint: $SPRINT_NAME"
+  echo "Status: $SPRINT_STATUS"
+  echo "Progress: $TASKS_COMPLETED/$TASKS_TOTAL tasks ($PROGRESS%)"
+
+  # List all tasks in sprint directory
+  SPRINT_DIR=$(dirname "$SPRINT_YAML")
+  python3 -c "
+import yaml
+from pathlib import Path
+
+sprint_dir = Path('$SPRINT_DIR')
+for task_dir in sorted(sprint_dir.glob('*-task-*/')):
+    task_yaml = task_dir / 'task.yaml'
+    if task_yaml.exists():
+        with open(task_yaml) as f:
+            data = yaml.safe_load(f)
+            if data and 'task' in data:
+                task = data['task']
+                print(f\"  - {task['id']}: {task['title']} ({task['status']})\")
 "
+fi
 ```
 
 **Response:**
@@ -602,27 +638,86 @@ Tasks:
 - roadmap-integration-1-task-005: Extend Vibey Manager with roadmap commands (in_progress)
 ```
 
-### 6.3 View Dependencies
+### 6.3 Task Management (Start/Complete/Update)
+
+**User Requests:**
+- "Start task X"
+- "Mark task Y as complete"
+- "Complete the current task"
+- "Update task status"
+
+**Action:**
+```bash
+# Detect roadmap-update.py location
+if [ -f "framework/scripts/roadmap-update.py" ]; then
+  ROADMAP_UPDATE="python3 framework/scripts/roadmap-update.py"
+else
+  ROADMAP_UPDATE="python3 .claude/scripts/roadmap-update.py"
+fi
+
+# Start a task
+$ROADMAP_UPDATE --start-task infrastructure-fixes-1-task-008
+
+# Complete a task
+$ROADMAP_UPDATE --complete-task infrastructure-fixes-1-task-008
+
+# Complete a sprint (when all tasks done)
+$ROADMAP_UPDATE --complete-sprint infrastructure-fixes-1
+
+# Start a sprint
+$ROADMAP_UPDATE --start-sprint infrastructure-fixes-2
+```
+
+**Response:**
+```
+✅ Task 'Add roadmap status commands to Vibey Manager' marked as in progress
+
+✅ Task 'Add roadmap status commands to Vibey Manager' marked as completed
+
+✅ Sprint 'Critical Infrastructure Fixes' marked as completed
+```
+
+### 6.4 View Dependencies and Blockers
 
 **User Requests:**
 - "What does sprint X depend on?"
 - "Show me all blockers"
 - "What's blocking sprint Y?"
 - "What depends on task Z?"
+- "Are there any circular dependencies?"
 
 **Action:**
 ```bash
-# Show all dependencies
-python3 .claude/scripts/roadmap deps
+# View dependencies for a specific task/sprint by examining YAML
+# Tasks have dependencies field in their task.yaml files
+# Example: Find dependencies for a task
+TASK_YAML=$(find .vibey/roadmap -path "*infrastructure-fixes-1-task-008/task.yaml" 2>/dev/null | head -1)
 
-# Show dependencies for specific sprint/task
-python3 .claude/scripts/roadmap deps <sprint-id or task-id>
+if [ -n "$TASK_YAML" ]; then
+  python3 -c "
+import yaml
+with open('$TASK_YAML') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    deps = task.get('dependencies', [])
+    if deps:
+        print('Dependencies:')
+        for dep in deps:
+            print(f\"  - {dep.get('target_id')}: {dep.get('reason')}\")
+    else:
+        print('No dependencies')
+"
+fi
 
-# Show only blockers
-python3 .claude/scripts/roadmap deps --blockers
-
-# Show dependents (what depends on this)
-python3 .claude/scripts/roadmap deps <sprint-id or task-id> --dependents
+# Find all blocked tasks across roadmap
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import sys, yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    if task.get('blocked'):
+        print(f\"{task['id']}: {task['title']} (blocked)\")
+" \; 2>/dev/null
 ```
 
 **Response:**
@@ -640,41 +735,64 @@ Blockers Summary:
 ✅ All dependencies resolved - ready to work
 ```
 
-### 6.4 View Agent Workload
+### 6.5 View Agent Workload
 
 **User Requests:**
 - "Which agents are overloaded?"
 - "Show agent workload"
 - "Who can take on new tasks?"
+- "How many tasks does web-developer have?"
 
 **Action:**
 ```bash
-# View agent workload summary
-python3 .claude/scripts/roadmap agents --workload
+# Find all tasks assigned to an agent
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+from collections import defaultdict
 
-# View workload as JSON
-python3 .claude/scripts/roadmap agents --workload --json
+# Count tasks by agent and status
+agent_tasks = defaultdict(lambda: {'in_progress': 0, 'not_started': 0, 'completed': 0})
 
-# View specific agent details
-python3 .claude/scripts/roadmap agents --agent web-developer
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    agent = task.get('assigned_agent', 'unassigned')
+    status = task.get('status', 'unknown')
+    agent_tasks[agent][status] += 1
+
+# Print summary
+for agent, counts in sorted(agent_tasks.items()):
+    total = sum(counts.values())
+    active = counts['in_progress'] + counts['not_started']
+    print(f\"{agent}: {active} active ({counts['in_progress']} in progress, {counts['not_started']} pending)\")
+" \; 2>/dev/null | sort | uniq -c | sort -rn
+
+# Or query specific agent's tasks
+AGENT="web-developer"
+find .vibey/roadmap -name "task.yaml" -exec grep -l "assigned_agent: $AGENT" {} \; | while read task_file; do
+  python3 -c "
+import yaml
+with open('$task_file') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    print(f\"{task['id']}: {task['title']} ({task['status']})\")
+"
+done
 ```
 
 **Response:**
 ```
 👥 Agent Workload
 
-🔴 Overloaded (>5 tasks):
-- web-developer: 7 in_progress, 3 pending (10 total)
+Active Tasks by Agent:
+- web-developer: 3 active (1 in progress, 2 pending)
+- sprint-planner: 2 active (0 in progress, 2 pending)
+- security-reviewer: 1 active (0 in progress, 1 pending)
 
-🟡 Busy (3-5 tasks):
-- sprint-planner: 2 in_progress, 2 pending (4 total)
-- security-reviewer: 1 in_progress, 3 pending (4 total)
-
-🟢 Available (<3 tasks):
-- ml-engineer: 1 in_progress, 0 pending (1 total)
-- observability-specialist: 0 in_progress, 2 pending (2 total)
-
-💡 Recommendation: Consider reassigning tasks from web-developer to other agents.
+web-developer Tasks:
+- infrastructure-fixes-1-task-008: Add roadmap status commands (in_progress)
+- infrastructure-fixes-1-task-009: Create roadmap examples (not_started)
+- core-framework-2-task-001: Design default CLAUDE.md (not_started)
 ```
 
 ### 6.5 Find Blocked or At-Risk Tasks
@@ -717,70 +835,55 @@ Status Summary:
 - blocked: 3 tasks
 ```
 
-### 6.6 Task Recommendations
-
-**User Requests:**
-- "What should I work on next?"
-- "Recommend tasks for agent X"
-- "Which tasks are ready to start?"
-
-**Action:**
-```bash
-# Get task recommendations
-python3 .claude/scripts/roadmap recommend
-
-# Get recommendations for specific agent
-python3 .claude/scripts/roadmap recommend --agent web-developer --limit 5
-
-# Get agent recommendations for specific task
-python3 .claude/scripts/roadmap recommend --task backend-2-task-003
-```
-
-**Response:**
-```
-🎯 Task Recommendations (Next 5):
-
-High Priority:
-1. roadmap-integration-1-task-005: Extend Vibey Manager
-   - Priority: high
-   - Estimated: 2 hours
-   - Dependencies: None (ready to start)
-   - Recommended agents: coordinator, vibey-manager
-
-2. core-framework-4-task-001: Design default CLAUDE.md
-   - Priority: high
-   - Estimated: 4 hours
-   - Dependencies: None (ready to start)
-   - Recommended agents: sprint-planner, documentation-specialist
-
-Recommendation: Start with roadmap-integration-1-task-005 (sprint completion blocker)
-```
-
-### 6.7 Search Tasks and Sprints
+### 6.6 Search Tasks and Sprints
 
 **User Requests:**
 - "Find tasks about authentication"
-- "Search for security-related sprints"
+- "Search for security-related tasks"
 - "What tasks mention the database?"
+- "Show me all tasks with 'fix' in the title"
 
 **Action:**
 ```bash
-# Search across all objects
-python3 .claude/scripts/roadmap find "authentication"
+# Search task titles and descriptions using grep
+find .vibey/roadmap -name "task.yaml" -exec grep -l "authentication\|auth" {} \; | while read task_file; do
+  python3 -c "
+import yaml
+with open('$task_file') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    print(f\"{task['id']}: {task['title']}\")
+"
+done
 
-# Search specific object types
-python3 .claude/scripts/roadmap find "security" --type sprint
+# Search sprint names
+find .vibey/roadmap -name "sprint.yaml" -exec grep -l "security" {} \; | while read sprint_file; do
+  python3 -c "
+import yaml
+with open('$sprint_file') as f:
+    data = yaml.safe_load(f)
+    sprint = data.get('sprint', {})
+    print(f\"{sprint['id']}: {sprint['name']}\")
+"
+done
 
-# Search and get JSON results
-python3 .claude/scripts/roadmap find "database" --json
+# Search by keyword in task descriptions
+KEYWORD="database"
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    desc = task.get('description', '').lower()
+    title = task.get('title', '').lower()
+    if '$KEYWORD' in desc or '$KEYWORD' in title:
+        print(f\"{task['id']}: {task['title']}\")
+" \; 2>/dev/null
 ```
 
 **Response:**
 ```
 🔍 Search results for "authentication":
-
-Sprints (1):
-- backend-2: "Authentication & Authorization System"
 
 Tasks (3):
 - backend-2-task-001: Design auth architecture
@@ -788,46 +891,62 @@ Tasks (3):
 - backend-2-task-005: Add OAuth2 support
 ```
 
-### 6.8 Validate Roadmap Structure
+### 6.7 Natural Language Queries
 
-**User Requests:**
-- "Check the roadmap for errors"
-- "Validate roadmap structure"
-- "Are there any broken dependencies?"
+**User Requests (examples of what users might say):**
+- "What are we working on right now?"
+- "Show me what's left to do"
+- "Are there any high-priority tasks?"
+- "What's blocking us?"
 
-**Action:**
+**How to respond:**
+When users ask questions in natural language, use the CLI commands above to gather information and present it conversationally.
+
+**Example 1: "What are we working on right now?"**
 ```bash
-# Validate roadmap
-python3 .claude/scripts/roadmap validate
-
-# Validate with detailed output
-python3 .claude/scripts/roadmap validate --verbose
-
-# Validate and attempt to fix issues
-python3 .claude/scripts/roadmap validate --fix
+# Find in-progress tasks
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    if task.get('status') == 'in_progress':
+        print(f\"  - {task['title']} (assigned: {task.get('assigned_agent', 'unassigned')})\")
+" \; 2>/dev/null
 ```
 
-**Response:**
+Then respond: "Currently working on: [list tasks with assigned agents]"
+
+**Example 2: "Are there any blockers?"**
+```bash
+# Find blocked tasks
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    if task.get('blocked'):
+        print(f\"  - {task['id']}: {task['title']}\")
+" \; 2>/dev/null
 ```
-✅ Roadmap Validation Complete
 
-Structure:
-✓ All YAML files valid
-✓ All IDs unique
-✓ All cross-references valid
+Then respond with count and list of blocked tasks.
 
-Dependencies:
-✓ No circular dependencies
-✓ All dependency IDs exist
-✓ No orphaned blocks
-
-Tasks:
-✓ All tasks belong to valid sprints
-✓ All assigned agents exist
-✓ All estimated_hours present
-
-Summary: Roadmap is valid. No issues found.
+**Example 3: "What should I work on next?"**
+```bash
+# Find not_started tasks without blockers, prioritized
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    if task.get('status') == 'not_started' and not task.get('blocked'):
+        priority = task.get('priority', 'medium')
+        print(f\"{priority}|{task['id']}: {task['title']}\")
+" \; 2>/dev/null | sort -r | head -5
 ```
+
+Then respond with top 5 recommendations based on priority.
 
 ---
 

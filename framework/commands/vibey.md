@@ -1144,19 +1144,39 @@ if [ -f ".vibey/roadmap.yaml" ]; then
   echo "  - Skipping initialization"
 else
   # Initialize roadmap with project defaults
-  python3 .claude/scripts/roadmap init \
+  # Detect framework location (supports both .claude/ and framework/ paths)
+  if [ -f "framework/scripts/roadmap-init.py" ]; then
+    ROADMAP_INIT="framework/scripts/roadmap-init.py"
+  elif [ -f ".claude/scripts/roadmap-init.py" ]; then
+    ROADMAP_INIT=".claude/scripts/roadmap-init.py"
+  else
+    echo "❌ Error: roadmap-init.py not found"
+    echo "  Expected: framework/scripts/roadmap-init.py or .claude/scripts/roadmap-init.py"
+    exit 1
+  fi
+
+  # Run roadmap initialization
+  if python3 "$ROADMAP_INIT" \
     --name "${PROJECT_NAME}" \
     --version "0.1.0" \
     --bump-on sprint_completion \
-    --bump-type patch
+    --bump-type patch; then
 
-  if [ -f ".vibey/roadmap.yaml" ]; then
-    echo "✓ Roadmap initialized (.vibey/)"
-    echo "  - Roadmap: .vibey/roadmap.yaml"
-    echo "  - Track: main"
-    echo "  - Ready for sprint planning"
+    # Verify roadmap was created
+    if [ -f ".vibey/roadmap.yaml" ]; then
+      echo "✓ Roadmap initialized (.vibey/)"
+      echo "  - Roadmap: .vibey/roadmap.yaml"
+      echo "  - Track: main"
+      echo "  - Ready for sprint planning"
+    else
+      echo "❌ Error: Roadmap file not created despite successful initialization"
+      echo "  Expected: .vibey/roadmap.yaml"
+      exit 1
+    fi
   else
     echo "❌ Roadmap initialization failed"
+    echo "  Command: python3 $ROADMAP_INIT --name \"${PROJECT_NAME}\" ..."
+    echo "  Check logs above for error details"
     exit 1
   fi
 fi

@@ -35,6 +35,11 @@ track:
     reason: Must pass comprehensive testing before platform expansion
     optional: false
   - type: track
+    target_id: claude-port
+    target_status: completed
+    reason: Claude Code must be validated as reference implementation
+    optional: false
+  - type: track
     target_id: continue-port
     target_status: completed
     reason: Build on IDE extension adapter patterns
@@ -48,6 +53,12 @@ track:
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-10T03:00:00+00:00'
+  - blocker_id: claude-port
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:30:00+00:00'
   - blocker_id: goose-port
     current_status: not_started
     last_checked: '2025-11-09T21:40:22.279174+00:00'

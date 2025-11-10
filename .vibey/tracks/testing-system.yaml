@@ -40,6 +40,10 @@ track:
   dependencies: []
   blocks:
   - type: track
+    target_id: claude-port
+    at_status: not_started
+    reason: Need test framework to validate Claude Code implementation
+  - type: track
     target_id: goose-port
     at_status: not_started
     reason: Must pass comprehensive testing before platform expansion
@@ -66,6 +70,7 @@ track:
   blocked_by: []
   depends_on: []
   depended_on_by:
+  - claude-port
   - goose-port
   - aider-port
   - continue-port

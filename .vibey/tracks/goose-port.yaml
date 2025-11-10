@@ -69,6 +69,11 @@ track:
     target_status: completed
     reason: Must pass comprehensive testing before platform expansion
     optional: false
+  - type: track
+    target_id: claude-port
+    target_status: completed
+    reason: Claude Code must be validated as reference implementation
+    optional: false
   blocks:
   - type: track
     target_id: multi-platform
@@ -88,6 +93,12 @@ track:
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-10T03:00:00+00:00'
+  - blocker_id: claude-port
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:30:00+00:00'
   depended_on_by:
   - multi-platform
   quality_gates:

@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 12
+    tracks_total: 13
     tracks_completed: 6
-    sprints_total: 40
+    sprints_total: 41
     sprints_completed: 19
-    tasks_total: 196
+    tasks_total: 204
     tasks_completed: 143
-    completion_percent: 73
+    completion_percent: 70
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -44,6 +44,10 @@ roadmap:
     priority: critical
   - id: testing-system
     name: Comprehensive Testing & Quality Assurance
+    status: not_started
+    priority: critical
+  - id: claude-port
+    name: Claude Code Platform Validation
     status: not_started
     priority: critical
   - id: goose-port

@@ -53,6 +53,11 @@ track:
     reason: Must pass comprehensive testing before platform expansion
     optional: false
   - type: track
+    target_id: claude-port
+    target_status: completed
+    reason: Claude Code must be validated as reference implementation
+    optional: false
+  - type: track
     target_id: roadmap-system
     target_status: completed
     reason: Need roadmap system to be portable across platforms
@@ -83,6 +88,12 @@ track:
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-10T03:00:00+00:00'
+  - blocker_id: claude-port
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:30:00+00:00'
   - blocker_id: roadmap-system
     blocker_type: track
     required_status: completed

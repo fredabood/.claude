@@ -2,6 +2,12 @@
 
 **Loaded when:** User selects Option 2 (Execute Sprint) or runs `/vibey code`
 
+**Roadmap Integration:** This command now integrates with the hierarchical roadmap system:
+- Sprint/task data read from `.vibey/roadmap/{track}/{sprint}/{task}/` structure
+- Progress updates written using `roadmap-update.py` script
+- Backward compatible: Falls back gracefully if roadmap CLI not available
+- Path detection: Supports both `framework/scripts/` and `.claude/scripts/` layouts
+
 ---
 
 ## Sprint Execution Flow
@@ -14,13 +20,44 @@
 if [ -f ".claude/CLAUDE.md" ]; then
   SPRINT_ID=$(grep "<!-- CURRENT_SPRINT:" .claude/CLAUDE.md | sed 's/.*CURRENT_SPRINT: \([^ ]*\) .*/\1/')
 
-  if [ -n "$SPRINT_ID" ]; then
-    # Sprint ID found - verify it exists in roadmap
-    if python3 .claude/scripts/roadmap show "$SPRINT_ID" --json >/dev/null 2>&1; then
-      echo "✓ Active sprint: $SPRINT_ID"
+  if [ -n "$SPRINT_ID" ] && [ "$SPRINT_ID" != "none" ]; then
+    # Sprint ID found - verify it exists in roadmap using CLI
+    # Detect framework location
+    if [ -f "framework/scripts/roadmap-cli.sh" ]; then
+      ROADMAP_CLI="framework/scripts/roadmap-cli.sh"
+    elif [ -f ".claude/scripts/roadmap-cli.sh" ]; then
+      ROADMAP_CLI=".claude/scripts/roadmap-cli.sh"
     else
-      echo "⚠️  Sprint $SPRINT_ID not found in roadmap"
-      SPRINT_ID=""
+      # Fallback to direct Python script
+      if [ -f "framework/scripts/roadmap-query.py" ]; then
+        ROADMAP_CLI="python3 framework/scripts/roadmap-query.py"
+      elif [ -f ".claude/scripts/roadmap-query.py" ]; then
+        ROADMAP_CLI="python3 .claude/scripts/roadmap-query.py"
+      else
+        echo "⚠️  Roadmap CLI not found - progress tracking disabled"
+        ROADMAP_CLI=""
+      fi
+    fi
+
+    if [ -n "$ROADMAP_CLI" ]; then
+      # Verify sprint exists
+      if [ -f "framework/scripts/roadmap-cli.sh" ] || [ -f ".claude/scripts/roadmap-cli.sh" ]; then
+        # Using wrapper script
+        if $ROADMAP_CLI query --sprint "$SPRINT_ID" >/dev/null 2>&1; then
+          echo "✓ Active sprint: $SPRINT_ID"
+        else
+          echo "⚠️  Sprint $SPRINT_ID not found in roadmap"
+          SPRINT_ID=""
+        fi
+      else
+        # Using direct Python script
+        if $ROADMAP_CLI --sprint "$SPRINT_ID" >/dev/null 2>&1; then
+          echo "✓ Active sprint: $SPRINT_ID"
+        else
+          echo "⚠️  Sprint $SPRINT_ID not found in roadmap"
+          SPRINT_ID=""
+        fi
+      fi
     fi
   fi
 fi
@@ -56,20 +93,61 @@ You don't have an active sprint. Would you like to:
 ### Step 2: Display Sprint Dashboard
 
 ```bash
-# Query roadmap for sprint data
-SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json)
+# Detect roadmap CLI (already set in Step 1, but verify)
+if [ -z "$ROADMAP_CLI" ]; then
+  if [ -f "framework/scripts/roadmap-cli.sh" ]; then
+    ROADMAP_CLI="framework/scripts/roadmap-cli.sh"
+  elif [ -f ".claude/scripts/roadmap-cli.sh" ]; then
+    ROADMAP_CLI=".claude/scripts/roadmap-cli.sh"
+  elif [ -f "framework/scripts/roadmap-query.py" ]; then
+    ROADMAP_CLI="python3 framework/scripts/roadmap-query.py"
+  elif [ -f ".claude/scripts/roadmap-query.py" ]; then
+    ROADMAP_CLI="python3 .claude/scripts/roadmap-query.py"
+  else
+    echo "❌ Roadmap CLI not found - cannot display dashboard"
+    exit 1
+  fi
+fi
 
-# Extract key metrics
-SPRINT_NAME=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('name', 'Unknown'))")
-SPRINT_STATUS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('status', 'unknown'))")
-START_DATE=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('started', 'Not started'))")
-PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(f\"{p.get('tasks_completed', 0)}/{p.get('tasks_total', 0)}\")")
+# Query roadmap for sprint data using CLI
+# Note: Sprint query has a known issue with description field, but we can work around it
+SPRINT_YAML=$(find .vibey/roadmap -path "*/$SPRINT_ID/sprint.yaml" 2>/dev/null | head -1)
+
+if [ -z "$SPRINT_YAML" ]; then
+  echo "❌ Sprint file not found: $SPRINT_ID"
+  exit 1
+fi
+
+# Extract sprint metadata directly from YAML (more reliable than JSON query)
+SPRINT_NAME=$(grep "^  name:" "$SPRINT_YAML" | sed 's/^  name: //' | tr -d '"')
+SPRINT_STATUS=$(grep "^  status:" "$SPRINT_YAML" | sed 's/^  status: //')
+START_DATE=$(grep "^  started:" "$SPRINT_YAML" | sed 's/^  started: //' | cut -d'T' -f1)
+TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
+TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
 
 # Extract sprint number from ID (e.g., "roadmap-integration-2" -> "2" or "main-1" -> "1")
 SPRINT_NUMBER=$(echo "$SPRINT_ID" | grep -oE '[0-9]+$')
 
-# Get tasks for this sprint
-TASKS_DATA=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "import sys, json; data=json.load(sys.stdin); tasks=[t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']; print(json.dumps(tasks))")
+# Get all task files for this sprint
+SPRINT_DIR=$(dirname "$SPRINT_YAML")
+TASKS_DATA=$(python3 -c "
+import sys, json, yaml
+from pathlib import Path
+
+sprint_dir = Path('$SPRINT_DIR')
+tasks = []
+
+# Find all task directories
+for task_dir in sprint_dir.glob('*-task-*/'):
+    task_yaml = task_dir / 'task.yaml'
+    if task_yaml.exists():
+        with open(task_yaml) as f:
+            task_data = yaml.safe_load(f)
+            if task_data and 'task' in task_data:
+                tasks.append(task_data['task'])
+
+print(json.dumps(tasks))
+" 2>/dev/null)
 
 # Count task statuses
 TASKS_TOTAL=$(echo "$TASKS_DATA" | python3 -c "import sys, json; print(len(json.load(sys.stdin)))")
@@ -212,49 +290,75 @@ After any task status change (start, complete, block), automatically refresh the
 
 ```bash
 function update_progress_display() {
-    # Refresh sprint data
-    SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null)
+    # Refresh sprint data from YAML file
+    SPRINT_YAML=$(find .vibey/roadmap -path "*/$SPRINT_ID/sprint.yaml" 2>/dev/null | head -1)
 
-    # Extract updated progress
-    UPDATED_PROGRESS=$(echo "$SPRINT_DATA" | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-sprint = data.get('sprint', {})
-progress = sprint.get('progress', {})
-tasks_total = progress.get('tasks_total', 0)
-tasks_completed = progress.get('tasks_completed', 0)
-completion_percent = progress.get('completion_percent', 0)
+    if [ -z "$SPRINT_YAML" ]; then
+        echo "⚠️  Sprint file not found: $SPRINT_ID"
+        return
+    fi
 
-print(f'''
-📊 Updated Progress:
-- Completed: {tasks_completed}/{tasks_total} tasks ({completion_percent}%)
-- Progress: [{'█' * int(completion_percent/10)}{'░' * (10 - int(completion_percent/10))}]
-''')
-" 2>/dev/null)
+    # Extract updated progress from YAML
+    TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
+    TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
+    COMPLETION_PERCENT=$(grep "^  progress_percent:" "$SPRINT_YAML" | sed 's/^  progress_percent: //')
+
+    # Calculate progress bar
+    PROGRESS_BARS=$(python3 -c "
+import sys
+total = int('$TASKS_TOTAL' or 0)
+completed = int('$TASKS_COMPLETED' or 0)
+percent = int('$COMPLETION_PERCENT' or 0)
+
+if total > 0:
+    bars = int(percent / 10)
+    print('█' * bars + '░' * (10 - bars))
+else:
+    print('░' * 10)
+")
 
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "$UPDATED_PROGRESS"
+    echo "📊 Updated Progress:"
+    echo "- Completed: ${TASKS_COMPLETED}/${TASKS_TOTAL} tasks (${COMPLETION_PERCENT}%)"
+    echo "- Progress: [$PROGRESS_BARS]"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
 
-    # Show next recommended task
-    NEXT_TASK=$(python3 .claude/scripts/roadmap recommend --limit 1 --json 2>/dev/null | python3 -c "
-import sys, json
-try:
-    data = json.load(sys.stdin)
-    if data and len(data) > 0:
-        task = data[0]
-        print(f\"💡 Next recommended task: {task.get('title', 'Unknown')}\")
-        print(f\"   ID: {task.get('id', 'unknown')}\")
-        print(f\"   Estimated: {task.get('estimated_hours', 'N/A')} hours\")
-    else:
-        print('No pending tasks.')
-except:
-    pass
+    # Show next recommended task (first not_started task)
+    SPRINT_DIR=$(dirname "$SPRINT_YAML")
+    NEXT_TASK=$(python3 -c "
+import sys, yaml
+from pathlib import Path
+
+sprint_dir = Path('$SPRINT_DIR')
+not_started = []
+
+# Find all task directories
+for task_dir in sorted(sprint_dir.glob('*-task-*/')):
+    task_yaml = task_dir / 'task.yaml'
+    if task_yaml.exists():
+        with open(task_yaml) as f:
+            task_data = yaml.safe_load(f)
+            if task_data and 'task' in task_data:
+                task = task_data['task']
+                if task.get('status') == 'not_started' and not task.get('blocked'):
+                    not_started.append(task)
+
+if not_started:
+    task = not_started[0]
+    title = task.get('title', 'Unknown')
+    task_id = task.get('id', 'unknown')
+    tokens = task.get('estimated_tokens', 0)
+    hours = int(tokens / 1000) if tokens else 0
+    print(f\"💡 Next recommended task: {title}\")
+    print(f\"   ID: {task_id}\")
+    print(f\"   Estimated: {hours}h (~{tokens} tokens)\")
+else:
+    print('No pending tasks.')
 " 2>/dev/null)
 
-    if [ ! -z "$NEXT_TASK" ]; then
+    if [ -n "$NEXT_TASK" ]; then
         echo "$NEXT_TASK"
         echo ""
     fi
@@ -370,8 +474,18 @@ else
   TASK_ID="$user_input"
 fi
 
-# Start the task
-if python3 .claude/scripts/roadmap start "$TASK_ID" 2>/dev/null; then
+# Start the task using roadmap-update.py
+# Detect script location
+if [ -f "framework/scripts/roadmap-update.py" ]; then
+  ROADMAP_UPDATE="python3 framework/scripts/roadmap-update.py"
+elif [ -f ".claude/scripts/roadmap-update.py" ]; then
+  ROADMAP_UPDATE="python3 .claude/scripts/roadmap-update.py"
+else
+  echo "❌ roadmap-update.py not found"
+  exit 1
+fi
+
+if $ROADMAP_UPDATE --start-task "$TASK_ID" 2>/dev/null; then
   echo "✅ Task started: $TASK_ID"
   echo ""
   echo "Task is now marked as in progress. Continue working on it!"
@@ -426,20 +540,33 @@ else
   TASK_ID="$user_input"
 fi
 
-# Complete the task
-if python3 .claude/scripts/roadmap complete "$TASK_ID" 2>/dev/null; then
+# Complete the task using roadmap-update.py
+# Detect script location
+if [ -f "framework/scripts/roadmap-update.py" ]; then
+  ROADMAP_UPDATE="python3 framework/scripts/roadmap-update.py"
+elif [ -f ".claude/scripts/roadmap-update.py" ]; then
+  ROADMAP_UPDATE="python3 .claude/scripts/roadmap-update.py"
+else
+  echo "❌ roadmap-update.py not found"
+  exit 1
+fi
+
+if $ROADMAP_UPDATE --complete-task "$TASK_ID" 2>/dev/null; then
   echo "✅ Task completed: $TASK_ID"
   echo ""
 
   # Auto-update progress display with full visualization
   update_progress_display
 
-  # Check if sprint complete
-  TASKS_COMPLETED=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_completed', 0))")
-  TASKS_TOTAL=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json 2>/dev/null | python3 -c "import sys, json; d=json.load(sys.stdin); p=d.get('sprint', {}).get('progress', {}); print(p.get('tasks_total', 0))")
+  # Check if sprint complete (read from sprint.yaml)
+  SPRINT_YAML=$(find .vibey/roadmap -path "*/$SPRINT_ID/sprint.yaml" 2>/dev/null | head -1)
+  if [ -n "$SPRINT_YAML" ]; then
+    TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
+    TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
 
-  if [ "$TASKS_COMPLETED" -eq "$TASKS_TOTAL" ] && [ "$TASKS_TOTAL" -gt 0 ]; then
-    echo "🎉 All sprint tasks completed! Ready to complete the sprint."
+    if [ "$TASKS_COMPLETED" -eq "$TASKS_TOTAL" ] && [ "$TASKS_TOTAL" -gt 0 ]; then
+      echo "🎉 All sprint tasks completed! Ready to complete the sprint."
+    fi
   fi
 else
   echo "❌ Could not complete task. Please check the task ID."
@@ -821,8 +948,18 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
 
 ```bash
   if [ "$confirm" != "n" ] && [ "$confirm" != "N" ]; then
-    # Mark sprint complete in roadmap
-    python3 .claude/scripts/roadmap complete "$SPRINT_ID"
+    # Mark sprint complete in roadmap using roadmap-update.py
+    # Detect script location
+    if [ -f "framework/scripts/roadmap-update.py" ]; then
+      ROADMAP_UPDATE="python3 framework/scripts/roadmap-update.py"
+    elif [ -f ".claude/scripts/roadmap-update.py" ]; then
+      ROADMAP_UPDATE="python3 .claude/scripts/roadmap-update.py"
+    else
+      echo "❌ roadmap-update.py not found"
+      exit 1
+    fi
+
+    $ROADMAP_UPDATE --complete-sprint "$SPRINT_ID"
 
     # Update CLAUDE.md marker (deactivate)
     sed -i.bak 's/<!-- CURRENT_SPRINT: .* -->/<!-- CURRENT_SPRINT: none -->/' .claude/CLAUDE.md
@@ -831,18 +968,30 @@ Parse their response. If they agree (default yes), set `confirm=""`. If they say
     # Generate retrospective
     echo "📝 Generating sprint retrospective..."
 
-    # Get sprint data
-    SPRINT_DATA=$(python3 .claude/scripts/roadmap show "$SPRINT_ID" --json)
-    SPRINT_GOAL=$(echo "$SPRINT_DATA" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sprint', {}).get('goal', 'N/A'))")
+    # Get sprint data from YAML
+    SPRINT_YAML=$(find .vibey/roadmap -path "*/$SPRINT_ID/sprint.yaml" 2>/dev/null | head -1)
+    SPRINT_GOAL=$(grep "^  description:" "$SPRINT_YAML" | sed 's/^  description: //' | tr -d '"')
 
-    # Get completed tasks
-    TASKS_LIST=$(python3 .claude/scripts/roadmap list tasks --json 2>/dev/null | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-tasks = [t for t in data.get('tasks', []) if t.get('sprint_id') == '$SPRINT_ID']
-for t in tasks:
-    status = '✅' if t.get('status') == 'completed' else '⏸️'
-    print(f\"- {status} {t.get('title', t.get('id', 'Unknown'))}\")
+    # Get all tasks for retrospective
+    SPRINT_DIR=$(dirname "$SPRINT_YAML")
+    TASKS_LIST=$(python3 -c "
+import yaml
+from pathlib import Path
+
+sprint_dir = Path('$SPRINT_DIR')
+tasks = []
+
+# Find all task directories
+for task_dir in sorted(sprint_dir.glob('*-task-*/')):
+    task_yaml = task_dir / 'task.yaml'
+    if task_yaml.exists():
+        with open(task_yaml) as f:
+            task_data = yaml.safe_load(f)
+            if task_data and 'task' in task_data:
+                task = task_data['task']
+                status = '✅' if task.get('status') == 'completed' else '⏸️'
+                title = task.get('title', task.get('id', 'Unknown'))
+                print(f\"- {status} {title}\")
 ")
 
     # Create retrospective file

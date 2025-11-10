@@ -1,0 +1,25 @@
+task:
+  id: mcp-server-2-task-002
+  title: Query tools (4 tools)
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Implement vibey_query_track, vibey_list_blockers, vibey_list_dependencies,
+    vibey_roadmap_status
+  created: '2025-11-10T18:00:00+00:00'
+  started: '2025-11-10T18:45:00+00:00'
+  completed: '2025-11-10T19:15:00+00:00'
+  assigned_agent: web-developer
+  priority: high
+  complexity: medium
+  estimated_tokens: 6000
+  actual_tokens: 6200
+  dependencies:
+  - type: task
+    target_id: mcp-server-2-task-001
+    target_status: completed
+    reason: Query tools follow similar patterns
+    optional: true
+  blocked_by: []

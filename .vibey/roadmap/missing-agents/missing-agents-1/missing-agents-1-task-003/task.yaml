@@ -1,0 +1,42 @@
+task:
+  id: missing-agents-1-task-003
+  title: Implement security-auditor agent (alias/rename)
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Rename or alias existing security-reviewer.md → security-auditor.md
+
+    PRIORITY: HIGH - referenced in 24 files
+
+
+    Current: security-reviewer (exists)
+
+    References: security-auditor (24 times)
+
+
+    Decision: Standardize on one name, create alias for the other
+
+
+    Recommended Approach:
+
+    - Choose primary name (recommend: security-reviewer)
+
+    - Add alias in header: "Security Reviewer (alias: security-auditor)"
+
+    - Update references in workflows/tracks to use consistent naming
+
+    - Or rename file if security-auditor is preferred term
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  complexity: low
+  estimated_tokens: 16000
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []

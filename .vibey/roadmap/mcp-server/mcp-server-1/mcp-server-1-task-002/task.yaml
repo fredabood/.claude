@@ -1,0 +1,24 @@
+task:
+  id: mcp-server-1-task-002
+  title: Basic MCP server scaffold
+  sprint_id: mcp-server-1
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Create basic MCP server structure with tool routing
+  created: '2025-11-10T12:00:00+00:00'
+  started: '2025-11-10T13:00:00+00:00'
+  completed: '2025-11-10T14:00:00+00:00'
+  assigned_agent: web-developer
+  priority: high
+  complexity: medium
+  estimated_tokens: 3000
+  actual_tokens: 3200
+  dependencies:
+  - type: task
+    target_id: mcp-server-1-task-001
+    target_status: completed
+    reason: Needs SDK setup first
+    optional: false
+  blocked_by: []

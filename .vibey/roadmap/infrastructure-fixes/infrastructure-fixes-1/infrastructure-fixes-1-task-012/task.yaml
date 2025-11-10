@@ -1,0 +1,44 @@
+task:
+  id: infrastructure-fixes-1-task-012
+  sprint_id: infrastructure-fixes-1
+  track_id: infrastructure-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Correct core-framework-2 sprint status
+  description: 'Update .vibey/sprints/core-framework-2.yaml
+
+    - Change status from production_gate_check to not_started
+
+    - Add notes explaining deliverables not yet implemented
+
+    - Reference directory-migration track for future work
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: coordinator
+  priority: high
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: infrastructure-fixes-1-task-010
+    target_status: completed
+    reason: Needs audit complete
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-10T09:18:14.183818+00:00'
+    token_efficiency: null
+    duration_hours: null

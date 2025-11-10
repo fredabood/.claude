@@ -1,0 +1,46 @@
+task:
+  id: missing-agents-1-task-002
+  title: Implement docs-writer agent (alias/rename)
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Rename or alias existing documentation-engineer.md → docs-writer.md
+
+    PRIORITY: HIGH - referenced in 55+ files
+
+
+    Current: documentation-engineer (870 lines, exists)
+
+    References: docs-writer (55+ times)
+
+
+    Options:
+
+    a) Rename documentation-engineer → docs-writer
+
+    b) Add alias (both names work)
+
+    c) Add trigger patterns to existing agent (RECOMMENDED - least disruptive)
+
+
+    Recommended Approach: Option C
+
+    - Update documentation-engineer.md header: "Documentation Engineer (alias: docs-writer)"
+
+    - Add trigger patterns: "write docs", "document this"
+
+    - Update references in workflows/tracks to use consistent naming
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  complexity: low
+  estimated_tokens: 16000
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []

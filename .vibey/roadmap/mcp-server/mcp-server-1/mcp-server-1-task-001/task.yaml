@@ -1,0 +1,19 @@
+task:
+  id: mcp-server-1-task-001
+  title: MCP Python SDK setup & project structure
+  sprint_id: mcp-server-1
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Set up project structure and install MCP Python SDK dependencies
+  created: '2025-11-10T12:00:00+00:00'
+  started: '2025-11-10T12:00:00+00:00'
+  completed: '2025-11-10T13:00:00+00:00'
+  assigned_agent: web-developer
+  priority: high
+  complexity: low
+  estimated_tokens: 2000
+  actual_tokens: 1800
+  dependencies: []
+  blocked_by: []

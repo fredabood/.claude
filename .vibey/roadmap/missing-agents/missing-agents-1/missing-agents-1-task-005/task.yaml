@@ -1,0 +1,53 @@
+task:
+  id: missing-agents-1-task-005
+  title: Implement backend-engineer agent
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Create framework/agents/development/backend-engineer.md (NEW agent)
+
+
+    Responsibilities:
+
+    - API development
+
+    - Database design
+
+    - Server-side logic
+
+    - Authentication/authorization
+
+    - Performance optimization
+
+
+    Trigger Patterns:
+
+    - "Implement API endpoint..."
+
+    - "Design database schema..."
+
+    - "Add authentication..."
+
+
+    Template: Based on web-developer.md but backend-focused
+
+    Simpler than web-developer (more specialized scope)
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  complexity: medium
+  estimated_tokens: 16000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-001
+    target_status: completed
+    reason: Follow pattern from critical agents
+    optional: true
+  blocked_by: []

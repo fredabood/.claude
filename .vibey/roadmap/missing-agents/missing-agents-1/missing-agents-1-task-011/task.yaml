@@ -1,0 +1,62 @@
+task:
+  id: missing-agents-1-task-011
+  title: Add agent validation tests
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Create tests/agents/test_agent_validation.py
+
+
+    Test Coverage:
+
+    - Trigger pattern matching
+
+    - Agent file validation (all required sections present)
+
+    - Quality criteria defined
+
+    - Handoff templates referenced
+
+    - Agent metadata complete
+
+    - No duplicate trigger patterns
+
+    - All agents in README match files
+
+
+    Validation Checks:
+
+    - All agent files exist
+
+    - All required sections present (Role, Trigger Patterns, Inputs, Outputs, Quality
+    Criteria)
+
+    - Trigger patterns are unique (no conflicts)
+
+    - Quality criteria are measurable
+
+    - Handoff templates exist
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: medium
+  complexity: medium
+  estimated_tokens: 12000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-009
+    target_status: completed
+    reason: Need all agents complete
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-010
+    target_status: completed
+    reason: Need README for validation
+    optional: false
+  blocked_by: []

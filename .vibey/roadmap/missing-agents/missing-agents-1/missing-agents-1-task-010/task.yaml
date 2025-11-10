@@ -1,0 +1,32 @@
+task:
+  id: missing-agents-1-task-010
+  title: Create agent directory README
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: "Create framework/agents/README.md\n\nContent:\n- Complete list of\
+    \ all agents (21 total after this sprint)\n- Agent categorization:\n  * Core (coordinator,\
+    \ vibey-manager)\n  * Planning (sprint-planning, researcher)\n  * Development\
+    \ (web-developer, backend-engineer, frontend-engineer, ml-engineer, database-specialist)\n\
+    \  * Quality (security-reviewer, performance-engineer, observability-engineer,\
+    \ test-engineer, infrastructure-engineer)\n  * Documentation (documentation-engineer/docs-writer,\
+    \ diagram-designer, git-committer)\n  * Architecture (architecture-agent)\n- Trigger\
+    \ patterns for each\n- When to use which agent\n- Agent orchestration patterns\n\
+    - Examples of agent collaboration\n"
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: docs-writer
+  priority: medium
+  complexity: low
+  estimated_tokens: 4000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-009
+    target_status: completed
+    reason: Need final agent list
+    optional: false
+  blocked_by: []

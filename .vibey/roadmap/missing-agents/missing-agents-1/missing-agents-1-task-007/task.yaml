@@ -1,0 +1,53 @@
+task:
+  id: missing-agents-1-task-007
+  title: Implement database-specialist agent
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Create framework/agents/development/database-specialist.md (NEW agent)
+
+
+    Responsibilities:
+
+    - Database schema design
+
+    - Query optimization
+
+    - Migration scripts
+
+    - Data modeling
+
+    - Index design
+
+
+    Trigger Patterns:
+
+    - "Design database for..."
+
+    - "Optimize query..."
+
+    - "Create migration for..."
+
+
+    Template: Based on backend-engineer but database-focused
+
+    Narrower scope, more specialized
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: low
+  complexity: medium
+  estimated_tokens: 12000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-005
+    target_status: completed
+    reason: Should follow backend-engineer pattern
+    optional: true
+  blocked_by: []

@@ -1,0 +1,39 @@
+sprint:
+  id: infrastructure-fixes-1
+  name: Critical Infrastructure Fixes
+  track_id: infrastructure-fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 1
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 1
+    completion_percent: 7
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  metadata:
+    last_updated: '2025-11-10T10:00:00+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

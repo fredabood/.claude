@@ -1,0 +1,85 @@
+task:
+  id: missing-agents-1-task-001
+  title: Implement test-engineer agent
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Create framework/agents/quality/test-engineer.md (NEW agent)
+
+    PRIORITY: CRITICAL - referenced in 67 files
+
+
+    Responsibilities:
+
+    - Write unit tests (pytest, jest, etc.)
+
+    - Write integration tests
+
+    - Write E2E tests
+
+    - Calculate test coverage
+
+    - Identify untested code paths
+
+    - Create test fixtures and mocks
+
+    - Review test quality
+
+
+    Trigger Patterns:
+
+    - "Write tests for..."
+
+    - "Increase test coverage"
+
+    - "Add unit tests"
+
+    - "Create integration tests"
+
+
+    Inputs:
+
+    - Code to test
+
+    - Test framework (pytest, jest, mocha, etc.)
+
+    - Coverage target
+
+
+    Outputs:
+
+    - Test files with assertions
+
+    - Test fixtures
+
+    - Coverage report
+
+    - Handoff to code reviewer
+
+
+    Quality Criteria:
+
+    - Tests pass
+
+    - Coverage meets threshold
+
+    - Tests are maintainable
+
+    - Edge cases covered
+
+
+    Template: Based on existing quality agents (security-reviewer, performance-engineer)
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  complexity: high
+  estimated_tokens: 20000
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []

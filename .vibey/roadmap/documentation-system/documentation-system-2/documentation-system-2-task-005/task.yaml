@@ -40,11 +40,11 @@ task:
     - Errors don''t block state changes
 
     '
-  status: completed
+  status: not_started
   blocked: false
   created: '2025-11-09T21:29:48.423978+00:00'
-  started: '2025-11-10T00:22:06.787926+00:00'
-  completed: '2025-11-10T02:07:07.649747+00:00'
+  started: null
+  completed: null
   assigned_agent: web-developer
   priority: medium
   phase_label: null
@@ -60,8 +60,6 @@ task:
     reason: Required prerequisite
   blocks: []
   blocked_by: []
-  depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:

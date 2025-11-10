@@ -1,0 +1,25 @@
+task:
+  id: mcp-server-2-task-006
+  title: Fix import issues and run tests
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Fix roadmap-lib imports, create symlink, run pytest with 51 passing
+    tests
+  created: '2025-11-10T20:15:00+00:00'
+  started: '2025-11-10T20:20:00+00:00'
+  completed: '2025-11-10T21:00:00+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  complexity: high
+  estimated_tokens: 6000
+  actual_tokens: 6800
+  dependencies:
+  - type: task
+    target_id: mcp-server-2-task-005
+    target_status: completed
+    reason: Need tests created before fixing
+    optional: false
+  blocked_by: []

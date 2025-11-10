@@ -1,0 +1,53 @@
+task:
+  id: missing-agents-1-task-008
+  title: Implement infrastructure-engineer agent
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Create framework/agents/quality/infrastructure-engineer.md (NEW agent)
+
+
+    Responsibilities:
+
+    - IaC (Terraform, Pulumi, CloudFormation)
+
+    - Container orchestration (Kubernetes, Docker)
+
+    - CI/CD pipelines
+
+    - Monitoring setup
+
+    - Infrastructure security
+
+
+    Trigger Patterns:
+
+    - "Set up infrastructure for..."
+
+    - "Create Terraform for..."
+
+    - "Deploy to Kubernetes..."
+
+
+    Template: Based on observability-engineer but infrastructure-focused
+
+    Similar to DevOps/SRE role
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: low
+  complexity: medium
+  estimated_tokens: 12000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-001
+    target_status: completed
+    reason: Follow pattern from critical agents
+    optional: true
+  blocked_by: []

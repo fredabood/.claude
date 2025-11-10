@@ -1,0 +1,97 @@
+task:
+  id: missing-agents-1-task-009
+  title: Update all agent references
+  sprint_id: missing-agents-1
+  track_id: missing-agents
+  task_type: development
+  status: not_started
+  blocked: false
+  description: 'Update all files that reference agent names
+
+    - Search all files for agent name references
+
+    - Update to correct agent names
+
+    - Fix workflows that reference non-existent agents
+
+    - Update roadmap tracks
+
+    - Update implementation plans
+
+
+    Files to Update:
+
+    - All workflow files (16 files)
+
+    - All roadmap track files (14 files)
+
+    - Implementation plans
+
+    - Documentation
+
+
+    Ensure consistency:
+
+    - test-engineer (not test-agent, testing-engineer, etc.)
+
+    - docs-writer (alias for documentation-engineer)
+
+    - security-auditor (alias for security-reviewer)
+
+    - architecture-agent
+
+    - backend-engineer, frontend-engineer
+
+    - database-specialist, infrastructure-engineer
+
+    '
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  complexity: medium
+  estimated_tokens: 16000
+  actual_tokens: null
+  dependencies:
+  - type: task
+    target_id: missing-agents-1-task-001
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-002
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-003
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-004
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-005
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-006
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-007
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  - type: task
+    target_id: missing-agents-1-task-008
+    target_status: completed
+    reason: Need all agents created first
+    optional: false
+  blocked_by: []

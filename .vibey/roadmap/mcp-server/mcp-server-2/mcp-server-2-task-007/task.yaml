@@ -1,0 +1,24 @@
+task:
+  id: mcp-server-2-task-007
+  title: Testing documentation
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Create comprehensive testing guide (README.md) and testing summary
+  created: '2025-11-10T20:15:00+00:00'
+  started: '2025-11-10T21:00:00+00:00'
+  completed: '2025-11-10T21:15:00+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  complexity: low
+  estimated_tokens: 4000
+  actual_tokens: 3800
+  dependencies:
+  - type: task
+    target_id: mcp-server-2-task-006
+    target_status: completed
+    reason: Need working tests to document
+    optional: false
+  blocked_by: []

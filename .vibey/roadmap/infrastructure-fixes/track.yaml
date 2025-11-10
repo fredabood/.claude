@@ -1,0 +1,156 @@
+track:
+  id: infrastructure-fixes
+  name: Critical Infrastructure Fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: critical
+  created: '2025-11-10T10:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    sprints_total: 1
+    sprints_completed: 0
+    tasks_total: 13
+    tasks_completed: 1
+    completion_percent: 7
+  sprints:
+  - id: infrastructure-fixes-1
+    name: Critical Infrastructure Fixes
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 13
+    started: null
+  dependencies: []
+  blocks:
+  - type: track
+    target_id: directory-migration
+    at_status: not_started
+    reason: Must fix roadmap integration before migrating directories
+  - type: track
+    target_id: mcp-server
+    at_status: not_started
+    reason: Need working roadmap system before building MCP server
+  - type: track
+    target_id: goose-port
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: aider-port
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: continue-port
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: windsurf-port
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: jetbrains-port
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Platform-agnostic foundation depends on functional infrastructure
+  - type: track
+    target_id: missing-agents
+    at_status: not_started
+    reason: Can run in parallel but foundation should be solid first
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - directory-migration
+  - mcp-server
+  - goose-port
+  - aider-port
+  - continue-port
+  - windsurf-port
+  - jetbrains-port
+  - multi-platform
+  - missing-agents
+  quality_gates:
+  - name: Roadmap CLI Functionality
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 15+ roadmap CLI commands work without errors
+    score: null
+  - name: /vibey Integration
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All /vibey commands properly integrate with roadmap system
+    score: null
+  - name: Status Accuracy
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All track statuses match actual implementation (0 discrepancies)
+    score: null
+  - name: Backward Compatibility
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Existing projects continue to work after fixes
+    score: null
+  assigned_agents:
+  - coordinator
+  - web-developer
+  - test-engineer
+  deliverables:
+  - Fixed roadmap CLI (no import errors)
+  - Roadmap integrated into /vibey deployment
+  - Roadmap integrated into /vibey plan
+  - Roadmap integrated into /vibey code
+  - Updated Vibey Manager with roadmap commands
+  - Corrected track statuses (roadmap-integration, core-framework-2, roadmap-system)
+  - Migration tool for existing projects
+  - Comprehensive integration tests
+  - Updated documentation
+  strategic_value:
+  - 'Unblocks Everything: This is the #1 blocker preventing users from accessing roadmap
+    system'
+  - 'Fixes Critical Gaps: Roadmap system built but broken, integration documented
+    but missing'
+  - 'Enables Foundation: Directory migration and platform expansion depend on this'
+  - 'Restores Trust: Status accuracy prevents documentation lies'
+  - 'Quick Win: 2 weeks to unlock months of planned work'
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-10T10:00:00+00:00'
+    design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
+    implementation_plan: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
+    notes: "CRITICAL BLOCKER - MUST BE COMPLETED FIRST\n\nThis track fixes the three\
+      \ most critical issues preventing users from\naccessing existing functionality:\n\
+      \n1. **Roadmap CLI Import Error** (CRITICAL)\n   - Problem: ImportError in framework/scripts/roadmap-lib/cache.py:23\n\
+      \   - Impact: System exists but completely unusable\n   - Fix: Convert relative\
+      \ imports to absolute imports\n   - Effort: 18 hours (Phase 1)\n\n2. **Roadmap\
+      \ Integration Missing** (CRITICAL)\n   - Problem: Roadmap system not integrated\
+      \ into /vibey commands\n   - Impact: Users can't access roadmap features\n \
+      \  - Fix: Update vibey.md, vibey-plan.md, vibey-code.md, vibey-manager.md\n\
+      \   - Effort: 40 hours (Phase 2)\n\n3. **Status Mismatches** (HIGH)\n   - Problem:\
+      \ Tracks marked \"completed\" or \"production_ready\" with 0% implementation\n\
+      \   - Examples:\n     * roadmap-integration: claims 100%, actually 0%\n    \
+      \ * core-framework-2: claims \"production_gate_check\", not started\n   - Impact:\
+      \ Documentation lies, users confused\n   - Fix: Audit all tracks, correct statuses\n\
+      \   - Effort: 10 hours (Phase 4)\n\nIMPLEMENTATION APPROACH:\n\nPhase 1: Fix\
+      \ Roadmap CLI (Days 1-3, 18 hours)\n- Task 001: Debug and fix import error (8h)\n\
+      - Task 002: Create wrapper script (4h)\n- Task 003: Add CLI tests (6h)\n\nPhase\
+      \ 2: Integrate Roadmap (Days 4-7, 40 hours)\n- Task 004: Update /vibey deployment\
+      \ (8h)\n- Task 005: Update /vibey plan (12h)\n- Task 006: Update /vibey code\
+      \ (12h)\n- Task 007: Add migration tool (8h)\n\nPhase 3: Update Vibey Manager\
+      \ (Days 8-9, 14 hours)\n- Task 008: Add roadmap status commands (10h)\n- Task\
+      \ 009: Create examples (4h)\n\nPhase 4: Correct Statuses (Day 10, 10 hours)\n\
+      - Task 010: Audit all track statuses (4h)\n- Task 011: Correct roadmap-integration\
+      \ (2h)\n- Task 012: Correct core-framework-2 (2h)\n- Task 013: Update roadmap-system\
+      \ (2h)\n\nSUCCESS CRITERIA:\n- ✅ Roadmap CLI runs without errors\n- ✅ All 15+\
+      \ roadmap commands work\n- ✅ /vibey deployment initializes roadmap\n- ✅ /vibey\
+      \ plan creates roadmap sprint entries\n- ✅ /vibey code updates roadmap progress\n\
+      - ✅ Vibey Manager has roadmap commands\n- ✅ Track statuses match reality\n\n\
+      BLOCKS ALL OTHER WORK:\nThis track must be completed before any other gap closure\
+      \ work can begin.\nThe entire multi-platform expansion strategy depends on having\
+      \ a functional\nroadmap system integrated into user workflows.\n"

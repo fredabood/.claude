@@ -1,0 +1,24 @@
+task:
+  id: mcp-server-2-task-004
+  title: Server integration & tool registration
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Update server.py and tools/__init__.py to register new tools
+  created: '2025-11-10T18:00:00+00:00'
+  started: '2025-11-10T19:30:00+00:00'
+  completed: '2025-11-10T19:40:00+00:00'
+  assigned_agent: web-developer
+  priority: high
+  complexity: low
+  estimated_tokens: 1000
+  actual_tokens: 900
+  dependencies:
+  - type: task
+    target_id: mcp-server-2-task-003
+    target_status: completed
+    reason: Need adapter methods before registration
+    optional: false
+  blocked_by: []

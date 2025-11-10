@@ -36,6 +36,16 @@ track:
     started: null
   dependencies:
   - type: track
+    target_id: testing-system
+    target_status: completed
+    reason: Must pass comprehensive testing before platform expansion
+    optional: false
+  - type: track
+    target_id: claude-port
+    target_status: completed
+    reason: Claude Code must be validated as reference implementation
+    optional: false
+  - type: track
     target_id: windsurf-port
     target_status: completed
     reason: Build on IDE adapter patterns
@@ -43,6 +53,18 @@ track:
   blocks: []
   blocked_by: []
   depends_on:
+  - blocker_id: testing-system
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:00:00+00:00'
+  - blocker_id: claude-port
+    blocker_type: track
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T03:30:00+00:00'
   - blocker_id: goose-port
     current_status: not_started
     last_checked: '2025-11-09T21:40:22.284163+00:00'
@@ -51,6 +73,13 @@ track:
     blocks_transition_to: in_progress
   depended_on_by: []
   quality_gates:
+  - name: Comprehensive Testing
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All journey tests pass, platform deployment tests pass, >95% platform
+      parity
+    score: null
   - name: MCP Server Integration
     threshold: 95
     blocking: true

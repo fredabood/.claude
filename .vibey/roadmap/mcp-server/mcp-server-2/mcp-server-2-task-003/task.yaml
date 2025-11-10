@@ -1,0 +1,30 @@
+task:
+  id: mcp-server-2-task-003
+  title: Adapter enhancements (5 methods)
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Add complete_sprint, refresh_progress, list_blockers, list_dependencies,
+    get_roadmap_status
+  created: '2025-11-10T18:00:00+00:00'
+  started: '2025-11-10T19:15:00+00:00'
+  completed: '2025-11-10T19:30:00+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  complexity: medium
+  estimated_tokens: 4000
+  actual_tokens: 4100
+  dependencies:
+  - type: task
+    target_id: mcp-server-2-task-001
+    target_status: completed
+    reason: Tools call adapter methods
+    optional: false
+  - type: task
+    target_id: mcp-server-2-task-002
+    target_status: completed
+    reason: Tools call adapter methods
+    optional: false
+  blocked_by: []

@@ -1,0 +1,20 @@
+task:
+  id: mcp-server-2-task-001
+  title: Sprint management tools (4 tools)
+  sprint_id: mcp-server-2
+  track_id: mcp-server
+  task_type: development
+  status: completed
+  blocked: false
+  description: Implement vibey_start_sprint, vibey_complete_sprint, vibey_query_sprint,
+    vibey_refresh_progress
+  created: '2025-11-10T18:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-10T18:45:00+00:00'
+  assigned_agent: web-developer
+  priority: high
+  complexity: medium
+  estimated_tokens: 5000
+  actual_tokens: 5300
+  dependencies: []
+  blocked_by: []

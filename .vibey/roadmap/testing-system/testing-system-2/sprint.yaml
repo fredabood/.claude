@@ -1,0 +1,54 @@
+sprint:
+  id: testing-system-2
+  name: Journey Integration Tests
+  track_id: testing-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-10T04:30:00+00:00'
+  started: '2025-11-10T05:00:00+00:00'
+  completion_gate_check_at: '2025-11-10T07:00:00+00:00'
+  completed: '2025-11-10T07:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 10
+    development_tasks_completed: 10
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 10
+    tasks_completed: 10
+    completion_percent: 100
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - type: sprint
+    target_id: testing-system-1
+    reason: Requires test framework infrastructure from Sprint 1
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - 60 integration tests for 7 user journeys
+  - Journey 1: First-Time Setup (10 tests)
+  - Journey 2: Sprint Planning (10 tests)
+  - Journey 3: Feature Development (10 tests)
+  - Journey 4: Quality Assurance (8 tests)
+  - Journey 5: Framework Management (7 tests)
+  - Journey 6: Multi-Platform (8 tests)
+  - Journey 7: Roadmap-Driven (7 tests)
+  - State validation for complete workflows
+  - Git history validation for journeys
+  - Success metrics tracking per journey
+  - Integration test documentation
+  metadata:
+    last_updated: '2025-11-10T05:00:00+00:00'
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: 32000
+    actual_tokens: null
+    agents_used: null

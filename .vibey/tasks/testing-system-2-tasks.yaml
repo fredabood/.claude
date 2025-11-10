@@ -1,0 +1,291 @@
+sprint_id: testing-system-2
+tasks:
+- id: testing-system-2-task-001
+  title: Write Journey 1 integration tests (First-Time Setup)
+  status: not_started
+  priority: critical
+  estimated_tokens: 5000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  - web-developer
+  dependencies: []
+  blocked_by: []
+  description: |
+    Write 10 integration tests for Journey 1: First-Time Setup
+    - Test complete Vibey initialization workflow
+    - Test project type detection and configuration
+    - Test .claude/ directory structure creation
+    - Test CLAUDE.md generation with correct content
+    - Test project-config.yaml generation
+    - Test agent/workflow deployment
+    - Validate repository state at each step
+    - Track success metrics (setup_completion_rate, avg_setup_time, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey1_first_time_setup.py created
+  - 10 integration tests written and passing
+  - State validation at each journey step
+  - Success metrics tracked
+  - All tests use RepoBuilder and StateValidator utilities
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-002
+  title: Write Journey 2 integration tests (Sprint Planning)
+  status: not_started
+  priority: critical
+  estimated_tokens: 5000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-001
+  blocked_by: []
+  description: |
+    Write 10 integration tests for Journey 2: Sprint Planning
+    - Test sprint plan creation workflow
+    - Test task breakdown and estimation
+    - Test quality gate configuration
+    - Test sprint state file generation
+    - Test agent assignment
+    - Validate sprint plan structure
+    - Track success metrics (sprint_completion_rate, quality_gate_pass_rate, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey2_sprint_planning.py created
+  - 10 integration tests written and passing
+  - Sprint planning workflow validated
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-003
+  title: Write Journey 3 integration tests (Feature Development)
+  status: not_started
+  priority: critical
+  estimated_tokens: 5000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  - web-developer
+  dependencies:
+  - testing-system-2-task-002
+  blocked_by: []
+  description: |
+    Write 10 integration tests for Journey 3: Feature Development
+    - Test single feature development workflow
+    - Test code implementation and review
+    - Test git commit creation
+    - Test handoff between agents
+    - Test sprint state updates
+    - Validate code quality and completeness
+    - Track success metrics (feature_completion_rate, code_quality_score, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey3_feature_development.py created
+  - 10 integration tests written and passing
+  - Feature development workflow validated
+  - Git history validated
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-004
+  title: Write Journey 4 integration tests (Quality Assurance)
+  status: not_started
+  priority: high
+  estimated_tokens: 4000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-003
+  blocked_by: []
+  description: |
+    Write 8 integration tests for Journey 4: Quality Assurance
+    - Test quality gate execution
+    - Test security audit workflow
+    - Test performance audit workflow
+    - Test logging audit workflow
+    - Test documentation audit workflow
+    - Validate audit reports
+    - Track success metrics (audit_pass_rate, issue_detection_rate, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey4_quality_assurance.py created
+  - 8 integration tests written and passing
+  - All quality gate types tested
+  - Audit reports validated
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-005
+  title: Write Journey 5 integration tests (Framework Management)
+  status: not_started
+  priority: high
+  estimated_tokens: 3500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-004
+  blocked_by: []
+  description: |
+    Write 7 integration tests for Journey 5: Framework Management
+    - Test framework configuration updates
+    - Test orchestration mode switching
+    - Test quality gate configuration
+    - Test agent enablement/disablement
+    - Test tech stack updates
+    - Validate config file changes
+    - Track success metrics (config_accuracy, update_success_rate, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey5_framework_management.py created
+  - 7 integration tests written and passing
+  - Framework management workflows validated
+  - Config updates verified
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-006
+  title: Write Journey 6 integration tests (Multi-Platform)
+  status: not_started
+  priority: high
+  estimated_tokens: 4000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-005
+  blocked_by: []
+  description: |
+    Write 8 integration tests for Journey 6: Multi-Platform
+    - Test platform detection
+    - Test platform-specific deployment
+    - Test agent equivalence across platforms
+    - Test workflow equivalence across platforms
+    - Validate platform parity
+    - Track success metrics (deployment_success_rate, agent_equivalence, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey6_multi_platform.py created
+  - 8 integration tests written and passing
+  - Platform detection validated
+  - Platform parity framework tested
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-007
+  title: Write Journey 7 integration tests (Roadmap-Driven)
+  status: not_started
+  priority: high
+  estimated_tokens: 3500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-006
+  blocked_by: []
+  description: |
+    Write 7 integration tests for Journey 7: Roadmap-Driven Development
+    - Test roadmap initialization
+    - Test track creation and management
+    - Test sprint creation from roadmap
+    - Test task progression
+    - Test status propagation (track → sprint → task)
+    - Validate roadmap state files
+    - Track success metrics (roadmap_accuracy, status_sync_rate, etc.)
+  acceptance_criteria:
+  - tests/integration/test_journey7_roadmap_driven.py created
+  - 7 integration tests written and passing
+  - Roadmap workflows validated
+  - Status propagation tested
+  - Success metrics tracked
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-008
+  title: Create journey test fixtures and expected states
+  status: not_started
+  priority: medium
+  estimated_tokens: 2000
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-007
+  blocked_by: []
+  description: |
+    Create test fixtures for journey validation:
+    - Expected git commit sequences for each journey
+    - Expected state transitions for each journey
+    - Success metric thresholds per journey
+    - Journey completion criteria definitions
+  acceptance_criteria:
+  - tests/fixtures/git-histories/ created with journey patterns
+  - tests/fixtures/expected-states/ updated with journey states
+  - Success metric thresholds defined
+  - Journey fixtures documented
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-009
+  title: Validate all journey tests and coverage
+  status: not_started
+  priority: medium
+  estimated_tokens: 1500
+  actual_tokens: null
+  assigned_agents:
+  - test-engineer
+  dependencies:
+  - testing-system-2-task-008
+  blocked_by: []
+  description: |
+    Run and validate all integration tests:
+    - Run all 60 integration tests
+    - Verify >90% code coverage maintained
+    - Ensure all success metrics tracked
+    - Validate test execution time reasonable
+    - Fix any failing tests
+  acceptance_criteria:
+  - All 60 integration tests passing
+  - >90% code coverage maintained
+  - All success metrics tracked correctly
+  - Test execution time <5 minutes
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null
+
+- id: testing-system-2-task-010
+  title: Document integration testing and update guides
+  status: not_started
+  priority: medium
+  estimated_tokens: 2000
+  actual_tokens: null
+  assigned_agents:
+  - docs-writer
+  dependencies:
+  - testing-system-2-task-009
+  blocked_by: []
+  description: |
+    Update testing documentation with integration test information:
+    - Update docs/testing/TESTING_GUIDE.md with integration test section
+    - Update tests/README.md with journey test information
+    - Document how to run journey-specific tests
+    - Document success metrics per journey
+    - Provide examples of adding new journey tests
+  acceptance_criteria:
+  - TESTING_GUIDE.md updated with integration test section
+  - tests/README.md updated
+  - Journey test examples provided
+  - Success metrics documented
+  created: '2025-11-10T05:00:00+00:00'
+  started: null
+  completed: null

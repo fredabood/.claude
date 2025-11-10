@@ -1,0 +1,35 @@
+# Git History Pattern for Journey 2: Sprint Planning
+#
+# Expected commit sequence when creating and planning a sprint
+
+expected_commits:
+  - pattern: "^(feat|docs): (create|add) sprint (\\d+|plan)"
+    description: "Sprint plan creation"
+    example: "feat: create Sprint 1 plan for user authentication"
+
+  - pattern: "^chore: (add|define) (tasks|task breakdown)"
+    description: "Task definitions added"
+    example: "chore: add task breakdown with estimates"
+
+  - pattern: "^chore: (configure|enable) quality gates"
+    description: "Quality gate configuration"
+    example: "chore: configure quality gates for sprint"
+
+commit_count:
+  min: 1
+  max: 4
+  typical: 2
+
+file_changes:
+  required:
+    - ".claude/sprints/*/plan.md"
+  optional:
+    - ".claude/sprints/*/tasks.yaml"
+    - ".claude/sprints/*/quality-gates.yaml"
+    - ".claude/sprints/*/state.yaml"
+
+success_criteria:
+  - "Sprint plan contains Goals, Tasks, Success Criteria"
+  - "Tasks have time/token estimates"
+  - "Quality gates configured if enabled"
+  - "Conventional commit format followed"

@@ -197,6 +197,41 @@ pytest -m "unit or integration"
 pytest -m "not slow"
 ```
 
+### Running Integration Tests
+
+Integration tests validate complete user journeys:
+
+```bash
+# Run all integration tests
+pytest -m integration
+
+# Run specific journey
+pytest tests/integration/test_journey1_first_time_setup.py
+
+# Run Journey 1-3 (core workflows)
+pytest tests/integration/test_journey1*.py tests/integration/test_journey2*.py tests/integration/test_journey3*.py
+
+# Run with verbose output to see each test
+pytest -m integration -v
+
+# Run integration tests with coverage
+pytest -m integration --cov=framework --cov-report=html
+```
+
+**Journey Tests:**
+- **Journey 1:** First-Time Setup (10 tests) - Vibey initialization workflow
+- **Journey 2:** Sprint Planning (10 tests) - Sprint creation and planning
+- **Journey 3:** Feature Development (10 tests) - Code implementation and review
+- **Journey 4:** Quality Assurance (8 tests) - Quality gate execution
+- **Journey 5:** Framework Management (7 tests) - Configuration updates
+- **Journey 6:** Multi-Platform (8 tests) - Platform parity validation
+- **Journey 7:** Roadmap-Driven (7 tests) - Roadmap system workflows
+
+**Expected Runtime:**
+- Unit tests: <30 seconds
+- Integration tests: 1-3 minutes
+- All tests: 2-5 minutes
+
 ### Parallel Execution
 
 Speed up test execution with parallel workers:
@@ -207,6 +242,9 @@ pytest -n auto
 
 # Use specific number of workers
 pytest -n 4
+
+# Run integration tests in parallel
+pytest -m integration -n 4
 ```
 
 ### Coverage Reporting

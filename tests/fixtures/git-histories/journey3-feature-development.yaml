@@ -1,0 +1,44 @@
+# Git History Pattern for Journey 3: Feature Development
+#
+# Expected commit sequence when developing a new feature
+
+expected_commits:
+  - pattern: "^feat: (implement|add|create) .+"
+    description: "Feature implementation"
+    example: "feat: implement user authentication with JWT"
+
+  - pattern: "^test: (add|implement) (tests|unit tests) for .+"
+    description: "Test creation"
+    example: "test: add unit tests for authentication"
+
+  - pattern: "^fix: (fix|resolve|correct) .+"
+    description: "Bug fix or revision"
+    example: "fix: add error handling to login endpoint"
+    optional: true
+
+  - pattern: "^docs: (add|update) documentation for .+"
+    description: "Documentation update"
+    example: "docs: add API documentation for auth endpoints"
+    optional: true
+
+commit_count:
+  min: 1
+  max: 10
+  typical: 3
+
+file_changes:
+  required:
+    - "src/**/*"  # Source code changes
+  recommended:
+    - "**/*.test.*"  # Tests
+    - "**/*.spec.*"  # Tests
+  optional:
+    - "docs/**/*"
+    - "README.md"
+
+success_criteria:
+  - "At least one feat: commit"
+  - "Tests added for new features"
+  - "All commits follow conventional commit format"
+  - "Code review feedback addressed if applicable"
+  - "Sprint state updated to reflect progress"

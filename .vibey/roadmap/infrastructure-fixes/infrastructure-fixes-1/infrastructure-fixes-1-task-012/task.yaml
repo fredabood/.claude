@@ -14,11 +14,11 @@ task:
     - Reference directory-migration track for future work
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-10T18:39:41.800641+00:00'
   assigned_agent: coordinator
   priority: high
   phase_label: null

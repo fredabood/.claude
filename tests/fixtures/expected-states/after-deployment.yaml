@@ -1,0 +1,63 @@
+# Expected repository state after Vibey framework deployment
+
+description: |
+  This file defines the expected state of a repository immediately after
+  Vibey framework has been deployed (after /vibey initialization).
+
+directory_structure:
+  directories:
+    - .claude
+    - .claude/agents
+    - .claude/workflows
+    - .claude/templates
+    - .claude/commands
+
+  files:
+    - .claude/CLAUDE.md
+    - .claude/project-config.yaml
+    - .claude/agents/web-developer.md
+    - .claude/workflows/sprint-planning.md
+    - .claude/commands/vibey.md
+
+file_content_checks:
+  - file: .claude/CLAUDE.md
+    contains:
+      - "VIBEY_FRAMEWORK_MANAGED"
+      - "Project Type:"
+      - "Claude Code Instructions"
+
+  - file: .claude/project-config.yaml
+    contains:
+      - "project:"
+      - "framework:"
+      - "orchestration_mode:"
+      - "agents:"
+
+git_state:
+  has_git: true
+  branch: main
+  clean: false  # After deployment, files are staged but not committed
+
+yaml_validations:
+  - file: .claude/project-config.yaml
+    required_keys:
+      - project
+      - framework
+      - agents
+    key_types:
+      project: dict
+      framework: dict
+      agents: list
+
+success_metrics:
+  deployment_success_rate:
+    threshold: 100
+    unit: percentage
+
+  agent_count:
+    threshold: 12
+    unit: count
+
+  workflow_count:
+    threshold: 16
+    unit: count

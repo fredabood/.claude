@@ -1,0 +1,55 @@
+# Expected repository state after feature completion
+
+description: |
+  This file defines the expected state of a repository after completing
+  a feature development cycle with all quality gates passed.
+
+directory_structure:
+  directories:
+    - .claude
+    - .claude/.vibey
+    - .claude/.vibey/sprints
+    - tests
+
+  files:
+    - .claude/CLAUDE.md
+    - .claude/project-config.yaml
+
+file_content_checks:
+  - file: .claude/CLAUDE.md
+    contains:
+      - "VIBEY_FRAMEWORK_MANAGED"
+      - "Current Sprint:"
+
+git_state:
+  has_git: true
+  branch: main
+  clean: true  # Feature complete means all changes committed
+
+commit_validations:
+  - pattern: "^(feat|fix):"
+    description: Feature or fix commits present
+
+  - pattern: "test:"
+    description: Test commits present
+
+success_metrics:
+  quality_gate_pass_rate:
+    threshold: 100
+    unit: percentage
+
+  test_coverage:
+    threshold: 80
+    unit: percentage
+
+  security_audit_pass:
+    threshold: 100
+    unit: percentage
+
+  feature_completion_time:
+    threshold: 28800  # 8 hours max
+    unit: seconds
+
+  commit_count:
+    threshold: 3
+    unit: count

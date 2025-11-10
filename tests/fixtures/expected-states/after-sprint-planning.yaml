@@ -1,0 +1,54 @@
+# Expected repository state after sprint planning
+
+description: |
+  This file defines the expected state of a repository after completing
+  sprint planning (creating a sprint plan and initializing sprint state).
+
+directory_structure:
+  directories:
+    - .claude
+    - .claude/.vibey
+    - .claude/.vibey/sprints
+
+  files:
+    - .claude/CLAUDE.md
+    - .claude/project-config.yaml
+    - .claude/.vibey/sprint-plan.md
+
+file_content_checks:
+  - file: .claude/.vibey/sprint-plan.md
+    contains:
+      - "Sprint Goal:"
+      - "Tasks:"
+      - "Success Criteria:"
+      - "Duration:"
+
+  - file: .claude/CLAUDE.md
+    contains:
+      - "Current Sprint:"
+      - "Sprint Goal:"
+
+git_state:
+  has_git: true
+  branch: main
+  clean: false
+
+yaml_validations:
+  - file: .claude/project-config.yaml
+    required_keys:
+      - project
+      - framework
+      - agents
+
+success_metrics:
+  sprint_creation_time:
+    threshold: 600  # 10 minutes max
+    unit: seconds
+
+  task_count:
+    threshold: 3
+    unit: count
+
+  sprint_plan_accuracy:
+    threshold: 95
+    unit: percentage

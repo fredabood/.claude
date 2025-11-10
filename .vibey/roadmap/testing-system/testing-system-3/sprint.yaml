@@ -1,0 +1,52 @@
+sprint:
+  id: testing-system-3
+  name: E2E Tests & Platform Tests
+  track_id: testing-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-10T07:00:00+00:00'
+  started: '2025-11-10T07:30:00+00:00'
+  completion_gate_check_at: '2025-11-10T09:30:00+00:00'
+  completed: '2025-11-10T09:30:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 10
+    development_tasks_completed: 10
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 10
+    tasks_completed: 10
+    completion_percent: 100
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - type: sprint
+    target_id: testing-system-2
+    reason: Requires integration tests from Sprint 2
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - 20 E2E tests for complete workflows
+  - Complete sprint workflow tests (init → plan → execute → review)
+  - Quality gate enforcement tests
+  - Multi-agent orchestration tests
+  - Platform-specific test suites (Claude Code, Goose)
+  - Platform parity validation (>95% threshold)
+  - CI/CD pipeline (GitHub Actions)
+  - Pre-commit hooks configuration
+  - Final coverage validation (>90%)
+  - Comprehensive test documentation
+  metadata:
+    last_updated: '2025-11-10T07:30:00+00:00'
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: 28000
+    actual_tokens: null
+    agents_used: null

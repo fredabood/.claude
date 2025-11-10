@@ -230,7 +230,55 @@ pytest -m integration --cov=framework --cov-report=html
 **Expected Runtime:**
 - Unit tests: <30 seconds
 - Integration tests: 1-3 minutes
-- All tests: 2-5 minutes
+- E2E tests: 2-4 minutes
+- Platform tests: <1 minute
+- All tests: 4-8 minutes
+
+### Running E2E Tests
+
+End-to-end tests validate complete workflows:
+
+```bash
+# Run all E2E tests
+pytest -m e2e
+
+# Run specific E2E test file
+pytest tests/e2e/test_complete_sprint.py
+
+# Run E2E tests with verbose output
+pytest -m e2e -v
+
+# Skip slow E2E tests
+pytest -m "e2e and not slow"
+```
+
+**E2E Tests:**
+- **Complete Sprint** (7 tests) - Full sprint lifecycle
+- **Quality Gates** (7 tests) - Gate enforcement workflows
+- **Multi-Agent** (6 tests) - Agent orchestration
+
+### Running Platform Tests
+
+Platform-specific tests validate platform features and parity:
+
+```bash
+# Run all platform tests
+pytest -m platform
+
+# Run Claude Code tests
+pytest tests/platform/test_claude_code.py
+
+# Run platform parity validation
+pytest tests/platform/test_platform_parity.py
+
+# Check platform parity score
+pytest tests/platform/test_platform_parity.py::TestPlatformParity::test_05_overall_platform_parity_score -v
+```
+
+**Platform Tests:**
+- **Claude Code** (8 tests) - Platform-specific features
+- **Goose** (6 tests) - Simulated Goose platform
+- **Platform Parity** (8 tests) - Cross-platform validation (>95% threshold)
 
 ### Parallel Execution
 
@@ -476,16 +524,33 @@ pytest --cov=framework.roadmap --cov-report=term-missing tests/unit/test_roadmap
 
 ### GitHub Actions Workflow
 
-Tests run automatically on:
-- Pull requests
-- Pushes to main branch
-- Daily at midnight UTC
+The test suite runs automatically via GitHub Actions on:
+- **Pull requests** to main branch
+- **Pushes** to main branch
+- **Daily schedule** at midnight UTC
 
-See `.github/workflows/test.yml` (to be created).
+**Test Matrix:**
+- Python versions: 3.8, 3.9, 3.10, 3.11
+- Operating systems: Ubuntu, macOS
+- Test suites: Unit, Integration, E2E, Platform
+
+**Workflow jobs:**
+1. **Test** - Run full test suite on matrix
+2. **Coverage Check** - Enforce >90% threshold
+3. **Lint** - Code quality checks (Black, isort, Flake8)
+4. **Security** - Bandit security scan
+5. **Summary** - Test results summary
+
+**View the workflow:** `.github/workflows/test.yml`
+
+**Artifacts uploaded:**
+- Coverage reports (HTML)
+- Test results (XML)
+- Retention: 30 days
 
 ### Pre-commit Hooks
 
-Run tests before committing:
+Run tests and checks before committing:
 
 ```bash
 # Install pre-commit

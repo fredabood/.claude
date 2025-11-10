@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 13
+    tracks_total: 14
     tracks_completed: 6
-    sprints_total: 41
+    sprints_total: 44
     sprints_completed: 19
-    tasks_total: 204
+    tasks_total: 249
     tasks_completed: 143
-    completion_percent: 70
+    completion_percent: 57
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -44,6 +44,10 @@ roadmap:
     priority: critical
   - id: testing-system
     name: Comprehensive Testing & Quality Assurance
+    status: not_started
+    priority: critical
+  - id: directory-migration
+    name: Directory Migration (.claude/ → .vibey/)
     status: not_started
     priority: critical
   - id: claude-port
@@ -680,6 +684,25 @@ roadmap:
     description: Sprint 'Test Framework & Unit Tests' started
     context:
       sprint_id: testing-system-1
+  - timestamp: '2025-11-10T10:00:00+00:00'
+    type: track_added
+    description: 'Added Track: Directory Migration (.claude/ → .vibey/)'
+    context:
+      track_id: directory-migration
+      sprints: 3
+      tasks: 45
+      estimated_duration: 6-8 weeks
+      priority: critical
+      strategic_value: Platform-agnostic architecture foundation - unblocks 6 platform port tracks
+      design_doc: docs/development/DIRECTORY_MIGRATION_PLAN.md
+      blocks:
+      - goose-port
+      - aider-port
+      - continue-port
+      - windsurf-port
+      - jetbrains-port
+      - multi-platform
+      reason: Current .claude/ deployment prevents multi-platform expansion
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'

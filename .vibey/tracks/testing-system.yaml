@@ -2,27 +2,27 @@ track:
   id: testing-system
   name: Comprehensive Testing & Quality Assurance
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-11-10T03:00:00+00:00'
-  started: null
+  started: '2025-11-10T03:16:22.501566+00:00'
   completed: null
   estimated_duration: 6 weeks
   progress:
     sprints_total: 3
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 30
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 10
+    completion_percent: 33
   sprints:
   - id: testing-system-1
     name: Test Framework & Unit Tests
-    status: not_started
+    status: completed
     estimated_duration: 2 weeks
     tasks_count: 10
-    started: null
-    completed: null
+    started: '2025-11-10T03:16:22.501566+00:00'
+    completed: '2025-11-10T04:30:00+00:00'
   - id: testing-system-2
     name: Journey Integration Tests
     status: not_started

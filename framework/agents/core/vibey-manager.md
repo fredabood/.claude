@@ -948,6 +948,494 @@ with open('{}') as f:
 
 Then respond with top 5 recommendations based on priority.
 
+### 6.8 Roadmap Management Examples & FAQ
+
+This section provides complete example workflows for common roadmap management scenarios.
+
+#### Example 1: Starting a New Sprint
+
+**User says:** "I want to start working on the infrastructure-fixes sprint"
+
+**Your response:**
+```markdown
+Let me help you start the infrastructure-fixes sprint. First, let me check its status.
+```
+
+**Actions:**
+```bash
+# Check sprint status
+./framework/scripts/roadmap-cli.sh query --track infrastructure-fixes
+
+# If ready to start, start the sprint
+python3 framework/scripts/roadmap-update.py --start-sprint infrastructure-fixes-1
+
+# Show first tasks
+SPRINT_YAML=$(find .vibey/roadmap -path "*/infrastructure-fixes-1/sprint.yaml" | head -1)
+SPRINT_DIR=$(dirname "$SPRINT_YAML")
+python3 -c "
+import yaml
+from pathlib import Path
+sprint_dir = Path('$SPRINT_DIR')
+tasks = []
+for task_dir in sorted(sprint_dir.glob('*-task-*/')):
+    task_yaml = task_dir / 'task.yaml'
+    if task_yaml.exists():
+        with open(task_yaml) as f:
+            data = yaml.safe_load(f)
+            task = data['task']
+            if task['status'] == 'not_started' and not task.get('blocked'):
+                tasks.append(task)
+                if len(tasks) >= 3:
+                    break
+
+for task in tasks:
+    print(f\"  - {task['id']}: {task['title']}\")
+"
+```
+
+**Then respond:**
+```markdown
+✅ Sprint started! Here are the first 3 tasks ready to work on:
+
+1. infrastructure-fixes-1-task-001: Debug roadmap CLI import error
+2. infrastructure-fixes-1-task-002: Create CLI wrapper script
+3. infrastructure-fixes-1-task-003: Add roadmap CLI tests
+
+Which task would you like to start with?
+```
+
+#### Example 2: Completing a Task
+
+**User says:** "I finished the CLI wrapper script task"
+
+**Your response:**
+```markdown
+Great! Let me mark that task as complete and update the sprint progress.
+```
+
+**Actions:**
+```bash
+# Complete the task
+python3 framework/scripts/roadmap-update.py --complete-task infrastructure-fixes-1-task-002
+
+# Check sprint progress
+SPRINT_YAML=$(find .vibey/roadmap -path "*/infrastructure-fixes-1/sprint.yaml" | head -1)
+TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
+TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
+PROGRESS=$(grep "^  progress_percent:" "$SPRINT_YAML" | sed 's/^  progress_percent: //')
+```
+
+**Then respond:**
+```markdown
+✅ Task completed!
+
+📊 Sprint Progress: $TASKS_COMPLETED/$TASKS_TOTAL tasks ($PROGRESS%)
+
+Next recommended task: infrastructure-fixes-1-task-003 (Add roadmap CLI tests)
+Would you like to start this task?
+```
+
+#### Example 3: Checking What's Blocking Progress
+
+**User says:** "Why aren't we making progress? What's blocking us?"
+
+**Your response:**
+```markdown
+Let me check for blockers across the roadmap.
+```
+
+**Actions:**
+```bash
+# Find blocked tasks
+BLOCKED_COUNT=$(find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    if task.get('blocked'):
+        print(task['id'])
+" \; 2>/dev/null | wc -l)
+
+# Find tasks with unmet dependencies
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    deps = task.get('dependencies', [])
+    if deps and task.get('status') == 'not_started':
+        # Check if dependencies are completed
+        for dep in deps:
+            if dep.get('target_status') == 'completed':
+                print(f\"{task['id']}: Waiting for {dep.get('target_id')} ({dep.get('reason')})\")
+                break
+" \; 2>/dev/null
+```
+
+**Then respond based on findings:**
+```markdown
+📊 Blocker Analysis:
+
+Blocked Tasks: 2
+- goose-port-1-task-001: Blocked by roadmap-integration completion
+- multi-platform-1-task-001: Blocked by goose-port-1 completion
+
+Tasks Waiting on Dependencies: 3
+- infrastructure-fixes-1-task-006: Waiting for task-005 (Needs roadmap integration complete)
+- core-framework-2-task-002: Waiting for task-001 (Needs design complete)
+
+💡 Recommendation: Focus on completing infrastructure-fixes-1-task-005 to unblock task-006 and move the sprint forward.
+```
+
+#### Example 4: Finding Tasks by Topic
+
+**User says:** "Show me all tasks related to testing"
+
+**Your response:**
+```markdown
+Let me search the roadmap for testing-related tasks.
+```
+
+**Actions:**
+```bash
+# Search for "test" in task titles and descriptions
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    title = task.get('title', '').lower()
+    desc = task.get('description', '').lower()
+    if 'test' in title or 'test' in desc:
+        status = task.get('status', 'unknown')
+        print(f\"{task['id']}: {task['title']} ({status})\")
+" \; 2>/dev/null | sort
+```
+
+**Then respond:**
+```markdown
+🔍 Testing-related tasks (5 found):
+
+Completed:
+- infrastructure-fixes-1-task-003: Add roadmap CLI tests (completed)
+- testing-system-1-task-004: Component unit tests (completed)
+
+In Progress:
+- testing-system-1-task-008: Integration test suite (in_progress)
+
+Not Started:
+- testing-system-2-task-001: E2E test framework (not_started)
+- testing-system-2-task-005: Performance test harness (not_started)
+```
+
+#### Example 5: Checking Team Workload
+
+**User says:** "Is the web-developer overloaded? Can they take on more work?"
+
+**Your response:**
+```markdown
+Let me check web-developer's current workload.
+```
+
+**Actions:**
+```bash
+# Count web-developer tasks by status
+find .vibey/roadmap -name "task.yaml" -exec grep -l "assigned_agent: web-developer" {} \; | while read task_file; do
+  python3 -c "
+import yaml
+with open('$task_file') as f:
+    data = yaml.safe_load(f)
+    task = data.get('task', {})
+    print(f\"{task['status']}|{task['id']}: {task['title']}\")
+"
+done | sort | awk -F'|' '
+BEGIN {ip=0; ns=0; c=0}
+/^in_progress/ {ip++; print "  🔄 " $2}
+/^not_started/ {ns++; nslist[ns]=$2}
+/^completed/ {c++}
+END {
+  print ""
+  print "Summary:"
+  print "- In Progress: " ip
+  print "- Pending: " ns
+  print "- Completed: " c
+  print ""
+  if (ns > 0 && ns <= 3) {
+    print "Next pending tasks:"
+    for (i=1; i<=ns && i<=3; i++) print "  ⏸️  " nslist[i]
+  }
+}'
+```
+
+**Then respond:**
+```markdown
+👤 web-developer Workload:
+
+Current Tasks:
+  🔄 infrastructure-fixes-1-task-008: Add roadmap status commands
+
+Summary:
+- In Progress: 1
+- Pending: 2
+- Completed: 12
+
+Next pending tasks:
+  ⏸️  infrastructure-fixes-1-task-009: Create roadmap examples
+  ⏸️  core-framework-2-task-001: Design default CLAUDE.md
+
+💡 Assessment: web-developer has moderate capacity. They can take on 1-2 more tasks without being overloaded.
+```
+
+#### Example 6: Planning Next Sprint
+
+**User says:** "We're almost done with this sprint. What should we work on next?"
+
+**Your response:**
+```markdown
+Let me check sprint completion status and find the next sprint.
+```
+
+**Actions:**
+```bash
+# Find current sprint
+CURRENT_SPRINT=$(find .vibey/roadmap -name "sprint.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    sprint = data.get('sprint', {})
+    if sprint.get('status') == 'in_progress':
+        print(sprint['id'])
+" \; 2>/dev/null | head -1)
+
+# Check completion
+SPRINT_YAML=$(find .vibey/roadmap -path "*/$CURRENT_SPRINT/sprint.yaml" | head -1)
+TASKS_COMPLETED=$(grep "^  tasks_completed:" "$SPRINT_YAML" | sed 's/^  tasks_completed: //')
+TASKS_TOTAL=$(grep "^  tasks_total:" "$SPRINT_YAML" | sed 's/^  tasks_total: //')
+
+# Find next sprint in same track
+TRACK_ID=$(grep "^  track_id:" "$SPRINT_YAML" | sed 's/^  track_id: //')
+TRACK_DIR=$(dirname $(dirname "$SPRINT_YAML"))
+
+# List other sprints in track
+find "$TRACK_DIR" -mindepth 1 -maxdepth 1 -type d ! -name "$CURRENT_SPRINT" -exec basename {} \; | sort
+```
+
+**Then respond:**
+```markdown
+📊 Current Sprint: infrastructure-fixes-1
+Progress: $TASKS_COMPLETED/$TASKS_TOTAL tasks (85%)
+
+✅ Almost complete! Only 2 tasks remaining.
+
+🎯 Next Sprint Options in infrastructure-fixes track:
+- infrastructure-fixes-2: "Migration Tools & Documentation" (not_started)
+  - Focus: Legacy migration, user guides
+  - Estimated: 2 weeks
+  - Dependencies: None (ready to start)
+
+Would you like me to show the tasks for infrastructure-fixes-2?
+```
+
+#### Example 7: Emergency: Unblocking a Critical Task
+
+**User says:** "Task X is blocked but we need it ASAP. How do we unblock it?"
+
+**Your response:**
+```markdown
+Let me check what's blocking this task and see if we can resolve it.
+```
+
+**Actions:**
+```bash
+TASK_ID="infrastructure-fixes-1-task-006"
+TASK_YAML=$(find .vibey/roadmap -path "*/$TASK_ID/task.yaml" | head -1)
+
+# Check dependencies
+python3 -c "
+import yaml
+with open('$TASK_YAML') as f:
+    data = yaml.safe_load(f)
+    task = data['task']
+
+    print(f\"Task: {task['title']}\")
+    print(f\"Status: {task['status']}\")
+    print(f\"Blocked: {task.get('blocked', False)}\")
+    print()
+
+    deps = task.get('dependencies', [])
+    if deps:
+        print('Dependencies:')
+        for dep in deps:
+            target_id = dep.get('target_id')
+            required_status = dep.get('target_status')
+            reason = dep.get('reason')
+
+            # Find dependency status
+            import subprocess
+            result = subprocess.run(
+                ['find', '.vibey/roadmap', '-path', f'*/{target_id}/task.yaml'],
+                capture_output=True, text=True
+            )
+            if result.stdout.strip():
+                dep_file = result.stdout.strip().split('\n')[0]
+                with open(dep_file) as df:
+                    dep_data = yaml.safe_load(df)
+                    dep_task = dep_data['task']
+                    actual_status = dep_task['status']
+
+                    status_icon = '✅' if actual_status == required_status else '⏸️'
+                    print(f\"  {status_icon} {target_id}: {dep_task['title']}\")
+                    print(f\"     Required: {required_status}, Actual: {actual_status}\")
+                    print(f\"     Reason: {reason}\")
+"
+```
+
+**Then respond:**
+```markdown
+🔍 Blocker Analysis for infrastructure-fixes-1-task-006:
+
+Task: Update /vibey code to track roadmap progress
+Status: not_started
+Blocked: False
+
+Dependencies:
+  ⏸️  infrastructure-fixes-1-task-005: Update /vibey plan to create roadmap entries
+     Required: completed, Actual: in_progress
+     Reason: Needs sprint creation working
+
+💡 Solution: Task-005 is almost complete (90% done). Options:
+
+1. **Wait 1-2 hours** for task-005 to complete (RECOMMENDED)
+2. **Parallel work**: Start task-006 with mock data, integrate when task-005 done
+3. **Force unblock** (NOT RECOMMENDED): Remove dependency and refactor later
+
+Which approach would you prefer?
+```
+
+#### Frequently Asked Questions (FAQ)
+
+**Q1: How do I see all sprints across all tracks?**
+```bash
+./framework/scripts/roadmap-cli.sh query --all-tracks
+```
+
+**Q2: How do I find which tasks are ready to start (no blockers)?**
+```bash
+find .vibey/roadmap -name "task.yaml" -exec python3 -c "
+import yaml
+with open('{}') as f:
+    data = yaml.safe_load(f)
+    task = data['task']
+    if task['status'] == 'not_started' and not task.get('blocked') and not task.get('dependencies'):
+        print(f\"{task['id']}: {task['title']}\")
+" \; 2>/dev/null
+```
+
+**Q3: Can I move a task to a different sprint?**
+```bash
+# Edit the task's YAML file manually
+TASK_YAML=$(find .vibey/roadmap -path "*/{task-id}/task.yaml" | head -1)
+# Change sprint_id field to new sprint ID
+# Then update sprint task counts accordingly
+```
+
+**Q4: How do I add a new task to an existing sprint?**
+```bash
+# Use roadmap-create-from-plan.py or manually create task directory
+# Structure: .vibey/roadmap/{track}/{sprint}/{task-id}/task.yaml
+# See existing task.yaml files for required fields
+```
+
+**Q5: What if roadmap-cli.sh is missing?**
+```bash
+# Use Python scripts directly:
+python3 framework/scripts/roadmap-query.py --track {track-id}
+python3 framework/scripts/roadmap-update.py --start-task {task-id}
+```
+
+**Q6: How do I see task history (when started, completed)?**
+```bash
+TASK_YAML=$(find .vibey/roadmap -path "*/{task-id}/task.yaml" | head -1)
+grep -E "started:|completed:" "$TASK_YAML"
+```
+
+**Q7: Can I bulk update multiple tasks?**
+```bash
+# Yes, using bash loops:
+for task_id in task-001 task-002 task-003; do
+  python3 framework/scripts/roadmap-update.py --start-task infrastructure-fixes-1-$task_id
+done
+```
+
+**Q8: How do I see git commits for a task?**
+```bash
+# Tasks track commits in metadata
+TASK_YAML=$(find .vibey/roadmap -path "*/{task-id}/task.yaml" | head -1)
+python3 -c "
+import yaml
+with open('$TASK_YAML') as f:
+    data = yaml.safe_load(f)
+    commits = data['task'].get('commits', [])
+    for commit in commits:
+        print(commit)
+"
+```
+
+**Q9: What's the difference between 'blocked' and 'dependencies'?**
+- **Dependencies**: Required tasks that must complete first (automatic)
+- **Blocked**: External blocker (requires manual resolution, set `blocked: true`)
+
+**Q10: How do I generate a sprint report?**
+```bash
+SPRINT_ID="infrastructure-fixes-1"
+SPRINT_YAML=$(find .vibey/roadmap -path "*/$SPRINT_ID/sprint.yaml" | head -1)
+SPRINT_DIR=$(dirname "$SPRINT_YAML")
+
+echo "=== Sprint Report ==="
+grep "^  name:" "$SPRINT_YAML"
+grep "^  progress_percent:" "$SPRINT_YAML"
+echo ""
+echo "Tasks:"
+python3 -c "
+import yaml
+from pathlib import Path
+sprint_dir = Path('$SPRINT_DIR')
+for task_dir in sorted(sprint_dir.glob('*-task-*/')):
+    task_yaml = task_dir / 'task.yaml'
+    with open(task_yaml) as f:
+        task = yaml.safe_load(f)['task']
+        status_icon = {'completed': '✅', 'in_progress': '🔄', 'not_started': '⏸️'}.get(task['status'], '❓')
+        print(f\"{status_icon} {task['title']}\")
+"
+```
+
+#### Troubleshooting Guide
+
+**Problem: "roadmap-cli.sh: command not found"**
+- Solution: Use full path `./framework/scripts/roadmap-cli.sh` or add to PATH
+- Alternative: Use Python scripts directly
+
+**Problem: "Task file not found for sprint X"**
+- Cause: Sprint may use old flat structure
+- Solution: Run `python3 framework/scripts/migrate-to-hierarchical.py --execute`
+
+**Problem: "Import error: cannot import name X"**
+- Cause: PYTHONPATH not set
+- Solution: Use roadmap-cli.sh wrapper (auto-sets PYTHONPATH)
+- Alternative: `PYTHONPATH=/path/to/repo python3 script.py`
+
+**Problem: Task marked complete but sprint progress not updated**
+- Cause: Manual YAML edit didn't trigger recalculation
+- Solution: Use `roadmap-update.py --complete-task` which auto-updates sprint
+
+**Problem: "Sprint query fails with AttributeError"**
+- Cause: Known issue with description field in query
+- Solution: Read sprint.yaml directly instead of using query
+
+**Problem: Migration fails with "roadmap_id missing"**
+- Cause: Old task files need roadmap_id field
+- Solution: Add `roadmap_id: vibey-framework-v2` to task YAML files
+
 ---
 
 ## 7. Agent Library Management

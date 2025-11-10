@@ -5,8 +5,8 @@ Provides consistent, helpful error messages across all commands.
 """
 
 from typing import List, Optional, Dict
-from .formatting import colorize, Color, bold
-from .help_formatter import CLIHelpFormatter
+from formatting import colorize, Color, bold
+from help_formatter import CLIHelpFormatter
 
 
 class ErrorMessages:
@@ -324,7 +324,7 @@ class WarningMessages:
     @staticmethod
     def deprecated_command(old_command: str, new_command: str) -> str:
         """Warning for deprecated commands."""
-        from .formatting import warning, info
+        from formatting import warning, info
 
         return (
             f"{warning(f'Command {old_command} is deprecated')}\n"
@@ -335,7 +335,7 @@ class WarningMessages:
     @staticmethod
     def large_context_warning(size_kb: float, threshold_kb: float = 200) -> str:
         """Warning when context size is large."""
-        from .formatting import warning
+        from formatting import warning
 
         if size_kb <= threshold_kb:
             return ""
@@ -349,7 +349,7 @@ class WarningMessages:
     @staticmethod
     def stale_cache_warning(last_updated: str) -> str:
         """Warning when cache is stale."""
-        from .formatting import warning
+        from formatting import warning
 
         return (
             f"{warning('Cache may be stale')}\n"
@@ -364,7 +364,7 @@ class SuccessMessages:
     @staticmethod
     def task_completed(task_id: str, task_title: str, unblocked: List[str]) -> str:
         """Success message for task completion."""
-        from .formatting import success, info
+        from formatting import success, info
 
         lines = [
             success(f"Task completed: {task_title}"),
@@ -382,7 +382,7 @@ class SuccessMessages:
     @staticmethod
     def sprint_completed(sprint_id: str, sprint_name: str, stats: Dict[str, any]) -> str:
         """Success message for sprint completion."""
-        from .formatting import success, info, bold
+        from formatting import success, info, bold
 
         lines = [
             success(f"Sprint completed: {sprint_name}"),
@@ -405,7 +405,7 @@ class SuccessMessages:
     @staticmethod
     def initialization_success(roadmap_id: str, roadmap_dir: str) -> str:
         """Success message for roadmap initialization."""
-        from .formatting import success, info, bold
+        from formatting import success, info, bold
 
         lines = [
             success(f"Roadmap initialized: {roadmap_id}"),

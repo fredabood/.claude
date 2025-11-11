@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for track in core-framework roadmap-system roadmap-integration documentation-system mcp-server infrastructure-fixes directory-migration)",
+      "Bash(do echo \"=== $track ===\")",
+      "Bash(for task_id in directory-migration-2-task-005 directory-migration-2-task-006 directory-migration-2-task-007 directory-migration-2-task-008 directory-migration-2-task-011 directory-migration-2-task-014)",
+      "Bash(do echo \"Completing $task_id...\")",
+      "Bash(git log:*)",
+      "Bash(python -m vibey.cli:*)",
+      "Bash(python -m vibey:*)",
+      "Bash(git stash:*)",
+      "Bash(awk:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

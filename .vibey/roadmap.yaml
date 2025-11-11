@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 16
-    tracks_completed: 9
+    tracks_completed: 10
     sprints_total: 46
-    sprints_completed: 15
+    sprints_completed: 16
     tasks_total: 170
-    tasks_completed: 145
-    completion_percent: 85
+    tasks_completed: 158
+    completion_percent: 93
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -44,7 +44,7 @@ roadmap:
     priority: critical
   - id: infrastructure-fixes
     name: Critical Infrastructure Fixes
-    status: not_started
+    status: completed
     priority: critical
   - id: testing-system
     name: Comprehensive Testing & Quality Assurance
@@ -1192,11 +1192,28 @@ roadmap:
     context:
       task_id: directory-migration-2-task-015
       sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T05:30:00+00:00'
+    type: track_completed
+    description: 'Completed Track: Critical Infrastructure Fixes'
+    context:
+      track_id: infrastructure-fixes
+      sprints_completed: 1
+      total_tasks: 13
+      duration: 1 day
+      impact: Fixed roadmap CLI, integrated roadmap into /vibey commands, corrected track statuses
+      deliverables:
+      - Fixed roadmap CLI (no import errors)
+      - Roadmap integrated into /vibey deployment
+      - Roadmap integrated into /vibey plan
+      - Roadmap integrated into /vibey code
+      - Updated Vibey Manager with roadmap commands
+      - Corrected track statuses
+      - Migration tool for existing projects
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-11T04:41:59.418495+00:00'
+    last_updated: '2025-11-11T05:30:00+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

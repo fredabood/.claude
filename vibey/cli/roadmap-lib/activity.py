@@ -13,8 +13,8 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from framework.roadmap.models import Roadmap, ActivityType
-from framework.roadmap.serialization import load_roadmap, save_roadmap
+from vibey.roadmap.models import Roadmap, ActivityType
+from vibey.roadmap.serialization import load_roadmap, save_roadmap
 from .filesystem import FileSystemManager
 
 

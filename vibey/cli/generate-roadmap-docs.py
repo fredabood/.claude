@@ -26,8 +26,8 @@ from typing import Dict, List, Optional
 framework_root = Path(__file__).parent.parent
 sys.path.insert(0, str(framework_root.parent))
 
-from framework.roadmap.toc_generator import TOCGenerator
-from framework.roadmap.markdown_generator import MarkdownGenerator
+from vibey.roadmap.toc_generator import TOCGenerator
+from vibey.roadmap.markdown_generator import MarkdownGenerator
 
 
 def main():

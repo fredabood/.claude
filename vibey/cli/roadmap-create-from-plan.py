@@ -23,9 +23,9 @@ from typing import Dict, List, Optional, Tuple
 repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
 
-from framework.roadmap.models import Sprint, Task, TaskStatus, Priority, Complexity
-from framework.roadmap.serialization import save_sprint, save_tasks, load_track, save_track
-from framework.roadmap.directory_manager import DirectoryManager
+from vibey.roadmap.models import Sprint, Task, TaskStatus, Priority, Complexity
+from vibey.roadmap.serialization import save_sprint, save_tasks, load_track, save_track
+from vibey.roadmap.directory_manager import DirectoryManager
 
 
 class SprintPlanParser:
@@ -320,7 +320,7 @@ def create_sprint_from_plan(
         )
 
         task_yaml = task_dir / "task.yaml"
-        from framework.roadmap.serialization import save_task
+        from vibey.roadmap.serialization import save_task
         save_task(task, task_yaml)
 
     print(f"✓ Created {len(tasks)} task files")

@@ -31,7 +31,7 @@ from typing import Dict, List, Tuple
 framework_root = Path(__file__).parent.parent
 sys.path.insert(0, str(framework_root.parent))
 
-from framework.roadmap.directory_manager import DirectoryManager
+from vibey.roadmap.directory_manager import DirectoryManager
 
 
 class HierarchicalMigrator:

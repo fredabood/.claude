@@ -33,13 +33,13 @@ repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
 
 try:
-    from framework.roadmap.models import (
+    from vibey.roadmap.models import (
         Sprint, Task, TaskStatus, Priority, Complexity
     )
-    from framework.roadmap.serialization import (
+    from vibey.roadmap.serialization import (
         save_sprint, save_tasks, load_roadmap, save_roadmap
     )
-    from framework.roadmap.directory_manager import DirectoryManager
+    from vibey.roadmap.directory_manager import DirectoryManager
     HAS_ROADMAP = True
 except ImportError as e:
     HAS_ROADMAP = False

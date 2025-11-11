@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 46
     sprints_completed: 20
     tasks_total: 247
-    tasks_completed: 171
+    tasks_completed: 172
     completion_percent: 69
   tracks:
   - id: core-framework
@@ -954,17 +954,23 @@ roadmap:
     context:
       task_id: directory-migration-1-task-005
       sprint_id: directory-migration-1
-  - timestamp: '2025-11-11T00:03:07.959109Z'
+  - timestamp: '2025-11-11T00:03:07.959109+00:00'
     type: task_completed
     description: Task 'Register CLI commands' completed
     context:
       task_id: directory-migration-1-task-004
       sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:04:01.368940Z'
+    type: task_completed
+    description: 'Task ''Update imports: framework.roadmap → vibey.roadmap'' completed'
+    context:
+      task_id: directory-migration-1-task-005
+      sprint_id: directory-migration-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-11T00:03:07.959112Z'
+    last_updated: '2025-11-11T00:04:01.368945Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

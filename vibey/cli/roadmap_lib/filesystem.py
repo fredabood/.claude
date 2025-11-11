@@ -23,7 +23,7 @@ if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
 try:
-    from framework.roadmap.directory_manager import DirectoryManager
+    from vibey.roadmap.directory_manager import DirectoryManager
 except ModuleNotFoundError:
     # Fallback: try relative import for running from framework/scripts/
     roadmap_dir = repo_root / "framework" / "roadmap"

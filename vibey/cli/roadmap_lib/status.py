@@ -13,11 +13,11 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from framework.roadmap.models import (
+from vibey.roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Status, TaskStatus,
 )
-from framework.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks, save_sprint
+from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks, save_sprint
 from .filesystem import FileSystemManager
 
 

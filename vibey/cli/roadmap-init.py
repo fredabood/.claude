@@ -19,11 +19,11 @@ sys.path.insert(0, str(repo_root))
 scripts_path = Path(__file__).parent
 sys.path.insert(0, str(scripts_path))
 
-from framework.roadmap.models import (
+from vibey.roadmap.models import (
     Roadmap, VersionStrategy, Status, Progress, Metadata,
     ActivityType,
 )
-from framework.roadmap.serialization import save_roadmap
+from vibey.roadmap.serialization import save_roadmap
 from roadmap.validation import Validator
 from roadmap_lib.filesystem import FileSystemManager
 from roadmap_lib.activity import ActivityLogger

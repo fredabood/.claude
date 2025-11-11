@@ -24,8 +24,8 @@ from pathlib import Path
 framework_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(framework_dir.parent))
 
-from framework.roadmap.context_loader import ContextLoader, ContextMode
-from framework.roadmap.summary_generator import SummaryGenerator
+from vibey.roadmap.context_loader import ContextLoader, ContextMode
+from vibey.roadmap.summary_generator import SummaryGenerator
 
 
 def print_banner():

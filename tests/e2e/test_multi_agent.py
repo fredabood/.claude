@@ -260,8 +260,8 @@ Additional context
         (perf_dir / "report.md").write_text("Score: 88/100")
 
         # Agent 4: Documentation Writer
-        (repo.path / "docs" / "feature.md").mkdir(parents=True, exist_ok=True)
-        (repo.path / "docs" / "feature.md" / "../feature.md").write_text("# Feature Documentation")
+        (repo.path / "docs").mkdir(parents=True, exist_ok=True)
+        (repo.path / "docs" / "feature.md").write_text("# Feature Documentation")
 
         # Assert - All agent outputs present
         assert feature_file.exists()

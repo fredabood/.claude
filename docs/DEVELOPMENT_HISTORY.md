@@ -449,7 +449,7 @@
 **Note:** The remaining 2 templates are framework-specific test reports that are redundant with the universal Test Report template already created. The universal template supports all testing frameworks (pytest, Jest/Vitest, JUnit, Go testing) making framework-specific templates unnecessary.
 
 **Approach:**
-- Develop templates from `.claude/handoffs/*-template.md`
+- Develop templates from handoff template examples
 - Generalize with Jinja2 config injection
 - Support multiple project types (web-app, API, data-platform, ML, infrastructure)
 - Support multiple languages (Python, TypeScript, Java, Go)
@@ -460,24 +460,24 @@
 ### Phase 6: Deployment Tooling ✅ COMPLETE
 
 **Tools Created:**
-1. ✅ **Config Validator** - `scripts/validate-config.py` (320 lines)
+1. ✅ **Config Validator** - `vibey/cli/validate_config.py` (320 lines)
    - Validates project-config.yaml against schema.yaml
    - Checks required fields, types, values
    - Provides helpful error messages and warnings
    - Suggests common fixes and best practices
    - Validates project-type-specific sections
 
-2. ✅ **Template Renderer** - `scripts/render-template.py` (200 lines)
+2. ✅ **Template Renderer** - `vibey/cli/render_template.py` (200 lines)
    - Renders Jinja2 templates with config values
    - Single template or batch directory rendering
    - Automatic context preparation (config, date, datetime)
    - Error handling with helpful messages
    - Supports custom filters
 
-3. ✅ **Setup Script** - `scripts/setup.sh` (350 lines)
+3. ✅ **CLI Commands** - `vibey/cli/` (multiple commands)
    - Interactive project setup with color output
-   - Installs framework into .claude/ directory
-   - Copies agents, workflows, templates, config
+   - Installs framework into .vibey/ directory
+   - Manages agents, workflows, templates, config
    - Creates documentation directory structure
    - Generates initial CLAUDE.md (if dependencies available)
    - Prerequisite checking (Python, PyYAML, Jinja2)
@@ -502,26 +502,26 @@
 
 **User Workflow:**
 ```bash
-# 1. Clone Vibey
-git clone https://github.com/yourusername/vibey.git
+# 1. Install Vibey
+pip install vibey-framework
 
-# 2. Run setup in your project
+# 2. Initialize in your project
 cd /path/to/your-project
-/path/to/vibey/scripts/setup.sh
+vibey init
 
 # 3. Interactive prompts guide you through setup
 # - Choose project type
-# - Framework installs to .claude/
-# - Config created as project-config.yaml
+# - Framework installs to .vibey/
+# - Config created in .vibey/config/
 # - CLAUDE.md generated automatically
 
 # 4. Customize and validate
-vim project-config.yaml
-python3 scripts/validate-config.py
+vim .vibey/config/project.yaml
+python -m vibey.cli.validate_config
 
 # 5. Start using agents and workflows
-cat .claude/README.md
-cat .claude/workflows/sprint-planning.md
+cat .vibey/README.md
+cat .vibey/workflows/sprint-planning.md
 ```
 
 **Key Features:**
@@ -733,12 +733,12 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
 
 ### Orchestration System (100%)
 
-1. ✅ **`/vibey` Slash Command** - `.claude/commands/vibey.md`
+1. ✅ **`/vibey` Slash Command** - `commands/vibey.md` (historical)
    - Entry point for framework initialization
    - Triggers framework-initialization workflow
    - Conversational project setup
 
-2. ✅ **Framework Initialization Workflow** - `.claude/workflows/framework-initialization.md` (350+ lines)
+2. ✅ **Framework Initialization Workflow** - `workflows/framework-initialization.md` (350+ lines, historical)
    - 8-phase conversational setup (20-40 minutes)
    - Phase 1: Welcome & context (2 min)
    - Phase 2: Project discovery (8-12 min)
@@ -786,7 +786,7 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
      - File patterns that indicate agent's domain
      - Priority level (High/Medium/Low)
 
-6. ✅ **Coordinator Agent** - `.claude/agents/core/coordinator.md` (650+ lines)
+6. ✅ **Coordinator Agent** - `agents/core/coordinator.md` (650+ lines, historical)
    - Intelligent router for Tiered orchestration mode
    - Analyzes complex requests
    - Sequences multiple agents
@@ -796,7 +796,7 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
    - 3 routing paths: Fast (simple) / Smart (complex via coordinator) / Explicit (named agent)
    - Example coordinations for auth, performance, sprint planning
 
-7. ✅ **CLAUDE.md Template Updates** - `.claude/templates/CLAUDE.md.template` (230+ lines added)
+7. ✅ **CLAUDE.md Template Updates** - `templates/CLAUDE.md.template` (230+ lines added, historical)
    - Mode-specific orchestration instructions
    - Simple mode: Explicit keyword → agent rules
    - Balanced mode: Pattern matching + sprint phase detection
@@ -807,13 +807,13 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
    - Handoff templates reference
    - Orchestration tips per mode
 
-8. ✅ **Sprint Planning Workflow Enhancement** - `.claude/workflows/sprint-planning.md`
+8. ✅ **Sprint Planning Workflow Enhancement** - `workflows/sprint-planning.md` (historical)
    - Added first sprint integration
    - Points users to `/vibey` for first sprint
    - Updated duration: "3-5 days (ongoing) | 20-40 minutes (first sprint with /vibey)"
    - Clear distinction: Use `/vibey` for Sprint 1, this workflow for Sprint 2+
 
-9. ✅ **Quality Gate Enforcement** - `.claude/workflows/single-feature-development.md` (180+ lines added)
+9. ✅ **Quality Gate Enforcement** - `workflows/single-feature-development.md` (180+ lines added, historical)
    - Added comprehensive "Quality Gate Enforcement" section
    - Security review (score ≥ 85, OWASP Top 10, no critical/high vulnerabilities)
    - Test coverage (≥ 90%, all tests passing, edge cases covered)
@@ -846,10 +846,12 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
 
 **Purpose:** Simplify installation by making the repository itself the `.claude` directory structure
 
+**Note:** This phase describes historical restructuring. Current version uses Python package structure with `vibey/` directory.
+
 ### Restructuring Changes (100%)
 
-1. ✅ **Moved commands/ to root level** - `commands/vibey.md` now at root (not nested in .claude/)
-2. ✅ **Removed nested .claude/ directory** - Repository IS the .claude structure
+1. ✅ **Moved commands/ to root level** - `commands/vibey.md` now at root (historical: not nested in .claude/)
+2. ✅ **Removed nested .claude/ directory** - Repository structure flattened (historical)
 3. ✅ **Updated /vibey command** - Added 4 pre-initialization checks:
    - Git repository check (offers to initialize)
    - Python dependencies check (pyyaml, jinja2)
@@ -861,9 +863,9 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
 7. ✅ **Updated USER_JOURNEY.md** - All 3 scenarios updated with new flow
 8. ✅ **Updated Quick Command Reference** - Simplified commands for all scenarios
 
-### New Installation Flow
+### New Installation Flow (Historical)
 
-**Before (7 steps):**
+**Before (7 steps, Phase 7):**
 ```bash
 git clone https://github.com/fredabood/vibey.git .vibey
 cp -r .vibey/.claude .claude
@@ -874,17 +876,23 @@ rm -rf .vibey
 pip install pyyaml jinja2
 ```
 
-**After (2 steps):**
+**After (2 steps, Phase 8):**
 ```bash
 pip install pyyaml jinja2
 git clone https://github.com/fredabood/vibey.git .claude
 ```
 
-**Result:** 71% reduction in installation commands, clearer structure
+**Current (Python package):**
+```bash
+pip install vibey-framework
+vibey init
+```
 
-### File Location Changes
+**Result:** 71% reduction in installation commands (Phase 7→8), then further simplified with Python package
 
-**Before:**
+### File Location Changes (Historical)
+
+**Before (Phase 7):**
 ```
 vibey/
 ├── .claude/                    # Nested structure
@@ -897,7 +905,7 @@ vibey/
 └── docs/                       # Separate directory
 ```
 
-**After:**
+**After (Phase 8):**
 ```
 vibey/                          # Repository IS .claude
 ├── agents/                     # Root level
@@ -909,19 +917,37 @@ vibey/                          # Repository IS .claude
 └── docs/                       # Root level
 ```
 
-When cloned as `.claude`, becomes:
+**Current (Python Package):**
 ```
-your-project/
-├── .claude/                    # Cloned vibey repo
+vibey/                          # Python package
+├── vibey/                      # Package directory
+│   ├── cli/                    # CLI commands
+│   ├── config/                 # Config management
+│   ├── roadmap/                # Roadmap system
+│   └── adapters/               # Platform adapters
+├── framework/                  # Framework content
 │   ├── agents/
 │   ├── workflows/
 │   ├── templates/
-│   ├── commands/
-│   ├── scripts/
-│   └── config/
-├── project-config.yaml         # Generated by /vibey
-├── CLAUDE.md                   # Generated by /vibey
-└── docs/                       # Generated by /vibey
+│   └── scripts/                # Legacy scripts
+├── tests/                      # Test suite
+└── docs/                       # Documentation
+```
+
+When installed, framework deploys to:
+```
+your-project/
+├── .vibey/                     # Framework installation
+│   ├── agents/
+│   ├── workflows/
+│   ├── templates/
+│   └── config/                 # Modular config files
+├── .vibey/config/
+│   ├── project.yaml            # Generated by vibey init
+│   ├── framework.yaml
+│   ├── agents.yaml
+│   └── quality-gates.yaml
+└── docs/                       # Generated documentation
 ```
 
 ### /vibey Command Enhancements
@@ -978,13 +1004,21 @@ your-project/
 
 **Purpose:** Consolidate all installation scenarios into one universal command that works for everyone
 
-### Universal Installation Command
+**Note:** This phase describes historical Claude Code slash command. Current version uses Python CLI.
 
-**Everyone uses the same flow:**
+### Universal Installation Command (Historical)
+
+**Everyone uses the same flow (Phase 9):**
 ```bash
 git clone https://github.com/fredabood/vibey.git .vibey
 claude
 # Type: /vibey
+```
+
+**Current (Python package):**
+```bash
+pip install vibey-framework
+vibey init
 ```
 
 Claude automatically detects the situation and handles deployment.
@@ -1973,7 +2007,7 @@ fi
 
 ### Components Created (100%)
 
-1. ✅ **Vibey Manager Agent** (`agents/core/vibey-manager.md`)
+1. ✅ **Vibey Manager Agent** (`framework/agents/core/vibey-manager.md`)
    - Specialized agent for framework management
    - Helps configure orchestration mode, quality gates, agents, tech stack
    - Regenerates CLAUDE.md after configuration changes
@@ -1981,11 +2015,12 @@ fi
    - Supports sprint retrospectives
    - ~500 lines
 
-2. ✅ **Enhanced `/vibey` Command** - Added Phase 0 detection
+2. ✅ **Enhanced `/vibey` Command** - Added Phase 0 detection (historical slash command)
    - Detects if framework already initialized
    - Routes to Management Mode OR Initialization Mode
    - Shows different greeting based on state
    - Clear documentation for both modes
+   - **Current:** Similar functionality in `vibey config` CLI command
 
 3. ✅ **Updated README** - Documented dual-mode behavior
    - "First Time (Framework Initialization)" section
@@ -2005,7 +2040,7 @@ fi
 - View all available agents (11 built-in)
 - View agent trigger patterns
 - Add custom agents (guide user through creation)
-- Save custom agents to `.claude/agents/custom/`
+- Save custom agents to `.vibey/agents/custom/` (current) or `.claude/agents/custom/` (historical)
 
 **Technology Stack Updates:**
 - Update framework versions (e.g., FastAPI 0.109 → 0.110)
@@ -2140,17 +2175,25 @@ Vibey Manager: [Updates config, regenerates CLAUDE.md, shows success]
 ### Framework Statistics (Phase 12)
 
 **New Components:**
-- 1 new agent: Vibey Manager (`agents/core/vibey-manager.md`) - 500 lines
-- 1 command updated: `/vibey` (added Phase 0 detection) - +80 lines
+- 1 new agent: Vibey Manager (`framework/agents/core/vibey-manager.md`) - 500 lines
+- 1 command updated: `/vibey` (added Phase 0 detection, historical) - +80 lines
 - 1 README updated: Documented dual-mode behavior - +40 lines
 - Total new content: ~620 lines
 
-**Updated Framework Size:**
+**Updated Framework Size (at end of Phase 12):**
 - **12 specialized agents** (+1 new: Vibey Manager)
 - 16 structured workflows
 - 22 handoff templates
 - 3 orchestration modes
 - **Total Lines:** ~50,600+ lines across 68 components
+
+**Current Framework (Post-Python Package Migration):**
+- **12 specialized agents** (in `framework/agents/`)
+- 16 structured workflows (in `framework/workflows/`)
+- 22 handoff templates (in `framework/templates/`)
+- Modular config system (4 YAML files in `.vibey/config/`)
+- Python CLI (`vibey/cli/` with multiple commands)
+- Roadmap system (`vibey/roadmap/`)
 
 **Key Achievement:**
 ✅ **Self-managing framework** - Users can configure their agentic experience through conversation
@@ -2174,15 +2217,15 @@ Vibey Manager: [Updates config, regenerates CLAUDE.md, shows success]
 - ✅ Phase 5 complete - 91% of planned templates (21/23 universal templates)
 
 **Phase 6: Deployment Tooling (100% COMPLETE)**
-- ✅ Created config validator - `scripts/validate-config.py` (320 lines)
+- ✅ Created config validator - `vibey/cli/validate_config.py` (320 lines)
   - Validates project-config.yaml against schema.yaml
   - Helpful error messages and suggestions
   - Project-type specific validation
-- ✅ Created template renderer - `scripts/render-template.py` (200 lines)
+- ✅ Created template renderer - `vibey/cli/render_template.py` (200 lines)
   - Renders Jinja2 templates with config values
   - Single template or batch directory rendering
   - Comprehensive error handling
-- ✅ Created setup script - `scripts/setup.sh` (350 lines)
+- ✅ Created CLI commands - `vibey/cli/` (multiple commands)
   - Interactive framework installation
   - Multiple setup modes (interactive, template, config file)
   - Automatic CLAUDE.md generation
@@ -2193,7 +2236,7 @@ Vibey Manager: [Updates config, regenerates CLAUDE.md, shows success]
   - Configuration guidance
   - Example setups for all project types
   - Troubleshooting guide
-- ✅ Made all scripts executable
+- ✅ Created Python package structure
 - ✅ Tested config validator (working correctly)
 
 **Previous Session Accomplishments (2025-11-04):**

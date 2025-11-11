@@ -277,7 +277,7 @@ Platform: claude-code
 
         claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(parents=True, exist_ok=True)
-        (claude_dir / "CLAUDE.md").write_text("# Claude Config")
+        (repo.path / "CLAUDE.md").write_text("# Claude Config")
 
         expected_structure = {
             "directories": [".vibey", ".vibey/config", ".vibey"],

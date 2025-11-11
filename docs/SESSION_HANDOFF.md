@@ -298,9 +298,9 @@ When user runs `/vibey`:
 ### Configuration Management
 When Vibey Manager makes changes:
 1. **Always backup first:** `cp file file.backup-$(date +%Y%m%d-%H%M%S)`
-2. **Edit config:** Modify `project-config.yaml`
-3. **Validate:** `python3 .claude/scripts/validate-config.py project-config.yaml`
-4. **Regenerate:** `python3 .claude/scripts/render-template.py -c project-config.yaml -t .claude/templates/CLAUDE.md.template -o CLAUDE.md`
+2. **Edit config:** Modify `.vibey/config/` files
+3. **Validate:** `vibey config validate`
+4. **Update values:** `vibey config update <key> <value>`
 5. **Verify:** Check files exist and are valid
 
 ### Audit Workflow Execution
@@ -366,19 +366,19 @@ Framework is **ready to use immediately**:
 ### For Vibey Manager (when framework initialized)
 ```bash
 # View current config
-cat project-config.yaml
+vibey config show
 
 # Validate config
-python3 .claude/scripts/validate-config.py project-config.yaml
+vibey config validate
 
-# Regenerate CLAUDE.md
-python3 .claude/scripts/render-template.py \
-  -c project-config.yaml \
-  -t .claude/templates/CLAUDE.md.template \
-  -o CLAUDE.md
+# Update config value
+vibey config update project.version "2.0.0"
 
-# Backup before changes
-cp project-config.yaml project-config.yaml.backup-$(date +%Y%m%d-%H%M%S)
+# Migrate legacy config
+vibey config migrate
+
+# Backup before changes (if editing manually)
+cp .vibey/config/project.yaml .vibey/config/project.yaml.backup-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### For Codebase Audit

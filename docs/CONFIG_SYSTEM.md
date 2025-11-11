@@ -241,15 +241,15 @@ gates:
 ### In Python Scripts
 
 ```python
-from vibey.cli.config_utils import load_project_config, get_config_value
+from vibey.config import load_project_config
 
 # Load full config
 config = load_project_config()
-print(f"Project: {config.project.project.name}")
+print(f"Project: {config.project.name}")
 
-# Get specific values
-project_name = get_config_value("project.project.name")
-orchestration = get_config_value("framework.framework.orchestration_mode")
+# Access nested values
+orchestration = config.framework.orchestration_mode
+languages = config.tech_stack.languages
 ```
 
 ### In CLI Commands

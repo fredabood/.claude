@@ -622,7 +622,7 @@ workflows:
         # Claude Code
         claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
-        (claude_dir / "CLAUDE.md").write_text("""# Multi-Platform Test
+        (repo.path / "CLAUDE.md").write_text("""# Multi-Platform Test
 **Project Type:** web-app
 **Orchestration Mode:** balanced
 """)

@@ -11,7 +11,7 @@ This module provides utilities for testing the Vibey framework:
 from .repo_builder import RepoBuilder, TestRepo
 from .state_validator import StateValidator, ValidationResult
 from .git_validator import GitValidator
-from .metrics_collector import MetricsCollector
+from .metrics_collector import MetricsCollector, Metric
 
 __all__ = [
     "RepoBuilder",
@@ -20,4 +20,5 @@ __all__ = [
     "ValidationResult",
     "GitValidator",
     "MetricsCollector",
+    "Metric",
 ]

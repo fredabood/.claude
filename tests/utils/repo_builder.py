@@ -579,6 +579,14 @@ Mock project for Vibey framework testing.
                 check=True
             )
 
+            # Rename default branch to 'main' to match test expectations
+            subprocess.run(
+                ["git", "branch", "-M", "main"],
+                cwd=repo.path,
+                capture_output=True,
+                check=True
+            )
+
         repo.has_git = True
 
     @staticmethod

@@ -46,9 +46,12 @@ def run_script(script_name: str, args: List[str]) -> int:
 
 def roadmap_init_cmd(name: str, version: str) -> int:
     """Initialize a new roadmap."""
-    # TODO: roadmap-init.py needs to be refactored to accept parameters
-    # For now, just run the script
-    return run_script('roadmap-init.py', [])
+    args = []
+    if name:
+        args.extend(['--name', name])
+    if version:
+        args.extend(['--version', version])
+    return run_script('roadmap-init.py', args)
 
 
 def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None) -> int:

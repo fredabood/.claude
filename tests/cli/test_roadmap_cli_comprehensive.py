@@ -237,16 +237,15 @@ class TestRoadmapInit:
         roadmap_file = temp_repo_dir / ".vibey" / "roadmap.yaml"
         assert roadmap_file.exists()
 
-        # Verify default name and version
+        # Verify default name and version (version normalized to semver)
         with open(roadmap_file) as f:
             data = yaml.safe_load(f)
             assert data["roadmap"]["name"] == "Test Roadmap"
-            assert data["roadmap"]["version"] == "1.0"
+            assert data["roadmap"]["version"] == "1.0.0"  # normalized from 1.0
 
-        # Verify directories created
-        assert (temp_repo_dir / ".vibey" / "tracks").exists()
-        assert (temp_repo_dir / ".vibey" / "sprints").exists()
-        assert (temp_repo_dir / ".vibey" / "tasks").exists()
+        # Verify directory structure created
+        assert (temp_repo_dir / ".vibey").exists()
+        assert (temp_repo_dir / ".vibey" / "roadmap").exists()  # hierarchical structure
 
     def test_roadmap_init_with_options(self, temp_repo_dir):
         """Test roadmap init with custom name and version."""
@@ -257,12 +256,12 @@ class TestRoadmapInit:
 
         assert result.returncode == 0
 
-        # Verify custom values
+        # Verify custom values (version normalized to semver)
         roadmap_file = temp_repo_dir / ".vibey" / "roadmap.yaml"
         with open(roadmap_file) as f:
             data = yaml.safe_load(f)
             assert data["roadmap"]["name"] == "Q1 Roadmap"
-            assert data["roadmap"]["version"] == "2.0"
+            assert data["roadmap"]["version"] == "2.0.0"  # normalized from 2.0
 
         # Verify success message shows correct name
         assert "Q1 Roadmap" in result.stdout

@@ -477,12 +477,12 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     # Parse depends_on (new cached dependency tracking)
     depends_on = [
         DependencyStatus(
-            blocker_id=d['blocker_id'],
-            blocker_type=d['blocker_type'],
-            required_status=d['required_status'],
-            current_status=d['current_status'],
+            blocker_id=d.get('blocker_id', d.get('dependency_id', 'unknown')),  # Backward compat
+            blocker_type=d.get('blocker_type', d.get('dependency_type', 'track')),  # Backward compat
+            required_status=d.get('required_status', d.get('target_status', 'completed')),  # Backward compat
+            current_status=d.get('current_status', 'not_started'),  # Default
             blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for sprints
-            last_checked=_parse_datetime(d['last_checked']),
+            last_checked=_parse_datetime(d.get('last_checked', datetime.now())),
         )
         for d in sprint_data.get('depends_on', [])
     ]
@@ -712,7 +712,7 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             id=task_data['id'],
             sprint_id=task_data['sprint_id'],
             track_id=task_data['track_id'],
-            roadmap_id=task_data['roadmap_id'],
+            roadmap_id=task_data.get('roadmap_id', 'vibey-framework-v2'),  # Default to main roadmap
             task_type=TaskType(task_data.get('task_type', 'development')),
             title=task_data.get('title', task_data.get('name', 'Unknown')),
             description=task_data.get('description', ''),

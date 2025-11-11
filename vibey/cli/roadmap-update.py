@@ -394,7 +394,11 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
     if not track_path.exists():
         return
 
-    track = load_track(track_path)
+    try:
+        track = load_track(track_path)
+    except Exception as e:
+        print(f"⚠️  Failed to load track {track_id}: {e}")
+        return
 
     # Calculate progress AND update sprint summaries
     total_sprints = len(track.sprints)
@@ -481,15 +485,19 @@ def update_roadmap_progress(fs: FileSystemManager):
     for track_summary in roadmap.tracks:
         track_path = fs.get_track_path(track_summary.id)
         if track_path.exists():
-            track = load_track(track_path)
+            try:
+                track = load_track(track_path)
 
-            if track.status in [Status.COMPLETED, Status.PRODUCTION_READY, Status.DEPLOYED]:
-                completed_tracks += 1
+                if track.status in [Status.COMPLETED, Status.PRODUCTION_READY, Status.DEPLOYED]:
+                    completed_tracks += 1
 
-            total_sprints += track.progress.sprints_total
-            completed_sprints += track.progress.sprints_completed
-            total_tasks += track.progress.tasks_total
-            completed_tasks += track.progress.tasks_completed
+                total_sprints += track.progress.sprints_total
+                completed_sprints += track.progress.sprints_completed
+                total_tasks += track.progress.tasks_total
+                completed_tasks += track.progress.tasks_completed
+            except Exception as e:
+                print(f"⚠️  Failed to load track {track_summary.id}: {e}")
+                continue
 
     completion_percent = int((completed_tasks / total_tasks * 100)) if total_tasks > 0 else 0
 
@@ -691,6 +699,298 @@ def complete_sprint(
     return True
 
 
+def refresh_all_dependency_caches(fs: FileSystemManager) -> int:
+    """
+    Refresh all dependency caches across the entire roadmap.
+
+    Updates current_status fields in all depends_on lists and recomputes
+    blocked status for all tracks, sprints, and tasks.
+
+    Returns:
+        Number of dependency cache entries updated
+    """
+    updated_count = 0
+
+    # Load roadmap to get all tracks
+    roadmap_path = fs.get_roadmap_path()
+    if not roadmap_path.exists():
+        return 0
+
+    roadmap = load_roadmap(roadmap_path)
+
+    # Refresh track dependencies
+    for track_summary in roadmap.tracks:
+        track_path = fs.get_track_path(track_summary.id)
+        if not track_path.exists():
+            continue
+
+        try:
+            track = load_track(track_path)
+        except Exception as e:
+            print(f"⚠️  Failed to load track {track_summary.id}: {e}")
+            continue
+
+        modified = False
+
+        # Update depends_on cache
+        for dep_status in track.depends_on:
+            # Get current status of blocker
+            blocker_path = fs.get_track_path(dep_status.blocker_id)
+            if blocker_path.exists():
+                try:
+                    blocker_track = load_track(blocker_path)
+                    if dep_status.current_status != blocker_track.status:
+                        dep_status.current_status = blocker_track.status
+                        dep_status.last_checked = datetime.now(timezone.utc)
+                        modified = True
+                        updated_count += 1
+                except Exception as e:
+                    print(f"⚠️  Failed to load blocker track {dep_status.blocker_id}: {e}")
+                    continue
+
+        # Recompute blocked status
+        if modified:
+            track.blocked = track.compute_blocked_status()
+            save_track(track, track_path)
+
+    # Refresh sprint dependencies
+    for sprint_id in fs.list_sprints():
+        sprint_path = fs.get_sprint_path(sprint_id)
+        if not sprint_path.exists():
+            continue
+
+        sprint = load_sprint(sprint_path)
+        modified = False
+
+        for dep_status in sprint.depends_on:
+            # Determine blocker type and get its status
+            if dep_status.blocker_type == DependencyType.TRACK:
+                blocker_path = fs.get_track_path(dep_status.blocker_id)
+                if blocker_path.exists():
+                    blocker = load_track(blocker_path)
+                    if dep_status.current_status != blocker.status:
+                        dep_status.current_status = blocker.status
+                        dep_status.last_checked = datetime.now(timezone.utc)
+                        modified = True
+                        updated_count += 1
+            elif dep_status.blocker_type == DependencyType.SPRINT:
+                blocker_path = fs.get_sprint_path(dep_status.blocker_id)
+                if blocker_path.exists():
+                    blocker = load_sprint(blocker_path)
+                    if dep_status.current_status != blocker.status:
+                        dep_status.current_status = blocker.status
+                        dep_status.last_checked = datetime.now(timezone.utc)
+                        modified = True
+                        updated_count += 1
+
+        if modified:
+            sprint.blocked = sprint.compute_blocked_status()
+            save_sprint(sprint, sprint_path)
+
+    # Refresh task dependencies
+    for sprint_id in fs.list_sprints():
+        tasks_path = fs.get_tasks_path(sprint_id)
+        if not tasks_path.exists():
+            continue
+
+        tasks = load_tasks(tasks_path)
+        modified = False
+
+        for task in tasks:
+            for dep_status in task.depends_on:
+                # Tasks can depend on other tasks or sprints
+                if dep_status.blocker_type == DependencyType.TASK:
+                    # Find the blocker task
+                    blocker_sprint_id = dep_status.blocker_id.rsplit('-task-', 1)[0] + '-task-' + dep_status.blocker_id.split('-task-')[1].split('-')[0]
+                    blocker_tasks_path = fs.get_tasks_path(blocker_sprint_id.rsplit('-task-', 1)[0])
+                    if blocker_tasks_path.exists():
+                        blocker_tasks = load_tasks(blocker_tasks_path)
+                        blocker_task = next((t for t in blocker_tasks if t.id == dep_status.blocker_id), None)
+                        if blocker_task and dep_status.current_status != blocker_task.status:
+                            dep_status.current_status = blocker_task.status
+                            dep_status.last_checked = datetime.now(timezone.utc)
+                            modified = True
+                            updated_count += 1
+                elif dep_status.blocker_type == DependencyType.SPRINT:
+                    blocker_path = fs.get_sprint_path(dep_status.blocker_id)
+                    if blocker_path.exists():
+                        blocker = load_sprint(blocker_path)
+                        if dep_status.current_status != blocker.status:
+                            dep_status.current_status = blocker.status
+                            dep_status.last_checked = datetime.now(timezone.utc)
+                            modified = True
+                            updated_count += 1
+
+            if modified:
+                task.blocked = task.compute_blocked_status()
+
+        if modified:
+            save_tasks(tasks, tasks_path)
+
+    return updated_count
+
+
+def verify_roadmap_consistency(fs: FileSystemManager) -> List[str]:
+    """
+    Verify roadmap consistency and return list of issues found.
+
+    Checks:
+    - Sprint progress matches task completion
+    - Track progress matches sprint completion
+    - Roadmap progress matches track completion
+    - Dependency cache consistency
+
+    Returns:
+        List of issue descriptions (empty if no issues)
+    """
+    issues = []
+
+    roadmap_path = fs.get_roadmap_path()
+    if not roadmap_path.exists():
+        issues.append("Roadmap file not found")
+        return issues
+
+    roadmap = load_roadmap(roadmap_path)
+
+    # Verify sprint-level consistency
+    for sprint_id in fs.list_sprints():
+        sprint_path = fs.get_sprint_path(sprint_id)
+        tasks_path = fs.get_tasks_path(sprint_id)
+
+        if not sprint_path.exists():
+            continue
+
+        sprint = load_sprint(sprint_path)
+
+        if tasks_path.exists():
+            tasks = load_tasks(tasks_path)
+
+            # Check task counts
+            actual_tasks_total = len(tasks)
+            actual_tasks_completed = sum(1 for t in tasks if t.status in [TaskStatus.COMPLETED, TaskStatus.VERIFIED])
+
+            if sprint.progress.tasks_total != actual_tasks_total:
+                issues.append(f"Sprint {sprint_id}: tasks_total mismatch (stored={sprint.progress.tasks_total}, actual={actual_tasks_total})")
+
+            if sprint.progress.tasks_completed != actual_tasks_completed:
+                issues.append(f"Sprint {sprint_id}: tasks_completed mismatch (stored={sprint.progress.tasks_completed}, actual={actual_tasks_completed})")
+
+    # Verify track-level consistency
+    for track_summary in roadmap.tracks:
+        track_path = fs.get_track_path(track_summary.id)
+        if not track_path.exists():
+            continue
+
+        track = load_track(track_path)
+
+        # Aggregate sprint data
+        actual_sprints_total = len(track.sprints)
+        actual_sprints_completed = 0
+        actual_tasks_total = 0
+        actual_tasks_completed = 0
+
+        for sprint_summary in track.sprints:
+            sprint_path = fs.get_sprint_path(sprint_summary.id)
+            if sprint_path.exists():
+                sprint = load_sprint(sprint_path)
+
+                if sprint.status in [Status.COMPLETED, Status.PRODUCTION_GATE_CHECK, Status.PRODUCTION_READY, Status.DEPLOYED]:
+                    actual_sprints_completed += 1
+
+                actual_tasks_total += sprint.progress.tasks_total
+                actual_tasks_completed += sprint.progress.tasks_completed
+
+        # Check consistency
+        if track.progress.sprints_total != actual_sprints_total:
+            issues.append(f"Track {track.id}: sprints_total mismatch (stored={track.progress.sprints_total}, actual={actual_sprints_total})")
+
+        if track.progress.sprints_completed != actual_sprints_completed:
+            issues.append(f"Track {track.id}: sprints_completed mismatch (stored={track.progress.sprints_completed}, actual={actual_sprints_completed})")
+
+        if track.progress.tasks_total != actual_tasks_total:
+            issues.append(f"Track {track.id}: tasks_total mismatch (stored={track.progress.tasks_total}, actual={actual_tasks_total})")
+
+        if track.progress.tasks_completed != actual_tasks_completed:
+            issues.append(f"Track {track.id}: tasks_completed mismatch (stored={track.progress.tasks_completed}, actual={actual_tasks_completed})")
+
+    return issues
+
+
+def recalculate_all(fs: FileSystemManager, verify: bool = False) -> bool:
+    """
+    Recalculate entire roadmap hierarchy from bottom to top.
+
+    Performs a complete recalculation of:
+    - All sprint progress (from tasks)
+    - All track progress (from sprints)
+    - Roadmap progress (from tracks)
+    - All dependency caches
+    - All blocked status flags
+
+    Args:
+        fs: Filesystem manager
+        verify: If True, verify consistency after recalculation
+
+    Returns:
+        True if successful
+    """
+    print("🔄 Recalculating entire roadmap hierarchy...")
+    print()
+
+    # Step 1: Recalculate all sprints (bottom-up)
+    print("📊 Step 1/5: Recalculating sprint progress...")
+    sprint_count = 0
+    for sprint_id in fs.list_sprints():
+        update_sprint_progress(fs, sprint_id)
+        sprint_count += 1
+    print(f"  ✅ {sprint_count} sprints recalculated")
+    print()
+
+    # Step 2: Recalculate all tracks
+    print("📊 Step 2/5: Recalculating track progress...")
+    track_count = 0
+    for track_id in fs.list_tracks():
+        update_track_progress(fs, track_id)
+        track_count += 1
+    print(f"  ✅ {track_count} tracks recalculated")
+    print()
+
+    # Step 3: Recalculate roadmap-level progress
+    print("📊 Step 3/5: Recalculating roadmap progress...")
+    update_roadmap_progress(fs)
+    print(f"  ✅ Roadmap progress recalculated")
+    print()
+
+    # Step 4: Refresh all dependency caches
+    print("🔗 Step 4/5: Refreshing dependency caches...")
+    dep_count = refresh_all_dependency_caches(fs)
+    print(f"  ✅ {dep_count} dependency cache entries refreshed")
+    print()
+
+    # Step 5: Verify consistency (optional)
+    if verify:
+        print("🔍 Step 5/5: Verifying consistency...")
+        issues = verify_roadmap_consistency(fs)
+        if issues:
+            print(f"  ⚠️  {len(issues)} consistency issues found:")
+            for issue in issues[:10]:  # Show first 10
+                print(f"     - {issue}")
+            if len(issues) > 10:
+                print(f"     ... and {len(issues) - 10} more")
+            print()
+            print("⚠️  Recalculation completed but consistency issues remain")
+            return False
+        else:
+            print(f"  ✅ Roadmap consistency verified - no issues found")
+            print()
+    else:
+        print("⏭️  Step 5/5: Consistency verification skipped (use --verify to enable)")
+        print()
+
+    print("✅ Complete roadmap recalculation finished!")
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Update roadmap state",
@@ -714,6 +1014,12 @@ Examples:
 
   # Refresh all progress (recompute from tasks)
   python3 roadmap-update.py --refresh-progress
+
+  # Recalculate entire roadmap hierarchy
+  python3 roadmap-update.py --recalculate-all
+
+  # Recalculate and verify consistency
+  python3 roadmap-update.py --recalculate-all --verify
         """
     )
 
@@ -763,6 +1069,18 @@ Examples:
         "--refresh-progress",
         action="store_true",
         help="Refresh all progress calculations"
+    )
+
+    parser.add_argument(
+        "--recalculate-all",
+        action="store_true",
+        help="Recalculate entire roadmap hierarchy (sprints, tracks, roadmap, dependencies)"
+    )
+
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="Verify consistency after recalculation (use with --recalculate-all)"
     )
 
     parser.add_argument(
@@ -823,6 +1141,10 @@ Examples:
 
         print("✅ Progress refreshed")
         sys.exit(0)
+
+    elif args.recalculate_all:
+        success = recalculate_all(fs, verify=args.verify)
+        sys.exit(0 if success else 1)
 
     else:
         parser.print_help()

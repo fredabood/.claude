@@ -2,7 +2,7 @@ track:
   id: roadmap-system
   name: Roadmap Object Hierarchy Implementation
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
   priority: critical
   created: '2024-11-07T02:00:00+00:00'

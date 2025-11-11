@@ -59,12 +59,19 @@ def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None
     if sprint:
         args.extend(['--sprint', sprint])
 
-    return run_script('roadmap-query.py', args + ['--status'])
+    # If no specific args, show overall status
+    return run_script('roadmap-query.py', args)
 
 
 def roadmap_show_cmd(item_id: str) -> int:
     """Show details for an item."""
-    return run_script('roadmap-query.py', ['--show', item_id])
+    # Determine type from ID format and use appropriate flag
+    if 'task' in item_id:
+        return run_script('roadmap-query.py', ['--task', item_id])
+    elif item_id.count('-') >= 1:  # sprint format: track-sprint
+        return run_script('roadmap-query.py', ['--sprint', item_id])
+    else:  # track format: single name
+        return run_script('roadmap-query.py', ['--track', item_id])
 
 
 def roadmap_start_cmd(item_id: str) -> int:
@@ -98,7 +105,9 @@ def roadmap_context_cmd(task_id: str) -> int:
 
 def roadmap_summarize_cmd(item_type: str, item_id: str) -> int:
     """Summarize an item."""
-    return run_script('roadmap-summarize.py', [item_type, item_id])
+    # roadmap-summarize.py only takes the ID, not the type
+    # The type is determined from the ID format
+    return run_script('roadmap-summarize.py', [item_id])
 
 
 def roadmap_list_cmd() -> int:

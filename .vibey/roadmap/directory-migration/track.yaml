@@ -13,8 +13,8 @@ track:
     sprints_total: 3
     sprints_completed: 0
     tasks_total: 12
-    tasks_completed: 5
-    completion_percent: 41
+    tasks_completed: 7
+    completion_percent: 58
   sprints:
   - id: directory-migration-1
     name: Unified CLI Tool

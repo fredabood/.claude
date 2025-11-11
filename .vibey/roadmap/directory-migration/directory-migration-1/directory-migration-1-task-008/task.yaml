@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Create tests for CLI commands
   description: Add unit and integration tests for all CLI commands
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-11-10T23:43:25.586527+00:00'
-  started: null
+  started: '2025-11-11T00:06:56.737592+00:00'
   completed: null
   assigned_agent: web-developer
   priority: high

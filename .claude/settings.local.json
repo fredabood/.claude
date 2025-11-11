@@ -44,7 +44,8 @@
       "Bash(do basename \"$f\" .md)",
       "Bash(xargs:*)",
       "Bash(python -m pytest:*)",
-      "Bash(for track in .vibey/roadmap/*/track.yaml)"
+      "Bash(for track in .vibey/roadmap/*/track.yaml)",
+      "Bash(pytest:*)"
     ],
     "deny": [],
     "ask": []

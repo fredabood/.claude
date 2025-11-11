@@ -64,7 +64,7 @@ class TestExitCodeSuccess:
         Test: Successful list platforms command
         Verify: Exit code 0
         """
-        result = run_cli("deploy", "list-platforms")
+        result = run_cli("deploy", "list")
         assert result.returncode == 0, "List platforms should return exit code 0"
 
 

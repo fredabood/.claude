@@ -67,10 +67,11 @@ def roadmap_show_cmd(item_id: str) -> int:
     """Show details for an item."""
     # Determine type from ID format and use appropriate flag
     if 'task' in item_id:
+        # Task format: track-sprint-task-NNN
         return run_script('roadmap-query.py', ['--task', item_id])
-    elif item_id.count('-') >= 1:  # sprint format: track-sprint
+    elif item_id.count('-') >= 2:  # sprint format: track-sprint (at least 2 hyphens)
         return run_script('roadmap-query.py', ['--sprint', item_id])
-    else:  # track format: single name
+    else:  # track format: single-name or name-with-hyphen
         return run_script('roadmap-query.py', ['--track', item_id])
 
 

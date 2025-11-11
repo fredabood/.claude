@@ -19,9 +19,11 @@ from vibey.cli.commands import (
 class TestRunScript:
     """Test the run_script helper function."""
 
+    @patch('vibey.cli.commands.Path.exists')
     @patch('vibey.cli.commands.subprocess.run')
-    def test_run_script_with_py_extension(self, mock_run):
+    def test_run_script_with_py_extension(self, mock_run, mock_exists):
         """Test running a script with .py extension."""
+        mock_exists.return_value = True
         mock_run.return_value = MagicMock(returncode=0)
 
         exit_code = run_script('test-script.py', ['arg1', 'arg2'])
@@ -29,9 +31,11 @@ class TestRunScript:
         assert exit_code == 0
         assert mock_run.called
 
+    @patch('vibey.cli.commands.Path.exists')
     @patch('vibey.cli.commands.subprocess.run')
-    def test_run_script_without_py_extension(self, mock_run):
+    def test_run_script_without_py_extension(self, mock_run, mock_exists):
         """Test running a script without .py extension."""
+        mock_exists.return_value = True
         mock_run.return_value = MagicMock(returncode=0)
 
         exit_code = run_script('test-script', ['arg1'])

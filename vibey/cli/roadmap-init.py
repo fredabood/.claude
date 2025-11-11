@@ -8,7 +8,7 @@ Creates .vibey/ directory structure and roadmap.yaml file with proper initializa
 import sys
 import argparse
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 # Add repository root to path for framework imports
@@ -120,7 +120,7 @@ def create_roadmap_interactive(root_dir: Path) -> Roadmap:
         completion_percent=0,
     )
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
 
     metadata = Metadata(
         created_by=prompt_input("Created by", "system"),
@@ -187,7 +187,7 @@ def create_roadmap_from_args(
         completion_percent=0,
     )
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
 
     metadata = Metadata(
         created_by=created_by,

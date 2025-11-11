@@ -5,7 +5,7 @@ The Roadmap is the top-level object with unified state management.
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 
 from .common import Status, Priority, VersionBumpTrigger, ActivityType
@@ -178,13 +178,13 @@ class Roadmap:
     def add_activity(self, activity_type: ActivityType, description: str, context: Optional[Dict[str, Any]] = None):
         """Add an activity log entry."""
         entry = ActivityLogEntry(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             type=activity_type,
             description=description,
             context=context,
         )
         self.activity_log.append(entry)
-        self.metadata.last_updated = datetime.utcnow()
+        self.metadata.last_updated = datetime.now(timezone.utc)
 
     def is_blocked(self) -> bool:
         """Check if roadmap is blocked."""

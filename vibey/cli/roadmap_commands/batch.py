@@ -17,7 +17,7 @@ sys.path.insert(0, str(roadmap_lib_path))
 from roadmap.models import TaskStatus
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks, save_tasks
 from filesystem import FileSystemManager, find_roadmap_root
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def batch_complete_tasks(
@@ -56,8 +56,8 @@ def batch_complete_tasks(
 
         # Complete task
         task.status = TaskStatus.COMPLETED
-        task.completed = datetime.utcnow()
-        task.metadata.last_modified = datetime.utcnow()
+        task.completed = datetime.now(timezone.utc)
+        task.metadata.last_modified = datetime.now(timezone.utc)
         count += 1
 
     if count > 0:
@@ -102,7 +102,7 @@ def batch_assign_tasks(
 
         # Assign task
         task.assigned_agent = agent
-        task.metadata.last_modified = datetime.utcnow()
+        task.metadata.last_modified = datetime.now(timezone.utc)
         count += 1
 
     if count > 0:

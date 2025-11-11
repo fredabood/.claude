@@ -4,7 +4,7 @@ Blocker computation utilities for roadmap state.
 Computes blockers for objects based on dependencies and their statuses.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 import sys
@@ -54,7 +54,7 @@ class BlockerComputer:
                     dependency_type="external",
                     current_status=dep.status,
                     required_status="completed",
-                    blocking_since=datetime.utcnow(),  # Could be more precise
+                    blocking_since=datetime.now(timezone.utc),  # Could be more precise
                 )
                 blockers.append(blocker)
 
@@ -83,7 +83,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status="not_found",
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
             elif not self._status_satisfied(current_status, dep.target_status):
@@ -93,7 +93,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status=current_status,
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
 
@@ -121,7 +121,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status="not_found",
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
             elif not self._status_satisfied(current_status, dep.target_status):
@@ -130,7 +130,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status=current_status,
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
 
@@ -158,7 +158,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status="not_found",
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
             elif not self._status_satisfied(current_status, dep.target_status):
@@ -167,7 +167,7 @@ class BlockerComputer:
                     dependency_type=dep.type.value,
                     current_status=current_status,
                     required_status=dep.target_status,
-                    blocking_since=datetime.utcnow(),
+                    blocking_since=datetime.now(timezone.utc),
                 )
                 blockers.append(blocker)
 

@@ -45,7 +45,8 @@
       "Bash(xargs:*)",
       "Bash(python -m pytest:*)",
       "Bash(for track in .vibey/roadmap/*/track.yaml)",
-      "Bash(pytest:*)"
+      "Bash(pytest:*)",
+      "Bash([ -d \"vibey/cli/roadmap-lib\" ])"
     ],
     "deny": [],
     "ask": []

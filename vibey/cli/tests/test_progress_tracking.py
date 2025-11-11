@@ -16,7 +16,7 @@ import shutil
 import yaml
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TestProgressTracking(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestProgressTracking(unittest.TestCase):
                 "id": "test-roadmap",
                 "name": "Test Roadmap",
                 "status": "in_progress",
-                "created": datetime.utcnow().isoformat() + "+00:00",
+                "created": datetime.now(timezone.utc).isoformat() + "+00:00",
                 "tracks": [],
                 "metadata": {
                     "version": "1.0.0"
@@ -73,8 +73,8 @@ class TestProgressTracking(unittest.TestCase):
                 "roadmap_id": "test-roadmap",
                 "status": "in_progress",
                 "blocked": False,
-                "created": datetime.utcnow().isoformat() + "+00:00",
-                "started": datetime.utcnow().isoformat() + "+00:00",
+                "created": datetime.now(timezone.utc).isoformat() + "+00:00",
+                "started": datetime.now(timezone.utc).isoformat() + "+00:00",
                 "completed": None,
                 "progress": {
                     "development_tasks_total": 4,
@@ -98,7 +98,7 @@ class TestProgressTracking(unittest.TestCase):
                 "plan_file": "docs/sprints/test-sprint-1-plan.md",
                 "deliverables": ["Test deliverable"],
                 "metadata": {
-                    "last_updated": datetime.utcnow().isoformat() + "+00:00",
+                    "last_updated": datetime.now(timezone.utc).isoformat() + "+00:00",
                     "estimated_duration": "1 week"
                 }
             }
@@ -364,7 +364,7 @@ class TestProgressTracking(unittest.TestCase):
             tasks_data = yaml.safe_load(f)
 
         # Add timestamps to simulate activity
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         tasks_data["tasks"][0]["completed_at"] = now.isoformat() + "+00:00"
         tasks_data["tasks"][0]["status"] = "completed"
 

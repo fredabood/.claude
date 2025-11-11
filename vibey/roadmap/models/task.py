@@ -5,7 +5,7 @@ A Task is a context-window sized work unit - the smallest unit of work.
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from .common import TaskStatus, Priority, TaskType, Complexity, DeliverableType, DependencyType, DependencyStatus
@@ -321,13 +321,13 @@ class Task:
     def add_commit(self, sha: str, message: str, author: str, date: Optional[datetime] = None):
         """Add a git commit to this task."""
         if date is None:
-            date = datetime.utcnow()
+            date = datetime.now(timezone.utc)
         commit = GitCommit(sha=sha, message=message, date=date, author=author)
         self.commits.append(commit)
-        self.metadata.last_updated = datetime.utcnow()
+        self.metadata.last_updated = datetime.now(timezone.utc)
 
     def add_deliverable(self, deliverable_type: DeliverableType, paths: List[str]):
         """Add a deliverable to this task."""
         deliverable = Deliverable(type=deliverable_type, paths=paths)
         self.deliverables.append(deliverable)
-        self.metadata.last_updated = datetime.utcnow()
+        self.metadata.last_updated = datetime.now(timezone.utc)

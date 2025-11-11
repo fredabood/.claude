@@ -20,7 +20,7 @@ import yaml
 import json
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TestE2ERoadmapWorkflow(unittest.TestCase):
@@ -60,7 +60,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
                 "id": "test-project",
                 "name": "Test Project",
                 "status": "in_progress",
-                "created": datetime.utcnow().isoformat() + "+00:00",
+                "created": datetime.now(timezone.utc).isoformat() + "+00:00",
                 "tracks": [],
                 "metadata": {
                     "version": "1.0.0",
@@ -100,7 +100,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
                 "status": "not_started",
                 "blocked": False,
                 "priority": "high",
-                "created": datetime.utcnow().isoformat() + "+00:00",
+                "created": datetime.now(timezone.utc).isoformat() + "+00:00",
                 "started": None,
                 "completed": None,
                 "estimated_duration": "2 weeks",
@@ -118,7 +118,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
                 "deliverables": [],
                 "metadata": {
                     "created_by": "test",
-                    "last_updated": datetime.utcnow().isoformat() + "+00:00"
+                    "last_updated": datetime.now(timezone.utc).isoformat() + "+00:00"
                 }
             }
         }
@@ -150,7 +150,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
                 "roadmap_id": "test-project",
                 "status": "not_started",
                 "blocked": False,
-                "created": datetime.utcnow().isoformat() + "+00:00",
+                "created": datetime.now(timezone.utc).isoformat() + "+00:00",
                 "started": None,
                 "completed": None,
                 "progress": {
@@ -177,7 +177,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
                 "plan_file": "docs/sprints/test-sprint-1-plan.md",
                 "deliverables": ["Test feature"],
                 "metadata": {
-                    "last_updated": datetime.utcnow().isoformat() + "+00:00",
+                    "last_updated": datetime.now(timezone.utc).isoformat() + "+00:00",
                     "estimated_duration": "1 week"
                 }
             }
@@ -253,7 +253,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
             sprint_data = yaml.safe_load(f)
 
         sprint_data["sprint"]["status"] = "in_progress"
-        sprint_data["sprint"]["started"] = datetime.utcnow().isoformat() + "+00:00"
+        sprint_data["sprint"]["started"] = datetime.now(timezone.utc).isoformat() + "+00:00"
 
         with open(sprint_file, "w") as f:
             yaml.dump(sprint_data, f)
@@ -263,7 +263,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
             tasks_data = yaml.safe_load(f)
 
         tasks_data["tasks"][0]["status"] = "in_progress"
-        tasks_data["tasks"][0]["started"] = datetime.utcnow().isoformat() + "+00:00"
+        tasks_data["tasks"][0]["started"] = datetime.now(timezone.utc).isoformat() + "+00:00"
 
         with open(tasks_file, "w") as f:
             yaml.dump(tasks_data, f)
@@ -293,7 +293,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
             tasks_data = yaml.safe_load(f)
 
         tasks_data["tasks"][0]["status"] = "completed"
-        tasks_data["tasks"][0]["completed"] = datetime.utcnow().isoformat() + "+00:00"
+        tasks_data["tasks"][0]["completed"] = datetime.now(timezone.utc).isoformat() + "+00:00"
 
         with open(tasks_file, "w") as f:
             yaml.dump(tasks_data, f)
@@ -336,7 +336,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
         for task in tasks_data["tasks"]:
             task["status"] = "completed"
             if not task.get("completed"):
-                task["completed"] = datetime.utcnow().isoformat() + "+00:00"
+                task["completed"] = datetime.now(timezone.utc).isoformat() + "+00:00"
 
         with open(tasks_file, "w") as f:
             yaml.dump(tasks_data, f)
@@ -400,7 +400,7 @@ class TestE2ERoadmapWorkflow(unittest.TestCase):
             sprint_data = yaml.safe_load(f)
 
         sprint_data["sprint"]["status"] = "completed"
-        sprint_data["sprint"]["completed"] = datetime.utcnow().isoformat() + "+00:00"
+        sprint_data["sprint"]["completed"] = datetime.now(timezone.utc).isoformat() + "+00:00"
 
         with open(sprint_file, "w") as f:
             yaml.dump(sprint_data, f)

@@ -7,8 +7,11 @@ sprint:
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 3 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
     development_tasks_total: 11
     development_tasks_completed: 0
@@ -19,62 +22,18 @@ sprint:
     tasks_total: 11
     tasks_completed: 0
     completion_percent: 0
-  tasks_file: .vibey/tasks/missing-agents-1-tasks.yaml
-  dependencies: []
+  tasks: []
+  development_gates: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-10T10:00:00+00:00'
-    implementation_notes: 'Sprint 1 focuses on implementing 8 missing agents referenced
-      throughout documentation:
-
-
-      **Phase 1: Critical Missing Agents (Days 1-10, 76 hours)**
-
-      - Task 001: Implement test-engineer (20h) - CRITICAL, 67 references
-
-      - Task 002: Implement docs-writer (16h) - Rename/alias from documentation-engineer
-
-      - Task 003: Implement security-auditor (16h) - Rename/alias from security-reviewer
-
-      - Task 004: Implement architecture-agent (24h) - NEW, complex design
-
-
-      **Phase 2: Additional Missing Agents (Days 11-15, 56 hours)**
-
-      - Task 005: Implement backend-engineer (16h)
-
-      - Task 006: Implement frontend-engineer (16h)
-
-      - Task 007: Implement database-specialist (12h)
-
-      - Task 008: Implement infrastructure-engineer (12h)
-
-
-      **Phase 3: Documentation Updates (Days 16-21, 32 hours)**
-
-      - Task 009: Update all agent references (16h)
-
-      - Task 010: Create agent directory README (4h)
-
-      - Task 011: Add agent tests (12h)
-
-
-      **Success Criteria:**
-
-      - ✅ All 8 missing agents implemented
-
-      - ✅ Agent naming standardized (no more mismatches)
-
-      - ✅ All workflows reference existing agents
-
-      - ✅ Documentation updated
-
-      - ✅ Agent directory README created
-
-      - ✅ Agent tests passing
-
-
-      **Estimated Effort:** 164 hours (~3 weeks with 2 devs, ~4 weeks with 1 dev)
-
-      '
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

@@ -2,7 +2,7 @@ track:
   id: roadmap-integration
   name: Roadmap Integration into /vibey Commands
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   priority: high
   created: '2025-11-07T10:00:00+00:00'
@@ -67,7 +67,7 @@ track:
   - Roadmap sprint creation in /vibey plan
   - Roadmap progress tracking in /vibey code
   - Extended Vibey Manager with roadmap commands
-  - "Migration script: legacy \u2192 roadmap"
+  - 'Migration script: legacy → roadmap'
   - Updated /vibey command workflow documentation
   - User migration guide
   - Deprecation of legacy sprint-state scripts

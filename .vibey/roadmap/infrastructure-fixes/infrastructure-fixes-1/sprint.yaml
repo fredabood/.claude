@@ -3,14 +3,14 @@ sprint:
   name: Critical Infrastructure Fixes
   track_id: infrastructure-fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
   started: '2025-11-10T21:23:52.679383+00:00'
   completion_gate_check_at: '2025-11-10T21:23:52.679383+00:00'
   completed: '2025-11-10T21:23:57.636966+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-11-11T05:27:36.808562+00:00'
+  production_ready_at: '2025-11-11T05:27:55.536809+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 13

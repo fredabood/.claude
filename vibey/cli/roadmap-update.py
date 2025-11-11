@@ -867,7 +867,7 @@ def verify_roadmap_consistency(fs: FileSystemManager) -> List[str]:
 
             # Check task counts
             actual_tasks_total = len(tasks)
-            actual_tasks_completed = sum(1 for t in tasks if t.status in [TaskStatus.COMPLETED, TaskStatus.VERIFIED])
+            actual_tasks_completed = sum(1 for t in tasks if t.status == TaskStatus.COMPLETED)
 
             if sprint.progress.tasks_total != actual_tasks_total:
                 issues.append(f"Sprint {sprint_id}: tasks_total mismatch (stored={sprint.progress.tasks_total}, actual={actual_tasks_total})")

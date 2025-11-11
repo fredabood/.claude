@@ -22,7 +22,6 @@ track:
     estimated_duration: 3 weeks
     tasks_count: 11
     started: null
-    completed: null
   dependencies: []
   blocks: []
   blocked_by: []

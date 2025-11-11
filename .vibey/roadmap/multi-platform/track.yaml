@@ -85,15 +85,15 @@ track:
   - blocker_id: testing-system
     blocker_type: track
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-10T03:00:00+00:00'
+    last_checked: '2025-11-11T05:29:21.098657+00:00'
   - blocker_id: claude-port
     blocker_type: track
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-10T03:30:00+00:00'
+    last_checked: '2025-11-11T05:29:21.103309+00:00'
   - blocker_id: roadmap-system
     blocker_type: track
     required_status: completed

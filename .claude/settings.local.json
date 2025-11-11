@@ -11,7 +11,12 @@
       "Bash(git stash:*)",
       "Bash(awk:*)",
       "Bash(for task_id in directory-migration-2-task-005 directory-migration-2-task-006 directory-migration-2-task-007 directory-migration-2-task-008)",
-      "Bash(for task_id in directory-migration-2-task-011 directory-migration-2-task-014)"
+      "Bash(for task_id in directory-migration-2-task-011 directory-migration-2-task-014)",
+      "Bash(do python3 -c \"\nimport yaml\nwith open(''''$track_file'''') as f:\n    data = yaml.safe_load(f)\n    track = data.get(''''track'''', {})\n    track_id = track.get(''''id'''', ''''unknown'''')\n    status = track.get(''''status'''', ''''unknown'''')\n    priority = track.get(''''priority'''', ''''unknown'''')\n    progress = track.get(''''progress'''', {})\n    tasks_total = progress.get(''''tasks_total'''', 0)\n    tasks_completed = progress.get(''''tasks_completed'''', 0)\n    sprints_total = progress.get(''''sprints_total'''', 0)\n    sprints_completed = progress.get(''''sprints_completed'''', 0)\n    print(f''''{track_id}|{status}|{priority}|{sprints_completed}/{sprints_total}|{tasks_completed}/{tasks_total}'''')\n\" 2)",
+      "Bash(column -t -s '|':*)",
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

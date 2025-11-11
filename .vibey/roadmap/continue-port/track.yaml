@@ -3,7 +3,7 @@ track:
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
@@ -12,7 +12,7 @@ track:
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 12
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -50,21 +50,21 @@ track:
   - blocker_id: testing-system
     blocker_type: track
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-10T03:00:00+00:00'
+    last_checked: '2025-11-11T05:29:21.139799+00:00'
   - blocker_id: claude-port
     blocker_type: track
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-10T03:30:00+00:00'
+    last_checked: '2025-11-11T05:29:21.145090+00:00'
   - blocker_id: goose-port
-    current_status: not_started
-    last_checked: '2025-11-09T21:40:22.274961+00:00'
     blocker_type: track
     required_status: completed
+    current_status: not_started
     blocks_transition_to: in_progress
+    last_checked: '2025-11-09T21:40:22.274961+00:00'
   depended_on_by: []
   quality_gates:
   - name: Comprehensive Testing

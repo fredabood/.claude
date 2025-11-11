@@ -11,10 +11,10 @@ track:
   estimated_duration: 2 weeks
   progress:
     sprints_total: 1
-    sprints_completed: 1
-    tasks_total: 8
-    tasks_completed: 8
-    completion_percent: 100
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: claude-port-1
     name: Claude Code Testing & Validation
@@ -22,7 +22,6 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 8
     started: null
-    completed: null
   dependencies:
   - type: track
     target_id: testing-system

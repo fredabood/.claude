@@ -411,13 +411,27 @@ models/
             has_vibey=False
         )
 
-    def add_vibey_framework(self, repo: TestRepo) -> None:
+    def add_vibey_framework(
+        self,
+        repo: TestRepo,
+        orchestration_mode: str = "balanced",
+        quality_gates_enabled: bool = True,
+        platform: str = "claude-code",
+        agents: Optional[List[str]] = None
+    ) -> None:
         """
         Deploy Vibey framework to a test repository.
 
         Args:
             repo: TestRepo to deploy Vibey to
+            orchestration_mode: Orchestration mode (simple, balanced, tiered)
+            quality_gates_enabled: Whether quality gates are enabled
+            platform: Platform name (claude-code, goose, cursor, etc.)
+            agents: List of agent names to enable
         """
+        if agents is None:
+            agents = ["web-developer", "test-engineer"]
+
         claude_dir = repo.path / ".claude"
         claude_dir.mkdir(exist_ok=True)
 
@@ -431,23 +445,50 @@ models/
 
 Mock project for Vibey framework testing.
 
+---
+
+## Tech Stack
+
+**Languages:** python, javascript
+**Frameworks:** react, express
+
+---
+
+## Available Agents
+
+{', '.join(agents)}
+
+---
+
+## Orchestration Mode
+
+**Current Mode:** {orchestration_mode}
+
 <!-- VIBEY_FRAMEWORK_MANAGED -->
 """
         )
 
         # Create minimal project-config.yaml
+        agents_yaml = '\n'.join(f'  - {agent}' for agent in agents)
         config = f"""project:
   name: {repo.name}
   type: {repo.repo_type}
   version: 1.0.0
+  tech_stack:
+    languages:
+      - python
+      - javascript
+    frameworks:
+      - react
+      - express
 
 framework:
-  orchestration_mode: balanced
-  quality_gates_enabled: true
+  orchestration_mode: {orchestration_mode}
+  quality_gates_enabled: {str(quality_gates_enabled).lower()}
+  platform: {platform}
 
 agents:
-  - web-developer
-  - test-engineer
+{agents_yaml}
 """
         self._write_file(claude_dir / "project-config.yaml", config)
 

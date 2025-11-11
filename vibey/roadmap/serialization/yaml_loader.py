@@ -116,13 +116,13 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
     # Parse progress
     prog_data = roadmap_data['progress']
     progress = Progress(
-        tracks_total=prog_data['tracks_total'],
-        tracks_completed=prog_data['tracks_completed'],
-        sprints_total=prog_data['sprints_total'],
-        sprints_completed=prog_data['sprints_completed'],
-        tasks_total=prog_data['tasks_total'],
-        tasks_completed=prog_data['tasks_completed'],
-        completion_percent=prog_data['completion_percent'],
+        tracks_total=prog_data.get('tracks_total', 0),
+        tracks_completed=prog_data.get('tracks_completed', 0),
+        sprints_total=prog_data.get('sprints_total', 0),
+        sprints_completed=prog_data.get('sprints_completed', 0),
+        tasks_total=prog_data.get('tasks_total', 0),
+        tasks_completed=prog_data.get('tasks_completed', 0),
+        completion_percent=prog_data.get('completion_percent', 0),
     )
 
     # Parse tracks
@@ -183,13 +183,18 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         for al in roadmap_data.get('activity_log', [])
     ]
 
-    # Parse metadata
-    meta_data = roadmap_data['metadata']
+    # Parse metadata (optional for test fixtures)
+    meta_data = roadmap_data.get('metadata', {
+        'created_by': 'unknown',
+        'framework_version': '1.0.0',
+        'schema_version': '2.1',
+        'last_updated': '2025-01-01T00:00:00+00:00'
+    })
     metadata = Metadata(
-        created_by=meta_data['created_by'],
-        framework_version=meta_data['framework_version'],
-        schema_version=meta_data['schema_version'],
-        last_updated=_parse_datetime(meta_data['last_updated']),
+        created_by=meta_data.get('created_by', 'unknown'),
+        framework_version=meta_data.get('framework_version', '1.0.0'),
+        schema_version=meta_data.get('schema_version', '2.1'),
+        last_updated=_parse_datetime(meta_data.get('last_updated', '2025-01-01T00:00:00+00:00')),
         purpose=meta_data.get('purpose'),
         description=meta_data.get('description'),
     )

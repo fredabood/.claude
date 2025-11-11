@@ -8,6 +8,7 @@ task breakdown and quality gate configuration.
 import pytest
 from pathlib import Path
 from tests.utils import RepoBuilder, StateValidator, GitValidator, MetricsCollector
+from tests.utils.config_loader import ConfigLoader
 import time
 
 

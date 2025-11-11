@@ -8,6 +8,7 @@ workflow equivalence, and platform parity validation.
 import pytest
 from pathlib import Path
 from tests.utils import RepoBuilder, StateValidator, MetricsCollector
+from tests.utils.config_loader import ConfigLoader
 
 
 @pytest.mark.integration

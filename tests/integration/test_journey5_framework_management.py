@@ -8,6 +8,7 @@ quality gate configuration, and agent management.
 import pytest
 from pathlib import Path
 from tests.utils import RepoBuilder, StateValidator, MetricsCollector
+from tests.utils.config_loader import ConfigLoader
 import yaml
 
 

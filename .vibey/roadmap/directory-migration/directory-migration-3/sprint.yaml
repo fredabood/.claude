@@ -1,0 +1,52 @@
+sprint:
+  id: directory-migration-3
+  name: Platform Adapter Implementation
+  track_id: directory-migration
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  created: '2025-11-10T20:30:00+00:00'
+  started: '2025-11-10T20:30:00+00:00'
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 18
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 18
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: directory-migration-2
+    blocker_type: sprint
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-10T20:30:00+00:00'
+  depended_on_by: []
+  plan_file: docs/development/DIRECTORY_MIGRATION_PLAN.md
+  deliverables:
+  - Adapter interface and base class
+  - Claude Code adapter (refactored from existing)
+  - Goose adapter (basic implementation)
+  - vibey deploy command
+  - Updated .gitignore rules
+  - Platform detection logic
+  - Comprehensive adapter development guide
+  metadata:
+    last_updated: '2025-11-10T20:30:00+00:00'
+    estimated_duration: 3 weeks
+    actual_duration: null
+    estimated_tokens: 80000
+    actual_tokens: null
+    agents_used: null

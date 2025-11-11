@@ -17,6 +17,7 @@ import os
 # Get repository root
 REPO_ROOT = Path(__file__).parent.parent.parent
 WRAPPER_SCRIPT = REPO_ROOT / "framework" / "scripts" / "roadmap-cli.sh"
+ROADMAP_UPDATE_SCRIPT = REPO_ROOT / "vibey" / "cli" / "roadmap-update.py"
 
 
 @pytest.fixture
@@ -148,6 +149,51 @@ class TestUpdateCommand:
         )
         # Should fail with error about missing argument
         assert result.returncode != 0
+
+    @pytest.mark.skipif(not (REPO_ROOT / ".vibey" / "roadmap.yaml").exists(),
+                        reason="Requires real roadmap data")
+    def test_refresh_progress(self):
+        """Test --refresh-progress flag."""
+        result = subprocess.run(
+            ["python3", str(ROADMAP_UPDATE_SCRIPT), "--refresh-progress"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT)
+        )
+        # Should succeed (exit code 0)
+        assert result.returncode == 0
+
+    @pytest.mark.skipif(not (REPO_ROOT / ".vibey" / "roadmap.yaml").exists(),
+                        reason="Requires real roadmap data")
+    def test_recalculate_all(self):
+        """Test --recalculate-all flag."""
+        result = subprocess.run(
+            ["python3", str(ROADMAP_UPDATE_SCRIPT), "--recalculate-all"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT)
+        )
+        # Should succeed
+        assert result.returncode == 0
+        # Should contain expected output messages
+        output = result.stdout + result.stderr
+        assert "Recalculating" in output or "recalculating" in output or "Step" in output
+
+    @pytest.mark.skipif(not (REPO_ROOT / ".vibey" / "roadmap.yaml").exists(),
+                        reason="Requires real roadmap data")
+    def test_recalculate_all_with_verify(self):
+        """Test --recalculate-all with --verify flag."""
+        result = subprocess.run(
+            ["python3", str(ROADMAP_UPDATE_SCRIPT), "--recalculate-all", "--verify"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT)
+        )
+        # Should succeed or find issues (exit code 0 or 1)
+        assert result.returncode in [0, 1]
+        # Should contain verification messages
+        output = result.stdout + result.stderr
+        assert "Verifying" in output or "verifying" in output or "consistency" in output or "Step 5" in output
 
 
 class TestContextCommand:

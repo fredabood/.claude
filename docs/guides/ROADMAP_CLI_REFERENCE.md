@@ -105,7 +105,9 @@ python3 framework/scripts/roadmap-update.py [OPTIONS]
 - `--agent AGENT` - Agent name
 - `--start-sprint SPRINT_ID` - Start sprint
 - `--complete-sprint SPRINT_ID` - Complete sprint
-- `--refresh-progress` - Recalculate all progress
+- `--refresh-progress` - Recalculate all sprint progress
+- `--recalculate-all` - Recalculate entire roadmap hierarchy (sprints, tracks, roadmap, dependencies)
+- `--verify` - Verify consistency after recalculation (use with `--recalculate-all`)
 - `--by USER` - User making update (default: system)
 
 **Examples:**
@@ -127,8 +129,14 @@ python3 framework/scripts/roadmap-update.py --start-sprint backend-1
 # Complete sprint
 python3 framework/scripts/roadmap-update.py --complete-sprint backend-1
 
-# Refresh all progress calculations
+# Refresh all sprint progress calculations
 python3 framework/scripts/roadmap-update.py --refresh-progress
+
+# Recalculate entire roadmap hierarchy (bottom-up)
+python3 framework/scripts/roadmap-update.py --recalculate-all
+
+# Recalculate with consistency verification
+python3 framework/scripts/roadmap-update.py --recalculate-all --verify
 ```
 
 ---
@@ -488,11 +496,33 @@ vibey deps check backend-1-task-002
 # 3. Find blockers
 vibey task find --blocked
 
-# 4. Refresh progress if stale
+# 4. Refresh sprint progress if stale
 python3 framework/scripts/roadmap-update.py --refresh-progress
 
-# 5. View JSON for debugging
+# 5. Recalculate entire hierarchy (after manual YAML edits or migrations)
+python3 framework/scripts/roadmap-update.py --recalculate-all --verify
+
+# 6. View JSON for debugging
 python3 framework/scripts/roadmap-query.py --json
+```
+
+### Data Recovery Workflow
+
+```bash
+# 1. Backup current state
+cp -r .vibey .vibey.backup
+
+# 2. Run full hierarchy recalculation
+python3 framework/scripts/roadmap-update.py --recalculate-all
+
+# 3. Verify consistency
+python3 framework/scripts/roadmap-update.py --recalculate-all --verify
+
+# 4. Check for issues
+vibey validate
+
+# 5. Compare with backup if needed
+diff -r .vibey .vibey.backup
 ```
 
 ### Reporting Workflow

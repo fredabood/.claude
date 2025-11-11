@@ -787,6 +787,48 @@ version_strategy:
 python3 framework/scripts/roadmap-update.py --rebuild-cache
 ```
 
+#### Issue: Progress calculations are incorrect or stale
+
+**Cause:** Manual YAML edits, interrupted operations, or data migrations
+
+**Solution:**
+```bash
+# Quick fix: Refresh sprint progress only
+python3 framework/scripts/roadmap-update.py --refresh-progress
+
+# Full fix: Recalculate entire hierarchy (bottom-up)
+python3 framework/scripts/roadmap-update.py --recalculate-all
+
+# With consistency verification
+python3 framework/scripts/roadmap-update.py --recalculate-all --verify
+```
+
+**What `--recalculate-all` does:**
+1. Recalculates all sprint progress from tasks
+2. Recalculates all track progress from sprints
+3. Recalculates roadmap progress from tracks
+4. Refreshes all dependency caches
+5. Optionally verifies consistency
+
+**When to use:**
+- After manual YAML file edits
+- After data migrations or schema changes
+- When debugging progress inconsistencies
+- After recovering from interrupted operations
+- When aggregate fields don't match actual data
+
+#### Issue: Dependency caches are stale
+
+**Cause:** Blocker status changed but `depends_on.current_status` not updated
+
+**Solution:**
+```bash
+# Refresh all dependency caches
+python3 framework/scripts/roadmap-update.py --recalculate-all
+```
+
+This updates `current_status` fields in all `depends_on` lists across tracks, sprints, and tasks.
+
 ---
 
 ## Next Steps

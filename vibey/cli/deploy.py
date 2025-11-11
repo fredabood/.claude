@@ -1,270 +1,248 @@
-#!/usr/bin/env python3
 """
-Vibey Deploy Command
+Deployment command implementation.
 
-Deploy Vibey framework to target platform from .vibey/ configuration.
-
-Usage:
-    python3 framework/scripts/deploy.py --platform claude-code
-    python3 framework/scripts/deploy.py --platform goose
-    python3 framework/scripts/deploy.py --list-platforms
-    python3 framework/scripts/deploy.py --platform claude-code --no-backup
-    python3 framework/scripts/deploy.py --platform claude-code --no-clean
-
-Created: 2025-11-09
-Sprint: core-framework-2, Task 7
+This module handles the `vibey deploy` command for deploying Vibey
+framework to different platforms.
 """
 
-import sys
-import argparse
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
-# Add framework to path
-framework_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(framework_dir.parent))
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.tree import Tree
 
-from framework.platform_adapters.registry import AdapterRegistry
+from vibey.adapters import ClaudeCodeAdapter, GooseAdapter
+from vibey.adapters.base import PlatformAdapter
+from vibey.config import load_config, ConfigNotFoundError
 
+console = Console()
 
-def print_banner():
-    """Print Vibey deploy banner."""
-    print("=" * 60)
-    print("🚀 Vibey Deploy - Platform Deployment Generator")
-    print("=" * 60)
-    print()
-
-
-def list_platforms():
-    """List all available platforms."""
-    print_banner()
-
-    platforms = AdapterRegistry.list_platforms()
-
-    if not platforms:
-        print("❌ No platforms registered.")
-        print("\nPlease ensure platform adapters are installed.")
-        return 1
-
-    print(f"Available Platforms ({len(platforms)}):\n")
-
-    for platform in platforms:
-        try:
-            info = AdapterRegistry.get_adapter_info(platform)
-            print(f"  📦 {platform}")
-            print(f"     Class: {info['class_name']}")
-            print(f"     Deployment Dir: {info['deployment_dir']}")
-            print(f"     Instructions File: {info['instructions_file']}")
-            print()
-        except Exception as e:
-            print(f"  ⚠️  {platform}: Error getting info - {e}")
-            print()
-
-    print("=" * 60)
-    return 0
+# Platform registry
+PLATFORMS = {
+    "claude-code": ClaudeCodeAdapter,
+    "goose": GooseAdapter,
+}
 
 
-def deploy_to_platform(
-    platform: str,
-    vibey_dir: Optional[Path] = None,
-    clean: bool = True,
-    backup: bool = True,
-    validate: bool = True
-) -> int:
+def get_adapter(platform: str) -> Optional[PlatformAdapter]:
     """
-    Deploy to specified platform.
+    Get adapter for platform.
 
     Args:
-        platform: Platform identifier (e.g., 'claude-code')
-        vibey_dir: Path to .vibey directory (auto-detected if None)
-        clean: Delete existing deployment before generating
-        backup: Backup existing deployment
-        validate: Validate configuration before deployment
+        platform: Platform name (e.g., "claude-code", "goose")
+
+    Returns:
+        Platform adapter instance, or None if not found
+    """
+    adapter_class = PLATFORMS.get(platform.lower())
+    if adapter_class:
+        return adapter_class()
+    return None
+
+
+def list_platforms() -> None:
+    """List available platforms."""
+    console.print("\n[bold]Available Platforms:[/bold]\n")
+
+    table = Table()
+    table.add_column("Platform", style="cyan")
+    table.add_column("Status", style="green")
+    table.add_column("Adapter", style="dim")
+
+    for platform_name, adapter_class in PLATFORMS.items():
+        adapter = adapter_class()
+        table.add_row(
+            platform_name,
+            "✅ Ready",
+            adapter_class.__name__
+        )
+
+    console.print(table)
+
+
+def deploy_cmd(
+    platform: str,
+    clean: bool = False,
+    validate: bool = True,
+    project_root: Optional[Path] = None
+) -> int:
+    """
+    Deploy Vibey framework to specified platform.
+
+    Args:
+        platform: Target platform (claude-code, goose, or "all")
+        clean: Remove existing deployment first
+        validate: Validate deployment after completion
+        project_root: Project root directory (default: current)
 
     Returns:
         Exit code (0 = success, 1 = error)
     """
-    print_banner()
+    if project_root is None:
+        project_root = Path.cwd()
 
-    # Check if platform is registered
-    if not AdapterRegistry.is_registered(platform):
-        available = ', '.join(AdapterRegistry.list_platforms())
-        print(f"❌ Platform '{platform}' not registered.\n")
-        print(f"Available platforms: {available}\n")
-        print("Use --list-platforms to see all available platforms.")
-        print("=" * 60)
-        return 1
+    console.print(Panel.fit(
+        "[bold cyan]Vibey Framework Deployment[/bold cyan]\n"
+        f"Platform: {platform}",
+        border_style="blue"
+    ))
+
+    # Handle "all" platforms
+    if platform.lower() == "all":
+        return deploy_all_platforms(clean=clean, validate=validate, project_root=project_root)
 
     # Get adapter
-    print(f"📦 Platform: {platform}")
-    print()
+    adapter = get_adapter(platform)
+    if not adapter:
+        console.print(f"\n[red]✗ Unknown platform:[/red] {platform}")
+        console.print("\n[yellow]Available platforms:[/yellow]")
+        list_platforms()
+        return 1
 
+    # Load config
+    console.print(f"\n[bold]Step 1:[/bold] Loading configuration...")
     try:
-        adapter = AdapterRegistry.get_adapter(platform, vibey_dir=vibey_dir)
-        print(f"✅ Adapter loaded: {type(adapter).__name__}")
-        print(f"   Deployment Directory: {adapter.get_deployment_dir()}")
-        print(f"   Instructions File: {adapter.get_instructions_filename()}")
-        print()
-    except FileNotFoundError as e:
-        print(f"❌ Error: {e}\n")
-        print("Make sure you're in a Vibey-managed project (with .vibey/ directory).")
-        print("=" * 60)
+        config = load_config(project_root)
+        console.print(f"[green]✓[/green] Config loaded: {config.project.project.name}")
+    except ConfigNotFoundError:
+        console.print("[red]✗[/red] No configuration found")
+        console.print("  Run 'vibey init' to create configuration")
         return 1
     except Exception as e:
-        print(f"❌ Error loading adapter: {e}")
-        print("=" * 60)
+        console.print(f"[red]✗[/red] Error loading config: {e}")
         return 1
-
-    # Validate configuration
-    if validate:
-        print("🔍 Validating configuration...")
-        if not adapter.validate_config():
-            print("❌ Configuration validation failed.")
-            print("\nPlease check your .vibey/config/ files:")
-            print("  - .vibey/config/project.yaml")
-            print("  - .vibey/config/framework.yaml")
-            print("  - .vibey/config/agents/*.yaml")
-            print("  - .vibey/config/workflows/*.yaml")
-            print("\n" + "=" * 60)
-            return 1
-        print("✅ Configuration valid")
-        print()
-
-    # Show deployment options
-    print("⚙️  Deployment Options:")
-    print(f"   Clean: {'Yes' if clean else 'No'} (delete existing deployment)")
-    print(f"   Backup: {'Yes' if backup else 'No'} (backup before overwrite)")
-    print(f"   Validate: {'Yes' if validate else 'No'} (validate configs)")
-    print()
-
-    # Confirm deployment
-    deployment_dir = adapter.get_deployment_dir()
-    if deployment_dir.exists():
-        print(f"⚠️  Existing deployment found at: {deployment_dir}")
-        if clean:
-            print("   This deployment will be deleted and regenerated.")
-        elif backup:
-            print("   This deployment will be backed up and overwritten.")
-        else:
-            print("   This deployment will be overwritten (no backup).")
-        print()
 
     # Deploy
-    try:
-        print("🚀 Starting deployment...\n")
-        adapter.deploy(clean=clean, validate=validate, backup=backup)
-        print()
-    except Exception as e:
-        print(f"\n❌ Deployment failed: {e}")
-        import traceback
-        traceback.print_exc()
-        print("\n" + "=" * 60)
+    console.print(f"\n[bold]Step 2:[/bold] Deploying to {platform}...")
+
+    source_dir = project_root / ".vibey"
+    if not source_dir.exists():
+        console.print(f"[red]✗[/red] Source directory not found: {source_dir}")
+        console.print("  Expected .vibey/ directory with framework data")
         return 1
 
-    # Success
-    print("=" * 60)
-    print(f"✅ Deployment complete!")
-    print()
-    print(f"📁 Deployment location: {deployment_dir}")
-    print(f"📄 Instructions file: {deployment_dir / adapter.get_instructions_filename()}")
+    result = adapter.deploy(
+        source_dir=source_dir,
+        config=config,
+        clean=clean
+    )
 
-    # Show next steps
-    print()
-    print("Next steps:")
-    if platform == 'claude-code':
-        print("  1. Open this project in Claude Code")
-        print("  2. Claude will automatically load CLAUDE.md")
-        print("  3. Start using Vibey agents and workflows!")
-    elif platform == 'goose':
-        print("  1. Open this project in Goose")
-        print("  2. Goose will automatically load .goose/README.md")
-        print("  3. Start using Vibey recipes and extensions!")
-    elif platform == 'cursor':
-        print("  1. Open this project in Cursor")
-        print("  2. Cursor will automatically load .cursorrules")
-        print("  3. Start using Vibey agents!")
+    # Show result
+    console.print(f"\n[bold]Step 3:[/bold] Deployment result...")
+
+    if result.success:
+        console.print(f"[green]✓ Deployment successful![/green]")
     else:
-        print(f"  1. Open this project in {platform}")
-        print("  2. Follow platform-specific instructions")
+        console.print(f"[red]✗ Deployment failed[/red]")
 
-    print()
-    print("=" * 60)
-    return 0
+    # Show details
+    tree = Tree("[bold]Deployment Details[/bold]")
 
+    # Files
+    files_node = tree.add(f"📁 Files")
+    files_node.add(f"Created: {len(result.files_created)}")
+    files_node.add(f"Updated: {len(result.files_updated)}")
+    files_node.add(f"Deleted: {len(result.files_deleted)}")
 
-def main():
-    """Main CLI entry point."""
-    parser = argparse.ArgumentParser(
-        description='Deploy Vibey framework to target platform',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  %(prog)s --platform claude-code
-  %(prog)s --platform goose --no-backup
-  %(prog)s --list-platforms
-  %(prog)s --platform claude-code --vibey-dir /path/to/.vibey
-        """
-    )
+    # Validation
+    validation_node = tree.add("🔍 Validation")
+    if result.validation_passed:
+        validation_node.add("[green]✓ Passed[/green]")
+    else:
+        validation_node.add("[red]✗ Failed[/red]")
 
-    parser.add_argument(
-        '--platform',
-        '-p',
-        type=str,
-        help='Target platform (e.g., claude-code, goose, cursor)'
-    )
+    # Duration
+    tree.add(f"⏱️  Duration: {result.duration_seconds:.2f}s")
 
-    parser.add_argument(
-        '--list-platforms',
-        '-l',
-        action='store_true',
-        help='List all available platforms'
-    )
+    console.print(tree)
 
-    parser.add_argument(
-        '--vibey-dir',
-        type=Path,
-        default=None,
-        help='Path to .vibey directory (auto-detected if not provided)'
-    )
+    # Show errors
+    if result.errors:
+        console.print("\n[red]Errors:[/red]")
+        for error in result.errors:
+            console.print(f"  • {error}")
 
-    parser.add_argument(
-        '--no-clean',
-        action='store_true',
-        help='Do not delete existing deployment (default: clean)'
-    )
+    # Show warnings
+    if result.warnings:
+        console.print("\n[yellow]Warnings:[/yellow]")
+        for warning in result.warnings:
+            console.print(f"  • {warning}")
 
-    parser.add_argument(
-        '--no-backup',
-        action='store_true',
-        help='Do not backup existing deployment (default: backup)'
-    )
+    # Show created files
+    if result.files_created:
+        console.print("\n[dim]Files created:[/dim]")
+        for file in result.files_created[:5]:  # Show first 5
+            console.print(f"  [dim]{file}[/dim]")
+        if len(result.files_created) > 5:
+            console.print(f"  [dim]... and {len(result.files_created) - 5} more[/dim]")
 
-    parser.add_argument(
-        '--no-validate',
-        action='store_true',
-        help='Skip configuration validation (default: validate)'
-    )
-
-    args = parser.parse_args()
-
-    # List platforms
-    if args.list_platforms:
-        return list_platforms()
-
-    # Deploy to platform
-    if not args.platform:
-        parser.print_help()
-        print("\n❌ Error: --platform is required (or use --list-platforms)")
+    # Final status
+    console.print()
+    if result.success:
+        console.print(f"[green]✓ {platform} deployment complete![/green]")
+        console.print(f"[dim]Deployed to: {result.target_dir}[/dim]")
+        return 0
+    else:
+        console.print(f"[red]✗ {platform} deployment failed[/red]")
         return 1
 
-    return deploy_to_platform(
-        platform=args.platform,
-        vibey_dir=args.vibey_dir,
-        clean=not args.no_clean,
-        backup=not args.no_backup,
-        validate=not args.no_validate
-    )
 
+def deploy_all_platforms(
+    clean: bool = False,
+    validate: bool = True,
+    project_root: Optional[Path] = None
+) -> int:
+    """
+    Deploy to all available platforms.
 
-if __name__ == "__main__":
-    sys.exit(main())
+    Args:
+        clean: Remove existing deployments first
+        validate: Validate deployments after completion
+        project_root: Project root directory (default: current)
+
+    Returns:
+        Exit code (0 = all succeeded, 1 = any failed)
+    """
+    console.print("\n[bold]Deploying to all platforms...[/bold]\n")
+
+    results = {}
+    for platform_name in PLATFORMS.keys():
+        console.print(f"\n{'='*60}")
+        console.print(f"[bold cyan]Platform: {platform_name}[/bold cyan]")
+        console.print('='*60)
+
+        exit_code = deploy_cmd(
+            platform=platform_name,
+            clean=clean,
+            validate=validate,
+            project_root=project_root
+        )
+
+        results[platform_name] = (exit_code == 0)
+
+    # Summary
+    console.print("\n" + "="*60)
+    console.print("[bold]Deployment Summary[/bold]")
+    console.print("="*60 + "\n")
+
+    table = Table()
+    table.add_column("Platform", style="cyan")
+    table.add_column("Status", style="green")
+
+    for platform_name, success in results.items():
+        status = "[green]✓ Success[/green]" if success else "[red]✗ Failed[/red]"
+        table.add_row(platform_name, status)
+
+    console.print(table)
+
+    # Return success if all succeeded
+    all_succeeded = all(results.values())
+    if all_succeeded:
+        console.print(f"\n[green]✓ All platforms deployed successfully![/green]")
+        return 0
+    else:
+        console.print(f"\n[yellow]⚠ Some platforms failed[/yellow]")
+        return 1

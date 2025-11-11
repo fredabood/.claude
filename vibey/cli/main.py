@@ -206,33 +206,29 @@ def deploy(ctx):
 
 
 @deploy.command('run')
-@click.option('--platform', type=click.Choice(['claude-code', 'goose', 'cursor', 'aider', 'continue']),
-              required=True, help='Target platform')
+@click.option('--platform', type=click.Choice(['claude-code', 'goose', 'all']),
+              required=True, help='Target platform (or "all" for all platforms)')
 @click.option('--clean', is_flag=True, help='Remove existing deployment first')
+@click.option('--no-validate', is_flag=True, help='Skip post-deployment validation')
 @click.pass_context
-def deploy_run(ctx, platform: str, clean: bool):
+def deploy_run(ctx, platform: str, clean: bool, no_validate: bool):
     """Deploy framework to specified platform"""
-    from vibey.cli.commands import deploy_cmd
+    from vibey.cli.deploy import deploy_cmd
 
-    exit_code = deploy_cmd(platform, clean)
+    exit_code = deploy_cmd(
+        platform=platform,
+        clean=clean,
+        validate=not no_validate
+    )
     sys.exit(exit_code)
 
 
-@deploy.command('list-platforms')
+@deploy.command('list')
 @click.pass_context
 def deploy_list_platforms(ctx):
     """List available deployment platforms"""
-    console.print("[bold]Available Platforms:[/bold]")
-    platforms = [
-        ("claude-code", "Claude Code (current)", "✅"),
-        ("goose", "Goose by Block", "🚧 In development"),
-        ("cursor", "Cursor IDE", "📋 Planned"),
-        ("aider", "Aider CLI", "📋 Planned"),
-        ("continue", "Continue.dev", "📋 Planned"),
-    ]
-
-    for name, description, status in platforms:
-        console.print(f"  {status} [cyan]{name:15}[/cyan] - {description}")
+    from vibey.cli.deploy import list_platforms
+    list_platforms()
 
 
 # ============================================================================

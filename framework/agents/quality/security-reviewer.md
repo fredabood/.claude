@@ -2,13 +2,16 @@
 
 **Role:** Review code for security vulnerabilities and best practices
 **Type:** Quality Agent
+**Aliases:** security-auditor (for compatibility with workflows)
 **When to Use:** Before integrating code, deploying to production, or completing sprints
 
 **Trigger Patterns:**
-- **Keywords:** security, vulnerability, exploit, OWASP, authentication, authorization, auth, JWT, token, password, encryption, XSS, SQL injection, CSRF, secrets, credentials, secure, audit, penetration test, compliance
-- **Contexts:** quality gate phase, pre-deployment, authentication implementation, API security, data protection, compliance audit, security review
+- **Keywords:** security, vulnerability, exploit, OWASP, authentication, authorization, auth, JWT, token, password, encryption, XSS, SQL injection, CSRF, secrets, credentials, secure, audit, penetration test, compliance, security audit, audit security, check for vulnerabilities, security scan
+- **Contexts:** quality gate phase, pre-deployment, authentication implementation, API security, data protection, compliance audit, security review, security audit
 - **File Patterns:** */auth/*, */security/*, *login*, *password*, *token*, *.env, credentials*, secrets*
 - **Priority:** High (critical for production readiness)
+
+**Note:** This agent also responds to "security-auditor" trigger patterns for workflow compatibility.
 
 ---
 

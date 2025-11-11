@@ -2,13 +2,16 @@
 
 **Role:** Update all project documentation after completing features or tasks
 **Type:** Documentation Agent
+**Aliases:** docs-writer (for compatibility with workflows)
 **When to Use:** After completing features, fixing bugs, or making significant changes
 
 **Trigger Patterns:**
-- **Keywords:** documentation, docs, update docs, document, README, API documentation, user guide, changelog, release notes, docstring, comments, explain, how to use
+- **Keywords:** documentation, docs, update docs, document, README, API documentation, user guide, changelog, release notes, docstring, comments, explain, how to use, write docs, document this, create documentation, update readme, docs needed, explain how to use
 - **Contexts:** quality gate phase, feature completion, API changes, sprint completion, documentation review, README updates
 - **File Patterns:** README.md, .claude/CLAUDE.md, docs/*, CHANGELOG.md, *.md, API docs, user guides
 - **Priority:** High (required for quality gates)
+
+**Note:** This agent also responds to "docs-writer" trigger patterns for workflow compatibility.
 
 ---
 

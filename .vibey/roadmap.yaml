@@ -60,7 +60,7 @@ roadmap:
     priority: critical
   - id: claude-port
     name: Claude Code Platform Validation
-    status: in_progress
+    status: completed
     priority: critical
   - id: goose-port
     name: Goose Platform Port

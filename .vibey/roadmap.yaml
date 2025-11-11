@@ -17,10 +17,10 @@ roadmap:
     tracks_total: 16
     tracks_completed: 4
     sprints_total: 46
-    sprints_completed: 20
+    sprints_completed: 21
     tasks_total: 247
-    tasks_completed: 175
-    completion_percent: 70
+    tasks_completed: 179
+    completion_percent: 72
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -996,17 +996,58 @@ roadmap:
     context:
       task_id: directory-migration-1-task-007
       sprint_id: directory-migration-1
-  - timestamp: '2025-11-11T00:10:44.556739Z'
+  - timestamp: '2025-11-11T00:10:44.556739+00:00'
     type: task_completed
     description: Task 'Create tests for CLI commands' completed
     context:
       task_id: directory-migration-1-task-008
       sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:11:07.783026+00:00'
+    type: task_started
+    description: Task 'Document CLI usage' started
+    context:
+      task_id: directory-migration-1-task-009
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:11:47.388704+00:00'
+    type: task_completed
+    description: Task 'Document CLI usage' completed
+    context:
+      task_id: directory-migration-1-task-009
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:11:47.738897+00:00'
+    type: task_started
+    description: Task 'Package for PyPI distribution' started
+    context:
+      task_id: directory-migration-1-task-010
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:12:22.961027+00:00'
+    type: task_completed
+    description: Task 'Package for PyPI distribution' completed
+    context:
+      task_id: directory-migration-1-task-010
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:12:23.334508+00:00'
+    type: task_completed
+    description: Task 'Verify installation on clean system' completed
+    context:
+      task_id: directory-migration-1-task-011
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:12:23.713670+00:00'
+    type: task_completed
+    description: Task 'Update PATH dependencies' completed
+    context:
+      task_id: directory-migration-1-task-012
+      sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:12:33.301293Z'
+    type: sprint_completed
+    description: Sprint 'Unified CLI Tool' completed
+    context:
+      sprint_id: directory-migration-1
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-11T00:10:44.556744Z'
+    last_updated: '2025-11-11T00:12:33.301298Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

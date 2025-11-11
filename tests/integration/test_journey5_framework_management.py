@@ -22,25 +22,22 @@ class TestJourney5FrameworkManagement:
         builder = RepoBuilder(temp_dir)
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo, orchestration_mode="balanced")
-        validator = StateValidator()
+        config_loader = ConfigLoader(repo.path)
 
-        # Act - Switch to tiered mode
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        with open(config_file) as f:
+        # Act - Switch to tiered mode (modular config)
+        framework_file = repo.path / ".vibey" / "config" / "framework.yaml"
+        with open(framework_file) as f:
             config = yaml.safe_load(f)
 
-        config["framework"]["orchestration"]["mode"] = "tiered"
-        config["framework"]["orchestration"]["coordinator_enabled"] = True
+        config["framework"]["orchestration_mode"] = "tiered"
+        config["framework"]["coordinator_enabled"] = True
 
-        with open(config_file, 'w') as f:
+        with open(framework_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert
-        content_result = validator.validate_file_content(
-            config_file,
-            contains=["mode: tiered", "coordinator_enabled: true"]
-        )
-        assert content_result.passed
+        # Assert - Verify change using ConfigLoader
+        config_loader = ConfigLoader(repo.path)  # Reload
+        assert config_loader.get_orchestration_mode() == "tiered"
 
     def test_02_quality_gate_enablement(self, temp_dir):
         """Test enabling/disabling quality gates."""
@@ -49,25 +46,22 @@ class TestJourney5FrameworkManagement:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo, quality_gates_enabled=False)
 
-        # Act - Enable quality gates
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        with open(config_file) as f:
+        # Act - Enable quality gates (modular config)
+        gates_file = repo.path / ".vibey" / "config" / "quality-gates.yaml"
+        with open(gates_file) as f:
             config = yaml.safe_load(f)
 
-        config["framework"]["quality_gates"] = {
-            "enabled": True,
-            "gates": ["security_review", "test_coverage", "documentation"]
-        }
+        config["quality_gates"]["enabled"] = True
+        config["quality_gates"]["gates"] = ["security_review", "test_coverage", "documentation"]
 
-        with open(config_file, 'w') as f:
+        with open(gates_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert
-        with open(config_file) as f:
-            updated_config = yaml.safe_load(f)
-
-        assert updated_config["framework"]["quality_gates"]["enabled"] is True
-        assert len(updated_config["framework"]["quality_gates"]["gates"]) == 3
+        # Assert - Verify using ConfigLoader
+        config_loader = ConfigLoader(repo.path)
+        assert config_loader.get_quality_gates_enabled() is True
+        gates_config = config_loader.load_quality_gates_config()
+        assert len(gates_config["quality_gates"]["gates"]) == 3
 
     def test_03_agent_configuration_update(self, temp_dir):
         """Test updating agent configuration."""
@@ -77,27 +71,26 @@ class TestJourney5FrameworkManagement:
         builder.add_vibey_framework(repo)
         metrics = MetricsCollector()
 
-        # Act - Update agent list
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        with open(config_file) as f:
+        # Act - Update agent list (modular config)
+        agents_file = repo.path / ".vibey" / "config" / "agents.yaml"
+        with open(agents_file) as f:
             config = yaml.safe_load(f)
 
-        config["framework"]["agents"] = [
+        config["agents"]["enabled"] = [
             "web-developer",
             "security-reviewer",
             "performance-engineer",
             "ml-engineer"  # Add ML engineer
         ]
 
-        with open(config_file, 'w') as f:
+        with open(agents_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert
-        with open(config_file) as f:
-            updated_config = yaml.safe_load(f)
-
-        assert "ml-engineer" in updated_config["framework"]["agents"]
-        assert len(updated_config["framework"]["agents"]) == 4
+        # Assert - Verify using ConfigLoader
+        config_loader = ConfigLoader(repo.path)
+        agents_config = config_loader.load_agents_config()
+        assert "ml-engineer" in agents_config["agents"]["enabled"]
+        assert len(agents_config["agents"]["enabled"]) == 4
 
         metrics.track("config_update_success", 100, unit="percentage", threshold=100)
 
@@ -108,65 +101,63 @@ class TestJourney5FrameworkManagement:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        # Act - Update tech stack
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        with open(config_file) as f:
+        # Act - Update tech stack (modular config)
+        project_file = repo.path / ".vibey" / "config" / "project.yaml"
+        with open(project_file) as f:
             config = yaml.safe_load(f)
 
         config["project"]["tech_stack"]["database"] = "mongodb"
         config["project"]["tech_stack"]["cache"] = "redis"
 
-        with open(config_file, 'w') as f:
+        with open(project_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert
-        with open(config_file) as f:
-            updated_config = yaml.safe_load(f)
-
-        assert updated_config["project"]["tech_stack"]["database"] == "mongodb"
-        assert updated_config["project"]["tech_stack"]["cache"] == "redis"
+        # Assert - Verify using ConfigLoader
+        config_loader = ConfigLoader(repo.path)
+        assert config_loader.get("project.tech_stack.database") == "mongodb"
+        assert config_loader.get("project.tech_stack.cache") == "redis"
 
     def test_05_complete_framework_management_workflow(self, temp_dir):
         """Test complete framework configuration management workflow."""
         # Arrange
         builder = RepoBuilder(temp_dir)
-        validator = StateValidator()
         metrics = MetricsCollector()
 
-        # Act - Complete management workflow
+        # Act - Complete management workflow (modular configs)
         repo = builder.create_web_app_repo(name="managed-project")
         builder.add_vibey_framework(repo, orchestration_mode="simple", quality_gates_enabled=False)
 
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-
         # Step 1: Enable quality gates
-        with open(config_file) as f:
+        gates_file = repo.path / ".vibey" / "config" / "quality-gates.yaml"
+        with open(gates_file) as f:
             config = yaml.safe_load(f)
-        config["framework"]["quality_gates"] = {"enabled": True, "gates": ["security_review"]}
-        with open(config_file, 'w') as f:
+        config["quality_gates"]["enabled"] = True
+        config["quality_gates"]["gates"] = ["security_review"]
+        with open(gates_file, 'w') as f:
             yaml.dump(config, f)
 
         # Step 2: Switch orchestration mode
-        with open(config_file) as f:
+        framework_file = repo.path / ".vibey" / "config" / "framework.yaml"
+        with open(framework_file) as f:
             config = yaml.safe_load(f)
-        config["framework"]["orchestration"]["mode"] = "balanced"
-        with open(config_file, 'w') as f:
+        config["framework"]["orchestration_mode"] = "balanced"
+        with open(framework_file, 'w') as f:
             yaml.dump(config, f)
 
         # Step 3: Add agents
-        with open(config_file) as f:
+        agents_file = repo.path / ".vibey" / "config" / "agents.yaml"
+        with open(agents_file) as f:
             config = yaml.safe_load(f)
-        config["framework"]["agents"] = ["web-developer", "security-reviewer", "performance-engineer"]
-        with open(config_file, 'w') as f:
+        config["agents"]["enabled"] = ["web-developer", "security-reviewer", "performance-engineer"]
+        with open(agents_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert - Final configuration
-        with open(config_file) as f:
-            final_config = yaml.safe_load(f)
-
-        assert final_config["framework"]["quality_gates"]["enabled"] is True
-        assert final_config["framework"]["orchestration"]["mode"] == "balanced"
-        assert len(final_config["framework"]["agents"]) == 3
+        # Assert - Final configuration using ConfigLoader
+        config_loader = ConfigLoader(repo.path)
+        assert config_loader.get_quality_gates_enabled() is True
+        assert config_loader.get_orchestration_mode() == "balanced"
+        agents_config = config_loader.load_agents_config()
+        assert len(agents_config["agents"]["enabled"]) == 3
 
         # Track metrics
         metrics.track("config_accuracy", 100, unit="percentage", threshold=100)
@@ -183,13 +174,21 @@ class TestJourney5FrameworkManagement:
         builder.add_vibey_framework(repo)
         validator = StateValidator()
 
-        # Act & Assert - Validate config structure
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        expected_schema = {
-            "required_keys": ["project", "framework"],
-            "key_types": {"project": "dict", "framework": "dict"}
+        # Act & Assert - Validate modular config structures
+        project_file = repo.path / ".vibey" / "config" / "project.yaml"
+        expected_project_schema = {
+            "required_keys": ["project"],
+            "key_types": {"project": "dict"}
         }
-        result = validator.validate_yaml_structure(config_file, expected_schema)
+        result = validator.validate_yaml_structure(project_file, expected_project_schema)
+        assert result.passed
+
+        framework_file = repo.path / ".vibey" / "config" / "framework.yaml"
+        expected_framework_schema = {
+            "required_keys": ["framework"],
+            "key_types": {"framework": "dict"}
+        }
+        result = validator.validate_yaml_structure(framework_file, expected_framework_schema)
         assert result.passed
 
     def test_07_framework_management_metrics(self, temp_dir):

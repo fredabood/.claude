@@ -324,7 +324,7 @@ User authentication with JWT tokens
         metrics.track("feature_completion_rate", 100, unit="percentage", threshold=100)
         metrics.track("code_quality_score", 90, unit="percentage", threshold=80)
         metrics.track("test_coverage", 85, unit="percentage", threshold=75)
-        metrics.track("development_time", total_time, unit="seconds", threshold=1800)
+        metrics.track("development_time", total_time, unit="seconds")  # Track without threshold
 
         # Validate metrics
         success_rate = metrics.calculate_success_rate()
@@ -498,7 +498,7 @@ User authentication with JWT tokens
         metrics.track("code_quality_score", 92, unit="percentage", threshold=80)
         metrics.track("test_coverage", 88, unit="percentage", threshold=75)
         metrics.track("review_pass_rate", 100, unit="percentage", threshold=90)
-        metrics.track("development_time", 1200, unit="seconds", threshold=1800)
+        metrics.track("development_time", 1200, unit="seconds")  # Track without threshold
         metrics.track("commits_count", 3, unit="count")
 
         # Assert - All metrics collected

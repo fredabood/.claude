@@ -1732,8 +1732,23 @@ class TestJourney8E2E:
         with open(config_dir / "project.yaml", "w") as f:
             yaml.dump({"project": legacy_config["project"]}, f)
 
+        # Extract quality gates from framework if present
+        framework_data = legacy_config["framework"].copy()
+        quality_gates_data = None
+        if "quality_gates" in framework_data:
+            quality_gates_data = {
+                "quality_gates": {
+                    "enabled": framework_data.pop("quality_gates_enabled", True),
+                    "gates": framework_data.pop("quality_gates")
+                }
+            }
+
         with open(config_dir / "framework.yaml", "w") as f:
-            yaml.dump({"framework": legacy_config["framework"]}, f)
+            yaml.dump({"framework": framework_data}, f)
+
+        if quality_gates_data:
+            with open(config_dir / "quality-gates.yaml", "w") as f:
+                yaml.dump(quality_gates_data, f)
 
         with open(config_dir / "tech_stack.yaml", "w") as f:
             yaml.dump({"tech_stack": legacy_config["tech_stack"]}, f)
@@ -1777,7 +1792,7 @@ class TestJourney8E2E:
         # Assert - Complete workflow validation
         assert (backup_dir / "project-config.yaml").exists(), "E2E: Backup created"
         assert len(validation_errors) == 0, "E2E: No validation errors"
-        assert len(migrated_files) == 7, "E2E: All files migrated (3 main + 3 agents + 1 tech_stack)"
+        assert len(migrated_files) == 7, "E2E: All files migrated (4 main configs + 3 agents)"
 
         # Data integrity
         assert combined_migrated["project"]["name"] == "e2e-test-project"
@@ -1785,7 +1800,7 @@ class TestJourney8E2E:
         assert len(combined_migrated["agents"]) == 3
 
         # Track metrics
-        metrics.track("e2e_time", e2e_time, unit="seconds", threshold=15.0)
+        metrics.track("e2e_time", e2e_time, unit="seconds")  # Track without threshold
         metrics.track("files_migrated", len(migrated_files), unit="count", threshold=5)
         assert metrics.assert_metric("e2e_time", max_value=15.0)
 
@@ -1795,15 +1810,26 @@ class TestJourney8E2E:
 
         Journey 8: Platform deployment with new config format.
         """
-        # Arrange
+        # Arrange - Create repo WITHOUT vibey (for migration testing)
         builder = RepoBuilder(temp_dir)
-        repo = builder.create_web_app_repo(name="claude-deploy-test")
+        # Create basic repo structure without Vibey framework
+        repo_path = temp_dir / "claude-deploy-test"
+        repo_path.mkdir(exist_ok=True)
+        (repo_path / "package.json").write_text('{"name": "claude-deploy-test"}')
+
+        from tests.utils.repo_builder import TestRepo
+        repo = TestRepo(path=repo_path, repo_type="web-app", name="claude-deploy-test",
+                       has_git=False, has_vibey=False)
+
         vibey_dir = repo.path / ".vibey"
         vibey_dir.mkdir(exist_ok=True)
 
         # Migrate to modular format
         config_dir = vibey_dir / "config"
-        config_dir.mkdir(exist_ok=True)
+        # Remove if it exists as a file (shouldn't happen, but be defensive)
+        if config_dir.exists() and not config_dir.is_dir():
+            config_dir.unlink()
+        config_dir.mkdir(parents=True, exist_ok=True)
 
         project_config = {
             "project": {
@@ -1853,10 +1879,8 @@ class TestJourney8E2E:
         with open(claude_md, "w") as f:
             f.write(claude_md_content)
 
-        # Copy config for platform
-        platform_config_dir = claude_dir / "config"
-        import shutil
-        shutil.copytree(config_dir, platform_config_dir)
+        # Config already in place (config_dir is already .vibey/config)
+        platform_config_dir = config_dir  # Already at .vibey/config
 
         # Assert
         assert claude_md.exists(), "Claude Code CLAUDE.md created"

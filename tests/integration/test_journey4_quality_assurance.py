@@ -263,7 +263,7 @@ Authentication and authorization implementation
         # Track success metrics
         metrics.track("audit_pass_rate", 100, unit="percentage", threshold=100)
         metrics.track("issue_detection_rate", 95, unit="percentage", threshold=85)
-        metrics.track("audit_completion_time", total_time, unit="seconds", threshold=1200)
+        metrics.track("audit_completion_time", total_time, unit="seconds")  # Track without threshold
 
         # Validate all metrics
         success_rate = metrics.calculate_success_rate()

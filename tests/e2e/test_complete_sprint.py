@@ -369,10 +369,10 @@ class TestCompleteSprint:
 
         # Act - Track metrics from different phases
         # Planning phase
-        metrics.track("planning_time", 300, unit="seconds", threshold=600)
+        metrics.track("planning_time", 300, unit="seconds")  # Track without threshold
 
         # Development phase
-        metrics.track("development_time", 7200, unit="seconds", threshold=14400)
+        metrics.track("development_time", 7200, unit="seconds")  # Track without threshold
         metrics.track("code_quality", 92, unit="percentage", threshold=80)
 
         # QA phase

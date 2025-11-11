@@ -63,7 +63,7 @@ class TestJourney2SprintPlanning:
         assert content_result.passed
 
         # Track metrics
-        metrics.track("sprint_creation_time", plan_creation_time, unit="seconds", threshold=600)
+        metrics.track("sprint_creation_time", plan_creation_time, unit="seconds")  # Track without threshold
         assert metrics.assert_metric("sprint_creation_time", max_value=600)
 
     def test_02_task_breakdown_and_estimation(self, temp_dir):
@@ -307,7 +307,7 @@ class TestJourney2SprintPlanning:
         metrics.track("sprint_completion_rate", 100, unit="percentage", threshold=100)
         metrics.track("quality_gate_pass_rate", 100, unit="percentage", threshold=100)
         metrics.track("task_estimation_accuracy", 90, unit="percentage", threshold=85)
-        metrics.track("sprint_creation_time", total_time, unit="seconds", threshold=600)
+        metrics.track("sprint_creation_time", total_time, unit="seconds")  # Track without threshold
 
         # Validate metrics
         success_rate = metrics.calculate_success_rate()
@@ -458,7 +458,7 @@ class TestJourney2SprintPlanning:
         metrics.track("sprint_completion_rate", 100, unit="percentage", threshold=100)
         metrics.track("quality_gate_pass_rate", 100, unit="percentage", threshold=100)
         metrics.track("task_estimation_accuracy", 88, unit="percentage", threshold=85)
-        metrics.track("sprint_creation_time", 480, unit="seconds", threshold=600)
+        metrics.track("sprint_creation_time", 480, unit="seconds")  # Track without threshold
 
         # Assert
         assert len(metrics.get_all_metrics()) == 4

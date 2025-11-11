@@ -26,7 +26,7 @@ class TestJourney6MultiPlatform:
 
         # Assert
         assert (repo.path / ".vibey").exists()
-        assert (repo.path / ".vibey" / "CLAUDE.md").exists()
+        assert (repo.path / "CLAUDE.md").exists()  # CLAUDE.md now in root
 
     def test_02_platform_detection_goose(self, temp_dir):
         """Test detection of Goose platform."""

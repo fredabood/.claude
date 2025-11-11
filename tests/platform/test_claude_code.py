@@ -8,6 +8,7 @@ CLAUDE.md auto-reading, and agent markdown file loading.
 import pytest
 from pathlib import Path
 from tests.utils import RepoBuilder, StateValidator, MetricsCollector
+from tests.utils.config_loader import ConfigLoader
 
 
 @pytest.mark.platform
@@ -23,8 +24,8 @@ class TestClaudeCodePlatform:
         # Act
         builder.add_vibey_framework(repo, platform="claude-code")
 
-        # Assert
-        claude_md = repo.path / ".vibey" / "CLAUDE.md"
+        # Assert - CLAUDE.md now in root
+        claude_md = repo.path / "CLAUDE.md"
         assert claude_md.exists()
 
         validator = StateValidator()
@@ -94,7 +95,7 @@ class TestClaudeCodePlatform:
         assert all((workflows_dir / workflow).exists() for workflow in workflow_files)
 
     def test_05_project_config_generation(self, temp_dir):
-        """Test project-config.yaml generation."""
+        """Test modular config generation."""
         # Arrange
         builder = RepoBuilder(temp_dir)
         repo = builder.create_web_app_repo()
@@ -102,16 +103,20 @@ class TestClaudeCodePlatform:
         # Act
         builder.add_vibey_framework(repo, platform="claude-code")
 
-        # Assert
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        assert config_file.exists()
+        # Assert - Use ConfigLoader for modular configs
+        config_loader = ConfigLoader(repo.path)
+        assert config_loader.exists(), "Config directory not found"
+        assert config_loader.all_config_files_exist(), "Not all config files present"
 
-        validator = StateValidator()
-        result = validator.validate_yaml_structure(
-            config_file,
-            {"required_keys": ["project", "framework"], "key_types": {"project": "dict", "framework": "dict"}}
-        )
-        assert result.passed
+        # Validate project config
+        project_config = config_loader.load_project_config()
+        assert 'project' in project_config
+        assert 'name' in project_config['project']
+
+        # Validate framework config
+        framework_config = config_loader.load_framework_config()
+        assert 'framework' in framework_config
+        assert 'platform' in framework_config['framework']
 
     def test_06_claude_code_directory_structure(self, temp_dir):
         """Test complete .vibey/ directory structure."""
@@ -121,17 +126,18 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
         validator = StateValidator()
 
-        # Assert
+        # Assert - Updated for modular config structure
         expected = {
             "directories": [
                 ".vibey",
-                ".vibey/agents",
-                ".vibey/workflows",
-                ".vibey/commands"
+                ".vibey/config"
             ],
             "files": [
                 "CLAUDE.md",
-                ".vibey/config/project.yaml"
+                ".vibey/config/project.yaml",
+                ".vibey/config/framework.yaml",
+                ".vibey/config/agents.yaml",
+                ".vibey/config/quality-gates.yaml"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected)

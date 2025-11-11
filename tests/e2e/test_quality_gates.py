@@ -8,6 +8,7 @@ multiple gate execution, and gate pass/fail scenarios.
 import pytest
 from pathlib import Path
 from tests.utils import RepoBuilder, MetricsCollector
+from tests.utils.config_loader import ConfigLoader
 import yaml
 
 
@@ -275,30 +276,32 @@ gates:
         repo = builder.create_api_service_repo()
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
-        # Act - Configure different thresholds
-        config_file = repo.path / ".vibey" / "project-config.yaml"
-        with open(config_file) as f:
+        # Act - Configure different thresholds (modular config)
+        gates_file = repo.path / ".vibey" / "config" / "quality-gates.yaml"
+        with open(gates_file) as f:
             config = yaml.safe_load(f)
 
-        config["framework"]["quality_gates"] = {
-            "enabled": True,
-            "thresholds": {
-                "security_review": 80,
-                "test_coverage": 85,
-                "performance": 75,
-                "documentation": 70,
-                "logging": 70
-            }
+        config["quality_gates"]["enabled"] = True
+        config["quality_gates"]["thresholds"] = {
+            "security_review": 80,
+            "test_coverage": 85,
+            "performance": 75,
+            "documentation": 70,
+            "logging": 70
         }
 
-        with open(config_file, 'w') as f:
+        with open(gates_file, 'w') as f:
             yaml.dump(config, f)
 
-        # Assert
-        with open(config_file) as f:
+        # Assert - Verify using ConfigLoader
+        config_loader = ConfigLoader(repo.path)
+        assert config_loader.get_quality_gates_enabled() is True
+
+        # Reload config to verify thresholds were saved
+        with open(gates_file) as f:
             updated = yaml.safe_load(f)
 
-        thresholds = updated["framework"]["quality_gates"]["thresholds"]
+        thresholds = updated["quality_gates"]["thresholds"]
         assert thresholds["security_review"] == 80
         assert thresholds["test_coverage"] == 85
         assert thresholds["performance"] == 75

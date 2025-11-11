@@ -1,7 +1,7 @@
 # Vibey User Journeys - Comprehensive Guide
 
-**Version:** 1.3.0
-**Last Updated:** 2025-11-10
+**Version:** 2.5.0
+**Last Updated:** 2025-11-11
 **Status:** Production Ready
 
 ---
@@ -17,9 +17,11 @@
 7. [Journey 5: Framework Management](#journey-5-framework-management)
 8. [Journey 6: Multi-Platform Deployment](#journey-6-multi-platform-deployment)
 9. [Journey 7: Roadmap-Driven Development](#journey-7-roadmap-driven-development)
-10. [Common Decision Points](#common-decision-points)
-11. [Troubleshooting Journeys](#troubleshooting-journeys)
-12. [Advanced Scenarios](#advanced-scenarios)
+10. [Journey 8: Config Migration](#journey-8-config-migration)
+11. [Common Decision Points](#common-decision-points)
+12. [Troubleshooting Journeys](#troubleshooting-journeys)
+13. [Advanced Scenarios](#advanced-scenarios)
+14. [Appendix A: CLI Command Reference](#appendix-a-cli-command-reference)
 
 ---
 
@@ -106,7 +108,7 @@ Vibey serves four primary user personas:
 
 ### Overview
 
-This journey covers the complete initialization process from cloning Vibey to completing your first sprint plan.
+This journey covers the complete initialization process from installing Vibey to completing your first sprint plan.
 
 ---
 
@@ -138,46 +140,49 @@ nothing to commit, working tree clean
 
 ---
 
-### Step 1.2: Clone Vibey Framework
+### Step 1.2: Install Vibey Framework
 
 **Action:**
 ```bash
-git clone https://github.com/fredabood/vibey.git .vibey
-cd .vibey
+# Option 1: Install from PyPI (when published)
+pip install vibey-framework
+
+# Option 2: Install from source (development)
+git clone https://github.com/fredabood/vibey.git
+cd vibey
+pip install -e .
+```
+
+**Verify Installation:**
+```bash
+$ vibey --version
+Vibey Agent Framework v2.5.0
+
+$ vibey --help
+Usage: vibey [OPTIONS] COMMAND [ARGS]...
+  Vibey Agent Framework - Platform-agnostic agentic orchestration.
+
+Commands:
+  config   Manage framework configuration.
+  deploy   Deploy framework to target platforms.
+  docs     Generate and manage documentation.
+  roadmap  Manage roadmap system.
 ```
 
 **Expected Repository State:**
 ```
 your-project/
-├── src/
-├── .vibey/                 # ✨ NEW: Vibey framework
-│   ├── framework/          # Core framework files
-│   ├── config/             # Configuration templates
-│   ├── templates/          # Document templates
-│   ├── scripts/            # Python utilities
-│   └── README.md
-├── .git/
-└── package.json
-```
-
-**Git Status:**
-```bash
-$ git status
-On branch main
-Untracked files:
-  .vibey/
-
-$ cat .gitignore
-# Add to your .gitignore:
-.vibey/.git/
-.claude/
-.goose/
+├── src/                    # Your existing code
+├── package.json            # Your project files
+├── .git/                   # Initialized git repo
+└── README.md
 ```
 
 **Important Notes:**
-- `.vibey/` is your permanent configuration directory
-- `.claude/`, `.goose/` are platform deployments (gitignored)
-- Vibey has its own git history (submodule-like)
+- `vibey` command is now globally available (no PATH setup needed)
+- Framework files are installed in Python site-packages
+- Configuration will be created in `.vibey/` during deployment
+- Platform deployments (`.claude/`, `.goose/`) are gitignored
 
 ---
 
@@ -185,21 +190,25 @@ $ cat .gitignore
 
 **Action:**
 ```bash
-./vibey deploy --platform claude-code
+cd /path/to/your-project
+vibey deploy run --platform claude-code
 ```
 
 **What Happens:**
 ```
 🚀 Vibey Deployment Engine
+Platform: claude-code
 ═══════════════════════════════════════
 
-✓ Detected project type: web-app (Next.js, React)
+✓ Creating .vibey/ configuration directory...
+✓ Detecting project type: web-app (Next.js, React)
 ✓ Analyzing codebase structure...
 ✓ Generating platform configuration...
 ✓ Creating .claude/ deployment...
 
 📦 Deployment Summary:
    Platform: claude-code
+   Deployment Dir: .claude/
    Agents: 12 specialized agents
    Workflows: 16 workflows
    Templates: 22 handoff templates
@@ -207,8 +216,8 @@ $ cat .gitignore
 ✓ Deployment complete!
 
 📋 Next Steps:
-   1. Run: /vibey in Claude Code
-   2. Choose: Initialize project
+   1. Open project in Claude Code
+   2. Run: /vibey
    3. Follow guided setup
 ```
 
@@ -216,17 +225,19 @@ $ cat .gitignore
 ```
 your-project/
 ├── src/
-├── .vibey/                 # Source configuration
+├── .vibey/                 # ✨ NEW: Source configuration
 │   ├── config/
 │   │   ├── project.yaml    # ✨ NEW: Generated project config
 │   │   ├── framework.yaml  # Framework settings
 │   │   └── agents/         # Agent configurations
 │   ├── roadmap.yaml        # ✨ NEW: Empty roadmap
-│   └── framework/
+│   ├── tracks/             # Track definitions
+│   ├── sprints/            # Sprint state files
+│   └── tasks/              # Task state files
 ├── .claude/                # ✨ NEW: Claude Code deployment
 │   ├── CLAUDE.md           # Main context file (auto-read)
 │   ├── agents/             # 12 agent markdown files
-│   ├── workflows/          # 16 workflow markdown files
+│   ├── workflows/          # 16 workflow files
 │   └── commands/           # /vibey command
 ├── .git/
 └── .gitignore              # ✨ UPDATED: Ignores .claude/
@@ -241,7 +252,11 @@ Changes not staged for commit:
 
 Untracked files:
   .vibey/config/project.yaml
+  .vibey/config/framework.yaml
   .vibey/roadmap.yaml
+  .vibey/tracks/
+  .vibey/sprints/
+  .vibey/tasks/
 
 # Note: .claude/ is gitignored (regenerable from .vibey/)
 ```
@@ -415,7 +430,7 @@ Untracked files:
 
 **Action:**
 ```bash
-git add .vibey/config/ .vibey/roadmap.yaml .gitignore
+git add .vibey/config/ .vibey/roadmap.yaml .vibey/tracks/ .vibey/sprints/ .vibey/tasks/ .gitignore
 git commit -m "feat: Initialize Vibey framework
 
 - Add project configuration
@@ -423,7 +438,7 @@ git commit -m "feat: Initialize Vibey framework
 - Enable quality gates
 - Set up roadmap system
 
-Framework version: 1.3.0
+Framework version: 2.5.0
 Orchestration mode: balanced"
 ```
 
@@ -567,9 +582,11 @@ your-project/
 │   │   ├── project.yaml    # Project configuration
 │   │   ├── framework.yaml  # Framework settings
 │   │   └── agents/         # Agent configs
-│   ├── roadmap.yaml        # Roadmap system (may be empty)
-│   ├── summaries/          # Optional: audit reports
-│   └── framework/          # Core framework
+│   ├── roadmap.yaml        # Roadmap system
+│   ├── tracks/             # Track definitions
+│   ├── sprints/            # Sprint state files
+│   ├── tasks/              # Task state files
+│   └── summaries/          # Optional: audit reports
 ├── .claude/                # Claude Code deployment (gitignored)
 │   ├── CLAUDE.md           # Auto-generated context
 │   ├── agents/             # 12 agent files
@@ -2555,7 +2572,28 @@ This journey covers using Vibey's built-in roadmap system to plan tracks, manage
 
 ### Step 7.1: Initialize Roadmap
 
-**Action in Claude Code:**
+**Option A: Using CLI Command**
+```bash
+# Initialize roadmap with basic settings
+vibey roadmap init --name "Q1 Product Roadmap" --version "1.0"
+```
+
+**CLI Output:**
+```
+✓ Roadmap initialized: .vibey/roadmap.yaml
+✓ Created directory: .vibey/tracks/
+✓ Created directory: .vibey/sprints/
+✓ Created directory: .vibey/tasks/
+
+Roadmap: Q1 Product Roadmap (v1.0)
+Status: Empty - ready for tracks
+
+Next steps:
+  1. Define tracks in .vibey/tracks/*.yaml
+  2. Or let Claude help plan your tracks
+```
+
+**Option B: Using Natural Language (Claude Code)**
 ```
 User: Set up a product roadmap for the next quarter
 ```
@@ -2704,7 +2742,33 @@ roadmap:
 
 ### Step 7.4: Start Track - User Management
 
-**Action in Claude Code:**
+**Option A: Using CLI Commands**
+```bash
+# Check current status
+vibey roadmap status
+
+# Start the first sprint of the track
+vibey roadmap start user-mgmt-1-auth
+```
+
+**CLI Output:**
+```
+Starting sprint: user-mgmt-1-auth (Authentication)
+
+Status changed: not_started → in_progress
+Started at: 2025-11-10T15:30:00Z
+Track: user-management
+
+Sprint tasks (4):
+  1. task-001: User registration API
+  2. task-002: Login/logout endpoints
+  3. task-003: Password reset flow
+  4. task-004: OAuth integration
+
+✓ Sprint started successfully
+```
+
+**Option B: Using Natural Language (Claude Code)**
 ```
 User: Start the user management track
 ```
@@ -2729,15 +2793,30 @@ Would you like to plan this sprint now? [Y/n]:
 
 ---
 
-### Step 7.5: Track Progress Over Time
+### Step 7.5: Track Progress with CLI Commands
 
-**Checking Progress:**
+**Using Modern CLI Commands:**
 ```bash
-# Use roadmap query CLI
-python3 framework/scripts/roadmap-query.py
+# Check overall roadmap status
+vibey roadmap status
+
+# Check specific track status
+vibey roadmap status --track user-management
+
+# Check specific sprint status
+vibey roadmap status --sprint user-mgmt-2-profiles
+
+# Show detailed information about a sprint
+vibey roadmap show user-mgmt-1-auth
+
+# Get AI-optimized context for a specific task
+vibey roadmap context task-001
+
+# Summarize a sprint
+vibey roadmap summarize sprint user-mgmt-1-auth
 ```
 
-**Output:**
+**Example: `vibey roadmap status` Output:**
 ```
 ============================================================
 Roadmap: Your Project Development Roadmap
@@ -2762,6 +2841,142 @@ Recent Activity:
 2025-11-12 - Completed user-mgmt-1-auth
 2025-11-10 - Started user-management track
 2025-11-10 - Created roadmap
+```
+
+**Example: `vibey roadmap show user-mgmt-1-auth` Output:**
+```
+Sprint: user-mgmt-1-auth (Authentication)
+════════════════════════════════════════════════════
+
+Status: completed
+Track: user-management
+Duration: 1.5 weeks
+Started: 2025-11-10T15:30:00Z
+Completed: 2025-11-12T14:20:00Z
+
+Tasks (4):
+  ✅ task-001: User registration API (completed)
+  ✅ task-002: Login/logout endpoints (completed)
+  ✅ task-003: Password reset flow (completed)
+  ✅ task-004: OAuth integration (completed)
+
+Quality Gates:
+  ✅ Security audit: 92/100 (passed)
+  ✅ Test coverage: 88% (passed)
+  ✅ Performance: 90/100 (passed)
+
+Artifacts:
+  - .vibey/sprint_docs/user-mgmt-1-auth/PLAN.md
+  - .vibey/sprint_docs/user-mgmt-1-auth/COMPLETION.md
+  - .vibey/sprint_docs/user-mgmt-1-auth/audits/
+```
+
+**Example: `vibey roadmap context task-001` Output:**
+```
+Task Context for AI Assistant
+══════════════════════════════════════════════════
+
+Task: task-001 (User registration API)
+Sprint: user-mgmt-1-auth (Authentication)
+Track: user-management
+
+Description:
+  Build REST API endpoint for user registration with email
+  verification and password validation.
+
+Prerequisites:
+  - Database schema defined
+  - Email service configured
+  - Validation library installed
+
+Related Tasks:
+  - task-002: Login/logout endpoints (depends on this)
+  - task-003: Password reset flow (depends on this)
+
+Files to Modify:
+  - src/api/auth.py
+  - src/models/user.py
+  - tests/test_auth.py
+
+Quality Requirements:
+  - Security: Input validation, password hashing
+  - Testing: Unit tests, integration tests
+  - Documentation: API docs, error codes
+```
+
+---
+
+### Step 7.5a: Complete Sprints and Tasks
+
+**Complete a task:**
+```bash
+# Mark a task as complete
+vibey roadmap complete task-001
+```
+
+**Output:**
+```
+✓ Task completed: task-001 (User registration API)
+✓ Status changed: in_progress → completed
+✓ Completed at: 2025-11-11T16:45:00Z
+
+Sprint progress: 1/4 tasks completed (25%)
+```
+
+**Complete a sprint (with quality gates):**
+```bash
+# Complete sprint - runs quality gates automatically
+vibey roadmap complete user-mgmt-1-auth
+```
+
+**Output:**
+```
+Running quality gates for user-mgmt-1-auth...
+
+  ✓ Security audit: 92/100 (threshold: 85) PASSED
+  ✓ Test coverage: 88% (threshold: 80%) PASSED
+  ✓ Performance: 90/100 (threshold: 85) PASSED
+
+All quality gates passed!
+
+✓ Sprint completed: user-mgmt-1-auth (Authentication)
+✓ Status changed: in_progress → completed
+✓ Completed at: 2025-11-12T14:20:00Z
+✓ Duration: 1.5 weeks
+
+Track progress: 1/3 sprints completed (33%)
+
+Next sprint: user-mgmt-2-profiles (User Profiles)
+Ready to start? [Y/n]
+```
+
+**Sprint Progression Workflow:**
+```
+not_started
+    ↓ (vibey roadmap start <sprint-id>)
+in_progress
+    ↓ (vibey roadmap complete <sprint-id>)
+completion_gate_check
+    ↓ (quality gates pass)
+completed
+
+If quality gates fail:
+completion_gate_check → in_progress (fix issues and retry)
+```
+
+**Working with Tasks:**
+```bash
+# Start a task
+vibey roadmap start task-001
+
+# Get context for a task (useful for AI assistants)
+vibey roadmap context task-001
+
+# Complete a task
+vibey roadmap complete task-001
+
+# Summarize task progress
+vibey roadmap summarize task task-001
 ```
 
 ---
@@ -2824,6 +3039,54 @@ track:
       status: completed        # ✨ Automatically updated
   blocked: false              # ✨ Auto-unblocked
   status: ready_to_start      # ✨ Status changed
+```
+
+**Using CLI to Check Dependencies:**
+```bash
+# Check if tracks are blocked
+vibey roadmap status
+
+# Show details of a blocked track
+vibey roadmap show payment-integration
+```
+
+**Example Output (While Blocked):**
+```
+Track: payment-integration (Payment Integration)
+════════════════════════════════════════════════════
+
+Status: not_started
+Priority: high
+Dependencies:
+  ❌ user-management (Status: in_progress) - BLOCKING
+
+Cannot start: dependencies not met
+
+Estimated duration: 2 weeks
+Sprints: 2 (payment-1-setup, payment-2-processing)
+```
+
+**After Dependency Resolved:**
+```bash
+vibey roadmap show payment-integration
+```
+
+**Output:**
+```
+Track: payment-integration (Payment Integration)
+════════════════════════════════════════════════════
+
+Status: ready_to_start
+Priority: high
+Dependencies:
+  ✅ user-management (Status: completed)
+
+✓ All dependencies met - ready to start!
+
+Estimated duration: 2 weeks
+Sprints: 2 (payment-1-setup, payment-2-processing)
+
+Start this track? Run: vibey roadmap start payment-1-setup
 ```
 
 ---
@@ -2974,6 +3237,328 @@ $ git log --oneline --all --graph -20
 - ✅ Velocity measured
 - ✅ Reports generated
 - ✅ Git history tells the story
+
+---
+
+## Journey 8: Config Migration
+
+**Goal:** Migrate from legacy config format to modular config architecture
+**Duration:** 10-20 minutes
+**Prerequisites:** Vibey project with legacy config (.vibey/project-config.yaml)
+
+### Overview
+
+This journey covers migrating from Vibey's legacy monolithic configuration format to the new modular architecture introduced in v2.0. The modular system separates concerns across multiple files for better organization and maintainability.
+
+**When You Need This:**
+- Upgrading from Vibey v1.x to v2.x
+- Framework deployment detects legacy config
+- Manual config edit caused validation errors
+- Want to use new modular config features
+
+**What Changes:**
+```
+Legacy Format (v1.x):          Modular Format (v2.x):
+.vibey/                        .vibey/
+└── project-config.yaml        ├── config/
+                               │   ├── project.yaml
+                               │   ├── framework.yaml
+                               │   └── agents/
+                               │       ├── web-developer.yaml
+                               │       ├── security-reviewer.yaml
+                               │       └── ...
+                               └── config-backups/
+                                   └── backup_20251110_143022/
+```
+
+---
+
+### Step 8.1: Detect Legacy Config
+
+**Action:**
+```bash
+python3 -m vibey config show
+```
+
+**Output (Legacy Detected):**
+```
+📋 Vibey Configuration Status
+═══════════════════════════════════════
+
+⚠️  Legacy Configuration Detected
+   Location: .vibey/project-config.yaml
+   Format: Monolithic (v1.x)
+
+📊 Configuration Summary:
+   Project Type: web-app
+   Framework Version: 1.2.0
+   Orchestration Mode: balanced
+   Active Agents: 12
+   Quality Gates: 3 enabled
+
+💡 Recommendation:
+   Your configuration uses the legacy format.
+   Migrate to modular format for better organization:
+
+   python3 -m vibey config migrate
+
+ℹ️  The modular format separates:
+   - Project settings (project.yaml)
+   - Framework settings (framework.yaml)
+   - Agent configurations (agents/*.yaml)
+   - Quality gates (quality-gates.yaml)
+```
+
+**Repository State:**
+```
+your-project/
+├── .vibey/
+│   ├── project-config.yaml    # ⚠️  Legacy format
+│   ├── roadmap.yaml
+│   └── framework/
+└── .git/
+```
+
+**Why This Matters:** Understanding your current config format helps plan the migration.
+
+---
+
+### Step 8.2: Preview Migration (Dry Run)
+
+**Action:**
+```bash
+python3 -m vibey config migrate --dry-run
+```
+
+**Output:**
+```
+🔍 Config Migration - Dry Run Mode
+═══════════════════════════════════════
+
+Source: .vibey/project-config.yaml (legacy)
+Target: .vibey/config/ (modular)
+
+📊 Migration Plan:
+   ✓ Read legacy config: 156 settings
+   ✓ Validate legacy format: OK
+
+   Would create:
+   ├── .vibey/config/project.yaml (42 settings)
+   ├── .vibey/config/framework.yaml (38 settings)
+   └── .vibey/config/agents/ (12 files, 76 settings)
+
+   Would backup to:
+   └── .vibey/config-backups/backup_20251110_143022/
+
+🎯 No files modified (dry run mode)
+
+To perform migration:
+   python3 -m vibey config migrate
+```
+
+**Why Dry Run Matters:**
+- See what will be created before making changes
+- Verify migration logic is correct
+- Understand new file structure
+- No risk - nothing is modified
+
+---
+
+### Step 8.3: Run Migration
+
+**Action:**
+```bash
+python3 -m vibey config migrate
+```
+
+**Output:**
+```
+🔄 Config Migration Starting...
+═══════════════════════════════════════
+
+Step 1/5: Backup legacy config
+   ✓ Created backup: .vibey/config-backups/backup_20251110_143022/
+
+Step 2/5: Parse legacy configuration
+   ✓ Loaded 156 settings
+   ✓ Validated format: OK
+
+Step 3/5: Generate modular configuration
+   ✓ Created project.yaml (42 settings)
+   ✓ Created framework.yaml (38 settings)
+   ✓ Created agents/ directory (12 files, 76 settings)
+
+Step 4/5: Validate new configuration
+   ✓ Schema compliance: 100%
+   ✓ No missing required fields
+
+Step 5/5: Finalize migration
+   ✓ Migration complete!
+
+✅ Migration Successful!
+
+📋 Next Steps:
+   1. Validate: python3 -m vibey config validate
+   2. Review:   cat .vibey/config/project.yaml
+   3. Deploy:   python3 -m vibey deploy run --platform claude-code
+```
+
+---
+
+### Step 8.4: Validate New Configuration
+
+**Action:**
+```bash
+python3 -m vibey config validate
+```
+
+**Output (Success):**
+```
+✅ Configuration Validation
+═══════════════════════════════════════
+
+Validating: .vibey/config/project.yaml
+   ✓ Schema compliance: Valid
+   ✓ Required fields: All present
+
+Validating: .vibey/config/framework.yaml
+   ✓ Schema compliance: Valid
+   ✓ Orchestration mode: balanced (valid)
+   ✓ Quality gates: 3 configured (valid thresholds)
+
+Validating: .vibey/config/agents/*.yaml (12 files)
+   ✓ All agent configs valid
+
+📊 Summary:
+   Total files: 14
+   Total settings: 156
+   Validation errors: 0
+   Validation warnings: 0
+
+✅ All configuration files are valid!
+```
+
+---
+
+### Step 8.5: Commit Migration
+
+**Action:**
+```bash
+git add .vibey/config/ .vibey/config-backups/
+git commit -m "feat: Migrate to modular config architecture (v2.0)
+
+- Split monolithic config into project/framework/agents
+- 156 settings migrated successfully
+- Created automatic backup of legacy config"
+```
+
+---
+
+### Step 8.6: Redeploy to Platform
+
+**Action:**
+```bash
+python3 -m vibey deploy run --platform claude-code
+```
+
+**Output:**
+```
+🚀 Vibey Deployment Engine
+═══════════════════════════════════════
+
+✓ Detected modular configuration
+✓ Loading from .vibey/config/
+✓ Regenerating .claude/ deployment...
+
+✓ Deployment complete!
+```
+
+---
+
+### Step 8.7: Rollback (If Needed)
+
+**List Available Backups:**
+```bash
+python3 -m vibey config rollback --list
+```
+
+**Output:**
+```
+📦 Available Configuration Backups
+
+1. backup_20251110_143022 (latest)
+   Created: 2025-11-10 14:30:22
+   Files: 1 (project-config.yaml)
+```
+
+**Rollback to Latest:**
+```bash
+python3 -m vibey config rollback
+```
+
+---
+
+### Step 8.8: Journey 8 Complete
+
+**✅ Success Criteria:**
+- ✅ Legacy config backed up safely
+- ✅ Modular config created (14 files)
+- ✅ All validation checks passed
+- ✅ Deployed to platform successfully
+- ✅ Know how to rollback if needed
+
+---
+
+## Troubleshooting Journey 8
+
+### Issue 1: Migration Validation Fails
+
+**Solution:**
+```bash
+# Check legacy config
+cat .vibey/project-config.yaml
+
+# Fix missing fields, then retry
+python3 -m vibey config migrate
+```
+
+### Issue 2: Modular Config Already Exists
+
+**Solution:**
+```bash
+# Force overwrite (creates backup)
+python3 -m vibey config migrate --force
+```
+
+### Issue 3: Rollback Fails - No Backups
+
+**Solution:**
+```bash
+# Restore from git history
+git log --oneline -- .vibey/project-config.yaml
+git show <commit>:.vibey/project-config.yaml > .vibey/project-config.yaml
+```
+
+---
+
+## Benefits of Modular Config
+
+### Organization Benefits
+- **Separation of Concerns:** Project vs framework vs agent settings
+- **Easier Navigation:** Find settings faster in smaller files
+- **Better Git Diffs:** Changes isolated to relevant files
+- **Team Collaboration:** Fewer merge conflicts
+
+### Maintenance Benefits
+- **Selective Editing:** Update one agent without touching others
+- **Validation Granularity:** Pinpoint exactly which file has errors
+- **Version Control:** Track changes per component
+- **Rollback Precision:** Restore individual files if needed
+
+### Scalability Benefits
+- **Agent Extensibility:** Add new agents without modifying core config
+- **Platform-Specific Overrides:** Per-platform config overlays
+- **Environment Configs:** Development vs production settings
 
 ---
 
@@ -3386,6 +3971,428 @@ This comprehensive guide has documented all primary user journeys through Vibey:
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** 2025-11-10
+## Appendix A: CLI Command Reference
+
+This appendix provides a complete reference for all Vibey CLI commands introduced in v2.5.0.
+
+### Quick Reference Table
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `vibey --version` | Show framework version | `vibey --version` |
+| `vibey --help` | Show general help | `vibey --help` |
+| `vibey deploy run` | Deploy to platform | `vibey deploy run --platform claude-code` |
+| `vibey deploy list` | List available platforms | `vibey deploy list` |
+| `vibey config show` | Show current config | `vibey config show` |
+| `vibey config migrate` | Migrate legacy config | `vibey config migrate` |
+| `vibey config validate` | Validate config files | `vibey config validate` |
+| `vibey config rollback` | Rollback config | `vibey config rollback --list` |
+| `vibey roadmap init` | Initialize roadmap | `vibey roadmap init` |
+| `vibey roadmap status` | Show roadmap status | `vibey roadmap status` |
+| `vibey roadmap show` | Show item details | `vibey roadmap show sprint-1` |
+| `vibey roadmap start` | Start sprint/task | `vibey roadmap start task-001` |
+| `vibey roadmap complete` | Complete sprint/task | `vibey roadmap complete sprint-1` |
+| `vibey roadmap context` | Get AI context for task | `vibey roadmap context task-001` |
+| `vibey roadmap summarize` | Summarize item | `vibey roadmap summarize sprint sprint-1` |
+
+### Deploy Commands
+
+#### `vibey deploy run`
+
+Deploy framework to a specified platform.
+
+**Syntax:**
+```bash
+vibey deploy run --platform <platform> [--clean] [--no-validate]
+```
+
+**Options:**
+- `--platform <name>` - Target platform: `claude-code`, `goose`, `cursor`, or `all`
+- `--clean` - Remove existing deployment before deploying
+- `--no-validate` - Skip post-deployment validation
+
+**Examples:**
+```bash
+# Deploy to Claude Code
+vibey deploy run --platform claude-code
+
+# Deploy to Goose with clean install
+vibey deploy run --platform goose --clean
+
+# Deploy to all platforms
+vibey deploy run --platform all
+```
+
+#### `vibey deploy list`
+
+List all available deployment platforms.
+
+**Syntax:**
+```bash
+vibey deploy list
+```
+
+**Example Output:**
+```
+Available Platforms:
+✓ claude-code  (Claude Code by Anthropic)
+✓ goose        (Goose by Block)
+⚠ cursor       (Experimental support)
+```
+
+### Config Commands
+
+#### `vibey config show`
+
+Display current configuration from all config files.
+
+**Syntax:**
+```bash
+vibey config show
+```
+
+#### `vibey config migrate`
+
+Migrate legacy configuration to modular format.
+
+**Syntax:**
+```bash
+vibey config migrate [--backup] [--dry-run] [--force]
+```
+
+**Options:**
+- `--backup / --no-backup` - Create backup before migration (default: yes)
+- `--dry-run` - Preview migration without making changes
+- `--force` - Overwrite existing modular config
+
+**Examples:**
+```bash
+# Migrate with backup (recommended)
+vibey config migrate
+
+# Preview migration
+vibey config migrate --dry-run
+
+# Force migration
+vibey config migrate --force
+```
+
+#### `vibey config validate`
+
+Validate all configuration files against schema.
+
+**Syntax:**
+```bash
+vibey config validate
+```
+
+#### `vibey config rollback`
+
+Rollback configuration to a previous backup.
+
+**Syntax:**
+```bash
+vibey config rollback [--backup-id <id>] [--list]
+```
+
+**Options:**
+- `--backup-id <id>` - Specific backup to restore (default: latest)
+- `--list` - List all available backups
+
+**Examples:**
+```bash
+# List backups
+vibey config rollback --list
+
+# Rollback to latest
+vibey config rollback
+
+# Rollback to specific backup
+vibey config rollback --backup-id backup_20251110_143022
+```
+
+### Roadmap Commands
+
+#### `vibey roadmap init`
+
+Initialize a new roadmap in `.vibey/roadmap.yaml`.
+
+**Syntax:**
+```bash
+vibey roadmap init [--name <name>] [--version <version>]
+```
+
+**Examples:**
+```bash
+# Initialize with defaults
+vibey roadmap init
+
+# Initialize with custom name
+vibey roadmap init --name "My Project Roadmap" --version "1.0"
+```
+
+#### `vibey roadmap status`
+
+Show current roadmap status with tracks, sprints, and tasks.
+
+**Syntax:**
+```bash
+vibey roadmap status [--track <id>] [--sprint <id>]
+```
+
+**Options:**
+- `--track <id>` - Show status for specific track only
+- `--sprint <id>` - Show status for specific sprint only
+
+**Examples:**
+```bash
+# Show full roadmap status
+vibey roadmap status
+
+# Show specific track
+vibey roadmap status --track core-features
+
+# Show specific sprint
+vibey roadmap status --sprint sprint-1
+```
+
+#### `vibey roadmap show`
+
+Show detailed information for a track, sprint, or task.
+
+**Syntax:**
+```bash
+vibey roadmap show <item-id>
+```
+
+**Examples:**
+```bash
+# Show track details
+vibey roadmap show core-features
+
+# Show sprint details
+vibey roadmap show sprint-1
+
+# Show task details
+vibey roadmap show task-003
+```
+
+#### `vibey roadmap start`
+
+Start a sprint or task (changes status to `in_progress`).
+
+**Syntax:**
+```bash
+vibey roadmap start <item-id>
+```
+
+**Examples:**
+```bash
+# Start a sprint
+vibey roadmap start sprint-2
+
+# Start a task
+vibey roadmap start task-003
+```
+
+#### `vibey roadmap complete`
+
+Complete a sprint or task (triggers quality gate checks if configured).
+
+**Syntax:**
+```bash
+vibey roadmap complete <item-id>
+```
+
+**Examples:**
+```bash
+# Complete a task
+vibey roadmap complete task-003
+
+# Complete a sprint (runs quality gates)
+vibey roadmap complete sprint-2
+```
+
+#### `vibey roadmap context`
+
+Get AI-optimized context for a specific task.
+
+**Syntax:**
+```bash
+vibey roadmap context <task-id>
+```
+
+**Example:**
+```bash
+# Get context for a task
+vibey roadmap context task-003
+```
+
+**Use Case:** Paste output into Claude Code for AI-assisted development.
+
+#### `vibey roadmap summarize`
+
+Generate a summary of a sprint, task, or track.
+
+**Syntax:**
+```bash
+vibey roadmap summarize {sprint|task|track} <item-id>
+```
+
+**Examples:**
+```bash
+# Summarize a sprint
+vibey roadmap summarize sprint sprint-2
+
+# Summarize a task
+vibey roadmap summarize task task-003
+
+# Summarize a track
+vibey roadmap summarize track core-features
+```
+
+### Common Workflows
+
+#### First-Time Setup
+```bash
+# Install Vibey
+pip install vibey-framework
+
+# Deploy to Claude Code
+vibey deploy run --platform claude-code
+
+# Verify installation
+vibey --version
+```
+
+#### Start a New Sprint
+```bash
+# Check roadmap status
+vibey roadmap status
+
+# Start the sprint
+vibey roadmap start sprint-2
+
+# Start first task
+vibey roadmap start task-003
+
+# Get AI context for task
+vibey roadmap context task-003
+```
+
+#### Complete a Task
+```bash
+# Complete the task
+vibey roadmap complete task-003
+
+# Check sprint progress
+vibey roadmap status --sprint sprint-2
+
+# Start next task
+vibey roadmap start task-004
+```
+
+#### Migrate Configuration
+```bash
+# Preview migration
+vibey config migrate --dry-run
+
+# Run migration
+vibey config migrate
+
+# Validate new config
+vibey config validate
+
+# Rollback if needed
+vibey config rollback
+```
+
+#### Multi-Platform Deployment
+```bash
+# List available platforms
+vibey deploy list
+
+# Deploy to Claude Code
+vibey deploy run --platform claude-code
+
+# Deploy to Goose
+vibey deploy run --platform goose
+
+# Deploy to all platforms
+vibey deploy run --platform all
+```
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General error |
+| `2` | Validation error |
+| `3` | Dependency error |
+| `4` | Already exists |
+
+### Troubleshooting
+
+#### Command Not Found
+```bash
+# Ensure Vibey is installed
+pip install vibey-framework
+
+# Or use python -m vibey
+python3 -m vibey --version
+```
+
+#### Config Validation Failed
+```bash
+# Show current config
+vibey config show
+
+# Rollback to previous config
+vibey config rollback
+
+# Or edit config manually
+vim .vibey/config/project.yaml
+```
+
+#### Quality Gate Failed
+```bash
+# Lower threshold (if appropriate)
+vim .vibey/config/quality-gates.yaml
+
+# Or fix coverage
+npm test -- --coverage
+
+# Retry completion
+vibey roadmap complete sprint-2
+```
+
+### Tips and Best Practices
+
+1. **Use verbose mode for debugging**
+   ```bash
+   vibey -v roadmap status
+   ```
+
+2. **Preview changes with dry run**
+   ```bash
+   vibey config migrate --dry-run
+   ```
+
+3. **Always validate after changes**
+   ```bash
+   vim .vibey/config/project.yaml
+   vibey config validate
+   ```
+
+4. **Use roadmap context for AI**
+   ```bash
+   vibey roadmap context task-003 > task-context.md
+   # Paste task-context.md into Claude Code
+   ```
+
+---
+
+**Document Version:** 2.5.0
+**Last Updated:** 2025-11-11
 **Feedback:** GitHub issues or discussions

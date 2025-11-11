@@ -105,11 +105,10 @@ def roadmap(ctx):
 @click.pass_context
 def roadmap_init(ctx, name: str, version: str):
     """Initialize a new roadmap in .vibey/roadmap.yaml"""
-    from vibey.cli import roadmap_init as init_module
+    from vibey.cli.commands import roadmap_init_cmd
 
-    # TODO: Call roadmap-init.py functionality
-    console.print(f"[green]✓[/green] Initializing roadmap: {name} v{version}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_init_cmd(name, version)
+    sys.exit(exit_code)
 
 
 @roadmap.command('status')
@@ -118,11 +117,10 @@ def roadmap_init(ctx, name: str, version: str):
 @click.pass_context
 def roadmap_status(ctx, track: Optional[str], sprint: Optional[str]):
     """Show roadmap status - tracks, sprints, and tasks"""
-    from vibey.cli import roadmap_query as query_module
+    from vibey.cli.commands import roadmap_status_cmd
 
-    # TODO: Call roadmap-query.py functionality
-    console.print("[green]✓[/green] Roadmap Status")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_status_cmd(track, sprint)
+    sys.exit(exit_code)
 
 
 @roadmap.command('show')
@@ -130,11 +128,10 @@ def roadmap_status(ctx, track: Optional[str], sprint: Optional[str]):
 @click.pass_context
 def roadmap_show(ctx, item_id: str):
     """Show details for a track, sprint, or task"""
-    from vibey.cli import roadmap_query as query_module
+    from vibey.cli.commands import roadmap_show_cmd
 
-    # TODO: Call roadmap-query.py functionality
-    console.print(f"[green]✓[/green] Showing details for: {item_id}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_show_cmd(item_id)
+    sys.exit(exit_code)
 
 
 @roadmap.command('start')
@@ -142,11 +139,10 @@ def roadmap_show(ctx, item_id: str):
 @click.pass_context
 def roadmap_start(ctx, item_id: str):
     """Start a sprint or task"""
-    from vibey.cli import roadmap_update as update_module
+    from vibey.cli.commands import roadmap_start_cmd
 
-    # TODO: Call roadmap-update.py functionality
-    console.print(f"[green]✓[/green] Starting: {item_id}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_start_cmd(item_id)
+    sys.exit(exit_code)
 
 
 @roadmap.command('complete')
@@ -154,11 +150,10 @@ def roadmap_start(ctx, item_id: str):
 @click.pass_context
 def roadmap_complete(ctx, item_id: str):
     """Complete a sprint or task"""
-    from vibey.cli import roadmap_update as update_module
+    from vibey.cli.commands import roadmap_complete_cmd
 
-    # TODO: Call roadmap-update.py functionality
-    console.print(f"[green]✓[/green] Completing: {item_id}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_complete_cmd(item_id)
+    sys.exit(exit_code)
 
 
 @roadmap.command('context')
@@ -166,11 +161,10 @@ def roadmap_complete(ctx, item_id: str):
 @click.pass_context
 def roadmap_context(ctx, task_id: str):
     """Get AI-optimized context for a task"""
-    from vibey.cli import roadmap_context as context_module
+    from vibey.cli.commands import roadmap_context_cmd
 
-    # TODO: Call roadmap-context.py functionality
-    console.print(f"[green]✓[/green] Loading context for: {task_id}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_context_cmd(task_id)
+    sys.exit(exit_code)
 
 
 @roadmap.command('summarize')
@@ -179,11 +173,10 @@ def roadmap_context(ctx, task_id: str):
 @click.pass_context
 def roadmap_summarize(ctx, item_type: str, item_id: str):
     """Summarize a sprint, task, or track"""
-    from vibey.cli import roadmap_summarize as summarize_module
+    from vibey.cli.commands import roadmap_summarize_cmd
 
-    # TODO: Call roadmap-summarize.py functionality
-    console.print(f"[green]✓[/green] Summarizing {item_type}: {item_id}")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = roadmap_summarize_cmd(item_type, item_id)
+    sys.exit(exit_code)
 
 
 # ============================================================================
@@ -219,13 +212,10 @@ def deploy(ctx):
 @click.pass_context
 def deploy_run(ctx, platform: str, clean: bool):
     """Deploy framework to specified platform"""
-    from vibey.cli import deploy as deploy_module
+    from vibey.cli.commands import deploy_cmd
 
-    # TODO: Call deploy.py functionality
-    console.print(f"[green]✓[/green] Deploying to {platform}")
-    if clean:
-        console.print("[yellow]Clean deployment requested[/yellow]")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = deploy_cmd(platform, clean)
+    sys.exit(exit_code)
 
 
 @deploy.command('list-platforms')
@@ -269,13 +259,10 @@ def docs(ctx):
 @click.pass_context
 def docs_generate(ctx, overwrite: bool):
     """Generate documentation from configuration"""
-    from vibey.cli import docs as docs_module
+    from vibey.cli.commands import docs_generate_cmd
 
-    # TODO: Call docs.py functionality
-    console.print("[green]✓[/green] Generating documentation")
-    if overwrite:
-        console.print("[yellow]Overwriting existing docs[/yellow]")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = docs_generate_cmd(overwrite)
+    sys.exit(exit_code)
 
 
 # ============================================================================
@@ -301,19 +288,20 @@ def config(ctx):
 @click.pass_context
 def config_show(ctx):
     """Show current configuration"""
-    console.print("[green]✓[/green] Current Configuration")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    from vibey.cli.commands import config_show_cmd
+
+    exit_code = config_show_cmd()
+    sys.exit(exit_code)
 
 
 @config.command('validate')
 @click.pass_context
 def config_validate(ctx):
     """Validate configuration files"""
-    from vibey.cli import validate_config as validate_module
+    from vibey.cli.commands import config_validate_cmd
 
-    # TODO: Call validate-config.py functionality
-    console.print("[green]✓[/green] Validating configuration")
-    console.print("[yellow]Note:[/yellow] This is a stub - full implementation in task 004")
+    exit_code = config_validate_cmd()
+    sys.exit(exit_code)
 
 
 # ============================================================================

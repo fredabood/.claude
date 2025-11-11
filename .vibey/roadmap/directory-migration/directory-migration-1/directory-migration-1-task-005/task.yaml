@@ -6,10 +6,10 @@ task:
   task_type: development
   title: 'Update imports: framework.roadmap → vibey.roadmap'
   description: Update all import statements to use new package structure
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-11-10T23:43:25.586527+00:00'
-  started: null
+  started: '2025-11-11T00:03:00.390161+00:00'
   completed: null
   assigned_agent: web-developer
   priority: high

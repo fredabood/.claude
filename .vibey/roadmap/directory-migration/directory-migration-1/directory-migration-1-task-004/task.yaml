@@ -7,11 +7,11 @@ task:
   title: Register CLI commands
   description: Register all roadmap commands as CLI subcommands (init, update, query,
     etc.)
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-10T23:43:25.586527+00:00'
-  started: null
-  completed: null
+  started: '2025-11-11T00:01:19.377571+00:00'
+  completed: '2025-11-11T00:03:07.774794+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: 'Sprint 1: Unified CLI'

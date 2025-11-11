@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 16
-    tracks_completed: 4
+    tracks_completed: 7
     sprints_total: 46
     sprints_completed: 21
-    tasks_total: 262
-    tasks_completed: 184
-    completion_percent: 70
+    tasks_total: 280
+    tasks_completed: 194
+    completion_percent: 69
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -1126,9 +1126,69 @@ roadmap:
     context:
       task_id: directory-migration-2-task-013
       sprint_id: directory-migration-2
-  - timestamp: '2025-11-11T01:04:11.989350Z'
+  - timestamp: '2025-11-11T01:04:11.989350+00:00'
     type: task_started
     description: Task 'Add rollback mechanism' started
+    context:
+      task_id: directory-migration-2-task-015
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:18.005435+00:00'
+    type: task_completed
+    description: Task 'Parse old .claude/project-config.yaml' completed
+    context:
+      task_id: directory-migration-2-task-005
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:18.380958+00:00'
+    type: task_completed
+    description: Task 'Split into modular configs' completed
+    context:
+      task_id: directory-migration-2-task-006
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:18.748136+00:00'
+    type: task_completed
+    description: Task 'Validate migrated configs' completed
+    context:
+      task_id: directory-migration-2-task-007
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:19.105317+00:00'
+    type: task_completed
+    description: Task 'Create backup before migration' completed
+    context:
+      task_id: directory-migration-2-task-008
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:27.533357+00:00'
+    type: task_completed
+    description: Task 'Test auto-migration on first command' completed
+    context:
+      task_id: directory-migration-2-task-011
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:27.924609+00:00'
+    type: task_completed
+    description: Task 'Handle edge cases (custom configs, missing fields)' completed
+    context:
+      task_id: directory-migration-2-task-014
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:58.309433+00:00'
+    type: task_completed
+    description: Task 'Add deprecation warnings for old location' completed
+    context:
+      task_id: directory-migration-2-task-010
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:58.685238+00:00'
+    type: task_completed
+    description: Task 'Document config structure' completed
+    context:
+      task_id: directory-migration-2-task-012
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:59.058633+00:00'
+    type: task_completed
+    description: Task 'Create config validation command' completed
+    context:
+      task_id: directory-migration-2-task-013
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T04:41:59.418491Z'
+    type: task_completed
+    description: Task 'Add rollback mechanism' completed
     context:
       task_id: directory-migration-2-task-015
       sprint_id: directory-migration-2
@@ -1136,7 +1196,7 @@ roadmap:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-11T01:04:11.989355Z'
+    last_updated: '2025-11-11T04:41:59.418495Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

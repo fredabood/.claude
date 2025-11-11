@@ -9,7 +9,9 @@
       "Bash(python -m vibey.cli:*)",
       "Bash(python -m vibey:*)",
       "Bash(git stash:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(for task_id in directory-migration-2-task-005 directory-migration-2-task-006 directory-migration-2-task-007 directory-migration-2-task-008)",
+      "Bash(for task_id in directory-migration-2-task-011 directory-migration-2-task-014)"
     ],
     "deny": [],
     "ask": []

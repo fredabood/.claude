@@ -24,7 +24,7 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Assert
-        claude_md = repo.path / ".claude" / "CLAUDE.md"
+        claude_md = repo.path / ".vibey" / "CLAUDE.md"
         assert claude_md.exists()
 
         validator = StateValidator()
@@ -42,7 +42,7 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Act
-        commands_dir = repo.path / ".claude" / "commands"
+        commands_dir = repo.path / ".vibey" / "commands"
         commands_dir.mkdir(exist_ok=True)
         (commands_dir / "vibey.md").write_text("# /vibey command")
 
@@ -57,7 +57,7 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Act
-        agents_dir = repo.path / ".claude" / "agents"
+        agents_dir = repo.path / ".vibey" / "agents"
         agents_dir.mkdir(exist_ok=True)
 
         agent_files = [
@@ -79,7 +79,7 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Act
-        workflows_dir = repo.path / ".claude" / "workflows"
+        workflows_dir = repo.path / ".vibey" / "workflows"
         workflows_dir.mkdir(exist_ok=True)
 
         workflow_files = [
@@ -103,7 +103,7 @@ class TestClaudeCodePlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Assert
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         assert config_file.exists()
 
         validator = StateValidator()
@@ -114,7 +114,7 @@ class TestClaudeCodePlatform:
         assert result.passed
 
     def test_06_claude_code_directory_structure(self, temp_dir):
-        """Test complete .claude/ directory structure."""
+        """Test complete .vibey/ directory structure."""
         # Arrange
         builder = RepoBuilder(temp_dir)
         repo = builder.create_web_app_repo()
@@ -124,14 +124,14 @@ class TestClaudeCodePlatform:
         # Assert
         expected = {
             "directories": [
-                ".claude",
-                ".claude/agents",
-                ".claude/workflows",
-                ".claude/commands"
+                ".vibey",
+                ".vibey/agents",
+                ".vibey/workflows",
+                ".vibey/commands"
             ],
             "files": [
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml"
+                "CLAUDE.md",
+                ".vibey/config/project.yaml"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected)

@@ -6,32 +6,46 @@ description: |
 
 directory_structure:
   directories:
-    - .claude
-    - .claude/agents
-    - .claude/workflows
-    - .claude/templates
-    - .claude/commands
+    - .vibey
+    - .vibey/config
+    - .vibey/roadmap
 
   files:
-    - .claude/CLAUDE.md
-    - .claude/project-config.yaml
-    - .claude/agents/web-developer.md
-    - .claude/workflows/sprint-planning.md
-    - .claude/commands/vibey.md
+    - CLAUDE.md
+    - .vibey/config/project.yaml
+    - .vibey/config/framework.yaml
+    - .vibey/config/agents.yaml
+    - .vibey/config/quality-gates.yaml
 
 file_content_checks:
-  - file: .claude/CLAUDE.md
+  - file: CLAUDE.md
     contains:
       - "VIBEY_FRAMEWORK_MANAGED"
       - "Project Type:"
-      - "Claude Code Instructions"
+      - "Project Context"
 
-  - file: .claude/project-config.yaml
+  - file: .vibey/config/project.yaml
     contains:
       - "project:"
+      - "name:"
+      - "type:"
+      - "tech_stack:"
+
+  - file: .vibey/config/framework.yaml
+    contains:
       - "framework:"
       - "orchestration_mode:"
+      - "platform:"
+
+  - file: .vibey/config/agents.yaml
+    contains:
       - "agents:"
+      - "enabled:"
+
+  - file: .vibey/config/quality-gates.yaml
+    contains:
+      - "quality_gates:"
+      - "gates:"
 
 git_state:
   has_git: true
@@ -39,15 +53,29 @@ git_state:
   clean: false  # After deployment, files are staged but not committed
 
 yaml_validations:
-  - file: .claude/project-config.yaml
+  - file: .vibey/config/project.yaml
     required_keys:
       - project
-      - framework
-      - agents
     key_types:
       project: dict
+
+  - file: .vibey/config/framework.yaml
+    required_keys:
+      - framework
+    key_types:
       framework: dict
-      agents: list
+
+  - file: .vibey/config/agents.yaml
+    required_keys:
+      - agents
+    key_types:
+      agents: dict
+
+  - file: .vibey/config/quality-gates.yaml
+    required_keys:
+      - quality_gates
+    key_types:
+      quality_gates: dict
 
 success_metrics:
   deployment_success_rate:
@@ -55,7 +83,7 @@ success_metrics:
     unit: percentage
 
   agent_count:
-    threshold: 12
+    threshold: 19
     unit: count
 
   workflow_count:

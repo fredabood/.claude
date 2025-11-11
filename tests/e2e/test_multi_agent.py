@@ -23,7 +23,7 @@ class TestMultiAgentOrchestration:
         builder.add_vibey_framework(repo)
 
         # Act - Create handoff chain: web-dev → security → docs
-        handoff_dir = repo.path / ".claude" / "handoffs"
+        handoff_dir = repo.path / ".vibey" / "handoffs"
         handoff_dir.mkdir(parents=True, exist_ok=True)
 
         # Handoff 1: Web Developer → Security Reviewer
@@ -77,7 +77,7 @@ All security checks passed (Score: 88/100)
         builder.add_vibey_framework(repo)
 
         # Act - Simulate parallel agent work
-        agent_outputs = repo.path / ".claude" / "agent-outputs"
+        agent_outputs = repo.path / ".vibey" / "agent-outputs"
         agent_outputs.mkdir(parents=True, exist_ok=True)
 
         # Security reviewer (parallel task 1)
@@ -118,7 +118,7 @@ Coverage: 100%
         builder.add_vibey_framework(repo, orchestration_mode="tiered")
 
         # Act - Create coordinator routing decisions
-        routing_dir = repo.path / ".claude" / "routing"
+        routing_dir = repo.path / ".vibey" / "routing"
         routing_dir.mkdir(parents=True, exist_ok=True)
 
         (routing_dir / "decisions.yaml").write_text("""routing_decisions:
@@ -159,7 +159,7 @@ Coverage: 100%
         builder.add_vibey_framework(repo)
 
         # Act - Track agent states
-        state_dir = repo.path / ".claude" / "agent-states"
+        state_dir = repo.path / ".vibey" / "agent-states"
         state_dir.mkdir(parents=True, exist_ok=True)
 
         (state_dir / "web-developer.yaml").write_text("""agent: web-developer
@@ -197,7 +197,7 @@ waiting_for: web-developer
         validator = StateValidator()
 
         # Act - Create standardized handoff
-        handoff_dir = repo.path / ".claude" / "handoffs"
+        handoff_dir = repo.path / ".vibey" / "handoffs"
         handoff_dir.mkdir(parents=True, exist_ok=True)
 
         (handoff_dir / "standard-handoff.md").write_text("""# Handoff: Agent A → Agent B
@@ -249,12 +249,12 @@ Additional context
         feature_file.write_text("export const feature = {};")
 
         # Agent 2: Security Reviewer
-        audit_dir = repo.path / ".claude" / "audits" / "security"
+        audit_dir = repo.path / ".vibey" / "audits" / "security"
         audit_dir.mkdir(parents=True, exist_ok=True)
         (audit_dir / "review.md").write_text("Score: 90/100")
 
         # Agent 3: Performance Engineer
-        perf_dir = repo.path / ".claude" / "audits" / "performance"
+        perf_dir = repo.path / ".vibey" / "audits" / "performance"
         perf_dir.mkdir(parents=True, exist_ok=True)
         (perf_dir / "report.md").write_text("Score: 88/100")
 
@@ -287,7 +287,7 @@ class TestOrchestrationModes:
         builder.add_vibey_framework(repo, orchestration_mode="simple")
 
         # Act - Explicit agent selection
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -301,7 +301,7 @@ class TestOrchestrationModes:
         builder.add_vibey_framework(repo, orchestration_mode="balanced")
 
         # Act
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -315,7 +315,7 @@ class TestOrchestrationModes:
         builder.add_vibey_framework(repo, orchestration_mode="tiered")
 
         # Act
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 

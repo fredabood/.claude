@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 16
-    tracks_completed: 12
+    tracks_completed: 10
     sprints_total: 46
-    sprints_completed: 20
-    tasks_total: 199
-    tasks_completed: 199
-    completion_percent: 94
+    sprints_completed: 15
+    tasks_total: 170
+    tasks_completed: 145
+    completion_percent: 85
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -1200,7 +1200,8 @@ roadmap:
       sprints_completed: 1
       total_tasks: 13
       duration: 1 day
-      impact: Fixed roadmap CLI, integrated roadmap into /vibey commands, corrected track statuses
+      impact: Fixed roadmap CLI, integrated roadmap into /vibey commands, corrected
+        track statuses
       deliverables:
       - Fixed roadmap CLI (no import errors)
       - Roadmap integrated into /vibey deployment
@@ -1217,7 +1218,8 @@ roadmap:
       sprints_completed: 3
       total_tasks: 30
       duration: 6 weeks
-      impact: Comprehensive test framework with 408 tests covering unit, integration, E2E, and platform testing
+      impact: Comprehensive test framework with 408 tests covering unit, integration,
+        E2E, and platform testing
       deliverables:
       - pytest test framework
       - Test utilities (RepoBuilder, StateValidator, GitValidator, MetricsCollector)
@@ -1234,7 +1236,8 @@ roadmap:
       sprints_completed: 1
       total_tasks: 11
       duration: 1 hour (parallel implementation)
-      impact: Closed 38% agent gap - implemented 6 new agents and enhanced 2 existing agents
+      impact: Closed 38% agent gap - implemented 6 new agents and enhanced 2 existing
+        agents
       deliverables:
       - test-engineer agent (NEW - 520+ lines, 67 refs)
       - architecture-agent (NEW - 580+ lines, system design & ADRs)
@@ -1254,7 +1257,8 @@ roadmap:
       sprints_completed: 1
       total_tasks: 8
       duration: 2 hours
-      impact: Validated Claude Code as reference platform with 81.7% test pass rate baseline
+      impact: Validated Claude Code as reference platform with 81.7% test pass rate
+        baseline
       deliverables:
       - Comprehensive validation report (390+ lines)
       - 81.7% pass rate baseline (312/382 tests passing)

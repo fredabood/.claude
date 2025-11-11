@@ -136,9 +136,13 @@ class TestRepoBuilder:
         builder.add_vibey_framework(repo)
 
         assert repo.has_vibey
-        assert (repo.path / ".claude").exists()
-        assert (repo.path / ".claude" / "CLAUDE.md").exists()
-        assert (repo.path / ".claude" / "project-config.yaml").exists()
+        assert (repo.path / ".vibey").exists()
+        assert (repo.path / ".vibey" / "config").exists()
+        assert (repo.path / "CLAUDE.md").exists()
+        assert (repo.path / ".vibey" / "config" / "project.yaml").exists()
+        assert (repo.path / ".vibey" / "config" / "framework.yaml").exists()
+        assert (repo.path / ".vibey" / "config" / "agents.yaml").exists()
+        assert (repo.path / ".vibey" / "config" / "quality-gates.yaml").exists()
 
     def test_vibey_claude_md_content(self, temp_dir):
         """Test CLAUDE.md content after Vibey deployment."""
@@ -146,21 +150,37 @@ class TestRepoBuilder:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        claude_md = (repo.path / ".claude" / "CLAUDE.md").read_text()
+        claude_md = (repo.path / "CLAUDE.md").read_text()
         assert "VIBEY_FRAMEWORK_MANAGED" in claude_md
         assert repo.name in claude_md
         assert repo.repo_type in claude_md
 
     def test_vibey_config_content(self, temp_dir):
-        """Test project-config.yaml content."""
+        """Test modular config content."""
         builder = RepoBuilder(temp_dir)
         repo = builder.create_api_service_repo()
         builder.add_vibey_framework(repo)
 
-        config = (repo.path / ".claude" / "project-config.yaml").read_text()
-        assert "project:" in config
-        assert "framework:" in config
-        assert "orchestration_mode:" in config
+        # Check project.yaml
+        project_config = (repo.path / ".vibey" / "config" / "project.yaml").read_text()
+        assert "project:" in project_config
+        assert "name:" in project_config
+        assert "type:" in project_config
+
+        # Check framework.yaml
+        framework_config = (repo.path / ".vibey" / "config" / "framework.yaml").read_text()
+        assert "framework:" in framework_config
+        assert "orchestration_mode:" in framework_config
+
+        # Check agents.yaml
+        agents_config = (repo.path / ".vibey" / "config" / "agents.yaml").read_text()
+        assert "agents:" in agents_config
+        assert "enabled:" in agents_config
+
+        # Check quality-gates.yaml
+        gates_config = (repo.path / ".vibey" / "config" / "quality-gates.yaml").read_text()
+        assert "quality_gates:" in gates_config
+        assert "gates:" in gates_config
 
     @pytest.mark.requires_git
     def test_init_git(self, temp_dir):

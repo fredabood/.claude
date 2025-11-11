@@ -130,10 +130,10 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         TrackSummary(
             id=t['id'],
             name=t['name'],
-            status=Status(t['status']),
-            priority=Priority(t['priority']),
+            status=Status(t.get('status', 'not_started')),
+            priority=Priority(t.get('priority', 'medium')),
         )
-        for t in roadmap_data['tracks']
+        for t in roadmap_data.get('tracks', [])
     ]
 
     # Parse dependencies

@@ -432,13 +432,15 @@ models/
         if agents is None:
             agents = ["web-developer", "test-engineer"]
 
-        claude_dir = repo.path / ".claude"
-        claude_dir.mkdir(exist_ok=True)
+        vibey_dir = repo.path / ".vibey"
+        vibey_dir.mkdir(exist_ok=True)
+        config_dir = vibey_dir / "config"
+        config_dir.mkdir(exist_ok=True)
 
-        # Create minimal CLAUDE.md
+        # Create minimal CLAUDE.md (still in root for platform compatibility)
         self._write_file(
-            claude_dir / "CLAUDE.md",
-            f"""# {repo.name} - Claude Code Instructions
+            repo.path / "CLAUDE.md",
+            f"""# {repo.name} - Project Context
 
 **Project Type:** {repo.repo_type}
 **Version:** 1.0.0
@@ -468,12 +470,14 @@ Mock project for Vibey framework testing.
 """
         )
 
-        # Create minimal project-config.yaml
-        agents_yaml = '\n'.join(f'  - {agent}' for agent in agents)
-        config = f"""project:
+        # Create modular config files
+
+        # 1. project.yaml
+        project_config = f"""project:
   name: {repo.name}
   type: {repo.repo_type}
   version: 1.0.0
+  description: Mock project for Vibey framework testing
   tech_stack:
     languages:
       - python
@@ -481,16 +485,53 @@ Mock project for Vibey framework testing.
     frameworks:
       - react
       - express
-
-framework:
-  orchestration_mode: {orchestration_mode}
-  quality_gates_enabled: {str(quality_gates_enabled).lower()}
-  platform: {platform}
-
-agents:
-{agents_yaml}
 """
-        self._write_file(claude_dir / "project-config.yaml", config)
+        self._write_file(config_dir / "project.yaml", project_config)
+
+        # 2. framework.yaml
+        framework_config = f"""framework:
+  version: 2.0.0
+  orchestration_mode: {orchestration_mode}
+  platform: {platform}
+  features:
+    quality_gates: {str(quality_gates_enabled).lower()}
+    roadmap_integration: true
+"""
+        self._write_file(config_dir / "framework.yaml", framework_config)
+
+        # 3. agents.yaml
+        agents_yaml = '\n'.join(f'  - {agent}' for agent in agents)
+        agents_config = f"""agents:
+  enabled:
+{agents_yaml}
+  preferences:
+    auto_select: true
+    require_confirmation: false
+"""
+        self._write_file(config_dir / "agents.yaml", agents_config)
+
+        # 4. quality-gates.yaml
+        quality_gates_config = """quality_gates:
+  enabled: true
+  gates:
+    security:
+      enabled: true
+      blocking: true
+      threshold: 80
+    testing:
+      enabled: true
+      blocking: true
+      threshold: 90
+    performance:
+      enabled: true
+      blocking: false
+      threshold: 80
+    logging:
+      enabled: true
+      blocking: false
+      threshold: 70
+"""
+        self._write_file(config_dir / "quality-gates.yaml", quality_gates_config)
 
         repo.has_vibey = True
 

@@ -357,7 +357,7 @@ def test_journey1_step2_clone_vibey(test_repo):
     # Verify - .gitignore updated
     gitignore = read_file(repo.path / '.gitignore')
     assert '.vibey/.git/' in gitignore
-    assert '.claude/' in gitignore
+    assert '.vibey/' in gitignore
     assert '.goose/' in gitignore
 
     # Metrics
@@ -376,7 +376,7 @@ def test_journey1_step3_deploy_claude_code(test_repo):
     # Execute
     result = deploy_vibey(repo.path, platform='claude-code')
 
-    # Verify - .claude/ directory created
+    # Verify - .vibey/ directory created
     assert (repo.path / '.claude').exists()
     assert (repo.path / '.claude' / 'CLAUDE.md').exists()
     assert (repo.path / '.claude' / 'agents').exists()
@@ -403,7 +403,7 @@ def test_journey1_step3_deploy_claude_code(test_repo):
     # Verify - Git status
     git_status = get_git_status(repo)
     assert '.vibey/config/project.yaml' in git_status.untracked_files
-    assert '.claude/' not in git_status.untracked_files  # gitignored
+    assert '.vibey/' not in git_status.untracked_files  # gitignored
 
     # Metrics
     metrics.track('journey1_step3_success', 1)
@@ -984,7 +984,7 @@ directory_structure:
       - orchestration.mode
       - quality_gates
 
-  - path: .claude/
+  - path: .vibey/
     type: directory
     children:
       - CLAUDE.md
@@ -992,7 +992,7 @@ directory_structure:
       - workflows/
       - commands/
 
-  - path: .claude/CLAUDE.md
+  - path: CLAUDE.md
     type: file
     contains:
       - "Vibey Agent Framework"
@@ -1006,7 +1006,7 @@ git_status:
   modified_files:
     - .gitignore
   gitignored_files:
-    - .claude/
+    - .vibey/
 ```
 
 ### Git History Fixtures

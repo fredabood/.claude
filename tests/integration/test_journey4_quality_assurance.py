@@ -24,7 +24,7 @@ class TestJourney4QualityAssurance:
         metrics = MetricsCollector()
 
         # Act - Create security audit report
-        audit_dir = repo.path / ".claude" / "audits" / "security"
+        audit_dir = repo.path / ".vibey" / "audits" / "security"
         audit_dir.mkdir(parents=True, exist_ok=True)
 
         audit_report = audit_dir / "audit-2025-11-10.md"
@@ -65,7 +65,7 @@ Authentication and authorization implementation
         metrics = MetricsCollector()
 
         # Act - Create performance audit report
-        audit_dir = repo.path / ".claude" / "audits" / "performance"
+        audit_dir = repo.path / ".vibey" / "audits" / "performance"
         audit_dir.mkdir(parents=True, exist_ok=True)
 
         audit_report = audit_dir / "audit-2025-11-10.md"
@@ -103,7 +103,7 @@ Authentication and authorization implementation
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Act - Create logging audit report
-        audit_dir = repo.path / ".claude" / "audits" / "logging"
+        audit_dir = repo.path / ".vibey" / "audits" / "logging"
         audit_dir.mkdir(parents=True, exist_ok=True)
 
         audit_report = audit_dir / "audit-2025-11-10.md"
@@ -145,7 +145,7 @@ Authentication and authorization implementation
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Act - Create documentation audit report
-        audit_dir = repo.path / ".claude" / "audits" / "documentation"
+        audit_dir = repo.path / ".vibey" / "audits" / "documentation"
         audit_dir.mkdir(parents=True, exist_ok=True)
 
         audit_report = audit_dir / "audit-2025-11-10.md"
@@ -187,7 +187,7 @@ Authentication and authorization implementation
         metrics = MetricsCollector()
 
         # Act - Create coverage report
-        audit_dir = repo.path / ".claude" / "audits" / "coverage"
+        audit_dir = repo.path / ".vibey" / "audits" / "coverage"
         audit_dir.mkdir(parents=True, exist_ok=True)
 
         coverage_report = audit_dir / "coverage-2025-11-10.md"
@@ -231,7 +231,7 @@ Authentication and authorization implementation
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Create all audit reports
-        audit_base = repo.path / ".claude" / "audits"
+        audit_base = repo.path / ".vibey" / "audits"
         for audit_type in ["security", "performance", "logging", "documentation", "coverage"]:
             audit_dir = audit_base / audit_type
             audit_dir.mkdir(parents=True, exist_ok=True)
@@ -242,18 +242,18 @@ Authentication and authorization implementation
         # Assert - All audits completed
         expected_structure = {
             "directories": [
-                ".claude/audits/security",
-                ".claude/audits/performance",
-                ".claude/audits/logging",
-                ".claude/audits/documentation",
-                ".claude/audits/coverage"
+                ".vibey/audits/security",
+                ".vibey/audits/performance",
+                ".vibey/audits/logging",
+                ".vibey/audits/documentation",
+                ".vibey/audits/coverage"
             ],
             "files": [
-                ".claude/audits/security/audit-2025-11-10.md",
-                ".claude/audits/performance/audit-2025-11-10.md",
-                ".claude/audits/logging/audit-2025-11-10.md",
-                ".claude/audits/documentation/audit-2025-11-10.md",
-                ".claude/audits/coverage/audit-2025-11-10.md"
+                ".vibey/audits/security/audit-2025-11-10.md",
+                ".vibey/audits/performance/audit-2025-11-10.md",
+                ".vibey/audits/logging/audit-2025-11-10.md",
+                ".vibey/audits/documentation/audit-2025-11-10.md",
+                ".vibey/audits/coverage/audit-2025-11-10.md"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected_structure)

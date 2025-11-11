@@ -182,7 +182,7 @@ your-project/
 - `vibey` command is now globally available (no PATH setup needed)
 - Framework files are installed in Python site-packages
 - Configuration will be created in `.vibey/` during deployment
-- Platform deployments (`.claude/`, `.goose/`) are gitignored
+- Platform deployments (`.vibey/`, `.goose/`) are gitignored
 
 ---
 
@@ -204,11 +204,11 @@ Platform: claude-code
 ✓ Detecting project type: web-app (Next.js, React)
 ✓ Analyzing codebase structure...
 ✓ Generating platform configuration...
-✓ Creating .claude/ deployment...
+✓ Creating .vibey/ deployment...
 
 📦 Deployment Summary:
    Platform: claude-code
-   Deployment Dir: .claude/
+   Deployment Dir: .vibey/
    Agents: 12 specialized agents
    Workflows: 16 workflows
    Templates: 22 handoff templates
@@ -234,13 +234,13 @@ your-project/
 │   ├── tracks/             # Track definitions
 │   ├── sprints/            # Sprint state files
 │   └── tasks/              # Task state files
-├── .claude/                # ✨ NEW: Claude Code deployment
+├── .vibey/                # ✨ NEW: Claude Code deployment
 │   ├── CLAUDE.md           # Main context file (auto-read)
 │   ├── agents/             # 12 agent markdown files
 │   ├── workflows/          # 16 workflow files
 │   └── commands/           # /vibey command
 ├── .git/
-└── .gitignore              # ✨ UPDATED: Ignores .claude/
+└── .gitignore              # ✨ UPDATED: Ignores .vibey/
 ```
 
 **Git Status:**
@@ -258,7 +258,7 @@ Untracked files:
   .vibey/sprints/
   .vibey/tasks/
 
-# Note: .claude/ is gitignored (regenerable from .vibey/)
+# Note: .vibey/ is gitignored (regenerable from .vibey/)
 ```
 
 ---
@@ -365,7 +365,7 @@ Enable quality gates? [Y/n]:
 ```
 ✓ Generating project configuration...
 ✓ Creating .vibey/config/project.yaml
-✓ Updating .claude/CLAUDE.md with project context
+✓ Updating CLAUDE.md with project context
 ✓ Configuring agents for your stack
 ✓ Setting up workflows
 
@@ -421,7 +421,7 @@ Untracked files:
   .vibey/config/framework.yaml
   .vibey/roadmap.yaml
 
-# .claude/ still gitignored
+# .vibey/ still gitignored
 ```
 
 ---
@@ -587,7 +587,7 @@ your-project/
 │   ├── sprints/            # Sprint state files
 │   ├── tasks/              # Task state files
 │   └── summaries/          # Optional: audit reports
-├── .claude/                # Claude Code deployment (gitignored)
+├── .vibey/                # Claude Code deployment (gitignored)
 │   ├── CLAUDE.md           # Auto-generated context
 │   ├── agents/             # 12 agent files
 │   ├── workflows/          # 16 workflow files
@@ -2321,7 +2321,7 @@ Configuration files:
 ✅ .vibey/config/project.yaml
 ✅ .vibey/config/framework.yaml
 ✅ .vibey/roadmap.yaml
-✅ .claude/CLAUDE.md (auto-generated)
+✅ CLAUDE.md (auto-generated)
 ```
 
 ---
@@ -2366,7 +2366,7 @@ your-project/
 │   └── config/
 │       ├── project.yaml
 │       └── framework.yaml
-└── .claude/                 # ✅ Claude Code deployment
+└── .vibey/                 # ✅ Claude Code deployment
     ├── CLAUDE.md
     └── agents/
 ```
@@ -2414,7 +2414,7 @@ Documentation: .goose/README.md
 ```
 your-project/
 ├── .vibey/                  # Source configuration
-├── .claude/                 # Claude Code deployment
+├── .vibey/                 # Claude Code deployment
 └── .goose/                  # ✨ NEW: Goose deployment
     ├── extensions/
     │   ├── web-developer.yaml
@@ -2488,7 +2488,7 @@ your-project/
 │   │   └── agents/
 │   ├── roadmap.yaml
 │   └── framework/
-├── .claude/                 # Claude Code deployment (gitignored)
+├── .vibey/                 # Claude Code deployment (gitignored)
 ├── .goose/                  # Goose deployment (gitignored)
 └── .cursor/                 # Cursor deployment (gitignored)
     └── .cursorrules
@@ -2498,7 +2498,7 @@ your-project/
 ```bash
 # .gitignore
 .vibey/.git/      # Vibey's own git history
-.claude/          # Regenerable from .vibey/
+.vibey/          # Regenerable from .vibey/
 .goose/           # Regenerable from .vibey/
 .cursor/          # Regenerable from .vibey/
 ```
@@ -3244,7 +3244,7 @@ $ git log --oneline --all --graph -20
 
 **Goal:** Migrate from legacy config format to modular config architecture
 **Duration:** 10-20 minutes
-**Prerequisites:** Vibey project with legacy config (.vibey/project-config.yaml)
+**Prerequisites:** Vibey project with legacy config (.vibey/config/project.yaml)
 
 ### Overview
 
@@ -3260,7 +3260,7 @@ This journey covers migrating from Vibey's legacy monolithic configuration forma
 ```
 Legacy Format (v1.x):          Modular Format (v2.x):
 .vibey/                        .vibey/
-└── project-config.yaml        ├── config/
+└── config/project.yaml        ├── config/
                                │   ├── project.yaml
                                │   ├── framework.yaml
                                │   └── agents/
@@ -3286,7 +3286,7 @@ python3 -m vibey config show
 ═══════════════════════════════════════
 
 ⚠️  Legacy Configuration Detected
-   Location: .vibey/project-config.yaml
+   Location: .vibey/config/project.yaml
    Format: Monolithic (v1.x)
 
 📊 Configuration Summary:
@@ -3313,7 +3313,7 @@ python3 -m vibey config show
 ```
 your-project/
 ├── .vibey/
-│   ├── project-config.yaml    # ⚠️  Legacy format
+│   ├── config/project.yaml    # ⚠️  Legacy format
 │   ├── roadmap.yaml
 │   └── framework/
 └── .git/
@@ -3335,7 +3335,7 @@ python3 -m vibey config migrate --dry-run
 🔍 Config Migration - Dry Run Mode
 ═══════════════════════════════════════
 
-Source: .vibey/project-config.yaml (legacy)
+Source: .vibey/config/project.yaml (legacy)
 Target: .vibey/config/ (modular)
 
 📊 Migration Plan:
@@ -3468,7 +3468,7 @@ python3 -m vibey deploy run --platform claude-code
 
 ✓ Detected modular configuration
 ✓ Loading from .vibey/config/
-✓ Regenerating .claude/ deployment...
+✓ Regenerating .vibey/ deployment...
 
 ✓ Deployment complete!
 ```
@@ -3488,7 +3488,7 @@ python3 -m vibey config rollback --list
 
 1. backup_20251110_143022 (latest)
    Created: 2025-11-10 14:30:22
-   Files: 1 (project-config.yaml)
+   Files: 1 (config/project.yaml)
 ```
 
 **Rollback to Latest:**
@@ -3516,7 +3516,7 @@ python3 -m vibey config rollback
 **Solution:**
 ```bash
 # Check legacy config
-cat .vibey/project-config.yaml
+cat .vibey/config/project.yaml
 
 # Fix missing fields, then retry
 python3 -m vibey config migrate
@@ -3535,8 +3535,8 @@ python3 -m vibey config migrate --force
 **Solution:**
 ```bash
 # Restore from git history
-git log --oneline -- .vibey/project-config.yaml
-git show <commit>:.vibey/project-config.yaml > .vibey/project-config.yaml
+git log --oneline -- .vibey/config/project.yaml
+git show <commit>:.vibey/config/project.yaml > .vibey/config/project.yaml
 ```
 
 ---
@@ -3673,13 +3673,13 @@ User: /vibey
 
 1. **Check CLAUDE.md exists:**
 ```bash
-ls .claude/CLAUDE.md
+ls CLAUDE.md
 # Should exist
 ```
 
 2. **Check CLAUDE.md has content:**
 ```bash
-head -20 .claude/CLAUDE.md
+head -20 CLAUDE.md
 # Should show Vibey framework context
 ```
 
@@ -3689,9 +3689,9 @@ cd .vibey
 ./vibey deploy --platform claude-code --force
 ```
 
-4. **Verify .claude/ structure:**
+4. **Verify .vibey/ structure:**
 ```bash
-tree .claude/
+tree .vibey/
 # Should show agents/, workflows/, commands/
 ```
 
@@ -3725,7 +3725,7 @@ User: /vibey
 
 4. **Check agent configuration:**
 ```bash
-cat .claude/agents/quality/security-reviewer.md
+cat .vibey/agents/quality/security-reviewer.md
 # Verify trigger patterns
 ```
 

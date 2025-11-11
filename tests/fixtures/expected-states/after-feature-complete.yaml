@@ -6,17 +6,20 @@ description: |
 
 directory_structure:
   directories:
-    - .claude
-    - .claude/.vibey
-    - .claude/.vibey/sprints
+    - .vibey
+    - .vibey/config
+    - .vibey/roadmap
     - tests
 
   files:
-    - .claude/CLAUDE.md
-    - .claude/project-config.yaml
+    - CLAUDE.md
+    - .vibey/config/project.yaml
+    - .vibey/config/framework.yaml
+    - .vibey/config/agents.yaml
+    - .vibey/config/quality-gates.yaml
 
 file_content_checks:
-  - file: .claude/CLAUDE.md
+  - file: CLAUDE.md
     contains:
       - "VIBEY_FRAMEWORK_MANAGED"
       - "Current Sprint:"

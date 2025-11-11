@@ -6,27 +6,31 @@ description: |
 
 directory_structure:
   directories:
-    - .claude
-    - .claude/.vibey
-    - .claude/.vibey/sprints
+    - .vibey
+    - .vibey/config
+    - .vibey/roadmap
 
   files:
-    - .claude/CLAUDE.md
-    - .claude/project-config.yaml
-    - .claude/.vibey/sprint-plan.md
+    - CLAUDE.md
+    - .vibey/config/project.yaml
+    - .vibey/config/framework.yaml
+    - .vibey/config/agents.yaml
+    - .vibey/config/quality-gates.yaml
+    - .vibey/roadmap.yaml
 
 file_content_checks:
-  - file: .claude/.vibey/sprint-plan.md
+  - file: .vibey/roadmap.yaml
     contains:
-      - "Sprint Goal:"
-      - "Tasks:"
-      - "Success Criteria:"
-      - "Duration:"
+      - "roadmap:"
+      - "tracks:"
+      - "progress:"
+      - "status:"
 
-  - file: .claude/CLAUDE.md
+  - file: CLAUDE.md
     contains:
       - "Current Sprint:"
       - "Sprint Goal:"
+      - "VIBEY_FRAMEWORK_MANAGED"
 
 git_state:
   has_git: true
@@ -34,11 +38,21 @@ git_state:
   clean: false
 
 yaml_validations:
-  - file: .claude/project-config.yaml
+  - file: .vibey/config/project.yaml
     required_keys:
       - project
+
+  - file: .vibey/config/framework.yaml
+    required_keys:
       - framework
+
+  - file: .vibey/config/agents.yaml
+    required_keys:
       - agents
+
+  - file: .vibey/roadmap.yaml
+    required_keys:
+      - roadmap
 
 success_metrics:
   sprint_creation_time:

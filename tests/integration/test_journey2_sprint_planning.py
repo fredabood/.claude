@@ -27,7 +27,7 @@ class TestJourney2SprintPlanning:
         start_time = time.time()
 
         # Act - Create sprint plan directory
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Create sprint plan file
@@ -73,7 +73,7 @@ class TestJourney2SprintPlanning:
         builder.add_vibey_framework(repo)
 
         # Act - Create task list with estimates
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         tasks_file = sprint_dir / "tasks.yaml"
@@ -128,7 +128,7 @@ class TestJourney2SprintPlanning:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Act - Configure sprint quality gates
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         gates_file = sprint_dir / "quality-gates.yaml"
@@ -168,7 +168,7 @@ class TestJourney2SprintPlanning:
         builder.add_vibey_framework(repo)
 
         # Act - Assign agents to tasks
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         assignments_file = sprint_dir / "assignments.yaml"
@@ -215,7 +215,7 @@ class TestJourney2SprintPlanning:
         builder.add_vibey_framework(repo)
 
         # Act - Create sprint state file
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         state_file = sprint_dir / "state.yaml"
@@ -279,7 +279,7 @@ class TestJourney2SprintPlanning:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Step 2: Create sprint directory structure
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Step 3: Create all sprint files
@@ -293,10 +293,10 @@ class TestJourney2SprintPlanning:
         # Assert - Validate complete sprint structure
         expected_files = {
             "files": [
-                ".claude/sprints/sprint-1/plan.md",
-                ".claude/sprints/sprint-1/tasks.yaml",
-                ".claude/sprints/sprint-1/quality-gates.yaml",
-                ".claude/sprints/sprint-1/state.yaml"
+                ".vibey/sprints/sprint-1/plan.md",
+                ".vibey/sprints/sprint-1/tasks.yaml",
+                ".vibey/sprints/sprint-1/quality-gates.yaml",
+                ".vibey/sprints/sprint-1/state.yaml"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected_files)
@@ -321,7 +321,7 @@ class TestJourney2SprintPlanning:
         validator = StateValidator()
 
         # Act - Create valid sprint plan
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         plan_file = sprint_dir / "plan.md"
@@ -369,7 +369,7 @@ class TestJourney2SprintPlanning:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         state_file = sprint_dir / "state.yaml"
@@ -419,7 +419,7 @@ class TestJourney2SprintPlanning:
         git_validator = GitValidator()
 
         # Act - Create sprint and commit
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
         (sprint_dir / "plan.md").write_text("# Sprint 1")
 
@@ -489,7 +489,7 @@ class TestJourney2ErrorScenarios:
         validator = StateValidator()
 
         # Act - Create incomplete plan
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         plan_file = sprint_dir / "plan.md"
@@ -510,7 +510,7 @@ class TestJourney2ErrorScenarios:
         builder.add_vibey_framework(repo)
 
         # Act - Create tasks with missing estimates
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         tasks_file = sprint_dir / "tasks.yaml"

@@ -5,7 +5,7 @@ This test suite validates the complete Vibey initialization workflow
 based on the updated v2.5.0 user journey documentation:
 - pip install (not git clone)
 - vibey deploy run CLI (not ./vibey deploy)
-- .vibey/config/ modular structure (not .claude/project-config.yaml)
+- .vibey/config/ modular structure (not .vibey/config/project.yaml)
 - Global CLI availability
 
 Test Coverage: 19 tests (9 CRITICAL Priority 1, 10 HIGH Priority 2)
@@ -236,11 +236,11 @@ Platform: claude-code
 ✓ Detecting project type: web-app (Next.js, React)
 ✓ Analyzing codebase structure...
 ✓ Generating platform configuration...
-✓ Creating .claude/ deployment...
+✓ Creating .vibey/ deployment...
 
 📦 Deployment Summary:
    Platform: claude-code
-   Deployment Dir: .claude/
+   Deployment Dir: .vibey/
    Agents: 12 specialized agents
    Workflows: 16 workflows
    Templates: 22 handoff templates
@@ -275,13 +275,13 @@ Platform: claude-code
         (vibey_config_dir / "project.yaml").write_text("project: test")
         (vibey_config_dir / "framework.yaml").write_text("framework: settings")
 
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(parents=True, exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("# Claude Config")
 
         expected_structure = {
-            "directories": [".vibey", ".vibey/config", ".claude"],
-            "files": [".vibey/config/project.yaml", ".vibey/config/framework.yaml", ".claude/CLAUDE.md"]
+            "directories": [".vibey", ".vibey/config", ".vibey"],
+            "files": [".vibey/config/project.yaml", ".vibey/config/framework.yaml", "CLAUDE.md"]
         }
 
         result = validator.validate_directory_structure(repo.path, expected_structure)
@@ -351,7 +351,7 @@ Platform: auto-detected (claude-code)
 
 ✓ Detected Claude Code environment
 ✓ Using platform: claude-code
-✓ Creating .claude/ deployment...
+✓ Creating .vibey/ deployment...
 
 ✓ Deployment complete!
 """
@@ -1114,7 +1114,7 @@ Priority 2 (HIGH): 4 tests
 BREAKING CHANGES FROM OLD TESTS:
 1. Installation: git clone .vibey → pip install vibey-framework
 2. CLI syntax: ./vibey deploy → vibey deploy run --platform X
-3. Directory structure: .claude/project-config.yaml → .vibey/config/*.yaml
+3. Directory structure: .vibey/config/project.yaml → .vibey/config/*.yaml
 4. No .vibey/framework/ directory (framework in site-packages)
 
 COVERAGE IMPROVEMENT:

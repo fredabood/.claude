@@ -139,7 +139,7 @@ vibey deploy run --platform all
 ```bash
 vibey config show
 # Output:
-# ⚠️  Legacy config detected: .claude/project-config.yaml
+# ⚠️  Legacy config detected: .vibey/config/project.yaml
 # 💡 Run 'vibey config migrate' to upgrade to modular format
 ```
 

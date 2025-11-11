@@ -188,7 +188,7 @@ def test_vibey_deployment(temp_dir):
 
     # Assert
     validator = StateValidator()
-    expected = {"directories": [".claude"], "files": [".claude/CLAUDE.md"]}
+    expected = {"directories": [".claude"], "files": ["CLAUDE.md"]}
     result = validator.validate_directory_structure(repo.path, expected)
     assert result.passed
 ```

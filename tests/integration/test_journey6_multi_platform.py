@@ -24,8 +24,8 @@ class TestJourney6MultiPlatform:
         builder.add_vibey_framework(repo, platform="claude-code")
 
         # Assert
-        assert (repo.path / ".claude").exists()
-        assert (repo.path / ".claude" / "CLAUDE.md").exists()
+        assert (repo.path / ".vibey").exists()
+        assert (repo.path / ".vibey" / "CLAUDE.md").exists()
 
     def test_02_platform_detection_goose(self, temp_dir):
         """Test detection of Goose platform."""
@@ -130,10 +130,10 @@ quality_gates:
 
         # Assert - Both platforms deployed
         expected_structure = {
-            "directories": [".claude", ".goose"],
+            "directories": [".vibey", ".goose"],
             "files": [
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml",
+                "CLAUDE.md",
+                ".vibey/config/project.yaml",
                 ".goose/config.yaml"
             ]
         }
@@ -157,7 +157,7 @@ quality_gates:
         repo = builder.create_web_app_repo()
 
         # Act - Create platform-specific configs
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "platform-config.yaml").write_text("""platform: claude-code
 task_tool: enabled

@@ -33,7 +33,7 @@ class TestCompleteSprint:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Phase 2: Sprint Planning
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         (sprint_dir / "plan.md").write_text("""# Sprint 1: User Authentication
@@ -117,7 +117,7 @@ class TestCompleteSprint:
         )
 
         # Phase 4: Quality Assurance
-        audit_dir = repo.path / ".claude" / "audits" / "security"
+        audit_dir = repo.path / ".vibey" / "audits" / "security"
         audit_dir.mkdir(parents=True, exist_ok=True)
         (audit_dir / "sprint-1-audit.md").write_text("""# Security Audit
 
@@ -146,18 +146,18 @@ class TestCompleteSprint:
         # Check directory structure
         expected_structure = {
             "directories": [
-                ".claude",
-                ".claude/sprints/sprint-1",
-                ".claude/audits/security",
+                ".vibey",
+                ".vibey/sprints/sprint-1",
+                ".vibey/audits/security",
                 "src/models",
                 "src/api"
             ],
             "files": [
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml",
-                ".claude/sprints/sprint-1/plan.md",
-                ".claude/sprints/sprint-1/state.yaml",
-                ".claude/audits/security/sprint-1-audit.md",
+                "CLAUDE.md",
+                ".vibey/config/project.yaml",
+                ".vibey/sprints/sprint-1/plan.md",
+                ".vibey/sprints/sprint-1/state.yaml",
+                ".vibey/audits/security/sprint-1-audit.md",
                 "src/models/user.ts",
                 "src/api/register.ts"
             ]
@@ -193,7 +193,7 @@ class TestCompleteSprint:
         builder.init_git(repo, initial_commit=True)
         builder.add_vibey_framework(repo)
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Act - Create and execute 5 tasks
@@ -228,7 +228,7 @@ class TestCompleteSprint:
         metrics = MetricsCollector()
 
         # Act - Create sprint with quality gates
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         (sprint_dir / "quality-gates.yaml").write_text("""quality_gates:
@@ -279,7 +279,7 @@ class TestCompleteSprint:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
         state_file = sprint_dir / "state.yaml"
 
@@ -330,7 +330,7 @@ class TestCompleteSprint:
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Act - Create agent assignments
@@ -405,7 +405,7 @@ class TestCompleteSprint:
         metrics = MetricsCollector()
 
         # Act - Simulate failure and recovery
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Initial attempt - fails quality gate

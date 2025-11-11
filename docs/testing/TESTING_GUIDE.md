@@ -132,7 +132,7 @@ def test_feature_name(temp_dir):
 
     # Assert - Verify the results
     validator = StateValidator()
-    expected = {"directories": [".claude"], "files": [".claude/CLAUDE.md"]}
+    expected = {"directories": [".claude"], "files": ["CLAUDE.md"]}
     result = validator.validate_directory_structure(repo.path, expected)
     assert result.passed
 
@@ -368,7 +368,7 @@ repo = builder.create_ml_project_repo(name="my-ml")
 
 # Deploy Vibey framework
 builder.add_vibey_framework(repo)
-# Adds: .claude/ directory with configs
+# Adds: .vibey/ directory with configs
 
 # Initialize git
 builder.init_git(repo, initial_commit=True)

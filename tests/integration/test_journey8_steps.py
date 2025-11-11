@@ -1500,7 +1500,7 @@ class TestJourney8IntegrationSteps:
                     combined_config.update(yaml.safe_load(f))
 
         # 3. Simulate deployment (create .claude directory)
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
 
         # Generate CLAUDE.md from modular config
@@ -1832,7 +1832,7 @@ class TestJourney8E2E:
                 combined_config.update(yaml.safe_load(f))
 
         # Generate Claude Code deployment
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
 
         claude_md_content = f"""# {combined_config['project']['name']}

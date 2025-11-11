@@ -253,7 +253,7 @@ class TestCrossPlatformWorkflows:
         (goose_dir / "config.yaml").write_text("platform: goose")
 
         # Act - Both support sprint planning
-        claude_sprint = claude_repo.path / ".claude" / "sprints" / "sprint-1"
+        claude_sprint = claude_repo.path / ".vibey" / "sprints" / "sprint-1"
         claude_sprint.mkdir(parents=True, exist_ok=True)
         (claude_sprint / "plan.md").write_text("# Sprint 1")
 

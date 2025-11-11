@@ -77,15 +77,15 @@ class TestJourney1FirstTimeSetup:
 
         # Assert - Directory structure
         expected_structure = {
-            "directories": [".claude", ".claude/agents", ".claude/workflows", ".claude/commands"],
-            "files": [".claude/CLAUDE.md", ".claude/project-config.yaml"]
+            "directories": [".vibey", ".vibey/agents", ".vibey/workflows", ".vibey/commands"],
+            "files": ["CLAUDE.md", ".vibey/config/project.yaml"]
         }
         result = validator.validate_directory_structure(repo.path, expected_structure)
         assert result.passed, f"Deployment failed: {result.errors}"
 
         # Assert - Vibey marker
         content_result = validator.validate_file_content(
-            repo.path / ".claude" / "CLAUDE.md",
+            repo.path / ".vibey" / "CLAUDE.md",
             contains=["VIBEY_FRAMEWORK_MANAGED", "Project Type:"]
         )
         assert content_result.passed
@@ -104,7 +104,7 @@ class TestJourney1FirstTimeSetup:
         validator = StateValidator()
 
         # Act - Read generated CLAUDE.md
-        claude_md = repo.path / ".claude" / "CLAUDE.md"
+        claude_md = repo.path / ".vibey" / "CLAUDE.md"
 
         # Assert
         assert claude_md.exists()
@@ -129,7 +129,7 @@ class TestJourney1FirstTimeSetup:
         validator = StateValidator()
 
         # Act - Validate config structure
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
 
         # Assert
         assert config_file.exists()
@@ -183,12 +183,12 @@ class TestJourney1FirstTimeSetup:
         expected_state = {
             "directories": [
                 "src", "src/components", "server",
-                ".claude", ".claude/agents", ".claude/workflows"
+                ".vibey", ".vibey/agents", ".vibey/workflows"
             ],
             "files": [
                 "package.json",
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml"
+                "CLAUDE.md",
+                ".vibey/config/project.yaml"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected_state)
@@ -224,7 +224,7 @@ class TestJourney1FirstTimeSetup:
             builder.add_vibey_framework(repo, orchestration_mode=mode)
 
             # Assert
-            config_file = repo.path / ".claude" / "project-config.yaml"
+            config_file = repo.path / ".vibey" / "project-config.yaml"
             assert config_file.exists()
 
             # Validate orchestration mode in config
@@ -245,7 +245,7 @@ class TestJourney1FirstTimeSetup:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Assert
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         content_result = validator.validate_file_content(
             config_file,
             contains=["quality_gates:", "enabled: true"]
@@ -253,7 +253,7 @@ class TestJourney1FirstTimeSetup:
         assert content_result.passed, "Quality gates not enabled in config"
 
         # Validate CLAUDE.md mentions quality gates
-        claude_md = repo.path / ".claude" / "CLAUDE.md"
+        claude_md = repo.path / ".vibey" / "CLAUDE.md"
         claude_result = validator.validate_file_content(
             claude_md,
             contains=["quality"]  # Should mention quality gates
@@ -289,7 +289,7 @@ class TestJourney1ErrorScenarios:
 
         # Assert - Should handle gracefully (update config or skip)
         assert repo.has_vibey
-        assert (repo.path / ".claude" / "CLAUDE.md").exists()
+        assert (repo.path / ".vibey" / "CLAUDE.md").exists()
 
     def test_git_not_initialized(self, temp_dir):
         """Test Vibey deployment when git is not initialized."""

@@ -24,7 +24,7 @@ class TestJourney5FrameworkManagement:
         validator = StateValidator()
 
         # Act - Switch to tiered mode
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -49,7 +49,7 @@ class TestJourney5FrameworkManagement:
         builder.add_vibey_framework(repo, quality_gates_enabled=False)
 
         # Act - Enable quality gates
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -77,7 +77,7 @@ class TestJourney5FrameworkManagement:
         metrics = MetricsCollector()
 
         # Act - Update agent list
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -108,7 +108,7 @@ class TestJourney5FrameworkManagement:
         builder.add_vibey_framework(repo)
 
         # Act - Update tech stack
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -136,7 +136,7 @@ class TestJourney5FrameworkManagement:
         repo = builder.create_web_app_repo(name="managed-project")
         builder.add_vibey_framework(repo, orchestration_mode="simple", quality_gates_enabled=False)
 
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
 
         # Step 1: Enable quality gates
         with open(config_file) as f:
@@ -183,7 +183,7 @@ class TestJourney5FrameworkManagement:
         validator = StateValidator()
 
         # Act & Assert - Validate config structure
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         expected_schema = {
             "required_keys": ["project", "framework"],
             "key_types": {"project": "dict", "framework": "dict"}

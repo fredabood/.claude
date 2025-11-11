@@ -165,7 +165,7 @@ describe('validatePassword', () => {
         repo = builder.create_web_app_repo()
         builder.add_vibey_framework(repo)
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         import yaml
@@ -216,7 +216,7 @@ describe('validatePassword', () => {
         builder.add_vibey_framework(repo)
 
         # Act - Create handoff document
-        handoff_dir = repo.path / ".claude" / "handoffs"
+        handoff_dir = repo.path / ".vibey" / "handoffs"
         handoff_dir.mkdir(parents=True, exist_ok=True)
 
         handoff_file = handoff_dir / "web-dev-to-security.md"
@@ -306,8 +306,8 @@ User authentication with JWT tokens
             "files": [
                 "src/components/NewFeature.tsx",
                 "src/__tests__/NewFeature.test.tsx",
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml"
+                "CLAUDE.md",
+                ".vibey/config/project.yaml"
             ]
         }
         result = validator.validate_directory_structure(repo.path, expected_files)
@@ -361,7 +361,7 @@ User authentication with JWT tokens
         )
 
         # Create review feedback
-        review_dir = repo.path / ".claude" / "reviews"
+        review_dir = repo.path / ".vibey" / "reviews"
         review_dir.mkdir(parents=True, exist_ok=True)
         review_file = review_dir / "users-api-review.md"
         review_file.write_text("""# Code Review: User API

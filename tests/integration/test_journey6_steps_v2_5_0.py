@@ -21,7 +21,7 @@ from tests.utils import RepoBuilder, StateValidator, MetricsCollector
 @pytest.fixture
 def clean_platform_dirs(temp_dir):
     """Remove all platform directories before test."""
-    platform_dirs = ['.claude', '.goose', '.cursor', '.goosehints']
+    platform_dirs = ['.vibey', '.goose', '.cursor', '.goosehints']
     for dir_name in platform_dirs:
         path = temp_dir / dir_name
         if path.exists():
@@ -190,7 +190,7 @@ agents:
 
         # Act - Deploy to Claude Code
         # Simulate deployment (in real scenario, this would call vibey CLI)
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
 
         # Simulate CLAUDE.md generation
@@ -357,7 +357,7 @@ project:
 
         # Act - Simulate deployment to all platforms
         # Claude Code
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("# Claude Code Context")
 
@@ -390,7 +390,7 @@ project:
         repo = builder.create_web_app_repo()
 
         # Create old deployment
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("# Old deployment")
         (claude_dir / "old-file.txt").write_text("Old file that should be removed")
@@ -463,7 +463,7 @@ framework:
   quality_gates_enabled: false
 """)
 
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("""# Project Instructions
 Orchestration Mode: simple
@@ -492,14 +492,14 @@ Quality Gates: enabled
         """
         Test platform detection when multiple platforms are deployed.
 
-        SCENARIO: Both .claude/ and .goosehints exist - requires explicit --platform
+        SCENARIO: Both .vibey/ and .goosehints exist - requires explicit --platform
         """
         # Arrange
         builder = RepoBuilder(temp_dir)
         repo = builder.create_web_app_repo()
 
         # Create multiple platform deployments
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("# Claude Code")
 
@@ -620,7 +620,7 @@ workflows:
 
         # Act - Deploy to all platforms
         # Claude Code
-        claude_dir = repo.path / ".claude"
+        claude_dir = repo.path / ".vibey"
         claude_dir.mkdir(exist_ok=True)
         (claude_dir / "CLAUDE.md").write_text("""# Multi-Platform Test
 **Project Type:** web-app
@@ -637,12 +637,12 @@ QUALITY_GATES_ENABLED=true
 
         # Assert - Verify all deployments
         expected_structure = {
-            "directories": [".vibey", ".vibey/config", ".claude"],
+            "directories": [".vibey", ".vibey/config", ".vibey"],
             "files": [
                 ".vibey/config/project.yaml",
                 ".vibey/config/framework.yaml",
-                ".claude/CLAUDE.md",
-                ".claude/project-config.yaml",
+                "CLAUDE.md",
+                ".vibey/config/project.yaml",
                 ".goosehints"
             ]
         }

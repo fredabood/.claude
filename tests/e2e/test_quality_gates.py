@@ -24,7 +24,7 @@ class TestQualityGateEnforcement:
         metrics = MetricsCollector()
 
         # Act - Create failing blocking gate
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         (sprint_dir / "quality-gates.yaml").write_text("""quality_gates:
@@ -58,7 +58,7 @@ class TestQualityGateEnforcement:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Act - Create failing non-blocking gate
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         (sprint_dir / "quality-gates.yaml").write_text("""quality_gates:
@@ -101,7 +101,7 @@ class TestQualityGateEnforcement:
         metrics = MetricsCollector()
 
         # Act - Execute all gate types
-        audit_base = repo.path / ".claude" / "audits"
+        audit_base = repo.path / ".vibey" / "audits"
 
         # Security audit
         (audit_base / "security").mkdir(parents=True, exist_ok=True)
@@ -148,7 +148,7 @@ class TestQualityGateEnforcement:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
         metrics = MetricsCollector()
 
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         # Act - Attempt 1: Failure
@@ -236,7 +236,7 @@ gates:
         builder.add_vibey_framework(repo)
 
         # Act - Define conditional gates
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         (sprint_dir / "quality-gates.yaml").write_text("""quality_gates:
@@ -276,7 +276,7 @@ gates:
         builder.add_vibey_framework(repo, quality_gates_enabled=True)
 
         # Act - Configure different thresholds
-        config_file = repo.path / ".claude" / "project-config.yaml"
+        config_file = repo.path / ".vibey" / "project-config.yaml"
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
@@ -320,7 +320,7 @@ class TestQualityGateWorkflows:
 
         # Act - Execute complete QA workflow
         # 1. Run all audits
-        audit_base = repo.path / ".claude" / "audits"
+        audit_base = repo.path / ".vibey" / "audits"
         audit_results = {
             "security": 88,
             "performance": 92,
@@ -336,7 +336,7 @@ class TestQualityGateWorkflows:
             metrics.track(f"{audit_type}_score", score, unit="percentage", threshold=70)
 
         # 2. Aggregate results
-        sprint_dir = repo.path / ".claude" / "sprints" / "sprint-1"
+        sprint_dir = repo.path / ".vibey" / "sprints" / "sprint-1"
         sprint_dir.mkdir(parents=True, exist_ok=True)
 
         gate_results = {

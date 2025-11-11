@@ -101,8 +101,12 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
 
     roadmap_data = data['roadmap']
 
-    # Parse version strategy
-    vs_data = roadmap_data['version_strategy']
+    # Parse version strategy (optional, defaults to milestone-based versioning)
+    vs_data = roadmap_data.get('version_strategy', {
+        'major_on': 'roadmap_milestone',
+        'minor_on': 'track_completion',
+        'patch_on': 'sprint_production_ready'
+    })
     version_strategy = VersionStrategy(
         major_on=VersionBumpTrigger(vs_data['major_on']),
         minor_on=VersionBumpTrigger(vs_data['minor_on']),

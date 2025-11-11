@@ -24,7 +24,7 @@ from vibey.roadmap.models import (
     ActivityType,
 )
 from vibey.roadmap.serialization import save_roadmap
-from roadmap.validation import Validator
+from vibey.roadmap.validation import Validator
 from roadmap_lib.filesystem import FileSystemManager
 from roadmap_lib.activity import ActivityLogger
 

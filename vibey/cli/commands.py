@@ -78,11 +78,12 @@ def roadmap_start_cmd(item_id: str) -> int:
     """Start a sprint or task."""
     if 'task' in item_id:
         return run_script('roadmap-update.py', ['--start-task', item_id])
-    elif 'sprint' in item_id:
+    elif 'sprint' in item_id or item_id.count('-') >= 1:
+        # Sprint ID can be: track-N, track-N-name, or contain 'sprint'
         return run_script('roadmap-update.py', ['--start-sprint', item_id])
     else:
         print(f"Error: Cannot determine item type from ID: {item_id}")
-        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>")
+        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
         return 1
 
 
@@ -90,11 +91,12 @@ def roadmap_complete_cmd(item_id: str) -> int:
     """Complete a sprint or task."""
     if 'task' in item_id:
         return run_script('roadmap-update.py', ['--complete-task', item_id])
-    elif 'sprint' in item_id:
+    elif 'sprint' in item_id or item_id.count('-') >= 1:
+        # Sprint ID can be: track-N, track-N-name, or contain 'sprint'
         return run_script('roadmap-update.py', ['--complete-sprint', item_id])
     else:
         print(f"Error: Cannot determine item type from ID: {item_id}")
-        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>")
+        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
         return 1
 
 

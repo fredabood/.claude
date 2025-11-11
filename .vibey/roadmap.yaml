@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 4
     sprints_total: 46
     sprints_completed: 21
-    tasks_total: 247
-    tasks_completed: 179
-    completion_percent: 72
+    tasks_total: 262
+    tasks_completed: 184
+    completion_percent: 70
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -1038,16 +1038,105 @@ roadmap:
     context:
       task_id: directory-migration-1-task-012
       sprint_id: directory-migration-1
-  - timestamp: '2025-11-11T00:12:33.301293Z'
+  - timestamp: '2025-11-11T00:12:33.301293+00:00'
     type: sprint_completed
     description: Sprint 'Unified CLI Tool' completed
     context:
       sprint_id: directory-migration-1
+  - timestamp: '2025-11-11T00:17:26.559180+00:00'
+    type: sprint_started
+    description: Sprint 'Config Migration System' started
+    context:
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:17:31.903201+00:00'
+    type: task_started
+    description: Task 'Design modular config schema' started
+    context:
+      task_id: directory-migration-2-task-001
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:21:06.239111+00:00'
+    type: task_completed
+    description: Task 'Design modular config schema' completed
+    context:
+      task_id: directory-migration-2-task-001
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:21:12.749840+00:00'
+    type: task_started
+    description: Task 'Create config models (Pydantic/dataclasses)' started
+    context:
+      task_id: directory-migration-2-task-002
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:26:38.354886+00:00'
+    type: task_completed
+    description: Task 'Create config models (Pydantic/dataclasses)' completed
+    context:
+      task_id: directory-migration-2-task-002
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:38:33.522406+00:00'
+    type: task_started
+    description: Task 'Implement config loader with fallback' started
+    context:
+      task_id: directory-migration-2-task-003
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:44:33.111242+00:00'
+    type: task_completed
+    description: Task 'Implement config loader with fallback' completed
+    context:
+      task_id: directory-migration-2-task-003
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:46:16.753780+00:00'
+    type: task_started
+    description: 'Task ''Create migration tool: vibey migrate config'' started'
+    context:
+      task_id: directory-migration-2-task-004
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:49:00.849581+00:00'
+    type: task_completed
+    description: 'Task ''Create migration tool: vibey migrate config'' completed'
+    context:
+      task_id: directory-migration-2-task-004
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T00:57:22.748909+00:00'
+    type: task_started
+    description: Task 'Update all config references in codebase' started
+    context:
+      task_id: directory-migration-2-task-009
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T01:00:08.207794+00:00'
+    type: task_completed
+    description: Task 'Update all config references in codebase' completed
+    context:
+      task_id: directory-migration-2-task-009
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T01:04:11.019730+00:00'
+    type: task_started
+    description: Task 'Add deprecation warnings for old location' started
+    context:
+      task_id: directory-migration-2-task-010
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T01:04:11.339693+00:00'
+    type: task_started
+    description: Task 'Document config structure' started
+    context:
+      task_id: directory-migration-2-task-012
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T01:04:11.666474+00:00'
+    type: task_started
+    description: Task 'Create config validation command' started
+    context:
+      task_id: directory-migration-2-task-013
+      sprint_id: directory-migration-2
+  - timestamp: '2025-11-11T01:04:11.989350Z'
+    type: task_started
+    description: Task 'Add rollback mechanism' started
+    context:
+      task_id: directory-migration-2-task-015
+      sprint_id: directory-migration-2
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-11T00:12:33.301298Z'
+    last_updated: '2025-11-11T01:04:11.989355Z'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

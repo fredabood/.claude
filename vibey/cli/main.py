@@ -304,6 +304,31 @@ def config_validate(ctx):
     sys.exit(exit_code)
 
 
+@config.command('migrate')
+@click.option('--backup/--no-backup', default=True, help='Create backup before migration (default: yes)')
+@click.option('--dry-run', is_flag=True, help='Show what would be migrated without making changes')
+@click.option('--force', is_flag=True, help='Overwrite existing modular config if present')
+@click.pass_context
+def config_migrate(ctx, backup: bool, dry_run: bool, force: bool):
+    """Migrate legacy config to modular format"""
+    from vibey.cli.commands import config_migrate_cmd
+
+    exit_code = config_migrate_cmd(backup=backup, dry_run=dry_run, force=force)
+    sys.exit(exit_code)
+
+
+@config.command('rollback')
+@click.option('--backup-id', help='Specific backup timestamp to restore (default: latest)')
+@click.option('--list', 'list_backups', is_flag=True, help='List available backups')
+@click.pass_context
+def config_rollback(ctx, backup_id: str, list_backups: bool):
+    """Rollback to a previous config backup"""
+    from vibey.cli.commands import config_rollback_cmd
+
+    exit_code = config_rollback_cmd(backup_id=backup_id, list_backups=list_backups)
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

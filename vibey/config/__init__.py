@@ -1,3 +1,95 @@
-"""Configuration system module."""
+"""
+Vibey configuration system.
 
-__all__ = []
+This package provides the modular configuration system for Vibey:
+- Pydantic models for validation
+- YAML-based configuration files
+- Config loading and migration utilities
+
+Directory structure:
+    .vibey/config/
+    ├── project.yaml          # Project-specific info
+    ├── framework.yaml         # Framework settings
+    ├── agents.yaml            # Agent configuration
+    └── quality-gates.yaml     # Quality gate definitions
+"""
+
+from vibey.config.models import (
+    # Enums
+    ProjectType,
+    OrchestrationMode,
+    QualityGateMode,
+    # Project Config
+    Project,
+    TechStack,
+    Paths,
+    ProjectConfig,
+    # Framework Config
+    Framework,
+    Deployment,
+    Features,
+    FrameworkConfig,
+    # Agents Config
+    Agents,
+    AgentPreference,
+    AgentsConfig,
+    # Quality Gates Config
+    QualityGates,
+    Gates,
+    SecurityGate,
+    TestingGate,
+    LoggingGate,
+    DocumentationGate,
+    PerformanceGate,
+    QualityGatesConfig,
+    # Unified Config
+    VibeyConfig,
+)
+
+from vibey.config.loader import (
+    ConfigLoader,
+    ConfigLocation,
+    ConfigLoadError,
+    ConfigNotFoundError,
+    ConfigValidationError,
+    load_config,
+)
+
+__all__ = [
+    # Enums
+    "ProjectType",
+    "OrchestrationMode",
+    "QualityGateMode",
+    # Project Config
+    "Project",
+    "TechStack",
+    "Paths",
+    "ProjectConfig",
+    # Framework Config
+    "Framework",
+    "Deployment",
+    "Features",
+    "FrameworkConfig",
+    # Agents Config
+    "Agents",
+    "AgentPreference",
+    "AgentsConfig",
+    # Quality Gates Config
+    "QualityGates",
+    "Gates",
+    "SecurityGate",
+    "TestingGate",
+    "LoggingGate",
+    "DocumentationGate",
+    "PerformanceGate",
+    "QualityGatesConfig",
+    # Unified Config
+    "VibeyConfig",
+    # Loader
+    "ConfigLoader",
+    "ConfigLocation",
+    "ConfigLoadError",
+    "ConfigNotFoundError",
+    "ConfigValidationError",
+    "load_config",
+]

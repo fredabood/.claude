@@ -1,0 +1,103 @@
+# Framework Configuration Schema
+# Location: .vibey/config/framework.yaml
+# Purpose: Vibey framework settings (orchestration mode, sprint state, etc.)
+
+schema_version: "1.0.0"
+
+fields:
+  framework:
+    type: object
+    required: true
+    description: Framework configuration
+    properties:
+      version:
+        type: string
+        required: true
+        description: Vibey framework version
+        example: "2.5.0"
+
+      orchestration_mode:
+        type: string
+        required: true
+        description: Agent orchestration mode
+        enum: ["simple", "balanced", "tiered"]
+        default: "balanced"
+        example: "balanced"
+
+      sprint_state_enabled:
+        type: boolean
+        required: false
+        default: true
+        description: Enable sprint state tracking
+
+      project_context_enabled:
+        type: boolean
+        required: false
+        default: true
+        description: Enable PROJECT-CONTEXT.md generation
+
+  deployment:
+    type: object
+    required: false
+    description: Deployment configuration
+    properties:
+      platforms:
+        type: array
+        items: string
+        required: false
+        description: Target platforms for deployment
+        example: ["claude-code", "goose"]
+
+      auto_deploy:
+        type: boolean
+        default: false
+        description: Auto-deploy on framework updates
+
+      deployment_dir:
+        type: string
+        required: false
+        description: Custom deployment directory
+        example: ".claude"
+
+  features:
+    type: object
+    required: false
+    description: Feature flags
+    properties:
+      roadmap_system:
+        type: boolean
+        default: true
+        description: Enable roadmap system
+
+      documentation_generation:
+        type: boolean
+        default: true
+        description: Enable auto documentation generation
+
+      codebase_audit:
+        type: boolean
+        default: true
+        description: Enable codebase audit workflow
+
+      git_history_analysis:
+        type: boolean
+        default: true
+        description: Enable git history analysis
+
+example:
+  framework:
+    version: "2.5.0"
+    orchestration_mode: "balanced"
+    sprint_state_enabled: true
+    project_context_enabled: true
+
+  deployment:
+    platforms: ["claude-code"]
+    auto_deploy: false
+    deployment_dir: ".claude"
+
+  features:
+    roadmap_system: true
+    documentation_generation: true
+    codebase_audit: true
+    git_history_analysis: true

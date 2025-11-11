@@ -44,15 +44,16 @@ This is the **Vibey Agent Framework** - an intelligent agent orchestration syste
 
 ```
 vibey/
-├── .vibey/                       # Roadmap system (Vibey managing itself)
-│   ├── roadmap.yaml              # Vibey's development roadmap
-│   ├── tracks/                   # Track definitions
-│   │   ├── core-framework.yaml
-│   │   ├── roadmap-system.yaml
-│   │   ├── goose-port.yaml
-│   │   └── multi-platform.yaml
-│   ├── sprints/                  # Sprint state files
-│   └── tasks/                    # Task state files
+├── .vibey/                       # Vibey framework data
+│   ├── config/                   # Modular configuration (NEW)
+│   │   ├── project.yaml          # Project settings
+│   │   ├── framework.yaml        # Framework config
+│   │   ├── agents.yaml           # Agent preferences
+│   │   └── quality-gates.yaml    # Quality gates
+│   ├── roadmap/                  # Roadmap system (Vibey managing itself)
+│   │   ├── [tracks]/             # Track definitions
+│   │   └── [sprints]/            # Sprint and task state
+│   └── config-backups/           # Config migration backups
 ├── agents/                       # 12 specialized agents
 │   ├── core/                     # Coordinator, Vibey Manager
 │   ├── planning/                 # Sprint Planning, Researcher
@@ -95,14 +96,19 @@ vibey/
 
 ### Framework Status: ✅ Production Ready (Claude Code)
 
-**Latest Updates (Nov 7, 2025 - Roadmap System Planning & Integration Gap):**
+**Latest Updates (Nov 10, 2025 - Config System Migration):**
+1. ✅ **Modular Config System** - Split `.claude/project-config.yaml` into 4 focused files
+2. ✅ **Config Loader** - Auto-fallback between modular and legacy formats
+3. ✅ **Migration Tool** - `vibey config migrate` with backup and dry-run
+4. 🔄 **Integration in Progress** - Updating codebase to use new config system
+5. 📦 **Python Package** - vibey-framework installable via pip (Sprint 1 complete)
+
+**Previous Updates (Nov 7, 2025 - Roadmap System Planning):**
 1. 🎯 **Roadmap Object Hierarchy** - Comprehensive design complete (v2.1 Gate Model)
 2. 📋 **Implementation Plan** - Detailed 6-sprint plan (11 weeks, Q1 2025)
-3. 🔄 **Dogfooding Initialized** - Vibey now manages its own development with roadmap system
-4. ⚠️ **Integration Gap Identified** - Roadmap system not yet integrated with `/vibey` commands (see docs/development/ROADMAP_INTEGRATION_GAP.md)
-5. 🎯 **New Track Created** - roadmap-integration track added to fix the gap (3 sprints, 6 weeks)
-4. 📁 **File Reorganization** - ROADMAP.md → FRAMEWORK_ROADMAP.md for clarity
-5. 🎯 **Next Phase** - Begin Sprint 1: Core Data Model & YAML Schema
+3. 🔄 **Dogfooding Initialized** - Vibey now manages its own development
+4. ⚠️ **Integration Gap Identified** - Roadmap system integration with CLI
+5. 📁 **File Reorganization** - ROADMAP.md → FRAMEWORK_ROADMAP.md for clarity
 
 **Previous Updates (Nov 5, 2024 - Phase 1 & 2 Production Readiness):**
 1. ✅ **Critical Scripts Added** - generate-config.py, update-config.py (unblocked first-time users)

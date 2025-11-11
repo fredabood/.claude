@@ -5,6 +5,39 @@ This package contains Python dataclasses for the roadmap system.
 These models map to the YAML schemas and provide type-safe access to roadmap data.
 
 Version: 2.1 (Gate Model)
+
+---
+
+## Design Decision: Dataclasses vs Pydantic
+
+This module uses **dataclasses** with manual validation, NOT Pydantic.
+
+**Why dataclasses?**
+- Framework internals (not user-facing)
+- Trusted data source (created by framework scripts)
+- Zero external dependencies (built-in Python)
+- Explicit validation in __post_init__ methods
+
+**Why NOT Pydantic?**
+- Would add external dependency to framework core
+- Rich error messages not needed (data is trusted)
+- Type coercion not needed (we control the format)
+- Current implementation works correctly
+
+**Contrast with Config System:**
+The config system (vibey/config/) DOES use Pydantic because:
+- User-facing (users edit YAML files directly)
+- Untrusted data source (users make mistakes)
+- Rich validation errors improve UX
+- Type coercion helps handle user input
+
+**Framework Principle:**
+"Right tool for the job"
+- Framework internals → Dataclasses (minimal deps)
+- User-facing features → Pydantic (better UX)
+
+See: vibey/config/DESIGN_DECISIONS.md for detailed rationale
+See: vibey/roadmap/DESIGN_DECISIONS.md for roadmap-specific decisions
 """
 
 from .roadmap import (

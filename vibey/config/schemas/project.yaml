@@ -1,0 +1,121 @@
+# Project Configuration Schema
+# Location: .vibey/config/project.yaml
+# Purpose: Project-specific settings (name, version, type, tech stack)
+
+schema_version: "1.0.0"
+
+fields:
+  project:
+    type: object
+    required: true
+    description: Core project information
+    properties:
+      name:
+        type: string
+        required: true
+        description: Project name
+        example: "my-awesome-project"
+
+      version:
+        type: string
+        required: true
+        description: Current project version
+        example: "1.0.0"
+        pattern: "^\\d+\\.\\d+\\.\\d+$"
+
+      type:
+        type: string
+        required: true
+        description: Project type
+        enum: ["web-app", "api", "library", "ml", "data-platform", "infrastructure"]
+        example: "web-app"
+
+      description:
+        type: string
+        required: false
+        description: Brief project description
+        example: "A modern web application for task management"
+
+      repository:
+        type: string
+        required: false
+        description: Git repository URL
+        example: "https://github.com/org/repo"
+
+  tech_stack:
+    type: object
+    required: true
+    description: Technologies used in the project
+    properties:
+      languages:
+        type: array
+        items: string
+        required: true
+        description: Programming languages
+        example: ["python", "typescript", "javascript"]
+
+      frameworks:
+        type: array
+        items: string
+        required: false
+        description: Frameworks and libraries
+        example: ["react", "fastapi", "pytest"]
+
+      databases:
+        type: array
+        items: string
+        required: false
+        description: Databases used
+        example: ["postgresql", "redis"]
+
+      infrastructure:
+        type: array
+        items: string
+        required: false
+        description: Infrastructure tools
+        example: ["docker", "kubernetes", "terraform"]
+
+  paths:
+    type: object
+    required: false
+    description: Important project paths
+    properties:
+      source:
+        type: string
+        default: "src"
+        description: Source code directory
+
+      tests:
+        type: string
+        default: "tests"
+        description: Test directory
+
+      docs:
+        type: string
+        default: "docs"
+        description: Documentation directory
+
+      config:
+        type: string
+        default: ".vibey/config"
+        description: Configuration directory
+
+example:
+  project:
+    name: "my-web-app"
+    version: "1.0.0"
+    type: "web-app"
+    description: "Modern task management application"
+    repository: "https://github.com/myorg/my-web-app"
+
+  tech_stack:
+    languages: ["typescript", "python"]
+    frameworks: ["react", "fastapi", "tailwindcss"]
+    databases: ["postgresql", "redis"]
+    infrastructure: ["docker", "github-actions"]
+
+  paths:
+    source: "src"
+    tests: "tests"
+    docs: "docs"
+    config: ".vibey/config"

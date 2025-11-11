@@ -1,0 +1,27 @@
+project:
+  name: "example-web-app"
+  version: "1.0.0"
+  type: "web-app"
+  description: "Example web application configuration"
+  repository: "https://github.com/example/example-web-app"
+
+tech_stack:
+  languages:
+    - "typescript"
+    - "python"
+  frameworks:
+    - "react"
+    - "fastapi"
+    - "tailwindcss"
+  databases:
+    - "postgresql"
+    - "redis"
+  infrastructure:
+    - "docker"
+    - "github-actions"
+
+paths:
+  source: "src"
+  tests: "tests"
+  docs: "docs"
+  config: ".vibey/config"

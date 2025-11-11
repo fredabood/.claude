@@ -152,19 +152,31 @@ def docs_generate_cmd(overwrite: bool = False) -> int:
 
 def config_show_cmd() -> int:
     """Show current configuration."""
-    # TODO: Implement config show
-    print("Configuration display not yet implemented")
-    return 1
+    from vibey.cli.config_migrate import config_show_cmd as show_impl
+    return show_impl()
 
 
 def config_validate_cmd() -> int:
     """Validate configuration."""
-    return run_script('validate-config.py', [])
+    from vibey.cli.config_migrate import config_validate_cmd as validate_impl
+    return validate_impl()
 
 
 def config_generate_cmd() -> int:
     """Generate configuration."""
     return run_script('generate-config.py', [])
+
+
+def config_migrate_cmd(backup: bool = True, dry_run: bool = False, force: bool = False) -> int:
+    """Migrate legacy config to modular format."""
+    from vibey.cli.config_migrate import config_migrate_cmd as migrate_impl
+    return migrate_impl(backup=backup, dry_run=dry_run, force=force)
+
+
+def config_rollback_cmd(backup_id: Optional[str] = None, list_backups: bool = False) -> int:
+    """Rollback to a previous config backup."""
+    from vibey.cli.config_migrate import config_rollback_cmd as rollback_impl
+    return rollback_impl(backup_id=backup_id, list_backups=list_backups)
 
 
 def config_update_cmd(key: str, value: str) -> int:

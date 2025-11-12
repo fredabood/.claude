@@ -1,0 +1,57 @@
+sprint:
+  id: standards-system-5
+  name: Standard Templates Library
+  track_id: standards-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 8
+    tasks_completed: 0
+    completion_percent: 0
+  goal: |
+    Provide pre-built standard templates for common use cases, making it
+    easy to add well-tested standards to any roadmap.
+  tasks_summary:
+    - Create templates package structure
+    - Create commit-required template
+    - Create doc-review-required template
+    - Create test-coverage-required template
+    - Create multi-platform-testing template
+    - Create security-review template
+    - Implement template CLI (list, add)
+    - Write template tests and documentation
+  deliverables:
+    - vibey/roadmap/standards/templates/ package
+    - 5 standard templates (YAML files)
+    - Template CLI commands
+    - Template documentation
+    - Template tests
+    - Usage examples
+  quality_gates:
+    - name: Template Tests
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: All template tests pass
+    - name: Template Documentation
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: All templates documented with examples
+  success_criteria:
+    - All 5 templates implemented and tested
+    - Templates easy to use via CLI
+    - Templates well-documented
+    - Templates solve real use cases
+  dependencies:
+    - standards-system-4
+  notes: |
+    SPRINT 5: STANDARD TEMPLATES LIBRARY
+
+    Make standards adoption easy with pre-built templates for common
+    quality enforcement scenarios.

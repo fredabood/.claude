@@ -179,6 +179,24 @@ def roadmap_summarize(ctx, item_type: str, item_id: str):
     sys.exit(exit_code)
 
 
+@roadmap.command('add-commit')
+@click.argument('task_id')
+@click.argument('commit_sha', required=False)
+@click.option('--auto', is_flag=True, help='Use current HEAD commit')
+@click.pass_context
+def roadmap_add_commit(ctx, task_id: str, commit_sha: Optional[str], auto: bool):
+    """Add a git commit to a task
+
+    Examples:
+      vibey roadmap add-commit task-001 4367bc8
+      vibey roadmap add-commit task-001 --auto
+    """
+    from vibey.cli.commands import roadmap_add_commit_cmd
+
+    exit_code = roadmap_add_commit_cmd(task_id, commit_sha, auto)
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Deploy Command Group
 # ============================================================================

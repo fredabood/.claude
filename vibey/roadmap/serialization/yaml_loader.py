@@ -51,6 +51,7 @@ from ..models import (
     ActivityType,
     VersionBumpTrigger,
     DependencyStatus,
+    PlatformDeployment,
 )
 
 
@@ -199,6 +200,18 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         description=meta_data.get('description'),
     )
 
+    # Parse deployed platforms
+    deployed_platforms = [
+        PlatformDeployment(
+            platform=p['platform'],
+            context_window=p['context_window'],
+            deployed_at=p['deployed_at'],  # Unix timestamp (integer)
+            deployed_by=p['deployed_by'],
+            primary=p.get('primary', False),
+        )
+        for p in roadmap_data.get('deployed_platforms', [])
+    ]
+
     # Create roadmap
     roadmap = Roadmap(
         id=roadmap_data['id'],
@@ -219,6 +232,7 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         version_history=version_history,
         activity_log=activity_log,
         metadata=metadata,
+        deployed_platforms=deployed_platforms,
     )
 
     return roadmap
@@ -335,6 +349,19 @@ def load_track(file_path: Union[str, Path]) -> Track:
         for qg in track_data.get('quality_gates', [])
     ]
 
+    # Parse commits (sprint completion commits)
+    from vibey.roadmap.models import SprintCompletionCommit
+    commits = [
+        SprintCompletionCommit(
+            sprint_id=c['sprint_id'],
+            sha=c['sha'],
+            message=c['message'],
+            date=_parse_datetime(c['date']),
+            author=c['author'],
+        )
+        for c in track_data.get('commits', [])
+    ]
+
     # Parse metadata
     meta_data = track_data['metadata']
     metadata = TrackMetadata(
@@ -368,6 +395,7 @@ def load_track(file_path: Union[str, Path]) -> Track:
         assigned_agents=track_data.get('assigned_agents', []),
         deliverables=track_data.get('deliverables', []),
         strategic_value=track_data.get('strategic_value', []),
+        commits=commits,
         metadata=metadata,
     )
 
@@ -493,6 +521,19 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     # Compute blocked status from depends_on (override YAML value for consistency)
     computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
 
+    # Parse commits (task completion commits)
+    from vibey.roadmap.models import TaskCompletionCommit
+    commits = [
+        TaskCompletionCommit(
+            task_id=c['task_id'],
+            sha=c['sha'],
+            message=c['message'],
+            date=_parse_datetime(c['date']),
+            author=c['author'],
+        )
+        for c in sprint_data.get('commits', [])
+    ]
+
     # Parse metadata
     meta_data = sprint_data['metadata']
     metadata = SprintMetadata(
@@ -528,6 +569,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         depended_on_by=depended_on_by,
         plan_file=sprint_data.get('plan_file'),
         deliverables=sprint_data.get('deliverables', []),
+        commits=commits,
         metadata=metadata,
     )
 
@@ -681,15 +723,22 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         ]
 
         # Parse commits
-        commits = [
-            GitCommit(
+        commits = []
+        for c in task_data.get('commits', []):
+            # Handle both old format (no platform) and new format (with platform)
+            if 'platform' not in c:
+                # Legacy commit without platform tracking - skip or migrate
+                # For now, we'll skip legacy commits to enforce platform requirement
+                continue
+
+            commits.append(GitCommit(
                 sha=c['sha'],
                 message=c['message'],
                 date=_parse_datetime(c['date']),
                 author=c['author'],
-            )
-            for c in task_data.get('commits', [])
-        ]
+                platform=c['platform'],  # REQUIRED field
+                submitted_at=c['submitted_at'],  # Unix timestamp (integer)
+            ))
 
         # Parse metadata (backward compatible)
         if 'metadata' in task_data:

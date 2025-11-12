@@ -43,8 +43,17 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - sha: 40c760091cb87cb8afc2edbd291469766d942858
+    message: 'fix: Phase 2 - Parallel agent deployment resolves all test and doc issues'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-11T16:15:17-05:00'
+  - sha: f0711771465374cabeac87f4809e005f07ac7aa1
+    message: 'fix: Comprehensive audit and critical fixes - eliminate deprecated API
+      usage'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-11T16:01:52-05:00'
   metadata:
-    last_updated: '2025-11-10T09:18:14.183738+00:00'
+    last_updated: '2025-11-11T21:50:49.867741+00:00'
     token_efficiency: null
     duration_hours: null

@@ -126,6 +126,20 @@ def roadmap_validate_cmd() -> int:
     return run_script('validate-roadmap-format.py', [])
 
 
+def roadmap_add_commit_cmd(task_id: str, commit_sha: Optional[str] = None, auto: bool = False) -> int:
+    """Add a git commit to a task."""
+    args = [task_id]
+    if auto:
+        args.append('--auto')
+    elif commit_sha:
+        args.append(commit_sha)
+    else:
+        # No commit SHA and no --auto flag
+        print("Error: Either provide a commit SHA or use --auto flag")
+        return 1
+    return run_script('roadmap-add-commit.py', args)
+
+
 # ============================================================================
 # Deploy Commands
 # ============================================================================

@@ -84,8 +84,68 @@ class Deliverable:
 
 @dataclass
 class GitCommit:
-    """Git commit associated with task."""
+    """Git commit associated with task.
 
+    Platform tracking is REQUIRED for all new commits to support multi-platform development.
+    Timestamps use Unix time (seconds since epoch) to avoid timezone issues.
+    """
+
+    sha: str
+    message: str
+    date: datetime  # Git commit date (from git log)
+    author: str
+
+    # Platform tracking (REQUIRED)
+    platform: str  # e.g., "claude-code", "goose", "cursor"
+    submitted_at: int  # Unix timestamp (seconds since epoch) when commit was submitted via platform
+
+    def __post_init__(self):
+        """Validate commit."""
+        if not (7 <= len(self.sha) <= 40):
+            raise ValueError("SHA must be 7-40 characters")
+        # Basic hex validation
+        try:
+            int(self.sha, 16)
+        except ValueError:
+            raise ValueError(f"SHA must be hexadecimal: {self.sha}")
+
+        # Validate platform
+        if not self.platform or not self.platform.strip():
+            raise ValueError("Platform is required and cannot be empty")
+
+        # Validate submitted_at is a valid Unix timestamp
+        if not isinstance(self.submitted_at, int):
+            raise ValueError("submitted_at must be a Unix timestamp (integer)")
+        if self.submitted_at < 0:
+            raise ValueError("submitted_at must be a positive Unix timestamp")
+
+
+@dataclass
+class TaskCompletionCommit:
+    """Commit that completed a task (used in sprint tracking)."""
+
+    task_id: str  # Which task was completed
+    sha: str
+    message: str
+    date: datetime
+    author: str
+
+    def __post_init__(self):
+        """Validate commit."""
+        if not (7 <= len(self.sha) <= 40):
+            raise ValueError("SHA must be 7-40 characters")
+        # Basic hex validation
+        try:
+            int(self.sha, 16)
+        except ValueError:
+            raise ValueError(f"SHA must be hexadecimal: {self.sha}")
+
+
+@dataclass
+class SprintCompletionCommit:
+    """Commit that completed a sprint (used in track tracking)."""
+
+    sprint_id: str  # Which sprint was completed
     sha: str
     message: str
     date: datetime
@@ -318,11 +378,39 @@ class Task:
             return None
         return self.actual_tokens / self.estimated_tokens
 
-    def add_commit(self, sha: str, message: str, author: str, date: Optional[datetime] = None):
-        """Add a git commit to this task."""
+    def add_commit(
+        self,
+        sha: str,
+        message: str,
+        author: str,
+        platform: str,
+        date: Optional[datetime] = None,
+        submitted_at: Optional[int] = None,
+    ):
+        """Add a git commit to this task.
+
+        Args:
+            sha: Git commit SHA (7-40 characters)
+            message: Commit message
+            author: Commit author
+            platform: Platform used to submit commit (REQUIRED: e.g., "claude-code", "goose")
+            date: Git commit date (from git log), defaults to now
+            submitted_at: Unix timestamp when commit was submitted via platform, defaults to now
+        """
         if date is None:
             date = datetime.now(timezone.utc)
-        commit = GitCommit(sha=sha, message=message, date=date, author=author)
+        if submitted_at is None:
+            # Use current time as Unix timestamp
+            submitted_at = int(datetime.now(timezone.utc).timestamp())
+
+        commit = GitCommit(
+            sha=sha,
+            message=message,
+            date=date,
+            author=author,
+            platform=platform,
+            submitted_at=submitted_at,
+        )
         self.commits.append(commit)
         self.metadata.last_updated = datetime.now(timezone.utc)
 

@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 
-from .common import Status, Priority, VersionBumpTrigger, ActivityType
+from .common import Status, Priority, VersionBumpTrigger, ActivityType, PlatformDeployment
 
 
 @dataclass
@@ -150,6 +150,9 @@ class Roadmap:
     # Version history
     version_history: List[VersionHistoryEntry] = field(default_factory=list)
 
+    # Platform deployments
+    deployed_platforms: List[PlatformDeployment] = field(default_factory=list)
+
     def __post_init__(self):
         """Validate roadmap data."""
         # Validate dates
@@ -189,6 +192,22 @@ class Roadmap:
     def is_blocked(self) -> bool:
         """Check if roadmap is blocked."""
         return len(self.blocked_by) > 0
+
+    def is_platform_deployed(self, platform: str) -> bool:
+        """Check if a platform is deployed for this roadmap."""
+        return any(p.platform == platform for p in self.deployed_platforms)
+
+    def get_platform_deployment(self, platform: str) -> Optional[PlatformDeployment]:
+        """Get deployment info for a specific platform."""
+        return next((p for p in self.deployed_platforms if p.platform == platform), None)
+
+    def get_deployed_platform_names(self) -> List[str]:
+        """Get list of all deployed platform names."""
+        return [p.platform for p in self.deployed_platforms]
+
+    def get_primary_platform(self) -> Optional[PlatformDeployment]:
+        """Get the primary platform deployment."""
+        return next((p for p in self.deployed_platforms if p.primary), None)
 
     def get_completion_percentage(self) -> int:
         """Get completion percentage."""

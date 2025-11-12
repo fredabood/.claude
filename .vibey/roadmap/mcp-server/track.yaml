@@ -2,7 +2,7 @@ track:
   id: mcp-server
   name: MCP Server Foundation
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: completed
   blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'

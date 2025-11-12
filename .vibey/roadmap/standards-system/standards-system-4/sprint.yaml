@@ -1,0 +1,62 @@
+sprint:
+  id: standards-system-4
+  name: CLI Integration
+  track_id: standards-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 10
+    tasks_completed: 0
+    completion_percent: 0
+  goal: |
+    Integrate standards enforcement into CLI commands, adding automatic
+    validation during completion and new commands for standards management.
+  tasks_summary:
+    - Update 'vibey roadmap complete' with standards checking
+    - Implement blocking enforcement
+    - Implement warning enforcement
+    - Create 'vibey roadmap check-standards' command
+    - Create 'vibey roadmap override-standard' command
+    - Create 'vibey roadmap add-standard' command
+    - Update error messaging
+    - Update help documentation
+    - Write CLI tests
+    - Update command documentation
+  deliverables:
+    - Updated vibey/cli/roadmap-complete.py
+    - New vibey/cli/roadmap-check-standards.py
+    - New vibey/cli/roadmap-override-standard.py
+    - New vibey/cli/roadmap-add-standard.py
+    - Updated vibey/cli/commands.py
+    - Updated vibey/cli/main.py
+    - CLI tests (test_standards_cli.py)
+    - Command documentation
+  quality_gates:
+    - name: CLI Tests
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: All CLI tests pass
+    - name: Manual Testing
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: Manual workflow testing complete
+  success_criteria:
+    - Standards enforcement blocks completion when required
+    - Warnings display correctly
+    - check-standards command provides useful preview
+    - Override mechanism works with reason tracking
+    - Error messages are clear and actionable
+  dependencies:
+    - standards-system-3
+  notes: |
+    SPRINT 4: CLI INTEGRATION
+
+    Make standards enforcement a natural part of the roadmap workflow
+    through CLI integration.

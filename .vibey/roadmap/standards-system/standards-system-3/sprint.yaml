@@ -1,0 +1,59 @@
+sprint:
+  id: standards-system-3
+  name: Standard Validators
+  track_id: standards-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 9
+    tasks_completed: 0
+    completion_percent: 0
+  goal: |
+    Implement validation logic for common standard types including commit
+    checking, file checking, test running, and custom scripts.
+  tasks_summary:
+    - Create validator base class and framework
+    - Implement CommitCheckValidator
+    - Implement FileCheckValidator
+    - Implement TestRunValidator
+    - Implement CustomScriptValidator
+    - Create validator registry
+    - Define validation result types
+    - Write validator unit tests
+    - Document validator API
+  deliverables:
+    - vibey/roadmap/standards/validator_base.py
+    - vibey/roadmap/standards/validators/ package
+    - 4 built-in validators
+    - Validator registry
+    - ValidationResult types
+    - Unit tests (test_validators.py)
+    - Validator API documentation
+  quality_gates:
+    - name: Unit Tests
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: All validator tests pass
+    - name: Code Coverage
+      threshold: 95
+      blocking: true
+      status: not_run
+      description: ">95% coverage for validators"
+  success_criteria:
+    - All 4 validators implemented and tested
+    - Validator framework extensible
+    - Clear validation results
+    - Well-documented API
+  dependencies:
+    - standards-system-2
+  notes: |
+    SPRINT 3: STANDARD VALIDATORS
+
+    Build the validation engine with 4 core validators for common
+    quality enforcement scenarios.

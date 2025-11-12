@@ -2981,6 +2981,185 @@ vibey roadmap summarize task task-001
 
 ---
 
+### Step 7.5b: Track Git Commits with Tasks
+
+**Purpose:** Associate git commits with roadmap tasks for traceability and history tracking.
+
+**Workflow Example - Complete a task with commit tracking:**
+
+```bash
+# 1. Make code changes for task
+vim src/api/auth.py
+
+# 2. Commit the changes
+git add src/api/auth.py
+git commit -m "feat: Implement user registration API endpoint
+
+- Add POST /api/auth/register endpoint
+- Implement email validation
+- Add password hashing with bcrypt
+- Add integration tests"
+
+# 3. Associate the commit with the task
+vibey roadmap add-commit task-001 --auto
+
+# 4. Complete the task
+vibey roadmap complete task-001
+```
+
+**Output from `vibey roadmap add-commit`:**
+```
+🔍 Auto-detected current commit: a1b2c3d4
+✅ Successfully added commit to task task-001
+   Commit: a1b2c3d4
+   Message: feat: Implement user registration API endpoint
+   Author: @developer <dev@example.com>
+   Date: 2025-11-11 16:15:17
+   Total commits for this task: 1
+```
+
+**Multiple Commits for One Task:**
+
+Tasks can have multiple commits if the work spans several iterations:
+
+```bash
+# First commit - initial implementation
+git commit -m "feat: Add basic user registration endpoint"
+vibey roadmap add-commit task-001 --auto
+
+# Second commit - add validation
+git commit -m "feat: Add email validation to registration"
+vibey roadmap add-commit task-001 --auto
+
+# Third commit - fix bugs
+git commit -m "fix: Handle duplicate email edge case"
+vibey roadmap add-commit task-001 --auto
+```
+
+**Retroactively Add Commits:**
+
+You can add commits to tasks after the fact:
+
+```bash
+# Review recent git history
+git log --oneline -10
+
+# Add specific commits by SHA
+vibey roadmap add-commit task-001 a1b2c3d
+vibey roadmap add-commit task-002 f4e5d6c
+vibey roadmap add-commit task-003 7a8b9c0
+```
+
+**View Task Commits (Future Enhancement):**
+
+```bash
+# Show task details including commits (planned feature)
+vibey roadmap show task-001
+```
+
+**Expected Output (Future):**
+```
+Task: task-001 (User registration API)
+════════════════════════════════════════════════════
+
+Status: completed
+Sprint: user-mgmt-1-auth
+Completed: 2025-11-11T16:45:00Z
+
+Commits (3):
+  • a1b2c3d - feat: Implement user registration API endpoint
+  • f7e8d9c - feat: Add email validation to registration
+  • 4a5b6c7 - fix: Handle duplicate email edge case
+
+Files Modified:
+  - src/api/auth.py
+  - src/models/user.py
+  - tests/test_auth.py
+```
+
+**Benefits of Commit Tracking:**
+- **Traceability:** See which code changes relate to which tasks
+- **History:** Track the evolution of work through git history
+- **Auditing:** Verify tasks were completed with actual code changes
+- **Context:** Understand what was done by reviewing commit messages
+
+**Platform Validation:**
+
+When adding commits to tasks, Vibey validates the platform against deployed platforms in the roadmap. This ensures governance and tracking of which AI platforms are contributing to the project.
+
+```bash
+# Add commit with platform validation
+vibey roadmap add-commit task-001 --platform claude-code --auto
+
+# Output (success):
+✓ Platform validated: claude-code
+✓ Commit added to task task-001
+  SHA: a1b2c3d4
+  Platform: claude-code
+  Submitted: 2025-11-11 16:15:17 UTC
+
+# Output (failure - undeployed platform):
+❌ Platform 'goose' is not deployed for roadmap 'my-project'
+   Deployed platforms: claude-code
+
+   To fix:
+   1. Add goose to roadmap.yaml deployed_platforms
+   2. Or use: claude-code
+```
+
+**How Platform Validation Works:**
+
+1. **Platforms tracked at roadmap level** - `.vibey/roadmap.yaml` contains `deployed_platforms` list
+2. **Commits validated on add** - When adding a commit, platform is checked against deployed platforms
+3. **Clear error messages** - If platform not deployed, error explains exactly how to fix
+4. **Multi-platform support** - Teams can use different AI tools (Claude Code, Goose, Cursor, etc.)
+
+**Example Validation Error:**
+
+```bash
+# Try to add commit from undeployed platform
+vibey roadmap add-commit task-001 --platform cursor --auto
+
+# Error:
+❌ Cannot add commit with platform 'cursor' to task task-001.
+
+Platform 'cursor' is not deployed for roadmap 'my-project'.
+Deployed platforms: claude-code, goose
+
+To fix:
+  1. Deploy Vibey for cursor first
+  2. Or use one of the deployed platforms: claude-code, goose
+```
+
+**Register Deployed Platforms:**
+
+To enable platform validation, register platforms in `.vibey/roadmap.yaml`:
+
+```yaml
+roadmap:
+  id: my-project
+
+  # Platform deployments
+  deployed_platforms:
+    - platform: claude-code
+      context_window: 200000
+      deployed_at: 1731330000  # Unix timestamp
+      deployed_by: alice@example.com
+      primary: true
+
+    - platform: goose
+      context_window: 128000
+      deployed_at: 1731344400
+      deployed_by: bob@example.com
+      primary: false
+```
+
+**See Also:**
+- `docs/guides/GIT_COMMIT_TRACKING.md` for complete commit tracking documentation
+- **Journey 7b: Platform Deployment & Governance** for detailed platform tracking setup
+
+---
+
 ### Step 7.6: Roadmap Visualization
 
 **Repository State with Active Roadmap:**
@@ -3237,6 +3416,662 @@ $ git log --oneline --all --graph -20
 - ✅ Velocity measured
 - ✅ Reports generated
 - ✅ Git history tells the story
+
+---
+
+## Journey 7b: Platform Deployment & Governance
+
+**Goal:** Track which platforms are deployed and enforce platform validation
+**Duration:** 15-30 minutes (setup), ongoing (governance)
+**Prerequisites:** Roadmap initialized, multiple team members using different AI platforms
+
+### Overview
+
+This journey covers platform deployment tracking at the roadmap level, enabling Vibey to track which AI platforms (Claude Code, Goose, Cursor, etc.) are deployed for your project. Platform tracking provides:
+
+- **Governance:** Control which platforms can submit commits to the roadmap
+- **Multi-platform support:** Track different context windows per platform
+- **Platform analytics:** Know which platforms complete which work
+- **Team coordination:** Support teams using different AI tools
+
+**When You Need This:**
+- Multiple team members using different AI platforms
+- Want to enforce platform governance
+- Need to track which platform completed which work
+- Planning multi-platform development workflows
+
+---
+
+### Step 7b.1: Understand Platform Tracking
+
+**What is a Platform?**
+
+A "platform" in Vibey refers to an AI coding assistant where Vibey is deployed:
+- **claude-code** - Anthropic's Claude Code
+- **goose** - Block's Goose AI
+- **cursor** - Cursor IDE (future support)
+- **custom** - Custom AI integrations
+
+**Architecture:**
+```
+Roadmap (single source of truth)
+├── deployed_platforms: List[PlatformDeployment]
+│   ├── claude-code (200K context) [PRIMARY]
+│   ├── goose (128K context)
+│   └── cursor (100K context)
+│
+└── Tracks → Sprints → Tasks
+    └── commits: List[GitCommit]
+        └── platform: "claude-code"  ✅ Must be deployed
+```
+
+**Key Concepts:**
+- **Roadmap-level tracking** - Platforms registered once, validated everywhere
+- **Commit-level attribution** - Each git commit records which platform submitted it
+- **Validation on commit** - Commits only accepted from deployed platforms
+- **Primary platform** - Default platform for the project
+
+---
+
+### Step 7b.2: Register Deployed Platforms
+
+**Manual Registration (Current Method):**
+
+Edit `.vibey/roadmap.yaml` to add platforms:
+
+```yaml
+roadmap:
+  id: my-project
+  name: "My Project Roadmap"
+
+  # Platform deployments (add this section)
+  deployed_platforms:
+    - platform: claude-code
+      context_window: 200000
+      deployed_at: 1731330000  # Unix timestamp
+      deployed_by: alice@example.com
+      primary: true
+
+    - platform: goose
+      context_window: 128000
+      deployed_at: 1731344400
+      deployed_by: bob@example.com
+      primary: false
+```
+
+**Field Descriptions:**
+- `platform` - Platform identifier (lowercase, hyphenated)
+- `context_window` - Token context window for the platform
+- `deployed_at` - Unix timestamp when platform was deployed
+- `deployed_by` - Who deployed it (email or username)
+- `primary` - Is this the primary/default platform?
+
+**Get Current Unix Timestamp:**
+```bash
+# Linux/Mac
+date +%s
+
+# Python
+python3 -c "import time; print(int(time.time()))"
+```
+
+**Future CLI Support:**
+```bash
+# Future feature (not yet implemented)
+vibey platforms deploy claude-code --context-window 200000 --primary
+vibey platforms list
+```
+
+---
+
+### Step 7b.3: Add Commits with Platform Validation
+
+**When Adding Commits to Tasks:**
+
+Platform validation happens automatically when commits are tracked against tasks.
+
+**Python API (Current):**
+```python
+from pathlib import Path
+from vibey.roadmap.validation import add_commit_with_validation
+
+# Add commit with validation
+add_commit_with_validation(
+    task,
+    sha="a1b2c3d4",
+    message="feat: Add authentication",
+    author="Alice <alice@example.com>",
+    platform="claude-code",  # Validated against roadmap
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# ✅ Success - claude-code is deployed
+# Commit added to task with platform attribution
+```
+
+**Validation Failure Example:**
+```python
+# Try to add commit from undeployed platform
+add_commit_with_validation(
+    task,
+    sha="b2c3d4e5",
+    message="fix: Bug fix",
+    author="Charlie <charlie@example.com>",
+    platform="cursor",  # Not deployed!
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# ❌ Raises PlatformValidationError:
+# Cannot add commit with platform 'cursor' to task auth-task-001.
+#
+# Platform 'cursor' is not deployed for roadmap 'my-project'.
+# Deployed platforms: claude-code, goose
+#
+# To fix:
+#   1. Deploy Vibey for cursor first
+#   2. Or use one of the deployed platforms: claude-code, goose
+```
+
+**Future CLI Support:**
+```bash
+# Future feature (not yet implemented)
+vibey roadmap add-commit task-001 --platform claude-code --auto
+
+# With auto-detection
+vibey roadmap add-commit task-001 --auto
+# → Detects platform from environment
+# → Validates against roadmap.deployed_platforms
+# → Adds commit if valid
+```
+
+---
+
+### Step 7b.4: View Deployed Platforms
+
+**Current Method (Manual YAML Inspection):**
+
+```bash
+# View roadmap file
+cat .vibey/roadmap.yaml | grep -A 10 "deployed_platforms:"
+
+# Or use Python to parse
+python3 -c "
+import yaml
+from pathlib import Path
+
+with open('.vibey/roadmap.yaml') as f:
+    roadmap = yaml.safe_load(f)
+
+print('Deployed Platforms:')
+print('=' * 50)
+for p in roadmap['roadmap']['deployed_platforms']:
+    primary = '[PRIMARY]' if p.get('primary') else ''
+    print(f\"✓ {p['platform']} ({p['context_window']/1000:.0f}K context) {primary}\")
+    print(f\"  Deployed: {p['deployed_at']}\")
+    print(f\"  Deployed by: {p['deployed_by']}\")
+    print()
+"
+```
+
+**Future CLI Support:**
+```bash
+# Future feature (not yet implemented)
+vibey platforms list
+
+# Output:
+# Deployed Platforms
+# ──────────────────────────────────────────
+# ✓ claude-code (200K context) [PRIMARY]
+#   Deployed: 2025-11-01 16:00:00 UTC
+#   Deployed by: alice@example.com
+#
+# ✓ goose (128K context)
+#   Deployed: 2025-11-05 12:00:00 UTC
+#   Deployed by: bob@example.com
+```
+
+---
+
+### Step 7b.5: Multi-Platform Team Workflow
+
+**Scenario:** Alice uses Claude Code, Bob uses Goose
+
+**Setup (.vibey/roadmap.yaml):**
+```yaml
+deployed_platforms:
+  - platform: claude-code
+    context_window: 200000
+    deployed_at: 1731330000
+    deployed_by: alice@example.com
+    primary: true
+
+  - platform: goose
+    context_window: 128000
+    deployed_at: 1731344400
+    deployed_by: bob@example.com
+    primary: false
+```
+
+**Alice's Workflow (Claude Code):**
+```python
+# Alice working on authentication task
+from vibey.roadmap.validation import add_commit_with_validation
+
+# Make changes
+subprocess.run(["git", "add", "."])
+subprocess.run(["git", "commit", "-m", "feat: Add OAuth integration"])
+
+# Get commit SHA
+result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
+sha = result.stdout.strip()[:8]
+
+# Add commit to roadmap task
+add_commit_with_validation(
+    task=auth_task,
+    sha=sha,
+    message="feat: Add OAuth integration",
+    author="Alice <alice@example.com>",
+    platform="claude-code",  # Alice's platform
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# ✅ Platform validated: claude-code
+# ✅ Commit added to task auth-task-001
+```
+
+**Bob's Workflow (Goose):**
+```python
+# Bob working on the same authentication task
+from vibey.roadmap.validation import add_commit_with_validation
+
+# Make changes
+subprocess.run(["git", "add", "."])
+subprocess.run(["git", "commit", "-m", "fix: Handle OAuth edge cases"])
+
+# Get commit SHA
+result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
+sha = result.stdout.strip()[:8]
+
+# Add commit to roadmap task
+add_commit_with_validation(
+    task=auth_task,
+    sha=sha,
+    message="fix: Handle OAuth edge cases",
+    author="Bob <bob@example.com>",
+    platform="goose",  # Bob's platform
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# ✅ Platform validated: goose
+# ✅ Commit added to task auth-task-001
+```
+
+**Result in tasks.yaml:**
+```yaml
+tasks:
+  - id: auth-task-001
+    title: "Implement OAuth Integration"
+    status: completed
+    commits:
+      - sha: a1b2c3d4
+        message: "feat: Add OAuth integration"
+        author: "Alice <alice@example.com>"
+        platform: claude-code
+        submitted_at: 1731345600
+        date: 2025-11-11T12:00:00Z
+
+      - sha: b2c3d4e5
+        message: "fix: Handle OAuth edge cases"
+        author: "Bob <bob@example.com>"
+        platform: goose
+        submitted_at: 1731349200
+        date: 2025-11-11T13:00:00Z
+```
+
+**Benefits:**
+- ✅ Both commits tracked with platform attribution
+- ✅ Task shows mixed-platform development
+- ✅ Platform governance enforced
+- ✅ Timeline preserved with Unix timestamps
+- ✅ Team collaboration visible in commit history
+
+---
+
+### Step 7b.6: Handle Validation Errors
+
+**Common Error 1: Undeployed Platform**
+
+```python
+# Error occurs
+add_commit_with_validation(
+    task,
+    sha="c3d4e5f6",
+    message="feat: New feature",
+    author="Charlie <charlie@example.com>",
+    platform="cursor",  # Not deployed
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# Error message:
+# PlatformValidationError: Cannot add commit with platform 'cursor' to task auth-task-001.
+#
+# Platform 'cursor' is not deployed for roadmap 'my-project'.
+# Deployed platforms: claude-code, goose
+#
+# To fix:
+#   1. Deploy Vibey for cursor first
+#   2. Or use one of the deployed platforms: claude-code, goose
+```
+
+**Fix Option 1: Deploy the Platform**
+```yaml
+# Edit .vibey/roadmap.yaml
+deployed_platforms:
+  - platform: claude-code
+    context_window: 200000
+    deployed_at: 1731330000
+    deployed_by: alice@example.com
+    primary: true
+
+  - platform: goose
+    context_window: 128000
+    deployed_at: 1731344400
+    deployed_by: bob@example.com
+    primary: false
+
+  # Add cursor
+  - platform: cursor
+    context_window: 100000
+    deployed_at: 1731352800  # Current time
+    deployed_by: charlie@example.com
+    primary: false
+```
+
+**Fix Option 2: Use a Deployed Platform**
+```python
+# Use already-deployed platform
+add_commit_with_validation(
+    task,
+    sha="c3d4e5f6",
+    message="feat: New feature",
+    author="Charlie <charlie@example.com>",
+    platform="claude-code",  # Use deployed platform
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+# ✅ Success
+```
+
+**Common Error 2: No Platforms Deployed**
+
+```python
+# Error occurs when roadmap has no platforms
+add_commit_with_validation(
+    task,
+    sha="d4e5f6a7",
+    message="feat: Initial commit",
+    author="Alice <alice@example.com>",
+    platform="claude-code",
+    roadmap_path=Path(".vibey/roadmap.yaml"),
+)
+
+# Error message:
+# PlatformValidationError: Cannot add commit with platform 'claude-code' to task task-001.
+#
+# No platforms have been deployed for roadmap 'my-project'.
+#
+# To fix:
+#   1. Deploy Vibey for claude-code first
+#   2. Or use an already deployed platform
+```
+
+**Fix: Initialize Platform Deployments**
+```yaml
+# Edit .vibey/roadmap.yaml
+# Add deployed_platforms section:
+deployed_platforms:
+  - platform: claude-code
+    context_window: 200000
+    deployed_at: 1731330000
+    deployed_by: alice@example.com
+    primary: true
+```
+
+---
+
+### Step 7b.7: Query Platform Analytics
+
+**Example: Which Platforms Contributed to a Sprint?**
+
+```python
+from pathlib import Path
+from collections import Counter
+from vibey.roadmap.serialization.yaml_loader import load_tasks
+
+# Load tasks for a sprint
+tasks = load_tasks(Path(".vibey/roadmap/user-mgmt/user-mgmt-1/tasks.yaml"))
+
+# Count commits by platform
+platform_commits = Counter()
+for task in tasks:
+    for commit in task.commits:
+        platform_commits[commit.platform] += 1
+
+print("Platform Contributions:")
+for platform, count in platform_commits.most_common():
+    print(f"  {platform}: {count} commits")
+
+# Output:
+# Platform Contributions:
+#   claude-code: 12 commits
+#   goose: 5 commits
+```
+
+**Example: Platform Contribution Timeline**
+
+```python
+from datetime import datetime
+
+# Get commits with timestamps
+commits_timeline = []
+for task in tasks:
+    for commit in task.commits:
+        commits_timeline.append({
+            'platform': commit.platform,
+            'submitted_at': commit.submitted_at,
+            'message': commit.message,
+        })
+
+# Sort by timestamp
+commits_timeline.sort(key=lambda x: x['submitted_at'])
+
+print("Commit Timeline:")
+for c in commits_timeline:
+    dt = datetime.fromtimestamp(c['submitted_at'])
+    print(f"  {dt} [{c['platform']}] {c['message'][:50]}")
+
+# Output:
+# Commit Timeline:
+#   2025-11-11 10:00:00 [claude-code] feat: Add user registration
+#   2025-11-11 11:30:00 [goose] fix: Handle validation errors
+#   2025-11-11 14:00:00 [claude-code] feat: Add OAuth integration
+#   ...
+```
+
+---
+
+### Step 7b.8: Best Practices
+
+**1. Register Platforms Early**
+- Add platform deployments when initializing roadmap
+- Don't wait until first commit fails validation
+- Document which team members use which platforms
+
+**2. Use Primary Platform Designation**
+- Set one platform as `primary: true`
+- Primary platform used for context window defaults
+- Other platforms remain available for team flexibility
+
+**3. Document Context Windows Accurately**
+- Claude Code: 200,000 tokens
+- Goose: 128,000 tokens (default)
+- Cursor: ~100,000 tokens
+- Custom: Depends on integration
+
+**4. Track Deployment Metadata**
+- `deployed_by` helps identify who set up each platform
+- `deployed_at` provides deployment history
+- Useful for auditing and troubleshooting
+
+**5. Validate Before Committing**
+- Platform validation happens at commit tracking time
+- Validates before adding to roadmap
+- Clear error messages guide fixes
+
+**6. Plan for Sprint Recalculation (Future)**
+- Different context windows affect task sizing
+- Future feature: Recalculate sprint for different platform
+- Current: Manual adjustment if needed
+
+---
+
+### Step 7b.9: Troubleshooting
+
+**Issue: Commit validation fails despite platform being deployed**
+
+**Debug checklist:**
+1. Check roadmap.yaml syntax:
+   ```bash
+   python3 -c "import yaml; yaml.safe_load(open('.vibey/roadmap.yaml'))"
+   ```
+
+2. Verify platform name matches exactly:
+   ```python
+   import yaml
+   with open('.vibey/roadmap.yaml') as f:
+       roadmap = yaml.safe_load(f)
+   platforms = [p['platform'] for p in roadmap['roadmap']['deployed_platforms']]
+   print(f"Deployed platforms: {platforms}")
+   ```
+
+3. Check for typos (common issues):
+   - `claude_code` ❌ (should be `claude-code` ✅)
+   - `Goose` ❌ (should be `goose` ✅)
+   - Extra spaces in platform name
+
+**Issue: Unix timestamp errors**
+
+**Common mistakes:**
+```python
+# ❌ Wrong: Using milliseconds
+deployed_at: 1731330000000  # Too large
+
+# ✅ Correct: Using seconds
+deployed_at: 1731330000
+
+# ❌ Wrong: Using datetime string
+submitted_at: "2025-11-11T12:00:00Z"
+
+# ✅ Correct: Using Unix timestamp
+submitted_at: 1731330000
+```
+
+**Get correct timestamp:**
+```bash
+# Current time (seconds since epoch)
+date +%s
+
+# Specific date (Mac/Linux)
+date -j -f "%Y-%m-%d %H:%M:%S" "2025-11-11 12:00:00" +%s
+
+# Python
+python3 -c "from datetime import datetime; print(int(datetime(2025, 11, 11, 12, 0).timestamp()))"
+```
+
+**Issue: Legacy commits missing platform field**
+
+**Symptom:** Old commits in tasks.yaml don't have `platform` or `submitted_at` fields.
+
+**Behavior:** Legacy commits are skipped during load (backward compatibility).
+
+**Fix (if needed):**
+```yaml
+# Manually add platform to legacy commits in tasks.yaml
+commits:
+  - sha: abc123def
+    message: "Legacy commit"
+    date: 2025-11-01T10:00:00Z
+    author: "Alice <alice@example.com>"
+    platform: claude-code  # Add this
+    submitted_at: 1731330000  # Add this
+```
+
+---
+
+### Step 7b.10: Journey 7b Complete
+
+**What You've Learned:**
+- ✅ How platform tracking works at the roadmap level
+- ✅ How to register deployed platforms
+- ✅ How platform validation protects roadmap integrity
+- ✅ How to support multi-platform teams
+- ✅ How to handle validation errors
+- ✅ How to query platform analytics
+
+**Repository State:**
+```
+your-project/
+├── .vibey/
+│   ├── roadmap.yaml         # Platform deployments registered
+│   └── roadmap/
+│       └── [track]/[sprint]/
+│           └── tasks.yaml   # Commits with platform attribution
+└── .git/
+    # Git commits tracked with platform info
+```
+
+**Example roadmap.yaml:**
+```yaml
+roadmap:
+  id: my-project
+  deployed_platforms:
+    - platform: claude-code
+      context_window: 200000
+      deployed_at: 1731330000
+      deployed_by: alice@example.com
+      primary: true
+
+    - platform: goose
+      context_window: 128000
+      deployed_at: 1731344400
+      deployed_by: bob@example.com
+      primary: false
+```
+
+**Example tasks.yaml:**
+```yaml
+tasks:
+  - id: auth-task-001
+    commits:
+      - sha: a1b2c3d4
+        platform: claude-code
+        submitted_at: 1731345600
+      - sha: b2c3d4e5
+        platform: goose
+        submitted_at: 1731349200
+```
+
+**Key Takeaways:**
+- ✅ Platforms tracked at roadmap level
+- ✅ Commits validated against deployed platforms
+- ✅ Multi-platform teams supported
+- ✅ Clear error messages when validation fails
+- ✅ Platform analytics available from commit history
+- ✅ Unix timestamps avoid timezone issues
+
+**Next Steps:**
+- Continue with Journey 8 (Config Migration) if needed
+- Or explore other platform governance features
+- Or integrate platform tracking with CI/CD
 
 ---
 
@@ -3992,6 +4827,7 @@ This appendix provides a complete reference for all Vibey CLI commands introduce
 | `vibey roadmap show` | Show item details | `vibey roadmap show sprint-1` |
 | `vibey roadmap start` | Start sprint/task | `vibey roadmap start task-001` |
 | `vibey roadmap complete` | Complete sprint/task | `vibey roadmap complete sprint-1` |
+| `vibey roadmap add-commit` | Add git commit to task | `vibey roadmap add-commit task-001 --auto` |
 | `vibey roadmap context` | Get AI context for task | `vibey roadmap context task-001` |
 | `vibey roadmap summarize` | Summarize item | `vibey roadmap summarize sprint sprint-1` |
 
@@ -4213,6 +5049,45 @@ vibey roadmap complete task-003
 vibey roadmap complete sprint-2
 ```
 
+#### `vibey roadmap add-commit`
+
+Associate a git commit with a task for traceability and history tracking.
+
+**Syntax:**
+```bash
+vibey roadmap add-commit <task-id> [<commit-sha>] [--auto]
+```
+
+**Arguments:**
+- `<task-id>` - Task ID (e.g., `task-003`)
+- `<commit-sha>` - Git commit SHA (full or short form, optional if using `--auto`)
+
+**Options:**
+- `--auto` - Use current HEAD commit
+- `--vibey-dir PATH` - Path to .vibey directory (auto-detected if not provided)
+
+**Examples:**
+```bash
+# Add current commit to task
+vibey roadmap add-commit task-003 --auto
+
+# Add specific commit by SHA
+vibey roadmap add-commit task-003 a1b2c3d
+
+# Add specific commit with full SHA
+vibey roadmap add-commit task-003 a1b2c3d4e5f6789012345678901234567890abcd
+```
+
+**Use Cases:**
+- Track all commits that impacted a task
+- Build an audit trail of code changes
+- Associate work with roadmap items
+- Enable commit history analysis
+
+**Note:** Tasks can have multiple commits. The same commit can be associated with multiple tasks if it impacts several areas.
+
+**See Also:** `docs/guides/GIT_COMMIT_TRACKING.md` for detailed documentation
+
 #### `vibey roadmap context`
 
 Get AI-optimized context for a specific task.
@@ -4282,6 +5157,13 @@ vibey roadmap context task-003
 
 #### Complete a Task
 ```bash
+# Make code changes and commit
+git add src/feature.py
+git commit -m "feat: Implement feature functionality"
+
+# Associate commit with task
+vibey roadmap add-commit task-003 --auto
+
 # Complete the task
 vibey roadmap complete task-003
 

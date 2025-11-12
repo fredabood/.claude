@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 16
+    tracks_total: 17
     tracks_completed: 10
-    sprints_total: 46
-    sprints_completed: 15
-    tasks_total: 170
-    tasks_completed: 145
-    completion_percent: 85
+    sprints_total: 24
+    sprints_completed: 6
+    tasks_total: 140
+    tasks_completed: 115
+    completion_percent: 68
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -86,6 +86,10 @@ roadmap:
     name: JetBrains AI Assistant Port
     status: not_started
     priority: medium
+  - id: standards-system
+    name: Roadmap Standards System
+    status: not_started
+    priority: critical
   dependencies: []
   blocked_by: []
   version_history:

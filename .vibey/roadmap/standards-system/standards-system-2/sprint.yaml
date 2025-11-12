@@ -1,0 +1,55 @@
+sprint:
+  id: standards-system-2
+  name: Standards Resolution Engine
+  track_id: standards-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  goal: |
+    Build the standards resolution engine that resolves effective standards
+    for any roadmap item by implementing hierarchical inheritance from
+    roadmap → track → sprint → task.
+  tasks_summary:
+    - Create standards resolver module
+    - Implement resolve_standards_for_task()
+    - Implement resolve_standards_for_sprint()
+    - Implement resolve_standards_for_track()
+    - Implement inheritance and deduplication logic
+    - Add override handling
+    - Write integration tests
+  deliverables:
+    - vibey/roadmap/standards/resolver.py (Resolution engine)
+    - vibey/roadmap/standards/__init__.py
+    - Integration tests (test_standards_resolution.py)
+    - Documentation for resolver API
+  quality_gates:
+    - name: Integration Tests
+      threshold: 100
+      blocking: true
+      status: not_run
+      description: All integration tests pass
+    - name: Code Coverage
+      threshold: 90
+      blocking: true
+      status: not_run
+      description: ">90% coverage for resolver"
+  success_criteria:
+    - Hierarchical inheritance working correctly
+    - Deduplication prevents duplicate standards
+    - Override mechanism functional
+    - All integration tests passing
+  dependencies:
+    - standards-system-1
+  notes: |
+    SPRINT 2: STANDARDS RESOLUTION ENGINE
+
+    Implement the engine that determines which standards apply to any
+    given roadmap item based on hierarchical inheritance.

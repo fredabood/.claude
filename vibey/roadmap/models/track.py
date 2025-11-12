@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from .common import Status, Priority, DependencyType, GateStatus, DependencyStatus
+from .task import SprintCompletionCommit
 
 
 @dataclass
@@ -139,6 +140,9 @@ class Track:
     # Deliverables and strategic value
     deliverables: List[str] = field(default_factory=list)
     strategic_value: List[str] = field(default_factory=list)
+
+    # Commit tracking - records commits that completed sprints in this track
+    commits: List[SprintCompletionCommit] = field(default_factory=list)
 
     def __post_init__(self):
         """Validate track data."""

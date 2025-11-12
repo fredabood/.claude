@@ -2,7 +2,7 @@ track:
   id: infrastructure-fixes
   name: Critical Infrastructure Fixes
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: completed
   blocked: false
   priority: critical
   created: '2025-11-10T10:00:00+00:00'

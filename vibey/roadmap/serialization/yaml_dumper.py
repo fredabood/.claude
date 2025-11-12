@@ -253,6 +253,16 @@ def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):
                 }
                 for vh in roadmap.version_history
             ],
+            'deployed_platforms': [
+                {
+                    'platform': p.platform,
+                    'context_window': p.context_window,
+                    'deployed_at': p.deployed_at,  # Unix timestamp (integer)
+                    'deployed_by': p.deployed_by,
+                    'primary': p.primary,
+                }
+                for p in roadmap.deployed_platforms
+            ],
             'activity_log': [
                 {
                     'timestamp': _format_datetime(al.timestamp),
@@ -374,6 +384,16 @@ def save_track(track: Track, file_path: Union[str, Path]):
             'assigned_agents': track.assigned_agents,
             'deliverables': track.deliverables,
             'strategic_value': track.strategic_value,
+            'commits': [
+                {
+                    'sprint_id': c.sprint_id,
+                    'sha': c.sha,
+                    'message': c.message,
+                    'date': _format_datetime(c.date),
+                    'author': c.author,
+                }
+                for c in track.commits
+            ],
             'metadata': {
                 'created_by': track.metadata.created_by,
                 'last_updated': _format_datetime(track.metadata.last_updated),
@@ -478,6 +498,16 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
             'depended_on_by': sprint.depended_on_by,
             'plan_file': sprint.plan_file,
             'deliverables': sprint.deliverables,
+            'commits': [
+                {
+                    'task_id': c.task_id,
+                    'sha': c.sha,
+                    'message': c.message,
+                    'date': _format_datetime(c.date),
+                    'author': c.author,
+                }
+                for c in sprint.commits
+            ],
             'metadata': {
                 'last_updated': _format_datetime(sprint.metadata.last_updated),
                 'estimated_duration': sprint.metadata.estimated_duration,
@@ -629,15 +659,18 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
         ]
 
         # Add commits
-        task_data['commits'] = [
-            {
+        commits_data = []
+        for c in task.commits:
+            commit_dict = {
                 'sha': c.sha,
                 'message': c.message,
                 'date': _format_datetime(c.date),
                 'author': c.author,
+                'platform': c.platform,  # REQUIRED field
+                'submitted_at': c.submitted_at,  # Unix timestamp (integer)
             }
-            for c in task.commits
-        ]
+            commits_data.append(commit_dict)
+        task_data['commits'] = commits_data
 
         # Add metadata
         task_data['metadata'] = {

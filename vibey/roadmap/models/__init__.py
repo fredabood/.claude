@@ -78,6 +78,8 @@ from .task import (
     TaskBlocker,
     Deliverable,
     GitCommit,
+    TaskCompletionCommit,
+    SprintCompletionCommit,
     TaskMetadata,
 )
 
@@ -93,6 +95,7 @@ from .common import (
     ActivityType,
     VersionBumpTrigger,
     DependencyStatus,
+    PlatformDeployment,
 )
 
 __all__ = [
@@ -128,6 +131,8 @@ __all__ = [
     "TaskBlocker",
     "Deliverable",
     "GitCommit",
+    "TaskCompletionCommit",
+    "SprintCompletionCommit",
     "TaskMetadata",
     # Common
     "Status",
@@ -141,6 +146,7 @@ __all__ = [
     "ActivityType",
     "VersionBumpTrigger",
     "DependencyStatus",
+    "PlatformDeployment",
 ]
 
 __version__ = "2.1"

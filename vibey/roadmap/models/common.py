@@ -194,3 +194,35 @@ class DependencyStatus:
         except ValueError:
             # If not in order, check exact match
             return target_status == self.blocks_transition_to and not self.is_satisfied()
+
+
+@dataclass
+class PlatformDeployment:
+    """
+    Record of a platform deployment for a roadmap.
+
+    Tracks which AI platforms (claude-code, goose, cursor, etc.) Vibey has been
+    deployed for in this project, along with their context windows and deployment metadata.
+    """
+
+    platform: str  # Platform name (e.g., "claude-code", "goose", "cursor")
+    context_window: int  # Token context window for this platform
+    deployed_at: int  # Unix timestamp when platform was deployed
+    deployed_by: str  # Who deployed it (email or username)
+    primary: bool = False  # Is this the primary platform for the project?
+
+    def __post_init__(self):
+        """Validate platform deployment."""
+        if not self.platform or not self.platform.strip():
+            raise ValueError("Platform name is required and cannot be empty")
+
+        if self.context_window <= 0:
+            raise ValueError("Context window must be positive")
+
+        if not isinstance(self.deployed_at, int):
+            raise ValueError("deployed_at must be a Unix timestamp (integer)")
+        if self.deployed_at < 0:
+            raise ValueError("deployed_at must be a positive Unix timestamp")
+
+        if not self.deployed_by or not self.deployed_by.strip():
+            raise ValueError("deployed_by is required and cannot be empty")

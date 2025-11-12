@@ -46,7 +46,11 @@
       "Bash(python -m pytest:*)",
       "Bash(for track in .vibey/roadmap/*/track.yaml)",
       "Bash(pytest:*)",
-      "Bash([ -d \"vibey/cli/roadmap-lib\" ])"
+      "Bash([ -d \"vibey/cli/roadmap-lib\" ])",
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(for:*)",
+      "Bash(do mkdir -p .vibey/roadmap/standards-system/standards-system-$i)",
+      "Bash(do python3 -c \"import yaml; yaml.safe_load(open(''.vibey/roadmap/standards-system/standards-system-$i/sprint.yaml'')); print(''✅ Sprint $i YAML valid'')\")"
     ],
     "deny": [],
     "ask": []

@@ -88,12 +88,22 @@ def roadmap_show_cmd(item_id: str) -> int:
         # Determine type from ID format
         if 'task' in item_id:
             result = query_task_details(root_dir, item_id)
-            print(format_task_details(result))
         elif item_id.count('-') >= 2:  # sprint format: track-sprint
             result = query_sprint_details(root_dir, item_id)
-            print(format_sprint_details(result))
         else:  # track format
             result = query_track_details(root_dir, item_id)
+
+        # Check if query returned an error
+        if "error" in result:
+            print(format_error(result["error"]))
+            return 1
+
+        # Format and print the result based on type
+        if 'task' in item_id:
+            print(format_task_details(result))
+        elif item_id.count('-') >= 2:
+            print(format_sprint_details(result))
+        else:
             print(format_track_details(result))
         return 0
     except Exception as e:

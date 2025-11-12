@@ -76,6 +76,48 @@ def query_track_details(root_dir: Path, track_id: str) -> Dict[str, Any]:
 
     track = load_track(track_path)
 
+    # Build sprints list with error handling
+    sprints_list = []
+    if track.sprints:
+        for sprint in track.sprints:
+            try:
+                sprints_list.append({
+                    "id": sprint.id if hasattr(sprint, 'id') else sprint.get('id', 'unknown'),
+                    "name": sprint.name if hasattr(sprint, 'name') else sprint.get('name', 'Unknown'),
+                    "status": sprint.status.value if hasattr(sprint, 'status') and hasattr(sprint.status, 'value') else sprint.get('status', 'unknown'),
+                })
+            except (AttributeError, TypeError) as e:
+                # Sprint might be a string or dict, handle gracefully
+                if isinstance(sprint, str):
+                    sprints_list.append({"id": sprint, "name": sprint, "status": "unknown"})
+                elif isinstance(sprint, dict):
+                    sprints_list.append({
+                        "id": sprint.get('id', 'unknown'),
+                        "name": sprint.get('name', 'Unknown'),
+                        "status": sprint.get('status', 'unknown'),
+                    })
+
+    # Build dependencies list with error handling
+    deps_list = []
+    if track.dependencies:
+        for dep in track.dependencies:
+            try:
+                deps_list.append({
+                    "target_id": dep.target_id if hasattr(dep, 'target_id') else dep.get('target_id', dep if isinstance(dep, str) else 'unknown'),
+                    "type": dep.type.value if hasattr(dep, 'type') and hasattr(dep.type, 'value') else dep.get('type', 'track'),
+                    "target_status": dep.target_status if hasattr(dep, 'target_status') else dep.get('target_status', 'any'),
+                })
+            except (AttributeError, TypeError) as e:
+                # Dependency might be a string, handle gracefully
+                if isinstance(dep, str):
+                    deps_list.append({"target_id": dep, "type": "track", "target_status": "any"})
+                elif isinstance(dep, dict):
+                    deps_list.append({
+                        "target_id": dep.get('target_id', 'unknown'),
+                        "type": dep.get('type', 'track'),
+                        "target_status": dep.get('target_status', 'any'),
+                    })
+
     return {
         "id": track.id,
         "name": track.name,
@@ -89,22 +131,8 @@ def query_track_details(root_dir: Path, track_id: str) -> Dict[str, Any]:
             "tasks": f"{track.progress.tasks_completed}/{track.progress.tasks_total}",
             "completion": f"{track.progress.completion_percent}%",
         },
-        "sprints": [
-            {
-                "id": sprint.id,
-                "name": sprint.name,
-                "status": sprint.status.value,
-            }
-            for sprint in track.sprints
-        ],
-        "dependencies": [
-            {
-                "target_id": dep.target_id,
-                "type": dep.type.value,
-                "target_status": dep.target_status,
-            }
-            for dep in track.dependencies
-        ],
+        "sprints": sprints_list,
+        "dependencies": deps_list,
     }
 
 

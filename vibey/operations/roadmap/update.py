@@ -293,8 +293,13 @@ def start_sprint(
 
     sprint = load_sprint(sprint_path)
 
+    # Check current status - idempotent behavior
+    if sprint.status == Status.IN_PROGRESS:
+        print(f"ℹ️  Sprint already in progress")
+        return 0  # Idempotent: already in desired state
+
     if sprint.status != Status.NOT_STARTED:
-        print(f"❌ Sprint already started (status: {sprint.status.value})")
+        print(f"❌ Cannot start sprint (current status: {sprint.status.value})")
         return 1
 
     # Update sprint

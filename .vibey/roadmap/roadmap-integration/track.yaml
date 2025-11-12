@@ -2,7 +2,7 @@ track:
   id: roadmap-integration
   name: Roadmap Integration into /vibey Commands
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   priority: high
   created: '2025-11-07T10:00:00+00:00'
@@ -77,6 +77,8 @@ track:
   - Foundation for advanced roadmap features
   - Critical for user adoption of roadmap system
   - Removes technical debt from legacy sprint-state system
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-07T10:00:00+00:00'

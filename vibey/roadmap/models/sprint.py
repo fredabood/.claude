@@ -5,11 +5,12 @@ A Sprint is a logical unit of work pushable to production.
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from .common import Status, TaskType, DependencyType, DependencyStatus
 from .task import TaskCompletionCommit
+from .standard import Standard
 
 
 @dataclass
@@ -154,6 +155,9 @@ class Sprint:
     # Commit tracking - records commits that completed tasks in this sprint
     commits: List[TaskCompletionCommit] = field(default_factory=list)
 
+    # Quality standards (apply to tasks in this sprint, inherits from roadmap/track)
+    standards: List[Standard] = field(default_factory=list)
+
     def __post_init__(self):
         """Validate sprint data."""
         # Validate sprint ID is track-scoped
@@ -261,3 +265,32 @@ class Sprint:
     def can_be_production_ready(self) -> bool:
         """Check if sprint can be production ready."""
         return self.can_complete() and self.all_production_gates_passed()
+
+    def get_standard(self, standard_id: str) -> Optional[Standard]:
+        """Get a specific standard by ID."""
+        return next((s for s in self.standards if s.id == standard_id), None)
+
+    def add_standard(self, standard: Standard):
+        """Add a standard to the sprint."""
+        # Check for duplicate IDs
+        if any(s.id == standard.id for s in self.standards):
+            raise ValueError(f"Standard with ID '{standard.id}' already exists")
+        self.standards.append(standard)
+        self.metadata.last_updated = datetime.now(timezone.utc)
+
+    def remove_standard(self, standard_id: str) -> bool:
+        """Remove a standard by ID. Returns True if removed, False if not found."""
+        initial_count = len(self.standards)
+        self.standards = [s for s in self.standards if s.id != standard_id]
+        if len(self.standards) < initial_count:
+            self.metadata.last_updated = datetime.now(timezone.utc)
+            return True
+        return False
+
+    def get_active_standards(self) -> List[Standard]:
+        """Get all enabled standards."""
+        return [s for s in self.standards if s.is_active()]
+
+    def get_blocking_standards(self) -> List[Standard]:
+        """Get all blocking standards."""
+        return [s for s in self.standards if s.is_blocking() and s.is_active()]

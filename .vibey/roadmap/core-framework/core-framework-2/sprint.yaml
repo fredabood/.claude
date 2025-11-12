@@ -48,6 +48,8 @@ sprint:
   - Migration script from current to .vibey/ structure
   - Updated Vibey commands for .vibey/ structure
   - Comprehensive architecture documentation
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-09T00:00:00+00:00'
     estimated_duration: 4 weeks

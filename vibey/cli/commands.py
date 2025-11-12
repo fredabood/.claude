@@ -1,43 +1,48 @@
 """
 Command implementations for vibey CLI.
 
-This module provides Python API wrappers around the existing script functionality,
-allowing them to be called from the Click-based CLI without subprocess calls.
+This module provides Python API for all CLI commands using direct function imports
+from the operations modules (no subprocess calls).
 """
 
-import sys
-import subprocess
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional
 
-# Get the CLI directory (where the scripts are)
-CLI_DIR = Path(__file__).parent
+# Import operations modules
+from vibey.operations.roadmap import (
+    init_roadmap,
+    query_roadmap_summary,
+    query_track_details,
+    query_sprint_details,
+    query_task_details,
+    start_task,
+    start_sprint,
+    complete_task,
+    complete_sprint,
+    get_task_context,
+    validate_roadmap,
+    add_commit_to_task,
+    get_current_commit,
+)
+from vibey.operations.roadmap.summarize import summarize_sprint, summarize_task
+from vibey.operations.deployment import deploy_framework
+from vibey.operations.docs import generate_docs
+from vibey.operations.config import generate_config, update_config_value
+from vibey.operations.migrations import (
+    migrate_to_roadmap,
+    migrate_to_hierarchical,
+    migrate_embedded_tasks,
+)
 
-
-def run_script(script_name: str, args: List[str]) -> int:
-    """
-    Run a Python script from vibey/cli/ directory.
-
-    Args:
-        script_name: Name of the script file (with or without .py)
-        args: List of command-line arguments
-
-    Returns:
-        Exit code from the script
-    """
-    if not script_name.endswith('.py'):
-        script_name = f"{script_name}.py"
-
-    script_path = CLI_DIR / script_name
-
-    if not script_path.exists():
-        print(f"Error: Script not found: {script_path}")
-        return 1
-
-    # Run the script with python3
-    cmd = [sys.executable, str(script_path)] + args
-    result = subprocess.run(cmd, cwd=Path.cwd())
-    return result.returncode
+# Import formatters for CLI output
+from vibey.cli.formatters import (
+    format_roadmap_summary,
+    format_track_details,
+    format_sprint_details,
+    format_task_details,
+    format_success,
+    format_error,
+)
 
 
 # ============================================================================
@@ -46,45 +51,64 @@ def run_script(script_name: str, args: List[str]) -> int:
 
 def roadmap_init_cmd(name: str, version: str) -> int:
     """Initialize a new roadmap."""
-    args = []
-    if name:
-        args.extend(['--name', name])
-    if version:
-        args.extend(['--version', version])
-    return run_script('roadmap-init.py', args)
+    root_dir = Path.cwd()  # Project root
+    return init_roadmap(
+        root_dir=root_dir,  # init_roadmap expects project root (adds .vibey/ internally)
+        roadmap_id=name or "default-roadmap",
+        roadmap_name=name or "Default Roadmap",
+        version=version or "1.0.0",
+    )
 
 
 def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None) -> int:
     """Show roadmap status."""
-    args = []
-    if track:
-        args.extend(['--track', track])
-    if sprint:
-        args.extend(['--sprint', sprint])
+    root_dir = Path.cwd()  # Project root
 
-    # If no specific args, show overall status
-    return run_script('roadmap-query.py', args)
+    try:
+        if sprint:
+            result = query_sprint_details(root_dir, sprint)
+            print(format_sprint_details(result))
+        elif track:
+            result = query_track_details(root_dir, track)
+            print(format_track_details(result))
+        else:
+            result = query_roadmap_summary(root_dir)
+            print(format_roadmap_summary(result))
+        return 0
+    except Exception as e:
+        print(format_error(str(e)))
+        return 1
 
 
 def roadmap_show_cmd(item_id: str) -> int:
     """Show details for an item."""
-    # Determine type from ID format and use appropriate flag
-    if 'task' in item_id:
-        # Task format: track-sprint-task-NNN
-        return run_script('roadmap-query.py', ['--task', item_id])
-    elif item_id.count('-') >= 2:  # sprint format: track-sprint (at least 2 hyphens)
-        return run_script('roadmap-query.py', ['--sprint', item_id])
-    else:  # track format: single-name or name-with-hyphen
-        return run_script('roadmap-query.py', ['--track', item_id])
+    root_dir = Path.cwd()  # Project root
+
+    try:
+        # Determine type from ID format
+        if 'task' in item_id:
+            result = query_task_details(root_dir, item_id)
+            print(format_task_details(result))
+        elif item_id.count('-') >= 2:  # sprint format: track-sprint
+            result = query_sprint_details(root_dir, item_id)
+            print(format_sprint_details(result))
+        else:  # track format
+            result = query_track_details(root_dir, item_id)
+            print(format_track_details(result))
+        return 0
+    except Exception as e:
+        print(format_error(str(e)))
+        return 1
 
 
 def roadmap_start_cmd(item_id: str) -> int:
     """Start a sprint or task."""
+    root_dir = Path.cwd()  # Project root
+
     if 'task' in item_id:
-        return run_script('roadmap-update.py', ['--start-task', item_id])
+        return start_task(root_dir, item_id)
     elif 'sprint' in item_id or item_id.count('-') >= 1:
-        # Sprint ID can be: track-N, track-N-name, or contain 'sprint'
-        return run_script('roadmap-update.py', ['--start-sprint', item_id])
+        return start_sprint(root_dir, item_id)
     else:
         print(f"Error: Cannot determine item type from ID: {item_id}")
         print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
@@ -93,11 +117,12 @@ def roadmap_start_cmd(item_id: str) -> int:
 
 def roadmap_complete_cmd(item_id: str) -> int:
     """Complete a sprint or task."""
+    root_dir = Path.cwd()  # Project root
+
     if 'task' in item_id:
-        return run_script('roadmap-update.py', ['--complete-task', item_id])
+        return complete_task(root_dir, item_id)
     elif 'sprint' in item_id or item_id.count('-') >= 1:
-        # Sprint ID can be: track-N, track-N-name, or contain 'sprint'
-        return run_script('roadmap-update.py', ['--complete-sprint', item_id])
+        return complete_sprint(root_dir, item_id)
     else:
         print(f"Error: Cannot determine item type from ID: {item_id}")
         print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
@@ -106,38 +131,61 @@ def roadmap_complete_cmd(item_id: str) -> int:
 
 def roadmap_context_cmd(task_id: str) -> int:
     """Get context for a task."""
-    return run_script('roadmap-context.py', [task_id])
+    return get_task_context(task_id=task_id, root_dir=Path.cwd())
 
 
 def roadmap_summarize_cmd(item_type: str, item_id: str) -> int:
     """Summarize an item."""
-    # roadmap-summarize.py only takes the ID, not the type
-    # The type is determined from the ID format
-    return run_script('roadmap-summarize.py', [item_id])
+    root_dir = Path.cwd()  # Project root
+
+    # Determine type from ID format
+    if 'task' in item_id:
+        # Extract sprint_id from task_id (format: track-sprint-task-NNN)
+        parts = item_id.split('-task-')
+        if len(parts) != 2:
+            print(f"Error: Invalid task ID format: {item_id}")
+            return 1
+        sprint_id = parts[0]
+        return summarize_task(sprint_id=sprint_id, task_id=item_id, root_dir=root_dir)
+    else:
+        return summarize_sprint(sprint_id=item_id, root_dir=root_dir)
 
 
 def roadmap_list_cmd() -> int:
     """List all tracks/sprints/tasks."""
-    return run_script('roadmap-query.py', ['--list', 'all'])
+    root_dir = Path.cwd()  # Project root
+
+    try:
+        result = query_roadmap_summary(root_dir)
+        print(format_roadmap_summary(result))
+        return 0
+    except Exception as e:
+        print(format_error(str(e)))
+        return 1
 
 
 def roadmap_validate_cmd() -> int:
     """Validate roadmap structure."""
-    return run_script('validate-roadmap-format.py', [])
+    return validate_roadmap(root_dir=Path.cwd())
 
 
 def roadmap_add_commit_cmd(task_id: str, commit_sha: Optional[str] = None, auto: bool = False) -> int:
     """Add a git commit to a task."""
-    args = [task_id]
     if auto:
-        args.append('--auto')
-    elif commit_sha:
-        args.append(commit_sha)
-    else:
-        # No commit SHA and no --auto flag
+        commit_sha = get_current_commit()
+        if not commit_sha:
+            print("Error: Could not detect current commit")
+            return 1
+    elif not commit_sha:
         print("Error: Either provide a commit SHA or use --auto flag")
         return 1
-    return run_script('roadmap-add-commit.py', args)
+
+    return add_commit_to_task(
+        task_id=task_id,
+        commit_sha=commit_sha,
+        vibey_path=Path.cwd() / ".vibey",  # This one expects .vibey/ path
+        auto_detect=auto
+    )
 
 
 # ============================================================================
@@ -146,11 +194,11 @@ def roadmap_add_commit_cmd(task_id: str, commit_sha: Optional[str] = None, auto:
 
 def deploy_cmd(platform: str, clean: bool = False) -> int:
     """Deploy framework to platform."""
-    args = ['--platform', platform]
-    if clean:
-        args.append('--clean')
-
-    return run_script('deploy.py', args)
+    return deploy_framework(
+        platform=platform,
+        clean=clean,
+        project_root=Path.cwd()
+    )
 
 
 # ============================================================================
@@ -159,11 +207,11 @@ def deploy_cmd(platform: str, clean: bool = False) -> int:
 
 def docs_generate_cmd(overwrite: bool = False) -> int:
     """Generate documentation."""
-    args = ['generate']
-    if overwrite:
-        args.append('--overwrite')
-
-    return run_script('docs.py', args)
+    return generate_docs(
+        vibey_dir=Path.cwd() / ".vibey",  # This expects .vibey/ path
+        overwrite=overwrite,
+        quiet=False
+    )
 
 
 # ============================================================================
@@ -184,7 +232,11 @@ def config_validate_cmd() -> int:
 
 def config_generate_cmd() -> int:
     """Generate configuration."""
-    return run_script('generate-config.py', [])
+    # Interactive - let generate_config handle prompts
+    # This would typically be called with parameters from CLI
+    print("Error: config generate requires parameters (project name, type, etc.)")
+    print("Use 'vibey config generate --help' for usage information")
+    return 1
 
 
 def config_migrate_cmd(backup: bool = True, dry_run: bool = False, force: bool = False) -> int:
@@ -201,7 +253,14 @@ def config_rollback_cmd(backup_id: Optional[str] = None, list_backups: bool = Fa
 
 def config_update_cmd(key: str, value: str) -> int:
     """Update configuration value."""
-    return run_script('update-config.py', [key, value])
+    config_path = Path.cwd() / ".vibey" / "config" / "project.yaml"
+    return update_config_value(
+        config_path=config_path,
+        key_path=key,
+        value=value,
+        create_missing=False,
+        verbose=True
+    )
 
 
 # ============================================================================
@@ -210,14 +269,25 @@ def config_update_cmd(key: str, value: str) -> int:
 
 def migrate_to_roadmap_cmd() -> int:
     """Migrate legacy sprint files to roadmap."""
-    return run_script('migrate-to-roadmap.py', [])
+    return migrate_to_roadmap(
+        root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
+        dry_run=False,
+        backup=True
+    )
 
 
 def migrate_to_hierarchical_cmd() -> int:
     """Migrate flat structure to hierarchical."""
-    return run_script('migrate-to-hierarchical.py', [])
+    return migrate_to_hierarchical(
+        root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
+        dry_run=False,
+        backup=True
+    )
 
 
 def migrate_embedded_tasks_cmd() -> int:
     """Migrate embedded tasks to separate files."""
-    return run_script('migrate-embedded-tasks.py', [])
+    return migrate_embedded_tasks(
+        root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
+        dry_run=False
+    )

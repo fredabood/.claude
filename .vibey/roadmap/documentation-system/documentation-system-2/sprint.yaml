@@ -36,6 +36,8 @@ sprint:
   - Enhanced context management commands
   - Automatic sync triggers
   - Synchronization reliability tests
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-09T21:30:52.028602+00:00'
     estimated_duration: null

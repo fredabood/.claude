@@ -19,6 +19,10 @@ sys.path.insert(0, str(roadmap_lib_path))
 from roadmap.models import Status, TaskStatus
 from roadmap.serialization import load_track, load_sprint, load_tasks
 from filesystem import FileSystemManager, find_roadmap_root
+from standards_formatter import (
+    print_standards_section,
+    get_standards_compliance_data,
+)
 
 
 def format_status(status) -> str:
@@ -200,7 +204,7 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
     return {"error": f"Object '{object_id}' not found"}
 
 
-def print_track(data: Dict[str, Any]):
+def print_track(data: Dict[str, Any], root_dir: Path = None):
     """Pretty print track details."""
     print("\n" + "="*80)
     print(f"🛤️  Track: {data['name']}")
@@ -221,6 +225,11 @@ def print_track(data: Dict[str, Any]):
     print(f"  Tasks:   {data['progress']['tasks']}")
     print(f"  Overall: {data['progress']['completion']}")
 
+    # Show standards if root_dir provided
+    if root_dir:
+        print(f"\n")
+        print_standards_section(root_dir, data['id'], show_details=True)
+
     if data['dependencies']:
         print(f"\n🔗 Dependencies:")
         for dep in data['dependencies']:
@@ -234,7 +243,7 @@ def print_track(data: Dict[str, Any]):
     print("="*80 + "\n")
 
 
-def print_sprint(data: Dict[str, Any]):
+def print_sprint(data: Dict[str, Any], root_dir: Path = None):
     """Pretty print sprint details."""
     print("\n" + "="*80)
     print(f"🏃 Sprint: {data['name']}")
@@ -255,6 +264,11 @@ def print_sprint(data: Dict[str, Any]):
     print(f"\n📊 Progress:")
     print(f"  Tasks:   {data['progress']['tasks']}")
     print(f"  Overall: {data['progress']['completion']}")
+
+    # Show standards if root_dir provided
+    if root_dir:
+        print(f"\n")
+        print_standards_section(root_dir, data['id'], show_details=True)
 
     if data['development_gates']:
         print(f"\n🚪 Development Gates:")
@@ -287,7 +301,7 @@ def print_sprint(data: Dict[str, Any]):
     print("="*80 + "\n")
 
 
-def print_task(data: Dict[str, Any]):
+def print_task(data: Dict[str, Any], root_dir: Path = None):
     """Pretty print task details."""
     print("\n" + "="*80)
     print(f"✅ Task: {data['name']}")
@@ -304,6 +318,11 @@ def print_task(data: Dict[str, Any]):
 
     print(f"\n📄 Description:")
     print(f"  {data['description']}")
+
+    # Show standards if root_dir provided
+    if root_dir:
+        print(f"\n")
+        print_standards_section(root_dir, data['id'], show_details=True)
 
     if data['dependencies']:
         print(f"\n🔗 Dependencies:")
@@ -345,9 +364,11 @@ def handle_show(args):
     if args.json:
         print(json.dumps(data, indent=2))
     else:
+        # Pass root_dir to print functions for standards display
+        root_path = Path(root_dir)
         if data['type'] == 'track':
-            print_track(data)
+            print_track(data, root_path)
         elif data['type'] == 'sprint':
-            print_sprint(data)
+            print_sprint(data, root_path)
         elif data['type'] == 'task':
-            print_task(data)
+            print_task(data, root_path)

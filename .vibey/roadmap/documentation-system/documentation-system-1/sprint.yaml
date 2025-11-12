@@ -38,6 +38,8 @@ sprint:
   - Updated roadmap state management scripts
   - Unit tests for generation systems
   - Documentation for new structure
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-09T21:30:52.026078+00:00'
     estimated_duration: null

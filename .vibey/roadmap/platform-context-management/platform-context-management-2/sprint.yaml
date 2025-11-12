@@ -1,0 +1,41 @@
+sprint:
+  id: platform-context-management-2
+  name: Compatibility Analysis
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: platform-context-management-2-task-001
+    name: Task size vs context window checker
+    status: not_started
+  - id: platform-context-management-2-task-002
+    name: Incomplete task filter (skip completed tasks)
+    status: not_started
+  - id: platform-context-management-2-task-003
+    name: Sprint-level compatibility analyzer
+    status: not_started
+  - id: platform-context-management-2-task-004
+    name: CLI command - vibey roadmap check-compatibility
+    status: not_started
+  - id: platform-context-management-2-task-005
+    name: Warning messages and UX design
+    status: not_started
+  dependencies:
+  - platform-context-management-1
+  blocked_by: []
+  quality_gates: []
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - Compatibility checker module
+  - CLI check-compatibility command
+  - Warning message system

@@ -263,6 +263,29 @@ def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):
                 }
                 for p in roadmap.deployed_platforms
             ],
+            'standards': [
+                {
+                    'id': s.id,
+                    'name': s.name,
+                    'description': s.description,
+                    'type': s.type.value,
+                    'enforcement': s.enforcement.value,
+                    'validation': s.validation,
+                    'enabled': s.enabled,
+                    'created': _format_datetime(s.created),
+                    'overrides': [
+                        {
+                            'overridden_at': _format_datetime(o.overridden_at),
+                            'overridden_by': o.overridden_by,
+                            'reason': o.reason,
+                            'target_id': o.target_id,
+                            'expires_at': _format_datetime(o.expires_at),
+                        }
+                        for o in s.overrides
+                    ],
+                }
+                for s in roadmap.standards
+            ],
             'activity_log': [
                 {
                     'timestamp': _format_datetime(al.timestamp),
@@ -394,6 +417,29 @@ def save_track(track: Track, file_path: Union[str, Path]):
                 }
                 for c in track.commits
             ],
+            'standards': [
+                {
+                    'id': s.id,
+                    'name': s.name,
+                    'description': s.description,
+                    'type': s.type.value,
+                    'enforcement': s.enforcement.value,
+                    'validation': s.validation,
+                    'enabled': s.enabled,
+                    'created': _format_datetime(s.created),
+                    'overrides': [
+                        {
+                            'overridden_at': _format_datetime(o.overridden_at),
+                            'overridden_by': o.overridden_by,
+                            'reason': o.reason,
+                            'target_id': o.target_id,
+                            'expires_at': _format_datetime(o.expires_at),
+                        }
+                        for o in s.overrides
+                    ],
+                }
+                for s in track.standards
+            ],
             'metadata': {
                 'created_by': track.metadata.created_by,
                 'last_updated': _format_datetime(track.metadata.last_updated),
@@ -507,6 +553,29 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                     'author': c.author,
                 }
                 for c in sprint.commits
+            ],
+            'standards': [
+                {
+                    'id': s.id,
+                    'name': s.name,
+                    'description': s.description,
+                    'type': s.type.value,
+                    'enforcement': s.enforcement.value,
+                    'validation': s.validation,
+                    'enabled': s.enabled,
+                    'created': _format_datetime(s.created),
+                    'overrides': [
+                        {
+                            'overridden_at': _format_datetime(o.overridden_at),
+                            'overridden_by': o.overridden_by,
+                            'reason': o.reason,
+                            'target_id': o.target_id,
+                            'expires_at': _format_datetime(o.expires_at),
+                        }
+                        for o in s.overrides
+                    ],
+                }
+                for s in sprint.standards
             ],
             'metadata': {
                 'last_updated': _format_datetime(sprint.metadata.last_updated),

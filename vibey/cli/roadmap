@@ -237,6 +237,42 @@ For more information on a command:
     gate_list = gate_subparsers.add_parser('list', help='List quality gates for sprint')
     gate_list.add_argument('sprint_id', type=str, help='Sprint ID to list gates for')
 
+    # Check Standards command
+    check_standards_parser = subparsers.add_parser('check-standards', help='Check standards for an item')
+    check_standards_parser.add_argument('id', type=str, help='Task/sprint/track ID to check')
+    check_standards_parser.add_argument('--verbose', action='store_true', help='Show all standards including passed')
+
+    # Override Standard command
+    override_standard_parser = subparsers.add_parser('override-standard', help='Override a standard for an item')
+    override_standard_parser.add_argument('standard_id', type=str, help='Standard ID to override')
+    override_standard_parser.add_argument('item_id', type=str, help='Item ID to apply override to')
+    override_standard_parser.add_argument('reason', type=str, help='Justification for override')
+    override_standard_parser.add_argument('--overridden-by', type=str, default='system', help='Who is overriding')
+
+    # Add Standard command
+    add_standard_parser = subparsers.add_parser('add-standard', help='Add a new standard')
+    add_standard_parser.add_argument('level', choices=['roadmap', 'track', 'sprint'], help='Where to add standard')
+    add_standard_parser.add_argument('standard_id', type=str, help='Unique ID for the standard')
+    add_standard_parser.add_argument('name', type=str, help='Display name')
+    add_standard_parser.add_argument('description', type=str, help='Description of standard')
+    add_standard_parser.add_argument('type', choices=['commit_check', 'file_check', 'test_run', 'custom_script'], help='Standard type')
+    add_standard_parser.add_argument('enforcement', choices=['blocking', 'warning', 'audit'], help='Enforcement mode')
+    add_standard_parser.add_argument('validation', type=str, help='Validation config as JSON')
+    add_standard_parser.add_argument('--target-id', type=str, help='Track/sprint ID (required for track/sprint level)')
+
+    # List Templates command
+    list_templates_parser = subparsers.add_parser('list-templates', help='List available standard templates')
+    list_templates_parser.add_argument('--verbose', action='store_true', help='Show detailed template information')
+
+    # Add From Template command
+    add_from_template_parser = subparsers.add_parser('add-from-template', help='Add standard from template')
+    add_from_template_parser.add_argument('template_id', type=str, help='Template ID to use')
+    add_from_template_parser.add_argument('level', choices=['roadmap', 'track', 'sprint'], help='Where to add standard')
+    add_from_template_parser.add_argument('--target-id', type=str, help='Track/sprint ID (required for track/sprint level)')
+    add_from_template_parser.add_argument('--custom-id', type=str, help='Custom standard ID (overrides template ID)')
+    add_from_template_parser.add_argument('--enforcement', choices=['blocking', 'warning', 'audit'], help='Override enforcement mode')
+    add_from_template_parser.add_argument('--show-info', action='store_true', help='Show template info without adding')
+
     return parser
 
 
@@ -365,13 +401,33 @@ def main():
         from roadmap_commands.gate import handle_gate
         handle_gate(args)
 
+    elif args.command == 'check-standards':
+        from roadmap_commands.check_standards import handle_check_standards
+        handle_check_standards(args)
+
+    elif args.command == 'override-standard':
+        from roadmap_commands.override_standard import handle_override_standard
+        handle_override_standard(args)
+
+    elif args.command == 'add-standard':
+        from roadmap_commands.add_standard import handle_add_standard
+        handle_add_standard(args)
+
+    elif args.command == 'list-templates':
+        from roadmap_commands.list_templates import handle_list_templates
+        handle_list_templates(args)
+
+    elif args.command == 'add-from-template':
+        from roadmap_commands.add_from_template import handle_add_from_template
+        handle_add_from_template(args)
+
     else:
         print(f"❌ Unknown command: {args.command}")
         parser.print_help()
         sys.exit(1)
 
     # Invalidate cache after state-changing commands
-    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress', 'gate']:
+    if cache and args.command in ['start', 'complete', 'assign', 'batch', 'progress', 'gate', 'override-standard', 'add-standard', 'add-from-template']:
         cache.invalidate()
 
 

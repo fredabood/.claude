@@ -52,6 +52,9 @@ from ..models import (
     VersionBumpTrigger,
     DependencyStatus,
     PlatformDeployment,
+    Standard,
+    StandardType,
+    EnforcementMode,
 )
 
 
@@ -212,6 +215,35 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         for p in roadmap_data.get('deployed_platforms', [])
     ]
 
+    # Parse standards (backward compatible - defaults to empty list)
+    from ..models import StandardOverride
+
+    standards = []
+    for s in roadmap_data.get('standards', []):
+        standard = Standard(
+            id=s['id'],
+            name=s['name'],
+            description=s['description'],
+            type=StandardType(s['type']),
+            enforcement=EnforcementMode(s['enforcement']),
+            validation=s['validation'],
+            enabled=s.get('enabled', True),
+            created=_parse_datetime(s['created']),
+        )
+
+        # Parse overrides (backward compatible - defaults to empty list)
+        for override_data in s.get('overrides', []):
+            override = StandardOverride(
+                overridden_at=_parse_datetime(override_data['overridden_at']),
+                overridden_by=override_data['overridden_by'],
+                reason=override_data['reason'],
+                target_id=override_data['target_id'],
+                expires_at=_parse_datetime(override_data.get('expires_at')),
+            )
+            standard.overrides.append(override)
+
+        standards.append(standard)
+
     # Create roadmap
     roadmap = Roadmap(
         id=roadmap_data['id'],
@@ -233,6 +265,7 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         activity_log=activity_log,
         metadata=metadata,
         deployed_platforms=deployed_platforms,
+        standards=standards,
     )
 
     return roadmap
@@ -372,6 +405,35 @@ def load_track(file_path: Union[str, Path]) -> Track:
         notes=meta_data.get('notes'),
     )
 
+    # Parse standards (backward compatible - defaults to empty list)
+    from ..models import StandardOverride
+
+    standards = []
+    for s in track_data.get('standards', []):
+        standard = Standard(
+            id=s['id'],
+            name=s['name'],
+            description=s['description'],
+            type=StandardType(s['type']),
+            enforcement=EnforcementMode(s['enforcement']),
+            validation=s['validation'],
+            enabled=s.get('enabled', True),
+            created=_parse_datetime(s['created']),
+        )
+
+        # Parse overrides (backward compatible - defaults to empty list)
+        for override_data in s.get('overrides', []):
+            override = StandardOverride(
+                overridden_at=_parse_datetime(override_data['overridden_at']),
+                overridden_by=override_data['overridden_by'],
+                reason=override_data['reason'],
+                target_id=override_data['target_id'],
+                expires_at=_parse_datetime(override_data.get('expires_at')),
+            )
+            standard.overrides.append(override)
+
+        standards.append(standard)
+
     # Create track
     track = Track(
         id=track_data['id'],
@@ -397,6 +459,7 @@ def load_track(file_path: Union[str, Path]) -> Track:
         strategic_value=track_data.get('strategic_value', []),
         commits=commits,
         metadata=metadata,
+        standards=standards,
     )
 
     return track
@@ -534,8 +597,13 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         for c in sprint_data.get('commits', [])
     ]
 
-    # Parse metadata
-    meta_data = sprint_data['metadata']
+    # Parse metadata (defensive coding - handle case where metadata might not be a dict)
+    meta_data = sprint_data.get('metadata')
+    if not meta_data or not isinstance(meta_data, dict):
+        # Fallback to empty dict if metadata is missing or not a dict
+        from datetime import timezone
+        meta_data = {'last_updated': datetime.now(timezone.utc).isoformat()}
+
     metadata = SprintMetadata(
         last_updated=_parse_datetime(meta_data['last_updated']),
         estimated_duration=meta_data.get('estimated_duration'),
@@ -544,6 +612,35 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         actual_tokens=meta_data.get('actual_tokens'),
         agents_used=meta_data.get('agents_used'),
     )
+
+    # Parse standards (backward compatible - defaults to empty list)
+    from ..models import StandardOverride
+
+    standards = []
+    for s in sprint_data.get('standards', []):
+        standard = Standard(
+            id=s['id'],
+            name=s['name'],
+            description=s['description'],
+            type=StandardType(s['type']),
+            enforcement=EnforcementMode(s['enforcement']),
+            validation=s['validation'],
+            enabled=s.get('enabled', True),
+            created=_parse_datetime(s['created']),
+        )
+
+        # Parse overrides (backward compatible - defaults to empty list)
+        for override_data in s.get('overrides', []):
+            override = StandardOverride(
+                overridden_at=_parse_datetime(override_data['overridden_at']),
+                overridden_by=override_data['overridden_by'],
+                reason=override_data['reason'],
+                target_id=override_data['target_id'],
+                expires_at=_parse_datetime(override_data.get('expires_at')),
+            )
+            standard.overrides.append(override)
+
+        standards.append(standard)
 
     # Create sprint (backward compatible - many fields optional in old format)
     sprint = Sprint(
@@ -571,6 +668,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         deliverables=sprint_data.get('deliverables', []),
         commits=commits,
         metadata=metadata,
+        standards=standards,
     )
 
     return sprint

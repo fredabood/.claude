@@ -134,6 +134,8 @@ track:
   - test-engineer
   deliverables: []
   strategic_value: []
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2024-11-07T02:00:00+00:00'

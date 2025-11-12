@@ -35,6 +35,8 @@ sprint:
   - E2E validation report
   - Track completion summary
   - CHANGELOG update for v1.3.0
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-08T22:00:00+00:00'
     estimated_duration: null

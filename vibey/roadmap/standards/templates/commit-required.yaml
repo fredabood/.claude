@@ -1,0 +1,70 @@
+# Standard Template: Commit Required
+#
+# Ensures all tasks have at least one git commit before completion.
+# This enforces code traceability and ensures work is version controlled.
+
+template:
+  id: commit-required
+  name: Commit Required
+  description: All tasks must have at least one git commit
+  type: commit_check
+  enforcement: blocking
+
+  validation:
+    min_commits: 1
+    require_message: false
+
+  use_case: |
+    Use this standard to ensure all development work is tracked in version
+    control. Tasks cannot be completed without at least one commit, ensuring
+    traceability and code review opportunities.
+
+  typical_level: roadmap
+
+  examples:
+    - level: roadmap
+      scenario: Organization-wide requirement
+      description: All tasks across all tracks must have commits
+
+    - level: track
+      scenario: Development track only
+      description: Only tasks in development track need commits
+
+  override_scenarios:
+    - reason: Documentation-only task with no code changes
+      justification: Task involves only documentation updates in external system
+
+    - reason: Emergency hotfix deployed manually
+      justification: Critical fix deployed directly to production, commit added retroactively
+
+  configuration:
+    min_commits:
+      description: Minimum number of commits required
+      type: integer
+      default: 1
+      range: [1, 999]
+
+    require_message:
+      description: Whether commit messages must meet certain criteria
+      type: boolean
+      default: false
+
+  validation_behavior:
+    passes_when: Task has >= min_commits commits
+    fails_when: Task has < min_commits commits
+    error_message: "Task must have at least {min_commits} commit(s). Use: git commit -am 'message'"
+
+  notes: |
+    BEST PRACTICES:
+    - Apply at roadmap level for organization-wide enforcement
+    - Use blocking enforcement to prevent completion without commits
+    - Override only for legitimate exceptions (docs-only, external work)
+
+    COMMON OVERRIDES:
+    - Documentation tasks with no code
+    - Configuration changes via UI
+    - Manual emergency fixes
+
+    RELATED STANDARDS:
+    - test-coverage-required: Ensures commits include tests
+    - doc-review-required: Ensures commits include documentation

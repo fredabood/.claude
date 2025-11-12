@@ -2,7 +2,7 @@ track:
   id: mcp-server
   name: MCP Server Foundation
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'
@@ -97,6 +97,8 @@ track:
   - 'Maintenance Efficiency: Update 1 server vs 4 adapters'
   - 'Extensibility: New MCP platforms = free support'
   - 'Standards Alignment: Protocol-based, not custom integrations'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-09T00:00:00+00:00'

@@ -69,8 +69,6 @@ vibey/
 ├── templates/                    # 22 handoff templates
 │   ├── CLAUDE.md.template        # Project context template
 │   └── handoffs/                 # Agent handoff templates
-├── commands/
-│   └── vibey.md                  # /vibey slash command (dual-mode)
 ├── config/
 │   ├── schema.yaml               # Project config schema
 │   └── config-templates/         # Example configs (web-app, API, ML)
@@ -96,7 +94,18 @@ vibey/
 
 ### Framework Status: ✅ Production Ready (Claude Code)
 
-**Latest Updates (Nov 11, 2025 - Test Suite & Code Quality):**
+**Latest Updates (Nov 12, 2025 - Interface Unification Sprints 1-2):**
+1. ✅ **Sprint 1 Complete** - Deleted slash commands (4,389 lines), preserved UX design for future CLI interactive mode
+2. ✅ **Sprint 2 Complete** - Unified error handling system (6 hours, 3,100+ lines)
+   - ✅ Created vibey/common/errors.py with 15+ error types, rich context (800 lines)
+   - ✅ Created 4 platform renderers: CLI (colors), MCP (JSON), PlainText, Logging (400 lines)
+   - ✅ Migrated config/loader.py to use unified errors
+   - ✅ Created roadmap_errors.py CLI bridge with backward compatibility (600 lines)
+   - ✅ Comprehensive documentation: UNIFIED_ERROR_HANDLING.md, CLI_ERROR_HANDLING_EXAMPLES.md (900+ lines)
+   - ✅ Test suite: 20 tests, all passing (330 lines)
+3. ⏸️ **Script Refactoring** - Deferred to post-Sprint 3 (convert run_script() to direct imports)
+
+**Previous Updates (Nov 11, 2025 - Test Suite & Code Quality):**
 1. ✅ **Modular Config System** - Split monolithic config into 4 focused files at `.vibey/config/`
 2. ✅ **Config Loader** - Auto-fallback between modular and legacy formats
 3. ✅ **Migration Tool** - `vibey config migrate` with backup and dry-run

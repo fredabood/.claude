@@ -31,6 +31,8 @@ sprint:
   plan_file: docs/sprints/roadmap-integration-2-plan.md
   deliverables:
   - ''
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-08T18:34:27.347348+00:00'
     estimated_duration: 2 weeks

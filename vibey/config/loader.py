@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 import warnings
 
-from pydantic import ValidationError
+from pydantic import ValidationError as PydanticValidationError
 import yaml
 
 from vibey.config.models import (
@@ -38,6 +38,13 @@ from vibey.config.models import (
     QualityGateMode,
 )
 
+# Import unified error handling
+from vibey.common import (
+    ConfigurationError as ConfigLoadError,
+    ConfigNotFoundError,
+    ConfigValidationError,
+)
+
 
 class ConfigLocation(str, Enum):
     """Config location detection result."""
@@ -45,21 +52,6 @@ class ConfigLocation(str, Enum):
     LEGACY = "legacy"             # .claude/project-config.yaml (old format)
     BOTH = "both"                 # Both exist (use modular, warn about legacy)
     NONE = "none"                 # Neither exists (error)
-
-
-class ConfigLoadError(Exception):
-    """Base exception for config loading errors."""
-    pass
-
-
-class ConfigNotFoundError(ConfigLoadError):
-    """Config files not found."""
-    pass
-
-
-class ConfigValidationError(ConfigLoadError):
-    """Config validation failed."""
-    pass
 
 
 class ConfigLoader:
@@ -109,11 +101,10 @@ class ConfigLoader:
 
         if location == ConfigLocation.NONE:
             raise ConfigNotFoundError(
-                f"No Vibey configuration found in {project_root}\n\n"
-                f"Expected one of:\n"
-                f"  - .vibey/config/ (new modular format)\n"
-                f"  - .claude/project-config.yaml (legacy format)\n\n"
-                f"Run 'vibey init' to create a new configuration."
+                searched_paths=[
+                    str(project_root / ".vibey" / "config"),
+                    str(project_root / ".claude" / "project-config.yaml"),
+                ]
             )
 
         # Load from appropriate location
@@ -207,25 +198,23 @@ class ConfigLoader:
 
         except FileNotFoundError as e:
             raise ConfigNotFoundError(
-                f"Missing required config file in {config_dir}\n"
-                f"Error: {e}\n\n"
-                f"Required files:\n"
-                f"  - project.yaml\n"
-                f"  - framework.yaml\n"
-                f"  - agents.yaml\n"
-                f"  - quality-gates.yaml"
+                searched_paths=[str(config_dir)]
             )
 
-        except ValidationError as e:
+        except PydanticValidationError as e:
+            # Extract validation errors from Pydantic
+            errors = [f"{err['loc'][0]}: {err['msg']}" for err in e.errors()]
             raise ConfigValidationError(
-                f"Invalid configuration in {config_dir}\n\n"
-                f"Validation errors:\n{e}"
+                validation_errors=errors,
+                config_file=str(config_dir)
             )
 
         except Exception as e:
-            raise ConfigLoadError(
-                f"Failed to load config from {config_dir}\n"
-                f"Error: {e}"
+            from vibey.common.errors import VibeyError, ErrorCategory
+            raise VibeyError(
+                message=f"Failed to load config from {config_dir}: {e}",
+                code="CONFIG_LOAD_FAILED",
+                category=ErrorCategory.CONFIGURATION,
             )
 
     def _load_legacy_config(self, legacy_file: Path) -> VibeyConfig:
@@ -246,14 +235,19 @@ class ConfigLoader:
             ConfigValidationError: Validation failed
         """
         if not legacy_file.exists():
-            raise ConfigNotFoundError(f"Legacy config not found: {legacy_file}")
+            raise ConfigNotFoundError(
+                searched_paths=[str(legacy_file)]
+            )
 
         try:
             with open(legacy_file, 'r') as f:
                 legacy_data = yaml.safe_load(f)
 
             if not legacy_data:
-                raise ConfigValidationError(f"Empty config file: {legacy_file}")
+                raise ConfigValidationError(
+                    validation_errors=["Config file is empty"],
+                    config_file=str(legacy_file)
+                )
 
             # Convert legacy format to modular configs
             project_config = self._extract_project_config(legacy_data)
@@ -268,16 +262,20 @@ class ConfigLoader:
                 quality_gates=quality_gates_config
             )
 
-        except ValidationError as e:
+        except PydanticValidationError as e:
+            # Extract validation errors from Pydantic
+            errors = [f"{err['loc'][0]}: {err['msg']}" for err in e.errors()]
             raise ConfigValidationError(
-                f"Invalid legacy config in {legacy_file}\n\n"
-                f"Validation errors:\n{e}"
+                validation_errors=errors,
+                config_file=str(legacy_file)
             )
 
         except Exception as e:
-            raise ConfigLoadError(
-                f"Failed to load legacy config from {legacy_file}\n"
-                f"Error: {e}"
+            from vibey.common.errors import VibeyError, ErrorCategory
+            raise VibeyError(
+                message=f"Failed to load legacy config from {legacy_file}: {e}",
+                code="CONFIG_LOAD_FAILED",
+                category=ErrorCategory.CONFIGURATION,
             )
 
     def _extract_project_config(self, legacy_data: dict) -> ProjectConfig:

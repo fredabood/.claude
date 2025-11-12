@@ -74,6 +74,8 @@ track:
   - 'Config-Driven Docs: Generate documentation from source of truth'
   - 'Roadmap State Permanence: .vibey/ never deleted, always available'
   - 'Adapter Pattern Ready: Enables Track 3 (Goose) and Track 4 (Multi-Platform)'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-09T00:00:00+00:00'

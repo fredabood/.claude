@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 
 from .common import Status, Priority, VersionBumpTrigger, ActivityType, PlatformDeployment
+from .standard import Standard
 
 
 @dataclass
@@ -153,6 +154,9 @@ class Roadmap:
     # Platform deployments
     deployed_platforms: List[PlatformDeployment] = field(default_factory=list)
 
+    # Quality standards (cascade to all tracks/sprints/tasks)
+    standards: List[Standard] = field(default_factory=list)
+
     def __post_init__(self):
         """Validate roadmap data."""
         # Validate dates
@@ -224,3 +228,32 @@ class Roadmap:
     def get_recent_activity(self, limit: int = 10) -> List[ActivityLogEntry]:
         """Get recent activity log entries."""
         return sorted(self.activity_log, key=lambda x: x.timestamp, reverse=True)[:limit]
+
+    def get_standard(self, standard_id: str) -> Optional[Standard]:
+        """Get a specific standard by ID."""
+        return next((s for s in self.standards if s.id == standard_id), None)
+
+    def add_standard(self, standard: Standard):
+        """Add a standard to the roadmap."""
+        # Check for duplicate IDs
+        if any(s.id == standard.id for s in self.standards):
+            raise ValueError(f"Standard with ID '{standard.id}' already exists")
+        self.standards.append(standard)
+        self.metadata.last_updated = datetime.now(timezone.utc)
+
+    def remove_standard(self, standard_id: str) -> bool:
+        """Remove a standard by ID. Returns True if removed, False if not found."""
+        initial_count = len(self.standards)
+        self.standards = [s for s in self.standards if s.id != standard_id]
+        if len(self.standards) < initial_count:
+            self.metadata.last_updated = datetime.now(timezone.utc)
+            return True
+        return False
+
+    def get_active_standards(self) -> List[Standard]:
+        """Get all enabled standards."""
+        return [s for s in self.standards if s.is_active()]
+
+    def get_blocking_standards(self) -> List[Standard]:
+        """Get all blocking standards."""
+        return [s for s in self.standards if s.is_blocking() and s.is_active()]

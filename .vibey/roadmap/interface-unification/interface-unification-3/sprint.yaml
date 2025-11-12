@@ -1,0 +1,60 @@
+sprint:
+  id: interface-unification-3
+  name: Documentation & Testing
+  track_id: interface-unification
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: interface-unification-3-task-001
+    name: Write CLI Reference documentation
+    status: not_started
+  - id: interface-unification-3-task-002
+    name: Write MCP Integration Guide
+    status: not_started
+  - id: interface-unification-3-task-003
+    name: Write Getting Started Guide (CLI-first)
+    status: not_started
+  - id: interface-unification-3-task-004
+    name: Write Developer/Contributor Guide
+    status: not_started
+  - id: interface-unification-3-task-005
+    name: Comprehensive test suite (>90% coverage)
+    status: not_started
+  - id: interface-unification-3-task-006
+    name: Code cleanup and dead reference removal
+    status: not_started
+  dependencies:
+  - interface-unification-2
+  blocked_by: []
+  quality_gates:
+  - name: Test Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: ">90% code coverage for CLI and MCP"
+    score: null
+  - name: Documentation Complete
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All interface documentation complete with examples
+    score: null
+  assigned_agents:
+  - docs-writer
+  - test-engineer
+  deliverables:
+  - CLI Reference complete
+  - MCP Integration Guide complete
+  - Getting Started Guide complete
+  - Developer Guide complete
+  - Test suite (>90% coverage)
+  - Clean codebase

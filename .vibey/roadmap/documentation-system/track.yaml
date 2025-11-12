@@ -104,6 +104,8 @@ track:
   - 'Discoverability: Hierarchical organization makes related docs easy to find'
   - 'User-Friendly: Synchronized docs in familiar /docs/ location'
   - 'Project Doc Tracking: Links documentation to roadmap objects that impact them'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-09T00:00:00+00:00'

@@ -112,6 +112,8 @@ track:
   - 'Open Source: Apache 2.0, community alignment'
   - 'Context Provider API: Advanced integration capabilities'
   - 'BYOK Model: User brings own API keys (cost-effective)'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-09T00:00:00+00:00'

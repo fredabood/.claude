@@ -40,8 +40,85 @@
 - [ ] Update workflows to read from docs
 - [ ] Migration guide for existing projects
 
-### 3. Roadmap Object Hierarchy System
+### 3. Interface Unification & Simplification
 **Status:** Planned (Ready to Build)
+**Priority:** CRITICAL
+**Timeline:** 3 weeks (Q1 2025)
+**Description:** Delete legacy interfaces (slash commands, standalone scripts), unify CLI + MCP as clean platform-agnostic core. No users exist, so no migration needed—just delete and rebuild properly.
+
+**Critical Decision: No Migration, Just Delete**
+Since there are no users on the legacy system:
+- Delete all slash commands (4,389 lines)
+- Delete all standalone scripts (31 files)
+- Build TWO clean interfaces: CLI + MCP
+- Design platform-specific integrations later (claude-port, goose-port, etc.)
+
+**Why This Comes First:**
+Without interface unification, every new feature gets implemented 4 times (slash, CLI, MCP, scripts), creating exponential technical debt. Unifying first means all future features get implemented once and work everywhere.
+
+**3 Sprints:**
+1. **Sprint 1 (1 week):** Delete Legacy & Consolidate
+2. **Sprint 2 (1 week):** Unify CLI + MCP Integration
+3. **Sprint 3 (1 week):** Documentation & Testing
+
+**Key Benefits:**
+- Clean slate architecture (zero legacy debt)
+- Platform-agnostic core (CLI + MCP)
+- Single source of truth for all operations
+- Claude integration redesigned properly later
+
+**Blocks:** All future work (prevents drift during platform-context-management)
+
+**See:** [Interface Audit](./development/INTERFACE_AUDIT_2025-11-12.md)
+
+### 4. Platform Context Management System
+**Status:** Planned (Ready to Build)
+**Priority:** CRITICAL
+**Timeline:** 5 weeks (Q1 2025)
+**Depends On:** interface-unification
+**Description:** Enable cross-platform sprint collaboration by detecting platform capabilities (context windows), checking task compatibility, and intelligently recalculating sprints when developers switch platforms.
+
+**Key Architectural Principle:**
+- **Sprint = Shippable contract** (platform-agnostic goals and deliverables)
+- **Tasks = Execution plan** (platform-specific breakdown)
+
+**Strategic Value:**
+- **Multi-Platform Foundation:** Unblocks all platform ports (Goose, Aider, etc.)
+- **Context-Aware Planning:** Tasks automatically sized for platform capabilities
+- **Seamless Handoffs:** Team members can switch platforms without re-planning
+- **Intelligent Recalculation:** Preserves dependencies, agents, and success criteria
+
+**5 Sprints:**
+1. **Sprint 1 (1 week):** Platform & Context Detection
+2. **Sprint 2 (1 week):** Compatibility Analysis
+3. **Sprint 3 (1 week):** Smart Prompting & User Flow
+4. **Sprint 4 (2 weeks):** Intelligent Recalculation Algorithm
+5. **Sprint 5 (1 week):** Testing, Documentation & Polish
+
+**Key Features:**
+- Auto-detect platform (Claude Code, Goose, Cursor, etc.)
+- Detect context window size per platform
+- Check sprint/task compatibility before starting work
+- Smart prompting when tasks too large for platform
+- Recalculate incomplete tasks only (preserve completed work)
+- Dependency re-mapping and success criteria validation
+- Minimal metadata (no full history, git handles versioning)
+
+**Blocks:** All platform ports (goose-port, aider-port, continue-port, windsurf-port, jetbrains-port)
+
+**See:** [Platform Tracking Analysis](./development/PLATFORM_TRACKING_ANALYSIS.md)
+
+### 5. Roadmap Standards System
+**Status:** Planned (Ready to Build)
+**Priority:** CRITICAL
+**Timeline:** 6 weeks (Q1 2025)
+**Depends On:** interface-unification, platform-context-management
+**Description:** Implement hierarchical standards system for quality policy enforcement. Standards cascade from roadmap → track → sprint → task, with blocking/warning/audit modes.
+
+**See:** standards-system track in .vibey/roadmap/
+
+### 6. Roadmap Object Hierarchy System
+**Status:** Completed (2025-11-11)
 **Priority:** HIGH
 **Timeline:** 11 weeks (Q1 2025)
 **Description:** Implement the Roadmap Object Hierarchy as a core Vibey feature, enabling structured project management with a 4-tier hierarchy (Roadmap → Track → Sprint → Task), automatic versioning, quality gates, and dependency tracking.

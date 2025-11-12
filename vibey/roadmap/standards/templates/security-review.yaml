@@ -1,0 +1,174 @@
+# Standard Template: Security Review
+#
+# Requires security review and validation for sensitive code changes.
+# Uses custom script to run security scanning tools.
+
+template:
+  id: security-review
+  name: Security Review Required
+  description: Security-sensitive changes require review and scanning
+  type: custom_script
+  enforcement: blocking
+
+  validation:
+    script: |
+      #!/bin/bash
+      # Security validation script
+      # Returns 0 if security checks pass, 1 otherwise
+
+      echo "Running security checks..."
+
+      # Check for common security issues
+      ISSUES=0
+
+      # 1. Check for hardcoded secrets
+      if git diff HEAD~1 | grep -iE '(password|secret|api_key|token).*=.*["\047]' > /dev/null; then
+        echo "❌ Potential hardcoded secret detected"
+        ISSUES=$((ISSUES + 1))
+      fi
+
+      # 2. Check for SQL injection patterns (Python)
+      if git diff HEAD~1 -- '*.py' | grep -E 'execute.*%|execute.*format' > /dev/null; then
+        echo "⚠️  Potential SQL injection pattern detected"
+        ISSUES=$((ISSUES + 1))
+      fi
+
+      # 3. Check for unsafe eval/exec
+      if git diff HEAD~1 | grep -E '\b(eval|exec)\(' > /dev/null; then
+        echo "⚠️  Potentially unsafe eval/exec usage detected"
+        ISSUES=$((ISSUES + 1))
+      fi
+
+      # 4. Run bandit for Python security issues (if installed)
+      if command -v bandit &> /dev/null; then
+        echo "Running bandit security scanner..."
+        bandit -r . -ll -q || ISSUES=$((ISSUES + 1))
+      fi
+
+      # 5. Run safety for dependency vulnerabilities (if installed)
+      if command -v safety &> /dev/null; then
+        echo "Checking dependencies for vulnerabilities..."
+        safety check --json || ISSUES=$((ISSUES + 1))
+      fi
+
+      if [ $ISSUES -eq 0 ]; then
+        echo "✅ All security checks passed"
+        exit 0
+      else
+        echo "❌ Security checks failed with $ISSUES issue(s)"
+        exit 1
+      fi
+
+    require_reviewer: true
+    reviewer_role: security-engineer
+
+  use_case: |
+    Use this standard for tasks that involve:
+    - Authentication/authorization code
+    - Payment processing
+    - Data encryption/decryption
+    - User data handling
+    - External API integrations
+    - Security-critical infrastructure
+
+    The standard runs automated security scans and can require manual review
+    from a designated security engineer.
+
+  typical_level: sprint
+
+  examples:
+    - level: sprint
+      scenario: Authentication sprint
+      description: All auth-related tasks require security review
+
+    - level: track
+      scenario: Payment processing track
+      description: All payment code requires security validation
+
+    - level: task
+      scenario: Specific high-risk task
+      description: Critical security feature requires extra validation
+
+  override_scenarios:
+    - reason: Security review completed out-of-band
+      justification: Security team reviewed code in separate security review meeting
+
+    - reason: Non-security refactoring
+      justification: Code restructuring with no security implications
+
+    - reason: Security-approved library update
+      justification: Updating to security-patched version of library
+
+  configuration:
+    script:
+      description: Custom security validation script
+      type: string
+      multiline: true
+      default: Basic security checks (secrets, SQL injection, unsafe eval)
+
+    require_reviewer:
+      description: Whether manual security review is required
+      type: boolean
+      default: true
+
+    reviewer_role:
+      description: Role required for manual review
+      type: string
+      default: security-engineer
+      options:
+        - security-engineer
+        - tech-lead
+        - senior-developer
+
+  validation_behavior:
+    passes_when: Script exits 0 AND (manual review complete OR !require_reviewer)
+    fails_when: Script exits non-zero OR (manual review missing AND require_reviewer)
+    error_message: "Security validation failed. Review security scan output and address issues."
+
+  notes: |
+    BEST PRACTICES:
+    - Apply at sprint level for security-critical work
+    - Apply at track level for sensitive domains (auth, payment, PII)
+    - Use blocking enforcement always for security
+    - Combine with test-coverage-required for security test coverage
+    - Require manual review for high-risk changes
+
+    SECURITY SCAN TOOLS:
+    Python:
+    - bandit: Security issue scanner
+    - safety: Dependency vulnerability checker
+    - pylint --security: Security-focused linting
+
+    JavaScript:
+    - npm audit: Dependency vulnerabilities
+    - eslint-plugin-security: Security linting
+    - snyk: Comprehensive security scanning
+
+    Go:
+    - gosec: Security checker
+    - nancy: Dependency vulnerabilities
+
+    SCRIPT CUSTOMIZATION:
+    Modify the script to:
+    - Add project-specific security checks
+    - Integrate with security scanning tools
+    - Check for organization-specific patterns
+    - Enforce security policies
+
+    COMMON OVERRIDES:
+    - Out-of-band security reviews
+    - Non-security refactoring
+    - Security-approved library updates
+    - Reverted security fixes (with new fix in progress)
+
+    MANUAL REVIEW PROCESS:
+    1. Developer marks task complete
+    2. Automated security scans run
+    3. Security engineer reviews code
+    4. Engineer approves via override OR requests changes
+    5. Task completion proceeds
+
+    RELATED STANDARDS:
+    - test-coverage-required: Security test coverage
+    - commit-required: Track security changes
+    - doc-review-required: Document security implications

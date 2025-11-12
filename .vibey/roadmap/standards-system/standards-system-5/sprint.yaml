@@ -3,16 +3,16 @@ sprint:
   name: Standard Templates Library
   track_id: standards-system
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-11T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-12T23:59:59+00:00'
+  completed: '2025-11-13T04:00:00+00:00'
   estimated_duration: 1 week
   progress:
     tasks_total: 8
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 8
+    completion_percent: 100
   goal: |
     Provide pre-built standard templates for common use cases, making it
     easy to add well-tested standards to any roadmap.
@@ -36,13 +36,15 @@ sprint:
     - name: Template Tests
       threshold: 100
       blocking: true
-      status: not_run
+      status: passed
       description: All template tests pass
+      score: 100
     - name: Template Documentation
       threshold: 100
       blocking: true
-      status: not_run
+      status: passed
       description: All templates documented with examples
+      score: 100
   success_criteria:
     - All 5 templates implemented and tested
     - Templates easy to use via CLI

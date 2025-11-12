@@ -3160,6 +3160,371 @@ roadmap:
 
 ---
 
+### Step 7.5c: Standards and Quality Policies
+
+**Purpose:** Enforce quality policies automatically across your roadmap using the standards system.
+
+**Overview:**
+Standards are quality requirements that cascade from roadmap → track → sprint → task. They can block completion, show warnings, or audit for compliance.
+
+---
+
+#### Discover Available Standards
+
+**List all standard templates:**
+```bash
+vibey roadmap list-templates
+```
+
+**Output:**
+```
+Standard Templates Library
+================================================================================
+
+Commit Checks:
+
+  🏷️  commit-required
+      Name: Commit Required
+      Enforcement: 🔴 BLOCKING
+      Ensures all tasks have at least one git commit for traceability
+
+Documentation:
+
+  🏷️  doc-review-required
+      Name: Documentation Review Required
+      Enforcement: 🟡 WARNING
+      Checks if documentation files were modified during task
+
+Testing:
+
+  🏷️  test-coverage-required
+      Name: Test Coverage Required
+      Enforcement: 🔴 BLOCKING
+      Runs tests and checks coverage meets minimum threshold (80%)
+
+  🏷️  multi-platform-testing
+      Name: Multi-Platform Testing
+      Enforcement: 🔴 BLOCKING
+      Tests code across multiple platforms (Claude Code, Goose, Cursor)
+
+Security:
+
+  🏷️  security-review
+      Name: Security Review
+      Enforcement: 🔴 BLOCKING
+      Runs security scans for secrets, SQL injection, unsafe eval
+
+================================================================================
+💡 Use 'vibey roadmap add-from-template <template-id> <level>' to add
+```
+
+---
+
+#### Add Standards to Roadmap (Organization-Wide)
+
+**Scenario:** Enforce test coverage across all development
+
+```bash
+# Add test coverage requirement at roadmap level
+vibey roadmap add-from-template test-coverage-required roadmap
+```
+
+**Output:**
+```
+✓ Standard added to roadmap: test-coverage-required
+  Name: Test Coverage Required
+  Type: test_run
+  Enforcement: 🔴 BLOCKING
+
+  This standard will apply to ALL tracks, sprints, and tasks in the roadmap.
+
+  Configuration:
+    Command: pytest --cov --cov-report=term
+    Threshold: 80%
+    Requires test files: Yes
+```
+
+**Check roadmap status with standards:**
+```bash
+vibey roadmap status
+```
+
+**Output:**
+```
+================================================================================
+🗺️  Q1 Product Roadmap
+================================================================================
+ID:      q1-product-roadmap
+Version: 1.0
+Status:  🔵 in_progress
+📋 Standards: 1 standards (🔴 1 blocking)
+
+📊 Overall Progress
+  Tracks:   2/4  (50% complete)
+  Sprints:  4/8
+  Tasks:    12/24
+```
+
+---
+
+#### Add Standards to Track (Domain-Specific)
+
+**Scenario:** Backend track requires documentation updates
+
+```bash
+# Add doc review to backend track
+vibey roadmap add-from-template doc-review-required track --target-id backend
+```
+
+**Output:**
+```
+✓ Standard added to track 'backend': doc-review-required
+  Name: Documentation Review Required
+  Type: file_check
+  Enforcement: 🟡 WARNING
+
+  This standard will apply to all sprints and tasks in the 'backend' track.
+  It will show warnings (not block) if documentation isn't updated.
+```
+
+**View track with standards:**
+```bash
+vibey roadmap show backend
+```
+
+**Output:**
+```
+================================================================================
+🛤️  Track: Backend Development
+================================================================================
+ID:          backend
+Status:      🔵 in_progress
+...
+
+📋 Standards: 2 standards (🔴 1 blocking, 🟡 1 warning)
+   Standards Applied:
+   • test-coverage-required: Test Coverage Required
+     Type: test_run | 🔴 BLOCKING
+     (inherited from roadmap)
+   • doc-review-required: Documentation Review Required
+     Type: file_check | 🟡 WARNING
+     (defined at track level)
+```
+
+---
+
+#### Add Standards to Sprint (Temporary Requirements)
+
+**Scenario:** Authentication sprint needs security review
+
+```bash
+# Add security review to auth sprint
+vibey roadmap add-from-template security-review sprint --target-id backend-1-auth
+```
+
+**Output:**
+```
+✓ Standard added to sprint 'backend-1-auth': security-review
+  Name: Security Review
+  Type: custom_script
+  Enforcement: 🔴 BLOCKING
+
+  This standard applies only to tasks in the 'backend-1-auth' sprint.
+  Security scans will run automatically during task completion.
+```
+
+---
+
+#### Check Standards Before Completing Task
+
+**Preview standards compliance:**
+```bash
+vibey roadmap check-standards backend-1-task-003
+```
+
+**Output:**
+```
+🔍 Checking standards for Task: backend-1-task-003
+================================================================================
+
+Standards Compliance: 2/3 passed (67%)
+  ✅ test-coverage-required (roadmap) - PASSED
+     Coverage: 85% (threshold: 80%)
+  ✅ doc-review-required (track) - PASSED
+     Modified files: docs/api/auth.md, README.md
+  ❌ security-review (sprint) - FAILED
+     Security scan detected: Hardcoded secret in auth.py:42
+
+❌ Item cannot proceed - 1 blocking failure(s)
+
+Failures:
+  🔴 security-review: Hardcoded secret detected
+     File: vibey/api/auth.py:42
+     Issue: Possible hardcoded API key or password
+
+     Fix: Move secrets to environment variables or config file
+
+Use 'vibey roadmap override-standard' to override if needed
+================================================================================
+```
+
+---
+
+#### Complete Task with Standards Enforcement
+
+**Fix issues and try again:**
+```bash
+# After fixing the security issue
+git add vibey/api/auth.py
+git commit -m "fix: Move API key to environment variable (backend-1-task-003)"
+
+vibey roadmap complete backend-1-task-003
+```
+
+**Output:**
+```
+Running standards validation for backend-1-task-003...
+
+Standards Compliance: 3/3 passed (100%)
+  ✅ test-coverage-required (roadmap) - PASSED
+     Coverage: 85% (threshold: 80%)
+     Test files: 12 tests passing
+  ✅ doc-review-required (track) - PASSED
+     Modified files: docs/api/auth.md, README.md (2 files)
+  ✅ security-review (sprint) - PASSED
+     No security issues detected
+     Scanned: secrets, SQL injection, unsafe eval
+
+All standards passed! ✨
+
+✓ Task completed: backend-1-task-003 (OAuth integration)
+✓ Status changed: in_progress → completed
+✓ Completed at: 2025-11-13T10:30:00Z
+
+Sprint progress: 3/5 tasks completed (60%)
+```
+
+---
+
+#### Override Standards (Emergency Escape Hatch)
+
+**Scenario:** Emergency hotfix, will add tests later
+
+```bash
+# Override test coverage for emergency fix
+vibey roadmap override-standard \
+  test-coverage-required \
+  backend-1-task-004 \
+  "Emergency security hotfix - tests will be added in follow-up task backend-1-task-005" \
+  --overridden-by "alice@example.com"
+```
+
+**Output:**
+```
+⚠️  Standard Override Created
+
+Standard:     test-coverage-required
+Item:         backend-1-task-004
+Reason:       Emergency security hotfix - tests will be added in follow-up
+Overridden By: alice@example.com
+Created At:   2025-11-13T11:45:00Z
+
+This override will allow completion even if the standard fails.
+Overrides are tracked in audit trail for later review.
+
+✅ Override applied successfully
+```
+
+**Complete with override:**
+```bash
+vibey roadmap complete backend-1-task-004
+```
+
+**Output:**
+```
+Running standards validation for backend-1-task-004...
+
+Standards Compliance: 2/3 passed (67%)
+  ⏭️  test-coverage-required (roadmap) - SKIPPED
+     Overridden by: alice@example.com
+     Reason: Emergency security hotfix - tests will be added in follow-up
+  ✅ doc-review-required (track) - PASSED
+  ✅ security-review (sprint) - PASSED
+
+⚠️  1 standard(s) were overridden - review audit trail
+
+✓ Task completed: backend-1-task-004 (Security hotfix)
+✓ Status changed: in_progress → completed
+✓ Completed at: 2025-11-13T11:50:00Z
+```
+
+---
+
+#### Custom Standards (Advanced)
+
+**Create custom standard with specific config:**
+```bash
+# Add custom commit requirement (minimum 2 commits)
+vibey roadmap add-standard roadmap \
+  strict-commit-check \
+  "Strict Commit Check" \
+  "All tasks must have at least 2 commits for proper review" \
+  commit_check \
+  blocking \
+  '{"min_commits": 2, "require_message": true}'
+```
+
+**Override enforcement mode from template:**
+```bash
+# Add test coverage but as warning (not blocking) for prototype track
+vibey roadmap add-from-template test-coverage-required track \
+  --target-id prototype \
+  --enforcement warning
+```
+
+---
+
+#### Standards Best Practices (from experience)
+
+**1. Start with AUDIT mode**
+```bash
+# For new teams, start with audit to track metrics
+vibey roadmap add-standard roadmap my-check "..." ... audit '...'
+# After team is comfortable, upgrade to WARNING
+# Finally move to BLOCKING when ready
+```
+
+**2. Apply at the right level**
+- **Roadmap** - Organization-wide policies (commits, basic tests)
+- **Track** - Domain-specific (backend needs high coverage, frontend needs docs)
+- **Sprint** - Temporary requirements (security review for auth sprint)
+- **Task** - Rare, use sparingly
+
+**3. Review overrides regularly**
+```bash
+# See which standards are frequently overridden
+vibey roadmap show backend-1-auth --verbose
+# If many overrides → standard may be too strict
+```
+
+**4. Combine related standards**
+```bash
+# For production code: commits + tests + docs + security
+vibey roadmap add-from-template commit-required roadmap
+vibey roadmap add-from-template test-coverage-required roadmap
+vibey roadmap add-from-template doc-review-required track --target-id backend --enforcement warning
+vibey roadmap add-from-template security-review sprint --target-id backend-1-auth
+```
+
+---
+
+**See Also:**
+- `docs/guides/ROADMAP_STANDARDS.md` - Complete standards user guide
+- `docs/development/STANDARDS_IMPLEMENTATION.md` - Standards architecture
+- `docs/development/STANDARD_VALIDATOR_API.md` - Creating custom validators
+
+---
+
 ### Step 7.6: Roadmap Visualization
 
 **Repository State with Active Roadmap:**

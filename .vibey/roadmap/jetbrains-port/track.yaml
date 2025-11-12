@@ -119,6 +119,8 @@ track:
   - 'MCP Standardization: Future-proof protocol alignment'
   - 'Multi-Agent Ecosystem: Junie, Claude Agent, Vibey agents'
   - 'Multi-Language: Broadest language support of any IDE'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-09T00:00:00+00:00'

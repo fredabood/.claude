@@ -36,6 +36,8 @@ sprint:
   - Documentation changelog generation
   - Complete system documentation
   - Final validation and testing
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-09T21:30:52.030874+00:00'
     estimated_duration: null

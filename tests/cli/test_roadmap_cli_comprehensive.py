@@ -52,130 +52,29 @@ def sample_roadmap(temp_repo_dir):
     """
     Create a sample roadmap with tracks, sprints, and tasks for testing.
 
-    Structure:
+    Uses hierarchical structure:
     - 3 tracks (user-management, payment-integration, performance)
     - 5 sprints total
     - Multiple tasks per sprint
     - Dependencies between tracks
     """
-    vibey_dir = temp_repo_dir / ".vibey"
-    vibey_dir.mkdir(exist_ok=True)
-
-    # Create directory structure
-    (vibey_dir / "tracks").mkdir(exist_ok=True)
-    (vibey_dir / "sprints").mkdir(exist_ok=True)
-    (vibey_dir / "tasks").mkdir(exist_ok=True)
-
-    # Create main roadmap file
-    roadmap_content = {
-        "roadmap": {
-            "id": "test-roadmap",
-            "name": "Test Project Roadmap",
-            "version": "1.0",
-            "tracks": [
-                {
-                    "id": "user-management",
-                    "name": "User Management System",
-                    "status": "not_started",
-                    "priority": "high",
-                    "sprints": ["user-mgmt-1-auth", "user-mgmt-2-profiles"],
-                },
-                {
-                    "id": "payment-integration",
-                    "name": "Payment Integration",
-                    "status": "not_started",
-                    "priority": "high",
-                    "dependencies": ["user-management"],
-                    "sprints": ["payment-1-setup"],
-                },
-                {
-                    "id": "performance",
-                    "name": "Performance Optimization",
-                    "status": "not_started",
-                    "priority": "medium",
-                    "sprints": ["perf-1-frontend", "perf-2-backend"],
-                }
-            ],
-            "progress": {
-                "tracks_total": 3,
-                "tracks_completed": 0,
-                "sprints_total": 5,
-                "sprints_completed": 0,
-            }
-        }
-    }
-
-    roadmap_file = vibey_dir / "roadmap.yaml"
-    with open(roadmap_file, 'w') as f:
-        yaml.dump(roadmap_content, f)
-
-    # Create sprint files
-    sprint1 = {
-        "sprint": {
-            "id": "user-mgmt-1-auth",
-            "name": "Authentication",
-            "track_id": "user-management",
-            "status": "not_started",
-            "tasks": ["task-001", "task-002", "task-003", "task-004"],
-            "quality_gates": {
-                "security_audit": {"threshold": 85},
-                "test_coverage": {"threshold": 80},
-                "performance": {"threshold": 85}
-            }
-        }
-    }
-
-    sprint_file = vibey_dir / "sprints" / "user-mgmt-1-auth.yaml"
-    with open(sprint_file, 'w') as f:
-        yaml.dump(sprint1, f)
-
-    # Create task file
-    task1 = {
-        "task": {
-            "id": "task-001",
-            "name": "User registration API",
-            "sprint_id": "user-mgmt-1-auth",
-            "status": "not_started",
-            "description": "Build REST API endpoint for user registration",
-            "files_to_modify": ["src/api/auth.py", "src/models/user.py"],
-            "quality_requirements": {
-                "security": "Input validation, password hashing",
-                "testing": "Unit tests, integration tests"
-            }
-        }
-    }
-
-    task_file = vibey_dir / "tasks" / "task-001.yaml"
-    with open(task_file, 'w') as f:
-        yaml.dump(task1, f)
-
-    return temp_repo_dir
+    from tests.cli.roadmap_test_helpers import create_sample_roadmap
+    return create_sample_roadmap(temp_repo_dir)
 
 
 @pytest.fixture
 def empty_roadmap(temp_repo_dir):
     """Create an empty roadmap (no tracks) for testing initialization."""
-    vibey_dir = temp_repo_dir / ".vibey"
-    vibey_dir.mkdir(exist_ok=True)
+    from tests.cli.roadmap_test_helpers import HierarchicalRoadmapBuilder
 
-    roadmap_content = {
-        "roadmap": {
-            "id": "empty-roadmap",
-            "name": "Empty Roadmap",
-            "version": "1.0",
-            "tracks": [],
-            "progress": {
-                "tracks_total": 0,
-                "tracks_completed": 0,
-                "sprints_total": 0,
-                "sprints_completed": 0,
-            }
-        }
-    }
-
-    roadmap_file = vibey_dir / "roadmap.yaml"
-    with open(roadmap_file, 'w') as f:
-        yaml.dump(roadmap_content, f)
+    builder = HierarchicalRoadmapBuilder(temp_repo_dir)
+    builder.create_structure()
+    builder.create_roadmap_file(
+        roadmap_id="empty-roadmap",
+        name="Empty Roadmap",
+        version="1.0.0",
+        tracks=[]
+    )
 
     return temp_repo_dir
 
@@ -301,13 +200,13 @@ class TestRoadmapStatus:
 
     def test_roadmap_status_filter_by_sprint(self, sample_roadmap):
         """Test status filtered by specific sprint."""
-        result = run_cli("roadmap", "status", "--sprint", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "status", "--sprint", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
 
         # Verify shows only that sprint
-        assert "user-mgmt-1-auth" in result.stdout or "auth" in result.stdout.lower()
+        assert "user-management-1-auth" in result.stdout or "auth" in result.stdout.lower()
 
     def test_roadmap_status_output_format(self, sample_roadmap):
         """Test status output formatting."""
@@ -351,13 +250,13 @@ class TestRoadmapShow:
 
     def test_roadmap_show_sprint(self, sample_roadmap):
         """Test showing sprint details."""
-        result = run_cli("roadmap", "show", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "show", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
 
         # Verify shows sprint details
-        assert "user-mgmt-1-auth" in result.stdout or "auth" in result.stdout.lower()
+        assert "user-management-1-auth" in result.stdout or "auth" in result.stdout.lower()
 
         # Verify shows tasks
         assert "task" in result.stdout.lower()
@@ -371,7 +270,7 @@ class TestRoadmapStart:
 
     def test_roadmap_start_sprint(self, sample_roadmap):
         """Test starting a sprint changes status to in_progress."""
-        result = run_cli("roadmap", "start", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "start", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         # Command should succeed
@@ -381,14 +280,14 @@ class TestRoadmapStart:
         assert "start" in result.stdout.lower() or "in_progress" in result.stdout.lower()
 
         # Verify sprint file updated
-        sprint_file = sample_roadmap / ".vibey" / "sprints" / "user-mgmt-1-auth.yaml"
+        sprint_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "sprint.yaml"
         with open(sprint_file) as f:
             data = yaml.safe_load(f)
             assert data["sprint"]["status"] == "in_progress"
 
     def test_roadmap_start_task(self, sample_roadmap):
         """Test starting a task changes status to in_progress."""
-        result = run_cli("roadmap", "start", "task-001",
+        result = run_cli("roadmap", "start", "user-management-1-auth-task-001",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -397,7 +296,7 @@ class TestRoadmapStart:
         assert "start" in result.stdout.lower() or "task" in result.stdout.lower()
 
         # Verify task file updated
-        task_file = sample_roadmap / ".vibey" / "tasks" / "task-001.yaml"
+        task_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "user-management-1-auth-task-001" / "task.yaml"
         with open(task_file) as f:
             data = yaml.safe_load(f)
             assert data["task"]["status"] == "in_progress"
@@ -405,10 +304,10 @@ class TestRoadmapStart:
     def test_roadmap_start_already_started(self, sample_roadmap):
         """Test starting an already-started sprint is idempotent."""
         # Start sprint first time
-        run_cli("roadmap", "start", "user-mgmt-1-auth", cwd=sample_roadmap)
+        run_cli("roadmap", "start", "user-management-1-auth", cwd=sample_roadmap)
 
         # Start again
-        result = run_cli("roadmap", "start", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "start", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         # Should not error (idempotent)
@@ -420,7 +319,7 @@ class TestRoadmapStart:
     def test_roadmap_start_blocked_sprint(self, sample_roadmap):
         """Test starting a blocked sprint shows error."""
         # Try to start payment-integration (blocked by user-management)
-        result = run_cli("roadmap", "start", "payment-1-setup",
+        result = run_cli("roadmap", "start", "payment-integration-1-setup",
                         cwd=sample_roadmap)
 
         # Should fail or warn
@@ -436,10 +335,10 @@ class TestRoadmapComplete:
     def test_roadmap_complete_task(self, sample_roadmap):
         """Test completing a task updates status and timestamp."""
         # Start task first
-        run_cli("roadmap", "start", "task-001", cwd=sample_roadmap)
+        run_cli("roadmap", "start", "user-management-1-auth-task-001", cwd=sample_roadmap)
 
         # Complete task
-        result = run_cli("roadmap", "complete", "task-001", cwd=sample_roadmap)
+        result = run_cli("roadmap", "complete", "user-management-1-auth-task-001", cwd=sample_roadmap)
 
         assert result.returncode == 0
 
@@ -447,7 +346,7 @@ class TestRoadmapComplete:
         assert "complet" in result.stdout.lower()
 
         # Verify task file updated
-        task_file = sample_roadmap / ".vibey" / "tasks" / "task-001.yaml"
+        task_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "user-management-1-auth-task-001" / "task.yaml"
         with open(task_file) as f:
             data = yaml.safe_load(f)
             assert data["task"]["status"] == "completed"
@@ -457,15 +356,15 @@ class TestRoadmapComplete:
     def test_roadmap_complete_sprint_with_quality_gates(self, sample_roadmap):
         """Test completing sprint runs quality gates automatically."""
         # Start sprint
-        run_cli("roadmap", "start", "user-mgmt-1-auth", cwd=sample_roadmap)
+        run_cli("roadmap", "start", "user-management-1-auth", cwd=sample_roadmap)
 
         # Complete all tasks
-        for task_id in ["task-001", "task-002", "task-003", "task-004"]:
+        for task_id in ["user-management-1-auth-task-001", "user-management-1-auth-task-002", "user-management-1-auth-task-003", "user-management-1-auth-task-004"]:
             run_cli("roadmap", "start", task_id, cwd=sample_roadmap)
             run_cli("roadmap", "complete", task_id, cwd=sample_roadmap)
 
         # Complete sprint
-        result = run_cli("roadmap", "complete", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "complete", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         # Should run quality gates
@@ -485,7 +384,7 @@ class TestRoadmapComplete:
     def test_roadmap_complete_not_started_item(self, sample_roadmap):
         """Test completing not_started item shows error."""
         # Try to complete a task that hasn't been started
-        result = run_cli("roadmap", "complete", "task-002",
+        result = run_cli("roadmap", "complete", "user-management-1-auth-task-002",
                         cwd=sample_roadmap)
 
         # Should fail or warn
@@ -498,7 +397,7 @@ class TestRoadmapContext:
 
     def test_roadmap_context_task(self, sample_roadmap):
         """Test getting AI-optimized context for a task."""
-        result = run_cli("roadmap", "context", "task-001",
+        result = run_cli("roadmap", "context", "user-management-1-auth-task-001",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -507,7 +406,7 @@ class TestRoadmapContext:
         output = result.stdout
 
         # Should show task description
-        assert "task-001" in output or "registration" in output.lower()
+        assert "user-management-1-auth-task-001" in output or "registration" in output.lower()
 
         # Should show files to modify
         assert "file" in output.lower() or "src/" in output
@@ -521,13 +420,13 @@ class TestRoadmapSummarize:
 
     def test_roadmap_summarize_sprint(self, sample_roadmap):
         """Test summarizing a sprint."""
-        result = run_cli("roadmap", "summarize", "sprint", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "summarize", "sprint", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
 
         # Verify shows sprint summary
-        assert "user-mgmt-1-auth" in result.stdout or "auth" in result.stdout.lower()
+        assert "user-management-1-auth" in result.stdout or "auth" in result.stdout.lower()
 
         # Verify lists tasks and progress
         assert "task" in result.stdout.lower()
@@ -562,7 +461,7 @@ class TestRoadmapAddCommit:
         subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=sample_roadmap, capture_output=True)
 
         # Add commit to task
-        result = run_cli("roadmap", "add-commit", "task-001", "--auto",
+        result = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--auto",
                         cwd=sample_roadmap)
 
         # Should succeed
@@ -598,7 +497,7 @@ class TestRoadmapAddCommit:
         commit_sha = sha_result.stdout.strip()[:7]  # Short SHA
 
         # Add commit to task
-        result = run_cli("roadmap", "add-commit", "task-001", commit_sha,
+        result = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", commit_sha,
                         cwd=sample_roadmap)
 
         # Should succeed or fail gracefully (implementation may vary)
@@ -617,11 +516,11 @@ class TestRoadmapAddCommit:
         subprocess.run(["git", "commit", "-m", "Test commit"], cwd=sample_roadmap, capture_output=True)
 
         # Add commit first time
-        result1 = run_cli("roadmap", "add-commit", "task-001", "--auto",
+        result1 = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--auto",
                          cwd=sample_roadmap)
 
         # Add commit second time (duplicate)
-        result2 = run_cli("roadmap", "add-commit", "task-001", "--auto",
+        result2 = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--auto",
                          cwd=sample_roadmap)
 
         # Second attempt should succeed with warning or skip
@@ -690,7 +589,7 @@ class TestRoadmapAddCommitWithPlatformValidation:
         result = subprocess.run(["git", "commit", "-m", "Test commit"], cwd=sample_roadmap, capture_output=True)
 
         # Run: vibey roadmap add-commit --platform claude-code
-        result = run_cli("roadmap", "add-commit", "task-001", "--platform", "claude-code", "--auto",
+        result = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--platform", "claude-code", "--auto",
                         cwd=sample_roadmap)
 
         # Verify: Commit added successfully
@@ -730,7 +629,7 @@ class TestRoadmapAddCommitWithPlatformValidation:
         subprocess.run(["git", "commit", "-m", "Test commit"], cwd=sample_roadmap, capture_output=True)
 
         # Run: vibey roadmap add-commit --platform cursor (not deployed)
-        result = run_cli("roadmap", "add-commit", "task-001", "--platform", "cursor", "--auto",
+        result = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--platform", "cursor", "--auto",
                         cwd=sample_roadmap)
 
         # Verify: Error raised with clear message
@@ -779,7 +678,7 @@ class TestRoadmapAddCommitWithPlatformValidation:
 
         # Run: vibey roadmap add-commit --auto (without explicit --platform)
         # System should auto-detect platform from environment
-        result = run_cli("roadmap", "add-commit", "task-001", "--auto",
+        result = run_cli("roadmap", "add-commit", "user-management-1-auth-task-001", "--auto",
                         cwd=sample_roadmap)
 
         # Verify: Platform auto-detection attempted
@@ -841,13 +740,13 @@ class TestStateMachineTransitions:
     def test_state_not_started_to_in_progress(self, sample_roadmap):
         """Test valid transition from not_started to in_progress."""
         # Start command should transition state
-        result = run_cli("roadmap", "start", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "start", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
 
         # Verify state transition
-        sprint_file = sample_roadmap / ".vibey" / "sprints" / "user-mgmt-1-auth.yaml"
+        sprint_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "sprint.yaml"
         with open(sprint_file) as f:
             data = yaml.safe_load(f)
             assert data["sprint"]["status"] == "in_progress"
@@ -871,7 +770,7 @@ class TestStateMachineTransitions:
     def test_invalid_state_transition_rejected(self, sample_roadmap):
         """Test that invalid state transitions are rejected."""
         # Try to complete not_started item
-        result = run_cli("roadmap", "complete", "task-002",
+        result = run_cli("roadmap", "complete", "user-management-1-auth-task-002",
                         cwd=sample_roadmap)
 
         # Should fail or warn
@@ -882,10 +781,10 @@ class TestStateMachineTransitions:
     def test_idempotent_state_operations(self, sample_roadmap):
         """Test idempotent operations (start already-started, etc.)."""
         # Start sprint
-        run_cli("roadmap", "start", "user-mgmt-1-auth", cwd=sample_roadmap)
+        run_cli("roadmap", "start", "user-management-1-auth", cwd=sample_roadmap)
 
         # Start again - should be idempotent
-        result = run_cli("roadmap", "start", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "start", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -924,7 +823,7 @@ class TestDependencyManagement:
     def test_cannot_start_blocked_sprint(self, sample_roadmap):
         """Test that starting a blocked sprint shows error or warning."""
         # Try to start sprint from blocked track
-        result = run_cli("roadmap", "start", "payment-1-setup",
+        result = run_cli("roadmap", "start", "payment-integration-1-setup",
                         cwd=sample_roadmap)
 
         # May fail or warn - we just check it handles it
@@ -971,7 +870,7 @@ class TestAIContextAndSummarization:
 
     def test_context_output_format_for_ai(self, sample_roadmap):
         """Test that context output is formatted for AI consumption."""
-        result = run_cli("roadmap", "context", "task-001",
+        result = run_cli("roadmap", "context", "user-management-1-auth-task-001",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -983,11 +882,11 @@ class TestAIContextAndSummarization:
         assert len(output) > 50  # Substantial output
 
         # Should be readable text format
-        assert "task-001" in output or "registration" in output.lower()
+        assert "user-management-1-auth-task-001" in output or "registration" in output.lower()
 
     def test_context_includes_related_tasks(self, sample_roadmap):
         """Test that context includes related/dependent tasks."""
-        result = run_cli("roadmap", "context", "task-001",
+        result = run_cli("roadmap", "context", "user-management-1-auth-task-001",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -999,7 +898,7 @@ class TestAIContextAndSummarization:
 
     def test_context_includes_files_to_modify(self, sample_roadmap):
         """Test that context includes files to modify."""
-        result = run_cli("roadmap", "context", "task-001",
+        result = run_cli("roadmap", "context", "user-management-1-auth-task-001",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -1010,7 +909,7 @@ class TestAIContextAndSummarization:
 
     def test_summarize_output_format(self, sample_roadmap):
         """Test that summarize output is concise and informative."""
-        result = run_cli("roadmap", "summarize", "sprint", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "summarize", "sprint", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -1020,7 +919,7 @@ class TestAIContextAndSummarization:
 
         # Should include key metrics
         assert len(output) > 0
-        assert "user-mgmt-1-auth" in output or "auth" in output.lower()
+        assert "user-management-1-auth" in output or "auth" in output.lower()
 
 
 # ============================================================================
@@ -1095,7 +994,7 @@ class TestOutputFormatting:
 
     def test_detailed_view_formatting(self, sample_roadmap):
         """Test that show command has clear formatting."""
-        result = run_cli("roadmap", "show", "user-mgmt-1-auth",
+        result = run_cli("roadmap", "show", "user-management-1-auth",
                         cwd=sample_roadmap)
 
         assert result.returncode == 0
@@ -1105,7 +1004,7 @@ class TestOutputFormatting:
 
         # Should be well-structured
         assert len(output) > 50
-        assert "user-mgmt-1-auth" in output or "auth" in output.lower()
+        assert "user-management-1-auth" in output or "auth" in output.lower()
 
     def test_error_message_formatting(self, sample_roadmap):
         """Test that error messages are clear and helpful."""
@@ -1135,15 +1034,15 @@ class TestCLIIntegration:
         assert result1.returncode == 0
 
         # Start task
-        result2 = run_cli("roadmap", "start", "task-001", cwd=sample_roadmap)
+        result2 = run_cli("roadmap", "start", "user-management-1-auth-task-001", cwd=sample_roadmap)
         assert result2.returncode == 0
 
         # Complete task
-        result3 = run_cli("roadmap", "complete", "task-001", cwd=sample_roadmap)
+        result3 = run_cli("roadmap", "complete", "user-management-1-auth-task-001", cwd=sample_roadmap)
         assert result3.returncode == 0
 
         # Verify final state
-        task_file = sample_roadmap / ".vibey" / "tasks" / "task-001.yaml"
+        task_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "user-management-1-auth-task-001" / "task.yaml"
         with open(task_file) as f:
             data = yaml.safe_load(f)
             assert data["task"]["status"] == "completed"
@@ -1151,17 +1050,17 @@ class TestCLIIntegration:
     def test_sprint_lifecycle(self, sample_roadmap):
         """Test sprint lifecycle: show → start → work on tasks."""
         # Show sprint details
-        result1 = run_cli("roadmap", "show", "user-mgmt-1-auth",
+        result1 = run_cli("roadmap", "show", "user-management-1-auth",
                          cwd=sample_roadmap)
         assert result1.returncode == 0
 
         # Start sprint
-        result2 = run_cli("roadmap", "start", "user-mgmt-1-auth",
+        result2 = run_cli("roadmap", "start", "user-management-1-auth",
                          cwd=sample_roadmap)
         assert result2.returncode == 0
 
         # Verify sprint is in_progress
-        sprint_file = sample_roadmap / ".vibey" / "sprints" / "user-mgmt-1-auth.yaml"
+        sprint_file = sample_roadmap / ".vibey" / "roadmap" / "user-management" / "user-management-1-auth" / "sprint.yaml"
         with open(sprint_file) as f:
             data = yaml.safe_load(f)
             assert data["sprint"]["status"] == "in_progress"

@@ -1,0 +1,142 @@
+# Standard Template: Multi-Platform Testing
+#
+# Ensures code works across multiple platforms before completion.
+# Critical for cross-platform frameworks and libraries.
+
+template:
+  id: multi-platform-testing
+  name: Multi-Platform Testing
+  description: Code must pass tests on all required platforms
+  type: test_run
+  enforcement: blocking
+
+  validation:
+    command: pytest
+    platforms:
+      - name: claude-code
+        required: true
+      - name: goose
+        required: false  # Only if port exists
+      - name: cursor
+        required: false  # Only if port exists
+    require_all_pass: true
+
+  use_case: |
+    Use this standard for cross-platform frameworks that must work on multiple
+    platforms or environments. Ensures code is tested on all target platforms
+    before being marked complete. Particularly useful for:
+    - Multi-platform frameworks (Claude Code, Goose, Cursor)
+    - Cross-OS libraries (Windows, macOS, Linux)
+    - Multi-browser web apps (Chrome, Firefox, Safari)
+
+  typical_level: roadmap
+
+  examples:
+    - level: roadmap
+      scenario: Multi-platform framework
+      description: All code must work on Claude Code, and optionally Goose/Cursor if ports exist
+      platforms:
+        - claude-code (required)
+        - goose (optional)
+        - cursor (optional)
+
+    - level: track
+      scenario: Cross-OS library development
+      description: Library must work on Linux, macOS, Windows
+      platforms:
+        - linux (required)
+        - macos (required)
+        - windows (required)
+
+  override_scenarios:
+    - reason: Platform-specific feature
+      justification: Feature is intentionally platform-specific (e.g., Claude Code only)
+
+    - reason: Platform not yet ported
+      justification: Target platform port doesn't exist yet
+
+    - reason: Emergency hotfix for single platform
+      justification: Critical bug affecting one platform, fix other platforms in follow-up
+
+  configuration:
+    command:
+      description: Test command to run on each platform
+      type: string
+      default: pytest
+      examples:
+        - "pytest"
+        - "npm test"
+        - "go test ./..."
+
+    platforms:
+      description: List of platforms to test on
+      type: list
+      items:
+        - name: Platform name
+        - required: Whether platform must pass (true) or is optional (false)
+      default:
+        - name: claude-code
+          required: true
+
+    require_all_pass:
+      description: Whether all required platforms must pass
+      type: boolean
+      default: true
+
+  validation_behavior:
+    passes_when: All required platforms pass tests
+    fails_when: Any required platform fails tests OR optional platform tested and failed
+    error_message: "Tests failed on platform(s): {failed_platforms}. Ensure cross-platform compatibility."
+
+  notes: |
+    BEST PRACTICES:
+    - Apply at roadmap level for framework-wide compatibility
+    - Mark primary platform as required=true
+    - Mark ported platforms as required=false initially, true when port is stable
+    - Use blocking enforcement for production releases
+    - Run platform tests in CI/CD pipeline
+
+    PLATFORM CONFIGURATIONS:
+
+    Multi-Platform Frameworks:
+    platforms:
+      - name: claude-code
+        required: true
+      - name: goose
+        required: false  # Optional until port is stable
+      - name: cursor
+        required: false
+
+    Cross-OS Libraries:
+    platforms:
+      - name: linux
+        required: true
+      - name: macos
+        required: true
+      - name: windows
+        required: true
+
+    Multi-Browser Web Apps:
+    platforms:
+      - name: chrome
+        required: true
+      - name: firefox
+        required: true
+      - name: safari
+        required: true
+
+    COMMON OVERRIDES:
+    - Platform-specific features (intentional)
+    - Early-stage ports not yet stable
+    - Emergency single-platform hotfixes
+    - Known platform limitations (documented)
+
+    IMPLEMENTATION NOTES:
+    - Validator should detect which platforms are available
+    - Skip optional platforms that don't exist
+    - Fail fast on required platform failures
+    - Report detailed failure information per platform
+
+    RELATED STANDARDS:
+    - test-coverage-required: Coverage on all platforms
+    - commit-required: Track cross-platform changes

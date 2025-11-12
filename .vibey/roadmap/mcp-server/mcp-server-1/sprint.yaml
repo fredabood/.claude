@@ -30,6 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
+  commits: []
+  standards: []
   metadata:
     last_updated: '2025-11-10T18:00:00+00:00'
     estimated_duration: null

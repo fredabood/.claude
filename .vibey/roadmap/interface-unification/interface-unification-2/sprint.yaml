@@ -1,0 +1,48 @@
+sprint:
+  id: interface-unification-2
+  name: Unify CLI + MCP Integration
+  track_id: interface-unification
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-12T00:00:00+00:00'
+  started: '2025-11-12T15:00:00+00:00'
+  completed: '2025-11-12T21:00:00+00:00'
+  estimated_duration: 1 week
+  actual_duration: 6 hours
+  progress:
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100
+  tasks:
+  - id: interface-unification-2-task-001
+    name: Create unified error handling library (vibey/common/errors.py)
+    status: completed
+    notes: Created comprehensive error library with 15+ error types, rich context, and extensible architecture (800 lines)
+  - id: interface-unification-2-task-002
+    name: Create error renderers (CLI and MCP)
+    status: completed
+    notes: Created 4 renderers - CLI (ANSI colors), MCP (JSON), PlainText (logs), Logging (structured) (400 lines)
+  - id: interface-unification-2-task-003
+    name: Update CLI to use error library
+    status: completed
+    notes: Migrated config/loader.py and created roadmap_errors.py bridge module with backward compatibility (600 lines)
+  - id: interface-unification-2-task-004
+    name: Prepare MCP error structure
+    status: completed
+    notes: MCPErrorRenderer ready for future MCP server implementation
+  - id: interface-unification-2-task-005
+    name: Integration tests and documentation
+    status: completed
+    notes: Created 20 passing tests and 900+ lines of documentation (UNIFIED_ERROR_HANDLING.md, CLI_ERROR_HANDLING_EXAMPLES.md)
+  dependencies:
+  - interface-unification-1
+  blocked_by: []
+  quality_gates: []
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - Unified error handling library
+  - CLI using error library
+  - MCP using error library
+  - Integration tests passing

@@ -1,0 +1,42 @@
+sprint:
+  id: platform-context-management-3
+  name: Smart Prompting & User Flow
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: platform-context-management-3-task-001
+    name: Hook compatibility check into roadmap start command
+    status: not_started
+  - id: platform-context-management-3-task-002
+    name: Hook compatibility check into roadmap show command
+    status: not_started
+  - id: platform-context-management-3-task-003
+    name: User prompt system (always ask, never auto-recalculate)
+    status: not_started
+  - id: platform-context-management-3-task-004
+    name: Prompt options (Yes/No/Info/Cancel)
+    status: not_started
+  - id: platform-context-management-3-task-005
+    name: Integration tests for prompt flow
+    status: not_started
+  dependencies:
+  - platform-context-management-2
+  blocked_by: []
+  quality_gates: []
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  deliverables:
+  - Prompt system integration
+  - User flow implementation
+  - Integration tests

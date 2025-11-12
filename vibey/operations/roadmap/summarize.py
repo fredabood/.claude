@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from vibey.cli.roadmap_lib.filesystem import find_roadmap_root, load_yaml, save_yaml
+from vibey.cli.roadmap_lib.filesystem import find_roadmap_root, load_yaml, save_yaml, FileSystemManager
 
 
 class SummaryGenerator:
@@ -19,8 +19,8 @@ class SummaryGenerator:
         self.root_dir = root_dir
         self.vibey_dir = root_dir / ".vibey"
         self.sprint_docs_dir = self.vibey_dir / "sprint_docs"
-        self.sprints_dir = self.vibey_dir / "roadmap" / "sprints"
-        self.tasks_dir = self.vibey_dir / "roadmap" / "tasks"
+        # Use FileSystemManager for hierarchical paths
+        self.fs = FileSystemManager(root_dir)
 
     def summarize_sprint(self, sprint_id: str, force: bool = False) -> bool:
         """
@@ -35,8 +35,8 @@ class SummaryGenerator:
         """
         print(f"📊 Generating summary for sprint: {sprint_id}")
 
-        # Load sprint YAML
-        sprint_path = self.sprints_dir / f"{sprint_id}.yaml"
+        # Load sprint YAML using FileSystemManager for hierarchical structure
+        sprint_path = self.fs.get_sprint_path(sprint_id)
         if not sprint_path.exists():
             print(f"❌ Sprint file not found: {sprint_path}")
             return False
@@ -85,30 +85,32 @@ class SummaryGenerator:
         """
         print(f"📝 Generating task summary: {task_id}")
 
-        # Find task file
-        task_file = self._find_task_file(task_id)
-        if not task_file:
+        # Find task in hierarchical structure
+        tasks_dir = self._find_task_file(task_id)
+        if not tasks_dir:
             print(f"❌ Task not found: {task_id}")
             return False
 
-        tasks_data = load_yaml(task_file)
-        if not tasks_data or 'tasks' not in tasks_data:
-            print(f"❌ Invalid task data in {task_file}")
+        # Load tasks using load_tasks which handles hierarchical structure
+        from vibey.roadmap.serialization import load_tasks
+        tasks = load_tasks(tasks_dir)
+        if not tasks:
+            print(f"❌ No tasks found in {tasks_dir}")
             return False
 
         # Find the specific task
         task = None
-        for t in tasks_data['tasks']:
-            if t['id'] == task_id:
+        for t in tasks:
+            if t.id == task_id:
                 task = t
                 break
 
         if not task:
-            print(f"❌ Task {task_id} not found in {task_file}")
+            print(f"❌ Task {task_id} not found in {tasks_dir}")
             return False
 
-        # Load sprint YAML to update task_summaries
-        sprint_path = self.sprints_dir / f"{sprint_id}.yaml"
+        # Load sprint YAML to update task_summaries using FileSystemManager
+        sprint_path = self.fs.get_sprint_path(sprint_id)
         if not sprint_path.exists():
             print(f"❌ Sprint file not found: {sprint_path}")
             return False
@@ -148,25 +150,38 @@ class SummaryGenerator:
         """
         print(f"🔄 Generating summaries for all completed sprints...")
 
-        if not self.sprints_dir.exists():
-            print(f"❌ No sprints directory found")
+        roadmap_root = self.vibey_dir / "roadmap"
+        if not roadmap_root.exists():
+            print(f"❌ No roadmap directory found")
             return 0
 
         completed_count = 0
-        for sprint_file in self.sprints_dir.glob("*.yaml"):
-            sprint_data = load_yaml(sprint_file)
-            if not sprint_data or 'sprint' not in sprint_data:
+        # Iterate through hierarchical structure: tracks/sprints
+        for track_dir in roadmap_root.iterdir():
+            if not track_dir.is_dir() or track_dir.name.startswith('.') or track_dir.name == 'context':
                 continue
 
-            sprint = sprint_data['sprint']
-            if sprint.get('status') == 'completed':
-                sprint_id = sprint['id']
-                print(f"\n📊 {sprint_id}: {sprint['name']}")
-                try:
-                    if self.summarize_sprint(sprint_id, force=False):
-                        completed_count += 1
-                except Exception as e:
-                    print(f"   ❌ Error: {e}")
+            for sprint_dir in track_dir.iterdir():
+                if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+                    continue
+
+                sprint_file = sprint_dir / 'sprint.yaml'
+                if not sprint_file.exists():
+                    continue
+
+                sprint_data = load_yaml(sprint_file)
+                if not sprint_data or 'sprint' not in sprint_data:
+                    continue
+
+                sprint = sprint_data['sprint']
+                if sprint.get('status') == 'completed':
+                    sprint_id = sprint['id']
+                    print(f"\n📊 {sprint_id}: {sprint['name']}")
+                    try:
+                        if self.summarize_sprint(sprint_id, force=False):
+                            completed_count += 1
+                    except Exception as e:
+                        print(f"   ❌ Error: {e}")
 
         print(f"\n✅ Generated summaries for {completed_count} completed sprints")
         return completed_count
@@ -415,17 +430,19 @@ Note: Full sprint documentation not available. This is a minimal summary generat
         return interfaces
 
     def _find_task_file(self, task_id: str) -> Optional[Path]:
-        """Find the file containing a task."""
+        """Find the sprint directory containing a task in hierarchical structure."""
 
-        if not self.tasks_dir.exists():
+        # Extract sprint ID from task ID (e.g., user-management-1-auth-task-001 -> user-management-1-auth)
+        parts = task_id.split('-task-')
+        if len(parts) != 2:
             return None
 
-        for task_file in self.tasks_dir.glob("*-tasks.yaml"):
-            tasks_data = load_yaml(task_file)
-            if tasks_data and 'tasks' in tasks_data:
-                for task in tasks_data['tasks']:
-                    if task['id'] == task_id:
-                        return task_file
+        sprint_id = parts[0]
+
+        # Use FileSystemManager to get tasks path (sprint directory in hierarchical structure)
+        tasks_path = self.fs.get_tasks_path(sprint_id)
+        if tasks_path.exists():
+            return tasks_path
 
         return None
 

@@ -110,18 +110,51 @@ def format_sprint_details(data: Dict[str, Any]) -> str:
         output.append(f"Description: {data['description']}")
         output.append("")
 
-    tasks = data.get('tasks', [])
-    if tasks:
-        output.append(f"📝 Tasks: {len(tasks)}")
+    # Handle tasks dict with categorized task types (new format)
+    tasks_data = data.get('tasks', {})
+
+    # Development tasks
+    dev_tasks = tasks_data.get('development', []) if isinstance(tasks_data, dict) else tasks_data
+    if dev_tasks:
+        output.append(f"📝 Development Tasks: {len(dev_tasks)}")
         output.append("")
-        for task in tasks:
+        for task in dev_tasks:
             status_icon = _get_status_icon(task.get('status'))
             output.append(f"  {status_icon} {task.get('id')} - {task.get('title', 'Unknown')}")
             output.append(f"     Status: {task.get('status', 'unknown')}")
             if task.get('assigned_to'):
                 output.append(f"     Assigned: {task['assigned_to']}")
             output.append("")
+
+    # Completion gates (always show section header for consistency)
+    completion_gates = tasks_data.get('completion_gates', []) if isinstance(tasks_data, dict) else []
+    output.append(f"🚧 Completion Gates: {len(completion_gates)}")
+    output.append("")
+    if completion_gates:
+        for task in completion_gates:
+            status_icon = _get_status_icon(task.get('status'))
+            output.append(f"  {status_icon} {task.get('id')} - {task.get('title', 'Unknown')}")
+            output.append(f"     Status: {task.get('status', 'unknown')}")
+            output.append("")
     else:
+        output.append("  (none)")
+        output.append("")
+
+    # Production gates (always show section header for consistency)
+    production_gates = tasks_data.get('production_gates', []) if isinstance(tasks_data, dict) else []
+    output.append(f"🔍 Production Gates: {len(production_gates)}")
+    output.append("")
+    if production_gates:
+        for task in production_gates:
+            status_icon = _get_status_icon(task.get('status'))
+            output.append(f"  {status_icon} {task.get('id')} - {task.get('title', 'Unknown')}")
+            output.append(f"     Status: {task.get('status', 'unknown')}")
+            output.append("")
+    else:
+        output.append("  (none)")
+        output.append("")
+
+    if not dev_tasks and not completion_gates and not production_gates:
         output.append("No tasks found.")
 
     return "\n".join(output)

@@ -325,6 +325,7 @@ class HierarchicalRoadmapBuilder:
         description: Optional[str] = None,
         assigned_to: Optional[str] = None,
         files_to_modify: Optional[List[str]] = None,
+        quality_requirements: Optional[List[str]] = None,
         dependencies: Optional[List[str]] = None,
     ) -> Path:
         """
@@ -405,6 +406,8 @@ class HierarchicalRoadmapBuilder:
                 # Optional fields with defaults
                 "deliverables": [],
                 "commits": [],
+                "files_to_modify": files_to_modify or [],
+                "quality_requirements": quality_requirements or [],
             }
         }
 
@@ -524,7 +527,8 @@ def create_sample_roadmap(root_dir: Path) -> Path:
         name="User registration API",
         sprint_id="user-management-1-auth",
         description="Build REST API endpoint for user registration",
-        files_to_modify=["src/api/auth.py", "tests/test_auth.py"]
+        files_to_modify=["src/api/auth.py", "tests/test_auth.py"],
+        quality_requirements=["Unit tests with >80% coverage", "Input validation", "Security audit"]
     )
     builder.add_task_to_sprint("user-management", "user-management-1-auth", "user-management-1-auth-task-001", "User registration API")
 

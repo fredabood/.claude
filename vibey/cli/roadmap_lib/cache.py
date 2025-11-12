@@ -732,7 +732,16 @@ class RoadmapCache:
             # Process dependencies (forward dependencies)
             deps = task.get('dependencies', [])
             for dep in deps:
-                target_id = dep.get('target_id')
+                # Handle both dict format (new) and string format (legacy)
+                if isinstance(dep, dict):
+                    # New format: {"type": "task", "target_id": "task-001", ...}
+                    target_id = dep.get('target_id')
+                elif isinstance(dep, str):
+                    # Legacy format: "task-001"
+                    target_id = dep
+                else:
+                    continue
+
                 if target_id:
                     # Add to dependency graph
                     if target_id not in self._dep_graph[task_id]:
@@ -767,7 +776,16 @@ class RoadmapCache:
             # Note: Sprints use 'development_gates' not 'dependencies'
             deps = sprint.get('development_gates', sprint.get('dependencies', []))
             for dep in deps:
-                target_id = dep.get('target_id')
+                # Handle both dict format (new) and string format (legacy)
+                if isinstance(dep, dict):
+                    # New format: {"type": "sprint", "target_id": "sprint-001", ...}
+                    target_id = dep.get('target_id')
+                elif isinstance(dep, str):
+                    # Legacy format: "sprint-001"
+                    target_id = dep
+                else:
+                    continue
+
                 if target_id:
                     if target_id not in self._dep_graph[sprint_id]:
                         self._dep_graph[sprint_id].append(target_id)
@@ -798,7 +816,16 @@ class RoadmapCache:
             # Process dependencies (forward dependencies)
             deps = track.get('dependencies', [])
             for dep in deps:
-                target_id = dep.get('target_id')
+                # Handle both dict format (new) and string format (legacy)
+                if isinstance(dep, dict):
+                    # New format: {"type": "track", "target_id": "track-001", ...}
+                    target_id = dep.get('target_id')
+                elif isinstance(dep, str):
+                    # Legacy format: "track-001"
+                    target_id = dep
+                else:
+                    continue
+
                 if target_id:
                     if target_id not in self._dep_graph[track_id]:
                         self._dep_graph[track_id].append(target_id)

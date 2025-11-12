@@ -39,7 +39,23 @@ class ContextLoader:
 
         print(f"**Task:** {task.get('title', task.get('name', 'Unknown'))}")
         print(f"**Sprint:** {task['sprint_id']}")
-        print(f"**Type:** {task.get('task_type', task.get('type', 'development'))}\n")
+        print(f"**Type:** {task.get('task_type', task.get('type', 'development'))}")
+
+        # Show files to modify if present
+        files_to_modify = task.get('files_to_modify', [])
+        if files_to_modify:
+            print(f"\n📝 Files to modify:")
+            for file in files_to_modify:
+                print(f"   - {file}")
+
+        # Show quality requirements if present
+        quality_reqs = task.get('quality_requirements', [])
+        if quality_reqs:
+            print(f"\n✅ Quality requirements:")
+            for req in quality_reqs:
+                print(f"   - {req}")
+
+        print()  # Blank line before dependency graph
 
         # Show dependency graph snapshot
         dep_graph = self.roadmap_cache.get_dependency_graph()
@@ -180,8 +196,16 @@ class ContextLoader:
             # Process dependencies
             if 'dependencies' in current_task:
                 for dep in current_task['dependencies']:
-                    if dep['type'] == 'task':
-                        dep_task = self._find_task(dep['target_id'])
+                    # Handle both dict format (new) and string format (legacy)
+                    if isinstance(dep, dict):
+                        # New format: {"type": "task", "target_id": "task-001", ...}
+                        if dep.get('type') == 'task':
+                            dep_task = self._find_task(dep['target_id'])
+                            if dep_task:
+                                queue.append((dep_task, distance + 1))
+                    elif isinstance(dep, str):
+                        # Legacy format: "task-001"
+                        dep_task = self._find_task(dep)
                         if dep_task:
                             queue.append((dep_task, distance + 1))
 
@@ -339,8 +363,15 @@ class ContextLoader:
 
         if 'dependencies' in dependent_task:
             for dep in dependent_task['dependencies']:
-                if dep.get('target_id') == dependency_id:
-                    return dep.get('reason', 'Dependency relationship')
+                # Handle both dict format (new) and string format (legacy)
+                if isinstance(dep, dict):
+                    # New format: {"type": "task", "target_id": "task-001", "reason": "..."}
+                    if dep.get('target_id') == dependency_id:
+                        return dep.get('reason', 'Dependency relationship')
+                elif isinstance(dep, str):
+                    # Legacy format: "task-001"
+                    if dep == dependency_id:
+                        return 'Dependency relationship'
 
         return 'Depends on this task'
 

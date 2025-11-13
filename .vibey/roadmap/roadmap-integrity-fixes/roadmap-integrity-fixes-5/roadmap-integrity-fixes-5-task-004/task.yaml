@@ -1,0 +1,85 @@
+task:
+  id: roadmap-integrity-fixes-5-task-004
+  sprint_id: roadmap-integrity-fixes-5
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Verify all tracks use hierarchical structure correctly
+  description: |
+    Audit all tracks to ensure they follow the hierarchical directory structure
+    pattern consistently.
+
+    Hierarchical Structure Standard:
+    ```
+    .vibey/roadmap/
+    └── {track-id}/
+        ├── track.yaml
+        ├── {sprint-id}/
+        │   ├── sprint.yaml
+        │   └── {task-id}/
+        │       └── task.yaml
+        ```
+
+    Verification Checks:
+    1. Track level:
+       - track.yaml exists
+       - All fields present and valid
+       - Sprint list matches directories
+
+    2. Sprint level:
+       - Sprint directories match track.yaml declarations
+       - sprint.yaml exists in each directory
+       - Task count matches actual task directories
+       - No embedded tasks in sprint.yaml (allowed but flag for review)
+
+    3. Task level:
+       - Task directories follow naming convention
+       - task.yaml exists in each directory
+       - Task IDs consistent with directory names
+       - All required fields present
+
+    4. Structural Issues to Check:
+       - No flat structure remnants
+       - No nested .vibey directories
+       - No orphaned files
+       - Consistent naming conventions
+       - Proper file permissions
+
+    5. Pattern Variations:
+       - Identify tracks using embedded tasks pattern
+       - Document which tracks use which pattern
+       - Recommend migration to hierarchical if needed
+
+    Deliverables:
+    - Structural audit report for all 19 tracks
+    - List of structural issues found
+    - Corrections applied
+    - Pattern usage documentation
+    - Recommendations for standardization
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Structural audit report
+  - Corrections applied
+  - Pattern usage documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

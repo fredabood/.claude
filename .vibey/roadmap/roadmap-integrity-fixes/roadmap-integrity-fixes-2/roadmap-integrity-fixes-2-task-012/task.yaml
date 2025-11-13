@@ -1,0 +1,163 @@
+task:
+  id: roadmap-integrity-fixes-2-task-012
+  sprint_id: roadmap-integrity-fixes-2
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Comprehensive forensic audit summary report
+  description: |
+    Produce final comprehensive forensic audit report synthesizing all findings
+    from tasks 001-011.
+
+    This is the final deliverable for Sprint 0.
+
+    Report Structure:
+
+    1. Executive Summary
+       - Overall findings summary
+       - Key statistics (tracks audited, issues found, commits mapped)
+       - Critical findings highlights
+       - Recommended actions summary
+
+    2. Methodology
+       - 8-step forensic audit process
+       - Standards compliance review process
+       - Tools and data sources used
+       - Quality assurance measures
+       - Limitations and caveats
+
+    3. Individual Track Findings
+       - Summary of each of 10 track audits
+       - Reference to detailed track audit reports
+       - Status recommendations per track
+       - Commit backfilling results per track
+
+    4. Cross-Track Analysis
+       - Patterns and systemic issues
+       - Migration analysis results
+       - Root cause determination
+       - Timeline of data corruption
+
+    5. Standards & Modernization Audit
+       - Legacy structures identified
+       - Outdated references catalog
+       - Deprecated systems still referenced
+       - Modernization priority matrix
+       - Update effort estimates
+
+    6. Backup Archive Analysis
+       - Migration accuracy assessment
+       - Data loss quantification
+       - Backup restoration recommendations
+
+    7. Git Tracking System Integration
+       - Commit backfilling statistics
+       - Coverage metrics (% tasks with commits)
+       - Unmapped commits analysis
+       - Git tracking system health
+
+    8. Evidence Summary
+       - Git history evidence by track
+       - Codebase evidence by track
+       - Documentation evidence by track
+       - Test evidence by track
+
+    9. Accurate Status Determinations
+       - Recommended status for each track
+       - Recommended progress percentages
+       - Evidence-based justifications
+       - Confidence levels per determination
+
+    10. Impact Assessment
+        - Roadmap trustworthiness score
+        - Percentage of roadmap affected
+        - Blocking dependencies impact
+        - Timeline impact
+        - Content currency assessment
+
+    11. Recommendations
+        - Immediate fixes required (Sprint 1)
+        - Structural repairs needed (Sprint 3)
+        - Validation system requirements (Sprint 4)
+        - Modernization updates needed
+        - Prevention measures
+        - Long-term improvements
+
+    12. Appendices
+        - Detailed statistics
+        - Commit-to-task mapping tables
+        - Migration verification results
+        - Quality gate recommendations
+        - Legacy structures inventory
+
+    Acceptance Criteria:
+    - All sections completed with comprehensive detail
+    - All 10 track audit reports referenced and summarized
+    - Cross-track analysis integrated
+    - Evidence summary complete
+    - Accurate status recommendations for all tracks
+    - Impact assessment quantified
+    - Recommendations actionable and prioritized
+    - Report length 2000+ lines
+    - Report formatted as markdown
+    - Report ready for stakeholder review
+
+    Deliverables:
+    - Comprehensive forensic audit report (markdown, 2000+ lines)
+    - Executive summary (suitable for non-technical stakeholders)
+    - Detailed findings by track
+    - Cross-track analysis integration
+    - Evidence summary tables
+    - Accurate status recommendation matrix
+    - Prioritized action plan for Sprints 1-4
+    - Quality gate recommendations
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:20:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 15000
+  actual_tokens: null
+  complexity: very_high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-1
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-2-task-011
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-2-task-013
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables:
+  - Comprehensive forensic audit report
+  - Executive summary
+  - Track-by-track findings
+  - Evidence summary
+  - Status recommendation matrix
+  - Action plan for fixes
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:20:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      Final deliverable for Sprint 0.
+
+      This report will be the authoritative source of truth for:
+      - What work was actually completed vs YAML claims
+      - Migration accuracy and data loss
+      - Git tracking system population results
+      - Evidence-based status recommendations
+      - Fix priorities for Sprints 1-4
+
+      All subsequent sprints depend on this report's findings.

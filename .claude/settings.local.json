@@ -59,7 +59,14 @@
       "Bash(do mkdir -p .vibey/roadmap/platform-context-management/platform-context-management-$i)",
       "Bash(cat:*)",
       "Bash(test:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(if [ -f \".vibey/roadmap/$track/track.yaml\" ])",
+      "Bash(else)",
+      "Bash(do:*)",
+      "Bash(/dev/null done)",
+      "Bash(__NEW_LINE__ echo)",
+      "Bash(vibey roadmap init:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

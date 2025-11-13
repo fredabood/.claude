@@ -1,0 +1,196 @@
+task:
+  id: roadmap-integrity-fixes-2-task-013
+  sprint_id: roadmap-integrity-fixes-2
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Comprehensive standards and modernization audit
+  description: |
+    Review all tracks, sprints, and tasks to ensure they're up to date with
+    current standards, systems, and requirements. Identify legacy structures
+    and outdated references from old systems.
+
+    This audit runs in parallel with forensic audit (tasks 001-010) and feeds
+    into the comprehensive summary report (task 012).
+
+    Audit Categories:
+
+    1. Architecture & Pattern Compliance:
+       - Verify all tracks use current hierarchical structure
+       - Identify any flat structure remnants
+       - Check for deprecated patterns (embedded tasks, tasks_summary)
+       - Verify compliance with current data models
+       - Flag any old migration artifacts
+
+    2. System References Audit:
+       - Identify references to deleted/deprecated systems
+       - Check for old slash command references (deleted in Sprint 1)
+       - Verify CLI command references use current syntax
+       - Check for obsolete MCP references
+       - Flag references to old config structure (pre-modular config)
+
+    3. Standards Compliance:
+       - Check if tracks follow current naming conventions
+       - Verify task descriptions match current templates
+       - Check deliverable format compliance
+       - Verify metadata fields are current
+       - Check quality gate structure is up to date
+
+    4. Documentation References:
+       - Verify all doc references point to existing files
+       - Check for references to moved/renamed documentation
+       - Identify outdated documentation links
+       - Verify README references are current
+       - Check for broken internal links
+
+    5. Technology Stack Audit:
+       - Verify Python version references (3.10+ required)
+       - Check for deprecated library references
+       - Verify test framework references current (pytest)
+       - Check for old datetime.utcnow() usage (deprecated)
+       - Identify any Python 2 legacy code references
+
+    6. Terminology Audit:
+       - Check for old framework terminology
+       - Verify agent names match current roster
+       - Check workflow references are current
+       - Verify template references match current templates
+       - Flag any obsolete framework concepts
+
+    7. Feature References:
+       - Identify tasks referencing deleted features
+       - Check for references to deprecated functionality
+       - Verify claimed deliverables are still relevant
+       - Flag work that may be obsolete
+       - Identify features superseded by new implementations
+
+    8. Integration Points:
+       - Check for old integration patterns
+       - Verify API references are current
+       - Check for deprecated hooks/callbacks
+       - Verify tool integration references current
+       - Flag old platform-specific code
+
+    9. Quality Standards Review:
+       - Verify test coverage requirements current
+       - Check documentation requirements current
+       - Review security standards compliance
+       - Check performance benchmarks relevant
+       - Verify deployment standards current
+
+    10. Priority & Relevance Assessment:
+        - Flag tracks that may no longer be relevant
+        - Identify work that's been superseded
+        - Check if priorities align with current strategy
+        - Verify estimated durations realistic
+        - Flag tasks that should be reconsidered
+
+    For Each Track/Sprint/Task:
+
+    1. Content Review:
+       - Read full description
+       - Identify all system references
+       - Check all technology mentions
+       - Review all deliverables
+       - Analyze acceptance criteria
+
+    2. Standards Check:
+       - Compare against current standards
+       - Flag deviations
+       - Note outdated patterns
+       - Document legacy structures
+
+    3. Modernization Recommendations:
+       - What needs updating?
+       - What should be deleted?
+       - What needs rewriting?
+       - Priority for updates?
+
+    4. Documentation:
+       - List all legacy references found
+       - Document current standard for each
+       - Provide migration recommendations
+       - Estimate effort to modernize
+
+    Legacy Systems to Check For:
+
+    - Old slash command system (deleted Nov 2025)
+    - Standalone Python scripts (replaced by CLI)
+    - Flat roadmap structure (pre-Nov 10 migration)
+    - Embedded tasks pattern (simplified pattern)
+    - tasks_summary text lists (invalid pattern)
+    - Old config format (pre-modular config)
+    - Deprecated datetime.utcnow() usage
+    - Old agent names or structures
+    - Deprecated workflow patterns
+    - Old template formats
+    - Legacy quality gate patterns
+    - Old MCP server implementations
+
+    Acceptance Criteria:
+    - All 19 tracks reviewed for standards compliance
+    - All sprints reviewed for current patterns
+    - All tasks reviewed for outdated references
+    - Legacy structures cataloged
+    - Modernization recommendations documented
+    - Priority levels assigned to updates
+    - Integration with forensic audit complete
+
+    Deliverables:
+    - Standards compliance audit report (markdown, 1000+ lines)
+    - Legacy structures inventory
+    - Outdated references catalog
+    - Modernization priority matrix
+    - Update effort estimates
+    - Migration recommendations per track
+    - Integration with comprehensive summary (task 012)
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:45:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 12000
+  actual_tokens: null
+  complexity: very_high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-2-task-012
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-2-task-011
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by:
+  - roadmap-integrity-fixes-2-task-012
+  deliverables:
+  - Standards compliance audit report
+  - Legacy structures inventory
+  - Outdated references catalog
+  - Modernization recommendations
+  - Update effort estimates
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:45:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      This task ensures roadmap content is not only accurate (forensic audit)
+      but also current with latest standards and systems.
+
+      Examples of issues to catch:
+      - Tasks referencing deleted slash commands
+      - References to old flat structure
+      - Outdated Python version requirements
+      - Links to moved/renamed documentation
+      - Deprecated API usage patterns
+      - Old framework terminology
+      - Superseded features/implementations
+
+      This feeds into task 012 (comprehensive summary) to provide complete
+      picture of roadmap health: data integrity + content currency.

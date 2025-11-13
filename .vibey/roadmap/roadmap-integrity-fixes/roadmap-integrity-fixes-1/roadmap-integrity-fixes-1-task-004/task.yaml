@@ -1,0 +1,299 @@
+task:
+  id: roadmap-integrity-fixes-1-task-004
+  sprint_id: roadmap-integrity-fixes-1
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Optimize validation performance
+  description: |
+    Optimize roadmap validation to run in <10 seconds for full roadmap scan,
+    enabling fast feedback during integrity fixes.
+
+    QA Gap Addressed:
+    "No validation performance optimization. Validating 19 tracks × 100+ files
+    could take minutes. Need <10s validation for fast feedback loop."
+
+    Current Performance Issues:
+
+    1. Slow YAML Parsing:
+       - Loading 100+ YAML files sequentially
+       - Parsing same files multiple times
+       - No caching of parsed data
+
+    2. Inefficient Validation:
+       - Running full schema validation on every check
+       - Recalculating progress counters repeatedly
+       - No incremental validation
+
+    3. Expensive Operations:
+       - Deep object traversal on every validation
+       - Regex matching on every field
+       - File I/O not optimized
+
+    Optimization Strategies:
+
+    1. Parallel YAML Loading:
+
+       ```python
+       from concurrent.futures import ThreadPoolExecutor
+
+       def load_yaml_files_parallel(file_paths, max_workers=8):
+           """Load multiple YAML files in parallel"""
+           with ThreadPoolExecutor(max_workers=max_workers) as executor:
+               results = executor.map(load_yaml_file, file_paths)
+           return list(results)
+       ```
+
+       Benefits:
+       - 8x speedup with 8 cores
+       - Load 100 files in ~2 seconds instead of 16 seconds
+
+    2. Smart Caching:
+
+       ```python
+       from functools import lru_cache
+       import hashlib
+
+       @lru_cache(maxsize=1000)
+       def load_and_validate_cached(file_path, file_hash):
+           """Cache parsed YAML by file content hash"""
+           # Only re-parse if file content changed
+           return load_and_validate(file_path)
+
+       def get_file_hash(file_path):
+           """Fast file content hashing"""
+           with open(file_path, 'rb') as f:
+               return hashlib.md5(f.read()).hexdigest()
+       ```
+
+       Benefits:
+       - Unchanged files validated instantly (cache hit)
+       - Only changed files re-parsed
+
+    3. Incremental Validation:
+
+       ```python
+       def validate_incrementally(changed_files_only=True):
+           """Validate only changed files since last run"""
+           if changed_files_only:
+               # Use git status to find changed files
+               # Only validate those files
+               # Use cached results for unchanged files
+           else:
+               # Full validation
+       ```
+
+       Benefits:
+       - Typical validation: 1-2 seconds (only changed files)
+       - Full validation: 8-10 seconds (all files)
+
+    4. Lazy Loading:
+
+       ```python
+       class LazyRoadmap:
+           """Load roadmap data on-demand, not all upfront"""
+
+           def __init__(self, roadmap_path):
+               self.roadmap_path = roadmap_path
+               self._tracks = None  # Load when accessed
+
+           @property
+           def tracks(self):
+               if self._tracks is None:
+                   self._tracks = self._load_tracks()
+               return self._tracks
+       ```
+
+       Benefits:
+       - Only load data actually needed for validation
+       - Skip expensive operations for unrelated tracks
+
+    5. Optimized Schema Validation:
+
+       ```python
+       import jsonschema
+
+       # Compile schema once, reuse for all validations
+       COMPILED_TASK_SCHEMA = jsonschema.Draft7Validator(TASK_SCHEMA)
+
+       def validate_fast(data):
+           """Use pre-compiled schema validator"""
+           return COMPILED_TASK_SCHEMA.validate(data)
+       ```
+
+       Benefits:
+       - 3-5x faster than recompiling schema each time
+
+    6. Progress Counter Caching:
+
+       ```python
+       def calculate_progress_cached(sprint_id):
+           """Cache expensive progress calculations"""
+           cache_key = f"{sprint_id}:{get_sprint_hash(sprint_id)}"
+           if cache_key in progress_cache:
+               return progress_cache[cache_key]
+
+           progress = calculate_progress_expensive(sprint_id)
+           progress_cache[cache_key] = progress
+           return progress
+       ```
+
+       Benefits:
+       - Recalculate only when sprint data changes
+
+    7. Batch File I/O:
+
+       ```python
+       def load_directory_efficient(directory):
+           """Read all files in directory with minimal I/O"""
+           # Use os.scandir() instead of os.listdir()
+           # Stat files in batch
+           # Read file contents in optimal order
+       ```
+
+       Benefits:
+       - Reduce filesystem syscalls
+       - Improve disk I/O patterns
+
+    8. Validation Profiles:
+
+       ```python
+       VALIDATION_PROFILES = {
+           'quick': {
+               'yaml_syntax': True,
+               'schema_validation': False,
+               'reference_check': False,
+               'progress_counters': False
+           },
+           'standard': {
+               'yaml_syntax': True,
+               'schema_validation': True,
+               'reference_check': True,
+               'progress_counters': True
+           },
+           'thorough': {
+               'yaml_syntax': True,
+               'schema_validation': True,
+               'reference_check': True,
+               'progress_counters': True,
+               'git_integration': True,
+               'backup_verification': True
+           }
+       }
+       ```
+
+       Benefits:
+       - Quick validation (1-2 seconds) for rapid iteration
+       - Standard validation (5-8 seconds) for most checks
+       - Thorough validation (15-20 seconds) for pre-commit
+
+    Performance Targets:
+
+    Quick Validation (<3 seconds):
+    - YAML syntax check on all files
+    - Basic structure validation
+    - No expensive operations
+
+    Standard Validation (<10 seconds):
+    - Full schema validation
+    - Reference checking (IDs exist)
+    - Progress counter validation
+    - Parallel loading
+
+    Thorough Validation (<20 seconds):
+    - Everything in standard
+    - Git integration checks
+    - Backup verification
+    - Cross-reference validation
+
+    Implementation Plan:
+
+    Phase 1: Parallel Loading (Day 1)
+    - Implement parallel YAML loading
+    - Test with 100+ files
+    - Target: 8x speedup
+
+    Phase 2: Caching (Day 1-2)
+    - Add file content hashing
+    - Implement LRU cache
+    - Test cache hit rates
+
+    Phase 3: Incremental Validation (Day 2)
+    - Git integration for changed files
+    - Incremental validation mode
+    - Test with typical workflows
+
+    Phase 4: Optimization (Day 2-3)
+    - Lazy loading
+    - Compiled schemas
+    - Progress counter caching
+    - Batch I/O
+
+    Phase 5: Profiles (Day 3)
+    - Define validation profiles
+    - CLI integration
+    - Performance testing
+
+    Testing Requirements:
+
+    Performance Tests:
+    1. Quick validation on 100 files → <3 seconds
+    2. Standard validation on 100 files → <10 seconds
+    3. Thorough validation on 100 files → <20 seconds
+    4. Incremental validation (10 changed files) → <2 seconds
+    5. Cache hit rate >80% for unchanged files
+    6. Parallel loading 8x faster than sequential
+
+    Accuracy Tests:
+    - Optimized validation finds same issues as slow validation
+    - No false positives from caching
+    - Incremental validation catches all errors
+
+    Acceptance Criteria:
+    - Parallel loading implemented and tested
+    - Caching system working with >80% hit rate
+    - Incremental validation functional
+    - All optimizations applied
+    - Validation profiles defined
+    - All performance targets met
+    - Accuracy maintained (no false positives/negatives)
+    - CLI integration complete
+
+    Deliverables:
+    - Optimized validation engine (Python)
+    - Caching system implementation
+    - Incremental validation support
+    - Validation profiles
+    - Performance benchmarking results
+    - CLI integration
+    - Documentation with usage examples
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:50:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 4500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - roadmap-integrity-fixes-2-task-001
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - roadmap-integrity-fixes-2-task-001
+  deliverables:
+    - Optimized validation engine
+    - Caching system
+    - Incremental validation
+    - Performance benchmarks
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:50:00+00:00'
+    token_efficiency: null
+    duration_hours: null

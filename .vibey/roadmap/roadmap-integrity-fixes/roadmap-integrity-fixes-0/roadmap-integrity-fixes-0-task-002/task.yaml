@@ -1,0 +1,89 @@
+task:
+  id: roadmap-integrity-fixes-0-task-002
+  sprint_id: roadmap-integrity-fixes-0
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create checkpoint backup of current state
+  description: |
+    Create comprehensive checkpoint backup of entire .vibey/ directory and related
+    files BEFORE starting any forensic audit or modification work. This ensures we
+    can rollback to current state if audit reveals unexpected issues.
+
+    Files/Directories to Backup:
+    1. .vibey/ directory (complete)
+       - All roadmap data
+       - All configuration files
+       - All existing backups (nested backup for safety)
+
+    2. Related framework files
+       - CLAUDE.md
+       - vibey/roadmap/ Python code
+       - vibey/cli/ Python code
+       - Any roadmap-related tests
+
+    3. Git state
+       - Current git log (last 50 commits)
+       - Current git status output
+       - Current git diff output
+
+    Backup Location:
+    .vibey/roadmap-integrity-fixes-checkpoints/pre-audit-checkpoint-20251112/
+
+    Backup Steps:
+    1. Create checkpoint directory with timestamp
+    2. Copy entire .vibey/ directory recursively
+    3. Copy framework Python files
+    4. Export git state to text files
+    5. Create manifest listing all backed up files
+    6. Calculate checksums for verification
+    7. Test restoration to /tmp to verify backup works
+    8. Document backup location and restoration procedure
+
+    Acceptance Criteria:
+    - Checkpoint backup created with timestamped directory name
+    - All .vibey/ contents backed up recursively
+    - Framework Python files backed up
+    - Git state exported to text files
+    - Backup manifest created with file list and checksums
+    - Test restoration successful
+    - Restoration procedure documented
+
+    Deliverables:
+    - Checkpoint backup archive at .vibey/roadmap-integrity-fixes-checkpoints/
+    - Backup manifest with checksums
+    - Restoration procedure guide
+    - Test restoration verification
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:45:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - roadmap-integrity-fixes-1-task-001
+    - roadmap-integrity-fixes-2-task-001
+  blocked_by:
+    - roadmap-integrity-fixes-0-task-001
+  depends_on:
+    - roadmap-integrity-fixes-0-task-001
+  depended_on_by:
+    - roadmap-integrity-fixes-1-task-001
+    - roadmap-integrity-fixes-2-task-001
+  deliverables:
+    - Checkpoint backup archive
+    - Backup manifest with checksums
+    - Restoration procedure guide
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:45:00+00:00'
+    token_efficiency: null
+    duration_hours: null

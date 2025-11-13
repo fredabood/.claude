@@ -1,0 +1,120 @@
+task:
+  id: roadmap-integrity-fixes-6-task-008
+  sprint_id: roadmap-integrity-fixes-6
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Document validation standards and best practices
+  description: |
+    Create comprehensive documentation for roadmap validation system and
+    prevention best practices.
+
+    Documentation Structure:
+
+    1. Validation System Overview:
+       - Purpose and benefits
+       - Architecture diagram
+       - Validation categories
+       - Integration points
+
+    2. Validation Rules Reference:
+       - Status/progress consistency rules
+       - Referential integrity rules
+       - Task data model rules
+       - Dependency rules
+       - Blocked status rules
+
+    3. CLI Command Reference:
+       - vibey roadmap validate usage
+       - vibey roadmap audit commands
+       - vibey roadmap install-hooks
+       - Examples and use cases
+
+    4. Pre-commit Hook Guide:
+       - Installation instructions
+       - Configuration options
+       - Bypassing validation (emergencies)
+       - Troubleshooting
+
+    5. CI/CD Integration Guide:
+       - GitHub Actions setup
+       - Branch protection rules
+       - PR workflow integration
+       - Customization options
+
+    6. Best Practices Guide:
+       - Use CLI commands instead of manual YAML edits
+       - Always provide reason for status changes
+       - Run validation before commits
+       - Review audit trail regularly
+       - Keep roadmap data quality high
+
+    7. Troubleshooting Guide:
+       - Common validation errors
+       - How to fix each error type
+       - When to use --no-verify
+       - Getting help
+
+    8. Prevention Checklist:
+       - Pre-work: Validate before starting
+       - During work: Use CLI commands only
+       - Post-work: Validate before commit
+       - Code review: Check validation passed
+       - Maintenance: Review audit trail weekly
+
+    Files to Create:
+    - docs/roadmap/VALIDATION_SYSTEM.md
+    - docs/roadmap/VALIDATION_RULES.md
+    - docs/roadmap/BEST_PRACTICES.md
+    - docs/roadmap/TROUBLESHOOTING.md
+
+    Deliverables:
+    - Complete validation system documentation
+    - Best practices guide
+    - Troubleshooting guide
+    - Integration guides
+    - Examples and use cases
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-6-task-001
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-6-task-005
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-6-task-006
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-6-task-007
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables:
+  - Validation system documentation
+  - Best practices guide
+  - Troubleshooting guide
+  - Integration guides
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,94 @@
+task:
+  id: roadmap-integrity-fixes-6-task-001
+  sprint_id: roadmap-integrity-fixes-6
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement vibey roadmap validate command
+  description: |
+    Create comprehensive validation command to check roadmap data integrity.
+
+    Implementation:
+    1. Create vibey/cli/commands/roadmap_validate.py
+    2. Implement validation checks (see task 002-004 for specific checks)
+    3. Add Click command interface
+    4. Support verbose and JSON output modes
+    5. Return exit code 0 (success) or 1 (failures found)
+
+    Command Interface:
+    ```bash
+    vibey roadmap validate [OPTIONS]
+
+    Options:
+      --track TEXT          Validate specific track only
+      --verbose            Show detailed validation output
+      --json               Output results as JSON
+      --fix                Attempt to fix issues automatically (future)
+    ```
+
+    Validation Categories:
+    - Status/progress consistency (task 002)
+    - Referential integrity (task 003)
+    - Task data model validation (task 004)
+    - Dependency cache accuracy
+    - Blocked status correctness
+
+    Output Format:
+    - Summary: tracks checked, issues found, severity
+    - Detailed: per-track validation results
+    - Recommendations: how to fix issues
+    - Exit code: 0 (pass) or 1 (fail)
+
+    Integration:
+    - Call from pre-commit hook (task 005)
+    - Call from CI/CD pipeline (task 006)
+    - Use in interactive CLI workflows
+
+    Deliverables:
+    - vibey roadmap validate command implemented
+    - All validation checks integrated
+    - Documentation for command usage
+    - Unit tests for validation logic
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 8000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-6-task-005
+  - roadmap-integrity-fixes-6-task-006
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-6-task-002
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-6-task-003
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-6-task-004
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by:
+  - roadmap-integrity-fixes-6-task-005
+  - roadmap-integrity-fixes-6-task-006
+  deliverables:
+  - vibey roadmap validate command
+  - Documentation
+  - Unit tests
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,79 @@
+task:
+  id: roadmap-integrity-fixes-6-task-003
+  sprint_id: roadmap-integrity-fixes-6
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add referential integrity checks
+  description: |
+    Implement validation logic to detect referential integrity violations.
+
+    Validation Rules:
+
+    1. Sprint References:
+       - All sprints declared in track.yaml MUST exist on disk
+       - All sprint directories MUST be declared in track.yaml
+       - Sprint IDs in sprint.yaml MUST match directory names
+
+    2. Task References:
+       - All tasks referenced in sprint.yaml MUST exist on disk
+       - All task directories MUST be referenced (or embedded pattern)
+       - Task IDs in task.yaml MUST match directory names
+
+    3. Dependency References:
+       - All depends_on references MUST point to existing tracks/sprints/tasks
+       - All blocks references MUST point to existing tracks/sprints/tasks
+       - All blocked_by references MUST have reciprocal blocks entry
+       - Dependency cycles MUST be detected and flagged
+
+    4. Track References:
+       - All tracks in roadmap.yaml MUST have directories
+       - All track directories MUST be in roadmap.yaml
+       - Track IDs MUST be consistent
+
+    5. ID Consistency:
+       - Track ID in track.yaml matches directory name
+       - Sprint ID in sprint.yaml matches directory name
+       - Task ID in task.yaml matches directory name
+       - IDs follow naming convention: {parent-id}-{number}
+
+    Implementation:
+    - Create referential integrity validation functions
+    - Check all reference types (tracks, sprints, tasks)
+    - Detect orphaned objects
+    - Detect missing objects
+    - Comprehensive test coverage
+
+    Deliverables:
+    - Referential integrity validation logic
+    - Test suite
+    - Documentation of validation rules
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-6-task-001
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - roadmap-integrity-fixes-6-task-001
+  deliverables:
+  - Referential integrity validation logic
+  - Test suite
+  - Validation rules documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

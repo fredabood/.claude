@@ -1,0 +1,92 @@
+sprint:
+  id: roadmap-integrity-fixes-2
+  name: Comprehensive Forensic Audit
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-12T19:45:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 7 days
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+    - roadmap-integrity-fixes-0
+    - roadmap-integrity-fixes-1
+  deliverables:
+  - Git history analysis for all 10 flagged tracks
+  - Commit-to-task mappings for all identified commits
+  - Task.yaml files updated with backfilled commits (git tracking integration)
+  - Codebase audit report (actual implemented features)
+  - Documentation audit report (what docs exist)
+  - Test suite audit report (what tests exist)
+  - Cross-reference report (YAML claims vs actual evidence)
+  - Standards compliance audit report (legacy systems review)
+  - Legacy structures inventory and modernization recommendations
+  - Accurate status determination for each track
+  - Evidence-based completion percentages
+  - Forensic audit summary document
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T21:30:00+00:00'
+    estimated_duration: 7 days
+    notes: |
+      CRITICAL FIRST STEP - Must Run Before Any Fixes
+
+      The initial audit found 34 data integrity issues by examining YAML files.
+      However, it did NOT verify whether claimed work was actually completed.
+
+      This sprint performs comprehensive forensic analysis to determine what
+      work was actually done vs what YAML claims.
+
+      INVESTIGATION TARGETS (10 tracks):
+      1. standards-system (51 tasks claimed)
+      2. testing-system (30 tasks claimed)
+      3. documentation-system (5/19 tasks)
+      4. missing-agents (0 tasks, status completed)
+      5. claude-port (0 tasks, status completed)
+      6. roadmap-system (0 tasks, status completed)
+      7. interface-unification (load error)
+      8. platform-context-management (load error)
+      9. infrastructure-fixes (13 tasks claimed)
+      10. directory-migration (multiple sprints)
+
+      METHODOLOGY: Git history + codebase + docs + tests + backup archives + cross-reference + commit backfilling
+
+      BACKUP ARCHIVES TO AUDIT:
+      - .vibey/migration-backups/backup_20251109_163859/
+      - .vibey/hierarchical-migration-backups/backup_20251109_171311/
+      - .vibey/hierarchical-migration-backups/backup_20251109_171342/
+      - .vibey/backups/ (claude-code backups)
+
+      These backups contain the OLD FLAT STRUCTURE:
+      - tracks/*.yaml (11 track files)
+      - sprints/*.yaml (8 sprint files)
+      - tasks/*-tasks.yaml (8 task list files)
+
+      CRITICAL: Work may have been completed in old format but not properly
+      migrated to new hierarchical structure. Must verify migration accuracy.
+
+      GIT TRACKING SYSTEM INTEGRATION:
+      During the forensic audit, all commits identified as implementing tasks will
+      be backfilled into the task.yaml files' commits: [] field. This creates
+      permanent traceability between tasks and actual implementation, populating
+      the git tracking system with historical evidence.
+
+      Steps for each commit found:
+      1. Identify which task(s) the commit implements
+      2. Add commit SHA to task.yaml commits: [] field
+      3. Update task metadata with backfill timestamp
+      4. Document commit-to-task mappings in audit report
+
+      TASK BREAKDOWN:
+      - Tasks 001-010: Forensic audit per track (includes backup review + commit backfilling)
+      - Task 011: Cross-track analysis
+      - Task 012: Comprehensive forensic report
+      - Task 013: Standards & modernization audit (legacy systems review)

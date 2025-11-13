@@ -1,0 +1,176 @@
+task:
+  id: roadmap-integrity-fixes-0-task-005
+  sprint_id: roadmap-integrity-fixes-0
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Document rollback procedures
+  description: |
+    Create comprehensive rollback procedures for reverting changes if forensic
+    audit or corrections cause unexpected issues. Ensures we can always return
+    to known-good state.
+
+    QA Gap Addressed:
+    "No rollback strategy documented. If audit breaks something or stakeholder
+    rejects findings, how do we revert? Need documented rollback procedure."
+
+    Rollback Scenarios to Address:
+
+    1. Rollback After Forensic Audit
+       - Audit findings incorrect or incomplete
+       - Need to return to pre-audit state
+       - Restore from checkpoint backup
+
+    2. Rollback After Status Corrections
+       - Status changes applied incorrectly
+       - Need to undo bulk status updates
+       - Restore previous sprint/task states
+
+    3. Rollback After Commit Backfilling
+       - Commits mapped to wrong tasks
+       - Need to remove incorrect commit references
+       - Restore task.yaml files to pre-backfill state
+
+    4. Rollback After Structural Repairs
+       - Directory structure changes caused issues
+       - Need to restore previous hierarchy
+       - Complex multi-file restoration
+
+    5. Emergency Full Rollback
+       - Critical issue discovered
+       - Need to restore entire .vibey/ directory
+       - Use most recent checkpoint or backup archive
+
+    Rollback Procedures to Document:
+
+    Procedure 1: Checkpoint Restoration
+    ```bash
+    # Stop all active work
+    # Identify checkpoint to restore from
+    # Backup current state (even if broken)
+    # Restore .vibey/ from checkpoint
+    # Verify restoration successful
+    # Test roadmap commands work
+    # Document what was rolled back and why
+    ```
+
+    Procedure 2: Selective File Rollback
+    ```bash
+    # Identify specific files to rollback
+    # Extract files from checkpoint backup
+    # Restore individual files
+    # Verify YAML syntax valid
+    # Test affected sprints/tasks load correctly
+    # Document specific changes reverted
+    ```
+
+    Procedure 3: Git-Based Rollback
+    ```bash
+    # Find git commit before changes
+    # Create rollback branch
+    # Checkout .vibey/ directory from previous commit
+    # Verify restoration
+    # Test roadmap integrity
+    # Document git commit used for rollback
+    ```
+
+    Procedure 4: Backup Archive Restoration
+    ```bash
+    # Choose backup archive (chronological)
+    # Extract backup to temporary location
+    # Compare current vs backup state
+    # Selective or full restoration decision
+    # Execute restoration
+    # Verify roadmap commands functional
+    # Document what was restored from archive
+    ```
+
+    Rollback Safety Checks:
+
+    Pre-Rollback:
+    - [ ] Current state backed up (even if broken)
+    - [ ] Rollback target identified (checkpoint/backup/git commit)
+    - [ ] Rollback scope determined (full/selective)
+    - [ ] Stakeholder notified of rollback plan
+
+    During Rollback:
+    - [ ] Files restored to correct locations
+    - [ ] YAML syntax validated
+    - [ ] Directory structure intact
+    - [ ] No files accidentally deleted
+
+    Post-Rollback:
+    - [ ] Roadmap commands functional (`vibey roadmap status`)
+    - [ ] Track/sprint/task data loads without errors
+    - [ ] Git status clean or expected
+    - [ ] Rollback documented in audit trail
+
+    Rollback Documentation Requirements:
+
+    For Each Rollback Event:
+    - Timestamp and operator
+    - Reason for rollback
+    - Rollback scope (full/selective/files affected)
+    - Source used (checkpoint/backup/git commit)
+    - Verification results
+    - Lessons learned
+    - Prevention recommendations
+
+    Rollback Testing:
+
+    Test Scenarios:
+    1. Test checkpoint restoration to /tmp (non-destructive)
+    2. Test selective file restoration
+    3. Test git-based rollback simulation
+    4. Test backup archive restoration
+    5. Measure rollback time for each procedure
+
+    Deliverables:
+    - Rollback procedures guide (markdown, 800+ lines)
+    - Rollback decision tree (when to use which procedure)
+    - Rollback safety checklist
+    - Rollback documentation template
+    - Tested rollback procedures (verification results)
+
+    Acceptance Criteria:
+    - All 4 rollback procedures documented step-by-step
+    - Safety checks defined for each procedure
+    - Rollback decision tree created
+    - Test restoration performed for each procedure
+    - Documentation template created
+    - Procedures validated with test rollbacks
+
+    Deliverables:
+    - Rollback procedures guide
+    - Rollback decision tree
+    - Rollback safety checklist
+    - Test rollback verification results
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:45:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 4500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - roadmap-integrity-fixes-1-task-001
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - roadmap-integrity-fixes-1-task-001
+  deliverables:
+    - Rollback procedures guide
+    - Rollback decision tree
+    - Rollback safety checklist
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:45:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,239 @@
+task:
+  id: roadmap-integrity-fixes-1-task-003
+  sprint_id: roadmap-integrity-fixes-1
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create YAML editing safeguards
+  description: |
+    Implement safe YAML editing library with automatic validation, backups,
+    and rollback to prevent data corruption during bulk status corrections.
+
+    QA Gap Addressed:
+    "No YAML editing safeguards. Bulk status updates on 100+ task files could
+    corrupt data. Need safe editing with validation and automatic rollback."
+
+    Safeguard Requirements:
+
+    1. Safe YAML Editor Class:
+
+       Python Module: safe_yaml_editor.py
+       ```python
+       class SafeYAMLEditor:
+           """Safe YAML editing with automatic validation and backups"""
+
+           def __init__(self, auto_backup=True, validate=True):
+               self.auto_backup = auto_backup
+               self.validate = validate
+               self.changes_log = []
+
+           def edit_file(self, file_path, modifications):
+               """Safely edit single YAML file with validation"""
+               # Create backup before edit
+               # Load and parse YAML
+               # Validate current structure
+               # Apply modifications
+               # Validate modified structure
+               # Write to file if valid
+               # Log change
+               # Return success/failure
+
+           def bulk_edit(self, file_pattern, modifications):
+               """Safely edit multiple YAML files with transaction semantics"""
+               # Find all matching files
+               # Create checkpoint backup
+               # Edit each file with validation
+               # Track successes and failures
+               # If any failure, rollback all changes
+               # Return detailed results
+
+           def rollback_last_edit(self):
+               """Rollback the most recent edit operation"""
+
+           def validate_yaml_file(self, file_path):
+               """Validate YAML syntax and schema"""
+       ```
+
+    2. Validation Rules:
+
+       Schema Validation:
+       - Required fields present (id, sprint_id, track_id, status, etc.)
+       - Field types correct (strings, lists, dicts)
+       - Enum values valid (status: not_started|in_progress|completed)
+       - Date formats correct (ISO 8601)
+       - References valid (sprint_id exists, track_id exists)
+
+       Structural Validation:
+       - YAML syntax valid (parseable)
+       - No duplicate keys
+       - Proper indentation (2 spaces)
+       - Lists properly formatted
+       - No tabs (only spaces)
+
+       Business Logic Validation:
+       - Task ID matches directory name
+       - Sprint ID matches parent directory
+       - Completion dates only if status=completed
+       - Progress counters consistent (completed ≤ total)
+       - Blocking dependencies don't create cycles
+
+    3. Automatic Backup System:
+
+       Before Each Edit:
+       - Create timestamped backup in .vibey/safe-edit-backups/
+       - Store original file with metadata
+       - Record modification intent
+       - Keep last 50 backups (auto-cleanup old)
+
+       Backup Metadata:
+       ```yaml
+       backup:
+         original_file: .vibey/roadmap/track/sprint/task/task.yaml
+         backup_timestamp: 2025-11-12T21:00:00Z
+         modification_intent: "Update status to completed"
+         backup_path: .vibey/safe-edit-backups/backup_20251112_210000/
+         checksum_before: abc123...
+         checksum_after: def456...
+       ```
+
+    4. Transaction Semantics for Bulk Edits:
+
+       All-or-Nothing Guarantee:
+       - Begin transaction: Create checkpoint
+       - Apply edits one by one
+       - Validate each edit
+       - If ANY edit fails: Rollback ALL changes
+       - If all succeed: Commit transaction
+       - Log transaction results
+
+       Example:
+       ```python
+       editor = SafeYAMLEditor()
+       results = editor.bulk_edit(
+           file_pattern=".vibey/roadmap/*/sprint-2/*/task.yaml",
+           modifications={"status": "completed"}
+       )
+
+       if results.success:
+           print(f"Updated {results.files_changed} files")
+       else:
+           print(f"Rollback performed. Errors: {results.errors}")
+       ```
+
+    5. Dry-Run Mode:
+
+       Preview Changes Without Applying:
+       ```python
+       editor.dry_run_edit(
+           file_path="task.yaml",
+           modifications={"status": "completed"}
+       )
+       # Shows what WOULD change
+       # Validates modifications would work
+       # Doesn't actually modify file
+       ```
+
+    6. Change Logging:
+
+       Track All Modifications:
+       ```yaml
+       change_log:
+         - timestamp: 2025-11-12T21:00:00Z
+           file: .vibey/roadmap/track/sprint/task/task.yaml
+           operation: edit_field
+           field: status
+           old_value: in_progress
+           new_value: completed
+           success: true
+           validation_passed: true
+       ```
+
+    7. Error Recovery:
+
+       Handling Edit Failures:
+       - Parse error → Keep original file, report error
+       - Validation error → Keep original file, report what's invalid
+       - Disk full → Rollback, report disk space needed
+       - Permission error → Skip file, continue with others
+       - Corrupt backup → Use previous backup, warn user
+
+    8. CLI Integration:
+
+       Add safe editing commands:
+       ```bash
+       vibey roadmap edit --file <path> --set status=completed [--dry-run]
+       vibey roadmap bulk-edit --pattern "sprint-2/*" --set status=completed [--dry-run]
+       vibey roadmap rollback-edit [--last-n 1]
+       vibey roadmap validate --file <path>
+       vibey roadmap validate --all
+       ```
+
+    Testing Requirements:
+
+    Test Cases:
+    1. Edit single valid file → Success
+    2. Edit with invalid YAML syntax → Rollback
+    3. Edit with invalid schema → Rollback
+    4. Bulk edit 10 files, all valid → Success
+    5. Bulk edit 10 files, 1 invalid → Rollback all
+    6. Edit with disk full → Graceful failure
+    7. Edit with permission denied → Skip and report
+    8. Rollback last edit → Restore original
+    9. Dry-run mode → No actual changes
+    10. Validate 100 files → Report all issues
+
+    Performance Targets:
+    - Single file edit: <1 second
+    - Bulk edit 100 files: <30 seconds
+    - Validation: <0.5 seconds per file
+    - Rollback: <10 seconds for 100 files
+
+    Acceptance Criteria:
+    - SafeYAMLEditor class implemented
+    - All validation rules implemented
+    - Automatic backup system working
+    - Transaction semantics for bulk edits
+    - Dry-run mode functional
+    - Change logging complete
+    - Error recovery handles all cases
+    - CLI integration complete
+    - All 10 test cases pass
+    - Performance targets met
+
+    Deliverables:
+    - safe_yaml_editor.py (Python module, 600+ lines)
+    - Validation schema definitions
+    - CLI integration code
+    - Change log system
+    - Testing results for all cases
+    - User documentation with examples
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:50:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 5500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - roadmap-integrity-fixes-3-task-001
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - roadmap-integrity-fixes-3-task-001
+  deliverables:
+    - safe_yaml_editor.py module
+    - Validation schema definitions
+    - CLI integration
+    - Testing results
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:50:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,202 @@
+task:
+  id: roadmap-integrity-fixes-1-task-001
+  sprint_id: roadmap-integrity-fixes-1
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design commit-to-task mapping algorithm
+  description: |
+    Design and implement algorithm for automatically mapping git commits to
+    specific roadmap tasks based on commit messages, file changes, and patterns.
+    Critical for commit backfilling during forensic audits.
+
+    QA Gap Addressed:
+    "No commit-to-task mapping algorithm. Manual mapping of 100+ commits to
+    tasks is error-prone. Need automated matching with confidence scoring."
+
+    Algorithm Requirements:
+
+    1. Input Data Sources:
+       - Git commit history (SHA, message, timestamp, author, files changed)
+       - Task definitions (ID, title, description, track, sprint)
+       - File path patterns (which files belong to which tasks)
+       - Keyword patterns (words that indicate task relationship)
+
+    2. Mapping Heuristics:
+
+       High Confidence (Score 90-100):
+       - Commit message contains exact task ID (e.g., "roadmap-integrity-fixes-2-task-001")
+       - Commit modifies files in task-specific directory
+       - Commit message + files changed both match task keywords
+
+       Medium Confidence (Score 60-89):
+       - Commit message contains track ID and relevant keywords
+       - Commit modifies files in track-related directories
+       - Timestamp aligns with task creation/completion dates
+       - Author matches assigned_agent pattern
+
+       Low Confidence (Score 30-59):
+       - Commit message contains relevant keywords only
+       - File changes loosely related to track area
+       - Timestamp during track active period
+
+       No Match (Score 0-29):
+       - No keyword overlap
+       - Files unrelated to any task
+       - Timestamp outside track timeline
+
+    3. Keyword Extraction:
+
+       From Task Data:
+       - Task title words (weighted high)
+       - Track name components (weighted medium)
+       - Sprint name components (weighted low)
+       - Description keywords (extracted, weighted medium)
+
+       From Commit Data:
+       - Commit message subject (weighted high)
+       - Commit message body (weighted medium)
+       - File paths (extracted features, weighted high)
+       - Branch names if available (weighted low)
+
+    4. File Path Pattern Matching:
+
+       Examples:
+       - Commit modifies `vibey/roadmap/models/` → maps to roadmap-system tasks
+       - Commit modifies `docs/` → maps to documentation-system tasks
+       - Commit modifies `tests/` → maps to testing-system tasks
+       - Commit modifies `.vibey/roadmap/track-id/` → maps to that track
+
+    5. Temporal Filtering:
+
+       - Commits before task creation date: likely not related (unless backfilling old work)
+       - Commits after task completion: likely not related
+       - Commits during task active period: higher confidence
+       - Commits within ±7 days of task dates: medium confidence
+
+    6. Confidence Scoring Formula:
+
+       ```
+       confidence_score = (
+         keyword_match_score * 0.40 +
+         file_path_score * 0.35 +
+         temporal_score * 0.15 +
+         author_score * 0.10
+       )
+       ```
+
+       - keyword_match_score: % of task keywords in commit (0-100)
+       - file_path_score: relevance of changed files to task (0-100)
+       - temporal_score: alignment with task timeline (0-100)
+       - author_score: author matches assigned agent (0-100)
+
+    7. Multi-Task Commits:
+
+       - Some commits may relate to multiple tasks
+       - Return top 3 matches with confidence scores
+       - Flag commits with multiple high-confidence matches for review
+       - Allow manual override of automatic mapping
+
+    8. Edge Cases to Handle:
+
+       - Commits with no message (use file changes only)
+       - Merge commits (use merge message + combined file changes)
+       - Commits modifying many files (weight by lines changed per file)
+       - Commits for deleted/renamed tasks (match historical names)
+       - Bulk commits (e.g., "fix tests") that touch many tasks
+
+    Algorithm Implementation:
+
+    Function 1: extract_task_keywords(task_yaml)
+    - Parse task title, description, track_id
+    - Extract meaningful keywords
+    - Return weighted keyword list
+
+    Function 2: extract_commit_keywords(commit)
+    - Parse commit message
+    - Extract file paths and changes
+    - Return keyword list with weights
+
+    Function 3: calculate_keyword_match(task_keywords, commit_keywords)
+    - Compare keyword sets
+    - Calculate overlap percentage
+    - Return score 0-100
+
+    Function 4: calculate_file_path_score(commit_files, task)
+    - Determine task-related file patterns
+    - Check if commit modifies relevant files
+    - Return score 0-100
+
+    Function 5: calculate_temporal_score(commit_date, task_dates)
+    - Check if commit within task timeline
+    - Calculate proximity to task start/end
+    - Return score 0-100
+
+    Function 6: map_commit_to_tasks(commit, all_tasks)
+    - Extract commit features
+    - Score against all tasks
+    - Return top 3 matches with confidence
+    - Flag if no high-confidence match
+
+    Testing Requirements:
+
+    Test Dataset:
+    - Create sample commits with known task mappings
+    - Include edge cases (no message, merge, bulk)
+    - Include multi-task commits
+    - 50-100 sample commits covering all scenarios
+
+    Accuracy Targets:
+    - 90%+ accuracy on high-confidence matches
+    - 70%+ accuracy on medium-confidence matches
+    - <5% false positives (mapping to wrong task)
+    - 100% of commits get a score (even if 0)
+
+    Acceptance Criteria:
+    - Algorithm implemented in Python
+    - All 6 functions implemented and tested
+    - Confidence scoring formula validated
+    - Test dataset created with 50+ samples
+    - Accuracy targets met (90%+ high-confidence)
+    - Edge cases handled gracefully
+    - Multi-task commits flagged appropriately
+    - Documentation with examples
+
+    Deliverables:
+    - commit_mapper.py (Python module, 500+ lines)
+    - Algorithm design documentation
+    - Test dataset (50+ commits with expected mappings)
+    - Accuracy validation results
+    - Usage examples and API documentation
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:50:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+    - roadmap-integrity-fixes-2-task-001
+  blocked_by:
+    - roadmap-integrity-fixes-0-task-002
+  depends_on:
+    - roadmap-integrity-fixes-0-task-002
+  depended_on_by:
+    - roadmap-integrity-fixes-2-task-001
+  deliverables:
+    - commit_mapper.py (Python module)
+    - Algorithm design documentation
+    - Test dataset with expected mappings
+    - Accuracy validation results
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:50:00+00:00'
+    token_efficiency: null
+    duration_hours: null

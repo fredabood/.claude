@@ -1,0 +1,133 @@
+task:
+  id: roadmap-integrity-fixes-2-task-004
+  sprint_id: roadmap-integrity-fixes-2
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Forensic audit of missing-agents track
+  description: |
+    Perform comprehensive forensic audit of missing-agents track to determine
+    actual completion status vs YAML claims.
+
+    YAML Claims:
+    - 0 tasks declared
+    - Track status: completed (FRAUDULENT - no task data)
+    - No sprints or tasks exist
+
+    Investigation Steps:
+
+    1. Backup Archive Analysis (PRIORITY 1)
+       - Check .vibey/hierarchical-migration-backups/backup_20251109_171311/
+       - Look for missing-agents files in old flat structure
+       - Check tracks/missing-agents.yaml if exists
+       - Check sprints/missing-agents-*.yaml if exists
+       - Check tasks/missing-agents-*-tasks.yaml if exists
+       - Extract task completion records from old format
+       - Compare old backup data vs current YAML claims
+       - Verify migration preserved all completion data
+
+    2. Git History Analysis
+       - Search for commits with keywords: "agent", "missing-agents"
+       - Find commits adding new agent files
+       - Find commits modifying agents/ directory
+       - Extract commit SHAs, messages, dates, file changes
+       - Count lines added/modified for agents
+       - Cross-reference commits with backup timestamps
+       - Map commits to specific tasks they implement
+
+    3. Codebase Audit
+       - Check agents/ directory for agent files
+       - Count agent markdown files
+       - Verify agent completeness (12 expected agents)
+       - Identify which agents were added/modified
+       - Check agent metadata and structure
+       - Determine if agent work was actually done
+
+    4. Documentation Audit
+       - Search for agent-related documentation
+       - Check for agent development docs
+       - Find references to agent creation in docs/
+       - Verify deliverable documentation exists
+
+    5. Test Suite Audit
+       - Search for agent validation tests
+       - Check for agent template tests
+       - Verify agent structure validation
+
+    6. Migration Verification
+       - Compare backup data vs current hierarchical structure
+       - Verify all completed tasks from old format were preserved
+       - Check if any task completion records were lost during migration
+       - Verify progress counters accurately migrated
+       - Identify any data loss or corruption during migration
+
+    7. Cross-Reference Analysis
+       - Compare git commits to completion claim (0 tasks claimed)
+       - Determine if agent work was actually done
+       - Calculate real completion percentage based on ALL evidence
+       - Reconcile backup data vs current data vs git history
+       - Determine if "completed" status is justified
+
+    8. Commit Backfilling (Git Tracking System Integration)
+       - For each identified commit related to missing-agents work:
+         * Determine which task it implements
+         * Add commit SHA to that task's commits: [] field in task.yaml
+         * Update task metadata with commit backfill timestamp
+       - Create audit trail of commit-to-task mappings
+       - Verify all commits accounted for in task files
+       - Update task completion dates based on commit timestamps if needed
+       - Document any commits that cannot be mapped to specific tasks
+
+    Acceptance Criteria:
+    - All 8 investigation steps completed
+    - Backup archive evidence reviewed and documented
+    - Git history documented (commits, dates, changes)
+    - All identified commits mapped to specific tasks
+    - Commits backfilled into task.yaml files (commits: [] field)
+    - Codebase evidence cataloged (files, lines, features)
+    - Documentation evidence cataloged
+    - Cross-reference analysis shows claimed vs actual
+    - Accurate completion percentage calculated
+    - Recommended status determined (completed/in_progress/not_started)
+    - Evidence-based assessment documented
+    - Git tracking system populated with commit evidence
+
+    Deliverables:
+    - Forensic audit report for missing-agents (markdown, 1000+ lines)
+    - Git history analysis section
+    - Commit-to-task mapping document
+    - Updated task.yaml files with commits backfilled (if work was done)
+    - Codebase evidence section
+    - Documentation evidence section
+    - Cross-reference analysis
+    - Accurate status recommendation
+    - Git tracking system integration verification
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:20:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-1-task-003
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Forensic audit report: missing-agents
+  - Git history analysis
+  - Codebase evidence inventory
+  - Accurate completion determination
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:20:00+00:00'
+    token_efficiency: null
+    duration_hours: null

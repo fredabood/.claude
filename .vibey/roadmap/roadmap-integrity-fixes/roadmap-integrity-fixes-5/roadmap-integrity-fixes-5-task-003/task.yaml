@@ -1,0 +1,71 @@
+task:
+  id: roadmap-integrity-fixes-5-task-003
+  sprint_id: roadmap-integrity-fixes-5
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Clean up missing sprint declarations
+  description: |
+    Fix discrepancies where tracks declare sprints that don't exist on disk.
+
+    Audit found: 30 declared sprints missing from disk across 9 tracks
+
+    Process:
+    1. Identify all tracks with missing sprint declarations
+    2. For each missing sprint, determine:
+       - Was sprint deleted/moved?
+       - Was declaration added but sprint never created?
+       - Is sprint planned but not yet started?
+
+    3. Decision tree per missing sprint:
+       - IF sprint was deleted: Remove declaration from track.yaml
+       - IF sprint never created: Remove declaration OR create directory
+       - IF sprint planned: Create sprint directory with not_started status
+
+    4. For each decision:
+       - Update track.yaml sprint list
+       - Update sprints_total counter
+       - Document reason for change
+       - Preserve audit trail
+
+    5. Tracks to check (from audit):
+       - Check all 19 tracks for sprint declaration mismatches
+       - Focus on tracks with highest discrepancies
+
+    6. Validation:
+       - Verify all declared sprints exist on disk
+       - Verify no orphaned sprint directories
+       - Check referential integrity
+
+    Deliverables:
+    - Cleaned sprint declarations across all tracks
+    - Updated track.yaml files
+    - Documentation of changes
+    - Validation results showing no missing sprints
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Cleaned sprint declarations
+  - Updated track.yaml files
+  - Documentation of changes
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

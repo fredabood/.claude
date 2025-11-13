@@ -1,0 +1,102 @@
+task:
+  id: roadmap-integrity-fixes-6-task-006
+  sprint_id: roadmap-integrity-fixes-6
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add CI/CD validation pipeline
+  description: |
+    Add automated validation to CI/CD pipeline to catch integrity issues.
+
+    Implementation:
+
+    1. Create GitHub Actions workflow:
+       - File: .github/workflows/roadmap-validation.yml
+       - Trigger: on push, on pull request
+       - Jobs: validate roadmap data
+
+    2. Workflow structure:
+       ```yaml
+       name: Roadmap Validation
+
+       on:
+         push:
+           paths:
+             - '.vibey/roadmap/**'
+         pull_request:
+           paths:
+             - '.vibey/roadmap/**'
+
+       jobs:
+         validate:
+           runs-on: ubuntu-latest
+           steps:
+             - uses: actions/checkout@v3
+             - name: Set up Python
+               uses: actions/setup-python@v4
+               with:
+                 python-version: '3.10'
+             - name: Install dependencies
+               run: pip install -e .
+             - name: Validate roadmap
+               run: vibey roadmap validate --verbose
+       ```
+
+    3. Validation checks:
+       - Run full roadmap validation
+       - Check for data integrity issues
+       - Verify all tracks loadable
+       - Generate validation report
+
+    4. Failure handling:
+       - Fail pipeline if validation fails
+       - Comment on PR with validation results
+       - Block merge if issues found
+       - Provide clear error messages
+
+    5. Success handling:
+       - Pass pipeline if validation succeeds
+       - Add check mark to PR
+       - Allow merge to proceed
+
+    6. Integration:
+       - Add required check for PR merges
+       - Configure branch protection rules
+       - Document CI/CD validation process
+
+    Deliverables:
+    - GitHub Actions workflow file
+    - Branch protection configuration
+    - CI/CD documentation
+    - Integration with PR workflow
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-6-task-001
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables:
+  - GitHub Actions workflow
+  - Branch protection config
+  - CI/CD documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,50 @@
+sprint:
+  id: roadmap-integrity-fixes-5
+  name: Structural Repairs & Load Error Fixes
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-12T19:30:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 days
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: roadmap-integrity-fixes-4
+    target_status: completed
+    reason: Phantom data must be cleaned first
+  deliverables:
+  - Fixed interface-unification load error
+  - Fixed platform-context-management load error
+  - Cleaned up missing sprint declarations
+  - Verified hierarchical structure consistency
+  - All tracks loadable without errors
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T19:30:00+00:00'
+    estimated_duration: 3 days
+    notes: |
+      This sprint fixes structural issues preventing validation:
+
+      Load Errors (2):
+      - interface-unification (YAML structure error)
+      - platform-context-management (YAML structure error)
+
+      Missing Sprints (30 declared, 0-7 exist):
+      - 9 tracks have missing sprint directories
+
+      Tasks (to be created in hierarchical structure):
+      1. Fix interface-unification YAML structure
+      2. Fix platform-context-management YAML structure
+      3. Remove declarations for non-existent sprints OR create directories
+      4. Verify all tracks use hierarchical structure correctly
+      5. Ensure all tracks loadable without errors
+      6. Run full validation to confirm all structural issues resolved

@@ -1,0 +1,406 @@
+{
+  "audit_date": "2025-11-12T19:28:05.073041",
+  "stats": {
+    "tracks_total": 19,
+    "sprints_total": 24,
+    "tasks_total": 140,
+    "issues_found": 34
+  },
+  "issues": [
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "aider-port",
+      "message": "Sprint count mismatch: 0 directories vs 1 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 1
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "status_mismatch",
+      "track": "claude-port",
+      "message": "Track status is \"completed\" but progress is 0%",
+      "data": {
+        "status": "completed",
+        "progress": 0,
+        "sprints_completed": "0/1",
+        "tasks_completed": "0/0"
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "claude-port",
+      "message": "Sprint count mismatch: 0 directories vs 1 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 1
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "continue-port",
+      "message": "Sprint count mismatch: 0 directories vs 2 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 2
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "core-framework",
+      "message": "Sprint count mismatch: 2 directories vs 3 in track.yaml",
+      "data": {
+        "actual": 2,
+        "declared": 3
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "status_mismatch",
+      "track": "documentation-system",
+      "message": "Track status is \"completed\" but progress is 26%",
+      "data": {
+        "status": "completed",
+        "progress": 26,
+        "sprints_completed": "1/3",
+        "tasks_completed": "5/19"
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "status_mismatch",
+      "track": "documentation-system",
+      "sprint": "documentation-system-1",
+      "message": "Sprint status is \"production_ready\" but progress is 62%",
+      "data": {
+        "status": "production_ready",
+        "progress": 62
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "goose-port",
+      "message": "Sprint count mismatch: 0 directories vs 7 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 7
+      }
+    },
+    {
+      "severity": "ERROR",
+      "type": "load_error",
+      "track": "interface-unification",
+      "message": "Failed to load track: string indices must be integers, not 'str'"
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "jetbrains-port",
+      "message": "Sprint count mismatch: 0 directories vs 3 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 3
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "status_mismatch",
+      "track": "missing-agents",
+      "message": "Track status is \"completed\" but progress is 0%",
+      "data": {
+        "status": "completed",
+        "progress": 0,
+        "sprints_completed": "0/1",
+        "tasks_completed": "0/11"
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "multi-platform",
+      "message": "Sprint count mismatch: 0 directories vs 5 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 5
+      }
+    },
+    {
+      "severity": "ERROR",
+      "type": "load_error",
+      "track": "platform-context-management",
+      "message": "Failed to load track: string indices must be integers, not 'str'"
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "status_mismatch",
+      "track": "roadmap-system",
+      "message": "Track status is \"completed\" but progress is 0%",
+      "data": {
+        "status": "completed",
+        "progress": 0,
+        "sprints_completed": "0/6",
+        "tasks_completed": "0/0"
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "roadmap-system",
+      "message": "Sprint count mismatch: 0 directories vs 6 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 6
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-1",
+      "message": "Task count mismatch: 0 actual vs 8 declared",
+      "data": {
+        "actual": 0,
+        "declared": 8,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-1",
+      "message": "Completed task count mismatch: 0 actual vs 8 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 8,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-6",
+      "message": "Task count mismatch: 0 actual vs 9 declared",
+      "data": {
+        "actual": 0,
+        "declared": 9,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-6",
+      "message": "Completed task count mismatch: 0 actual vs 9 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 9,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-5",
+      "message": "Task count mismatch: 0 actual vs 8 declared",
+      "data": {
+        "actual": 0,
+        "declared": 8,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-5",
+      "message": "Completed task count mismatch: 0 actual vs 8 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 8,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-2",
+      "message": "Task count mismatch: 0 actual vs 7 declared",
+      "data": {
+        "actual": 0,
+        "declared": 7,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-2",
+      "message": "Completed task count mismatch: 0 actual vs 7 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 7,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-3",
+      "message": "Task count mismatch: 0 actual vs 9 declared",
+      "data": {
+        "actual": 0,
+        "declared": 9,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-3",
+      "message": "Completed task count mismatch: 0 actual vs 9 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 9,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-4",
+      "message": "Task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual": 0,
+        "declared": 10,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "standards-system",
+      "sprint": "standards-system-4",
+      "message": "Completed task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 10,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-3",
+      "message": "Task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual": 0,
+        "declared": 10,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-3",
+      "message": "Completed task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 10,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-2",
+      "message": "Task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual": 0,
+        "declared": 10,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-2",
+      "message": "Completed task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 10,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "task_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-1",
+      "message": "Task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual": 0,
+        "declared": 10,
+        "structure": "embedded"
+      }
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "completion_count_mismatch",
+      "track": "testing-system",
+      "sprint": "testing-system-1",
+      "message": "Completed task count mismatch: 0 actual vs 10 declared",
+      "data": {
+        "actual_completed": 0,
+        "declared_completed": 10,
+        "actual_total": 0,
+        "actual_progress": 0,
+        "declared_progress": 100
+      }
+    },
+    {
+      "severity": "WARNING",
+      "type": "sprint_count_mismatch",
+      "track": "windsurf-port",
+      "message": "Sprint count mismatch: 0 directories vs 2 in track.yaml",
+      "data": {
+        "actual": 0,
+        "declared": 2
+      }
+    }
+  ]
+}

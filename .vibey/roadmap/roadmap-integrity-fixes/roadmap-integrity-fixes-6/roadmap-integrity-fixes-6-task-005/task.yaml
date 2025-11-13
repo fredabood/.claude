@@ -1,0 +1,95 @@
+task:
+  id: roadmap-integrity-fixes-6-task-005
+  sprint_id: roadmap-integrity-fixes-6
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create pre-commit validation hook
+  description: |
+    Create Git pre-commit hook to validate roadmap data before commits.
+
+    Implementation:
+
+    1. Create hook script:
+       - File: .git/hooks/pre-commit
+       - Language: Bash wrapper calling Python validation
+       - Make executable
+
+    2. Validation flow:
+       - Detect if .vibey/roadmap/ files changed
+       - Run vibey roadmap validate on changed tracks
+       - If validation fails: reject commit with error message
+       - If validation passes: allow commit to proceed
+
+    3. Hook script structure:
+       ```bash
+       #!/bin/bash
+       # Pre-commit hook for roadmap validation
+
+       # Check if roadmap files changed
+       if git diff --cached --name-only | grep -q "^.vibey/roadmap/"
+       then
+         echo "Validating roadmap data..."
+         vibey roadmap validate
+         if [ $? -ne 0 ]; then
+           echo "❌ Roadmap validation failed. Fix issues before committing."
+           exit 1
+         fi
+         echo "✅ Roadmap validation passed."
+       fi
+       exit 0
+       ```
+
+    4. Installation:
+       - Add hook installer to vibey CLI
+       - Command: vibey roadmap install-hooks
+       - Auto-install on first roadmap command (optional)
+       - Document manual installation
+
+    5. Configuration:
+       - Allow bypass for emergencies (--no-verify)
+       - Add config option to disable validation
+       - Support custom validation rules
+
+    6. Testing:
+       - Test with valid roadmap changes
+       - Test with invalid roadmap changes
+       - Test with non-roadmap changes
+       - Verify rejection works correctly
+
+    Deliverables:
+    - Pre-commit hook script
+    - Hook installer command
+    - Documentation
+    - Test suite
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-6-task-001
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables:
+  - Pre-commit hook script
+  - Hook installer command
+  - Documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

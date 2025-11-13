@@ -1,0 +1,85 @@
+task:
+  id: roadmap-integrity-fixes-4-task-003
+  sprint_id: roadmap-integrity-fixes-4
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create proper task objects if work is verifiable
+  description: |
+    If tasks 001-002 determine that standards-system and/or testing-system work
+    was actually done, create proper hierarchical task objects retroactively.
+
+    Conditional Task:
+    - ONLY run if task 001 or 002 recommends "create tasks"
+    - SKIP if both recommend "remove claims"
+
+    Process:
+    1. For standards-system (if applicable):
+       - Create hierarchical task directories for 51 tasks
+       - Write task.yaml files with proper structure
+       - Backfill commits from forensic audit
+       - Set accurate completion status
+       - Update sprint progress counters
+
+    2. For testing-system (if applicable):
+       - Create hierarchical task directories for 30 tasks
+       - Write task.yaml files with proper structure
+       - Backfill commits from forensic audit
+       - Set accurate completion status
+       - Update sprint progress counters
+
+    3. Migrate tasks_summary to task objects:
+       - Convert text descriptions to proper task.yaml files
+       - Preserve deliverable information
+       - Add git commit evidence
+       - Ensure all task metadata complete
+
+    4. Verification:
+       - Validate all task.yaml files load correctly
+       - Verify progress counters accurate
+       - Confirm hierarchical structure correct
+       - Run validation checks
+
+    Deliverables:
+    - Proper task objects for verified work
+    - Updated sprint.yaml files with accurate progress
+    - Migration documentation
+    - Validation results
+  status: not_started
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 10000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - roadmap-integrity-fixes-4-task-005
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-4-task-001
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  - blocker_id: roadmap-integrity-fixes-4-task-002
+    blocker_type: task
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by:
+  - roadmap-integrity-fixes-4-task-005
+  deliverables:
+  - Hierarchical task objects for verified work
+  - Updated sprint.yaml files
+  - Migration documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: Conditional task - only runs if work was verifiable

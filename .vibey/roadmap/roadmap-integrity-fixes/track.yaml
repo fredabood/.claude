@@ -8,11 +8,11 @@ track:
   created: '2025-11-12T19:30:00+00:00'
   started: null
   completed: null
-  estimated_duration: 5 weeks
+  estimated_duration: 4 days
   progress:
     sprints_total: 7
     sprints_completed: 0
-    tasks_total: 50
+    tasks_total: 28
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -23,40 +23,40 @@ track:
     tasks_count: 6
     started: null
   - id: roadmap-integrity-fixes-1
-    name: Tooling & Algorithm Development
+    name: 'Phase 1: Codebase Reality Check'
     status: not_started
-    estimated_duration: 3 days
-    tasks_count: 5
+    estimated_duration: 6 hours
+    tasks_count: 4
     started: null
   - id: roadmap-integrity-fixes-2
-    name: Comprehensive Forensic Audit
+    name: 'Phase 2: Correct Obvious Status Issues'
     status: not_started
-    estimated_duration: 7 days
-    tasks_count: 13
+    estimated_duration: 2 hours
+    tasks_count: 3
     started: null
   - id: roadmap-integrity-fixes-3
-    name: Critical Status & Data Fixes
+    name: 'Phase 3: Migrate tasks_summary Pattern'
     status: not_started
-    estimated_duration: 2 days
-    tasks_count: 7
-    started: null
-  - id: roadmap-integrity-fixes-4
-    name: Phantom Task Data Cleanup
-    status: not_started
-    estimated_duration: 3 days
+    estimated_duration: 7 hours
     tasks_count: 5
     started: null
-  - id: roadmap-integrity-fixes-5
-    name: Structural Repairs & Load Error Fixes
+  - id: roadmap-integrity-fixes-4
+    name: 'Phase 4: Fix Load Errors'
     status: not_started
-    estimated_duration: 3 days
-    tasks_count: 6
+    estimated_duration: 2 hours
+    tasks_count: 3
+    started: null
+  - id: roadmap-integrity-fixes-5
+    name: 'Phase 5: Build Prevention System'
+    status: not_started
+    estimated_duration: 5 hours
+    tasks_count: 4
     started: null
   - id: roadmap-integrity-fixes-6
-    name: Validation System & Prevention
+    name: 'Phase 6: Path Forward Documentation'
     status: not_started
-    estimated_duration: 4 days
-    tasks_count: 8
+    estimated_duration: 3 hours
+    tasks_count: 3
     started: null
   dependencies: []
   blocks:
@@ -96,42 +96,44 @@ track:
   depends_on: []
   depended_on_by: []
   quality_gates:
-  - name: All Critical Issues Resolved
+  - name: Codebase Evidence Verified
     threshold: 100
     blocking: true
     status: not_run
-    description: All 13 critical issues from audit resolved
+    description: All 19 tracks assessed for actual code/tests/docs, reality matrix complete
     score: null
-  - name: Data Integrity Validation
+  - name: Status Accuracy
     threshold: 100
     blocking: true
     status: not_run
-    description: Zero status/progress mismatches across all tracks
+    description: No tracks marked completed with 0% work, all statuses match codebase reality
     score: null
-  - name: Referential Integrity
+  - name: All Tracks Loadable
     threshold: 100
     blocking: true
     status: not_run
-    description: All declared sprints exist on disk
+    description: All 19 tracks load without errors, validation passes with 0 critical issues
     score: null
-  - name: Automated Validation Implemented
+  - name: Prevention Implemented
     threshold: 100
     blocking: true
     status: not_run
-    description: Pre-commit hooks and CI validation active
+    description: Validation command works, pre-commit hook active, integrity process documented
     score: null
   assigned_agents:
   - web-developer
   - test-engineer
   deliverables:
-  - Fixed status fields for 4 fraudulent tracks
-  - Cleaned phantom task data (81 tasks)
+  - Reality matrix for all 19 tracks (code exists? tests exist? docs exist?)
+  - Corrected status fields for 4 tracks (archived originals for safety)
+  - Migrated 81 tasks from tasks_summary → proper task objects (standards-system, testing-system)
   - Fixed 2 load errors (interface-unification, platform-context-management)
-  - Recalculated all progress across 19 tracks
-  - Implemented validation system
-  - Pre-commit hooks for data integrity
-  - CI/CD validation pipeline
-  - Audit trail system
+  - Validation command (vibey roadmap validate)
+  - Pre-commit validation hooks
+  - Track Status Report (completed/in_progress/not_started with verification)
+  - Rework Recommendations (tracks mistakenly marked complete)
+  - Path Forward Guide (priority order, dependencies, next steps)
+  - Integrity Maintenance Process (how to keep roadmap accurate going forward)
   strategic_value:
   - 'Data Integrity: Restore trust in roadmap metrics and completion tracking'
   - 'Automation First: Enforce CLI-based workflows instead of manual YAML edits'
@@ -142,122 +144,410 @@ track:
   standards: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-12T21:35:00+00:00'
+    last_updated: '2025-11-13T12:00:00+00:00'
     design_doc: docs/development/ROADMAP_COMPREHENSIVE_AUDIT_2025-11-12.md
-    implementation_plan: null
+    implementation_plan: Pragmatic Approach (documented in track notes)
+    qa_review_sessions:
+      - Round 1 - Data Integrity & Forensics Analysis (2025-11-13)
+      - Round 1 - Process & Workflow Analysis (2025-11-13)
+      - Round 1 - Risk & Security Analysis (2025-11-13)
+      - Round 1 - Timeline & Resource Analysis (2025-11-13)
+      - Round 1 - Quality Assurance Analysis (2025-11-13)
+      - Round 2 - Implementation Feasibility Analysis (2025-11-13)
+      - Round 2 - Integration & Dependencies Analysis (2025-11-13)
+      - Round 2 - Quality Gate Verification Analysis (2025-11-13)
+      - Round 2 - Timeline & Sequencing Validation (2025-11-13)
+      - Round 2 - Meta-QA Verification Analysis (2025-11-13)
+    approach: Pragmatic over Perfect - Focus on accurate roadmap state and prevention system
     notes: |
       CRITICAL INFRASTRUCTURE TRACK - Foundation for Roadmap Trust
+      PRAGMATIC APPROACH (Version 3.0 - 2025-11-13)
 
-      This track addresses the 34 data integrity issues discovered in the
-      2025-11-12 comprehensive audit. The roadmap system currently has:
+      =================================================================
+      PRIMARY GOAL
+      =================================================================
+
+      Create a complete, accurate roadmap that shows what has been built
+      and provides a clear path forward for continued development.
+
+      The success metric is: A 100% valid roadmap with complete
+      representation of completed work, so development can continue
+      with confidence.
+
+      =================================================================
+      SUCCESS CRITERIA (User-Defined)
+      =================================================================
+
+      1. ✅ Complete roadmap showing what's been built
+      2. ✅ Full picture of actual progress (no fraud)
+      3. ✅ Identification of tracks mistakenly marked complete
+      4. ✅ Clear path forward for development
+      5. ✅ Prevention system to maintain integrity going forward
+      6. ✅ Best-effort commit attribution (not perfection, but reasonable)
+      7. ✅ 100% valid track/sprint/task hierarchy
+
+      What We DON'T Need:
+      - Perfect forensic audit
+      - 85% inter-rater reliability
+      - Complex statistical verification
+      - Backup archaeology
+      - Commit-to-task perfection
+
+      =================================================================
+      CURRENT STATE - THE PROBLEM
+      =================================================================
+
+      Audit discovered 34 data integrity issues across 19 tracks:
 
       CRITICAL ISSUES (13):
-      - 4 tracks marked "completed" with 0-26% actual progress
-      - 81 phantom tasks claimed complete with no task objects
-      - 9 sprints claiming 100% completion with 0 actual tasks
+      1. Status Fraud (4 tracks marked "completed" with 0-26% actual work):
+         - standards-system: Says completed, actually ~80% (LEGIT WORK)
+         - testing-system: Says completed, actually ~60% (LEGIT WORK)
+         - missing-agents: Says completed, actually 0% (FRAUD)
+         - claude-port: Says completed, actually 0% (FRAUD)
+         - documentation-system: Says completed, actually 26% (PARTIAL)
 
-      ERRORS (2):
-      - 2 tracks with YAML structure errors preventing load
+      2. tasks_summary Pattern (81 tasks across 2 tracks):
+         - standards-system: 51 tasks in tasks_summary (no task.yaml files)
+         - testing-system: 30 tasks in tasks_summary (no task.yaml files)
+         - Root cause: Work WAS done, but tracked as text list instead of proper task objects
+         - Evidence: 2,800+ lines of code exist (vibey/roadmap/standards/*.py)
+         - Evidence: 1,500+ lines of tests exist (tests/ directory)
+         - THIS IS NOT FRAUD - it's a data model issue
 
-      WARNINGS (19):
-      - 30 declared sprints missing from disk
-      - Task count mismatches across multiple sprints
+      3. Load Errors (2 tracks):
+         - interface-unification: YAML structure error (but actually COMPLETE per git)
+         - platform-context-management: YAML structure error
 
       IMPACT:
-      - 52% of tracks (10/19) have integrity issues
       - Cannot trust roadmap completion metrics
-      - Automation exists but bypassed by manual edits
-      - No validation prevents corruption
+      - Cannot identify what needs rework
+      - Cannot plan future development confidently
+      - No prevention system to stop recurrence
 
-      WHY THIS BLOCKS ALL WORK:
-      The roadmap is the source of truth for what work is done, in progress,
-      and planned. If the roadmap data is corrupted:
-      - Cannot determine what's actually been completed
-      - Cannot calculate realistic timelines
-      - Cannot trust dependency chains
-      - Cannot generate accurate project status
+      =================================================================
+      PRAGMATIC SOLUTION - 6 PHASES, 4 DAYS
+      =================================================================
 
-      This track MUST be completed before resuming other work to ensure:
-      1. All completion claims are backed by actual task data
-      2. All status fields accurately reflect progress
-      3. All automation is working correctly
-      4. Validation prevents future corruption
+      PHASE 1: Codebase Reality Check (6 hours, Day 1)
+      ------------------------------------------------------------------
+      Goal: Determine what's actually been built
 
-      SPRINT BREAKDOWN (7 sprints, 24 days):
+      Method: Scan codebase for evidence
+      - Search for deliverables mentioned in each track
+      - Check if code files exist
+      - Run test suites (do they exist and pass?)
+      - Review documentation
+      - Quick assessment: Built / Partial / Not Built
 
-      Sprint 0: Pre-Audit Preparation (2 days, 6 tasks)
-      - Verify backup archive integrity
-      - Create checkpoint backup of current state
-      - Establish stakeholder approval process
-      - Define evidence conflict resolution framework
-      - Document rollback procedures
-      - Extend forensic audit timeline to realistic 7 days
-      QA-driven preparation sprint ensuring safe audit work
+      Tasks:
+      001. Audit standards-system (check code, tests, docs)
+      002. Audit testing-system (check code, tests, docs)
+      003. Audit all 17 other tracks (evidence scan)
+      004. Create Reality Matrix spreadsheet
 
-      Sprint 1: Tooling & Algorithm Development (3 days, 5 tasks)
-      - Design commit-to-task mapping algorithm (85%+ accuracy)
-      - Implement backup/rollback automation
-      - Create YAML editing safeguards with validation
-      - Optimize validation performance (<10s for full roadmap)
-      - Enhance error handling for edge cases
-      Foundational tooling for safe, efficient forensic work
+      Output: Reality Matrix
+      ----------------------
+      For each track:
+      - Code exists? (YES/NO + file paths)
+      - Tests exist? (YES/NO + pass rate)
+      - Docs exist? (YES/NO + completeness)
+      - Git commits? (count + date range)
+      - Status recommendation: COMPLETED / IN_PROGRESS / NOT_STARTED
+      - Confidence: HIGH / MEDIUM / LOW
 
-      Sprint 2: Comprehensive Forensic Audit (7 days, 13 tasks)
-      - Forensic audit of 10 flagged tracks (8-step methodology)
-      - Git history analysis with commit backfilling
-      - Backup archive comparison and migration verification
-      - Codebase, documentation, and test suite audits
-      - Cross-reference analysis (YAML vs actual evidence)
-      - Standards & modernization audit (legacy system detection)
-      Evidence-based determination of actual completion status
+      Deliverable: Reality matrix for all 19 tracks
 
-      Sprint 3: Critical Status & Data Fixes (2 days, 7 tasks)
-      - Fix 4 tracks marked completed with minimal progress
-      - Reset phantom completion claims (81 tasks)
-      - Recalculate all progress from actual data
-      - Verify automation is working
-      Requires stakeholder approval gate before implementation
+      ------------------------------------------------------------------
 
-      Sprint 4: Phantom Task Data Cleanup (3 days, 5 tasks)
-      - Investigate standards-system work claims
-      - Investigate testing-system work claims
-      - Either create proper task objects or remove claims
-      - Document what work was actually done
+      PHASE 2: Correct Obvious Status Issues (2 hours, Day 1)
+      ------------------------------------------------------------------
+      Goal: Fix clear fraud cases immediately
 
-      Sprint 5: Structural Repairs & Load Error Fixes (3 days, 6 tasks)
-      - Fix interface-unification load error
-      - Fix platform-context-management load error
-      - Clean up missing sprint declarations
-      - Verify hierarchical structure consistency
+      Method: Update track.yaml status fields based on Phase 1 findings
+      - Archive original YAML first (safety net)
+      - Update status fields
+      - Recalculate progress
 
-      Sprint 6: Validation System & Prevention (4 days, 8 tasks)
-      - Implement `vibey roadmap validate` command
-      - Add pre-commit validation hooks
-      - Add CI/CD validation pipeline
-      - Implement audit trail for status changes
-      - Document validation standards
+      Tasks:
+      001. Archive original track.yaml files (all 19 tracks)
+      002. Correct status for 4 fraudulent tracks
+           - missing-agents: completed → not_started (0% actual)
+           - claude-port: completed → not_started (0% actual)
+           - documentation-system: completed → in_progress (26% actual)
+           - interface-unification: not_started → completed (100% actual, git confirms)
+      003. Recalculate progress for all 19 tracks
 
-      SUCCESS CRITERIA:
-      - Zero critical issues in follow-up audit
-      - All tracks loadable without errors
-      - All status fields match actual progress
-      - All declared sprints exist on disk
-      - Validation catching issues before commit
-      - Audit trail tracking all modifications
+      Deliverable: Corrected status fields with archived originals
 
-      TIMELINE:
-      Start: Immediately
-      Duration: 24 days (5 weeks with buffer)
-      Priority: CRITICAL (blocks all other work)
+      ------------------------------------------------------------------
 
-      QA REVIEW INTEGRATION:
-      This track incorporates critical gaps identified by parallel QA review:
-      - Sprint 0 & 1 added as preparation phases (5 days)
-      - Sprint 2 timeline extended from 4 to 7 days (realistic scope)
-      - Stakeholder approval gate added before status corrections
-      - Evidence conflict resolution framework established
-      - Backup/rollback automation implemented
-      - Commit-to-task mapping algorithm developed
+      PHASE 3: Migrate tasks_summary Pattern (7 hours, Day 2)
+      ------------------------------------------------------------------
+      Goal: Convert tasks_summary text → proper task objects
+           Requirement: 100% valid track/sprint/task hierarchy
 
-      This is not optional. The roadmap system is the foundation of the
-      entire project management system. It must be trustworthy.
+      Method: Semi-automated migration script
+      - Parse tasks_summary field from sprint.yaml
+      - Generate task directories (task-001, task-002, etc.)
+      - Create task.yaml with proper structure
+      - Best-effort commit matching (scan git log for keywords)
+      - If no commits found, leave commits: [] empty (acceptable)
+      - Preserve original tasks_summary in task notes
+
+      Tasks:
+      001. Build migration script (4 hours)
+           - Parse tasks_summary YAML field
+           - Generate task directory structure
+           - Template task.yaml with required fields
+           - Git log keyword scanner for commit matching
+           - Validation: ensure task.yaml loads correctly
+
+      002. Run migration on standards-system (1.5 hours)
+           - Migrate 51 tasks from 6 sprints
+           - Best-effort commit attribution
+           - Verify all tasks load successfully
+           - Validate track structure
+
+      003. Run migration on testing-system (1 hour)
+           - Migrate 30 tasks from 3 sprints
+           - Best-effort commit attribution
+           - Verify all tasks load successfully
+           - Validate track structure
+
+      004. Manual review of generated tasks (30 minutes)
+           - Spot-check 10% of tasks for quality
+           - Verify commits make sense
+           - Fix any obvious errors
+
+      005. Final validation (15 minutes)
+           - Load all tracks
+           - Verify 81 new task objects exist
+           - Confirm no load errors
+
+      Deliverable: 81 proper task objects (complete hierarchy)
+
+      ------------------------------------------------------------------
+
+      PHASE 4: Fix Load Errors (2 hours, Day 3)
+      ------------------------------------------------------------------
+      Goal: Ensure all 19 tracks load without errors
+
+      Method: Debug and fix YAML structure issues
+      - interface-unification: Fix YAML structure (git shows it's complete)
+      - platform-context-management: Fix YAML structure
+      - Test all tracks load successfully
+
+      Tasks:
+      001. Fix interface-unification YAML structure
+      002. Fix platform-context-management YAML structure
+      003. Validate all 19 tracks load without errors
+
+      Deliverable: All tracks loadable, zero errors
+
+      ------------------------------------------------------------------
+
+      PHASE 5: Build Prevention System (5 hours, Day 3-4)
+      ------------------------------------------------------------------
+      Goal: Prevent future integrity corruption
+
+      Method: Validation command + pre-commit hooks + process documentation
+
+      Tasks:
+      001. Implement `vibey roadmap validate` command (3 hours)
+           Checks:
+           - All declared sprints exist on disk
+           - All declared tasks exist on disk
+           - Status matches calculated progress
+           - No tasks_summary without task objects
+           - All tracks loadable
+           - No tracks marked completed with 0% work
+
+      002. Create pre-commit validation hooks (1 hour)
+           - Run validation on .vibey/roadmap/ changes
+           - Warn if issues detected
+           - Allow override with --no-verify (documented exception)
+
+      003. Performance optimization (30 minutes)
+           - Ensure validation runs in <10 seconds
+           - Cache loaded tracks
+
+      004. Test validation system (30 minutes)
+           - Create test YAML with known issues
+           - Verify validation catches them
+           - Ensure no false positives on valid edge cases
+
+      Deliverable: Validation system with pre-commit hooks
+
+      ------------------------------------------------------------------
+
+      PHASE 6: Path Forward Documentation (3 hours, Day 4)
+      ------------------------------------------------------------------
+      Goal: Clear picture for future development
+
+      Method: Comprehensive status report + recommendations
+
+      Tasks:
+      001. Track Status Report (1 hour)
+           For each track:
+           - Current status (VERIFIED)
+           - Completion percentage (VERIFIED)
+           - What's been built (summary)
+           - What remains (if in_progress)
+           - Priority recommendation
+
+      002. Rework Recommendations (1 hour)
+           - List tracks mistakenly marked complete
+           - Assess what work is needed
+           - Estimate effort to complete
+           - Suggest priority order
+
+      003. Integrity Maintenance Process (1 hour)
+           - How to update roadmap as work proceeds
+           - Required validation steps
+           - When to use CLI vs manual YAML
+           - Review checklist for new sprints/tasks
+           - Commit message format for roadmap updates
+
+      Deliverables:
+      - Track Status Report (19 tracks, verified status)
+      - Rework Recommendations (clear next steps)
+      - Integrity Maintenance Process (prevent recurrence)
+
+      =================================================================
+      TIMELINE & EFFORT
+      =================================================================
+
+      Day 1 (8 hours):
+      - Phase 1: Codebase Reality Check (6h)
+      - Phase 2: Correct Obvious Issues (2h)
+
+      Day 2 (7 hours):
+      - Phase 3: Migrate tasks_summary (7h)
+
+      Day 3 (7 hours):
+      - Phase 4: Fix Load Errors (2h)
+      - Phase 5: Build Prevention System (5h)
+
+      Day 4 (3 hours):
+      - Phase 6: Path Forward Documentation (3h)
+
+      Total: 25 hours work time, 4 days elapsed
+      Confidence: 85% completion within timeline
+
+      =================================================================
+      QUALITY GATES (Simplified & Measurable)
+      =================================================================
+
+      Gate 1: Codebase Evidence Verified (100%)
+      - Verification: Reality matrix complete for all 19 tracks
+      - Method: Spreadsheet/document with code/tests/docs evidence
+      - Who: Automated scan + manual spot-checks
+      - When: After Phase 1
+
+      Gate 2: Status Accuracy (100%)
+      - Verification: No tracks marked completed with 0% actual work
+      - Method: Cross-reference track status with Reality Matrix
+      - Who: Automated validation command
+      - When: After Phase 2
+
+      Gate 3: All Tracks Loadable (100%)
+      - Verification: All 19 tracks load without errors
+      - Method: Run track loader on all tracks
+      - Who: Automated test
+      - When: After Phase 3 & Phase 4
+
+      Gate 4: Prevention Implemented (100%)
+      - Verification: Validation command works + hooks active
+      - Method: Run validation, trigger pre-commit hook test
+      - Who: Manual verification
+      - When: After Phase 5
+
+      =================================================================
+      DELIVERABLES
+      =================================================================
+
+      1. Reality Matrix (19 tracks × evidence assessment)
+      2. Corrected track.yaml files (4 tracks updated)
+      3. Archived originals (.vibey/roadmap/archived/pre-correction/)
+      4. 81 migrated task objects (proper task.yaml hierarchy)
+      5. Fixed YAML structures (2 load errors resolved)
+      6. Validation command (vibey roadmap validate)
+      7. Pre-commit validation hooks
+      8. Track Status Report (what's built, what's not, what needs rework)
+      9. Rework Recommendations (priority order for incomplete work)
+      10. Integrity Maintenance Process (how to keep roadmap accurate)
+
+      =================================================================
+      KEY SIMPLIFICATIONS FROM QA REVIEW
+      =================================================================
+
+      What We REMOVED (Pragmatic over Perfect):
+      - ❌ Inter-rater reliability (no second auditor needed)
+      - ❌ Backup integrity verification (backups don't exist)
+      - ❌ Independent verification (single-pass sufficient)
+      - ❌ Perfect commit attribution (best-effort acceptable)
+      - ❌ Comprehensive forensic audit (codebase scan sufficient)
+      - ❌ Functional testing gates (if code exists, good enough)
+      - ❌ Statistical verification (unnecessary complexity)
+
+      What We KEPT (Essential for Success):
+      - ✅ Codebase reality check (verify what's built)
+      - ✅ Status corrections (fix fraud)
+      - ✅ tasks_summary migration (preserve data, 100% valid hierarchy)
+      - ✅ Load error fixes (all tracks must load)
+      - ✅ Prevention system (validation + process)
+      - ✅ Path forward documentation (clear next steps)
+
+      =================================================================
+      QA REVIEW INTEGRATION
+      =================================================================
+
+      This plan incorporates findings from 10 QA agent reviews:
+
+      Round 1 QA Findings (Original Plan Issues):
+      - Timeline 5 weeks → 3 days was too aggressive
+      - Forensic audit approach was overkill
+      - Inter-rater reliability impossible (no second agent)
+      - Backup verification impossible (backups don't exist)
+
+      Round 2 QA Findings (Integrated Plan Issues):
+      - Added more work while claiming time reduction (paradox)
+      - Validation system needs refactor, not new build (8h not 2h)
+      - Missing tooling needs 19-27 hours to build
+      - Timeline still underestimated (reality: 5-7 days)
+
+      Pragmatic Resolution (This Plan):
+      - Focus on user's actual goal: accurate roadmap + path forward
+      - Remove perfectionistic requirements
+      - Accept best-effort commit attribution
+      - Build only essential tooling (migration script + validation)
+      - Realistic timeline: 4 days (25 hours)
+
+      =================================================================
+      SUCCESS DEFINITION
+      =================================================================
+
+      This track succeeds when:
+
+      1. ✅ You can run `vibey roadmap status` and trust the output
+      2. ✅ All 19 tracks accurately show completed/in_progress/not_started
+      3. ✅ You know which tracks need rework (clear identification)
+      4. ✅ You have a clear path forward (priority order, dependencies)
+      5. ✅ You can continue development with confidence
+      6. ✅ Roadmap maintains integrity going forward (validation prevents corruption)
+      7. ✅ 100% valid track/sprint/task hierarchy (all objects exist and load)
+
+      This track fails if:
+
+      1. ❌ Still unsure what's actually complete
+      2. ❌ Tracks marked completed with 0% work (fraud persists)
+      3. ❌ No way to prevent future corruption
+      4. ❌ Can't trust roadmap to guide development
+      5. ❌ Incomplete hierarchy (tasks_summary not migrated)
+
+      =================================================================
+
+      This is not optional. The roadmap is the foundation for all
+      future development. It must accurately reflect reality and
+      remain trustworthy going forward.

@@ -1,0 +1,37 @@
+task:
+  id: standards-system-6-task-004
+  sprint_id: standards-system-6
+  track_id: standards-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add progress indicators for standards
+  description: 'Add progress indicators for standards
+
+
+    Migrated from tasks_summary field during Phase 1B task migration.'
+  status: completed
+  blocked: false
+  created: '2025-11-11T00:00:00+00:00'
+  started: '2025-11-12T15:00:00+00:00'
+  completed: '2025-11-13T12:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: null
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-13T21:29:59.577294+00:00'
+    token_efficiency: null
+    duration_hours: null
+    migration_note: Migrated from tasks_summary field by task_migration_script.py
+      on 2025-11-13

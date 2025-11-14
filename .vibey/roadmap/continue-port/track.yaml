@@ -3,7 +3,7 @@ track:
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
+  blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null

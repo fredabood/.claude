@@ -5,15 +5,15 @@ track:
   status: completed
   blocked: false
   priority: high
-  created: '2024-11-01T00:00:00+00:00'
-  started: '2024-11-05T00:00:00+00:00'
+  created: '2025-11-05T00:00:00+00:00'
+  started: '2025-11-05T12:00:00+00:00'
   completed: '2025-11-09T13:20:00+00:00'
   estimated_duration: 3 months
   progress:
     sprints_total: 3
-    sprints_completed: 2
-    tasks_total: 20
-    tasks_completed: 20
+    sprints_completed: 3
+    tasks_total: 25
+    tasks_completed: 25
     completion_percent: 100
   sprints:
   - id: core-framework-2

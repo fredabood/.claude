@@ -1,0 +1,52 @@
+task:
+  id: roadmap-integrity-fixes-7-task-003
+  name: Fix enum serialization bug in dependency update code
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: critical
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: |
+    Find and fix the root cause of Python object serialization in YAML:
+    enum values not being converted to strings before YAML dump.
+
+    Steps:
+    1. Find all code that writes dependency status to YAML
+    2. Ensure Status enums use .value before assignment
+    3. Add validation to catch this pattern in code review
+    4. Test by updating a dependency and checking YAML output
+
+    Files likely affected:
+    - vibey/operations/roadmap/update.py
+    - vibey/operations/roadmap/init.py
+    - Any code that modifies track dependencies
+
+    Pattern to fix:
+    BAD:  dep['current_status'] = Status.COMPLETED
+    GOOD: dep['current_status'] = Status.COMPLETED.value
+  acceptance_criteria:
+  - All dependency update code uses .value for enum conversion
+  - Test update produces clean YAML (no !!python)
+  - Code review checklist includes enum serialization check
+  - All existing usage audited and fixed
+  deliverables:
+  - Fixed vibey/operations/roadmap/*.py files
+  - Test demonstrating clean YAML output
+  - Code review checklist item
+  - Audit report of all enum serialization locations
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-001
+    reason: Need clean baseline to test against
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

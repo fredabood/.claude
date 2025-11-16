@@ -1,0 +1,291 @@
+sprint:
+  id: roadmap-integrity-fixes-7
+  name: Data Integrity Prevention & Automation
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    development_tasks_total: 7
+    development_tasks_completed: 0
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: roadmap-integrity-fixes-7-task-001
+    name: Fix active YAML Python serialization corruption
+    status: not_started
+    type: development
+    estimated_duration: 15 minutes
+  - id: roadmap-integrity-fixes-7-task-002
+    name: Add pre-commit hook for Python serialization detection
+    status: not_started
+    type: development
+    estimated_duration: 30 minutes
+  - id: roadmap-integrity-fixes-7-task-003
+    name: Fix enum serialization bug in dependency update code
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
+  - id: roadmap-integrity-fixes-7-task-004
+    name: Add YAML corruption validation tests
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-7-task-005
+    name: Add CI/CD validation job for roadmap YAML files
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
+  - id: roadmap-integrity-fixes-7-task-006
+    name: Implement automated dependency status refresh
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-7-task-007
+    name: Add monitoring and alerting for data integrity
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  dependencies:
+  - type: sprint
+    target_id: roadmap-integrity-fixes-3
+    target_status: completed
+    reason: Must complete data fixes before adding prevention
+  deliverables:
+  - Fixed YAML files (3 files: aider-port, multi-platform, mcp-server)
+  - Pre-commit hook script to detect !!python patterns
+  - Fixed dependency update code with proper .value conversion
+  - YAML validation test suite (pytest)
+  - GitHub Actions workflow for roadmap validation
+  - Automated dependency refresh command/cron job
+  - Monitoring dashboard or alerts for data integrity issues
+  commits: []
+  metadata:
+    last_updated: '2025-11-16T00:00:00+00:00'
+    estimated_duration: 1 week
+    created_by: claude-code
+    sprint_type: prevention
+    priority: critical
+    rationale: |
+      CRITICAL PREVENTION SPRINT - Created 2025-11-16
+
+      CONTEXT: Comprehensive audit and remediation completed on 2025-11-16
+      - All 20 tracks audited by independent agents
+      - 8 tracks remediated with data integrity fixes
+      - 170+ YAML files updated
+      - 80+ audit/remediation reports generated
+      - Achieved 95-100% data integrity across all tracks
+
+      PROBLEM: Despite remediation, critical prevention gaps remain:
+      1. Python serialization corruption STILL ACTIVE in 3 files
+      2. No automated detection of YAML corruption
+      3. Root cause (enum serialization bug) not fixed
+      4. No validation tests to prevent regression
+      5. No CI/CD to catch issues before commit
+      6. No monitoring to detect degradation
+
+      EVIDENCE OF GAPS:
+      - Found !!python/object/apply: in 3 YAML files after remediation
+      - Pre-commit hooks check syntax but not content
+      - No tests for YAML validation
+      - Enum .value conversion inconsistent in codebase
+      - Dependency statuses manually updated (prone to staleness)
+
+      RISK: Without prevention systems, data corruption WILL recur
+      - Manual vigilance doesn't scale to 20+ tracks
+      - Enum serialization bug affects any dependency update
+      - Stale dependency statuses cause blocking issues
+      - No early warning system for degradation
+
+      SPRINT GOAL: Build prevention systems that make corruption impossible
+
+      This sprint addresses the automation gap identified during the
+      comprehensive audit. While Sprints 0-6 focus on fixing existing
+      corruption and establishing processes, Sprint 7 implements the
+      technical infrastructure that prevents recurrence automatically.
+    notes: |
+      =================================================================
+      SPRINT 7: DATA INTEGRITY PREVENTION & AUTOMATION
+      =================================================================
+
+      Created: 2025-11-16
+      Trigger: Post-audit finding of active corruption + prevention gaps
+      Duration: 1 week (8-10 hours total)
+      Priority: CRITICAL
+
+      PHILOSOPHY: "Automation over vigilance"
+
+      Manual data integrity checks don't scale. This sprint implements
+      automated safeguards that prevent corruption at commit time, detect
+      issues in CI/CD, and alert on degradation.
+
+      =================================================================
+      TASK BREAKDOWN
+      =================================================================
+
+      Task 1: Fix Active YAML Corruption (15 min, P0)
+      --------------------------------------------------------
+      Files corrupted:
+      - .vibey/roadmap/aider-port/track.yaml (line 53)
+      - .vibey/roadmap/multi-platform/track.yaml (line 96)
+      - .vibey/roadmap/mcp-server/track.yaml (line 51)
+
+      Pattern found: current_status: !!python/object/apply:vibey.roadmap.models.common.Status
+
+      Fix: Replace with plain string values (e.g., "completed", "in_progress")
+
+      Verification:
+      - grep -r "!!python" .vibey/roadmap/**/track.yaml returns nothing
+      - All 3 files parse correctly with yaml.safe_load()
+
+      Task 2: Pre-commit Hook (30 min, P0)
+      --------------------------------------------------------
+      Add to .pre-commit-config.yaml:
+
+      - repo: local
+        hooks:
+          - id: check-yaml-python-objects
+            name: Check for Python object serialization in YAML
+            entry: bash -c 'if grep -r "!!python" .vibey/roadmap/; then echo "ERROR: Python object serialization found in YAML files"; exit 1; fi'
+            language: system
+            pass_filenames: false
+            files: \\.yaml$
+
+      Test: Try to commit a file with !!python and verify it's rejected
+
+      Task 3: Fix Enum Serialization Bug (1 hour, P0)
+      --------------------------------------------------------
+      Root cause: When writing dependencies to YAML, Status enum not
+      converted to string value.
+
+      Find all locations where dependency status is written:
+      - grep -rn "current_status.*=" vibey/operations/roadmap/*.py
+
+      Fix pattern:
+      BAD:  dep['current_status'] = Status.COMPLETED
+      GOOD: dep['current_status'] = Status.COMPLETED.value
+
+      Test: Update a dependency and verify YAML has plain string
+
+      Task 4: YAML Validation Tests (2 hours, P1)
+      --------------------------------------------------------
+      Create tests/validation/test_yaml_integrity.py:
+
+      Tests to add:
+      - test_no_python_serialization_in_yaml()
+      - test_all_track_yaml_parse()
+      - test_all_sprint_yaml_parse()
+      - test_all_task_yaml_parse()
+      - test_dependency_statuses_are_strings()
+      - test_enum_fields_are_strings()
+
+      Run: pytest tests/validation/ -v
+
+      Task 5: CI/CD Validation Job (1 hour, P1)
+      --------------------------------------------------------
+      Create .github/workflows/roadmap-validation.yml:
+
+      Jobs:
+      - YAML syntax validation (all .vibey/roadmap/**/*.yaml)
+      - Python serialization detection (grep !!python)
+      - Dependency status validation (all strings, no enums)
+      - Track loadability test (can load all tracks)
+
+      Trigger: On push, on PR
+
+      Task 6: Automated Dependency Refresh (2 hours, P2)
+      --------------------------------------------------------
+      Options:
+      1. CLI command: vibey roadmap refresh-dependencies
+      2. Cron job: Daily dependency status check
+      3. Git hook: On track status change, update dependents
+
+      Implementation:
+      - Read all track dependencies
+      - Check current status of each dependency
+      - Update last_checked timestamp
+      - Update current_status if changed
+      - Use .value for enum conversion
+
+      Task 7: Monitoring & Alerting (2 hours, P2)
+      --------------------------------------------------------
+      Options:
+      1. Daily validation report (email/Slack)
+      2. Dashboard showing data integrity metrics
+      3. Git pre-push validation (stricter than pre-commit)
+
+      Metrics to track:
+      - YAML parse success rate
+      - Python serialization occurrences
+      - Dependency status staleness (last_checked age)
+      - Track loadability success rate
+
+      =================================================================
+      DELIVERABLES
+      =================================================================
+
+      1. Clean YAML files (0 Python serialization patterns)
+      2. Pre-commit hook preventing !!python patterns
+      3. Fixed enum serialization in dependency code
+      4. Validation test suite (6+ tests)
+      5. GitHub Actions workflow for roadmap validation
+      6. Dependency refresh automation
+      7. Monitoring/alerting system
+
+      =================================================================
+      SUCCESS CRITERIA
+      =================================================================
+
+      ✅ All 3 corrupted YAML files fixed
+      ✅ Attempting to commit !!python pattern fails pre-commit
+      ✅ Dependency updates produce plain string values
+      ✅ All validation tests pass (pytest tests/validation/)
+      ✅ CI/CD workflow runs on every push and catches issues
+      ✅ Dependencies refresh automatically (no manual staleness)
+      ✅ Alert system catches degradation within 24 hours
+
+      =================================================================
+      TIMELINE
+      =================================================================
+
+      Day 1 (2 hours): Tasks 1-2 (Critical fixes + pre-commit hook)
+      Day 2 (2 hours): Task 3 (Fix root cause enum bug)
+      Day 3 (2 hours): Task 4 (Validation test suite)
+      Day 4 (1 hour):  Task 5 (CI/CD validation job)
+      Day 5 (2 hours): Task 6 (Automated dependency refresh)
+      Day 6 (1 hour):  Task 7 (Monitoring & alerting)
+
+      Total: 10 hours over 6 days (1-2 hours/day)
+
+      =================================================================
+      PRIORITY JUSTIFICATION
+      =================================================================
+
+      This is CRITICAL priority because:
+
+      1. Active corruption exists RIGHT NOW (3 files)
+      2. Root cause unfixed = will happen again
+      3. Manual remediation doesn't scale (20+ tracks)
+      4. Prevention is 10x cheaper than repeated remediation
+      5. Builds on $100K+ of audit/remediation work
+
+      Cost of NOT doing this sprint:
+      - Recurring data corruption (weekly/monthly)
+      - Manual audit cycles (8-16 hours each)
+      - Developer trust erosion
+      - Downstream track blockages
+      - Technical debt accumulation
+
+      Cost of doing this sprint:
+      - 10 hours upfront investment
+      - Prevents 100+ hours of future manual work
+      - Enables confident scaling to 50+ tracks
+
+      ROI: 10:1 or better
+
+      =================================================================

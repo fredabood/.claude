@@ -1,0 +1,58 @@
+task:
+  id: roadmap-integrity-fixes-7-task-005
+  name: Add CI/CD validation job for roadmap YAML files
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: |
+    Create GitHub Actions workflow for automated roadmap validation.
+
+    Create .github/workflows/roadmap-validation.yml with jobs:
+    1. YAML Syntax Validation
+       - Use yamllint to check all .vibey/roadmap/**/*.yaml
+       - Fail on syntax errors
+
+    2. Python Serialization Detection
+       - Grep for !!python patterns
+       - Fail if found
+
+    3. Dependency Status Validation
+       - Verify all dependency statuses are strings
+       - Fail if enum objects found
+
+    4. Track Loadability Test
+       - Attempt to load all tracks with Python loader
+       - Fail if any track fails to load
+
+    Trigger: On push to main, on pull requests
+
+    Report: Create artifact with validation results
+  acceptance_criteria:
+  - GitHub Actions workflow file created
+  - Workflow triggers on push and PR
+  - All 4 validation jobs defined
+  - Workflow runs successfully on current state
+  - Intentional corruption fails the workflow
+  - Results clearly indicate which check failed
+  deliverables:
+  - .github/workflows/roadmap-validation.yml
+  - Workflow documentation
+  - Example run showing successful validation
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Leverage validation tests in CI
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

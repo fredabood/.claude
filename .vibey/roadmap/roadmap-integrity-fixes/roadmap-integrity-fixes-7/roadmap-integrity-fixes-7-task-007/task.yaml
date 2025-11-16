@@ -1,0 +1,67 @@
+task:
+  id: roadmap-integrity-fixes-7-task-007
+  name: Add monitoring and alerting for data integrity
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: medium
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Implement monitoring and alerting for roadmap data integrity.
+
+    Monitoring metrics to track:
+    1. YAML parse success rate (% of files that parse cleanly)
+    2. Python serialization occurrences (count of !!python patterns)
+    3. Dependency status staleness (age since last_checked)
+    4. Track loadability rate (% of tracks that load successfully)
+    5. Test pass rate for validation tests
+    6. Git hook success rate
+
+    Alerting options:
+    - Daily email report with integrity metrics
+    - Slack notifications on degradation
+    - GitHub issue creation on failures
+    - Dashboard visualization (optional)
+
+    Minimum viable implementation:
+    - CLI command: vibey roadmap health-check
+    - Reports all metrics above
+    - Exit code 0 if healthy, 1 if issues found
+    - Can be run in cron job or CI/CD
+
+    Advanced (optional):
+    - Grafana dashboard
+    - Prometheus metrics export
+    - PagerDuty integration
+  acceptance_criteria:
+  - Health check command implemented
+  - All 6 metrics tracked and reported
+  - Clear pass/fail status
+  - Historical trend tracking (optional)
+  - Documentation includes metric definitions
+  - Alert integration configured (at least one channel)
+  deliverables:
+  - vibey roadmap health-check command
+  - Metrics collection logic
+  - Alert integration (email/Slack/GitHub)
+  - Health check documentation
+  - Optional: dashboard configuration
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Leverage validation tests for metrics
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-006
+    reason: Dependency staleness metric
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

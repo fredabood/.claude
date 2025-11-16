@@ -1,0 +1,54 @@
+task:
+  id: roadmap-integrity-fixes-7-task-004
+  name: Add YAML corruption validation tests
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Create comprehensive test suite to validate YAML file integrity.
+
+    Create tests/validation/test_yaml_integrity.py with tests for:
+    - No Python object serialization (!!python patterns)
+    - All track YAML files parse successfully
+    - All sprint YAML files parse successfully
+    - All task YAML files parse successfully
+    - Dependency statuses are plain strings (not enum objects)
+    - All enum fields are serialized as strings
+
+    Test discovery:
+    - Automatically find all YAML files in .vibey/roadmap/
+    - Parametrize tests to check each file
+    - Report which specific files fail
+
+    Integration:
+    - Add to existing test suite
+    - Run in CI/CD
+    - Document in test README
+  acceptance_criteria:
+  - Test file created with 6+ validation tests
+  - Tests run successfully: pytest tests/validation/ -v
+  - All tests pass with current roadmap state
+  - Tests catch intentionally corrupted YAML
+  - Test output clearly identifies failing files
+  deliverables:
+  - tests/validation/test_yaml_integrity.py
+  - Test documentation
+  - CI integration (runs automatically)
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-003
+    reason: Need enum bug fixed before tests will pass
+  blocked_by: []
+  blocks: []
+  assigned_agent: test-engineer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

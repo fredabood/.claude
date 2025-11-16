@@ -1,0 +1,57 @@
+task:
+  id: roadmap-integrity-fixes-7-task-006
+  name: Implement automated dependency status refresh
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: medium
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Implement automated refresh of dependency statuses to prevent staleness.
+
+    Options to implement:
+    1. CLI command: vibey roadmap refresh-dependencies
+    2. Git hook: On track status change, auto-update dependents
+    3. Scheduled job: Daily/weekly dependency refresh
+
+    Implementation requirements:
+    - Read all track dependencies from track.yaml files
+    - Check current status of each dependency track
+    - Update current_status if changed
+    - Update last_checked timestamp
+    - Use .value for proper enum serialization
+    - Log all updates for audit trail
+
+    Prevents:
+    - Stale dependency statuses (claude-port shows in_progress when completed)
+    - Manual dependency checks
+    - Tracks incorrectly blocked/unblocked
+  acceptance_criteria:
+  - CLI command implemented and functional
+  - Command updates all track dependencies
+  - Timestamps refreshed on all checks
+  - Enum values properly serialized
+  - Audit log shows what was updated
+  - Documentation includes usage examples
+  deliverables:
+  - vibey roadmap refresh-dependencies command
+  - Dependency refresh logic in operations layer
+  - Audit logging
+  - Command documentation
+  - Optional: scheduled job configuration
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-003
+    reason: Need enum serialization fixed first
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

@@ -27,8 +27,13 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+  - tests/fixtures/expected-states/ - Expected state definitions
+  - 3 YAML files (after-deployment, after-sprint-planning, after-feature-complete)
+  commits:
+  - hash: 836166f7c6f61907477826a65927a4a4b4200dd3
+    date: '2025-11-09T22:24:34-05:00'
+    message: 'feat: Complete testing framework core components (Sprint 1 - Tasks 6-8)'
   metadata:
     last_updated: '2025-11-13T21:29:59.714335+00:00'
     token_efficiency: null

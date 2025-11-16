@@ -29,8 +29,22 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 72498a9
+    message: 'feat: Complete roadmap-integration track with v1.3.0 release prep'
+    date: '2025-11-08T14:30:00-05:00'
+  - hash: 4679cac
+    message: 'fix: Add completion dates to roadmap-integration track and Sprint 3'
+    date: '2025-11-08T14:35:00-05:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: v1.3.0 slash command implementation superseded by v2.5.0 CLI/MCP architecture
   metadata:
-    last_updated: '2025-11-08T22:00:00+00:00'
+    superseded_by: v2.5.0 CHANGELOG and release notes
+    architectural_note: v1.3.0 released with slash command integration, later superseded
+      by v2.5.0 CLI/MCP
+    last_updated: '2025-11-15T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null

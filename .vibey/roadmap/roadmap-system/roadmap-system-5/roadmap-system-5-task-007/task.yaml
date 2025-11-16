@@ -1,0 +1,22 @@
+task:
+  id: roadmap-system-5-task-007
+  title: Implement parallel task detection
+  type: implementation
+  sprint_id: roadmap-system-5
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - NOT IMPLEMENTED
+  commits: []
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

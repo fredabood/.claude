@@ -47,3 +47,7 @@ sprint:
     estimated_tokens: 60000
     actual_tokens: null
     agents_used: null
+  commits:
+  - hash: 27b127f4e873aac24997e3882ce9c8c597f45ca1
+    date: '2025-11-10T20:28:30-05:00'
+    message: 'feat: Complete Sprint 2 - Modular Config System with Auto-Migration'

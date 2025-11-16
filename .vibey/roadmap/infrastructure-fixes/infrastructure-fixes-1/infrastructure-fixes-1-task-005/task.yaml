@@ -44,15 +44,14 @@ task:
   depended_on_by: []
   deliverables: []
   commits:
-  - sha: 40c760091cb87cb8afc2edbd291469766d942858
-    message: 'fix: Phase 2 - Parallel agent deployment resolves all test and doc issues'
+  - sha: 1362d2d38dac17325ab906a393e8858d1700e08c
+    message: 'feat: Add sprint-from-plan parser and integrate with /vibey plan'
     author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-11T16:15:17-05:00'
-  - sha: f0711771465374cabeac87f4809e005f07ac7aa1
-    message: 'fix: Comprehensive audit and critical fixes - eliminate deprecated API
-      usage'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-11T16:01:52-05:00'
+    date: '2025-11-10T12:27:13-05:00'
+    files_changed:
+    - framework/commands/vibey-plan.md
+    - framework/scripts/roadmap-create-from-plan.py
+    note: Integration in vibey-plan.md DELETED Nov 12 in commit 205c877, but script preserved at framework/scripts/ and copied to vibey/cli/
   metadata:
     last_updated: '2025-11-11T21:50:49.867741+00:00'
     token_efficiency: null

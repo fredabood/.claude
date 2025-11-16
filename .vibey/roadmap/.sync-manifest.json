@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-11-10T23:51:44.729741+00:00",
+  "last_sync": "2025-11-15T16:27:38.185141+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -516,9 +516,9 @@
     "roadmap.md": {
       "source_path": "roadmap/roadmap.md",
       "target_path": "roadmap/roadmap.md",
-      "checksum": "5cfe1ce0b4e085415b335b02b28f8d5641479bdab817e82b212aabb2fd68250d",
-      "synced_at": "2025-11-10T00:20:44.642408+00:00",
-      "file_size": 2165
+      "checksum": "0462ccd2caf9137a732f134296546b8a7ac5c2d85fac2ec3ee6a270c1ce09ec5",
+      "synced_at": "2025-11-15T16:27:38.184485+00:00",
+      "file_size": 2818
     },
     "windsurf-port/track.md": {
       "source_path": "roadmap/windsurf-port/track.md",
@@ -526,6 +526,503 @@
       "checksum": "71ee29533e97e268719848a1664048ad42e3348eddad0b8381d0e35379292edc",
       "synced_at": "2025-11-10T00:20:44.642711+00:00",
       "file_size": 576
+    },
+    "aider-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/aider-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/aider-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "9c6cf09d037639c03362caac1f261fbeb7fa4ba59b496d668452f4a5bb39fbb4",
+      "synced_at": "2025-11-15T16:27:38.168680+00:00",
+      "file_size": 23295
+    },
+    "archived/forensic-corrections-2025-11-13/CORRECTIONS_MANIFEST.md": {
+      "source_path": "roadmap/archived/forensic-corrections-2025-11-13/CORRECTIONS_MANIFEST.md",
+      "target_path": "roadmap/archived/forensic-corrections-2025-11-13/CORRECTIONS_MANIFEST.md",
+      "checksum": "e7456b9dfa7033ca31729fd42909f75adab86ff2f23cf088c22b654262d0938e",
+      "synced_at": "2025-11-15T16:27:38.169006+00:00",
+      "file_size": 10364
+    },
+    "archived/forensic-corrections-2025-11-13/ROADMAP_METRICS_AFTER_CORRECTIONS.md": {
+      "source_path": "roadmap/archived/forensic-corrections-2025-11-13/ROADMAP_METRICS_AFTER_CORRECTIONS.md",
+      "target_path": "roadmap/archived/forensic-corrections-2025-11-13/ROADMAP_METRICS_AFTER_CORRECTIONS.md",
+      "checksum": "c7311542e48af5c25ab2159700742ca8f51fc760be444aad09eb009d671d48ed",
+      "synced_at": "2025-11-15T16:27:38.169208+00:00",
+      "file_size": 9972
+    },
+    "claude-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/claude-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/claude-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "74b4cd52a79bfc39a9b8647f088ca4c272646ff45976a1ea7d44b42e6d3cfc61",
+      "synced_at": "2025-11-15T16:27:38.169413+00:00",
+      "file_size": 21325
+    },
+    "continue-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/continue-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/continue-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "b20a71a8dfcbff978faba7529bc4df43f1083151e2a17c66f62bb44b82e14eb7",
+      "synced_at": "2025-11-15T16:27:38.169588+00:00",
+      "file_size": 33816
+    },
+    "core-framework/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/core-framework/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/core-framework/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "7d4b1fd73939dbdf43117ebb6e650f434de0549d392d85c13ab5c5954eb67c61",
+      "synced_at": "2025-11-15T16:27:38.169789+00:00",
+      "file_size": 13826
+    },
+    "directory-migration/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/directory-migration/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/directory-migration/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "156a8987c629a86d3f9562de0eb502401ca7dd55c323235c8379e69f1a03d16c",
+      "synced_at": "2025-11-15T16:27:38.170703+00:00",
+      "file_size": 37145
+    },
+    "documentation-system/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/documentation-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/documentation-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "e80c7f2f3a29f4b4ef2b9390134513d55aff039b6ab11641c9dac8c9274dc71c",
+      "synced_at": "2025-11-15T16:27:38.170875+00:00",
+      "file_size": 26200
+    },
+    "goose-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/goose-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/goose-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "b9e3b4e6bd17100a256472c048382350bf6fe5a730e427bbe316b2b6b527da37",
+      "synced_at": "2025-11-15T16:27:38.171823+00:00",
+      "file_size": 25616
+    },
+    "infrastructure-fixes/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/infrastructure-fixes/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/infrastructure-fixes/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "6d34862100bf6c1d6351ba55d406c6dee15c09178a0253bc31d4c49e5a4ea92b",
+      "synced_at": "2025-11-15T16:27:38.172171+00:00",
+      "file_size": 26987
+    },
+    "interface-unification/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/interface-unification/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/interface-unification/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "266f3b801c06bc057d367ff8967eeadd1bdf264f6554a4ef2a5ba10b56d1c69f",
+      "synced_at": "2025-11-15T16:27:38.172376+00:00",
+      "file_size": 27144
+    },
+    "jetbrains-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/jetbrains-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/jetbrains-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "ea01ec3358597d2c8f39621343df0fbd6a03ffb1bd184428ea81377325c0181a",
+      "synced_at": "2025-11-15T16:27:38.172573+00:00",
+      "file_size": 26617
+    },
+    "mcp-server/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/mcp-server/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/mcp-server/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "714864ed4f6f90d9a78023b3d4afa2be945d3d1077891da38fa52af5eecf1a6f",
+      "synced_at": "2025-11-15T16:27:38.172889+00:00",
+      "file_size": 36388
+    },
+    "missing-agents/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/missing-agents/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/missing-agents/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "a1bd5d588913645d0ef8d984537e8ed142a7dcad6b0c0459485847057efaa859",
+      "synced_at": "2025-11-15T16:27:38.173108+00:00",
+      "file_size": 28403
+    },
+    "multi-platform/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/multi-platform/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/multi-platform/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "e58a81b883d96a3d4127559f079968f4b3d9a9588212fe87d727b840038b4642",
+      "synced_at": "2025-11-15T16:27:38.173368+00:00",
+      "file_size": 31074
+    },
+    "platform-context-management/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/platform-context-management/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/platform-context-management/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "4ec9a7a8c62decd41a1670e44deae9c216cf07d515e84568f1734735ff1bab35",
+      "synced_at": "2025-11-15T16:27:38.173653+00:00",
+      "file_size": 25151
+    },
+    "roadmap-integration/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/roadmap-integration/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/roadmap-integration/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "e6f709d144244441ad9e44be18941ebddeaa0ee961fe15f999b2ba5be118b2dc",
+      "synced_at": "2025-11-15T16:27:38.173835+00:00",
+      "file_size": 26723
+    },
+    "roadmap-integrity-fixes/100_PERCENT_INTEGRITY_ACHIEVED.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/100_PERCENT_INTEGRITY_ACHIEVED.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/100_PERCENT_INTEGRITY_ACHIEVED.md",
+      "checksum": "1990829adea43f506f6eae5ba74269d25b48e2aeef6c27a4d0d9956a1ee81891",
+      "synced_at": "2025-11-15T16:27:38.174705+00:00",
+      "file_size": 12711
+    },
+    "roadmap-integrity-fixes/AGENT_A_CONSERVATIVE_SPRINT_PLAN.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/AGENT_A_CONSERVATIVE_SPRINT_PLAN.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/AGENT_A_CONSERVATIVE_SPRINT_PLAN.md",
+      "checksum": "8dfd9a165d7bacc3b7a6dd2b4699e839300a5b8d184bb5786eca9eda3bc4389d",
+      "synced_at": "2025-11-15T16:27:38.174881+00:00",
+      "file_size": 19119
+    },
+    "roadmap-integrity-fixes/AGENT_B_COMPREHENSIVE_SPRINT_PLAN.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/AGENT_B_COMPREHENSIVE_SPRINT_PLAN.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/AGENT_B_COMPREHENSIVE_SPRINT_PLAN.md",
+      "checksum": "1b5bb50a6c202ccb0a014312193b55e577d154b2c96771137df6e27eeecfcc2c",
+      "synced_at": "2025-11-15T16:27:38.175061+00:00",
+      "file_size": 43563
+    },
+    "roadmap-integrity-fixes/AGENT_C_PRAGMATIC_SPRINT_PLAN.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/AGENT_C_PRAGMATIC_SPRINT_PLAN.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/AGENT_C_PRAGMATIC_SPRINT_PLAN.md",
+      "checksum": "3f20120131151cbbabc6c9e4ce896f72b771e7a5a29ab51e5abb6585fa9b82d1",
+      "synced_at": "2025-11-15T16:27:38.175225+00:00",
+      "file_size": 39058
+    },
+    "roadmap-integrity-fixes/COMPREHENSIVE_GIT_HISTORY_AUDIT_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/COMPREHENSIVE_GIT_HISTORY_AUDIT_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/COMPREHENSIVE_GIT_HISTORY_AUDIT_2025-11-14.md",
+      "checksum": "fab91517a74ab9522d41ef18b518ba901ffe4a0b2d2122c93ac71e2723cfe9ab",
+      "synced_at": "2025-11-15T16:27:38.175409+00:00",
+      "file_size": 18327
+    },
+    "roadmap-integrity-fixes/CONSOLIDATED_5_AGENT_AUDIT_REPORT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/CONSOLIDATED_5_AGENT_AUDIT_REPORT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/CONSOLIDATED_5_AGENT_AUDIT_REPORT.md",
+      "checksum": "ee680017bf4ae6323dc08f315330c08bb7a8944da6d4e46749434befe906f64f",
+      "synced_at": "2025-11-15T16:27:38.175566+00:00",
+      "file_size": 17243
+    },
+    "roadmap-integrity-fixes/CONSOLIDATED_QA_GAP_ANALYSIS.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/CONSOLIDATED_QA_GAP_ANALYSIS.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/CONSOLIDATED_QA_GAP_ANALYSIS.md",
+      "checksum": "0e9d1090d8928619c4ca2f5e10172abcf14db1d975a1eeeb9898fce34a801363",
+      "synced_at": "2025-11-15T16:27:38.175731+00:00",
+      "file_size": 14677
+    },
+    "roadmap-integrity-fixes/CRITICAL_GAPS_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/CRITICAL_GAPS_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/CRITICAL_GAPS_SUMMARY.md",
+      "checksum": "eaced682c8c52a78715690727e9c7eeeaa72e350f571abd6d254b2f6794018a4",
+      "synced_at": "2025-11-15T16:27:38.175936+00:00",
+      "file_size": 9817
+    },
+    "roadmap-integrity-fixes/CRITICAL_PROCESS_REVIEW.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/CRITICAL_PROCESS_REVIEW.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/CRITICAL_PROCESS_REVIEW.md",
+      "checksum": "8d1677b02fc9e404624db2eb32c773790cc0ef303e0e06ae90b6b1a3fd6d71b2",
+      "synced_at": "2025-11-15T16:27:38.176122+00:00",
+      "file_size": 51390
+    },
+    "roadmap-integrity-fixes/CRITICAL_QA_AUDIT_SUMMARY_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/CRITICAL_QA_AUDIT_SUMMARY_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/CRITICAL_QA_AUDIT_SUMMARY_2025-11-14.md",
+      "checksum": "c6b98adccca32478f52a99fdad334403bdd39aa6bf1272c1cc8aeb04cb444a40",
+      "synced_at": "2025-11-15T16:27:38.176298+00:00",
+      "file_size": 13623
+    },
+    "roadmap-integrity-fixes/EXECUTIVE_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/EXECUTIVE_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/EXECUTIVE_SUMMARY.md",
+      "checksum": "f38344efd5bc3000d109d86ab03170d5f55992e8042a4c5c399e75fd3dc48ee4",
+      "synced_at": "2025-11-15T16:27:38.176494+00:00",
+      "file_size": 10452
+    },
+    "roadmap-integrity-fixes/FINAL_QA_CONSOLIDATED_FINDINGS.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FINAL_QA_CONSOLIDATED_FINDINGS.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FINAL_QA_CONSOLIDATED_FINDINGS.md",
+      "checksum": "8cb3f07f75af8050957a27bf2c9f3c3265c46a2dbe34cdf4f59d9d560505abd7",
+      "synced_at": "2025-11-15T16:27:38.176652+00:00",
+      "file_size": 18009
+    },
+    "roadmap-integrity-fixes/FORENSIC_AGENT_1_TIMELINE.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_1_TIMELINE.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_1_TIMELINE.md",
+      "checksum": "a9aa9003a593ad063e9996922b46941cb091793f17b0246dc12e86221868b912",
+      "synced_at": "2025-11-15T16:27:38.176837+00:00",
+      "file_size": 32559
+    },
+    "roadmap-integrity-fixes/FORENSIC_AGENT_2_FILETYPE.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_2_FILETYPE.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_2_FILETYPE.md",
+      "checksum": "e6cc3629f923b17bcfe309308bf4b502294386297ffd3b620318a706fcd3e51c",
+      "synced_at": "2025-11-15T16:27:38.177025+00:00",
+      "file_size": 26549
+    },
+    "roadmap-integrity-fixes/FORENSIC_AGENT_3_TRACKS.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_3_TRACKS.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_3_TRACKS.md",
+      "checksum": "812feae296847bce0bf769b549e2689c4c42f6e28b4a67872a75f2151bdeeb72",
+      "synced_at": "2025-11-15T16:27:38.177223+00:00",
+      "file_size": 35974
+    },
+    "roadmap-integrity-fixes/FORENSIC_AGENT_4_VELOCITY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_4_VELOCITY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_4_VELOCITY.md",
+      "checksum": "bc6a4faaddf2c4554169a249d4b12ea45f1114769c9069f5efda5a3dfe695086",
+      "synced_at": "2025-11-15T16:27:38.177409+00:00",
+      "file_size": 41983
+    },
+    "roadmap-integrity-fixes/FORENSIC_AGENT_5_DEPENDENCIES.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_5_DEPENDENCIES.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_AGENT_5_DEPENDENCIES.md",
+      "checksum": "131324accc0fc27b07d47d3b92a3f76f25c6a50d5196c7003b35283ad56191d3",
+      "synced_at": "2025-11-15T16:27:38.177573+00:00",
+      "file_size": 28771
+    },
+    "roadmap-integrity-fixes/FORENSIC_EXECUTIVE_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_EXECUTIVE_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_EXECUTIVE_SUMMARY.md",
+      "checksum": "894af1819cbaa70a66ee9cf5cad6c421fcad969da58220dd584639f9133b9010",
+      "synced_at": "2025-11-15T16:27:38.177757+00:00",
+      "file_size": 9545
+    },
+    "roadmap-integrity-fixes/FORENSIC_FINDINGS_INTEGRATION_REPORT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/FORENSIC_FINDINGS_INTEGRATION_REPORT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/FORENSIC_FINDINGS_INTEGRATION_REPORT.md",
+      "checksum": "4dfb99935c69bffe37375a59c6b50c450da065e78ffe2ceb246bb13e037ed67b",
+      "synced_at": "2025-11-15T16:27:38.177941+00:00",
+      "file_size": 25131
+    },
+    "roadmap-integrity-fixes/GAPS_VISUALIZATION.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/GAPS_VISUALIZATION.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/GAPS_VISUALIZATION.md",
+      "checksum": "4c8cdd1aac60edb30c012d6ec5d9b80f446104cac208676e48e3cf236c81cc0d",
+      "synced_at": "2025-11-15T16:27:38.178130+00:00",
+      "file_size": 36974
+    },
+    "roadmap-integrity-fixes/GIT_FORENSIC_ANALYSIS.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/GIT_FORENSIC_ANALYSIS.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/GIT_FORENSIC_ANALYSIS.md",
+      "checksum": "3f21e59946208120fe43199eb72f8f27cd5a9b92044fdee40b000340475c701e",
+      "synced_at": "2025-11-15T16:27:38.178314+00:00",
+      "file_size": 32395
+    },
+    "roadmap-integrity-fixes/GIT_HISTORY_AUDIT_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/GIT_HISTORY_AUDIT_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/GIT_HISTORY_AUDIT_2025-11-14.md",
+      "checksum": "04463a321aecb97dcc2c13ccf5add973184cc33048f6bcaf1680a5d9a4f59d09",
+      "synced_at": "2025-11-15T16:27:38.178499+00:00",
+      "file_size": 12944
+    },
+    "roadmap-integrity-fixes/INTEGRITY_CRISIS_EXECUTIVE_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/INTEGRITY_CRISIS_EXECUTIVE_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/INTEGRITY_CRISIS_EXECUTIVE_SUMMARY.md",
+      "checksum": "0616997c5199662b2f980b8b55e55cfe7c876d52f42825b75c23db0881e11b33",
+      "synced_at": "2025-11-15T16:27:38.178691+00:00",
+      "file_size": 8685
+    },
+    "roadmap-integrity-fixes/MULTI_AGENT_CONSENSUS_ANALYSIS.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/MULTI_AGENT_CONSENSUS_ANALYSIS.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/MULTI_AGENT_CONSENSUS_ANALYSIS.md",
+      "checksum": "b706bbf29fb3357dca747ccd352df887cc8aacf79b48fa6b521e6139a6869559",
+      "synced_at": "2025-11-15T16:27:38.178885+00:00",
+      "file_size": 29763
+    },
+    "roadmap-integrity-fixes/PHASE_1B_TASK_MIGRATION_REPORT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/PHASE_1B_TASK_MIGRATION_REPORT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/PHASE_1B_TASK_MIGRATION_REPORT.md",
+      "checksum": "a72f111ff05b1463e3d60be33e021952cefcc0fb056a837f8d0ebda9223cdf53",
+      "synced_at": "2025-11-15T16:27:38.179092+00:00",
+      "file_size": 10191
+    },
+    "roadmap-integrity-fixes/PRAGMATIC_APPROACH.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/PRAGMATIC_APPROACH.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/PRAGMATIC_APPROACH.md",
+      "checksum": "292fe2c970d176481a1c9d9381f5ab324f7ad142dd58c0ce4eddfeb1add221fc",
+      "synced_at": "2025-11-15T16:27:38.179293+00:00",
+      "file_size": 6402
+    },
+    "roadmap-integrity-fixes/QA_AGENT_1_TRACKS_1-4_COMPREHENSIVE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_1_TRACKS_1-4_COMPREHENSIVE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_1_TRACKS_1-4_COMPREHENSIVE_AUDIT.md",
+      "checksum": "a79c06277689b52f6d57ab72cf800e201a355afb95b43922567850cdc36d9413",
+      "synced_at": "2025-11-15T16:27:38.179489+00:00",
+      "file_size": 56092
+    },
+    "roadmap-integrity-fixes/QA_AGENT_1_TRACK_VALIDATION.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_1_TRACK_VALIDATION.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_1_TRACK_VALIDATION.md",
+      "checksum": "fccc58bd05835ddac4a418254f6f07c00acfeb59db3762cd1455b1f0926e028f",
+      "synced_at": "2025-11-15T16:27:38.179661+00:00",
+      "file_size": 16342
+    },
+    "roadmap-integrity-fixes/QA_AGENT_2_TASK_VALIDATION.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_2_TASK_VALIDATION.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_2_TASK_VALIDATION.md",
+      "checksum": "e209f8411fd02feef33905980c6530b8ef3b9456a60e2f864dcb07e18c4781c5",
+      "synced_at": "2025-11-15T16:27:38.179831+00:00",
+      "file_size": 17652
+    },
+    "roadmap-integrity-fixes/QA_AGENT_2_TRACKS_5-8_COMPREHENSIVE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_2_TRACKS_5-8_COMPREHENSIVE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_2_TRACKS_5-8_COMPREHENSIVE_AUDIT.md",
+      "checksum": "ce0eb318e06b93db0719116450da4b03c1b1823c512fbcba838ff4f8b256f525",
+      "synced_at": "2025-11-15T16:27:38.180037+00:00",
+      "file_size": 40504
+    },
+    "roadmap-integrity-fixes/QA_AGENT_3_FORENSIC_CROSSREF.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_3_FORENSIC_CROSSREF.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_3_FORENSIC_CROSSREF.md",
+      "checksum": "a2afcf74f621fc2a790e731eca23b7ed127d4fa0f0d6472d401ff5948ad06ee4",
+      "synced_at": "2025-11-15T16:27:38.180208+00:00",
+      "file_size": 18148
+    },
+    "roadmap-integrity-fixes/QA_AGENT_3_TRACKS_9-12_COMPREHENSIVE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_3_TRACKS_9-12_COMPREHENSIVE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_3_TRACKS_9-12_COMPREHENSIVE_AUDIT.md",
+      "checksum": "4c5797008d508e38d1c0ebd3e249c50527a00468014907ab2ddbab9629eb6f19",
+      "synced_at": "2025-11-15T16:27:38.180404+00:00",
+      "file_size": 42009
+    },
+    "roadmap-integrity-fixes/QA_AGENT_4_TRACKS_13-16_COMPREHENSIVE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_4_TRACKS_13-16_COMPREHENSIVE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_4_TRACKS_13-16_COMPREHENSIVE_AUDIT.md",
+      "checksum": "2d8599dc49e898863d9a5b856d1935b19255d91933092a85a8224544a84a3e14",
+      "synced_at": "2025-11-15T16:27:38.180591+00:00",
+      "file_size": 46030
+    },
+    "roadmap-integrity-fixes/QA_AGENT_5_TRACKS_17-20_COMPREHENSIVE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_5_TRACKS_17-20_COMPREHENSIVE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_AGENT_5_TRACKS_17-20_COMPREHENSIVE_AUDIT.md",
+      "checksum": "45aab8f2a7c27eb8ccc2b2876f043e68908c062c81c0049a228e5ab34c0812ab",
+      "synced_at": "2025-11-15T16:27:38.180785+00:00",
+      "file_size": 47452
+    },
+    "roadmap-integrity-fixes/QA_ALPHA_AUDIT_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_AUDIT_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_AUDIT_SUMMARY.md",
+      "checksum": "ae1b6e2a9d0fd07d63bf95572a6034870f3635dfab1b20697fd582cc359d1dcf",
+      "synced_at": "2025-11-15T16:27:38.181000+00:00",
+      "file_size": 10133
+    },
+    "roadmap-integrity-fixes/QA_ALPHA_COMPLETE_AUDIT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_COMPLETE_AUDIT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_COMPLETE_AUDIT.md",
+      "checksum": "5f1b97829ae973c229ca2ea52293367d23ea572500a597bbee1a6cd37f4defc6",
+      "synced_at": "2025-11-15T16:27:38.181198+00:00",
+      "file_size": 32852
+    },
+    "roadmap-integrity-fixes/QA_ALPHA_COMPREHENSIVE_AUDIT_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_COMPREHENSIVE_AUDIT_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_ALPHA_COMPREHENSIVE_AUDIT_2025-11-14.md",
+      "checksum": "b7c4a7a8d217d1f3cab594bc28560bd512ff4746e13f89668decd1221fdb150a",
+      "synced_at": "2025-11-15T16:27:38.181381+00:00",
+      "file_size": 24093
+    },
+    "roadmap-integrity-fixes/QA_BETA_CROSSREF_VALIDATION.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_BETA_CROSSREF_VALIDATION.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_BETA_CROSSREF_VALIDATION.md",
+      "checksum": "22dc72740d97d3e46aba10026f18cec297ad574d9e49f01c8bb238ed6ddf0722",
+      "synced_at": "2025-11-15T16:27:38.181570+00:00",
+      "file_size": 18399
+    },
+    "roadmap-integrity-fixes/QA_GAMMA_REALITY_CHECK.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_GAMMA_REALITY_CHECK.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_GAMMA_REALITY_CHECK.md",
+      "checksum": "c27c763d996d9613b44c5f06b41e50d9632a69a8df07b64edb186bf0066578d7",
+      "synced_at": "2025-11-15T16:27:38.181807+00:00",
+      "file_size": 31311
+    },
+    "roadmap-integrity-fixes/QA_INTEGRATION_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QA_INTEGRATION_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QA_INTEGRATION_SUMMARY.md",
+      "checksum": "7f49bc874aa14ddaa143420b896d56309238c06ea0108761658ecfdccc266302",
+      "synced_at": "2025-11-15T16:27:38.182038+00:00",
+      "file_size": 9033
+    },
+    "roadmap-integrity-fixes/QUALITY_GATE_EXECUTION_GAP.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/QUALITY_GATE_EXECUTION_GAP.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/QUALITY_GATE_EXECUTION_GAP.md",
+      "checksum": "550cc57888fd4f31987f128ee93e8f11e1d3058e3090b45eadd2dc5894af65d1",
+      "synced_at": "2025-11-15T16:27:38.182260+00:00",
+      "file_size": 10413
+    },
+    "roadmap-integrity-fixes/REALITY_MATRIX.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/REALITY_MATRIX.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/REALITY_MATRIX.md",
+      "checksum": "ba4bb7049f2ce37a0d1a3eba85b13fd77fa6ff79cf70c117598398175434e504",
+      "synced_at": "2025-11-15T16:27:38.182488+00:00",
+      "file_size": 7084
+    },
+    "roadmap-integrity-fixes/RECOMMENDED_CHANGES.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/RECOMMENDED_CHANGES.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/RECOMMENDED_CHANGES.md",
+      "checksum": "610b763ea693c8f645f9ff62a08d6dc8a1e2cee1c2f504e5faf9b1dd28b96acc",
+      "synced_at": "2025-11-15T16:27:38.182667+00:00",
+      "file_size": 18636
+    },
+    "roadmap-integrity-fixes/RECOVERY_IMPACT_ANALYSIS_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/RECOVERY_IMPACT_ANALYSIS_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/RECOVERY_IMPACT_ANALYSIS_2025-11-14.md",
+      "checksum": "391fb2f5f9f8e9b72c3ec8254d00acccab08db3366a3a10e1f25bc020fd9c1a5",
+      "synced_at": "2025-11-15T16:27:38.182838+00:00",
+      "file_size": 15845
+    },
+    "roadmap-integrity-fixes/REVIEW_INDEX.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/REVIEW_INDEX.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/REVIEW_INDEX.md",
+      "checksum": "be0d8da395222ead65836b8933b173892cb89c72b8bf67a9bc73b7c2f354bf9e",
+      "synced_at": "2025-11-15T16:27:38.183053+00:00",
+      "file_size": 11255
+    },
+    "roadmap-integrity-fixes/REVISED_AUDIT_WITH_CONTEXT_2025-11-14.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/REVISED_AUDIT_WITH_CONTEXT_2025-11-14.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/REVISED_AUDIT_WITH_CONTEXT_2025-11-14.md",
+      "checksum": "b9fca8490ff3033b64472f88d482cc0a3df32f9743606d8f6e73e016e39ee55b",
+      "synced_at": "2025-11-15T16:27:38.183262+00:00",
+      "file_size": 11790
+    },
+    "roadmap-integrity-fixes/SESSION_STATUS_2025-11-13.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/SESSION_STATUS_2025-11-13.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/SESSION_STATUS_2025-11-13.md",
+      "checksum": "3c33def44f4d7f33495ba8bd6b1e33f3d56603d9a369a579e8dcc9b02301ed8f",
+      "synced_at": "2025-11-15T16:27:38.183508+00:00",
+      "file_size": 10576
+    },
+    "roadmap-integrity-fixes/SPRINT_1_COMPLETION_REPORT.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/SPRINT_1_COMPLETION_REPORT.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/SPRINT_1_COMPLETION_REPORT.md",
+      "checksum": "58878af1fa95839503920beed9f212e4de4d66a8608b0352665e7f32d2f6ddcd",
+      "synced_at": "2025-11-15T16:27:38.183692+00:00",
+      "file_size": 13511
+    },
+    "roadmap-integrity-fixes/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "12850abe5ef40d869b61814dd0af32c86bc838e802a1d28fbaf3f73bd40a59f8",
+      "synced_at": "2025-11-15T16:27:38.183873+00:00",
+      "file_size": 23031
+    },
+    "roadmap-integrity-fixes/TRACK_UPDATE_SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/TRACK_UPDATE_SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/TRACK_UPDATE_SUMMARY.md",
+      "checksum": "c52c062b0e0d5301a25580ba1fd323dee63b4c2d9e9c7212d036a1364a8b7087",
+      "synced_at": "2025-11-15T16:27:38.184093+00:00",
+      "file_size": 8411
+    },
+    "roadmap-system/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/roadmap-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/roadmap-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "2e9048c745e7c5820c24f2d182affb391228a76b70c4ecca15dc28977c91a0d3",
+      "synced_at": "2025-11-15T16:27:38.184279+00:00",
+      "file_size": 25340
+    },
+    "standards-system/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/standards-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/standards-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "8f4adbd62450c1371daffd1c8c7c15cee7a35a67158762113ac82cb2dad329f0",
+      "synced_at": "2025-11-15T16:27:38.184701+00:00",
+      "file_size": 25318
+    },
+    "testing-system/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/testing-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/testing-system/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "166d06668ba36b8fde7b22853068cd4b7d6b458baeee0a70c973a20a13507153",
+      "synced_at": "2025-11-15T16:27:38.184911+00:00",
+      "file_size": 30633
+    },
+    "windsurf-port/TRACK_AUDIT_REPORT_2025-11-15.md": {
+      "source_path": "roadmap/windsurf-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "target_path": "roadmap/windsurf-port/TRACK_AUDIT_REPORT_2025-11-15.md",
+      "checksum": "18d253ec34c363ab4a4418f385f8c3fba0afbebe4d4cd28734a47ecdd62876ab",
+      "synced_at": "2025-11-15T16:27:38.185099+00:00",
+      "file_size": 22104
     }
   },
   "sync_history": [
@@ -823,6 +1320,14 @@
       "files_skipped": 75,
       "files_deleted": 0,
       "duration_seconds": 0.00797,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-15T16:27:38.185141+00:00",
+      "files_copied": 72,
+      "files_skipped": 74,
+      "files_deleted": 0,
+      "duration_seconds": 0.027809,
       "errors": 0
     }
   ]

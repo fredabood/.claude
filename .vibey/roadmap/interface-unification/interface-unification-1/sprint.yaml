@@ -19,26 +19,50 @@ sprint:
     name: Delete all slash commands (framework/commands/)
     status: completed
     notes: Deleted 6 slash commands (4,389 lines total)
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   - id: interface-unification-1-task-002
     name: Delete test scripts and audit standalone scripts
     status: completed
     notes: Deleted 2 test scripts. Kept 15 functional scripts (CLI dependencies) for Sprint 2 refactoring
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   - id: interface-unification-1-task-003
     name: Audit deleted files for unique functionality
     status: completed
     notes: Created INTERFACE_UNIFICATION_SPRINT1_AUDIT.md. Discovered CLI uses run_script() pattern
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   - id: interface-unification-1-task-004
     name: Implement missing features in CLI (if any)
     status: completed
     notes: No missing features identified
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   - id: interface-unification-1-task-005
     name: Clean up imports and dead references
     status: completed
     notes: Updated CLAUDE.md to remove framework/commands/ references
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   - id: interface-unification-1-task-006
     name: Update project structure documentation
     status: completed
     notes: Created USER_JOURNEY_DESIGN.md and INTERFACE_UNIFICATION_SPRINT1_COMPLETE.md
+    completion:
+      commit_hash: 205c877
+      commit_message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
+      completed_at: '2025-11-12T16:22:27-05:00'
   dependencies: []
   blocked_by: []
   quality_gates: []

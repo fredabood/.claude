@@ -52,19 +52,19 @@ track:
     required_status: completed
     current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-11T05:29:21.159268+00:00'
+    last_checked: '2025-11-16T14:19:45.620460+00:00'
   - blocker_id: claude-port
     blocker_type: track
     required_status: completed
     current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-11T05:29:21.163848+00:00'
+    last_checked: '2025-11-16T14:19:45.620460+00:00'
   - blocker_id: goose-port
     blocker_type: track
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-09T21:40:22.279174+00:00'
+    last_checked: '2025-11-16T14:19:45.620460+00:00'
   depended_on_by: []
   quality_gates:
   - name: Comprehensive Testing
@@ -104,7 +104,12 @@ track:
   - 'Free BYOK: Cost-effective for users'
   - 'Demonstrates Multi-Agent Value: Vibey orchestration + Cascade execution'
   - 'Complements Cursor: Another AI-first IDE option'
-  commits: []
+  commits:
+  - hash: c91f8831c2340aaa8a6c111c857f7fe035544da7
+    date: '2025-11-09T00:00:00+00:00'
+    message: 'feat: Add 4 new platform ports to roadmap (Aider, Continue, Windsurf, JetBrains)'
+    type: planning
+    scope: track_creation
   standards: []
   metadata:
     created_by: vibey-framework-team

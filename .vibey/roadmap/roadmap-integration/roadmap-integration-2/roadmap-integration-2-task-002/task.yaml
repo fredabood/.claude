@@ -25,8 +25,19 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: b45ebd3
+    message: 'feat: Implement conversational task status updates in /vibey code'
+    date: '2025-11-08T13:40:00-05:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Task status updates migrated to vibey CLI
   metadata:
+    superseded_by: vibey roadmap start/complete/block/unblock commands
+    architectural_note: 'Conversational updates replaced by: vibey roadmap start <task-id>,
+      vibey roadmap complete <task-id>'
     last_updated: '2025-11-08T13:35:02.322438+00:00'
     token_efficiency: null
     duration_hours: null

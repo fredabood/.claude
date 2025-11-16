@@ -1,0 +1,34 @@
+task:
+  id: roadmap-system-3-task-004
+  title: Implement `vibey sprint list/status`
+  type: implementation
+  sprint_id: roadmap-system-3
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-12T17:00:00+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - vibey/cli/roadmap_commands/list_cmd.py
+  commits:
+  - sha: 082b952
+    message: 'feat: Wire CLI commands to script functionality (Task 004)'
+    date: '2025-11-10T19:03:27-05:00'
+    author: Fred Abood
+    platform: claude-code
+    submitted_at: 1762819407
+  - sha: c5c575e
+    message: 'feat: Verify and fix roadmap CLI commands (Tasks 006-007)'
+    date: '2025-11-10T19:07:12-05:00'
+    author: Fred Abood
+    platform: claude-code
+    submitted_at: 1762819632
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

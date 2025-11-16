@@ -36,23 +36,65 @@ track:
     started: '2025-11-12T22:00:00+00:00'
   dependencies: []
   blocks:
-  - platform-context-management
-  - standards-system
-  - claude-port
-  - goose-port
-  - aider-port
-  - continue-port
-  - multi-platform
+  - type: track
+    target_id: platform-context-management
+    at_status: not_started
+    reason: Requires clean CLI/MCP foundation before implementing context management
+  - type: track
+    target_id: standards-system
+    at_status: not_started
+    reason: Standards enforcement depends on unified interface architecture
+  - type: track
+    target_id: claude-port
+    at_status: not_started
+    reason: Claude integration requires completed interface unification to avoid legacy patterns
+  - type: track
+    target_id: goose-port
+    at_status: not_started
+    reason: Goose port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: aider-port
+    at_status: not_started
+    reason: Aider port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: continue-port
+    at_status: not_started
+    reason: Continue port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Multi-platform strategy requires unified interface foundation
   blocked_by: []
   depends_on: []
   depended_on_by:
-  - platform-context-management
-  - standards-system
-  - claude-port
-  - goose-port
-  - aider-port
-  - continue-port
-  - multi-platform
+  - type: track
+    target_id: platform-context-management
+    at_status: not_started
+    reason: Requires clean CLI/MCP foundation before implementing context management
+  - type: track
+    target_id: standards-system
+    at_status: not_started
+    reason: Standards enforcement depends on unified interface architecture
+  - type: track
+    target_id: claude-port
+    at_status: not_started
+    reason: Claude integration requires completed interface unification to avoid legacy patterns
+  - type: track
+    target_id: goose-port
+    at_status: not_started
+    reason: Goose port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: aider-port
+    at_status: not_started
+    reason: Aider port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: continue-port
+    at_status: not_started
+    reason: Continue port depends on clean CLI/MCP foundation
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Multi-platform strategy requires unified interface foundation
   quality_gates:
   - name: Clean Slate
     threshold: 100

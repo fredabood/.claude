@@ -1,0 +1,28 @@
+task:
+  id: roadmap-system-1-task-006
+  title: Implement YAML validation logic
+  type: implementation
+  sprint_id: roadmap-system-1
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-12T17:00:00+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - vibey/roadmap/validation/ - Validation logic
+  commits:
+  - sha: 2d0f313
+    message: 'feat: Move framework modules to vibey package (Task 002)'
+    date: '2025-11-10T18:47:49-05:00'
+    author: Fred Abood
+    platform: claude-code
+    submitted_at: 1762818469
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

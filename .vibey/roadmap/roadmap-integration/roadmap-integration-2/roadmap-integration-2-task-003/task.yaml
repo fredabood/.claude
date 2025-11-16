@@ -25,8 +25,27 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: c668702
+    message: 'feat: Add comprehensive agent library management and AI-powered optimization
+      to Vibey Manager'
+    date: '2025-11-08T13:45:00-05:00'
+  - hash: 7fb5a3e
+    message: 'feat: Add comprehensive roadmap management section to Vibey Manager (Task
+      1.5)'
+    date: '2025-11-08T18:25:00+00:00'
+  - hash: 899de71
+    message: 'feat: Update Vibey Manager with hierarchical roadmap commands'
+    date: '2025-11-10T19:40:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Vibey Manager agent deleted - roadmap commands migrated to vibey CLI
   metadata:
+    superseded_by: vibey roadmap CLI and MCP server tools
+    architectural_note: 'Vibey Manager agent replaced by: vibey CLI (terminal) and
+      MCP server (AI assistants)'
     last_updated: '2025-11-08T13:35:02.322451+00:00'
     token_efficiency: null
     duration_hours: null

@@ -41,8 +41,21 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 176f3a3
+    message: 'docs: Add Sprint 1 completion summary for roadmap-integration'
+    date: '2025-11-08T19:10:00+00:00'
+  - hash: ba20d76
+    message: 'docs: Add comprehensive session handoff for infrastructure-fixes sprint'
+    date: '2025-11-10T21:00:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Slash command documentation deleted, replaced by CLI/MCP documentation
   metadata:
-    last_updated: '2025-11-08T13:18:26.791660+00:00'
+    superseded_by: vibey/cli/README.md and vibey/cli/CLI.md
+    architectural_note: Documentation updated to reflect CLI/MCP architecture
+    last_updated: '2025-11-15T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null

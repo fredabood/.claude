@@ -57,7 +57,11 @@ task:
   blocks: []
   blocked_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: bb4520cb13379e3c6b92bb4e0b3e99f36f81fdcb
+    date: '2025-11-07T20:52:18-05:00'
+    message: 'feat: integrate RoadmapCache into CLI commands (Task 002)'
+    impact: 'Integrated cache across all roadmap CLI commands for 5x performance improvement'
   metadata:
     last_updated: '2025-11-08T10:10:00.486555+00:00'
     token_efficiency: null

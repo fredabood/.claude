@@ -50,24 +50,29 @@ task:
     - Backup created before migration
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:48.458498+00:00'
-  started: null
-  completed: null
+  started: '2025-11-09T17:13:00+00:00'
+  completed: '2025-11-10T09:18:33+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
   estimated_tokens: 5000
-  actual_tokens: null
+  actual_tokens: 8000
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+  - framework/scripts/migrate-to-hierarchical.py (421 lines - migration script)
+  - .vibey/hierarchical-migration-backups/ (backup directory)
+  commits:
+  - hash: 1c506e7749e59b100927df1b8529e88cb55baa45
+    date: '2025-11-09T17:16:51+00:00'
+    message: 'feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)'
   metadata:
     last_updated: '2025-11-09T21:29:48.458617+00:00'
     token_efficiency: null

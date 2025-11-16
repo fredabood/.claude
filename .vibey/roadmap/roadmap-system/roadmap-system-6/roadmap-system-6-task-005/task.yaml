@@ -1,0 +1,22 @@
+task:
+  id: roadmap-system-6-task-005
+  title: Create architecture diagrams
+  type: documentation
+  sprint_id: roadmap-system-6
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-12T17:00:00+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - test-engineer
+  deliverables:
+  - Diagrams in ROADMAP_OBJECT_HIERARCHY.md
+  commits: []
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

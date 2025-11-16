@@ -28,9 +28,10 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - 205c877b616c64df0c5c97d1872a037f2e135337
   metadata:
-    last_updated: '2025-11-13T21:29:59.294925+00:00'
+    last_updated: '2025-11-15T18:18:12.740996+00:00'
     token_efficiency: null
     duration_hours: null
     migration_note: Migrated from tasks_summary field by task_migration_script.py

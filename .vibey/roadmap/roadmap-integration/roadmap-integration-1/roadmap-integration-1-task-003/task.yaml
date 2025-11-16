@@ -36,8 +36,22 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: fd7a44e
+    message: 'feat: Complete sprint plan parser integration (Task 1.2 DONE)'
+    date: '2025-11-08T18:19:41+00:00'
+  - hash: 1362d2d
+    message: 'feat: Add sprint-from-plan parser and integrate with /vibey plan'
+    date: '2025-11-10T19:10:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Task extraction logic migrated to vibey roadmap CLI
   metadata:
+    superseded_by: vibey/operations/roadmap/plan_parser.py
+    architectural_note: Task extraction now handled by Python library, called by CLI
+      and MCP
     last_updated: '2025-11-08T13:18:26.791649+00:00'
     token_efficiency: null
     duration_hours: null

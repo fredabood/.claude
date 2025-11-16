@@ -1,0 +1,36 @@
+task:
+  id: roadmap-system-5-task-006
+  title: Build sprint retroactive agent analysis
+  type: implementation
+  sprint_id: roadmap-system-5
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:47:00+00:00'
+  completed: '2025-11-10T18:47:49+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - vibey/cli/roadmap_lib/agents.py - get_agent_workload() method
+  - vibey/cli/roadmap_commands/agents.py - Complete CLI command implementation
+  - vibey/cli/roadmap - CLI integration (lines 169-173, 372-374)
+  - Implemented 'roadmap agents --workload' to show all agent workloads
+  - Implemented 'roadmap agents --capabilities' to show agent capabilities
+  - Implemented 'roadmap agents --agent <name>' for specific agent details
+  - Workload tracking: total_tasks, in_progress, not_started, completed counts
+  - Visual completion bars and active task lists
+  commits:
+  - sha: 2d0f313
+    message: 'feat: Move framework modules to vibey package (Task 002)'
+    date: '2025-11-10T18:47:49-05:00'
+  dependencies:
+  - roadmap-system-5-task-001
+  blocked_by: []
+  blocks: []
+  metadata:
+    implementation_notes: 'Complete workload analysis system. AgentRouter.get_agent_workload() (lines 139-195) iterates through all tracks/sprints/tasks and aggregates statistics per agent. Returns dictionary mapping agent names to workload stats (total_tasks, status counts, task list). CLI command (158 lines) provides pretty-printed output with completion bars, active task lists, and agent statistics. Fully wired into main roadmap CLI.'
+    verification: 'Code verified in vibey/cli/roadmap_lib/agents.py lines 139-195 (get_agent_workload method) and vibey/cli/roadmap_commands/agents.py (complete CLI). Wired in vibey/cli/roadmap lines 169-173, 372-374. Command is fully functional and accessible via "roadmap agents"'
+    cli_status: 'FULLY WIRED - accessible via "roadmap agents" command'

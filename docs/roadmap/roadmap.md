@@ -20,10 +20,10 @@ Timeline: Q1 2025 - Q4 2025 (12 months)
 
 ## Progress
 
-- **Tracks:** 3/11 completed
-- **Sprints:** 12/37 completed
-- **Tasks:** 97/166 completed
-- **Overall:** 58% complete
+- **Tracks:** 3/14 completed
+- **Sprints:** 12/45 completed
+- **Tasks:** 97/212 completed
+- **Overall:** 46% complete
 
 ## Tracks
 
@@ -46,6 +46,26 @@ Timeline: Q1 2025 - Q4 2025 (12 months)
 - **ID:** `documentation-system`
 - **Status:** ⚪ Not Started
 - **Priority:** 🟠 High
+
+### Interface Unification & Simplification
+- **ID:** `interface-unification`
+- **Status:** ⚪ Not Started
+- **Priority:** 🔴 Critical
+- **Timeline:** 3 weeks
+- **Note:** Delete legacy interfaces, unify CLI + MCP. Must complete first to prevent drift.
+
+### Platform Context Management System
+- **ID:** `platform-context-management`
+- **Status:** ⚪ Not Started
+- **Priority:** 🔴 Critical
+- **Timeline:** 5 weeks
+- **Note:** Enables cross-platform sprint collaboration. Blocked by interface-unification.
+
+### Roadmap Standards System
+- **ID:** `standards-system`
+- **Status:** ⚪ Not Started
+- **Priority:** 🔴 Critical
+- **Timeline:** 6 weeks
 
 ### MCP Server Foundation
 - **ID:** `mcp-server`

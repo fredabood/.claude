@@ -50,3 +50,16 @@ sprint:
     estimated_tokens: 80000
     actual_tokens: null
     agents_used: null
+  commits:
+  - hash: 0a680f2097836afa4640a470b8019058e112ce16
+    date: '2025-11-10T20:34:21-05:00'
+    message: 'feat: Sprint 3 Tasks 001-004 - Platform Adapter Foundation'
+  - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
+    date: '2025-11-10T20:48:19-05:00'
+    message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
+  - hash: cbeeec03fc239992679cd68cf2dd1c71090223a6
+    date: '2025-11-10T20:54:11-05:00'
+    message: 'docs: Sprint 3 Complete - Tasks 014-016 + Documentation'
+  - hash: 884b2efa68d4159d330c12f6715f5f8761ee09f3
+    date: '2025-11-10T23:43:45-05:00'
+    message: 'feat: Complete directory-migration track - All 3 sprints, 45 tasks'

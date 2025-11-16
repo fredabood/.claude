@@ -66,7 +66,11 @@ task:
   blocks: []
   blocked_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 3df89e0ddce8d8c4b69e9dcb2ff96f80eb07c36e
+    date: '2025-11-07T21:05:42-05:00'
+    message: 'feat: add persistent disk cache for faster startup (Task 003)'
+    impact: 'Added disk cache persistence, startup time < 10ms (100x faster than rebuilding)'
   metadata:
     last_updated: '2025-11-08T10:10:00.486566+00:00'
     token_efficiency: null

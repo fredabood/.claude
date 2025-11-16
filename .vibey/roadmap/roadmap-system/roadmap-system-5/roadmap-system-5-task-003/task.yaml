@@ -1,0 +1,32 @@
+task:
+  id: roadmap-system-5-task-003
+  title: Build agent-task matching logic
+  type: implementation
+  sprint_id: roadmap-system-5
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:47:00+00:00'
+  completed: '2025-11-10T18:47:49+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - vibey/cli/roadmap_lib/agents.py - auto_assign_task() method
+  - Automatic task assignment based on confidence threshold
+  - Default min_confidence of 0.3 for auto-assignment
+  - Returns agent name if confidence sufficient, None otherwise
+  - Prevents low-confidence mismatches
+  commits:
+  - sha: 2d0f313
+    message: 'feat: Move framework modules to vibey package (Task 002)'
+    date: '2025-11-10T18:47:49-05:00'
+  dependencies:
+  - roadmap-system-5-task-001
+  blocked_by: []
+  blocks: []
+  metadata:
+    implementation_notes: 'Implemented auto_assign_task() method in AgentRouter class (lines 121-137). Uses recommend_agent_for_task() and checks if top recommendation meets min_confidence threshold (default 0.3). Returns agent name for auto-assignment or None if confidence too low. Prevents incorrect assignments while enabling automation for clear matches.'
+    verification: 'Code verified in vibey/cli/roadmap_lib/agents.py lines 121-137 - auto_assign_task() with configurable confidence threshold'

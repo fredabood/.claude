@@ -1,0 +1,44 @@
+task:
+  id: multi-platform-2-task-002
+  sprint_id: multi-platform-2
+  track_id: multi-platform
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define adapter interface methods
+  description: Specify all methods for platform deployment, context generation, validation, and feature support
+  status: completed
+  blocked: false
+  created: '2025-11-10T20:30:00+00:00'
+  started: '2025-11-10T20:30:00+00:00'
+  completed: '2025-11-10T20:34:21+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: 'Sprint 2: Design Adapter Pattern & Interface'
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - get_platform_name() method
+  - get_deployment_dir() method
+  - deploy() main deployment logic
+  - generate_context_file() method
+  - validate_deployment() method
+  - pre_deploy_hook() and post_deploy_hook()
+  - Feature support query methods
+  commits:
+  - hash: 0a680f2097836afa4640a470b8019058e112ce16
+    date: '2025-11-10T20:34:21-05:00'
+    message: 'feat: Sprint 3 Tasks 001-004 - Platform Adapter Foundation'
+    note: 'Shared deliverable with directory-migration-3 Task 002'
+  metadata:
+    last_updated: '2025-11-15T16:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    cross_reference: directory-migration-3-task-002

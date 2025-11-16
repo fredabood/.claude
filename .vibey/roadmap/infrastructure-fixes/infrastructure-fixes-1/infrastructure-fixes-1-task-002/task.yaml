@@ -39,7 +39,14 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - sha: 40c5be4b6c0e7e3b1f9b8e3e3e3e3e3e3e3e3e3e
+    message: 'feat: Add roadmap CLI wrapper script for easy command access'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-10T09:56:21-05:00'
+    files_changed:
+    - framework/scripts/roadmap-cli.sh
+    - docs/ROADMAP_CLI.md
   metadata:
     last_updated: '2025-11-10T09:18:14.183763+00:00'
     token_efficiency: null

@@ -1,0 +1,34 @@
+task:
+  id: roadmap-system-4-task-004
+  title: Build automatic version bumping logic
+  type: implementation
+  sprint_id: roadmap-system-4
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:47:00+00:00'
+  completed: '2025-11-10T19:04:11+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - web-developer
+  deliverables:
+  - vibey/cli/roadmap_lib/versioning.py - VersionManager class with semantic versioning
+  - Implemented bump_version() with major/minor/patch support
+  - Implemented parse_version() and format_version() utilities
+  - Implemented should_auto_bump() for sprint/track completion triggers
+  - Implemented bump_roadmap_version() with activity logging
+  commits:
+  - sha: 2d0f313
+    message: 'feat: Move framework modules to vibey package (Task 002)'
+    date: '2025-11-10T18:47:49-05:00'
+  - sha: 90d061f
+    message: 'feat: Update all imports to vibey package structure (Task 005)'
+    date: '2025-11-10T19:04:11-05:00'
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata:
+    implementation_notes: 'Complete VersionManager class (203 lines) with semantic versioning support. Handles version parsing, bumping (major/minor/patch), auto-bump triggers (sprint_completion, track_completion, manual), and activity logging. Ready for CLI integration.'
+    verification: 'Code verified in vibey/cli/roadmap_lib/versioning.py - full implementation with error handling and type hints'

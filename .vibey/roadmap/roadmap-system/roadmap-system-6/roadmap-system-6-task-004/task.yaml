@@ -1,0 +1,28 @@
+task:
+  id: roadmap-system-6-task-004
+  title: Build 3 example projects
+  type: documentation
+  sprint_id: roadmap-system-6
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-12T17:00:00+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - test-engineer
+  deliverables:
+  - E-commerce, ML Pipeline, Mobile App examples in tutorial
+  commits:
+  - sha: c123c0f
+    message: 'docs: Add comprehensive E-commerce platform tutorial (Sprint 6)'
+    date: '2025-11-09T18:18:47-05:00'
+    author: Fred Abood
+    platform: claude-code
+    submitted_at: 1762730327
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

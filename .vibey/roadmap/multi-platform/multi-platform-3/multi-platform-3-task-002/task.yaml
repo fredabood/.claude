@@ -1,0 +1,40 @@
+task:
+  id: multi-platform-3-task-002
+  sprint_id: multi-platform-3
+  track_id: multi-platform
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add --clean and --no-validate flags
+  description: Implement CLI flags for clean deployment and validation skipping
+  status: completed
+  blocked: false
+  created: '2025-11-10T20:30:00+00:00'
+  started: '2025-11-10T20:34:21+00:00'
+  completed: '2025-11-10T20:48:19+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: 'Sprint 3: Build Unified vibey CLI'
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - --clean flag (remove before deploy)
+  - --no-validate flag (skip validation)
+  - Flag handling in deploy.py
+  commits:
+  - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
+    date: '2025-11-10T20:48:19-05:00'
+    message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
+    note: 'Shared deliverable with directory-migration-3 Task 009-010'
+  metadata:
+    last_updated: '2025-11-15T16:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    cross_reference: directory-migration-3-task-009

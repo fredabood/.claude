@@ -40,16 +40,16 @@ task:
     - No broken references
 
     '
-  status: in_progress
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:34.189459+00:00'
-  started: '2025-11-09T22:07:57.062741+00:00'
-  completed: null
+  started: '2025-11-09T16:00:00+00:00'
+  completed: '2025-11-09T17:27:53+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
   estimated_tokens: 4000
-  actual_tokens: null
+  actual_tokens: 12000
   complexity: medium
   gate_info: null
   audit_results: null
@@ -70,8 +70,18 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+  - Updated FileSystemManager to use hierarchical paths
+  - Migrated all roadmap scripts to new structure
+  - ID-to-slug resolution with caching
+  - Backward compatibility for legacy IDs
+  commits:
+  - hash: 1c506e7ce6ad21c44c0cdb6e4e69d61afbae8e36
+    date: '2025-11-09T16:45:00+00:00'
+    message: 'feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)'
+  - hash: a051d841dada164172d013c4ae4b007ad1c1aa27
+    date: '2025-11-09T17:27:53+00:00'
+    message: 'feat: Complete Task 005 - Update roadmap state management scripts for hierarchical structure'
   metadata:
     last_updated: '2025-11-09T21:29:34.189460+00:00'
     token_efficiency: null

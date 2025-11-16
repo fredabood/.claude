@@ -39,7 +39,14 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - sha: 150265565ef9132ecc68917ddf076ecb4b58673a
+    message: 'docs: Add comprehensive roadmap management examples and FAQ'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-10T13:02:17-05:00'
+    files_changed:
+    - framework/agents/core/vibey-manager.md
+    note: PRESERVED - documentation complete
   metadata:
     last_updated: '2025-11-10T09:18:14.183809+00:00'
     token_efficiency: null

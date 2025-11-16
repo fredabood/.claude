@@ -23,8 +23,14 @@ task:
   blocks: []
   blocked_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 8203d04bf83f926e43c5f68a925e51f0d5e9a932
+    date: '2025-11-09T08:20:30-05:00'
+    message: 'feat: Complete Sprint 2 (Config-to-Docs Architecture) - v1.3.0'
+    sprint: core-framework-2
+    impact: 'Design phase: Created .vibey/config/ structure, architecture docs, framework layer (12,635 lines). Implementation completed in directory-migration track.'
   metadata:
     last_updated: '2025-11-09T21:38:59.491458+00:00'
     token_efficiency: null
     duration_hours: null
+    notes: 'DESIGN PHASE: Created config YAML structure and architectural vision. Actual Python implementation (vibey package, CLI, config loader) built in directory-migration track (Nov 10-11).'

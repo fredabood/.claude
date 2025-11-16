@@ -31,8 +31,22 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 86a971a
+    message: 'feat: Start roadmap integration - update deployment and planning (WIP)'
+    date: '2025-11-08T18:18:00+00:00'
+  - hash: 4bf2447
+    message: 'fix: Update /vibey deployment to properly initialize roadmap'
+    date: '2025-11-10T19:00:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Framework commands deleted - functionality migrated to vibey CLI (v2.5.0)
   metadata:
+    superseded_by: vibey/cli/deploy.py and vibey CLI roadmap commands
+    architectural_note: 'Slash command /vibey deployment replaced by: vibey deploy
+      && vibey roadmap init'
     last_updated: '2025-11-08T13:18:26.791609+00:00'
     token_efficiency: null
     duration_hours: null

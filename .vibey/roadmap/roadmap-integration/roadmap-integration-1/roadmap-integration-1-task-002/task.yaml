@@ -35,8 +35,27 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 763f630
+    message: 'feat: Add sprint plan parser (WIP - feature extraction needs fix)'
+    date: '2025-11-08T18:19:00+00:00'
+  - hash: 89070d5
+    message: 'fix: Fix feature extraction in sprint plan parser'
+    date: '2025-11-08T18:19:20+00:00'
+  - hash: fd7a44e
+    message: 'feat: Complete sprint plan parser integration (Task 1.2 DONE)'
+    date: '2025-11-08T18:19:41+00:00'
+  - hash: 1362d2d
+    message: 'feat: Add sprint-from-plan parser and integrate with /vibey plan'
+    date: '2025-11-10T19:10:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Framework commands deleted - functionality migrated to vibey CLI (v2.5.0)
   metadata:
+    superseded_by: vibey/cli/roadmap_commands/ and vibey roadmap create-from-plan
+    architectural_note: 'Slash command /vibey plan replaced by: vibey roadmap create-from-plan'
     last_updated: '2025-11-08T13:18:26.791637+00:00'
     token_efficiency: null
     duration_hours: null

@@ -25,8 +25,22 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: 1e72401
+    message: 'test: Add comprehensive integration tests for progress tracking'
+    date: '2025-11-08T14:00:00-05:00'
+  - hash: 1d10a6d
+    message: 'test: Add comprehensive roadmap CLI tests'
+    date: '2025-11-10T20:00:00+00:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Slash command integration tests superseded by CLI test suite
   metadata:
-    last_updated: '2025-11-08T13:35:02.322463+00:00'
+    superseded_by: tests/cli/test_roadmap_cli_comprehensive.py
+    architectural_note: Tests migrated to pytest-based CLI test suite with 57 comprehensive
+      tests
+    last_updated: '2025-11-15T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null

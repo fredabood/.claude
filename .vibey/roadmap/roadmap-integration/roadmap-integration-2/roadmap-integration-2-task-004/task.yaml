@@ -25,8 +25,19 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - hash: c6e6e7b
+    message: 'feat: Add real-time progress visualization to /vibey code dashboard'
+    date: '2025-11-08T13:50:00-05:00'
+  - hash: 205c877
+    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
+      suite'
+    date: '2025-11-12T16:22:27-05:00'
+    note: Progress visualization migrated to CLI formatters
   metadata:
+    superseded_by: vibey/cli/formatters.py and vibey roadmap status
+    architectural_note: 'Progress bars/visualization moved to: vibey roadmap status
+      (uses rich library for formatting)'
     last_updated: '2025-11-08T13:35:02.322458+00:00'
     token_efficiency: null
     duration_hours: null

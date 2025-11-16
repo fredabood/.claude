@@ -1,0 +1,61 @@
+task:
+  id: infrastructure-fixes-2-task-007
+  sprint_id: infrastructure-fixes-2
+  track_id: infrastructure-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: quality_gate
+  title: Execute Backward Compatibility quality gate
+  description: |
+    Run and validate the "Backward Compatibility" quality gate.
+
+    Gate Requirements:
+    - Existing projects continue to work after fixes
+    - Migration path works correctly
+    - No breaking changes introduced
+    - Threshold: 100% (blocking)
+
+    Test Coverage:
+    - Test with existing Vibey projects
+    - Verify migration tool works
+    - Check that old roadmap data migrates correctly
+    - Confirm no functionality loss
+
+    Acceptance Criteria:
+    - All existing projects work without modification
+    - Migration tool successful
+    - No breaking changes detected
+    - Gate score: 100/100
+  status: not_started
+  blocked: false
+  created: '2025-11-15T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: medium
+  phase_label: validation
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info:
+    gate_name: Backward Compatibility
+    threshold: 100
+    blocking: true
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: infrastructure-fixes-2-task-006
+    target_status: completed
+    reason: All other gates should pass before testing backward compatibility
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Quality gate execution report
+  - Compatibility test results
+  - Migration validation report
+  commits: []
+  metadata:
+    last_updated: '2025-11-15T19:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,29 @@
+task:
+  id: roadmap-system-6-task-002
+  title: Write CLI reference documentation
+  type: documentation
+  sprint_id: roadmap-system-6
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: completed
+  priority: critical
+  created: '2025-11-07T03:00:00+00:00'
+  started: '2025-11-10T18:00:00+00:00'
+  completed: '2025-11-12T17:00:00+00:00'
+  estimated_duration: 4 hours
+  assigned_agents:
+  - test-engineer
+  deliverables:
+  - docs/guides/ROADMAP_CLI_REFERENCE.md
+  commits:
+  - sha: 9cab354
+    message: 'docs: Add comprehensive roadmap user guide and CLI reference (Sprint
+      6)'
+    date: '2025-11-09T18:13:30-05:00'
+    author: Fred Abood
+    platform: claude-code
+    submitted_at: 1762730010
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  metadata: {}

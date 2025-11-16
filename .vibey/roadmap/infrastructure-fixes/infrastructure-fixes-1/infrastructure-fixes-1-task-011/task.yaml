@@ -41,7 +41,14 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits: []
+  commits:
+  - sha: 706b8becbb7511a2d3258a2e5846368f861db921
+    message: 'fix: Correct 5 track status mismatches in roadmap'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-10T13:35:12-05:00'
+    files_changed:
+    - .vibey/roadmap/roadmap-integration/track.yaml
+    note: PRESERVED - track status corrections maintained
   metadata:
     last_updated: '2025-11-10T09:18:14.183790+00:00'
     token_efficiency: null

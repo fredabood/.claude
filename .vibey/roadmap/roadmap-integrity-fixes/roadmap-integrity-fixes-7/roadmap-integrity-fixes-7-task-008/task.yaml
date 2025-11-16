@@ -1,0 +1,73 @@
+task:
+  id: roadmap-integrity-fixes-7-task-008
+  name: Add enum value validation tests
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: critical
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: |
+    Add validation tests to ensure all enum fields contain valid values from their enum classes.
+
+    CRITICAL GAP: Current validation only checks that enum fields are strings, not that they're
+    valid enum values. This allows corrupted YAML like:
+
+    ```yaml
+    status: "invalid_status_value"  # String ✓, but not in Status enum ✗
+    priority: "super_urgent"        # String ✓, but not in Priority enum ✗
+    ```
+
+    This passes all current validation but fails at runtime when Status/Priority constructor
+    is called.
+
+    Implementation:
+    1. Add to tests/validation/test_yaml_integrity.py:
+       - test_track_enum_values_valid()
+       - test_sprint_enum_values_valid()
+       - test_task_enum_values_valid()
+
+    2. For each YAML file:
+       - Load with yaml.safe_load() (get raw dict)
+       - Extract enum field values (status, priority, task_type, etc.)
+       - Verify each value is in the corresponding enum's allowed values
+
+    3. Test coverage:
+       - Status enum: not_started, in_progress, paused, completed, etc.
+       - Priority enum: low, medium, high, critical
+       - TaskStatus enum: not_started, in_progress, blocked, completed, etc.
+       - TaskType enum: development, completion_gate, production_gate
+       - Complexity enum: simple, medium, complex
+       - GateStatus enum: pending, passed, failed
+
+    Verification:
+    - All tests pass on current YAML files
+    - Corrupt a test file with invalid enum value and verify test fails
+    - Fix corruption and verify test passes
+  acceptance_criteria:
+  - Enum validation tests implemented for all roadmap object types
+  - Tests check all enum fields (status, priority, task_type, complexity, etc.)
+  - Tests fail on invalid enum values
+  - Tests pass on all current YAML files
+  - Documentation includes list of valid enum values
+  deliverables:
+  - test_track_enum_values_valid() function
+  - test_sprint_enum_values_valid() function
+  - test_task_enum_values_valid() function
+  - Documentation of valid enum values
+  - Test execution in CI/CD pipeline
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Extend existing validation test suite
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

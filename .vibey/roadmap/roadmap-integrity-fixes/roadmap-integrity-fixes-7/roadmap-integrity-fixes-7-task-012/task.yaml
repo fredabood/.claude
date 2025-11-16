@@ -1,0 +1,123 @@
+task:
+  id: roadmap-integrity-fixes-7-task-012
+  name: Add dependency cycle detection
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: medium
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 hours
+  actual_duration: null
+  description: |
+    Add validation to detect circular dependencies that create deadlocks.
+
+    GAP: No validation that dependencies don't form cycles. This allows:
+
+    ```yaml
+    # Track A depends on Track B
+    # Track B depends on Track A
+    # = Deadlock - neither can ever complete ✗
+    ```
+
+    Impact: Tracks that can never unblock, roadmap progress stalls.
+
+    Implementation:
+    1. Add to tests/validation/test_yaml_integrity.py:
+       - test_no_dependency_cycles_in_tracks()
+       - test_no_dependency_cycles_in_sprints()
+       - test_no_dependency_cycles_in_tasks()
+
+    2. Cycle detection algorithm (Depth-First Search):
+       ```python
+       def detect_cycles(nodes, get_dependencies):
+           """
+           Detect cycles in dependency graph using DFS.
+
+           Args:
+               nodes: List of all objects (tracks/sprints/tasks)
+               get_dependencies: Function to get dependencies of a node
+
+           Returns:
+               List of cycles found (each cycle is a list of node IDs)
+           """
+           visited = set()
+           rec_stack = set()
+           cycles = []
+
+           def dfs(node_id, path):
+               if node_id in rec_stack:
+                   # Found a cycle
+                   cycle_start = path.index(node_id)
+                   cycle = path[cycle_start:] + [node_id]
+                   cycles.append(cycle)
+                   return
+
+               if node_id in visited:
+                   return
+
+               visited.add(node_id)
+               rec_stack.add(node_id)
+               path.append(node_id)
+
+               for dep in get_dependencies(node_id):
+                   dfs(dep, path[:])
+
+               rec_stack.remove(node_id)
+
+           for node in nodes:
+               if node.id not in visited:
+                   dfs(node.id, [])
+
+           return cycles
+       ```
+
+    3. Apply to each level:
+       - **Tracks:** Build dependency graph from depends_on field
+       - **Sprints:** Build dependency graph from development_gates
+       - **Tasks:** Build dependency graph from dependencies field
+
+    4. Report cycles clearly:
+       ```
+       ERROR: Dependency cycle detected in tracks:
+         track-a → track-b → track-c → track-a
+       ```
+
+    5. Edge cases:
+       - Self-dependency (track depends on itself)
+       - Multi-hop cycles (A→B→C→A)
+       - Multiple independent cycles
+
+    Verification:
+    - Test passes on current YAML (no cycles)
+    - Create test file with A→B→A cycle and verify test fails
+    - Break cycle and verify test passes
+  acceptance_criteria:
+  - Cycle detection tests implemented for tracks/sprints/tasks
+  - Tests detect direct cycles (A→B→A)
+  - Tests detect multi-hop cycles (A→B→C→A)
+  - Tests detect self-dependencies (A→A)
+  - Tests report cycle paths clearly
+  - All tests pass on current YAML files (no cycles)
+  deliverables:
+  - Dependency cycle detection test suite
+  - detect_cycles() graph algorithm
+  - Cycle detection documentation
+  - Clear error messages showing cycle paths
+  - Integration with CI/CD validation
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Extend existing validation test suite
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-009
+    reason: Requires reference validation to build dependency graph
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

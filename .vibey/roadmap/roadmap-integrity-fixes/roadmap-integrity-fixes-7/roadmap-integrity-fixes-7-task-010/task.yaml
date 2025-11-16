@@ -1,0 +1,90 @@
+task:
+  id: roadmap-integrity-fixes-7-task-010
+  name: Add progress calculation validation
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: |
+    Add validation to ensure progress calculations match actual completion state.
+
+    CRITICAL GAP: No validation that aggregate progress fields are correct. This allows:
+
+    ```yaml
+    progress:
+      tasks_total: 10
+      tasks_completed: 3
+      completion_percent: 75  # Should be 30%, not 75% ✗
+    ```
+
+    Impact: Misleading progress indicators, incorrect roadmap status.
+
+    Implementation:
+    1. Add to tests/validation/test_yaml_integrity.py:
+       - test_roadmap_progress_accurate()
+       - test_track_progress_accurate()
+       - test_sprint_progress_accurate()
+
+    2. Validation logic for each level:
+
+       **Roadmap:**
+       - Count actual tracks (completed vs total)
+       - Count actual sprints across all tracks
+       - Count actual tasks across all sprints
+       - Verify completion_percent = (tasks_completed / tasks_total) * 100
+
+       **Track:**
+       - Count actual sprints (from sprints list)
+       - Count actual tasks (sum across all sprints)
+       - Verify completion_percent = (tasks_completed / tasks_total) * 100
+
+       **Sprint:**
+       - Count actual tasks (from task files in sprint directory)
+       - Count completed tasks (status = completed)
+       - Verify completion_percent = (tasks_completed / tasks_total) * 100
+
+    3. Tolerance for rounding:
+       ```python
+       expected = (completed / total) * 100
+       assert abs(actual - expected) < 1  # Allow 1% rounding error
+       ```
+
+    4. Edge cases:
+       - Division by zero (tasks_total = 0)
+       - Empty sprints/tracks
+       - Completed count > total count (should error)
+
+    Verification:
+    - All progress validation tests pass on current YAML
+    - Corrupt a test file with wrong completion_percent and verify test fails
+    - Fix calculation and verify test passes
+  acceptance_criteria:
+  - Progress validation tests implemented for roadmap/track/sprint
+  - Tests verify completion_percent matches actual completion
+  - Tests verify total counts match actual object counts
+  - Tests verify completed counts ≤ total counts
+  - Tests allow 1% rounding tolerance
+  - All tests pass on current YAML files
+  deliverables:
+  - test_roadmap_progress_accurate() function
+  - test_track_progress_accurate() function
+  - test_sprint_progress_accurate() function
+  - Progress calculation documentation
+  - Integration with CI/CD validation
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Extend existing validation test suite
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

@@ -1,0 +1,98 @@
+task:
+  id: roadmap-integrity-fixes-7-task-009
+  name: Add relationship and reference validation
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Add validation to ensure all cross-object references point to existing objects.
+
+    CRITICAL GAP: No validation that IDs reference actual objects. This allows:
+
+    ```yaml
+    task:
+      sprint_id: "non-existent-sprint"  # Sprint doesn't exist ✗
+
+    depends_on:
+      - blocker_id: "fake-track"  # Track doesn't exist ✗
+    ```
+
+    Impact: Broken relationships, orphaned tasks, invalid dependency graphs.
+
+    Implementation:
+    1. Add to tests/validation/test_yaml_integrity.py:
+       - test_task_sprint_references_exist()
+       - test_task_track_references_exist()
+       - test_dependency_references_exist()
+       - test_blocker_references_exist()
+
+    2. Build index of all valid IDs:
+       - Scan all track.yaml files → collect track IDs
+       - Scan all sprint.yaml files → collect sprint IDs
+       - Scan all task.yaml files → collect task IDs
+
+    3. Validate references:
+       - For each task: verify sprint_id exists, track_id exists
+       - For each dependency: verify blocker_id/target_id exists
+       - For each blocker: verify dependency_id exists
+
+    4. Add validation function:
+       ```python
+       def validate_references(root_dir: Path) -> List[str]:
+           """Validate all cross-object references."""
+           errors = []
+           # Build indexes
+           tracks = load_all_tracks()
+           sprints = load_all_sprints()
+           tasks = load_all_tasks()
+
+           # Validate task references
+           for task in tasks:
+               if task.sprint_id not in sprints:
+                   errors.append(f"Task {task.id} references non-existent sprint {task.sprint_id}")
+               if task.track_id not in tracks:
+                   errors.append(f"Task {task.id} references non-existent track {task.track_id}")
+
+           # Validate dependencies
+           for track in tracks:
+               for dep in track.depends_on:
+                   if dep.blocker_id not in tracks:
+                       errors.append(f"Track {track.id} depends on non-existent track {dep.blocker_id}")
+
+           return errors
+       ```
+
+    Verification:
+    - All reference validation tests pass on current YAML
+    - Create orphaned task with invalid sprint_id and verify test fails
+    - Fix reference and verify test passes
+  acceptance_criteria:
+  - Reference validation tests implemented
+  - All task → sprint references validated
+  - All task → track references validated
+  - All dependency references validated
+  - Tests fail on broken references
+  - Tests pass on all current YAML files
+  deliverables:
+  - Reference validation test suite
+  - validate_references() helper function
+  - Documentation of reference validation rules
+  - Integration with CI/CD validation workflow
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    reason: Extend existing validation test suite
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-16T00:00:00+00:00'

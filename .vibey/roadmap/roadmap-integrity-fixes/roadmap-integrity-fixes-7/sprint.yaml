@@ -8,11 +8,11 @@ sprint:
   created: '2025-11-16T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 1 week
+  estimated_duration: 2.5 weeks
   progress:
-    development_tasks_total: 7
+    development_tasks_total: 13
     development_tasks_completed: 0
-    tasks_total: 7
+    tasks_total: 13
     tasks_completed: 0
     completion_percent: 0
   tasks:
@@ -51,6 +51,36 @@ sprint:
     status: not_started
     type: development
     estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-7-task-008
+    name: Add enum value validation tests
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
+  - id: roadmap-integrity-fixes-7-task-009
+    name: Add relationship and reference validation
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-7-task-010
+    name: Add progress calculation validation
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
+  - id: roadmap-integrity-fixes-7-task-011
+    name: Add date logic validation
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
+  - id: roadmap-integrity-fixes-7-task-012
+    name: Add dependency cycle detection
+    status: not_started
+    type: development
+    estimated_duration: 1.5 hours
+  - id: roadmap-integrity-fixes-7-task-013
+    name: Add required field enforcement
+    status: not_started
+    type: development
+    estimated_duration: 1 hour
   dependencies:
   - type: sprint
     target_id: roadmap-integrity-fixes-3

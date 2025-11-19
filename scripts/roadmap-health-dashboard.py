@@ -40,6 +40,13 @@ class HealthMetrics:
     type_mismatches: int = 0
     missing_required_fields: int = 0
     date_inconsistencies: int = 0
+
+    # Relationship integrity metrics
+    dependency_status_mismatches: int = 0
+    status_aggregation_errors: int = 0
+    progress_calculation_errors: int = 0
+    blocker_computation_errors: int = 0
+
     overall_health_score: float = 0.0
 
     # File type breakdowns
@@ -68,7 +75,13 @@ class HealthMetrics:
         deductions += self.schema_validation_fail * 4  # Schema violations
         deductions += self.missing_required_fields * 3  # Broken schema
 
-        # Medium issues
+        # Relationship integrity issues (medium-high deductions)
+        deductions += self.dependency_status_mismatches * 3  # Stale dependency data
+        deductions += self.blocker_computation_errors * 3  # Incorrect blocker state
+        deductions += self.progress_calculation_errors * 2  # Wrong progress tracking
+        deductions += self.status_aggregation_errors * 2  # Inconsistent status
+
+        # Basic validation issues (lower deductions)
         deductions += self.invalid_enum_values * 2  # Wrong values
         deductions += self.type_mismatches * 2  # Wrong types
         deductions += self.date_inconsistencies * 1  # Logic errors
@@ -331,12 +344,216 @@ class HealthDashboard:
         except Exception:
             pass  # Already caught by syntax check
 
+    def validate_relationship_integrity(self):
+        """Validate relationship integrity across all roadmap objects."""
+        # Cache loaded objects to avoid re-reading files
+        tracks_cache = {}
+        sprints_cache = {}
+        tasks_cache = {}
+
+        # Load all tracks
+        for track_id in self.fs.list_tracks():
+            track_path = self.fs.get_track_path(track_id)
+            if track_path.exists():
+                try:
+                    tracks_cache[track_id] = load_track(track_path)
+                except Exception:
+                    pass  # Skip if can't load
+
+        # Load all sprints
+        for sprint_id in self.fs.list_sprints():
+            sprint_path = self.fs.get_sprint_path(sprint_id)
+            if sprint_path.exists():
+                try:
+                    sprints_cache[sprint_id] = load_sprint(sprint_path)
+                except Exception:
+                    pass  # Skip if can't load
+
+        # Load all tasks
+        for track_slug, track_id in self.fs.dir_manager.list_tracks():
+            for sprint_slug, sprint_id in self.fs.dir_manager.list_sprints(track_slug):
+                for task_slug, task_id in self.fs.dir_manager.list_tasks(track_slug, sprint_slug):
+                    task_path = self.fs.roadmap_root / track_slug / sprint_slug / task_slug / "task.yaml"
+                    if task_path.exists():
+                        try:
+                            tasks_cache[task_id] = load_task(task_path)
+                        except Exception:
+                            pass  # Skip if can't load
+
+        # Run relationship validations
+        self._validate_dependency_statuses(tracks_cache)
+        self._validate_status_aggregation(tracks_cache, sprints_cache, tasks_cache)
+        self._validate_progress_calculations(tracks_cache, sprints_cache, tasks_cache)
+        self._validate_blocker_computation(tracks_cache)
+
+    def _validate_dependency_statuses(self, tracks_cache: Dict):
+        """Validate that dependency current_status fields match actual dependency statuses."""
+        for track_id, track in tracks_cache.items():
+            # Check depends_on statuses
+            for dep in track.depends_on:
+                blocker_id = dep.blocker_id
+                expected_status = dep.current_status
+
+                # Look up actual blocker status
+                if blocker_id in tracks_cache:
+                    actual_status = tracks_cache[blocker_id].status.value
+                    if actual_status != expected_status:
+                        self.metrics.dependency_status_mismatches += 1
+                        self.metrics.issues.append({
+                            'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                            'severity': 'high',
+                            'category': 'dependency',
+                            'message': f"Dependency '{blocker_id}' current_status is '{expected_status}' but actual status is '{actual_status}'"
+                        })
+
+            # Check blocked_by statuses
+            for block in track.blocked_by:
+                dependency_id = block.dependency_id
+                expected_status = block.current_status
+
+                if dependency_id in tracks_cache:
+                    actual_status = tracks_cache[dependency_id].status.value
+                    if actual_status != expected_status:
+                        self.metrics.dependency_status_mismatches += 1
+                        self.metrics.issues.append({
+                            'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                            'severity': 'high',
+                            'category': 'dependency',
+                            'message': f"Blocker '{dependency_id}' current_status is '{expected_status}' but actual status is '{actual_status}'"
+                        })
+
+    def _validate_status_aggregation(self, tracks_cache: Dict, sprints_cache: Dict, tasks_cache: Dict):
+        """Validate that parent statuses correctly aggregate from child statuses."""
+        for track_id, track in tracks_cache.items():
+            # Get actual sprint statuses for this track
+            track_sprint_ids = [s.id for s in track.sprints] if track.sprints else []
+            actual_sprint_statuses = []
+
+            for sprint_id in track_sprint_ids:
+                if sprint_id in sprints_cache:
+                    actual_sprint_statuses.append(sprints_cache[sprint_id].status.value)
+
+            # Validate track can't be completed if sprints aren't
+            if track.status.value == 'completed' and actual_sprint_statuses:
+                non_completed = [s for s in actual_sprint_statuses if s != 'completed']
+                if non_completed:
+                    self.metrics.status_aggregation_errors += 1
+                    self.metrics.issues.append({
+                        'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                        'severity': 'medium',
+                        'category': 'aggregation',
+                        'message': f"Track status is 'completed' but {len(non_completed)} sprints are not completed"
+                    })
+
+            # Validate track can't be in_progress if no sprints started
+            if track.status.value == 'in_progress' and actual_sprint_statuses:
+                started = [s for s in actual_sprint_statuses if s in ('in_progress', 'completed', 'production_ready')]
+                if not started:
+                    self.metrics.status_aggregation_errors += 1
+                    self.metrics.issues.append({
+                        'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                        'severity': 'medium',
+                        'category': 'aggregation',
+                        'message': "Track status is 'in_progress' but no sprints have started"
+                    })
+
+        # Validate sprint statuses vs task statuses
+        for sprint_id, sprint in sprints_cache.items():
+            # Find tasks for this sprint
+            sprint_task_ids = [t.id for t in sprint.tasks] if hasattr(sprint, 'tasks') and sprint.tasks else []
+            actual_task_statuses = []
+
+            for task_id in sprint_task_ids:
+                if task_id in tasks_cache:
+                    actual_task_statuses.append(tasks_cache[task_id].status.value)
+
+            # Validate sprint can't be completed if tasks aren't
+            if sprint.status.value == 'completed' and actual_task_statuses:
+                non_completed = [s for s in actual_task_statuses if s != 'completed']
+                if non_completed:
+                    self.metrics.status_aggregation_errors += 1
+                    self.metrics.issues.append({
+                        'file': f'.vibey/roadmap/[track]/{sprint_id}/sprint.yaml',
+                        'severity': 'medium',
+                        'category': 'aggregation',
+                        'message': f"Sprint status is 'completed' but {len(non_completed)} tasks are not completed"
+                    })
+
+    def _validate_progress_calculations(self, tracks_cache: Dict, sprints_cache: Dict, tasks_cache: Dict):
+        """Validate that progress counts match actual object counts."""
+        for track_id, track in tracks_cache.items():
+            if not track.progress:
+                continue
+
+            # Validate sprints_total
+            actual_sprint_count = len(track.sprints) if track.sprints else 0
+            if track.progress.sprints_total != actual_sprint_count:
+                self.metrics.progress_calculation_errors += 1
+                self.metrics.issues.append({
+                    'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                    'severity': 'medium',
+                    'category': 'progress',
+                    'message': f"progress.sprints_total is {track.progress.sprints_total} but actual sprint count is {actual_sprint_count}"
+                })
+
+            # Validate sprints_completed
+            if track.sprints:
+                completed_sprints = sum(1 for s in track.sprints if s.status.value == 'completed')
+                if track.progress.sprints_completed != completed_sprints:
+                    self.metrics.progress_calculation_errors += 1
+                    self.metrics.issues.append({
+                        'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                        'severity': 'medium',
+                        'category': 'progress',
+                        'message': f"progress.sprints_completed is {track.progress.sprints_completed} but actual completed count is {completed_sprints}"
+                    })
+
+    def _validate_blocker_computation(self, tracks_cache: Dict):
+        """Validate that blocked flags and blocker lists are correctly computed."""
+        for track_id, track in tracks_cache.items():
+            # Check if track should be blocked based on depends_on
+            has_unsatisfied_dependencies = False
+            for dep in track.depends_on:
+                blocker_id = dep.blocker_id
+                required_status = dep.required_status
+
+                if blocker_id in tracks_cache:
+                    blocker_track = tracks_cache[blocker_id]
+                    if blocker_track.status.value != required_status:
+                        has_unsatisfied_dependencies = True
+                        break
+
+            # Validate blocked flag matches dependency state
+            if has_unsatisfied_dependencies and not track.blocked:
+                self.metrics.blocker_computation_errors += 1
+                self.metrics.issues.append({
+                    'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                    'severity': 'high',
+                    'category': 'blocker',
+                    'message': "Track has unsatisfied dependencies but 'blocked' is false"
+                })
+
+            if not has_unsatisfied_dependencies and track.blocked:
+                # Check if maybe it's blocked by something else
+                if not track.blocked_by or len(track.blocked_by) == 0:
+                    self.metrics.blocker_computation_errors += 1
+                    self.metrics.issues.append({
+                        'file': f'.vibey/roadmap/{track_id}/track.yaml',
+                        'severity': 'medium',
+                        'category': 'blocker',
+                        'message': "Track 'blocked' is true but has no blockers or unsatisfied dependencies"
+                    })
+
     def run(self) -> HealthMetrics:
         """Run health check on all roadmap files."""
         files = self.get_all_roadmap_files()
 
+        # Phase 1: Analyze individual files
         for file_path in files:
             self.analyze_file(file_path)
+
+        # Phase 2: Validate relationships between objects
+        self.validate_relationship_integrity()
 
         # Calculate overall health score
         self.metrics.calculate_health_score()
@@ -374,6 +591,36 @@ class HealthDashboard:
         self._print_metric("Valid Enum Values", metrics.total_files - metrics.invalid_enum_values, metrics.total_files, "✓")
         self._print_metric("Correct Types", metrics.total_files - metrics.type_mismatches, metrics.total_files, "✓")
         self._print_metric("Date Consistency", metrics.total_files - metrics.date_inconsistencies, metrics.total_files, "✓")
+        print()
+
+        # Relationship integrity metrics
+        print("RELATIONSHIP INTEGRITY:")
+        total_checks = metrics.tracks_total  # Approximate for display
+        if total_checks > 0:
+            self._print_metric(
+                "Dependency Status Accuracy",
+                total_checks - metrics.dependency_status_mismatches,
+                total_checks,
+                "✓"
+            )
+            self._print_metric(
+                "Status Aggregation",
+                total_checks - metrics.status_aggregation_errors,
+                total_checks,
+                "✓"
+            )
+            self._print_metric(
+                "Progress Calculations",
+                total_checks - metrics.progress_calculation_errors,
+                total_checks,
+                "✓"
+            )
+            self._print_metric(
+                "Blocker Computation",
+                total_checks - metrics.blocker_computation_errors,
+                total_checks,
+                "✓"
+            )
         print()
 
         # Issue summary

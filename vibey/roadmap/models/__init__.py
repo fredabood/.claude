@@ -67,6 +67,7 @@ from .sprint import (
     SprintProgress,
     TaskSummary,
     DevelopmentGate,
+    SprintBlocker,
     SprintMetadata,
 )
 
@@ -129,6 +130,7 @@ __all__ = [
     "SprintProgress",
     "TaskSummary",
     "DevelopmentGate",
+    "SprintBlocker",
     "SprintMetadata",
     # Task
     "Task",

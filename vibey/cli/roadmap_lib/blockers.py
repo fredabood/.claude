@@ -15,7 +15,7 @@ sys.path.insert(0, str(framework_root))
 
 from vibey.roadmap.models import (
     Roadmap, Track, Sprint, Task,
-    Blocker, TrackBlocker, TaskBlocker,
+    Blocker, TrackBlocker, SprintBlocker, TaskBlocker,
     Status, TaskStatus,
 )
 from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks

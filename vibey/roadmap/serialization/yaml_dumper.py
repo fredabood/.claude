@@ -120,8 +120,8 @@ def _save_task_hierarchical(task: Task, sprint_dir: Path):
         {
             'dependency_id': b.dependency_id,
             'dependency_type': b.dependency_type,
-            'current_status': b.current_status,
-            'required_status': b.required_status,
+            'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
+            'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
             'blocking_since': _format_datetime(b.blocking_since),
             'estimated_resolution': _format_datetime(b.estimated_resolution),
         }
@@ -133,8 +133,8 @@ def _save_task_hierarchical(task: Task, sprint_dir: Path):
         {
             'blocker_id': d.blocker_id,
             'blocker_type': d.blocker_type,
-            'required_status': d.required_status,
-            'current_status': d.current_status,
+            'required_status': d.required_status.value if hasattr(d.required_status, 'value') else d.required_status,
+            'current_status': d.current_status.value if hasattr(d.current_status, 'value') else d.current_status,
             'blocks_transition_to': d.blocks_transition_to,
             'last_checked': _format_datetime(d.last_checked),
         }
@@ -236,8 +236,8 @@ def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):
                 {
                     'dependency_id': b.dependency_id,
                     'dependency_type': b.dependency_type,
-                    'current_status': b.current_status,
-                    'required_status': b.required_status,
+                    'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
+                    'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
                     'blocking_since': _format_datetime(b.blocking_since),
                     'estimated_resolution': _format_datetime(b.estimated_resolution),
                 }
@@ -374,8 +374,8 @@ def save_track(track: Track, file_path: Union[str, Path]):
                 {
                     'dependency_id': b.dependency_id,
                     'dependency_type': b.dependency_type,
-                    'current_status': b.current_status,
-                    'required_status': b.required_status,
+                    'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
+                    'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
                     'blocking_since': _format_datetime(b.blocking_since),
                     'estimated_resolution': _format_datetime(b.estimated_resolution),
                 }
@@ -385,8 +385,8 @@ def save_track(track: Track, file_path: Union[str, Path]):
                 {
                     'blocker_id': d.blocker_id,
                     'blocker_type': d.blocker_type,
-                    'required_status': d.required_status,
-                    'current_status': d.current_status,
+                    'required_status': d.required_status.value if hasattr(d.required_status, 'value') else d.required_status,
+                    'current_status': d.current_status.value if hasattr(d.current_status, 'value') else d.current_status,
                     'blocks_transition_to': d.blocks_transition_to,
                     'last_checked': _format_datetime(d.last_checked),
                 }
@@ -523,8 +523,8 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                 {
                     'dependency_id': b.dependency_id,
                     'dependency_type': b.dependency_type,
-                    'current_status': b.current_status,
-                    'required_status': b.required_status,
+                    'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
+                    'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
                     'blocking_since': _format_datetime(b.blocking_since),
                     'estimated_resolution': _format_datetime(b.estimated_resolution),
                 }
@@ -534,8 +534,8 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                 {
                     'blocker_id': d.blocker_id,
                     'blocker_type': d.blocker_type,
-                    'required_status': d.required_status,
-                    'current_status': d.current_status,
+                    'required_status': d.required_status.value if hasattr(d.required_status, 'value') else d.required_status,
+                    'current_status': d.current_status.value if hasattr(d.current_status, 'value') else d.current_status,
                     'blocks_transition_to': d.blocks_transition_to,
                     'last_checked': _format_datetime(d.last_checked),
                 }
@@ -694,8 +694,8 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
             {
                 'dependency_id': b.dependency_id,
                 'dependency_type': b.dependency_type,
-                'current_status': b.current_status,
-                'required_status': b.required_status,
+                'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
+                'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
                 'blocking_since': _format_datetime(b.blocking_since),
                 'estimated_resolution': _format_datetime(b.estimated_resolution),
             }
@@ -707,8 +707,8 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
             {
                 'blocker_id': d.blocker_id,
                 'blocker_type': d.blocker_type,
-                'required_status': d.required_status,
-                'current_status': d.current_status,
+                'required_status': d.required_status.value if hasattr(d.required_status, 'value') else d.required_status,
+                'current_status': d.current_status.value if hasattr(d.current_status, 'value') else d.current_status,
                 'blocks_transition_to': d.blocks_transition_to,
                 'last_checked': _format_datetime(d.last_checked),
             }

@@ -898,8 +898,8 @@ def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:
             if blocker_path.exists():
                 try:
                     blocker_track = load_track(blocker_path)
-                    if dep_status.current_status != blocker_track.status:
-                        dep_status.current_status = blocker_track.status
+                    if dep_status.current_status != blocker_track.status.value:
+                        dep_status.current_status = blocker_track.status.value
                         dep_status.last_checked = datetime.now(timezone.utc)
                         modified = True
                         updated_count += 1
@@ -927,8 +927,8 @@ def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:
                 blocker_path = fs.get_track_path(dep_status.blocker_id)
                 if blocker_path.exists():
                     blocker = load_track(blocker_path)
-                    if dep_status.current_status != blocker.status:
-                        dep_status.current_status = blocker.status
+                    if dep_status.current_status != blocker.status.value:
+                        dep_status.current_status = blocker.status.value
                         dep_status.last_checked = datetime.now(timezone.utc)
                         modified = True
                         updated_count += 1
@@ -936,8 +936,8 @@ def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:
                 blocker_path = fs.get_sprint_path(dep_status.blocker_id)
                 if blocker_path.exists():
                     blocker = load_sprint(blocker_path)
-                    if dep_status.current_status != blocker.status:
-                        dep_status.current_status = blocker.status
+                    if dep_status.current_status != blocker.status.value:
+                        dep_status.current_status = blocker.status.value
                         dep_status.last_checked = datetime.now(timezone.utc)
                         modified = True
                         updated_count += 1
@@ -965,8 +965,8 @@ def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:
                     if blocker_tasks_path.exists():
                         blocker_tasks = load_tasks(blocker_tasks_path)
                         blocker_task = next((t for t in blocker_tasks if t.id == dep_status.blocker_id), None)
-                        if blocker_task and dep_status.current_status != blocker_task.status:
-                            dep_status.current_status = blocker_task.status
+                        if blocker_task and dep_status.current_status != blocker_task.status.value:
+                            dep_status.current_status = blocker_task.status.value
                             dep_status.last_checked = datetime.now(timezone.utc)
                             modified = True
                             updated_count += 1
@@ -974,8 +974,8 @@ def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:
                     blocker_path = fs.get_sprint_path(dep_status.blocker_id)
                     if blocker_path.exists():
                         blocker = load_sprint(blocker_path)
-                        if dep_status.current_status != blocker.status:
-                            dep_status.current_status = blocker.status
+                        if dep_status.current_status != blocker.status.value:
+                            dep_status.current_status = blocker.status.value
                             dep_status.last_checked = datetime.now(timezone.utc)
                             modified = True
                             updated_count += 1

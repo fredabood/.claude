@@ -50,8 +50,7 @@ track:
   - blocker_id: claude-port
     blocker_type: track
     required_status: completed
-    current_status: !!python/object/apply:vibey.roadmap.models.common.Status
-    - in_progress
+    current_status: in_progress
     blocks_transition_to: in_progress
     last_checked: '2025-11-15T02:16:50.524341+00:00'
   - blocker_id: goose-port

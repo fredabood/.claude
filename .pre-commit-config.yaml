@@ -63,3 +63,11 @@ repos:
         language: system
         pass_filenames: false
         stages: [push]
+
+      - id: check-yaml-python-objects
+        name: Detect Python object serialization in roadmap YAML
+        entry: bash -c 'if grep -r "!!python" .vibey/roadmap/ 2>/dev/null; then echo "❌ ERROR: Python object serialization found in roadmap YAML files"; echo "Fix: Replace enum objects with .value before serialization"; exit 1; fi'
+        language: system
+        pass_filenames: false
+        files: \.yaml$
+        stages: [commit]

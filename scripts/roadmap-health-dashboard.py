@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from vibey.roadmap.models.common import Status, TaskStatus, Priority, DependencyType
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+from vibey.roadmap.serialization.yaml_loader import load_track, load_sprint, load_task
 
 
 @dataclass
@@ -33,6 +34,8 @@ class HealthMetrics:
     yaml_syntax_pass: int = 0
     yaml_syntax_fail: int = 0
     python_serialization_found: int = 0
+    schema_validation_pass: int = 0
+    schema_validation_fail: int = 0
     invalid_enum_values: int = 0
     type_mismatches: int = 0
     missing_required_fields: int = 0
@@ -62,6 +65,7 @@ class HealthMetrics:
         # Critical issues (major deductions)
         deductions += self.yaml_syntax_fail * 10  # Can't even parse
         deductions += self.python_serialization_found * 5  # Data corruption
+        deductions += self.schema_validation_fail * 4  # Schema violations
         deductions += self.missing_required_fields * 3  # Broken schema
 
         # Medium issues
@@ -226,6 +230,63 @@ class HealthDashboard:
             except Exception:
                 pass  # Skip if dates can't be parsed
 
+    def check_schema_compliance(self, file_path: Path, file_type: str) -> bool:
+        """Check full schema compliance using model loaders."""
+        try:
+            # Load using appropriate loader (validates against dataclass model)
+            if file_type == 'track':
+                load_track(file_path)
+            elif file_type == 'sprint':
+                load_sprint(file_path)
+            elif file_type == 'task':
+                load_task(file_path)
+            else:
+                return True  # Unknown type, skip
+
+            self.metrics.schema_validation_pass += 1
+            return True
+
+        except KeyError as e:
+            # Missing required field
+            self.metrics.schema_validation_fail += 1
+            self.metrics.issues.append({
+                'file': str(file_path),
+                'severity': 'critical',
+                'category': 'schema',
+                'message': f"Missing required field: {str(e)}"
+            })
+            return False
+
+        except ValueError as e:
+            # Invalid value (enum, type, etc.)
+            self.metrics.schema_validation_fail += 1
+            error_msg = str(e)
+            # Determine severity based on error type
+            severity = 'high'
+            if 'is not a valid' in error_msg:
+                severity = 'high'  # Invalid enum
+            elif 'must equal' in error_msg or 'doesn\'t match' in error_msg:
+                severity = 'medium'  # Data inconsistency
+
+            self.metrics.issues.append({
+                'file': str(file_path),
+                'severity': severity,
+                'category': 'schema',
+                'message': error_msg
+            })
+            return False
+
+        except Exception as e:
+            # Other validation errors
+            self.metrics.schema_validation_fail += 1
+            self.metrics.issues.append({
+                'file': str(file_path),
+                'severity': 'high',
+                'category': 'schema',
+                'message': f"Schema validation error: {str(e)}"
+            })
+            return False
+
     def analyze_file(self, file_path: Path):
         """Analyze a single file for issues."""
         self.metrics.total_files += 1
@@ -253,7 +314,11 @@ class HealthDashboard:
         if self.check_python_serialization(file_path):
             self.metrics.python_serialization_found += 1
 
-        # Load and analyze data
+        # Check full schema compliance (loads model, validates structure)
+        if file_type:
+            self.check_schema_compliance(file_path, file_type)
+
+        # Load and analyze data for additional checks
         try:
             with open(file_path) as f:
                 data = yaml.safe_load(f)
@@ -305,6 +370,7 @@ class HealthDashboard:
         print("DATA QUALITY METRICS:")
         self._print_metric("YAML Syntax", metrics.yaml_syntax_pass, metrics.total_files, "✓")
         self._print_metric("Python Serialization", metrics.total_files - metrics.python_serialization_found, metrics.total_files, "✓")
+        self._print_metric("Schema Compliance", metrics.schema_validation_pass, metrics.total_files, "✓")
         self._print_metric("Valid Enum Values", metrics.total_files - metrics.invalid_enum_values, metrics.total_files, "✓")
         self._print_metric("Correct Types", metrics.total_files - metrics.type_mismatches, metrics.total_files, "✓")
         self._print_metric("Date Consistency", metrics.total_files - metrics.date_inconsistencies, metrics.total_files, "✓")

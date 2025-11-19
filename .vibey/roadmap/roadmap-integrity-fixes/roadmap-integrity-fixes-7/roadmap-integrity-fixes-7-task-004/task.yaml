@@ -15,7 +15,7 @@ task:
     Create comprehensive test suite to validate YAML file integrity.
 
     Create tests/validation/test_yaml_integrity.py with tests for:
-    - No Python object serialization (!!python patterns)
+    - No Python object serialization (PYTHON_SERIALIZATION_PATTERN patterns)
     - All track YAML files parse successfully
     - All sprint YAML files parse successfully
     - All task YAML files parse successfully

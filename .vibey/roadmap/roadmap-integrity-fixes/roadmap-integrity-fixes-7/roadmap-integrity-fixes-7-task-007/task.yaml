@@ -16,7 +16,7 @@ task:
 
     Monitoring metrics to track:
     1. YAML parse success rate (% of files that parse cleanly)
-    2. Python serialization occurrences (count of !!python patterns)
+    2. Python serialization occurrences (count of PYTHON_SERIALIZATION_PATTERN patterns)
     3. Dependency status staleness (age since last_checked)
     4. Track loadability rate (% of tracks that load successfully)
     5. Test pass rate for validation tests

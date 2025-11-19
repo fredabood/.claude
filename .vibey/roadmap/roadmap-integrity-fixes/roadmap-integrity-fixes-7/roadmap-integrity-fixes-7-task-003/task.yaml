@@ -31,7 +31,7 @@ task:
     GOOD: dep['current_status'] = Status.COMPLETED.value
   acceptance_criteria:
   - All dependency update code uses .value for enum conversion
-  - Test update produces clean YAML (no !!python)
+  - Test update produces clean YAML (no PYTHON_SERIALIZATION_PATTERN)
   - Code review checklist includes enum serialization check
   - All existing usage audited and fixed
   deliverables:

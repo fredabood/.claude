@@ -20,7 +20,7 @@ task:
        - Fail on syntax errors
 
     2. Python Serialization Detection
-       - Grep for !!python patterns
+       - Grep for PYTHON_SERIALIZATION_PATTERN patterns
        - Fail if found
 
     3. Dependency Status Validation

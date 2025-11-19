@@ -18,18 +18,18 @@ task:
     - .vibey/roadmap/mcp-server/track.yaml (line 51)
 
     Pattern to fix:
-    current_status: !!python/object/apply:vibey.roadmap.models.common.Status
+    current_status: PYTHON_SERIALIZATION_PATTERN/object/apply:vibey.roadmap.models.common.Status
     - in_progress
 
     Should be:
     current_status: in_progress
 
     Verification:
-    grep -r "!!python" .vibey/roadmap/
+    grep -r "PYTHON_SERIALIZATION_PATTERN" .vibey/roadmap/
     (should return no results)
   acceptance_criteria:
   - All 3 files contain only plain string values
-  - No !!python patterns in any roadmap YAML files
+  - No PYTHON_SERIALIZATION_PATTERN patterns in any roadmap YAML files
   - All 3 files parse successfully with yaml.safe_load()
   - Git diff shows only the serialization pattern removed
   deliverables:

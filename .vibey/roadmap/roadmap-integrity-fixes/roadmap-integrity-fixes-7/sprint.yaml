@@ -88,7 +88,7 @@ sprint:
     reason: Must complete data fixes before adding prevention
   deliverables:
   - Fixed YAML files (3 files: aider-port, multi-platform, mcp-server)
-  - Pre-commit hook script to detect !!python patterns
+  - Pre-commit hook script to detect PYTHON_SERIALIZATION_PATTERN patterns
   - Fixed dependency update code with proper .value conversion
   - YAML validation test suite (pytest)
   - GitHub Actions workflow for roadmap validation
@@ -120,7 +120,7 @@ sprint:
       6. No monitoring to detect degradation
 
       EVIDENCE OF GAPS:
-      - Found !!python/object/apply: in 3 YAML files after remediation
+      - Found PYTHON_SERIALIZATION_PATTERN/object/apply: in 3 YAML files after remediation
       - Pre-commit hooks check syntax but not content
       - No tests for YAML validation
       - Enum .value conversion inconsistent in codebase
@@ -165,12 +165,12 @@ sprint:
       - .vibey/roadmap/multi-platform/track.yaml (line 96)
       - .vibey/roadmap/mcp-server/track.yaml (line 51)
 
-      Pattern found: current_status: !!python/object/apply:vibey.roadmap.models.common.Status
+      Pattern found: current_status: PYTHON_SERIALIZATION_PATTERN/object/apply:vibey.roadmap.models.common.Status
 
       Fix: Replace with plain string values (e.g., "completed", "in_progress")
 
       Verification:
-      - grep -r "!!python" .vibey/roadmap/**/track.yaml returns nothing
+      - grep -r "PYTHON_SERIALIZATION_PATTERN" .vibey/roadmap/**/track.yaml returns nothing
       - All 3 files parse correctly with yaml.safe_load()
 
       Task 2: Pre-commit Hook (30 min, P0)
@@ -181,12 +181,12 @@ sprint:
         hooks:
           - id: check-yaml-python-objects
             name: Check for Python object serialization in YAML
-            entry: bash -c 'if grep -r "!!python" .vibey/roadmap/; then echo "ERROR: Python object serialization found in YAML files"; exit 1; fi'
+            entry: bash -c 'if grep -r "PYTHON_SERIALIZATION_PATTERN" .vibey/roadmap/; then echo "ERROR: Python object serialization found in YAML files"; exit 1; fi'
             language: system
             pass_filenames: false
             files: \\.yaml$
 
-      Test: Try to commit a file with !!python and verify it's rejected
+      Test: Try to commit a file with PYTHON_SERIALIZATION_PATTERN and verify it's rejected
 
       Task 3: Fix Enum Serialization Bug (1 hour, P0)
       --------------------------------------------------------
@@ -222,7 +222,7 @@ sprint:
 
       Jobs:
       - YAML syntax validation (all .vibey/roadmap/**/*.yaml)
-      - Python serialization detection (grep !!python)
+      - Python serialization detection (grep PYTHON_SERIALIZATION_PATTERN)
       - Dependency status validation (all strings, no enums)
       - Track loadability test (can load all tracks)
 
@@ -260,7 +260,7 @@ sprint:
       =================================================================
 
       1. Clean YAML files (0 Python serialization patterns)
-      2. Pre-commit hook preventing !!python patterns
+      2. Pre-commit hook preventing PYTHON_SERIALIZATION_PATTERN patterns
       3. Fixed enum serialization in dependency code
       4. Validation test suite (6+ tests)
       5. GitHub Actions workflow for roadmap validation
@@ -272,7 +272,7 @@ sprint:
       =================================================================
 
       ✅ All 3 corrupted YAML files fixed
-      ✅ Attempting to commit !!python pattern fails pre-commit
+      ✅ Attempting to commit PYTHON_SERIALIZATION_PATTERN pattern fails pre-commit
       ✅ Dependency updates produce plain string values
       ✅ All validation tests pass (pytest tests/validation/)
       ✅ CI/CD workflow runs on every push and catches issues

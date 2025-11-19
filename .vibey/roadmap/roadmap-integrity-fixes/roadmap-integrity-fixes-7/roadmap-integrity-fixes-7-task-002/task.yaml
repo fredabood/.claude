@@ -16,16 +16,16 @@ task:
     committing YAML files with Python object serialization.
 
     Hook specification:
-    - Searches all .yaml files for !!python patterns
+    - Searches all .yaml files for PYTHON_SERIALIZATION_PATTERN patterns
     - Fails commit if pattern found
     - Provides clear error message
     - Runs fast (<1 second)
 
-    Test by attempting to commit a file with !!python pattern.
+    Test by attempting to commit a file with PYTHON_SERIALIZATION_PATTERN pattern.
   acceptance_criteria:
   - Pre-commit hook added to .pre-commit-config.yaml
   - Hook runs on all YAML files
-  - Committing !!python pattern fails with clear error
+  - Committing PYTHON_SERIALIZATION_PATTERN pattern fails with clear error
   - Hook runs in <1 second
   - Hook documented with clear name and description
   deliverables:

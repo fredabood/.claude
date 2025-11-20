@@ -3,39 +3,57 @@ task:
   name: Fix active YAML Python serialization corruption
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: not_started
+  status: completed
   type: development
   priority: critical
   created: '2025-11-16T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-20T00:07:09.392783+00:00'
   estimated_duration: 15 minutes
   actual_duration: null
-  description: |
-    Fix 3 YAML files that currently contain Python object serialization:
+  description: 'Fix 3 YAML files that currently contain Python object serialization:
+
     - .vibey/roadmap/aider-port/track.yaml (line 53)
+
     - .vibey/roadmap/multi-platform/track.yaml (line 96)
+
     - .vibey/roadmap/mcp-server/track.yaml (line 51)
 
+
     Pattern to fix:
+
     current_status: PYTHON_SERIALIZATION_PATTERN/object/apply:vibey.roadmap.models.common.Status
+
     - in_progress
 
+
     Should be:
+
     current_status: in_progress
 
+
     Verification:
+
     grep -r "PYTHON_SERIALIZATION_PATTERN" .vibey/roadmap/
+
     (should return no results)
+
+    '
   acceptance_criteria:
   - All 3 files contain only plain string values
   - No PYTHON_SERIALIZATION_PATTERN patterns in any roadmap YAML files
   - All 3 files parse successfully with yaml.safe_load()
   - Git diff shows only the serialization pattern removed
   deliverables:
-  - Fixed aider-port/track.yaml
-  - Fixed multi-platform/track.yaml
-  - Fixed mcp-server/track.yaml
+  - type: documentation
+    paths:
+    - Fixed aider-port/track.yaml
+  - type: documentation
+    paths:
+    - Fixed multi-platform/track.yaml
+  - type: documentation
+    paths:
+    - Fixed mcp-server/track.yaml
   dependencies: []
   blocked_by: []
   blocks: []
@@ -43,4 +61,4 @@ task:
   commits: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-16T00:00:00+00:00'
+    last_updated: '2025-11-20T00:07:09.392796+00:00'

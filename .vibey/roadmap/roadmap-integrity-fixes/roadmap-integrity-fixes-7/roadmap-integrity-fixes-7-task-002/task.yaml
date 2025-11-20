@@ -3,25 +3,33 @@ task:
   name: Add pre-commit hook for Python serialization detection
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: not_started
+  status: completed
   type: development
   priority: critical
   created: '2025-11-16T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-20T00:07:09.399700+00:00'
   estimated_duration: 30 minutes
   actual_duration: null
-  description: |
-    Add a pre-commit hook to .pre-commit-config.yaml that prevents
+  description: 'Add a pre-commit hook to .pre-commit-config.yaml that prevents
+
     committing YAML files with Python object serialization.
 
+
     Hook specification:
+
     - Searches all .yaml files for PYTHON_SERIALIZATION_PATTERN patterns
+
     - Fails commit if pattern found
+
     - Provides clear error message
+
     - Runs fast (<1 second)
 
+
     Test by attempting to commit a file with PYTHON_SERIALIZATION_PATTERN pattern.
+
+    '
   acceptance_criteria:
   - Pre-commit hook added to .pre-commit-config.yaml
   - Hook runs on all YAML files
@@ -29,9 +37,15 @@ task:
   - Hook runs in <1 second
   - Hook documented with clear name and description
   deliverables:
-  - Updated .pre-commit-config.yaml with new hook
-  - Test case demonstrating hook catches corruption
-  - Documentation of hook behavior
+  - type: documentation
+    paths:
+    - Updated .pre-commit-config.yaml with new hook
+  - type: documentation
+    paths:
+    - Test case demonstrating hook catches corruption
+  - type: documentation
+    paths:
+    - Documentation of hook behavior
   dependencies:
   - type: task
     target_id: roadmap-integrity-fixes-7-task-001
@@ -42,4 +56,4 @@ task:
   commits: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-16T00:00:00+00:00'
+    last_updated: '2025-11-20T00:07:09.399711+00:00'

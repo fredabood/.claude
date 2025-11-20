@@ -3,70 +3,37 @@ task:
   name: Add date logic validation
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: not_started
+  status: completed
   type: development
   priority: medium
   created: '2025-11-16T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-20T00:07:09.488190+00:00'
   estimated_duration: 1 hour
   actual_duration: null
-  description: |
-    Add validation to ensure date fields follow logical chronological order.
-
-    GAP: No validation of date relationships. This allows nonsensical timelines:
-
-    ```yaml
-    task:
-      created: '2025-11-16T00:00:00+00:00'
-      completed: '2025-11-15T00:00:00+00:00'  # Before created ✗
-      started: '2025-11-17T00:00:00+00:00'    # After completed ✗
-    ```
-
-    Impact: Nonsensical timelines, incorrect duration calculations.
-
-    Implementation:
-    1. Add to tests/validation/test_yaml_integrity.py:
-       - test_roadmap_dates_chronological()
-       - test_track_dates_chronological()
-       - test_sprint_dates_chronological()
-       - test_task_dates_chronological()
-
-    2. Date validation rules:
-
-       **All objects:**
-       - created ≤ started (if both exist)
-       - started ≤ completed (if both exist)
-       - created ≤ completed (if both exist)
-
-       **Sprint-specific:**
-       - started ≤ completion_gate_check_at ≤ completed
-       - completed ≤ production_gate_check_at ≤ production_ready_at
-       - production_ready_at ≤ deployed_at
-
-       **Roadmap-specific:**
-       - created ≤ started ≤ completed ≤ deployed
-
-    3. Handle None values:
-       ```python
-       def validate_chronological(created, started, completed):
-           if created and started:
-               assert created <= started, "started before created"
-           if started and completed:
-               assert started <= completed, "completed before started"
-           if created and completed:
-               assert created <= completed, "completed before created"
-       ```
-
-    4. Collect all violations:
-       - Report file path and object ID
-       - Report which date pair is out of order
-       - Report actual dates for debugging
-
-    Verification:
-    - All date validation tests pass on current YAML
-    - Create test file with completed < started and verify test fails
-    - Fix dates and verify test passes
+  description: "Add validation to ensure date fields follow logical chronological\
+    \ order.\n\nGAP: No validation of date relationships. This allows nonsensical\
+    \ timelines:\n\n```yaml\ntask:\n  created: '2025-11-16T00:00:00+00:00'\n  completed:\
+    \ '2025-11-15T00:00:00+00:00'  # Before created ✗\n  started: '2025-11-17T00:00:00+00:00'\
+    \    # After completed ✗\n```\n\nImpact: Nonsensical timelines, incorrect duration\
+    \ calculations.\n\nImplementation:\n1. Add to tests/validation/test_yaml_integrity.py:\n\
+    \   - test_roadmap_dates_chronological()\n   - test_track_dates_chronological()\n\
+    \   - test_sprint_dates_chronological()\n   - test_task_dates_chronological()\n\
+    \n2. Date validation rules:\n\n   **All objects:**\n   - created ≤ started (if\
+    \ both exist)\n   - started ≤ completed (if both exist)\n   - created ≤ completed\
+    \ (if both exist)\n\n   **Sprint-specific:**\n   - started ≤ completion_gate_check_at\
+    \ ≤ completed\n   - completed ≤ production_gate_check_at ≤ production_ready_at\n\
+    \   - production_ready_at ≤ deployed_at\n\n   **Roadmap-specific:**\n   - created\
+    \ ≤ started ≤ completed ≤ deployed\n\n3. Handle None values:\n   ```python\n \
+    \  def validate_chronological(created, started, completed):\n       if created\
+    \ and started:\n           assert created <= started, \"started before created\"\
+    \n       if started and completed:\n           assert started <= completed, \"\
+    completed before started\"\n       if created and completed:\n           assert\
+    \ created <= completed, \"completed before created\"\n   ```\n\n4. Collect all\
+    \ violations:\n   - Report file path and object ID\n   - Report which date pair\
+    \ is out of order\n   - Report actual dates for debugging\n\nVerification:\n-\
+    \ All date validation tests pass on current YAML\n- Create test file with completed\
+    \ < started and verify test fails\n- Fix dates and verify test passes\n"
   acceptance_criteria:
   - Date validation tests implemented for all object types
   - Tests verify created ≤ started ≤ completed chronology
@@ -75,10 +42,18 @@ task:
   - Tests report specific date violations with file paths
   - All tests pass on current YAML files
   deliverables:
-  - Date validation test suite (4 test functions)
-  - validate_chronological() helper function
-  - Date validation documentation
-  - Integration with CI/CD validation
+  - type: documentation
+    paths:
+    - Date validation test suite (4 test functions)
+  - type: documentation
+    paths:
+    - validate_chronological() helper function
+  - type: documentation
+    paths:
+    - Date validation documentation
+  - type: documentation
+    paths:
+    - Integration with CI/CD validation
   dependencies:
   - type: task
     target_id: roadmap-integrity-fixes-7-task-004
@@ -89,4 +64,4 @@ task:
   commits: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-16T00:00:00+00:00'
+    last_updated: '2025-11-20T00:07:09.488203+00:00'

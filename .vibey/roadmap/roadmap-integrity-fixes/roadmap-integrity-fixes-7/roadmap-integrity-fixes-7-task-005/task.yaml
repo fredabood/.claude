@@ -3,37 +3,23 @@ task:
   name: Add CI/CD validation job for roadmap YAML files
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: not_started
+  status: completed
   type: development
   priority: high
   created: '2025-11-16T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-20T00:07:09.423260+00:00'
   estimated_duration: 1 hour
   actual_duration: null
-  description: |
-    Create GitHub Actions workflow for automated roadmap validation.
-
-    Create .github/workflows/roadmap-validation.yml with jobs:
-    1. YAML Syntax Validation
-       - Use yamllint to check all .vibey/roadmap/**/*.yaml
-       - Fail on syntax errors
-
-    2. Python Serialization Detection
-       - Grep for PYTHON_SERIALIZATION_PATTERN patterns
-       - Fail if found
-
-    3. Dependency Status Validation
-       - Verify all dependency statuses are strings
-       - Fail if enum objects found
-
-    4. Track Loadability Test
-       - Attempt to load all tracks with Python loader
-       - Fail if any track fails to load
-
-    Trigger: On push to main, on pull requests
-
-    Report: Create artifact with validation results
+  description: "Create GitHub Actions workflow for automated roadmap validation.\n\
+    \nCreate .github/workflows/roadmap-validation.yml with jobs:\n1. YAML Syntax Validation\n\
+    \   - Use yamllint to check all .vibey/roadmap/**/*.yaml\n   - Fail on syntax\
+    \ errors\n\n2. Python Serialization Detection\n   - Grep for PYTHON_SERIALIZATION_PATTERN\
+    \ patterns\n   - Fail if found\n\n3. Dependency Status Validation\n   - Verify\
+    \ all dependency statuses are strings\n   - Fail if enum objects found\n\n4. Track\
+    \ Loadability Test\n   - Attempt to load all tracks with Python loader\n   - Fail\
+    \ if any track fails to load\n\nTrigger: On push to main, on pull requests\n\n\
+    Report: Create artifact with validation results\n"
   acceptance_criteria:
   - GitHub Actions workflow file created
   - Workflow triggers on push and PR
@@ -42,9 +28,15 @@ task:
   - Intentional corruption fails the workflow
   - Results clearly indicate which check failed
   deliverables:
-  - .github/workflows/roadmap-validation.yml
-  - Workflow documentation
-  - Example run showing successful validation
+  - type: documentation
+    paths:
+    - .github/workflows/roadmap-validation.yml
+  - type: documentation
+    paths:
+    - Workflow documentation
+  - type: documentation
+    paths:
+    - Example run showing successful validation
   dependencies:
   - type: task
     target_id: roadmap-integrity-fixes-7-task-004
@@ -55,4 +47,4 @@ task:
   commits: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-16T00:00:00+00:00'
+    last_updated: '2025-11-20T00:07:09.423268+00:00'

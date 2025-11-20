@@ -37,6 +37,35 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov pyyaml
 
+      - name: Schema validation (BLOCKING)
+        run: |
+          echo "Running comprehensive schema validation..."
+          python scripts/validate-roadmap-schema.py
+          if [ $? -ne 0 ]; then
+            echo "❌ Schema validation failed"
+            echo "Run locally: python scripts/validate-roadmap-schema.py --verbose"
+            exit 1
+          fi
+          echo "✅ All roadmap files passed schema validation"
+
+      - name: Health score check
+        continue-on-error: true  # Warning only - don't block on health score yet
+        run: |
+          echo "Checking roadmap health score..."
+          python scripts/roadmap-health-dashboard.py --json > metrics.json || true
+          if [ -f metrics.json ]; then
+            score=$(python -c "import json; print(json.load(open('metrics.json')).get('overall_health_score', 0))" 2>/dev/null || echo "0")
+            echo "📊 Current health score: $score"
+            if (( $(echo "$score < 90" | bc -l 2>/dev/null || echo "0") )); then
+              echo "⚠️  Health score below recommended threshold (90): $score"
+              echo "This is a warning - not blocking the build yet"
+            else
+              echo "✅ Health score meets threshold"
+            fi
+          else
+            echo "⚠️  Could not generate health metrics"
+          fi
+
       - name: Run YAML syntax validation
         run: |
           pytest tests/validation/test_yaml_integrity.py::TestYAMLSyntax -v --tb=short
@@ -45,8 +74,8 @@ jobs:
         run: |
           pytest tests/validation/test_yaml_integrity.py::TestPythonSerialization -v --tb=short
 
-      - name: Run schema validation
-        continue-on-error: true  # Don't fail CI on schema violations (warn only)
+      - name: Run schema validation (pytest)
+        continue-on-error: true  # Supplementary - main validation is above
         run: |
           pytest tests/validation/test_yaml_integrity.py::TestSchemaValidation -v --tb=short
 

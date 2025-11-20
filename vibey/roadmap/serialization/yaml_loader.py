@@ -726,10 +726,14 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         with open(file_path, 'r') as f:
             data = yaml.safe_load(f)
 
-        # Tasks can be a list or dict with 'tasks' key
+        # Tasks can be a list or dict with 'tasks'/'task' key
         if isinstance(data, list):
             tasks_data = data
+        elif 'task' in data:
+            # Single task file (hierarchical structure)
+            tasks_data = [data['task']]
         elif 'tasks' in data:
+            # Multiple tasks file (legacy structure)
             tasks_data = data['tasks']
         else:
             raise ValueError("Invalid tasks file format")

@@ -1,0 +1,114 @@
+task:
+  id: roadmap-integrity-fixes-10-task-002
+  name: Define documentation organization standards
+  sprint_id: roadmap-integrity-fixes-10
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T01:00:00.000000+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Create comprehensive documentation organization standards for the project.
+
+    GOAL: Define clear rules for where documentation belongs
+
+    KEY DISTINCTION:
+
+    **Context Documentation** (informs development):
+    - Location: `.vibey/roadmap/[track]/[sprint]/[task]/context/`
+    - Purpose: Support development process, capture decisions, record analysis
+    - Lifecycle: Tied to specific track/sprint/task
+    - Examples:
+      * Analysis reports (schema audits, token usage analysis)
+      * Fix strategies and design decisions
+      * QA reports and test results
+      * Research findings and benchmarks
+      * Sprint retrospectives
+      * Task rationale and context
+
+    **Project Documentation** (describes state):
+    - Location: `docs/`
+    - Purpose: Help users understand and use the project
+    - Lifecycle: Maintained as long as feature exists
+    - Examples:
+      * User guides and tutorials
+      * API reference and architecture docs
+      * Contributing guidelines
+      * Framework roadmap
+      * Agent and workflow definitions
+      * Development guides
+
+    STANDARDS DOCUMENT STRUCTURE:
+
+    ```markdown
+    # Documentation Organization Standards
+
+    ## Overview
+    - Purpose of this document
+    - Quick decision flowchart
+
+    ## Context Documentation
+    ### Definition
+    ### Location Rules
+    ### Naming Conventions
+    ### File Types
+    ### When to Create
+    ### Examples
+
+    ## Project Documentation
+    ### Definition
+    ### Location Rules (docs/ structure)
+    ### Naming Conventions
+    ### When to Update
+    ### Examples
+
+    ## Decision Flowchart
+    - Is this informing a specific task/sprint?
+    - Is this describing project functionality?
+    - Edge cases and examples
+
+    ## Migration Guidelines
+    - How to move files safely
+    - Updating references
+    - Archive vs delete decisions
+    - Git history preservation
+
+    ## Validation
+    - How to check compliance
+    - Common violations
+    - Remediation steps
+    ```
+
+    DELIVERABLE: docs/development/DOCUMENTATION_ORGANIZATION_STANDARDS.md
+
+  acceptance_criteria:
+  - Clear distinction between context and project documentation
+  - Location rules defined for both types
+  - Naming conventions documented
+  - Decision flowchart provided
+  - Migration guidelines complete
+  - Examples for common scenarios
+  - Edge cases addressed
+
+  deliverables:
+  - type: documentation
+    paths:
+    - docs/development/DOCUMENTATION_ORGANIZATION_STANDARDS.md
+
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-10-task-001
+    target_status: completed
+    reason: Need audit results to inform standards
+
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T01:00:00.000000+00:00'

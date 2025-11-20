@@ -1,0 +1,126 @@
+task:
+  id: roadmap-integrity-fixes-10-task-003
+  name: Create context/ directories in roadmap structure
+  sprint_id: roadmap-integrity-fixes-10
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: medium
+  created: '2025-11-20T01:00:00.000000+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: |
+    Add context/ subdirectories to all tracks, sprints, and tasks in roadmap structure.
+
+    GOAL: Create proper directory structure for context documentation
+
+    SCOPE:
+    - All tracks in .vibey/roadmap/
+    - All sprints within tracks
+    - All tasks within sprints
+
+    DIRECTORY STRUCTURE:
+
+    ```
+    .vibey/roadmap/
+    ├── [track-name]/
+    │   ├── context/              # Track-level context
+    │   ├── track.yaml
+    │   ├── [sprint-name]/
+    │   │   ├── context/          # Sprint-level context
+    │   │   ├── sprint.yaml
+    │   │   └── [task-name]/
+    │   │       ├── context/      # Task-level context
+    │   │       └── task.yaml
+    ```
+
+    IMPLEMENTATION:
+
+    1. Create script: scripts/create-context-directories.py
+       ```python
+       #!/usr/bin/env python3
+       """Create context/ directories in roadmap structure."""
+
+       import os
+       from pathlib import Path
+
+       roadmap_root = Path(".vibey/roadmap")
+
+       # Track-level
+       for track_dir in roadmap_root.iterdir():
+           if track_dir.is_dir():
+               context_dir = track_dir / "context"
+               context_dir.mkdir(exist_ok=True)
+               (context_dir / ".gitkeep").touch()
+
+       # Sprint-level
+       for sprint_dir in roadmap_root.glob("*/[!context]*"):
+           if sprint_dir.is_dir() and sprint_dir.name != "context":
+               context_dir = sprint_dir / "context"
+               context_dir.mkdir(exist_ok=True)
+               (context_dir / ".gitkeep").touch()
+
+       # Task-level
+       for task_dir in roadmap_root.glob("*/*/*"):
+           if task_dir.is_dir() and task_dir.name != "context":
+               context_dir = task_dir / "context"
+               context_dir.mkdir(exist_ok=True)
+               (context_dir / ".gitkeep").touch()
+       ```
+
+    2. Run script and verify:
+       ```bash
+       python3 scripts/create-context-directories.py
+       find .vibey/roadmap -type d -name "context" | wc -l
+       ```
+
+    3. Update .gitignore:
+       ```
+       # Context directories (generated artifacts)
+       .vibey/roadmap/*/context/*
+       .vibey/roadmap/*/*/context/*
+       .vibey/roadmap/*/*/*/context/*
+
+       # But track .gitkeep files
+       !.vibey/roadmap/*/context/.gitkeep
+       !.vibey/roadmap/*/*/context/.gitkeep
+       !.vibey/roadmap/*/*/*/context/.gitkeep
+       ```
+
+    VERIFICATION:
+    - All tracks have context/ directory
+    - All sprints have context/ directory
+    - All tasks have context/ directory
+    - .gitkeep files prevent directory deletion
+    - .gitignore configured properly
+
+  acceptance_criteria:
+  - Script created and tested
+  - All context/ directories created
+  - .gitkeep files in all context/ directories
+  - .gitignore updated appropriately
+  - Directory structure validated
+
+  deliverables:
+  - type: code
+    paths:
+    - scripts/create-context-directories.py
+  - type: config
+    paths:
+    - .gitignore
+
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-10-task-002
+    target_status: completed
+    reason: Need standards defined before creating structure
+
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T01:00:00.000000+00:00'

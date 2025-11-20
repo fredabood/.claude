@@ -1,0 +1,238 @@
+task:
+  id: roadmap-integrity-fixes-10-task-005
+  name: Update validation scripts and .gitignore
+  sprint_id: roadmap-integrity-fixes-10
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: medium
+  created: '2025-11-20T01:00:00.000000+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: |
+    Create validation tooling to enforce documentation organization standards.
+
+    GOAL: Automated enforcement of documentation placement rules
+
+    DELIVERABLES:
+
+    1. Update .gitignore for context/ directories
+    2. Create validation script
+    3. Integrate with health dashboard
+
+    IMPLEMENTATION:
+
+    **1. .gitignore Updates**
+
+    Add to .gitignore:
+    ```
+    # ==============================================================================
+    # CONTEXT DOCUMENTATION
+    # ==============================================================================
+    # Context directories contain development artifacts (analyses, reports, etc.)
+    # that inform the development process but aren't part of project documentation.
+    # These are typically generated/modified during development and tracked in git.
+
+    # Ignore all context directory contents by default
+    .vibey/roadmap/*/context/*
+    .vibey/roadmap/*/*/context/*
+    .vibey/roadmap/*/*/*/context/*
+
+    # But preserve the directories themselves
+    !.vibey/roadmap/*/context/.gitkeep
+    !.vibey/roadmap/*/*/context/.gitkeep
+    !.vibey/roadmap/*/*/*/context/.gitkeep
+
+    # Track important context documents (opt-in)
+    # Example: !.vibey/roadmap/my-track/my-sprint/context/IMPORTANT_ANALYSIS.md
+    ```
+
+    **2. Validation Script: scripts/validate-documentation-organization.py**
+
+    ```python
+    #!/usr/bin/env python3
+    """
+    Validate documentation organization compliance.
+
+    Checks:
+    1. All .md files in docs/ are project documentation
+    2. All .md files in context/ are context documentation
+    3. No misplaced documentation files
+    4. All documentation links valid
+    """
+
+    import re
+    from pathlib import Path
+    from typing import List, Tuple
+
+    class DocumentationValidator:
+        def __init__(self):
+            self.errors = []
+            self.warnings = []
+            self.project_root = Path(".")
+
+        def validate_all(self) -> Tuple[int, int]:
+            """Run all validation checks."""
+            self.check_docs_directory()
+            self.check_context_directories()
+            self.check_misplaced_files()
+            self.check_broken_links()
+            return len(self.errors), len(self.warnings)
+
+        def check_docs_directory(self):
+            """Verify docs/ contains only project documentation."""
+            docs_path = self.project_root / "docs"
+            for md_file in docs_path.rglob("*.md"):
+                # Check if file looks like context documentation
+                if self._is_context_doc(md_file):
+                    self.errors.append(
+                        f"Context doc in docs/: {md_file.relative_to(self.project_root)}"
+                    )
+
+        def check_context_directories(self):
+            """Verify context/ contains only context documentation."""
+            roadmap_path = self.project_root / ".vibey" / "roadmap"
+            for md_file in roadmap_path.rglob("context/*.md"):
+                if self._is_project_doc(md_file):
+                    self.errors.append(
+                        f"Project doc in context/: {md_file.relative_to(self.project_root)}"
+                    )
+
+        def check_misplaced_files(self):
+            """Find documentation files in wrong locations."""
+            # Check for analysis reports outside context/
+            for md_file in self.project_root.rglob("*.md"):
+                rel_path = md_file.relative_to(self.project_root)
+
+                # Skip valid locations
+                if str(rel_path).startswith("docs/"):
+                    continue
+                if "/context/" in str(rel_path):
+                    continue
+                if md_file.name in ["README.md", "CLAUDE.md", "CHANGELOG.md"]:
+                    continue
+
+                # Check if looks like context documentation
+                if self._is_context_doc(md_file):
+                    self.warnings.append(
+                        f"Possible misplaced context doc: {rel_path}"
+                    )
+
+        def _is_context_doc(self, file_path: Path) -> bool:
+            """Heuristic: does this look like context documentation?"""
+            name = file_path.name.upper()
+            context_indicators = [
+                "AUDIT", "REPORT", "ANALYSIS", "STRATEGY",
+                "FIX", "QA", "COMPREHENSIVE", "MIGRATION"
+            ]
+            return any(indicator in name for indicator in context_indicators)
+
+        def _is_project_doc(self, file_path: Path) -> bool:
+            """Heuristic: does this look like project documentation?"""
+            name = file_path.name.upper()
+            project_indicators = [
+                "GUIDE", "REFERENCE", "API", "TUTORIAL",
+                "CONTRIBUTING", "README", "ARCHITECTURE"
+            ]
+            return any(indicator in name for indicator in project_indicators)
+
+        def check_broken_links(self):
+            """Check for broken markdown links."""
+            for md_file in self.project_root.rglob("*.md"):
+                content = md_file.read_text()
+                # Find markdown links: [text](path)
+                links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+                for text, link in links:
+                    if link.startswith("http"):
+                        continue  # Skip external links
+                    link_path = (md_file.parent / link).resolve()
+                    if not link_path.exists():
+                        self.errors.append(
+                            f"Broken link in {md_file.name}: {link}"
+                        )
+
+        def report(self) -> str:
+            """Generate validation report."""
+            total_errors = len(self.errors)
+            total_warnings = len(self.warnings)
+
+            report = f"""
+    Documentation Organization Validation Report
+    ============================================
+
+    Errors: {total_errors}
+    Warnings: {total_warnings}
+
+    """
+            if self.errors:
+                report += "\nERRORS:\n"
+                for error in self.errors:
+                    report += f"  ❌ {error}\n"
+
+            if self.warnings:
+                report += "\nWARNINGS:\n"
+                for warning in self.warnings:
+                    report += f"  ⚠️  {warning}\n"
+
+            if not self.errors and not self.warnings:
+                report += "✅ All documentation properly organized!\n"
+
+            return report
+
+    if __name__ == "__main__":
+        validator = DocumentationValidator()
+        errors, warnings = validator.validate_all()
+        print(validator.report())
+        exit(0 if errors == 0 else 1)
+    ```
+
+    **3. Health Dashboard Integration**
+
+    Add to scripts/roadmap-health-dashboard.py:
+    ```python
+    def check_documentation_organization() -> int:
+        """Check documentation organization compliance."""
+        from scripts.validate_documentation_organization import DocumentationValidator
+
+        validator = DocumentationValidator()
+        errors, warnings = validator.validate_all()
+
+        # Score: 100 - (errors * 10) - (warnings * 2)
+        score = max(0, 100 - (errors * 10) - (warnings * 2))
+        return score
+    ```
+
+  acceptance_criteria:
+  - .gitignore updated with context/ rules
+  - Validation script created and tested
+  - Script detects misplaced documentation
+  - Script checks broken links
+  - Health dashboard integration complete
+  - Documentation score calculated
+
+  deliverables:
+  - type: config
+    paths:
+    - .gitignore
+  - type: code
+    paths:
+    - scripts/validate-documentation-organization.py
+  - type: code
+    paths:
+    - scripts/roadmap-health-dashboard.py
+
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-10-task-004
+    target_status: completed
+    reason: Need migration complete before validating
+
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T01:00:00.000000+00:00'

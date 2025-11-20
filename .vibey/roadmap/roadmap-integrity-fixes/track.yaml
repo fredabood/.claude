@@ -10,12 +10,12 @@ track:
   completed: null
   estimated_duration: 6-10 weeks
   progress:
-    sprints_total: 8
+    sprints_total: 11
     sprints_completed: 0
-    tasks_total: 63
+    tasks_total: 81
     tasks_completed: 0
     completion_percent: 43
-    notes: 'Planning & forensic analysis complete (Sprints 0-2), data fixes partially complete (Sprint 3). Execution sprints 4-6 not started. Sprint 7 (Prevention & Automation) created 2025-11-16.'
+    notes: 'Planning & forensic analysis complete (Sprints 0-2), data fixes partially complete (Sprint 3). Execution sprints 4-6 not started. Sprint 7 (Prevention & Automation) created 2025-11-16. Sprint 8 (Schema Remediation) in progress. Sprint 9 (CLI Bugs), Sprint 10 (Documentation Organization) added 2025-11-20.'
   sprints:
   - id: roadmap-integrity-fixes-0
     name: 'Sprint 0: Pre-Audit Preparation'
@@ -64,6 +64,24 @@ track:
     status: not_started
     estimated_duration: 2.5 weeks
     tasks_count: 13
+    started: null
+  - id: roadmap-integrity-fixes-8
+    name: 'Sprint 8: YAML Schema Remediation'
+    status: in_progress
+    estimated_duration: 1-2 weeks
+    tasks_count: 7
+    started: '2025-11-20T00:15:49.996291+00:00'
+  - id: roadmap-integrity-fixes-9
+    name: 'Sprint 9: CLI State Management Bugs'
+    status: not_started
+    estimated_duration: 4-6 hours
+    tasks_count: 4
+    started: null
+  - id: roadmap-integrity-fixes-10
+    name: 'Sprint 10: Documentation Organization & Consolidation'
+    status: not_started
+    estimated_duration: 1-2 weeks
+    tasks_count: 7
     started: null
   dependencies: []
   blocks:

@@ -1,0 +1,116 @@
+task:
+  id: roadmap-integrity-fixes-10-task-001
+  name: Audit all documentation files and categorize
+  sprint_id: roadmap-integrity-fixes-10
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T01:00:00.000000+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 hours
+  actual_duration: null
+  description: |
+    Comprehensive audit of all documentation files across the repository.
+
+    GOAL: Categorize every documentation file as either:
+    - **Context documentation**: Informs development process
+    - **Project documentation**: Describes project state
+    - **Both/Unclear**: Needs manual review
+
+    SCOPE: All .md files in repository (excluding node_modules)
+
+    PROCESS:
+
+    1. Find all markdown files:
+       ```bash
+       find . -name "*.md" -not -path "*/node_modules/*" -not -path "*/.git/*"
+       ```
+
+    2. Categorize each file:
+
+       **Context Documentation Examples:**
+       - Analysis reports (SCHEMA_AUDIT_REPORT_*.md)
+       - Fix strategies (SCHEMA_FIX_STRATEGY.md)
+       - Design decisions (TOKEN_SIZING_METHODOLOGY.md)
+       - Research findings (TOKEN_USAGE_ANALYSIS.md)
+       - QA reports (COMPREHENSIVE_AUDIT_*.md)
+       - Sprint notes and retrospectives
+       - Task context and rationale
+
+       **Project Documentation Examples:**
+       - User guides (QUICK_START.md, USER_JOURNEY.md)
+       - API reference (ROADMAP_OBJECT_HIERARCHY.md)
+       - Architecture docs (ROADMAP_IMPLEMENTATION_PLAN.md)
+       - Contributing guidelines (CONTRIBUTING.md)
+       - Framework roadmap (FRAMEWORK_ROADMAP.md)
+       - Agent and workflow definitions
+
+    3. Document findings:
+       - Total files found
+       - Current locations
+       - Proposed new locations
+       - Migration complexity (simple/complex)
+       - Files needing manual review
+
+    4. Identify patterns:
+       - Common naming conventions
+       - Typical locations for each type
+       - Files that violate conventions
+
+    DELIVERABLE: DOCUMENTATION_AUDIT_REPORT.md
+
+    Structure:
+    ```
+    # Documentation Audit Report
+    Generated: 2025-11-20
+
+    ## Summary
+    - Total files: X
+    - Context docs: Y (Z%)
+    - Project docs: A (B%)
+    - Needs review: C (D%)
+
+    ## Context Documentation (Y files)
+    | Current Location | Proposed Location | Complexity | Notes |
+    |-----------------|-------------------|------------|-------|
+    | ... | ... | ... | ... |
+
+    ## Project Documentation (A files)
+    | Current Location | Status | Notes |
+    |-----------------|--------|-------|
+    | ... | ... | ... |
+
+    ## Files Needing Manual Review (C files)
+    | File | Reason | Recommendation |
+    |------|--------|----------------|
+    | ... | ... | ... |
+
+    ## Migration Plan
+    - Simple moves: X files (automated)
+    - Complex moves: Y files (manual)
+    - In-place (correct location): Z files
+    ```
+
+  acceptance_criteria:
+  - All .md files found and categorized
+  - Each file classified as context, project, or unclear
+  - Current and proposed locations documented
+  - Migration complexity assessed
+  - Patterns and conventions identified
+  - Audit report created and comprehensive
+
+  deliverables:
+  - type: documentation
+    paths:
+    - .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/DOCUMENTATION_AUDIT_REPORT.md
+
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T01:00:00.000000+00:00'

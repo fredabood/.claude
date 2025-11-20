@@ -89,7 +89,12 @@
       "Bash(if ! grep -q \"commit\" \"$file\")",
       "Bash(if ! grep -q \"completed:\" \"$file\")",
       "Bash(then echo \"MISSING: $task\")",
-      "Bash(then echo \"NO SUPERSEDED_BY: $task\")"
+      "Bash(then echo \"NO SUPERSEDED_BY: $task\")",
+      "Bash(if grep -r \"!!python\" .vibey/roadmap/**/track.yaml .vibey/roadmap/**/sprint.yaml .vibey/roadmap/**/task.yaml)",
+      "Bash(then echo \"❌ FAIL: Python serialization found\")",
+      "Bash(else echo \"✅ PASS: No Python serialization in data files\")",
+      "Bash(python -m vibey.cli.main:*)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []

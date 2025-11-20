@@ -1,7 +1,7 @@
 task:
-  id: roadmap-integrity-fixes-9-task-007
+  id: roadmap-integrity-fixes-8-task-007
   name: Add schema validation to CI/CD
-  sprint_id: roadmap-integrity-fixes-9
+  sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
   status: not_started
   type: development
@@ -37,7 +37,7 @@ task:
     - docs/development/CI_SCHEMA_VALIDATION.md
   dependencies:
   - type: task
-    target_id: roadmap-integrity-fixes-9-task-005
+    target_id: roadmap-integrity-fixes-8-task-005
     target_status: completed
     reason: Ensure validation passes first
   blocked_by: []

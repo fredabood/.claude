@@ -1,46 +1,50 @@
 task:
   id: roadmap-integrity-fixes-8-task-002
-  name: Fix DeliverableType enum value normalization
+  name: Fix missing required fields (47 critical)
   sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
   status: not_started
   type: development
   priority: critical
-  created: '2025-11-20T00:13:23.095837+00:00'
+  created: '2025-11-20T00:17:11.805568+00:00'
   started: null
   completed: null
-  estimated_duration: 30 minutes
+  estimated_duration: 4 hours
   actual_duration: null
-  description: "Normalize DeliverableType enum values across codebase.\n\nProblem:\n\
-    - Valid values: code, test, documentation, config, other\n- YAML files use: \"\
-    configuration\" (invalid)\n- Error: 'configuration' is not a valid DeliverableType\n\
-    \nSolution options:\n1. Add alias mapping in loader: {\"configuration\": \"config\"\
-    }\n2. Migration script to fix all YAML files\n3. Validation at creation time\n\
-    \nRecommended: Option 1 + 2\n- Quick fix: Add alias mapping\n- Clean up: Migrate\
-    \ existing files\n\nImplementation:\nyaml_loader.py: Add normalization before\
-    \ enum creation\n  type_aliases = {\"configuration\": \"config\"}\n  deliverable_type\
-    \ = type_aliases.get(d['type'], d['type'])\n  Deliverable(type=DeliverableType(deliverable_type),\
-    \ ...)\n\nMigration: grep + replace all \"configuration\" → \"config\"\n"
+  description: "Fix all 47 critical missing required field errors.\n\nPatterns to\
+    \ fix:\n1. Missing sprint_id in track.yaml\n2. Missing title in sprint.yaml  \n\
+    3. Missing task_id in sprint.yaml\n\nApproach:\n- Identify all affected files\n\
+    - Determine correct value for missing field\n- Add field at correct location\n\
+    - Validate fix with schema validator\n\nFor each pattern:\n1. grep to find all\
+    \ occurrences\n2. Inspect to understand context\n3. Add missing field (may need\
+    \ to infer value)\n4. Test with validate-roadmap-schema.py\n\nVerification:\n\
+    python scripts/validate-roadmap-schema.py --strict\nCritical issues: 0 (down from\
+    \ 47)\n"
   acceptance_criteria:
-  - Handles "configuration" as alias for "config"
-  - All existing YAML files load without errors
-  - Migration script normalizes all files
-  - Validation catches invalid types at creation
+  - All 47 critical issues resolved
+  - All required fields present
+  - Schema validation shows 0 critical
+  - No data loss during fix
+  - Git commit with clear changes
   deliverables:
   - type: code
     paths:
-    - vibey/roadmap/serialization/yaml_loader.py
+    - Fixed track.yaml files
   - type: code
     paths:
-    - scripts/migrate-deliverable-types.py
-  - type: test
+    - Fixed sprint.yaml files
+  - type: documentation
     paths:
-    - tests/test_deliverable_type_normalization.py
-  dependencies: []
+    - MISSING_FIELDS_FIX_REPORT.md
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-001
+    target_status: completed
+    reason: Need audit to identify all missing fields
   blocked_by: []
   blocks: []
   assigned_agent: web-developer
   commits: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-11-20T00:13:23.095853+00:00'
+    last_updated: '2025-11-20T00:17:11.805589+00:00'

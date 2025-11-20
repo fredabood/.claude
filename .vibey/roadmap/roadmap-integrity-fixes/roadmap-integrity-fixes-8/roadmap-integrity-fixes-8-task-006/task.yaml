@@ -1,7 +1,7 @@
 task:
-  id: roadmap-integrity-fixes-9-task-006
+  id: roadmap-integrity-fixes-8-task-006
   name: Update Pydantic models for compatibility
-  sprint_id: roadmap-integrity-fixes-9
+  sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
   status: not_started
   type: development
@@ -39,7 +39,7 @@ task:
     - docs/development/MODEL_CHANGES_V2.1.md
   dependencies:
   - type: task
-    target_id: roadmap-integrity-fixes-9-task-005
+    target_id: roadmap-integrity-fixes-8-task-005
     target_status: completed
     reason: Understand all validation patterns
   blocked_by: []

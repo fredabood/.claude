@@ -1,137 +1,138 @@
 sprint:
   id: roadmap-integrity-fixes-8
-  name: CLI State Management Bugs
+  name: YAML Schema Remediation (414 failures)
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-20T00:11:43.426773+00:00'
+  created: '2025-11-20T00:15:49.996291+00:00'
   started: null
   completed: null
-  estimated_duration: 3-4 hours
+  estimated_duration: 1-2 weeks
   progress:
-    development_tasks_total: 4
+    development_tasks_total: 7
     development_tasks_completed: 0
-    tasks_total: 4
+    tasks_total: 7
     tasks_completed: 0
     completion_percent: 0
   tasks:
   - id: roadmap-integrity-fixes-8-task-001
-    name: Fix deliverables schema backward compatibility
+    name: Audit schema validation failures
     status: not_started
     type: development
-    estimated_duration: 1 hour
+    estimated_duration: 2 hours
   - id: roadmap-integrity-fixes-8-task-002
-    name: Fix DeliverableType enum value normalization
+    name: Fix missing required fields (47 critical)
     status: not_started
     type: development
-    estimated_duration: 30 minutes
+    estimated_duration: 4 hours
   - id: roadmap-integrity-fixes-8-task-003
-    name: Fix standards enforcement field mismatch (title vs name)
+    name: Fix field hierarchy issues (373 high)
+    status: not_started
+    type: development
+    estimated_duration: 6 hours
+  - id: roadmap-integrity-fixes-8-task-004
+    name: Create schema migration script
+    status: not_started
+    type: development
+    estimated_duration: 3 hours
+  - id: roadmap-integrity-fixes-8-task-005
+    name: Validate all 435 YAML files pass schema
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-8-task-006
+    name: Update Pydantic models for compatibility
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  - id: roadmap-integrity-fixes-8-task-007
+    name: Add schema validation to CI/CD
     status: not_started
     type: development
     estimated_duration: 1 hour
-  - id: roadmap-integrity-fixes-8-task-004
-    name: Audit and fix Task model field consistency
-    status: not_started
-    type: development
-    estimated_duration: 1.5 hours
   dependencies:
   - type: sprint
     target_id: roadmap-integrity-fixes-7
     target_status: completed
-    reason: Build on prevention infrastructure
+    reason: Build on validation infrastructure
   deliverables:
-  - Backward-compatible deliverables parser
-  - DeliverableType enum normalization
-  - Fixed standards enforcement field references
-  - Consistent Task model field naming
-  - Test suite for CLI state management
+  - Schema audit report categorizing 414 failures
+  - Fixed all 47 critical missing field issues
+  - Fixed all 373 high severity hierarchy issues
+  - Automated schema migration script
+  - 100% schema validation pass rate (435/435)
+  - Updated Pydantic models
+  - CI/CD schema validation blocking PRs
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:11:43.426794+00:00'
-    estimated_duration: 3-4 hours
+    last_updated: '2025-11-20T00:15:49.996313+00:00'
+    estimated_duration: 1-2 weeks
     created_by: claude-code
-    sprint_type: bugfix
+    sprint_type: remediation
     priority: critical
-    rationale: 'CRITICAL BUGFIX SPRINT - Created 2025-11-20
-
-
-      CONTEXT: Sprint 7 completion revealed critical bugs in CLI tooling
-
-      - Unable to use ''vibey roadmap complete'' for deterministic updates
-
-      - Forced manual YAML edits as workaround
-
-      - Violates automated state management principles
-
-
-      PROBLEM: 4 bugs prevent automated sprint state updates:
-
-      1. Deliverables schema incompatibility (string vs dict)
-
-      2. Invalid DeliverableType enum values
-
-      3. Standards enforcement field mismatch (title vs name)
-
-      4. Task object structure inconsistency
-
-
-      EVIDENCE:
-
-      - KeyError: ''type'' when loading tasks
-
-      - ValueError: ''configuration'' is not valid DeliverableType
-
-      - KeyError: ''title'' in standards enforcement
-
-      - Inconsistent field naming across codebase
-
-
-      RISK: Without fixes, roadmap system unusable for automation
-
-      - Manual YAML edits required for every sprint
-
-      - Non-deterministic state updates
-
-      - High error rate, low confidence
-
-      - Cannot scale to automated workflows
-
-
-      SPRINT GOAL: Fix CLI bugs enabling deterministic state management
-
-
-      This sprint fixes the infrastructure issues that prevent automated
-
-      roadmap state updates, enabling proper workflow automation for all
-
-      future sprints.'
-    notes: "Sprint 8: CLI State Management Bugs\n====================================\n\
-      \nCreated: 2025-11-20\nTrigger: Bugs found during Sprint 7 completion attempt\n\
-      Duration: 3-4 hours\nPriority: CRITICAL\n\nTASK BREAKDOWN\n==============\n\n\
-      Task 1: Fix deliverables schema backward compatibility (1 hour, P0)\n------------------------------------------------------------------\n\
-      File: vibey/roadmap/serialization/yaml_loader.py:815-821\n\nCurrent code expects:\n\
-      \  deliverables:\n    - type: documentation\n      paths: [...]\n\nLegacy YAML\
-      \ has:\n  deliverables:\n    - Fixed aider-port/track.yaml\n\nFix: Add backward-compatible\
-      \ parsing\n  if isinstance(d, str):\n      deliverables.append(Deliverable(type=DeliverableType.OTHER,\
-      \ paths=[d]))\n  elif isinstance(d, dict):\n      deliverables.append(Deliverable(type=d['type'],\
-      \ paths=d['paths']))\n\nTask 2: Fix DeliverableType enum normalization (30 min,\
-      \ P0)\n-----------------------------------------------------------\nProblem:\
-      \ YAML uses 'configuration', enum expects 'config'\n\nOptions:\n1. Add alias\
-      \ mapping: {\"configuration\": \"config\"}\n2. Migration script to normalize\
-      \ all YAML files\n3. Validation at creation time\n\nRecommended: Option 1 (quick)\
-      \ + Option 2 (clean up)\n\nTask 3: Fix standards enforcement field mismatch\
-      \ (1 hour, P0)\n-------------------------------------------------------------\n\
-      File: vibey/operations/roadmap/standards_enforcement.py\n\nProblem: Code accesses\
-      \ task.title, but model has task.name\n\nFix: Update all field references\n\
-      \  grep -rn \"task\\.title\" vibey/operations/roadmap/\n  Replace with task.name\n\
-      \nTask 4: Audit Task model field consistency (1.5 hours, P1)\n----------------------------------------------------------\n\
-      Problem: Inconsistent field naming across codebase\n\nSteps:\n1. Audit all Task\
-      \ field accesses: grep -rn \"task\\.\" vibey/\n2. Document expected vs actual\
-      \ fields\n3. Standardize on one naming convention\n4. Update all references\n\
-      5. Add tests to prevent regression\n\nSUCCESS CRITERIA\n================\n\n\
-      ✅ vibey roadmap complete works without errors\n✅ Backward-compatible with legacy\
-      \ deliverables format\n✅ All DeliverableType values normalized\n✅ Standards\
-      \ enforcement uses correct field names\n✅ Test suite validates CLI state management\n\
-      ✅ No manual YAML edits required for sprint completion\n"
+    rationale: "CRITICAL SCHEMA REMEDIATION SPRINT - Created 2025-11-20\n\nCONTEXT:\
+      \ Health dashboard reveals massive schema validation failures\n- Only 21/435\
+      \ files pass Pydantic schema validation (4.8%)\n- 414 files have schema violations\n\
+      - 47 critical issues (missing required fields)\n- 373 high severity issues (field\
+      \ hierarchy problems)\n\nPROBLEM: Structural YAML issues prevent proper data\
+      \ model usage\n1. Missing required fields: sprint_id, title, task_id\n2. Fields\
+      \ at wrong hierarchy level\n3. Schema evolution without migration\n4. No validation\
+      \ preventing new violations\n\nEVIDENCE FROM HEALTH DASHBOARD (2025-11-20):\n\
+      ❌ Critical: 47\n  - Missing required field: 'sprint_id' (tracks)\n  - Missing\
+      \ required field: 'title' (sprints)\n  - Missing required field: 'task_id' (sprints)\n\
+      \n⚠️ High: 373\n  - Field hierarchy mismatches\n  - Type validation failures\n\
+      \  - Constraint violations\n\nCURRENT STATE:\n✓ YAML Syntax: 100% (435/435)\n\
+      ✓ Python Serialization: 100% (435/435)\n✗ Schema Compliance: 4.8% (21/435)\n\
+      ✓ Relationship Integrity: 100%\n\nRISK: Data model unusable without schema compliance\n\
+      - Cannot reliably load/query roadmap data\n- Type safety compromised\n- Business\
+      \ logic may fail on invalid data\n- Automated tooling blocked by schema errors\n\
+      \nSPRINT GOAL: Achieve 100% schema validation pass rate\n\nThis sprint remediates\
+      \ all 414 schema validation failures, bringing\nYAML data into full compliance\
+      \ with Pydantic models and enabling\nreliable automated workflows."
+    notes: "Sprint 9: YAML Schema Remediation\n==================================\n\
+      \nCreated: 2025-11-20\nTrigger: Health dashboard showing 4.8% schema compliance\n\
+      Duration: 1-2 weeks\nPriority: CRITICAL\nScope: 414 schema validation failures\
+      \ across 435 files\n\nTASK BREAKDOWN\n==============\n\nTask 1: Audit schema\
+      \ validation failures (2 hours)\n--------------------------------------------------\n\
+      Use validate-roadmap-schema.py to categorize all 414 failures:\n\n1. Missing\
+      \ required fields (47 critical)\n   - Which fields? (sprint_id, title, task_id)\n\
+      \   - Which file types? (tracks, sprints, tasks)\n   - Pattern analysis\n\n\
+      2. Field hierarchy issues (373 high)\n   - Fields at wrong nesting level\n \
+      \  - Incorrect parent/child relationships\n   - Schema evolution mismatches\n\
+      \n3. Type validation failures\n   - String vs int mismatches\n   - Date format\
+      \ issues\n   - Enum value problems\n\nDeliverable: Categorized audit report\
+      \ with fix strategy\n\nTask 2: Fix missing required fields (4 hours)\n---------------------------------------------\n\
+      Fix 47 critical issues:\n\nPattern: Missing 'sprint_id' in track.yaml\n  grep\
+      \ -r \"track.yaml\" | xargs check for sprint_id field\n  Add where missing\n\
+      \nPattern: Missing 'title' in sprint.yaml\n  Could be: title vs name field confusion\n\
+      \  Check if 'name' exists, add 'title' or rename\n\nPattern: Missing 'task_id'\
+      \ in sprint.yaml\n  May be: incorrect nesting level\n  Move to correct location\n\
+      \nVerification: Reduced critical count from 47 to 0\n\nTask 3: Fix field hierarchy\
+      \ issues (6 hours)\n--------------------------------------------\nFix 373 high\
+      \ severity issues:\n\nCommon patterns:\n1. Task summary in wrong location\n\
+      2. Progress fields at wrong level\n3. Dependency structure mismatch\n4. Metadata\
+      \ nesting incorrect\n\nStrategy:\n- Group by error pattern\n- Create fix template\
+      \ per pattern\n- Batch apply with validation\n- Manual review edge cases\n\n\
+      Verification: Reduced high count from 373 to 0\n\nTask 4: Create schema migration\
+      \ script (3 hours)\n------------------------------------------------\nAutomated\
+      \ tool for future schema changes:\n\nFeatures:\n1. Detect schema version from\
+      \ YAML\n2. Apply migration transformations\n3. Validate before/after\n4. Rollback\
+      \ on failure\n5. Dry-run mode\n\nUsage:\n  python scripts/migrate-roadmap-schema.py\
+      \ \\\n    --from v2.0 --to v2.1 --dry-run\n\nTask 5: Validate all files pass\
+      \ schema (2 hours)\n------------------------------------------------\nRun full\
+      \ validation:\n\npython scripts/validate-roadmap-schema.py --strict\n\nSuccess\
+      \ criteria:\n- 435/435 files pass (100%)\n- 0 critical issues\n- 0 high issues\n\
+      - Document any acceptable warnings\n\nTask 6: Update Pydantic models (2 hours)\n\
+      ----------------------------------------\nIf schema reveals model issues:\n\n\
+      1. Review failed validations\n2. Determine if YAML wrong or model wrong\n3.\
+      \ Update models for backward compatibility\n4. Add optional fields where needed\n\
+      5. Document breaking changes\n\nTask 7: Add schema validation to CI/CD (1 hour)\n\
+      -----------------------------------------------\nUpdate .github/workflows/roadmap-validation.yml:\n\
+      \nAdd blocking step:\n  - name: Schema validation (blocking)\n    run: |\n \
+      \     python scripts/validate-roadmap-schema.py --strict\n    # No continue-on-error\
+      \ - must pass\n\nSUCCESS CRITERIA\n================\n\n✅ 100% schema validation\
+      \ pass rate (435/435)\n✅ 0 critical issues\n✅ 0 high severity issues\n✅ All\
+      \ required fields present\n✅ Correct field hierarchy\n✅ Pydantic models load\
+      \ all files\n✅ CI/CD blocks schema violations\n✅ Migration script for future\
+      \ changes\n✅ Health score increases to 98+/100\n"

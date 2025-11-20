@@ -80,6 +80,15 @@ def _map_complexity(value: str) -> str:
     return mapping.get(value, value)
 
 
+def _map_task_type(value: str) -> str:
+    """Map old task_type values to new enum values (backward compatibility)."""
+    mapping = {
+        'quality_gate': 'completion_gate',  # Old generic quality_gate -> completion_gate
+        # 'development', 'completion_gate', 'production_gate' stay the same
+    }
+    return mapping.get(value, value)
+
+
 def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
     """
     Load a roadmap from YAML file.
@@ -336,42 +345,76 @@ def load_track(file_path: Union[str, Path]) -> Track:
                 optional=d.get('optional', False),
             ))
 
-    # Parse blocks
-    blocks = [
-        TrackDependency(
-            type=DependencyType(b['type']),
-            target_id=b['target_id'],
-            target_status=b['at_status'],
-            reason=b['reason'],
-        )
-        for b in track_data.get('blocks', [])
-    ]
+    # Parse blocks (backward compatible with simple string format)
+    blocks = []
+    for b in track_data.get('blocks', []):
+        if isinstance(b, str):
+            # Simple format: just a track ID
+            blocks.append(TrackDependency(
+                type=DependencyType.TRACK,
+                target_id=b,
+                target_status='not_started',
+                reason='Blocks track from starting',
+            ))
+        elif isinstance(b, dict):
+            # Structured format
+            blocks.append(TrackDependency(
+                type=DependencyType(b['type']),
+                target_id=b['target_id'],
+                target_status=b['at_status'],
+                reason=b['reason'],
+            ))
 
-    # Parse blockers
-    blocked_by = [
-        TrackBlocker(
-            dependency_id=b['dependency_id'],
-            dependency_type=b['dependency_type'],
-            current_status=b['current_status'],
-            required_status=b['required_status'],
-            blocking_since=_parse_datetime(b['blocking_since']),
-            estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
-        )
-        for b in track_data.get('blocked_by', [])
-    ]
+    # Parse blockers (backward compatible with simple string format)
+    blocked_by = []
+    for b in track_data.get('blocked_by', []):
+        if isinstance(b, str):
+            # Simple format: just a track ID (legacy format, usually empty in practice)
+            # We'll create a minimal blocker entry
+            from datetime import datetime, timezone
+            blocked_by.append(TrackBlocker(
+                dependency_id=b,
+                dependency_type='track',
+                current_status='unknown',
+                required_status='completed',
+                blocking_since=datetime.now(timezone.utc),
+                estimated_resolution=None,
+            ))
+        elif isinstance(b, dict):
+            # Structured format
+            blocked_by.append(TrackBlocker(
+                dependency_id=b['dependency_id'],
+                dependency_type=b['dependency_type'],
+                current_status=b['current_status'],
+                required_status=b['required_status'],
+                blocking_since=_parse_datetime(b['blocking_since']),
+                estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
+            ))
 
-    # Parse depends_on (new cached dependency tracking)
-    depends_on = [
-        DependencyStatus(
-            blocker_id=d['blocker_id'],
-            blocker_type=d['blocker_type'],
-            required_status=d['required_status'],
-            current_status=d['current_status'],
-            blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for tracks
-            last_checked=_parse_datetime(d['last_checked']),
-        )
-        for d in track_data.get('depends_on', [])
-    ]
+    # Parse depends_on (new cached dependency tracking, backward compatible with simple strings)
+    depends_on = []
+    for d in track_data.get('depends_on', []):
+        if isinstance(d, str):
+            # Simple format: just a track ID
+            from datetime import datetime, timezone
+            depends_on.append(DependencyStatus(
+                blocker_id=d,
+                blocker_type='track',
+                required_status='completed',
+                current_status='unknown',  # Would need to be looked up
+                blocks_transition_to='completed',
+                last_checked=datetime.now(timezone.utc),
+            ))
+        elif isinstance(d, dict):
+            # Structured format
+            depends_on.append(DependencyStatus(
+                blocker_id=d['blocker_id'],
+                blocker_type=d['blocker_type'],
+                required_status=d['required_status'],
+                current_status=d['current_status'],
+                blocks_transition_to=d.get('blocks_transition_to', 'completed'),
+                last_checked=_parse_datetime(d['last_checked']),
+            ))
 
     # Parse depended_on_by (reverse index)
     depended_on_by = track_data.get('depended_on_by', [])
@@ -567,16 +610,25 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         for dg in sprint_data.get('development_gates', [])
     ]
 
-    # Parse blocks
-    blocks = [
-        DevelopmentGate(
-            type=DependencyType(b['type']),
-            target_id=b['target_id'],
-            target_status=b['at_status'],
-            reason=b['reason'],
-        )
-        for b in sprint_data.get('blocks', [])
-    ]
+    # Parse blocks (backward compatible with simple string format)
+    blocks = []
+    for b in sprint_data.get('blocks', []):
+        if isinstance(b, str):
+            # Simple format: just a sprint/track ID
+            blocks.append(DevelopmentGate(
+                type=DependencyType.SPRINT,
+                target_id=b,
+                target_status='not_started',
+                reason='Blocks sprint from starting',
+            ))
+        elif isinstance(b, dict):
+            # Structured format
+            blocks.append(DevelopmentGate(
+                type=DependencyType(b['type']),
+                target_id=b['target_id'],
+                target_status=b['at_status'],
+                reason=b['reason'],
+            ))
 
     # Parse blockers
     blocked_by = [
@@ -677,7 +729,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         id=sprint_data['id'],
         name=sprint_data['name'],
         track_id=sprint_data['track_id'],
-        roadmap_id=sprint_data['roadmap_id'],
+        roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),  # Default if missing
         status=Status(sprint_data['status']),
         blocked=computed_blocked,  # Use computed value instead of YAML value
         created=_parse_datetime(sprint_data.get('created', datetime.now())),
@@ -770,14 +822,26 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
 
     tasks = []
     for task_data in tasks_data:
-        # Parse gate info if present
+        # Parse gate info if present (backward compatible with field name variations)
         gate_info = None
         if 'gate_info' in task_data and task_data['gate_info']:
             gi_data = task_data['gate_info']
+            # Determine blocks_status (default based on task_type if missing)
+            blocks_status = gi_data.get('blocks_status')
+            if not blocks_status:
+                # Infer from task_type: completion_gate -> 'completed', production_gate -> 'production_ready'
+                task_type = task_data.get('task_type', 'development')
+                if task_type == 'completion_gate':
+                    blocks_status = 'completed'
+                elif task_type == 'production_gate':
+                    blocks_status = 'production_ready'
+                else:
+                    blocks_status = 'completed'  # Default
+
             gate_info = GateInfo(
-                blocks_status=gi_data['blocks_status'],
+                blocks_status=blocks_status,
                 threshold=gi_data['threshold'],
-                is_blocking=gi_data['is_blocking'],
+                is_blocking=gi_data.get('is_blocking', gi_data.get('blocking', True)),  # Support both field names
                 score=gi_data.get('score'),
             )
 
@@ -902,7 +966,7 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             sprint_id=task_data['sprint_id'],
             track_id=task_data['track_id'],
             roadmap_id=task_data.get('roadmap_id', 'vibey-framework-v2'),  # Default to main roadmap
-            task_type=TaskType(task_data.get('task_type', 'development')),
+            task_type=TaskType(_map_task_type(task_data.get('task_type', 'development'))),
             title=task_data.get('title', task_data.get('name', 'Unknown')),
             description=task_data.get('description', ''),
             status=TaskStatus(task_data.get('status', 'not_started')),
@@ -913,7 +977,7 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             assigned_agent=task_data.get('assigned_agent'),
             priority=Priority(task_data.get('priority', 'medium')),
             phase_label=task_data.get('phase_label'),
-            estimated_tokens=task_data.get('estimated_tokens', 1),  # Minimum 1 for validation
+            estimated_tokens=task_data.get('estimated_tokens') or 1,  # Default to 1 if missing or null
             actual_tokens=task_data.get('actual_tokens'),
             complexity=Complexity(_map_complexity(task_data.get('complexity', 'medium'))),
             gate_info=gate_info,

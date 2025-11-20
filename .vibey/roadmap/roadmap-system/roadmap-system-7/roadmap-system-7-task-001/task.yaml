@@ -1,0 +1,106 @@
+task:
+  id: roadmap-system-7-task-001
+  name: Research token-based sizing methodology
+  sprint_id: roadmap-system-7
+  track_id: roadmap-system
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T00:38:19.692463+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  actual_duration: null
+  description: 'Research and define token-based effort estimation methodology.
+
+
+    GOALS:
+
+    1. Analyze historical token usage across completed sprints
+
+    2. Establish size categories (S/M/L/XL/XXL) with token ranges
+
+    3. Define token-to-effort correlation
+
+    4. Research industry best practices for AI-assisted sizing
+
+
+    ANALYSIS NEEDED:
+
+    - Sprint 7 (roadmap-integrity-fixes): 13 tasks, ~100K tokens
+
+    - Sprint 8 (roadmap-integrity-fixes): 7 tasks, 120K+ tokens (incomplete)
+
+    - All other completed sprints
+
+
+    QUESTIONS TO ANSWER:
+
+    1. What''s the distribution of token usage across tasks?
+
+    2. How does context size affect token consumption?
+
+    3. What factors increase token usage? (errors, iterations, complexity)
+
+    4. How should we handle multi-session tasks?
+
+    5. What''s a reasonable token budget for a sprint?
+
+
+    SIZE CATEGORIES TO DEFINE:
+
+    - Small: ? tokens (simple fixes, updates)
+
+    - Medium: ? tokens (standard features, refactoring)
+
+    - Large: ? tokens (complex features, multiple files)
+
+    - X-Large: ? tokens (architectural changes)
+
+    - XX-Large: ? tokens (should be split into multiple tasks)
+
+
+    TOKEN-TO-TIME CORRELATION:
+
+    - Analyze: tokens consumed vs time taken
+
+    - Account for: context building, errors, iterations
+
+    - Define: tokens per productivity hour
+
+
+    DELIVERABLES:
+
+    1. Token usage analysis report
+
+    2. Size category definitions with token ranges
+
+    3. Token-to-effort correlation study
+
+    4. Methodology documentation
+
+    '
+  acceptance_criteria:
+  - Historical token usage analyzed for all completed sprints
+  - Size categories defined with specific token ranges
+  - Token-to-effort correlation documented
+  - Methodology documented with examples
+  - Industry research completed and cited
+  deliverables:
+  - type: documentation
+    paths:
+    - TOKEN_USAGE_ANALYSIS.md
+  - type: documentation
+    paths:
+    - TOKEN_SIZING_METHODOLOGY.md
+  - type: documentation
+    paths:
+    - docs/guides/EFFORT_ESTIMATION.md
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:38:19.692648+00:00'

@@ -1,0 +1,224 @@
+sprint:
+  id: roadmap-system-7
+  name: Token-Based Effort Estimation
+  track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-20T00:36:47.192694+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1-2 weeks
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: roadmap-system-7-task-001
+    name: Research token-based sizing methodology
+    status: not_started
+    type: development
+    estimated_duration: 4 hours
+  - id: roadmap-system-7-task-002
+    name: Update data models for token-based estimates
+    status: not_started
+    type: development
+    estimated_duration: 3 hours
+  - id: roadmap-system-7-task-003
+    name: Add token estimation utilities
+    status: not_started
+    type: development
+    estimated_duration: 4 hours
+  - id: roadmap-system-7-task-004
+    name: Migrate existing time estimates to token estimates
+    status: not_started
+    type: development
+    estimated_duration: 6 hours
+  - id: roadmap-system-7-task-005
+    name: Update documentation and validation
+    status: not_started
+    type: development
+    estimated_duration: 2 hours
+  dependencies:
+  - type: sprint
+    target_id: roadmap-system-6
+    target_status: completed
+    reason: Complete core roadmap system first
+  - type: sprint
+    target_id: roadmap-integrity-fixes-8
+    target_status: completed
+    reason: Schema must be valid before structural changes
+  deliverables:
+  - Token-based sizing methodology documentation
+  - Updated Task/Sprint/Track models with token fields
+  - Token estimation utilities and calculators
+  - 'Migration script: time estimates → token estimates'
+  - Updated validation for token-based fields
+  - Historical token usage analysis
+  - Token-to-time conversion formulas
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:36:47.192716+00:00'
+    estimated_duration: 1-2 weeks
+    created_by: claude-code
+    sprint_type: enhancement
+    priority: high
+    rationale: 'TOKEN-BASED EFFORT ESTIMATION - Created 2025-11-20
+
+
+      CONTEXT: Current roadmap uses time-based effort estimates
+
+      - Tasks: "estimated_duration: 2 hours"
+
+      - Sprints: "estimated_duration: 2 weeks"
+
+      - Tracks: "estimated_duration: 11 weeks"
+
+
+      PROBLEM: Time-based estimates don''t reflect AI-assisted development
+
+      1. Token usage is better predictor of effort than wall time
+
+      2. Same task may take 5 minutes or 5 hours depending on context window
+
+      3. Cannot compare efficiency across different sessions
+
+      4. No way to budget token usage across sprints
+
+      5. Actual vs estimated duration meaningless without token context
+
+
+      EVIDENCE:
+
+      - Sprint 7 (roadmap-integrity-fixes): 13 tasks, ~100K tokens actual
+
+      - Sprint 8 (roadmap-integrity-fixes): 7 tasks, 120K tokens so far (incomplete)
+
+      - Token usage varies wildly based on context, errors, iterations
+
+      - Current "2 hour" estimates provide no useful planning data
+
+
+      BENEFITS OF TOKEN-BASED SIZING:
+
+      1. **Predictability**: Tokens correlate with actual effort
+
+      2. **Budgeting**: Can allocate token budgets per sprint/track
+
+      3. **Efficiency**: Track tokens/task over time to measure improvement
+
+      4. **Planning**: Know if sprint fits in 200K token limit
+
+      5. **Cost**: Direct correlation with API costs
+
+
+      PROPOSED SIZING:
+
+      - Small: <10K tokens
+
+      - Medium: 10K-30K tokens
+
+      - Large: 30K-75K tokens
+
+      - X-Large: 75K-150K tokens
+
+      - XX-Large: 150K+ tokens (split into multiple tasks)
+
+
+      METRICS TO TRACK:
+
+      - estimated_tokens: int (planned token usage)
+
+      - actual_tokens: int (measured token usage)
+
+      - token_efficiency: float (actual/estimated ratio)
+
+      - tokens_per_hour: int (productivity metric)
+
+
+      SPRINT GOAL: Replace time-based estimates with token-based sizing
+
+
+      This sprint modernizes effort estimation to align with AI-assisted
+
+      development reality, enabling better planning, budgeting, and efficiency
+
+      tracking across the roadmap system.'
+    notes: "Sprint 7: Token-Based Effort Estimation\n==========================================\n\
+      \nCreated: 2025-11-20\nTrigger: User request for token-based sizing\nDuration:\
+      \ 1-2 weeks (19 hours estimated)\nPriority: HIGH\nScope: Replace time estimates\
+      \ with token estimates\n\nTASK BREAKDOWN\n==============\n\nTask 1: Research\
+      \ token-based sizing methodology (4 hours)\n---------------------------------------------------------\n\
+      Goals:\n1. Analyze historical token usage across completed sprints\n2. Establish\
+      \ size categories (S/M/L/XL/XXL)\n3. Define token-to-effort correlation\n4.\
+      \ Research industry best practices for AI-assisted sizing\n\nDeliverables:\n\
+      - Token usage analysis report\n- Size category definitions (with token ranges)\n\
+      - Correlation study: tokens vs complexity\n- Methodology documentation\n\nQuestions\
+      \ to answer:\n- What's the distribution of token usage across tasks?\n- How\
+      \ does context size affect token consumption?\n- What factors increase token\
+      \ usage? (errors, iterations, complexity)\n- How should we handle multi-session\
+      \ tasks?\n\nTask 2: Update data models for token-based estimates (3 hours)\n\
+      --------------------------------------------------------------\nUpdate models\
+      \ in vibey/roadmap/models/:\n\nTask model additions:\n```python\nclass Task:\n\
+      \    # Existing time fields (keep for backward compatibility)\n    estimated_duration:\
+      \ Optional[str] = None\n    actual_duration: Optional[float] = None\n    \n\
+      \    # NEW: Token-based sizing\n    estimated_tokens: Optional[int] = None\n\
+      \    actual_tokens: Optional[int] = None\n    token_efficiency: Optional[float]\
+      \ = None  # actual/estimated\n    size_category: Optional[str] = None  # S/M/L/XL/XXL\n\
+      ```\n\nSprint model additions:\n```python\nclass Sprint:\n    # NEW: Aggregated\
+      \ token metrics\n    estimated_tokens: Optional[int] = None\n    actual_tokens:\
+      \ Optional[int] = None\n    token_budget: Optional[int] = None  # Max tokens\
+      \ allocated\n    token_burn_rate: Optional[float] = None  # Tokens per day\n\
+      ```\n\nTrack model additions:\n```python\nclass Track:\n    # NEW: Track-level\
+      \ token tracking\n    estimated_tokens: Optional[int] = None\n    actual_tokens:\
+      \ Optional[int] = None\n    token_budget: Optional[int] = None\n```\n\nDeliverables:\n\
+      - Updated Task model\n- Updated Sprint model\n- Updated Track model\n- Schema\
+      \ validation updates\n- Backward compatibility maintained\n\nTask 3: Add token\
+      \ estimation utilities (4 hours)\n------------------------------------------------\n\
+      Create vibey/roadmap/utils/token_estimation.py:\n\n```python\nclass TokenEstimator:\n\
+      \    \"\"\"Estimate token usage for tasks.\"\"\"\n    \n    def estimate_from_complexity(complexity:\
+      \ Complexity) -> int:\n        # Map complexity to token range\n        \n \
+      \   def estimate_from_description(description: str) -> int:\n        # Analyze\
+      \ description length/complexity\n        \n    def estimate_from_historical(task_type:\
+      \ str) -> int:\n        # Use historical data for task type\n        \n    def\
+      \ categorize_size(tokens: int) -> str:\n        # Return S/M/L/XL/XXL\n    \
+      \    \nclass TokenTracker:\n    \"\"\"Track actual token usage during execution.\"\
+      \"\"\n    \n    def record_token_usage(task_id: str, tokens: int):\n       \
+      \ # Record actual usage\n        \n    def calculate_efficiency(task_id: str)\
+      \ -> float:\n        # actual / estimated\n        \n    def update_task_metrics(task_id:\
+      \ str):\n        # Update task with actual tokens\n```\n\nDeliverables:\n- Token\
+      \ estimation utilities\n- Token tracking utilities\n- Size categorization functions\n\
+      - Historical analysis functions\n- Unit tests\n\nTask 4: Migrate existing estimates\
+      \ to token estimates (6 hours)\n---------------------------------------------------------------\n\
+      Create scripts/migrate-to-token-estimates.py:\n\nProcess:\n1. Analyze all existing\
+      \ tasks (435 files)\n2. For completed tasks: calculate actual tokens from context\n\
+      3. For pending tasks: estimate based on:\n   - Description length\n   - Complexity\n\
+      \   - Task type\n   - Historical averages\n4. Update all YAML files with token\
+      \ fields\n5. Maintain time fields for backward compatibility\n\nMigration strategy:\n\
+      ```python\n# Completed tasks\nif task.status == 'completed':\n    # Calculate\
+      \ from session context\n    task.actual_tokens = analyze_completion_context(task)\n\
+      \    task.estimated_tokens = task.actual_tokens  # Retroactive\n    task.token_efficiency\
+      \ = 1.0\n    \n# Pending tasks\nelse:\n    # Estimate based on description +\
+      \ complexity\n    task.estimated_tokens = estimate_from_task(task)\n    task.size_category\
+      \ = categorize_size(task.estimated_tokens)\n```\n\nDeliverables:\n- Migration\
+      \ script\n- Dry-run validation\n- Migrated YAML files (435)\n- Migration report\n\
+      - Rollback capability\n\nTask 5: Update documentation and validation (2 hours)\n\
+      -----------------------------------------------------\nDocumentation updates:\n\
+      - docs/reference/ROADMAP_OBJECT_HIERARCHY.md\n- docs/guides/EFFORT_ESTIMATION.md\
+      \ (NEW)\n- docs/guides/TOKEN_BUDGETING.md (NEW)\n\nValidation updates:\n- Update\
+      \ schema validators for new fields\n- Add token range validation\n- Update health\
+      \ dashboard to show token metrics\n- Add token budget warnings\n\nTesting:\n\
+      - Unit tests for estimation utilities\n- Integration tests for token tracking\n\
+      - Validation tests for new fields\n- Migration tests\n\nDeliverables:\n- Updated\
+      \ documentation\n- New estimation guides\n- Updated validators\n- Test suite\n\
+      - Token metrics in health dashboard\n\nSUCCESS CRITERIA\n================\n\n\
+      ✅ All models support token-based fields\n✅ Token estimation utilities working\n\
+      ✅ All 435 files migrated to token estimates\n✅ Backward compatibility maintained\
+      \ (time fields still present)\n✅ Documentation complete\n✅ Health dashboard\
+      \ shows token metrics\n✅ Can budget sprints based on token allocation\n✅ Token\
+      \ efficiency tracked per task\n\nFUTURE ENHANCEMENTS\n===================\n\n\
+      - Real-time token tracking during execution\n- Predictive token usage models\n\
+      - Token optimization recommendations\n- Cost estimation based on token pricing\n\
+      - Token burn-down charts\n- Anomaly detection (tasks using >> estimated tokens)\n"

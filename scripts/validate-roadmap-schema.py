@@ -268,28 +268,29 @@ class SchemaValidator:
         """Run schema validation on all roadmap files."""
         print("Validating roadmap data against Pydantic schemas...\n")
 
-        # Validate tracks
+        # Validate all tracks (direct file discovery)
         print("Validating tracks...")
-        for track_id in self.fs.list_tracks():
-            track_path = self.fs.get_track_path(track_id)
-            if track_path.exists():
-                self.validate_track(track_path)
+        for track_path in self.fs.roadmap_root.glob('*/track.yaml'):
+            # Skip archived files
+            if 'archived' in str(track_path):
+                continue
+            self.validate_track(track_path)
 
-        # Validate sprints
+        # Validate all sprints (direct file discovery)
         print("Validating sprints...")
-        for sprint_id in self.fs.list_sprints():
-            sprint_path = self.fs.get_sprint_path(sprint_id)
-            if sprint_path.exists():
-                self.validate_sprint(sprint_path)
+        for sprint_path in self.fs.roadmap_root.glob('*/*/sprint.yaml'):
+            # Skip archived files
+            if 'archived' in str(sprint_path):
+                continue
+            self.validate_sprint(sprint_path)
 
-        # Validate tasks
+        # Validate all tasks (direct file discovery)
         print("Validating tasks...")
-        for track_slug, track_id in self.fs.dir_manager.list_tracks():
-            for sprint_slug, sprint_id in self.fs.dir_manager.list_sprints(track_slug):
-                for task_slug, task_id in self.fs.dir_manager.list_tasks(track_slug, sprint_slug):
-                    task_path = self.fs.roadmap_root / track_slug / sprint_slug / task_slug / "task.yaml"
-                    if task_path.exists():
-                        self.validate_task(task_path)
+        for task_path in self.fs.roadmap_root.glob('*/*/*/task.yaml'):
+            # Skip archived files
+            if 'archived' in str(task_path):
+                continue
+            self.validate_task(task_path)
 
         self.report.print_summary()
 

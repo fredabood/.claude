@@ -314,17 +314,27 @@ def load_track(file_path: Union[str, Path]) -> Track:
         for s in track_data['sprints']
     ]
 
-    # Parse dependencies
-    dependencies = [
-        TrackDependency(
-            type=DependencyType(d['type']),
-            target_id=d['target_id'],
-            target_status=d['target_status'],
-            reason=d['reason'],
-            optional=d.get('optional', False),
-        )
-        for d in track_data.get('dependencies', [])
-    ]
+    # Parse dependencies (backward compatible with simple string format)
+    dependencies = []
+    for d in track_data.get('dependencies', []):
+        if isinstance(d, str):
+            # Simple format: just a track ID
+            dependencies.append(TrackDependency(
+                type=DependencyType.TRACK,
+                target_id=d,
+                target_status='completed',
+                reason='Dependency on track completion',
+                optional=False,
+            ))
+        elif isinstance(d, dict):
+            # Structured format
+            dependencies.append(TrackDependency(
+                type=DependencyType(d['type']),
+                target_id=d['target_id'],
+                target_status=d['target_status'],
+                reason=d['reason'],
+                optional=d.get('optional', False),
+            ))
 
     # Parse blocks
     blocks = [
@@ -489,12 +499,21 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
 
     sprint_data = data['sprint']
 
-    # Parse progress (backward compatible with old format)
-    prog_data = sprint_data['progress']
+    # Parse progress (backward compatible with old format and missing progress)
+    prog_data = sprint_data.get('progress', {})
 
     # For old format (no gate breakdown), assume all tasks are development tasks
-    tasks_total = prog_data['tasks_total']
-    tasks_completed = prog_data['tasks_completed']
+    # If progress section is completely missing, create minimal progress
+    tasks_total = prog_data.get('tasks_total', 0)
+    tasks_completed = prog_data.get('tasks_completed', 0)
+
+    # Calculate completion_percent if missing
+    if 'completion_percent' in prog_data:
+        completion_percent = prog_data['completion_percent']
+    elif tasks_total > 0:
+        completion_percent = int((tasks_completed / tasks_total) * 100)
+    else:
+        completion_percent = 0
 
     progress = SprintProgress(
         development_tasks_total=prog_data.get('development_tasks_total', tasks_total),
@@ -505,22 +524,25 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         production_gate_tasks_completed=prog_data.get('production_gate_tasks_completed', 0),
         tasks_total=tasks_total,
         tasks_completed=tasks_completed,
-        completion_percent=prog_data['completion_percent'],
+        completion_percent=completion_percent,
     )
 
-    # Parse tasks (backward compatible - old format uses task_summaries dict)
+    # Parse tasks (backward compatible - multiple formats supported)
     if 'tasks' in sprint_data:
-        # New format: list of tasks
-        tasks = [
-            TaskSummary(
+        tasks = []
+        for t in sprint_data['tasks']:
+            # Handle multiple field name variations
+            title = t.get('title') or t.get('name', 'Unknown')  # 'title' or 'name'
+            status = Status(t.get('status', 'not_started'))  # Default to not_started if missing
+            task_type = TaskType(t.get('task_type', 'development'))  # Default to development if missing
+
+            tasks.append(TaskSummary(
                 id=t['id'],
-                title=t['title'],
-                status=Status(t['status']),
-                task_type=TaskType(t['task_type']),
+                title=title,
+                status=status,
+                task_type=task_type,
                 gate_info=t.get('gate_info'),
-            )
-            for t in sprint_data['tasks']
-        ]
+            ))
     else:
         # Old format: task_summaries dict - create minimal TaskSummary objects
         tasks = []

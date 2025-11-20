@@ -5,54 +5,22 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build migration script for existing tracks
-  description: 'Create comprehensive migration script to move existing roadmap files
-
-    from flat structure to hierarchical structure.
-
-
-    Implementation:
-
-    - Create framework/scripts/migrate_to_hierarchy.py
-
-    - Move .vibey/tracks/*.yaml → .vibey/roadmap/[track-id]/[track-id].yaml
-
-    - Move .vibey/sprints/*.yaml → .vibey/roadmap/[track-id]/[sprint-id]/[sprint-id].yaml
-
-    - Move .vibey/tasks/*.yaml → .vibey/roadmap/[track-id]/[sprint-id]/[task-id]/[task-id].yaml
-
-    - Detect and move related docs from docs/development/ to context/
-
-    - Generate TOC JSON files for migrated objects
-
-    - Generate markdown views for migrated objects
-
-    - Update roadmap.yaml with new structure
-
-    - Support --dry-run mode (preview changes)
-
-    - Create migration backup
-
-
-    Acceptance Criteria:
-
-    - Script successfully migrates all tracks
-
-    - No data loss during migration
-
-    - All relationships preserved
-
-    - Context files moved to appropriate locations
-
-    - Generated files (TOC, MD) created correctly
-
-    - Dry-run shows accurate preview
-
-    - Backup created before migration
-
-    '
+  description: "Create comprehensive migration script to move existing roadmap files\n\
+    from flat structure to hierarchical structure.\n\nImplementation:\n- Create framework/scripts/migrate_to_hierarchy.py\n\
+    - Move .vibey/tracks/*.yaml \u2192 .vibey/roadmap/[track-id]/[track-id].yaml\n\
+    - Move .vibey/sprints/*.yaml \u2192 .vibey/roadmap/[track-id]/[sprint-id]/[sprint-id].yaml\n\
+    - Move .vibey/tasks/*.yaml \u2192 .vibey/roadmap/[track-id]/[sprint-id]/[task-id]/[task-id].yaml\n\
+    - Detect and move related docs from docs/development/ to context/\n- Generate\
+    \ TOC JSON files for migrated objects\n- Generate markdown views for migrated\
+    \ objects\n- Update roadmap.yaml with new structure\n- Support --dry-run mode\
+    \ (preview changes)\n- Create migration backup\n\nAcceptance Criteria:\n- Script\
+    \ successfully migrates all tracks\n- No data loss during migration\n- All relationships\
+    \ preserved\n- Context files moved to appropriate locations\n- Generated files\
+    \ (TOC, MD) created correctly\n- Dry-run shows accurate preview\n- Backup created\
+    \ before migration\n"
   status: completed
   blocked: false
-  created: '2025-11-09T21:29:48.458498+00:00'
+  created: '2025-11-09T17:12:00+00:00'
   started: '2025-11-09T17:13:00+00:00'
   completed: '2025-11-10T09:18:33+00:00'
   assigned_agent: web-developer

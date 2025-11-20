@@ -94,7 +94,8 @@
       "Bash(then echo \"❌ FAIL: Python serialization found\")",
       "Bash(else echo \"✅ PASS: No Python serialization in data files\")",
       "Bash(python -m vibey.cli.main:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(sort:*)"
     ],
     "deny": [],
     "ask": []

@@ -383,17 +383,21 @@ def load_track(file_path: Union[str, Path]) -> Track:
     ]
 
     # Parse commits (sprint completion commits)
+    # Note: Only commits with sprint_id are sprint completion commits
+    # General track commits without sprint_id are skipped
     from vibey.roadmap.models import SprintCompletionCommit
-    commits = [
-        SprintCompletionCommit(
+    commits = []
+    for c in track_data.get('commits', []):
+        # Skip commits without sprint_id (they're general commits, not sprint completions)
+        if 'sprint_id' not in c:
+            continue
+        commits.append(SprintCompletionCommit(
             sprint_id=c['sprint_id'],
             sha=c['sha'],
             message=c['message'],
             date=_parse_datetime(c['date']),
             author=c['author'],
-        )
-        for c in track_data.get('commits', [])
-    ]
+        ))
 
     # Parse metadata
     meta_data = track_data['metadata']
@@ -585,17 +589,21 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
 
     # Parse commits (task completion commits)
+    # Note: Only commits with task_id are task completion commits
+    # General sprint commits without task_id are skipped
     from vibey.roadmap.models import TaskCompletionCommit
-    commits = [
-        TaskCompletionCommit(
+    commits = []
+    for c in sprint_data.get('commits', []):
+        # Skip commits without task_id (they're general commits, not task completions)
+        if 'task_id' not in c:
+            continue
+        commits.append(TaskCompletionCommit(
             task_id=c['task_id'],
             sha=c['sha'],
             message=c['message'],
             date=_parse_datetime(c['date']),
             author=c['author'],
-        )
-        for c in sprint_data.get('commits', [])
-    ]
+        ))
 
     # Parse metadata (defensive coding - handle case where metadata might not be a dict)
     meta_data = sprint_data.get('metadata')
@@ -815,14 +823,22 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         # Compute blocked status from depends_on (override YAML value for consistency)
         computed_blocked = any(not dep.is_satisfied() for dep in depends_on)
 
-        # Parse deliverables
-        deliverables = [
-            Deliverable(
-                type=DeliverableType(d['type']),
-                paths=d['paths'],
-            )
-            for d in task_data.get('deliverables', [])
-        ]
+        # Parse deliverables (backward compatible - handle both old string format and new structured format)
+        deliverables = []
+        for d in task_data.get('deliverables', []):
+            if isinstance(d, str):
+                # Old format: just a string path - infer type as "code"
+                deliverables.append(Deliverable(
+                    type=DeliverableType.CODE,
+                    paths=[d],
+                ))
+            elif isinstance(d, dict):
+                # New format: structured with type and paths
+                deliverables.append(Deliverable(
+                    type=DeliverableType(d['type']),
+                    paths=d['paths'],
+                ))
+            # Skip any other format (invalid)
 
         # Parse commits
         commits = []

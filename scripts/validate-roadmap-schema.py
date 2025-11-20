@@ -174,16 +174,15 @@ class SchemaValidator:
                     )
 
             # Check task counts consistency
-            if sprint.tasks_total is not None:
-                task_type_sum = sum([
-                    sprint.development_tasks or 0,
-                    sprint.testing_tasks or 0,
-                    sprint.documentation_tasks or 0,
-                    sprint.review_tasks or 0
-                ])
-                if task_type_sum > 0 and task_type_sum != sprint.tasks_total:
+            if sprint.progress and sprint.progress.tasks_total is not None:
+                task_type_sum = (
+                    sprint.progress.development_tasks_total +
+                    sprint.progress.completion_gate_tasks_total +
+                    sprint.progress.production_gate_tasks_total
+                )
+                if task_type_sum > 0 and task_type_sum != sprint.progress.tasks_total:
                     warnings.append(
-                        f"Tasks total ({sprint.tasks_total}) doesn't match sum of task types ({task_type_sum})"
+                        f"Tasks total ({sprint.progress.tasks_total}) doesn't match sum of task types ({task_type_sum})"
                     )
 
             for warning in warnings:
@@ -229,13 +228,13 @@ class SchemaValidator:
                         f"Started date ({task.started}) is after completed date ({task.completed})"
                     )
 
-            # Check duration consistency
-            if task.estimated_duration and task.actual_duration:
+            # Check token consistency
+            if task.estimated_tokens and task.actual_tokens:
                 # Just a warning if actual exceeds estimate by more than 2x
-                if task.actual_duration > task.estimated_duration * 2:
+                if task.actual_tokens > task.estimated_tokens * 2:
                     warnings.append(
-                        f"Actual duration ({task.actual_duration}) significantly exceeds "
-                        f"estimate ({task.estimated_duration})"
+                        f"Actual tokens ({task.actual_tokens}) significantly exceeds "
+                        f"estimate ({task.estimated_tokens})"
                     )
 
             for warning in warnings:

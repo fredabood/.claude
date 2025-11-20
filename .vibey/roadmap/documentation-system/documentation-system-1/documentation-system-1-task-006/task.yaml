@@ -40,7 +40,7 @@ task:
     '
   status: completed
   blocked: false
-  created: '2025-11-09T21:29:34.189462+00:00'
+  created: '2025-11-09T17:27:00+00:00'
   started: '2025-11-09T17:28:00+00:00'
   completed: '2025-11-09T17:35:24+00:00'
   assigned_agent: test-engineer

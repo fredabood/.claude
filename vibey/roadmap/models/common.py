@@ -18,6 +18,7 @@ class Status(str, Enum):
     PRODUCTION_GATE_CHECK = "production_gate_check"
     PRODUCTION_READY = "production_ready"
     DEPLOYED = "deployed"
+    SUPERSEDED = "superseded"  # Track/sprint has been superseded/merged into another
     WONT_DO = "won't_do"
 
 
@@ -56,6 +57,7 @@ class GateStatus(str, Enum):
     RUNNING = "running"
     PASSED = "passed"
     FAILED = "failed"
+    SUPERSEDED = "superseded"  # Gate requirements have been superseded by other gates
 
 
 class DependencyType(str, Enum):

@@ -4,7 +4,7 @@ YAML loader for roadmap objects.
 Loads YAML files and converts them to Python dataclass objects.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Union, Dict, Any, List
 
@@ -75,6 +75,7 @@ def _map_complexity(value: str) -> str:
     mapping = {
         'low': 'simple',
         'high': 'complex',
+        'very_high': 'complex',  # Map very_high to complex (closest match)
         # 'medium' stays the same
     }
     return mapping.get(value, value)
@@ -855,53 +856,102 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 recommendations=ar_data.get('recommendations', []),
             )
 
-        # Parse dependencies (backward compatible - old format uses 'at_status')
-        dependencies = [
-            TaskDependency(
-                type=DependencyType(d['type']),
-                target_id=d['target_id'],
-                target_status=d.get('target_status', d.get('at_status', 'completed')),
-                reason=d.get('reason', ''),
-            )
-            for d in task_data.get('dependencies', [])
-        ]
+        # Parse dependencies (backward compatible with simple string format)
+        dependencies = []
+        for d in task_data.get('dependencies', []):
+            if isinstance(d, str):
+                # Simple string format (legacy) - assume task dependency
+                dependencies.append(TaskDependency(
+                    type=DependencyType.TASK,
+                    target_id=d,
+                    target_status='completed',
+                    reason='Dependency on task completion',
+                ))
+            elif isinstance(d, dict):
+                # Structured format (old format uses 'at_status', new uses 'target_status')
+                dependencies.append(TaskDependency(
+                    type=DependencyType(d['type']),
+                    target_id=d['target_id'],
+                    target_status=d.get('target_status', d.get('at_status', 'completed')),
+                    reason=d.get('reason', ''),
+                ))
+            else:
+                raise ValueError(f"Invalid dependencies format: {d}")
 
-        # Parse blocks
-        blocks = [
-            TaskDependency(
-                type=DependencyType(b['type']),
-                target_id=b['target_id'],
-                target_status=b['at_status'],
-                reason=b['reason'],
-            )
-            for b in task_data.get('blocks', [])
-        ]
+        # Parse blocks (backward compatible with simple string format)
+        blocks = []
+        for b in task_data.get('blocks', []):
+            if isinstance(b, str):
+                # Simple string format (legacy) - assume task dependency
+                blocks.append(TaskDependency(
+                    type=DependencyType.TASK,
+                    target_id=b,
+                    target_status='not_started',  # Blocks the target from starting
+                    reason='Blocks task from starting',
+                ))
+            elif isinstance(b, dict):
+                # Structured format
+                blocks.append(TaskDependency(
+                    type=DependencyType(b['type']),
+                    target_id=b['target_id'],
+                    target_status=b['at_status'],
+                    reason=b['reason'],
+                ))
+            else:
+                raise ValueError(f"Invalid blocks format: {b}")
 
-        # Parse blockers
-        blocked_by = [
-            TaskBlocker(
-                dependency_id=b['dependency_id'],
-                dependency_type=b['dependency_type'],
-                current_status=b['current_status'],
-                required_status=b['required_status'],
-                blocking_since=_parse_datetime(b['blocking_since']),
-                estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
-            )
-            for b in task_data.get('blocked_by', [])
-        ]
+        # Parse blockers (backward compatible with simple string format)
+        blocked_by = []
+        for b in task_data.get('blocked_by', []):
+            if isinstance(b, str):
+                # Simple string format (legacy) - assume task blocker
+                blocked_by.append(TaskBlocker(
+                    dependency_id=b,
+                    dependency_type='task',
+                    current_status='unknown',
+                    required_status='completed',
+                    blocking_since=datetime.now(timezone.utc),
+                    estimated_resolution=None,
+                ))
+            elif isinstance(b, dict):
+                # Structured format
+                blocked_by.append(TaskBlocker(
+                    dependency_id=b['dependency_id'],
+                    dependency_type=b['dependency_type'],
+                    current_status=b['current_status'],
+                    required_status=b['required_status'],
+                    blocking_since=_parse_datetime(b['blocking_since']),
+                    estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
+                ))
+            else:
+                raise ValueError(f"Invalid blocked_by format: {b}")
 
         # Parse depends_on (new cached dependency tracking)
-        depends_on = [
-            DependencyStatus(
-                blocker_id=d['blocker_id'],
-                blocker_type=d['blocker_type'],
-                required_status=d['required_status'],
-                current_status=d['current_status'],
-                blocks_transition_to=d.get('blocks_transition_to', 'in_progress'),  # Default to hard blocker
-                last_checked=_parse_datetime(d['last_checked']),
-            )
-            for d in task_data.get('depends_on', [])
-        ]
+        # Backward compatible: supports simple string format and optional cache fields
+        depends_on = []
+        for d in task_data.get('depends_on', []):
+            if isinstance(d, str):
+                # Simple string format (legacy) - assume task dependency
+                depends_on.append(DependencyStatus(
+                    blocker_id=d,
+                    blocker_type='task',
+                    required_status='completed',
+                    current_status='unknown',
+                    blocks_transition_to='in_progress',
+                    last_checked=datetime.now(timezone.utc),
+                ))
+            elif isinstance(d, dict):
+                # Structured format with optional cache fields
+                depends_on.append(DependencyStatus(
+                    blocker_id=d['blocker_id'],
+                    blocker_type=d['blocker_type'],
+                    required_status=d['required_status'],
+                    current_status=d.get('current_status', 'unknown'),  # Default to 'unknown' if not cached
+                    blocks_transition_to=d.get('blocks_transition_to', 'in_progress'),  # Default to hard blocker
+                    last_checked=_parse_datetime(d.get('last_checked')) if d.get('last_checked') else datetime.now(timezone.utc),  # Default to now
+                ))
+            else:
+                raise ValueError(f"Invalid depends_on format: {d}")
 
         # Parse depended_on_by (reverse index)
         depended_on_by = task_data.get('depended_on_by', [])
@@ -919,11 +969,22 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                     paths=[d],
                 ))
             elif isinstance(d, dict):
-                # New format: structured with type and paths
-                deliverables.append(Deliverable(
-                    type=DeliverableType(d['type']),
-                    paths=d['paths'],
-                ))
+                # Check if structured format (has 'type' and 'paths' fields)
+                if 'type' in d and 'paths' in d:
+                    # New format: structured with type and paths
+                    deliverables.append(Deliverable(
+                        type=DeliverableType(d['type']),
+                        paths=d['paths'],
+                    ))
+                else:
+                    # Malformed dict format (YAML dict syntax): convert to string
+                    # Example: {'Forensic audit report': 'standards-system'} → "Forensic audit report: standards-system"
+                    for key, value in d.items():
+                        deliverable_str = f"{key}: {value}" if value else key
+                        deliverables.append(Deliverable(
+                            type=DeliverableType.CODE,
+                            paths=[deliverable_str],
+                        ))
             # Skip any other format (invalid)
 
         # Parse commits
@@ -944,18 +1005,18 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 submitted_at=c['submitted_at'],  # Unix timestamp (integer)
             ))
 
-        # Parse metadata (backward compatible)
+        # Parse metadata (backward compatible - last_updated is optional)
         if 'metadata' in task_data:
             meta_data = task_data['metadata']
             metadata = TaskMetadata(
-                last_updated=_parse_datetime(meta_data['last_updated']),
+                last_updated=_parse_datetime(meta_data.get('last_updated')) if meta_data.get('last_updated') else datetime.now(timezone.utc),
                 token_efficiency=meta_data.get('token_efficiency'),
                 duration_hours=meta_data.get('duration_hours'),
             )
         else:
             # Old format: minimal metadata
             metadata = TaskMetadata(
-                last_updated=datetime.now(),
+                last_updated=datetime.now(timezone.utc),
                 token_efficiency=None,
                 duration_hours=None,
             )

@@ -1,0 +1,50 @@
+task:
+  id: roadmap-integrity-fixes-9-task-002
+  name: Fix missing required fields (47 critical)
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: critical
+  created: '2025-11-20T00:17:11.805568+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  actual_duration: null
+  description: "Fix all 47 critical missing required field errors.\n\nPatterns to\
+    \ fix:\n1. Missing sprint_id in track.yaml\n2. Missing title in sprint.yaml  \n\
+    3. Missing task_id in sprint.yaml\n\nApproach:\n- Identify all affected files\n\
+    - Determine correct value for missing field\n- Add field at correct location\n\
+    - Validate fix with schema validator\n\nFor each pattern:\n1. grep to find all\
+    \ occurrences\n2. Inspect to understand context\n3. Add missing field (may need\
+    \ to infer value)\n4. Test with validate-roadmap-schema.py\n\nVerification:\n\
+    python scripts/validate-roadmap-schema.py --strict\nCritical issues: 0 (down from\
+    \ 47)\n"
+  acceptance_criteria:
+  - All 47 critical issues resolved
+  - All required fields present
+  - Schema validation shows 0 critical
+  - No data loss during fix
+  - Git commit with clear changes
+  deliverables:
+  - type: code
+    paths:
+    - Fixed track.yaml files
+  - type: code
+    paths:
+    - Fixed sprint.yaml files
+  - type: documentation
+    paths:
+    - MISSING_FIELDS_FIX_REPORT.md
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-9-task-001
+    target_status: completed
+    reason: Need audit to identify all missing fields
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:17:11.805589+00:00'

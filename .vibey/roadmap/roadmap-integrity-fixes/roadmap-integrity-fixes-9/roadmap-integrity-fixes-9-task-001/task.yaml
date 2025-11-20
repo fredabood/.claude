@@ -1,0 +1,44 @@
+task:
+  id: roadmap-integrity-fixes-9-task-001
+  name: Audit schema validation failures
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: critical
+  created: '2025-11-20T00:17:11.800620+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 hours
+  actual_duration: null
+  description: "Comprehensive audit of all 414 schema validation failures.\n\nRun\
+    \ validate-roadmap-schema.py and categorize failures:\n\n1. Missing required fields\
+    \ (47 critical)\n   - sprint_id missing from track.yaml\n   - title missing from\
+    \ sprint.yaml\n   - task_id missing from sprint.yaml\n   \n2. Field hierarchy\
+    \ issues (373 high)\n   - Fields at wrong nesting level\n   - Incorrect parent/child\
+    \ structure\n   - Schema evolution mismatches\n\n3. Generate categorized report:\n\
+    \   - Group by error type\n   - Count occurrences\n   - Identify patterns\n  \
+    \ - Propose fix strategy\n\nOutput: SCHEMA_AUDIT_REPORT_2025-11-20.md with:\n\
+    - Error categorization\n- File-by-file breakdown\n- Fix strategy per category\n\
+    - Estimated effort per pattern\n"
+  acceptance_criteria:
+  - All 414 failures categorized
+  - Error patterns identified
+  - Fix strategy documented
+  - Effort estimates provided
+  - Report includes example fixes
+  deliverables:
+  - type: documentation
+    paths:
+    - SCHEMA_AUDIT_REPORT_2025-11-20.md
+  - type: documentation
+    paths:
+    - SCHEMA_FIX_STRATEGY.md
+  dependencies: []
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:17:11.800639+00:00'

@@ -1,0 +1,50 @@
+task:
+  id: roadmap-integrity-fixes-9-task-003
+  name: Fix field hierarchy issues (373 high)
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T00:17:11.809934+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  actual_duration: null
+  description: "Fix all 373 high severity field hierarchy issues.\n\nCommon patterns\
+    \ (from audit):\n1. Task summaries at wrong nesting level\n2. Progress fields\
+    \ in wrong parent object\n3. Dependency structure mismatches\n4. Metadata nesting\
+    \ incorrect\n\nStrategy:\n1. Group files by error pattern\n2. Create fix template\
+    \ per pattern\n3. Batch apply with script\n4. Validate each batch\n5. Manual review\
+    \ edge cases\n\nExample fix for nested field:\nBefore:\n  sprint:\n    task_summary:\n\
+    \      id: foo\n\nAfter:\n  sprint:\n    tasks:\n      - id: foo\n\nVerification\
+    \ after each pattern:\npython scripts/validate-roadmap-schema.py --strict | grep\
+    \ \"High:\"\n"
+  acceptance_criteria:
+  - All 373 high issues resolved
+  - Correct field hierarchy throughout
+  - Schema validation shows 0 high
+  - Relationship integrity maintained
+  - No regressions in fixed files
+  deliverables:
+  - type: code
+    paths:
+    - scripts/fix-field-hierarchy.py
+  - type: code
+    paths:
+    - Fixed YAML files (373)
+  - type: documentation
+    paths:
+    - HIERARCHY_FIX_REPORT.md
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-9-task-002
+    target_status: completed
+    reason: Fix critical issues first
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:17:11.809956+00:00'

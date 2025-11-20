@@ -1,0 +1,58 @@
+task:
+  id: roadmap-integrity-fixes-8-task-004
+  name: Audit and fix Task model field consistency
+  sprint_id: roadmap-integrity-fixes-8
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T00:13:23.106489+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 hours
+  actual_duration: null
+  description: "Comprehensive audit of Task model field naming consistency.\n\nProblem:\
+    \ Inconsistent field names across codebase\n- Some code uses task.title\n- Model\
+    \ defines task.name\n- Unclear which is canonical\n\nAudit steps:\n1. List all\
+    \ Task field accesses:\n   grep -rn \"task\\.\" vibey/ tests/\n\n2. Categorize\
+    \ by field name:\n   - task.name vs task.title\n   - task.description\n   - task.deliverables\n\
+    \   - etc.\n\n3. Document canonical field names in Task model\n\n4. Fix all inconsistent\
+    \ references\n\n5. Add type hints and validation\n\n6. Create test suite preventing\
+    \ future mismatches\n\nDeliverables:\n- Field usage audit report\n- Standardized\
+    \ field names\n- Updated code references\n- Test suite for field access\n- Documentation\
+    \ of Task model API\n"
+  acceptance_criteria:
+  - All Task field accesses use canonical names
+  - Task model documentation complete
+  - No KeyError on any field access
+  - Test suite validates all field usage
+  - Type hints prevent future mismatches
+  - Migration guide for field renames
+  deliverables:
+  - type: documentation
+    paths:
+    - docs/development/TASK_MODEL_AUDIT.md
+  - type: code
+    paths:
+    - vibey/roadmap/models/task.py
+  - type: code
+    paths:
+    - vibey/operations/roadmap/*.py
+  - type: test
+    paths:
+    - tests/test_task_model_consistency.py
+  - type: documentation
+    paths:
+    - docs/reference/TASK_MODEL_API.md
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-003
+    target_status: completed
+    reason: Build on standards enforcement fixes
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:13:23.106511+00:00'

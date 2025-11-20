@@ -1,0 +1,49 @@
+task:
+  id: roadmap-integrity-fixes-9-task-007
+  name: Add schema validation to CI/CD
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T00:17:11.820692+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 hour
+  actual_duration: null
+  description: "Add blocking schema validation to GitHub Actions.\n\nUpdate .github/workflows/roadmap-validation.yml:\n\
+    \nAdd step (no continue-on-error):\n  - name: Schema validation (BLOCKING)\n \
+    \   run: |\n      python scripts/validate-roadmap-schema.py --strict\n      if\
+    \ [ $? -ne 0 ]; then\n        echo \"❌ Schema validation failed\"\n        echo\
+    \ \"Run: python scripts/validate-roadmap-schema.py --verbose\"\n        exit 1\n\
+    \      fi\n\nAlso add health score check:\n  - name: Health score check\n    run:\
+    \ |\n      python scripts/roadmap-health-dashboard.py --json > metrics.json\n\
+    \      score=$(jq '.overall_health_score' metrics.json)\n      if (( $(echo \"\
+    $score < 90\" | bc -l) )); then\n        echo \"⚠️ Health score below 90: $score\"\
+    \n        exit 1\n      fi\n\nResult:\n- PRs blocked on schema violations\n- Health\
+    \ score degradation caught early\n- Automated validation on every push\n"
+  acceptance_criteria:
+  - CI/CD runs schema validation
+  - Validation failures block merge
+  - Health score check included
+  - Clear error messages
+  - Documentation updated
+  deliverables:
+  - type: config
+    paths:
+    - .github/workflows/roadmap-validation.yml
+  - type: documentation
+    paths:
+    - docs/development/CI_SCHEMA_VALIDATION.md
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-9-task-005
+    target_status: completed
+    reason: Ensure validation passes first
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:17:11.820709+00:00'

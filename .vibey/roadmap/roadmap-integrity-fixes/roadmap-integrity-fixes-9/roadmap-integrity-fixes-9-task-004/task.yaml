@@ -1,0 +1,51 @@
+task:
+  id: roadmap-integrity-fixes-9-task-004
+  name: Create schema migration script
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  type: development
+  priority: high
+  created: '2025-11-20T00:17:11.812593+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 hours
+  actual_duration: null
+  description: "Create automated schema migration tool for future changes.\n\nFeatures:\n\
+    1. Version detection from YAML\n2. Transformation pipeline\n3. Before/after validation\n\
+    4. Rollback on failure\n5. Dry-run mode\n6. Batch processing\n\nUsage:\npython\
+    \ scripts/migrate-roadmap-schema.py \\\n  --from-version 2.0 \\\n  --to-version\
+    \ 2.1 \\\n  --dry-run \\\n  --verbose\n\nMigrations to support:\n- Add missing\
+    \ fields\n- Rename fields\n- Move fields to new location\n- Convert field types\n\
+    - Remove deprecated fields\n\nArchitecture:\n- Migration registry (version → transformations)\n\
+    - Transformation functions (YAML → YAML)\n- Validation hooks (before/after)\n\
+    - Progress reporting\n- Error handling\n"
+  acceptance_criteria:
+  - Migration script executable
+  - Supports version detection
+  - Dry-run mode works
+  - Validation before/after
+  - Rollback on errors
+  - Documentation with examples
+  deliverables:
+  - type: code
+    paths:
+    - scripts/migrate-roadmap-schema.py
+  - type: documentation
+    paths:
+    - docs/guides/SCHEMA_MIGRATION.md
+  - type: test
+    paths:
+    - tests/test_schema_migration.py
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-9-task-003
+    target_status: completed
+    reason: Learn from manual fixes
+  blocked_by: []
+  blocks: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-20T00:17:11.812608+00:00'

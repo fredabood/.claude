@@ -961,6 +961,10 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
 
         # Parse deliverables (backward compatible - handle both old string format and new structured format)
         deliverables = []
+        # Type aliases for backward compatibility
+        deliverable_type_aliases = {
+            "configuration": "config"  # Map legacy "configuration" to "config"
+        }
         for d in task_data.get('deliverables', []):
             if isinstance(d, str):
                 # Old format: just a string path - infer type as "code"
@@ -972,8 +976,10 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 # Check if structured format (has 'type' and 'paths' fields)
                 if 'type' in d and 'paths' in d:
                     # New format: structured with type and paths
+                    # Normalize type value using aliases (e.g., "configuration" → "config")
+                    deliverable_type = deliverable_type_aliases.get(d['type'], d['type'])
                     deliverables.append(Deliverable(
-                        type=DeliverableType(d['type']),
+                        type=DeliverableType(deliverable_type),
                         paths=d['paths'],
                     ))
                 else:

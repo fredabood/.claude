@@ -5,80 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Document validation standards and best practices
-  description: |
-    Create comprehensive documentation for roadmap validation system and
-    prevention best practices.
-
-    Documentation Structure:
-
-    1. Validation System Overview:
-       - Purpose and benefits
-       - Architecture diagram
-       - Validation categories
-       - Integration points
-
-    2. Validation Rules Reference:
-       - Status/progress consistency rules
-       - Referential integrity rules
-       - Task data model rules
-       - Dependency rules
-       - Blocked status rules
-
-    3. CLI Command Reference:
-       - vibey roadmap validate usage
-       - vibey roadmap audit commands
-       - vibey roadmap install-hooks
-       - Examples and use cases
-
-    4. Pre-commit Hook Guide:
-       - Installation instructions
-       - Configuration options
-       - Bypassing validation (emergencies)
-       - Troubleshooting
-
-    5. CI/CD Integration Guide:
-       - GitHub Actions setup
-       - Branch protection rules
-       - PR workflow integration
-       - Customization options
-
-    6. Best Practices Guide:
-       - Use CLI commands instead of manual YAML edits
-       - Always provide reason for status changes
-       - Run validation before commits
-       - Review audit trail regularly
-       - Keep roadmap data quality high
-
-    7. Troubleshooting Guide:
-       - Common validation errors
-       - How to fix each error type
-       - When to use --no-verify
-       - Getting help
-
-    8. Prevention Checklist:
-       - Pre-work: Validate before starting
-       - During work: Use CLI commands only
-       - Post-work: Validate before commit
-       - Code review: Check validation passed
-       - Maintenance: Review audit trail weekly
-
-    Files to Create:
-    - docs/roadmap/VALIDATION_SYSTEM.md
-    - docs/roadmap/VALIDATION_RULES.md
-    - docs/roadmap/BEST_PRACTICES.md
-    - docs/roadmap/TROUBLESHOOTING.md
-
-    Deliverables:
-    - Complete validation system documentation
-    - Best practices guide
-    - Troubleshooting guide
-    - Integration guides
-    - Examples and use cases
-  status: not_started
-  blocked: false
+  description: "Create comprehensive documentation for roadmap validation system and\n\
+    prevention best practices.\n\nDocumentation Structure:\n\n1. Validation System\
+    \ Overview:\n   - Purpose and benefits\n   - Architecture diagram\n   - Validation\
+    \ categories\n   - Integration points\n\n2. Validation Rules Reference:\n   -\
+    \ Status/progress consistency rules\n   - Referential integrity rules\n   - Task\
+    \ data model rules\n   - Dependency rules\n   - Blocked status rules\n\n3. CLI\
+    \ Command Reference:\n   - vibey roadmap validate usage\n   - vibey roadmap audit\
+    \ commands\n   - vibey roadmap install-hooks\n   - Examples and use cases\n\n\
+    4. Pre-commit Hook Guide:\n   - Installation instructions\n   - Configuration\
+    \ options\n   - Bypassing validation (emergencies)\n   - Troubleshooting\n\n5.\
+    \ CI/CD Integration Guide:\n   - GitHub Actions setup\n   - Branch protection\
+    \ rules\n   - PR workflow integration\n   - Customization options\n\n6. Best Practices\
+    \ Guide:\n   - Use CLI commands instead of manual YAML edits\n   - Always provide\
+    \ reason for status changes\n   - Run validation before commits\n   - Review audit\
+    \ trail regularly\n   - Keep roadmap data quality high\n\n7. Troubleshooting Guide:\n\
+    \   - Common validation errors\n   - How to fix each error type\n   - When to\
+    \ use --no-verify\n   - Getting help\n\n8. Prevention Checklist:\n   - Pre-work:\
+    \ Validate before starting\n   - During work: Use CLI commands only\n   - Post-work:\
+    \ Validate before commit\n   - Code review: Check validation passed\n   - Maintenance:\
+    \ Review audit trail weekly\n\nFiles to Create:\n- docs/roadmap/VALIDATION_SYSTEM.md\n\
+    - docs/roadmap/VALIDATION_RULES.md\n- docs/roadmap/BEST_PRACTICES.md\n- docs/roadmap/TROUBLESHOOTING.md\n\
+    \nDeliverables:\n- Complete validation system documentation\n- Best practices\
+    \ guide\n- Troubleshooting guide\n- Integration guides\n- Examples and use cases\n"
+  status: completed
+  blocked: true
   created: '2025-11-12T20:30:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-21T03:55:00.072398+00:00'
+  completed: '2025-11-21T04:03:34.425128+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
@@ -94,25 +48,41 @@ task:
   - blocker_id: roadmap-integrity-fixes-6-task-001
     blocker_type: task
     required_status: completed
+    current_status: unknown
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:28:08.238708+00:00'
   - blocker_id: roadmap-integrity-fixes-6-task-005
     blocker_type: task
     required_status: completed
+    current_status: unknown
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:28:08.238709+00:00'
   - blocker_id: roadmap-integrity-fixes-6-task-006
     blocker_type: task
     required_status: completed
+    current_status: unknown
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:28:08.238710+00:00'
   - blocker_id: roadmap-integrity-fixes-6-task-007
     blocker_type: task
     required_status: completed
+    current_status: unknown
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:28:08.238710+00:00'
   depended_on_by: []
   deliverables:
-  - Validation system documentation
-  - Best practices guide
-  - Troubleshooting guide
-  - Integration guides
+  - type: code
+    paths:
+    - Validation system documentation
+  - type: code
+    paths:
+    - Best practices guide
+  - type: code
+    paths:
+    - Troubleshooting guide
+  - type: code
+    paths:
+    - Integration guides
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

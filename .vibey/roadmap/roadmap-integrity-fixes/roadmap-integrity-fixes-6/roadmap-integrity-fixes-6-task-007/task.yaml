@@ -5,76 +5,38 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement audit trail for status changes
-  description: |
-    Create audit trail system to track all roadmap status changes.
-
-    Implementation:
-
-    1. Audit Trail Storage:
-       - File: .vibey/audit-trail.yaml (or per-track)
-       - Structure:
-         ```yaml
-         audit_log:
-         - timestamp: '2025-11-12T20:00:00+00:00'
-           object_type: track
-           object_id: standards-system
-           field: status
-           old_value: not_started
-           new_value: in_progress
-           changed_by: claude-code
-           reason: Started work on Sprint 1
-           commit: abc123def
-         ```
-
-    2. Change Tracking:
-       - Track status changes (track, sprint, task)
-       - Track progress changes
-       - Track completion timestamp changes
-       - Track blocking status changes
-       - Capture reason for change (required)
-
-    3. Integration Points:
-       - Intercept status changes in CLI commands
-       - Require --reason flag for manual status changes
-       - Auto-log changes made by CLI operations
-       - Log git commit SHA if available
-
-    4. Audit Commands:
-       ```bash
-       vibey roadmap audit log              # Show recent changes
-       vibey roadmap audit show <track-id>  # Show track history
-       vibey roadmap audit revert <entry>   # Revert a change
-       ```
-
-    5. Validation:
-       - Require reason for manual overrides
-       - Flag suspicious changes (e.g., completed → not_started)
-       - Detect unauthorized manual YAML edits
-       - Alert on progress rollbacks
-
-    6. Reporting:
-       - Generate audit reports
-       - Show timeline of changes
-       - Identify manual vs automated changes
-       - Track who/when/why for accountability
-
-    Deliverables:
-    - Audit trail storage implementation
-    - Change tracking integration
-    - Audit commands
-    - Documentation
-    - Test suite
-  status: not_started
+  description: "Create audit trail system to track all roadmap status changes.\n\n\
+    Implementation:\n\n1. Audit Trail Storage:\n   - File: .vibey/audit-trail.yaml\
+    \ (or per-track)\n   - Structure:\n     ```yaml\n     audit_log:\n     - timestamp:\
+    \ '2025-11-12T20:00:00+00:00'\n       object_type: track\n       object_id: standards-system\n\
+    \       field: status\n       old_value: not_started\n       new_value: in_progress\n\
+    \       changed_by: claude-code\n       reason: Started work on Sprint 1\n   \
+    \    commit: abc123def\n     ```\n\n2. Change Tracking:\n   - Track status changes\
+    \ (track, sprint, task)\n   - Track progress changes\n   - Track completion timestamp\
+    \ changes\n   - Track blocking status changes\n   - Capture reason for change\
+    \ (required)\n\n3. Integration Points:\n   - Intercept status changes in CLI commands\n\
+    \   - Require --reason flag for manual status changes\n   - Auto-log changes made\
+    \ by CLI operations\n   - Log git commit SHA if available\n\n4. Audit Commands:\n\
+    \   ```bash\n   vibey roadmap audit log              # Show recent changes\n \
+    \  vibey roadmap audit show <track-id>  # Show track history\n   vibey roadmap\
+    \ audit revert <entry>   # Revert a change\n   ```\n\n5. Validation:\n   - Require\
+    \ reason for manual overrides\n   - Flag suspicious changes (e.g., completed →\
+    \ not_started)\n   - Detect unauthorized manual YAML edits\n   - Alert on progress\
+    \ rollbacks\n\n6. Reporting:\n   - Generate audit reports\n   - Show timeline\
+    \ of changes\n   - Identify manual vs automated changes\n   - Track who/when/why\
+    \ for accountability\n\nDeliverables:\n- Audit trail storage implementation\n\
+    - Change tracking integration\n- Audit commands\n- Documentation\n- Test suite\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T03:54:34.878122+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null
   estimated_tokens: 8000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
@@ -83,10 +45,18 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables:
-  - Audit trail storage system
-  - Change tracking integration
-  - Audit commands
-  - Documentation
+  - type: code
+    paths:
+    - Audit trail storage system
+  - type: code
+    paths:
+    - Change tracking integration
+  - type: code
+    paths:
+    - Audit commands
+  - type: code
+    paths:
+    - Documentation
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

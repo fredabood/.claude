@@ -163,7 +163,7 @@ def query_sprint_details(fs: FileSystemManager, sprint_id: str) -> Dict[str, Any
             "development": [
                 {
                     "id": task.id,
-                    "name": task.name,
+                    "name": task.title,
                     "status": task.status.value,
                     "blocked": task.blocked,
                 }
@@ -172,7 +172,7 @@ def query_sprint_details(fs: FileSystemManager, sprint_id: str) -> Dict[str, Any
             "completion_gates": [
                 {
                     "id": task.id,
-                    "name": task.name,
+                    "name": task.title,
                     "status": task.status.value,
                     "gate_type": task.gate_info.gate_type if task.gate_info else None,
                 }
@@ -181,7 +181,7 @@ def query_sprint_details(fs: FileSystemManager, sprint_id: str) -> Dict[str, Any
             "production_gates": [
                 {
                     "id": task.id,
-                    "name": task.name,
+                    "name": task.title,
                     "status": task.status.value,
                     "gate_type": task.gate_info.gate_type if task.gate_info else None,
                 }
@@ -218,7 +218,7 @@ def query_task_details(fs: FileSystemManager, task_id: str) -> Dict[str, Any]:
 
     return {
         "id": task.id,
-        "name": task.name,
+        "name": task.title,
         "description": task.description,
         "task_type": task.task_type,
         "status": task.status.value,

@@ -177,7 +177,7 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
                 return {
                     "type": "task",
                     "id": task.id,
-                    "name": task.name,
+                    "name": task.title,
                     "description": task.description,
                     "task_type": task.task_type,
                     "status": task.status.value,

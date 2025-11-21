@@ -346,7 +346,9 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
 
         # Set appropriate timestamp based on new status
         now = datetime.now(timezone.utc)
-        if new_status == Status.COMPLETION_GATE_CHECK:
+        if new_status == Status.IN_PROGRESS:
+            sprint.started = now
+        elif new_status == Status.COMPLETION_GATE_CHECK:
             sprint.completion_gate_check_at = now
         elif new_status == Status.COMPLETED:
             sprint.completed = now

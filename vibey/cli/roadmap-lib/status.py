@@ -101,7 +101,17 @@ class StatusManager:
         current_status = sprint.status
 
         # Define progression path
-        if current_status == Status.IN_PROGRESS:
+        if current_status == Status.NOT_STARTED:
+            # Auto-start sprint if tasks have been completed or if progress has been made
+            if sprint.progress.tasks_completed > 0:
+                return True, Status.IN_PROGRESS, "Tasks have been completed, auto-starting sprint"
+            elif sprint.progress.tasks_total > 0 and sprint.started is not None:
+                # Sprint was explicitly started
+                return True, Status.IN_PROGRESS, "Sprint was started"
+            else:
+                return False, None, "No tasks started yet"
+
+        elif current_status == Status.IN_PROGRESS:
             can_progress, reason = self.can_progress_sprint(sprint, Status.COMPLETION_GATE_CHECK)
             if can_progress:
                 return True, Status.COMPLETION_GATE_CHECK, reason

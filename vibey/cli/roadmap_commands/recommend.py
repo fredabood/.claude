@@ -111,14 +111,14 @@ def handle_recommend(args):
         if args.json:
             print(json.dumps({
                 "task_id": task_id,
-                "task_name": task.name,
+                "task_name": task.title,
                 "recommendations": [
                     {"agent": agent, "confidence": score}
                     for agent, score in recommendations
                 ]
             }, indent=2))
         else:
-            print(f"\n🤖 Agent Recommendations for: {task.name}")
+            print(f"\n🤖 Agent Recommendations for: {task.title}")
             print("="*80)
 
             if recommendations:

@@ -117,13 +117,13 @@ def search_objects(
 
                         for task in sprint_tasks:
                             # Search in name, description, ID
-                            if (query_lower in task.name.lower() or
+                            if (query_lower in task.title.lower() or
                                 query_lower in task.description.lower() or
                                 query_lower in task.id.lower()):
 
                                 results["tasks"].append({
                                     "id": task.id,
-                                    "name": task.name,
+                                    "name": task.title,
                                     "description": task.description[:100] + "..." if len(task.description) > 100 else task.description,
                                     "sprint_id": sprint_summary.id,
                                     "sprint_name": sprint_summary.name,

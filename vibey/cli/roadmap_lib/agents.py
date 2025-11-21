@@ -88,7 +88,7 @@ class AgentRouter:
         """
         scores = {}
 
-        task_text = (task.name + " " + task.description).lower()
+        task_text = (task.title + " " + task.description).lower()
         task_type = task.task_type
 
         for agent_name, capabilities in self.agent_capabilities.items():
@@ -178,7 +178,7 @@ class AgentRouter:
                         workload[agent]["total_tasks"] += 1
                         workload[agent]["tasks"].append({
                             "id": task.id,
-                            "name": task.name,
+                            "name": task.title,
                             "status": task.status.value,
                             "sprint_id": sprint_summary.id,
                             "track_id": track.id,
@@ -283,7 +283,7 @@ class AgentRouter:
 
                     recommendations.append({
                         "task_id": task.id,
-                        "task_name": task.name,
+                        "task_name": task.title,
                         "sprint_id": sprint_summary.id,
                         "sprint_name": sprint.name,
                         "track_id": track.id,

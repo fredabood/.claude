@@ -1,4 +1,0 @@
-# Invalid YAML - missing required fields
-task:
-  id: test-task
-  # missing sprint_id, track_id, etc.

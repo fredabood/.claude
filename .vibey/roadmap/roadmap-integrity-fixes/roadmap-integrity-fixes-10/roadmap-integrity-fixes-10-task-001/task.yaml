@@ -34,11 +34,11 @@ task:
     \ |\n|------|--------|----------------|\n| ... | ... | ... |\n\n## Migration Plan\n\
     - Simple moves: X files (automated)\n- Complex moves: Y files (manual)\n- In-place\
     \ (correct location): Z files\n```\n"
-  status: completed
+  status: not_started
   blocked: false
   created: '2025-11-20T01:00:00+00:00'
   started: null
-  completed: '2025-11-20T20:28:48.953909+00:00'
+  completed: null
   assigned_agent: web-developer
   priority: high
   phase_label: null

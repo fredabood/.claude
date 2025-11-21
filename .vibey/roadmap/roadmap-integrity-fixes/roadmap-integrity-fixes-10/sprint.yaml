@@ -3,10 +3,10 @@ sprint:
   name: Documentation Organization & Consolidation
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: not_started
   blocked: false
   created: '2025-11-20T01:00:00+00:00'
-  started: '2025-11-20T20:28:48.983239+00:00'
+  started: null
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
@@ -14,14 +14,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 7
-    development_tasks_completed: 1
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 1
-    completion_percent: 14
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: roadmap-integrity-fixes-10-task-001
     title: Audit all documentation files and categorize

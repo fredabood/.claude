@@ -1,108 +1,62 @@
 task:
   id: roadmap-integrity-fixes-10-task-004
-  name: Migrate analysis/report files to context/ directories
   sprint_id: roadmap-integrity-fixes-10
   track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate analysis/report files to context/ directories
+  description: "Move context documentation files to proper locations based on audit\
+    \ results.\n\nGOAL: Migrate all analysis/report files to appropriate context/\
+    \ directories\n\nPROCESS:\n\n1. Review audit report from Task 001\n   - Identify\
+    \ all context documentation files\n   - Determine correct destination for each\n\
+    \   - Group by destination for batch processing\n\n2. Create migration script:\
+    \ scripts/migrate-documentation.py\n   ```python\n   #!/usr/bin/env python3\n\
+    \   \"\"\"Migrate documentation files to proper locations.\"\"\"\n\n   import\
+    \ subprocess\n   from pathlib import Path\n\n   # Migration map: (source, destination)\n\
+    \   migrations = [\n       # Sprint 8 context\n       (\"SCHEMA_AUDIT_REPORT_2025-11-20.md\"\
+    ,\n        \".vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/\"\
+    ),\n       (\"SCHEMA_FIX_STRATEGY.md\",\n        \".vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/\"\
+    ),\n\n       # Add more as identified in audit\n   ]\n\n   for source, dest in\
+    \ migrations:\n       src_path = Path(source)\n       if src_path.exists():\n\
+    \           # Use git mv to preserve history\n           dest_path = Path(dest)\
+    \ / src_path.name\n           subprocess.run([\"git\", \"mv\", str(src_path),\
+    \ str(dest_path)])\n           print(f\"Moved: {source} → {dest}\")\n   ```\n\n\
+    3. Execute migration:\n   ```bash\n   # Dry run first\n   python3 scripts/migrate-documentation.py\
+    \ --dry-run\n\n   # Review planned changes\n   # Execute actual migration\n  \
+    \ python3 scripts/migrate-documentation.py\n   ```\n\n4. Update references:\n\
+    \   - Search for links to moved files\n   - Update all references\n   - Verify\
+    \ no broken links\n   ```bash\n   # Find broken markdown links\n   python3 scripts/validate-markdown-links.py\n\
+    \   ```\n\n5. Update task.yaml deliverables:\n   - If task deliverables reference\
+    \ moved files\n   - Update paths in deliverables section\n   - Maintain referential\
+    \ integrity\n\nEXAMPLES OF FILES TO MIGRATE:\n\nCurrent roadmap-integrity-fixes\
+    \ files:\n- SCHEMA_AUDIT_REPORT_2025-11-20.md → sprint-8/context/\n- SCHEMA_FIX_STRATEGY.md\
+    \ → sprint-8/context/\n- COMPREHENSIVE_AUDIT_*.md → sprint-7/context/\n- QA_REPORT_*.md\
+    \ → appropriate sprint/context/\n\nCurrent roadmap-system files:\n- TOKEN_USAGE_ANALYSIS.md\
+    \ (future) → sprint-7/context/\n- TOKEN_SIZING_METHODOLOGY.md (future) → sprint-7/context/\n\
+    \nVERIFICATION:\n- All identified files migrated\n- Git history preserved (using\
+    \ git mv)\n- All references updated\n- No broken links\n- Task deliverables updated\n"
   status: not_started
-  type: development
-  priority: high
-  created: '2025-11-20T01:00:00.000000+00:00'
+  blocked: false
+  created: '2025-11-20T01:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 4 hours
-  actual_duration: null
-  description: |
-    Move context documentation files to proper locations based on audit results.
-
-    GOAL: Migrate all analysis/report files to appropriate context/ directories
-
-    PROCESS:
-
-    1. Review audit report from Task 001
-       - Identify all context documentation files
-       - Determine correct destination for each
-       - Group by destination for batch processing
-
-    2. Create migration script: scripts/migrate-documentation.py
-       ```python
-       #!/usr/bin/env python3
-       """Migrate documentation files to proper locations."""
-
-       import subprocess
-       from pathlib import Path
-
-       # Migration map: (source, destination)
-       migrations = [
-           # Sprint 8 context
-           ("SCHEMA_AUDIT_REPORT_2025-11-20.md",
-            ".vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/"),
-           ("SCHEMA_FIX_STRATEGY.md",
-            ".vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/"),
-
-           # Add more as identified in audit
-       ]
-
-       for source, dest in migrations:
-           src_path = Path(source)
-           if src_path.exists():
-               # Use git mv to preserve history
-               dest_path = Path(dest) / src_path.name
-               subprocess.run(["git", "mv", str(src_path), str(dest_path)])
-               print(f"Moved: {source} → {dest}")
-       ```
-
-    3. Execute migration:
-       ```bash
-       # Dry run first
-       python3 scripts/migrate-documentation.py --dry-run
-
-       # Review planned changes
-       # Execute actual migration
-       python3 scripts/migrate-documentation.py
-       ```
-
-    4. Update references:
-       - Search for links to moved files
-       - Update all references
-       - Verify no broken links
-       ```bash
-       # Find broken markdown links
-       python3 scripts/validate-markdown-links.py
-       ```
-
-    5. Update task.yaml deliverables:
-       - If task deliverables reference moved files
-       - Update paths in deliverables section
-       - Maintain referential integrity
-
-    EXAMPLES OF FILES TO MIGRATE:
-
-    Current roadmap-integrity-fixes files:
-    - SCHEMA_AUDIT_REPORT_2025-11-20.md → sprint-8/context/
-    - SCHEMA_FIX_STRATEGY.md → sprint-8/context/
-    - COMPREHENSIVE_AUDIT_*.md → sprint-7/context/
-    - QA_REPORT_*.md → appropriate sprint/context/
-
-    Current roadmap-system files:
-    - TOKEN_USAGE_ANALYSIS.md (future) → sprint-7/context/
-    - TOKEN_SIZING_METHODOLOGY.md (future) → sprint-7/context/
-
-    VERIFICATION:
-    - All identified files migrated
-    - Git history preserved (using git mv)
-    - All references updated
-    - No broken links
-    - Task deliverables updated
-
-  acceptance_criteria:
-  - Migration script created and tested
-  - All context files migrated to proper locations
-  - Git history preserved for all moves
-  - All references updated in other files
-  - No broken documentation links
-  - Task deliverables updated where needed
-  - Migration report generated
-
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-10-task-003
+    target_status: completed
+    reason: Need context/ directories created first
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: code
     paths:
@@ -110,17 +64,8 @@ task:
   - type: documentation
     paths:
     - .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/MIGRATION_REPORT.md
-
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-10-task-003
-    target_status: completed
-    reason: Need context/ directories created first
-
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T01:00:00.000000+00:00'
+    last_updated: '2025-11-20T01:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

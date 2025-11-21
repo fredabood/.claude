@@ -3,14 +3,14 @@ track:
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
   completed: null
   estimated_duration: 3.5 weeks
   progress:
-    sprints_total: 2
+    sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
     tasks_completed: 0
@@ -106,37 +106,11 @@ track:
   - 'Open Source: Apache 2.0, community alignment'
   - 'Context Provider API: Advanced integration capabilities'
   - 'BYOK Model: User brings own API keys (cost-effective)'
-  commits:
-  - sha: c91f883
-    date: '2025-11-09T13:52:33-05:00'
-    message: 'feat: Add 4 new platform ports to roadmap (Aider, Continue, Windsurf,
-      JetBrains)'
-    type: planning
-  - sha: 980a561
-    date: '2025-11-09T21:58:25-05:00'
-    message: 'feat: Add testing-system track as quality gate for all platform ports'
-    type: dependency_added
-  - sha: 1b92342
-    date: '2025-11-09T22:12:53-05:00'
-    message: 'feat: Add claude-port track to validate existing platform before expansion'
-    type: dependency_added
+  commits: []
   standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T14:30:00+00:00'
-    remediation_date: '2025-11-15T14:30:00+00:00'
-    remediation_notes: "Data integrity remediation completed:\n  - Fixed YAML serialization\
-      \ bug (Python object → string for claude-port status)\n  - Removed erroneous\
-      \ goose-port dependency from depends_on section\n  - Updated claude-port dependency\
-      \ status to completed (verified from track.yaml)\n  - Added git commit links\
-      \ for planning phase (3 commits)\n  - Updated dependency check timestamps\n\
-      \  - Unblocked track: All required dependencies now met (testing-system ✅,\
-      \ claude-port ✅)\n  - Track ready to start (optional aider-port dependency\
-      \ not blocking)\n\nForensic Correction History:\n  - 2025-11-13: Incorrect\
-      \ unblock (claimed dependencies met but claude-port was in_progress)\n  - System\
-      \ re-blocked track when goose-port dependency was incorrectly added to depends_on\n\
-      \  - 2025-11-15: Correct remediation - removed goose-port from depends_on,\
-      \ verified claude-port completed"
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
     implementation_plan: null
     notes: "Continue.dev is high-priority for multi-IDE reach:\n\n1. Compatibility\
@@ -146,16 +120,17 @@ track:
       \   - Context provider implementation\n   - Multi-IDE testing (VS Code + JetBrains)\n\
       \n3. Strategic Value\n   - VS Code: 75% of developers\n   - JetBrains: Professional\
       \ developers\n   - Open source community\n   - Active development\n\nAdapter\
-      \ Strategy:\n- Map Vibey agents → Continue slash commands\n- Map Vibey workflows\
-      \ → Command sequences\n- Map Vibey context → Context providers\n- Generate .continue/\
-      \ directory\n- Templates: config.json.j2, commands/*.j2\n\nKey Mappings:\n-\
-      \ Agent: web-developer → /web-developer slash command\n- Workflow steps → Prompt\
-      \ templates\n- Handoffs → Context provider data\n- Quality gates → Validation\
-      \ commands\n\nContinue Slash Command Example:\n{\n  \"name\": \"web-developer\"\
-      ,\n  \"description\": \"Full-stack web development agent\",\n  \"prompt\": \"\
-      {{ agent.instructions | from_template }}\"\n}\n\nContext Provider Example:\n\
-      {\n  \"name\": \"vibey-workflow\",\n  \"type\": \"custom\",\n  \"config\": {\n\
-      \    \"workflow\": \"{{ workflow.id }}\",\n    \"context\": \"{{ workflow.context\
-      \ }}\"\n  }\n}\n\nValidation:\n- Test in VS Code\n- Test in IntelliJ IDEA\n\
-      - Test in PyCharm\n- Verify context providers load\n- Ensure commands execute\
-      \ correctly\n\nTimeline: Q3 2025 (after Aider port)\n"
+      \ Strategy:\n- Map Vibey agents \u2192 Continue slash commands\n- Map Vibey\
+      \ workflows \u2192 Command sequences\n- Map Vibey context \u2192 Context providers\n\
+      - Generate .continue/ directory\n- Templates: config.json.j2, commands/*.j2\n\
+      \nKey Mappings:\n- Agent: web-developer \u2192 /web-developer slash command\n\
+      - Workflow steps \u2192 Prompt templates\n- Handoffs \u2192 Context provider\
+      \ data\n- Quality gates \u2192 Validation commands\n\nContinue Slash Command\
+      \ Example:\n{\n  \"name\": \"web-developer\",\n  \"description\": \"Full-stack\
+      \ web development agent\",\n  \"prompt\": \"{{ agent.instructions | from_template\
+      \ }}\"\n}\n\nContext Provider Example:\n{\n  \"name\": \"vibey-workflow\",\n\
+      \  \"type\": \"custom\",\n  \"config\": {\n    \"workflow\": \"{{ workflow.id\
+      \ }}\",\n    \"context\": \"{{ workflow.context }}\"\n  }\n}\n\nValidation:\n\
+      - Test in VS Code\n- Test in IntelliJ IDEA\n- Test in PyCharm\n- Verify context\
+      \ providers load\n- Ensure commands execute correctly\n\nTimeline: Q3 2025 (after\
+      \ Aider port)\n"

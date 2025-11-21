@@ -10,7 +10,7 @@ sprint:
   completed: null
   estimated_duration: 1 week
   progress:
-    tasks_total: 6
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   tasks:
@@ -40,7 +40,7 @@ sprint:
     threshold: 90
     blocking: true
     status: not_run
-    description: ">90% code coverage for platform context system"
+    description: '>90% code coverage for platform context system'
     score: null
   - name: Documentation Complete
     threshold: 100

@@ -1,155 +1,63 @@
 task:
   id: roadmap-integrity-fixes-10-task-007
-  name: Validate all documentation properly organized
   sprint_id: roadmap-integrity-fixes-10
   track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Validate all documentation properly organized
+  description: "Run comprehensive validation and verify 100% documentation organization\
+    \ compliance.\n\nGOAL: Confirm all documentation properly organized and accessible\n\
+    \nVALIDATION STEPS:\n\n1. Run documentation organization validator:\n   ```bash\n\
+    \   python3 scripts/validate-documentation-organization.py > validation-report.txt\n\
+    \   ```\n\n2. Check results:\n   - 0 errors (REQUIRED)\n   - < 5 warnings (ACCEPTABLE)\n\
+    \   - All documentation categorized correctly\n\n3. Run health dashboard:\n  \
+    \ ```bash\n   python3 scripts/roadmap-health-dashboard.py\n   ```\n\n4. Verify\
+    \ documentation score:\n   - Documentation Organization: 95+/100\n   - No critical\
+    \ issues\n   - All context/ directories populated\n\n5. Manual spot checks:\n\
+    \   - Verify 5 random context docs in correct locations\n   - Verify 5 random\
+    \ project docs in docs/\n   - Test 10 random documentation links\n   - Confirm\
+    \ no broken references\n\n6. Create validation report:\n\n   ```markdown\n   #\
+    \ Documentation Organization Validation Report\n   Date: 2025-11-20\n   Sprint:\
+    \ roadmap-integrity-fixes-10\n\n   ## Automated Validation\n\n   ### Documentation\
+    \ Organization Script\n   - Errors: 0\n   - Warnings: X\n   - Compliance: 100%\n\
+    \n   ### Health Dashboard Score\n   - Documentation Organization: XX/100\n   -\
+    \ Overall Health: XX/100\n\n   ## Manual Verification\n\n   ### Context Documentation\
+    \ Spot Checks\n   | File | Location | ✓ |\n   |------|----------|---|\n   | SCHEMA_AUDIT_REPORT.md\
+    \ | sprint-8/context/ | ✓ |\n   | ... | ... | ... |\n\n   ### Project Documentation\
+    \ Spot Checks\n   | File | Location | ✓ |\n   |------|----------|---|\n   | QUICK_START.md\
+    \ | docs/getting-started/ | ✓ |\n   | ... | ... | ... |\n\n   ### Link Validation\n\
+    \   - Total links checked: X\n   - Broken links: 0\n   - All links functional:\
+    \ ✓\n\n   ## Statistics\n\n   - Total .md files: X\n   - Context documentation:\
+    \ Y (Z%)\n   - Project documentation: A (B%)\n   - Properly organized: 100%\n\n\
+    \   ## Success Criteria\n\n   ✅ 0 errors in automated validation\n   ✅ Documentation\
+    \ score 95+/100\n   ✅ All spot checks passed\n   ✅ No broken links found\n   ✅\
+    \ 100% compliance achieved\n\n   ## Recommendations\n\n   - Maintain documentation\
+    \ organization standards\n   - Run validation before each commit\n   - Add to\
+    \ CI/CD pipeline\n   - Periodic audits (quarterly)\n   ```\n\n7. Update health\
+    \ dashboard:\n   - Confirm new documentation score visible\n   - Verify metrics\
+    \ accurate\n   - Check trend over time\n\n8. Final commit:\n   ```bash\n   git\
+    \ add .\n   git commit -m \"feat: Complete documentation organization sprint\n\
+    \n   - Audited and categorized all documentation files\n   - Created context/\
+    \ directories in roadmap structure\n   - Migrated analysis/report files to proper\
+    \ locations\n   - Implemented validation tooling\n   - Updated contribution guidelines\n\
+    \   - Achieved 100% documentation organization compliance\n\n   Sprint: roadmap-integrity-fixes-10\n\
+    \   Health Score: XX/100 → YY/100\n   Documentation Score: 95+/100\n   \"\n  \
+    \ ```\n\nSUCCESS CRITERIA:\n- Validation script reports 0 errors\n- Documentation\
+    \ score 95+/100\n- All spot checks pass\n- No broken links\n- Health dashboard\
+    \ updated\n- Validation report created\n- Final commit made\n"
   status: not_started
-  type: development
-  priority: high
-  created: '2025-11-20T01:00:00.000000+00:00'
+  blocked: false
+  created: '2025-11-20T01:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 1 hour
-  actual_duration: null
-  description: |
-    Run comprehensive validation and verify 100% documentation organization compliance.
-
-    GOAL: Confirm all documentation properly organized and accessible
-
-    VALIDATION STEPS:
-
-    1. Run documentation organization validator:
-       ```bash
-       python3 scripts/validate-documentation-organization.py > validation-report.txt
-       ```
-
-    2. Check results:
-       - 0 errors (REQUIRED)
-       - < 5 warnings (ACCEPTABLE)
-       - All documentation categorized correctly
-
-    3. Run health dashboard:
-       ```bash
-       python3 scripts/roadmap-health-dashboard.py
-       ```
-
-    4. Verify documentation score:
-       - Documentation Organization: 95+/100
-       - No critical issues
-       - All context/ directories populated
-
-    5. Manual spot checks:
-       - Verify 5 random context docs in correct locations
-       - Verify 5 random project docs in docs/
-       - Test 10 random documentation links
-       - Confirm no broken references
-
-    6. Create validation report:
-
-       ```markdown
-       # Documentation Organization Validation Report
-       Date: 2025-11-20
-       Sprint: roadmap-integrity-fixes-10
-
-       ## Automated Validation
-
-       ### Documentation Organization Script
-       - Errors: 0
-       - Warnings: X
-       - Compliance: 100%
-
-       ### Health Dashboard Score
-       - Documentation Organization: XX/100
-       - Overall Health: XX/100
-
-       ## Manual Verification
-
-       ### Context Documentation Spot Checks
-       | File | Location | ✓ |
-       |------|----------|---|
-       | SCHEMA_AUDIT_REPORT.md | sprint-8/context/ | ✓ |
-       | ... | ... | ... |
-
-       ### Project Documentation Spot Checks
-       | File | Location | ✓ |
-       |------|----------|---|
-       | QUICK_START.md | docs/getting-started/ | ✓ |
-       | ... | ... | ... |
-
-       ### Link Validation
-       - Total links checked: X
-       - Broken links: 0
-       - All links functional: ✓
-
-       ## Statistics
-
-       - Total .md files: X
-       - Context documentation: Y (Z%)
-       - Project documentation: A (B%)
-       - Properly organized: 100%
-
-       ## Success Criteria
-
-       ✅ 0 errors in automated validation
-       ✅ Documentation score 95+/100
-       ✅ All spot checks passed
-       ✅ No broken links found
-       ✅ 100% compliance achieved
-
-       ## Recommendations
-
-       - Maintain documentation organization standards
-       - Run validation before each commit
-       - Add to CI/CD pipeline
-       - Periodic audits (quarterly)
-       ```
-
-    7. Update health dashboard:
-       - Confirm new documentation score visible
-       - Verify metrics accurate
-       - Check trend over time
-
-    8. Final commit:
-       ```bash
-       git add .
-       git commit -m "feat: Complete documentation organization sprint
-
-       - Audited and categorized all documentation files
-       - Created context/ directories in roadmap structure
-       - Migrated analysis/report files to proper locations
-       - Implemented validation tooling
-       - Updated contribution guidelines
-       - Achieved 100% documentation organization compliance
-
-       Sprint: roadmap-integrity-fixes-10
-       Health Score: XX/100 → YY/100
-       Documentation Score: 95+/100
-       "
-       ```
-
-    SUCCESS CRITERIA:
-    - Validation script reports 0 errors
-    - Documentation score 95+/100
-    - All spot checks pass
-    - No broken links
-    - Health dashboard updated
-    - Validation report created
-    - Final commit made
-
-  acceptance_criteria:
-  - Automated validation passes (0 errors)
-  - Documentation score 95+/100
-  - All manual spot checks passed
-  - No broken documentation links
-  - Validation report comprehensive
-  - Health dashboard updated
-  - Sprint successfully completed
-
-  deliverables:
-  - type: documentation
-    paths:
-    - .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/VALIDATION_REPORT.md
-
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies:
   - type: task
     target_id: roadmap-integrity-fixes-10-task-001
@@ -175,11 +83,16 @@ task:
     target_id: roadmap-integrity-fixes-10-task-006
     target_status: completed
     reason: Need guidelines documented
-
-  blocked_by: []
   blocks: []
-  assigned_agent: web-developer
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/VALIDATION_REPORT.md
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T01:00:00.000000+00:00'
+    last_updated: '2025-11-20T01:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

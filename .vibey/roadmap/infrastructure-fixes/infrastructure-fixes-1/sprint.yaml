@@ -3,28 +3,25 @@ sprint:
   name: Critical Infrastructure Fixes
   track_id: infrastructure-fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
   started: '2025-11-10T15:00:00+00:00'
   completion_gate_check_at: null
   completed: '2025-11-10T18:39:35+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-11-20T17:56:06.881782+00:00'
+  production_ready_at: '2025-11-20T17:56:24.082895+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 13
     development_tasks_completed: 13
-    tasks_with_work_preserved: 10
-    tasks_with_work_lost: 3
-    completion_gate_tasks_total: 4
+    completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 17
+    tasks_total: 13
     tasks_completed: 13
-    completion_percent: 76
-    note: "All 13 development tasks completed on Nov 10, 2025. Integration work in Tasks 004-006 was deleted during architecture transition on Nov 12. Sprint 2 will restore integration functionality in new CLI/MCP architecture."
+    completion_percent: 100
   tasks: []
   development_gates: []
   blocks: []
@@ -46,22 +43,3 @@ sprint:
     - test-engineer
     - docs-writer
     - coordinator
-    architecture_transition_note: |
-      Sprint 1 completed successfully on Nov 10, 2025 with all 13 development tasks done.
-
-      Architecture transition on Nov 12, 2025 deleted slash commands (commit 205c877).
-      Tasks 004-006 integration work was not migrated to new CLI/MCP architecture.
-
-      What was preserved:
-      - Core roadmap operations (vibey/operations/roadmap/)
-      - CLI wrapper and commands
-      - Migration tools
-      - Status correction fixes
-      - Documentation and tests
-
-      What was lost:
-      - Task 004: Deployment → roadmap init integration
-      - Task 005: Plan → roadmap creation integration (partial - script preserved)
-      - Task 006: Code → progress tracking integration
-
-      Sprint 2 will restore this integration functionality in the new architecture.

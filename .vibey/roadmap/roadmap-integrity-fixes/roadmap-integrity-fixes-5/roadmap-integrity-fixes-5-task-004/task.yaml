@@ -5,68 +5,35 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Verify all tracks use hierarchical structure correctly
-  description: |
-    Audit all tracks to ensure they follow the hierarchical directory structure
-    pattern consistently.
-
-    Hierarchical Structure Standard:
-    ```
-    .vibey/roadmap/
-    └── {track-id}/
-        ├── track.yaml
-        ├── {sprint-id}/
-        │   ├── sprint.yaml
-        │   └── {task-id}/
-        │       └── task.yaml
-        ```
-
-    Verification Checks:
-    1. Track level:
-       - track.yaml exists
-       - All fields present and valid
-       - Sprint list matches directories
-
-    2. Sprint level:
-       - Sprint directories match track.yaml declarations
-       - sprint.yaml exists in each directory
-       - Task count matches actual task directories
-       - No embedded tasks in sprint.yaml (allowed but flag for review)
-
-    3. Task level:
-       - Task directories follow naming convention
-       - task.yaml exists in each directory
-       - Task IDs consistent with directory names
-       - All required fields present
-
-    4. Structural Issues to Check:
-       - No flat structure remnants
-       - No nested .vibey directories
-       - No orphaned files
-       - Consistent naming conventions
-       - Proper file permissions
-
-    5. Pattern Variations:
-       - Identify tracks using embedded tasks pattern
-       - Document which tracks use which pattern
-       - Recommend migration to hierarchical if needed
-
-    Deliverables:
-    - Structural audit report for all 19 tracks
-    - List of structural issues found
-    - Corrections applied
-    - Pattern usage documentation
-    - Recommendations for standardization
-  status: not_started
+  description: "Audit all tracks to ensure they follow the hierarchical directory\
+    \ structure\npattern consistently.\n\nHierarchical Structure Standard:\n```\n\
+    .vibey/roadmap/\n└── {track-id}/\n    ├── track.yaml\n    ├── {sprint-id}/\n \
+    \   │   ├── sprint.yaml\n    │   └── {task-id}/\n    │       └── task.yaml\n \
+    \   ```\n\nVerification Checks:\n1. Track level:\n   - track.yaml exists\n   -\
+    \ All fields present and valid\n   - Sprint list matches directories\n\n2. Sprint\
+    \ level:\n   - Sprint directories match track.yaml declarations\n   - sprint.yaml\
+    \ exists in each directory\n   - Task count matches actual task directories\n\
+    \   - No embedded tasks in sprint.yaml (allowed but flag for review)\n\n3. Task\
+    \ level:\n   - Task directories follow naming convention\n   - task.yaml exists\
+    \ in each directory\n   - Task IDs consistent with directory names\n   - All required\
+    \ fields present\n\n4. Structural Issues to Check:\n   - No flat structure remnants\n\
+    \   - No nested .vibey directories\n   - No orphaned files\n   - Consistent naming\
+    \ conventions\n   - Proper file permissions\n\n5. Pattern Variations:\n   - Identify\
+    \ tracks using embedded tasks pattern\n   - Document which tracks use which pattern\n\
+    \   - Recommend migration to hierarchical if needed\n\nDeliverables:\n- Structural\
+    \ audit report for all 19 tracks\n- List of structural issues found\n- Corrections\
+    \ applied\n- Pattern usage documentation\n- Recommendations for standardization\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:27:56.532683+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null
   estimated_tokens: 6000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
@@ -75,9 +42,15 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables:
-  - Structural audit report
-  - Corrections applied
-  - Pattern usage documentation
+  - type: code
+    paths:
+    - Structural audit report
+  - type: code
+    paths:
+    - Corrections applied
+  - type: code
+    paths:
+    - Pattern usage documentation
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

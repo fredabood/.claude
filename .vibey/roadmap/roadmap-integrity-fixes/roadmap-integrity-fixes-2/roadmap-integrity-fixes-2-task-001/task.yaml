@@ -5,133 +5,93 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Forensic audit of standards-system track
-  description: |
-    Perform comprehensive forensic audit of standards-system track to determine
-    actual completion status vs YAML claims.
-
-    YAML Claims:
-    - 6 sprints, 51 tasks total
-    - All tasks marked complete (100%)
-    - Uses tasks_summary (text) instead of task objects
-    - Track status: completed
-
-    Investigation Steps:
-
-    1. Backup Archive Analysis (PRIORITY 1)
-       - Check .vibey/hierarchical-migration-backups/backup_20251109_171311/
-       - Look for standards-system files in old flat structure
-       - Check tracks/standards-system.yaml if exists
-       - Check sprints/standards-system-*.yaml if exists
-       - Check tasks/standards-system-*-tasks.yaml if exists
-       - Extract task completion records from old format
-       - Compare old backup data vs current YAML claims
-       - Verify migration preserved all completion data
-
-    2. Git History Analysis
-       - Search for commits with keywords: "standard", "standards-system"
-       - Find commits modifying vibey/roadmap/models/standard.py
-       - Find commits adding standards fields to models
-       - Extract commit SHAs, messages, dates, file changes
-       - Count lines added/modified related to standards
-       - Cross-reference commits with backup timestamps
-       - Map commits to specific tasks they implement
-
-    3. Codebase Audit
-       - Check if vibey/roadmap/models/standard.py exists
-       - Check if Standard dataclass is implemented
-       - Check if Roadmap/Track/Sprint models have standards field
-       - Verify YAML loader handles standards
-       - Verify YAML dumper handles standards
-       - Count actual lines of standards-related code
-
-    4. Documentation Audit
-       - Search for standards system documentation
-       - Check for design docs or implementation plans
-       - Find references to standards in docs/
-       - Verify deliverable documentation exists
-
-    5. Test Suite Audit
-       - Search for test files testing standards
-       - Check test_standard_model.py existence
-       - Count standards-related test cases
-       - Verify tests are passing
-       - Check test coverage for standards code
-
-    6. Migration Verification
-       - Compare backup data vs current hierarchical structure
-       - Verify all completed tasks from old format were preserved
-       - Check if any task completion records were lost during migration
-       - Verify progress counters accurately migrated
-       - Identify any data loss or corruption during migration
-
-    7. Cross-Reference Analysis
-       - Compare git commits to claimed tasks (51)
-       - Map code files to claimed deliverables
-       - Determine if 51 tasks is accurate count
-       - Calculate real completion percentage based on ALL evidence
-       - Verify quality gates actually passed
-       - Reconcile backup data vs current data vs git history
-
-    8. Commit Backfilling (Git Tracking System Integration)
-       - For each identified commit related to standards-system work:
-         * Determine which task it implements
-         * Add commit SHA to that task's commits: [] field in task.yaml
-         * Update task metadata with commit backfill timestamp
-       - Create audit trail of commit-to-task mappings
-       - Verify all commits accounted for in task files
-       - Update task completion dates based on commit timestamps if needed
-       - Document any commits that cannot be mapped to specific tasks
-
-    Acceptance Criteria:
-    - All 8 investigation steps completed
-    - Backup archive evidence reviewed and documented
-    - Git history documented (commits, dates, changes)
-    - All identified commits mapped to specific tasks
-    - Commits backfilled into task.yaml files (commits: [] field)
-    - Codebase evidence cataloged (files, lines, features)
-    - Documentation evidence cataloged
-    - Test evidence cataloged
-    - Cross-reference analysis shows claimed vs actual
-    - Accurate completion percentage calculated
-    - Recommended status determined (completed/in_progress/not_started)
-    - Evidence-based assessment documented
-    - Git tracking system populated with commit evidence
-
-    Deliverables:
-    - Forensic audit report for standards-system (markdown, 1000+ lines)
-    - Git history analysis section
-    - Commit-to-task mapping document
-    - Updated task.yaml files with commits backfilled
-    - Codebase evidence section
-    - Documentation evidence section
-    - Test evidence section
-    - Cross-reference analysis
-    - Accurate status recommendation
-    - Git tracking system integration verification
-  status: not_started
+  description: "Perform comprehensive forensic audit of standards-system track to\
+    \ determine\nactual completion status vs YAML claims.\n\nYAML Claims:\n- 6 sprints,\
+    \ 51 tasks total\n- All tasks marked complete (100%)\n- Uses tasks_summary (text)\
+    \ instead of task objects\n- Track status: completed\n\nInvestigation Steps:\n\
+    \n1. Backup Archive Analysis (PRIORITY 1)\n   - Check .vibey/hierarchical-migration-backups/backup_20251109_171311/\n\
+    \   - Look for standards-system files in old flat structure\n   - Check tracks/standards-system.yaml\
+    \ if exists\n   - Check sprints/standards-system-*.yaml if exists\n   - Check\
+    \ tasks/standards-system-*-tasks.yaml if exists\n   - Extract task completion\
+    \ records from old format\n   - Compare old backup data vs current YAML claims\n\
+    \   - Verify migration preserved all completion data\n\n2. Git History Analysis\n\
+    \   - Search for commits with keywords: \"standard\", \"standards-system\"\n \
+    \  - Find commits modifying vibey/roadmap/models/standard.py\n   - Find commits\
+    \ adding standards fields to models\n   - Extract commit SHAs, messages, dates,\
+    \ file changes\n   - Count lines added/modified related to standards\n   - Cross-reference\
+    \ commits with backup timestamps\n   - Map commits to specific tasks they implement\n\
+    \n3. Codebase Audit\n   - Check if vibey/roadmap/models/standard.py exists\n \
+    \  - Check if Standard dataclass is implemented\n   - Check if Roadmap/Track/Sprint\
+    \ models have standards field\n   - Verify YAML loader handles standards\n   -\
+    \ Verify YAML dumper handles standards\n   - Count actual lines of standards-related\
+    \ code\n\n4. Documentation Audit\n   - Search for standards system documentation\n\
+    \   - Check for design docs or implementation plans\n   - Find references to standards\
+    \ in docs/\n   - Verify deliverable documentation exists\n\n5. Test Suite Audit\n\
+    \   - Search for test files testing standards\n   - Check test_standard_model.py\
+    \ existence\n   - Count standards-related test cases\n   - Verify tests are passing\n\
+    \   - Check test coverage for standards code\n\n6. Migration Verification\n  \
+    \ - Compare backup data vs current hierarchical structure\n   - Verify all completed\
+    \ tasks from old format were preserved\n   - Check if any task completion records\
+    \ were lost during migration\n   - Verify progress counters accurately migrated\n\
+    \   - Identify any data loss or corruption during migration\n\n7. Cross-Reference\
+    \ Analysis\n   - Compare git commits to claimed tasks (51)\n   - Map code files\
+    \ to claimed deliverables\n   - Determine if 51 tasks is accurate count\n   -\
+    \ Calculate real completion percentage based on ALL evidence\n   - Verify quality\
+    \ gates actually passed\n   - Reconcile backup data vs current data vs git history\n\
+    \n8. Commit Backfilling (Git Tracking System Integration)\n   - For each identified\
+    \ commit related to standards-system work:\n     * Determine which task it implements\n\
+    \     * Add commit SHA to that task's commits: [] field in task.yaml\n     * Update\
+    \ task metadata with commit backfill timestamp\n   - Create audit trail of commit-to-task\
+    \ mappings\n   - Verify all commits accounted for in task files\n   - Update task\
+    \ completion dates based on commit timestamps if needed\n   - Document any commits\
+    \ that cannot be mapped to specific tasks\n\nAcceptance Criteria:\n- All 8 investigation\
+    \ steps completed\n- Backup archive evidence reviewed and documented\n- Git history\
+    \ documented (commits, dates, changes)\n- All identified commits mapped to specific\
+    \ tasks\n- Commits backfilled into task.yaml files (commits: [] field)\n- Codebase\
+    \ evidence cataloged (files, lines, features)\n- Documentation evidence cataloged\n\
+    - Test evidence cataloged\n- Cross-reference analysis shows claimed vs actual\n\
+    - Accurate completion percentage calculated\n- Recommended status determined (completed/in_progress/not_started)\n\
+    - Evidence-based assessment documented\n- Git tracking system populated with commit\
+    \ evidence\n\nDeliverables:\n- Forensic audit report for standards-system (markdown,\
+    \ 1000+ lines)\n- Git history analysis section\n- Commit-to-task mapping document\n\
+    - Updated task.yaml files with commits backfilled\n- Codebase evidence section\n\
+    - Documentation evidence section\n- Test evidence section\n- Cross-reference analysis\n\
+    - Accurate status recommendation\n- Git tracking system integration verification\n"
+  status: completed
   blocked: false
   created: '2025-11-12T19:45:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:26:43.587642+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 8000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - roadmap-integrity-fixes-1-task-005
+  - type: task
+    target_id: roadmap-integrity-fixes-1-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables:
-  - Forensic audit report: standards-system
-  - Git history analysis
-  - Codebase evidence inventory
-  - Accurate completion determination
+  - type: code
+    paths:
+    - 'Forensic audit report: standards-system'
+  - type: code
+    paths:
+    - Git history analysis
+  - type: code
+    paths:
+    - Codebase evidence inventory
+  - type: code
+    paths:
+    - Accurate completion determination
   commits: []
   metadata:
     last_updated: '2025-11-12T19:45:00+00:00'

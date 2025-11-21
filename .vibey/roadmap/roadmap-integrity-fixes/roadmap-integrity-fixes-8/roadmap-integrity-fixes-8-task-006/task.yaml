@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-8-task-006
-  name: Update Pydantic models for compatibility
   sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
-  status: not_started
-  type: development
-  priority: medium
-  created: '2025-11-20T00:17:11.817452+00:00'
-  started: null
-  completed: null
-  estimated_duration: 2 hours
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update Pydantic models for compatibility
   description: "Update Pydantic models based on schema validation learnings.\n\nReview:\n\
     1. Which validation failures revealed model issues?\n2. Should model change or\
     \ data change?\n3. Backward compatibility needed?\n\nPotential updates:\n- Make\
@@ -21,12 +15,28 @@ task:
     \  - Required fields\n  - Nested structure\n\nvibey/roadmap/models/track.py:\n\
     \  - sprint_id field\n  - Dependencies structure\n\nTesting:\n- All 435 files\
     \ load without errors\n- Type safety maintained\n- Backward compatibility verified\n"
-  acceptance_criteria:
-  - Models load all 435 files
-  - Backward compatibility maintained
-  - Type safety preserved
-  - Breaking changes documented
-  - Tests updated and passing
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.817452+00:00'
+  started: null
+  completed: '2025-11-20T20:11:14.306137+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-005
+    target_status: completed
+    reason: Understand all validation patterns
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: code
     paths:
@@ -37,15 +47,8 @@ task:
   - type: documentation
     paths:
     - docs/development/MODEL_CHANGES_V2.1.md
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-8-task-005
-    target_status: completed
-    reason: Understand all validation patterns
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:17:11.817465+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -5,73 +5,58 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add referential integrity checks
-  description: |
-    Implement validation logic to detect referential integrity violations.
-
-    Validation Rules:
-
-    1. Sprint References:
-       - All sprints declared in track.yaml MUST exist on disk
-       - All sprint directories MUST be declared in track.yaml
-       - Sprint IDs in sprint.yaml MUST match directory names
-
-    2. Task References:
-       - All tasks referenced in sprint.yaml MUST exist on disk
-       - All task directories MUST be referenced (or embedded pattern)
-       - Task IDs in task.yaml MUST match directory names
-
-    3. Dependency References:
-       - All depends_on references MUST point to existing tracks/sprints/tasks
-       - All blocks references MUST point to existing tracks/sprints/tasks
-       - All blocked_by references MUST have reciprocal blocks entry
-       - Dependency cycles MUST be detected and flagged
-
-    4. Track References:
-       - All tracks in roadmap.yaml MUST have directories
-       - All track directories MUST be in roadmap.yaml
-       - Track IDs MUST be consistent
-
-    5. ID Consistency:
-       - Track ID in track.yaml matches directory name
-       - Sprint ID in sprint.yaml matches directory name
-       - Task ID in task.yaml matches directory name
-       - IDs follow naming convention: {parent-id}-{number}
-
-    Implementation:
-    - Create referential integrity validation functions
-    - Check all reference types (tracks, sprints, tasks)
-    - Detect orphaned objects
-    - Detect missing objects
-    - Comprehensive test coverage
-
-    Deliverables:
-    - Referential integrity validation logic
-    - Test suite
-    - Documentation of validation rules
-  status: not_started
+  description: "Implement validation logic to detect referential integrity violations.\n\
+    \nValidation Rules:\n\n1. Sprint References:\n   - All sprints declared in track.yaml\
+    \ MUST exist on disk\n   - All sprint directories MUST be declared in track.yaml\n\
+    \   - Sprint IDs in sprint.yaml MUST match directory names\n\n2. Task References:\n\
+    \   - All tasks referenced in sprint.yaml MUST exist on disk\n   - All task directories\
+    \ MUST be referenced (or embedded pattern)\n   - Task IDs in task.yaml MUST match\
+    \ directory names\n\n3. Dependency References:\n   - All depends_on references\
+    \ MUST point to existing tracks/sprints/tasks\n   - All blocks references MUST\
+    \ point to existing tracks/sprints/tasks\n   - All blocked_by references MUST\
+    \ have reciprocal blocks entry\n   - Dependency cycles MUST be detected and flagged\n\
+    \n4. Track References:\n   - All tracks in roadmap.yaml MUST have directories\n\
+    \   - All track directories MUST be in roadmap.yaml\n   - Track IDs MUST be consistent\n\
+    \n5. ID Consistency:\n   - Track ID in track.yaml matches directory name\n   -\
+    \ Sprint ID in sprint.yaml matches directory name\n   - Task ID in task.yaml matches\
+    \ directory name\n   - IDs follow naming convention: {parent-id}-{number}\n\n\
+    Implementation:\n- Create referential integrity validation functions\n- Check\
+    \ all reference types (tracks, sprints, tasks)\n- Detect orphaned objects\n- Detect\
+    \ missing objects\n- Comprehensive test coverage\n\nDeliverables:\n- Referential\
+    \ integrity validation logic\n- Test suite\n- Documentation of validation rules\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:28:09.578530+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 6000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - roadmap-integrity-fixes-6-task-001
+  - type: task
+    target_id: roadmap-integrity-fixes-6-task-001
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by:
   - roadmap-integrity-fixes-6-task-001
   deliverables:
-  - Referential integrity validation logic
-  - Test suite
-  - Validation rules documentation
+  - type: code
+    paths:
+    - Referential integrity validation logic
+  - type: code
+    paths:
+    - Test suite
+  - type: code
+    paths:
+    - Validation rules documentation
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

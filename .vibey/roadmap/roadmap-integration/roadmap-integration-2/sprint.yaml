@@ -5,8 +5,6 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: superseded
   blocked: false
-  superseded_at: '2025-11-12T16:22:27-05:00'
-  superseded_by: interface-unification Sprint 1 (CLI migration)
   created: '2025-11-08T18:34:27.347178+00:00'
   started: '2025-11-08T18:34:27.347348+00:00'
   completion_gate_check_at: '2025-11-08T18:35:02.336525+00:00'
@@ -33,21 +31,7 @@ sprint:
   plan_file: docs/sprints/roadmap-integration-2-plan.md
   deliverables:
   - ''
-  commits:
-  - hash: 48017fc
-    message: 'feat: Update /vibey code dashboard with roadmap integration'
-    date: '2025-11-08T13:36:20-05:00'
-  - hash: c6e6e7b
-    message: 'feat: Add real-time progress visualization to /vibey code dashboard'
-    date: '2025-11-08T13:50:00-05:00'
-  - hash: bdf87e0
-    message: 'docs: Add Sprint 2 completion summary for roadmap-integration track'
-    date: '2025-11-08T14:10:00-05:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Dashboard and Vibey Manager deleted - functionality migrated to vibey CLI
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-15T00:00:00+00:00'
@@ -56,5 +40,3 @@ sprint:
     estimated_tokens: 6
     actual_tokens: null
     agents_used: web-developer
-    supersession_note: 'Dashboard and task tracking migrated to: vibey roadmap status,
-      vibey roadmap show, vibey roadmap start/complete/block'

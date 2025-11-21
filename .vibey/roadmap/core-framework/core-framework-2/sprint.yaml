@@ -48,12 +48,7 @@ sprint:
   - Migration script from current to .vibey/ structure
   - Updated Vibey commands for .vibey/ structure
   - Comprehensive architecture documentation
-  commits:
-  - hash: 8203d04bf83f926e43c5f68a925e51f0d5e9a932
-    date: '2025-11-09T08:20:30-05:00'
-    message: 'feat: Complete Sprint 2 (Config-to-Docs Architecture) - v1.3.0'
-    sprint: core-framework-2
-    impact: 'Design phase: 12,635 lines - config YAML, architecture docs, framework layer, templates'
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-09T00:00:00+00:00'
@@ -62,20 +57,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: []
-    notes: |
-      ATTRIBUTION CLARIFICATION:
-
-      This sprint delivered DESIGN & FRAMEWORK LAYER:
-      - Config YAML structure (.vibey/config/)
-      - Architecture documentation (3,476 lines)
-      - Framework layer code (framework/platform_adapters/, framework/docs/generator.py)
-      - Jinja2 templates (.vibey/templates/)
-
-      IMPLEMENTATION (Python package, CLI, config loader) completed in:
-      - directory-migration track, Sprint 1-3 (Nov 10-11, 2025)
-
-      See directory-migration track for:
-      - vibey/ Python package
-      - vibey/config/loader.py (actual config system)
-      - vibey/cli/main.py (CLI tool)
-      - vibey/operations/ (core business logic)

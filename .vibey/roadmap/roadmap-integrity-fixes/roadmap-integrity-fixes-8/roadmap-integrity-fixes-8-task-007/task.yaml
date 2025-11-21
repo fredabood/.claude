@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-8-task-007
-  name: Add schema validation to CI/CD
   sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
-  status: not_started
-  type: development
-  priority: high
-  created: '2025-11-20T00:17:11.820692+00:00'
-  started: null
-  completed: null
-  estimated_duration: 1 hour
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add schema validation to CI/CD
   description: "Add blocking schema validation to GitHub Actions.\n\nUpdate .github/workflows/roadmap-validation.yml:\n\
     \nAdd step (no continue-on-error):\n  - name: Schema validation (BLOCKING)\n \
     \   run: |\n      python scripts/validate-roadmap-schema.py --strict\n      if\
@@ -22,12 +16,28 @@ task:
     $score < 90\" | bc -l) )); then\n        echo \"⚠️ Health score below 90: $score\"\
     \n        exit 1\n      fi\n\nResult:\n- PRs blocked on schema violations\n- Health\
     \ score degradation caught early\n- Automated validation on every push\n"
-  acceptance_criteria:
-  - CI/CD runs schema validation
-  - Validation failures block merge
-  - Health score check included
-  - Clear error messages
-  - Documentation updated
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.820692+00:00'
+  started: null
+  completed: '2025-11-20T20:11:14.787267+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-005
+    target_status: completed
+    reason: Ensure validation passes first
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: config
     paths:
@@ -35,15 +45,8 @@ task:
   - type: documentation
     paths:
     - docs/development/CI_SCHEMA_VALIDATION.md
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-8-task-005
-    target_status: completed
-    reason: Ensure validation passes first
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:17:11.820709+00:00'
+    token_efficiency: null
+    duration_hours: null

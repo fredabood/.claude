@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-8-task-001
-  name: Audit schema validation failures
   sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
-  status: completed
-  type: development
-  priority: critical
-  created: '2025-11-20T00:17:11.800620+00:00'
-  started: null
-  completed: '2025-11-20T00:32:44.292942+00:00'
-  estimated_duration: 2 hours
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit schema validation failures
   description: "Comprehensive audit of all 414 schema validation failures.\n\nRun\
     \ validate-roadmap-schema.py and categorize failures:\n\n1. Missing required fields\
     \ (47 critical)\n   - sprint_id missing from track.yaml\n   - title missing from\
@@ -21,12 +15,24 @@ task:
     \ - Propose fix strategy\n\nOutput: SCHEMA_AUDIT_REPORT_2025-11-20.md with:\n\
     - Error categorization\n- File-by-file breakdown\n- Fix strategy per category\n\
     - Estimated effort per pattern\n"
-  acceptance_criteria:
-  - All 414 failures categorized
-  - Error patterns identified
-  - Fix strategy documented
-  - Effort estimates provided
-  - Report includes example fixes
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.800620+00:00'
+  started: null
+  completed: '2025-11-20T00:32:44.292942+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: documentation
     paths:
@@ -34,11 +40,8 @@ task:
   - type: documentation
     paths:
     - SCHEMA_FIX_STRATEGY.md
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:32:44.292956+00:00'
+    token_efficiency: null
+    duration_hours: null

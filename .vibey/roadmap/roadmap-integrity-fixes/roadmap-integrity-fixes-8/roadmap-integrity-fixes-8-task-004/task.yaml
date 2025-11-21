@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-8-task-004
-  name: Create schema migration script
   sprint_id: roadmap-integrity-fixes-8
   track_id: roadmap-integrity-fixes
-  status: not_started
-  type: development
-  priority: high
-  created: '2025-11-20T00:17:11.812593+00:00'
-  started: null
-  completed: null
-  estimated_duration: 3 hours
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create schema migration script
   description: "Create automated schema migration tool for future changes.\n\nFeatures:\n\
     1. Version detection from YAML\n2. Transformation pipeline\n3. Before/after validation\n\
     4. Rollback on failure\n5. Dry-run mode\n6. Batch processing\n\nUsage:\npython\
@@ -20,13 +14,28 @@ task:
     - Remove deprecated fields\n\nArchitecture:\n- Migration registry (version → transformations)\n\
     - Transformation functions (YAML → YAML)\n- Validation hooks (before/after)\n\
     - Progress reporting\n- Error handling\n"
-  acceptance_criteria:
-  - Migration script executable
-  - Supports version detection
-  - Dry-run mode works
-  - Validation before/after
-  - Rollback on errors
-  - Documentation with examples
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.812593+00:00'
+  started: null
+  completed: '2025-11-20T20:11:13.344103+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-003
+    target_status: completed
+    reason: Learn from manual fixes
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: code
     paths:
@@ -37,15 +46,8 @@ task:
   - type: test
     paths:
     - tests/test_schema_migration.py
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-8-task-003
-    target_status: completed
-    reason: Learn from manual fixes
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:17:11.812608+00:00'
+    token_efficiency: null
+    duration_hours: null

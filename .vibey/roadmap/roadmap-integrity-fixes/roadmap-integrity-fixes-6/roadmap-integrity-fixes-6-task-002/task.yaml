@@ -5,69 +5,57 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add status/progress mismatch detection
-  description: |
-    Implement validation logic to detect status/progress mismatches.
-
-    Validation Rules:
-
-    1. Track Level:
-       - IF status == completed: progress.completion_percent MUST be 100
-       - IF status == in_progress: completion_percent MUST be 1-99
-       - IF status == not_started: completion_percent MUST be 0
-       - tasks_completed MUST be <= tasks_total
-       - sprints_completed MUST be <= sprints_total
-
-    2. Sprint Level:
-       - IF status == completed: completion_percent MUST be 100
-       - IF status == production_ready: completion_percent MUST be 100
-       - IF status == in_progress: completion_percent MUST be 1-99
-       - IF status == not_started: completion_percent MUST be 0
-       - tasks_completed MUST be <= tasks_total
-
-    3. Task Level:
-       - IF status == completed: completed timestamp MUST exist
-       - IF status == in_progress: started timestamp MUST exist
-       - IF status == not_started: both timestamps MUST be null
-
-    4. Progress Calculation Validation:
-       - Calculate expected completion_percent from actual task data
-       - Compare to declared completion_percent
-       - Flag if difference > 5%
-
-    Implementation:
-    - Create validation functions in vibey/operations/roadmap/validation.py
-    - Add comprehensive test cases
-    - Return structured validation results
-    - Include severity levels (error, warning)
-
-    Deliverables:
-    - Status/progress validation logic
-    - Test suite
-    - Documentation of validation rules
-  status: not_started
+  description: "Implement validation logic to detect status/progress mismatches.\n\
+    \nValidation Rules:\n\n1. Track Level:\n   - IF status == completed: progress.completion_percent\
+    \ MUST be 100\n   - IF status == in_progress: completion_percent MUST be 1-99\n\
+    \   - IF status == not_started: completion_percent MUST be 0\n   - tasks_completed\
+    \ MUST be <= tasks_total\n   - sprints_completed MUST be <= sprints_total\n\n\
+    2. Sprint Level:\n   - IF status == completed: completion_percent MUST be 100\n\
+    \   - IF status == production_ready: completion_percent MUST be 100\n   - IF status\
+    \ == in_progress: completion_percent MUST be 1-99\n   - IF status == not_started:\
+    \ completion_percent MUST be 0\n   - tasks_completed MUST be <= tasks_total\n\n\
+    3. Task Level:\n   - IF status == completed: completed timestamp MUST exist\n\
+    \   - IF status == in_progress: started timestamp MUST exist\n   - IF status ==\
+    \ not_started: both timestamps MUST be null\n\n4. Progress Calculation Validation:\n\
+    \   - Calculate expected completion_percent from actual task data\n   - Compare\
+    \ to declared completion_percent\n   - Flag if difference > 5%\n\nImplementation:\n\
+    - Create validation functions in vibey/operations/roadmap/validation.py\n- Add\
+    \ comprehensive test cases\n- Return structured validation results\n- Include\
+    \ severity levels (error, warning)\n\nDeliverables:\n- Status/progress validation\
+    \ logic\n- Test suite\n- Documentation of validation rules\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:28:08.940408+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 6000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - roadmap-integrity-fixes-6-task-001
+  - type: task
+    target_id: roadmap-integrity-fixes-6-task-001
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by:
   - roadmap-integrity-fixes-6-task-001
   deliverables:
-  - Status/progress validation logic
-  - Test suite
-  - Validation rules documentation
+  - type: code
+    paths:
+    - Status/progress validation logic
+  - type: code
+    paths:
+    - Test suite
+  - type: code
+    paths:
+    - Validation rules documentation
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

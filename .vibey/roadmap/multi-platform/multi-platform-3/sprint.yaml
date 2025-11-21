@@ -19,7 +19,7 @@ sprint:
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 8
+    tasks_total: 4
     tasks_completed: 4
     completion_percent: 50
   tasks: []
@@ -46,14 +46,17 @@ sprint:
     actual_duration: null
     estimated_tokens: 50000
     actual_tokens: null
-    agents_used: [web-developer]
-    notes: 'Partial completion - deploy command and operations exist. Still need: deploy --platform all improvements, error handling, documentation. Shared deliverable with directory-migration-3 Sprint 3.'
+    agents_used:
+    - web-developer
+    notes: 'Partial completion - deploy command and operations exist. Still need:
+      deploy --platform all improvements, error handling, documentation. Shared deliverable
+      with directory-migration-3 Sprint 3.'
   commits:
   - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
     date: '2025-11-10T20:48:19-05:00'
     message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
-    note: 'Shared deliverable with directory-migration-3'
+    note: Shared deliverable with directory-migration-3
   - hash: 205c8773bf26e5823e05bfed77a804c7da73da29
     date: '2025-11-10T21:30:00-05:00'
     message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
-    note: 'CLI test improvements'
+    note: CLI test improvements

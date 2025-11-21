@@ -8,14 +8,10 @@ track:
   created: '2025-11-05T00:00:00+00:00'
   started: '2025-11-05T12:00:00+00:00'
   completed: '2025-11-09T13:20:00+00:00'
-  superseded_at: '2025-11-15T20:00:00+00:00'
-  superseded_by:
-    track_id: directory-migration
-    reason: Merged for clarity - design and implementation unified in single track
   estimated_duration: 3 months
   progress:
     sprints_total: 2
-    sprints_completed: 2
+    sprints_completed: 0
     tasks_total: 20
     tasks_completed: 20
     completion_percent: 100
@@ -72,115 +68,47 @@ track:
   - 'Config-Driven Docs: Generate documentation from source of truth'
   - 'Roadmap State Permanence: .vibey/ never deleted, always available'
   - 'Adapter Pattern Ready: Enables Track 3 (Goose) and Track 4 (Multi-Platform)'
-  commits:
-  - hash: 978d6809b681ccfae2ae56aead09266c6b5b063a
-    date: '2025-11-08T10:25:04-05:00'
-    message: 'feat: Complete core-framework-3 sprint (Framework Polish & Refinements)'
-    sprint: core-framework-3
-  - hash: 8203d04bf83f926e43c5f68a925e51f0d5e9a932
-    date: '2025-11-09T08:20:30-05:00'
-    message: 'feat: Complete Sprint 2 (Config-to-Docs Architecture) - v1.3.0'
-    sprint: core-framework-2
+  commits: []
   standards: []
-  merged_into:
-    track_id: directory-migration
-    merged_at: '2025-11-15T20:00:00+00:00'
-    reason: |
-      Track merged into directory-migration for unified tracking.
-
-      Historical context: core-framework delivered design and framework layer (Nov 7-9),
-      while directory-migration delivered implementation (Nov 10-11). This separation
-      caused attribution confusion. Tracks merged to provide single source of truth.
-
-      Work delivered by core-framework:
-      - Sprint 3: RoadmapCache, CLI formatting, Vibey Manager (Nov 7-8)
-      - Sprint 2: Config architecture docs, framework layer design (Nov 9)
-
-      All deliverables exist and work correctly. Merge is for historical clarity only.
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T20:00:00+00:00'
-    merge_note: |
-      TRACK SUPERSEDED - Merged into directory-migration on 2025-11-15
-
-      This track is retained for historical reference but is no longer active.
-      All future updates should go to directory-migration track.
-
-      Reason for merge:
-      - Eliminated confusion between design vs implementation attribution
-      - Unified all platform-agnostic architecture work in single track
-      - Simplified dependency chain (1 track instead of 2)
-      - directory-migration now includes both design and implementation phases
-
-      See directory-migration track for complete unified history.
     design_doc: docs/development/PLATFORM_AGNOSTIC_ARCHITECTURE.md
     implementation_plan: docs/sprints/core-framework-2-plan.md
-    notes: |
-      Core framework improvements that set foundation for multi-platform architecture.
-
-      **ATTRIBUTION CLARIFICATION (2025-11-15 Data Integrity Audit):**
-
-      This track delivered DESIGN & FRAMEWORK LAYER (Nov 8-9, 2025):
-      - Sprint 3: RoadmapCache, CLI formatting, Vibey Manager enhancements (Nov 7-8) ✅ COMPLETE
-      - Sprint 2: Config architecture, documentation, framework layer (Nov 9) ✅ DESIGN COMPLETE
-      - Sprint 1: PHANTOM - Never implemented, absorbed into Sprint 2 ❌ REMOVED
-
-      IMPLEMENTATION completed in directory-migration track (Nov 10-11, 2025):
-      - Python package structure (vibey/)
-      - Config loader & models (vibey/config/loader.py, vibey/config/models.py)
-      - CLI tool (vibey/cli/main.py, vibey/cli/commands.py)
-      - Platform adapters (vibey/adapters/)
-      - Operations library (vibey/operations/)
-
-      **Work Division:**
-      - core-framework: Architectural design, framework foundation, documentation
-      - directory-migration: Python implementation, CLI, package structure
-
-      **Timeline:**
-      - Nov 7-8: Sprint 3 (RoadmapCache, polish) - core-framework ✅
-      - Nov 9: Sprint 2 (design docs, framework) - core-framework ✅
-      - Nov 10-11: Implementation (vibey package, CLI) - directory-migration ✅
-
-      All deliverables exist and work. Attribution corrected for historical accuracy.
-
-      **Key Insight:** Keep .vibey/ as permanent platform-agnostic home with two systems:
-
-      1. YAML (Roadmap System) - State tracking
-         - Sprint status, progress, dependencies
-         - Updated by roadmap CLI
-         - Machine-readable
-         - .vibey/roadmap/*.yaml
-
-      2. Markdown (Sprint Docs) - Rich context
-         - What to build, architecture decisions, learnings
-         - Iterated during development (NEVER regenerated)
-         - Human and AI readable
-         - .vibey/sprint_docs/*/
-
-      3. Platform Deployments - Generated artifacts
-         - .claude/, .goose/, .cursor/ (gitignored)
-         - Generated from .vibey/config/
-         - Tool-specific
-
-      Critical distinction:
-      - YAML tracks deterministic state (status, dependencies)
-      - Markdown provides accumulated context (never lost!)
-      - YAML links to Markdown (documentation.files.plan)
-      - Both committed to git, non-overlapping purposes
-
-      Sprint 2 (Config-to-Docs Architecture) builds:
-      - Permanent .vibey/ structure
-      - Sprint docs linking system (YAML references Markdown via documentation field)
-      - Context loading strategy (see CONTEXT_LOADING_STRATEGY.md)
-        * Dependency summaries (auto-generated)
-        * Task summaries (task-level context)
-        * Context modes (minimal/summary/full)
-        * Hierarchical loading (distance-based)
-        * 80-90% reduction in context size for complex dependencies
-      - Platform deployment generation
-      - Foundation for adapter pattern (Track 3 & 4)
-
-      Documentation:
-      - PLATFORM_AGNOSTIC_ARCHITECTURE.md - Overall architecture
-      - YAML_MARKDOWN_SEPARATION.md - Design principle
-      - CONTEXT_LOADING_STRATEGY.md - Context explosion mitigation
+    notes: "Core framework improvements that set foundation for multi-platform architecture.\n\
+      \n**ATTRIBUTION CLARIFICATION (2025-11-15 Data Integrity Audit):**\n\nThis track\
+      \ delivered DESIGN & FRAMEWORK LAYER (Nov 8-9, 2025):\n- Sprint 3: RoadmapCache,\
+      \ CLI formatting, Vibey Manager enhancements (Nov 7-8) \u2705 COMPLETE\n- Sprint\
+      \ 2: Config architecture, documentation, framework layer (Nov 9) \u2705 DESIGN\
+      \ COMPLETE\n- Sprint 1: PHANTOM - Never implemented, absorbed into Sprint 2\
+      \ \u274C REMOVED\n\nIMPLEMENTATION completed in directory-migration track (Nov\
+      \ 10-11, 2025):\n- Python package structure (vibey/)\n- Config loader & models\
+      \ (vibey/config/loader.py, vibey/config/models.py)\n- CLI tool (vibey/cli/main.py,\
+      \ vibey/cli/commands.py)\n- Platform adapters (vibey/adapters/)\n- Operations\
+      \ library (vibey/operations/)\n\n**Work Division:**\n- core-framework: Architectural\
+      \ design, framework foundation, documentation\n- directory-migration: Python\
+      \ implementation, CLI, package structure\n\n**Timeline:**\n- Nov 7-8: Sprint\
+      \ 3 (RoadmapCache, polish) - core-framework \u2705\n- Nov 9: Sprint 2 (design\
+      \ docs, framework) - core-framework \u2705\n- Nov 10-11: Implementation (vibey\
+      \ package, CLI) - directory-migration \u2705\n\nAll deliverables exist and work.\
+      \ Attribution corrected for historical accuracy.\n\n**Key Insight:** Keep .vibey/\
+      \ as permanent platform-agnostic home with two systems:\n\n1. YAML (Roadmap\
+      \ System) - State tracking\n   - Sprint status, progress, dependencies\n   -\
+      \ Updated by roadmap CLI\n   - Machine-readable\n   - .vibey/roadmap/*.yaml\n\
+      \n2. Markdown (Sprint Docs) - Rich context\n   - What to build, architecture\
+      \ decisions, learnings\n   - Iterated during development (NEVER regenerated)\n\
+      \   - Human and AI readable\n   - .vibey/sprint_docs/*/\n\n3. Platform Deployments\
+      \ - Generated artifacts\n   - .claude/, .goose/, .cursor/ (gitignored)\n   -\
+      \ Generated from .vibey/config/\n   - Tool-specific\n\nCritical distinction:\n\
+      - YAML tracks deterministic state (status, dependencies)\n- Markdown provides\
+      \ accumulated context (never lost!)\n- YAML links to Markdown (documentation.files.plan)\n\
+      - Both committed to git, non-overlapping purposes\n\nSprint 2 (Config-to-Docs\
+      \ Architecture) builds:\n- Permanent .vibey/ structure\n- Sprint docs linking\
+      \ system (YAML references Markdown via documentation field)\n- Context loading\
+      \ strategy (see CONTEXT_LOADING_STRATEGY.md)\n  * Dependency summaries (auto-generated)\n\
+      \  * Task summaries (task-level context)\n  * Context modes (minimal/summary/full)\n\
+      \  * Hierarchical loading (distance-based)\n  * 80-90% reduction in context\
+      \ size for complex dependencies\n- Platform deployment generation\n- Foundation\
+      \ for adapter pattern (Track 3 & 4)\n\nDocumentation:\n- PLATFORM_AGNOSTIC_ARCHITECTURE.md\
+      \ - Overall architecture\n- YAML_MARKDOWN_SEPARATION.md - Design principle\n\
+      - CONTEXT_LOADING_STRATEGY.md - Context explosion mitigation\n"

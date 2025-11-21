@@ -5,53 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Remove phantom claims and document actual state
-  description: |
-    If tasks 001-002 determine that standards-system and/or testing-system work
-    was NOT done, remove false completion claims and document honest state.
-
-    Conditional Task:
-    - ONLY run if task 001 or 002 recommends "remove claims"
-    - SKIP if both recommend "create tasks"
-
-    Process:
-    1. For standards-system (if applicable):
-       - Remove tasks_summary from sprint.yaml files
-       - Set tasks_completed: 0
-       - Set completion_percent: 0
-       - Set sprint status: not_started
-       - Set track status: not_started
-       - Document in notes what was claimed vs reality
-
-    2. For testing-system (if applicable):
-       - Remove tasks_summary from sprint.yaml files
-       - Set tasks_completed: 0
-       - Set completion_percent: 0
-       - Set sprint status: not_started
-       - Set track status: not_started
-       - Document in notes what was claimed vs reality
-
-    3. Update track.yaml:
-       - Reset progress counters
-       - Update status fields
-       - Add notes explaining correction
-       - Reference forensic audit report
-
-    4. Documentation:
-       - Document what was claimed (51 + 30 = 81 tasks)
-       - Document what evidence showed (none)
-       - Explain why claims were removed
-       - Preserve audit trail
-
-    Deliverables:
-    - Cleaned YAML files with honest state
-    - Updated progress counters
-    - Documentation of corrections
-    - Audit trail preservation
-  status: not_started
+  description: "If tasks 001-002 determine that standards-system and/or testing-system\
+    \ work\nwas NOT done, remove false completion claims and document honest state.\n\
+    \nConditional Task:\n- ONLY run if task 001 or 002 recommends \"remove claims\"\
+    \n- SKIP if both recommend \"create tasks\"\n\nProcess:\n1. For standards-system\
+    \ (if applicable):\n   - Remove tasks_summary from sprint.yaml files\n   - Set\
+    \ tasks_completed: 0\n   - Set completion_percent: 0\n   - Set sprint status:\
+    \ not_started\n   - Set track status: not_started\n   - Document in notes what\
+    \ was claimed vs reality\n\n2. For testing-system (if applicable):\n   - Remove\
+    \ tasks_summary from sprint.yaml files\n   - Set tasks_completed: 0\n   - Set\
+    \ completion_percent: 0\n   - Set sprint status: not_started\n   - Set track status:\
+    \ not_started\n   - Document in notes what was claimed vs reality\n\n3. Update\
+    \ track.yaml:\n   - Reset progress counters\n   - Update status fields\n   - Add\
+    \ notes explaining correction\n   - Reference forensic audit report\n\n4. Documentation:\n\
+    \   - Document what was claimed (51 + 30 = 81 tasks)\n   - Document what evidence\
+    \ showed (none)\n   - Explain why claims were removed\n   - Preserve audit trail\n\
+    \nDeliverables:\n- Cleaned YAML files with honest state\n- Updated progress counters\n\
+    - Documentation of corrections\n- Audit trail preservation\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:27:42.545188+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null
@@ -62,26 +37,38 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - roadmap-integrity-fixes-4-task-005
+  - type: task
+    target_id: roadmap-integrity-fixes-4-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on:
   - blocker_id: roadmap-integrity-fixes-4-task-001
     blocker_type: task
     required_status: completed
+    current_status: completed
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:40.675633+00:00'
   - blocker_id: roadmap-integrity-fixes-4-task-002
     blocker_type: task
     required_status: completed
+    current_status: completed
     blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:41.282223+00:00'
   depended_on_by:
   - roadmap-integrity-fixes-4-task-005
   deliverables:
-  - Cleaned YAML files (honest state)
-  - Documentation of corrections
-  - Audit trail
+  - type: code
+    paths:
+    - Cleaned YAML files (honest state)
+  - type: code
+    paths:
+    - Documentation of corrections
+  - type: code
+    paths:
+    - Audit trail
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: Conditional task - only runs if work was NOT verifiable

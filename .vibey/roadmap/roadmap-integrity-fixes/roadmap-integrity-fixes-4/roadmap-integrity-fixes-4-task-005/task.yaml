@@ -5,53 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update progress counters based on findings
-  description: |
-    Recalculate all progress counters across the roadmap after phantom task
-    cleanup is complete.
-
-    Depends on: Either task 003 OR task 004 (whichever ran)
-
-    Process:
-    1. Recalculate standards-system progress:
-       - Count actual tasks in hierarchical structure
-       - Calculate completion percentage from actual task status
-       - Update sprint progress counters
-       - Update track progress counters
-
-    2. Recalculate testing-system progress:
-       - Count actual tasks in hierarchical structure
-       - Calculate completion percentage from actual task status
-       - Update sprint progress counters
-       - Update track progress counters
-
-    3. Update roadmap.yaml:
-       - Recalculate tracks_total
-       - Recalculate tracks_completed
-       - Recalculate tasks_total
-       - Recalculate tasks_completed
-       - Update roadmap completion_percent
-
-    4. Run validation:
-       - Verify all progress counters accurate
-       - Check status/progress consistency
-       - Ensure no phantom tasks remain
-       - Validate hierarchical structure
-
-    5. Documentation:
-       - Document before/after progress values
-       - Explain changes made
-       - Reference forensic audit and cleanup tasks
-
-    Deliverables:
-    - Accurate progress counters across all levels
-    - Updated roadmap.yaml
-    - Validation results showing no issues
-    - Progress recalculation documentation
-  status: not_started
+  description: "Recalculate all progress counters across the roadmap after phantom\
+    \ task\ncleanup is complete.\n\nDepends on: Either task 003 OR task 004 (whichever\
+    \ ran)\n\nProcess:\n1. Recalculate standards-system progress:\n   - Count actual\
+    \ tasks in hierarchical structure\n   - Calculate completion percentage from actual\
+    \ task status\n   - Update sprint progress counters\n   - Update track progress\
+    \ counters\n\n2. Recalculate testing-system progress:\n   - Count actual tasks\
+    \ in hierarchical structure\n   - Calculate completion percentage from actual\
+    \ task status\n   - Update sprint progress counters\n   - Update track progress\
+    \ counters\n\n3. Update roadmap.yaml:\n   - Recalculate tracks_total\n   - Recalculate\
+    \ tracks_completed\n   - Recalculate tasks_total\n   - Recalculate tasks_completed\n\
+    \   - Update roadmap completion_percent\n\n4. Run validation:\n   - Verify all\
+    \ progress counters accurate\n   - Check status/progress consistency\n   - Ensure\
+    \ no phantom tasks remain\n   - Validate hierarchical structure\n\n5. Documentation:\n\
+    \   - Document before/after progress values\n   - Explain changes made\n   - Reference\
+    \ forensic audit and cleanup tasks\n\nDeliverables:\n- Accurate progress counters\
+    \ across all levels\n- Updated roadmap.yaml\n- Validation results showing no issues\n\
+    - Progress recalculation documentation\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:27:43.168870+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null
@@ -67,19 +42,29 @@ task:
   - blocker_id: roadmap-integrity-fixes-4-task-003
     blocker_type: task
     required_status: completed
+    current_status: completed
     blocks_transition_to: in_progress
-    note: Either task 003 OR task 004 must complete
+    last_checked: '2025-11-21T00:27:41.917192+00:00'
   - blocker_id: roadmap-integrity-fixes-4-task-004
     blocker_type: task
     required_status: completed
+    current_status: completed
     blocks_transition_to: in_progress
-    note: Either task 003 OR task 004 must complete
+    last_checked: '2025-11-21T00:27:42.567420+00:00'
   depended_on_by: []
   deliverables:
-  - Accurate progress counters
-  - Updated roadmap.yaml
-  - Validation results
-  - Progress documentation
+  - type: code
+    paths:
+    - Accurate progress counters
+  - type: code
+    paths:
+    - Updated roadmap.yaml
+  - type: code
+    paths:
+    - Validation results
+  - type: code
+    paths:
+    - Progress documentation
   commits: []
   metadata:
     last_updated: '2025-11-12T20:30:00+00:00'

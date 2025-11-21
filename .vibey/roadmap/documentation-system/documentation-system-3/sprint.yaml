@@ -36,13 +36,7 @@ sprint:
   - Documentation changelog generation
   - Complete system documentation
   - Final validation and testing
-  commits:
-  - hash: 1c506e7749e59b100927df1b8529e88cb55baa45
-    date: '2025-11-09T17:16:51+00:00'
-    message: 'feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)'
-  - hash: 0ee4b6c3365f52d74b187dc3b528af7703c062cc
-    date: '2025-11-10T09:18:33+00:00'
-    message: 'feat: Migrate roadmap from flat to hierarchical structure'
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-09T21:30:52.030874+00:00'

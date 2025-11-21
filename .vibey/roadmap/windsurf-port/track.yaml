@@ -10,7 +10,7 @@ track:
   completed: null
   estimated_duration: 4 weeks
   progress:
-    sprints_total: 2
+    sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
     tasks_completed: 0
@@ -94,7 +94,7 @@ track:
   - Windsurf platform adapter (Python)
   - .windsurf/ deployment generation
   - Cascade agent configuration templates
-  - Workflow → Cascade operation mapping
+  - "Workflow \u2192 Cascade operation mapping"
   - VS Code extension compatibility layer
   - Agentic workflow documentation
   - Windsurf integration examples
@@ -104,12 +104,7 @@ track:
   - 'Free BYOK: Cost-effective for users'
   - 'Demonstrates Multi-Agent Value: Vibey orchestration + Cascade execution'
   - 'Complements Cursor: Another AI-first IDE option'
-  commits:
-  - hash: c91f8831c2340aaa8a6c111c857f7fe035544da7
-    date: '2025-11-09T00:00:00+00:00'
-    message: 'feat: Add 4 new platform ports to roadmap (Aider, Continue, Windsurf, JetBrains)'
-    type: planning
-    scope: track_creation
+  commits: []
   standards: []
   metadata:
     created_by: vibey-framework-team
@@ -123,21 +118,22 @@ track:
       \ workflow mapping\n   - VS Code compatibility testing\n\n3. Strategic Value\n\
       \   - Market leader in agentic IDEs\n   - Demonstrates Vibey's orchestration\
       \ value\n   - Free with own keys (accessible)\n   - Unique positioning vs Cursor\n\
-      \nAdapter Strategy:\n- Map Vibey agents → Cascade agent configurations\n- Map\
-      \ Vibey workflows → Multi-step Cascade operations\n- Map Vibey handoffs → Cascade\
-      \ state transitions\n- Generate .windsurf/ directory\n- Templates: cascade-config.json.j2\n\
-      \nKey Concept: Cascade Agent as Workflow Engine\nWindsurf's Cascade agent can\
-      \ execute multi-step operations,\nmaking it ideal for Vibey workflow orchestration.\n\
-      \nVibey Workflow → Cascade Operation Example:\n{\n  \"operation\": \"feature-development\"\
-      ,\n  \"steps\": [\n    {\n      \"agent\": \"requirements-analyzer\",\n    \
-      \  \"cascade_role\": \"planner\"\n    },\n    {\n      \"agent\": \"web-developer\"\
-      ,\n      \"cascade_role\": \"implementer\"\n    },\n    {\n      \"agent\":\
-      \ \"test-engineer\",\n      \"cascade_role\": \"validator\"\n    }\n  ]\n}\n\
-      \nCascade Integration Benefits:\n- Autonomous multi-step execution\n- Codebase\
-      \ understanding (Cascade feature)\n- Graphical interface for workflow progress\n\
-      - Built-in agentic capabilities\n\nMarketing Angle:\n\"Vibey + Windsurf = Ultimate\
-      \ Agentic Development Experience\"\n- Vibey: Multi-agent orchestration & quality\
-      \ gates\n- Windsurf Cascade: Autonomous execution engine\n- Together: Structured\
-      \ + Autonomous = Production-quality code\n\nValidation:\n- Test Cascade agent\
-      \ integration\n- Verify multi-step workflows\n- Ensure quality gates work\n\
-      - Document agentic workflow patterns\n\nTimeline: Q3 2025 (after Continue port)\n"
+      \nAdapter Strategy:\n- Map Vibey agents \u2192 Cascade agent configurations\n\
+      - Map Vibey workflows \u2192 Multi-step Cascade operations\n- Map Vibey handoffs\
+      \ \u2192 Cascade state transitions\n- Generate .windsurf/ directory\n- Templates:\
+      \ cascade-config.json.j2\n\nKey Concept: Cascade Agent as Workflow Engine\n\
+      Windsurf's Cascade agent can execute multi-step operations,\nmaking it ideal\
+      \ for Vibey workflow orchestration.\n\nVibey Workflow \u2192 Cascade Operation\
+      \ Example:\n{\n  \"operation\": \"feature-development\",\n  \"steps\": [\n \
+      \   {\n      \"agent\": \"requirements-analyzer\",\n      \"cascade_role\":\
+      \ \"planner\"\n    },\n    {\n      \"agent\": \"web-developer\",\n      \"\
+      cascade_role\": \"implementer\"\n    },\n    {\n      \"agent\": \"test-engineer\"\
+      ,\n      \"cascade_role\": \"validator\"\n    }\n  ]\n}\n\nCascade Integration\
+      \ Benefits:\n- Autonomous multi-step execution\n- Codebase understanding (Cascade\
+      \ feature)\n- Graphical interface for workflow progress\n- Built-in agentic\
+      \ capabilities\n\nMarketing Angle:\n\"Vibey + Windsurf = Ultimate Agentic Development\
+      \ Experience\"\n- Vibey: Multi-agent orchestration & quality gates\n- Windsurf\
+      \ Cascade: Autonomous execution engine\n- Together: Structured + Autonomous\
+      \ = Production-quality code\n\nValidation:\n- Test Cascade agent integration\n\
+      - Verify multi-step workflows\n- Ensure quality gates work\n- Document agentic\
+      \ workflow patterns\n\nTimeline: Q3 2025 (after Continue port)\n"

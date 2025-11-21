@@ -8,31 +8,29 @@ track:
   created: '2025-11-07T10:00:00+00:00'
   started: '2025-11-08T18:18:23.302474+00:00'
   completed: '2025-11-08T23:00:00+00:00'
-  superseded_at: '2025-11-12T16:22:27-05:00'
-  superseded_by: interface-unification track (Sprint 1)
   estimated_duration: 6 weeks
   progress:
     sprints_total: 3
-    sprints_completed: 3
+    sprints_completed: 0
     tasks_total: 16
     tasks_completed: 16
     completion_percent: 100
   sprints:
   - id: roadmap-integration-1
     name: Foundation & Sprint Planning Integration
-    status: production_ready
+    status: superseded
     estimated_duration: 2 weeks
     tasks_count: 5
     started: '2025-11-08T18:18:23.298235+00:00'
   - id: roadmap-integration-2
     name: Progress Tracking & Vibey Manager
-    status: production_ready
+    status: superseded
     estimated_duration: 48 hours
     tasks_count: 6
     started: '2025-11-08T18:34:27.347348+00:00'
   - id: roadmap-integration-3
     name: Integration Finalization & Documentation (REVISED)
-    status: production_ready
+    status: superseded
     estimated_duration: 0 hours
     tasks_count: 5
     started: '2025-11-08T19:24:49.854219+00:00'
@@ -48,21 +46,18 @@ track:
     status: superseded
     description: Original slash command integration tests superseded by CLI test suite
     score: 100
-    note: tests/cli/test_roadmap_cli_comprehensive.py (57 tests, 97.7% pass rate)
   - name: Migration Testing
     threshold: 100
     blocking: true
     status: superseded
     description: Migration functionality preserved in vibey roadmap migrate command
     score: 100
-    note: CLI command tested in comprehensive test suite
   - name: Documentation Complete
     threshold: 90
     blocking: true
     status: superseded
     description: Slash command documentation superseded by CLI documentation
     score: 100
-    note: vibey/cli/CLI.md and ROADMAP_CLI.md provide complete coverage
   assigned_agents:
   - web-developer
   - docs-writer
@@ -82,91 +77,13 @@ track:
   - Foundation for advanced roadmap features
   - Critical for user adoption of roadmap system
   - Removes technical debt from legacy sprint-state system
-  commits:
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: All framework/commands/vibey*.md files deleted - slash commands replaced
-      by CLI/MCP
+  commits: []
   standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    supersession_reason: 'Architectural evolution from slash commands to unified CLI/MCP
-      interface
-
-
-      **What Changed (v1.3.0 -> v2.5.0):**
-
-      - Deleted: framework/commands/vibey*.md (~3,049 lines total)
-
-        - vibey.md (~1,434 lines) - deployment & menu system
-
-        - vibey-code.md (~680 lines) - sprint execution dashboard
-
-        - vibey-plan.md (~318 lines) - sprint planning
-
-        - vibey-manage.md (~617 lines) - Vibey Manager agent
-
-      - Created: vibey CLI (vibey/cli/main.py, commands.py, formatters.py)
-
-      - Created: MCP server (framework/mcp/server.py)
-
-      - Migrated: All roadmap operations to vibey/operations/roadmap/
-
-
-      **Functionality Preservation:**
-
-      All original deliverables preserved in new architecture:
-
-      1. Roadmap initialization: vibey deploy && vibey roadmap init
-
-      2. Sprint creation: vibey roadmap create-from-plan
-
-      3. Progress tracking: vibey roadmap status, vibey roadmap show
-
-      4. Task updates: vibey roadmap start/complete/block
-
-      5. Migration: vibey roadmap migrate (CLI command)
-
-      6. Documentation: vibey/cli/CLI.md, ROADMAP_CLI.md
-
-
-      **Why Superseded:**
-
-      Interface unification (Sprint 1) consolidated two interfaces:
-
-      - Old: Slash commands (/vibey) + standalone scripts (31 scripts)
-
-      - New: CLI (vibey command) + MCP server (AI assistant protocol)
-
-
-      **Business Value:**
-
-      - Platform-agnostic architecture (CLI works anywhere)
-
-      - MCP enables multi-platform AI assistant integration
-
-      - Cleaner codebase (eliminated command file duplication)
-
-      - Better testability (pytest-based CLI tests)
-
-      - Preserved all user-facing functionality
-
-
-      **Historical Context:**
-
-      This track successfully integrated roadmap state management into the /vibey command
-      workflow (v1.3.0), completing all 16 tasks across 3 sprints. Four days later,
-      the interface unification effort (v2.5.0) deleted the slash command files but
-      preserved their functionality in the new CLI/MCP architecture. The work was
-      not wasted - it validated the roadmap integration patterns that were then
-      ported to the new interface.
-
-      '
     notes: 'SUPERSEDED TRACK - Functionality migrated to vibey CLI and MCP server
       (v2.5.0)
 

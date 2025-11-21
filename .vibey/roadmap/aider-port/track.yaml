@@ -10,9 +10,9 @@ track:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    sprints_total: 1
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 8
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -50,9 +50,9 @@ track:
   - blocker_id: claude-port
     blocker_type: track
     required_status: completed
-    current_status: in_progress
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-15T02:16:50.524341+00:00'
+    last_checked: '2025-11-20T17:57:18.414324+00:00'
   - blocker_id: goose-port
     blocker_type: track
     required_status: completed
@@ -99,32 +99,7 @@ track:
   - 'Open Source: Community goodwill, contribution potential'
   - 'Lowest Effort: Quick win, 95% compatibility'
   - 'Complements IDEs: Terminal + IDE coverage'
-  commits:
-  - hash: c91f8831c2340aaa8a6c111c857f7fe035544da7
-    date: '2025-11-09T13:52:33-05:00'
-    message: 'feat: Add 4 new platform ports to roadmap (Aider, Continue, Windsurf, JetBrains)'
-    type: planning
-    scope: track_creation
-  - hash: 1c506e7749e59b100927df1b8529e88cb55baa45
-    date: '2025-11-09T17:16:51-05:00'
-    message: 'feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)'
-    type: infrastructure
-    scope: track_structure
-  - hash: 0ee4b6c3365f52d74b187dc3b528af7703c062cc
-    date: '2025-11-10T09:18:33-05:00'
-    message: 'feat: Migrate roadmap from flat to hierarchical structure'
-    type: infrastructure
-    scope: track_structure
-  - hash: 4367bc86d78ca0bd150c649251ac970b8e805244
-    date: '2025-11-11T00:41:35-05:00'
-    message: 'fix: Resolve roadmap corruption and recalculation issues after VS Code crash'
-    type: fix
-    scope: track_integrity
-  - hash: 205c877b616c64df0c5c97d1872a037f2e135337
-    date: '2025-11-12T16:22:27-05:00'
-    message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
-    type: fix
-    scope: track_metadata
+  commits: []
   standards: []
   metadata:
     created_by: vibey-framework-team
@@ -138,11 +113,12 @@ track:
       \ (no GUI complexity)\n   - Well-documented API\n\n3. Strategic Value\n   -\
       \ 40k+ GitHub stars\n   - Large terminal user base\n   - Git-centric workflow\
       \ alignment\n   - Open source community\n\nAdapter Strategy:\n- Map Vibey agents\
-      \ → Aider model roles/prompts\n- Map Vibey workflows → Aider command sequences\n\
-      - Map Vibey handoffs → Git commits with metadata\n- Generate .aider/ directory\
-      \ with configs\n- Template: aider.conf.yml.j2\n\nKey Features to Support:\n\
-      - Auto-commit messages (from handoff templates)\n- Multi-file editing (workflow\
-      \ steps)\n- Model provider configuration\n- Custom prompt injection (agent instructions)\n\
-      \nValidation:\n- Test with real Aider installation\n- Verify git commits work\
-      \ as expected\n- Ensure multi-file workflows execute correctly\n- Documentation\
-      \ for terminal users\n\nTimeline: Q2 2025 (after Goose port complete)\n"
+      \ \u2192 Aider model roles/prompts\n- Map Vibey workflows \u2192 Aider command\
+      \ sequences\n- Map Vibey handoffs \u2192 Git commits with metadata\n- Generate\
+      \ .aider/ directory with configs\n- Template: aider.conf.yml.j2\n\nKey Features\
+      \ to Support:\n- Auto-commit messages (from handoff templates)\n- Multi-file\
+      \ editing (workflow steps)\n- Model provider configuration\n- Custom prompt\
+      \ injection (agent instructions)\n\nValidation:\n- Test with real Aider installation\n\
+      - Verify git commits work as expected\n- Ensure multi-file workflows execute\
+      \ correctly\n- Documentation for terminal users\n\nTimeline: Q2 2025 (after\
+      \ Goose port complete)\n"

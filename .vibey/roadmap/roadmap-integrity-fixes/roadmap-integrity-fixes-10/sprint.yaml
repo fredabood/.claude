@@ -3,59 +3,67 @@ sprint:
   name: Documentation Organization & Consolidation
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
-  created: '2025-11-20T01:00:00.000000+00:00'
-  started: null
+  created: '2025-11-20T01:00:00+00:00'
+  started: '2025-11-20T20:28:48.983239+00:00'
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1-2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
     development_tasks_total: 7
-    development_tasks_completed: 0
+    development_tasks_completed: 1
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 1
+    completion_percent: 14
   tasks:
   - id: roadmap-integrity-fixes-10-task-001
-    name: Audit all documentation files and categorize
+    title: Audit all documentation files and categorize
     status: not_started
-    type: development
-    estimated_duration: 3 hours
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-002
-    name: Define documentation organization standards
+    title: Define documentation organization standards
     status: not_started
-    type: development
-    estimated_duration: 2 hours
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-003
-    name: Create context/ directories in roadmap structure
+    title: Create context/ directories in roadmap structure
     status: not_started
-    type: development
-    estimated_duration: 1 hour
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-004
-    name: Migrate analysis/report files to context/ dirs
+    title: Migrate analysis/report files to context/ dirs
     status: not_started
-    type: development
-    estimated_duration: 4 hours
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-005
-    name: Update validation scripts and .gitignore
+    title: Update validation scripts and .gitignore
     status: not_started
-    type: development
-    estimated_duration: 2 hours
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-006
-    name: Update documentation contribution guidelines
+    title: Update documentation contribution guidelines
     status: not_started
-    type: development
-    estimated_duration: 2 hours
+    task_type: development
+    gate_info: null
   - id: roadmap-integrity-fixes-10-task-007
-    name: Validate all documentation properly organized
+    title: Validate all documentation properly organized
     status: not_started
-    type: development
-    estimated_duration: 1 hour
-  dependencies:
-  - type: sprint
-    target_id: roadmap-integrity-fixes-8
-    target_status: completed
-    reason: Need schema valid before reorganizing files
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Documentation audit report categorizing all files
   - Documentation organization standards document
@@ -66,204 +74,11 @@ sprint:
   - Updated CONTRIBUTING.md with doc conventions
   - 100% documentation compliance validation
   commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-20T01:00:00.000000+00:00'
+    last_updated: '2025-11-20T01:00:00+00:00'
     estimated_duration: 1-2 weeks
-    created_by: claude-code
-    sprint_type: remediation
-    priority: high
-    rationale: |
-      DOCUMENTATION ORGANIZATION & CONSOLIDATION SPRINT - Created 2025-11-20
-
-      CONTEXT: Documentation scattered across repository without clear organization
-      - Analysis reports mixed with project documentation
-      - Design docs in root directories vs proper locations
-      - No clear distinction between context docs and project docs
-      - Inconsistent file placement across tracks/sprints/tasks
-
-      PROBLEM: Lack of documentation organization standards
-      1. Context documentation (analyses, reports, design docs) not in consistent location
-      2. Project documentation (actual state) mixed with development artifacts
-      3. No enforcement of documentation placement conventions
-      4. Difficult to find relevant documentation when needed
-
-      KEY DISTINCTION:
-      - **Context Documentation**: Created to inform development process
-        * Should go in: .vibey/roadmap/[track]/[sprint]/[task]/context/
-        * Examples: Analysis reports, audit results, design decisions, research
-
-      - **Project Documentation**: Describes actual state of project
-        * Should go in: docs/
-        * Examples: API docs, user guides, architecture docs, reference material
-
-      CURRENT STATE:
-      ✗ No consistent context/ directory structure
-      ✗ Reports and analyses scattered across repository
-      ✗ No documentation organization standards
-      ✗ No validation of documentation placement
-
-      RISK: Documentation becomes increasingly difficult to navigate
-      - Developers can't find relevant context for tasks
-      - Analysis reports lost or forgotten
-      - Duplicate documentation created
-      - Historical decision context lost
-
-      SPRINT GOAL: Establish and enforce documentation organization conventions
-
-      This sprint audits all documentation, defines clear organization standards,
-      creates proper directory structure, and migrates files to correct locations.
-    notes: |
-      Sprint 10: Documentation Organization & Consolidation
-      ====================================================
-
-      Created: 2025-11-20
-      Trigger: User request for documentation review and consolidation
-      Duration: 1-2 weeks
-      Priority: HIGH
-      Scope: All documentation files across repository
-
-      TASK BREAKDOWN
-      ==============
-
-      Task 1: Audit all documentation files and categorize (3 hours)
-      -------------------------------------------------------------
-      Find and categorize every documentation file in repository:
-
-      1. Find all markdown files:
-         find . -name "*.md" -not -path "*/node_modules/*"
-
-      2. Categorize each file:
-         - Context documentation (informs development)
-         - Project documentation (describes project state)
-         - Both/unclear
-
-      3. Document current locations and proposed locations
-
-      4. Identify patterns:
-         - Common file naming conventions
-         - Typical locations
-         - Migration complexity
-
-      Deliverable: DOCUMENTATION_AUDIT_REPORT.md with full categorization
-
-      Task 2: Define documentation organization standards (2 hours)
-      -----------------------------------------------------------
-      Create comprehensive standards document:
-
-      1. Context documentation rules:
-         - Location: .vibey/roadmap/[track]/[sprint]/[task]/context/
-         - Naming conventions
-         - File types (analyses, reports, designs, research)
-         - When to create context docs
-
-      2. Project documentation rules:
-         - Location: docs/
-         - Directory structure (guides, reference, development)
-         - Naming conventions
-         - When to update project docs
-
-      3. Decision flowchart:
-         - How to determine which category
-         - Examples for edge cases
-
-      4. Migration guidelines:
-         - How to move files safely
-         - Update references
-         - Archive vs delete
-
-      Deliverable: docs/development/DOCUMENTATION_ORGANIZATION_STANDARDS.md
-
-      Task 3: Create context/ directories (1 hour)
-      -------------------------------------------
-      Add context/ subdirectories to roadmap structure:
-
-      For each:
-      - .vibey/roadmap/[track]/context/
-      - .vibey/roadmap/[track]/[sprint]/context/
-      - .vibey/roadmap/[track]/[sprint]/[task]/context/
-
-      Script:
-        find .vibey/roadmap -type d -name "*-task-*" -exec mkdir -p {}/context \;
-        find .vibey/roadmap -type d -regex ".*-[0-9]+" -exec mkdir -p {}/context \;
-        find .vibey/roadmap -type d -maxdepth 2 -exec mkdir -p {}/context \;
-
-      Add .gitkeep files to preserve empty directories
-
-      Task 4: Migrate analysis/report files (4 hours)
-      ----------------------------------------------
-      Move files to proper locations based on audit:
-
-      Examples:
-      - SCHEMA_AUDIT_REPORT_2025-11-20.md
-        → .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/
-
-      - SCHEMA_FIX_STRATEGY.md
-        → .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/
-
-      - TOKEN_USAGE_ANALYSIS.md (future)
-        → .vibey/roadmap/roadmap-system/roadmap-system-7/context/
-
-      Process:
-      1. Group files by destination
-      2. Move files with git mv (preserve history)
-      3. Update any references in other files
-      4. Verify no broken links
-      5. Update task.yaml deliverables if needed
-
-      Task 5: Update validation and .gitignore (2 hours)
-      -------------------------------------------------
-      1. Update .gitignore:
-         - Ignore context/ directories by default (generated artifacts)
-         - Explicitly track important context files
-         - Add comments explaining convention
-
-      2. Create validation script: scripts/validate-documentation-organization.py
-         - Check all .md files in docs/ are project docs
-         - Check all .md files in context/ are context docs
-         - Identify misplaced files
-         - Output compliance report
-
-      3. Add to health dashboard:
-         - Documentation organization score
-         - Count of misplaced files
-         - Compliance percentage
-
-      Task 6: Update contribution guidelines (2 hours)
-      -----------------------------------------------
-      Update docs/development/CONTRIBUTING.md:
-
-      1. Add "Documentation Organization" section
-      2. Explain context vs project documentation
-      3. Provide decision flowchart
-      4. Give examples for common scenarios
-      5. Reference DOCUMENTATION_ORGANIZATION_STANDARDS.md
-      6. Update template files if needed
-
-      Task 7: Validate documentation organization (1 hour)
-      ---------------------------------------------------
-      Run validation and verify compliance:
-
-      1. Run: python scripts/validate-documentation-organization.py
-      2. Success criteria:
-         - 100% compliance with organization standards
-         - No misplaced files
-         - All context/ directories properly structured
-         - All references updated
-         - Documentation score 95+/100
-
-      3. Create validation report
-      4. Update health dashboard with new score
-
-      SUCCESS CRITERIA
-      ================
-
-      ✅ All documentation files audited and categorized
-      ✅ Documentation organization standards defined
-      ✅ context/ directories created in all roadmap locations
-      ✅ All analysis/report files migrated to context/
-      ✅ Validation script enforces organization standards
-      ✅ .gitignore updated for context/ directories
-      ✅ CONTRIBUTING.md documents conventions
-      ✅ 100% documentation organization compliance
-      ✅ Health dashboard shows documentation score 95+/100
-      ✅ No broken documentation links
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

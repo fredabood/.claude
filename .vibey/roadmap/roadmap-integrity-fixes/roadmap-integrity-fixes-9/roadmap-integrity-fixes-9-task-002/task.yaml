@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-9-task-002
-  name: Fix DeliverableType enum value normalization
   sprint_id: roadmap-integrity-fixes-9
   track_id: roadmap-integrity-fixes
-  status: not_started
-  type: development
-  priority: critical
-  created: '2025-11-20T00:13:23.095837+00:00'
-  started: null
-  completed: null
-  estimated_duration: 30 minutes
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix DeliverableType enum value normalization
   description: "Normalize DeliverableType enum values across codebase.\n\nProblem:\n\
     - Valid values: code, test, documentation, config, other\n- YAML files use: \"\
     configuration\" (invalid)\n- Error: 'configuration' is not a valid DeliverableType\n\
@@ -21,11 +15,24 @@ task:
     \ enum creation\n  type_aliases = {\"configuration\": \"config\"}\n  deliverable_type\
     \ = type_aliases.get(d['type'], d['type'])\n  Deliverable(type=DeliverableType(deliverable_type),\
     \ ...)\n\nMigration: grep + replace all \"configuration\" → \"config\"\n"
-  acceptance_criteria:
-  - Handles "configuration" as alias for "config"
-  - All existing YAML files load without errors
-  - Migration script normalizes all files
-  - Validation catches invalid types at creation
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:13:23.095837+00:00'
+  started: null
+  completed: '2025-11-20T17:52:45.123106+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: code
     paths:
@@ -36,11 +43,8 @@ task:
   - type: test
     paths:
     - tests/test_deliverable_type_normalization.py
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:13:23.095853+00:00'
+    token_efficiency: null
+    duration_hours: null

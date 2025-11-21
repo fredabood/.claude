@@ -34,10 +34,7 @@ sprint:
   - Query and analysis tools (4 tools)
   - Comprehensive integration tests (40+ test cases)
   - Testing documentation
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-10T20:00:00+00:00'

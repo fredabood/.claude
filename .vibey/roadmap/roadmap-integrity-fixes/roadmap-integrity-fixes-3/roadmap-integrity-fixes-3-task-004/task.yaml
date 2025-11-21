@@ -5,36 +5,51 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix roadmap-system track status
-  description: |
-    Correct the status field in roadmap-system/track.yaml from 'completed'
-    to 'not_started' as track has 0% progress and all 6 sprints missing.
+  description: 'Correct the status field in roadmap-system/track.yaml from ''completed''
+
+    to ''not_started'' as track has 0% progress and all 6 sprints missing.
+
 
     Current State:
+
     - Status: completed
+
     - Progress: 0%
+
     - Sprints: 0/6 completed (all missing from disk)
+
     - Track is planning document only
 
+
     Required Change:
+
     - Set status: not_started
+
     - Document that this is planning-only
+
     - Add note about sprint implementation needed
 
+
     Acceptance Criteria:
+
     - Status matches reality (not_started)
+
     - Clear documentation of planning-only state
+
     - Track loadable without errors
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-12T19:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T01:36:49.531650+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 800
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []
@@ -43,7 +58,9 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables:
-  - roadmap-system/track.yaml with corrected status
+  - type: code
+    paths:
+    - roadmap-system/track.yaml with corrected status
   commits: []
   metadata:
     last_updated: '2025-11-12T19:30:00+00:00'

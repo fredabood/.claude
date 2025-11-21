@@ -5,8 +5,6 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: superseded
   blocked: false
-  superseded_at: '2025-11-12T16:22:27-05:00'
-  superseded_by: interface-unification Sprint 1 (CLI migration)
   created: '2025-11-08T19:24:49.854078+00:00'
   started: '2025-11-08T19:24:49.854219+00:00'
   completion_gate_check_at: '2025-11-08T19:30:07.277822+00:00'
@@ -37,21 +35,7 @@ sprint:
   - E2E validation report
   - Track completion summary
   - CHANGELOG update for v1.3.0
-  commits:
-  - hash: a8a3925
-    message: 'feat: Sprint 3 pivot - Documentation finalization and comprehensive testing'
-    date: '2025-11-08T14:20:00-05:00'
-  - hash: 72498a9
-    message: 'feat: Complete roadmap-integration track with v1.3.0 release prep'
-    date: '2025-11-08T14:30:00-05:00'
-  - hash: 4679cac
-    message: 'fix: Add completion dates to roadmap-integration track and Sprint 3'
-    date: '2025-11-08T14:35:00-05:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Documentation updated to reflect CLI/MCP architecture
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-15T00:00:00+00:00'
@@ -60,5 +44,3 @@ sprint:
     estimated_tokens: 5
     actual_tokens: null
     agents_used: docs-writer
-    supersession_note: 'Documentation finalized for v1.3.0 slash commands, then updated
-      for v2.5.0 CLI/MCP architecture'

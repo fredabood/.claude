@@ -5,218 +5,116 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement backup/rollback automation
-  description: |
-    Create automated scripts for creating backups and performing rollbacks,
-    eliminating manual error-prone restoration procedures.
-
-    QA Gap Addressed:
-    "No backup/rollback automation. Manual restoration of 100+ YAML files is
-    risky. Need one-command backup and rollback with verification."
-
-    Automation Requirements:
-
-    1. Automated Backup Creation:
-
-       Script: create-integrity-checkpoint.sh
-       ```bash
-       #!/bin/bash
-       # Creates timestamped checkpoint of .vibey/ directory
-       # Usage: ./create-integrity-checkpoint.sh [checkpoint-name]
-
-       TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-       CHECKPOINT_NAME="${1:-checkpoint_$TIMESTAMP}"
-       CHECKPOINT_DIR=".vibey/roadmap-integrity-fixes-checkpoints/$CHECKPOINT_NAME"
-
-       # Create checkpoint directory
-       # Copy .vibey/ recursively
-       # Copy framework Python files
-       # Export git state
-       # Generate manifest with checksums
-       # Verify backup integrity
-       # Report success/failure
-       ```
-
-       Features:
-       - Automatic timestamp generation
-       - Custom checkpoint naming
-       - Checksum verification
-       - Manifest generation
-       - Progress reporting
-       - Error handling with cleanup
-
-    2. Automated Rollback:
-
-       Script: restore-integrity-checkpoint.sh
-       ```bash
-       #!/bin/bash
-       # Restores .vibey/ from checkpoint
-       # Usage: ./restore-integrity-checkpoint.sh <checkpoint-name> [--verify-only]
-
-       CHECKPOINT_NAME="$1"
-       VERIFY_ONLY="${2:-false}"
-
-       # Validate checkpoint exists
-       # Verify checkpoint integrity (checksums)
-       # Create pre-rollback backup (current state)
-       # Restore files from checkpoint
-       # Verify restoration (checksums)
-       # Test roadmap commands work
-       # Report success/failure
-       ```
-
-       Features:
-       - Checkpoint validation before restore
-       - Automatic pre-rollback backup
-       - Checksum verification
-       - Dry-run mode (--verify-only)
-       - Rollback testing
-       - Detailed logging
-
-    3. Selective File Restoration:
-
-       Script: restore-selective-files.sh
-       ```bash
-       #!/bin/bash
-       # Restores specific files from checkpoint
-       # Usage: ./restore-selective-files.sh <checkpoint> <file-pattern>
-
-       CHECKPOINT_NAME="$1"
-       FILE_PATTERN="$2"
-
-       # Find files matching pattern in checkpoint
-       # Create backup of current versions
-       # Restore selected files
-       # Verify YAML syntax
-       # Test affected areas
-       # Report success/failure
-       ```
-
-       Features:
-       - Glob pattern support
-       - Targeted restoration
-       - Pre-restoration backup
-       - YAML validation
-       - Granular control
-
-    4. Checkpoint Management:
-
-       Script: manage-checkpoints.sh
-       ```bash
-       #!/bin/bash
-       # Manages checkpoint lifecycle
-       # Usage: ./manage-checkpoints.sh [list|verify|clean|compare]
-
-       # list: Show all checkpoints with sizes/dates
-       # verify: Verify checksums for all checkpoints
-       # clean: Remove old checkpoints (keep last N)
-       # compare: Show differences between checkpoints
-       ```
-
-       Features:
-       - List all checkpoints
-       - Verify integrity of all checkpoints
-       - Cleanup old checkpoints
-       - Compare checkpoint contents
-       - Storage management
-
-    5. Verification Functions:
-
-       Python Module: checkpoint_verifier.py
-       ```python
-       def verify_checkpoint_integrity(checkpoint_path):
-           """Verify all files match checksums in manifest"""
-
-       def verify_yaml_syntax(directory):
-           """Verify all YAML files parse correctly"""
-
-       def verify_roadmap_commands():
-           """Test that vibey roadmap commands work"""
-
-       def generate_checkpoint_report(checkpoint_path):
-           """Generate detailed checkpoint report"""
-       ```
-
-    6. Integration with Roadmap CLI:
-
-       Add commands to vibey CLI:
-       ```bash
-       vibey roadmap checkpoint create [name]
-       vibey roadmap checkpoint restore <name> [--verify-only]
-       vibey roadmap checkpoint list
-       vibey roadmap checkpoint verify <name>
-       ```
-
-    Testing Requirements:
-
-    Test Scenarios:
-    1. Create checkpoint of current state
-    2. Make changes to .vibey/ directory
-    3. Restore from checkpoint
-    4. Verify restoration matches original
-    5. Test selective file restoration
-    6. Test checkpoint verification
-    7. Test checkpoint cleanup
-    8. Test with corrupted checkpoint
-    9. Test with missing files
-    10. Test with invalid YAML
-
-    Performance Targets:
-    - Checkpoint creation: <30 seconds for full .vibey/
-    - Restoration: <60 seconds for full .vibey/
-    - Verification: <15 seconds for checksum check
-    - Selective restore: <10 seconds for individual files
-
-    Error Handling:
-    - Disk space checks before backup
-    - Permission checks
-    - Corrupt checkpoint detection
-    - Partial restoration recovery
-    - Detailed error messages
-
-    Acceptance Criteria:
-    - All 4 scripts implemented and tested
-    - Python verification module created
-    - CLI integration complete
-    - All 10 test scenarios pass
-    - Performance targets met
-    - Error handling comprehensive
-    - Documentation with examples
-
-    Deliverables:
-    - create-integrity-checkpoint.sh
-    - restore-integrity-checkpoint.sh
-    - restore-selective-files.sh
-    - manage-checkpoints.sh
-    - checkpoint_verifier.py (Python module)
-    - CLI integration code
-    - Testing results for all scenarios
-    - User documentation with examples
-  status: not_started
-  blocked: false
+  description: "Create automated scripts for creating backups and performing rollbacks,\n\
+    eliminating manual error-prone restoration procedures.\n\nQA Gap Addressed:\n\"\
+    No backup/rollback automation. Manual restoration of 100+ YAML files is\nrisky.\
+    \ Need one-command backup and rollback with verification.\"\n\nAutomation Requirements:\n\
+    \n1. Automated Backup Creation:\n\n   Script: create-integrity-checkpoint.sh\n\
+    \   ```bash\n   #!/bin/bash\n   # Creates timestamped checkpoint of .vibey/ directory\n\
+    \   # Usage: ./create-integrity-checkpoint.sh [checkpoint-name]\n\n   TIMESTAMP=$(date\
+    \ +%Y%m%d_%H%M%S)\n   CHECKPOINT_NAME=\"${1:-checkpoint_$TIMESTAMP}\"\n   CHECKPOINT_DIR=\"\
+    .vibey/roadmap-integrity-fixes-checkpoints/$CHECKPOINT_NAME\"\n\n   # Create checkpoint\
+    \ directory\n   # Copy .vibey/ recursively\n   # Copy framework Python files\n\
+    \   # Export git state\n   # Generate manifest with checksums\n   # Verify backup\
+    \ integrity\n   # Report success/failure\n   ```\n\n   Features:\n   - Automatic\
+    \ timestamp generation\n   - Custom checkpoint naming\n   - Checksum verification\n\
+    \   - Manifest generation\n   - Progress reporting\n   - Error handling with cleanup\n\
+    \n2. Automated Rollback:\n\n   Script: restore-integrity-checkpoint.sh\n   ```bash\n\
+    \   #!/bin/bash\n   # Restores .vibey/ from checkpoint\n   # Usage: ./restore-integrity-checkpoint.sh\
+    \ <checkpoint-name> [--verify-only]\n\n   CHECKPOINT_NAME=\"$1\"\n   VERIFY_ONLY=\"\
+    ${2:-false}\"\n\n   # Validate checkpoint exists\n   # Verify checkpoint integrity\
+    \ (checksums)\n   # Create pre-rollback backup (current state)\n   # Restore files\
+    \ from checkpoint\n   # Verify restoration (checksums)\n   # Test roadmap commands\
+    \ work\n   # Report success/failure\n   ```\n\n   Features:\n   - Checkpoint validation\
+    \ before restore\n   - Automatic pre-rollback backup\n   - Checksum verification\n\
+    \   - Dry-run mode (--verify-only)\n   - Rollback testing\n   - Detailed logging\n\
+    \n3. Selective File Restoration:\n\n   Script: restore-selective-files.sh\n  \
+    \ ```bash\n   #!/bin/bash\n   # Restores specific files from checkpoint\n   #\
+    \ Usage: ./restore-selective-files.sh <checkpoint> <file-pattern>\n\n   CHECKPOINT_NAME=\"\
+    $1\"\n   FILE_PATTERN=\"$2\"\n\n   # Find files matching pattern in checkpoint\n\
+    \   # Create backup of current versions\n   # Restore selected files\n   # Verify\
+    \ YAML syntax\n   # Test affected areas\n   # Report success/failure\n   ```\n\
+    \n   Features:\n   - Glob pattern support\n   - Targeted restoration\n   - Pre-restoration\
+    \ backup\n   - YAML validation\n   - Granular control\n\n4. Checkpoint Management:\n\
+    \n   Script: manage-checkpoints.sh\n   ```bash\n   #!/bin/bash\n   # Manages checkpoint\
+    \ lifecycle\n   # Usage: ./manage-checkpoints.sh [list|verify|clean|compare]\n\
+    \n   # list: Show all checkpoints with sizes/dates\n   # verify: Verify checksums\
+    \ for all checkpoints\n   # clean: Remove old checkpoints (keep last N)\n   #\
+    \ compare: Show differences between checkpoints\n   ```\n\n   Features:\n   -\
+    \ List all checkpoints\n   - Verify integrity of all checkpoints\n   - Cleanup\
+    \ old checkpoints\n   - Compare checkpoint contents\n   - Storage management\n\
+    \n5. Verification Functions:\n\n   Python Module: checkpoint_verifier.py\n   ```python\n\
+    \   def verify_checkpoint_integrity(checkpoint_path):\n       \"\"\"Verify all\
+    \ files match checksums in manifest\"\"\"\n\n   def verify_yaml_syntax(directory):\n\
+    \       \"\"\"Verify all YAML files parse correctly\"\"\"\n\n   def verify_roadmap_commands():\n\
+    \       \"\"\"Test that vibey roadmap commands work\"\"\"\n\n   def generate_checkpoint_report(checkpoint_path):\n\
+    \       \"\"\"Generate detailed checkpoint report\"\"\"\n   ```\n\n6. Integration\
+    \ with Roadmap CLI:\n\n   Add commands to vibey CLI:\n   ```bash\n   vibey roadmap\
+    \ checkpoint create [name]\n   vibey roadmap checkpoint restore <name> [--verify-only]\n\
+    \   vibey roadmap checkpoint list\n   vibey roadmap checkpoint verify <name>\n\
+    \   ```\n\nTesting Requirements:\n\nTest Scenarios:\n1. Create checkpoint of current\
+    \ state\n2. Make changes to .vibey/ directory\n3. Restore from checkpoint\n4.\
+    \ Verify restoration matches original\n5. Test selective file restoration\n6.\
+    \ Test checkpoint verification\n7. Test checkpoint cleanup\n8. Test with corrupted\
+    \ checkpoint\n9. Test with missing files\n10. Test with invalid YAML\n\nPerformance\
+    \ Targets:\n- Checkpoint creation: <30 seconds for full .vibey/\n- Restoration:\
+    \ <60 seconds for full .vibey/\n- Verification: <15 seconds for checksum check\n\
+    - Selective restore: <10 seconds for individual files\n\nError Handling:\n- Disk\
+    \ space checks before backup\n- Permission checks\n- Corrupt checkpoint detection\n\
+    - Partial restoration recovery\n- Detailed error messages\n\nAcceptance Criteria:\n\
+    - All 4 scripts implemented and tested\n- Python verification module created\n\
+    - CLI integration complete\n- All 10 test scenarios pass\n- Performance targets\
+    \ met\n- Error handling comprehensive\n- Documentation with examples\n\nDeliverables:\n\
+    - create-integrity-checkpoint.sh\n- restore-integrity-checkpoint.sh\n- restore-selective-files.sh\n\
+    - manage-checkpoints.sh\n- checkpoint_verifier.py (Python module)\n- CLI integration\
+    \ code\n- Testing results for all scenarios\n- User documentation with examples\n"
+  status: completed
+  blocked: true
   created: '2025-11-12T20:50:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T02:22:24.656728+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 5000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-    - roadmap-integrity-fixes-2-task-001
+  - type: task
+    target_id: roadmap-integrity-fixes-2-task-001
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-    - roadmap-integrity-fixes-0-task-005
+  - dependency_id: roadmap-integrity-fixes-0-task-005
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-21T00:26:24.503224+00:00'
+    estimated_resolution: null
   depends_on:
-    - roadmap-integrity-fixes-0-task-005
+  - blocker_id: roadmap-integrity-fixes-0-task-005
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:26:24.503227+00:00'
   depended_on_by:
-    - roadmap-integrity-fixes-2-task-001
+  - roadmap-integrity-fixes-2-task-001
   deliverables:
+  - type: code
+    paths:
     - Backup automation scripts (4 bash scripts)
+  - type: code
+    paths:
     - checkpoint_verifier.py module
+  - type: code
+    paths:
     - CLI integration
+  - type: code
+    paths:
     - Testing results
   commits: []
   metadata:

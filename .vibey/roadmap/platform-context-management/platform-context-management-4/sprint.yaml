@@ -10,7 +10,7 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 8
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   tasks:

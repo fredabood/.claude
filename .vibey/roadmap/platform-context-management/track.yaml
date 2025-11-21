@@ -47,18 +47,50 @@ track:
     tasks_count: 6
     started: null
   dependencies:
-  - interface-unification
+  - type: track
+    target_id: interface-unification
+    target_status: completed
+    reason: Dependency on track completion
+    optional: false
   blocks:
-  - goose-port
-  - aider-port
-  - continue-port
-  - windsurf-port
-  - jetbrains-port
-  - multi-platform
+  - type: track
+    target_id: goose-port
+    at_status: not_started
+    reason: Blocks track from starting
+  - type: track
+    target_id: aider-port
+    at_status: not_started
+    reason: Blocks track from starting
+  - type: track
+    target_id: continue-port
+    at_status: not_started
+    reason: Blocks track from starting
+  - type: track
+    target_id: windsurf-port
+    at_status: not_started
+    reason: Blocks track from starting
+  - type: track
+    target_id: jetbrains-port
+    at_status: not_started
+    reason: Blocks track from starting
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Blocks track from starting
   blocked_by:
-  - interface-unification
+  - dependency_id: interface-unification
+    dependency_type: track
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-20T17:57:18.476800+00:00'
+    estimated_resolution: null
   depends_on:
-  - interface-unification
+  - blocker_id: interface-unification
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: completed
+    last_checked: '2025-11-20T17:57:18.481934+00:00'
   depended_on_by:
   - goose-port
   - aider-port
@@ -71,7 +103,7 @@ track:
     threshold: 90
     blocking: true
     status: not_run
-    description: ">90% code coverage for platform context system"
+    description: '>90% code coverage for platform context system'
     score: null
   - name: Integration Tests
     threshold: 100
@@ -116,313 +148,151 @@ track:
   - 'Intelligent Recalculation: Preserves dependencies, agents, and success criteria'
   - 'Platform Ports Unblocked: Essential infrastructure for Goose, Aider, etc.'
   - 'Sprint Integrity: Sprint remains the shippable unit, tasks adapt to platform'
+  commits: []
+  standards: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-12T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_TRACKING_ANALYSIS.md
     implementation_plan: null
-    notes: |
-      PLATFORM CONTEXT MANAGEMENT SYSTEM
-
-      ARCHITECTURAL PRINCIPLE:
-      - Sprint = Unit of work relevant to the project (shippable to production)
-      - Task Plan = Unit of work relevant to the current AI coding platform
-
-      The sprint is the contract with the project. The task breakdown is the
-      execution plan for a specific platform's capabilities. When platforms
-      change, we recalculate tasks to fit the new context, but the sprint's
-      goals and deliverables remain constant.
-
-      PROBLEM:
-      Alice uses Claude Code (200K context) and creates a sprint with tasks
-      sized at 180K, 150K, and 100K tokens. Bob uses Goose (128K context)
-      and wants to work on the same sprint. Currently:
-      - No platform detection exists
-      - No compatibility checking
-      - Bob discovers incompatibility only after starting work
-      - No way to recalculate tasks for Goose's constraints
-      - Team must manually re-plan sprints for each platform
-
-      SOLUTION:
-      Implement platform-aware sprint management where:
-      1. Platform is auto-detected (Claude Code, Goose, Cursor, etc.)
-      2. Context window is known for each platform
-      3. Sprint start checks compatibility with current platform
-      4. User is prompted to recalculate if tasks too large
-      5. Recalculation intelligently splits tasks while preserving:
-         - Dependencies (analyzed for relevance, re-mapped)
-         - Agent assignments (preserved where appropriate)
-         - Success criteria (validated, ensured coverage)
-         - Sprint-level goals and deliverables
-      6. Only incomplete tasks are recalculated (completed work preserved)
-
-      ARCHITECTURE:
-
-      Sprint 1: Platform & Context Detection (1 week)
-      ------------------------------------------------
-      Build foundational platform detection system:
-      - Environment variable inspection
-      - Process name detection
-      - User agent analysis
-      - Platform capability database (context windows)
-      - Platform configuration storage (.vibey/config/platform.yaml)
-      - CLI: vibey config platform set <name> --context-window <size>
-      - Platform validation and warnings
-
-      Deliverables:
-      - vibey/platform/detector.py (auto-detect current platform)
-      - vibey/platform/context.py (context window detection)
-      - vibey/platform/capabilities.py (platform capability database)
-      - .vibey/config/platform.yaml (user platform config)
-      - CLI command: vibey config platform
-
-      Sprint 2: Compatibility Analysis (1 week)
-      ------------------------------------------
-      Build sprint/task compatibility checking:
-      - Task size vs context window comparison
-      - Incomplete task filtering (ignore completed)
-      - Sprint-level compatibility analysis
-      - Warning message generation
-      - CLI: vibey roadmap check-compatibility <sprint-id>
-
-      Algorithm:
-      1. Load sprint and all tasks
-      2. Filter to incomplete tasks only
-      3. Compare each task.estimated_tokens vs platform.context_window
-      4. Report oversized tasks with details
-      5. Suggest recalculation if needed
-
-      Deliverables:
-      - vibey/roadmap/compatibility.py (checker module)
-      - CLI command: vibey roadmap check-compatibility
-      - Warning message templates
-
-      Sprint 3: Smart Prompting & User Flow (1 week)
-      -----------------------------------------------
-      Integrate compatibility checking into natural workflows:
-      - Hook into: vibey roadmap start <sprint-id>
-      - Hook into: vibey roadmap show <sprint-id>
-      - Hook into: vibey roadmap status (show compatibility warnings)
-      - User prompt system (always ask, never auto-recalculate)
-      - Options: Yes (recalculate now), No (continue anyway), Info (explain)
-
-      User Experience:
-      ```
-      $ vibey roadmap start auth-sprint-1
-
-      ⚠️  Sprint Compatibility Warning
-
-      This sprint has tasks that may not fit in your platform's context window.
-
-      Your platform: goose (128K context window)
-      Sprint sized for: claude-code (200K context window)
-
-      Oversized incomplete tasks: 2/3 tasks
-        - auth-task-001: 180K tokens (exceeds limit by 52K)
-        - auth-task-003: 150K tokens (exceeds limit by 22K)
-
-      Would you like to recalculate this sprint for goose?
-      This will split oversized tasks while preserving dependencies and success criteria.
-
-      [Y] Recalculate now  [N] Continue anyway  [I] More info  [C] Cancel
-      ```
-
-      Deliverables:
-      - Prompt system integration
-      - User flow testing
-      - UX refinement
-
-      Sprint 4: Intelligent Recalculation Algorithm (2 weeks)
-      -------------------------------------------------------
-      The core recalculation engine with intelligent task planning:
-
-      Recalculation Process:
-      1. Load sprint and incomplete tasks
-      2. Identify oversized tasks
-      3. For each oversized task:
-         a. Calculate split ratio (how many sub-tasks needed)
-         b. Analyze dependencies (internal and external)
-         c. Determine dependency relevance to new structure
-         d. Re-map external dependencies to new task milestones
-         e. Preserve/reassign agents based on new scope
-         f. Validate all success criteria still covered
-         g. Create new task definitions
-      4. Update sprint metadata:
-         - sized_for_platform: goose
-         - sized_context_window: 128000
-         - sized_at: <timestamp>
-         - sized_by: <user>
-         - originally_sized_for: claude-code (if first recalc)
-         - originally_sized_context: 200000
-      5. Write updated sprint.yaml and task.yaml files
-      6. Generate recalculation summary
-
-      Task Splitting Algorithm:
-      ```python
-      def split_task(task, max_context):
-          """Split task into sub-tasks that fit context."""
-          num_splits = ceil(task.estimated_tokens / (max_context * 0.9))
-
-          # Analyze dependencies
-          internal_deps = [d for d in task.dependencies if in_same_sprint(d)]
-          external_deps = [d for d in task.dependencies if not in_same_sprint(d)]
-
-          subtasks = []
-          for i in range(num_splits):
-              subtask = create_subtask(task, i, num_splits)
-
-              # First subtask inherits external dependencies
-              if i == 0:
-                  subtask.dependencies = external_deps
-              else:
-                  # Later subtasks depend on previous subtask
-                  subtask.dependencies = [subtasks[-1].id]
-
-              # Analyze and preserve agent assignments
-              subtask.assigned_agent = determine_agent(task, subtask)
-
-              # Distribute success criteria across subtasks
-              subtask.success_criteria = map_success_criteria(
-                  task.success_criteria, i, num_splits
-              )
-
-              subtasks.append(subtask)
-
-          # Last subtask fulfills original task's dependents
-          # (other tasks depending on this one now depend on last subtask)
-
-          return subtasks
-      ```
-
-      Dependency Re-mapping:
-      - Internal dependencies: Adjust to new task IDs
-      - External dependencies: Preserve but update references
-      - Dependent tasks: Update to depend on last subtask
-
-      Success Criteria Validation:
-      - Ensure all original criteria covered by new tasks
-      - Distribute criteria logically across subtasks
-      - Add criteria for subtask integration/continuity
-
-      Agent Assignment:
-      - Preserve agent if subtask scope matches original
-      - Reassign if subtask requires different expertise
-      - Use agent capability matrix for decisions
-
-      Deliverables:
-      - vibey/roadmap/recalculator.py (core engine)
-      - vibey/roadmap/task_splitter.py (splitting algorithm)
-      - vibey/roadmap/dependency_mapper.py (dependency analysis)
-      - vibey/roadmap/criteria_validator.py (success criteria)
-      - CLI command: vibey roadmap recalculate
-      - Comprehensive unit tests
-      - Integration tests for complex scenarios
-
-      Sprint 5: Testing, Documentation & Polish (1 week)
-      ---------------------------------------------------
-      - Multi-platform scenario testing
-      - Complex dependency re-mapping tests
-      - Success criteria validation tests
-      - Edge case handling (circular deps, etc.)
-      - User documentation (guides/PLATFORM_CONTEXT_MANAGEMENT.md)
-      - Developer documentation (development/RECALCULATION_ALGORITHM.md)
-      - API documentation
-      - Example workflows and best practices
-      - Video/tutorial content (optional)
-
-      VALIDATION CRITERIA:
-
-      1. Test Coverage (90%)
-         - >90% coverage for all platform context code
-         - All critical paths tested
-         - Integration tests for full workflows
-
-      2. Integration Tests (100%)
-         - Platform detection works on all supported platforms
-         - Compatibility checking accurate
-         - Recalculation preserves sprint integrity
-         - Dependencies correctly re-mapped
-         - Success criteria validated
-
-      3. Multi-Platform Validation (100%)
-         - Tested on Claude Code (200K context)
-         - Tested on Goose (128K context)
-         - Tested on at least one other platform
-         - Cross-platform sprint handoffs verified
-
-      4. Documentation Complete (100%)
-         - User guide complete with examples
-         - Developer guide complete with architecture
-         - API documentation complete
-         - Troubleshooting guide included
-
-      DESIGN DECISIONS:
-
-      1. No Full Recalculation History
-         Rationale: Git already tracks changes via YAML diffs.
-         Solution: Store minimal metadata (sized_for_platform, etc.)
-         Benefit: Clean data model, no bloat, git handles versioning
-
-      2. Always Prompt, Never Auto-Recalculate
-         Rationale: User should control when tasks change
-         Solution: Smart prompts at natural decision points
-         Benefit: Transparency, user control, prevents surprises
-
-      3. Only Recalculate Incomplete Tasks
-         Rationale: Completed work should never change
-         Solution: Filter completed tasks before recalculation
-         Benefit: Preserves history, prevents data loss
-
-      4. Sprint as Contract, Tasks as Execution Plan
-         Rationale: Sprint goals are platform-agnostic
-         Solution: Preserve sprint deliverables, adapt task breakdown
-         Benefit: Sprint remains shippable unit regardless of platform
-
-      RISKS & MITIGATION:
-
-      Risk: Platform detection inaccurate
-      → Support manual override via config
-      → Provide clear detection status in CLI
-      → Document detection methods
-
-      Risk: Recalculation breaks dependencies
-      → Extensive dependency testing
-      → Validation before writing changes
-      → Rollback mechanism if validation fails
-
-      Risk: Task splitting loses context
-      → Preserve original task in metadata
-      → Link subtasks to parent task
-      → Include "continuation" instructions in subtask descriptions
-
-      Risk: Over-splitting creates tiny tasks
-      → Set minimum task size (e.g., 20K tokens)
-      → Prefer fewer larger tasks over many tiny ones
-      → Allow user to adjust split granularity
-
-      SUCCESS METRICS:
-
-      - Platform detection working on 3+ platforms
-      - >90% code coverage achieved
-      - Zero data loss in recalculation
-      - Sprint integrity preserved (100% of test cases)
-      - User satisfaction (qualitative feedback)
-      - Multi-platform sprint handoffs successful
-      - Documentation complete and clear
-      - Ready for platform ports (goose-port unblocked)
-
-      TIMELINE & DEPENDENCIES:
-
-      Timeline: 5 weeks (Q1 2025)
-      Priority: CRITICAL (unblocks all platform ports)
-      Dependencies: None (can start immediately)
-      Blocks: goose-port, aider-port, continue-port, windsurf-port,
-              jetbrains-port, multi-platform
-      Sequencing: BEFORE standards-system (platform infrastructure first)
-
-      This track is foundational for multi-platform Vibey. Without it,
-      every platform requires separate sprint planning, preventing true
-      cross-platform collaboration. With it, sprints become portable
-      contracts that adapt to each platform's capabilities.
-
-      IMPLEMENTATION PRIORITY: START IMMEDIATELY
+    notes: "PLATFORM CONTEXT MANAGEMENT SYSTEM\n\nARCHITECTURAL PRINCIPLE:\n- Sprint\
+      \ = Unit of work relevant to the project (shippable to production)\n- Task Plan\
+      \ = Unit of work relevant to the current AI coding platform\n\nThe sprint is\
+      \ the contract with the project. The task breakdown is the\nexecution plan for\
+      \ a specific platform's capabilities. When platforms\nchange, we recalculate\
+      \ tasks to fit the new context, but the sprint's\ngoals and deliverables remain\
+      \ constant.\n\nPROBLEM:\nAlice uses Claude Code (200K context) and creates a\
+      \ sprint with tasks\nsized at 180K, 150K, and 100K tokens. Bob uses Goose (128K\
+      \ context)\nand wants to work on the same sprint. Currently:\n- No platform\
+      \ detection exists\n- No compatibility checking\n- Bob discovers incompatibility\
+      \ only after starting work\n- No way to recalculate tasks for Goose's constraints\n\
+      - Team must manually re-plan sprints for each platform\n\nSOLUTION:\nImplement\
+      \ platform-aware sprint management where:\n1. Platform is auto-detected (Claude\
+      \ Code, Goose, Cursor, etc.)\n2. Context window is known for each platform\n\
+      3. Sprint start checks compatibility with current platform\n4. User is prompted\
+      \ to recalculate if tasks too large\n5. Recalculation intelligently splits tasks\
+      \ while preserving:\n   - Dependencies (analyzed for relevance, re-mapped)\n\
+      \   - Agent assignments (preserved where appropriate)\n   - Success criteria\
+      \ (validated, ensured coverage)\n   - Sprint-level goals and deliverables\n\
+      6. Only incomplete tasks are recalculated (completed work preserved)\n\nARCHITECTURE:\n\
+      \nSprint 1: Platform & Context Detection (1 week)\n------------------------------------------------\n\
+      Build foundational platform detection system:\n- Environment variable inspection\n\
+      - Process name detection\n- User agent analysis\n- Platform capability database\
+      \ (context windows)\n- Platform configuration storage (.vibey/config/platform.yaml)\n\
+      - CLI: vibey config platform set <name> --context-window <size>\n- Platform\
+      \ validation and warnings\n\nDeliverables:\n- vibey/platform/detector.py (auto-detect\
+      \ current platform)\n- vibey/platform/context.py (context window detection)\n\
+      - vibey/platform/capabilities.py (platform capability database)\n- .vibey/config/platform.yaml\
+      \ (user platform config)\n- CLI command: vibey config platform\n\nSprint 2:\
+      \ Compatibility Analysis (1 week)\n------------------------------------------\n\
+      Build sprint/task compatibility checking:\n- Task size vs context window comparison\n\
+      - Incomplete task filtering (ignore completed)\n- Sprint-level compatibility\
+      \ analysis\n- Warning message generation\n- CLI: vibey roadmap check-compatibility\
+      \ <sprint-id>\n\nAlgorithm:\n1. Load sprint and all tasks\n2. Filter to incomplete\
+      \ tasks only\n3. Compare each task.estimated_tokens vs platform.context_window\n\
+      4. Report oversized tasks with details\n5. Suggest recalculation if needed\n\
+      \nDeliverables:\n- vibey/roadmap/compatibility.py (checker module)\n- CLI command:\
+      \ vibey roadmap check-compatibility\n- Warning message templates\n\nSprint 3:\
+      \ Smart Prompting & User Flow (1 week)\n-----------------------------------------------\n\
+      Integrate compatibility checking into natural workflows:\n- Hook into: vibey\
+      \ roadmap start <sprint-id>\n- Hook into: vibey roadmap show <sprint-id>\n-\
+      \ Hook into: vibey roadmap status (show compatibility warnings)\n- User prompt\
+      \ system (always ask, never auto-recalculate)\n- Options: Yes (recalculate now),\
+      \ No (continue anyway), Info (explain)\n\nUser Experience:\n```\n$ vibey roadmap\
+      \ start auth-sprint-1\n\n⚠️  Sprint Compatibility Warning\n\nThis sprint has\
+      \ tasks that may not fit in your platform's context window.\n\nYour platform:\
+      \ goose (128K context window)\nSprint sized for: claude-code (200K context window)\n\
+      \nOversized incomplete tasks: 2/3 tasks\n  - auth-task-001: 180K tokens (exceeds\
+      \ limit by 52K)\n  - auth-task-003: 150K tokens (exceeds limit by 22K)\n\nWould\
+      \ you like to recalculate this sprint for goose?\nThis will split oversized\
+      \ tasks while preserving dependencies and success criteria.\n\n[Y] Recalculate\
+      \ now  [N] Continue anyway  [I] More info  [C] Cancel\n```\n\nDeliverables:\n\
+      - Prompt system integration\n- User flow testing\n- UX refinement\n\nSprint\
+      \ 4: Intelligent Recalculation Algorithm (2 weeks)\n-------------------------------------------------------\n\
+      The core recalculation engine with intelligent task planning:\n\nRecalculation\
+      \ Process:\n1. Load sprint and incomplete tasks\n2. Identify oversized tasks\n\
+      3. For each oversized task:\n   a. Calculate split ratio (how many sub-tasks\
+      \ needed)\n   b. Analyze dependencies (internal and external)\n   c. Determine\
+      \ dependency relevance to new structure\n   d. Re-map external dependencies\
+      \ to new task milestones\n   e. Preserve/reassign agents based on new scope\n\
+      \   f. Validate all success criteria still covered\n   g. Create new task definitions\n\
+      4. Update sprint metadata:\n   - sized_for_platform: goose\n   - sized_context_window:\
+      \ 128000\n   - sized_at: <timestamp>\n   - sized_by: <user>\n   - originally_sized_for:\
+      \ claude-code (if first recalc)\n   - originally_sized_context: 200000\n5. Write\
+      \ updated sprint.yaml and task.yaml files\n6. Generate recalculation summary\n\
+      \nTask Splitting Algorithm:\n```python\ndef split_task(task, max_context):\n\
+      \    \"\"\"Split task into sub-tasks that fit context.\"\"\"\n    num_splits\
+      \ = ceil(task.estimated_tokens / (max_context * 0.9))\n\n    # Analyze dependencies\n\
+      \    internal_deps = [d for d in task.dependencies if in_same_sprint(d)]\n \
+      \   external_deps = [d for d in task.dependencies if not in_same_sprint(d)]\n\
+      \n    subtasks = []\n    for i in range(num_splits):\n        subtask = create_subtask(task,\
+      \ i, num_splits)\n\n        # First subtask inherits external dependencies\n\
+      \        if i == 0:\n            subtask.dependencies = external_deps\n    \
+      \    else:\n            # Later subtasks depend on previous subtask\n      \
+      \      subtask.dependencies = [subtasks[-1].id]\n\n        # Analyze and preserve\
+      \ agent assignments\n        subtask.assigned_agent = determine_agent(task,\
+      \ subtask)\n\n        # Distribute success criteria across subtasks\n      \
+      \  subtask.success_criteria = map_success_criteria(\n            task.success_criteria,\
+      \ i, num_splits\n        )\n\n        subtasks.append(subtask)\n\n    # Last\
+      \ subtask fulfills original task's dependents\n    # (other tasks depending\
+      \ on this one now depend on last subtask)\n\n    return subtasks\n```\n\nDependency\
+      \ Re-mapping:\n- Internal dependencies: Adjust to new task IDs\n- External dependencies:\
+      \ Preserve but update references\n- Dependent tasks: Update to depend on last\
+      \ subtask\n\nSuccess Criteria Validation:\n- Ensure all original criteria covered\
+      \ by new tasks\n- Distribute criteria logically across subtasks\n- Add criteria\
+      \ for subtask integration/continuity\n\nAgent Assignment:\n- Preserve agent\
+      \ if subtask scope matches original\n- Reassign if subtask requires different\
+      \ expertise\n- Use agent capability matrix for decisions\n\nDeliverables:\n\
+      - vibey/roadmap/recalculator.py (core engine)\n- vibey/roadmap/task_splitter.py\
+      \ (splitting algorithm)\n- vibey/roadmap/dependency_mapper.py (dependency analysis)\n\
+      - vibey/roadmap/criteria_validator.py (success criteria)\n- CLI command: vibey\
+      \ roadmap recalculate\n- Comprehensive unit tests\n- Integration tests for complex\
+      \ scenarios\n\nSprint 5: Testing, Documentation & Polish (1 week)\n---------------------------------------------------\n\
+      - Multi-platform scenario testing\n- Complex dependency re-mapping tests\n-\
+      \ Success criteria validation tests\n- Edge case handling (circular deps, etc.)\n\
+      - User documentation (guides/PLATFORM_CONTEXT_MANAGEMENT.md)\n- Developer documentation\
+      \ (development/RECALCULATION_ALGORITHM.md)\n- API documentation\n- Example workflows\
+      \ and best practices\n- Video/tutorial content (optional)\n\nVALIDATION CRITERIA:\n\
+      \n1. Test Coverage (90%)\n   - >90% coverage for all platform context code\n\
+      \   - All critical paths tested\n   - Integration tests for full workflows\n\
+      \n2. Integration Tests (100%)\n   - Platform detection works on all supported\
+      \ platforms\n   - Compatibility checking accurate\n   - Recalculation preserves\
+      \ sprint integrity\n   - Dependencies correctly re-mapped\n   - Success criteria\
+      \ validated\n\n3. Multi-Platform Validation (100%)\n   - Tested on Claude Code\
+      \ (200K context)\n   - Tested on Goose (128K context)\n   - Tested on at least\
+      \ one other platform\n   - Cross-platform sprint handoffs verified\n\n4. Documentation\
+      \ Complete (100%)\n   - User guide complete with examples\n   - Developer guide\
+      \ complete with architecture\n   - API documentation complete\n   - Troubleshooting\
+      \ guide included\n\nDESIGN DECISIONS:\n\n1. No Full Recalculation History\n\
+      \   Rationale: Git already tracks changes via YAML diffs.\n   Solution: Store\
+      \ minimal metadata (sized_for_platform, etc.)\n   Benefit: Clean data model,\
+      \ no bloat, git handles versioning\n\n2. Always Prompt, Never Auto-Recalculate\n\
+      \   Rationale: User should control when tasks change\n   Solution: Smart prompts\
+      \ at natural decision points\n   Benefit: Transparency, user control, prevents\
+      \ surprises\n\n3. Only Recalculate Incomplete Tasks\n   Rationale: Completed\
+      \ work should never change\n   Solution: Filter completed tasks before recalculation\n\
+      \   Benefit: Preserves history, prevents data loss\n\n4. Sprint as Contract,\
+      \ Tasks as Execution Plan\n   Rationale: Sprint goals are platform-agnostic\n\
+      \   Solution: Preserve sprint deliverables, adapt task breakdown\n   Benefit:\
+      \ Sprint remains shippable unit regardless of platform\n\nRISKS & MITIGATION:\n\
+      \nRisk: Platform detection inaccurate\n→ Support manual override via config\n\
+      → Provide clear detection status in CLI\n→ Document detection methods\n\nRisk:\
+      \ Recalculation breaks dependencies\n→ Extensive dependency testing\n→ Validation\
+      \ before writing changes\n→ Rollback mechanism if validation fails\n\nRisk:\
+      \ Task splitting loses context\n→ Preserve original task in metadata\n→ Link\
+      \ subtasks to parent task\n→ Include \"continuation\" instructions in subtask\
+      \ descriptions\n\nRisk: Over-splitting creates tiny tasks\n→ Set minimum task\
+      \ size (e.g., 20K tokens)\n→ Prefer fewer larger tasks over many tiny ones\n\
+      → Allow user to adjust split granularity\n\nSUCCESS METRICS:\n\n- Platform detection\
+      \ working on 3+ platforms\n- >90% code coverage achieved\n- Zero data loss in\
+      \ recalculation\n- Sprint integrity preserved (100% of test cases)\n- User satisfaction\
+      \ (qualitative feedback)\n- Multi-platform sprint handoffs successful\n- Documentation\
+      \ complete and clear\n- Ready for platform ports (goose-port unblocked)\n\n\
+      TIMELINE & DEPENDENCIES:\n\nTimeline: 5 weeks (Q1 2025)\nPriority: CRITICAL\
+      \ (unblocks all platform ports)\nDependencies: None (can start immediately)\n\
+      Blocks: goose-port, aider-port, continue-port, windsurf-port,\n        jetbrains-port,\
+      \ multi-platform\nSequencing: BEFORE standards-system (platform infrastructure\
+      \ first)\n\nThis track is foundational for multi-platform Vibey. Without it,\n\
+      every platform requires separate sprint planning, preventing true\ncross-platform\
+      \ collaboration. With it, sprints become portable\ncontracts that adapt to each\
+      \ platform's capabilities.\n\nIMPLEMENTATION PRIORITY: START IMMEDIATELY\n"

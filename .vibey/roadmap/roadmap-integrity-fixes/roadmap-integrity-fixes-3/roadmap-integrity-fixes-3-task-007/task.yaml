@@ -5,45 +5,67 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Recalculate all roadmap progress
-  description: |
-    Run vibey roadmap recalculate-all to ensure all progress counters
+  description: 'Run vibey roadmap recalculate-all to ensure all progress counters
+
     are calculated from actual task data, not manual entries.
+
 
     This task must run AFTER all status fixes and phantom data resets.
 
+
     Command to Run:
+
     vibey roadmap recalculate-all --verify
 
+
     What This Does:
+
     - Recalculates all sprint progress from tasks
+
     - Recalculates all track progress from sprints
+
     - Recalculates roadmap progress from tracks
+
     - Refreshes all dependency caches
+
     - Recomputes blocked status flags
+
     - Verifies consistency (with --verify flag)
 
+
     Expected Outcomes:
+
     - Zero status/progress mismatches
+
     - All progress based on actual task counts
+
     - All dependency caches current
+
     - Consistency verification passes
 
+
     Acceptance Criteria:
+
     - Command runs without errors
+
     - Verification reports 0 issues
+
     - All tracks have accurate progress
+
     - All sprints have accurate progress
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-12T19:30:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-21T00:27:28.990386+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
   estimated_tokens: 1500
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies:
@@ -76,8 +98,12 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables:
-  - Recalculated progress across all 19 tracks
-  - Verification report with 0 issues
+  - type: code
+    paths:
+    - Recalculated progress across all 19 tracks
+  - type: code
+    paths:
+    - Verification report with 0 issues
   commits: []
   metadata:
     last_updated: '2025-11-12T19:30:00+00:00'

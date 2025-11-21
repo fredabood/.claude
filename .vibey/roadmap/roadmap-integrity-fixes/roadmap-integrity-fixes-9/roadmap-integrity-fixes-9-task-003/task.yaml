@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-9-task-003
-  name: Fix standards enforcement field mismatch (title vs name)
   sprint_id: roadmap-integrity-fixes-9
   track_id: roadmap-integrity-fixes
-  status: not_started
-  type: development
-  priority: critical
-  created: '2025-11-20T00:13:23.100761+00:00'
-  started: null
-  completed: null
-  estimated_duration: 1 hour
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix standards enforcement field mismatch (title vs name)
   description: "Fix standards enforcement to use correct Task field names.\n\nProblem:\n\
     - Code accesses: task.title\n- Model defines: task.name\n- Error: KeyError: 'title'\n\
     \nRoot cause: Inconsistent field naming in standards_enforcement.py\n\nFix steps:\n\
@@ -18,12 +12,24 @@ task:
     \n2. Replace with task.name\n\n3. Audit all field accesses in standards enforcement:\n\
     \   - task.name (correct)\n   - task.description (correct)\n   - task.status (correct)\n\
     \   - task.deliverables (correct)\n\n4. Add tests to prevent regression\n"
-  acceptance_criteria:
-  - No KeyError on standards enforcement
-  - All Task field accesses use correct names
-  - vibey roadmap complete works without errors
-  - Test suite validates field access
-  - Documentation updated with correct field names
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:13:23.100761+00:00'
+  started: null
+  completed: '2025-11-20T17:52:49.680996+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: code
     paths:
@@ -34,11 +40,8 @@ task:
   - type: documentation
     paths:
     - docs/development/TASK_MODEL_FIELDS.md
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:13:23.100779+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -36,10 +36,7 @@ sprint:
   - Enhanced context management commands
   - Automatic sync triggers
   - Synchronization reliability tests
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  commits: []
   standards: []
   metadata:
     last_updated: '2025-11-09T21:30:52.028602+00:00'

@@ -5,57 +5,32 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Backup archive integrity verification
-  description: |
-    Verify all backup archives are readable, uncorrupted, and contain expected data
-    before beginning forensic audit work. Critical safety check to ensure we can
-    recover from migration issues if needed.
-
-    Backup Archives to Verify:
-    1. .vibey/hierarchical-migration-backups/backup_20251109_171311/
-       - Most critical backup (pre-hierarchical migration)
-       - Should contain flat structure: tracks/*.yaml, sprints/*.yaml, tasks/*-tasks.yaml
-       - Expected: 11 tracks, 8 sprints, 8 task files
-
-    2. .vibey/hierarchical-migration-backups/backup_20251110_183045/
-       - Post-first-migration backup
-       - Verify structure transition
-
-    3. .vibey/hierarchical-migration-backups/backup_20251110_194522/
-       - Latest backup
-       - Verify final state before integrity fixes
-
-    4. .vibey/config-backups/ (if exists)
-       - Config migration backups
-       - Verify config integrity
-
-    Verification Steps:
-    1. Check each backup directory exists and is readable
-    2. Verify file count matches expectations
-    3. Test YAML parsing on all backup files
-    4. Compare backup timestamps to git history
-    5. Verify backup completeness (no missing tracks/sprints)
-    6. Test sample restoration to /tmp to verify recoverability
-    7. Document any corrupted or missing backup data
-    8. Create backup comparison matrix
-
-    Acceptance Criteria:
-    - All backup archives cataloged with sizes and file counts
-    - All YAML files successfully parse without errors
-    - Backup comparison matrix created
-    - Sample restoration tested and successful
-    - Any corruption or gaps documented
-    - Backup integrity report generated
-
-    Deliverables:
-    - Backup integrity verification report (markdown)
-    - Backup comparison matrix
-    - Sample restoration test results
-    - List of any corrupted or incomplete backups
-  status: not_started
+  description: "Verify all backup archives are readable, uncorrupted, and contain\
+    \ expected data\nbefore beginning forensic audit work. Critical safety check to\
+    \ ensure we can\nrecover from migration issues if needed.\n\nBackup Archives to\
+    \ Verify:\n1. .vibey/hierarchical-migration-backups/backup_20251109_171311/\n\
+    \   - Most critical backup (pre-hierarchical migration)\n   - Should contain flat\
+    \ structure: tracks/*.yaml, sprints/*.yaml, tasks/*-tasks.yaml\n   - Expected:\
+    \ 11 tracks, 8 sprints, 8 task files\n\n2. .vibey/hierarchical-migration-backups/backup_20251110_183045/\n\
+    \   - Post-first-migration backup\n   - Verify structure transition\n\n3. .vibey/hierarchical-migration-backups/backup_20251110_194522/\n\
+    \   - Latest backup\n   - Verify final state before integrity fixes\n\n4. .vibey/config-backups/\
+    \ (if exists)\n   - Config migration backups\n   - Verify config integrity\n\n\
+    Verification Steps:\n1. Check each backup directory exists and is readable\n2.\
+    \ Verify file count matches expectations\n3. Test YAML parsing on all backup files\n\
+    4. Compare backup timestamps to git history\n5. Verify backup completeness (no\
+    \ missing tracks/sprints)\n6. Test sample restoration to /tmp to verify recoverability\n\
+    7. Document any corrupted or missing backup data\n8. Create backup comparison\
+    \ matrix\n\nAcceptance Criteria:\n- All backup archives cataloged with sizes and\
+    \ file counts\n- All YAML files successfully parse without errors\n- Backup comparison\
+    \ matrix created\n- Sample restoration tested and successful\n- Any corruption\
+    \ or gaps documented\n- Backup integrity report generated\n\nDeliverables:\n-\
+    \ Backup integrity verification report (markdown)\n- Backup comparison matrix\n\
+    - Sample restoration test results\n- List of any corrupted or incomplete backups\n"
+  status: completed
   blocked: false
   created: '2025-11-12T20:45:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-20T20:25:19.732223+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null
@@ -66,14 +41,23 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-    - roadmap-integrity-fixes-0-task-002
+  - type: task
+    target_id: roadmap-integrity-fixes-0-task-002
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by:
-    - roadmap-integrity-fixes-0-task-002
+  - roadmap-integrity-fixes-0-task-002
   deliverables:
+  - type: code
+    paths:
     - Backup integrity verification report
+  - type: code
+    paths:
     - Backup comparison matrix
+  - type: code
+    paths:
     - Sample restoration test results
   commits: []
   metadata:

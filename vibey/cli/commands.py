@@ -198,6 +198,746 @@ def roadmap_add_commit_cmd(task_id: str, commit_sha: Optional[str] = None, auto:
     )
 
 
+def roadmap_validate_advanced_cmd(verbose: bool = False, check: str = 'all') -> int:
+    """Advanced roadmap validation."""
+    from vibey.operations.roadmap.advanced_validator import (
+        AdvancedValidator,
+        AdvancedValidationReport,
+        print_advanced_report
+    )
+
+    root_dir = Path.cwd()
+    validator = AdvancedValidator(root_dir)
+
+    print("Running advanced validation checks...")
+    print()
+
+    if check == 'all':
+        # Run all checks
+        report = validator.validate()
+        print_advanced_report(report, verbose=verbose)
+        return 0 if not report.has_issues else 1
+
+    # Run specific check
+    report = AdvancedValidationReport()
+
+    if check == 'circular':
+        print("Checking for circular dependencies...")
+        tasks = validator._load_all_tasks()
+        report.total_tasks = len(tasks)
+        from vibey.operations.roadmap.advanced_validator import detect_circular_dependencies
+        report.circular_dependencies = detect_circular_dependencies(tasks)
+
+    elif check == 'orphans':
+        print("Checking for orphaned tasks...")
+        from vibey.operations.roadmap.advanced_validator import find_orphaned_tasks
+        report.orphaned_tasks = find_orphaned_tasks(validator.roadmap_dir)
+
+    elif check == 'references':
+        print("Checking for broken references...")
+        from vibey.operations.roadmap.advanced_validator import find_broken_references
+        report.broken_references = find_broken_references(validator.roadmap_dir)
+
+    elif check == 'progress':
+        print("Checking progress counters...")
+        from vibey.operations.roadmap.advanced_validator import validate_progress_counters
+        report.progress_mismatches = validate_progress_counters(validator.roadmap_dir)
+
+    print_advanced_report(report, verbose=verbose)
+    return 0 if not report.has_issues else 1
+
+
+def roadmap_repair_cmd(
+    fix_progress: bool = False,
+    fix_references: bool = False,
+    fix_all: bool = False,
+    dry_run: bool = False,
+    verbose: bool = False
+) -> int:
+    """Auto-repair roadmap integrity issues."""
+    from vibey.operations.roadmap.advanced_validator import AdvancedValidator
+    from vibey.operations.roadmap.auto_repair import auto_repair_all
+
+    root_dir = Path.cwd()
+
+    # If no specific flags set, default to --all behavior
+    if not fix_progress and not fix_references and not fix_all:
+        fix_all = True
+
+    # Run validation first to find issues
+    print("🔍 Scanning for issues...")
+    print()
+
+    validator = AdvancedValidator(root_dir)
+    report = validator.validate()
+
+    if not report.has_issues:
+        print("✅ No issues detected! Roadmap is healthy.")
+        return 0
+
+    # Show what was found
+    total_issues = (
+        len(report.circular_dependencies) +
+        len(report.orphaned_tasks) +
+        len(report.broken_references) +
+        len(report.progress_mismatches)
+    )
+
+    print(f"⚠️  Found {total_issues} issues:\n")
+
+    if report.progress_mismatches:
+        print(f"  📊 Progress counter mismatches: {len(report.progress_mismatches)} (auto-fixable)")
+
+    if report.broken_references:
+        print(f"  🔗 Broken references: {len(report.broken_references)} (removable)")
+
+    if report.circular_dependencies:
+        print(f"  🔄 Circular dependencies: {len(report.circular_dependencies)} (manual fix required)")
+
+    if report.orphaned_tasks:
+        print(f"  👻 Orphaned tasks: {len(report.orphaned_tasks)} (manual fix required)")
+
+    print()
+
+    # Determine what to fix
+    if fix_all:
+        do_fix_progress = True
+        do_fix_references = True
+    else:
+        do_fix_progress = fix_progress
+        do_fix_references = fix_references
+
+    # Preview mode
+    if dry_run:
+        print("🔍 DRY-RUN MODE: Showing what would be fixed (no changes will be made)\n")
+
+        if do_fix_progress and report.progress_mismatches:
+            print(f"Would fix {len(report.progress_mismatches)} progress counter mismatches:")
+            for i, mismatch in enumerate(report.progress_mismatches[:5], 1):
+                print(f"  {i}. {mismatch.entity_id}")
+                print(f"     Claimed: {mismatch.claimed_completed}/{mismatch.claimed_total}")
+                print(f"     Actual:  {mismatch.actual_completed}/{mismatch.actual_total}")
+            if len(report.progress_mismatches) > 5:
+                print(f"     ... and {len(report.progress_mismatches) - 5} more")
+            print()
+
+        if do_fix_references and report.broken_references:
+            print(f"Would remove {len(report.broken_references)} broken references:")
+            for i, ref in enumerate(report.broken_references[:5], 1):
+                print(f"  {i}. {ref.task_id}")
+                print(f"     Field: {ref.field}")
+                print(f"     Missing: {ref.missing_id}")
+                if ref.suggested_ids:
+                    print(f"     Similar: {', '.join(ref.suggested_ids)}")
+            if len(report.broken_references) > 5:
+                print(f"     ... and {len(report.broken_references) - 5} more")
+            print()
+
+        print("Run without --dry-run to apply these fixes")
+        return 0
+
+    # Confirm before fixing references (destructive operation)
+    if do_fix_references and report.broken_references and not dry_run:
+        print("⚠️  WARNING: Removing broken references is a destructive operation!")
+        print("   This will permanently delete invalid task references.")
+        print()
+        response = input("Continue? [y/N]: ").strip().lower()
+        if response != 'y':
+            print("Cancelled.")
+            return 1
+        print()
+
+    # Apply repairs
+    print("🔧 Applying repairs...\n")
+
+    results = auto_repair_all(
+        report=report,
+        fix_progress=do_fix_progress,
+        fix_references=do_fix_references,
+        dry_run=dry_run
+    )
+
+    # Print summary
+    print("\n" + "=" * 80)
+    print("REPAIR SUMMARY")
+    print("=" * 80 + "\n")
+
+    total_fixed = results['total_fixed']
+    total_failed = results['total_failed']
+
+    if total_fixed > 0:
+        print(f"✅ Successfully repaired: {total_fixed} issues")
+
+    if total_failed > 0:
+        print(f"❌ Failed to repair: {total_failed} issues")
+
+    # Show detailed results
+    if verbose or total_failed > 0:
+        print()
+
+        if results['progress_counters'] and do_fix_progress:
+            prog = results['progress_counters']
+            print(f"Progress counters: {prog['repaired']}/{prog['total']} repaired")
+            if prog['errors']:
+                print("  Errors:")
+                for error in prog['errors'][:5]:
+                    print(f"    • {error}")
+
+        if results['broken_references'] and do_fix_references:
+            refs = results['broken_references']
+            print(f"Broken references: {refs['removed']}/{refs['total']} removed")
+            if refs['errors']:
+                print("  Errors:")
+                for error in refs['errors'][:5]:
+                    print(f"    • {error}")
+
+    print()
+
+    if total_fixed > 0 and total_failed == 0:
+        print("✅ All repairs completed successfully!")
+        return 0
+    elif total_fixed > 0 and total_failed > 0:
+        print("⚠️  Some repairs completed, but some failed (see above)")
+        return 1
+    else:
+        print("❌ No repairs could be completed")
+        return 1
+
+
+def install_hooks_cmd(force: bool = False) -> int:
+    """Install git pre-commit hook."""
+    from vibey.operations.roadmap.hooks import install_hooks
+
+    print("Installing Vibey pre-commit hook...\n")
+
+    success, message = install_hooks(project_root=Path.cwd(), force=force)
+
+    print(message)
+
+    if success:
+        print("\nℹ️  Configuration:")
+        print("  - Hook runs when .vibey/roadmap/ files are modified")
+        print("  - Set VIBEY_HOOK_ADVANCED=true to enable advanced validation")
+        print("  - Bypass with: git commit --no-verify (emergency only)")
+        print("\nℹ️  Test the hook:")
+        print("  1. Make a change to a roadmap file")
+        print("  2. Run: git add .vibey/roadmap/...")
+        print("  3. Run: git commit -m 'test'")
+        print("  4. Hook will validate before allowing commit")
+        return 0
+    else:
+        return 1
+
+
+def uninstall_hooks_cmd() -> int:
+    """Uninstall git pre-commit hook."""
+    from vibey.operations.roadmap.hooks import uninstall_hooks
+
+    print("Uninstalling Vibey pre-commit hook...\n")
+
+    success, message = uninstall_hooks(project_root=Path.cwd())
+
+    print(message)
+
+    return 0 if success else 1
+
+
+def check_hooks_cmd() -> int:
+    """Check git hook installation status."""
+    from vibey.operations.roadmap.hooks import get_hook_status
+
+    status = get_hook_status(project_root=Path.cwd())
+
+    print("Git Hook Status")
+    print("=" * 70)
+    print()
+
+    if not status['git_repo']:
+        print("❌ Not a git repository")
+        return 1
+
+    print(f"Git directory: {status['git_dir']}")
+    print(f"Hooks directory exists: {'✅' if status['hooks_dir_exists'] else '❌'}")
+    print()
+
+    if not status['pre_commit_exists']:
+        print("❌ No pre-commit hook installed")
+        print()
+        print("Install with: vibey roadmap install-hooks")
+        return 1
+
+    print(f"Pre-commit hook: {status['hook_path']}")
+    print(f"  Is Vibey hook: {'✅' if status['is_vibey_hook'] else '❌'}")
+    print(f"  Is executable: {'✅' if status['is_executable'] else '❌'}")
+    print()
+
+    if status['is_vibey_hook'] and status['is_executable']:
+        print("✅ Vibey pre-commit hook is installed and active")
+        print()
+        print("Configuration:")
+        print("  - VIBEY_HOOK_ADVANCED: Set to 'true' to enable advanced validation")
+        print("  - Bypass: git commit --no-verify")
+        return 0
+    elif status['is_vibey_hook'] and not status['is_executable']:
+        print("⚠️  Vibey hook installed but not executable")
+        print()
+        print(f"Fix with: chmod +x {status['hook_path']}")
+        return 1
+    else:
+        print("⚠️  A different pre-commit hook is installed")
+        print()
+        print("To install Vibey hook:")
+        print("  1. Back up existing hook if needed")
+        print("  2. Run: vibey roadmap install-hooks --force")
+        return 1
+
+
+def roadmap_validate_fast_cmd(
+    profile: str = "standard",
+    incremental: bool = False,
+    verbose: bool = False,
+    benchmark: bool = False
+) -> int:
+    """Fast roadmap validation with caching."""
+    from vibey.operations.roadmap.optimized_validator import (
+        OptimizedValidator,
+        ValidationProfile,
+        print_validation_report,
+        clear_yaml_cache
+    )
+    import time
+
+    root_dir = Path.cwd()
+
+    # Convert profile string to enum
+    profile_map = {
+        'quick': ValidationProfile.QUICK,
+        'standard': ValidationProfile.STANDARD,
+        'thorough': ValidationProfile.THOROUGH
+    }
+    profile_enum = profile_map[profile]
+
+    if benchmark:
+        # Run performance benchmark
+        print("Running performance benchmark...\n")
+
+        # Test 1: Quick validation
+        print("Test 1: Quick validation (syntax only)")
+        clear_yaml_cache()
+        validator = OptimizedValidator(root_dir, ValidationProfile.QUICK)
+        report = validator.validate()
+        print(f"  Duration: {report.duration_seconds:.2f}s")
+        print(f"  Files: {report.total_files}")
+        print(f"  Target: <3s")
+        print(f"  Status: {'✅ PASS' if report.duration_seconds < 3.0 else '❌ FAIL'}\n")
+
+        # Test 2: Standard validation (first run - cold cache)
+        print("Test 2: Standard validation (cold cache)")
+        clear_yaml_cache()
+        validator = OptimizedValidator(root_dir, ValidationProfile.STANDARD)
+        report = validator.validate()
+        print(f"  Duration: {report.duration_seconds:.2f}s")
+        print(f"  Files: {report.total_files}")
+        print(f"  Cache hit rate: {report.cache_hit_rate:.1f}%")
+        print(f"  Target: <10s")
+        print(f"  Status: {'✅ PASS' if report.duration_seconds < 10.0 else '❌ FAIL'}\n")
+
+        # Test 3: Standard validation (second run - warm cache)
+        print("Test 3: Standard validation (warm cache)")
+        validator = OptimizedValidator(root_dir, ValidationProfile.STANDARD)
+        report = validator.validate()
+        print(f"  Duration: {report.duration_seconds:.2f}s")
+        print(f"  Files: {report.total_files}")
+        print(f"  Cache hit rate: {report.cache_hit_rate:.1f}%")
+        print(f"  Target: <2s")
+        print(f"  Status: {'✅ PASS' if report.duration_seconds < 2.0 else '❌ FAIL'}\n")
+
+        # Test 4: Incremental validation
+        print("Test 4: Incremental validation (changed files only)")
+        validator = OptimizedValidator(root_dir, ValidationProfile.STANDARD)
+        report = validator.validate(incremental=True)
+        print(f"  Duration: {report.duration_seconds:.2f}s")
+        print(f"  Files: {report.total_files}")
+        print(f"  Cache hit rate: {report.cache_hit_rate:.1f}%")
+        print(f"  Target: <2s")
+        print(f"  Status: {'✅ PASS' if report.duration_seconds < 2.0 else '❌ FAIL'}\n")
+
+        # Test 5: Thorough validation
+        print("Test 5: Thorough validation (with git integration)")
+        clear_yaml_cache()
+        validator = OptimizedValidator(root_dir, ValidationProfile.THOROUGH)
+        report = validator.validate()
+        print(f"  Duration: {report.duration_seconds:.2f}s")
+        print(f"  Files: {report.total_files}")
+        print(f"  Cache hit rate: {report.cache_hit_rate:.1f}%")
+        print(f"  Target: <20s")
+        print(f"  Status: {'✅ PASS' if report.duration_seconds < 20.0 else '❌ FAIL'}\n")
+
+        print("Benchmark complete!")
+        return 0
+
+    # Normal validation
+    validator = OptimizedValidator(root_dir, profile_enum)
+    report = validator.validate(incremental=incremental)
+
+    # Print report
+    print_validation_report(report, verbose=verbose)
+
+    # Return exit code
+    return 0 if report.invalid_files == 0 else 1
+
+
+# ============================================================================
+# Roadmap Checkpoint Commands
+# ============================================================================
+
+def checkpoint_create_cmd(name: Optional[str] = None) -> int:
+    """Create a new integrity checkpoint."""
+    import subprocess
+    from datetime import datetime
+
+    # Default to timestamped name if not provided
+    if not name:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        name = f"checkpoint_{timestamp}"
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "create-integrity-checkpoint.sh"
+
+    try:
+        result = subprocess.run(
+            [str(script_path), name],
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error creating checkpoint: {e}")
+        return 1
+
+
+def checkpoint_list_cmd() -> int:
+    """List all available checkpoints."""
+    import subprocess
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "manage-checkpoints.sh"
+
+    try:
+        result = subprocess.run(
+            [str(script_path), "list"],
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error listing checkpoints: {e}")
+        return 1
+
+
+def checkpoint_verify_cmd(name: str) -> int:
+    """Verify checkpoint integrity."""
+    import subprocess
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "manage-checkpoints.sh"
+
+    try:
+        result = subprocess.run(
+            [str(script_path), "verify", name],
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error verifying checkpoint: {e}")
+        return 1
+
+
+def checkpoint_restore_cmd(name: str, verify_only: bool = False) -> int:
+    """Restore from a checkpoint."""
+    import subprocess
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "restore-integrity-checkpoint.sh"
+
+    args = [str(script_path), name]
+    if verify_only:
+        args.append("--verify-only")
+
+    try:
+        result = subprocess.run(
+            args,
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error restoring checkpoint: {e}")
+        return 1
+
+
+def checkpoint_clean_cmd(keep: int = 5) -> int:
+    """Clean old checkpoints."""
+    import subprocess
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "manage-checkpoints.sh"
+
+    try:
+        result = subprocess.run(
+            [str(script_path), "clean", str(keep)],
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error cleaning checkpoints: {e}")
+        return 1
+
+
+def checkpoint_compare_cmd(checkpoint1: str, checkpoint2: str) -> int:
+    """Compare two checkpoints."""
+    import subprocess
+
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "manage-checkpoints.sh"
+
+    try:
+        result = subprocess.run(
+            [str(script_path), "compare", checkpoint1, checkpoint2],
+            cwd=Path.cwd(),
+            check=False
+        )
+        return result.returncode
+    except Exception as e:
+        print(f"Error comparing checkpoints: {e}")
+        return 1
+
+
+# ============================================================================
+# Safe YAML Edit Commands
+# ============================================================================
+
+def edit_file_cmd(file_path: str, modifications: list, dry_run: bool = False) -> int:
+    """Safely edit a single YAML file."""
+    from vibey.operations.roadmap.safe_yaml_editor import SafeYAMLEditor
+
+    # Parse modifications from "key=value" format
+    mod_dict = {}
+    for mod in modifications:
+        if '=' not in mod:
+            print(f"Error: Invalid modification format '{mod}' (expected key=value)")
+            return 1
+
+        key, value = mod.split('=', 1)
+        mod_dict[key] = value
+
+    if not mod_dict:
+        print("Error: No modifications specified. Use --set key=value")
+        return 1
+
+    try:
+        editor = SafeYAMLEditor(auto_backup=True, validate=True)
+
+        if dry_run:
+            print("🔍 Dry-run mode: Previewing changes (no files will be modified)")
+            print()
+
+        result = editor.edit_file(file_path, mod_dict, dry_run=dry_run)
+
+        if result.success:
+            print(f"✅ Successfully {'validated' if dry_run else 'edited'}: {result.file_path}")
+
+            if result.changes_made:
+                print("\nChanges:")
+                for field, change in result.changes_made.items():
+                    print(f"  {field}: {change['old']} → {change['new']}")
+
+            if result.backup_path:
+                print(f"\nBackup: {result.backup_path}")
+
+            if result.warnings:
+                print("\nWarnings:")
+                for warning in result.warnings:
+                    print(f"  ⚠️  {warning}")
+
+            return 0
+        else:
+            print(f"❌ Edit failed: {result.file_path}")
+            print("\nErrors:")
+            for error in result.errors:
+                print(f"  • {error}")
+            return 1
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return 1
+
+
+def edit_bulk_cmd(file_pattern: str, modifications: list, dry_run: bool = False) -> int:
+    """Safely bulk edit multiple YAML files."""
+    from vibey.operations.roadmap.safe_yaml_editor import SafeYAMLEditor
+
+    # Parse modifications
+    mod_dict = {}
+    for mod in modifications:
+        if '=' not in mod:
+            print(f"Error: Invalid modification format '{mod}' (expected key=value)")
+            return 1
+
+        key, value = mod.split('=', 1)
+        mod_dict[key] = value
+
+    if not mod_dict:
+        print("Error: No modifications specified. Use --set key=value")
+        return 1
+
+    try:
+        editor = SafeYAMLEditor(auto_backup=True, validate=True)
+
+        if dry_run:
+            print("🔍 Dry-run mode: Previewing changes (no files will be modified)")
+            print()
+
+        print(f"Finding files matching: {file_pattern}")
+        result = editor.bulk_edit(file_pattern, mod_dict, dry_run=dry_run, root_dir=Path.cwd())
+
+        print(f"\nFiles found: {result.total_files}")
+
+        if result.success:
+            print(f"✅ Bulk edit {'validated' if dry_run else 'completed'} successfully")
+            print(f"  Files {'would be ' if dry_run else ''}changed: {result.files_changed}")
+
+            if result.checkpoint_path:
+                print(f"  Checkpoint: {result.checkpoint_path}")
+
+            return 0
+        else:
+            print(f"❌ Bulk edit failed")
+            print(f"  Files changed: {result.files_changed}")
+            print(f"  Files failed: {result.files_failed}")
+
+            if result.rollback_performed:
+                print(f"  ✅ All changes rolled back")
+
+            if result.errors:
+                print("\nErrors:")
+                for error in result.errors[:10]:  # Limit to first 10
+                    print(f"  • {error}")
+
+                if len(result.errors) > 10:
+                    print(f"  ... and {len(result.errors) - 10} more errors")
+
+            return 1
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return 1
+
+
+def edit_validate_cmd(file_path: Optional[str] = None, validate_all: bool = False) -> int:
+    """Validate YAML file(s)."""
+    from vibey.operations.roadmap.safe_yaml_editor import SafeYAMLEditor
+
+    editor = SafeYAMLEditor()
+
+    if validate_all:
+        # Validate all YAML files in roadmap
+        roadmap_dir = Path.cwd() / ".vibey" / "roadmap"
+
+        if not roadmap_dir.exists():
+            print("Error: Roadmap directory not found")
+            return 1
+
+        yaml_files = list(roadmap_dir.rglob("*.yaml"))
+        print(f"Validating {len(yaml_files)} YAML files...")
+        print()
+
+        valid_count = 0
+        invalid_count = 0
+        error_files = []
+
+        for yaml_file in yaml_files:
+            result = editor.validate_yaml_file(yaml_file)
+
+            if result.valid:
+                valid_count += 1
+                print(f"✅ {yaml_file.relative_to(Path.cwd())}")
+            else:
+                invalid_count += 1
+                print(f"❌ {yaml_file.relative_to(Path.cwd())}")
+                error_files.append((yaml_file, result))
+
+                for error in result.errors[:3]:  # Show first 3 errors per file
+                    print(f"   • {error}")
+
+        print()
+        print(f"Summary: {valid_count} valid, {invalid_count} invalid")
+
+        if error_files:
+            print("\nFiles with errors:")
+            for yaml_file, _ in error_files:
+                print(f"  • {yaml_file.relative_to(Path.cwd())}")
+
+        return 0 if invalid_count == 0 else 1
+
+    elif file_path:
+        # Validate single file
+        result = editor.validate_yaml_file(file_path)
+
+        print(f"Validating: {file_path}")
+        print()
+
+        if result.valid:
+            print("✅ Validation passed")
+
+            if result.warnings:
+                print("\nWarnings:")
+                for warning in result.warnings:
+                    print(f"  ⚠️  {warning}")
+
+            return 0
+        else:
+            print("❌ Validation failed")
+            print("\nErrors:")
+            for error in result.errors:
+                print(f"  • {error}")
+
+            if result.warnings:
+                print("\nWarnings:")
+                for warning in result.warnings:
+                    print(f"  ⚠️  {warning}")
+
+            return 1
+
+    else:
+        print("Error: Specify --file <path> or --all")
+        return 1
+
+
+def edit_rollback_cmd(last_n: int = 1) -> int:
+    """Rollback recent edit operations."""
+    from vibey.operations.roadmap.safe_yaml_editor import SafeYAMLEditor
+
+    editor = SafeYAMLEditor()
+
+    print(f"Rolling back last {last_n} edit(s)...")
+    print()
+
+    success_count = 0
+    for i in range(last_n):
+        if editor.rollback_last_edit():
+            success_count += 1
+        else:
+            if i == 0:
+                print("No backups found to rollback")
+            break
+
+    if success_count > 0:
+        print()
+        print(f"✅ Rolled back {success_count} edit(s)")
+        return 0
+    else:
+        print()
+        print("❌ No edits rolled back")
+        return 1
+
+
 # ============================================================================
 # Deploy Commands
 # ============================================================================
@@ -301,3 +1041,141 @@ def migrate_embedded_tasks_cmd() -> int:
         root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
         dry_run=False
     )
+
+
+# ============================================================================
+# Audit Trail Commands
+# ============================================================================
+
+def audit_log_cmd(limit: int = 20) -> int:
+    """Show recent audit trail entries."""
+    from vibey.operations.roadmap.audit_trail import AuditTrailManager
+    from datetime import datetime
+
+    manager = AuditTrailManager(Path.cwd())
+    entries = manager.get_recent_changes(limit=limit)
+
+    if not entries:
+        print("No audit trail entries found.")
+        return 0
+
+    print(f"\n📋 Recent Audit Trail Entries (last {limit})")
+    print("=" * 80)
+
+    for entry in entries:
+        timestamp = datetime.fromisoformat(entry.timestamp).strftime("%Y-%m-%d %H:%M:%S")
+        print(f"\n{timestamp} - {entry.object_type.upper()}: {entry.object_id}")
+        print(f"  Field: {entry.field}")
+        print(f"  Change: {entry.old_value} → {entry.new_value}")
+        print(f"  By: {entry.changed_by} ({entry.source})")
+        print(f"  Reason: {entry.reason}")
+        if entry.commit:
+            print(f"  Commit: {entry.commit}")
+
+    print("\n" + "=" * 80)
+    print(f"Total entries shown: {len(entries)}\n")
+    return 0
+
+
+def audit_show_cmd(object_id: str) -> int:
+    """Show change history for a specific object."""
+    from vibey.operations.roadmap.audit_trail import AuditTrailManager
+    from datetime import datetime
+
+    manager = AuditTrailManager(Path.cwd())
+    entries = manager.get_object_history(object_id)
+
+    if not entries:
+        print(f"No audit trail entries found for object '{object_id}'.")
+        return 0
+
+    print(f"\n📋 Audit Trail for {object_id}")
+    print("=" * 80)
+
+    for entry in entries:
+        timestamp = datetime.fromisoformat(entry.timestamp).strftime("%Y-%m-%d %H:%M:%S")
+        print(f"\n{timestamp}")
+        print(f"  Field: {entry.field}")
+        print(f"  Change: {entry.old_value} → {entry.new_value}")
+        print(f"  By: {entry.changed_by} ({entry.source})")
+        print(f"  Reason: {entry.reason}")
+        if entry.commit:
+            print(f"  Commit: {entry.commit}")
+
+    print("\n" + "=" * 80)
+    print(f"Total changes: {len(entries)}\n")
+    return 0
+
+
+def audit_suspicious_cmd() -> int:
+    """Detect suspicious changes in audit trail."""
+    from vibey.operations.roadmap.audit_trail import AuditTrailManager
+    from datetime import datetime
+
+    manager = AuditTrailManager(Path.cwd())
+    suspicious = manager.detect_suspicious_changes()
+
+    if not suspicious:
+        print("\n✅ No suspicious changes detected in audit trail.\n")
+        return 0
+
+    print(f"\n⚠️  Suspicious Changes Detected: {len(suspicious)}")
+    print("=" * 80)
+
+    for entry, reason in suspicious:
+        timestamp = datetime.fromisoformat(entry.timestamp).strftime("%Y-%m-%d %H:%M:%S")
+        print(f"\n⚠️  {reason}")
+        print(f"  Object: {entry.object_type.upper()} {entry.object_id}")
+        print(f"  Field: {entry.field}")
+        print(f"  Change: {entry.old_value} → {entry.new_value}")
+        print(f"  When: {timestamp}")
+        print(f"  By: {entry.changed_by} ({entry.source})")
+        print(f"  Reason: {entry.reason}")
+        if entry.commit:
+            print(f"  Commit: {entry.commit}")
+
+    print("\n" + "=" * 80)
+    print(f"Total suspicious changes: {len(suspicious)}\n")
+    return 1  # Return error code to indicate issues found
+
+
+def audit_report_cmd(
+    object_id: Optional[str] = None,
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None
+) -> int:
+    """Generate detailed audit report."""
+    from vibey.operations.roadmap.audit_trail import AuditTrailManager
+    from datetime import datetime
+
+    manager = AuditTrailManager(Path.cwd())
+
+    # Parse dates if provided
+    start_dt = None
+    end_dt = None
+
+    if start_date:
+        try:
+            start_dt = datetime.fromisoformat(start_date)
+        except ValueError:
+            print(f"❌ Invalid start date format: {start_date}")
+            print("   Expected format: YYYY-MM-DD")
+            return 1
+
+    if end_date:
+        try:
+            end_dt = datetime.fromisoformat(end_date)
+        except ValueError:
+            print(f"❌ Invalid end date format: {end_date}")
+            print("   Expected format: YYYY-MM-DD")
+            return 1
+
+    # Generate report
+    report = manager.generate_report(
+        object_id=object_id,
+        start_date=start_dt,
+        end_date=end_dt
+    )
+
+    print(report)
+    return 0

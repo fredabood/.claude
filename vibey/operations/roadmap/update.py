@@ -22,6 +22,7 @@ from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_roo
 from vibey.cli.roadmap_lib.activity import ActivityLogger
 from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
+from vibey.operations.roadmap.audit_trail import log_status_change
 
 # Import sync hooks for automatic documentation synchronization
 try:
@@ -91,11 +92,25 @@ def complete_task(
     if enforcement_result.warnings:
         print(f"\n⚠️  Task has warnings but will proceed with completion")
 
+    # Capture old status for audit trail
+    old_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
+
     # Update task
     task.status = TaskStatus.COMPLETED
     task.completed = datetime.now(timezone.utc)
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = completed_by
+
+    # Log status change to audit trail
+    log_status_change(
+        root_dir=root_dir,
+        object_type="task",
+        object_id=task_id,
+        old_status=old_status,
+        new_status="completed",
+        reason=f"Task completed via CLI by {completed_by}",
+        changed_by=completed_by
+    )
 
     # Save tasks
     save_tasks(tasks, tasks_path)
@@ -170,11 +185,25 @@ def start_task(
         print(f"❌ Task '{task_id}' not found")
         return 1
 
+    # Capture old status for audit trail
+    old_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
+
     # Update task
     task.status = TaskStatus.IN_PROGRESS
     task.started = datetime.now(timezone.utc)
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = started_by
+
+    # Log status change to audit trail
+    log_status_change(
+        root_dir=root_dir,
+        object_type="task",
+        object_id=task_id,
+        old_status=old_status,
+        new_status="in_progress",
+        reason=f"Task started via CLI by {started_by}",
+        changed_by=started_by
+    )
 
     # Save tasks
     save_tasks(tasks, tasks_path)
@@ -302,11 +331,25 @@ def start_sprint(
         print(f"❌ Cannot start sprint (current status: {sprint.status.value})")
         return 1
 
+    # Capture old status for audit trail
+    old_sprint_status = sprint.status.value
+
     # Update sprint
     sprint.status = Status.IN_PROGRESS
     sprint.started = datetime.now(timezone.utc)
     sprint.metadata.last_modified = datetime.now(timezone.utc)
     sprint.metadata.last_modified_by = started_by
+
+    # Log status change to audit trail
+    log_status_change(
+        root_dir=root_dir,
+        object_type="sprint",
+        object_id=sprint_id,
+        old_status=old_sprint_status,
+        new_status="in_progress",
+        reason=f"Sprint started via CLI by {started_by}",
+        changed_by=started_by
+    )
 
     # Save sprint
     save_sprint(sprint, sprint_path)
@@ -320,8 +363,21 @@ def start_sprint(
 
         # If track not started, start it
         if track.status == Status.NOT_STARTED:
+            old_track_status = track.status.value
             track.status = Status.IN_PROGRESS
             track.started = datetime.now(timezone.utc)
+
+            # Log track status change to audit trail
+            log_status_change(
+                root_dir=root_dir,
+                object_type="track",
+                object_id=track_id,
+                old_status=old_track_status,
+                new_status="in_progress",
+                reason=f"Track auto-started when sprint {sprint_id} started",
+                changed_by=started_by
+            )
+
             save_track(track, track_path)
             print(f"✅ Track '{track.name}' started")
 
@@ -396,11 +452,25 @@ def complete_sprint(
     if enforcement_result.warnings:
         print(f"\n⚠️  Sprint has warnings but will proceed with completion")
 
+    # Capture old status for audit trail
+    old_status = sprint.status.value
+
     # Update sprint
     sprint.status = Status.COMPLETED
     sprint.completed = datetime.now(timezone.utc)
     sprint.metadata.last_modified = datetime.now(timezone.utc)
     sprint.metadata.last_modified_by = completed_by
+
+    # Log status change to audit trail
+    log_status_change(
+        root_dir=root_dir,
+        object_type="sprint",
+        object_id=sprint_id,
+        old_status=old_status,
+        new_status="completed",
+        reason=f"Sprint completed via CLI by {completed_by}",
+        changed_by=completed_by
+    )
 
     # Save sprint
     save_sprint(sprint, sprint_path)
@@ -701,7 +771,9 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
 
         # Set appropriate timestamp based on new status
         now = datetime.now(timezone.utc)
-        if new_status == Status.COMPLETION_GATE_CHECK:
+        if new_status == Status.IN_PROGRESS:
+            sprint.started = now
+        elif new_status == Status.COMPLETION_GATE_CHECK:
             sprint.completion_gate_check_at = now
         elif new_status == Status.COMPLETED:
             sprint.completed = now

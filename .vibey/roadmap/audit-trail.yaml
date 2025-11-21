@@ -1,0 +1,44 @@
+audit_log:
+- timestamp: '2025-11-21T03:54:34.878635+00:00'
+  object_type: task
+  object_id: roadmap-integrity-fixes-6-task-007
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 087f906
+  source: cli
+- timestamp: '2025-11-21T03:55:00.072559+00:00'
+  object_type: task
+  object_id: roadmap-integrity-fixes-6-task-008
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: 087f906
+  source: cli
+- timestamp: '2025-11-21T04:03:34.425300+00:00'
+  object_type: task
+  object_id: roadmap-integrity-fixes-6-task-008
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 087f906
+  source: cli
+- timestamp: '2025-11-21T04:03:44.761946+00:00'
+  object_type: sprint
+  object_id: roadmap-integrity-fixes-6
+  field: status
+  old_value: completion_gate_check
+  new_value: completed
+  changed_by: system
+  reason: Sprint completed via CLI by system
+  commit: 087f906
+  source: cli
+metadata:
+  last_updated: '2025-11-21T04:03:44.768074+00:00'
+  total_entries: 4

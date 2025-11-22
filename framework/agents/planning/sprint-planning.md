@@ -1450,8 +1450,77 @@ Benefits:
 
 ---
 
+## 🤖 Agent Routing Integration
+
+**Added in v2.1:** Integration with automated agent routing system.
+
+### Using Agent Recommendations During Planning
+
+When creating sprint plans, use the agent routing utilities to get intelligent agent recommendations for tasks:
+
+```python
+# Get agent recommendations for a sprint's tasks
+from vibey.cli.roadmap_lib.agents import (
+    enhance_sprint_with_agent_recommendations,
+    plan_sprint_agents,
+    detect_parallel_tasks,
+    get_task_execution_order,
+)
+
+# Analyze sprint and get agent recommendations
+recommendations = enhance_sprint_with_agent_recommendations(
+    sprint_id="roadmap-system-5",
+    auto_assign=False,  # Set True to auto-assign high-confidence matches
+    min_confidence=0.5
+)
+
+# Plan agent assignments with workload balancing
+assignments = plan_sprint_agents(
+    sprint_id="roadmap-system-5",
+    balance_workload=True  # Distribute work across agents
+)
+
+# Detect which tasks can run in parallel
+parallel_info = detect_parallel_tasks(sprint_id="roadmap-system-5")
+
+# Get optimal execution order (tasks grouped by phase)
+execution_phases = get_task_execution_order(sprint_id="roadmap-system-5")
+```
+
+### CLI Commands for Agent Routing
+
+```bash
+# Get agent recommendations for a sprint
+vibey roadmap recommend-agents --sprint roadmap-system-5
+
+# Show current agent workloads
+vibey roadmap agent-workload
+
+# Detect parallel tasks in a sprint
+vibey roadmap parallel-tasks --sprint roadmap-system-5
+```
+
+### Agent Assignment Best Practices
+
+1. **Use recommendations as guidance** - Human review of automated suggestions
+2. **Balance workload** - Don't overload a single agent type
+3. **Consider task dependencies** - Sequential tasks may need same agent
+4. **Review confidence scores** - Low scores (<0.3) need manual assignment
+5. **Track assignment effectiveness** - Monitor completion rates by agent
+
+### Parallel Task Execution
+
+During sprint execution, tasks can be parallelized when:
+- No dependency relationships exist between them
+- Different agents can handle them simultaneously
+- Resources don't conflict (different files/systems)
+
+Use `detect_parallel_tasks()` during planning to identify parallelization opportunities and reduce sprint duration.
+
+---
+
 **End of Sprint Planning Agent Instructions**
 
-**Agent Version:** 2.0 (Sprint-Driven Orchestration)
+**Agent Version:** 2.1 (Agent Routing Integration)
 **Framework:** Vibey Agent Framework
-**Last Updated:** 2025-11-05
+**Last Updated:** 2025-11-22

@@ -4,16 +4,18 @@ task:
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   priority: critical
   created: '2025-11-07T03:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-22T19:22:08.346032+00:00'
   estimated_duration: 4 hours
   assigned_agents:
   - test-engineer
   deliverables:
-  - NOT IMPLEMENTED
+  - tests/cli/test_agent_routing.py - 21 tests for agent routing
+  - Tests for AgentRouter, recommendations, auto-assignment
+  - Tests for sprint planning integration and parallel detection
   commits: []
   dependencies: []
   blocked_by: []

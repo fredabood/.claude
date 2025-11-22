@@ -4,16 +4,18 @@ task:
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   priority: critical
   created: '2025-11-07T03:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-22T19:22:08.346032+00:00'
   estimated_duration: 4 hours
   assigned_agents:
   - web-developer
   deliverables:
-  - NOT IMPLEMENTED
+  - framework/agents/planning/sprint-planning.md - Agent Routing Integration section
+  - Coordinator deprecated, Sprint Planning Agent updated to v2.1
+  - CLI command documentation for agent routing
   commits: []
   dependencies: []
   blocked_by: []

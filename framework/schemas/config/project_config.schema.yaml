@@ -254,6 +254,76 @@ properties:
         examples:
           - false
 
+  documentation:
+    type: object
+    description: Documentation management configuration
+    properties:
+      sync:
+        type: object
+        description: Documentation synchronization settings
+        properties:
+          enabled:
+            type: boolean
+            description: Enable documentation synchronization
+            default: true
+            examples:
+              - true
+
+          source_dir:
+            type: string
+            description: Source directory for documentation (relative to project root)
+            default: ".vibey/roadmap"
+            examples:
+              - ".vibey/roadmap"
+
+          target_dir:
+            type: string
+            description: Target directory for synchronized docs (relative to project root)
+            default: "docs/roadmap"
+            examples:
+              - "docs/roadmap"
+
+          include_patterns:
+            type: array
+            description: Glob patterns for files to include
+            items:
+              type: string
+            default: ["**/*.md"]
+            examples:
+              - ["**/*.md"]
+              - ["**/*.md", "**/README*"]
+
+          exclude_patterns:
+            type: array
+            description: Glob patterns for files to exclude
+            items:
+              type: string
+            default: ["**/*.yaml", "**/*.json", "**/context/**"]
+            examples:
+              - ["**/*.yaml", "**/*.json"]
+
+          delete_orphaned:
+            type: boolean
+            description: Delete files in target not present in source
+            default: false
+            examples:
+              - false
+
+          auto_sync_on:
+            type: array
+            description: Events that trigger automatic sync
+            items:
+              type: string
+              enum:
+                - task_complete
+                - sprint_complete
+                - track_complete
+                - context_add
+            default: ["sprint_complete", "track_complete"]
+            examples:
+              - ["sprint_complete", "track_complete"]
+              - ["task_complete", "sprint_complete", "track_complete", "context_add"]
+
   metadata:
     type: object
     description: Additional project metadata (optional)

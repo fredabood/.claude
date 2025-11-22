@@ -376,6 +376,140 @@ def roadmap_create_from_plan(ctx, plan_file: str, track: str, sprint: str, start
     sys.exit(0 if success else 1)
 
 
+@roadmap.command('sync-docs')
+@click.option('--all', 'sync_all', is_flag=True, help='Sync all documentation')
+@click.option('--track', help='Sync specific track only')
+@click.option('--sprint', help='Sync specific sprint only')
+@click.option('--summaries-only', is_flag=True, help='Only sync summary/completion files')
+@click.option('--dry-run', is_flag=True, help='Preview changes without syncing')
+@click.option('--delete-orphaned', is_flag=True, help='Delete files in target not in source')
+@click.pass_context
+def roadmap_sync_docs(ctx, sync_all: bool, track: Optional[str], sprint: Optional[str],
+                       summaries_only: bool, dry_run: bool, delete_orphaned: bool):
+    """Synchronize documentation from .vibey/roadmap/ to docs/roadmap/
+
+    Copies markdown documentation from the roadmap source of truth to the
+    user-facing docs directory, respecting include/exclude patterns.
+
+    Examples:
+      vibey roadmap sync-docs --all              # Sync all documentation
+      vibey roadmap sync-docs --track my-track   # Sync specific track
+      vibey roadmap sync-docs --dry-run          # Preview changes
+      vibey roadmap sync-docs --delete-orphaned  # Clean up old files
+    """
+    from vibey.cli.commands import roadmap_sync_docs_cmd
+
+    exit_code = roadmap_sync_docs_cmd(
+        sync_all=sync_all,
+        track=track,
+        sprint=sprint,
+        summaries_only=summaries_only,
+        dry_run=dry_run,
+        delete_orphaned=delete_orphaned
+    )
+    sys.exit(exit_code)
+
+
+@roadmap.command('add-context')
+@click.argument('file_path', type=click.Path(exists=True))
+@click.option('--track', help='Add context to track')
+@click.option('--sprint', help='Add context to sprint')
+@click.option('--task', help='Add context to task')
+@click.pass_context
+def roadmap_add_context(ctx, file_path: str, track: Optional[str], sprint: Optional[str], task: Optional[str]):
+    """Add a context file to a roadmap object
+
+    Context files are stored in /context/ directories alongside roadmap objects
+    and are used to preserve research, analyses, and decisions.
+
+    Examples:
+      vibey roadmap add-context design.md --track my-track
+      vibey roadmap add-context analysis.md --sprint sprint-1
+      vibey roadmap add-context notes.md --task task-001
+    """
+    from vibey.cli.commands import roadmap_add_context_cmd
+
+    exit_code = roadmap_add_context_cmd(
+        file_path=file_path,
+        track=track,
+        sprint=sprint,
+        task=task
+    )
+    sys.exit(exit_code)
+
+
+@roadmap.command('link-doc')
+@click.argument('doc_path')
+@click.argument('roadmap_object_id')
+@click.option('--change-type', '-t', default='updated',
+              type=click.Choice(['created', 'added_section', 'updated', 'refactored', 'removed', 'fixed']),
+              help='Type of documentation change')
+@click.option('--section', '-s', help='Specific section that was changed')
+@click.option('--description', '-d', help='Description of the change')
+@click.pass_context
+def roadmap_link_doc(ctx, doc_path: str, roadmap_object_id: str,
+                      change_type: str, section: Optional[str], description: Optional[str]):
+    """Link a documentation file to a roadmap object
+
+    Creates or updates a .meta.json sidecar file that tracks which roadmap
+    objects have impacted this documentation.
+
+    Examples:
+      vibey roadmap link-doc docs/API.md feature-1-task-003 -t added_section -s "Authentication"
+      vibey roadmap link-doc README.md infrastructure-fixes -t updated -d "Updated install steps"
+    """
+    from vibey.operations.roadmap.doc_tracking import link_doc_cmd
+
+    exit_code = link_doc_cmd(doc_path, roadmap_object_id, change_type, section, description)
+    sys.exit(exit_code)
+
+
+@roadmap.command('list-docs')
+@click.option('--object', 'roadmap_object_id', help='Filter to docs linked to this roadmap object')
+@click.pass_context
+def roadmap_list_docs(ctx, roadmap_object_id: Optional[str]):
+    """List all tracked documentation files
+
+    Shows all documentation files that have .meta.json tracking files,
+    along with their recent impacts.
+
+    Examples:
+      vibey roadmap list-docs                    # List all tracked docs
+      vibey roadmap list-docs --object task-001  # List docs linked to task-001
+    """
+    from vibey.operations.roadmap.doc_tracking import list_docs_cmd
+
+    exit_code = list_docs_cmd(roadmap_object_id)
+    sys.exit(exit_code)
+
+
+@roadmap.command('doc-changelog')
+@click.option('--object', 'filter_object_id', help='Filter to specific roadmap object')
+@click.option('--start-date', help='Start date filter (YYYY-MM-DD)')
+@click.option('--end-date', help='End date filter (YYYY-MM-DD)')
+@click.option('--group-by', type=click.Choice(['object', 'time']), default='object',
+              help='How to group changes')
+@click.option('--output', '-o', 'output_file', help='Output file path (default: stdout)')
+@click.pass_context
+def roadmap_doc_changelog(ctx, filter_object_id: Optional[str], start_date: Optional[str],
+                           end_date: Optional[str], group_by: str, output_file: Optional[str]):
+    """Generate a documentation changelog
+
+    Generates a markdown changelog showing which roadmap objects have
+    impacted which documentation files.
+
+    Examples:
+      vibey roadmap doc-changelog                        # Full changelog
+      vibey roadmap doc-changelog --object feature-1    # Filter to feature
+      vibey roadmap doc-changelog --group-by time       # Group by date
+      vibey roadmap doc-changelog -o CHANGELOG.md       # Write to file
+    """
+    from vibey.operations.roadmap.doc_tracking import doc_changelog_cmd
+
+    exit_code = doc_changelog_cmd(filter_object_id, start_date, end_date, group_by, output_file)
+    sys.exit(exit_code)
+
+
 @roadmap.command('check-standards')
 @click.argument('item_id')
 @click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')

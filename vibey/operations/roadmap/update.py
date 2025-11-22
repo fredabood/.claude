@@ -26,7 +26,12 @@ from vibey.operations.roadmap.audit_trail import log_status_change
 
 # Import sync hooks for automatic documentation synchronization
 try:
-    from docs.sync_hooks import trigger_on_task_complete, trigger_on_sprint_complete, trigger_on_track_complete
+    import sys
+    from pathlib import Path as _Path
+    _framework_root = _Path(__file__).parent.parent.parent.parent
+    if str(_framework_root) not in sys.path:
+        sys.path.insert(0, str(_framework_root))
+    from framework.docs.sync_hooks import trigger_on_task_complete, trigger_on_sprint_complete, trigger_on_track_complete
     SYNC_HOOKS_AVAILABLE = True
 except ImportError:
     SYNC_HOOKS_AVAILABLE = False
@@ -494,6 +499,10 @@ def complete_sprint(
         f"Sprint '{sprint.name}' completed",
         {"sprint_id": sprint_id}
     )
+
+    # Trigger automatic documentation sync if enabled
+    if SYNC_HOOKS_AVAILABLE:
+        trigger_on_sprint_complete(sprint_id, enabled=True, verbose=False)
 
     return 0
 

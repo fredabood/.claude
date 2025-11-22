@@ -179,6 +179,186 @@ def roadmap_validate_cmd() -> int:
     return validate_roadmap(root_dir=Path.cwd())
 
 
+def roadmap_sync_docs_cmd(
+    sync_all: bool = False,
+    track: Optional[str] = None,
+    sprint: Optional[str] = None,
+    summaries_only: bool = False,
+    dry_run: bool = False,
+    delete_orphaned: bool = False
+) -> int:
+    """Synchronize documentation from .vibey/roadmap/ to docs/roadmap/"""
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+    from framework.docs.sync_engine import SyncEngine, SyncConfig
+
+    root_dir = Path.cwd()
+    source_dir = ".vibey/roadmap"
+    target_dir = "docs/roadmap"
+
+    # Build config
+    config = SyncConfig(
+        source_dir=source_dir,
+        target_dir=target_dir,
+        delete_orphaned=delete_orphaned
+    )
+
+    # Handle filtering by track or sprint
+    if track and sprint:
+        print("❌ Error: Cannot specify both --track and --sprint")
+        return 1
+
+    if track:
+        config.source_dir = f"{source_dir}/{track}"
+        config.target_dir = f"{target_dir}/{track}"
+        print(f"🎯 Syncing track: {track}")
+
+    elif sprint:
+        # Sprint IDs are like "documentation-system-1"
+        parts = sprint.rsplit('-', 1)
+        if len(parts) == 2 and parts[1].isdigit():
+            track_slug = parts[0]
+            config.source_dir = f"{source_dir}/{track_slug}/{sprint}"
+            config.target_dir = f"{target_dir}/{track_slug}/{sprint}"
+            print(f"🎯 Syncing sprint: {sprint}")
+        else:
+            print(f"❌ Error: Invalid sprint ID format: {sprint}")
+            return 1
+
+    # Filter for summaries only
+    if summaries_only:
+        config.include_patterns = ["**/*-COMPLETED.md", "**/roadmap.md"]
+
+    # Create engine and sync
+    engine = SyncEngine(config)
+
+    try:
+        result = engine.sync(dry_run=dry_run)
+
+        # Print results
+        prefix = "Would sync" if dry_run else "Synced"
+        print()
+        print("=" * 60)
+        print(f"📄 Documentation Sync {'Preview' if dry_run else 'Complete'}")
+        print("=" * 60)
+
+        if result.files_copied:
+            print(f"\n✓ {prefix} {len(result.files_copied)} file(s):")
+            for file in result.files_copied[:10]:
+                print(f"  • {file}")
+            if len(result.files_copied) > 10:
+                print(f"  ... and {len(result.files_copied) - 10} more")
+
+        if result.files_skipped:
+            print(f"\n⏭️  Skipped {len(result.files_skipped)} unchanged file(s)")
+
+        if result.files_deleted:
+            print(f"\n🗑️  {'Would delete' if dry_run else 'Deleted'} {len(result.files_deleted)} orphaned file(s):")
+            for file in result.files_deleted:
+                print(f"  • {file}")
+
+        if result.errors:
+            print(f"\n❌ {len(result.errors)} error(s):")
+            for file, error in result.errors:
+                print(f"  • {file}: {error}")
+
+        print(f"\n⏱️  Duration: {result.duration_seconds:.2f}s")
+
+        if not dry_run and result.success:
+            print("\n✅ Synchronization completed successfully")
+        elif dry_run:
+            print("\n💡 Run without --dry-run to perform the sync")
+        else:
+            print("\n⚠️  Synchronization completed with errors")
+
+        print()
+        return 0 if result.success else 1
+
+    except Exception as e:
+        print(f"❌ Sync failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
+
+
+def roadmap_add_context_cmd(
+    file_path: str,
+    track: Optional[str] = None,
+    sprint: Optional[str] = None,
+    task: Optional[str] = None
+) -> int:
+    """Add a context file to a roadmap object."""
+    import shutil
+
+    root_dir = Path.cwd()
+    source = Path(file_path)
+
+    # Validate mutually exclusive options
+    options_count = sum([bool(track), bool(sprint), bool(task)])
+    if options_count != 1:
+        print("❌ Error: Must specify exactly one of --track, --sprint, or --task")
+        return 1
+
+    if not source.exists():
+        print(f"❌ Error: File not found: {source}")
+        return 1
+
+    # Determine target directory
+    if task:
+        # Parse task ID to get path components
+        # Format: track-sprint-task-NNN
+        parts = task.split('-task-')
+        if len(parts) != 2:
+            print(f"❌ Error: Invalid task ID format: {task}")
+            return 1
+        sprint_id = parts[0]
+        track_parts = sprint_id.rsplit('-', 1)
+        if len(track_parts) != 2:
+            print(f"❌ Error: Cannot parse track from task ID: {task}")
+            return 1
+        track_id = track_parts[0]
+        context_dir = root_dir / ".vibey" / "roadmap" / track_id / sprint_id / task / "context"
+    elif sprint:
+        # Parse sprint ID
+        parts = sprint.rsplit('-', 1)
+        if len(parts) != 2 or not parts[1].isdigit():
+            print(f"❌ Error: Invalid sprint ID format: {sprint}")
+            return 1
+        track_id = parts[0]
+        context_dir = root_dir / ".vibey" / "roadmap" / track_id / sprint / "context"
+    else:
+        # Track
+        context_dir = root_dir / ".vibey" / "roadmap" / track / "context"
+
+    # Create context directory if needed
+    context_dir.mkdir(parents=True, exist_ok=True)
+
+    # Copy file to context directory
+    target = context_dir / source.name
+
+    if target.exists():
+        print(f"⚠️  File already exists: {target}")
+        response = input("Overwrite? [y/N]: ").strip().lower()
+        if response != 'y':
+            print("Cancelled.")
+            return 1
+
+    try:
+        shutil.copy2(source, target)
+        print(f"✅ Added context file: {target.relative_to(root_dir)}")
+
+        # Optionally trigger sync
+        from framework.docs.sync_hooks import trigger_on_context_add
+        target_id = task or sprint or track
+        trigger_on_context_add(target_id, str(source.name), verbose=True)
+
+        return 0
+    except Exception as e:
+        print(f"❌ Error adding context: {e}")
+        return 1
+
+
 def roadmap_add_commit_cmd(task_id: str, commit_sha: Optional[str] = None, auto: bool = False) -> int:
     """Add a git commit to a task."""
     if auto:

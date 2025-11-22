@@ -337,6 +337,45 @@ def roadmap_check_hooks(ctx):
     sys.exit(exit_code)
 
 
+@roadmap.command('create-from-plan')
+@click.argument('plan_file', type=click.Path(exists=True))
+@click.option('--track', required=True, help='Track ID to add sprint to')
+@click.option('--sprint', help='Override sprint ID (uses ID from plan if not specified)')
+@click.option('--start', is_flag=True, help='Mark sprint as started')
+@click.option('--dry-run', is_flag=True, help='Show what would be created without creating')
+@click.pass_context
+def roadmap_create_from_plan(ctx, plan_file: str, track: str, sprint: str, start: bool, dry_run: bool):
+    """Create roadmap sprint from a plan markdown file
+
+    Parses a sprint plan markdown file and creates:
+    - Sprint YAML in hierarchical structure
+    - Task YAMLs in hierarchical structure
+    - Updates track to reference the sprint
+
+    The plan file should have a standard format with:
+    - Header with Sprint ID, Name, Track, Duration
+    - ## Tasks section with #### Task N: Title blocks
+    - Each task block can have: Description, Acceptance Criteria, Dependencies
+
+    Examples:
+      vibey roadmap create-from-plan sprint-plan.md --track main
+      vibey roadmap create-from-plan sprint-plan.md --track backend --start
+      vibey roadmap create-from-plan sprint-plan.md --track api --sprint sprint-5 --dry-run
+    """
+    from pathlib import Path
+    from vibey.cli.roadmap_create_from_plan import create_sprint_from_plan
+
+    success = create_sprint_from_plan(
+        plan_path=Path(plan_file),
+        track_id=track,
+        sprint_id=sprint,
+        start=start,
+        dry_run=dry_run,
+    )
+
+    sys.exit(0 if success else 1)
+
+
 @roadmap.command('check-standards')
 @click.argument('item_id')
 @click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')
@@ -933,15 +972,17 @@ def deploy(ctx):
               required=True, help='Target platform (or "all" for all platforms)')
 @click.option('--clean', is_flag=True, help='Remove existing deployment first')
 @click.option('--no-validate', is_flag=True, help='Skip post-deployment validation')
+@click.option('--no-roadmap-init', is_flag=True, help='Skip roadmap initialization after deployment')
 @click.pass_context
-def deploy_run(ctx, platform: str, clean: bool, no_validate: bool):
+def deploy_run(ctx, platform: str, clean: bool, no_validate: bool, no_roadmap_init: bool):
     """Deploy framework to specified platform"""
     from vibey.cli.deploy import deploy_cmd
 
     exit_code = deploy_cmd(
         platform=platform,
         clean=clean,
-        validate=not no_validate
+        validate=not no_validate,
+        init_roadmap=not no_roadmap_init,
     )
     sys.exit(exit_code)
 

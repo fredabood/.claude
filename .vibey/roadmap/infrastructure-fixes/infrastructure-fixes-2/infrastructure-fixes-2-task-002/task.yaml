@@ -5,31 +5,49 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create vibey plan command with roadmap integration
-  description: |
-    Create the `vibey plan` CLI command that integrates sprint planning with roadmap creation.
+  description: 'Create the `vibey plan` CLI command that integrates sprint planning
+    with roadmap creation.
+
 
     The script roadmap-create-from-plan.py was preserved during architecture transition,
-    but the CLI integration was deleted. This task wires up the existing script to the CLI.
+
+    but the CLI integration was deleted. This task wires up the existing script to
+    the CLI.
+
 
     Implementation:
+
     - Add `vibey plan` command to vibey/cli/main.py
+
     - Call vibey/operations/roadmap/create_from_plan.py (refactored script)
+
     - Parse sprint plan markdown for tasks, features, gates
+
     - Create .vibey/roadmap/[track]/[sprint]/ structure
+
     - Create task.yaml files from plan
+
     - Update track.yaml to reference sprint
+
     - Add help text and examples
 
+
     Acceptance Criteria:
+
     - `vibey plan <file>` creates roadmap structure from sprint plan
+
     - All YAML files valid and properly linked
+
     - Command shows in `vibey --help`
+
     - Tests pass
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-15T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T19:47:12.488775+00:00'
+  completed: '2025-11-22T19:47:12.488775+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: integration
@@ -57,4 +75,5 @@ task:
     token_efficiency: null
     duration_hours: null
     completes_partial_work: infrastructure-fixes-1-task-005
-    notes: Task 005 script was preserved but CLI integration was deleted. This completes the work.
+    notes: Task 005 script was preserved but CLI integration was deleted. This completes
+      the work.

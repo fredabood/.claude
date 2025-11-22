@@ -5,32 +5,50 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add automatic roadmap progress tracking
-  description: |
-    Implement automatic roadmap progress tracking that updates when tasks complete.
+  description: 'Implement automatic roadmap progress tracking that updates when tasks
+    complete.
+
 
     Original work (Task 006 in Sprint 1) was completed in slash commands but deleted
+
     during architecture transition. This task re-implements the functionality in the
+
     new CLI architecture.
 
+
     Implementation:
+
     - Add progress tracking to vibey roadmap complete command
+
     - Update task status in task.yaml files when marked complete
+
     - Update sprint progress in sprint.yaml files
+
     - Calculate completion percentages automatically
+
     - Update track progress in track.yaml
+
     - Add hooks for automatic updates
+
     - Ensure thread-safety for concurrent updates
 
+
     Acceptance Criteria:
+
     - `vibey roadmap complete <task-id>` updates all progress metrics
+
     - Sprint and track percentages calculated correctly
+
     - YAML files remain valid after updates
+
     - Tests pass for progress calculation
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-15T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T19:47:12.488775+00:00'
+  completed: '2025-11-22T19:47:12.488775+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: integration

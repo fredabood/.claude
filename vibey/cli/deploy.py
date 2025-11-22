@@ -67,7 +67,8 @@ def deploy_cmd(
     platform: str,
     clean: bool = False,
     validate: bool = True,
-    project_root: Optional[Path] = None
+    project_root: Optional[Path] = None,
+    init_roadmap: bool = True,
 ) -> int:
     """
     Deploy Vibey framework to specified platform.
@@ -77,6 +78,7 @@ def deploy_cmd(
         clean: Remove existing deployment first
         validate: Validate deployment after completion
         project_root: Project root directory (default: current)
+        init_roadmap: Initialize roadmap after deployment (default: True)
 
     Returns:
         Exit code (0 = success, 1 = error)
@@ -184,6 +186,29 @@ def deploy_cmd(
     if result.success:
         console.print(f"[green]✓ {platform} deployment complete![/green]")
         console.print(f"[dim]Deployed to: {result.target_dir}[/dim]")
+
+        # Initialize roadmap if requested and not already exists
+        if init_roadmap:
+            roadmap_file = project_root / ".vibey" / "roadmap.yaml"
+            if not roadmap_file.exists():
+                console.print(f"\n[bold]Step 4:[/bold] Initializing roadmap...")
+                try:
+                    from vibey.operations.roadmap import init_roadmap as do_init_roadmap
+                    exit_code = do_init_roadmap(
+                        root_dir=project_root,
+                        roadmap_id=config.project.project.name.lower().replace(" ", "-"),
+                        roadmap_name=config.project.project.name,
+                        version=config.project.project.version or "1.0.0",
+                    )
+                    if exit_code == 0:
+                        console.print(f"[green]✓[/green] Roadmap initialized")
+                    else:
+                        console.print(f"[yellow]⚠[/yellow] Roadmap initialization had issues (exit code {exit_code})")
+                except Exception as e:
+                    console.print(f"[yellow]⚠[/yellow] Could not initialize roadmap: {e}")
+            else:
+                console.print(f"\n[dim]Roadmap already exists, skipping initialization[/dim]")
+
         return 0
     else:
         console.print(f"[red]✗ {platform} deployment failed[/red]")

@@ -397,10 +397,56 @@ vibey/
    - Development history
    - Roadmap and strategy
 
-3. **Code Documentation** - Inline in agents, workflows, scripts
+3. **Roadmap Documentation** (`.vibey/roadmap/`) - Track/sprint/task context
+   - Analysis and audit reports
+   - Planning documents
+   - Completion reports
+
+4. **Code Documentation** - Inline in agents, workflows, scripts
    - Clear comments
    - Usage examples
    - Config variable references
+
+### Roadmap Documentation Organization
+
+All analysis, reports, and supplementary documentation in the roadmap system must be placed in `context/` directories:
+
+```
+.vibey/roadmap/
+├── roadmap.yaml              # Root state (allowed)
+├── roadmap.md                # Root documentation (allowed)
+├── archived/                 # Historical archives
+│
+└── {track}/
+    ├── track.yaml            # Track state (allowed)
+    ├── track.md              # Track documentation (allowed)
+    ├── context/              # Track-level context
+    │   ├── audits/           # Audit reports
+    │   ├── remediation/      # Fix documentation
+    │   └── ...               # Other categories
+    │
+    └── {sprint}/
+        ├── sprint.yaml       # Sprint state (allowed)
+        ├── sprint.md         # Sprint documentation (allowed)
+        ├── context/          # Sprint-level context
+        │
+        └── {task}/
+            ├── task.yaml     # Task state (allowed)
+            └── task.md       # Task documentation (allowed)
+```
+
+**Rules:**
+- Only `*.yaml` and `*.md` core structure files at each level
+- All analysis/report files go in `context/` directories
+- Use categories: `audits/`, `remediation/`, `planning/`, `summaries/`
+- File naming: `CATEGORY_DESCRIPTION_DATE.md` (e.g., `AUDIT_REPORT_2025-11-15.md`)
+
+**Validation:**
+```bash
+python3 scripts/validate-doc-organization.py
+```
+
+See `.vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/DOCUMENTATION_ORGANIZATION_STANDARDS.md` for complete standards.
 
 ### Documentation Standards
 

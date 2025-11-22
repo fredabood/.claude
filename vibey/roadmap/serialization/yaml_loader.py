@@ -575,10 +575,11 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     if 'tasks' in sprint_data:
         tasks = []
         for t in sprint_data['tasks']:
-            # Handle multiple field name variations
+            # Handle multiple field name variations (backward compatibility)
             title = t.get('title') or t.get('name', 'Unknown')  # 'title' or 'name'
             status = Status(t.get('status', 'not_started'))  # Default to not_started if missing
-            task_type = TaskType(t.get('task_type', 'development'))  # Default to development if missing
+            task_type_str = t.get('task_type') or t.get('type', 'development')  # 'task_type' or 'type'
+            task_type = TaskType(task_type_str)
 
             tasks.append(TaskSummary(
                 id=t['id'],
@@ -1033,8 +1034,8 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             sprint_id=task_data['sprint_id'],
             track_id=task_data['track_id'],
             roadmap_id=task_data.get('roadmap_id', 'vibey-framework-v2'),  # Default to main roadmap
-            task_type=TaskType(_map_task_type(task_data.get('task_type', 'development'))),
-            title=task_data.get('title', task_data.get('name', 'Unknown')),
+            task_type=TaskType(_map_task_type(task_data.get('task_type') or task_data.get('type', 'development'))),
+            title=task_data.get('title') or task_data.get('name', 'Unknown'),
             description=task_data.get('description', ''),
             status=TaskStatus(task_data.get('status', 'not_started')),
             blocked=computed_blocked,  # Use computed value instead of YAML value

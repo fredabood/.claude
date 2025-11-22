@@ -216,6 +216,80 @@ jobs:
               body: summary
             });
 
+  schema-compliance:
+    name: Schema Compliance Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Check schema compliance
+        run: |
+          python3 << 'PYEOF'
+          import yaml
+          from pathlib import Path
+          from collections import defaultdict
+
+          issues = []
+          roadmap_dir = Path('.vibey/roadmap')
+
+          for yaml_file in roadmap_dir.rglob('*.yaml'):
+              try:
+                  with open(yaml_file) as f:
+                      data = yaml.safe_load(f)
+
+                  if data is None:
+                      continue
+
+                  rel_path = str(yaml_file.relative_to(roadmap_dir))
+
+                  # Check sprint.yaml task arrays
+                  if yaml_file.name == 'sprint.yaml':
+                      sprint = data.get('sprint', {})
+                      for task in sprint.get('tasks', []):
+                          task_id = task.get('id', 'unknown')
+                          if 'name' in task and 'title' not in task:
+                              issues.append(f"{rel_path}: Task '{task_id}' uses 'name' instead of 'title'")
+                          if 'type' in task and 'task_type' not in task:
+                              issues.append(f"{rel_path}: Task '{task_id}' uses 'type' instead of 'task_type'")
+
+                  # Check task.yaml files
+                  elif yaml_file.name == 'task.yaml':
+                      task = data.get('task', {})
+                      if 'name' in task and 'title' not in task:
+                          issues.append(f"{rel_path}: Uses 'name' instead of 'title'")
+                      if 'type' in task and 'task_type' not in task:
+                          issues.append(f"{rel_path}: Uses 'type' instead of 'task_type'")
+
+              except Exception as e:
+                  issues.append(f"{yaml_file}: Error - {e}")
+
+          if issues:
+              print("❌ Schema compliance issues found:")
+              for issue in issues[:20]:
+                  print(f"  - {issue}")
+              if len(issues) > 20:
+                  print(f"  ... and {len(issues) - 20} more issues")
+              print(f"\nTotal: {len(issues)} issues")
+              print("\nRun 'vibey roadmap repair --all' to fix these issues")
+              exit(1)
+          else:
+              print("✅ All roadmap files are schema-compliant")
+          PYEOF
+
   legacy-validation:
     name: Legacy Validation (Pytest)
     runs-on: ubuntu-latest

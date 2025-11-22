@@ -1,0 +1,25 @@
+task:
+  id: platform-context-management-2-task-001
+  name: Task size vs context window checker
+  sprint_id: platform-context-management-2
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:31:23.316128+00:00'
+  completed: '2025-11-22T21:31:23.316128+00:00'
+  estimated_tokens: 8000
+  description: Implement check_task_compatibility() function that compares task estimated_tokens
+    against platform context window with configurable buffer.
+  success_criteria:
+  - Returns compatibility status (compatible, warning, oversized, unknown)
+  - Calculates overflow tokens for oversized tasks
+  - Calculates utilization percentage
+  - Supports configurable buffer percentage
+  dependencies: []
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    estimated_duration: 2 hours

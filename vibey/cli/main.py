@@ -510,6 +510,65 @@ def roadmap_doc_changelog(ctx, filter_object_id: Optional[str], start_date: Opti
     sys.exit(exit_code)
 
 
+@roadmap.command('check-compatibility')
+@click.argument('sprint_id')
+@click.option('--platform', '-p', help='Override platform (auto-detect if not specified)')
+@click.option('--context-window', '-c', type=int, help='Override context window size (tokens)')
+@click.option('--include-completed', is_flag=True, help='Include completed tasks in analysis')
+@click.option('--verbose', '-v', is_flag=True, help='Show all tasks, not just problematic ones')
+@click.option('--json', 'output_json', is_flag=True, help='Output as JSON')
+@click.pass_context
+def roadmap_check_compatibility(ctx, sprint_id: str, platform: Optional[str],
+                                  context_window: Optional[int], include_completed: bool,
+                                  verbose: bool, output_json: bool):
+    """Check if sprint tasks fit in your platform's context window
+
+    Analyzes all incomplete tasks in a sprint and checks if they fit
+    within your current platform's context window. Oversized tasks
+    need to be recalculated before starting.
+
+    Examples:
+      vibey roadmap check-compatibility auth-sprint-1
+      vibey roadmap check-compatibility sprint-1 --platform goose
+      vibey roadmap check-compatibility sprint-1 --context-window 128000
+      vibey roadmap check-compatibility sprint-1 --verbose
+      vibey roadmap check-compatibility sprint-1 --json
+    """
+    from pathlib import Path
+    import json
+    from vibey.roadmap.compatibility import (
+        check_sprint_compatibility,
+        format_compatibility_result,
+    )
+
+    try:
+        result = check_sprint_compatibility(
+            sprint_id=sprint_id,
+            project_root=Path.cwd(),
+            platform=platform,
+            context_window=context_window,
+            include_completed=include_completed,
+        )
+
+        if output_json:
+            console.print(json.dumps(result.to_dict(), indent=2))
+        else:
+            console.print(format_compatibility_result(result, verbose=verbose))
+
+        # Exit code based on result
+        if result.needs_recalculation:
+            sys.exit(1)  # Needs attention
+        else:
+            sys.exit(0)  # Good to go
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+    except Exception as e:
+        console.print(f"[red]Error checking compatibility:[/red] {e}")
+        sys.exit(1)
+
+
 @roadmap.command('check-standards')
 @click.argument('item_id')
 @click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')

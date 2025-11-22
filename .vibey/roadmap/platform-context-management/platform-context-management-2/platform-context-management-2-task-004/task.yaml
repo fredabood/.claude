@@ -1,0 +1,27 @@
+task:
+  id: platform-context-management-2-task-004
+  name: CLI command - vibey roadmap check-compatibility
+  sprint_id: platform-context-management-2
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:31:23.316128+00:00'
+  completed: '2025-11-22T21:31:23.316128+00:00'
+  estimated_tokens: 8000
+  description: Add CLI command for checking sprint compatibility with current platform.
+  success_criteria:
+  - Command accepts sprint_id argument
+  - Supports --platform override option
+  - Supports --context-window override option
+  - Supports --verbose for detailed output
+  - Supports --json for machine-readable output
+  - Returns appropriate exit codes
+  dependencies:
+  - platform-context-management-2-task-003
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    estimated_duration: 2 hours

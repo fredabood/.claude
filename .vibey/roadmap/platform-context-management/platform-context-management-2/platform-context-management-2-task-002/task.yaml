@@ -1,0 +1,25 @@
+task:
+  id: platform-context-management-2-task-002
+  name: Incomplete task filter
+  sprint_id: platform-context-management-2
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:31:23.316128+00:00'
+  completed: '2025-11-22T21:31:23.316128+00:00'
+  estimated_tokens: 3000
+  description: Implement is_task_completed() filter to skip completed tasks during
+    compatibility analysis - only incomplete tasks need checking.
+  success_criteria:
+  - Correctly identifies completed tasks by status
+  - Skips completed tasks in compatibility reports
+  - Option to include completed tasks if needed
+  dependencies:
+  - platform-context-management-2-task-001
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    estimated_duration: 2 hours

@@ -1,0 +1,43 @@
+task:
+  id: platform-context-management-1-task-003
+  name: Platform config storage
+  sprint_id: platform-context-management-1
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T20:29:59.660662+00:00'
+  completed: '2025-11-22T20:29:59.660662+00:00'
+  estimated_tokens: 10000
+  description: 'Implement platform configuration storage at .vibey/config/platform.yaml.
+
+    This allows users to manually specify their platform and context window
+
+    if auto-detection fails or needs override.
+
+
+    Deliverables:
+
+    - vibey/platform/config.py - Platform config management
+
+    - .vibey/config/platform.yaml schema definition
+
+    - Load/save platform configuration
+
+    - Merge detected values with user overrides
+
+    '
+  success_criteria:
+  - Platform config can be stored in .vibey/config/platform.yaml
+  - Config loader respects user overrides
+  - Detected platform used as fallback if no config
+  - Schema validation for platform config
+  - Unit tests for config management
+  dependencies:
+  - platform-context-management-1-task-002
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []
+  metadata:
+    estimated_duration: 2 hours

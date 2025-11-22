@@ -1223,6 +1223,239 @@ def config_rollback(ctx, backup_id: str, list_backups: bool):
     sys.exit(exit_code)
 
 
+# ----------------------------------------------------------------------------
+# Platform Configuration Commands
+# ----------------------------------------------------------------------------
+
+@config.group('platform')
+@click.pass_context
+def config_platform(ctx):
+    """
+    Manage platform detection and configuration.
+
+    The platform system automatically detects your AI coding platform
+    (Claude Code, Goose, Cursor, etc.) and its context window size.
+
+    Examples:
+
+      vibey config platform show            # Show current platform
+      vibey config platform detect          # Force re-detection
+      vibey config platform set goose       # Set platform manually
+      vibey config platform set goose --context-window 100000
+    """
+    pass
+
+
+@config_platform.command('show')
+@click.option('--json', 'output_json', is_flag=True, help='Output as JSON')
+@click.pass_context
+def config_platform_show(ctx, output_json: bool):
+    """Show current platform configuration
+
+    Displays the detected platform, configured overrides, and effective
+    platform settings that will be used for compatibility checking.
+
+    Examples:
+      vibey config platform show           # Human-readable output
+      vibey config platform show --json    # JSON output for scripting
+    """
+    from pathlib import Path
+    import json
+    from vibey.platform.config import get_platform_config_status
+    from vibey.platform.context import format_token_count
+
+    status = get_platform_config_status(Path.cwd())
+
+    if output_json:
+        console.print(json.dumps(status, indent=2))
+        sys.exit(0)
+
+    # Human-readable output
+    effective = status['effective']
+    detected = status['detected']
+    configured = status['configured']
+
+    console.print("\n[bold]Platform Configuration[/bold]")
+    console.print("=" * 60)
+
+    # Effective platform (what will be used)
+    console.print(f"\n[bold green]Effective Platform:[/bold green]")
+    console.print(f"  Platform:       {effective['display_name']} ({effective['name']})")
+    console.print(f"  Context Window: {format_token_count(effective['context_window'])} tokens")
+    console.print(f"  Vendor:         {effective['vendor']}")
+    console.print(f"  Detected By:    {effective['detected_by']}")
+    if effective['confidence'] > 0:
+        console.print(f"  Confidence:     {effective['confidence']:.0%}")
+
+    # Detected platform
+    console.print(f"\n[bold blue]Auto-Detected:[/bold blue]")
+    if detected['name'] != 'unknown':
+        console.print(f"  Platform:       {detected['display_name']}")
+        console.print(f"  Method:         {detected['detected_by']}")
+        console.print(f"  Confidence:     {detected['confidence']:.0%}")
+    else:
+        console.print("  [dim]No platform detected[/dim]")
+
+    # User configuration
+    console.print(f"\n[bold yellow]User Configuration:[/bold yellow]")
+    if configured['platform']:
+        console.print(f"  Platform:       {configured['platform']}")
+    else:
+        console.print("  Platform:       [dim]Not set (using auto-detect)[/dim]")
+
+    if configured['context_window']:
+        console.print(f"  Context Window: {format_token_count(configured['context_window'])} tokens")
+    else:
+        console.print("  Context Window: [dim]Using platform default[/dim]")
+
+    console.print(f"  Auto-Detect:    {'Yes' if configured['auto_detect'] else 'No'}")
+
+    # Config file status
+    console.print(f"\n[bold]Config File:[/bold]")
+    console.print(f"  Path:   {status['config_file']}")
+    console.print(f"  Exists: {'Yes' if status['config_exists'] else 'No'}")
+
+    sys.exit(0)
+
+
+@config_platform.command('detect')
+@click.option('--verbose', '-v', is_flag=True, help='Show detection details')
+@click.pass_context
+def config_platform_detect(ctx, verbose: bool):
+    """Force platform re-detection
+
+    Runs platform detection and shows results without changing configuration.
+    Useful for debugging detection issues.
+
+    Examples:
+      vibey config platform detect           # Run detection
+      vibey config platform detect --verbose # Show all detection methods tried
+    """
+    from pathlib import Path
+    from vibey.platform.detector import detect_platform, KNOWN_PLATFORMS
+    from vibey.platform.context import format_token_count
+
+    console.print("\n[bold]Platform Detection[/bold]")
+    console.print("=" * 60)
+
+    result = detect_platform(Path.cwd())
+
+    if result.name != 'unknown':
+        console.print(f"\n[green]✓ Detected: {result.display_name}[/green]")
+        console.print(f"  Platform ID:    {result.name}")
+        console.print(f"  Vendor:         {result.vendor}")
+        console.print(f"  Context Window: {format_token_count(result.context_window)} tokens")
+        console.print(f"  Detection:      {result.detected_by.value}")
+        console.print(f"  Confidence:     {result.confidence:.0%}")
+
+        if verbose and result.detection_details:
+            console.print(f"\n[bold]Detection Details:[/bold]")
+            for key, value in result.detection_details.items():
+                console.print(f"  {key}: {value}")
+    else:
+        console.print("\n[yellow]⚠ No platform detected[/yellow]")
+        console.print("  Using default context window: 128K tokens")
+
+    if verbose:
+        console.print(f"\n[bold]Known Platforms:[/bold]")
+        for pid, info in KNOWN_PLATFORMS.items():
+            console.print(f"  {pid}: {info['name']} ({format_token_count(info['context_window'])})")
+
+    sys.exit(0)
+
+
+@config_platform.command('set')
+@click.argument('platform_name')
+@click.option('--context-window', '-c', type=int, help='Override context window size (tokens)')
+@click.pass_context
+def config_platform_set(ctx, platform_name: str, context_window: Optional[int]):
+    """Set platform configuration manually
+
+    Override auto-detection by setting the platform manually.
+    Useful when detection fails or when using a non-standard configuration.
+
+    Examples:
+      vibey config platform set claude-code       # Set to Claude Code
+      vibey config platform set goose             # Set to Goose
+      vibey config platform set goose --context-window 100000
+    """
+    from pathlib import Path
+    from vibey.platform.config import set_platform, get_config_path
+    from vibey.platform.validation import validate_platform_name, format_validation_result
+    from vibey.platform.context import format_token_count
+
+    # Validate platform name
+    validation = validate_platform_name(platform_name)
+    if validation.has_warnings():
+        console.print(format_validation_result(validation, show_info=False))
+        console.print("")
+
+    # Set the platform
+    config = set_platform(platform_name, context_window, Path.cwd())
+
+    console.print(f"\n[green]✓ Platform configuration saved[/green]")
+    console.print(f"  Platform:       {config.platform}")
+    if config.context_window:
+        console.print(f"  Context Window: {format_token_count(config.context_window)} tokens")
+    console.print(f"  Config File:    {get_config_path(Path.cwd())}")
+
+    sys.exit(0)
+
+
+@config_platform.command('clear')
+@click.pass_context
+def config_platform_clear(ctx):
+    """Clear platform configuration
+
+    Removes manual platform configuration, reverting to auto-detection.
+
+    Examples:
+      vibey config platform clear
+    """
+    from pathlib import Path
+    from vibey.platform.config import clear_platform_config, get_config_path
+
+    config_path = get_config_path(Path.cwd())
+
+    if clear_platform_config(Path.cwd()):
+        console.print(f"\n[green]✓ Platform configuration cleared[/green]")
+        console.print(f"  Deleted: {config_path}")
+        console.print("  Platform will now use auto-detection")
+    else:
+        console.print(f"\n[yellow]No configuration file found at {config_path}[/yellow]")
+
+    sys.exit(0)
+
+
+@config_platform.command('list')
+@click.pass_context
+def config_platform_list(ctx):
+    """List known platforms
+
+    Shows all platforms that Vibey can detect and their default context windows.
+
+    Examples:
+      vibey config platform list
+    """
+    from vibey.platform.detector import list_known_platforms
+    from vibey.platform.context import format_token_count
+
+    platforms = list_known_platforms()
+
+    console.print("\n[bold]Known Platforms[/bold]")
+    console.print("=" * 70)
+    console.print(f"{'ID':<15} {'Name':<20} {'Vendor':<15} {'Context':<10}")
+    console.print("-" * 70)
+
+    for p in platforms:
+        console.print(f"{p['id']:<15} {p['name']:<20} {p['vendor']:<15} {format_token_count(p['context_window']):<10}")
+
+    console.print("")
+    console.print("Use 'vibey config platform set <id>' to configure manually")
+
+    sys.exit(0)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

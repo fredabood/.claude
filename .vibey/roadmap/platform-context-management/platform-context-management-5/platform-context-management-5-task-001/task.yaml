@@ -1,0 +1,16 @@
+task:
+  id: platform-context-management-5-task-001
+  name: Multi-platform scenario tests
+  sprint_id: platform-context-management-5
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:50:00+00:00'
+  completed: '2025-11-22T21:55:00+00:00'
+  estimated_tokens: 8000
+  dependencies: []
+  blocked_by: []
+  assigned_agent: test-engineer
+  commits: []

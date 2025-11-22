@@ -1,0 +1,17 @@
+task:
+  id: platform-context-management-5-task-006
+  name: Example workflows and best practices
+  sprint_id: platform-context-management-5
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T22:15:00+00:00'
+  completed: '2025-11-22T22:20:00+00:00'
+  estimated_tokens: 8000
+  dependencies:
+  - platform-context-management-5-task-005
+  blocked_by: []
+  assigned_agent: docs-writer
+  commits: []

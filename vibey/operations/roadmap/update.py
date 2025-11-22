@@ -908,6 +908,9 @@ def _update_roadmap_progress(fs: FileSystemManager):
             try:
                 track = load_track(track_path)
 
+                # Sync track status from track.yaml to roadmap.yaml
+                track_summary.status = track.status
+
                 if track.status in [Status.COMPLETED, Status.PRODUCTION_READY, Status.DEPLOYED]:
                     completed_tracks += 1
 

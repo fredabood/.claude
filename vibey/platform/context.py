@@ -29,6 +29,7 @@ PLATFORM_CONTEXT_WINDOWS: Dict[str, int] = {
     PlatformName.JETBRAINS_AI.value: 128_000,  # Model-dependent
     PlatformName.WINDSURF.value: 128_000,  # Model-dependent
     PlatformName.VSCODE.value: 128_000,  # Extension-dependent
+    PlatformName.GEMINI.value: 1_000_000,  # Gemini 1.5 Pro/Flash
     PlatformName.UNKNOWN.value: 128_000,  # Conservative default
 }
 

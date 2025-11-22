@@ -49,6 +49,7 @@ class PlatformName(str, Enum):
     JETBRAINS_AI = "jetbrains-ai"
     WINDSURF = "windsurf"
     VSCODE = "vscode"
+    GEMINI = "gemini"
     UNKNOWN = "unknown"
 
 
@@ -134,6 +135,15 @@ KNOWN_PLATFORMS: Dict[str, Dict[str, Any]] = {
         "config_files": [".vscode/settings.json"],
         "context_window": 128_000,  # Depends on extension
         "description": "Visual Studio Code (with AI extension)",
+    },
+    PlatformName.GEMINI.value: {
+        "name": "Gemini",
+        "vendor": "Google",
+        "env_vars": ["GOOGLE_API_KEY", "GEMINI_API_KEY", "GOOGLE_APPLICATION_CREDENTIALS"],
+        "process_names": [],
+        "config_files": [".gemini/config.yaml", "gemini.yaml"],
+        "context_window": 1_000_000,  # Gemini 1.5 Pro/Flash
+        "description": "Google's Gemini AI platform",
     },
 }
 

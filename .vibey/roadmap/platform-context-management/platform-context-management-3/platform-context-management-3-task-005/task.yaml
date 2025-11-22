@@ -1,0 +1,18 @@
+task:
+  id: platform-context-management-3-task-005
+  name: Integration tests for prompt flow
+  sprint_id: platform-context-management-3
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:39:28.758471+00:00'
+  completed: '2025-11-22T21:39:28.758471+00:00'
+  estimated_tokens: 5000
+  description: Test the prompt integration with start and show commands.
+  dependencies:
+  - platform-context-management-3-task-004
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []

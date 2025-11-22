@@ -125,21 +125,79 @@ def roadmap_status(ctx, track: Optional[str], sprint: Optional[str]):
 
 @roadmap.command('show')
 @click.argument('item_id')
+@click.option('--no-compatibility', is_flag=True, help='Skip compatibility status display')
 @click.pass_context
-def roadmap_show(ctx, item_id: str):
-    """Show details for a track, sprint, or task"""
+def roadmap_show(ctx, item_id: str, no_compatibility: bool):
+    """Show details for a track, sprint, or task
+
+    For sprints, also shows platform compatibility status to help
+    you understand if tasks fit in your context window.
+
+    Examples:
+      vibey roadmap show sprint-1
+      vibey roadmap show task-001
+      vibey roadmap show my-track
+    """
+    from pathlib import Path
     from vibey.cli.commands import roadmap_show_cmd
 
     exit_code = roadmap_show_cmd(item_id)
+
+    # Show compatibility status for sprints
+    is_sprint = '-task-' not in item_id and item_id.count('-') >= 1 and not item_id.endswith('-track')
+
+    # Heuristic: sprints have format like "track-name-N" or "something-sprint-N"
+    # More reliable: check if it's not a track (no tasks) and not a task
+    if not no_compatibility and is_sprint:
+        try:
+            from vibey.roadmap.prompts import show_compatibility_status_brief
+            show_compatibility_status_brief(item_id, Path.cwd())
+        except Exception:
+            pass  # Silent fail - don't break show command
+
     sys.exit(exit_code)
 
 
 @roadmap.command('start')
 @click.argument('item_id')
+@click.option('--skip-compatibility', is_flag=True, help='Skip compatibility check (not recommended)')
+@click.option('--force', '-f', is_flag=True, help='Force start without prompts')
 @click.pass_context
-def roadmap_start(ctx, item_id: str):
-    """Start a sprint or task"""
+def roadmap_start(ctx, item_id: str, skip_compatibility: bool, force: bool):
+    """Start a sprint or task
+
+    When starting a sprint, checks if tasks fit in your platform's context
+    window. If compatibility issues are found, you'll be prompted to
+    recalculate before proceeding.
+
+    Examples:
+      vibey roadmap start sprint-1
+      vibey roadmap start task-001
+      vibey roadmap start sprint-1 --skip-compatibility
+    """
+    from pathlib import Path
     from vibey.cli.commands import roadmap_start_cmd
+
+    # Check if this is a sprint (contains no '-task-')
+    is_sprint = '-task-' not in item_id
+
+    # Run compatibility check for sprints
+    if is_sprint and not skip_compatibility:
+        from vibey.roadmap.prompts import check_and_prompt_compatibility, PromptAction
+
+        result = check_and_prompt_compatibility(
+            sprint_id=item_id,
+            project_root=Path.cwd(),
+            skip_prompt=force,
+        )
+
+        if not result.should_proceed:
+            console.print("[yellow]Operation cancelled[/yellow]")
+            sys.exit(0)
+
+        if result.action == PromptAction.RECALCULATE:
+            console.print("[blue]Please run the recalculate command first, then try starting again.[/blue]")
+            sys.exit(0)
 
     exit_code = roadmap_start_cmd(item_id)
     sys.exit(exit_code)

@@ -42,11 +42,11 @@ task:
     - Metadata schema extensible
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-09T21:29:48.458626+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T20:03:49.451613+00:00'
+  completed: '2025-11-22T20:03:49.451613+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null

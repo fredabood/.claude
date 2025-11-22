@@ -337,6 +337,230 @@ def roadmap_check_hooks(ctx):
     sys.exit(exit_code)
 
 
+@roadmap.command('check-standards')
+@click.argument('item_id')
+@click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')
+@click.pass_context
+def roadmap_check_standards(ctx, item_id: str, verbose: bool):
+    """Check which standards apply to an item
+
+    Validates all standards that apply to a roadmap item (task/sprint/track)
+    and displays the results without taking any action.
+
+    Examples:
+      vibey roadmap check-standards task-001
+      vibey roadmap check-standards sprint-1 --verbose
+      vibey roadmap check-standards my-track
+    """
+    from vibey.operations.roadmap import enforce_standards, print_enforcement_results
+
+    # Determine item type for display
+    if '-task-' in item_id:
+        item_type = "Task"
+    elif item_id.count('-') >= 1:
+        item_type = "Sprint"
+    else:
+        item_type = "Track"
+
+    console.print(f"\n[bold]🔍 Checking standards for {item_type}: {item_id}[/bold]")
+    console.print("=" * 80)
+
+    try:
+        from pathlib import Path
+        enforcement_result = enforce_standards(item_id, Path.cwd(), operation="check")
+    except Exception as e:
+        console.print(f"\n[red]❌ Failed to check standards: {e}[/red]")
+        sys.exit(1)
+
+    print_enforcement_results(enforcement_result, item_id, verbose=verbose)
+
+    if enforcement_result.can_proceed:
+        if enforcement_result.warnings:
+            console.print(f"[green]✅ Item can proceed with {len(enforcement_result.warnings)} warning(s)[/green]")
+        else:
+            console.print("[green]✅ All standards passed - item can be completed[/green]")
+        sys.exit(0)
+    else:
+        console.print(f"[red]❌ Item cannot proceed - {len(enforcement_result.blocking_failures)} blocking failure(s)[/red]")
+        console.print("   Use 'vibey roadmap override-standard' to override specific standards")
+        sys.exit(1)
+
+
+@roadmap.command('add-standard')
+@click.argument('level', type=click.Choice(['roadmap', 'track', 'sprint']))
+@click.argument('standard_id')
+@click.argument('name')
+@click.argument('description')
+@click.argument('type', type=click.Choice(['commit_check', 'file_check', 'test_run', 'custom_script']))
+@click.argument('enforcement', type=click.Choice(['blocking', 'warning', 'audit']))
+@click.argument('validation')
+@click.option('--target-id', help='Track/sprint ID (required for track/sprint level)')
+@click.pass_context
+def roadmap_add_standard(ctx, level: str, standard_id: str, name: str, description: str,
+                          type: str, enforcement: str, validation: str, target_id: Optional[str]):
+    """Add a new standard to roadmap/track/sprint
+
+    Creates a new standard that enforces a policy at the specified level.
+    Standards cascade down the hierarchy (roadmap → track → sprint → task).
+
+    VALIDATION is a JSON string with validation config, e.g. '{"min_commits": 1}'
+
+    Examples:
+      vibey roadmap add-standard roadmap commit-req "Commit Required" \\
+        "All tasks must have commits" commit_check blocking '{"min_commits": 1}'
+
+      vibey roadmap add-standard track test-cov "Test Coverage" \\
+        "Must have 80% coverage" test_run warning '{"threshold": 80}' \\
+        --target-id my-track
+    """
+    import json
+    from pathlib import Path
+    from datetime import datetime, timezone
+    from vibey.roadmap.models import Standard, StandardType, EnforcementMode
+    from vibey.roadmap.serialization import (
+        load_roadmap, save_roadmap, load_track, save_track, load_sprint, save_sprint
+    )
+    from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+
+    # Parse validation JSON
+    try:
+        validation_config = json.loads(validation)
+    except json.JSONDecodeError as e:
+        console.print(f"[red]❌ Invalid validation JSON: {e}[/red]")
+        console.print('   Example: {"min_commits": 1}')
+        sys.exit(1)
+
+    # Create standard
+    try:
+        standard = Standard(
+            id=standard_id,
+            name=name,
+            description=description,
+            type=StandardType(type),
+            enforcement=EnforcementMode(enforcement),
+            validation=validation_config,
+            created=datetime.now(timezone.utc),
+            overrides=[]
+        )
+    except Exception as e:
+        console.print(f"[red]❌ Failed to create standard: {e}[/red]")
+        sys.exit(1)
+
+    root_dir = Path.cwd()
+    fs = FileSystemManager(root_dir)
+
+    try:
+        if level == 'roadmap':
+            roadmap_obj = load_roadmap(root_dir)
+            roadmap_obj.standards.append(standard)
+            save_roadmap(roadmap_obj, root_dir)
+            console.print(f"[green]✅ Added standard '{standard_id}' to roadmap[/green]")
+        elif level == 'track':
+            if not target_id:
+                console.print("[red]❌ --target-id required for track level[/red]")
+                sys.exit(1)
+            track = load_track(target_id, root_dir)
+            track.standards.append(standard)
+            save_track(track, root_dir)
+            console.print(f"[green]✅ Added standard '{standard_id}' to track '{target_id}'[/green]")
+        elif level == 'sprint':
+            if not target_id:
+                console.print("[red]❌ --target-id required for sprint level[/red]")
+                sys.exit(1)
+            sprint = load_sprint(target_id, root_dir)
+            sprint.standards.append(standard)
+            save_sprint(sprint, root_dir)
+            console.print(f"[green]✅ Added standard '{standard_id}' to sprint '{target_id}'[/green]")
+    except Exception as e:
+        console.print(f"[red]❌ Failed to add standard: {e}[/red]")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@roadmap.command('override-standard')
+@click.argument('standard_id')
+@click.argument('item_id')
+@click.argument('reason')
+@click.option('--overridden-by', default='system', help='Who is overriding (default: system)')
+@click.pass_context
+def roadmap_override_standard(ctx, standard_id: str, item_id: str, reason: str, overridden_by: str):
+    """Override a standard for a specific item
+
+    Adds an override to a standard, allowing completion even if the standard
+    would normally block it. The override is tracked with reason and author.
+
+    Examples:
+      vibey roadmap override-standard commit-required task-001 \\
+        "Emergency hotfix - commit to follow"
+
+      vibey roadmap override-standard test-coverage sprint-1 \\
+        "Legacy code - tests deferred" --overridden-by "tech-lead"
+    """
+    from pathlib import Path
+    from datetime import datetime, timezone
+    from vibey.roadmap.models import StandardOverride
+    from vibey.roadmap.serialization import (
+        load_roadmap, save_roadmap, load_track, save_track, load_sprint, save_sprint
+    )
+    from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+
+    console.print(f"\n[bold]🔓 Creating override for standard '{standard_id}' on item '{item_id}'[/bold]")
+    console.print(f"   Reason: {reason}")
+    console.print(f"   By: {overridden_by}")
+
+    root_dir = Path.cwd()
+    fs = FileSystemManager(root_dir)
+
+    override = StandardOverride(
+        item_id=item_id,
+        reason=reason,
+        overridden_by=overridden_by,
+        overridden_at=datetime.now(timezone.utc),
+        expires_at=None
+    )
+
+    # Search for the standard in roadmap, track, sprint order
+    found = False
+
+    try:
+        # Check roadmap
+        roadmap_obj = load_roadmap(root_dir)
+        for std in roadmap_obj.standards:
+            if std.id == standard_id:
+                std.overrides.append(override)
+                save_roadmap(roadmap_obj, root_dir)
+                console.print(f"\n[green]✅ Override added to roadmap standard[/green]")
+                found = True
+                break
+
+        if not found:
+            # Check all tracks
+            for track_dir in fs.get_track_dirs():
+                track = load_track(track_dir.name, root_dir)
+                for std in track.standards:
+                    if std.id == standard_id:
+                        std.overrides.append(override)
+                        save_track(track, root_dir)
+                        console.print(f"\n[green]✅ Override added to track '{track.id}' standard[/green]")
+                        found = True
+                        break
+                if found:
+                    break
+
+        if not found:
+            console.print(f"\n[red]❌ Standard '{standard_id}' not found in roadmap hierarchy[/red]")
+            sys.exit(1)
+
+    except Exception as e:
+        console.print(f"\n[red]❌ Failed to add override: {e}[/red]")
+        sys.exit(1)
+
+    console.print(f"   Applies to: {item_id}")
+    console.print(f"   Status: Active (no expiration)")
+    sys.exit(0)
+
+
 # ============================================================================
 # Roadmap Audit Subgroup
 # ============================================================================

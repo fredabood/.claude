@@ -96,6 +96,10 @@ class TrackMetadata:
     design_doc: Optional[str] = None
     implementation_plan: Optional[str] = None
     notes: Optional[str] = None
+    # Token-based effort estimation
+    estimated_tokens: Optional[int] = None  # Total estimated tokens for track
+    actual_tokens: Optional[int] = None  # Total actual tokens consumed
+    token_budget: Optional[int] = None  # Maximum tokens allocated for track
 
 
 @dataclass

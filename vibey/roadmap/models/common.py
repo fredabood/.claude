@@ -77,6 +77,57 @@ class Complexity(str, Enum):
     COMPLEX = "complex"
 
 
+class SizeCategory(str, Enum):
+    """Token-based size categories for effort estimation.
+
+    Size categories provide a standardized way to estimate and track
+    token consumption for AI-assisted development tasks.
+
+    Token ranges (based on Claude Code context usage):
+    - SMALL: <10K tokens - Quick fixes, simple changes
+    - MEDIUM: 10K-30K tokens - Feature additions, moderate refactors
+    - LARGE: 30K-75K tokens - Complex features, significant changes
+    - X_LARGE: 75K-150K tokens - Major features, architectural changes
+    - XX_LARGE: 150K+ tokens - Should be split into multiple tasks
+    """
+
+    SMALL = "S"       # <10K tokens
+    MEDIUM = "M"      # 10K-30K tokens
+    LARGE = "L"       # 30K-75K tokens
+    X_LARGE = "XL"    # 75K-150K tokens
+    XX_LARGE = "XXL"  # 150K+ tokens (recommend splitting)
+
+    @classmethod
+    def from_tokens(cls, tokens: int) -> "SizeCategory":
+        """Determine size category from token count."""
+        if tokens < 10_000:
+            return cls.SMALL
+        elif tokens < 30_000:
+            return cls.MEDIUM
+        elif tokens < 75_000:
+            return cls.LARGE
+        elif tokens < 150_000:
+            return cls.X_LARGE
+        else:
+            return cls.XX_LARGE
+
+    def get_token_range(self) -> tuple[int, int]:
+        """Get the token range for this category (min, max)."""
+        ranges = {
+            self.SMALL: (0, 10_000),
+            self.MEDIUM: (10_000, 30_000),
+            self.LARGE: (30_000, 75_000),
+            self.X_LARGE: (75_000, 150_000),
+            self.XX_LARGE: (150_000, 500_000),
+        }
+        return ranges[self]
+
+    def get_midpoint(self) -> int:
+        """Get the midpoint token estimate for this category."""
+        min_tokens, max_tokens = self.get_token_range()
+        return (min_tokens + max_tokens) // 2
+
+
 class DeliverableType(str, Enum):
     """Types of task deliverables."""
 

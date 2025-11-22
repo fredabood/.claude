@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import List, Optional
 
-from .common import TaskStatus, Priority, TaskType, Complexity, DeliverableType, DependencyType, DependencyStatus
+from .common import TaskStatus, Priority, TaskType, Complexity, SizeCategory, DeliverableType, DependencyType, DependencyStatus
 
 
 @dataclass
@@ -233,6 +233,7 @@ class Task:
     completed: Optional[datetime] = None
     phase_label: Optional[str] = None
     actual_tokens: Optional[int] = None
+    size_category: Optional[SizeCategory] = None  # Auto-computed from estimated_tokens if not set
 
     # Gate-specific (only for quality gate tasks)
     gate_info: Optional[GateInfo] = None
@@ -294,6 +295,10 @@ class Task:
         # Calculate token efficiency if both values present
         if self.actual_tokens is not None and self.metadata.token_efficiency is None:
             self.metadata.token_efficiency = self.actual_tokens / self.estimated_tokens
+
+        # Auto-compute size_category from estimated_tokens if not set
+        if self.size_category is None:
+            self.size_category = SizeCategory.from_tokens(self.estimated_tokens)
 
     def is_blocked(self) -> bool:
         """

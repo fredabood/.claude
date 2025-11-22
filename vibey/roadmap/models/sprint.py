@@ -101,6 +101,8 @@ class SprintMetadata:
     actual_duration: Optional[str] = None
     estimated_tokens: Optional[int] = None
     actual_tokens: Optional[int] = None
+    token_budget: Optional[int] = None  # Maximum tokens allocated for this sprint
+    token_burn_rate: Optional[float] = None  # Tokens per hour (productivity metric)
     agents_used: Optional[List[str]] = None
 
 

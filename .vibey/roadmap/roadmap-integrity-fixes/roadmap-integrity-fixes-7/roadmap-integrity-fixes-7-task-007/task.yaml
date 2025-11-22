@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-7-task-007
-  name: Add monitoring and alerting for data integrity
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: completed
-  type: development
-  priority: medium
-  created: '2025-11-16T00:00:00+00:00'
-  started: null
-  completed: '2025-11-20T00:07:09.442547+00:00'
-  estimated_duration: 2 hours
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add monitoring and alerting for data integrity
   description: 'Implement monitoring and alerting for roadmap data integrity.
 
 
@@ -60,13 +54,32 @@ task:
     - PagerDuty integration
 
     '
-  acceptance_criteria:
-  - Health check command implemented
-  - All 6 metrics tracked and reported
-  - Clear pass/fail status
-  - Historical trend tracking (optional)
-  - Documentation includes metric definitions
-  - Alert integration configured (at least one channel)
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.442547+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Leverage validation tests for metrics
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-006
+    target_status: completed
+    reason: Dependency staleness metric
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: documentation
     paths:
@@ -83,17 +96,8 @@ task:
   - type: config
     paths:
     - 'Optional: dashboard configuration'
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-004
-    reason: Leverage validation tests for metrics
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-006
-    reason: Dependency staleness metric
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:07:09.442557+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-7-task-008
-  name: Add enum value validation tests
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: completed
-  type: development
-  priority: critical
-  created: '2025-11-16T00:00:00+00:00'
-  started: null
-  completed: '2025-11-20T00:07:09.451744+00:00'
-  estimated_duration: 1 hour
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add enum value validation tests
   description: "Add validation tests to ensure all enum fields contain valid values\
     \ from their enum classes.\n\nCRITICAL GAP: Current validation only checks that\
     \ enum fields are strings, not that they're\nvalid enum values. This allows corrupted\
@@ -29,12 +23,28 @@ task:
     \   - GateStatus enum: pending, passed, failed\n\nVerification:\n- All tests pass\
     \ on current YAML files\n- Corrupt a test file with invalid enum value and verify\
     \ test fails\n- Fix corruption and verify test passes\n"
-  acceptance_criteria:
-  - Enum validation tests implemented for all roadmap object types
-  - Tests check all enum fields (status, priority, task_type, complexity, etc.)
-  - Tests fail on invalid enum values
-  - Tests pass on all current YAML files
-  - Documentation includes list of valid enum values
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.451744+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Extend existing validation test suite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: documentation
     paths:
@@ -51,14 +61,8 @@ task:
   - type: documentation
     paths:
     - Test execution in CI/CD pipeline
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-004
-    reason: Extend existing validation test suite
-  blocked_by: []
-  blocks: []
-  assigned_agent: web-developer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:07:09.451752+00:00'
+    token_efficiency: null
+    duration_hours: null

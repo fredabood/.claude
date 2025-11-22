@@ -1,16 +1,10 @@
 task:
   id: roadmap-integrity-fixes-7-task-004
-  name: Add YAML corruption validation tests
   sprint_id: roadmap-integrity-fixes-7
   track_id: roadmap-integrity-fixes
-  status: completed
-  type: development
-  priority: high
-  created: '2025-11-16T00:00:00+00:00'
-  started: null
-  completed: '2025-11-20T00:07:09.414343+00:00'
-  estimated_duration: 2 hours
-  actual_duration: null
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add YAML corruption validation tests
   description: 'Create comprehensive test suite to validate YAML file integrity.
 
 
@@ -47,12 +41,28 @@ task:
     - Document in test README
 
     '
-  acceptance_criteria:
-  - Test file created with 6+ validation tests
-  - Tests run successfully: pytest tests/validation/ -v
-  - All tests pass with current roadmap state
-  - Tests catch intentionally corrupted YAML
-  - Test output clearly identifies failing files
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.414343+00:00'
+  assigned_agent: test-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-003
+    target_status: completed
+    reason: Need enum bug fixed before tests will pass
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
   - type: documentation
     paths:
@@ -63,14 +73,8 @@ task:
   - type: documentation
     paths:
     - CI integration (runs automatically)
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-003
-    reason: Need enum bug fixed before tests will pass
-  blocked_by: []
-  blocks: []
-  assigned_agent: test-engineer
   commits: []
   metadata:
-    created_by: claude-code
     last_updated: '2025-11-20T00:07:09.414353+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 20
     tracks_completed: 6
-    sprints_total: 45
-    sprints_completed: 26
-    tasks_total: 334
-    tasks_completed: 313
-    completion_percent: 93
+    sprints_total: 34
+    sprints_completed: 16
+    tasks_total: 253
+    tasks_completed: 238
+    completion_percent: 94
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -1707,11 +1707,23 @@ roadmap:
     description: Sprint 'Validation System & Prevention' completed
     context:
       sprint_id: roadmap-integrity-fixes-6
+  - timestamp: '2025-11-22T15:52:27.930551+00:00'
+    type: task_completed
+    description: Task 'Fix active YAML Python serialization corruption' completed
+    context:
+      task_id: roadmap-integrity-fixes-7-task-001
+      sprint_id: roadmap-integrity-fixes-7
+  - timestamp: '2025-11-22T15:52:53.419917+00:00'
+    type: task_completed
+    description: Task 'Add pre-commit hook for Python serialization detection' completed
+    context:
+      task_id: roadmap-integrity-fixes-7-task-002
+      sprint_id: roadmap-integrity-fixes-7
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-21T04:03:45.005924+00:00'
+    last_updated: '2025-11-22T15:52:53.419921+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

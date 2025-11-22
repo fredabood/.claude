@@ -39,3 +39,5 @@ sprint:
   - Context window detector
   - Platform configuration system
   - CLI platform config command
+  metadata:
+    estimated_tokens: 0

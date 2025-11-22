@@ -2,11 +2,11 @@ task:
   id: roadmap-system-7-task-001
   sprint_id: roadmap-system-7
   track_id: roadmap-system
-  status: not_started
+  status: completed
   priority: high
   created: '2025-11-20T00:38:19.692463+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T19:32:21.770244+00:00'
+  completed: '2025-11-22T19:32:21.770244+00:00'
   estimated_duration: 4 hours
   actual_duration: null
   description: 'Research and define token-based effort estimation methodology.
@@ -104,3 +104,6 @@ task:
     last_updated: '2025-11-20T00:38:19.692648+00:00'
   title: Research token-based sizing methodology
   task_type: development
+  estimated_tokens: 40000
+  size_category: L
+  original_estimated_duration: 4 hours

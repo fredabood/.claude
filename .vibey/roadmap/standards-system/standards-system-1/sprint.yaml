@@ -13,110 +13,82 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  goal: |
-    Implement core data model for standards system with YAML serialization.
+  goal: 'Implement core data model for standards system with YAML serialization.
+
     Add standards support to Roadmap, Track, and Sprint models while
+
     maintaining 100% backward compatibility.
+
+    '
   tasks_summary:
-    - Define Standard dataclass with all required fields
-    - Add standards field to Roadmap model
-    - Add standards field to Track model
-    - Add standards field to Sprint model
-    - Update models __init__.py for exports
-    - Implement YAML dumper for standards
-    - Implement YAML loader for standards
-    - Write comprehensive unit tests
+  - Define Standard dataclass with all required fields
+  - Add standards field to Roadmap model
+  - Add standards field to Track model
+  - Add standards field to Sprint model
+  - Update models __init__.py for exports
+  - Implement YAML dumper for standards
+  - Implement YAML loader for standards
+  - Write comprehensive unit tests
   deliverables:
-    - vibey/roadmap/models/standard.py (Standard dataclass)
-    - Updated Roadmap/Track/Sprint models with standards field
-    - Updated yaml_dumper.py with standards serialization
-    - Updated yaml_loader.py with standards deserialization
-    - Updated models/__init__.py with exports
-    - Unit tests (test_standard_model.py)
-    - Backward compatibility verified
+  - vibey/roadmap/models/standard.py (Standard dataclass)
+  - Updated Roadmap/Track/Sprint models with standards field
+  - Updated yaml_dumper.py with standards serialization
+  - Updated yaml_loader.py with standards deserialization
+  - Updated models/__init__.py with exports
+  - Unit tests (test_standard_model.py)
+  - Backward compatibility verified
   quality_gates:
-    - name: Unit Tests
-      threshold: 100
-      blocking: true
-      status: passed
-      description: All unit tests pass
-      score: 100
-    - name: Code Coverage
-      threshold: 95
-      blocking: true
-      status: passed
-      description: ">95% coverage for new code"
-      score: 100
-    - name: Backward Compatibility
-      threshold: 100
-      blocking: true
-      status: passed
-      description: Existing YAML files load successfully
-      score: 100
+  - name: Unit Tests
+    threshold: 100
+    blocking: true
+    status: passed
+    description: All unit tests pass
+    score: 100
+  - name: Code Coverage
+    threshold: 95
+    blocking: true
+    status: passed
+    description: '>95% coverage for new code'
+    score: 100
+  - name: Backward Compatibility
+    threshold: 100
+    blocking: true
+    status: passed
+    description: Existing YAML files load successfully
+    score: 100
   success_criteria:
-    - Standard dataclass fully implemented
-    - All three models (Roadmap/Track/Sprint) have standards field
-    - YAML round-trip serialization working
-    - All unit tests passing
-    - No breaking changes to existing roadmaps
-    - Documentation updated
+  - Standard dataclass fully implemented
+  - All three models (Roadmap/Track/Sprint) have standards field
+  - YAML round-trip serialization working
+  - All unit tests passing
+  - No breaking changes to existing roadmaps
+  - Documentation updated
   dependencies: []
   risks:
-    - risk: Breaking existing YAML files
-      mitigation: Use .get('standards', []) pattern, comprehensive tests
-    - risk: Schema complexity
-      mitigation: Start simple, iterate based on feedback
-  notes: |
-    SPRINT 1: CORE DATA MODEL & YAML SCHEMA
-
-    This sprint lays the foundation for the standards system by implementing
-    the core data model and YAML serialization infrastructure.
-
-    KEY TASKS:
-
-    Task 1: Define Standard Dataclass
-    - Create vibey/roadmap/models/standard.py
-    - Fields: id, name, description, type, enforcement, validation, etc.
-    - Validation logic in __post_init__
-    - Comprehensive docstrings
-
-    Task 2-4: Add Standards to Models
-    - Add standards: List[Standard] field to:
-      * Roadmap (vibey/roadmap/models/roadmap.py)
-      * Track (vibey/roadmap/models/track.py)
-      * Sprint (vibey/roadmap/models/sprint.py)
-    - Default to empty list
-    - Update type hints
-
-    Task 5: Update Exports
-    - Update vibey/roadmap/models/__init__.py
-    - Export Standard dataclass
-    - Add to __all__ list
-
-    Task 6: YAML Dumper
-    - Update vibey/roadmap/serialization/yaml_dumper.py
-    - Serialize standards for roadmap/track/sprint
-    - Handle nested validation config
-
-    Task 7: YAML Loader
-    - Update vibey/roadmap/serialization/yaml_loader.py
-    - Deserialize standards with .get('standards', [])
-    - Construct Standard objects correctly
-
-    Task 8: Unit Tests
-    - Create tests/unit/test_standard_model.py
-    - Test Standard creation and validation
-    - Test YAML round-trip for all three levels
-    - Test backward compatibility
-
-    VALIDATION:
-    - Run existing test suite - should still pass
-    - Load existing roadmap YAML files - should work
-    - Create new roadmap with standards - should work
-    - Round-trip test standards - should preserve data
-
-    SUCCESS CRITERIA:
-    - All tests passing (including new and existing)
-    - No breaking changes
-    - Standards can be added to YAML
-    - Standards serialize/deserialize correctly
+  - risk: Breaking existing YAML files
+    mitigation: Use .get('standards', []) pattern, comprehensive tests
+  - risk: Schema complexity
+    mitigation: Start simple, iterate based on feedback
+  notes: "SPRINT 1: CORE DATA MODEL & YAML SCHEMA\n\nThis sprint lays the foundation\
+    \ for the standards system by implementing\nthe core data model and YAML serialization\
+    \ infrastructure.\n\nKEY TASKS:\n\nTask 1: Define Standard Dataclass\n- Create\
+    \ vibey/roadmap/models/standard.py\n- Fields: id, name, description, type, enforcement,\
+    \ validation, etc.\n- Validation logic in __post_init__\n- Comprehensive docstrings\n\
+    \nTask 2-4: Add Standards to Models\n- Add standards: List[Standard] field to:\n\
+    \  * Roadmap (vibey/roadmap/models/roadmap.py)\n  * Track (vibey/roadmap/models/track.py)\n\
+    \  * Sprint (vibey/roadmap/models/sprint.py)\n- Default to empty list\n- Update\
+    \ type hints\n\nTask 5: Update Exports\n- Update vibey/roadmap/models/__init__.py\n\
+    - Export Standard dataclass\n- Add to __all__ list\n\nTask 6: YAML Dumper\n- Update\
+    \ vibey/roadmap/serialization/yaml_dumper.py\n- Serialize standards for roadmap/track/sprint\n\
+    - Handle nested validation config\n\nTask 7: YAML Loader\n- Update vibey/roadmap/serialization/yaml_loader.py\n\
+    - Deserialize standards with .get('standards', [])\n- Construct Standard objects\
+    \ correctly\n\nTask 8: Unit Tests\n- Create tests/unit/test_standard_model.py\n\
+    - Test Standard creation and validation\n- Test YAML round-trip for all three\
+    \ levels\n- Test backward compatibility\n\nVALIDATION:\n- Run existing test suite\
+    \ - should still pass\n- Load existing roadmap YAML files - should work\n- Create\
+    \ new roadmap with standards - should work\n- Round-trip test standards - should\
+    \ preserve data\n\nSUCCESS CRITERIA:\n- All tests passing (including new and existing)\n\
+    - No breaking changes\n- Standards can be added to YAML\n- Standards serialize/deserialize\
+    \ correctly\n"
+  metadata:
+    estimated_tokens: 160000

@@ -17,7 +17,7 @@ task:
   assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: null
+  estimated_tokens: 20000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -40,3 +40,4 @@ task:
     duration_hours: null
     migration_note: Migrated from tasks_summary field by task_migration_script.py
       on 2025-11-13
+  size_category: M

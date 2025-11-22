@@ -53,3 +53,6 @@ task:
 
       '
   title: Run integration tests for all 7 journeys
+  estimated_tokens: 30000
+  size_category: L
+  original_estimated_duration: 3 hours

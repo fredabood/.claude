@@ -120,17 +120,17 @@ track:
       \   - Context provider implementation\n   - Multi-IDE testing (VS Code + JetBrains)\n\
       \n3. Strategic Value\n   - VS Code: 75% of developers\n   - JetBrains: Professional\
       \ developers\n   - Open source community\n   - Active development\n\nAdapter\
-      \ Strategy:\n- Map Vibey agents \u2192 Continue slash commands\n- Map Vibey\
-      \ workflows \u2192 Command sequences\n- Map Vibey context \u2192 Context providers\n\
-      - Generate .continue/ directory\n- Templates: config.json.j2, commands/*.j2\n\
-      \nKey Mappings:\n- Agent: web-developer \u2192 /web-developer slash command\n\
-      - Workflow steps \u2192 Prompt templates\n- Handoffs \u2192 Context provider\
-      \ data\n- Quality gates \u2192 Validation commands\n\nContinue Slash Command\
-      \ Example:\n{\n  \"name\": \"web-developer\",\n  \"description\": \"Full-stack\
-      \ web development agent\",\n  \"prompt\": \"{{ agent.instructions | from_template\
-      \ }}\"\n}\n\nContext Provider Example:\n{\n  \"name\": \"vibey-workflow\",\n\
-      \  \"type\": \"custom\",\n  \"config\": {\n    \"workflow\": \"{{ workflow.id\
-      \ }}\",\n    \"context\": \"{{ workflow.context }}\"\n  }\n}\n\nValidation:\n\
-      - Test in VS Code\n- Test in IntelliJ IDEA\n- Test in PyCharm\n- Verify context\
-      \ providers load\n- Ensure commands execute correctly\n\nTimeline: Q3 2025 (after\
-      \ Aider port)\n"
+      \ Strategy:\n- Map Vibey agents → Continue slash commands\n- Map Vibey workflows\
+      \ → Command sequences\n- Map Vibey context → Context providers\n- Generate .continue/\
+      \ directory\n- Templates: config.json.j2, commands/*.j2\n\nKey Mappings:\n-\
+      \ Agent: web-developer → /web-developer slash command\n- Workflow steps → Prompt\
+      \ templates\n- Handoffs → Context provider data\n- Quality gates → Validation\
+      \ commands\n\nContinue Slash Command Example:\n{\n  \"name\": \"web-developer\"\
+      ,\n  \"description\": \"Full-stack web development agent\",\n  \"prompt\": \"\
+      {{ agent.instructions | from_template }}\"\n}\n\nContext Provider Example:\n\
+      {\n  \"name\": \"vibey-workflow\",\n  \"type\": \"custom\",\n  \"config\": {\n\
+      \    \"workflow\": \"{{ workflow.id }}\",\n    \"context\": \"{{ workflow.context\
+      \ }}\"\n  }\n}\n\nValidation:\n- Test in VS Code\n- Test in IntelliJ IDEA\n\
+      - Test in PyCharm\n- Verify context providers load\n- Ensure commands execute\
+      \ correctly\n\nTimeline: Q3 2025 (after Aider port)\n"
+    estimated_tokens: 0

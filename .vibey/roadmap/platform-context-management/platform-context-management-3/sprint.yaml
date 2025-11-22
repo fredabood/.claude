@@ -40,3 +40,5 @@ sprint:
   - Prompt system integration
   - User flow implementation
   - Integration tests
+  metadata:
+    estimated_tokens: 0

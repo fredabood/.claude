@@ -13,47 +13,54 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  goal: |
-    Provide pre-built standard templates for common use cases, making it
+  goal: 'Provide pre-built standard templates for common use cases, making it
+
     easy to add well-tested standards to any roadmap.
+
+    '
   tasks_summary:
-    - Create templates package structure
-    - Create commit-required template
-    - Create doc-review-required template
-    - Create test-coverage-required template
-    - Create multi-platform-testing template
-    - Create security-review template
-    - Implement template CLI (list, add)
-    - Write template tests and documentation
+  - Create templates package structure
+  - Create commit-required template
+  - Create doc-review-required template
+  - Create test-coverage-required template
+  - Create multi-platform-testing template
+  - Create security-review template
+  - Implement template CLI (list, add)
+  - Write template tests and documentation
   deliverables:
-    - vibey/roadmap/standards/templates/ package
-    - 5 standard templates (YAML files)
-    - Template CLI commands
-    - Template documentation
-    - Template tests
-    - Usage examples
+  - vibey/roadmap/standards/templates/ package
+  - 5 standard templates (YAML files)
+  - Template CLI commands
+  - Template documentation
+  - Template tests
+  - Usage examples
   quality_gates:
-    - name: Template Tests
-      threshold: 100
-      blocking: true
-      status: passed
-      description: All template tests pass
-      score: 100
-    - name: Template Documentation
-      threshold: 100
-      blocking: true
-      status: passed
-      description: All templates documented with examples
-      score: 100
+  - name: Template Tests
+    threshold: 100
+    blocking: true
+    status: passed
+    description: All template tests pass
+    score: 100
+  - name: Template Documentation
+    threshold: 100
+    blocking: true
+    status: passed
+    description: All templates documented with examples
+    score: 100
   success_criteria:
-    - All 5 templates implemented and tested
-    - Templates easy to use via CLI
-    - Templates well-documented
-    - Templates solve real use cases
+  - All 5 templates implemented and tested
+  - Templates easy to use via CLI
+  - Templates well-documented
+  - Templates solve real use cases
   dependencies:
-    - standards-system-4
-  notes: |
-    SPRINT 5: STANDARD TEMPLATES LIBRARY
+  - standards-system-4
+  notes: 'SPRINT 5: STANDARD TEMPLATES LIBRARY
+
 
     Make standards adoption easy with pre-built templates for common
+
     quality enforcement scenarios.
+
+    '
+  metadata:
+    estimated_tokens: 160000

@@ -32,3 +32,6 @@ task:
     verification: Code verified in vibey/cli/roadmap_commands/version.py lines 61-74
       - subprocess integration with git tag -a
   task_type: implementation
+  estimated_tokens: 40000
+  size_category: L
+  original_estimated_duration: 4 hours

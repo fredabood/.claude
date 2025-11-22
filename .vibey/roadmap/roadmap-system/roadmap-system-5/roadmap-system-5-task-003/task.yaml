@@ -35,3 +35,6 @@ task:
     verification: Code verified in vibey/cli/roadmap_lib/agents.py lines 121-137 -
       auto_assign_task() with configurable confidence threshold
   task_type: implementation
+  estimated_tokens: 40000
+  size_category: L
+  original_estimated_duration: 4 hours

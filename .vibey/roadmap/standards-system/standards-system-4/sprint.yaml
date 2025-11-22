@@ -13,52 +13,59 @@ sprint:
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100
-  goal: |
-    Integrate standards enforcement into CLI commands, adding automatic
+  goal: 'Integrate standards enforcement into CLI commands, adding automatic
+
     validation during completion and new commands for standards management.
+
+    '
   tasks_summary:
-    - Update 'vibey roadmap complete' with standards checking
-    - Implement blocking enforcement
-    - Implement warning enforcement
-    - Create 'vibey roadmap check-standards' command
-    - Create 'vibey roadmap override-standard' command
-    - Create 'vibey roadmap add-standard' command
-    - Update error messaging
-    - Update help documentation
-    - Write CLI tests
-    - Update command documentation
+  - Update 'vibey roadmap complete' with standards checking
+  - Implement blocking enforcement
+  - Implement warning enforcement
+  - Create 'vibey roadmap check-standards' command
+  - Create 'vibey roadmap override-standard' command
+  - Create 'vibey roadmap add-standard' command
+  - Update error messaging
+  - Update help documentation
+  - Write CLI tests
+  - Update command documentation
   deliverables:
-    - Updated vibey/cli/roadmap-complete.py
-    - New vibey/cli/roadmap-check-standards.py
-    - New vibey/cli/roadmap-override-standard.py
-    - New vibey/cli/roadmap-add-standard.py
-    - Updated vibey/cli/commands.py
-    - Updated vibey/cli/main.py
-    - CLI tests (test_standards_cli.py)
-    - Command documentation
+  - Updated vibey/cli/roadmap-complete.py
+  - New vibey/cli/roadmap-check-standards.py
+  - New vibey/cli/roadmap-override-standard.py
+  - New vibey/cli/roadmap-add-standard.py
+  - Updated vibey/cli/commands.py
+  - Updated vibey/cli/main.py
+  - CLI tests (test_standards_cli.py)
+  - Command documentation
   quality_gates:
-    - name: CLI Tests
-      threshold: 100
-      blocking: true
-      status: passed
-      description: All CLI tests pass
-      score: 100
-    - name: Manual Testing
-      threshold: 100
-      blocking: true
-      status: passed
-      description: Manual workflow testing complete
-      score: 100
+  - name: CLI Tests
+    threshold: 100
+    blocking: true
+    status: passed
+    description: All CLI tests pass
+    score: 100
+  - name: Manual Testing
+    threshold: 100
+    blocking: true
+    status: passed
+    description: Manual workflow testing complete
+    score: 100
   success_criteria:
-    - Standards enforcement blocks completion when required
-    - Warnings display correctly
-    - check-standards command provides useful preview
-    - Override mechanism works with reason tracking
-    - Error messages are clear and actionable
+  - Standards enforcement blocks completion when required
+  - Warnings display correctly
+  - check-standards command provides useful preview
+  - Override mechanism works with reason tracking
+  - Error messages are clear and actionable
   dependencies:
-    - standards-system-3
-  notes: |
-    SPRINT 4: CLI INTEGRATION
+  - standards-system-3
+  notes: 'SPRINT 4: CLI INTEGRATION
+
 
     Make standards enforcement a natural part of the roadmap workflow
+
     through CLI integration.
+
+    '
+  metadata:
+    estimated_tokens: 200000

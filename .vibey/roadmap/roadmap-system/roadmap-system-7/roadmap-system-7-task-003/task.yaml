@@ -2,11 +2,11 @@ task:
   id: roadmap-system-7-task-003
   sprint_id: roadmap-system-7
   track_id: roadmap-system
-  status: not_started
+  status: completed
   priority: high
   created: '2025-11-20T00:38:19.713636+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T19:32:21.770244+00:00'
+  completed: '2025-11-22T19:32:21.770244+00:00'
   estimated_duration: 4 hours
   actual_duration: null
   description: "Create utilities for estimating and tracking token usage.\n\nCREATE:\
@@ -79,3 +79,6 @@ task:
     last_updated: '2025-11-20T00:38:19.713657+00:00'
   title: Add token estimation utilities
   task_type: development
+  estimated_tokens: 40000
+  size_category: L
+  original_estimated_duration: 4 hours

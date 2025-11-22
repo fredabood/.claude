@@ -142,8 +142,8 @@ track:
       \ become available tools\n   - Workflows become available operations\n\n3. Multi-Agent\
       \ Coordination\n   - Vibey agents + Junie + Claude Agent\n   - Orchestrate between\
       \ multiple agents\n   - Quality gates across all agents\n\nAdapter Strategy:\n\
-      - Map Vibey agents \u2192 MCP tools\n- Map Vibey workflows \u2192 MCP resources\n\
-      - Map Vibey context \u2192 MCP prompts\n- Generate .idea/ai/ directory\n- Templates:\
+      - Map Vibey agents → MCP tools\n- Map Vibey workflows → MCP resources\n- Map\
+      \ Vibey context → MCP prompts\n- Generate .idea/ai/ directory\n- Templates:\
       \ mcp-server.json.j2, ai-settings.xml.j2\n\nMCP Server Example (Vibey Agent\
       \ as Tool):\n{\n  \"tools\": [\n    {\n      \"name\": \"web-developer\",\n\
       \      \"description\": \"Full-stack web development\",\n      \"inputSchema\"\
@@ -165,3 +165,4 @@ track:
       \ complete)\n\nNote: MCP alignment is CRITICAL for future-proofing.\nAs more\
       \ platforms adopt MCP (GitHub Copilot already has),\nVibey's MCP adapter becomes\
       \ reusable across platforms.\n"
+    estimated_tokens: 0

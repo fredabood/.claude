@@ -73,3 +73,5 @@ sprint:
   - CLI using error library
   - MCP using error library
   - Integration tests passing
+  metadata:
+    estimated_tokens: 0

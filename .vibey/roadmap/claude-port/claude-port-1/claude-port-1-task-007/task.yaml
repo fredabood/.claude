@@ -59,3 +59,6 @@ task:
 
       '
   title: Re-run full test suite
+  estimated_tokens: 10000
+  size_category: M
+  original_estimated_duration: 1 hour

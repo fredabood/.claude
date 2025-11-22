@@ -24,4 +24,5 @@ sprint:
   commits: []
   quality_gates: []
   dependencies: []
-  metadata: {}
+  metadata:
+    estimated_tokens: 360000

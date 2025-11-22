@@ -202,3 +202,4 @@ track:
       This is a CRITICAL validation step. We cannot expand to other\nplatforms until\
       \ we've proven that Claude Code works correctly\nand meets our quality standards.\n\
       \nRecommend: START IMMEDIATELY AFTER TESTING-SYSTEM COMPLETES\n"
+    estimated_tokens: 160000

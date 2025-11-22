@@ -56,3 +56,6 @@ task:
 
       '
   title: Update documentation for accuracy
+  estimated_tokens: 20000
+  size_category: M
+  original_estimated_duration: 2 hours

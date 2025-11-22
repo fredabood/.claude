@@ -96,3 +96,5 @@ sprint:
   - Developer Guide complete
   - Test suite (>90% coverage)
   - Clean codebase
+  metadata:
+    estimated_tokens: 0

@@ -46,3 +46,6 @@ task:
 
       '
   title: Validate quality gates
+  estimated_tokens: 10000
+  size_category: M
+  original_estimated_duration: 1 hour

@@ -141,6 +141,13 @@ track:
     last_updated: '2024-11-07T02:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md#goose-compatibility-analysis
     implementation_plan: null
-    notes: "Port Vibey framework to Goose platform.\n- 75-85% compatible (high confidence)\n\
-      - Natural mappings: Workflows \u2192 Recipes, Agents \u2192 Extensions\n- Estimated:\
-      \ 150-225 hours over 3.5 months\n"
+    notes: 'Port Vibey framework to Goose platform.
+
+      - 75-85% compatible (high confidence)
+
+      - Natural mappings: Workflows → Recipes, Agents → Extensions
+
+      - Estimated: 150-225 hours over 3.5 months
+
+      '
+    estimated_tokens: 0

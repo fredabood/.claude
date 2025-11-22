@@ -2,11 +2,11 @@ task:
   id: roadmap-system-7-task-005
   sprint_id: roadmap-system-7
   track_id: roadmap-system
-  status: not_started
+  status: completed
   priority: medium
   created: '2025-11-20T00:38:19.730804+00:00'
-  started: null
-  completed: null
+  started: '2025-11-22T19:32:21.770244+00:00'
+  completed: '2025-11-22T19:32:21.770244+00:00'
   estimated_duration: 2 hours
   actual_duration: null
   description: "Update documentation and validation for token-based sizing.\n\nDOCUMENTATION\
@@ -71,3 +71,6 @@ task:
     last_updated: '2025-11-20T00:38:19.730821+00:00'
   title: Update documentation and validation
   task_type: development
+  estimated_tokens: 20000
+  size_category: M
+  original_estimated_duration: 2 hours

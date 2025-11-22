@@ -108,6 +108,6 @@ sprint:
     last_updated: '2025-11-20T00:07:39.436993+00:00'
     estimated_duration: 1 week
     actual_duration: null
-    estimated_tokens: null
+    estimated_tokens: 13
     actual_tokens: null
     agents_used: null

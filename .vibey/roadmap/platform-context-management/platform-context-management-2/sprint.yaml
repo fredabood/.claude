@@ -39,3 +39,5 @@ sprint:
   - Compatibility checker module
   - CLI check-compatibility command
   - Warning message system
+  metadata:
+    estimated_tokens: 0

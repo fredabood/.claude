@@ -235,3 +235,4 @@ track:
       platform expansion risks introducing regressions and inconsistencies\nthat would\
       \ be difficult to debug and fix later.\n\nRecommend: START IMMEDIATELY, COMPLETE\
       \ BEFORE PLATFORM EXPANSION\n"
+    estimated_tokens: 600000

@@ -244,3 +244,4 @@ track:
       \ bug fixes)\n\nThis track is CRITICAL for the future of Vibey. Without it,\
       \ we cannot\nexpand to other platforms and remain locked to Claude Code's .claude/\n\
       directory structure.\n\nRecommend: START IMMEDIATELY AFTER testing-system COMPLETION\n"
+    estimated_tokens: 190000

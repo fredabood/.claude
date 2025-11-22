@@ -81,3 +81,5 @@ sprint:
   - Standalone scripts deleted (31 files)
   - CLI feature complete
   - Clean codebase
+  metadata:
+    estimated_tokens: 0

@@ -38,3 +38,6 @@ task:
     verification: Code verified in vibey/cli/roadmap_lib/agents.py lines 21-119 -
       recommend_agent_for_task() method with keyword and task type matching
   task_type: design
+  estimated_tokens: 40000
+  size_category: L
+  original_estimated_duration: 4 hours

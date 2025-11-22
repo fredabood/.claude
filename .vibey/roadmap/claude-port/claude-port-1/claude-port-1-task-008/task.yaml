@@ -1,6 +1,5 @@
 task:
   id: claude-port-1-task-008
-  name: Document baseline metrics
   sprint_id: claude-port-1
   track_id: claude-port
   status: completed
@@ -13,10 +12,13 @@ task:
   assigned_agents:
   - docs-writer
   - test-engineer
-  description: |
-    Document comprehensive baseline metrics for Claude Code platform including
+  description: 'Document comprehensive baseline metrics for Claude Code platform including
+
     performance benchmarks, success metrics for each journey, and establish
+
     platform parity baseline (100% by definition).
+
+    '
   acceptance_criteria:
   - Performance benchmarks documented
   - Success metrics for each journey documented
@@ -33,23 +35,40 @@ task:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T00:00:00-05:00'
-    notes: |
-      Task completed across multiple commits and documentation files.
+    notes: 'Task completed across multiple commits and documentation files.
+
 
       Documented Metrics:
+
       - Overall test pass rate: 68% → 73% → 81.7% → 97.9% → 100%
+
       - Journey-specific pass rates
+
       - Component-specific pass rates
+
       - Performance benchmarks
+
       - Bug fix success rate (100%)
+
       - Time to fix bugs (3 hours for 4 bugs)
 
+
       Platform Baseline Established:
+
       - Claude Code = 100% parity (reference implementation)
+
       - All other platforms will be scored relative to this
+
       - Baseline metrics ready for multi-platform comparison
 
+
       Documentation split across:
+
       - CLAUDE_PORT_TEST_REPORT.md (321 lines)
+
       - CLAUDE_PORT_SPRINT1_COMPLETE.md (434 lines)
+
       - Total: 755 lines of comprehensive documentation
+
+      '
+  title: Document baseline metrics

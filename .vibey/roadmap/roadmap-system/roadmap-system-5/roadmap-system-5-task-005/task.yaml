@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-5-task-005
   title: Create quality gate task automation
-  type: implementation
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -27,3 +26,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

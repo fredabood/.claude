@@ -1,10 +1,8 @@
 task:
   id: roadmap-system-7-task-001
-  name: Research token-based sizing methodology
   sprint_id: roadmap-system-7
   track_id: roadmap-system
   status: not_started
-  type: development
   priority: high
   created: '2025-11-20T00:38:19.692463+00:00'
   started: null
@@ -104,3 +102,5 @@ task:
   metadata:
     created_by: claude-code
     last_updated: '2025-11-20T00:38:19.692648+00:00'
+  title: Research token-based sizing methodology
+  task_type: development

@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-2-task-006
   title: Build automatic status progression
-  type: implementation
   sprint_id: roadmap-system-2
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -26,3 +25,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

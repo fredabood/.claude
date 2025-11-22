@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-4-task-001
   title: Implement `vibey task start <id>`
-  type: implementation
   sprint_id: roadmap-system-4
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -33,3 +32,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

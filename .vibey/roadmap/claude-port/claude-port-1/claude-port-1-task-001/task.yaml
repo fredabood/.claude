@@ -1,6 +1,5 @@
 task:
   id: claude-port-1-task-001
-  name: Run unit tests against Claude Code implementation
   sprint_id: claude-port-1
   track_id: claude-port
   status: completed
@@ -12,9 +11,11 @@ task:
   priority: high
   assigned_agents:
   - test-engineer
-  description: |
-    Execute all 109 unit tests against Claude Code implementation to verify
+  description: 'Execute all 109 unit tests against Claude Code implementation to verify
+
     core functionality and identify any bugs or issues.
+
+    '
   acceptance_criteria:
   - All unit tests executed
   - Pass rate documented
@@ -30,12 +31,19 @@ task:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T00:00:00-05:00'
-    notes: |
-      Task completed as part of initial validation run.
+    notes: 'Task completed as part of initial validation run.
+
 
       Results:
+
       - 109 unit tests executed
+
       - 58/109 passing (53% pass rate initially)
+
       - 51 failures identified and categorized
 
+
       Key findings documented in f88b595 commit.
+
+      '
+  title: Run unit tests against Claude Code implementation

@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-4-task-008
   title: Add validation and safety checks
-  type: implementation
   sprint_id: roadmap-system-4
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -26,3 +25,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

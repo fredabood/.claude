@@ -10,25 +10,25 @@ sprint:
   completed: null
   estimated_duration: 1 week
   progress:
-    tasks_total: 0
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
   tasks:
   - id: platform-context-management-2-task-001
-    name: Task size vs context window checker
     status: not_started
+    title: Task size vs context window checker
   - id: platform-context-management-2-task-002
-    name: Incomplete task filter (skip completed tasks)
     status: not_started
+    title: Incomplete task filter (skip completed tasks)
   - id: platform-context-management-2-task-003
-    name: Sprint-level compatibility analyzer
     status: not_started
+    title: Sprint-level compatibility analyzer
   - id: platform-context-management-2-task-004
-    name: CLI command - vibey roadmap check-compatibility
     status: not_started
+    title: CLI command - vibey roadmap check-compatibility
   - id: platform-context-management-2-task-005
-    name: Warning messages and UX design
     status: not_started
+    title: Warning messages and UX design
   dependencies:
   - platform-context-management-1
   blocked_by: []

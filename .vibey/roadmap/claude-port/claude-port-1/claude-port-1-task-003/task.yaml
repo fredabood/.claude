@@ -1,6 +1,5 @@
 task:
   id: claude-port-1-task-003
-  name: Run E2E tests
   sprint_id: claude-port-1
   track_id: claude-port
   status: completed
@@ -12,9 +11,11 @@ task:
   priority: medium
   assigned_agents:
   - test-engineer
-  description: |
-    Execute end-to-end tests to validate complete workflows from project
+  description: 'Execute end-to-end tests to validate complete workflows from project
+
     initialization through feature development and quality assurance.
+
+    '
   acceptance_criteria:
   - E2E tests executed
   - Complete workflows validated
@@ -29,11 +30,17 @@ task:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T00:00:00-05:00'
-    notes: |
-      Task completed as part of integration test suite.
+    notes: 'Task completed as part of integration test suite.
+
 
       E2E tests were integrated into the integration test categories,
+
       particularly in Journey tests which cover complete workflows.
 
+
       No separate E2E test category needed as integration tests
+
       comprehensively cover end-to-end scenarios.
+
+      '
+  title: Run E2E tests

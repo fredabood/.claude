@@ -11,12 +11,11 @@ sprint:
   estimated_duration: 1 week
   actual_duration: 4 hours
   progress:
-    tasks_total: 0
-    tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 6
     completion_percent: 100
   tasks:
   - id: interface-unification-1-task-001
-    name: Delete all slash commands (framework/commands/)
     status: completed
     notes: Deleted 6 slash commands (4,389 lines total)
     completion:
@@ -24,8 +23,8 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Delete all slash commands (framework/commands/)
   - id: interface-unification-1-task-002
-    name: Delete test scripts and audit standalone scripts
     status: completed
     notes: Deleted 2 test scripts. Kept 15 functional scripts (CLI dependencies) for
       Sprint 2 refactoring
@@ -34,8 +33,8 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Delete test scripts and audit standalone scripts
   - id: interface-unification-1-task-003
-    name: Audit deleted files for unique functionality
     status: completed
     notes: Created INTERFACE_UNIFICATION_SPRINT1_AUDIT.md. Discovered CLI uses run_script()
       pattern
@@ -44,8 +43,8 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Audit deleted files for unique functionality
   - id: interface-unification-1-task-004
-    name: Implement missing features in CLI (if any)
     status: completed
     notes: No missing features identified
     completion:
@@ -53,8 +52,8 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Implement missing features in CLI (if any)
   - id: interface-unification-1-task-005
-    name: Clean up imports and dead references
     status: completed
     notes: Updated CLAUDE.md to remove framework/commands/ references
     completion:
@@ -62,8 +61,8 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Clean up imports and dead references
   - id: interface-unification-1-task-006
-    name: Update project structure documentation
     status: completed
     notes: Created USER_JOURNEY_DESIGN.md and INTERFACE_UNIFICATION_SPRINT1_COMPLETE.md
     completion:
@@ -71,6 +70,7 @@ sprint:
       commit_message: 'fix: Begin addressing test failures in comprehensive CLI test
         suite'
       completed_at: '2025-11-12T16:22:27-05:00'
+    title: Update project structure documentation
   dependencies: []
   blocked_by: []
   quality_gates: []

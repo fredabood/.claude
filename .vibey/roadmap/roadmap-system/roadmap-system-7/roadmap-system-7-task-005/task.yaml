@@ -1,10 +1,8 @@
 task:
   id: roadmap-system-7-task-005
-  name: Update documentation and validation
   sprint_id: roadmap-system-7
   track_id: roadmap-system
   status: not_started
-  type: development
   priority: medium
   created: '2025-11-20T00:38:19.730804+00:00'
   started: null
@@ -71,3 +69,5 @@ task:
   metadata:
     created_by: claude-code
     last_updated: '2025-11-20T00:38:19.730821+00:00'
+  title: Update documentation and validation
+  task_type: development

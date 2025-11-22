@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-1-task-009
   title: Write unit tests for data models
-  type: testing
   sprint_id: roadmap-system-1
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -26,3 +25,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: testing

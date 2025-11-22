@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-5-task-001
   title: Design agent recommendation algorithm
-  type: design
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -31,5 +30,11 @@ task:
   blocked_by: []
   blocks: []
   metadata:
-    implementation_notes: 'Complete AgentRouter class (349 lines) with intelligent recommendation algorithm. Uses AGENT_CAPABILITIES dictionary with 8 agents (web-developer, ml-engineer, security-auditor, test-engineer, docs-writer, performance-optimizer, devops-engineer, observability-engineer). Scoring: 0.5 for task type match + up to 0.5 for keyword matches. Returns sorted recommendations by confidence.'
-    verification: 'Code verified in vibey/cli/roadmap_lib/agents.py lines 21-119 - recommend_agent_for_task() method with keyword and task type matching'
+    implementation_notes: 'Complete AgentRouter class (349 lines) with intelligent
+      recommendation algorithm. Uses AGENT_CAPABILITIES dictionary with 8 agents (web-developer,
+      ml-engineer, security-auditor, test-engineer, docs-writer, performance-optimizer,
+      devops-engineer, observability-engineer). Scoring: 0.5 for task type match +
+      up to 0.5 for keyword matches. Returns sorted recommendations by confidence.'
+    verification: Code verified in vibey/cli/roadmap_lib/agents.py lines 21-119 -
+      recommend_agent_for_task() method with keyword and task type matching
+  task_type: design

@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-1-task-005
   title: Create Python data models (dataclasses)
-  type: implementation
   sprint_id: roadmap-system-1
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -33,3 +32,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

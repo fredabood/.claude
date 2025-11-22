@@ -10,25 +10,25 @@ sprint:
   completed: null
   estimated_duration: 1 week
   progress:
-    tasks_total: 0
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
   tasks:
   - id: platform-context-management-3-task-001
-    name: Hook compatibility check into roadmap start command
     status: not_started
+    title: Hook compatibility check into roadmap start command
   - id: platform-context-management-3-task-002
-    name: Hook compatibility check into roadmap show command
     status: not_started
+    title: Hook compatibility check into roadmap show command
   - id: platform-context-management-3-task-003
-    name: User prompt system (always ask, never auto-recalculate)
     status: not_started
+    title: User prompt system (always ask, never auto-recalculate)
   - id: platform-context-management-3-task-004
-    name: Prompt options (Yes/No/Info/Cancel)
     status: not_started
+    title: Prompt options (Yes/No/Info/Cancel)
   - id: platform-context-management-3-task-005
-    name: Integration tests for prompt flow
     status: not_started
+    title: Integration tests for prompt flow
   dependencies:
   - platform-context-management-2
   blocked_by: []

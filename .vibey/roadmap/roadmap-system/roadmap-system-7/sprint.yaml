@@ -17,30 +17,30 @@ sprint:
     completion_percent: 0
   tasks:
   - id: roadmap-system-7-task-001
-    name: Research token-based sizing methodology
     status: not_started
-    type: development
     estimated_duration: 4 hours
+    title: Research token-based sizing methodology
+    task_type: development
   - id: roadmap-system-7-task-002
-    name: Update data models for token-based estimates
     status: not_started
-    type: development
     estimated_duration: 3 hours
+    title: Update data models for token-based estimates
+    task_type: development
   - id: roadmap-system-7-task-003
-    name: Add token estimation utilities
     status: not_started
-    type: development
     estimated_duration: 4 hours
+    title: Add token estimation utilities
+    task_type: development
   - id: roadmap-system-7-task-004
-    name: Migrate existing time estimates to token estimates
     status: not_started
-    type: development
     estimated_duration: 6 hours
+    title: Migrate existing time estimates to token estimates
+    task_type: development
   - id: roadmap-system-7-task-005
-    name: Update documentation and validation
     status: not_started
-    type: development
     estimated_duration: 2 hours
+    title: Update documentation and validation
+    task_type: development
   dependencies:
   - type: sprint
     target_id: roadmap-system-6

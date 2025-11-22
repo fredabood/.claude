@@ -1,10 +1,8 @@
 task:
   id: roadmap-system-7-task-002
-  name: Update data models for token-based estimates
   sprint_id: roadmap-system-7
   track_id: roadmap-system
   status: not_started
-  type: development
   priority: critical
   created: '2025-11-20T00:38:19.704283+00:00'
   started: null
@@ -140,3 +138,5 @@ task:
   metadata:
     created_by: claude-code
     last_updated: '2025-11-20T00:38:19.704306+00:00'
+  title: Update data models for token-based estimates
+  task_type: development

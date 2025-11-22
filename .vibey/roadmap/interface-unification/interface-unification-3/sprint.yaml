@@ -11,12 +11,11 @@ sprint:
   estimated_duration: 1 week
   actual_duration: 4 hours
   progress:
-    tasks_total: 0
-    tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 6
     completion_percent: 100
   tasks:
   - id: interface-unification-3-task-001
-    name: Write CLI Reference documentation
     status: completed
     notes: Created comprehensive CLI Reference (800+ lines) covering all commands
     completion:
@@ -24,8 +23,8 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Write CLI Reference documentation
   - id: interface-unification-3-task-002
-    name: Write MCP Integration Guide
     status: completed
     notes: Created MCP Integration Guide (1,100+ lines) with complete tool documentation
     completion:
@@ -33,8 +32,8 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Write MCP Integration Guide
   - id: interface-unification-3-task-003
-    name: Write Getting Started Guide (CLI-first)
     status: completed
     notes: Created Getting Started Guide (1,000+ lines) with step-by-step tutorials
     completion:
@@ -42,8 +41,8 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Write Getting Started Guide (CLI-first)
   - id: interface-unification-3-task-004
-    name: Write Developer/Contributor Guide
     status: completed
     notes: Created Contributing Guide (900+ lines) with development setup and standards
     completion:
@@ -51,8 +50,8 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Write Developer/Contributor Guide
   - id: interface-unification-3-task-005
-    name: Comprehensive test suite (>90% coverage)
     status: completed
     notes: Test suite has 515 passing tests (97% pass rate), comprehensive CLI coverage
     completion:
@@ -60,8 +59,8 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Comprehensive test suite (>90% coverage)
   - id: interface-unification-3-task-006
-    name: Code cleanup and dead reference removal
     status: completed
     notes: Updated CLAUDE.md to reflect v2.5.0 architecture, removed slash command
       references
@@ -70,6 +69,7 @@ sprint:
       commit_message: 'feat: Complete interface-unification Sprint 3 - Documentation
         & Testing'
       completed_at: '2025-11-12T17:37:53-05:00'
+    title: Code cleanup and dead reference removal
   dependencies:
   - interface-unification-2
   blocked_by: []

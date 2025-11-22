@@ -14,14 +14,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 6
-    development_tasks_completed: 6
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 6
-    tasks_completed: 6
-    completion_percent: 100
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: roadmap-integrity-fixes-0-task-001
     title: Backup archive integrity verification

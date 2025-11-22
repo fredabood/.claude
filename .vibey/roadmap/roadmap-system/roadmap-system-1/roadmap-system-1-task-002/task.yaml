@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-1-task-002
   title: Design YAML schema for Track object
-  type: implementation
   sprint_id: roadmap-system-1
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -19,3 +18,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

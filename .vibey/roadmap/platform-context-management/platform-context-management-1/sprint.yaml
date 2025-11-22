@@ -10,25 +10,25 @@ sprint:
   completed: null
   estimated_duration: 1 week
   progress:
-    tasks_total: 0
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
   tasks:
   - id: platform-context-management-1-task-001
-    name: Platform detection module (env vars, process inspection)
     status: not_started
+    title: Platform detection module (env vars, process inspection)
   - id: platform-context-management-1-task-002
-    name: Context window detection system
     status: not_started
+    title: Context window detection system
   - id: platform-context-management-1-task-003
-    name: Platform config storage (.vibey/config/platform.yaml)
     status: not_started
+    title: Platform config storage (.vibey/config/platform.yaml)
   - id: platform-context-management-1-task-004
-    name: CLI command - vibey config platform set
     status: not_started
+    title: CLI command - vibey config platform set
   - id: platform-context-management-1-task-005
-    name: Platform validation and warnings
     status: not_started
+    title: Platform validation and warnings
   dependencies: []
   blocked_by: []
   quality_gates: []

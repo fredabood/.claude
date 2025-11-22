@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-4-task-005
   title: Implement git tag creation
-  type: implementation
   sprint_id: roadmap-system-4
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -27,5 +26,9 @@ task:
   blocked_by: []
   blocks: []
   metadata:
-    implementation_notes: 'Git tag creation integrated into version command (lines 61-74 of version.py). When --tag flag is provided, creates annotated git tag "v{version}" with release message. Includes error handling and feedback to user.'
-    verification: 'Code verified in vibey/cli/roadmap_commands/version.py lines 61-74 - subprocess integration with git tag -a'
+    implementation_notes: Git tag creation integrated into version command (lines
+      61-74 of version.py). When --tag flag is provided, creates annotated git tag
+      "v{version}" with release message. Includes error handling and feedback to user.
+    verification: Code verified in vibey/cli/roadmap_commands/version.py lines 61-74
+      - subprocess integration with git tag -a
+  task_type: implementation

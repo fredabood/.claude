@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-5-task-007
   title: Implement parallel task detection
-  type: implementation
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -20,3 +19,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

@@ -10,34 +10,34 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 0
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
   tasks:
   - id: platform-context-management-4-task-001
-    name: Task splitting algorithm (respect incomplete-only rule)
     status: not_started
+    title: Task splitting algorithm (respect incomplete-only rule)
   - id: platform-context-management-4-task-002
-    name: Dependency analysis and preservation
     status: not_started
+    title: Dependency analysis and preservation
   - id: platform-context-management-4-task-003
-    name: Dependency relevance determination and re-mapping
     status: not_started
+    title: Dependency relevance determination and re-mapping
   - id: platform-context-management-4-task-004
-    name: Agent assignment analysis and mapping
     status: not_started
+    title: Agent assignment analysis and mapping
   - id: platform-context-management-4-task-005
-    name: Success criteria validation and coverage
     status: not_started
+    title: Success criteria validation and coverage
   - id: platform-context-management-4-task-006
-    name: Sprint metadata update system
     status: not_started
+    title: Sprint metadata update system
   - id: platform-context-management-4-task-007
-    name: CLI command - vibey roadmap recalculate
     status: not_started
+    title: CLI command - vibey roadmap recalculate
   - id: platform-context-management-4-task-008
-    name: Integration testing (complex dependency scenarios)
     status: not_started
+    title: Integration testing (complex dependency scenarios)
   dependencies:
   - platform-context-management-3
   blocked_by: []

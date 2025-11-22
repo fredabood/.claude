@@ -1,6 +1,5 @@
 task:
   id: claude-port-1-task-005
-  name: Fix bugs discovered in testing
   sprint_id: claude-port-1
   track_id: claude-port
   status: completed
@@ -13,9 +12,11 @@ task:
   assigned_agents:
   - web-developer
   - test-engineer
-  description: |
-    Prioritize and fix all critical bugs discovered during testing phase.
+  description: 'Prioritize and fix all critical bugs discovered during testing phase.
+
     Focus on bugs that block core functionality or cause test failures.
+
+    '
   acceptance_criteria:
   - All critical bugs fixed
   - Bug fixes verified with tests
@@ -30,15 +31,24 @@ task:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-15T00:00:00-05:00'
-    notes: |
-      Task completed with exceptional efficiency - 9 minutes for 4 bug fixes!
+    notes: 'Task completed with exceptional efficiency - 9 minutes for 4 bug fixes!
+
 
       Bugs Fixed:
+
       1. YAML Schema Bug - Made version_strategy optional (32 tests)
+
       2. ID Validation Bug - Relaxed sprint ID validation (6 tests)
+
       3. Import Path Bug - Fixed roadmap-init.py import
+
       4. Test File Naming - Renamed files to remove dots (3 collection errors)
+
 
       Total Impact: 43 tests fixed, 0 regressions
 
+
       See commit 90550bb for detailed bug fix documentation.
+
+      '
+  title: Fix bugs discovered in testing

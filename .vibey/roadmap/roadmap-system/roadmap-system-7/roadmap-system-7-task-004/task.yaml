@@ -1,10 +1,8 @@
 task:
   id: roadmap-system-7-task-004
-  name: Migrate existing time estimates to token estimates
   sprint_id: roadmap-system-7
   track_id: roadmap-system
   status: not_started
-  type: development
   priority: high
   created: '2025-11-20T00:38:19.723353+00:00'
   started: null
@@ -64,3 +62,5 @@ task:
   metadata:
     created_by: claude-code
     last_updated: '2025-11-20T00:38:19.723374+00:00'
+  title: Migrate existing time estimates to token estimates
+  task_type: development

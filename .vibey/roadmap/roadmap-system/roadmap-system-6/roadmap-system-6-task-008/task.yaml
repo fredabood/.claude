@@ -1,7 +1,6 @@
 task:
   id: roadmap-system-6-task-008
   title: Bug fixes and refinements
-  type: implementation
   sprint_id: roadmap-system-6
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
@@ -39,3 +38,4 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
+  task_type: implementation

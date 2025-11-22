@@ -627,6 +627,88 @@ def roadmap_check_compatibility(ctx, sprint_id: str, platform: Optional[str],
         sys.exit(1)
 
 
+@roadmap.command('recalculate')
+@click.argument('sprint_id')
+@click.option('--platform', '-p', help='Target platform (auto-detect if not specified)')
+@click.option('--context-window', '-c', type=int, help='Target context window size (tokens)')
+@click.option('--dry-run', is_flag=True, help='Show plan without applying changes')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
+@click.pass_context
+def roadmap_recalculate(ctx, sprint_id: str, platform: Optional[str],
+                         context_window: Optional[int], dry_run: bool,
+                         verbose: bool, yes: bool):
+    """Recalculate sprint tasks for a different platform
+
+    Splits oversized tasks into subtasks that fit within the target
+    platform's context window. Preserves dependencies, success criteria,
+    and agent assignments.
+
+    Examples:
+      vibey roadmap recalculate auth-sprint-1
+      vibey roadmap recalculate sprint-1 --platform goose
+      vibey roadmap recalculate sprint-1 --context-window 128000
+      vibey roadmap recalculate sprint-1 --dry-run
+    """
+    from pathlib import Path
+    from rich.prompt import Confirm
+    from vibey.roadmap.recalculator import (
+        create_recalculation_plan,
+        apply_recalculation,
+        format_recalculation_plan,
+    )
+
+    try:
+        # Create plan
+        plan = create_recalculation_plan(
+            sprint_id=sprint_id,
+            project_root=Path.cwd(),
+            target_platform=platform,
+            target_context=context_window,
+        )
+
+        # Show plan
+        console.print(format_recalculation_plan(plan, verbose=verbose))
+
+        if not plan.tasks_to_split:
+            console.print("\n[green]✅ No tasks need recalculation[/green]")
+            sys.exit(0)
+
+        if dry_run:
+            console.print("\n[yellow]Dry run - no changes made[/yellow]")
+            sys.exit(0)
+
+        # Confirm
+        if not yes:
+            console.print("")
+            if not Confirm.ask("Apply this recalculation?"):
+                console.print("[yellow]Cancelled[/yellow]")
+                sys.exit(0)
+
+        # Apply
+        result = apply_recalculation(plan, Path.cwd())
+
+        if result.success:
+            console.print(f"\n[green]✅ {result.message}[/green]")
+            console.print(f"\nFiles modified: {len(result.files_modified)}")
+            if verbose:
+                for f in result.files_modified:
+                    console.print(f"  • {f}")
+            sys.exit(0)
+        else:
+            console.print(f"\n[red]❌ {result.message}[/red]")
+            for e in result.errors:
+                console.print(f"  • {e}")
+            sys.exit(1)
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+    except Exception as e:
+        console.print(f"[red]Error during recalculation:[/red] {e}")
+        sys.exit(1)
+
+
 @roadmap.command('check-standards')
 @click.argument('item_id')
 @click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')

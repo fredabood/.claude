@@ -1,0 +1,17 @@
+task:
+  id: platform-context-management-4-task-002
+  name: Dependency analysis and preservation
+  sprint_id: platform-context-management-4
+  track_id: platform-context-management
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T21:43:12.234968+00:00'
+  completed: '2025-11-22T21:43:12.234968+00:00'
+  estimated_tokens: 8000
+  dependencies:
+  - platform-context-management-4-task-001
+  blocked_by: []
+  assigned_agent: web-developer
+  commits: []

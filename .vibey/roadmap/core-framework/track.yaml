@@ -2,7 +2,7 @@ track:
   id: core-framework
   name: Core Framework Enhancements
   roadmap_id: vibey-framework-v2
-  status: superseded
+  status: completed
   blocked: false
   priority: high
   created: '2025-11-05T00:00:00+00:00'

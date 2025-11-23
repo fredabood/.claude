@@ -2,7 +2,7 @@ track:
   id: roadmap-integration
   name: Roadmap Integration into /vibey Commands
   roadmap_id: vibey-framework-v2
-  status: superseded
+  status: completed
   blocked: false
   priority: high
   created: '2025-11-07T10:00:00+00:00'

@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Workflow to Command sequence mapping
-  description: |
-    Map workflow steps to prompt templates, implement command chaining logic
-  status: not_started
+  description: 'Map workflow steps to prompt templates, implement command chaining
+    logic
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.178101+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:09.311975+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

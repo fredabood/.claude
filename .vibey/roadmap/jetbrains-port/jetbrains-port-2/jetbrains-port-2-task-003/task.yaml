@@ -5,19 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Test in GoLand
-  description: |
-    Go-specific workflows, backend agent testing, document any differences
-  status: not_started
+  description: 'Go-specific workflows, backend agent testing, document any differences
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.180912+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:03:00.777792+00:00'
   assigned_agent: test-engineer
   priority: high
   phase_label: null
   estimated_tokens: 5000
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []

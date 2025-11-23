@@ -11,8 +11,8 @@ sprint:
   estimated_duration: 1.5 weeks
   progress:
     development_tasks_total: 6
-    tasks_total: 6
-    tasks_completed: 6
+    tasks_total: 5
+    tasks_completed: 0
     completion_percent: 100
   depends_on:
   - blocker_id: gemini-port-1
@@ -22,16 +22,26 @@ sprint:
     blocks_transition_to: in_progress
     last_checked: '2025-11-23T15:00:00+00:00'
   plan_file: null
-  description: |
-    Integrate GeminiAdapter with Vibey's deployment infrastructure.
+  description: 'Integrate GeminiAdapter with Vibey''s deployment infrastructure.
+
 
     KEY TASKS:
+
     1. Integrate GeminiAdapter with deploy command
+
     2. Add Gemini platform detection
+
     3. Update deploy CLI to support gemini platform
+
     4. Create install-to-user-home functionality
+
     5. Create MCP connectivity test script
+
     6. Test end-to-end deployment
 
+
     GOAL: User can run `vibey deploy --platform gemini` and get
+
     a working Gemini extension installed.
+
+    '

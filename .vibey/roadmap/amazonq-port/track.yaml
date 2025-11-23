@@ -11,7 +11,7 @@ track:
   estimated_duration: 3 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 1
+    sprints_completed: 0
     tasks_total: 12
     tasks_completed: 7
     completion_percent: 58
@@ -23,41 +23,65 @@ track:
     tasks_count: 7
     started: '2025-11-23T00:00:00+00:00'
     completed: '2025-11-23T00:00:00+00:00'
-    description: |
-      Create AmazonQAdapter extending BaseAdapter.
+    description: 'Create AmazonQAdapter extending BaseAdapter.
+
       Generate .amazonq/mcp.json configuration.
+
       Integrate with Amazon Q MCP support (GA April 2025).
 
+
       KEY INSIGHT: Amazon Q has FULL MCP SUPPORT.
+
       - CLI: GA April 2025
+
       - IDE plugins (VS Code, JetBrains): GA June 2025
+
       - Admin controls: August 2025
 
+
       TASKS:
+
       - amazonq-port-1-task-001: Create AmazonQAdapter base class
+
       - amazonq-port-1-task-002: Implement AmazonQContextGenerator
+
       - amazonq-port-1-task-003: Implement AmazonQSettingsGenerator
+
       - amazonq-port-1-task-004: Add vibey deploy --platform amazonq CLI
+
       - amazonq-port-1-task-005: Handle AWS authentication integration
+
       - amazonq-port-1-task-006: Write unit tests for adapter
+
       - amazonq-port-1-task-007: Write unit tests for generators
+
+      '
   - id: amazonq-port-2
     name: Testing & Documentation
     status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 5
     started: null
-    description: |
-      Integration testing with Amazon Q CLI and IDE.
+    description: 'Integration testing with Amazon Q CLI and IDE.
+
       Enterprise IAM and admin control validation.
+
       Complete integration documentation.
 
+
       TASKS:
+
       - amazonq-port-2-task-001: Integration tests with Q CLI
+
       - amazonq-port-2-task-002: E2E tests with Q IDE plugins
+
       - amazonq-port-2-task-003: Enterprise admin control testing
+
       - amazonq-port-2-task-004: Write Amazon Q integration guide
+
       - amazonq-port-2-task-005: Quality gate validation
+
+      '
   dependencies:
   - type: track
     target_id: multi-platform
@@ -79,7 +103,8 @@ track:
     threshold: 100
     blocking: true
     status: not_run
-    description: All Amazon Q artifacts generated from frontmatter, CI fails on manual edits
+    description: All Amazon Q artifacts generated from frontmatter, CI fails on manual
+      edits
     score: null
   - name: MCP Tool Parity
     threshold: 100
@@ -107,7 +132,7 @@ track:
   - AmazonQAdapter class (vibey/adapters/amazonq/adapter.py)
   - AmazonQContextGenerator (vibey/adapters/amazonq/context_generator.py)
   - AmazonQSettingsGenerator (vibey/adapters/amazonq/settings_generator.py)
-  - "vibey deploy --platform amazonq CLI command"
+  - vibey deploy --platform amazonq CLI command
   - .amazonq/mcp.json MCP configuration
   - ~/.aws/amazonq/mcp.json global config template
   - Integration guide (docs/guides/AMAZONQ_INTEGRATION.md)
@@ -126,57 +151,39 @@ track:
     last_updated: '2025-11-23T00:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md
     implementation_plan: .vibey/roadmap/amazonq-port/context/IMPLEMENTATION_PLAN.md
-    notes: |
-      AMAZON Q DEVELOPER PORT - MEDIUM PRIORITY (Nov 2025 Research)
-
-      CRITICAL UPDATE: Amazon Q has FULL MCP SUPPORT.
-      - CLI: GA April 29, 2025
-      - IDE plugins (VS Code, JetBrains): GA June 2025
-      - Admin controls: August 2025
-
-      MCP SUPPORT (CONFIRMED):
-      - Local MCP servers (stdio)
-      - Remote MCP servers (HTTP with OAuth)
-      - Project config: .amazonq/mcp.json
-      - Global config: ~/.aws/amazonq/mcp.json
-      - Enterprise admin controls for MCP governance
-
-      CONFIG FORMAT (.amazonq/mcp.json):
-      {
-        "mcpServers": {
-          "vibey": {
-            "command": "python",
-            "args": ["-m", "framework.mcp.server"],
-            "env": {}
-          }
-        }
-      }
-
-      ARCHITECTURE (Zero-Drift):
-      ┌──────────────────────────────────────────────────┐
-      │         SINGLE SOURCE OF TRUTH                   │
-      │  agents/*.md, workflows/*.md (frontmatter)       │
-      └──────────────────────────────────────────────────┘
-                        │
-           ┌───────────┼───────────┐
-           ▼           ▼           ▼
-      ┌─────────┐ ┌─────────┐ ┌─────────┐
-      │MCP Srv  │ │AMAZONQ  │ │mcp.json │
-      │(reuse)  │ │.md Gen  │ │Generator│
-      └─────────┘ └─────────┘ └─────────┘
-
-      UNIQUE AWS CONSIDERATIONS:
-      - AWS IAM integration for authentication
-      - Enterprise admin controls for MCP governance
-      - Multi-IDE support (VS Code + JetBrains)
-
-      COMPATIBILITY: 85-90% (MCP-based, minimal adapter)
-      ESTIMATED EFFORT: 3 weeks
-
-      SOURCES:
-      - https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-cli-model-context-protocol/
-      - https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.html
-      - https://aws.amazon.com/blogs/devops/use-model-context-protocol-with-amazon-q-developer-for-context-aware-ide-workflows/
-
-      Timeline: Q4 2025 (3 weeks, medium priority)
+    notes: "AMAZON Q DEVELOPER PORT - MEDIUM PRIORITY (Nov 2025 Research)\n\nCRITICAL\
+      \ UPDATE: Amazon Q has FULL MCP SUPPORT.\n- CLI: GA April 29, 2025\n- IDE plugins\
+      \ (VS Code, JetBrains): GA June 2025\n- Admin controls: August 2025\n\nMCP SUPPORT\
+      \ (CONFIRMED):\n- Local MCP servers (stdio)\n- Remote MCP servers (HTTP with\
+      \ OAuth)\n- Project config: .amazonq/mcp.json\n- Global config: ~/.aws/amazonq/mcp.json\n\
+      - Enterprise admin controls for MCP governance\n\nCONFIG FORMAT (.amazonq/mcp.json):\n\
+      {\n  \"mcpServers\": {\n    \"vibey\": {\n      \"command\": \"python\",\n \
+      \     \"args\": [\"-m\", \"framework.mcp.server\"],\n      \"env\": {}\n   \
+      \ }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n\u250C\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         SINGLE SOURCE OF\
+      \ TRUTH                   \u2502\n\u2502  agents/*.md, workflows/*.md (frontmatter)\
+      \       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2518\n                  \u2502\n     \u250C\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u25BC           \u25BC   \
+      \        \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u250C\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502MCP Srv\
+      \  \u2502 \u2502AMAZONQ  \u2502 \u2502mcp.json \u2502\n\u2502(reuse)  \u2502\
+      \ \u2502.md Gen  \u2502 \u2502Generator\u2502\n\u2514\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2518\n\nUNIQUE AWS CONSIDERATIONS:\n- AWS IAM integration for authentication\n\
+      - Enterprise admin controls for MCP governance\n- Multi-IDE support (VS Code\
+      \ + JetBrains)\n\nCOMPATIBILITY: 85-90% (MCP-based, minimal adapter)\nESTIMATED\
+      \ EFFORT: 3 weeks\n\nSOURCES:\n- https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-cli-model-context-protocol/\n\
+      - https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.html\n-\
+      \ https://aws.amazon.com/blogs/devops/use-model-context-protocol-with-amazon-q-developer-for-context-aware-ide-workflows/\n\
+      \nTimeline: Q4 2025 (3 weeks, medium priority)\n"
     estimated_tokens: 0

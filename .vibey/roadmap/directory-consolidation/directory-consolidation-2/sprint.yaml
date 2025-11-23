@@ -13,7 +13,10 @@ sprint:
   - directory-consolidation-2-task-004
   - directory-consolidation-2-task-005
   - directory-consolidation-2-task-006
-  description: |
-    Move unique Python code from framework/ to vibey/.
+  description: 'Move unique Python code from framework/ to vibey/.
+
     Update all import statements across the codebase.
+
     Final cleanup and verification.
+
+    '

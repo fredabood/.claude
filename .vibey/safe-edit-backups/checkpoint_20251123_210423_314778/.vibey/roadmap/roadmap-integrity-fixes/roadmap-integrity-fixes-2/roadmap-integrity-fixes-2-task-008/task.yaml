@@ -1,0 +1,102 @@
+task:
+  id: roadmap-integrity-fixes-2-task-008
+  sprint_id: roadmap-integrity-fixes-2
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Forensic audit of platform-context-management track
+  description: "Perform comprehensive forensic audit of platform-context-management\
+    \ track to determine\nactual completion status vs YAML claims.\n\nYAML Claims:\n\
+    - YAML structure error preventing load\n- Cannot validate status or progress\n\
+    - Track exists but has load errors\n\nInvestigation Steps:\n\n1. Backup Archive\
+    \ Analysis (PRIORITY 1)\n   - Check .vibey/hierarchical-migration-backups/backup_20251109_171311/\n\
+    \   - Look for platform-context-management files in old flat structure\n   - Check\
+    \ tracks/platform-context-management.yaml if exists\n   - Check sprints/platform-context-management-*.yaml\
+    \ if exists\n   - Check tasks/platform-context-management-*-tasks.yaml if exists\n\
+    \   - Extract task completion records from old format\n   - Compare old backup\
+    \ data vs current YAML claims\n   - Verify migration preserved all completion\
+    \ data\n\n2. Git History Analysis\n   - Search for commits with keywords: \"platform\"\
+    , \"context\", \"management\"\n   - Find commits related to platform context features\n\
+    \   - Extract commit SHAs, messages, dates, file changes\n   - Count lines added/modified\
+    \ for platform context\n   - Cross-reference commits with backup timestamps\n\
+    \   - Map commits to specific tasks they implement\n\n3. Codebase Audit\n   -\
+    \ Check for platform context management code\n   - Verify context handling features\n\
+    \   - Identify platform-specific implementations\n   - Determine if work was actually\
+    \ done\n\n4. Documentation Audit\n   - Search for platform context documentation\n\
+    \   - Check for design docs\n   - Verify deliverable documentation exists\n\n\
+    5. Test Suite Audit\n   - Search for platform context tests\n   - Verify tests\
+    \ are passing\n   - Check test coverage\n\n6. Migration Verification\n   - Compare\
+    \ backup data vs current hierarchical structure\n   - Verify all completed tasks\
+    \ from old format were preserved\n   - Check if any task completion records were\
+    \ lost during migration\n   - Verify progress counters accurately migrated\n \
+    \  - Identify any data loss or corruption during migration\n\n7. YAML Structure\
+    \ Fix\n   - Identify YAML syntax/structure error\n   - Fix YAML to allow proper\
+    \ loading\n   - Validate fixed YAML structure\n   - Document what was broken and\
+    \ how it was fixed\n\n8. Cross-Reference Analysis\n   - Compare git commits to\
+    \ claimed tasks\n   - Map code changes to claimed deliverables\n   - Calculate\
+    \ real completion percentage based on ALL evidence\n   - Reconcile backup data\
+    \ vs current data vs git history\n   - Determine accurate status after YAML fix\n\
+    \n9. Commit Backfilling (Git Tracking System Integration)\n   - For each identified\
+    \ commit related to platform-context-management work:\n     * Determine which\
+    \ task it implements\n     * Add commit SHA to that task's commits: [] field in\
+    \ task.yaml\n     * Update task metadata with commit backfill timestamp\n   -\
+    \ Create audit trail of commit-to-task mappings\n   - Verify all commits accounted\
+    \ for in task files\n   - Update task completion dates based on commit timestamps\
+    \ if needed\n   - Document any commits that cannot be mapped to specific tasks\n\
+    \nAcceptance Criteria:\n- All 9 investigation steps completed\n- YAML structure\
+    \ error identified and fixed\n- Track loads successfully after fix\n- Backup archive\
+    \ evidence reviewed and documented\n- Git history documented (commits, dates,\
+    \ changes)\n- All identified commits mapped to specific tasks\n- Commits backfilled\
+    \ into task.yaml files (commits: [] field)\n- Codebase evidence cataloged (files,\
+    \ lines, features)\n- Documentation evidence cataloged\n- Cross-reference analysis\
+    \ shows claimed vs actual\n- Accurate completion percentage calculated\n- Recommended\
+    \ status determined (completed/in_progress/not_started)\n- Evidence-based assessment\
+    \ documented\n- Git tracking system populated with commit evidence\n\nDeliverables:\n\
+    - Forensic audit report for platform-context-management (markdown, 1000+ lines)\n\
+    - YAML structure fix documentation\n- Git history analysis section\n- Commit-to-task\
+    \ mapping document\n- Updated task.yaml files with commits backfilled\n- Codebase\
+    \ evidence section\n- Documentation evidence section\n- Cross-reference analysis\n\
+    - Accurate status recommendation\n- Git tracking system integration verification\n"
+  status: completed
+  blocked: false
+  created: '2025-11-12T20:20:00+00:00'
+  started: null
+  completed: '2025-11-21T00:27:18.276220+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 10000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - type: task
+    target_id: roadmap-integrity-fixes-3-task-002
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - 'Forensic audit report: platform-context-management'
+  - type: code
+    paths:
+    - YAML structure fix
+  - type: code
+    paths:
+    - Git history analysis
+  - type: code
+    paths:
+    - Codebase evidence inventory
+  - type: code
+    paths:
+    - Accurate completion determination
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:20:00+00:00'
+    token_efficiency: null
+    duration_hours: null

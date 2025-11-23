@@ -1,0 +1,155 @@
+task:
+  id: roadmap-integrity-fixes-1-task-005
+  sprint_id: roadmap-integrity-fixes-1
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Enhance error handling framework
+  description: "Enhance error handling to gracefully handle edge cases discovered\
+    \ during\nintegrity checks: circular dependencies, orphaned tasks, missing references,\n\
+    corrupt YAML, etc.\n\nQA Gap Addressed:\n\"Limited error handling for edge cases.\
+    \ Need comprehensive error handling\nfor: circular dependencies, orphaned tasks,\
+    \ corrupt YAML, missing references.\"\n\nEdge Cases to Handle:\n\n1. Circular\
+    \ Dependencies:\n\n   Example:\n   - Task A depends_on Task B\n   - Task B depends_on\
+    \ Task C\n   - Task C depends_on Task A (CIRCULAR!)\n\n   Detection:\n   ```python\n\
+    \   def detect_circular_dependencies(tasks):\n       \"\"\"Find circular dependency\
+    \ chains\"\"\"\n       visited = set()\n       rec_stack = set()\n       cycles\
+    \ = []\n\n       for task in tasks:\n           if task.id not in visited:\n \
+    \              find_cycles(task, visited, rec_stack, cycles)\n\n       return\
+    \ cycles\n   ```\n\n   Handling:\n   - Detect all circular dependencies\n   -\
+    \ Report full cycle chain (A → B → C → A)\n   - Flag all tasks in cycle\n   -\
+    \ Suggest breaking points\n   - Validation fails with clear error\n\n2. Orphaned\
+    \ Tasks:\n\n   Example:\n   - Task references sprint_id: \"deleted-sprint-1\"\n\
+    \   - Sprint doesn't exist (deleted or never created)\n\n   Detection:\n   ```python\n\
+    \   def find_orphaned_tasks(tasks, sprints):\n       \"\"\"Find tasks referencing\
+    \ non-existent sprints\"\"\"\n       sprint_ids = {s.id for s in sprints}\n  \
+    \     orphaned = []\n\n       for task in tasks:\n           if task.sprint_id\
+    \ not in sprint_ids:\n               orphaned.append(task)\n\n       return orphaned\n\
+    \   ```\n\n   Handling:\n   - List all orphaned tasks\n   - Show missing sprint\
+    \ IDs\n   - Suggest creating sprint or reassigning task\n   - Allow \"adoption\"\
+    \ of orphaned tasks into existing sprints\n\n3. Missing References:\n\n   Example:\n\
+    \   - Task.blocks = [\"task-999\"]\n   - task-999 doesn't exist\n\n   Detection:\n\
+    \   ```python\n   def validate_references(task, all_task_ids):\n       \"\"\"\
+    Validate all task ID references exist\"\"\"\n       broken_refs = []\n\n     \
+    \  for blocked_id in task.blocks:\n           if blocked_id not in all_task_ids:\n\
+    \               broken_refs.append(('blocks', blocked_id))\n\n       for dep_id\
+    \ in task.depends_on:\n           if dep_id not in all_task_ids:\n           \
+    \    broken_refs.append(('depends_on', dep_id))\n\n       return broken_refs\n\
+    \   ```\n\n   Handling:\n   - Report missing task IDs\n   - Show which field contains\
+    \ broken reference\n   - Offer to remove broken references\n   - Suggest similar\
+    \ task IDs (fuzzy match)\n\n4. Corrupt YAML Files:\n\n   Example:\n   - YAML syntax\
+    \ errors (bad indentation, etc.)\n   - Unparseable content\n   - Binary data in\
+    \ YAML file\n\n   Detection:\n   ```python\n   import yaml\n\n   def load_yaml_safe(file_path):\n\
+    \       \"\"\"Load YAML with comprehensive error handling\"\"\"\n       try:\n\
+    \           with open(file_path, 'r') as f:\n               return yaml.safe_load(f)\n\
+    \       except yaml.YAMLError as e:\n           return YAMLParseError(file_path,\
+    \ str(e))\n       except UnicodeDecodeError as e:\n           return BinaryFileError(file_path)\n\
+    \       except Exception as e:\n           return UnknownFileError(file_path,\
+    \ str(e))\n   ```\n\n   Handling:\n   - Detect specific error type\n   - Show\
+    \ line number for syntax errors\n   - Suggest fixes (common mistakes)\n   - Offer\
+    \ to restore from backup\n   - Skip file and continue validation\n\n5. Schema\
+    \ Violations:\n\n   Example:\n   - Required field missing: task.id\n   - Wrong\
+    \ type: task.estimated_tokens = \"many\"\n   - Invalid enum: task.status = \"\
+    done\"\n\n   Detection:\n   ```python\n   import jsonschema\n\n   def validate_schema_comprehensive(data,\
+    \ schema):\n       \"\"\"Validate with detailed error reporting\"\"\"\n      \
+    \ v = jsonschema.Draft7Validator(schema)\n       errors = sorted(v.iter_errors(data),\
+    \ key=lambda e: e.path)\n\n       return [\n           SchemaError(\n        \
+    \       field='.'.join(str(p) for p in err.path),\n               message=err.message,\n\
+    \               expected=err.schema,\n               actual=err.instance\n   \
+    \        )\n           for err in errors\n       ]\n   ```\n\n   Handling:\n \
+    \  - Report all schema errors (not just first)\n   - Show field path, expected\
+    \ type, actual value\n   - Suggest corrections\n   - Offer to auto-fix common\
+    \ issues\n\n6. Inconsistent Progress Counters:\n\n   Example:\n   - sprint.progress.tasks_completed\
+    \ = 10\n   - Actual completed tasks: 5\n\n   Detection:\n   ```python\n   def\
+    \ validate_progress_counters(sprint):\n       \"\"\"Check claimed vs actual progress\"\
+    \"\"\n       claimed_completed = sprint.progress.tasks_completed\n       actual_completed\
+    \ = len([t for t in sprint.tasks\n                              if t.status ==\
+    \ 'completed'])\n\n       if claimed_completed != actual_completed:\n        \
+    \   return ProgressMismatch(\n               claimed=claimed_completed,\n    \
+    \           actual=actual_completed,\n               diff=abs(claimed_completed\
+    \ - actual_completed)\n           )\n   ```\n\n   Handling:\n   - Report claimed\
+    \ vs actual\n   - Show difference\n   - Offer to auto-correct counters\n   - Explain\
+    \ why mismatch occurred\n\n7. Date Logic Errors:\n\n   Example:\n   - task.completed\
+    \ before task.started\n   - task.started before task.created\n\n   Detection:\n\
+    \   ```python\n   from datetime import datetime\n\n   def validate_date_logic(task):\n\
+    \       \"\"\"Validate date chronological order\"\"\"\n       errors = []\n\n\
+    \       if task.completed and task.started:\n           if task.completed < task.started:\n\
+    \               errors.append(DateOrderError(\n                   'completed before\
+    \ started',\n                   task.completed, task.started\n               ))\n\
+    \n       if task.started and task.created:\n           if task.started < task.created:\n\
+    \               errors.append(DateOrderError(\n                   'started before\
+    \ created',\n                   task.started, task.created\n               ))\n\
+    \n       return errors\n   ```\n\n   Handling:\n   - Report date logic violations\n\
+    \   - Show conflicting dates\n   - Suggest corrections\n   - Flag for manual review\n\
+    \nError Handling Framework:\n\n```python\nclass IntegrityError:\n    \"\"\"Base\
+    \ class for all integrity errors\"\"\"\n    severity: str  # critical, error,\
+    \ warning\n    category: str  # circular_dep, orphaned, etc.\n    file_path: str\n\
+    \    details: dict\n    suggested_fix: str\n\nclass ErrorHandler:\n    \"\"\"\
+    Centralized error handling\"\"\"\n\n    def handle_error(self, error: IntegrityError):\n\
+    \        \"\"\"Process error based on severity and type\"\"\"\n\n    def can_auto_fix(self,\
+    \ error: IntegrityError) -> bool:\n        \"\"\"Check if error is auto-fixable\"\
+    \"\"\n\n    def auto_fix(self, error: IntegrityError):\n        \"\"\"Attempt\
+    \ automatic fix\"\"\"\n\n    def suggest_manual_fix(self, error: IntegrityError)\
+    \ -> str:\n        \"\"\"Provide fix instructions\"\"\"\n```\n\nCLI Integration:\n\
+    \n```bash\nvibey roadmap validate --auto-fix     # Auto-fix safe errors\nvibey\
+    \ roadmap validate --report-only  # No fixes, just report\nvibey roadmap validate\
+    \ --strict       # Fail on any error\nvibey roadmap check-circular-deps\nvibey\
+    \ roadmap find-orphaned-tasks\nvibey roadmap fix-broken-references\n```\n\nTesting\
+    \ Requirements:\n\nTest Cases (20 total):\n1. Circular dependency (2-task cycle)\n\
+    2. Circular dependency (5-task cycle)\n3. Orphaned task (missing sprint)\n4. Orphaned\
+    \ sprint (missing track)\n5. Broken blocks reference\n6. Broken depends_on reference\n\
+    7. YAML syntax error (bad indentation)\n8. YAML syntax error (missing colon)\n\
+    9. Binary file instead of YAML\n10. Missing required field (task.id)\n11. Wrong\
+    \ field type (string instead of int)\n12. Invalid enum value (status = \"done\"\
+    )\n13. Progress counter too high\n14. Progress counter too low\n15. Completed\
+    \ date before started date\n16. Started date before created date\n17. Multiple\
+    \ errors in same file\n18. Cascading errors (broken ref causing orphan)\n19. Auto-fixable\
+    \ errors\n20. Non-fixable errors requiring manual intervention\n\nAcceptance Criteria:\n\
+    - All 7 edge case categories handled\n- Error detection for all 20 test cases\n\
+    - Clear error messages with context\n- Suggested fixes for all errors\n- Auto-fix\
+    \ capability for safe errors\n- CLI integration complete\n- Comprehensive error\
+    \ reporting\n- Documentation with examples\n\nDeliverables:\n- Enhanced error\
+    \ handling module (Python, 500+ lines)\n- Error detection for all edge cases\n\
+    - Auto-fix capabilities\n- CLI integration\n- Testing results for 20 test cases\n\
+    - Error handling documentation\n"
+  status: completed
+  blocked: false
+  created: '2025-11-12T20:50:00+00:00'
+  started: null
+  completed: '2025-11-21T02:41:04.862702+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - type: task
+    target_id: roadmap-integrity-fixes-2-task-001
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-task-001
+  deliverables:
+  - type: code
+    paths:
+    - Enhanced error handling module
+  - type: code
+    paths:
+    - Edge case detection and handling
+  - type: code
+    paths:
+    - Auto-fix capabilities
+  - type: code
+    paths:
+    - Testing results
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:50:00+00:00'
+    token_efficiency: null
+    duration_hours: null

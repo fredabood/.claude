@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Unit tests
-  description: |
-    Test adapter deployment logic, validate config generation, verify slash command syntax
-  status: not_started
+  description: 'Test adapter deployment logic, validate config generation, verify
+    slash command syntax
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.178302+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:10.374310+00:00'
   assigned_agent: test-engineer
   priority: high
   phase_label: null

@@ -6,12 +6,14 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from .base import BaseAdapter, CompositeAdapter
+from .base import PlatformAdapter
 from .types import ExportResult, AdapterInfo
 
 logger = logging.getLogger(__name__)
 
-AdapterType = Union[BaseAdapter, CompositeAdapter]
+# PlatformAdapter is the base class for all adapters
+# CompositeAdapter pattern not yet implemented - using PlatformAdapter for all
+AdapterType = PlatformAdapter
 
 
 class AdapterRegistry:
@@ -46,7 +48,7 @@ class AdapterRegistry:
         Register a platform adapter.
 
         Args:
-            adapter: BaseAdapter or CompositeAdapter instance
+            adapter: PlatformAdapter instance
 
         Raises:
             ValueError: If adapter with same platform_name already registered

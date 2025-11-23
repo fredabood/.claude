@@ -1,0 +1,52 @@
+task:
+  id: roadmap-integrity-fixes-8-task-007
+  sprint_id: roadmap-integrity-fixes-8
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add schema validation to CI/CD
+  description: "Add blocking schema validation to GitHub Actions.\n\nUpdate .github/workflows/roadmap-validation.yml:\n\
+    \nAdd step (no continue-on-error):\n  - name: Schema validation (BLOCKING)\n \
+    \   run: |\n      python scripts/validate-roadmap-schema.py --strict\n      if\
+    \ [ $? -ne 0 ]; then\n        echo \"❌ Schema validation failed\"\n        echo\
+    \ \"Run: python scripts/validate-roadmap-schema.py --verbose\"\n        exit 1\n\
+    \      fi\n\nAlso add health score check:\n  - name: Health score check\n    run:\
+    \ |\n      python scripts/roadmap-health-dashboard.py --json > metrics.json\n\
+    \      score=$(jq '.overall_health_score' metrics.json)\n      if (( $(echo \"\
+    $score < 90\" | bc -l) )); then\n        echo \"⚠️ Health score below 90: $score\"\
+    \n        exit 1\n      fi\n\nResult:\n- PRs blocked on schema violations\n- Health\
+    \ score degradation caught early\n- Automated validation on every push\n"
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.820692+00:00'
+  started: null
+  completed: '2025-11-20T20:11:14.787267+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-005
+    target_status: completed
+    reason: Ensure validation passes first
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: config
+    paths:
+    - .github/workflows/roadmap-validation.yml
+  - type: documentation
+    paths:
+    - docs/development/CI_SCHEMA_VALIDATION.md
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:17:11.820709+00:00'
+    token_efficiency: null
+    duration_hours: null

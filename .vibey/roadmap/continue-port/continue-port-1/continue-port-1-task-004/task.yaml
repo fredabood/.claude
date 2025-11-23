@@ -5,19 +5,21 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: config.yaml template
-  description: |
-    Jinja2 template for main config, model configuration, slash command definitions, context provider setup
-  status: not_started
+  description: 'Jinja2 template for main config, model configuration, slash command
+    definitions, context provider setup
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.178206+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:09.846017+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
   estimated_tokens: 5000
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []

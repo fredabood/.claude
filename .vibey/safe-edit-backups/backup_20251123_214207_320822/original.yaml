@@ -1,0 +1,206 @@
+track:
+  id: copilot-port
+  name: GitHub Copilot Platform Port
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: high
+  created: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-23T12:00:00+00:00'
+  completed: null
+  estimated_duration: 6 weeks
+  progress:
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 14
+    tasks_completed: 10
+    completion_percent: 71
+  sprints:
+  - id: copilot-port-1
+    name: MCP Integration & Custom Agents
+    status: completed
+    estimated_duration: 3 weeks
+    tasks_count: 7
+    started: null
+    description: 'Sprint 1: Core Copilot Integration
+
+
+      Tasks:
+
+      1.1 Research validation - verify MCP configuration format (2 days)
+
+      1.2 Create CopilotAdapter class extending BaseAdapter (3 days)
+
+      1.3 Implement custom agent profile generator from frontmatter (3 days)
+
+      1.4 Create repository MCP configuration generator (2 days)
+
+      1.5 Implement `vibey export --platform copilot` CLI command (2 days)
+
+      1.6 Unit tests for CopilotAdapter (2 days)
+
+      1.7 Documentation: Copilot integration quick start guide (1 day)
+
+
+      Deliverables:
+
+      - vibey/adapters/copilot/adapter.py
+
+      - vibey/adapters/copilot/agent_generator.py
+
+      - .github/agents/ generation capability
+
+      - Unit test suite (target: 95%+ coverage)
+
+
+      Key Architecture:
+
+      - Reuse existing MCP server (framework/mcp/server.py)
+
+      - Generate .github/agents/*.md from Vibey agent frontmatter
+
+      - Zero-drift: all Copilot artifacts from .vibey/ source
+
+      '
+  - id: copilot-port-2
+    name: Testing, Enterprise & Documentation
+    status: not_started
+    estimated_duration: 3 weeks
+    tasks_count: 7
+    started: null
+    description: 'Sprint 2: Quality Assurance & Enterprise Ready
+
+
+      Tasks:
+
+      2.1 Integration tests with Copilot CLI (3 days)
+
+      2.2 E2E tests with VS Code Copilot (3 days)
+
+      2.3 Organization-level configuration guide (2 days)
+
+      2.4 Enterprise deployment documentation (2 days)
+
+      2.5 Migration guide for existing Copilot users (2 days)
+
+      2.6 Quality gate validation and sign-off (2 days)
+
+      2.7 Performance benchmarks vs native tools (1 day)
+
+
+      Deliverables:
+
+      - Integration test suite (all 46 tools)
+
+      - E2E test suite (critical user journeys)
+
+      - docs/platforms/copilot/INTEGRATION_GUIDE.md
+
+      - docs/platforms/copilot/ENTERPRISE_DEPLOYMENT.md
+
+      - docs/platforms/copilot/MIGRATION_GUIDE.md
+
+      - Performance benchmark report
+
+      '
+  dependencies:
+  - type: track
+    target_id: mcp-server
+    target_status: completed
+    reason: Requires MCP server for Copilot integration
+    optional: false
+  - type: external
+    target_id: copilot-mcp-support
+    target_status: available
+    reason: GitHub Copilot MCP support GA July 2025, Custom Agents Oct 2025
+    optional: false
+    resolved: true
+  blocks:
+  - type: track
+    target_id: multi-platform
+    at_status: not_started
+    reason: Multi-platform benefits from Copilot port experience
+  blocked_by: []
+  depends_on:
+  - blocker_id: mcp-server
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-23T00:00:00+00:00'
+  depended_on_by:
+  - multi-platform
+  quality_gates:
+  - name: MCP Integration
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 46 Vibey MCP tools accessible and functional from Copilot
+    score: null
+  - name: Custom Agents
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: All 19 Vibey agents exported as valid Copilot custom agent profiles
+    score: null
+  - name: Documentation
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Integration, enterprise, and migration guides complete
+    score: null
+  - name: Test Coverage
+    threshold: 85
+    blocking: false
+    status: not_run
+    description: Unit, integration, and E2E test coverage
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - CopilotAdapter implementation (vibey/adapters/copilot/)
+  - Custom agent profile generator (frontmatter to .github/agents/*.md)
+  - Repository MCP configuration generator
+  - vibey export --platform copilot CLI command
+  - .github/agents/ templates for all 19 Vibey agents
+  - Enterprise integration documentation
+  - Migration guide for Copilot users
+  - Comprehensive test suite
+  strategic_value:
+  - 'Market Reach: 40M+ Copilot users (largest AI coding assistant market)'
+  - 'Enterprise: GitHub Enterprise integration for corporate adoption'
+  - 'Agent Mode: Full multi-step workflow support via MCP'
+  - 'Custom Agents: Native .github/agents/ configuration for team standardization'
+  - 'Zero Drift: Single source of truth from .vibey/ frontmatter'
+  - 'Ecosystem: Leverage existing MCP server (no new code for tools)'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: docs/FRAMEWORK_ROADMAP.md
+    implementation_plan: .vibey/roadmap/copilot-port/context/IMPLEMENTATION_PLAN.md
+    notes: "GITHUB COPILOT PORT - READY TO IMPLEMENT (Nov 2025)\n\nRESEARCH UPDATE\
+      \ (2025-11-23):\nGitHub Copilot MCP support went GA on July 14, 2025 - much\
+      \ earlier\nthan the originally expected Q1-Q2 2026 timeline. The track blocker\n\
+      is resolved and implementation can begin immediately.\n\nKEY FINDINGS:\n- MCP\
+      \ Support: GA in VS Code (July 2025), JetBrains/Eclipse/Xcode (Aug 2025)\n-\
+      \ Custom Agents: Released October 28, 2025 via .github/agents/*.md\n- Extensions\
+      \ Deprecated: GitHub App-based extensions sunset Nov 10, 2025\n- Workspace Sunset:\
+      \ Technical preview ended May 30, 2025 (use Agent Mode)\n\nARCHITECTURE:\n-\
+      \ Reuse existing Vibey MCP server (framework/mcp/server.py)\n- Create CopilotAdapter\
+      \ following established adapter pattern\n- Generate .github/agents/*.md from\
+      \ agent frontmatter (zero drift)\n- Focus on Agent Mode integration (not Workspace)\n\
+      \nCOPILOT CUSTOM AGENT FORMAT:\n---\nname: vibey-web-developer\ndescription:\
+      \ Build modern, responsive user interfaces...\ntools: [read, edit, search, vibey/vibey_web_developer]\n\
+      mcp-servers:\n  vibey:\n    type: local\n    command: python\n    args: [-m,\
+      \ framework.mcp.server]\n    tools: [\"*\"]\n---\n\nMCP LIMITATIONS TO HANDLE:\n\
+      - Only tools supported (no resources/prompts)\n- 128-tool limit per request\
+      \ (use allowlists)\n- No OAuth for remote servers (use local stdio)\n\nSOURCES:\n\
+      - https://github.blog/changelog/2025-07-14-model-context-protocol-mcp-support-in-vs-code-is-generally-available/\n\
+      - https://github.blog/changelog/2025-10-28-custom-agents-for-github-copilot/\n\
+      - https://docs.github.com/en/copilot/reference/custom-agents-configuration\n\
+      \nTimeline: Q4 2025 (6 weeks)\n"
+    estimated_tokens: 0

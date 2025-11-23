@@ -12,6 +12,8 @@ sprint:
   - directory-consolidation-1-task-003
   - directory-consolidation-1-task-004
   - directory-consolidation-1-task-005
-  description: |
-    Delete redundant files that are exact duplicates between directories.
+  description: 'Delete redundant files that are exact duplicates between directories.
+
     This phase has minimal risk as the authoritative code exists in vibey/.
+
+    '

@@ -1,0 +1,294 @@
+track:
+  id: roadmap-state-audit
+  name: Roadmap State Integrity Audit
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: critical
+  created: '2025-11-23T20:35:52.725661+00:00'
+  started: '2025-11-23T20:35:52.725661+00:00'
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    sprints_total: 28
+    sprints_completed: 0
+    tasks_total: 83
+    tasks_completed: 0
+    completion_percent: 50
+  sprints:
+  - id: roadmap-state-audit-1
+    name: 'Audit: aider-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 92
+  - id: roadmap-state-audit-2
+    name: 'Audit: amazonq-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 72
+  - id: roadmap-state-audit-3
+    name: 'Audit: claude-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 1
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 98
+  - id: roadmap-state-audit-4
+    name: 'Audit: cody-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 55
+  - id: roadmap-state-audit-5
+    name: 'Audit: continue-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 25
+  - id: roadmap-state-audit-6
+    name: 'Audit: copilot-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 45
+  - id: roadmap-state-audit-7
+    name: 'Audit: core-framework'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 93
+  - id: roadmap-state-audit-8
+    name: 'Audit: cursor-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 65
+  - id: roadmap-state-audit-9
+    name: 'Audit: directory-consolidation'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 1
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 98
+  - id: roadmap-state-audit-10
+    name: 'Audit: directory-migration'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 2
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 98
+  - id: roadmap-state-audit-11
+    name: 'Audit: documentation-system'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 72
+  - id: roadmap-state-audit-12
+    name: 'Audit: gemini-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 45
+  - id: roadmap-state-audit-13
+    name: 'Audit: goose-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 2
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 97
+  - id: roadmap-state-audit-14
+    name: 'Audit: infrastructure-fixes'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 92
+  - id: roadmap-state-audit-15
+    name: 'Audit: interface-unification'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 2
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 89
+  - id: roadmap-state-audit-16
+    name: 'Audit: jetbrains-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 55
+  - id: roadmap-state-audit-17
+    name: 'Audit: mcp-server'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 85
+  - id: roadmap-state-audit-18
+    name: 'Audit: missing-agents'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 2
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 98
+  - id: roadmap-state-audit-19
+    name: 'Audit: multi-platform'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 68
+  - id: roadmap-state-audit-20
+    name: 'Audit: platform-context-management'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 85
+  - id: roadmap-state-audit-21
+    name: 'Audit: replit-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 58
+  - id: roadmap-state-audit-22
+    name: 'Audit: roadmap-integration'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 95
+  - id: roadmap-state-audit-23
+    name: 'Audit: roadmap-integrity-fixes'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 5
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 54
+  - id: roadmap-state-audit-24
+    name: 'Audit: roadmap-system'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 96
+  - id: roadmap-state-audit-25
+    name: 'Audit: standards-system'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 1
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 85
+  - id: roadmap-state-audit-26
+    name: 'Audit: testing-system'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 2
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 92
+  - id: roadmap-state-audit-27
+    name: 'Audit: vscode-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 65
+  - id: roadmap-state-audit-28
+    name: 'Audit: windsurf-port'
+    status: completed
+    estimated_duration: 1 day
+    tasks_count: 4
+    started: '2025-11-23T20:36:00+00:00'
+    integrity_score: 35
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates:
+  - name: Data Integrity Verification
+    threshold: 100
+    blocking: true
+    status: in_progress
+    description: All tracks must have 100% data integrity
+    score: 75
+  assigned_agents:
+  - coordinator
+  - docs-writer
+  deliverables:
+  - Data integrity audit report for each track (28 reports)
+  - Remediation tasks for any integrity issues (83 tasks)
+  - Verified roadmap state accuracy
+  - Audit summary with prioritized remediation plan
+  strategic_value:
+  - Ensure roadmap accuracy after directory-consolidation
+  - Validate git history alignment with task states
+  - Confirm codebase reflects completed work
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-23T21:00:00+00:00'
+    audit_completed: '2025-11-23T20:55:00+00:00'
+    average_integrity_score: 75
+    tracks_above_90: 10
+    tracks_below_90: 18
+    critical_issues: 2
+    notes: 'Post-directory-consolidation audit completed.
+
+
+      KEY FINDING: Directory-consolidation did NOT corrupt roadmap state.
+
+      Issues discovered are PRE-EXISTING from bulk platform implementation.
+
+
+      Audit Results:
+
+      - 28 tracks audited
+
+      - 28 audit reports generated
+
+      - 83 remediation tasks created
+
+      - Average integrity score: 75%
+
+      - 10 tracks >= 90% (good)
+
+      - 18 tracks < 90% (need remediation)
+
+
+      Critical Issues (P0):
+
+      1. vscode-port: CLI platform not registered (broken code)
+
+      2. multi-platform: Broken import in registry.py
+
+
+      Primary Issue Categories:
+
+      1. Task status mismatches (implementation done, YAML not updated)
+
+      2. Quality gates universally not run
+
+      3. Missing hierarchical YAML structure in port tracks
+
+      4. Path references outdated (framework/ -> vibey/)
+
+
+      Root Cause: Commit f9bc7c2 bulk-implemented 13 platforms but
+
+      roadmap YAML files were generated with not_started status.
+
+      '

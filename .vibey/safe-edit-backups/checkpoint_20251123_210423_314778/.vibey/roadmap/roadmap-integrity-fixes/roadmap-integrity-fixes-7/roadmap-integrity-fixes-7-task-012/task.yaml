@@ -1,0 +1,84 @@
+task:
+  id: roadmap-integrity-fixes-7-task-012
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add dependency cycle detection
+  description: "Add validation to detect circular dependencies that create deadlocks.\n\
+    \nGAP: No validation that dependencies don't form cycles. This allows:\n\n```yaml\n\
+    # Track A depends on Track B\n# Track B depends on Track A\n# = Deadlock - neither\
+    \ can ever complete ✗\n```\n\nImpact: Tracks that can never unblock, roadmap progress\
+    \ stalls.\n\nImplementation:\n1. Add to tests/validation/test_yaml_integrity.py:\n\
+    \   - test_no_dependency_cycles_in_tracks()\n   - test_no_dependency_cycles_in_sprints()\n\
+    \   - test_no_dependency_cycles_in_tasks()\n\n2. Cycle detection algorithm (Depth-First\
+    \ Search):\n   ```python\n   def detect_cycles(nodes, get_dependencies):\n   \
+    \    \"\"\"\n       Detect cycles in dependency graph using DFS.\n\n       Args:\n\
+    \           nodes: List of all objects (tracks/sprints/tasks)\n           get_dependencies:\
+    \ Function to get dependencies of a node\n\n       Returns:\n           List of\
+    \ cycles found (each cycle is a list of node IDs)\n       \"\"\"\n       visited\
+    \ = set()\n       rec_stack = set()\n       cycles = []\n\n       def dfs(node_id,\
+    \ path):\n           if node_id in rec_stack:\n               # Found a cycle\n\
+    \               cycle_start = path.index(node_id)\n               cycle = path[cycle_start:]\
+    \ + [node_id]\n               cycles.append(cycle)\n               return\n\n\
+    \           if node_id in visited:\n               return\n\n           visited.add(node_id)\n\
+    \           rec_stack.add(node_id)\n           path.append(node_id)\n\n      \
+    \     for dep in get_dependencies(node_id):\n               dfs(dep, path[:])\n\
+    \n           rec_stack.remove(node_id)\n\n       for node in nodes:\n        \
+    \   if node.id not in visited:\n               dfs(node.id, [])\n\n       return\
+    \ cycles\n   ```\n\n3. Apply to each level:\n   - **Tracks:** Build dependency\
+    \ graph from depends_on field\n   - **Sprints:** Build dependency graph from development_gates\n\
+    \   - **Tasks:** Build dependency graph from dependencies field\n\n4. Report cycles\
+    \ clearly:\n   ```\n   ERROR: Dependency cycle detected in tracks:\n     track-a\
+    \ → track-b → track-c → track-a\n   ```\n\n5. Edge cases:\n   - Self-dependency\
+    \ (track depends on itself)\n   - Multi-hop cycles (A→B→C→A)\n   - Multiple independent\
+    \ cycles\n\nVerification:\n- Test passes on current YAML (no cycles)\n- Create\
+    \ test file with A→B→A cycle and verify test fails\n- Break cycle and verify test\
+    \ passes\n"
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.501864+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Extend existing validation test suite
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-009
+    target_status: completed
+    reason: Requires reference validation to build dependency graph
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - Dependency cycle detection test suite
+  - type: documentation
+    paths:
+    - detect_cycles() graph algorithm
+  - type: documentation
+    paths:
+    - Cycle detection documentation
+  - type: documentation
+    paths:
+    - Clear error messages showing cycle paths
+  - type: documentation
+    paths:
+    - Integration with CI/CD validation
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:07:09.501874+00:00'
+    token_efficiency: null
+    duration_hours: null

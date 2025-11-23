@@ -11,12 +11,19 @@ sprint:
   - directory-consolidation-4-task-002
   - directory-consolidation-4-task-003
   - directory-consolidation-4-task-004
-  description: |
-    Execute content consolidation based on audit findings.
+  description: 'Execute content consolidation based on audit findings.
+
     Merge duplicate documentation, archive obsolete files, and establish clear organization.
 
+
     KEY OUTPUTS:
+
     - Merged framework/docs/ into docs/
+
     - Session-specific files moved to .vibey/roadmap/*/context/
+
     - Clean docs/ with only permanent documentation
+
     - Updated references across codebase
+
+    '

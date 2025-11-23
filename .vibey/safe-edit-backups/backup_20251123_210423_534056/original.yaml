@@ -1,0 +1,76 @@
+task:
+  id: roadmap-integrity-fixes-7-task-013
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add required field enforcement
+  description: "Add validation to enforce that all required fields are present in\
+    \ YAML files.\n\nGAP: Dataclasses use defaults, so missing required fields don't\
+    \ error at load time.\n\n```yaml\ntask:\n  id: my-task\n  # Missing: sprint_id,\
+    \ track_id, status (all required) ✗\n```\n\nCurrently this loads successfully\
+    \ with None/default values instead of failing.\n\nImpact: Partial objects that\
+    \ fail at runtime when required fields are accessed.\n\nImplementation:\n1. Add\
+    \ to tests/validation/test_yaml_integrity.py:\n   - test_roadmap_required_fields()\n\
+    \   - test_track_required_fields()\n   - test_sprint_required_fields()\n   - test_task_required_fields()\n\
+    \n2. Define required fields per object type:\n\n   **Roadmap:**\n   - id, name,\
+    \ version, status, created, progress\n\n   **Track:**\n   - id, name, roadmap_id,\
+    \ status, priority, created, progress, metadata\n\n   **Sprint:**\n   - id, name,\
+    \ track_id, roadmap_id, status, created, progress, metadata\n\n   **Task:**\n\
+    \   - id, sprint_id, track_id, status, title, created, priority, metadata\n\n\
+    3. Validation approach:\n   ```python\n   def validate_required_fields(yaml_path,\
+    \ required_fields):\n       \"\"\"Validate that all required fields are present.\"\
+    \"\"\n       with open(yaml_path) as f:\n           data = yaml.safe_load(f)\n\
+    \n       obj_data = data.get('task') or data.get('sprint') or data.get('track')\n\
+    \n       missing = []\n       for field in required_fields:\n           if field\
+    \ not in obj_data or obj_data[field] is None:\n               missing.append(field)\n\
+    \n       if missing:\n           raise ValueError(f\"{yaml_path}: Missing required\
+    \ fields: {missing}\")\n   ```\n\n4. Check nested required fields:\n   - progress.tasks_total\
+    \ (not just progress exists)\n   - metadata.last_updated (not just metadata exists)\n\
+    \n5. Report missing fields with file path:\n   ```\n   ERROR: .vibey/roadmap/track-a/track.yaml\n\
+    \     Missing required fields: status, priority\n   ```\n\nVerification:\n- All\
+    \ required field tests pass on current YAML\n- Remove required field from test\
+    \ file and verify test fails\n- Restore field and verify test passes\n"
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.511756+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Extend existing validation test suite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - Required field validation test suite (4 test functions)
+  - type: documentation
+    paths:
+    - validate_required_fields() helper function
+  - type: documentation
+    paths:
+    - Documentation of required fields per object type
+  - type: documentation
+    paths:
+    - Clear error messages listing missing fields
+  - type: documentation
+    paths:
+    - Integration with CI/CD validation
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:07:09.511764+00:00'
+    token_efficiency: null
+    duration_hours: null

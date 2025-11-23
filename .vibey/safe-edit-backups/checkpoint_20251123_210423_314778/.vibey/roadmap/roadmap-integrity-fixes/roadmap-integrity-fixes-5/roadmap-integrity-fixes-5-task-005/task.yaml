@@ -1,0 +1,87 @@
+task:
+  id: roadmap-integrity-fixes-5-task-005
+  sprint_id: roadmap-integrity-fixes-5
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Ensure all tracks loadable without errors
+  description: "Test loading all tracks, sprints, and tasks to ensure no YAML or structural\n\
+    errors prevent loading.\n\nProcess:\n1. Create comprehensive load test:\n   -\
+    \ Load roadmap.yaml\n   - Load all track.yaml files (19 tracks)\n   - Load all\
+    \ sprint.yaml files\n   - Load all task.yaml files\n   - Capture any errors or\
+    \ warnings\n\n2. Test with roadmap loader:\n   - Use vibey/roadmap/loader.py\n\
+    \   - Test each track individually\n   - Test full roadmap load\n   - Verify all\
+    \ data structures valid\n\n3. Error handling:\n   - Document any load failures\n\
+    \   - Identify root cause for each failure\n   - Fix issues or escalate if complex\n\
+    \   - Retry until all tracks load successfully\n\n4. Validation checks:\n   -\
+    \ All YAML files parse correctly\n   - All required fields present\n   - All field\
+    \ types correct\n   - All references valid (no broken dependencies)\n   - All\
+    \ progress counters valid\n\n5. Performance check:\n   - Measure load time for\
+    \ full roadmap\n   - Identify any performance bottlenecks\n   - Document load\
+    \ times\n\nAcceptance Criteria:\n- All 19 tracks load without errors\n- All sprints\
+    \ load without errors\n- All tasks load without errors\n- Zero YAML parse errors\n\
+    - Zero structural errors\n- Load test passes 100%\n\nDeliverables:\n- Load test\
+    \ results\n- List of errors found and fixed\n- Performance metrics\n- Documentation\
+    \ of fixes applied\n"
+  status: completed
+  blocked: true
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: '2025-11-21T01:35:55.449759+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - type: task
+    target_id: roadmap-integrity-fixes-5-task-006
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-5-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:54.667384+00:00'
+  - blocker_id: roadmap-integrity-fixes-5-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:54.667385+00:00'
+  - blocker_id: roadmap-integrity-fixes-5-task-003
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:54.667386+00:00'
+  - blocker_id: roadmap-integrity-fixes-5-task-004
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:54.667386+00:00'
+  depended_on_by:
+  - roadmap-integrity-fixes-5-task-006
+  deliverables:
+  - type: code
+    paths:
+    - Load test results
+  - type: code
+    paths:
+    - Error fixes applied
+  - type: code
+    paths:
+    - Performance metrics
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

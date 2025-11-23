@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Test MCP server connection
-  description: |
-    Test in IntelliJ IDEA, verify tool discovery works, debug connection issues
-  status: not_started
+  description: 'Test in IntelliJ IDEA, verify tool discovery works, debug connection
+    issues
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.180478+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:52.931174+00:00'
   assigned_agent: test-engineer
   priority: high
   phase_label: null

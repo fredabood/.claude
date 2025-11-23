@@ -11,7 +11,7 @@ track:
   estimated_duration: 6 weeks
   progress:
     sprints_total: 3
-    sprints_completed: 3
+    sprints_completed: 2
     tasks_total: 19
     tasks_completed: 19
     completion_percent: 100

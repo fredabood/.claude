@@ -1,0 +1,63 @@
+task:
+  id: roadmap-integrity-fixes-10-task-001
+  sprint_id: roadmap-integrity-fixes-10
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit all documentation files and categorize
+  description: "Comprehensive audit of all documentation files across the repository.\n\
+    \nGOAL: Categorize every documentation file as either:\n- **Context documentation**:\
+    \ Informs development process\n- **Project documentation**: Describes project\
+    \ state\n- **Both/Unclear**: Needs manual review\n\nSCOPE: All .md files in repository\
+    \ (excluding node_modules)\n\nPROCESS:\n\n1. Find all markdown files:\n   ```bash\n\
+    \   find . -name \"*.md\" -not -path \"*/node_modules/*\" -not -path \"*/.git/*\"\
+    \n   ```\n\n2. Categorize each file:\n\n   **Context Documentation Examples:**\n\
+    \   - Analysis reports (SCHEMA_AUDIT_REPORT_*.md)\n   - Fix strategies (SCHEMA_FIX_STRATEGY.md)\n\
+    \   - Design decisions (TOKEN_SIZING_METHODOLOGY.md)\n   - Research findings (TOKEN_USAGE_ANALYSIS.md)\n\
+    \   - QA reports (COMPREHENSIVE_AUDIT_*.md)\n   - Sprint notes and retrospectives\n\
+    \   - Task context and rationale\n\n   **Project Documentation Examples:**\n \
+    \  - User guides (QUICK_START.md, USER_JOURNEY.md)\n   - API reference (ROADMAP_OBJECT_HIERARCHY.md)\n\
+    \   - Architecture docs (ROADMAP_IMPLEMENTATION_PLAN.md)\n   - Contributing guidelines\
+    \ (CONTRIBUTING.md)\n   - Framework roadmap (FRAMEWORK_ROADMAP.md)\n   - Agent\
+    \ and workflow definitions\n\n3. Document findings:\n   - Total files found\n\
+    \   - Current locations\n   - Proposed new locations\n   - Migration complexity\
+    \ (simple/complex)\n   - Files needing manual review\n\n4. Identify patterns:\n\
+    \   - Common naming conventions\n   - Typical locations for each type\n   - Files\
+    \ that violate conventions\n\nDELIVERABLE: DOCUMENTATION_AUDIT_REPORT.md\n\nStructure:\n\
+    ```\n# Documentation Audit Report\nGenerated: 2025-11-20\n\n## Summary\n- Total\
+    \ files: X\n- Context docs: Y (Z%)\n- Project docs: A (B%)\n- Needs review: C\
+    \ (D%)\n\n## Context Documentation (Y files)\n| Current Location | Proposed Location\
+    \ | Complexity | Notes |\n|-----------------|-------------------|------------|-------|\n\
+    | ... | ... | ... | ... |\n\n## Project Documentation (A files)\n| Current Location\
+    \ | Status | Notes |\n|-----------------|--------|-------|\n| ... | ... | ...\
+    \ |\n\n## Files Needing Manual Review (C files)\n| File | Reason | Recommendation\
+    \ |\n|------|--------|----------------|\n| ... | ... | ... |\n\n## Migration Plan\n\
+    - Simple moves: X files (automated)\n- Complex moves: Y files (manual)\n- In-place\
+    \ (correct location): Z files\n```\n"
+  status: not_started
+  blocked: false
+  created: '2025-11-20T01:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - .vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/DOCUMENTATION_AUDIT_REPORT.md
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T01:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

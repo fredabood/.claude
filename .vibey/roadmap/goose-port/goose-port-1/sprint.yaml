@@ -8,8 +8,8 @@ sprint:
   completed: '2025-11-22T00:00:00+00:00'
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 8
-    tasks_completed: 8
+    tasks_total: 0
+    tasks_completed: 0
     completion_percent: 100
   tasks:
   - id: goose-port-1-task-001
@@ -36,7 +36,10 @@ sprint:
   - id: goose-port-1-task-008
     name: Validate all migrations with schema validator
     status: completed
-  description: |
-    Design YAML frontmatter schema for agents/workflows/handoffs.
+  description: 'Design YAML frontmatter schema for agents/workflows/handoffs.
+
     Migrate all 19 agents, 16 workflows, and 22 handoffs to include
+
     structured frontmatter that MCP server can parse dynamically.
+
+    '

@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Unit tests
-  description: |
-    Test deployment logic, validate markdown generation, verify character limits
-  status: not_started
+  description: 'Test deployment logic, validate markdown generation, verify character
+    limits
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.179407+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:26.841268+00:00'
   assigned_agent: test-engineer
   priority: high
   phase_label: null

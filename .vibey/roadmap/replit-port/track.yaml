@@ -11,7 +11,7 @@ track:
   estimated_duration: 8 weeks
   progress:
     sprints_total: 6
-    sprints_completed: 2
+    sprints_completed: 0
     tasks_total: 36
     tasks_completed: 12
     completion_percent: 33
@@ -23,16 +23,22 @@ track:
     tasks_count: 5
     started: '2025-11-23T00:00:00+00:00'
     completed: '2025-11-23T00:00:00+00:00'
-    description: |
-      Validate MCP server runs in Replit environment, test tool discovery,
+    description: 'Validate MCP server runs in Replit environment, test tool discovery,
+
       and document platform-specific limitations.
 
+
       KEY OUTPUTS:
+
       - MCP server validated in Replit
+
       - .replit configuration created
+
       - REPLIT_CONSTRAINTS.md documentation
+
       - Frontmatter parsing verified in browser Python
 
+      '
   - id: replit-port-2
     name: Adapter Foundation
     status: completed
@@ -40,16 +46,22 @@ track:
     tasks_count: 7
     started: '2025-11-23T00:00:00+00:00'
     completed: '2025-11-23T00:00:00+00:00'
-    description: |
-      Create ReplitAdapter following PlatformAdapter interface.
+    description: 'Create ReplitAdapter following PlatformAdapter interface.
+
       Implement core deployment methods and context generation.
 
+
       KEY OUTPUTS:
+
       - ReplitAdapter class
+
       - ReplitContextGenerator (frontmatter -> REPLIT.md)
+
       - deploy() and validate_deployment() methods
+
       - Unit tests for adapter
 
+      '
   - id: replit-port-3
     name: Configuration Generation
     status: not_started
@@ -57,17 +69,24 @@ track:
     tasks_count: 6
     started: null
     completed: null
-    description: |
-      Generate .replit TOML and replit.nix from Vibey configuration.
+    description: 'Generate .replit TOML and replit.nix from Vibey configuration.
+
       Implement checksums for zero-drift detection.
 
+
       KEY OUTPUTS:
+
       - ReplitConfigGenerator
+
       - .replit TOML generation from project.yaml
+
       - replit.nix generation for dependencies
+
       - MCP server configuration
+
       - Drift detection with checksums
 
+      '
   - id: replit-port-4
     name: Extension Scaffolding
     status: not_started
@@ -75,16 +94,22 @@ track:
     tasks_count: 6
     started: null
     completed: null
-    description: |
-      Initialize Replit Extension project with React/TypeScript.
+    description: 'Initialize Replit Extension project with React/TypeScript.
+
       Create MCP connectivity hooks and dashboard component.
 
+
       KEY OUTPUTS:
+
       - Extension project structure
+
       - useVibey React hook for MCP
+
       - Dashboard component
+
       - CLUI command registration
 
+      '
   - id: replit-port-5
     name: Extension Features
     status: not_started
@@ -92,17 +117,24 @@ track:
     tasks_count: 6
     started: null
     completed: null
-    description: |
-      Implement full extension features including roadmap visualization,
+    description: 'Implement full extension features including roadmap visualization,
+
       sprint progress, and file handlers.
 
+
       KEY OUTPUTS:
+
       - RoadmapView component
+
       - SprintProgress component
+
       - TaskList component
+
       - File handler for .vibey/ files
+
       - End-to-end testing
 
+      '
   - id: replit-port-6
     name: Template & Documentation
     status: not_started
@@ -110,16 +142,22 @@ track:
     tasks_count: 6
     started: null
     completed: null
-    description: |
-      Create forkable Replit Template and comprehensive documentation.
+    description: 'Create forkable Replit Template and comprehensive documentation.
+
       Publish to Replit Templates.
 
+
       KEY OUTPUTS:
+
       - vibey-replit-template (forkable)
+
       - Quick start guide
+
       - Extension installation guide
+
       - Published to Replit Templates
 
+      '
   dependencies:
   - type: track
     target_id: mcp-server
@@ -129,17 +167,15 @@ track:
   - type: track
     target_id: gemini-port
     target_status: completed
-    reason: Reuse adapter architecture, context generator patterns, and zero-drift methodology
+    reason: Reuse adapter architecture, context generator patterns, and zero-drift
+      methodology
     optional: false
-
   blocks:
   - type: track
     target_id: multi-platform
     at_status: not_started
     reason: Multi-platform benefits from Replit port experience and web-based patterns
-
   blocked_by: []
-
   depends_on:
   - blocker_id: mcp-server
     blocker_type: track
@@ -153,16 +189,15 @@ track:
     current_status: completed
     blocks_transition_to: in_progress
     last_checked: '2025-11-23T00:00:00+00:00'
-
   depended_on_by:
   - multi-platform
-
   quality_gates:
   - name: Zero-Drift Validation
     threshold: 100
     blocking: true
     status: not_run
-    description: All Replit artifacts generated from frontmatter, CI fails on manual edits
+    description: All Replit artifacts generated from frontmatter, CI fails on manual
+      edits
     score: null
   - name: MCP Tool Parity
     threshold: 100
@@ -182,24 +217,21 @@ track:
     status: not_run
     description: Template can be forked and runs successfully
     score: null
-
   assigned_agents:
   - backend-engineer
   - frontend-engineer
   - test-engineer
   - docs-writer
-
   deliverables:
-  - "ReplitAdapter extending PlatformAdapter"
-  - "ReplitContextGenerator (frontmatter -> REPLIT.md)"
-  - "ReplitConfigGenerator (.replit and replit.nix generation)"
-  - "vibey export replit CLI command"
-  - "Replit Extension (React/TypeScript)"
-  - "vibey-replit-template (forkable)"
-  - "Quick start guide for Replit users"
-  - "Extension installation guide"
-  - "E2E test suite"
-
+  - ReplitAdapter extending PlatformAdapter
+  - ReplitContextGenerator (frontmatter -> REPLIT.md)
+  - ReplitConfigGenerator (.replit and replit.nix generation)
+  - vibey export replit CLI command
+  - Replit Extension (React/TypeScript)
+  - vibey-replit-template (forkable)
+  - Quick start guide for Replit users
+  - Extension installation guide
+  - E2E test suite
   strategic_value:
   - 'Education Market: Strong presence in education and bootcamp ecosystems'
   - 'Zero Drift: Generated artifacts always match source definitions'
@@ -210,107 +242,86 @@ track:
   - 'Template System: Easy distribution via forkable templates'
   - 'Accessibility: No local setup required, instant deployment'
   - 'Collaboration: Real-time multiplayer for team workflows'
-
   commits: []
   standards: []
-
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md
     implementation_plan: .vibey/roadmap/replit-port/context/IMPLEMENTATION_PLAN.md
-    notes: |
-      REPLIT PORT - WEB-NATIVE PLATFORM (Nov 2025 Research)
-
-      CRITICAL UPDATE: Replit has NATIVE MCP SUPPORT.
-      One of the first platforms to ship MCP (early adopter).
-
-      MCP SUPPORT (CONFIRMED):
-      - Native MCP support in Replit environment
-      - Pre-built templates for quick MCP experimentation
-      - Full Python runtime in browser
-      - Template-based deployment (no local setup)
-
-      RESEARCH FINDINGS:
-      - Agent 3 architecture with multi-agent capabilities
-      - Extensions API with React bindings and TypeScript
-      - .replit TOML + replit.nix configuration system
-      - No programmatic Agent invocation API (yet)
-
-      COMPATIBILITY ASSESSMENT: 80-85%
-      Higher than original estimate due to:
-      - Native MCP support (major advantage)
-      - Full Python runtime in browser
-      - Extensions API for custom tooling
-      - Template-based distribution
-
-      KEY INSIGHT: Replit is the first web-based platform port for Vibey.
-      Validates that the framework can run in browser-based Python environments.
-
-      UNIQUE CHALLENGES:
-      - Web-based environment (no local filesystem)
-      - JavaScript/React Extension development (new skillset)
-      - No programmatic Agent invocation API (yet)
-      - Browser sandbox limitations
-
-      ARCHITECTURE (Zero-Drift):
-      ┌─────────────────────────────────────────────────────────────────┐
-      │            SINGLE SOURCE OF TRUTH                              │
-      │  agents/*.md, workflows/*.md, handoffs/*.md (frontmatter)      │
-      └─────────────────────────────────────────────────────────────────┘
-                              │
-             ┌────────────────┼────────────────┐
-             ▼                ▼                ▼
-      ┌───────────────┐  ┌───────────────┐  ┌───────────────┐
-      │ MCP Server    │  │ REPLIT.md     │  │ .replit       │
-      │ (reusable)    │  │ Generator     │  │ Generator     │
-      └───────────────┘  └───────────────┘  └───────────────┘
-             │                  │                  │
-             └──────────────────┼──────────────────┘
-                                ▼
-                   ┌─────────────────────────┐
-                   │  Replit Extension       │
-                   │  (generated artifact)   │
-                   └─────────────────────────┘
-                                │
-                                ▼
-                   ┌─────────────────────────┐
-                   │  Forkable Template      │
-                   │  (distribution)         │
-                   └─────────────────────────┘
-
-      REPLIT INTEGRATION POINTS:
-      1. MCP Servers - Native support (shipped 2024)
-      2. Extensions - Custom UI panels, commands, file handlers
-      3. Templates - Forkable project distribution
-      4. .replit - TOML configuration file
-      5. replit.nix - Nix-based dependency management
-
-      TIMELINE: 8 weeks (increased from 4-6 for comprehensive port)
-      - Sprint 1: Research & MCP Validation (1 week)
-      - Sprint 2: Adapter Foundation (1.5 weeks)
-      - Sprint 3: Configuration Generation (1 week)
-      - Sprint 4: Extension Scaffolding (1.5 weeks)
-      - Sprint 5: Extension Features (1.5 weeks)
-      - Sprint 6: Template & Documentation (1 week)
-
-      COMPARISON TO GEMINI PORT:
-      - Similar: MCP-first integration, zero-drift architecture
-      - Different: JavaScript Extension (not TOML commands)
-      - Different: Template distribution (not extension package)
-      - Additional: Web environment considerations
-
-      PRIORITY UPGRADE: Low -> Medium
-      Rationale:
-      - Native MCP support makes integration easier than expected
-      - Education market represents significant growth opportunity
-      - Web-native port validates browser execution patterns
-
-      SOURCES:
-      - https://docs.replit.com/replitai/agent
-      - https://blog.replit.com/everything-you-need-to-know-about-mcp
-      - https://docs.replit.com/extensions/extensions
-      - https://docs.replit.com/replit-app/configuration
-      - https://docs.replit.com/extensions/category/api-reference
-
+    notes: "REPLIT PORT - WEB-NATIVE PLATFORM (Nov 2025 Research)\n\nCRITICAL UPDATE:\
+      \ Replit has NATIVE MCP SUPPORT.\nOne of the first platforms to ship MCP (early\
+      \ adopter).\n\nMCP SUPPORT (CONFIRMED):\n- Native MCP support in Replit environment\n\
+      - Pre-built templates for quick MCP experimentation\n- Full Python runtime in\
+      \ browser\n- Template-based deployment (no local setup)\n\nRESEARCH FINDINGS:\n\
+      - Agent 3 architecture with multi-agent capabilities\n- Extensions API with\
+      \ React bindings and TypeScript\n- .replit TOML + replit.nix configuration system\n\
+      - No programmatic Agent invocation API (yet)\n\nCOMPATIBILITY ASSESSMENT: 80-85%\n\
+      Higher than original estimate due to:\n- Native MCP support (major advantage)\n\
+      - Full Python runtime in browser\n- Extensions API for custom tooling\n- Template-based\
+      \ distribution\n\nKEY INSIGHT: Replit is the first web-based platform port for\
+      \ Vibey.\nValidates that the framework can run in browser-based Python environments.\n\
+      \nUNIQUE CHALLENGES:\n- Web-based environment (no local filesystem)\n- JavaScript/React\
+      \ Extension development (new skillset)\n- No programmatic Agent invocation API\
+      \ (yet)\n- Browser sandbox limitations\n\nARCHITECTURE (Zero-Drift):\n\u250C\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2510\n\u2502            SINGLE SOURCE OF TRUTH                           \
+      \   \u2502\n\u2502  agents/*.md, workflows/*.md, handoffs/*.md (frontmatter)\
+      \      \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2518\n                        \u2502\n       \u250C\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n       \u25BC                \u25BC\
+      \                \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u250C\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u250C\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2510\n\u2502 MCP Server    \u2502  \u2502 REPLIT.md     \u2502\
+      \  \u2502 .replit       \u2502\n\u2502 (reusable)    \u2502  \u2502 Generator\
+      \     \u2502  \u2502 Generator     \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518  \u2514\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2518\n       \u2502                  \u2502\
+      \                  \u2502\n       \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2518\n                          \u25BC\n   \
+      \          \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2510\n             \u2502  Replit Extension       \u2502\n   \
+      \          \u2502  (generated artifact)   \u2502\n             \u2514\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n       \
+      \                   \u2502\n                          \u25BC\n             \u250C\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\
+      \n             \u2502  Forkable Template      \u2502\n             \u2502  (distribution)\
+      \         \u2502\n             \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+      \u2500\u2500\u2500\u2500\u2500\u2518\n\nREPLIT INTEGRATION POINTS:\n1. MCP Servers\
+      \ - Native support (shipped 2024)\n2. Extensions - Custom UI panels, commands,\
+      \ file handlers\n3. Templates - Forkable project distribution\n4. .replit -\
+      \ TOML configuration file\n5. replit.nix - Nix-based dependency management\n\
+      \nTIMELINE: 8 weeks (increased from 4-6 for comprehensive port)\n- Sprint 1:\
+      \ Research & MCP Validation (1 week)\n- Sprint 2: Adapter Foundation (1.5 weeks)\n\
+      - Sprint 3: Configuration Generation (1 week)\n- Sprint 4: Extension Scaffolding\
+      \ (1.5 weeks)\n- Sprint 5: Extension Features (1.5 weeks)\n- Sprint 6: Template\
+      \ & Documentation (1 week)\n\nCOMPARISON TO GEMINI PORT:\n- Similar: MCP-first\
+      \ integration, zero-drift architecture\n- Different: JavaScript Extension (not\
+      \ TOML commands)\n- Different: Template distribution (not extension package)\n\
+      - Additional: Web environment considerations\n\nPRIORITY UPGRADE: Low -> Medium\n\
+      Rationale:\n- Native MCP support makes integration easier than expected\n- Education\
+      \ market represents significant growth opportunity\n- Web-native port validates\
+      \ browser execution patterns\n\nSOURCES:\n- https://docs.replit.com/replitai/agent\n\
+      - https://blog.replit.com/everything-you-need-to-know-about-mcp\n- https://docs.replit.com/extensions/extensions\n\
+      - https://docs.replit.com/replit-app/configuration\n- https://docs.replit.com/extensions/category/api-reference\n"
     estimated_tokens: 0

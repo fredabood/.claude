@@ -1,0 +1,89 @@
+task:
+  id: roadmap-integrity-fixes-0-task-004
+  sprint_id: roadmap-integrity-fixes-0
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Define evidence conflict resolution framework
+  description: "Create framework for resolving conflicts when different evidence sources\n\
+    (git history, codebase, docs, tests, backups) tell different stories about\ntrack\
+    \ completion status.\n\nQA Gap Addressed:\n\"No evidence conflict resolution framework.\
+    \ What happens when git says 80%\ncomplete but YAML says 100%? Need tiebreaker\
+    \ rules.\"\n\nEvidence Conflict Scenarios:\n\n1. Git vs YAML Conflict\n   - Git\
+    \ history shows 15 commits for track\n   - YAML claims 30 tasks complete\n   -\
+    \ Resolution: Weight actual code/docs changes higher than YAML claims\n\n2. Code\
+    \ vs Documentation Conflict\n   - Codebase shows features implemented\n   - Documentation\
+    \ incomplete or missing\n   - Resolution: Feature incomplete until documented\
+    \ (quality gate requirement)\n\n3. Tests vs Implementation Conflict\n   - Code\
+    \ exists but tests failing or missing\n   - YAML claims complete\n   - Resolution:\
+    \ Not complete without passing tests (quality gate requirement)\n\n4. Backup vs\
+    \ Current State Conflict\n   - Backup shows 10 tasks complete\n   - Current YAML\
+    \ shows 0 tasks\n   - Resolution: Migration data loss, use backup as source of\
+    \ truth\n\n5. Multiple Backups Disagree\n   - Backup A shows 5 complete\n   -\
+    \ Backup B shows 10 complete\n   - Resolution: Use latest chronological backup,\
+    \ verify with git\n\nEvidence Weighting System:\n\nPriority 1 (Highest Weight\
+    \ - Objective Evidence):\n- Git commits (timestamped, immutable proof of work)\n\
+    - Actual code changes (lines added/modified)\n- Test files (proof of testing)\n\
+    - Documentation files (proof of documentation)\n\nPriority 2 (Medium Weight -\
+    \ Verifiable Evidence):\n- Backup archives (historical YAML state)\n- Migration\
+    \ logs (transformation record)\n- Quality gate results (automated checks)\n\n\
+    Priority 3 (Lowest Weight - Self-Reported Claims):\n- Current YAML status fields\n\
+    - Task completion markers\n- Progress percentages\n\nConflict Resolution Algorithm:\n\
+    \n1. Gather all evidence sources\n2. Identify conflicts (disagreements between\
+    \ sources)\n3. Weight evidence by priority (P1 > P2 > P3)\n4. For high-priority\
+    \ evidence conflicts:\n   - Git beats YAML (objective > self-reported)\n   - Code+Tests\
+    \ beat code alone (quality gates)\n   - Latest backup beats earlier backup (chronological)\n\
+    5. For ambiguous conflicts:\n   - Flag for stakeholder review\n   - Document evidence\
+    \ for both sides\n   - Recommend conservative status (lower completion)\n6. Document\
+    \ resolution rationale\n7. Create audit trail of conflict resolution\n\nTiebreaker\
+    \ Rules:\n\n1. When evidence is 50/50 split → Choose LOWER completion status (conservative)\n\
+    2. When backup disagrees with git → Git wins (objective evidence)\n3. When code\
+    \ exists but tests missing → Incomplete (quality gate)\n4. When docs missing →\
+    \ Incomplete (quality gate requirement)\n5. When unable to resolve → Flag for\
+    \ stakeholder approval\n\nFramework Outputs:\n- Evidence conflict resolution guide\
+    \ (markdown)\n- Conflict detection checklist\n- Evidence weighting matrix\n- Tiebreaker\
+    \ decision tree\n- Example conflict resolutions (3-5 scenarios)\n\nAcceptance\
+    \ Criteria:\n- Conflict resolution framework documented\n- Evidence weighting\
+    \ system defined\n- Tiebreaker rules established\n- Example scenarios with resolutions\
+    \ provided\n- Framework validated with sample conflicts\n- Stakeholder approval\
+    \ on framework\n\nDeliverables:\n- Evidence conflict resolution framework guide\n\
+    - Evidence weighting matrix\n- Tiebreaker decision tree\n- Example conflict resolution\
+    \ scenarios\n"
+  status: completed
+  blocked: false
+  created: '2025-11-12T20:45:00+00:00'
+  started: null
+  completed: '2025-11-21T01:02:25.932412+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - type: task
+    target_id: roadmap-integrity-fixes-2-task-001
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-task-001
+  deliverables:
+  - type: code
+    paths:
+    - Evidence conflict resolution framework
+  - type: code
+    paths:
+    - Evidence weighting matrix
+  - type: code
+    paths:
+    - Tiebreaker decision tree
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:45:00+00:00'
+    token_efficiency: null
+    duration_hours: null

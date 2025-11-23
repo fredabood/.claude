@@ -8,19 +8,19 @@ task:
   description: "Add blocking schema validation to GitHub Actions.\n\nUpdate .github/workflows/roadmap-validation.yml:\n\
     \nAdd step (no continue-on-error):\n  - name: Schema validation (BLOCKING)\n \
     \   run: |\n      python scripts/validate-roadmap-schema.py --strict\n      if\
-    \ [ $? -ne 0 ]; then\n        echo \"❌ Schema validation failed\"\n        echo\
-    \ \"Run: python scripts/validate-roadmap-schema.py --verbose\"\n        exit 1\n\
-    \      fi\n\nAlso add health score check:\n  - name: Health score check\n    run:\
-    \ |\n      python scripts/roadmap-health-dashboard.py --json > metrics.json\n\
+    \ [ $? -ne 0 ]; then\n        echo \"\u274C Schema validation failed\"\n     \
+    \   echo \"Run: python scripts/validate-roadmap-schema.py --verbose\"\n      \
+    \  exit 1\n      fi\n\nAlso add health score check:\n  - name: Health score check\n\
+    \    run: |\n      python scripts/roadmap-health-dashboard.py --json > metrics.json\n\
     \      score=$(jq '.overall_health_score' metrics.json)\n      if (( $(echo \"\
-    $score < 90\" | bc -l) )); then\n        echo \"⚠️ Health score below 90: $score\"\
-    \n        exit 1\n      fi\n\nResult:\n- PRs blocked on schema violations\n- Health\
-    \ score degradation caught early\n- Automated validation on every push\n"
+    $score < 90\" | bc -l) )); then\n        echo \"\u26A0\uFE0F Health score below\
+    \ 90: $score\"\n        exit 1\n      fi\n\nResult:\n- PRs blocked on schema violations\n\
+    - Health score degradation caught early\n- Automated validation on every push\n"
   status: completed
   blocked: false
   created: '2025-11-20T00:17:11.820692+00:00'
   started: null
-  completed: '2025-11-20T20:11:14.787267+00:00'
+  completed: '2025-11-23T21:00:00+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

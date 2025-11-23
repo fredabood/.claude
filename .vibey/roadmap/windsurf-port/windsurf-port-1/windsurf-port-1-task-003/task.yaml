@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Workflow to Markdown conversion
-  description: |
-    Convert Vibey workflows to Cascade workflow format, handle multi-step instructions, workflow composition
-  status: not_started
+  description: 'Convert Vibey workflows to Cascade workflow format, handle multi-step
+    instructions, workflow composition
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.179136+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:25.211254+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

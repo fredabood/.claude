@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: JetBrainsAdapter class
-  description: |
-    Extend PlatformAdapter base class, generate all configuration files, handle multi-IDE differences
-  status: not_started
+  description: 'Extend PlatformAdapter base class, generate all configuration files,
+    handle multi-IDE differences
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.180371+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:52.368993+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

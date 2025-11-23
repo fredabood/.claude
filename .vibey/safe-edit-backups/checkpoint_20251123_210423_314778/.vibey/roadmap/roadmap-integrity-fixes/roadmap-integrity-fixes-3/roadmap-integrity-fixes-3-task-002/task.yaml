@@ -1,0 +1,70 @@
+task:
+  id: roadmap-integrity-fixes-3-task-002
+  sprint_id: roadmap-integrity-fixes-3
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix claude-port track status
+  description: 'Correct the status field in claude-port/track.yaml from ''completed''
+
+    to ''not_started'' as track has 0% actual progress.
+
+
+    Current State:
+
+    - Status: completed
+
+    - Progress: 0%
+
+    - Sprints: 0/1 completed
+
+    - Tasks: 0/0 completed
+
+    - Sprint directories: 0 (missing)
+
+
+    Required Change:
+
+    - Set status: not_started
+
+    - Document that track was never implemented
+
+    - Add note about being planning-only
+
+
+    Acceptance Criteria:
+
+    - Status field matches actual progress (0%)
+
+    - Track loadable without errors
+
+    - Clear documentation of actual state
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-12T19:30:00+00:00'
+  started: null
+  completed: '2025-11-21T01:36:48.436898+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 800
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - claude-port/track.yaml with corrected status
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T19:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

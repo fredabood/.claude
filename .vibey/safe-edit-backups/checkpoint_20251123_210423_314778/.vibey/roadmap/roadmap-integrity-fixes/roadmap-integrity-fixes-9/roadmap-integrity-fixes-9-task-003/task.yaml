@@ -1,0 +1,47 @@
+task:
+  id: roadmap-integrity-fixes-9-task-003
+  sprint_id: roadmap-integrity-fixes-9
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix standards enforcement field mismatch (title vs name)
+  description: "Fix standards enforcement to use correct Task field names.\n\nProblem:\n\
+    - Code accesses: task.title\n- Model defines: task.name\n- Error: KeyError: 'title'\n\
+    \nRoot cause: Inconsistent field naming in standards_enforcement.py\n\nFix steps:\n\
+    1. Find all task.title references:\n   grep -rn \"task.title\" vibey/operations/roadmap/\n\
+    \n2. Replace with task.name\n\n3. Audit all field accesses in standards enforcement:\n\
+    \   - task.name (correct)\n   - task.description (correct)\n   - task.status (correct)\n\
+    \   - task.deliverables (correct)\n\n4. Add tests to prevent regression\n"
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:13:23.100761+00:00'
+  started: null
+  completed: '2025-11-20T17:52:49.680996+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - vibey/operations/roadmap/standards_enforcement.py
+  - type: test
+    paths:
+    - tests/test_standards_enforcement_fields.py
+  - type: documentation
+    paths:
+    - docs/development/TASK_MODEL_FIELDS.md
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:13:23.100779+00:00'
+    token_efficiency: null
+    duration_hours: null

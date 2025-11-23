@@ -8,8 +8,8 @@ sprint:
   completed: '2025-11-22T00:00:00+00:00'
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 6
-    tasks_completed: 6
+    tasks_total: 0
+    tasks_completed: 0
     completion_percent: 100
   tasks:
   - id: goose-port-2-task-001
@@ -30,9 +30,11 @@ sprint:
   - id: goose-port-2-task-006
     name: Add caching for discovered tools
     status: completed
-  description: |
-    Extend existing MCP server with dynamic tool discovery.
+  description: 'Extend existing MCP server with dynamic tool discovery.
+
     MCP server scans frontmatter and generates tools automatically.
+
+    '
   deliverables:
   - framework/mcp/discovery/__init__.py - Module exports
   - framework/mcp/discovery/parser.py - FrontmatterParser class

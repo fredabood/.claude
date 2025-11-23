@@ -1,0 +1,53 @@
+task:
+  id: roadmap-integrity-fixes-8-task-003
+  sprint_id: roadmap-integrity-fixes-8
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix field hierarchy issues (373 high)
+  description: "Fix all 373 high severity field hierarchy issues.\n\nCommon patterns\
+    \ (from audit):\n1. Task summaries at wrong nesting level\n2. Progress fields\
+    \ in wrong parent object\n3. Dependency structure mismatches\n4. Metadata nesting\
+    \ incorrect\n\nStrategy:\n1. Group files by error pattern\n2. Create fix template\
+    \ per pattern\n3. Batch apply with script\n4. Validate each batch\n5. Manual review\
+    \ edge cases\n\nExample fix for nested field:\nBefore:\n  sprint:\n    task_summary:\n\
+    \      id: foo\n\nAfter:\n  sprint:\n    tasks:\n      - id: foo\n\nVerification\
+    \ after each pattern:\npython scripts/validate-roadmap-schema.py --strict | grep\
+    \ \"High:\"\n"
+  status: completed
+  blocked: false
+  created: '2025-11-20T00:17:11.809934+00:00'
+  started: null
+  completed: '2025-11-20T20:09:05.206991+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-8-task-002
+    target_status: completed
+    reason: Fix critical issues first
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - scripts/fix-field-hierarchy.py
+  - type: code
+    paths:
+    - Fixed YAML files (373)
+  - type: documentation
+    paths:
+    - HIERARCHY_FIX_REPORT.md
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:17:11.809956+00:00'
+    token_efficiency: null
+    duration_hours: null

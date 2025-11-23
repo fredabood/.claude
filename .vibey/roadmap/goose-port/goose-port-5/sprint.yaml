@@ -8,8 +8,8 @@ sprint:
   completed: '2025-11-22T23:00:00+00:00'
   estimated_duration: 1 week
   progress:
-    tasks_total: 5
-    tasks_completed: 5
+    tasks_total: 0
+    tasks_completed: 0
     completion_percent: 100
   tasks:
   - id: goose-port-5-task-001
@@ -27,10 +27,13 @@ sprint:
   - id: goose-port-5-task-005
     name: Update README and announce release
     status: completed
-  description: |
-    Complete documentation and prepare for launch.
+  description: 'Complete documentation and prepare for launch.
+
     Final sprint to make the Goose port production-ready with
+
     comprehensive documentation for users and developers.
+
+    '
   deliverables:
   - docs/reference/FRONTMATTER_SCHEMA.md - Complete schema reference
   - docs/guides/GOOSE_INTEGRATION.md - Step-by-step Goose setup guide

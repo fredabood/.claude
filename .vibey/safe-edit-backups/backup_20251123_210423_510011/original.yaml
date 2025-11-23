@@ -1,0 +1,72 @@
+task:
+  id: roadmap-integrity-fixes-7-task-010
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add progress calculation validation
+  description: "Add validation to ensure progress calculations match actual completion\
+    \ state.\n\nCRITICAL GAP: No validation that aggregate progress fields are correct.\
+    \ This allows:\n\n```yaml\nprogress:\n  tasks_total: 10\n  tasks_completed: 3\n\
+    \  completion_percent: 75  # Should be 30%, not 75% ✗\n```\n\nImpact: Misleading\
+    \ progress indicators, incorrect roadmap status.\n\nImplementation:\n1. Add to\
+    \ tests/validation/test_yaml_integrity.py:\n   - test_roadmap_progress_accurate()\n\
+    \   - test_track_progress_accurate()\n   - test_sprint_progress_accurate()\n\n\
+    2. Validation logic for each level:\n\n   **Roadmap:**\n   - Count actual tracks\
+    \ (completed vs total)\n   - Count actual sprints across all tracks\n   - Count\
+    \ actual tasks across all sprints\n   - Verify completion_percent = (tasks_completed\
+    \ / tasks_total) * 100\n\n   **Track:**\n   - Count actual sprints (from sprints\
+    \ list)\n   - Count actual tasks (sum across all sprints)\n   - Verify completion_percent\
+    \ = (tasks_completed / tasks_total) * 100\n\n   **Sprint:**\n   - Count actual\
+    \ tasks (from task files in sprint directory)\n   - Count completed tasks (status\
+    \ = completed)\n   - Verify completion_percent = (tasks_completed / tasks_total)\
+    \ * 100\n\n3. Tolerance for rounding:\n   ```python\n   expected = (completed\
+    \ / total) * 100\n   assert abs(actual - expected) < 1  # Allow 1% rounding error\n\
+    \   ```\n\n4. Edge cases:\n   - Division by zero (tasks_total = 0)\n   - Empty\
+    \ sprints/tracks\n   - Completed count > total count (should error)\n\nVerification:\n\
+    - All progress validation tests pass on current YAML\n- Corrupt a test file with\
+    \ wrong completion_percent and verify test fails\n- Fix calculation and verify\
+    \ test passes\n"
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.476042+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Extend existing validation test suite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - test_roadmap_progress_accurate() function
+  - type: documentation
+    paths:
+    - test_track_progress_accurate() function
+  - type: documentation
+    paths:
+    - test_sprint_progress_accurate() function
+  - type: documentation
+    paths:
+    - Progress calculation documentation
+  - type: documentation
+    paths:
+    - Integration with CI/CD validation
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:07:09.476055+00:00'
+    token_efficiency: null
+    duration_hours: null

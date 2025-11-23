@@ -11,19 +11,13 @@ sprint:
   - directory-consolidation-5-task-002
   - directory-consolidation-5-task-003
   - directory-consolidation-5-task-004
-  description: |
-    Clean up legacy directories within .vibey/ that contain documentation
-    and backups that should be consolidated into roadmap track contexts.
-
-    DIRECTORIES TO CLEAN:
-    - sprint_docs/ (9 files) → move to track contexts
-    - sprint_summaries/ (19 files) → move to track contexts
-    - track_summaries/ (1 file) → move to track context
-    - backups/ (3 dirs) → consolidate useful content, delete
-    - migration-backups/ (1 dir) → consolidate useful content, delete
-    - hierarchical-migration-backups/ (2 dirs) → consolidate useful content, delete
-
-    KEY OUTPUTS:
-    - All documentation in appropriate track context directories
-    - Backup directories deleted (content preserved in context)
-    - Clean .vibey/ with only: config/, roadmap/, templates/, .cache/
+  description: "Clean up legacy directories within .vibey/ that contain documentation\n\
+    and backups that should be consolidated into roadmap track contexts.\n\nDIRECTORIES\
+    \ TO CLEAN:\n- sprint_docs/ (9 files) \u2192 move to track contexts\n- sprint_summaries/\
+    \ (19 files) \u2192 move to track contexts\n- track_summaries/ (1 file) \u2192\
+    \ move to track context\n- backups/ (3 dirs) \u2192 consolidate useful content,\
+    \ delete\n- migration-backups/ (1 dir) \u2192 consolidate useful content, delete\n\
+    - hierarchical-migration-backups/ (2 dirs) \u2192 consolidate useful content,\
+    \ delete\n\nKEY OUTPUTS:\n- All documentation in appropriate track context directories\n\
+    - Backup directories deleted (content preserved in context)\n- Clean .vibey/ with\
+    \ only: config/, roadmap/, templates/, .cache/\n"

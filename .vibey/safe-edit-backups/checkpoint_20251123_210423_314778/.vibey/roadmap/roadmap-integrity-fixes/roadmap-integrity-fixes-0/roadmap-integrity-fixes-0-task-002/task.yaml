@@ -1,0 +1,83 @@
+task:
+  id: roadmap-integrity-fixes-0-task-002
+  sprint_id: roadmap-integrity-fixes-0
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create checkpoint backup of current state
+  description: "Create comprehensive checkpoint backup of entire .vibey/ directory\
+    \ and related\nfiles BEFORE starting any forensic audit or modification work.\
+    \ This ensures we\ncan rollback to current state if audit reveals unexpected issues.\n\
+    \nFiles/Directories to Backup:\n1. .vibey/ directory (complete)\n   - All roadmap\
+    \ data\n   - All configuration files\n   - All existing backups (nested backup\
+    \ for safety)\n\n2. Related framework files\n   - CLAUDE.md\n   - vibey/roadmap/\
+    \ Python code\n   - vibey/cli/ Python code\n   - Any roadmap-related tests\n\n\
+    3. Git state\n   - Current git log (last 50 commits)\n   - Current git status\
+    \ output\n   - Current git diff output\n\nBackup Location:\n.vibey/roadmap-integrity-fixes-checkpoints/pre-audit-checkpoint-20251112/\n\
+    \nBackup Steps:\n1. Create checkpoint directory with timestamp\n2. Copy entire\
+    \ .vibey/ directory recursively\n3. Copy framework Python files\n4. Export git\
+    \ state to text files\n5. Create manifest listing all backed up files\n6. Calculate\
+    \ checksums for verification\n7. Test restoration to /tmp to verify backup works\n\
+    8. Document backup location and restoration procedure\n\nAcceptance Criteria:\n\
+    - Checkpoint backup created with timestamped directory name\n- All .vibey/ contents\
+    \ backed up recursively\n- Framework Python files backed up\n- Git state exported\
+    \ to text files\n- Backup manifest created with file list and checksums\n- Test\
+    \ restoration successful\n- Restoration procedure documented\n\nDeliverables:\n\
+    - Checkpoint backup archive at .vibey/roadmap-integrity-fixes-checkpoints/\n-\
+    \ Backup manifest with checksums\n- Restoration procedure guide\n- Test restoration\
+    \ verification\n"
+  status: completed
+  blocked: false
+  created: '2025-11-12T20:45:00+00:00'
+  started: null
+  completed: '2025-11-21T00:26:24.482366+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - type: task
+    target_id: roadmap-integrity-fixes-1-task-001
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: roadmap-integrity-fixes-2-task-001
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by:
+  - dependency_id: roadmap-integrity-fixes-0-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-20T20:25:19.688355+00:00'
+    estimated_resolution: null
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-0-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-20T20:25:19.755164+00:00'
+  depended_on_by:
+  - roadmap-integrity-fixes-1-task-001
+  - roadmap-integrity-fixes-2-task-001
+  deliverables:
+  - type: code
+    paths:
+    - Checkpoint backup archive
+  - type: code
+    paths:
+    - Backup manifest with checksums
+  - type: code
+    paths:
+    - Restoration procedure guide
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:45:00+00:00'
+    token_efficiency: null
+    duration_hours: null

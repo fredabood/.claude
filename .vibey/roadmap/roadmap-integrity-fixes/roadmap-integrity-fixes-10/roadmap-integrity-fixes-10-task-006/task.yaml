@@ -31,13 +31,15 @@ task:
     \ as long as feature exists\n\n**When to update:**\n- You're adding a feature\
     \ (document usage)\n- You're changing behavior (update guides)\n- You're fixing\
     \ documentation bugs\n- You're improving clarity\n\n### Decision Flowchart\n\n\
-    ```\nIs this documentation?\n├─ No → Not a .md file? → Put where it belongs\n\
-    └─ Yes → Is it informing a specific task/sprint?\n    ├─ Yes → Context Documentation\n\
-    \    │   └─ Put in: .vibey/roadmap/[track]/[sprint]/[task]/context/\n    └─ No\
-    \ → Is it describing project functionality?\n        ├─ Yes → Project Documentation\n\
-    \        │   └─ Put in: docs/[category]/\n        └─ Not sure? → Ask in PR review\n\
-    ```\n\n### Common Scenarios\n\n**Scenario 1: Schema Audit Report**\n- Type: Context\
-    \ (informs Sprint 8 schema remediation)\n- Location: `.vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/SCHEMA_AUDIT_REPORT.md`\n\
+    ```\nIs this documentation?\n\u251C\u2500 No \u2192 Not a .md file? \u2192 Put\
+    \ where it belongs\n\u2514\u2500 Yes \u2192 Is it informing a specific task/sprint?\n\
+    \    \u251C\u2500 Yes \u2192 Context Documentation\n    \u2502   \u2514\u2500\
+    \ Put in: .vibey/roadmap/[track]/[sprint]/[task]/context/\n    \u2514\u2500 No\
+    \ \u2192 Is it describing project functionality?\n        \u251C\u2500 Yes \u2192\
+    \ Project Documentation\n        \u2502   \u2514\u2500 Put in: docs/[category]/\n\
+    \        \u2514\u2500 Not sure? \u2192 Ask in PR review\n```\n\n### Common Scenarios\n\
+    \n**Scenario 1: Schema Audit Report**\n- Type: Context (informs Sprint 8 schema\
+    \ remediation)\n- Location: `.vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/SCHEMA_AUDIT_REPORT.md`\n\
     \n**Scenario 2: User Quick Start Guide**\n- Type: Project (helps users get started)\n\
     - Location: `docs/getting-started/QUICK_START.md`\n\n**Scenario 3: Token Sizing\
     \ Methodology**\n- Type: Context if research phase (informs Sprint 7 design)\n\
@@ -52,16 +54,16 @@ task:
     \ .\n\n   # Update each reference\n   ```\n\n3. Verify no broken links:\n   ```bash\n\
     \   python3 scripts/validate-documentation-organization.py\n   ```\n\n### Validation\n\
     \nBefore committing, validate documentation organization:\n\n```bash\npython3\
-    \ scripts/validate-documentation-organization.py\n```\n\nThis checks:\n- ✅ All\
-    \ context docs in context/ directories\n- ✅ All project docs in docs/ directory\n\
-    - ✅ No broken documentation links\n- ✅ No misplaced files\n\n### Reference\n\n\
-    For complete standards, see:\n- [Documentation Organization Standards](./DOCUMENTATION_ORGANIZATION_STANDARDS.md)\n\
-    ```\n"
-  status: not_started
+    \ scripts/validate-documentation-organization.py\n```\n\nThis checks:\n- \u2705\
+    \ All context docs in context/ directories\n- \u2705 All project docs in docs/\
+    \ directory\n- \u2705 No broken documentation links\n- \u2705 No misplaced files\n\
+    \n### Reference\n\nFor complete standards, see:\n- [Documentation Organization\
+    \ Standards](./DOCUMENTATION_ORGANIZATION_STANDARDS.md)\n```\n"
+  status: completed
   blocked: false
   created: '2025-11-20T01:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:00:00+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null

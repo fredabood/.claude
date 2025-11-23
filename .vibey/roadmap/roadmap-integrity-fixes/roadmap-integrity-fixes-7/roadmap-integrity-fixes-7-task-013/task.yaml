@@ -8,7 +8,7 @@ task:
   description: "Add validation to enforce that all required fields are present in\
     \ YAML files.\n\nGAP: Dataclasses use defaults, so missing required fields don't\
     \ error at load time.\n\n```yaml\ntask:\n  id: my-task\n  # Missing: sprint_id,\
-    \ track_id, status (all required) ✗\n```\n\nCurrently this loads successfully\
+    \ track_id, status (all required) \u2717\n```\n\nCurrently this loads successfully\
     \ with None/default values instead of failing.\n\nImpact: Partial objects that\
     \ fail at runtime when required fields are accessed.\n\nImplementation:\n1. Add\
     \ to tests/validation/test_yaml_integrity.py:\n   - test_roadmap_required_fields()\n\
@@ -35,7 +35,7 @@ task:
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
   started: null
-  completed: '2025-11-20T00:07:09.511756+00:00'
+  completed: '2025-11-23T21:00:00+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null

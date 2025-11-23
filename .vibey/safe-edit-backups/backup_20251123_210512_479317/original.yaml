@@ -1,0 +1,186 @@
+track:
+  id: jetbrains-port
+  name: JetBrains AI Assistant Port
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: medium
+  created: '2025-11-09T00:00:00+00:00'
+  started: '2025-11-23T00:00:00+00:00'
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    sprints_total: 2
+    sprints_completed: 2
+    tasks_total: 12
+    tasks_completed: 12
+    completion_percent: 100
+  sprints:
+  - id: jetbrains-port-1
+    name: JetBrains MCP Configuration & IDE Setup
+    status: completed
+    estimated_duration: 1.5 weeks
+    tasks_count: 6
+    started: '2025-11-23T21:02:50.662790+00:00'
+  - id: jetbrains-port-2
+    name: Multi-IDE Testing & Documentation
+    status: completed
+    estimated_duration: 1.5 weeks
+    tasks_count: 6
+    started: '2025-11-23T21:02:59.654251+00:00'
+  dependencies:
+  - type: track
+    target_id: goose-port
+    target_status: completed
+    reason: Provides shared MCP server with dynamic tool discovery
+    optional: false
+  - type: track
+    target_id: testing-system
+    target_status: completed
+    reason: Must pass comprehensive testing before platform expansion
+    optional: false
+  - type: track
+    target_id: claude-port
+    target_status: completed
+    reason: Claude Code must be validated as reference implementation
+    optional: false
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: goose-port
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-23T05:13:29.686909+00:00'
+  - blocker_id: testing-system
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-11T05:29:21.178754+00:00'
+  - blocker_id: claude-port
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-11T05:29:21.183449+00:00'
+  depended_on_by: []
+  quality_gates:
+  - name: Comprehensive Testing
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All journey tests pass, platform deployment tests pass, >95% platform
+      parity
+    score: null
+  - name: MCP Server Integration
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Vibey MCP server works with JetBrains AI
+    score: null
+  - name: Multi-IDE Testing
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Works across IntelliJ, PyCharm, WebStorm, GoLand
+    score: null
+  - name: Enterprise Security
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Enterprise security requirements met
+    score: null
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - .idea/ai/ directory structure template
+  - mcp-servers.json configuration for Vibey MCP server
+  - ai-settings.xml IDE configuration template
+  - Multi-IDE test results (IntelliJ, PyCharm, WebStorm, GoLand)
+  - JetBrains integration guide
+  - IDE-specific configuration examples
+  strategic_value:
+  - 'Professional Developers: Java, Kotlin, Python, Go, PHP, Ruby, Rust communities'
+  - 'Enterprise Market: Large organizations using JetBrains'
+  - 'Shared MCP Architecture: Uses same server as Goose, Claude Code'
+  - 'Multi-Agent Ecosystem: Junie, Claude Agent, Vibey agents'
+  - 'Reduced Effort: Configuration only, no MCP server implementation'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: docs/development/PLATFORM_RESEARCH_2025.md
+    implementation_plan: .vibey/roadmap/jetbrains-port/context/IMPLEMENTATION_PLAN.md
+    notes: 'JETBRAINS PORT - REVISED ARCHITECTURE (Nov 2025)
+
+
+      Key Decision: Use shared Vibey MCP server from goose-port
+
+      instead of building separate MCP implementation.
+
+
+      SIMPLIFIED APPROACH:
+
+      1. goose-port provides dynamic MCP tool discovery
+
+      2. JetBrains port only needs IDE configuration
+
+      3. Reduced from 5.5 weeks to 3 weeks
+
+
+      WHAT WE BUILD:
+
+      - .idea/ai/ directory structure template
+
+      - mcp-servers.json pointing to Vibey MCP server
+
+      - ai-settings.xml for IDE configuration
+
+      - Multi-IDE testing and documentation
+
+
+      WHAT WE DON''T BUILD:
+
+      - MCP server (provided by goose-port)
+
+      - Agent tool definitions (dynamic discovery)
+
+      - Workflow tool definitions (dynamic discovery)
+
+
+      IDE COVERAGE (All JetBrains):
+
+      - IntelliJ IDEA (Java, Kotlin, Scala)
+
+      - PyCharm (Python)
+
+      - WebStorm (JavaScript, TypeScript)
+
+      - GoLand (Go)
+
+      - PhpStorm (PHP)
+
+      - RustRover (Rust)
+
+      - RubyMine (Ruby)
+
+      - CLion (C, C++)
+
+
+      TIMELINE: 3 weeks (reduced from 5.5 weeks)
+
+      - Sprint 1: MCP configuration & IDE setup (1.5 weeks)
+
+      - Sprint 2: Multi-IDE testing & documentation (1.5 weeks)
+
+
+      DEPENDENCY: goose-port must be completed first
+
+      (provides shared MCP server with dynamic tool discovery)
+
+      '

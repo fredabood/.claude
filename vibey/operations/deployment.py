@@ -3,27 +3,73 @@ Deployment operations module.
 
 This module handles Vibey framework deployment to different platforms.
 Extracted from CLI to provide reusable deployment logic.
+
+Platform adapters are discovered dynamically from vibey.adapters module,
+so new adapters are automatically available without modifying this file.
 """
 
+import logging
 from pathlib import Path
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List, Type
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.tree import Tree
 
-from vibey.adapters import ClaudeCodeAdapter, GooseAdapter
+import vibey.adapters as adapters_module
 from vibey.adapters.base import PlatformAdapter
 from vibey.config import load_config, ConfigNotFoundError
 
 console = Console()
+logger = logging.getLogger(__name__)
 
-# Platform registry
-PLATFORMS = {
-    "claude-code": ClaudeCodeAdapter,
-    "goose": GooseAdapter,
-}
+
+def _discover_adapters() -> Dict[str, Type[PlatformAdapter]]:
+    """
+    Dynamically discover all platform adapters from vibey.adapters module.
+
+    Scans the __all__ exports from vibey.adapters and registers any class
+    that inherits from PlatformAdapter. Platform names are determined by
+    instantiating the adapter and calling get_platform_name().
+
+    Returns:
+        Dict mapping platform name to adapter class
+    """
+    platforms: Dict[str, Type[PlatformAdapter]] = {}
+
+    # Get all exported names from adapters module
+    exported_names = getattr(adapters_module, '__all__', [])
+
+    for name in exported_names:
+        try:
+            cls = getattr(adapters_module, name, None)
+
+            # Skip if not a class or not a PlatformAdapter subclass
+            if not isinstance(cls, type):
+                continue
+            if not issubclass(cls, PlatformAdapter):
+                continue
+            if cls is PlatformAdapter:
+                continue  # Skip the base class itself
+
+            # Instantiate to get platform name
+            try:
+                instance = cls()
+                platform_name = instance.get_platform_name()
+                platforms[platform_name] = cls
+                logger.debug(f"Discovered adapter: {platform_name} -> {cls.__name__}")
+            except Exception as e:
+                logger.warning(f"Failed to instantiate {name}: {e}")
+
+        except Exception as e:
+            logger.warning(f"Error checking {name}: {e}")
+
+    return platforms
+
+
+# Dynamically discover all platform adapters at module load time
+PLATFORMS = _discover_adapters()
 
 
 def get_adapter(platform: str) -> Optional[PlatformAdapter]:
@@ -56,11 +102,10 @@ def list_platforms() -> None:
     table.add_column("Status", style="green")
     table.add_column("Adapter", style="dim")
 
-    for platform_name, adapter_class in PLATFORMS.items():
-        adapter = adapter_class()
+    for platform_name, adapter_class in sorted(PLATFORMS.items()):
         table.add_row(
             platform_name,
-            "✅ Ready",
+            "Ready",
             adapter_class.__name__
         )
 
@@ -101,7 +146,7 @@ def deploy_framework(
     # Get adapter
     adapter = get_adapter(platform)
     if not adapter:
-        console.print(f"\n[red]✗ Unknown platform:[/red] {platform}")
+        console.print(f"\n[red]x Unknown platform:[/red] {platform}")
         console.print("\n[yellow]Available platforms:[/yellow]")
         list_platforms()
         return 1
@@ -110,13 +155,13 @@ def deploy_framework(
     console.print(f"\n[bold]Step 1:[/bold] Loading configuration...")
     try:
         config = load_config(project_root)
-        console.print(f"[green]✓[/green] Config loaded: {config.project.project.name}")
+        console.print(f"[green]v[/green] Config loaded: {config.project.project.name}")
     except ConfigNotFoundError:
-        console.print("[red]✗[/red] No configuration found")
+        console.print("[red]x[/red] No configuration found")
         console.print("  Run 'vibey init' to create configuration")
         return 1
     except Exception as e:
-        console.print(f"[red]✗[/red] Error loading config: {e}")
+        console.print(f"[red]x[/red] Error loading config: {e}")
         return 1
 
     # Deploy
@@ -124,7 +169,7 @@ def deploy_framework(
 
     source_dir = project_root / ".vibey"
     if not source_dir.exists():
-        console.print(f"[red]✗[/red] Source directory not found: {source_dir}")
+        console.print(f"[red]x[/red] Source directory not found: {source_dir}")
         console.print("  Expected .vibey/ directory with framework data")
         return 1
 
@@ -138,28 +183,28 @@ def deploy_framework(
     console.print(f"\n[bold]Step 3:[/bold] Deployment result...")
 
     if result.success:
-        console.print(f"[green]✓ Deployment successful![/green]")
+        console.print(f"[green]v Deployment successful![/green]")
     else:
-        console.print(f"[red]✗ Deployment failed[/red]")
+        console.print(f"[red]x Deployment failed[/red]")
 
     # Show details
     tree = Tree("[bold]Deployment Details[/bold]")
 
     # Files
-    files_node = tree.add(f"📁 Files")
+    files_node = tree.add("Files")
     files_node.add(f"Created: {len(result.files_created)}")
     files_node.add(f"Updated: {len(result.files_updated)}")
     files_node.add(f"Deleted: {len(result.files_deleted)}")
 
     # Validation
-    validation_node = tree.add("🔍 Validation")
+    validation_node = tree.add("Validation")
     if result.validation_passed:
-        validation_node.add("[green]✓ Passed[/green]")
+        validation_node.add("[green]v Passed[/green]")
     else:
-        validation_node.add("[red]✗ Failed[/red]")
+        validation_node.add("[red]x Failed[/red]")
 
     # Duration
-    tree.add(f"⏱️  Duration: {result.duration_seconds:.2f}s")
+    tree.add(f"Duration: {result.duration_seconds:.2f}s")
 
     console.print(tree)
 
@@ -167,13 +212,13 @@ def deploy_framework(
     if result.errors:
         console.print("\n[red]Errors:[/red]")
         for error in result.errors:
-            console.print(f"  • {error}")
+            console.print(f"  - {error}")
 
     # Show warnings
     if result.warnings:
         console.print("\n[yellow]Warnings:[/yellow]")
         for warning in result.warnings:
-            console.print(f"  • {warning}")
+            console.print(f"  - {warning}")
 
     # Show created files
     if result.files_created:
@@ -186,11 +231,11 @@ def deploy_framework(
     # Final status
     console.print()
     if result.success:
-        console.print(f"[green]✓ {platform} deployment complete![/green]")
+        console.print(f"[green]v {platform} deployment complete![/green]")
         console.print(f"[dim]Deployed to: {result.target_dir}[/dim]")
         return 0
     else:
-        console.print(f"[red]✗ {platform} deployment failed[/red]")
+        console.print(f"[red]x {platform} deployment failed[/red]")
         return 1
 
 
@@ -236,8 +281,8 @@ def deploy_all_platforms(
     table.add_column("Platform", style="cyan")
     table.add_column("Status", style="green")
 
-    for platform_name, success in results.items():
-        status = "[green]✓ Success[/green]" if success else "[red]✗ Failed[/red]"
+    for platform_name, success in sorted(results.items()):
+        status = "[green]v Success[/green]" if success else "[red]x Failed[/red]"
         table.add_row(platform_name, status)
 
     console.print(table)
@@ -245,10 +290,10 @@ def deploy_all_platforms(
     # Return success if all succeeded
     all_succeeded = all(results.values())
     if all_succeeded:
-        console.print(f"\n[green]✓ All platforms deployed successfully![/green]")
+        console.print(f"\n[green]v All platforms deployed successfully![/green]")
         return 0
     else:
-        console.print(f"\n[yellow]⚠ Some platforms failed[/yellow]")
+        console.print(f"\n[yellow]! Some platforms failed[/yellow]")
         return 1
 
 
@@ -273,3 +318,17 @@ def is_platform_available(platform: str) -> bool:
         True if platform is registered, False otherwise
     """
     return platform.lower() in PLATFORMS
+
+
+def refresh_platforms() -> int:
+    """
+    Refresh the platform registry by re-discovering adapters.
+
+    Useful if adapters are loaded dynamically at runtime.
+
+    Returns:
+        Number of platforms discovered
+    """
+    global PLATFORMS
+    PLATFORMS = _discover_adapters()
+    return len(PLATFORMS)

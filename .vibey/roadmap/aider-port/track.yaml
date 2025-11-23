@@ -10,7 +10,7 @@ track:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    sprints_total: 2
+    sprints_total: 1
     sprints_completed: 1
     tasks_total: 12
     tasks_completed: 8

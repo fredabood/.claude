@@ -1,0 +1,63 @@
+task:
+  id: roadmap-integrity-fixes-7-task-002
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add pre-commit hook for Python serialization detection
+  description: 'Add a pre-commit hook to .pre-commit-config.yaml that prevents
+
+    committing YAML files with Python object serialization.
+
+
+    Hook specification:
+
+    - Searches all .yaml files for PYTHON_SERIALIZATION_PATTERN patterns
+
+    - Fails commit if pattern found
+
+    - Provides clear error message
+
+    - Runs fast (<1 second)
+
+
+    Test by attempting to commit a file with PYTHON_SERIALIZATION_PATTERN pattern.
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-22T15:52:53.125306+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-001
+    target_status: completed
+    reason: Fix existing corruption before adding prevention
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - Updated .pre-commit-config.yaml with new hook
+  - type: documentation
+    paths:
+    - Test case demonstrating hook catches corruption
+  - type: documentation
+    paths:
+    - Documentation of hook behavior
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:07:09.399711+00:00'
+    token_efficiency: null
+    duration_hours: null

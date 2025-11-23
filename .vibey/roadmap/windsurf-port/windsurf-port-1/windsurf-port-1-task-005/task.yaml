@@ -5,19 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Settings and MCP config
-  description: |
-    settings.json template, mcp_config.json template (optional)
-  status: not_started
+  description: 'settings.json template, mcp_config.json template (optional)
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.179316+00:00'
   started: null
-  completed: null
+  completed: '2025-11-23T21:02:26.286434+00:00'
   assigned_agent: web-developer
   priority: medium
   phase_label: null
   estimated_tokens: 5000
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []

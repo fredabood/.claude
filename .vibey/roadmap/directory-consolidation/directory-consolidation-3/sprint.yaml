@@ -11,12 +11,20 @@ sprint:
   - directory-consolidation-3-task-002
   - directory-consolidation-3-task-003
   - directory-consolidation-3-task-004
-  description: |
-    Comprehensive audit of content files across framework/, docs/, and .vibey/roadmap/*/context/.
+  description: 'Comprehensive audit of content files across framework/, docs/, and
+    .vibey/roadmap/*/context/.
+
     Identify duplicates, misplaced files, and consolidation opportunities.
 
+
     KEY OUTPUTS:
+
     - Complete inventory of all content files
+
     - Duplicate file analysis (same name, similar content)
+
     - Categorization of docs/ files (permanent vs session-specific)
+
     - Recommendations for consolidation
+
+    '

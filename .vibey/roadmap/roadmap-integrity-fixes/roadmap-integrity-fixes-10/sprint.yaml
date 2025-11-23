@@ -20,7 +20,7 @@ sprint:
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 0
+    tasks_completed: 7
     completion_percent: 100
   tasks:
   - id: roadmap-integrity-fixes-10-task-001

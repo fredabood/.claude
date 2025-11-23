@@ -20,7 +20,7 @@ task:
     \   ```bash\n   vibey roadmap audit log              # Show recent changes\n \
     \  vibey roadmap audit show <track-id>  # Show track history\n   vibey roadmap\
     \ audit revert <entry>   # Revert a change\n   ```\n\n5. Validation:\n   - Require\
-    \ reason for manual overrides\n   - Flag suspicious changes (e.g., completed →\
+    \ reason for manual overrides\n   - Flag suspicious changes (e.g., completed \u2192\
     \ not_started)\n   - Detect unauthorized manual YAML edits\n   - Alert on progress\
     \ rollbacks\n\n6. Reporting:\n   - Generate audit reports\n   - Show timeline\
     \ of changes\n   - Identify manual vs automated changes\n   - Track who/when/why\
@@ -30,7 +30,7 @@ task:
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
   started: null
-  completed: '2025-11-21T03:54:34.878122+00:00'
+  completed: '2025-11-23T21:00:00+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

@@ -2,69 +2,32 @@ track:
   id: jetbrains-port
   name: JetBrains AI Assistant Port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: completed
   blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
-  completed: null
+  completed: '2025-11-23T21:10:00+00:00'
   estimated_duration: 3 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 1
+    sprints_completed: 2
     tasks_total: 12
-    tasks_completed: 6
-    completion_percent: 50
+    tasks_completed: 12
+    completion_percent: 100
   sprints:
   - id: jetbrains-port-1
     name: JetBrains MCP Configuration & IDE Setup
     status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 6
-    started: '2025-11-23T00:00:00+00:00'
-    completed: '2025-11-23T00:00:00+00:00'
-    description: 'Configure JetBrains IDEs to use the shared Vibey MCP server.
-
-      No MCP server implementation needed - uses goose-port''s dynamic discovery.
-
-      Tasks:
-
-      1. Research JetBrains AI MCP server registration format
-
-      2. Create .idea/ai/ directory structure template
-
-      3. Create mcp-servers.json configuration for Vibey MCP server
-
-      4. Create ai-settings.xml template for IDE configuration
-
-      5. Test MCP server connection from IntelliJ IDEA
-
-      6. Verify all Vibey tools appear in JetBrains AI Assistant
-
-      '
+    started: '2025-11-23T21:02:50.662790+00:00'
   - id: jetbrains-port-2
     name: Multi-IDE Testing & Documentation
-    status: not_started
+    status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 6
-    started: null
-    description: 'Test across JetBrains IDE family and create documentation.
-
-      Tasks:
-
-      1. Test in PyCharm (Python workflows)
-
-      2. Test in WebStorm (JavaScript/TypeScript workflows)
-
-      3. Test in GoLand (Go workflows)
-
-      4. Test multi-agent coordination (Junie + Vibey agents)
-
-      5. Create JetBrains integration guide
-
-      6. Create IDE-specific configuration examples
-
-      '
+    started: '2025-11-23T21:02:59.654251+00:00'
   dependencies:
   - type: track
     target_id: goose-port
@@ -153,7 +116,6 @@ track:
     last_updated: '2025-11-23T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
     implementation_plan: .vibey/roadmap/jetbrains-port/context/IMPLEMENTATION_PLAN.md
-    implementation_plan_legacy: docs/development/JETBRAINS_PORT_IMPLEMENTATION.md
     notes: 'JETBRAINS PORT - REVISED ARCHITECTURE (Nov 2025)
 
 
@@ -222,4 +184,3 @@ track:
       (provides shared MCP server with dynamic tool discovery)
 
       '
-    estimated_tokens: 0

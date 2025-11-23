@@ -1,0 +1,105 @@
+task:
+  id: roadmap-integrity-fixes-5-task-002
+  sprint_id: roadmap-integrity-fixes-5
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix platform-context-management YAML structure
+  description: 'Fix YAML structure error preventing platform-context-management track
+    from loading.
+
+
+    Depends on: roadmap-integrity-fixes-0-task-008 (platform-context-management audit)
+
+
+    Process:
+
+    1. Review forensic audit findings from task 0-008
+
+    2. Identify specific YAML syntax/structure error
+
+    3. Analyze what caused the error (manual edit, migration, etc.)
+
+    4. Fix YAML structure to allow proper loading
+
+    5. Validate fixed YAML loads correctly
+
+    6. Verify all data preserved after fix
+
+    7. Document what was broken and how it was fixed
+
+
+    Common YAML Errors:
+
+    - Invalid indentation
+
+    - Missing required fields
+
+    - Incorrect field types
+
+    - Malformed lists or dictionaries
+
+    - Special characters not escaped
+
+
+    Validation:
+
+    - Load track.yaml and all sprint.yaml files
+
+    - Verify all tasks load correctly
+
+    - Check progress counters parse correctly
+
+    - Ensure dependencies valid
+
+
+    Deliverables:
+
+    - Fixed platform-context-management YAML files
+
+    - Track loads without errors
+
+    - Documentation of fix applied
+
+    - Root cause analysis
+
+    '
+  status: completed
+  blocked: true
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: '2025-11-21T00:27:55.321380+00:00'
+  assigned_agent: web-developer
+  priority: critical
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-0-task-008
+    blocker_type: task
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:54.667395+00:00'
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - Fixed platform-context-management YAML
+  - type: code
+    paths:
+    - Load error resolved
+  - type: code
+    paths:
+    - Fix documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

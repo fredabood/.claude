@@ -1,0 +1,70 @@
+task:
+  id: roadmap-integrity-fixes-7-task-011
+  sprint_id: roadmap-integrity-fixes-7
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add date logic validation
+  description: "Add validation to ensure date fields follow logical chronological\
+    \ order.\n\nGAP: No validation of date relationships. This allows nonsensical\
+    \ timelines:\n\n```yaml\ntask:\n  created: '2025-11-16T00:00:00+00:00'\n  completed:\
+    \ '2025-11-15T00:00:00+00:00'  # Before created ✗\n  started: '2025-11-17T00:00:00+00:00'\
+    \    # After completed ✗\n```\n\nImpact: Nonsensical timelines, incorrect duration\
+    \ calculations.\n\nImplementation:\n1. Add to tests/validation/test_yaml_integrity.py:\n\
+    \   - test_roadmap_dates_chronological()\n   - test_track_dates_chronological()\n\
+    \   - test_sprint_dates_chronological()\n   - test_task_dates_chronological()\n\
+    \n2. Date validation rules:\n\n   **All objects:**\n   - created ≤ started (if\
+    \ both exist)\n   - started ≤ completed (if both exist)\n   - created ≤ completed\
+    \ (if both exist)\n\n   **Sprint-specific:**\n   - started ≤ completion_gate_check_at\
+    \ ≤ completed\n   - completed ≤ production_gate_check_at ≤ production_ready_at\n\
+    \   - production_ready_at ≤ deployed_at\n\n   **Roadmap-specific:**\n   - created\
+    \ ≤ started ≤ completed ≤ deployed\n\n3. Handle None values:\n   ```python\n \
+    \  def validate_chronological(created, started, completed):\n       if created\
+    \ and started:\n           assert created <= started, \"started before created\"\
+    \n       if started and completed:\n           assert started <= completed, \"\
+    completed before started\"\n       if created and completed:\n           assert\
+    \ created <= completed, \"completed before created\"\n   ```\n\n4. Collect all\
+    \ violations:\n   - Report file path and object ID\n   - Report which date pair\
+    \ is out of order\n   - Report actual dates for debugging\n\nVerification:\n-\
+    \ All date validation tests pass on current YAML\n- Create test file with completed\
+    \ < started and verify test fails\n- Fix dates and verify test passes\n"
+  status: completed
+  blocked: false
+  created: '2025-11-16T00:00:00+00:00'
+  started: null
+  completed: '2025-11-20T00:07:09.488190+00:00'
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - type: task
+    target_id: roadmap-integrity-fixes-7-task-004
+    target_status: completed
+    reason: Extend existing validation test suite
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - type: documentation
+    paths:
+    - Date validation test suite (4 test functions)
+  - type: documentation
+    paths:
+    - validate_chronological() helper function
+  - type: documentation
+    paths:
+    - Date validation documentation
+  - type: documentation
+    paths:
+    - Integration with CI/CD validation
+  commits: []
+  metadata:
+    last_updated: '2025-11-20T00:07:09.488203+00:00'
+    token_efficiency: null
+    duration_hours: null

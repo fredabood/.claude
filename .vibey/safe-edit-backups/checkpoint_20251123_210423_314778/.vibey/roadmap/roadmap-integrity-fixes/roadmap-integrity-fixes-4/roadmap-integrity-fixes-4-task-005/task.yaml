@@ -1,0 +1,72 @@
+task:
+  id: roadmap-integrity-fixes-4-task-005
+  sprint_id: roadmap-integrity-fixes-4
+  track_id: roadmap-integrity-fixes
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update progress counters based on findings
+  description: "Recalculate all progress counters across the roadmap after phantom\
+    \ task\ncleanup is complete.\n\nDepends on: Either task 003 OR task 004 (whichever\
+    \ ran)\n\nProcess:\n1. Recalculate standards-system progress:\n   - Count actual\
+    \ tasks in hierarchical structure\n   - Calculate completion percentage from actual\
+    \ task status\n   - Update sprint progress counters\n   - Update track progress\
+    \ counters\n\n2. Recalculate testing-system progress:\n   - Count actual tasks\
+    \ in hierarchical structure\n   - Calculate completion percentage from actual\
+    \ task status\n   - Update sprint progress counters\n   - Update track progress\
+    \ counters\n\n3. Update roadmap.yaml:\n   - Recalculate tracks_total\n   - Recalculate\
+    \ tracks_completed\n   - Recalculate tasks_total\n   - Recalculate tasks_completed\n\
+    \   - Update roadmap completion_percent\n\n4. Run validation:\n   - Verify all\
+    \ progress counters accurate\n   - Check status/progress consistency\n   - Ensure\
+    \ no phantom tasks remain\n   - Validate hierarchical structure\n\n5. Documentation:\n\
+    \   - Document before/after progress values\n   - Explain changes made\n   - Reference\
+    \ forensic audit and cleanup tasks\n\nDeliverables:\n- Accurate progress counters\
+    \ across all levels\n- Updated roadmap.yaml\n- Validation results showing no issues\n\
+    - Progress recalculation documentation\n"
+  status: completed
+  blocked: false
+  created: '2025-11-12T20:30:00+00:00'
+  started: null
+  completed: '2025-11-21T00:27:43.168870+00:00'
+  assigned_agent: web-developer
+  priority: high
+  phase_label: null
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: roadmap-integrity-fixes-4-task-003
+    blocker_type: task
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:41.917192+00:00'
+  - blocker_id: roadmap-integrity-fixes-4-task-004
+    blocker_type: task
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-21T00:27:42.567420+00:00'
+  depended_on_by: []
+  deliverables:
+  - type: code
+    paths:
+    - Accurate progress counters
+  - type: code
+    paths:
+    - Updated roadmap.yaml
+  - type: code
+    paths:
+    - Validation results
+  - type: code
+    paths:
+    - Progress documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-12T20:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

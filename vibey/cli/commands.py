@@ -80,6 +80,45 @@ def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None
         return 1
 
 
+def roadmap_sync_cmd(verbose: bool = False) -> int:
+    """Sync status from individual files to main roadmap.yaml."""
+    root_dir = Path.cwd()
+
+    try:
+        from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+        from vibey.operations.roadmap.update import _update_roadmap_progress
+
+        fs = FileSystemManager(root_dir)
+        roadmap_path = fs.get_roadmap_path()
+
+        if not roadmap_path.exists():
+            print(format_error("Roadmap not found. Run 'vibey roadmap init' first."))
+            return 1
+
+        print("🔄 Syncing roadmap status...")
+
+        if verbose:
+            print("  Reading individual track/sprint/task files...")
+
+        # Trigger the full sync chain
+        _update_roadmap_progress(fs)
+
+        print("✅ Roadmap synced successfully")
+
+        if verbose:
+            # Show summary of what was synced
+            from vibey.operations.roadmap.query import query_roadmap_summary
+            from vibey.cli.formatters import format_roadmap_summary
+            result = query_roadmap_summary(root_dir)
+            print("\nCurrent status:")
+            print(format_roadmap_summary(result))
+
+        return 0
+    except Exception as e:
+        print(format_error(str(e)))
+        return 1
+
+
 def roadmap_show_cmd(item_id: str) -> int:
     """Show details for an item."""
     root_dir = Path.cwd()  # Project root

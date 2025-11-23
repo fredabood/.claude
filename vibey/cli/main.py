@@ -123,6 +123,26 @@ def roadmap_status(ctx, track: Optional[str], sprint: Optional[str]):
     sys.exit(exit_code)
 
 
+@roadmap.command('sync')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed sync information')
+@click.pass_context
+def roadmap_sync(ctx, verbose: bool):
+    """Sync status from individual files to main roadmap.yaml
+
+    Reconciles track/sprint/task status from individual YAML files
+    back to the main .vibey/roadmap.yaml file. Use this after manual
+    YAML edits or to fix status inconsistencies.
+
+    Examples:
+      vibey roadmap sync           # Sync all status
+      vibey roadmap sync -v        # Sync with verbose output
+    """
+    from vibey.cli.commands import roadmap_sync_cmd
+
+    exit_code = roadmap_sync_cmd(verbose)
+    sys.exit(exit_code)
+
+
 @roadmap.command('show')
 @click.argument('item_id')
 @click.option('--no-compatibility', is_flag=True, help='Skip compatibility status display')

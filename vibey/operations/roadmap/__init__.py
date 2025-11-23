@@ -21,6 +21,7 @@ from .update import (
     assign_task,
     start_sprint,
     complete_sprint,
+    complete_track,
     refresh_progress,
     recalculate_all,
 )
@@ -66,6 +67,7 @@ __all__ = [
     "assign_task",
     "start_sprint",
     "complete_sprint",
+    "complete_track",
     "refresh_progress",
     "recalculate_all",
     # Context operations

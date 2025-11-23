@@ -507,6 +507,82 @@ def complete_sprint(
     return 0
 
 
+def complete_track(
+    root_dir: Path,
+    track_id: str,
+    completed_by: str = "system"
+) -> int:
+    """
+    Mark a track as completed.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        track_id: ID of the track to complete
+        completed_by: Name of the user completing the track
+
+    Returns:
+        Exit code: 0 for success, 1 for error
+    """
+    fs = FileSystemManager(root_dir)
+    track_path = fs.get_track_path(track_id)
+
+    if not track_path.exists():
+        print(f"❌ Track '{track_id}' not found")
+        return 1
+
+    track = load_track(track_path)
+
+    # Check if can progress to completed
+    status_manager = StatusManager(root_dir)
+    can_progress, reason = status_manager.can_progress_track(track, Status.COMPLETED)
+
+    if not can_progress:
+        print(f"❌ Cannot complete track: {reason}")
+        return 1
+
+    # Capture old status for audit trail
+    old_status = track.status.value
+
+    # Update track
+    track.status = Status.COMPLETED
+    track.completed = datetime.now(timezone.utc)
+
+    # Log status change to audit trail
+    log_status_change(
+        root_dir=root_dir,
+        object_type="track",
+        object_id=track_id,
+        old_status=old_status,
+        new_status="completed",
+        reason=f"Track completed via CLI by {completed_by}",
+        changed_by=completed_by
+    )
+
+    # Save track
+    save_track(track, track_path)
+    print(f"✅ Track '{track.name}' marked as completed")
+
+    # Update dependency caches for all dependents
+    for dependent_id in track.depended_on_by:
+        if _update_dependent_cache(fs, dependent_id, track_id, "completed"):
+            print(f"  ✓ Updated dependent: {dependent_id}")
+        else:
+            print(f"  ⚠️  Failed to update dependent: {dependent_id}")
+
+    # Update roadmap progress (this also syncs track status to roadmap.yaml)
+    _update_roadmap_progress(fs)
+
+    # Log activity
+    logger = ActivityLogger(root_dir)
+    logger.log_activity(
+        ActivityType.TRACK_COMPLETED,
+        f"Track '{track.name}' completed",
+        {"track_id": track_id}
+    )
+
+    return 0
+
+
 def refresh_progress(root_dir: Path) -> int:
     """
     Refresh all progress calculations.

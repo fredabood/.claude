@@ -19,6 +19,7 @@ from vibey.operations.roadmap import (
     start_sprint,
     complete_task,
     complete_sprint,
+    complete_track,
     get_task_context,
     validate_roadmap,
     add_commit_to_task,
@@ -165,17 +166,35 @@ def roadmap_start_cmd(item_id: str) -> int:
 
 
 def roadmap_complete_cmd(item_id: str) -> int:
-    """Complete a sprint or task."""
+    """Complete a track, sprint, or task."""
     root_dir = Path.cwd()  # Project root
 
-    if 'task' in item_id:
+    # Task IDs contain '-task-'
+    if '-task-' in item_id:
         return complete_task(root_dir, item_id)
-    elif 'sprint' in item_id or item_id.count('-') >= 1:
+
+    # Check if it's a sprint (ends with -N where N is a number)
+    # Sprint format: track-name-N (e.g., platform-context-management-5)
+    from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+    fs = FileSystemManager(root_dir)
+
+    # Try sprint first (more specific pattern)
+    sprint_path = fs.get_sprint_path(item_id)
+    if sprint_path.exists():
         return complete_sprint(root_dir, item_id)
-    else:
-        print(f"Error: Cannot determine item type from ID: {item_id}")
-        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
-        return 1
+
+    # Try track
+    track_path = fs.get_track_path(item_id)
+    if track_path.exists():
+        return complete_track(root_dir, item_id)
+
+    # Neither found
+    print(f"Error: Cannot find track or sprint with ID: {item_id}")
+    print("Expected format:")
+    print("  Track:  <track-name> (e.g., platform-context-management)")
+    print("  Sprint: <track-name>-<num> (e.g., platform-context-management-5)")
+    print("  Task:   <sprint-id>-task-<num> (e.g., platform-context-management-5-task-001)")
+    return 1
 
 
 def roadmap_context_cmd(task_id: str) -> int:

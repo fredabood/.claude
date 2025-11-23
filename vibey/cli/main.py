@@ -227,7 +227,13 @@ def roadmap_start(ctx, item_id: str, skip_compatibility: bool, force: bool):
 @click.argument('item_id')
 @click.pass_context
 def roadmap_complete(ctx, item_id: str):
-    """Complete a sprint or task"""
+    """Complete a track, sprint, or task
+
+    Examples:
+      vibey roadmap complete my-track                    # Complete a track
+      vibey roadmap complete my-track-1                  # Complete a sprint
+      vibey roadmap complete my-track-1-task-001        # Complete a task
+    """
     from vibey.cli.commands import roadmap_complete_cmd
 
     exit_code = roadmap_complete_cmd(item_id)

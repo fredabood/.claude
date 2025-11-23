@@ -1,0 +1,121 @@
+track:
+  id: directory-consolidation
+  name: Directory Structure Consolidation
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: medium
+  created: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-23T00:00:00+00:00'
+  completed: '2025-11-23T23:59:59+00:00'
+  estimated_duration: 2-3 weeks
+  progress:
+    sprints_total: 5
+    sprints_completed: 5
+    tasks_total: 23
+    tasks_completed: 23
+    completion_percent: 100
+  sprints:
+  - id: directory-consolidation-1
+    name: Low-Risk Cleanup
+    status: completed
+  - id: directory-consolidation-2
+    name: Code Migration
+    status: completed
+  - id: directory-consolidation-3
+    name: Content Audit
+    status: completed
+  - id: directory-consolidation-4
+    name: Content Remediation
+    status: completed
+  - id: directory-consolidation-5
+    name: .vibey Directory Cleanup
+    status: completed
+
+  dependencies:
+  - type: track
+    target_id: multi-platform
+    target_status: in_progress
+    reason: Should not disrupt active platform port work
+    optional: true
+
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+
+  quality_gates:
+  - name: All Tests Pass
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All existing tests must pass after migration
+    score: null
+  - name: No Broken Imports
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All import statements resolve correctly
+    score: null
+  - name: CLI Functional
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All vibey CLI commands work after migration
+    score: null
+
+  assigned_agents:
+  - backend-engineer
+  - architecture-agent
+
+  deliverables:
+  - Consolidated vibey/ package with all Python code
+  - Clean framework/ with only content files (agents, workflows, templates)
+  - Updated import paths across entire codebase
+  - Migration documentation
+
+  strategic_value:
+  - 'Code Organization: Clear separation of package code vs content'
+  - 'Maintainability: Single location for each type of file'
+  - 'Developer Experience: Intuitive directory structure'
+  - 'Reduced Confusion: No duplicate directories'
+
+  commits: []
+  standards: []
+
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      DIRECTORY CONSOLIDATION TRACK
+
+      CURRENT STATE:
+      - vibey/ = Python package (CLI, operations, adapters, config)
+      - framework/ = Mixed content + legacy code
+
+      PROBLEM:
+      - Duplicate directories: adapters/, roadmap/
+      - Confusing imports: vibey imports from framework
+      - Legacy code in framework/scripts/ (42 files)
+      - Unclear separation of concerns
+
+      TARGET STATE:
+      - vibey/ = ALL Python code (package)
+      - framework/ = ONLY content files:
+        - agents/*.md
+        - workflows/*.md
+        - templates/*.md
+        - (maybe) config examples
+
+      MIGRATION RISKS:
+      - Breaking imports across 31+ files
+      - Test failures
+      - Platform adapter breakage
+      - MCP server disruption
+
+      APPROACH:
+      1. Map all dependencies first
+      2. Create compatibility shims if needed
+      3. Migrate in phases with tests
+      4. Update imports incrementally
+      5. Remove legacy code last

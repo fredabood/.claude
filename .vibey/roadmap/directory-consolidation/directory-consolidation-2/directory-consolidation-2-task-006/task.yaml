@@ -1,0 +1,26 @@
+task:
+  id: directory-consolidation-2-task-006
+  name: Final verification and documentation
+  sprint_id: directory-consolidation-2
+  status: completed
+  priority: high
+  complexity: medium
+  estimated_hours: 1
+  description: |
+    Final verification that consolidation is complete and update documentation.
+
+  verification_steps:
+    - Run full test suite
+    - Test all CLI commands
+    - Test MCP server
+    - Test platform adapters
+    - Verify framework/ only has content
+
+  documentation_updates:
+    - Update CLAUDE.md with new structure
+    - Update README.md if needed
+    - Update any developer docs
+
+  blocked_by:
+    - directory-consolidation-2-task-005
+  commits: []

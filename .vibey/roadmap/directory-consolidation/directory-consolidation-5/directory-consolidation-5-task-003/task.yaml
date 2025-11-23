@@ -1,0 +1,33 @@
+task:
+  id: directory-consolidation-5-task-003
+  name: Consolidate and delete backup directories
+  sprint_id: directory-consolidation-5
+  status: completed
+  completed: '2025-11-23'
+  priority: medium
+  complexity: medium
+  estimated_hours: 0.5
+  description: |
+    Review backup directories, extract any useful content to track contexts,
+    then delete the backup directories.
+
+    DIRECTORIES TO PROCESS:
+    - backups/ (3 subdirs: claude-code_20251109_*)
+    - migration-backups/ (1 subdir: backup_20251109_163859)
+    - hierarchical-migration-backups/ (2 subdirs: backup_20251109_17*)
+
+    PROCESS:
+    1. Review each backup for unique/useful content
+    2. Move useful YAML/MD files to appropriate track context
+    3. Delete backup directories after consolidation
+
+    NOTE: These are migration backups from Nov 9, 2025 - likely safe to delete
+    after verifying no unique content needs preservation.
+
+  verification:
+    - All useful content preserved in track contexts
+    - Backup directories deleted
+    - No data loss
+
+  blocked_by: []
+  commits: []

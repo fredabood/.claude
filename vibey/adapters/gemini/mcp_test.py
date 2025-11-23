@@ -86,7 +86,7 @@ def test_server_importable() -> Tuple[bool, str]:
 
         # Try direct import
         try:
-            from framework.mcp.server import VibeyMCPServer
+            from vibey.mcp.server import VibeyMCPServer
             return True, "VibeyMCPServer class imports successfully"
         except ImportError:
             pass
@@ -204,7 +204,7 @@ def run_mcp_test(export_dir: Optional[Path] = None) -> MCPTestResult:
 import sys
 sys.path.insert(0, '.')
 try:
-    from framework.mcp.server import VibeyMCPServer
+    from vibey.mcp.server import VibeyMCPServer
     server = VibeyMCPServer()
     # Count tools from discovery (method is get_all_tools)
     tools = server.tool_discovery.get_all_tools()

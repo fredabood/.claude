@@ -19,9 +19,9 @@ import sys
 # Add framework to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from framework.docs.sync_engine import SyncEngine, SyncConfig, SyncResult
-from framework.docs.sync_manifest import SyncManifest
-from framework.docs.sync_hooks import SyncTrigger
+from vibey.operations.docs.sync_engine import SyncEngine, SyncConfig, SyncResult
+from vibey.operations.docs.sync_manifest import SyncManifest
+from vibey.operations.docs.sync_hooks import SyncTrigger
 
 
 class TestSyncConfig:

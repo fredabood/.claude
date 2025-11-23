@@ -146,7 +146,7 @@ class ContinueAdapter(PlatformAdapter):
             ContinueExportResult with all metadata
         """
         if mcp_server_args is None:
-            mcp_server_args = ["-m", "framework.mcp.server"]
+            mcp_server_args = ["-m", "vibey.mcp.server"]
 
         start_time = datetime.now(timezone.utc)
         result = ContinueExportResult(
@@ -240,7 +240,7 @@ mcpServers:
     command: python
     args:
       - "-m"
-      - "framework.mcp.server"
+      - "vibey.mcp.server"
 ```
 
 ## Usage

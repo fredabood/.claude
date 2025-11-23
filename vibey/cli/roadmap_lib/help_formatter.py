@@ -429,6 +429,6 @@ ROADMAP_INIT_HELP = CLIHelpFormatter.format_command_help(
     ],
     see_also=[
         "roadmap-query.py - Query the roadmap you just created",
-        "examples/roadmaps/ - Example roadmaps to learn from"
+        "docs/examples/roadmaps/ - Example roadmaps to learn from"
     ]
 )

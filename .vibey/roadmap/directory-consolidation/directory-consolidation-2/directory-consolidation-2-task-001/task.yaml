@@ -1,0 +1,32 @@
+task:
+  id: directory-consolidation-2-task-001
+  name: Move framework/mcp/ to vibey/mcp/
+  sprint_id: directory-consolidation-2
+  status: completed
+  priority: critical
+  complexity: high
+  estimated_hours: 2
+  description: |
+    Move the MCP server and discovery code from framework/mcp/ to vibey/mcp/.
+    This is actively used code that is unique to framework/.
+
+  files_to_move:
+    - "framework/mcp/server.py -> vibey/mcp/server.py"
+    - "framework/mcp/discovery/ -> vibey/mcp/discovery/"
+    - "framework/mcp/tools/ -> vibey/mcp/tools/"
+    - "framework/mcp/adapters/ -> vibey/mcp/adapters/"
+    - "framework/mcp/utils/ -> vibey/mcp/utils/"
+    - "framework/mcp/resources/ -> vibey/mcp/resources/"
+    - "framework/mcp/prompts/ -> vibey/mcp/prompts/"
+
+  import_updates:
+    - "from framework.mcp -> from vibey.mcp"
+    - "import framework.mcp -> import vibey.mcp"
+
+  verification:
+    - MCP server starts correctly
+    - All MCP tools work
+    - Tests pass
+
+  blocked_by: []
+  commits: []

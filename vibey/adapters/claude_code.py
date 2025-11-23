@@ -327,7 +327,7 @@ This project uses the Vibey Agent Framework with the following specialized agent
             "mcpServers": {
                 "vibey": {
                     "command": sys.executable,
-                    "args": ["-m", "framework.mcp.server"],
+                    "args": ["-m", "vibey.mcp.server"],
                     "env": {
                         "VIBEY_PROJECT_ROOT": str(project_root)
                     }

@@ -43,48 +43,39 @@ This is the **Vibey Agent Framework** - an intelligent agent orchestration syste
 ## Repository Structure
 
 ```
-vibey/
+vibey/                            # Repository root
 ├── .vibey/                       # Vibey framework data
-│   ├── config/                   # Modular configuration (NEW)
-│   │   ├── project.yaml          # Project settings
-│   │   ├── framework.yaml        # Framework config
-│   │   ├── agents.yaml           # Agent preferences
-│   │   └── quality-gates.yaml    # Quality gates
-│   ├── roadmap/                  # Roadmap system (Vibey managing itself)
-│   │   ├── [tracks]/             # Track definitions
-│   │   └── [sprints]/            # Sprint and task state
-│   └── config-backups/           # Config migration backups
-├── agents/                       # 12 specialized agents
-│   ├── core/                     # Coordinator, Vibey Manager
-│   ├── planning/                 # Sprint Planning, Researcher
-│   ├── development/              # Web Developer, ML Engineer
-│   ├── quality/                  # Security, Performance, Observability
-│   ├── documentation/            # Docs, Diagrams, Git Committer
-│   └── architecture/             # Architecture reviews
-├── workflows/                    # 16 structured workflows
-│   ├── planning/                 # Sprint planning, codebase audit
-│   ├── development/              # Feature dev, ML, frontend
-│   ├── quality/                  # Security, performance, logging
-│   └── [others]
-├── templates/                    # 22 handoff templates
-│   ├── CLAUDE.md.template        # Project context template
-│   └── handoffs/                 # Agent handoff templates
-├── config/
-│   ├── schema.yaml               # Project config schema
-│   └── config-templates/         # Example configs (web-app, API, ML)
-├── scripts/
-│   ├── validate-config.py        # YAML config validator
-│   └── render-template.py        # Jinja2 template renderer
-├── docs/                         # Framework documentation
-│   ├── getting-started/          # Installation, user journey
+│   ├── config/                   # Modular configuration
+│   ├── roadmap/                  # Roadmap system (tracks, sprints, tasks)
+│   │   └── [track]/context/      # Track-specific context files
+│   └── sprint_summaries/         # Archived sprint completion docs
+│
+├── vibey/                        # Python package (ALL code)
+│   ├── cli/                      # CLI commands and entry point
+│   ├── operations/               # Core business logic
+│   │   ├── roadmap/              # Roadmap operations
+│   │   └── docs/                 # Documentation generation
+│   ├── mcp/                      # MCP server implementation
+│   ├── adapters/                 # Platform adapters
+│   ├── common/                   # Shared utilities, errors
+│   └── roadmap/                  # Roadmap models and serialization
+│
+├── framework/                    # Content files ONLY (no Python)
+│   ├── agents/                   # 12 specialized agent definitions
+│   ├── workflows/                # 16 structured workflows
+│   ├── templates/                # Handoff templates
+│   ├── config/                   # Config schemas and examples
+│   ├── schemas/                  # YAML schemas
+│   └── examples/                 # Example configurations
+│
+├── docs/                         # All documentation
+│   ├── getting-started/          # Quick start, user journey
 │   ├── guides/                   # Orchestration, workflow selection
-│   ├── reference/                # Component reference
+│   ├── reference/                # CLI reference, roadmap system
 │   ├── development/              # Framework development docs
-│   │   ├── ROADMAP_OBJECT_HIERARCHY.md
-│   │   ├── ROADMAP_IMPLEMENTATION_PLAN.md
-│   │   └── ROADMAP_INTEGRATION_GAP.md
-│   └── FRAMEWORK_ROADMAP.md      # Multi-platform strategy
-├── tools/                        # Additional utilities
+│   └── roadmap/                  # Roadmap best practices
+│
+├── tests/                        # Test suite
 └── README.md                     # Main documentation
 ```
 

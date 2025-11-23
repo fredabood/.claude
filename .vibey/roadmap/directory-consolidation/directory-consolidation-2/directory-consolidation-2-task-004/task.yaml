@@ -1,0 +1,32 @@
+task:
+  id: directory-consolidation-2-task-004
+  name: Update all import statements
+  sprint_id: directory-consolidation-2
+  status: completed
+  priority: critical
+  complexity: high
+  estimated_hours: 2
+  description: |
+    Update all import statements across the codebase to use vibey.* instead of framework.*.
+
+  files_to_update:
+    - vibey/cli/main.py
+    - vibey/cli/commands.py
+    - "vibey/adapters/**/*.py"
+    - "tests/**/*.py"
+
+  import_patterns:
+    - "from framework.mcp -> from vibey.mcp"
+    - "from framework.adapters -> from vibey.adapters"
+    - "from framework.docs -> from vibey.operations.docs"
+
+  verification:
+    - No remaining "from framework" imports in vibey/
+    - All tests pass
+    - CLI works
+
+  blocked_by:
+    - directory-consolidation-2-task-001
+    - directory-consolidation-2-task-002
+    - directory-consolidation-2-task-003
+  commits: []

@@ -6,7 +6,7 @@ Tests enums, DependencyStatus, and shared validation logic.
 
 import unittest
 from datetime import datetime, timezone
-from framework.roadmap.models.common import (
+from vibey.roadmap.models.common import (
     Status,
     TaskStatus,
     Priority,

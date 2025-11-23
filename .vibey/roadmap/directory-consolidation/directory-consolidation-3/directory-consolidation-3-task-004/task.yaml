@@ -1,0 +1,26 @@
+task:
+  id: directory-consolidation-3-task-004
+  name: Create content audit report with recommendations
+  sprint_id: directory-consolidation-3
+  status: completed
+  priority: high
+  complexity: low
+  estimated_hours: 0.5
+  description: |
+    Consolidate findings from tasks 001-003 into a comprehensive audit report.
+
+  report_sections:
+    - Executive summary
+    - framework/docs/ vs docs/ analysis
+    - docs/ file categorization
+    - .vibey/roadmap/*/context/ cleanup opportunities
+    - Recommended actions (prioritized)
+    - Risk assessment
+
+  output_location: .vibey/roadmap/directory-consolidation/context/CONTENT_AUDIT_REPORT.md
+
+  blocked_by:
+    - directory-consolidation-3-task-001
+    - directory-consolidation-3-task-002
+    - directory-consolidation-3-task-003
+  commits: []

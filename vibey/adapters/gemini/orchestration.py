@@ -18,8 +18,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Dict, Optional, Any
 
-from framework.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
-from framework.mcp.discovery.agents import AgentDefinition, AgentDiscovery
+from vibey.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
+from vibey.mcp.discovery.agents import AgentDefinition, AgentDiscovery
 
 logger = logging.getLogger(__name__)
 

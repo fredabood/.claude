@@ -1,0 +1,19 @@
+sprint:
+  id: directory-consolidation-2
+  name: Move Unique Code & Update Imports
+  track_id: directory-consolidation
+  status: completed
+  started: 2025-11-23
+  completed: 2025-11-23
+  estimated_duration: 1-2 days
+  tasks:
+  - directory-consolidation-2-task-001
+  - directory-consolidation-2-task-002
+  - directory-consolidation-2-task-003
+  - directory-consolidation-2-task-004
+  - directory-consolidation-2-task-005
+  - directory-consolidation-2-task-006
+  description: |
+    Move unique Python code from framework/ to vibey/.
+    Update all import statements across the codebase.
+    Final cleanup and verification.

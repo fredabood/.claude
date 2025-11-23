@@ -1,0 +1,30 @@
+task:
+  id: directory-consolidation-3-task-001
+  name: Audit framework/docs/ vs docs/ duplication
+  sprint_id: directory-consolidation-3
+  status: completed
+  priority: high
+  complexity: medium
+  estimated_hours: 1
+  description: |
+    Analyze content duplication between framework/docs/ and docs/.
+
+    KNOWN DUPLICATES (5 files with same name):
+    - PLATFORM_AGNOSTIC_ARCHITECTURE.md
+    - README.md
+    - ROADMAP_USER_GUIDE.md
+    - TROUBLESHOOTING.md
+    - YAML_MARKDOWN_SEPARATION.md
+
+  analysis_steps:
+    - Compare file contents for actual duplication
+    - Identify which version is authoritative
+    - Check for references to each location
+    - Recommend merge/delete actions
+
+  output:
+    - Duplicate analysis report
+    - Recommended actions per file
+
+  blocked_by: []
+  commits: []

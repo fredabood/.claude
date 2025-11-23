@@ -9,9 +9,9 @@ import pytest
 import asyncio
 from pathlib import Path
 
-from framework.mcp.server import VibeyMCPServer
-from framework.mcp.discovery import ToolDiscovery
-from framework.mcp.adapters.roadmap_adapter import RoadmapAdapter
+from vibey.mcp.server import VibeyMCPServer
+from vibey.mcp.discovery import ToolDiscovery
+from vibey.mcp.adapters.roadmap_adapter import RoadmapAdapter
 
 
 class TestMCPServerIntegration:

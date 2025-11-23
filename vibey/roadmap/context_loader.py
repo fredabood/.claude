@@ -5,7 +5,7 @@ Implements intelligent context loading strategy that reduces context size by 80-
 for projects with complex dependency graphs.
 
 Usage:
-    from framework.roadmap.context_loader import ContextLoader, ContextMode
+    from vibey.roadmap.context_loader import ContextLoader, ContextMode
 
     loader = ContextLoader()
     contexts = loader.load_task_context("core-framework-2-task-003")

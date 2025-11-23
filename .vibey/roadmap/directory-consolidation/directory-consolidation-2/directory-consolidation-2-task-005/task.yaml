@@ -1,0 +1,31 @@
+task:
+  id: directory-consolidation-2-task-005
+  name: Delete remaining framework/ Python code
+  sprint_id: directory-consolidation-2
+  status: completed
+  priority: high
+  complexity: low
+  estimated_hours: 0.5
+  description: |
+    After moving all unique code, delete remaining Python files in framework/.
+    Only content files (agents/, workflows/, templates/) should remain.
+
+  directories_to_delete:
+    - framework/adapters/
+    - framework/docs/
+    - framework/mcp/
+    - framework/schemas/ (if not needed)
+
+  directories_to_keep:
+    - framework/agents/
+    - framework/workflows/
+    - framework/templates/
+    - framework/config/config-templates/ (optional)
+
+  verification:
+    - framework/ only contains markdown content
+    - No Python files remain except __init__.py if needed
+
+  blocked_by:
+    - directory-consolidation-2-task-004
+  commits: []

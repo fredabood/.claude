@@ -21,7 +21,7 @@ from pathlib import Path
 framework_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(framework_dir.parent))
 
-from framework.docs import DocumentationGenerator
+from vibey.operations.docs import DocumentationGenerator
 
 
 def print_banner():

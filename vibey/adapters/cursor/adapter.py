@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Optional, List, Any, Dict
 
 from vibey.adapters.base import PlatformAdapter, DeploymentResult
-from framework.mcp.discovery.agents import AgentDiscovery
-from framework.mcp.discovery.workflows import WorkflowDiscovery
+from vibey.mcp.discovery.agents import AgentDiscovery
+from vibey.mcp.discovery.workflows import WorkflowDiscovery
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +103,7 @@ class CursorAdapter(PlatformAdapter):
             CursorExportResult with metadata
         """
         if mcp_server_args is None:
-            mcp_server_args = ["-m", "framework.mcp.server"]
+            mcp_server_args = ["-m", "vibey.mcp.server"]
 
         start_time = datetime.now(timezone.utc)
         result = CursorExportResult(success=False, output_dir=output_dir)

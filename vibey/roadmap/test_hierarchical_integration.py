@@ -14,13 +14,13 @@ import shutil
 from pathlib import Path
 from datetime import datetime, timezone
 
-from framework.roadmap.directory_manager import DirectoryManager
-from framework.roadmap.id_generator import (
+from vibey.roadmap.directory_manager import DirectoryManager
+from vibey.roadmap.id_generator import (
     generate_track_id,
     generate_sprint_id,
     generate_task_id,
 )
-from framework.roadmap.toc_generator import TOCGenerator
+from vibey.roadmap.toc_generator import TOCGenerator
 
 
 class TestHierarchicalIntegration(unittest.TestCase):

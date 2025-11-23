@@ -14,7 +14,7 @@ import unittest
 import tempfile
 import shutil
 from pathlib import Path
-from framework.roadmap.directory_manager import (
+from vibey.roadmap.directory_manager import (
     DirectoryManager,
     RoadmapPaths,
     create_track,
@@ -24,7 +24,7 @@ from framework.roadmap.directory_manager import (
     get_sprint_paths,
     get_task_paths,
 )
-from framework.roadmap.id_generator import (
+from vibey.roadmap.id_generator import (
     generate_track_id,
     generate_sprint_id,
     generate_task_id,
@@ -424,13 +424,13 @@ class TestConvenienceFunctions(unittest.TestCase):
         """Create temporary directory for tests."""
         self.temp_dir = tempfile.mkdtemp()
         # Override default directory for testing
-        import framework.roadmap.directory_manager as dm_module
+        import vibey.roadmap.directory_manager as dm_module
         self.original_default = dm_module.DirectoryManager.__init__.__defaults__
         dm_module.DirectoryManager.__init__.__defaults__ = (self.temp_dir,)
 
     def tearDown(self):
         """Clean up and restore defaults."""
-        import framework.roadmap.directory_manager as dm_module
+        import vibey.roadmap.directory_manager as dm_module
         dm_module.DirectoryManager.__init__.__defaults__ = self.original_default
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 

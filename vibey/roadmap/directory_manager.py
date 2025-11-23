@@ -488,7 +488,7 @@ if __name__ == "__main__":
     # Demo usage
     print("=== Directory Manager Demo ===\n")
 
-    from framework.roadmap.id_generator import (
+    from vibey.roadmap.id_generator import (
         generate_track_id,
         generate_sprint_id,
         generate_task_id

@@ -206,7 +206,7 @@ class TestAmazonQMCPConfig:
                 server = config["mcpServers"]["vibey"]
                 assert server["command"] == "python"
                 assert "-m" in server["args"]
-                assert "framework.mcp.server" in server["args"]
+                assert "vibey.mcp.server" in server["args"]
 
 
 @pytest.mark.platform

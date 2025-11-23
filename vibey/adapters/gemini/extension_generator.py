@@ -145,7 +145,7 @@ class GeminiExtensionGenerator:
             Path to generated settings file
         """
         if mcp_server_args is None:
-            mcp_server_args = ["-m", "framework.mcp.server"]
+            mcp_server_args = ["-m", "vibey.mcp.server"]
 
         settings_data = {
             "mcpServers": {

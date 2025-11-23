@@ -1,0 +1,17 @@
+sprint:
+  id: directory-consolidation-1
+  name: Low-Risk Cleanup & Preparation
+  track_id: directory-consolidation
+  status: completed
+  started: 2025-11-23
+  completed: 2025-11-23
+  estimated_duration: 1 day
+  tasks:
+  - directory-consolidation-1-task-001
+  - directory-consolidation-1-task-002
+  - directory-consolidation-1-task-003
+  - directory-consolidation-1-task-004
+  - directory-consolidation-1-task-005
+  description: |
+    Delete redundant files that are exact duplicates between directories.
+    This phase has minimal risk as the authoritative code exists in vibey/.

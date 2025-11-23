@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-11-15T16:27:38.185141+00:00",
+  "last_sync": "2025-11-23T19:09:14.657337+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -362,9 +362,9 @@
     "multi-platform/track.md": {
       "source_path": "roadmap/multi-platform/track.md",
       "target_path": "roadmap/multi-platform/track.md",
-      "checksum": "032a9f14b08de223f38fe789125cc5d37a5109ad9fe196ff45a69c8575583268",
-      "synced_at": "2025-11-10T00:20:44.636419+00:00",
-      "file_size": 968
+      "checksum": "e5ccf18bf378ee222d5674b79dee8f1b6127a509a86831ff751bb09b159b9a82",
+      "synced_at": "2025-11-23T19:01:55.746990+00:00",
+      "file_size": 1378
     },
     "roadmap-integration/roadmap-integration-1/roadmap-integration-1-task-001/task.md": {
       "source_path": "roadmap/roadmap-integration/roadmap-integration-1/roadmap-integration-1-task-001/task.md",
@@ -1023,6 +1023,27 @@
       "checksum": "18d253ec34c363ab4a4418f385f8c3fba0afbebe4d4cd28734a47ecdd62876ab",
       "synced_at": "2025-11-15T16:27:38.185099+00:00",
       "file_size": 22104
+    },
+    "amazonq-port/track.md": {
+      "source_path": "roadmap/amazonq-port/track.md",
+      "target_path": "roadmap/amazonq-port/track.md",
+      "checksum": "446c0a44cd92c5762cf00b9ca45c604c29245149d87676066da77acf0359fe06",
+      "synced_at": "2025-11-23T19:01:55.743849+00:00",
+      "file_size": 1619
+    },
+    "archived/false-positives-2025-11-21/FALSE_COMPLETION_AUDIT_2025-11-21.md": {
+      "source_path": "roadmap/archived/false-positives-2025-11-21/FALSE_COMPLETION_AUDIT_2025-11-21.md",
+      "target_path": "roadmap/archived/false-positives-2025-11-21/FALSE_COMPLETION_AUDIT_2025-11-21.md",
+      "checksum": "48bf4a7baa829155a1c6594aef58af72ce053b6f5dcee58cf0eea5a5ad5892f6",
+      "synced_at": "2025-11-23T19:01:55.744602+00:00",
+      "file_size": 17588
+    },
+    "archived/false-positives-2025-11-21/FORENSIC_TIMELINE_SPRINT8_REGRESSION_2025-11-21.md": {
+      "source_path": "roadmap/archived/false-positives-2025-11-21/FORENSIC_TIMELINE_SPRINT8_REGRESSION_2025-11-21.md",
+      "target_path": "roadmap/archived/false-positives-2025-11-21/FORENSIC_TIMELINE_SPRINT8_REGRESSION_2025-11-21.md",
+      "checksum": "fd833a447c7633199103764ed58b6cd41440c913937737ba0c1347fa969f0064",
+      "synced_at": "2025-11-23T19:01:55.745038+00:00",
+      "file_size": 18918
     }
   },
   "sync_history": [
@@ -1328,6 +1349,38 @@
       "files_skipped": 74,
       "files_deleted": 0,
       "duration_seconds": 0.027809,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-23T19:01:55.747780+00:00",
+      "files_copied": 4,
+      "files_skipped": 76,
+      "files_deleted": 0,
+      "duration_seconds": 0.023483,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-23T19:01:57.463538+00:00",
+      "files_copied": 0,
+      "files_skipped": 80,
+      "files_deleted": 0,
+      "duration_seconds": 0.022465,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-23T19:09:12.865685+00:00",
+      "files_copied": 0,
+      "files_skipped": 80,
+      "files_deleted": 0,
+      "duration_seconds": 0.033421,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-23T19:09:14.657337+00:00",
+      "files_copied": 0,
+      "files_skipped": 80,
+      "files_deleted": 0,
+      "duration_seconds": 0.023741,
       "errors": 0
     }
   ]

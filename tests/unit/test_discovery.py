@@ -7,7 +7,7 @@ Tests AgentDiscovery, WorkflowDiscovery, ToolGenerator, and ToolDiscovery.
 import pytest
 from pathlib import Path
 
-from framework.mcp.discovery import (
+from vibey.mcp.discovery import (
     FrontmatterParser,
     AgentDiscovery,
     AgentDefinition,

@@ -18,8 +18,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
 
-from framework.mcp.discovery.agents import AgentDefinition, AgentDiscovery
-from framework.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
+from vibey.mcp.discovery.agents import AgentDefinition, AgentDiscovery
+from vibey.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
 from .orchestration import SequentialOrchestrator
 
 logger = logging.getLogger(__name__)

@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Optional, List, Any, Dict
 
 from vibey.adapters.base import PlatformAdapter, DeploymentResult
-from framework.mcp.discovery.agents import AgentDiscovery
-from framework.mcp.discovery.workflows import WorkflowDiscovery
+from vibey.mcp.discovery.agents import AgentDiscovery
+from vibey.mcp.discovery.workflows import WorkflowDiscovery
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +105,7 @@ class ReplitAdapter(PlatformAdapter):
             ReplitExportResult with metadata
         """
         if mcp_server_args is None:
-            mcp_server_args = ["-m", "framework.mcp.server"]
+            mcp_server_args = ["-m", "vibey.mcp.server"]
 
         start_time = datetime.now(timezone.utc)
         result = ReplitExportResult(success=False, output_dir=output_dir)
@@ -227,7 +227,7 @@ class ReplitAdapter(PlatformAdapter):
             "## Getting Started",
             "",
             "1. Open the Shell tab",
-            "2. Start the MCP server: `python -m framework.mcp.server`",
+            "2. Start the MCP server: `python -m vibey.mcp.server`",
             "3. Use Replit AI to invoke Vibey tools",
             "",
             "## Forking This Template",
@@ -281,7 +281,7 @@ MCP config is in `mcp.json`:
   "mcpServers": {{
     "vibey": {{
       "command": "python",
-      "args": ["-m", "framework.mcp.server"]
+      "args": ["-m", "vibey.mcp.server"]
     }}
   }}
 }}

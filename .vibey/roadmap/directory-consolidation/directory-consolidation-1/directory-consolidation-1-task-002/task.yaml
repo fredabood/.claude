@@ -1,0 +1,25 @@
+task:
+  id: directory-consolidation-1-task-002
+  name: Delete framework/scripts/ (fully redundant)
+  sprint_id: directory-consolidation-1
+  status: completed
+  priority: high
+  complexity: low
+  estimated_hours: 0.5
+  description: |
+    Delete entire framework/scripts/ directory (42 files, 1.5MB).
+    This is fully redundant with vibey/cli/ which is the authoritative location.
+
+  directories_to_delete:
+    - framework/scripts/roadmap_commands/
+    - framework/scripts/roadmap-lib/
+    - framework/scripts/tests/
+    - framework/scripts/ (all standalone .py files)
+
+  verification:
+    - Verify vibey/cli/ has all equivalent functionality
+    - Run CLI commands to confirm they still work
+    - Run tests to verify nothing breaks
+
+  blocked_by: []
+  commits: []

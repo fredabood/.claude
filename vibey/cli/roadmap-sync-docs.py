@@ -21,8 +21,8 @@ from typing import Optional
 framework_root = Path(__file__).parent.parent
 sys.path.insert(0, str(framework_root.parent))
 
-from framework.docs.sync_engine import SyncEngine, SyncConfig
-from framework.docs.sync_manifest import SyncManifest
+from vibey.operations.docs.sync_engine import SyncEngine, SyncConfig
+from vibey.operations.docs.sync_manifest import SyncManifest
 
 
 def print_sync_result(result, dry_run: bool = False):

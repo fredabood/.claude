@@ -208,7 +208,7 @@ class TestVSCodeMCPConfig:
                 vibey_config = config["servers"]["vibey"]
                 assert vibey_config["command"] == "python"
                 assert "-m" in vibey_config["args"]
-                assert "framework.mcp.server" in vibey_config["args"]
+                assert "vibey.mcp.server" in vibey_config["args"]
 
 
 @pytest.mark.platform

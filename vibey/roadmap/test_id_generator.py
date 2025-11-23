@@ -13,7 +13,7 @@ Tests verify:
 import unittest
 import time
 from datetime import datetime, timezone, timedelta
-from framework.roadmap.id_generator import (
+from vibey.roadmap.id_generator import (
     generate_track_id,
     generate_sprint_id,
     generate_task_id,

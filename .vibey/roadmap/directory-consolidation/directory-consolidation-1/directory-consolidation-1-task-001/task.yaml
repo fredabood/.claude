@@ -1,0 +1,34 @@
+task:
+  id: directory-consolidation-1-task-001
+  name: Delete vibey/cli/roadmap-lib/ duplicate
+  sprint_id: directory-consolidation-1
+  status: completed
+  priority: high
+  complexity: low
+  estimated_hours: 0.25
+  description: |
+    Delete vibey/cli/roadmap-lib/ which is an exact duplicate of vibey/cli/roadmap_lib/.
+    The underscore version (roadmap_lib/) is the correct Python package naming convention.
+
+  files_to_delete:
+    - vibey/cli/roadmap-lib/__init__.py
+    - vibey/cli/roadmap-lib/activity.py
+    - vibey/cli/roadmap-lib/agents.py
+    - vibey/cli/roadmap-lib/blockers.py
+    - vibey/cli/roadmap-lib/cache_helpers.py
+    - vibey/cli/roadmap-lib/cache.py
+    - vibey/cli/roadmap-lib/dependencies.py
+    - vibey/cli/roadmap-lib/error_messages.py
+    - vibey/cli/roadmap-lib/filesystem.py
+    - vibey/cli/roadmap-lib/formatting.py
+    - vibey/cli/roadmap-lib/help_formatter.py
+    - vibey/cli/roadmap-lib/plan_parser.py
+    - vibey/cli/roadmap-lib/status.py
+    - vibey/cli/roadmap-lib/versioning.py
+
+  verification:
+    - Confirm no imports reference vibey.cli.roadmap-lib
+    - Run tests to verify nothing breaks
+
+  blocked_by: []
+  commits: []

@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 27
+    tracks_total: 28
     tracks_completed: 18
-    sprints_total: 84
-    sprints_completed: 60
-    tasks_total: 612
-    tasks_completed: 505
-    completion_percent: 82
+    sprints_total: 91
+    sprints_completed: 74
+    tasks_total: 651
+    tasks_completed: 590
+    completion_percent: 90
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -40,7 +40,7 @@ roadmap:
     priority: high
   - id: mcp-server
     name: MCP Server Foundation
-    status: completed
+    status: production_ready
     priority: critical
   - id: infrastructure-fixes
     name: Critical Infrastructure Fixes
@@ -58,6 +58,10 @@ roadmap:
     name: Directory Migration (.claude/ → .vibey/)
     status: completed
     priority: critical
+  - id: directory-consolidation
+    name: Directory Structure Consolidation
+    status: completed
+    priority: medium
   - id: claude-port
     name: Claude Code Platform Validation
     status: completed
@@ -80,39 +84,39 @@ roadmap:
     priority: high
   - id: continue-port
     name: Continue.dev Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: windsurf-port
     name: Windsurf/Codeium Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: jetbrains-port
     name: JetBrains AI Assistant Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: cursor-port
     name: Cursor Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: copilot-port
     name: GitHub Copilot Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: cody-port
     name: Sourcegraph Cody Platform Port
-    status: not_started
+    status: in_progress
     priority: low
   - id: replit-port
     name: Replit Agent Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: vscode-port
     name: VS Code Native MCP Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: amazonq-port
     name: Amazon Q Developer Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: standards-system
     name: Roadmap Standards System

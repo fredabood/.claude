@@ -6,7 +6,7 @@ Uses LLM (Claude API) to create ~200 word summaries with key decisions,
 API contracts, and dependencies.
 
 Usage:
-    from framework.roadmap.summary_generator import SummaryGenerator
+    from vibey.roadmap.summary_generator import SummaryGenerator
 
     generator = SummaryGenerator()
     summary = generator.generate_task_summary("core-framework-2-task-003")

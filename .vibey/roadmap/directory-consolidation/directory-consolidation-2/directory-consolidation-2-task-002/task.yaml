@@ -1,0 +1,29 @@
+task:
+  id: directory-consolidation-2-task-002
+  name: Move framework/adapters/ registry to vibey/adapters/
+  sprint_id: directory-consolidation-2
+  status: completed
+  priority: high
+  complexity: medium
+  estimated_hours: 1
+  description: |
+    Move adapter registry and types from framework/adapters/ to vibey/adapters/.
+    Merge with existing vibey/adapters/ code.
+
+  files_to_move:
+    - "framework/adapters/registry.py -> vibey/adapters/registry.py"
+    - "framework/adapters/types.py -> vibey/adapters/types.py"
+    - "framework/adapters/goose/ -> merge with vibey/adapters/goose.py"
+    - "framework/adapters/mcp/ -> vibey/adapters/mcp/"
+
+  import_updates:
+    - "from framework.adapters -> from vibey.adapters"
+    - "import framework.adapters -> import vibey.adapters"
+
+  verification:
+    - Adapter registry works
+    - All platform adapters load correctly
+    - Deploy commands work
+
+  blocked_by: []
+  commits: []

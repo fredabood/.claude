@@ -1,0 +1,22 @@
+sprint:
+  id: directory-consolidation-4
+  name: Content Remediation
+  track_id: directory-consolidation
+  status: completed
+  started: '2025-11-23'
+  completed: '2025-11-23'
+  estimated_duration: 1-2 days
+  tasks:
+  - directory-consolidation-4-task-001
+  - directory-consolidation-4-task-002
+  - directory-consolidation-4-task-003
+  - directory-consolidation-4-task-004
+  description: |
+    Execute content consolidation based on audit findings.
+    Merge duplicate documentation, archive obsolete files, and establish clear organization.
+
+    KEY OUTPUTS:
+    - Merged framework/docs/ into docs/
+    - Session-specific files moved to .vibey/roadmap/*/context/
+    - Clean docs/ with only permanent documentation
+    - Updated references across codebase

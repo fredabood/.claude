@@ -10,7 +10,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import yaml
 
-from framework.mcp.discovery.parser import FrontmatterParser
+from vibey.mcp.discovery.parser import FrontmatterParser
 
 
 class TestFrontmatterParser:

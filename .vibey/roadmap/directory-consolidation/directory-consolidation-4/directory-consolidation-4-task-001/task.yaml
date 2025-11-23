@@ -1,0 +1,27 @@
+task:
+  id: directory-consolidation-4-task-001
+  name: Merge framework/docs/ into docs/
+  sprint_id: directory-consolidation-4
+  status: completed
+  completed: '2025-11-23'
+  priority: high
+  complexity: medium
+  estimated_hours: 1
+  description: |
+    Consolidate framework/docs/ content into docs/ directory.
+    Delete duplicate files, merge unique content.
+
+  actions:
+    - Delete exact duplicates (keep docs/ version)
+    - Move unique framework/docs/ files to appropriate docs/ subdirs
+    - Update any references to framework/docs/
+    - Delete empty framework/docs/ directory
+
+  verification:
+    - No content lost
+    - All references updated
+    - Directory structure clean
+
+  blocked_by:
+    - directory-consolidation-3-task-004
+  commits: []

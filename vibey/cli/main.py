@@ -1690,6 +1690,77 @@ def config_platform_list(ctx):
 
 
 # ============================================================================
+# Validate Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def validate(ctx):
+    """
+    Validate framework assets and documentation.
+
+    Run validation checks on roadmap documentation organization
+    and asset frontmatter (agents, workflows, handoffs).
+
+    Examples:
+
+      vibey validate docs       # Validate roadmap doc organization
+      vibey validate assets     # Validate all asset frontmatter
+      vibey validate assets --type agents  # Validate only agents
+    """
+    pass
+
+
+@validate.command('docs')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.pass_context
+def validate_docs(ctx, verbose: bool):
+    """Validate documentation organization in roadmap
+
+    Ensures all documentation follows organization standards:
+    - Only core files (track.yaml, sprint.yaml, task.yaml) at their levels
+    - Analysis files must be in context/ subdirectories
+    - No loose files at track or sprint levels
+
+    Examples:
+      vibey validate docs
+      vibey validate docs --verbose
+    """
+    from vibey.cli.commands import validate_docs_cmd
+
+    exit_code = validate_docs_cmd(verbose)
+    sys.exit(exit_code)
+
+
+@validate.command('assets')
+@click.option('--type', 'asset_type', type=click.Choice(['all', 'agents', 'workflows', 'handoffs']),
+              default='all', help='Type of assets to validate')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.pass_context
+def validate_assets(ctx, asset_type: str, verbose: bool):
+    """Validate asset frontmatter (agents, workflows, handoffs)
+
+    Checks that all markdown assets have valid YAML frontmatter
+    required for MCP server dynamic tool discovery.
+
+    Validates:
+    - Required fields (id, name, type, version)
+    - Valid enum values (agent types, priorities)
+    - Input/output definitions
+    - Step definitions for workflows
+
+    Examples:
+      vibey validate assets
+      vibey validate assets --type agents
+      vibey validate assets --type workflows --verbose
+    """
+    from vibey.cli.commands import validate_assets_cmd
+
+    exit_code = validate_assets_cmd(asset_type, verbose)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Export Command Group
 # ============================================================================
 
@@ -1732,7 +1803,7 @@ def export_run(ctx, platform: str, output: str, dry_run: bool):
       vibey export run --platform goose --dry-run # Preview export
     """
     from pathlib import Path
-    from framework.adapters import create_default_registry
+    from vibey.adapters import create_default_registry
 
     output_dir = Path(output)
     registry = create_default_registry()
@@ -1792,7 +1863,7 @@ def export_list(ctx):
     Examples:
       vibey export list
     """
-    from framework.adapters import create_default_registry
+    from vibey.adapters import create_default_registry
 
     registry = create_default_registry()
     adapters = registry.list_adapters()
@@ -1885,8 +1956,8 @@ def export_gemini(ctx, output: str, no_install_script: bool, no_readme: bool,
         console.print(f"Would export to: {output_dir}\n")
 
         # Show what would be generated
-        from framework.mcp.discovery.agents import AgentDiscovery
-        from framework.mcp.discovery.workflows import WorkflowDiscovery
+        from vibey.mcp.discovery.agents import AgentDiscovery
+        from vibey.mcp.discovery.workflows import WorkflowDiscovery
 
         agents = AgentDiscovery(vibey_root).discover()
         workflows = WorkflowDiscovery(vibey_root).discover()
@@ -1960,7 +2031,7 @@ def export_stats(ctx, platform: str):
       vibey export stats                 # Show MCP stats
       vibey export stats --platform goose
     """
-    from framework.adapters import create_default_registry
+    from vibey.adapters import create_default_registry
 
     registry = create_default_registry()
     adapter = registry.get(platform)

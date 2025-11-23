@@ -1,0 +1,30 @@
+task:
+  id: directory-consolidation-3-task-003
+  name: Audit .vibey/roadmap/*/context/ for cleanup opportunities
+  sprint_id: directory-consolidation-3
+  status: completed
+  priority: medium
+  complexity: medium
+  estimated_hours: 1
+  description: |
+    Review the 162 files in .vibey/roadmap/*/context/ directories.
+    Identify obsolete audit reports, redundant remediation files, and cleanup opportunities.
+
+    PATTERNS TO ANALYZE:
+    - Multiple TRACK_AUDIT_REPORT files per track (keep latest?)
+    - Dated remediation reports (archive older ones?)
+    - Completed track context (can be archived?)
+
+  analysis_steps:
+    - Count files per track context
+    - Identify patterns (audits, remediation, implementation plans)
+    - Flag obsolete or redundant files
+    - Recommend archival strategy
+
+  output:
+    - Context file inventory by track
+    - Cleanup recommendations
+    - Archival strategy proposal
+
+  blocked_by: []
+  commits: []

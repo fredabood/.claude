@@ -17,7 +17,7 @@ import json
 import time
 from pathlib import Path
 import yaml
-from framework.roadmap.toc_generator import (
+from vibey.roadmap.toc_generator import (
     TOCGenerator,
     TableOfContents,
     TOCParent,

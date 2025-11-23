@@ -44,7 +44,7 @@ Before contributing, familiarize yourself with:
 1. **[CLAUDE.md](CLAUDE.md)** - Repository context and development guidelines
 2. **[docs/ROADMAP.md](docs/ROADMAP.md)** - Strategic direction and future plans
 3. **[CHANGELOG.md](CHANGELOG.md)** - Version history and recent changes
-4. **[framework/docs/](framework/docs/)** - User-facing documentation
+4. **[docs/](docs/)** - User-facing and development documentation
 
 ---
 
@@ -249,7 +249,7 @@ vibey/
    ```
 
 3. **Update Workflow Selection Guide**
-   - Add to `framework/docs/guides/WORKFLOW_SELECTION_GUIDE.md`
+   - Add to `docs/guides/WORKFLOW_SELECTION_GUIDE.md`
 
 ### Adding a New Template
 
@@ -387,12 +387,13 @@ vibey/
 
 ### Types of Documentation
 
-1. **User Documentation** (`framework/docs/`) - Gets deployed to user projects
-   - Getting started guides
-   - Usage guides
-   - Reference documentation
+1. **Documentation** (`docs/`) - All framework documentation
+   - Getting started guides (`docs/getting-started/`)
+   - Usage guides (`docs/guides/`)
+   - Reference documentation (`docs/reference/`)
+   - Development documentation (`docs/development/`)
 
-2. **Development Documentation** (`docs/`) - For framework contributors
+2. **Content Files** (`framework/`) - Agent and workflow definitions
    - Architecture decisions
    - Development history
    - Roadmap and strategy

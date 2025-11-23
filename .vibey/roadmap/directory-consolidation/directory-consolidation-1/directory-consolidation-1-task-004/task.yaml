@@ -1,0 +1,25 @@
+task:
+  id: directory-consolidation-1-task-004
+  name: Delete framework/platform_adapters/ (legacy)
+  sprint_id: directory-consolidation-1
+  status: completed
+  priority: medium
+  complexity: low
+  estimated_hours: 0.25
+  description: |
+    Delete framework/platform_adapters/ directory (4 files).
+    This is legacy code superseded by vibey/adapters/.
+
+  files_to_delete:
+    - framework/platform_adapters/__init__.py
+    - framework/platform_adapters/base.py
+    - framework/platform_adapters/claude_adapter.py
+    - framework/platform_adapters/registry.py
+
+  verification:
+    - Check for any imports from framework.platform_adapters
+    - Update any found imports to use vibey.adapters
+    - Run tests to verify nothing breaks
+
+  blocked_by: []
+  commits: []

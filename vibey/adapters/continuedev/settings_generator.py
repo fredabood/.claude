@@ -20,8 +20,8 @@ from typing import List, Optional, Dict, Any
 
 import yaml
 
-from framework.mcp.discovery.agents import AgentDefinition, AgentDiscovery
-from framework.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
+from vibey.mcp.discovery.agents import AgentDefinition, AgentDiscovery
+from vibey.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +83,7 @@ class ContinueSettingsGenerator:
 
         Args:
             mcp_command: Python command for MCP server
-            mcp_args: Arguments for MCP server (default: [-m, framework.mcp.server])
+            mcp_args: Arguments for MCP server (default: [-m, vibey.mcp.server])
             include_prompts: Generate prompts from agent frontmatter
             include_rules: Include project rules section
 
@@ -91,7 +91,7 @@ class ContinueSettingsGenerator:
             GeneratedSettings with content and metadata
         """
         if mcp_args is None:
-            mcp_args = ["-m", "framework.mcp.server"]
+            mcp_args = ["-m", "vibey.mcp.server"]
 
         agents = self.agent_discovery.discover()
         workflows = self.workflow_discovery.discover()
@@ -276,7 +276,7 @@ class ContinueSettingsGenerator:
             YAML string with mcpServers section only
         """
         if mcp_args is None:
-            mcp_args = ["-m", "framework.mcp.server"]
+            mcp_args = ["-m", "vibey.mcp.server"]
 
         config = {
             "mcpServers": [

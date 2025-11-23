@@ -18,8 +18,8 @@ from typing import Dict, Any, List
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from framework.mcp.server import VibeyMCPServer
-from framework.mcp.discovery import ToolDiscovery
+from vibey.mcp.server import VibeyMCPServer
+from vibey.mcp.discovery import ToolDiscovery
 
 
 class TestGooseMCPServerE2E:
@@ -194,7 +194,7 @@ class TestGooseExtensionManifest:
             'description': f'Vibey Agent Framework - {stats["total_tools"]} tools',
             'mcp': {
                 'command': 'python',
-                'args': ['-m', 'framework.mcp.server']
+                'args': ['-m', 'vibey.mcp.server']
             },
             'capabilities': {
                 'tools': stats['total_tools'],

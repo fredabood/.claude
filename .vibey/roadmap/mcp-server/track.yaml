@@ -78,18 +78,16 @@ track:
   - test-engineer
   - docs-writer
   deliverables:
-  - Vibey MCP server Python package (vibey_mcp/)
-  - "Tool exposure (agents \u2192 MCP tools)"
-  - "Resource exposure (workflows \u2192 MCP resources)"
-  - "Prompt exposure (quality gates \u2192 MCP prompts)"
-  - MCP server configuration system
-  - Claude Code integration (MCP-based)
-  - VS Code integration example
-  - JetBrains AI integration example
-  - GitHub Copilot integration example
-  - Comprehensive MCP server documentation
-  - Deployment guide
-  - API reference
+  - MCP server with dynamic tool discovery (framework/mcp/server.py)
+  - Frontmatter parser for agents/workflows (framework/mcp/discovery/parser.py)
+  - Agent discovery module (framework/mcp/discovery/agents.py)
+  - Workflow discovery module (framework/mcp/discovery/workflows.py)
+  - Dynamic tool generator (framework/mcp/discovery/generator.py)
+  - 46 MCP tools (19 agents + 16 workflows + 11 roadmap)
+  - Caching system with file-change detection
+  - Claude Code integration via .mcp.json
+  - Goose integration via ~/.config/goose/config.yaml
+  - MCP server run script (scripts/run-mcp-server.py)
   strategic_value:
   - "Platform Multiplier: 1 server \u2192 4+ platforms supported"
   - 'Time Savings: 8-10 weeks saved vs building individual adapters'
@@ -104,77 +102,65 @@ track:
     last_updated: '2025-11-09T00:00:00+00:00'
     design_doc: docs/development/MCP_VS_ADAPTER_STRATEGY.md
     implementation_plan: null
-    notes: "CRITICAL STRATEGIC TRACK - HIGHEST ROI IN ROADMAP\n\nThis track builds\
-      \ the foundation for multi-platform support via\nMCP (Model Context Protocol)\
-      \ - the emerging industry standard\nfor connecting AI systems to external tools\
-      \ and data.\n\nWHY MCP-FIRST?\n\n1. Platform Multiplier Effect (4:1 ROI)\n \
-      \  - Build 1 MCP server\n   - Support 4+ platforms immediately:\n     * Claude\
-      \ Code (current)\n     * JetBrains AI (8+ IDEs)\n     * GitHub Copilot (40M\
-      \ users)\n     * VS Code (75% market share)\n   - Future platforms: FREE if\
-      \ MCP-compatible\n\n2. Massive Time Savings (8-10 weeks)\n   - JetBrains adapter:\
-      \ 5.5 weeks \u2192 1 week (81% savings)\n   - Copilot adapter: 6-8 weeks \u2192\
-      \ 1 week (88% savings)\n   - VS Code adapter: 3.5 weeks \u2192 1 week (71% savings)\n\
-      \   - Total: ~14 weeks saved - 4 weeks invested = 10 weeks net\n\n3. Industry\
-      \ Standard Alignment\n   - Anthropic: Created MCP (Nov 2024)\n   - OpenAI: Adopted\
-      \ MCP (March 2025)\n   - Google DeepMind: MCP support (April 2025)\n   - JetBrains:\
-      \ Full MCP integration\n   - VS Code: Full spec support (June 2025)\n   - Becoming\
-      \ the standard for AI tool integration\n\n4. Maintenance Efficiency\n   - Update\
-      \ 1 server vs 4 separate adapters\n   - Centralized logic, less duplication\n\
-      \   - Protocol-based (stable interface)\n\nMCP PROTOCOL OVERVIEW\n\nMCP exposes\
-      \ 3 types of capabilities:\n\n1. Tools (functions AI can call)\n   - Vibey agents\
-      \ \u2192 MCP tools\n   - AI discovers and invokes agents\n   - Schema validation\
-      \ built-in\n\n2. Resources (data AI can read)\n   - Vibey workflows \u2192 MCP\
-      \ resources\n   - Vibey handoffs \u2192 MCP resources\n   - Vibey configs \u2192\
-      \ MCP resources\n\n3. Prompts (templates AI can use)\n   - Vibey quality gates\
-      \ \u2192 MCP prompts\n   - Pre-configured review processes\n   - Consistent\
-      \ validation\n\nIMPLEMENTATION STRATEGY\n\nSprint 1: Core MCP Server (2 weeks)\n\
-      - Research MCP spec (2025-06-18)\n- Design Vibey MCP server architecture\n-\
-      \ Implement tool exposure (agents)\n- Implement resource exposure (workflows)\n\
-      - Implement prompt exposure (quality gates)\n- Python MCP SDK integration\n\n\
-      Sprint 2: Integration & Testing (2 weeks)\n- Claude Code integration (replace\
-      \ custom adapter)\n- VS Code integration (validate MCP client)\n- JetBrains\
-      \ AI integration (MCP config)\n- GitHub Copilot integration (MCP config)\n-\
-      \ Performance testing (<500ms)\n- Documentation & deployment guide\n\nTECHNICAL\
-      \ ARCHITECTURE\n\nvibey_mcp/\n\u251C\u2500\u2500 server.py          # Main MCP\
-      \ server\n\u251C\u2500\u2500 tools.py           # Agent \u2192 Tool mapping\n\
-      \u251C\u2500\u2500 resources.py       # Workflow \u2192 Resource mapping\n\u251C\
-      \u2500\u2500 prompts.py         # Quality Gate \u2192 Prompt mapping\n\u251C\
-      \u2500\u2500 config.py          # Server configuration\n\u2514\u2500\u2500 schemas/\
-      \           # JSON schemas\n\nMAPPING EXAMPLES\n\nAgent \u2192 Tool:\n{\n  \"\
-      name\": \"web-developer\",\n  \"description\": \"Full-stack web development\"\
-      ,\n  \"inputSchema\": {\n    \"type\": \"object\",\n    \"properties\": {\n\
-      \      \"feature_spec\": {\"type\": \"string\"}\n    }\n  }\n}\n\nWorkflow \u2192\
-      \ Resource:\n{\n  \"uri\": \"vibey://workflow/feature-development\",\n  \"name\"\
-      : \"Feature Development Workflow\",\n  \"mimeType\": \"application/json\"\n\
-      }\n\nQuality Gate \u2192 Prompt:\n{\n  \"name\": \"security-review\",\n  \"\
-      description\": \"Security audit workflow\",\n  \"arguments\": [\n    {\"name\"\
-      : \"codebase\", \"required\": true}\n  ]\n}\n\nPLATFORM COMPATIBILITY\n\n\u2705\
-      \ MCP-Compatible (via this server):\n- Claude Code\n- JetBrains AI (IntelliJ,\
-      \ PyCharm, WebStorm, GoLand, etc.)\n- GitHub Copilot\n- VS Code (native MCP\
-      \ support)\n- Any future MCP-compliant platform\n\n\u274C Non-MCP (still need\
-      \ custom adapters):\n- Goose (TOML/YAML recipes)\n- Aider (config files)\n-\
-      \ Windsurf (Cascade API, though VS Code compatible)\n- Cursor (.cursorrules)\n\
-      \nVALIDATION CRITERIA\n\n1. Protocol Compliance (100%)\n   - Implements MCP\
-      \ spec 2025-06-18 fully\n   - All 3 primitives (tools, resources, prompts)\n\
-      \   - Correct error handling\n   - Schema validation\n\n2. Multi-Platform Testing\
-      \ (95%)\n   - Works with Claude Code\n   - Works with VS Code\n   - Works with\
-      \ JetBrains AI\n   - Works with GitHub Copilot\n   - Documented integration\
-      \ for each\n\n3. Performance (90%)\n   - <500ms response time\n   - Handles\
-      \ 100+ concurrent requests\n   - Memory efficient\n   - No bottlenecks\n\nRISKS\
-      \ & MITIGATION\n\nRisk: MCP spec changes\n\u2192 Use stable version (2025-06-18)\n\
-      \u2192 Version our server\n\u2192 Monitor MCP changelog\n\nRisk: Platform-specific\
-      \ features missing\n\u2192 Use hybrid approach (MCP + adapter supplements)\n\
-      \u2192 Document limitations\n\u2192 Maintain adapter option\n\nRisk: Learning\
-      \ curve\n\u2192 Official Anthropic MCP course\n\u2192 Reference implementations\n\
-      \u2192 SDKs available\n\nSUCCESS METRICS\n\n- 4+ platforms working with MCP\
-      \ server\n- <1 week to add new MCP platform\n- 60% reduction in maintenance\
-      \ effort\n- Community adoption (MCP server published)\n\nTIMELINE & PRIORITY\n\
-      \nTimeline: Q2 2025 (BEFORE Goose port)\nPriority: CRITICAL (highest ROI in\
-      \ entire roadmap)\nDuration: 4 weeks (2 sprints)\n\nDependencies: None (can\
-      \ start immediately)\nBlocks: JetBrains port, Multi-platform track\nEnables:\
-      \ 4+ platforms immediately\n\nThis is a GAME-CHANGING strategic move that will:\n\
-      1. Accelerate multi-platform development by 32%\n2. Position Vibey as MCP-native\
-      \ orchestration framework\n3. Future-proof architecture with industry standard\n\
-      4. Unlock 40M+ users (Copilot alone)\n\nRecommend: START IMMEDIATELY, TOP PRIORITY\
-      \ after current session\n"
+    notes: |
+      MCP SERVER - COMPLETED IMPLEMENTATION (Nov 2025)
+
+      ACTUAL ARCHITECTURE (as built):
+
+      framework/mcp/
+      ├── server.py              # FastMCP-based server (VibeyMCPServer)
+      ├── discovery/             # Dynamic tool discovery
+      │   ├── parser.py          # YAML frontmatter extraction
+      │   ├── agents.py          # Agent discovery (19 agents)
+      │   ├── workflows.py       # Workflow discovery (16 workflows)
+      │   ├── generator.py       # Frontmatter → MCP tool schema
+      │   └── discovery.py       # Main orchestrator with caching
+      ├── adapters/
+      │   └── roadmap_adapter.py # Roadmap operations (11 tools)
+      └── tools/
+          └── query_tools.py     # Query tool implementations
+
+      framework/adapters/        # Platform adapter architecture
+      ├── base.py               # BaseAdapter + CompositeAdapter
+      ├── registry.py           # AdapterRegistry
+      ├── mcp/adapter.py        # MCPAdapter (BaseAdapter)
+      └── goose/adapter.py      # GooseAdapter (CompositeAdapter)
+
+      KEY DECISIONS:
+
+      1. Dynamic Discovery (not manual mapping)
+         - All agents/workflows have YAML frontmatter
+         - MCP server scans frontmatter and generates tools
+         - Zero drift: tools always match source definitions
+
+      2. Tools Only (Resources/Prompts deferred)
+         - Implemented: 46 MCP tools
+         - Deferred: Resources and Prompts (future enhancement)
+         - Rationale: Tools cover 95% of use cases
+
+      3. Adapter Pattern
+         - BaseAdapter: Direct translation (MCP, Cursor, Aider)
+         - CompositeAdapter: Builds on others (Goose uses MCP)
+         - Prevents code duplication across platforms
+
+      4. Caching with File-Change Detection
+         - MD5 hash of source file modification times
+         - 60-second TTL
+         - Automatic invalidation on file changes
+
+      TOOL BREAKDOWN:
+      - 19 agent tools (vibey_web_developer, vibey_test_engineer, etc.)
+      - 16 workflow tools (vibey_workflow_feature_development, etc.)
+      - 11 roadmap tools (vibey_roadmap_status, vibey_roadmap_show, etc.)
+
+      PLATFORM SUPPORT:
+      ✅ Claude Code (via .mcp.json)
+      ✅ Goose (via ~/.config/goose/config.yaml)
+      🔬 JetBrains AI (untested but MCP-compatible)
+      🔬 VS Code (untested but MCP-compatible)
+
+      FUTURE ENHANCEMENTS:
+      - MCP Resources for workflow/handoff content
+      - MCP Prompts for quality gates
+      - Handoff discovery and tool generation
     estimated_tokens: 61000

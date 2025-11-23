@@ -3,7 +3,7 @@ track:
   name: Platform-Agnostic Architecture (Design & Implementation)
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: true
+  blocked: false
   priority: critical
   created: '2025-11-10T10:00:00+00:00'
   started: '2025-11-10T23:43:36.488746+00:00'
@@ -176,15 +176,15 @@ track:
       \nIMPLEMENTATION STRATEGY:\n\nSprint 1: Unified CLI Tool (2 weeks)\n-------------------------------------\n\
       Goal: Build standalone vibey CLI that works independently of .claude/\n\nTasks:\n\
       1. Create Python package structure (pyproject.toml, setup.py)\n2. Move framework/scripts/\
-      \ → vibey/cli/\n3. Create entry point: vibey/__main__.py\n4. Register CLI commands\
-      \ (Click/Typer)\n5. Update imports: from framework.roadmap → from vibey.roadmap\n\
-      6. Test: pip install -e . && vibey --version\n7. Verify all roadmap commands\
-      \ work without .claude/ prefix\n8. Create tests for CLI commands\n9. Document\
-      \ CLI usage\n10. Package for PyPI distribution\n11. Verify installation on clean\
-      \ system\n12. Update PATH dependencies\n\nDeliverables:\n- vibey command installed\
-      \ globally\n- All roadmap commands work via vibey roadmap ...\n- No dependencies\
-      \ on .claude/scripts/\n- Python package structure complete\n\nSprint 2: Config\
-      \ Migration System (3 weeks)\n--------------------------------------------\n\
+      \ \u2192 vibey/cli/\n3. Create entry point: vibey/__main__.py\n4. Register CLI\
+      \ commands (Click/Typer)\n5. Update imports: from framework.roadmap \u2192 from\
+      \ vibey.roadmap\n6. Test: pip install -e . && vibey --version\n7. Verify all\
+      \ roadmap commands work without .claude/ prefix\n8. Create tests for CLI commands\n\
+      9. Document CLI usage\n10. Package for PyPI distribution\n11. Verify installation\
+      \ on clean system\n12. Update PATH dependencies\n\nDeliverables:\n- vibey command\
+      \ installed globally\n- All roadmap commands work via vibey roadmap ...\n- No\
+      \ dependencies on .claude/scripts/\n- Python package structure complete\n\n\
+      Sprint 2: Config Migration System (3 weeks)\n--------------------------------------------\n\
       Goal: Move configuration from .claude/ to .vibey/config/\n\nTasks:\n1. Design\
       \ modular config schema\n   - .vibey/config/project.yaml\n   - .vibey/config/framework.yaml\n\
       \   - .vibey/config/agents.yaml\n   - .vibey/config/quality-gates.yaml\n2. Create\
@@ -215,33 +215,34 @@ track:
       $ pip install --upgrade vibey-framework\n$ vibey --version  # v2.5.0\n\nStep\
       \ 2: Run migration\n$ cd my-project\n$ vibey migrate\n\nMigration Process:\n\
       1. Detect .claude/ installation\n2. Create .vibey/ directory structure\n3. Migrate\
-      \ config: .claude/project-config.yaml → .vibey/config/\n4. Migrate roadmap (already\
-      \ in .vibey/, no changes)\n5. Copy custom templates if any\n6. Regenerate .claude/\
-      \ as deployment\n7. Update .gitignore\n\nStep 3: Verify\n$ vibey validate\n\n\
-      BACKWARD COMPATIBILITY:\n\n- Auto-migration on first vibey command\n- Legacy\
+      \ config: .claude/project-config.yaml \u2192 .vibey/config/\n4. Migrate roadmap\
+      \ (already in .vibey/, no changes)\n5. Copy custom templates if any\n6. Regenerate\
+      \ .claude/ as deployment\n7. Update .gitignore\n\nStep 3: Verify\n$ vibey validate\n\
+      \nBACKWARD COMPATIBILITY:\n\n- Auto-migration on first vibey command\n- Legacy\
       \ .claude/project-config.yaml supported (with warning)\n- 2-release deprecation\
       \ period (v2.5, v2.6)\n- Full removal in v3.0.0\n\nRISKS AND MITIGATION:\n\n\
-      Risk 1: Breaking existing installations\n→ Auto-migration, backward compatibility,\
+      Risk 1: Breaking existing installations\n\u2192 Auto-migration, backward compatibility,\
       \ rollback mechanism\n\nRisk 2: Script path dependencies (50+ references to\
-      \ .claude/scripts/)\n→ Unified CLI eliminates path dependencies\n\nRisk 3: User\
-      \ confusion during transition\n→ Clear migration guide, automated process, visual\
-      \ indicators\n\nRisk 4: Platform adapter bugs\n→ Extensive testing, validation\
-      \ after deployment, easy rollback\n\nSUCCESS METRICS:\n\nTechnical:\n- 100%\
-      \ backward compatibility\n- 0 breaking changes for existing users\n- <5 minutes\
-      \ for auto-migration\n- All 200+ tests passing after migration\n\nUser Experience:\n\
-      - Clear migration path documented\n- Auto-migration succeeds >95%\n- Users understand\
-      \ new structure\n- No increase in support requests\n\nPlatform Expansion:\n\
-      - Unblocks goose-port track\n- Enables multi-platform track\n- New platform\
-      \ adapter in <1 week\n- 90% code reuse across platforms\n\nDEPENDENCIES:\n\n\
-      Requires:\n- testing-system (need test coverage to validate migration)\n- roadmap-system\
-      \ (foundation already in .vibey/)\n\nBlocks:\n- goose-port (cannot proceed without\
-      \ adapter pattern)\n- aider-port (cannot proceed without adapter pattern)\n\
-      - continue-port (cannot proceed without adapter pattern)\n- windsurf-port (cannot\
-      \ proceed without adapter pattern)\n- jetbrains-port (cannot proceed without\
-      \ adapter pattern)\n- multi-platform (depends on this architecture)\n\nTIMELINE:\n\
-      \nWeek 1-2: Sprint 1 (Unified CLI)\nWeek 3-5: Sprint 2 (Config Migration)\n\
-      Week 6-8: Sprint 3 (Platform Adapters)\nWeek 9+: Post-migration (docs, monitoring,\
-      \ bug fixes)\n\nThis track is CRITICAL for the future of Vibey. Without it,\
-      \ we cannot\nexpand to other platforms and remain locked to Claude Code's .claude/\n\
-      directory structure.\n\nRecommend: START IMMEDIATELY AFTER testing-system COMPLETION\n"
+      \ .claude/scripts/)\n\u2192 Unified CLI eliminates path dependencies\n\nRisk\
+      \ 3: User confusion during transition\n\u2192 Clear migration guide, automated\
+      \ process, visual indicators\n\nRisk 4: Platform adapter bugs\n\u2192 Extensive\
+      \ testing, validation after deployment, easy rollback\n\nSUCCESS METRICS:\n\n\
+      Technical:\n- 100% backward compatibility\n- 0 breaking changes for existing\
+      \ users\n- <5 minutes for auto-migration\n- All 200+ tests passing after migration\n\
+      \nUser Experience:\n- Clear migration path documented\n- Auto-migration succeeds\
+      \ >95%\n- Users understand new structure\n- No increase in support requests\n\
+      \nPlatform Expansion:\n- Unblocks goose-port track\n- Enables multi-platform\
+      \ track\n- New platform adapter in <1 week\n- 90% code reuse across platforms\n\
+      \nDEPENDENCIES:\n\nRequires:\n- testing-system (need test coverage to validate\
+      \ migration)\n- roadmap-system (foundation already in .vibey/)\n\nBlocks:\n\
+      - goose-port (cannot proceed without adapter pattern)\n- aider-port (cannot\
+      \ proceed without adapter pattern)\n- continue-port (cannot proceed without\
+      \ adapter pattern)\n- windsurf-port (cannot proceed without adapter pattern)\n\
+      - jetbrains-port (cannot proceed without adapter pattern)\n- multi-platform\
+      \ (depends on this architecture)\n\nTIMELINE:\n\nWeek 1-2: Sprint 1 (Unified\
+      \ CLI)\nWeek 3-5: Sprint 2 (Config Migration)\nWeek 6-8: Sprint 3 (Platform\
+      \ Adapters)\nWeek 9+: Post-migration (docs, monitoring, bug fixes)\n\nThis track\
+      \ is CRITICAL for the future of Vibey. Without it, we cannot\nexpand to other\
+      \ platforms and remain locked to Claude Code's .claude/\ndirectory structure.\n\
+      \nRecommend: START IMMEDIATELY AFTER testing-system COMPLETION\n"
     estimated_tokens: 190000

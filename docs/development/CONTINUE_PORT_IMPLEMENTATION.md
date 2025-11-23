@@ -20,6 +20,54 @@ Continue.dev is an open-source AI coding assistant platform designed for multi-I
 
 ---
 
+## Critical Architecture: Dynamic Generation from Source of Truth
+
+> **All `.continue/` files are GENERATED, never manually edited.**
+
+### Source of Truth Hierarchy
+
+```
+SOURCE OF TRUTH (edit these)              GENERATED OUTPUT (never edit)
+────────────────────────────              ────────────────────────────
+framework/agents/*.md            ───►     .continue/config.yaml (slashCommands section)
+framework/workflows/*.md         ───►     .continue/config.yaml (workflows section)
+.vibey/config/*.yaml             ───►     .continue/config.yaml (models section)
+templates/continue/*.j2          ───►     .continue/contextProviders/
+```
+
+### Why This Matters
+
+1. **Prevents Drift**: Generated files always match source definitions
+2. **Single Update Point**: Change `framework/agents/web-developer.md` once, regenerate for all platforms
+3. **Consistent Behavior**: Same agent behaves identically across Claude Code, Goose, Aider, and Continue
+4. **Version Control**: Source of truth is tracked; generated files can be `.gitignore`d
+
+### Regeneration Commands
+
+```bash
+# Regenerate all .continue/ files from source
+vibey deploy --platform continue
+
+# Force regenerate (clears existing)
+vibey deploy --platform continue --force
+
+# Regenerate after framework update
+vibey upgrade && vibey deploy --platform continue
+```
+
+### .gitignore Recommendation
+
+```gitignore
+# Generated platform files (regenerate with `vibey deploy`)
+.continue/config.yaml
+.continue/contextProviders/
+
+# Keep user customizations if needed
+# .continue/models/
+```
+
+---
+
 ## 1. Platform Architecture
 
 ### Core Components
@@ -312,6 +360,8 @@ class VibeyContextProvider implements ContextProvider {
 
 | Risk | Severity | Mitigation |
 |------|----------|-----------|
+| **Configuration Drift** | High | **Never edit generated files**. All `.continue/` files regenerated from source on each `vibey deploy`. Add generation marker comments. |
+| **User Edits Generated Files** | High | Clear warnings in generated files, `.gitignore` generated sections, documentation emphasizing regeneration workflow |
 | **Slash command limitations** | Medium | Design workflows as command chains; use context providers for state |
 | **Context provider learning curve** | Medium | Provide working examples; comprehensive documentation |
 | **Multi-IDE testing complexity** | Medium | Automated test suites; separate CI/CD paths |
@@ -346,18 +396,25 @@ class VibeyContextProvider implements ContextProvider {
    - All 12 agents available as slash commands
    - Config loads without errors in VS Code and JetBrains
 
-2. **Multi-IDE Support**
+2. **Dynamic Regeneration (Critical)**
+   - Running `vibey deploy --platform continue` twice produces identical output
+   - Modifying `framework/agents/web-developer.md` and regenerating updates slash command
+   - Generated config contains header comment with regeneration instructions
+   - Generation timestamp tracked
+
+3. **Multi-IDE Support**
    - Works in VS Code
    - Works in IntelliJ IDEA, PyCharm, WebStorm
    - Feature parity across IDEs
 
-3. **Context Integration**
+4. **Context Integration**
    - Workflow context accessible via providers
    - Quality gate data available
    - Sprint/task context loads
 
-4. **Documentation**
-   - Complete setup guide for both IDEs
+5. **Documentation**
+   - Complete setup guide emphasizing regeneration workflow
+   - Clear guidance: "Edit source, not generated"
    - Context provider examples
    - 3+ example projects
 
@@ -374,5 +431,6 @@ class VibeyContextProvider implements ContextProvider {
 
 ---
 
-**Last Updated:** 2025-11-22
+**Last Updated:** 2025-11-23
 **Author:** Vibey Framework Team
+**Architecture Review:** Dynamic generation from source of truth (prevents drift)

@@ -1,0 +1,18 @@
+task:
+  id: gemini-port-6-task-005
+  name: Example Projects
+  sprint_id: gemini-port-6
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: medium
+  complexity: medium
+  created: '2025-11-23T05:11:27.064201+00:00'
+  started: null
+  completed: null
+  description: Web-app example, API project example, multi-modal example
+  assigned_agent: web-developer
+  blocked_by: []
+  commits: []
+  notes: null

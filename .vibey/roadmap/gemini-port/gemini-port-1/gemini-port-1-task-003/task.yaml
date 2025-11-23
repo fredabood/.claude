@@ -1,0 +1,19 @@
+task:
+  id: gemini-port-1-task-003
+  name: Vertex AI Integration Research
+  sprint_id: gemini-port-1
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: high
+  complexity: medium
+  created: '2025-11-23T05:11:27.050221+00:00'
+  started: null
+  completed: null
+  description: Evaluate enterprise deployment options, document authentication flows,
+    understand VPC-SC requirements, map compliance certifications
+  assigned_agent: researcher
+  blocked_by: []
+  commits: []
+  notes: null

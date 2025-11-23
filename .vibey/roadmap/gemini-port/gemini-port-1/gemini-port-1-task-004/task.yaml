@@ -1,0 +1,19 @@
+task:
+  id: gemini-port-1-task-004
+  name: MCP Compatibility Assessment
+  sprint_id: gemini-port-1
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: high
+  complexity: low
+  created: '2025-11-23T05:11:27.050619+00:00'
+  started: null
+  completed: null
+  description: Research Gemini MCP support status, design fallback strategy if no
+    MCP, document function calling alternative
+  assigned_agent: researcher
+  blocked_by: []
+  commits: []
+  notes: null

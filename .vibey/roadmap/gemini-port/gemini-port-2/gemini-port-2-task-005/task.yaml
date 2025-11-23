@@ -1,0 +1,19 @@
+task:
+  id: gemini-port-2-task-005
+  name: Response Parser
+  sprint_id: gemini-port-2
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: medium
+  complexity: medium
+  created: '2025-11-23T05:11:27.053886+00:00'
+  started: null
+  completed: null
+  description: Parse function call responses, extract structured data, handle multi-part
+    responses
+  assigned_agent: web-developer
+  blocked_by: []
+  commits: []
+  notes: null

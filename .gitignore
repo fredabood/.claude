@@ -77,3 +77,6 @@ htmlcov/
 Thumbs.db
 .DS_Store
 .mcp.json
+
+# Generated platform exports (test output)
+goose-export/

@@ -5,13 +5,14 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Generate aider.conf.yml template
-  description: |
-    Model selection, API key management, custom commit prompt template
-  status: not_started
+  description: 'Model selection, API key management, custom commit prompt template
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.177368+00:00'
-  started: null
-  completed: null
+  started: '2025-11-23T05:27:03.423718+00:00'
+  completed: '2025-11-23T05:27:03.423718+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

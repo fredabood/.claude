@@ -20,6 +20,55 @@ Aider is a production-ready, open-source CLI-based AI coding assistant with exce
 
 ---
 
+## Critical Architecture: Dynamic Generation from Source of Truth
+
+> **All `.aider/` files are GENERATED, never manually edited.**
+
+### Source of Truth Hierarchy
+
+```
+SOURCE OF TRUTH (edit these)              GENERATED OUTPUT (never edit)
+────────────────────────────              ────────────────────────────
+framework/agents/*.md            ───►     .aider/agents/*.md
+framework/workflows/*.md         ───►     .aider/workflows/*.py
+.vibey/config/*.yaml             ───►     .aider/aider.conf.yml
+templates/aider/*.j2             ───►     .aider/hooks/*
+```
+
+### Why This Matters
+
+1. **Prevents Drift**: Generated files always match source definitions
+2. **Single Update Point**: Change `framework/agents/web-developer.md` once, regenerate for all platforms
+3. **Consistent Behavior**: Same agent behaves identically across Claude Code, Goose, and Aider
+4. **Version Control**: Source of truth is tracked; generated files can be `.gitignore`d
+
+### Regeneration Commands
+
+```bash
+# Regenerate all .aider/ files from source
+vibey deploy --platform aider
+
+# Force regenerate (clears existing)
+vibey deploy --platform aider --force
+
+# Regenerate after framework update
+vibey upgrade && vibey deploy --platform aider
+```
+
+### .gitignore Recommendation
+
+```gitignore
+# Generated platform files (regenerate with `vibey deploy`)
+.aider/agents/
+.aider/workflows/
+.aider/hooks/
+
+# Keep config if user customizes model/API settings
+# .aider/aider.conf.yml
+```
+
+---
+
 ## 1. Platform Architecture
 
 ### Core Components
@@ -49,14 +98,14 @@ Aider is a production-ready, open-source CLI-based AI coding assistant with exce
 
 ## 2. Vibey Concept Mapping
 
-| Vibey Concept | Aider Equivalent | Implementation Strategy |
-|---------------|------------------|------------------------|
-| **Agents** | Model roles via system prompts | Store agent instructions in `.aider/agents/` as prompt templates |
-| **Workflows** | Chat session + command sequences | Script workflow steps as Aider Python API calls or CLI chains |
-| **Handoffs** | Git commits + metadata | Use `--commit-prompt` to embed handoff info in commit messages |
-| **Config** | `.aider.conf.yml` | Generate from Vibey's modular config via Jinja2 template |
-| **Quality Gates** | Git hooks (pre-commit, post-commit) | Validate commits against quality gates |
-| **Context** | Repository map + file selection | Use `/add` command to manage file context |
+| Vibey Concept | Aider Equivalent | Source → Generated |
+|---------------|------------------|-------------------|
+| **Agents** | System prompts (`.md` files) | `framework/agents/*.md` → `.aider/agents/*.md` |
+| **Workflows** | Python API scripts | `framework/workflows/*.md` → `.aider/workflows/*.py` |
+| **Handoffs** | Git commits + metadata | Embedded via `--commit-prompt` template |
+| **Config** | `.aider.conf.yml` | `.vibey/config/*.yaml` → `.aider/aider.conf.yml` |
+| **Quality Gates** | Git hooks | `templates/aider/*.j2` → `.aider/hooks/*` |
+| **Context** | Repository map + `/add` | Aider's native tree-sitter analysis |
 
 ---
 
@@ -101,41 +150,136 @@ commit-prompt: |
 ### Directory Structure
 
 ```
-.aider/
-├── aider.conf.yml           # Main config (generated)
-├── agents/
-│   ├── web-developer.md     # System prompts
-│   ├── test-engineer.md
-│   ├── security-reviewer.md
-│   └── ...
-├── workflows/
-│   ├── weekly-sprint.py     # Python API chains
-│   ├── feature-dev.sh       # Bash script chains
-│   └── ...
-└── hooks/
-    ├── pre-commit           # Quality gate validation
-    └── post-commit          # Metadata tracking
+.aider/                              # ⚠️ ALL FILES GENERATED - DO NOT EDIT
+├── .generated                       # Marker file with generation timestamp
+├── aider.conf.yml                   # Main config (generated from .vibey/config/)
+├── agents/                          # Generated from framework/agents/
+│   ├── web-developer.md             # System prompt for web-developer agent
+│   ├── test-engineer.md             # System prompt for test-engineer agent
+│   ├── security-reviewer.md         # System prompt for security-reviewer agent
+│   └── ...                          # All 12 agents
+├── workflows/                       # Generated from framework/workflows/
+│   ├── weekly-sprint.py             # Python API workflow script
+│   ├── feature-dev.py               # Python API workflow script
+│   ├── infrastructure-setup.py      # Python API workflow script
+│   └── ...                          # All 16 workflows
+└── hooks/                           # Generated from templates/aider/
+    ├── pre-commit                   # Quality gate validation
+    └── post-commit                  # Handoff metadata tracking
 ```
 
-### Adapter Class
+### Adapter Class (Following Goose Pattern)
 
 ```python
-class AiderAdapter(PlatformAdapter):
-    """Aider platform deployment adapter."""
+class AiderAdapter(BaseAdapter):
+    """
+    Aider platform adapter.
 
-    def get_platform_name(self) -> str:
-        return "aider"
+    Generates .aider/ directory from Vibey source of truth.
+    All output files are regenerated on each export() call.
 
-    def get_deployment_dir(self, project_root: Path) -> Path:
-        return project_root / ".aider"
+    Source of Truth:
+    - framework/agents/*.md → .aider/agents/*.md
+    - framework/workflows/*.md → .aider/workflows/*.py
+    - .vibey/config/*.yaml → .aider/aider.conf.yml
+    """
 
-    def deploy(self, source_dir: Path, config: Any) -> DeploymentResult:
-        # 1. Create .aider/ structure
-        # 2. Generate aider.conf.yml
-        # 3. Convert agents to prompt templates
-        # 4. Generate workflow scripts
-        # 5. Create git hooks
-        pass
+    platform_name = "aider"
+    display_name = "Aider"
+    description = "Terminal-based AI coding assistant with git integration"
+
+    def __init__(self, root_dir: Path, cache_ttl: int = 60):
+        """
+        Initialize Aider adapter.
+
+        Args:
+            root_dir: Root directory of Vibey repository
+            cache_ttl: Cache time-to-live in seconds
+        """
+        self.root_dir = Path(root_dir)
+
+        # Use same discovery system as MCP/Goose
+        self._discovery = ToolDiscovery(
+            root_dir=self.root_dir,
+            cache_ttl=cache_ttl
+        )
+
+        # Generators for Aider-specific formats
+        self._prompt_generator = AiderPromptGenerator()
+        self._workflow_generator = AiderWorkflowGenerator()
+        self._config_generator = AiderConfigGenerator()
+
+    def get_agents(self) -> List[AgentDefinition]:
+        """Get agents from source of truth (framework/agents/)."""
+        return self._discovery.get_agents()
+
+    def get_workflows(self) -> List[WorkflowDefinition]:
+        """Get workflows from source of truth (framework/workflows/)."""
+        return self._discovery.get_workflows()
+
+    def translate_agent(self, agent: AgentDefinition) -> str:
+        """Convert agent to Aider system prompt format."""
+        return self._prompt_generator.generate(agent)
+
+    def translate_workflow(self, workflow: WorkflowDefinition) -> str:
+        """Convert workflow to Aider Python script."""
+        return self._workflow_generator.generate(workflow)
+
+    def export(self, output_dir: Path) -> ExportResult:
+        """
+        Export all Aider files. ALWAYS regenerates from source.
+
+        Args:
+            output_dir: Directory to write files (typically .aider/)
+
+        Returns:
+            ExportResult with list of created files
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        files = []
+
+        # Write generation marker
+        marker = output_dir / ".generated"
+        marker.write_text(f"Generated by vibey deploy --platform aider\n"
+                          f"Timestamp: {datetime.now().isoformat()}\n"
+                          f"DO NOT EDIT - Regenerate with: vibey deploy --platform aider\n")
+        files.append(marker)
+
+        # Generate agents (from framework/agents/)
+        agents_dir = output_dir / "agents"
+        agents_dir.mkdir(exist_ok=True)
+        for agent in self.get_agents():
+            prompt = self.translate_agent(agent)
+            path = agents_dir / f"{agent.id}.md"
+            path.write_text(prompt)
+            files.append(path)
+
+        # Generate workflows (from framework/workflows/)
+        workflows_dir = output_dir / "workflows"
+        workflows_dir.mkdir(exist_ok=True)
+        for workflow in self.get_workflows():
+            script = self.translate_workflow(workflow)
+            path = workflows_dir / f"{workflow.id.replace('-', '_')}.py"
+            path.write_text(script)
+            files.append(path)
+
+        # Generate config (from .vibey/config/)
+        config = self._config_generator.generate(self.root_dir)
+        config_path = output_dir / "aider.conf.yml"
+        config_path.write_text(config)
+        files.append(config_path)
+
+        # Generate hooks (from templates/aider/)
+        hooks_dir = output_dir / "hooks"
+        hooks_dir.mkdir(exist_ok=True)
+        # ... hook generation ...
+
+        return ExportResult(platform=self.platform_name, files=files)
+
+    def invalidate_cache(self) -> None:
+        """Invalidate discovery cache to force re-read from source."""
+        self._discovery.invalidate_cache()
 ```
 
 ---
@@ -253,25 +397,43 @@ system: |
 
 | Risk | Severity | Mitigation |
 |------|----------|-----------|
+| **Configuration Drift** | High | **Never edit generated files**. All `.aider/` files regenerated from source on each `vibey deploy`. Add `.generated` marker file with warning. |
+| **User Edits Generated Files** | High | Clear warnings in generated files, `.gitignore` generated dirs, documentation emphasizing regeneration workflow |
 | **Python API Instability** | Medium | Use shell scripts as fallback; wrap API calls with try/except |
 | **MCP Support Uncertainty** | Low | Don't depend on MCP for Phase 1; design adapter to be MCP-ready |
-| **Limited Agent Customization** | Low | Use system prompts; future contribution opportunity |
+| **Limited Agent Customization** | Low | Customize in `framework/agents/`, not `.aider/agents/` |
 | **Git Workflow Assumptions** | Low | Document requirement; quality gates check for .git |
 
 ---
 
 ## 9. Deliverables Checklist
 
-- [ ] `vibey/adapters/aider.py` - AiderAdapter class
+### Core Adapter (Source of Truth Pattern)
+- [ ] `framework/adapters/aider/adapter.py` - AiderAdapter class (follows GooseAdapter pattern)
+- [ ] `framework/adapters/aider/prompts.py` - AiderPromptGenerator (agent → system prompt)
+- [ ] `framework/adapters/aider/workflows.py` - AiderWorkflowGenerator (workflow → Python script)
+- [ ] `framework/adapters/aider/config.py` - AiderConfigGenerator (config → aider.conf.yml)
+- [ ] `framework/adapters/aider/__init__.py` - Module exports
+
+### Templates (Jinja2)
 - [ ] `templates/aider/aider.conf.yml.j2` - Config template
-- [ ] `templates/aider/agent-prompt.md.j2` - Agent prompt template
-- [ ] `templates/aider/workflow-bash.sh.j2` - Bash workflow template
-- [ ] `templates/aider/workflow-python.py.j2` - Python workflow template
+- [ ] `templates/aider/agent-prompt.md.j2` - Agent system prompt template
+- [ ] `templates/aider/workflow-python.py.j2` - Python workflow script template
 - [ ] `templates/aider/pre-commit.j2` - Pre-commit hook template
-- [ ] `tests/adapters/test_aider.py` - Unit tests
+- [ ] `templates/aider/post-commit.j2` - Post-commit hook template
+- [ ] `templates/aider/.generated.j2` - Generation marker template
+
+### Tests
+- [ ] `tests/adapters/test_aider_adapter.py` - Unit tests for adapter
+- [ ] `tests/adapters/test_aider_generators.py` - Unit tests for generators
 - [ ] `tests/integration/test_aider_deployment.py` - Integration tests
-- [ ] `docs/guides/AIDER_INTEGRATION.md` - User guide
+- [ ] `tests/integration/test_aider_regeneration.py` - Test regeneration overwrites
+
+### Documentation
+- [ ] `docs/guides/AIDER_INTEGRATION.md` - User guide (emphasize regeneration workflow)
+- [ ] `docs/guides/AIDER_CUSTOMIZATION.md` - How to customize (edit source, not generated)
 - [ ] Example project with Aider deployment
+- [ ] `.gitignore` template for Aider projects
 
 ---
 
@@ -282,20 +444,27 @@ system: |
    - Generated `aider.conf.yml` works with Aider CLI
    - All 12 agents available as system prompts
 
-2. **Workflow Execution**
+2. **Dynamic Regeneration (Critical)**
+   - Running `vibey deploy --platform aider` twice produces identical output
+   - Modifying `framework/agents/web-developer.md` and regenerating updates `.aider/agents/web-developer.md`
+   - `.generated` marker file present with timestamp and warning
+   - Generated files contain "DO NOT EDIT" header comments
+
+3. **Workflow Execution**
    - At least 10 workflows converted to scripts
    - Python API workflows execute correctly
    - Multi-file editing works
 
-3. **Quality Integration**
+4. **Quality Integration**
    - Git hooks validate commits
    - Quality gates block non-compliant code
    - Handoff metadata tracked in commits
 
-4. **Documentation**
-   - Complete user guide
+5. **Documentation**
+   - Complete user guide emphasizing regeneration workflow
+   - Clear guidance: "Edit source, not generated"
    - 3+ example projects
-   - Troubleshooting guide
+   - `.gitignore` template provided
 
 ---
 
@@ -310,5 +479,6 @@ system: |
 
 ---
 
-**Last Updated:** 2025-11-22
+**Last Updated:** 2025-11-23
 **Author:** Vibey Framework Team
+**Architecture Review:** Dynamic generation from source of truth (prevents drift)

@@ -4,6 +4,8 @@ Claude Code platform adapter.
 This adapter deploys Vibey to Claude Code's .claude/ directory format.
 """
 
+import json
+import sys
 from pathlib import Path
 from typing import Optional, List, Any
 import shutil
@@ -116,7 +118,13 @@ class ClaudeCodeAdapter(PlatformAdapter):
                     "generation not yet implemented."
                 )
 
-            # Step 6: Validate deployment
+            # Step 6: Generate .mcp.json for MCP server integration
+            project_root = source_dir.parent
+            mcp_config_path = self.generate_mcp_config(project_root)
+            if mcp_config_path.exists():
+                result.files_created.append(mcp_config_path)
+
+            # Step 7: Validate deployment
             is_valid, errors = self.validate_deployment(target_dir)
             result.validation_passed = is_valid
             result.errors.extend(errors)
@@ -300,3 +308,33 @@ This project uses the Vibey Agent Framework with the following specialized agent
             "commands",
         }
         return feature in supported
+
+    def generate_mcp_config(self, project_root: Path) -> Path:
+        """
+        Generate .mcp.json for Claude Code MCP server integration.
+
+        Creates the MCP configuration file that tells Claude Code how to
+        connect to the Vibey MCP server. This enables AI assistant integration
+        with all Vibey tools (roadmap, agents, workflows).
+
+        Args:
+            project_root: Root directory of the project
+
+        Returns:
+            Path to the generated .mcp.json file
+        """
+        mcp_config = {
+            "mcpServers": {
+                "vibey": {
+                    "command": sys.executable,
+                    "args": ["-m", "framework.mcp.server"],
+                    "env": {
+                        "VIBEY_PROJECT_ROOT": str(project_root)
+                    }
+                }
+            }
+        }
+
+        config_path = project_root / ".mcp.json"
+        config_path.write_text(json.dumps(mcp_config, indent=2))
+        return config_path

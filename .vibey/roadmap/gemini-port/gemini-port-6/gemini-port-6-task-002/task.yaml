@@ -1,0 +1,19 @@
+task:
+  id: gemini-port-6-task-002
+  name: Performance Benchmarks
+  sprint_id: gemini-port-6
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: high
+  complexity: medium
+  created: '2025-11-23T05:11:27.063167+00:00'
+  started: null
+  completed: null
+  description: Latency measurements, context loading benchmarks, comparison with Claude
+    baseline
+  assigned_agent: test-engineer
+  blocked_by: []
+  commits: []
+  notes: null

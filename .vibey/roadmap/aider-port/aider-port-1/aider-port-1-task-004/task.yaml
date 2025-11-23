@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Workflow script generation
-  description: |
-    Simple workflows to Bash scripts, complex workflows to Python API scripts, store in .aider/workflows/
-  status: not_started
+  description: 'Simple workflows to Bash scripts, complex workflows to Python API
+    scripts, store in .aider/workflows/
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.177552+00:00'
-  started: null
-  completed: null
+  started: '2025-11-23T05:27:03.423718+00:00'
+  completed: '2025-11-23T05:27:03.423718+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

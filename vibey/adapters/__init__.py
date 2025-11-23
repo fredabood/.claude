@@ -21,10 +21,12 @@ Example:
 from vibey.adapters.base import PlatformAdapter, DeploymentResult
 from vibey.adapters.claude_code import ClaudeCodeAdapter
 from vibey.adapters.goose import GooseAdapter
+from vibey.adapters.aider import AiderAdapter
 
 __all__ = [
     'PlatformAdapter',
     'DeploymentResult',
     'ClaudeCodeAdapter',
     'GooseAdapter',
+    'AiderAdapter',
 ]

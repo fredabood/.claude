@@ -1,0 +1,19 @@
+task:
+  id: gemini-port-1-task-005
+  name: Architecture Design Document
+  sprint_id: gemini-port-1
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  priority: critical
+  complexity: medium
+  created: '2025-11-23T05:11:27.051007+00:00'
+  started: null
+  completed: null
+  description: Design GeminiAdapter class, define configuration schema, plan context
+    window optimization strategy, document API differences from Claude
+  assigned_agent: architecture-agent
+  blocked_by: []
+  commits: []
+  notes: null

@@ -14,7 +14,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.tree import Tree
 
-from vibey.adapters import ClaudeCodeAdapter, GooseAdapter
+from vibey.adapters import ClaudeCodeAdapter, GooseAdapter, AiderAdapter
 from vibey.adapters.base import PlatformAdapter
 from vibey.config import load_config, ConfigNotFoundError
 
@@ -24,6 +24,7 @@ console = Console()
 PLATFORMS = {
     "claude-code": ClaudeCodeAdapter,
     "goose": GooseAdapter,
+    "aider": AiderAdapter,
 }
 
 

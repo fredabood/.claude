@@ -1,0 +1,24 @@
+sprint:
+  id: gemini-port-5
+  name: AI Studio & Vertex AI Integration
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  created: '2025-11-23T05:11:27.060038+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    development_tasks_total: 5
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  depends_on:
+  - blocker_id: platform-context-management
+    blocker_type: track
+    required_status: completed
+    current_status: in_progress
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-23T05:11:27.060042+00:00'
+  plan_file: docs/development/GEMINI_PORT_IMPLEMENTATION.md

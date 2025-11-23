@@ -5,13 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Agent prompt template system
-  description: |
-    Convert agent instructions to Aider system prompts, store in .aider/agents/, inject via --system flag
-  status: not_started
+  description: 'Convert agent instructions to Aider system prompts, store in .aider/agents/,
+    inject via --system flag
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-23T04:54:00.177466+00:00'
-  started: null
-  completed: null
+  started: '2025-11-23T05:27:03.423718+00:00'
+  completed: '2025-11-23T05:27:03.423718+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

@@ -3,7 +3,7 @@ sprint:
   name: Data Integrity Prevention & Automation
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: completed
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
   started: null

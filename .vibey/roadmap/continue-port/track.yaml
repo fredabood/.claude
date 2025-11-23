@@ -2,26 +2,27 @@ track:
   id: continue-port
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 3.5 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 12
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 7
+    completion_percent: 58
   sprints:
   - id: continue-port-1
     name: Continue Adapter & Slash Commands
-    status: not_started
+    status: completed
     estimated_duration: 2 weeks
     tasks_count: 7
-    started: null
+    started: '2025-11-23T00:00:00+00:00'
+    completed: '2025-11-23T16:45:00+00:00'
   - id: continue-port-2
     name: Context Providers & Multi-IDE Support
     status: not_started

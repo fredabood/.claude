@@ -1313,22 +1313,30 @@ def deploy(ctx):
     Supports multiple AI coding assistant platforms:
     - claude-code (Claude Code)
     - goose (Goose by Block)
-    - cursor (Cursor IDE)
+    - gemini (Google Gemini Code Assist)
     - aider (Aider CLI)
     - continue (Continue.dev)
+    - windsurf (Windsurf/Codeium)
+    - vscode (VS Code native MCP)
+    - cursor (Cursor IDE)
+    - copilot (GitHub Copilot)
 
     Examples:
 
-      vibey deploy --platform claude-code
-      vibey deploy --platform goose --clean
-      vibey deploy --list-platforms
+      vibey deploy run --platform claude-code
+      vibey deploy run --platform cursor --clean
+      vibey deploy run --platform copilot
+      vibey deploy list
     """
     pass
 
 
 @deploy.command('run')
-@click.option('--platform', type=click.Choice(['claude-code', 'goose', 'all']),
-              required=True, help='Target platform (or "all" for all platforms)')
+@click.option('--platform', type=click.Choice([
+    'claude-code', 'goose', 'aider', 'gemini',
+    'continue', 'windsurf', 'vscode', 'cursor', 'copilot',
+    'jetbrains', 'amazonq', 'replit', 'cody', 'all'
+]), required=True, help='Target platform (or "all" for all platforms)')
 @click.option('--clean', is_flag=True, help='Remove existing deployment first')
 @click.option('--no-validate', is_flag=True, help='Skip post-deployment validation')
 @click.option('--no-roadmap-init', is_flag=True, help='Skip roadmap initialization after deployment')
@@ -1813,6 +1821,131 @@ def export_list(ctx):
 
     console.print("")
     sys.exit(0)
+
+
+@export.command('gemini')
+@click.option('--output', '-o', type=click.Path(), default='./vibey-gemini-extension',
+              help='Output directory for extension package')
+@click.option('--no-install-script', is_flag=True, help='Skip generating install.sh')
+@click.option('--no-readme', is_flag=True, help='Skip generating README.md')
+@click.option('--validate', is_flag=True, help='Validate existing export for drift')
+@click.option('--dry-run', is_flag=True, help='Show what would be generated without writing')
+@click.pass_context
+def export_gemini(ctx, output: str, no_install_script: bool, no_readme: bool,
+                   validate: bool, dry_run: bool):
+    """Export Vibey to Gemini Code Assist extension format
+
+    Generates a complete Gemini extension package with:
+    - GEMINI.md context file (from agent frontmatter)
+    - TOML custom commands (from workflow frontmatter)
+    - MCP server configuration
+    - Extension manifest
+
+    ZERO-DRIFT: All artifacts are generated from frontmatter.
+    If source agents/workflows change, re-run export to update.
+
+    Examples:
+      vibey export gemini                            # Export to ./vibey-gemini-extension/
+      vibey export gemini -o ./dist/gemini           # Custom output directory
+      vibey export gemini --validate                 # Check for manual edits
+      vibey export gemini --dry-run                  # Preview without writing
+    """
+    from pathlib import Path
+    from vibey.adapters.gemini import GeminiAdapter
+
+    output_dir = Path(output)
+    vibey_root = Path.cwd()
+
+    # Initialize adapter
+    adapter = GeminiAdapter(vibey_root)
+
+    # Validate mode
+    if validate:
+        if not output_dir.exists():
+            console.print(f"[red]Export directory not found: {output_dir}[/red]")
+            console.print("Run 'vibey export gemini' first to create the export.")
+            sys.exit(1)
+
+        console.print(f"\n[bold]Validating Gemini export: {output_dir}[/bold]")
+        is_valid, errors = adapter.validate_export(output_dir)
+
+        if is_valid:
+            console.print("[green]✓ No drift detected - export matches source[/green]")
+            sys.exit(0)
+        else:
+            console.print("[red]✗ Drift detected![/red]")
+            for error in errors:
+                console.print(f"  • {error}")
+            console.print("\nRun 'vibey export gemini' to regenerate.")
+            sys.exit(1)
+
+    # Dry run mode
+    if dry_run:
+        console.print(f"\n[yellow]Dry run - no files will be written[/yellow]")
+        console.print(f"Would export to: {output_dir}\n")
+
+        # Show what would be generated
+        from framework.mcp.discovery.agents import AgentDiscovery
+        from framework.mcp.discovery.workflows import WorkflowDiscovery
+
+        agents = AgentDiscovery(vibey_root).discover()
+        workflows = WorkflowDiscovery(vibey_root).discover()
+
+        console.print(f"[bold]Would generate:[/bold]")
+        console.print(f"  • GEMINI.md (context from {len(agents)} agents)")
+        console.print(f"  • {len(workflows)} workflow commands (TOML)")
+        console.print(f"  • {len(agents)} agent shortcut commands (TOML)")
+        console.print(f"  • 3 utility commands (status, sprint, task)")
+        console.print(f"  • gemini-extension.json (manifest)")
+        console.print(f"  • settings.json (MCP config)")
+        if not no_install_script:
+            console.print(f"  • install.sh")
+        if not no_readme:
+            console.print(f"  • README.md")
+        console.print(f"  • .checksums.json (drift detection)")
+
+        sys.exit(0)
+
+    # Full export
+    console.print(f"\n[bold]Exporting to Gemini extension format[/bold]")
+    console.print(f"Output: {output_dir}\n")
+
+    result = adapter.export(
+        output_dir=output_dir,
+        include_install_script=not no_install_script,
+        include_readme=not no_readme,
+    )
+
+    if result.success:
+        console.print(f"[green]✓ Export complete![/green]")
+        console.print(f"\n[bold]Generated files:[/bold]")
+        for f in result.files_created:
+            rel_path = f.relative_to(output_dir) if f.is_relative_to(output_dir) else f
+            console.print(f"  • {rel_path}")
+
+        console.print(f"\n[bold]Summary:[/bold]")
+        if result.context:
+            console.print(f"  Agents:    {result.context.agents_count}")
+            console.print(f"  Workflows: {result.context.workflows_count}")
+        if result.commands:
+            console.print(f"  Commands:  {len(result.commands.commands)}")
+        console.print(f"  Duration:  {result.duration_seconds:.2f}s")
+
+        console.print(f"\n[bold]Checksums (for drift detection):[/bold]")
+        for name, checksum in result.checksums.items():
+            console.print(f"  {name}: {checksum}")
+
+        console.print(f"\n[bold]Next steps:[/bold]")
+        console.print(f"  1. Install extension: gemini extensions install {output_dir}")
+        console.print(f"  2. Or run: {output_dir}/install.sh")
+        console.print(f"  3. Verify with: /mcp in Gemini CLI")
+
+        sys.exit(0)
+    else:
+        console.print(f"[red]✗ Export failed[/red]")
+        for error in result.errors:
+            console.print(f"  • {error}")
+        sys.exit(1)
 
 
 @export.command('stats')

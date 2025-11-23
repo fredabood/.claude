@@ -1,0 +1,195 @@
+track:
+  id: cody-port
+  name: Sourcegraph Cody Platform Port
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: low
+  created: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-23T00:00:00+00:00'
+  completed: null
+  estimated_duration: 5 weeks
+  progress:
+    sprints_total: 2
+    sprints_completed: 1
+    tasks_total: 10
+    tasks_completed: 6
+    completion_percent: 60
+  sprints:
+  - id: cody-port-1
+    name: Core Adapter & MCP Configuration
+    status: completed
+    estimated_duration: 3 weeks
+    tasks_count: 6
+    started: '2025-11-23T00:00:00+00:00'
+    completed: '2025-11-23T00:00:00+00:00'
+    description: |
+      Create CodyAdapter extending BaseAdapter.
+      Implement CodyContextGenerator for CODY.md.
+      Implement CodySettingsGenerator for MCP config.
+      Add 'vibey deploy --platform cody' CLI command.
+
+      KEY INSIGHT: Cody has native MCP support via OpenCtx.
+      We reuse the existing MCP server (46 tools).
+
+      TASKS:
+      - cody-port-1-task-001: Create CodyAdapter base class
+      - cody-port-1-task-002: Implement CodyContextGenerator
+      - cody-port-1-task-003: Implement CodySettingsGenerator
+      - cody-port-1-task-004: Add vibey deploy --platform cody CLI
+      - cody-port-1-task-005: Write unit tests for adapter
+      - cody-port-1-task-006: Write unit tests for generators
+  - id: cody-port-2
+    name: Enterprise Features & Documentation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 4
+    started: null
+    description: |
+      Enterprise Sourcegraph integration features.
+      Cross-repository context for workflows.
+      Prompt Library templates for Sourcegraph UI.
+      Complete integration documentation.
+
+      NOTE: Cody Free/Pro sunset July 2025.
+      Focus on Enterprise-only features.
+
+      TASKS:
+      - cody-port-2-task-001: Implement Sourcegraph Enterprise module
+      - cody-port-2-task-002: Create Prompt Library templates
+      - cody-port-2-task-003: Write E2E tests with Cody extension
+      - cody-port-2-task-004: Write Cody integration guide
+  dependencies:
+  - type: track
+    target_id: multi-platform
+    target_status: completed
+    reason: Requires adapter pattern from multi-platform architecture
+    optional: false
+  - type: track
+    target_id: continue-port
+    target_status: completed
+    reason: Similar IDE extension patterns (VS Code)
+    optional: true
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: multi-platform
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-23T00:00:00+00:00'
+  depended_on_by: []
+  quality_gates:
+  - name: Zero-Drift Validation
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All Cody artifacts generated from frontmatter, CI fails on manual edits
+    score: null
+  - name: MCP Tool Parity
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 46 MCP tools accessible from Cody via OpenCtx
+    score: null
+  - name: CODY.md Generation
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Context file correctly documents all agents and workflows
+    score: null
+  - name: Enterprise Integration
+    threshold: 90
+    blocking: false
+    status: not_run
+    description: Sourcegraph Enterprise features work (code graph, cross-repo)
+    score: null
+  assigned_agents:
+  - backend-engineer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - CodyAdapter class (vibey/adapters/cody/adapter.py)
+  - CodyContextGenerator (vibey/adapters/cody/context_generator.py)
+  - CodySettingsGenerator (vibey/adapters/cody/settings_generator.py)
+  - "vibey deploy --platform cody-port CLI command"
+  - CODY.md context file generation
+  - MCP settings.json for OpenCtx
+  - Prompt Library templates (templates/cody/prompts/)
+  - Enterprise module (vibey/adapters/cody/enterprise.py)
+  - Integration guide (docs/guides/CODY_INTEGRATION.md)
+  - E2E test suite
+  strategic_value:
+  - 'Zero Drift: Generated artifacts always match source definitions'
+  - 'MCP Reuse: Leverages existing 46-tool MCP server'
+  - 'Enterprise Focus: Targets Cody Enterprise (post-July 2025)'
+  - 'Sourcegraph Integration: Code graph and cross-repo features'
+  - 'Pattern Reuse: Follows gemini-port architecture'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: docs/FRAMEWORK_ROADMAP.md
+    implementation_plan: .vibey/roadmap/cody-port/context/IMPLEMENTATION_PLAN.md
+    notes: |
+      SOURCEGRAPH CODY PORT - ENTERPRISE FOCUSED (Nov 2025 Research)
+
+      CRITICAL UPDATE: Cody Free/Pro tiers sunset July 23, 2025.
+      Only Cody Enterprise will continue. Sourcegraph recommends Amp
+      for non-enterprise users.
+
+      KEY DISCOVERY: Cody has NATIVE MCP SUPPORT via OpenCtx.
+      We reuse the existing Vibey MCP server (46 tools) - no new
+      API client needed.
+
+      ARCHITECTURE:
+      ┌──────────────────────────────────────────────────┐
+      │         SINGLE SOURCE OF TRUTH                   │
+      │  agents/*.md, workflows/*.md (frontmatter)       │
+      └──────────────────────────────────────────────────┘
+                        │
+           ┌───────────┼───────────┐
+           ▼           ▼           ▼
+      ┌─────────┐ ┌─────────┐ ┌─────────┐
+      │MCP Srv  │ │CODY.md  │ │settings │
+      │(reuse)  │ │Generator│ │Generator│
+      └─────────┘ └─────────┘ └─────────┘
+                        │
+                        ▼
+               ┌─────────────────┐
+               │  .cody/          │
+               │  ├── CODY.md    │
+               │  ├── settings   │
+               │  └── checksums  │
+               └─────────────────┘
+
+      CODY EXTENSION POINTS:
+      1. MCP Servers - Native support via OpenCtx (PRIMARY)
+      2. Prompt Library - UI-based, no programmatic API
+      3. OpenCtx Providers - External context (experimental)
+      4. Context Mentions - @-syntax for dynamic context
+
+      INTEGRATION APPROACH:
+      - MCP via OpenCtx (primary) - reuse existing server
+      - CODY.md context file - generated from frontmatter
+      - Prompt Library templates - manual copy for Enterprise UI
+      - settings.json - VS Code MCP configuration
+
+      COMPATIBILITY: ~80% (MCP-based)
+      - MCP tools work out of the box
+      - Context generation follows Gemini pattern
+      - Enterprise-only limits user base
+      - No programmatic Prompt Library API
+
+      TIMELINE: Q2 2026 (after Cody Enterprise stabilizes)
+      - Wait for July 2025 transition to complete
+      - Monitor Cody Enterprise feature stability
+      - Consider Amp port as alternative
+
+      SOURCES:
+      - https://sourcegraph.com/blog/cody-supports-anthropic-model-context-protocol
+      - https://sourcegraph.com/docs/cody/capabilities/openctx
+      - https://sourcegraph.com/blog/changes-to-cody-free-pro-and-enterprise-starter-plans
+    estimated_tokens: 0

@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 21
-    tracks_completed: 16
-    sprints_total: 76
-    sprints_completed: 54
-    tasks_total: 511
-    tasks_completed: 413
-    completion_percent: 80
+    tracks_total: 27
+    tracks_completed: 18
+    sprints_total: 84
+    sprints_completed: 60
+    tasks_total: 612
+    tasks_completed: 505
+    completion_percent: 82
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -55,7 +55,7 @@ roadmap:
     status: completed
     priority: high
   - id: directory-migration
-    name: "Directory Migration (.claude/ \u2192 .vibey/)"
+    name: Directory Migration (.claude/ → .vibey/)
     status: completed
     priority: critical
   - id: claude-port
@@ -66,13 +66,17 @@ roadmap:
     name: Goose Platform Port
     status: completed
     priority: high
+  - id: gemini-port
+    name: Gemini Platform Port
+    status: completed
+    priority: high
   - id: multi-platform
     name: Multi-Platform Architecture
     status: completed
     priority: medium
   - id: aider-port
     name: Aider Platform Port
-    status: not_started
+    status: completed
     priority: high
   - id: continue-port
     name: Continue.dev Platform Port
@@ -84,6 +88,30 @@ roadmap:
     priority: medium
   - id: jetbrains-port
     name: JetBrains AI Assistant Port
+    status: not_started
+    priority: medium
+  - id: cursor-port
+    name: Cursor Platform Port
+    status: not_started
+    priority: high
+  - id: copilot-port
+    name: GitHub Copilot Platform Port
+    status: not_started
+    priority: high
+  - id: cody-port
+    name: Sourcegraph Cody Platform Port
+    status: not_started
+    priority: low
+  - id: replit-port
+    name: Replit Agent Platform Port
+    status: not_started
+    priority: medium
+  - id: vscode-port
+    name: VS Code Native MCP Port
+    status: not_started
+    priority: high
+  - id: amazonq-port
+    name: Amazon Q Developer Platform Port
     status: not_started
     priority: medium
   - id: standards-system
@@ -712,7 +740,7 @@ roadmap:
       sprint_id: testing-system-1
   - timestamp: '2025-11-10T10:00:00+00:00'
     type: track_added
-    description: "Added Track: Directory Migration (.claude/ \u2192 .vibey/)"
+    description: 'Added Track: Directory Migration (.claude/ → .vibey/)'
     context:
       track_id: directory-migration
       sprints: 3
@@ -968,7 +996,7 @@ roadmap:
       sprint_id: directory-migration-1
   - timestamp: '2025-11-11T00:03:00.588044+00:00'
     type: task_started
-    description: "Task 'Update imports: framework.roadmap \u2192 vibey.roadmap' started"
+    description: 'Task ''Update imports: framework.roadmap → vibey.roadmap'' started'
     context:
       task_id: directory-migration-1-task-005
       sprint_id: directory-migration-1
@@ -980,7 +1008,7 @@ roadmap:
       sprint_id: directory-migration-1
   - timestamp: '2025-11-11T00:04:01.368940+00:00'
     type: task_completed
-    description: "Task 'Update imports: framework.roadmap \u2192 vibey.roadmap' completed"
+    description: 'Task ''Update imports: framework.roadmap → vibey.roadmap'' completed'
     context:
       task_id: directory-migration-1-task-005
       sprint_id: directory-migration-1
@@ -1266,7 +1294,7 @@ roadmap:
       - documentation-engineer (ENHANCED - added docs-writer alias)
       - security-reviewer (ENHANCED - added security-auditor alias)
       - Agent directory README (400+ lines)
-      - "100% agent coverage (13\u219219 agents)"
+      - 100% agent coverage (13→19 agents)
   - timestamp: '2025-11-11T08:00:00+00:00'
     type: track_completed
     description: 'Completed Track: Claude Code Platform Validation'

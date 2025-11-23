@@ -14,7 +14,21 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.tree import Tree
 
-from vibey.adapters import ClaudeCodeAdapter, GooseAdapter, AiderAdapter
+from vibey.adapters import (
+    ClaudeCodeAdapter,
+    GooseAdapter,
+    AiderAdapter,
+    GeminiAdapter,
+    ContinueAdapter,
+    WindsurfAdapter,
+    VSCodeAdapter,
+    CursorAdapter,
+    CopilotAdapter,
+    JetBrainsAdapter,
+    AmazonQAdapter,
+    ReplitAdapter,
+    CodyAdapter,
+)
 from vibey.adapters.base import PlatformAdapter
 from vibey.config import load_config, ConfigNotFoundError
 
@@ -25,6 +39,16 @@ PLATFORMS = {
     "claude-code": ClaudeCodeAdapter,
     "goose": GooseAdapter,
     "aider": AiderAdapter,
+    "gemini": GeminiAdapter,
+    "continue": ContinueAdapter,
+    "windsurf": WindsurfAdapter,
+    "vscode": VSCodeAdapter,
+    "cursor": CursorAdapter,
+    "copilot": CopilotAdapter,
+    "jetbrains": JetBrainsAdapter,
+    "amazonq": AmazonQAdapter,
+    "replit": ReplitAdapter,
+    "cody": CodyAdapter,
 }
 
 

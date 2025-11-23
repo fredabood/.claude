@@ -2,19 +2,19 @@ track:
   id: aider-port
   name: Aider Platform Port
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-23T06:00:00+00:00'
-  completed: '2025-11-23T07:00:00+00:00'
+  completed: null
   estimated_duration: 2 weeks
   progress:
-    sprints_total: 1
+    sprints_total: 2
     sprints_completed: 1
-    tasks_total: 8
+    tasks_total: 12
     tasks_completed: 8
-    completion_percent: 100
+    completion_percent: 67
   sprints:
   - id: aider-port-1
     name: Aider Platform Adapter Implementation

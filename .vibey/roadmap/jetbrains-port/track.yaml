@@ -2,26 +2,27 @@ track:
   id: jetbrains-port
   name: JetBrains AI Assistant Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 3 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 12
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 6
+    completion_percent: 50
   sprints:
   - id: jetbrains-port-1
     name: JetBrains MCP Configuration & IDE Setup
-    status: not_started
+    status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 6
-    started: null
+    started: '2025-11-23T00:00:00+00:00'
+    completed: '2025-11-23T00:00:00+00:00'
     description: 'Configure JetBrains IDEs to use the shared Vibey MCP server.
 
       No MCP server implementation needed - uses goose-port''s dynamic discovery.
@@ -149,9 +150,10 @@ track:
   standards: []
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-22T00:00:00+00:00'
+    last_updated: '2025-11-23T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
-    implementation_plan: docs/development/JETBRAINS_PORT_IMPLEMENTATION.md
+    implementation_plan: .vibey/roadmap/jetbrains-port/context/IMPLEMENTATION_PLAN.md
+    implementation_plan_legacy: docs/development/JETBRAINS_PORT_IMPLEMENTATION.md
     notes: 'JETBRAINS PORT - REVISED ARCHITECTURE (Nov 2025)
 
 

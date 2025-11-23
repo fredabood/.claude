@@ -46,14 +46,7 @@ def query_roadmap_summary(root_dir: Path) -> Dict[str, Any]:
             "tasks": f"{roadmap.progress.tasks_completed}/{roadmap.progress.tasks_total}",
             "completion": f"{roadmap.progress.completion_percent}%",
         },
-        "tracks": [
-            {
-                "id": track.id,
-                "name": track.name,
-                "status": track.status.value,
-            }
-            for track in roadmap.tracks
-        ],
+        "tracks": _get_tracks_with_progress(fs, roadmap.tracks),
     }
 
 
@@ -381,3 +374,63 @@ def query_dependencies(root_dir: Path) -> Dict[str, Any]:
 def _format_datetime(dt: datetime) -> str:
     """Format datetime for display."""
     return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def _get_tracks_with_progress(fs: FileSystemManager, track_summaries) -> list:
+    """
+    Load track details including progress for each track summary.
+
+    Args:
+        fs: FileSystemManager instance
+        track_summaries: List of TrackSummary from roadmap
+
+    Returns:
+        List of track dicts with progress data
+    """
+    tracks_data = []
+    for track_summary in track_summaries:
+        track_path = fs.get_track_path(track_summary.id)
+        if track_path.exists():
+            try:
+                track = load_track(track_path)
+                tracks_data.append({
+                    "id": track.id,
+                    "name": track.name,
+                    "status": track.status.value,
+                    "progress": {
+                        "tasks_completed": track.progress.tasks_completed,
+                        "tasks_total": track.progress.tasks_total,
+                        "sprints_completed": track.progress.sprints_completed,
+                        "sprints_total": track.progress.sprints_total,
+                        "completion_percent": track.progress.completion_percent,
+                    },
+                })
+            except Exception:
+                # Fall back to summary data if track can't be loaded
+                tracks_data.append({
+                    "id": track_summary.id,
+                    "name": track_summary.name,
+                    "status": track_summary.status.value,
+                    "progress": {
+                        "tasks_completed": 0,
+                        "tasks_total": 0,
+                        "sprints_completed": 0,
+                        "sprints_total": 0,
+                        "completion_percent": 0,
+                    },
+                })
+        else:
+            # Track file doesn't exist, use summary
+            tracks_data.append({
+                "id": track_summary.id,
+                "name": track_summary.name,
+                "status": track_summary.status.value,
+                "progress": {
+                    "tasks_completed": 0,
+                    "tasks_total": 0,
+                    "sprints_completed": 0,
+                    "sprints_total": 0,
+                    "completion_percent": 0,
+                },
+            })
+    return tracks_data

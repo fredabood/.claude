@@ -1,0 +1,43 @@
+sprint:
+  id: goose-port-2
+  track_id: goose-port
+  name: Dynamic Discovery in MCP Server
+  status: completed
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T00:00:00+00:00'
+  completed: '2025-11-22T00:00:00+00:00'
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100
+  tasks:
+  - id: goose-port-2-task-001
+    name: Create frontmatter parser module
+    status: completed
+  - id: goose-port-2-task-002
+    name: Create agent discovery module
+    status: completed
+  - id: goose-port-2-task-003
+    name: Create workflow discovery module
+    status: completed
+  - id: goose-port-2-task-004
+    name: Create dynamic tool generator
+    status: completed
+  - id: goose-port-2-task-005
+    name: Integrate discovery into MCP server
+    status: completed
+  - id: goose-port-2-task-006
+    name: Add caching for discovered tools
+    status: completed
+  description: |
+    Extend existing MCP server with dynamic tool discovery.
+    MCP server scans frontmatter and generates tools automatically.
+  deliverables:
+  - framework/mcp/discovery/__init__.py - Module exports
+  - framework/mcp/discovery/parser.py - FrontmatterParser class
+  - framework/mcp/discovery/agents.py - AgentDiscovery + AgentDefinition
+  - framework/mcp/discovery/workflows.py - WorkflowDiscovery + WorkflowDefinition
+  - framework/mcp/discovery/generator.py - ToolGenerator class
+  - framework/mcp/discovery/discovery.py - ToolDiscovery with 60s TTL cache
+  - framework/mcp/server.py - Updated with dynamic tool integration

@@ -1,3 +1,76 @@
+---
+id: api-spec
+name: API Specification
+version: 1.0.0
+from_agent: backend-engineer
+to_agents:
+- frontend-engineer
+- documentation-engineer
+purpose: Template for api specification
+variables:
+- name: api_base_url
+  type: string
+  required: true
+  description: Api Base Url value
+- name: api_category
+  type: string
+  required: true
+  description: Api Category value
+- name: api_class_name
+  type: string
+  required: true
+  description: Api Class Name value
+- name: api_cost
+  type: string
+  required: true
+  description: Api Cost value
+- name: api_description
+  type: string
+  required: true
+  description: Api Description value
+- name: api_detailed_description
+  type: string
+  required: true
+  description: Api Detailed Description value
+- name: api_documentation_url
+  type: string
+  required: true
+  description: Api Documentation Url value
+- name: api_full_name
+  type: string
+  required: true
+  description: Api Full Name value
+- name: api_key_description
+  type: string
+  required: true
+  description: Api Key Description value
+- name: api_key_registration_url
+  type: string
+  required: true
+  description: Api Key Registration Url value
+- name: api_name
+  type: string
+  required: true
+  description: Api Name value
+- name: api_production_url
+  type: string
+  required: true
+  description: Api Production Url value
+- name: api_provider
+  type: string
+  required: true
+  description: Api Provider value
+- name: api_purpose
+  type: string
+  required: true
+  description: Api Purpose value
+- name: api_sandbox_url
+  type: string
+  required: true
+  description: Api Sandbox Url value
+description: Template for api specification
+---
+
 # API Specification: {{ api_name }}
 
 **Created by:** API Architect

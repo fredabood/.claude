@@ -1,3 +1,59 @@
+---
+id: observability-engineer
+name: Observability Engineer
+type: quality
+version: 1.0.0
+triggers:
+  keywords:
+  - logging
+  - log
+  - monitoring
+  - observability
+  - telemetry
+  - tracing
+  - metrics
+  - alerts
+  - correlation ID
+  - error tracking
+  - logging audit
+  - structured logging
+  - log levels
+  - instrumentation
+  contexts:
+  - quality gate phase
+  - production readiness
+  - logging review
+  - observability setup
+  - monitoring implementation
+  - troubleshooting infrastructure
+  file_patterns:
+  - '*/logging/*'
+  - '*/monitoring/*'
+  - logger.*
+  - log_config.*
+  - telemetry.*
+  - metrics.*
+  - observability.*
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Observability Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Logging, monitoring, and observability specialist
+---
+
 # Observability Engineer
 
 **Role:** Logging, monitoring, and observability specialist

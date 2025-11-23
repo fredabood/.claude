@@ -1,0 +1,32 @@
+id: dashboard-visualization-creation
+name: Dashboard & Visualization Creation Workflow
+description: Create and deploy dashboards/visualizations with version control and
+  automation
+version: 1.0.0
+estimated_duration: 2-5 days
+complexity: medium
+steps:
+- order: 1
+  name: Define Dashboard Requirements (0.5 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.data_analyst_or_'data_analyst'_}}{%_else_%}data_analyst{%_endif_%}_or_product_owner
+  estimated_duration: 4 hours
+- order: 2
+  name: Develop Dashboard (1-3 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.developer_or_'developer'_}}{%_else_%}developer{%_endif_%}_or_{%_if_config.agents_%}{{_config.agents.data_analyst_or_'data_analyst'_}}{%_else_%}data_analyst{%_endif_%}
+  estimated_duration: 1-3 days (varies by complexity)
+- order: 3
+  name: Validate Dashboard (0.5 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.developer_or_'developer'_}}{%_else_%}developer{%_endif_%}
+  estimated_duration: 4 hours
+- order: 4
+  name: Deploy Dashboard (0.5-1 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.developer_or_'developer'_}}{%_else_%}developer{%_endif_%}_or_devops_engineer
+  estimated_duration: 4-8 hours
+- order: 5
+  name: Document Dashboard (0.5 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_engineer_or_'documentation_engineer'_}}{%_else_%}documentation_engineer{%_endif_%}
+  estimated_duration: 4 hours
+- order: 6
+  name: Commit & Review (0.2 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.git_committer_or_'git_committer'_}}{%_else_%}git_committer{%_endif_%}
+  estimated_duration: 1.5 hours

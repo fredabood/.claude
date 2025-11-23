@@ -1,3 +1,49 @@
+---
+id: git-committer
+name: Git Committer Agent
+type: documentation
+version: 1.0.0
+triggers:
+  keywords:
+  - commit
+  - git commit
+  - save changes
+  - check in
+  - version control
+  - commit message
+  - git
+  - stage changes
+  - push
+  - create commit
+  contexts:
+  - work completion
+  - feature complete
+  - ready to commit
+  - save progress
+  - version control
+  file_patterns:
+  - .git/*
+  - modified files ready for commit
+  priority: low
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Git Committer Agent
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Create clean, descriptive commits following project conventions
+---
+
 # Git Committer Agent
 
 **Role:** Create clean, descriptive commits following project conventions

@@ -1,3 +1,56 @@
+---
+id: single-feature-development
+name: Single Feature Development
+type: development
+version: 1.0.0
+duration: 1-3 days (depending on complexity)
+complexity: medium
+steps:
+- order: 1
+  name: Architecture & Design
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 0.5-1 day
+- order: 2
+  name: Implementation
+  agent: '{%-if-config.project.type-==-''web-app''-%}web-developer{%-elif-config.project.type-==-''api''-%}api-developer{%-elif-config.project.type-==-''ml''-%}ml-engineer{%-else-%}developer{%-endif-%}'
+  duration: 0.5-1.5 days
+- order: 3
+  name: Comprehensive Testing
+  agent: test-engineer
+  duration: 0.25-0.75 days
+- order: 4
+  name: Security Review
+  agent: security-reviewer
+  duration: 0.25-0.5 days
+- order: 5
+  name: Integration
+  agent: integration-engineer
+  duration: 0.25-0.5 days
+- order: 6
+  name: Documentation
+  agent: documentation-engineer
+  duration: 0.25-0.5 days
+- order: 7
+  name: Commit & Push
+  agent: git-committer
+  duration: 0.25 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Complete development of a single feature from specification to deployment
+---
+
 # Workflow: Single Feature Development
 
 **Workflow ID:** Single Feature Development

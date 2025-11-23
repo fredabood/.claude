@@ -1,3 +1,52 @@
+---
+id: claude-md-auto-update
+name: .claude/CLAUDE.md Auto-Update Workflow
+type: development
+version: 1.0.0
+duration: 20-30 minutes
+complexity: medium
+steps:
+- order: 1
+  name: Detect Changes (5 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-''documentation-maintenance-engineer''-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 2
+  name: Gather Context (5 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-''documentation-maintenance-engineer''-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 3
+  name: Generate Updates (10 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-''documentation-maintenance-engineer''-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 4
+  name: Apply Updates (5 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-''documentation-maintenance-engineer''-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 5
+  name: Verify & Quality Check (3 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-''documentation-maintenance-engineer''-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 6
+  name: Commit Changes (2 minutes)
+  agent: '{%-if-config.agents-%}{{-config.agents.git_committer-or-''git-committer''-}}{%-else-%}git-committer{%-endif-%}'
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Automatically keep .claude/CLAUDE.md up to date as the project evolves
+---
+
 # .claude/CLAUDE.md Auto-Update Workflow
 
 **Purpose:** Automatically keep .claude/CLAUDE.md up to date as the project evolves

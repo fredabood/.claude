@@ -1,3 +1,57 @@
+---
+id: architecture-review
+name: Architecture Review
+type: development
+version: 1.0.0
+duration: 2-3 days
+complexity: medium
+steps:
+- order: 1
+  name: Request Architecture Review (Day 1, Morning)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 2
+  name: Review Sprint Plan / Design (Day 1, Afternoon)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 0.5 days
+- order: 3
+  name: Review Code & Infrastructure (Day 2)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 1 day
+- order: 4
+  name: Create Architecture Review Report (Day 2-3)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 0.5 days
+- order: 5
+  name: Implement Recommendations (Day 3)
+  agent: relevant-development-agents-({%-if-config.project.type-==-'web-app'-%}web-developer{%-elif-config.project.type-==-'api'-%}api-developer{%-elif-config.project.type-==-'ml'-%}ml-engineer{%-else-%}developers{%-endif-%},-devops-engineer,-etc.)
+  duration: Variable (0.5-2 days for critical items)
+- order: 6
+  name: Update Architecture Documentation (Day 3)
+  agent: documentation-engineer
+  duration: 0.5 days
+- order: 7
+  name: Commit Changes (Day 3)
+  agent: git-committer
+  duration: 0.25 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Systematic architecture review for sprints, code, infrastructure, and
+  system design
+---
+
 # Workflow: Architecture Review
 
 **Workflow ID:** Architecture Review

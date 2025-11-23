@@ -1,3 +1,54 @@
+---
+id: frontend-engineer
+name: Frontend Engineer
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - frontend
+  - ui component
+  - react component
+  - user interface
+  - responsive design
+  - state management
+  - css styling
+  - ui/ux
+  - component library
+  - web app ui
+  contexts:
+  - UI development
+  - component creation
+  - frontend features
+  - styling
+  - user experience
+  file_patterns:
+  - src/components/*
+  - src/pages/*
+  - src/styles/*
+  - '*.tsx'
+  - '*.jsx'
+  - '*.vue'
+  - '*.css'
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Frontend Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Build modern, responsive user interfaces
+---
+
 # Frontend Engineer
 
 **Role:** Build modern, responsive user interfaces

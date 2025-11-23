@@ -1,3 +1,76 @@
+---
+id: application-requirements
+name: Application Requirements
+version: 1.0.0
+from_agent: web-developer
+to_agents:
+- test-engineer
+- documentation-engineer
+purpose: Template for application requirements
+variables:
+- name: acceptance_criterion
+  type: string
+  required: true
+  description: Acceptance Criterion value
+- name: accessibility_compliance_level
+  type: string
+  required: true
+  description: Accessibility Compliance Level value
+- name: accessibility_requirement
+  type: string
+  required: true
+  description: Accessibility Requirement value
+- name: alerting_channels
+  type: string
+  required: true
+  description: Alerting Channels value
+- name: alt_flow
+  type: string
+  required: true
+  description: Alt Flow value
+- name: api_architecture
+  type: string
+  required: true
+  description: Api Architecture value
+- name: api_auth_method
+  type: string
+  required: true
+  description: Api Auth Method value
+- name: api_style
+  type: string
+  required: true
+  description: Api Style value
+- name: application_name
+  type: string
+  required: true
+  description: Application Name value
+- name: application_type
+  type: string
+  required: true
+  description: Application Type value
+- name: architecture_type
+  type: string
+  required: true
+  description: Architecture Type value
+- name: assumption
+  type: string
+  required: true
+  description: Assumption value
+- name: auth_requirements
+  type: string
+  required: true
+  description: Auth Requirements value
+- name: authentication_method
+  type: string
+  required: true
+  description: Authentication Method value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+description: Template for application requirements
+---
+
 # Application Requirements: {{ application_name }}
 
 **Document Type:** Handoff Template

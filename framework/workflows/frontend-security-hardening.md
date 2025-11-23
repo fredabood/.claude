@@ -1,3 +1,61 @@
+---
+id: frontend-security-hardening
+name: Frontend Security Hardening Workflow
+type: quality
+version: 1.0.0
+duration: 3-5 days
+complexity: high
+steps:
+- order: 1
+  name: Implement Authentication{% if config.security and config.security.authentication
+    %} ({{ config.security.authentication.method }}){% endif %} (1-2 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-}}{%-else-%}security-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 2
+  name: Implement Input Validation (1-2 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-}}{%-else-%}security-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 3
+  name: XSS Prevention (1 day)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-%}{%-else-%}security-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 4
+  name: Security Headers (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-%}{%-else-%}security-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 5
+  name: Rate Limiting (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-}}{%-else-%}security-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 6
+  name: Security Audit (1 day)
+  agent: '{%-if-config.agents-%}{{-config.agents.security_engineer-or-''security-engineer''-}}-+-{{-config.agents.test_engineer-or-''test-engineer''-}}{%-else-%}security-engineer-+-test-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 7
+  name: Documentation (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-''documentation-engineer''-}}{%-else-%}documentation-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 8
+  name: Commit Security Changes (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.git_committer-or-''git-committer''-}}{%-else-%}git-committer{%-endif-%}'
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Comprehensive security implementation and audit for frontend applications
+---
+
 # Frontend Security Hardening Workflow
 
 **Purpose:** Comprehensive security implementation and audit for frontend applications

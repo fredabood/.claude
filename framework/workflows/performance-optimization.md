@@ -1,3 +1,61 @@
+---
+id: performance-optimization
+name: Performance Optimization
+type: development
+version: 1.0.0
+duration: 5-8 days (1-1.5 weeks)
+complexity: medium
+steps:
+- order: 1
+  name: Identify Performance Issues & SLA Requirements (Day 1)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 2
+  name: Analyze Current Performance (Days 1-2)
+  agent: performance-engineer
+  duration: 1.5 days
+- order: 3
+  name: Review Architectural Optimization Opportunities (Day 3)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 1 day
+- order: 4
+  name: Implement Optimizations (Days 4-5)
+  agent: performance-engineer-→-developers
+  duration: 2 days
+- order: 5
+  name: Create Performance Regression Tests (Day 6)
+  agent: test-engineer
+  duration: 1 day
+- order: 6
+  name: Validate Improvements & Benchmark (Day 7)
+  agent: performance-engineer
+  duration: 1 day
+- order: 7
+  name: Document Optimization Patterns (Day 8)
+  agent: documentation-engineer
+  duration: 1 day
+- order: 8
+  name: Commit Optimized Code (Day 8)
+  agent: git-committer
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Systematic performance optimization cycle for applications, services,
+  and data pipelines
+---
+
 # Workflow: Performance Optimization
 
 **Workflow ID:** Performance Optimization

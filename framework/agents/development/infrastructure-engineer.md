@@ -1,3 +1,52 @@
+---
+id: infrastructure-engineer
+name: Infrastructure Engineer
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - infrastructure
+  - terraform
+  - kubernetes
+  - ci/cd pipeline
+  - deployment
+  - docker
+  - cloud setup
+  - devops
+  - iac
+  - containers
+  - orchestration
+  - cloudformation
+  contexts:
+  - infrastructure provisioning
+  - deployment automation
+  - cloud configuration
+  file_patterns:
+  - terraform/*
+  - k8s/*
+  - .github/workflows/*
+  - Dockerfile
+  - docker-compose.yml
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Infrastructure Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Build and manage infrastructure using Infrastructure as Code
+---
+
 # Infrastructure Engineer
 
 **Role:** Build and manage infrastructure using Infrastructure as Code

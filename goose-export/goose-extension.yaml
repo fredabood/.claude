@@ -1,0 +1,30 @@
+name: vibey
+version: 1.0.0
+type: mcp
+description: Vibey Agent Framework - Intelligent agent orchestration for AI coding
+  assistants. Provides 35 tools (19 agents, 16 workflows) covering planning, development,
+  quality, and documentation. Features dynamic tool discovery from YAML frontmatter
+  for zero-drift operation.
+mcp:
+  command: python
+  args:
+  - -m
+  - framework.mcp.server
+  - --roadmap-root
+  - .vibey/roadmap
+capabilities:
+  tools: 35
+  agents: 19
+  workflows: 16
+  recipes: 16
+  dynamic_discovery: true
+categories:
+- development
+- planning
+- quality
+- documentation
+- orchestration
+metadata:
+  homepage: https://github.com/vibey/vibey-framework
+  documentation: https://vibey.dev/docs
+  license: MIT

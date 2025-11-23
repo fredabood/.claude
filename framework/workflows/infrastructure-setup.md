@@ -1,3 +1,77 @@
+---
+id: infrastructure-setup
+name: Infrastructure Setup & Deployment
+type: deployment
+version: 1.0.0
+duration: 12-18 days (2.5-3.5 weeks)
+complexity: high
+steps:
+- order: 1
+  name: Define Infrastructure Requirements (Day 1)
+  agent: sprint-planning-agent
+  duration: 1 day
+- order: 2
+  name: Review Infrastructure Design (Days 2-3)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 2 days
+- order: 3
+  name: Design IaC Modules (Days 4-5)
+  agent: devops-engineer
+  duration: 2 days
+- order: 4
+  name: Implement IaC (Days 6-9)
+  agent: devops-engineer
+  duration: 4 days
+- order: 5
+  name: Review Secrets Management & Access Control (Days 10-11)
+  agent: security-reviewer
+  duration: 2 days
+- order: 6
+  name: Create CI/CD Pipelines (Days 12-13)
+  agent: devops-engineer
+  duration: 2 days
+- order: 7
+  name: Review Resource Sizing & Configurations (Day 14)
+  agent: performance-engineer
+  duration: 1 day
+- order: 8
+  name: Deploy to Dev Environment (Day 15)
+  agent: devops-engineer
+  duration: 1 day
+- order: 9
+  name: Deploy to Staging Environment (Day 16)
+  agent: devops-engineer
+  duration: 1 day
+- order: 10
+  name: Deploy to Production (with Approval) (Day 17)
+  agent: devops-engineer
+  duration: 1 day
+- order: 11
+  name: Update Infrastructure Documentation (Day 18)
+  agent: documentation-engineer
+  duration: 1 day
+- order: 12
+  name: Commit Infrastructure Code (Day 18)
+  agent: git-committer
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: End-to-end infrastructure provisioning using Infrastructure-as-Code across
+  multiple environments
+---
+
 # Workflow: Infrastructure Setup & Deployment
 
 **Workflow ID:** Infrastructure Setup

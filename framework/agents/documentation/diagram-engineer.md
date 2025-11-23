@@ -1,3 +1,54 @@
+---
+id: diagram-engineer
+name: Diagram Engineer
+type: documentation
+version: 1.0.0
+triggers:
+  keywords:
+  - diagram
+  - architecture diagram
+  - flow diagram
+  - sequence diagram
+  - ERD
+  - entity relationship
+  - data flow
+  - system diagram
+  - Mermaid
+  - visualize
+  - flowchart
+  - workflow diagram
+  contexts:
+  - architecture documentation
+  - system design
+  - data flow documentation
+  - technical documentation
+  - visual documentation needs
+  file_patterns:
+  - docs/architecture/*
+  - architecture.md
+  - system-design.md
+  - '*.mermaid'
+  - diagrams/*
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Diagram Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Mermaid diagram generation specialist for architecture documentation
+---
+
 # Diagram Engineer
 
 **Role:** Mermaid diagram generation specialist for architecture documentation

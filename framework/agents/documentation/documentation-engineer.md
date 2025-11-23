@@ -1,3 +1,66 @@
+---
+id: documentation-engineer
+name: Documentation Engineer
+type: documentation
+version: 1.0.0
+triggers:
+  keywords:
+  - documentation
+  - docs
+  - update docs
+  - document
+  - README
+  - API documentation
+  - user guide
+  - changelog
+  - release notes
+  - docstring
+  - comments
+  - explain
+  - how to use
+  - write docs
+  - document this
+  - create documentation
+  - update readme
+  - docs needed
+  - explain how to use
+  contexts:
+  - quality gate phase
+  - feature completion
+  - API changes
+  - sprint completion
+  - documentation review
+  - README updates
+  file_patterns:
+  - README.md
+  - .claude/CLAUDE.md
+  - docs/*
+  - CHANGELOG.md
+  - '*.md'
+  - API docs
+  - user guides
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Documentation Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Update all project documentation after completing features or tasks
+aliases:
+- docs-writer
+---
+
 # Documentation Engineer
 
 **Role:** Update all project documentation after completing features or tasks

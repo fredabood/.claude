@@ -1,3 +1,75 @@
+---
+id: diagram-handoff
+name: Diagram Handoff
+version: 1.0.0
+from_agent: diagram-engineer
+to_agents:
+- documentation-engineer
+purpose: Template for diagram handoff
+variables:
+- name: a11y_check
+  type: string
+  required: true
+  description: A11Y Check value
+- name: all_verified
+  type: string
+  required: true
+  description: All Verified value
+- name: body_text_size
+  type: string
+  required: true
+  description: Body Text Size value
+- name: content_check
+  type: string
+  required: true
+  description: Content Check value
+- name: deliverable
+  type: string
+  required: true
+  description: Deliverable value
+- name: dependency
+  type: string
+  required: true
+  description: Dependency value
+- name: desktop_app_version
+  type: string
+  required: true
+  description: Desktop App Version value
+- name: diagram_count
+  type: string
+  required: true
+  description: Diagram Count value
+- name: diagram_directory_structure
+  type: string
+  required: true
+  description: Diagram Directory Structure value
+- name: diagram_font
+  type: string
+  required: true
+  description: Diagram Font value
+- name: diagram_index_path
+  type: string
+  required: true
+  description: Diagram Index Path value
+- name: diagram_index_preview
+  type: string
+  required: true
+  description: Diagram Index Preview value
+- name: diagram_tool
+  type: string
+  required: true
+  description: Diagram Tool value
+- name: doc_check
+  type: string
+  required: true
+  description: Doc Check value
+- name: dpi
+  type: string
+  required: true
+  description: Dpi value
+description: Template for diagram handoff
+---
+
 # Diagram Handoff: {{ handoff_title }}
 
 **Document Type:** Handoff Template

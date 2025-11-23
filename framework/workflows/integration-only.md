@@ -1,3 +1,48 @@
+---
+id: integration-only
+name: Integration Only
+type: development
+version: 1.0.0
+duration: 30 minutes - 2 hours per component
+complexity: low
+steps:
+- order: 1
+  name: Gather Component Metadata
+  agent: integration-engineer-(with-developer-input)
+  duration: 5-10 minutes
+- order: 2
+  name: Register/Connect Component
+  agent: integration-engineer
+  duration: 15-30 minutes
+- order: 3
+  name: Create Integration Test
+  agent: integration-engineer
+  duration: 15-30 minutes
+- order: 4
+  name: Manual Verification
+  agent: integration-engineer
+  duration: 10-15 minutes
+- order: 5
+  name: Create Integration Handoff Document
+  agent: integration-engineer
+  duration: 10-15 minutes
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Integrate completed and tested components into the main system
+---
+
 # Workflow: Integration Only
 
 **Workflow ID:** Integration Only

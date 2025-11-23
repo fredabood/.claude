@@ -1,3 +1,64 @@
+---
+id: logging-audit
+name: Logging Audit
+type: development
+version: 1.0.0
+duration: 2-3 days
+complexity: medium
+steps:
+- order: 1
+  name: Preparation & Setup (Day 1, Morning)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 2
+  name: Audit Category 1 - Request Tracing (Day 1, Afternoon)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 3
+  name: Audit Category 2 - Error Context (Day 2, Morning)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 4
+  name: Audit Category 3 - Product Analytics (Day 2, Afternoon)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 5
+  name: Audit Category 4 - Performance Metrics (Day 3, Morning)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 6
+  name: Audit Category 5 - Log Accessibility (Day 3, Afternoon)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 7
+  name: Consolidate Audit Results (Day 3, End of Day)
+  agent: observability-engineer
+  duration: 0.25 days
+- order: 8
+  name: Create Remediation Plan (If Fail) [CONDITIONAL]
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 9
+  name: Update .claude/CLAUDE.md & Commit (Day 3, End of Day)
+  agent: documentation-engineer-+-git-committer
+  duration: 0.25 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Conduct comprehensive logging audit to ensure production readiness
+---
+
 # Workflow: Logging Audit
 
 **Workflow ID:** Logging Audit

@@ -1,3 +1,76 @@
+---
+id: codebase-audit-report
+name: Codebase Audit Report
+version: 1.0.0
+from_agent: researcher
+to_agents:
+- sprint-planning
+- architecture-agent
+purpose: Template for codebase audit report
+variables:
+- name: accomplishment
+  type: string
+  required: true
+  description: Accomplishment value
+- name: adr_count
+  type: string
+  required: true
+  description: Adr Count value
+- name: api_endpoints_documented
+  type: string
+  required: true
+  description: Api Endpoints Documented value
+- name: api_style
+  type: string
+  required: true
+  description: Api Style value
+- name: api_test_count
+  type: string
+  required: true
+  description: Api Test Count value
+- name: architecture_pattern
+  type: string
+  required: true
+  description: Architecture Pattern value
+- name: audit_commands_used
+  type: string
+  required: true
+  description: Audit Commands Used value
+- name: audit_date
+  type: string
+  required: true
+  description: Audit Date value
+- name: audit_duration
+  type: string
+  required: true
+  description: Audit Duration value
+- name: auth_method
+  type: string
+  required: true
+  description: Auth Method value
+- name: avg_commits_per_month
+  type: string
+  required: true
+  description: Avg Commits Per Month value
+- name: avg_commits_per_week
+  type: string
+  required: true
+  description: Avg Commits Per Week value
+- name: avg_dependency_age
+  type: string
+  required: true
+  description: Avg Dependency Age value
+- name: avg_file_size
+  type: string
+  required: true
+  description: Avg File Size value
+- name: avg_function_size
+  type: string
+  required: true
+  description: Avg Function Size value
+description: Template for codebase audit report
+---
+
 # Codebase Audit Report
 
 **Project:** {{ config.project.name }}

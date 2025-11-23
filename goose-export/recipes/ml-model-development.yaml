@@ -1,0 +1,53 @@
+id: ml-model-development
+name: ML Model Development
+description: End-to-end machine learning model lifecycle from requirements to production
+  deployment
+version: 1.0.0
+estimated_duration: 15-25 days (3-5 weeks)
+complexity: high
+steps:
+- order: 1
+  name: Define ML Use Case Requirements (Day 1)
+  tool: vibey_sprint_planning_agent
+  estimated_duration: 1 day
+- order: 2
+  name: Design ML Solution (Days 2-3)
+  tool: vibey_ml_engineer
+  estimated_duration: 2 days
+- order: 3
+  name: Ensure Training Data Availability (Days 3-4)
+  tool: vibey_{%_if_config.project.type_==_'data_platform'_%}gold_transformation_engineer{%_else_%}data_engineer{%_endif_%}
+  estimated_duration: 1-2 days
+- order: 4
+  name: Feature Engineering {% if config.ml_platform and config.ml_platform.feature_store
+    %}& Feature Store Creation{% endif %} (Days 5-7)
+  tool: vibey_ml_engineer
+  estimated_duration: 3 days
+- order: 5
+  name: Model Training, Tuning, Evaluation (Days 8-12)
+  tool: vibey_ml_engineer
+  estimated_duration: 5 days
+- order: 6
+  name: Review ML Infrastructure & Best Practices (Days 13-14)
+  tool: vibey_{%_if_config.architecture_%}{{_config.architecture.specialist_}}{%_else_%}architecture_specialist{%_endif_%}
+  estimated_duration: 2 days
+- order: 7
+  name: Optimize Feature Computation & Inference (Days 15-16)
+  tool: vibey_performance_engineer
+  estimated_duration: 2 days
+- order: 8
+  name: Model Registration & Deployment (Days 17-18)
+  tool: vibey_ml_engineer
+  estimated_duration: 2 days
+- order: 9
+  name: Create Model Monitoring Dashboard (Days 19-20)
+  tool: vibey_{%_if_config.project.type_==_'data_platform'_%}data_analyst{%_else_%}ml_engineer{%_endif_%}
+  estimated_duration: 2 days
+- order: 10
+  name: Document ML Model & Use Case (Days 21-22)
+  tool: vibey_documentation_engineer
+  estimated_duration: 2 days
+- order: 11
+  name: Commit All ML Artifacts (Day 23)
+  tool: vibey_git_committer
+  estimated_duration: 1 day

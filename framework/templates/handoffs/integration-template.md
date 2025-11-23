@@ -1,3 +1,76 @@
+---
+id: integration
+name: Integration Complete
+version: 1.0.0
+from_agent: web-developer
+to_agents:
+- test-engineer
+- security-reviewer
+purpose: Template for integration complete
+variables:
+- name: api_endpoint
+  type: string
+  required: true
+  description: Api Endpoint value
+- name: api_key_cost
+  type: string
+  required: true
+  description: Api Key Cost value
+- name: api_key_env_var
+  type: string
+  required: true
+  description: Api Key Env Var value
+- name: api_key_how_to_obtain
+  type: string
+  required: true
+  description: Api Key How To Obtain value
+- name: api_key_registration_url
+  type: string
+  required: true
+  description: Api Key Registration Url value
+- name: auth_method
+  type: string
+  required: true
+  description: Auth Method value
+- name: auth_required
+  type: string
+  required: true
+  description: Auth Required value
+- name: change_1_code_snippet
+  type: string
+  required: true
+  description: Change 1 Code Snippet value
+- name: change_1_description
+  type: string
+  required: true
+  description: Change 1 Description value
+- name: change_1_file
+  type: string
+  required: true
+  description: Change 1 File value
+- name: change_1_line
+  type: string
+  required: true
+  description: Change 1 Line value
+- name: change_1_title
+  type: string
+  required: true
+  description: Change 1 Title value
+- name: change_2_code_snippet
+  type: string
+  required: true
+  description: Change 2 Code Snippet value
+- name: change_2_description
+  type: string
+  required: true
+  description: Change 2 Description value
+- name: change_2_file
+  type: string
+  required: true
+  description: Change 2 File value
+description: Template for integration complete
+---
+
 # Integration Complete: {{ component_name }}
 
 **Date:** {{ integration_date }}

@@ -1,0 +1,39 @@
+sprint:
+  id: goose-port-5
+  track_id: goose-port
+  name: Documentation & Launch
+  status: completed
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T22:30:00+00:00'
+  completed: '2025-11-22T23:00:00+00:00'
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100
+  tasks:
+  - id: goose-port-5-task-001
+    name: Frontmatter schema reference documentation
+    status: completed
+  - id: goose-port-5-task-002
+    name: Goose integration guide
+    status: completed
+  - id: goose-port-5-task-003
+    name: Recipe development guide
+    status: completed
+  - id: goose-port-5-task-004
+    name: Migration guide (Claude Code to Goose)
+    status: completed
+  - id: goose-port-5-task-005
+    name: Update README and announce release
+    status: completed
+  description: |
+    Complete documentation and prepare for launch.
+    Final sprint to make the Goose port production-ready with
+    comprehensive documentation for users and developers.
+  deliverables:
+  - docs/reference/FRONTMATTER_SCHEMA.md - Complete schema reference
+  - docs/guides/GOOSE_INTEGRATION.md - Step-by-step Goose setup guide
+  - docs/guides/RECIPE_DEVELOPMENT.md - How to create Goose recipes
+  - docs/guides/MIGRATION_CLAUDE_TO_GOOSE.md - Migration guide
+  - Updated README.md with Goose support announcement

@@ -1,3 +1,75 @@
+---
+id: deployment-checklist
+name: Deployment Checklist
+version: 1.0.0
+from_agent: infrastructure-engineer
+to_agents:
+- documentation-engineer
+purpose: Template for deployment checklist
+variables:
+- name: app_label
+  type: string
+  required: true
+  description: App Label value
+- name: app_name
+  type: string
+  required: true
+  description: App Name value
+- name: artifact_bucket
+  type: string
+  required: true
+  description: Artifact Bucket value
+- name: artifact_name
+  type: string
+  required: true
+  description: Artifact Name value
+- name: backend_image_name
+  type: string
+  required: true
+  description: Backend Image Name value
+- name: backup_bucket
+  type: string
+  required: true
+  description: Backup Bucket value
+- name: bucket_name
+  type: string
+  required: true
+  description: Bucket Name value
+- name: build_command
+  type: string
+  required: true
+  description: Build Command value
+- name: cdn_distribution
+  type: string
+  required: true
+  description: Cdn Distribution value
+- name: cloud_region
+  type: string
+  required: true
+  description: Cloud Region value
+- name: custom_deploy_command
+  type: string
+  required: true
+  description: Custom Deploy Command value
+- name: custom_rollback_command
+  type: string
+  required: true
+  description: Custom Rollback Command value
+- name: custom_rollback_criteria
+  type: string
+  required: true
+  description: Custom Rollback Criteria value
+- name: dependency_install_command
+  type: string
+  required: true
+  description: Dependency Install Command value
+- name: deployer_name
+  type: string
+  required: true
+  description: Deployer Name value
+description: Template for deployment checklist
+---
+
 # Deployment Checklist: {{ environment_name }}
 
 **Created by:** {{ config.roles.devops_engineer or 'DevOps Engineer' }}

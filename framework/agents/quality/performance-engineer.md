@@ -1,3 +1,61 @@
+---
+id: performance-engineer
+name: Performance Engineer
+type: quality
+version: 1.0.0
+triggers:
+  keywords:
+  - performance
+  - slow
+  - optimization
+  - optimize
+  - bottleneck
+  - latency
+  - throughput
+  - memory
+  - CPU
+  - query performance
+  - caching
+  - profiling
+  - benchmark
+  - load time
+  - response time
+  - scalability
+  contexts:
+  - performance issues
+  - optimization sprint
+  - production performance
+  - slow queries
+  - high latency
+  - resource optimization
+  - profiling session
+  file_patterns:
+  - performance tests
+  - benchmarks/*
+  - profiling results
+  - '*.perf'
+  - query optimizations
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Performance Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Performance optimization specialist for applications, databases, and
+  APIs
+---
+
 # Performance Engineer
 
 **Role:** Performance optimization specialist for applications, databases, and APIs

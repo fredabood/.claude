@@ -1,3 +1,76 @@
+---
+id: research-summary
+name: Research Summary
+version: 1.0.0
+from_agent: researcher
+to_agents:
+- sprint-planning
+- web-developer
+purpose: Template for research summary
+variables:
+- name: api_key_env_var
+  type: string
+  required: true
+  description: Api Key Env Var value
+- name: architecture_diagram
+  type: string
+  required: true
+  description: Architecture Diagram value
+- name: artifact_id
+  type: string
+  required: true
+  description: Artifact Id value
+- name: auth_header_format
+  type: string
+  required: true
+  description: Auth Header Format value
+- name: auth_header_name
+  type: string
+  required: true
+  description: Auth Header Name value
+- name: auth_method
+  type: string
+  required: true
+  description: Auth Method value
+- name: base_url
+  type: string
+  required: true
+  description: Base Url value
+- name: basic_configuration_code
+  type: string
+  required: true
+  description: Basic Configuration Code value
+- name: compression_ratio
+  type: string
+  required: true
+  description: Compression Ratio value
+- name: con
+  type: string
+  required: true
+  description: Con value
+- name: difference
+  type: string
+  required: true
+  description: Difference value
+- name: endpoint
+  type: string
+  required: true
+  description: Endpoint value
+- name: error_handling_example_python
+  type: string
+  required: true
+  description: Error Handling Example Python value
+- name: error_handling_example_typescript
+  type: string
+  required: true
+  description: Error Handling Example Typescript value
+- name: fact
+  type: string
+  required: true
+  description: Fact value
+description: Template for research summary
+---
+
 # Research Summary: {{ research_topic }}
 
 **Document Type:** Handoff Template

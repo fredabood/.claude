@@ -1,3 +1,76 @@
+---
+id: infrastructure-design
+name: Infrastructure Design Document
+version: 1.0.0
+from_agent: architecture-agent
+to_agents:
+- web-developer
+- backend-engineer
+purpose: Template for infrastructure design document
+variables:
+- name: alert
+  type: string
+  required: true
+  description: Alert value
+- name: architecture_diagram
+  type: string
+  required: true
+  description: Architecture Diagram value
+- name: audit_logging_configuration
+  type: string
+  required: true
+  description: Audit Logging Configuration value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: aws_secrets_manager_config
+  type: string
+  required: true
+  description: Aws Secrets Manager Config value
+- name: azure_app_service_plan
+  type: string
+  required: true
+  description: Azure App Service Plan value
+- name: azure_functions_count
+  type: string
+  required: true
+  description: Azure Functions Count value
+- name: azure_functions_runtime
+  type: string
+  required: true
+  description: Azure Functions Runtime value
+- name: azure_key_vault_config
+  type: string
+  required: true
+  description: Azure Key Vault Config value
+- name: backup_storage_configuration
+  type: string
+  required: true
+  description: Backup Storage Configuration value
+- name: change_sets_policy
+  type: string
+  required: true
+  description: Change Sets Policy value
+- name: cost_tracking_strategy
+  type: string
+  required: true
+  description: Cost Tracking Strategy value
+- name: creation_date
+  type: string
+  required: true
+  description: Creation Date value
+- name: database_encryption
+  type: string
+  required: true
+  description: Database Encryption value
+- name: dev_backend_config
+  type: string
+  required: true
+  description: Dev Backend Config value
+description: Template for infrastructure design document
+---
+
 # Infrastructure Design Document: {{ project_name }}
 
 **Document Type:** Handoff Template

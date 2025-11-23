@@ -1,3 +1,49 @@
+---
+id: documentation-maintenance-engineer
+name: Documentation Maintenance Engineer
+type: documentation
+version: 1.0.0
+triggers:
+  keywords:
+  - update .claude/CLAUDE.md
+  - maintain docs
+  - refresh documentation
+  - sync docs
+  - archive sprint
+  - document progress
+  - update project state
+  - .claude/CLAUDE.md maintenance
+  contexts:
+  - sprint completion
+  - milestone reached
+  - quarterly review
+  - documentation sync
+  - project state updates
+  file_patterns:
+  - .claude/CLAUDE.md
+  - docs/sprints/*
+  - ROADMAP.md
+  - project status
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Documentation Maintenance Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: ''
+---
+
 # Documentation Maintenance Engineer
 
 **Purpose:** Automatically keeps .claude/CLAUDE.md up to date as the project evolves

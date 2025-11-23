@@ -1,3 +1,32 @@
+---
+id: weekly-sprint
+name: Weekly Sprint
+type: development
+version: 1.0.0
+duration: 3-5 days (3-7 features/components)
+complexity: high
+steps:
+- order: 2
+  name: Integration Engineering
+  agent: integration-engineer
+  duration: 0.5-1 day
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Execute parallel feature development for weekly sprint completion
+---
+
 # Workflow: Weekly Sprint
 
 **Workflow ID:** Weekly Sprint

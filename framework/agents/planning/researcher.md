@@ -1,3 +1,54 @@
+---
+id: researcher
+name: Researcher Agent
+type: planning
+version: 1.0.0
+triggers:
+  keywords:
+  - research
+  - documentation
+  - API docs
+  - library documentation
+  - investigate
+  - explore
+  - learn about
+  - understand
+  - how does X work
+  - what is X
+  - study
+  - analyze documentation
+  contexts:
+  - new technology adoption
+  - API integration
+  - library selection
+  - unfamiliar tools
+  - before implementation
+  - tech evaluation
+  file_patterns:
+  - README.md
+  - docs/research/*
+  - docs/reference/*
+  - external documentation links
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Researcher Agent
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: ''
+---
+
 # Researcher Agent
 
 **Version:** 1.0

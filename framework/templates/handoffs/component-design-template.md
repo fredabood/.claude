@@ -1,3 +1,76 @@
+---
+id: component-design
+name: Component/Feature Specification
+version: 1.0.0
+from_agent: architecture-agent
+to_agents:
+- web-developer
+- backend-engineer
+purpose: Template for component/feature specification
+variables:
+- name: a11y_test
+  type: string
+  required: true
+  description: A11Y Test value
+- name: action_logic
+  type: string
+  required: true
+  description: Action Logic value
+- name: action_name
+  type: string
+  required: true
+  description: Action Name value
+- name: action_payload_type
+  type: string
+  required: true
+  description: Action Payload Type value
+- name: all_props_example
+  type: string
+  required: true
+  description: All Props Example value
+- name: api_method
+  type: string
+  required: true
+  description: Api Method value
+- name: api_params
+  type: string
+  required: true
+  description: Api Params value
+- name: api_test
+  type: string
+  required: true
+  description: Api Test value
+- name: api_validation_description
+  type: string
+  required: true
+  description: Api Validation Description value
+- name: aria_label
+  type: string
+  required: true
+  description: Aria Label value
+- name: aria_role
+  type: string
+  required: true
+  description: Aria Role value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: background_color
+  type: string
+  required: true
+  description: Background Color value
+- name: border_color
+  type: string
+  required: true
+  description: Border Color value
+- name: button_label
+  type: string
+  required: true
+  description: Button Label value
+description: Template for component/feature specification
+---
+
 # Component/Feature Specification: {{ component_name }}
 
 **Document Type:** Handoff Template

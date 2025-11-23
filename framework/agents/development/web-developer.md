@@ -1,3 +1,63 @@
+---
+id: web-developer
+name: Web Developer
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - frontend
+  - UI
+  - user interface
+  - web app
+  - dashboard
+  - React
+  - Vue
+  - Angular
+  - component
+  - page
+  - form
+  - styling
+  - CSS
+  - responsive
+  - mobile
+  - browser
+  - client-side
+  contexts:
+  - building user interfaces
+  - web development
+  - frontend development
+  - dashboard creation
+  - UI/UX implementation
+  file_patterns:
+  - src/components/*
+  - src/pages/*
+  - src/styles/*
+  - '*.tsx'
+  - '*.jsx'
+  - '*.vue'
+  - '*.css'
+  - '*.scss'
+  - public/*
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Web Developer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Build and maintain web applications for user-facing interfaces
+---
+
 # Web Developer
 
 **Role:** Build and maintain web applications for user-facing interfaces

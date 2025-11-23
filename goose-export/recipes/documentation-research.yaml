@@ -1,0 +1,33 @@
+id: documentation-research
+name: Documentation Research & Preprocessing Workflow
+description: Research and summarize verbose documentation to prevent context window
+  waste
+version: 1.0.0
+estimated_duration: 1-2 days
+complexity: low
+steps:
+- order: 1
+  name: Identify Documentation Need (0.1 days)
+  tool: vibey_any_agent_(requesting_research)
+  estimated_duration: 15-30 minutes
+- order: 2
+  name: Fetch & Analyze Documentation (0.5 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.researcher_or_'researcher'_}}{%_else_%}researcher{%_endif_%}
+  estimated_duration: 4 hours
+- order: 3
+  name: Create Summary & Templates (0.5 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.researcher_or_'researcher'_}}{%_else_%}researcher{%_endif_%}
+  estimated_duration: 4 hours
+- order: 4
+  name: Update Master Index (0.2 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.researcher_or_'researcher'_}}{%_else_%}researcher{%_endif_%}
+  estimated_duration: 1.5 hours
+- order: 5
+  name: Deliver to Requesting Agent (0.1 days)
+  tool: "vibey_{%_if_config.agents_%}{{_config.agents.researcher_or_'researcher'_}}_\u2192\
+    _requesting_agent{%_else_%}researcher_\u2192_requesting_agent{%_endif_%}"
+  estimated_duration: 30 minutes
+- order: 6
+  name: Commit Research Artifacts (0.2 days)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.git_committer_or_'git_committer'_}}{%_else_%}git_committer{%_endif_%}
+  estimated_duration: 1.5 hours

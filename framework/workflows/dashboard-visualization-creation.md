@@ -1,3 +1,53 @@
+---
+id: dashboard-visualization-creation
+name: Dashboard & Visualization Creation Workflow
+type: development
+version: 1.0.0
+duration: 2-5 days
+complexity: medium
+steps:
+- order: 1
+  name: Define Dashboard Requirements (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.data_analyst-or-''data-analyst''-}}{%-else-%}data-analyst{%-endif-%}-or-product-owner'
+  duration: 4 hours
+- order: 2
+  name: Develop Dashboard (1-3 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.developer-or-''developer''-}}{%-else-%}developer{%-endif-%}-or-{%-if-config.agents-%}{{-config.agents.data_analyst-or-''data-analyst''-}}{%-else-%}data-analyst{%-endif-%}'
+  duration: 1-3 days (varies by complexity)
+- order: 3
+  name: Validate Dashboard (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.developer-or-''developer''-}}{%-else-%}developer{%-endif-%}'
+  duration: 4 hours
+- order: 4
+  name: Deploy Dashboard (0.5-1 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.developer-or-''developer''-}}{%-else-%}developer{%-endif-%}-or-devops-engineer'
+  duration: 4-8 hours
+- order: 5
+  name: Document Dashboard (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-''documentation-engineer''-}}{%-else-%}documentation-engineer{%-endif-%}'
+  duration: 4 hours
+- order: 6
+  name: Commit & Review (0.2 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.git_committer-or-''git-committer''-}}{%-else-%}git-committer{%-endif-%}'
+  duration: 1.5 hours
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Create and deploy dashboards/visualizations with version control and
+  automation
+---
+
 # Dashboard & Visualization Creation Workflow
 
 **Purpose:** Create and deploy dashboards/visualizations with version control and automation

@@ -1,3 +1,70 @@
+---
+id: security-reviewer
+name: Security Reviewer
+type: quality
+version: 1.0.0
+triggers:
+  keywords:
+  - security
+  - vulnerability
+  - exploit
+  - OWASP
+  - authentication
+  - authorization
+  - auth
+  - JWT
+  - token
+  - password
+  - encryption
+  - XSS
+  - SQL injection
+  - CSRF
+  - secrets
+  - credentials
+  - secure
+  - audit
+  - penetration test
+  - compliance
+  contexts:
+  - quality gate phase
+  - pre-deployment
+  - authentication implementation
+  - API security
+  - data protection
+  - compliance audit
+  - security review
+  - security audit
+  file_patterns:
+  - '*/auth/*'
+  - '*/security/*'
+  - '*login*'
+  - '*password*'
+  - '*token*'
+  - '*.env'
+  - credentials*
+  - secrets*
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Security Reviewer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Review code for security vulnerabilities and best practices
+aliases:
+- security-auditor
+---
+
 # Security Reviewer
 
 **Role:** Review code for security vulnerabilities and best practices

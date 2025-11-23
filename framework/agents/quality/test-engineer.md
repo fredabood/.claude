@@ -1,3 +1,62 @@
+---
+id: test-engineer
+name: Test Engineer
+type: quality
+version: 1.0.0
+triggers:
+  keywords:
+  - write tests
+  - add tests
+  - test coverage
+  - unit test
+  - integration test
+  - e2e test
+  - increase coverage
+  - test this code
+  - failing test
+  - fix test
+  - pytest
+  - jest
+  - cypress
+  - test suite
+  - mock
+  - fixture
+  - test automation
+  contexts:
+  - testing requirements
+  - quality assurance
+  - CI/CD setup
+  - test-driven development
+  - debugging test failures
+  file_patterns:
+  - tests/*
+  - test_*.py
+  - '*.test.js'
+  - '*.spec.ts'
+  - __tests__/*
+  - cypress/*
+  - pytest.ini
+  - jest.config.js
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Test Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Write comprehensive automated tests for code quality assurance
+---
+
 # Test Engineer
 
 **Role:** Write comprehensive automated tests for code quality assurance

@@ -1,3 +1,71 @@
+---
+id: frontend-production-deployment
+name: Frontend Production Deployment Workflow
+type: deployment
+version: 1.0.0
+duration: 1-2 days
+complexity: medium
+steps:
+- order: 1
+  name: Create Production Builds (4 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 2
+  name: '{% if config.deployment and config.deployment.type == ''docker'' %}Create
+    Docker Containers{% elif config.deployment and config.deployment.type == ''kubernetes''
+    %}Create Kubernetes Manifests{% elif config.deployment and config.deployment.type
+    == ''serverless'' %}Configure Serverless Deployment{% else %}Package Application{%
+    endif %} (4 hours)'
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 3
+  name: Configure CI/CD Pipeline (6 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 4
+  name: Deploy to {% if config.environments %}{{ config.environments.staging | title
+    or 'Staging' }}{% else %}Staging{% endif %} (2 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 5
+  name: Run E2E Tests on {% if config.environments %}{{ config.environments.staging
+    | title or 'Staging' }}{% else %}Staging{% endif %} (4 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.test_engineer-or-''test-engineer''-}}{%-else-%}test-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 6
+  name: Deploy to {% if config.environments %}{{ config.environments.prod | title
+    or 'Production' }}{% else %}Production{% endif %} (2 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 7
+  name: Configure Monitoring (2 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-''deployment-engineer''-}}{%-else-%}deployment-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 8
+  name: Create Operational Runbook (2 hours)
+  agent: '{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-''documentation-engineer''-}}{%-else-%}documentation-engineer{%-endif-%}'
+  duration: 0.5 days
+- order: 9
+  name: Commit Deployment Configurations (1 hour)
+  agent: '{%-if-config.agents-%}{{-config.agents.git_committer-or-''git-committer''-}}{%-else-%}git-committer{%-endif-%}'
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Package, test, and deploy frontend application to production
+---
+
 # Frontend Production Deployment Workflow
 
 **Purpose:** Package, test, and deploy frontend application to production

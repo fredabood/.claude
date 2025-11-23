@@ -1,3 +1,76 @@
+---
+id: security-report
+name: Security Review
+version: 1.0.0
+from_agent: security-reviewer
+to_agents:
+- web-developer
+- documentation-engineer
+purpose: Template for security review
+variables:
+- name: api_mocking_status
+  type: string
+  required: true
+  description: Api Mocking Status value
+- name: approval_decision
+  type: string
+  required: true
+  description: Approval Decision value
+- name: approval_summary
+  type: string
+  required: true
+  description: Approval Summary value
+- name: areas_for_improvement
+  type: string
+  required: true
+  description: Areas For Improvement value
+- name: auth_findings
+  type: string
+  required: true
+  description: Auth Findings value
+- name: auth_recommendations
+  type: string
+  required: true
+  description: Auth Recommendations value
+- name: auth_status
+  type: string
+  required: true
+  description: Auth Status value
+- name: component_name
+  type: string
+  required: true
+  description: Component Name value
+- name: conditional_approval_summary
+  type: string
+  required: true
+  description: Conditional Approval Summary value
+- name: critical_count
+  type: string
+  required: true
+  description: Critical Count value
+- name: critical_issues_list
+  type: string
+  required: true
+  description: Critical Issues List value
+- name: critical_issues_section
+  type: string
+  required: true
+  description: Critical Issues Section value
+- name: cve_check_output
+  type: string
+  required: true
+  description: Cve Check Output value
+- name: database_security_findings
+  type: string
+  required: true
+  description: Database Security Findings value
+- name: database_security_recommendations
+  type: string
+  required: true
+  description: Database Security Recommendations value
+description: Template for security review
+---
+
 # Security Review: {{ component_name }}
 
 **Reviewer:** {{ config.roles.security_reviewer or 'Security Reviewer' }}

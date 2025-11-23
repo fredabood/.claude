@@ -1,0 +1,16 @@
+{
+  "name": "vibey",
+  "version": "1.0.0",
+  "description": "Vibey Agent Framework MCP Server",
+  "command": "python -m framework.mcp.server",
+  "args": [
+    "--roadmap-root",
+    ".vibey/roadmap"
+  ],
+  "capabilities": {
+    "tools": 35,
+    "agents": 19,
+    "workflows": 16
+  },
+  "tool_prefix": "vibey"
+}

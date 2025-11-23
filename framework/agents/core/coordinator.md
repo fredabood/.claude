@@ -1,3 +1,39 @@
+---
+id: coordinator
+name: Coordinator Agent
+type: core
+version: 1.0.0
+triggers:
+  keywords:
+  - N/A (coordinator is triggered by complexity
+  - not keywords)
+  contexts:
+  - Complex multi-step requests
+  - interdependent features
+  - uncertain routing needs
+  - sprint planning with many concerns
+  file_patterns:
+  - N/A
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Coordinator Agent
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Intelligent request router for complex, multi-step workflows
+---
+
 # Coordinator Agent
 
 ⚠️ **DEPRECATED - Framework v2.0**

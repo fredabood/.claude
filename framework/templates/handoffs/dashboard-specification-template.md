@@ -1,3 +1,76 @@
+---
+id: dashboard-specification
+name: Dashboard Specification
+version: 1.0.0
+from_agent: backend-engineer
+to_agents:
+- frontend-engineer
+- documentation-engineer
+purpose: Template for dashboard specification
+variables:
+- name: aggregation_strategy
+  type: string
+  required: true
+  description: Aggregation Strategy value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: body_font
+  type: string
+  required: true
+  description: Body Font value
+- name: body_size
+  type: string
+  required: true
+  description: Body Size value
+- name: caching_strategy
+  type: string
+  required: true
+  description: Caching Strategy value
+- name: categorical_scale
+  type: string
+  required: true
+  description: Categorical Scale value
+- name: company_colors
+  type: string
+  required: true
+  description: Company Colors value
+- name: creation_date
+  type: string
+  required: true
+  description: Creation Date value
+- name: criterion
+  type: string
+  required: true
+  description: Criterion value
+- name: cross_filter_behavior
+  type: string
+  required: true
+  description: Cross Filter Behavior value
+- name: custom_css
+  type: string
+  required: true
+  description: Custom Css value
+- name: dashboard_name
+  type: string
+  required: true
+  description: Dashboard Name value
+- name: dashboard_platform
+  type: string
+  required: true
+  description: Dashboard Platform value
+- name: dashboard_purpose
+  type: string
+  required: true
+  description: Dashboard Purpose value
+- name: data_refresh_target
+  type: string
+  required: true
+  description: Data Refresh Target value
+description: Template for dashboard specification
+---
+
 # Dashboard Specification: {{ dashboard_name }}
 
 **Document Type:** Handoff Template

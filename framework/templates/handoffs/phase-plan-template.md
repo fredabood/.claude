@@ -1,3 +1,76 @@
+---
+id: phase-plan
+name: 'Phase Plan:  -'
+version: 1.0.0
+from_agent: sprint-planning
+to_agents:
+- web-developer
+- test-engineer
+purpose: 'Template for phase plan:  -'
+variables:
+- name: api_authentication_method
+  type: string
+  required: true
+  description: Api Authentication Method value
+- name: api_endpoints_list
+  type: string
+  required: true
+  description: Api Endpoints List value
+- name: api_endpoints_summary
+  type: string
+  required: true
+  description: Api Endpoints Summary value
+- name: api_rate_limiting
+  type: string
+  required: true
+  description: Api Rate Limiting value
+- name: api_versioning_strategy
+  type: string
+  required: true
+  description: Api Versioning Strategy value
+- name: assigned_workflow
+  type: string
+  required: true
+  description: Assigned Workflow value
+- name: components_list
+  type: string
+  required: true
+  description: Components List value
+- name: components_to_create
+  type: string
+  required: true
+  description: Components To Create value
+- name: consideration
+  type: string
+  required: true
+  description: Consideration value
+- name: coverage_tool
+  type: string
+  required: true
+  description: Coverage Tool value
+- name: criterion
+  type: string
+  required: true
+  description: Criterion value
+- name: daily_targets_description
+  type: string
+  required: true
+  description: Daily Targets Description value
+- name: deliverable
+  type: string
+  required: true
+  description: Deliverable value
+- name: deployment_scripts_list
+  type: string
+  required: true
+  description: Deployment Scripts List value
+- name: detail
+  type: string
+  required: true
+  description: Detail value
+description: 'Template for phase plan:  -'
+---
+
 # Phase Plan: {{ sprint_version }} - {{ phase_name }}
 
 **Phase:** {{ phase_number }} of {{ total_phases }}

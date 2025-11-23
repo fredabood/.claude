@@ -1,3 +1,73 @@
+---
+id: codebase-audit-discovery
+name: Codebase Audit & Discovery
+type: planning
+version: 1.0.0
+duration: 60-105 minutes (code audit only) OR 10-20 minutes (git history only) OR
+  70-125 minutes (both)
+complexity: medium
+steps:
+- order: 1
+  name: Detect Project Type & Structure (5-10 minutes)
+  agent: researcher
+  duration: 0.5 days
+- order: 2
+  name: Detect Technology Stack (10-15 minutes)
+  agent: researcher
+  duration: 0.5 days
+- order: 3
+  name: Review Existing Documentation (5-10 minutes)
+  agent: researcher
+  duration: 0.5 days
+- order: 4
+  name: Security Scan (10-15 minutes)
+  agent: security-reviewer
+  duration: 0.5 days
+- order: 5
+  name: Logging & Observability Audit (5-10 minutes)
+  agent: observability-engineer
+  duration: 0.5 days
+- order: 6
+  name: Test Coverage Analysis (10-15 minutes)
+  agent: test-engineer-(via-researcher-agent)
+  duration: 0.5 days
+- order: 7
+  name: Code Quality Metrics (5-10 minutes)
+  agent: researcher
+  duration: 0.5 days
+- order: 8
+  name: Identify Patterns & Conventions (5 minutes)
+  agent: architecture-specialist-(via-researcher)
+  duration: 0.5 days
+- order: 9
+  name: Git History Analysis (OPTIONAL - Can Run Independently)
+  agent: researcher
+  duration: 10-20 minutes
+- order: 10
+  name: Generate Audit Report (5-10 minutes)
+  agent: documentation-engineer
+  duration: 0.5 days
+- order: 11
+  name: Pre-fill Project Configuration (5 minutes)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Comprehensive analysis of existing codebase before first sprint planning
+---
+
 # Workflow: Codebase Audit & Discovery
 
 **Workflow ID:** Codebase Audit & Discovery

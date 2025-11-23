@@ -1,3 +1,76 @@
+---
+id: ml-evaluation-report
+name: ML Evaluation Report
+version: 1.0.0
+from_agent: ml-engineer
+to_agents:
+- test-engineer
+- documentation-engineer
+purpose: Template for ml evaluation report
+variables:
+- name: accuracy_status
+  type: string
+  required: true
+  description: Accuracy Status value
+- name: accuracy_target
+  type: string
+  required: true
+  description: Accuracy Target value
+- name: accuracy_value
+  type: string
+  required: true
+  description: Accuracy Value value
+- name: algorithm_name
+  type: string
+  required: true
+  description: Algorithm Name value
+- name: api_endpoint
+  type: string
+  required: true
+  description: Api Endpoint value
+- name: artifacts_description
+  type: string
+  required: true
+  description: Artifacts Description value
+- name: auc_status
+  type: string
+  required: true
+  description: Auc Status value
+- name: auc_target
+  type: string
+  required: true
+  description: Auc Target value
+- name: auc_value
+  type: string
+  required: true
+  description: Auc Value value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: baseline_accuracy
+  type: string
+  required: true
+  description: Baseline Accuracy value
+- name: baseline_auc
+  type: string
+  required: true
+  description: Baseline Auc value
+- name: baseline_comparison_conclusion
+  type: string
+  required: true
+  description: Baseline Comparison Conclusion value
+- name: baseline_f1
+  type: string
+  required: true
+  description: Baseline F1 value
+- name: baseline_fps
+  type: string
+  required: true
+  description: Baseline Fps value
+description: Template for ml evaluation report
+---
+
 # ML Evaluation Report: {{ model_name }}
 
 **Document Type:** Handoff Template

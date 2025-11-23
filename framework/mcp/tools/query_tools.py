@@ -163,11 +163,11 @@ async def handle_query_track(
         if track_info.get('estimated_duration'):
             text += f"- Estimated Duration: {track_info['estimated_duration']}\n"
 
-        # Progress breakdown
+        # Progress breakdown - operations library returns string format
         progress = track_info['progress']
         text += "\n**Progress:**\n"
-        text += f"- Overall: {progress['completion_percent']}% ({progress['tasks_completed']}/{progress['tasks_total']} tasks)\n"
-        text += f"- Sprints: {progress['sprints_completed']}/{progress['sprints_total']} complete\n"
+        text += f"- Overall: {progress.get('completion', 'N/A')} ({progress.get('tasks', 'N/A')} tasks)\n"
+        text += f"- Sprints: {progress.get('sprints', 'N/A')} complete\n"
 
         return {
             "content": [
@@ -362,26 +362,24 @@ async def handle_roadmap_status(
         text = f"📊 Roadmap: {status['name']}\n\n"
         text += f"**Version:** {status['version']}\n"
         text += f"**Status:** {status['status']}\n"
-        text += f"**Blocked:** {'Yes' if status['blocked'] else 'No'}\n\n"
+        text += f"**Blocked:** {'Yes' if status.get('blocked') else 'No'}\n\n"
 
-        # Progress
+        # Progress - operations library returns string format (e.g., "13/20", "94%")
         progress = status['progress']
         text += "**Overall Progress:**\n"
-        text += f"- Completion: {progress['completion_percent']}%\n"
-        text += f"- Tracks: {progress['tracks_completed']}/{progress['tracks_total']} complete\n"
-        text += f"- Sprints: {progress['sprints_completed']}/{progress['sprints_total']} complete\n"
-        text += f"- Tasks: {progress['tasks_completed']}/{progress['tasks_total']} complete\n\n"
+        text += f"- Completion: {progress.get('completion', 'N/A')}\n"
+        text += f"- Tracks: {progress.get('tracks', 'N/A')} complete\n"
+        text += f"- Sprints: {progress.get('sprints', 'N/A')} complete\n"
+        text += f"- Tasks: {progress.get('tasks', 'N/A')} complete\n\n"
 
-        # Active sprints
-        if status.get('active_sprints'):
-            text += "**Active Sprints:**\n"
-            for sprint in status['active_sprints']:
-                text += f"- {sprint['id']}: {sprint['name']} ({sprint['completion_percent']}%)\n"
-            text += "\n"
-
-        # Blockers summary
-        if status.get('blockers_count', 0) > 0:
-            text += f"⚠️  **{status['blockers_count']} blocker(s)** preventing progress\n"
+        # Active tracks summary
+        if status.get('tracks'):
+            in_progress = [t for t in status['tracks'] if t['status'] == 'in_progress']
+            if in_progress:
+                text += "**Active Tracks:**\n"
+                for track in in_progress:
+                    text += f"- {track['id']}: {track['name']}\n"
+                text += "\n"
 
         return {
             "content": [

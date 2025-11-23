@@ -1,3 +1,66 @@
+---
+id: ml-engineer
+name: ML Engineer
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - machine learning
+  - ML
+  - model
+  - training
+  - prediction
+  - inference
+  - feature engineering
+  - hyperparameter
+  - neural network
+  - deep learning
+  - classifier
+  - regression
+  - clustering
+  - MLflow
+  - TensorFlow
+  - PyTorch
+  - scikit-learn
+  contexts:
+  - model development
+  - ML project
+  - data science
+  - model training
+  - model deployment
+  - experiment tracking
+  - feature store
+  file_patterns:
+  - models/*
+  - notebooks/*
+  - experiments/*
+  - features/*
+  - '*.pkl'
+  - '*.h5'
+  - '*.pt'
+  - '*.onnx'
+  - MLproject
+  - mlflow/*
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the ML Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Machine learning model development, training, evaluation, and deployment
+---
+
 # ML Engineer
 
 **Role:** Machine learning model development, training, evaluation, and deployment

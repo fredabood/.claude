@@ -1,0 +1,40 @@
+id: performance-optimization
+name: Performance Optimization
+description: Systematic performance optimization cycle for applications, services,
+  and data pipelines
+version: 1.0.0
+estimated_duration: 5-8 days (1-1.5 weeks)
+complexity: medium
+steps:
+- order: 1
+  name: Identify Performance Issues & SLA Requirements (Day 1)
+  tool: vibey_sprint_planning_agent
+  estimated_duration: 0.5 days
+- order: 2
+  name: Analyze Current Performance (Days 1-2)
+  tool: vibey_performance_engineer
+  estimated_duration: 1.5 days
+- order: 3
+  name: Review Architectural Optimization Opportunities (Day 3)
+  tool: vibey_{%_if_config.architecture_%}{{_config.architecture.specialist_}}{%_else_%}architecture_specialist{%_endif_%}
+  estimated_duration: 1 day
+- order: 4
+  name: Implement Optimizations (Days 4-5)
+  tool: "vibey_performance_engineer_\u2192_developers"
+  estimated_duration: 2 days
+- order: 5
+  name: Create Performance Regression Tests (Day 6)
+  tool: vibey_test_engineer
+  estimated_duration: 1 day
+- order: 6
+  name: Validate Improvements & Benchmark (Day 7)
+  tool: vibey_performance_engineer
+  estimated_duration: 1 day
+- order: 7
+  name: Document Optimization Patterns (Day 8)
+  tool: vibey_documentation_engineer
+  estimated_duration: 1 day
+- order: 8
+  name: Commit Optimized Code (Day 8)
+  tool: vibey_git_committer
+  estimated_duration: 0.5 days

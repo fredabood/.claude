@@ -1,3 +1,53 @@
+---
+id: database-specialist
+name: Database Specialist
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - database schema
+  - sql query
+  - optimize database
+  - database migration
+  - index
+  - query performance
+  - database design
+  - data modeling
+  - orm
+  - sql
+  - nosql
+  contexts:
+  - database design
+  - schema changes
+  - query optimization
+  - data migration
+  file_patterns:
+  - migrations/*
+  - models/*
+  - db/*
+  - schema.sql
+  - alembic/*
+  - prisma/*
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Database Specialist
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Design and optimize database schemas and queries
+---
+
 # Database Specialist
 
 **Role:** Design and optimize database schemas and queries

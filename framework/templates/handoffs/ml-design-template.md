@@ -1,3 +1,76 @@
+---
+id: ml-design
+name: ML Design Document
+version: 1.0.0
+from_agent: architecture-agent
+to_agents:
+- web-developer
+- backend-engineer
+purpose: Template for ml design document
+variables:
+- name: additional_hyperparameters
+  type: string
+  required: true
+  description: Additional Hyperparameters value
+- name: algorithm_selection_rationale
+  type: string
+  required: true
+  description: Algorithm Selection Rationale value
+- name: api_authentication
+  type: string
+  required: true
+  description: Api Authentication value
+- name: api_framework
+  type: string
+  required: true
+  description: Api Framework value
+- name: api_rate_limiting
+  type: string
+  required: true
+  description: Api Rate Limiting value
+- name: api_sla
+  type: string
+  required: true
+  description: Api Sla value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: base_model
+  type: string
+  required: true
+  description: Base Model value
+- name: baseline_improvement_target
+  type: string
+  required: true
+  description: Baseline Improvement Target value
+- name: batch_size
+  type: string
+  required: true
+  description: Batch Size value
+- name: bias_detection_plan
+  type: string
+  required: true
+  description: Bias Detection Plan value
+- name: business_impact_description
+  type: string
+  required: true
+  description: Business Impact Description value
+- name: business_problem_description
+  type: string
+  required: true
+  description: Business Problem Description value
+- name: creation_date
+  type: string
+  required: true
+  description: Creation Date value
+- name: criterion
+  type: string
+  required: true
+  description: Criterion value
+description: Template for ml design document
+---
+
 # ML Design Document: {{ ml_use_case_name }}
 
 **Document Type:** Handoff Template

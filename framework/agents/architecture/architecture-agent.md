@@ -1,3 +1,58 @@
+---
+id: architecture-agent
+name: Architecture Agent
+type: architecture
+version: 1.0.0
+triggers:
+  keywords:
+  - architecture
+  - system design
+  - design architecture
+  - technical design
+  - adr
+  - architecture decision
+  - design document
+  - component design
+  - api design
+  - system architecture
+  - architectural pattern
+  - microservices
+  - monolith
+  - scalability
+  - performance architecture
+  contexts:
+  - project initialization
+  - major feature planning
+  - technical debt review
+  - system refactoring
+  - architecture review
+  - design phase
+  file_patterns:
+  - docs/architecture/*
+  - docs/adr/*
+  - ARCHITECTURE.md
+  - design-docs/*
+  - technical-design-*
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Architecture Agent
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Design system architecture and create architectural decision records
+---
+
 # Architecture Agent
 
 **Role:** Design system architecture and create architectural decision records

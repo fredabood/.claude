@@ -1,3 +1,29 @@
+---
+id: vibey-manager
+name: 'Agent: Vibey Framework Manager'
+type: development
+version: 1.0.0
+triggers:
+  priority: medium
+inputs:
+- name: task
+  type: string
+  required: true
+  description: 'Task or request for the Agent: Vibey Framework Manager'
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: ''
+---
+
 # Agent: Vibey Framework Manager
 
 **Agent ID:** Vibey Manager

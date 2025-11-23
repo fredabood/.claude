@@ -1,3 +1,28 @@
+---
+id: documentation-diagrams
+name: Documentation & Diagrams Workflow
+type: documentation
+version: 1.0.0
+duration: 2-4 hours
+complexity: medium
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Create comprehensive technical documentation with professional Mermaid
+  diagrams
+---
+
 # Documentation & Diagrams Workflow
 
 **Purpose:** Create comprehensive technical documentation with professional Mermaid diagrams

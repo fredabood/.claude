@@ -1,3 +1,53 @@
+---
+id: documentation-research
+name: Documentation Research & Preprocessing Workflow
+type: documentation
+version: 1.0.0
+duration: 1-2 days
+complexity: low
+steps:
+- order: 1
+  name: Identify Documentation Need (0.1 days)
+  agent: any-agent-(requesting-research)
+  duration: 15-30 minutes
+- order: 2
+  name: Fetch & Analyze Documentation (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.researcher-or-''researcher''-}}{%-else-%}researcher{%-endif-%}'
+  duration: 4 hours
+- order: 3
+  name: Create Summary & Templates (0.5 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.researcher-or-''researcher''-}}{%-else-%}researcher{%-endif-%}'
+  duration: 4 hours
+- order: 4
+  name: Update Master Index (0.2 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.researcher-or-''researcher''-}}{%-else-%}researcher{%-endif-%}'
+  duration: 1.5 hours
+- order: 5
+  name: Deliver to Requesting Agent (0.1 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.researcher-or-''researcher''-}}-→-requesting-agent{%-else-%}researcher-→-requesting-agent{%-endif-%}'
+  duration: 30 minutes
+- order: 6
+  name: Commit Research Artifacts (0.2 days)
+  agent: '{%-if-config.agents-%}{{-config.agents.git_committer-or-''git-committer''-}}{%-else-%}git-committer{%-endif-%}'
+  duration: 1.5 hours
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Research and summarize verbose documentation to prevent context window
+  waste
+---
+
 # Documentation Research & Preprocessing Workflow
 
 **Purpose:** Research and summarize verbose documentation to prevent context window waste

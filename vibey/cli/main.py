@@ -1682,6 +1682,186 @@ def config_platform_list(ctx):
 
 
 # ============================================================================
+# Export Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def export(ctx):
+    """
+    Export Vibey assets to platform-specific formats.
+
+    The export system translates Vibey agents, workflows, and handoffs
+    to platform-native formats using the adapter architecture.
+
+    Supported platforms:
+    - mcp: MCP tools (Claude Code, JetBrains AI)
+    - goose: Goose recipes + extension manifest
+
+    Examples:
+
+      vibey export --platform goose    # Export to Goose format
+      vibey export --platform all      # Export to all platforms
+      vibey export --list              # List available platforms
+    """
+    pass
+
+
+@export.command('run')
+@click.option('--platform', '-p', default='all', help='Platform to export to (mcp, goose, all)')
+@click.option('--output', '-o', type=click.Path(), default='./exports', help='Output directory')
+@click.option('--dry-run', is_flag=True, help='Show what would be exported without writing')
+@click.pass_context
+def export_run(ctx, platform: str, output: str, dry_run: bool):
+    """Export assets to platform format
+
+    Generates platform-specific files from Vibey assets (agents, workflows).
+
+    Examples:
+      vibey export run --platform goose           # Export to Goose
+      vibey export run --platform mcp             # Export MCP tools
+      vibey export run --platform all             # Export to all platforms
+      vibey export run --platform goose --dry-run # Preview export
+    """
+    from pathlib import Path
+    from framework.adapters import create_default_registry
+
+    output_dir = Path(output)
+    registry = create_default_registry()
+
+    if dry_run:
+        console.print(f"\n[yellow]Dry run - no files will be written[/yellow]")
+
+    if platform == 'all':
+        platforms = registry.list_platforms()
+    else:
+        platforms = [platform]
+
+    for plat in platforms:
+        adapter = registry.get(plat)
+        if not adapter:
+            console.print(f"[red]Unknown platform: {plat}[/red]")
+            console.print(f"Available: {', '.join(registry.list_platforms())}")
+            sys.exit(1)
+
+        info = adapter.get_info()
+        console.print(f"\n[bold]{info.display_name}[/bold] ({info.platform_name})")
+
+        if dry_run:
+            # Show what would be exported
+            if hasattr(adapter, 'get_tools'):
+                tools = adapter.get_tools()
+                console.print(f"  Would export {len(tools)} MCP tools")
+            if hasattr(adapter, 'get_recipes'):
+                recipes = adapter.get_recipes()
+                console.print(f"  Would export {len(recipes)} recipes")
+            if hasattr(adapter, 'get_extension_manifest'):
+                console.print(f"  Would export extension manifest")
+        else:
+            # Actually export
+            plat_dir = output_dir / plat if platform == 'all' else output_dir
+            result = adapter.export(plat_dir)
+
+            if result.success:
+                console.print(f"  [green]✓ Exported {result.file_count} files to {plat_dir}[/green]")
+                for f in result.files[:5]:
+                    console.print(f"    - {f.name}")
+                if result.file_count > 5:
+                    console.print(f"    ... and {result.file_count - 5} more")
+            else:
+                console.print(f"  [red]✗ Export failed: {result.errors}[/red]")
+
+    sys.exit(0)
+
+
+@export.command('list')
+@click.pass_context
+def export_list(ctx):
+    """List available export platforms
+
+    Shows all platforms that Vibey can export to, with their capabilities.
+
+    Examples:
+      vibey export list
+    """
+    from framework.adapters import create_default_registry
+
+    registry = create_default_registry()
+    adapters = registry.list_adapters()
+
+    console.print("\n[bold]Available Export Platforms[/bold]")
+    console.print("=" * 70)
+
+    for info in adapters:
+        type_badge = "[cyan]base[/cyan]" if info.adapter_type == "base" else "[magenta]composite[/magenta]"
+        console.print(f"\n{info.platform_name} - {info.display_name} {type_badge}")
+        if info.base_platform:
+            console.print(f"  Uses: {info.base_platform}")
+        console.print(f"  {info.description}")
+
+        caps = info.capabilities
+        cap_list = []
+        if caps.agents:
+            cap_list.append("agents")
+        if caps.workflows:
+            cap_list.append("workflows")
+        if caps.recipes:
+            cap_list.append("recipes")
+        if caps.extension_manifest:
+            cap_list.append("manifest")
+        console.print(f"  Capabilities: {', '.join(cap_list)}")
+
+    console.print("")
+    sys.exit(0)
+
+
+@export.command('stats')
+@click.option('--platform', '-p', default='mcp', help='Platform to show stats for')
+@click.pass_context
+def export_stats(ctx, platform: str):
+    """Show export statistics
+
+    Displays counts of tools, recipes, and other assets for a platform.
+
+    Examples:
+      vibey export stats                 # Show MCP stats
+      vibey export stats --platform goose
+    """
+    from framework.adapters import create_default_registry
+
+    registry = create_default_registry()
+    adapter = registry.get(platform)
+
+    if not adapter:
+        console.print(f"[red]Unknown platform: {platform}[/red]")
+        sys.exit(1)
+
+    info = adapter.get_info()
+    console.print(f"\n[bold]{info.display_name} Statistics[/bold]")
+    console.print("=" * 50)
+
+    if hasattr(adapter, 'get_stats'):
+        stats = adapter.get_stats()
+        for key, value in stats.items():
+            console.print(f"  {key}: {value}")
+    else:
+        if hasattr(adapter, 'get_tools'):
+            tools = adapter.get_tools()
+            agents = [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'agent']
+            workflows = [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'workflow']
+            console.print(f"  Total tools: {len(tools)}")
+            console.print(f"  Agent tools: {len(agents)}")
+            console.print(f"  Workflow tools: {len(workflows)}")
+
+        if hasattr(adapter, 'get_recipes'):
+            recipes = adapter.get_recipes()
+            console.print(f"  Recipes: {len(recipes)}")
+
+    console.print("")
+    sys.exit(0)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

@@ -1,3 +1,52 @@
+---
+id: backend-engineer
+name: Backend Engineer
+type: development
+version: 1.0.0
+triggers:
+  keywords:
+  - api endpoint
+  - backend logic
+  - rest api
+  - graphql
+  - database query
+  - authentication
+  - authorization
+  - background job
+  - server-side
+  - api design
+  - microservice
+  contexts:
+  - API development
+  - backend services
+  - database operations
+  - auth implementation
+  file_patterns:
+  - src/api/*
+  - src/services/*
+  - src/models/*
+  - backend/*
+  - server/*
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Backend Engineer
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: Build robust backend APIs and services
+---
+
 # Backend Engineer
 
 **Role:** Build robust backend APIs and services

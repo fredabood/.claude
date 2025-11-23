@@ -1,3 +1,75 @@
+---
+id: documentation-update
+name: Documentation Update Handoff
+version: 1.0.0
+from_agent: documentation-engineer
+to_agents:
+- git-committer
+purpose: Template for documentation update handoff
+variables:
+- name: achievement
+  type: string
+  required: true
+  description: Achievement value
+- name: additional_notes
+  type: string
+  required: true
+  description: Additional Notes value
+- name: archival_schedule
+  type: string
+  required: true
+  description: Archival Schedule value
+- name: archive_count
+  type: string
+  required: true
+  description: Archive Count value
+- name: archive_date
+  type: string
+  required: true
+  description: Archive Date value
+- name: archive_file_path
+  type: string
+  required: true
+  description: Archive File Path value
+- name: archive_format_example
+  type: string
+  required: true
+  description: Archive Format Example value
+- name: archive_location
+  type: string
+  required: true
+  description: Archive Location value
+- name: archive_structure_description
+  type: string
+  required: true
+  description: Archive Structure Description value
+- name: auto_archival_enabled
+  type: string
+  required: true
+  description: Auto Archival Enabled value
+- name: auto_check
+  type: string
+  required: true
+  description: Auto Check value
+- name: auto_update_metric
+  type: string
+  required: true
+  description: Auto Update Metric value
+- name: auto_update_sprint_completion
+  type: string
+  required: true
+  description: Auto Update Sprint Completion value
+- name: automation_enabled
+  type: string
+  required: true
+  description: Automation Enabled value
+- name: automation_status
+  type: string
+  required: true
+  description: Automation Status value
+description: Template for documentation update handoff
+---
+
 # Documentation Update Handoff: {{ handoff_title }}
 
 **Document Type:** Handoff Template

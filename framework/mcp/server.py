@@ -3,13 +3,16 @@ Vibey MCP Server.
 
 Main MCP server implementation that exposes Vibey roadmap operations
 as MCP tools, resources, and prompts.
+
+Now includes dynamic tool discovery for agents and workflows via
+YAML frontmatter parsing.
 """
 
 import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 # Note: MCP Python SDK is required (pip install mcp)
 # This is a placeholder implementation showing the structure
@@ -20,6 +23,7 @@ from .tools.task_tools import get_task_tools, handle_task_tool
 from .tools.sprint_tools import get_sprint_tools, handle_sprint_tool
 from .tools.query_tools import get_query_tools, handle_query_tool
 from .utils.errors import VibeyMCPError
+from .discovery import ToolDiscovery
 
 # Set up logging
 logging.basicConfig(
@@ -41,68 +45,72 @@ class VibeyMCPServer:
         >>> await server.run()
     """
 
-    def __init__(self, roadmap_root: str = ".vibey/roadmap"):
+    def __init__(
+        self,
+        roadmap_root: str = ".vibey/roadmap",
+        framework_root: Optional[str] = None
+    ):
         """
         Initialize Vibey MCP server.
 
         Args:
             roadmap_root: Path to roadmap root directory
+            framework_root: Path to framework root (for agent/workflow discovery)
+                           Defaults to current working directory
         """
         self.roadmap_root = Path(roadmap_root)
+        self.framework_root = Path(framework_root) if framework_root else Path.cwd()
         self.adapter = RoadmapAdapter(str(self.roadmap_root))
-        logger.info(f"Initialized Vibey MCP Server (roadmap_root: {roadmap_root})")
+
+        # Initialize dynamic tool discovery
+        self.tool_discovery = ToolDiscovery(
+            root_dir=self.framework_root,
+            cache_ttl=60,  # Refresh cache every 60 seconds
+            tool_prefix="vibey"
+        )
+
+        logger.info(f"Initialized Vibey MCP Server")
+        logger.info(f"  Roadmap root: {roadmap_root}")
+        logger.info(f"  Framework root: {self.framework_root}")
 
     async def run(self):
         """
-        Run the MCP server.
+        Run the MCP server using stdio transport.
 
-        This is a placeholder for the actual MCP server implementation.
-        Once the MCP Python SDK is installed, this will use the SDK's
-        server class and stdio transport.
-
-        Example implementation structure:
-            from mcp import Server
-            from mcp.server.stdio import stdio_server
-
-            server = Server("vibey-roadmap")
-
-            @server.list_tools()
-            async def handle_list_tools():
-                return self.get_tools()
-
-            @server.call_tool()
-            async def handle_call_tool(name: str, arguments: dict):
-                return await self.handle_tool_call(name, arguments)
-
-            async with stdio_server() as streams:
-                await server.run(streams[0], streams[1])
+        This implements the MCP protocol using the official Python SDK.
         """
+        from mcp.server.fastmcp import FastMCP
+
         logger.info("MCP Server starting...")
 
-        # TODO: Implement actual MCP server once SDK is available
-        # For now, this is a placeholder that demonstrates the structure
+        # Create MCP server using FastMCP
+        mcp = FastMCP("vibey-roadmap")
 
-        print("Vibey MCP Server - Placeholder Implementation", file=sys.stderr)
-        print("", file=sys.stderr)
-        print("To complete the implementation:", file=sys.stderr)
-        print("1. Install MCP Python SDK: pip install mcp", file=sys.stderr)
-        print("2. Implement server using SDK's Server class", file=sys.stderr)
-        print("3. Set up stdio or HTTP+SSE transport", file=sys.stderr)
-        print("", file=sys.stderr)
-        print("Server structure ready. Tools available:", file=sys.stderr)
-
+        # Get tools and register them
         tools = self.get_tools()
-        for tool in tools:
-            print(f"  - {tool['name']}: {tool['description']}", file=sys.stderr)
+        logger.info(f"Registering {len(tools)} tools...")
 
-        print("", file=sys.stderr)
-        print("Waiting for MCP SDK installation...", file=sys.stderr)
+        # Create a wrapper for each tool
+        for tool_def in tools:
+            tool_name = tool_def['name']
+            tool_desc = tool_def.get('description', '')
 
-        # Keep server alive
-        try:
-            await asyncio.Event().wait()
-        except KeyboardInterrupt:
-            logger.info("Server shutting down...")
+            # Create closure to capture tool_name
+            async def make_handler(name):
+                async def handler(**kwargs):
+                    result = await self.handle_tool_call(name, kwargs)
+                    content = result.get('content', [])
+                    if content and isinstance(content, list):
+                        return content[0].get('text', str(result))
+                    return str(result)
+                return handler
+
+            # Register tool with FastMCP
+            handler = await make_handler(tool_name)
+            mcp.tool(name=tool_name, description=tool_desc)(handler)
+
+        logger.info("Starting MCP server on stdio...")
+        await mcp.run_stdio_async()
 
     def get_capabilities(self) -> Dict[str, Any]:
         """
@@ -123,29 +131,39 @@ class VibeyMCPServer:
             }
         }
 
-    def get_tools(self) -> list[Dict[str, Any]]:
+    def get_tools(self) -> List[Dict[str, Any]]:
         """
         Get all available tools.
+
+        Includes:
+        - Static roadmap tools (task, sprint, query)
+        - Dynamic agent tools (from frontmatter discovery)
+        - Dynamic workflow tools (from frontmatter discovery)
 
         Returns:
             List of tool definitions
         """
         tools = []
 
-        # Task management tools (Sprint 1)
+        # Static roadmap management tools
         tools.extend(get_task_tools())
-
-        # Sprint management tools (Sprint 2)
         tools.extend(get_sprint_tools())
-
-        # Query tools (Sprint 2)
         tools.extend(get_query_tools())
 
-        # More tools will be added in future sprints:
-        # - Sprint 2: Documentation sync tools (remaining)
-        # - Sprint 3: Resources and prompts
+        # Dynamic agent and workflow tools (from frontmatter discovery)
+        try:
+            discovered_tools = self.tool_discovery.get_all_tools()
+            tools.extend(discovered_tools)
+            logger.debug(f"Added {len(discovered_tools)} discovered tools")
+        except Exception as e:
+            logger.error(f"Error discovering tools: {e}")
+            # Continue with static tools even if discovery fails
 
         return tools
+
+    def get_discovery_stats(self) -> Dict[str, Any]:
+        """Get statistics about discovered tools."""
+        return self.tool_discovery.get_stats()
 
     async def handle_tool_call(
         self,
@@ -179,7 +197,11 @@ class VibeyMCPServer:
             if tool_name.startswith("vibey_") and ("query" in tool_name or "list" in tool_name or "status" in tool_name):
                 return await handle_query_tool(tool_name, arguments, self.adapter)
 
-            # More tool routing will be added in future sprints
+            # Route to dynamic agent/workflow tools
+            if tool_name.startswith("vibey_"):
+                tool_def = self.tool_discovery.get_tool_by_name(tool_name)
+                if tool_def:
+                    return await self._handle_dynamic_tool(tool_name, arguments, tool_def)
 
             # Unknown tool
             return {
@@ -214,6 +236,259 @@ class VibeyMCPServer:
                 ],
                 "isError": True
             }
+
+
+    async def _handle_dynamic_tool(
+        self,
+        tool_name: str,
+        arguments: Dict[str, Any],
+        tool_def: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Handle invocation of a dynamically discovered tool.
+
+        For agents: Returns the agent's instructions and context
+        For workflows: Returns the workflow steps and configuration
+
+        Args:
+            tool_name: Name of the tool
+            arguments: Tool input arguments
+            tool_def: Tool definition from discovery
+
+        Returns:
+            Tool response with content
+        """
+        metadata = tool_def.get('_metadata', {})
+        asset_type = metadata.get('asset_type')
+        asset_id = metadata.get('asset_id')
+
+        if asset_type == 'agent':
+            return await self._execute_agent_tool(asset_id, arguments, metadata)
+        elif asset_type == 'workflow':
+            return await self._execute_workflow_tool(asset_id, arguments, metadata)
+        else:
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Unknown asset type: {asset_type}"
+                    }
+                ],
+                "isError": True
+            }
+
+    async def _execute_agent_tool(
+        self,
+        agent_id: str,
+        arguments: Dict[str, Any],
+        metadata: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Execute an agent tool.
+
+        Returns the agent's instructions and any relevant context
+        for the AI assistant to follow.
+
+        Args:
+            agent_id: Agent identifier
+            arguments: Input arguments from tool call
+            metadata: Agent metadata from discovery
+
+        Returns:
+            Tool response with agent instructions
+        """
+        # Get the full agent definition
+        agent = self.tool_discovery.agent_discovery.get_agent_by_id(agent_id)
+
+        if not agent:
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Agent not found: {agent_id}"
+                    }
+                ],
+                "isError": True
+            }
+
+        # Read the agent's full markdown content
+        agent_content = ""
+        if agent.filepath and agent.filepath.exists():
+            try:
+                agent_content = agent.filepath.read_text()
+                # Remove frontmatter for cleaner output
+                if agent_content.startswith('---'):
+                    parts = agent_content.split('---', 2)
+                    if len(parts) >= 3:
+                        agent_content = parts[2].strip()
+            except Exception as e:
+                logger.warning(f"Could not read agent file: {e}")
+
+        # Build response with agent context
+        response_parts = [
+            f"# Agent: {agent.name}",
+            f"**Type:** {agent.type}",
+            f"**ID:** {agent.id}",
+            "",
+        ]
+
+        if agent.description:
+            response_parts.extend([
+                f"**Description:** {agent.description}",
+                "",
+            ])
+
+        # Include input arguments
+        if arguments:
+            response_parts.extend([
+                "## Inputs Provided",
+                "",
+            ])
+            for key, value in arguments.items():
+                response_parts.append(f"- **{key}:** {value}")
+            response_parts.append("")
+
+        # Include agent instructions
+        if agent_content:
+            response_parts.extend([
+                "## Agent Instructions",
+                "",
+                agent_content,
+            ])
+
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": "\n".join(response_parts)
+                }
+            ],
+            "isError": False
+        }
+
+    async def _execute_workflow_tool(
+        self,
+        workflow_id: str,
+        arguments: Dict[str, Any],
+        metadata: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Execute a workflow tool.
+
+        Returns the workflow steps and configuration for the
+        AI assistant to orchestrate.
+
+        Args:
+            workflow_id: Workflow identifier
+            arguments: Input arguments from tool call
+            metadata: Workflow metadata from discovery
+
+        Returns:
+            Tool response with workflow steps
+        """
+        # Get the full workflow definition
+        workflow = self.tool_discovery.workflow_discovery.get_workflow_by_id(workflow_id)
+
+        if not workflow:
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Workflow not found: {workflow_id}"
+                    }
+                ],
+                "isError": True
+            }
+
+        # Read the workflow's full markdown content
+        workflow_content = ""
+        if workflow.filepath and workflow.filepath.exists():
+            try:
+                workflow_content = workflow.filepath.read_text()
+                # Remove frontmatter for cleaner output
+                if workflow_content.startswith('---'):
+                    parts = workflow_content.split('---', 2)
+                    if len(parts) >= 3:
+                        workflow_content = parts[2].strip()
+            except Exception as e:
+                logger.warning(f"Could not read workflow file: {e}")
+
+        # Build response with workflow context
+        response_parts = [
+            f"# Workflow: {workflow.name}",
+            f"**Type:** {workflow.type}",
+            f"**ID:** {workflow.id}",
+            f"**Complexity:** {workflow.complexity}",
+        ]
+
+        if workflow.duration:
+            response_parts.append(f"**Estimated Duration:** {workflow.duration}")
+
+        response_parts.append("")
+
+        if workflow.description:
+            response_parts.extend([
+                f"**Description:** {workflow.description}",
+                "",
+            ])
+
+        # Include input arguments
+        if arguments:
+            response_parts.extend([
+                "## Inputs Provided",
+                "",
+            ])
+            for key, value in arguments.items():
+                response_parts.append(f"- **{key}:** {value}")
+            response_parts.append("")
+
+        # Include workflow steps summary
+        if workflow.steps:
+            response_parts.extend([
+                "## Workflow Steps",
+                "",
+            ])
+            for step in workflow.steps:
+                step_line = f"{step.order}. **{step.name}**"
+                if step.agent:
+                    step_line += f" (Agent: {step.agent})"
+                if step.duration:
+                    step_line += f" - {step.duration}"
+                response_parts.append(step_line)
+            response_parts.append("")
+
+        # Include quality gates
+        if workflow.quality_gates:
+            response_parts.extend([
+                "## Quality Gates",
+                "",
+            ])
+            for gate in workflow.quality_gates:
+                gate_line = f"- **{gate.name}** ({gate.type})"
+                if gate.threshold:
+                    gate_line += f" - Threshold: {gate.threshold}%"
+                if gate.blocking:
+                    gate_line += " [BLOCKING]"
+                response_parts.append(gate_line)
+            response_parts.append("")
+
+        # Include full workflow instructions
+        if workflow_content:
+            response_parts.extend([
+                "## Full Workflow Instructions",
+                "",
+                workflow_content,
+            ])
+
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": "\n".join(response_parts)
+                }
+            ],
+            "isError": False
+        }
 
 
 def main():

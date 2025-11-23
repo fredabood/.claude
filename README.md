@@ -7,7 +7,7 @@ An intelligent, platform-agnostic agent orchestration framework that provides sp
 
 **Platforms Supported:**
 - ✅ **Claude Code** (Production Ready)
-- 🚧 **Goose** (Coming Q2 2025)
+- ✅ **Goose** (Production Ready - NEW!)
 - 🔬 **Cursor** (Research Phase)
 
 ---
@@ -82,7 +82,7 @@ git clone https://github.com/fredabood/vibey.git .vibey
 cd .vibey
 ./vibey deploy --platform claude-code
 
-# For Goose users (coming soon)
+# For Goose users
 ./vibey deploy --platform goose
 ```
 
@@ -94,15 +94,62 @@ cd .vibey
 
 ---
 
+## 🦆 Goose Quick Start (MCP Server)
+
+Vibey integrates with Goose via the Model Context Protocol (MCP), exposing **46 tools**:
+
+### 1. Set Up Environment
+
+```bash
+cd /path/to/vibey
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Configure Goose
+
+Add to `~/.config/goose/config.yaml`:
+
+```yaml
+extensions:
+  vibey:
+    name: vibey
+    type: stdio
+    cmd: /absolute/path/to/vibey/.venv/bin/python
+    args:
+      - /absolute/path/to/vibey/scripts/run-mcp-server.py
+    enabled: true
+    timeout: 300
+```
+
+### 3. Use Vibey Tools in Goose
+
+```
+> What's the roadmap status?
+> Use vibey_test_engineer to write tests
+> Run vibey_workflow_feature_development
+```
+
+**Available Tools:**
+- 19 agent tools (`vibey_test_engineer`, `vibey_web_developer`, etc.)
+- 16 workflow tools (`vibey_workflow_feature_development`, etc.)
+- 11 roadmap tools (`vibey_roadmap_status`, `vibey_start_task`, etc.)
+
+📚 See [Goose Integration Guide](docs/guides/GOOSE_INTEGRATION.md) for full setup.
+
+---
+
 ## What Is Vibey?
 
 Vibey is a platform-agnostic agent orchestration framework that transforms AI coding assistants into specialized development teams with:
 
-### 🤖 12 Specialized Agents
+### 🤖 19 Specialized Agents
 - **Planning:** Sprint Planning Agent, Researcher
-- **Development:** Web Developer, ML Engineer
-- **Quality:** Security Reviewer, Observability Engineer, Performance Engineer
-- **Documentation:** Documentation Engineer, Diagram Engineer, Git Committer
+- **Development:** Web Developer, Backend Engineer, Frontend Engineer, Database Specialist, ML Engineer, Infrastructure Engineer
+- **Quality:** Test Engineer, Security Reviewer, Performance Engineer, Observability Engineer
+- **Documentation:** Documentation Engineer, Documentation Maintenance Engineer, Diagram Engineer, Git Committer
+- **Architecture:** Architecture Agent
 - **Core:** Coordinator Agent (intelligent routing), Vibey Manager
 
 ### 📋 16 Structured Workflows

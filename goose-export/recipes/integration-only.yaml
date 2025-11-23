@@ -1,0 +1,27 @@
+id: integration-only
+name: Integration Only
+description: Integrate completed and tested components into the main system
+version: 1.0.0
+estimated_duration: 30 minutes - 2 hours per component
+complexity: low
+steps:
+- order: 1
+  name: Gather Component Metadata
+  tool: vibey_integration_engineer_(with_developer_input)
+  estimated_duration: 5-10 minutes
+- order: 2
+  name: Register/Connect Component
+  tool: vibey_integration_engineer
+  estimated_duration: 15-30 minutes
+- order: 3
+  name: Create Integration Test
+  tool: vibey_integration_engineer
+  estimated_duration: 15-30 minutes
+- order: 4
+  name: Manual Verification
+  tool: vibey_integration_engineer
+  estimated_duration: 10-15 minutes
+- order: 5
+  name: Create Integration Handoff Document
+  tool: vibey_integration_engineer
+  estimated_duration: 10-15 minutes

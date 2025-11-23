@@ -1,3 +1,66 @@
+---
+id: sprint-planning
+name: Sprint Planning & Roadmap Management
+type: planning
+version: 1.0.0
+duration: 3-5 days (ongoing sprints) | 20-40 minutes (first sprint with framework
+  initialization)
+complexity: medium
+steps:
+- order: 1
+  name: Analyze Current State (Day 1)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 2
+  name: Collect Sprint Requirements (Day 1)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 3
+  name: Research New Technologies/APIs (Day 2) [OPTIONAL]
+  agent: researcher
+  duration: 1 day (skip if no new tech)
+- order: 4
+  name: Review Technical Feasibility & Architecture (Day 2-3)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 1 day
+- order: 5
+  name: Create Dependency Graph & Prioritization (Day 3-4)
+  agent: sprint-planning-agent
+  duration: 1 day
+- order: 6
+  name: Sequence Sprints & Create Sprint Plan (Day 4)
+  agent: sprint-planning-agent
+  duration: 1 day
+- order: 7
+  name: Update ROADMAP.md (Day 5)
+  agent: sprint-planning-agent
+  duration: 0.5 days
+- order: 8
+  name: Update .claude/CLAUDE.md (Day 5)
+  agent: documentation-engineer
+  duration: 0.5 days
+- order: 9
+  name: Commit Roadmap & Sprint Plan (Day 5)
+  agent: git-committer
+  duration: 0.5 days
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: Orchestrate sprint planning, prioritization, dependency analysis, and
+  roadmap updates
+---
+
 # Workflow: Sprint Planning & Roadmap Management
 
 **Workflow ID:** Sprint Planning

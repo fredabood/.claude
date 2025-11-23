@@ -1,0 +1,50 @@
+id: frontend-production-deployment
+name: Frontend Production Deployment Workflow
+description: Package, test, and deploy frontend application to production
+version: 1.0.0
+estimated_duration: 1-2 days
+complexity: medium
+steps:
+- order: 1
+  name: Create Production Builds (4 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 2
+  name: '{% if config.deployment and config.deployment.type == ''docker'' %}Create
+    Docker Containers{% elif config.deployment and config.deployment.type == ''kubernetes''
+    %}Create Kubernetes Manifests{% elif config.deployment and config.deployment.type
+    == ''serverless'' %}Configure Serverless Deployment{% else %}Package Application{%
+    endif %} (4 hours)'
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 3
+  name: Configure CI/CD Pipeline (6 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 4
+  name: Deploy to {% if config.environments %}{{ config.environments.staging | title
+    or 'Staging' }}{% else %}Staging{% endif %} (2 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 5
+  name: Run E2E Tests on {% if config.environments %}{{ config.environments.staging
+    | title or 'Staging' }}{% else %}Staging{% endif %} (4 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.test_engineer_or_'test_engineer'_}}{%_else_%}test_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 6
+  name: Deploy to {% if config.environments %}{{ config.environments.prod | title
+    or 'Production' }}{% else %}Production{% endif %} (2 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 7
+  name: Configure Monitoring (2 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.deployment_engineer_or_'deployment_engineer'_}}{%_else_%}deployment_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 8
+  name: Create Operational Runbook (2 hours)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_engineer_or_'documentation_engineer'_}}{%_else_%}documentation_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 9
+  name: Commit Deployment Configurations (1 hour)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.git_committer_or_'git_committer'_}}{%_else_%}git_committer{%_endif_%}
+  estimated_duration: 0.5 days

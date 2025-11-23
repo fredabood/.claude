@@ -1,3 +1,76 @@
+---
+id: database-schema-design
+name: Database Schema Design
+version: 1.0.0
+from_agent: architecture-agent
+to_agents:
+- web-developer
+- backend-engineer
+purpose: Template for database schema design
+variables:
+- name: access_control_model
+  type: string
+  required: true
+  description: Access Control Model value
+- name: architecture_pattern
+  type: string
+  required: true
+  description: Architecture Pattern value
+- name: ascii_erd
+  type: string
+  required: true
+  description: Ascii Erd value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: backup_frequency
+  type: string
+  required: true
+  description: Backup Frequency value
+- name: backup_location
+  type: string
+  required: true
+  description: Backup Location value
+- name: backup_retention
+  type: string
+  required: true
+  description: Backup Retention value
+- name: backup_tool
+  type: string
+  required: true
+  description: Backup Tool value
+- name: business_context
+  type: string
+  required: true
+  description: Business Context value
+- name: cache_layer
+  type: string
+  required: true
+  description: Cache Layer value
+- name: cache_ttl
+  type: string
+  required: true
+  description: Cache Ttl value
+- name: check
+  type: string
+  required: true
+  description: Check value
+- name: compression_algorithm
+  type: string
+  required: true
+  description: Compression Algorithm value
+- name: connection_pool_config
+  type: string
+  required: true
+  description: Connection Pool Config value
+- name: creation_date
+  type: string
+  required: true
+  description: Creation Date value
+description: Template for database schema design
+---
+
 # Database Schema Design: {{ database_name }}
 
 **Document Type:** Handoff Template

@@ -1,0 +1,31 @@
+id: claude-md-auto-update
+name: .claude/CLAUDE.md Auto-Update Workflow
+description: Automatically keep .claude/CLAUDE.md up to date as the project evolves
+version: 1.0.0
+estimated_duration: 20-30 minutes
+complexity: medium
+steps:
+- order: 1
+  name: Detect Changes (5 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_maintenance_or_'documentation_maintenance_engineer'_}}{%_else_%}documentation_maintenance_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 2
+  name: Gather Context (5 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_maintenance_or_'documentation_maintenance_engineer'_}}{%_else_%}documentation_maintenance_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 3
+  name: Generate Updates (10 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_maintenance_or_'documentation_maintenance_engineer'_}}{%_else_%}documentation_maintenance_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 4
+  name: Apply Updates (5 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_maintenance_or_'documentation_maintenance_engineer'_}}{%_else_%}documentation_maintenance_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 5
+  name: Verify & Quality Check (3 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.documentation_maintenance_or_'documentation_maintenance_engineer'_}}{%_else_%}documentation_maintenance_engineer{%_endif_%}
+  estimated_duration: 0.5 days
+- order: 6
+  name: Commit Changes (2 minutes)
+  tool: vibey_{%_if_config.agents_%}{{_config.agents.git_committer_or_'git_committer'_}}{%_else_%}git_committer{%_endif_%}
+  estimated_duration: 0.5 days

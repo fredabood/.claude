@@ -1,3 +1,76 @@
+---
+id: architecture-review
+name: Architecture Review Report
+version: 1.0.0
+from_agent: architecture-agent
+to_agents:
+- web-developer
+- backend-engineer
+purpose: Template for architecture review report
+variables:
+- name: api_design_notes
+  type: string
+  required: true
+  description: Api Design Notes value
+- name: api_versioning_notes
+  type: string
+  required: true
+  description: Api Versioning Notes value
+- name: approval_date_1
+  type: string
+  required: true
+  description: Approval Date 1 value
+- name: approver_1_name
+  type: string
+  required: true
+  description: Approver 1 Name value
+- name: approver_1_role
+  type: string
+  required: true
+  description: Approver 1 Role value
+- name: auth_notes
+  type: string
+  required: true
+  description: Auth Notes value
+- name: cicd_notes
+  type: string
+  required: true
+  description: Cicd Notes value
+- name: code_organization_notes
+  type: string
+  required: true
+  description: Code Organization Notes value
+- name: component_architecture_notes
+  type: string
+  required: true
+  description: Component Architecture Notes value
+- name: cost_notes
+  type: string
+  required: true
+  description: Cost Notes value
+- name: cost_risk_impact
+  type: string
+  required: true
+  description: Cost Risk Impact value
+- name: cost_risk_mitigation
+  type: string
+  required: true
+  description: Cost Risk Mitigation value
+- name: cost_risk_prob
+  type: string
+  required: true
+  description: Cost Risk Prob value
+- name: critical_action_1
+  type: string
+  required: true
+  description: Critical Action 1 value
+- name: critical_issue_1_category
+  type: string
+  required: true
+  description: Critical Issue 1 Category value
+description: Template for architecture review report
+---
+
 # Architecture Review Report
 
 **Document Type:** Handoff Template

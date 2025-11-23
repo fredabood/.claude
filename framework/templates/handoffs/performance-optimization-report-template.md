@@ -1,3 +1,76 @@
+---
+id: performance-optimization-report
+name: Performance Optimization Report
+version: 1.0.0
+from_agent: performance-engineer
+to_agents:
+- web-developer
+- documentation-engineer
+purpose: Template for performance optimization report
+variables:
+- name: analysis_date
+  type: string
+  required: true
+  description: Analysis Date value
+- name: annual_benefit
+  type: string
+  required: true
+  description: Annual Benefit value
+- name: annual_savings
+  type: string
+  required: true
+  description: Annual Savings value
+- name: api_calls_count
+  type: string
+  required: true
+  description: Api Calls Count value
+- name: api_endpoint
+  type: string
+  required: true
+  description: Api Endpoint value
+- name: api_load_time
+  type: string
+  required: true
+  description: Api Load Time value
+- name: api_requests_count
+  type: string
+  required: true
+  description: Api Requests Count value
+- name: apm_tool_url
+  type: string
+  required: true
+  description: Apm Tool Url value
+- name: author_name
+  type: string
+  required: true
+  description: Author Name value
+- name: backward_pass_duration
+  type: string
+  required: true
+  description: Backward Pass Duration value
+- name: backward_pass_percentage
+  type: string
+  required: true
+  description: Backward Pass Percentage value
+- name: backward_pass_status
+  type: string
+  required: true
+  description: Backward Pass Status value
+- name: batch_size
+  type: string
+  required: true
+  description: Batch Size value
+- name: batch_size_recommendation
+  type: string
+  required: true
+  description: Batch Size Recommendation value
+- name: benchmark_after_expected
+  type: string
+  required: true
+  description: Benchmark After Expected value
+description: Template for performance optimization report
+---
+
 # Performance Optimization Report: {{ target_component }}
 
 **Document Type:** Handoff Template

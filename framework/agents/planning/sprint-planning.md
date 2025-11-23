@@ -1,3 +1,51 @@
+---
+id: sprint-planning
+name: Sprint Planning Agent
+type: planning
+version: 1.0.0
+triggers:
+  keywords:
+  - sprint planning
+  - plan sprint
+  - roadmap
+  - iteration
+  - backlog
+  - prioritize
+  - dependencies
+  - quarterly planning
+  - sprint goals
+  - sprint objectives
+  contexts:
+  - beginning of sprint
+  - project planning phase
+  - roadmap updates
+  - dependency analysis
+  - feature prioritization
+  file_patterns:
+  - ROADMAP.md
+  - docs/sprints/*
+  - .claude/project-config.yaml
+  - backlog files
+  priority: high
+inputs:
+- name: task
+  type: string
+  required: true
+  description: Task or request for the Sprint Planning Agent
+- name: context
+  type: string
+  required: false
+  description: Additional context about the project or codebase
+outputs:
+- name: result
+  type: string
+  description: Result of the agent task
+- name: files_modified
+  type: array
+  description: List of files created or modified
+description: ''
+---
+
 # Sprint Planning Agent
 
 **Version:** 2.0 (Sprint-Driven Orchestration)

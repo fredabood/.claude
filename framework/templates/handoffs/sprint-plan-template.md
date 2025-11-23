@@ -1,3 +1,76 @@
+---
+id: sprint-plan
+name: Sprint Plan
+version: 1.0.0
+from_agent: sprint-planning
+to_agents:
+- web-developer
+- test-engineer
+purpose: Template for sprint plan
+variables:
+- name: api_availability_measurement
+  type: string
+  required: true
+  description: Api Availability Measurement value
+- name: api_availability_target
+  type: string
+  required: true
+  description: Api Availability Target value
+- name: api_deployment_timeline
+  type: string
+  required: true
+  description: Api Deployment Timeline value
+- name: api_design_timeline
+  type: string
+  required: true
+  description: Api Design Timeline value
+- name: api_documentation_timeline
+  type: string
+  required: true
+  description: Api Documentation Timeline value
+- name: api_error_rate_measurement
+  type: string
+  required: true
+  description: Api Error Rate Measurement value
+- name: api_error_rate_target
+  type: string
+  required: true
+  description: Api Error Rate Target value
+- name: api_implementation_timeline
+  type: string
+  required: true
+  description: Api Implementation Timeline value
+- name: api_response_time_measurement
+  type: string
+  required: true
+  description: Api Response Time Measurement value
+- name: api_response_time_target
+  type: string
+  required: true
+  description: Api Response Time Target value
+- name: api_security_timeline
+  type: string
+  required: true
+  description: Api Security Timeline value
+- name: api_testing_timeline
+  type: string
+  required: true
+  description: Api Testing Timeline value
+- name: api_throughput_measurement
+  type: string
+  required: true
+  description: Api Throughput Measurement value
+- name: api_throughput_target
+  type: string
+  required: true
+  description: Api Throughput Target value
+- name: architecture_design_path
+  type: string
+  required: true
+  description: Architecture Design Path value
+description: Template for sprint plan
+---
+
 # Sprint Plan: {{ sprint_version }}
 
 **Document Type:** Handoff Template

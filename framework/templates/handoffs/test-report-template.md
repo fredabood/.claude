@@ -1,3 +1,76 @@
+---
+id: test-report
+name: Test Report
+version: 1.0.0
+from_agent: test-engineer
+to_agents:
+- web-developer
+- security-reviewer
+purpose: Template for test report
+variables:
+- name: api_mocking_strategy
+  type: string
+  required: true
+  description: Api Mocking Strategy value
+- name: boundary_condition_tests
+  type: string
+  required: true
+  description: Boundary Condition Tests value
+- name: branch_coverage
+  type: string
+  required: true
+  description: Branch Coverage value
+- name: browser_compatibility_tests
+  type: string
+  required: true
+  description: Browser Compatibility Tests value
+- name: ci_test_command
+  type: string
+  required: true
+  description: Ci Test Command value
+- name: class_name
+  type: string
+  required: true
+  description: Class Name value
+- name: coverage_report_output
+  type: string
+  required: true
+  description: Coverage Report Output value
+- name: coverage_reporting_method
+  type: string
+  required: true
+  description: Coverage Reporting Method value
+- name: coverage_status
+  type: string
+  required: true
+  description: Coverage Status value
+- name: data_loading_mocking_strategy
+  type: string
+  required: true
+  description: Data Loading Mocking Strategy value
+- name: data_source_mocking_strategy
+  type: string
+  required: true
+  description: Data Source Mocking Strategy value
+- name: database_mocking_strategy
+  type: string
+  required: true
+  description: Database Mocking Strategy value
+- name: e2e_tests_count
+  type: string
+  required: true
+  description: E2E Tests Count value
+- name: e2e_tests_status
+  type: string
+  required: true
+  description: E2E Tests Status value
+- name: error_scenario_tests
+  type: string
+  required: true
+  description: Error Scenario Tests value
+description: Template for test report
+---
+
 # Test Report: {{ feature_name }}
 
 **Created by:** {{ config.roles.test_engineer or 'Test Engineer' }}

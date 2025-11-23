@@ -1,3 +1,76 @@
+---
+id: security-implementation-report
+name: Security Implementation Report
+version: 1.0.0
+from_agent: security-reviewer
+to_agents:
+- web-developer
+- documentation-engineer
+purpose: Template for security implementation report
+variables:
+- name: achievement
+  type: string
+  required: true
+  description: Achievement value
+- name: approval_status
+  type: string
+  required: true
+  description: Approval Status value
+- name: auth_checklist_status
+  type: string
+  required: true
+  description: Auth Checklist Status value
+- name: auth_context_path
+  type: string
+  required: true
+  description: Auth Context Path value
+- name: auth_test_coverage
+  type: string
+  required: true
+  description: Auth Test Coverage value
+- name: authentication_test_evidence
+  type: string
+  required: true
+  description: Authentication Test Evidence value
+- name: authorization_test_evidence
+  type: string
+  required: true
+  description: Authorization Test Evidence value
+- name: authz_test_coverage
+  type: string
+  required: true
+  description: Authz Test Coverage value
+- name: cookie_settings
+  type: string
+  required: true
+  description: Cookie Settings value
+- name: cors_allow_credentials
+  type: string
+  required: true
+  description: Cors Allow Credentials value
+- name: cors_allowed_headers
+  type: string
+  required: true
+  description: Cors Allowed Headers value
+- name: cors_allowed_methods
+  type: string
+  required: true
+  description: Cors Allowed Methods value
+- name: cors_configuration_code
+  type: string
+  required: true
+  description: Cors Configuration Code value
+- name: critical_issues_fixed
+  type: string
+  required: true
+  description: Critical Issues Fixed value
+- name: critical_issues_found
+  type: string
+  required: true
+  description: Critical Issues Found value
+description: Template for security implementation report
+---
+
 # Security Implementation Report: {{ feature_name }}
 
 **Document Type:** Handoff Template

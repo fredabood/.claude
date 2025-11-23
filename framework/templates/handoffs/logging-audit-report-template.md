@@ -1,3 +1,76 @@
+---
+id: logging-audit-report
+name: Logging Audit Report
+version: 1.0.0
+from_agent: observability-engineer
+to_agents:
+- web-developer
+- documentation-engineer
+purpose: Template for logging audit report
+variables:
+- name: audit_date
+  type: string
+  required: true
+  description: Audit Date value
+- name: audit_result
+  type: string
+  required: true
+  description: Audit Result value
+- name: audit_status
+  type: string
+  required: true
+  description: Audit Status value
+- name: auditor_notes
+  type: string
+  required: true
+  description: Auditor Notes value
+- name: component_name
+  type: string
+  required: true
+  description: Component Name value
+- name: critical_issues_count
+  type: string
+  required: true
+  description: Critical Issues Count value
+- name: deployment_milestone
+  type: string
+  required: true
+  description: Deployment Milestone value
+- name: error_context_score
+  type: string
+  required: true
+  description: Error Context Score value
+- name: error_context_status
+  type: string
+  required: true
+  description: Error Context Status value
+- name: high_priority_issues_count
+  type: string
+  required: true
+  description: High Priority Issues Count value
+- name: last_updated_date
+  type: string
+  required: true
+  description: Last Updated Date value
+- name: log_accessibility_score
+  type: string
+  required: true
+  description: Log Accessibility Score value
+- name: log_accessibility_status
+  type: string
+  required: true
+  description: Log Accessibility Status value
+- name: logging_audit_checklist_path
+  type: string
+  required: true
+  description: Logging Audit Checklist Path value
+- name: logging_standards_path
+  type: string
+  required: true
+  description: Logging Standards Path value
+description: Template for logging audit report
+---
+
 # Logging Audit Report: {{ component_name }}
 
 **From:** {{ config.roles.observability_engineer or 'Observability Engineer' }}

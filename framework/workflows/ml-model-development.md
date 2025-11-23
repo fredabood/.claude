@@ -1,3 +1,74 @@
+---
+id: ml-model-development
+name: ML Model Development
+type: development
+version: 1.0.0
+duration: 15-25 days (3-5 weeks)
+complexity: high
+steps:
+- order: 1
+  name: Define ML Use Case Requirements (Day 1)
+  agent: sprint-planning-agent
+  duration: 1 day
+- order: 2
+  name: Design ML Solution (Days 2-3)
+  agent: ml-engineer
+  duration: 2 days
+- order: 3
+  name: Ensure Training Data Availability (Days 3-4)
+  agent: '{%-if-config.project.type-==-''data-platform''-%}gold-transformation-engineer{%-else-%}data-engineer{%-endif-%}'
+  duration: 1-2 days
+- order: 4
+  name: Feature Engineering {% if config.ml_platform and config.ml_platform.feature_store
+    %}& Feature Store Creation{% endif %} (Days 5-7)
+  agent: ml-engineer
+  duration: 3 days
+- order: 5
+  name: Model Training, Tuning, Evaluation (Days 8-12)
+  agent: ml-engineer
+  duration: 5 days
+- order: 6
+  name: Review ML Infrastructure & Best Practices (Days 13-14)
+  agent: '{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}'
+  duration: 2 days
+- order: 7
+  name: Optimize Feature Computation & Inference (Days 15-16)
+  agent: performance-engineer
+  duration: 2 days
+- order: 8
+  name: Model Registration & Deployment (Days 17-18)
+  agent: ml-engineer
+  duration: 2 days
+- order: 9
+  name: Create Model Monitoring Dashboard (Days 19-20)
+  agent: '{%-if-config.project.type-==-''data-platform''-%}data-analyst{%-else-%}ml-engineer{%-endif-%}'
+  duration: 2 days
+- order: 10
+  name: Document ML Model & Use Case (Days 21-22)
+  agent: documentation-engineer
+  duration: 2 days
+- order: 11
+  name: Commit All ML Artifacts (Day 23)
+  agent: git-committer
+  duration: 1 day
+inputs:
+- name: feature_name
+  type: string
+  required: true
+  description: Name of the feature or task
+- name: requirements
+  type: string
+  required: true
+  description: Requirements and acceptance criteria
+- name: project_type
+  type: string
+  required: false
+  default: web-app
+  description: Project type (web-app, api, ml, data-platform)
+description: End-to-end machine learning model lifecycle from requirements to production
+  deployment
+---
+
 # Workflow: ML Model Development
 
 **Workflow ID:** ML Model Development

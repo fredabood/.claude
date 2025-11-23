@@ -1,0 +1,11 @@
+id: weekly-sprint
+name: Weekly Sprint
+description: Execute parallel feature development for weekly sprint completion
+version: 1.0.0
+estimated_duration: 3-5 days (3-7 features/components)
+complexity: high
+steps:
+- order: 2
+  name: Integration Engineering
+  tool: vibey_integration_engineer
+  estimated_duration: 0.5-1 day

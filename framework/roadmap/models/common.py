@@ -19,6 +19,8 @@ class Status(str, Enum):
     PRODUCTION_READY = "production_ready"
     DEPLOYED = "deployed"
     WONT_DO = "won't_do"
+    SUPERSEDED = "superseded"
+    PENDING = "pending"
 
 
 class TaskStatus(str, Enum):

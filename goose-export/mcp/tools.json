@@ -1,0 +1,2249 @@
+[
+  {
+    "name": "vibey_documentation_maintenance_engineer",
+    "title": "Documentation Maintenance Engineer",
+    "description": "Documentation Maintenance Engineer agent (triggers: update .claude/CLAUDE.md, maintain docs, refresh documentation, sync docs, archive sprint)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Documentation Maintenance Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "documentation-maintenance-engineer",
+      "agent_type": "documentation",
+      "triggers": {
+        "keywords": [
+          "update .claude/CLAUDE.md",
+          "maintain docs",
+          "refresh documentation",
+          "sync docs",
+          "archive sprint",
+          "document progress",
+          "update project state",
+          ".claude/CLAUDE.md maintenance"
+        ],
+        "contexts": [
+          "sprint completion",
+          "milestone reached",
+          "quarterly review",
+          "documentation sync",
+          "project state updates"
+        ],
+        "file_patterns": [
+          ".claude/CLAUDE.md",
+          "docs/sprints/*",
+          "ROADMAP.md",
+          "project status"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_git_committer",
+    "title": "Git Committer Agent",
+    "description": "Create clean, descriptive commits following project conventions (triggers: commit, git commit, save changes, check in, version control)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Git Committer Agent"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "git-committer",
+      "agent_type": "documentation",
+      "triggers": {
+        "keywords": [
+          "commit",
+          "git commit",
+          "save changes",
+          "check in",
+          "version control",
+          "commit message",
+          "git",
+          "stage changes",
+          "push",
+          "create commit"
+        ],
+        "contexts": [
+          "work completion",
+          "feature complete",
+          "ready to commit",
+          "save progress",
+          "version control"
+        ],
+        "file_patterns": [
+          ".git/*",
+          "modified files ready for commit"
+        ],
+        "priority": "low"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_documentation_engineer",
+    "title": "Documentation Engineer",
+    "description": "Update all project documentation after completing features or tasks (triggers: documentation, docs, update docs, document, README)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Documentation Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "documentation-engineer",
+      "agent_type": "documentation",
+      "triggers": {
+        "keywords": [
+          "documentation",
+          "docs",
+          "update docs",
+          "document",
+          "README",
+          "API documentation",
+          "user guide",
+          "changelog",
+          "release notes",
+          "docstring",
+          "comments",
+          "explain",
+          "how to use",
+          "write docs",
+          "document this",
+          "create documentation",
+          "update readme",
+          "docs needed",
+          "explain how to use"
+        ],
+        "contexts": [
+          "quality gate phase",
+          "feature completion",
+          "API changes",
+          "sprint completion",
+          "documentation review",
+          "README updates"
+        ],
+        "file_patterns": [
+          "README.md",
+          ".claude/CLAUDE.md",
+          "docs/*",
+          "CHANGELOG.md",
+          "*.md",
+          "API docs",
+          "user guides"
+        ],
+        "priority": "high"
+      },
+      "aliases": [
+        "docs-writer"
+      ]
+    }
+  },
+  {
+    "name": "vibey_diagram_engineer",
+    "title": "Diagram Engineer",
+    "description": "Mermaid diagram generation specialist for architecture documentation (triggers: diagram, architecture diagram, flow diagram, sequence diagram, ERD)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Diagram Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "diagram-engineer",
+      "agent_type": "documentation",
+      "triggers": {
+        "keywords": [
+          "diagram",
+          "architecture diagram",
+          "flow diagram",
+          "sequence diagram",
+          "ERD",
+          "entity relationship",
+          "data flow",
+          "system diagram",
+          "Mermaid",
+          "visualize",
+          "flowchart",
+          "workflow diagram"
+        ],
+        "contexts": [
+          "architecture documentation",
+          "system design",
+          "data flow documentation",
+          "technical documentation",
+          "visual documentation needs"
+        ],
+        "file_patterns": [
+          "docs/architecture/*",
+          "architecture.md",
+          "system-design.md",
+          "*.mermaid",
+          "diagrams/*"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_vibey_manager",
+    "title": "Agent: Vibey Framework Manager",
+    "description": "Agent: Vibey Framework Manager agent",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Agent: Vibey Framework Manager"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "vibey-manager",
+      "agent_type": "development",
+      "triggers": {
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_coordinator",
+    "title": "Coordinator Agent",
+    "description": "Intelligent request router for complex, multi-step workflows (triggers: N/A (coordinator is triggered by complexity, not keywords))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Coordinator Agent"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "coordinator",
+      "agent_type": "core",
+      "triggers": {
+        "keywords": [
+          "N/A (coordinator is triggered by complexity",
+          "not keywords)"
+        ],
+        "contexts": [
+          "Complex multi-step requests",
+          "interdependent features",
+          "uncertain routing needs",
+          "sprint planning with many concerns"
+        ],
+        "file_patterns": [
+          "N/A"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_security_reviewer",
+    "title": "Security Reviewer",
+    "description": "Review code for security vulnerabilities and best practices (triggers: security, vulnerability, exploit, OWASP, authentication)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Security Reviewer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "security-reviewer",
+      "agent_type": "quality",
+      "triggers": {
+        "keywords": [
+          "security",
+          "vulnerability",
+          "exploit",
+          "OWASP",
+          "authentication",
+          "authorization",
+          "auth",
+          "JWT",
+          "token",
+          "password",
+          "encryption",
+          "XSS",
+          "SQL injection",
+          "CSRF",
+          "secrets",
+          "credentials",
+          "secure",
+          "audit",
+          "penetration test",
+          "compliance"
+        ],
+        "contexts": [
+          "quality gate phase",
+          "pre-deployment",
+          "authentication implementation",
+          "API security",
+          "data protection",
+          "compliance audit",
+          "security review",
+          "security audit"
+        ],
+        "file_patterns": [
+          "*/auth/*",
+          "*/security/*",
+          "*login*",
+          "*password*",
+          "*token*",
+          "*.env",
+          "credentials*",
+          "secrets*"
+        ],
+        "priority": "high"
+      },
+      "aliases": [
+        "security-auditor"
+      ]
+    }
+  },
+  {
+    "name": "vibey_test_engineer",
+    "title": "Test Engineer",
+    "description": "Write comprehensive automated tests for code quality assurance (triggers: write tests, add tests, test coverage, unit test, integration test)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Test Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "test-engineer",
+      "agent_type": "quality",
+      "triggers": {
+        "keywords": [
+          "write tests",
+          "add tests",
+          "test coverage",
+          "unit test",
+          "integration test",
+          "e2e test",
+          "increase coverage",
+          "test this code",
+          "failing test",
+          "fix test",
+          "pytest",
+          "jest",
+          "cypress",
+          "test suite",
+          "mock",
+          "fixture",
+          "test automation"
+        ],
+        "contexts": [
+          "testing requirements",
+          "quality assurance",
+          "CI/CD setup",
+          "test-driven development",
+          "debugging test failures"
+        ],
+        "file_patterns": [
+          "tests/*",
+          "test_*.py",
+          "*.test.js",
+          "*.spec.ts",
+          "__tests__/*",
+          "cypress/*",
+          "pytest.ini",
+          "jest.config.js"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_performance_engineer",
+    "title": "Performance Engineer",
+    "description": "Performance optimization specialist for applications, databases, and APIs (triggers: performance, slow, optimization, optimize, bottleneck)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Performance Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "performance-engineer",
+      "agent_type": "quality",
+      "triggers": {
+        "keywords": [
+          "performance",
+          "slow",
+          "optimization",
+          "optimize",
+          "bottleneck",
+          "latency",
+          "throughput",
+          "memory",
+          "CPU",
+          "query performance",
+          "caching",
+          "profiling",
+          "benchmark",
+          "load time",
+          "response time",
+          "scalability"
+        ],
+        "contexts": [
+          "performance issues",
+          "optimization sprint",
+          "production performance",
+          "slow queries",
+          "high latency",
+          "resource optimization",
+          "profiling session"
+        ],
+        "file_patterns": [
+          "performance tests",
+          "benchmarks/*",
+          "profiling results",
+          "*.perf",
+          "query optimizations"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_observability_engineer",
+    "title": "Observability Engineer",
+    "description": "Logging, monitoring, and observability specialist (triggers: logging, log, monitoring, observability, telemetry)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Observability Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "observability-engineer",
+      "agent_type": "quality",
+      "triggers": {
+        "keywords": [
+          "logging",
+          "log",
+          "monitoring",
+          "observability",
+          "telemetry",
+          "tracing",
+          "metrics",
+          "alerts",
+          "correlation ID",
+          "error tracking",
+          "logging audit",
+          "structured logging",
+          "log levels",
+          "instrumentation"
+        ],
+        "contexts": [
+          "quality gate phase",
+          "production readiness",
+          "logging review",
+          "observability setup",
+          "monitoring implementation",
+          "troubleshooting infrastructure"
+        ],
+        "file_patterns": [
+          "*/logging/*",
+          "*/monitoring/*",
+          "logger.*",
+          "log_config.*",
+          "telemetry.*",
+          "metrics.*",
+          "observability.*"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_ml_engineer",
+    "title": "ML Engineer",
+    "description": "Machine learning model development, training, evaluation, and deployment (triggers: machine learning, ML, model, training, prediction)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the ML Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "ml-engineer",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "machine learning",
+          "ML",
+          "model",
+          "training",
+          "prediction",
+          "inference",
+          "feature engineering",
+          "hyperparameter",
+          "neural network",
+          "deep learning",
+          "classifier",
+          "regression",
+          "clustering",
+          "MLflow",
+          "TensorFlow",
+          "PyTorch",
+          "scikit-learn"
+        ],
+        "contexts": [
+          "model development",
+          "ML project",
+          "data science",
+          "model training",
+          "model deployment",
+          "experiment tracking",
+          "feature store"
+        ],
+        "file_patterns": [
+          "models/*",
+          "notebooks/*",
+          "experiments/*",
+          "features/*",
+          "*.pkl",
+          "*.h5",
+          "*.pt",
+          "*.onnx",
+          "MLproject",
+          "mlflow/*"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_web_developer",
+    "title": "Web Developer",
+    "description": "Build and maintain web applications for user-facing interfaces (triggers: frontend, UI, user interface, web app, dashboard)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Web Developer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "web-developer",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "frontend",
+          "UI",
+          "user interface",
+          "web app",
+          "dashboard",
+          "React",
+          "Vue",
+          "Angular",
+          "component",
+          "page",
+          "form",
+          "styling",
+          "CSS",
+          "responsive",
+          "mobile",
+          "browser",
+          "client-side"
+        ],
+        "contexts": [
+          "building user interfaces",
+          "web development",
+          "frontend development",
+          "dashboard creation",
+          "UI/UX implementation"
+        ],
+        "file_patterns": [
+          "src/components/*",
+          "src/pages/*",
+          "src/styles/*",
+          "*.tsx",
+          "*.jsx",
+          "*.vue",
+          "*.css",
+          "*.scss",
+          "public/*"
+        ],
+        "priority": "medium"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_database_specialist",
+    "title": "Database Specialist",
+    "description": "Design and optimize database schemas and queries (triggers: database schema, sql query, optimize database, database migration, index)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Database Specialist"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "database-specialist",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "database schema",
+          "sql query",
+          "optimize database",
+          "database migration",
+          "index",
+          "query performance",
+          "database design",
+          "data modeling",
+          "orm",
+          "sql",
+          "nosql"
+        ],
+        "contexts": [
+          "database design",
+          "schema changes",
+          "query optimization",
+          "data migration"
+        ],
+        "file_patterns": [
+          "migrations/*",
+          "models/*",
+          "db/*",
+          "schema.sql",
+          "alembic/*",
+          "prisma/*"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_frontend_engineer",
+    "title": "Frontend Engineer",
+    "description": "Build modern, responsive user interfaces (triggers: frontend, ui component, react component, user interface, responsive design)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Frontend Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "frontend-engineer",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "frontend",
+          "ui component",
+          "react component",
+          "user interface",
+          "responsive design",
+          "state management",
+          "css styling",
+          "ui/ux",
+          "component library",
+          "web app ui"
+        ],
+        "contexts": [
+          "UI development",
+          "component creation",
+          "frontend features",
+          "styling",
+          "user experience"
+        ],
+        "file_patterns": [
+          "src/components/*",
+          "src/pages/*",
+          "src/styles/*",
+          "*.tsx",
+          "*.jsx",
+          "*.vue",
+          "*.css"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_backend_engineer",
+    "title": "Backend Engineer",
+    "description": "Build robust backend APIs and services (triggers: api endpoint, backend logic, rest api, graphql, database query)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Backend Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "backend-engineer",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "api endpoint",
+          "backend logic",
+          "rest api",
+          "graphql",
+          "database query",
+          "authentication",
+          "authorization",
+          "background job",
+          "server-side",
+          "api design",
+          "microservice"
+        ],
+        "contexts": [
+          "API development",
+          "backend services",
+          "database operations",
+          "auth implementation"
+        ],
+        "file_patterns": [
+          "src/api/*",
+          "src/services/*",
+          "src/models/*",
+          "backend/*",
+          "server/*"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_infrastructure_engineer",
+    "title": "Infrastructure Engineer",
+    "description": "Build and manage infrastructure using Infrastructure as Code (triggers: infrastructure, terraform, kubernetes, ci/cd pipeline, deployment)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Infrastructure Engineer"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "infrastructure-engineer",
+      "agent_type": "development",
+      "triggers": {
+        "keywords": [
+          "infrastructure",
+          "terraform",
+          "kubernetes",
+          "ci/cd pipeline",
+          "deployment",
+          "docker",
+          "cloud setup",
+          "devops",
+          "iac",
+          "containers",
+          "orchestration",
+          "cloudformation"
+        ],
+        "contexts": [
+          "infrastructure provisioning",
+          "deployment automation",
+          "cloud configuration"
+        ],
+        "file_patterns": [
+          "terraform/*",
+          "k8s/*",
+          ".github/workflows/*",
+          "Dockerfile",
+          "docker-compose.yml"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_sprint_planning",
+    "title": "Sprint Planning Agent",
+    "description": "Sprint Planning Agent agent (triggers: sprint planning, plan sprint, roadmap, iteration, backlog)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Sprint Planning Agent"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "sprint-planning",
+      "agent_type": "planning",
+      "triggers": {
+        "keywords": [
+          "sprint planning",
+          "plan sprint",
+          "roadmap",
+          "iteration",
+          "backlog",
+          "prioritize",
+          "dependencies",
+          "quarterly planning",
+          "sprint goals",
+          "sprint objectives"
+        ],
+        "contexts": [
+          "beginning of sprint",
+          "project planning phase",
+          "roadmap updates",
+          "dependency analysis",
+          "feature prioritization"
+        ],
+        "file_patterns": [
+          "ROADMAP.md",
+          "docs/sprints/*",
+          ".claude/project-config.yaml",
+          "backlog files"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_researcher",
+    "title": "Researcher Agent",
+    "description": "Researcher Agent agent (triggers: research, documentation, API docs, library documentation, investigate)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Researcher Agent"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "researcher",
+      "agent_type": "planning",
+      "triggers": {
+        "keywords": [
+          "research",
+          "documentation",
+          "API docs",
+          "library documentation",
+          "investigate",
+          "explore",
+          "learn about",
+          "understand",
+          "how does X work",
+          "what is X",
+          "study",
+          "analyze documentation"
+        ],
+        "contexts": [
+          "new technology adoption",
+          "API integration",
+          "library selection",
+          "unfamiliar tools",
+          "before implementation",
+          "tech evaluation"
+        ],
+        "file_patterns": [
+          "README.md",
+          "docs/research/*",
+          "docs/reference/*",
+          "external documentation links"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_architecture_agent",
+    "title": "Architecture Agent",
+    "description": "Design system architecture and create architectural decision records (triggers: architecture, system design, design architecture, technical design, adr)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "description": "Task or request for the Architecture Agent"
+        },
+        "context": {
+          "type": "string",
+          "description": "Additional context about the project or codebase"
+        }
+      },
+      "required": [
+        "task"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "agent",
+      "asset_id": "architecture-agent",
+      "agent_type": "architecture",
+      "triggers": {
+        "keywords": [
+          "architecture",
+          "system design",
+          "design architecture",
+          "technical design",
+          "adr",
+          "architecture decision",
+          "design document",
+          "component design",
+          "api design",
+          "system architecture",
+          "architectural pattern",
+          "microservices",
+          "monolith",
+          "scalability",
+          "performance architecture"
+        ],
+        "contexts": [
+          "project initialization",
+          "major feature planning",
+          "technical debt review",
+          "system refactoring",
+          "architecture review",
+          "design phase"
+        ],
+        "file_patterns": [
+          "docs/architecture/*",
+          "docs/adr/*",
+          "ARCHITECTURE.md",
+          "design-docs/*",
+          "technical-design-*"
+        ],
+        "priority": "high"
+      },
+      "aliases": []
+    }
+  },
+  {
+    "name": "vibey_workflow_integration_only",
+    "title": "Workflow: Integration Only",
+    "description": "Integrate completed and tested components into the main system (5 steps, 30 minutes - 2 hours per component)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "integration-only",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Gather Component Metadata",
+          "agent": "integration-engineer-(with-developer-input)"
+        },
+        {
+          "order": 2,
+          "name": "Register/Connect Component",
+          "agent": "integration-engineer"
+        },
+        {
+          "order": 3,
+          "name": "Create Integration Test",
+          "agent": "integration-engineer"
+        },
+        {
+          "order": 4,
+          "name": "Manual Verification",
+          "agent": "integration-engineer"
+        },
+        {
+          "order": 5,
+          "name": "Create Integration Handoff Document",
+          "agent": "integration-engineer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_frontend_production_deployment",
+    "title": "Workflow: Frontend Production Deployment Workflow",
+    "description": "Package, test, and deploy frontend application to production (9 steps, 1-2 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "frontend-production-deployment",
+      "workflow_type": "deployment",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Create Production Builds (4 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 2,
+          "name": "{% if config.deployment and config.deployment.type == 'docker' %}Create Docker Containers{% elif config.deployment and config.deployment.type == 'kubernetes' %}Create Kubernetes Manifests{% elif config.deployment and config.deployment.type == 'serverless' %}Configure Serverless Deployment{% else %}Package Application{% endif %} (4 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Configure CI/CD Pipeline (6 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Deploy to {% if config.environments %}{{ config.environments.staging | title or 'Staging' }}{% else %}Staging{% endif %} (2 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Run E2E Tests on {% if config.environments %}{{ config.environments.staging | title or 'Staging' }}{% else %}Staging{% endif %} (4 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.test_engineer-or-'test-engineer'-}}{%-else-%}test-engineer{%-endif-%}"
+        },
+        {
+          "order": 6,
+          "name": "Deploy to {% if config.environments %}{{ config.environments.prod | title or 'Production' }}{% else %}Production{% endif %} (2 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 7,
+          "name": "Configure Monitoring (2 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.deployment_engineer-or-'deployment-engineer'-}}{%-else-%}deployment-engineer{%-endif-%}"
+        },
+        {
+          "order": 8,
+          "name": "Create Operational Runbook (2 hours)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-'documentation-engineer'-}}{%-else-%}documentation-engineer{%-endif-%}"
+        },
+        {
+          "order": 9,
+          "name": "Commit Deployment Configurations (1 hour)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.git_committer-or-'git-committer'-}}{%-else-%}git-committer{%-endif-%}"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_sprint_planning",
+    "title": "Workflow: Sprint Planning & Roadmap Management",
+    "description": "Orchestrate sprint planning, prioritization, dependency analysis, and roadmap updates (9 steps, 3-5 days (ongoing sprints) | 20-40 minutes (first sprint with framework initialization))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "sprint-planning",
+      "workflow_type": "planning",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Analyze Current State (Day 1)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 2,
+          "name": "Collect Sprint Requirements (Day 1)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 3,
+          "name": "Research New Technologies/APIs (Day 2) [OPTIONAL]",
+          "agent": "researcher"
+        },
+        {
+          "order": 4,
+          "name": "Review Technical Feasibility & Architecture (Day 2-3)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Create Dependency Graph & Prioritization (Day 3-4)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 6,
+          "name": "Sequence Sprints & Create Sprint Plan (Day 4)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 7,
+          "name": "Update ROADMAP.md (Day 5)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 8,
+          "name": "Update .claude/CLAUDE.md (Day 5)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 9,
+          "name": "Commit Roadmap & Sprint Plan (Day 5)",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_documentation_research",
+    "title": "Workflow: Documentation Research & Preprocessing Workflow",
+    "description": "Research and summarize verbose documentation to prevent context window waste (6 steps, 1-2 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "documentation-research",
+      "workflow_type": "documentation",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Identify Documentation Need (0.1 days)",
+          "agent": "any-agent-(requesting-research)"
+        },
+        {
+          "order": 2,
+          "name": "Fetch & Analyze Documentation (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.researcher-or-'researcher'-}}{%-else-%}researcher{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Create Summary & Templates (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.researcher-or-'researcher'-}}{%-else-%}researcher{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Update Master Index (0.2 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.researcher-or-'researcher'-}}{%-else-%}researcher{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Deliver to Requesting Agent (0.1 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.researcher-or-'researcher'-}}-\u2192-requesting-agent{%-else-%}researcher-\u2192-requesting-agent{%-endif-%}"
+        },
+        {
+          "order": 6,
+          "name": "Commit Research Artifacts (0.2 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.git_committer-or-'git-committer'-}}{%-else-%}git-committer{%-endif-%}"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_performance_optimization",
+    "title": "Workflow: Performance Optimization",
+    "description": "Systematic performance optimization cycle for applications, services, and data pipelines (8 steps, 5-8 days (1-1.5 weeks))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "performance-optimization",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Identify Performance Issues & SLA Requirements (Day 1)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 2,
+          "name": "Analyze Current Performance (Days 1-2)",
+          "agent": "performance-engineer"
+        },
+        {
+          "order": 3,
+          "name": "Review Architectural Optimization Opportunities (Day 3)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Implement Optimizations (Days 4-5)",
+          "agent": "performance-engineer-\u2192-developers"
+        },
+        {
+          "order": 5,
+          "name": "Create Performance Regression Tests (Day 6)",
+          "agent": "test-engineer"
+        },
+        {
+          "order": 6,
+          "name": "Validate Improvements & Benchmark (Day 7)",
+          "agent": "performance-engineer"
+        },
+        {
+          "order": 7,
+          "name": "Document Optimization Patterns (Day 8)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 8,
+          "name": "Commit Optimized Code (Day 8)",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_infrastructure_setup",
+    "title": "Workflow: Infrastructure Setup & Deployment",
+    "description": "End-to-end infrastructure provisioning using Infrastructure-as-Code across multiple environments (12 steps, 12-18 days (2.5-3.5 weeks))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "infrastructure-setup",
+      "workflow_type": "deployment",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Define Infrastructure Requirements (Day 1)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 2,
+          "name": "Review Infrastructure Design (Days 2-3)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Design IaC Modules (Days 4-5)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 4,
+          "name": "Implement IaC (Days 6-9)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 5,
+          "name": "Review Secrets Management & Access Control (Days 10-11)",
+          "agent": "security-reviewer"
+        },
+        {
+          "order": 6,
+          "name": "Create CI/CD Pipelines (Days 12-13)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 7,
+          "name": "Review Resource Sizing & Configurations (Day 14)",
+          "agent": "performance-engineer"
+        },
+        {
+          "order": 8,
+          "name": "Deploy to Dev Environment (Day 15)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 9,
+          "name": "Deploy to Staging Environment (Day 16)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 10,
+          "name": "Deploy to Production (with Approval) (Day 17)",
+          "agent": "devops-engineer"
+        },
+        {
+          "order": 11,
+          "name": "Update Infrastructure Documentation (Day 18)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 12,
+          "name": "Commit Infrastructure Code (Day 18)",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_logging_audit",
+    "title": "Workflow: Logging Audit",
+    "description": "Conduct comprehensive logging audit to ensure production readiness (9 steps, 2-3 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "logging-audit",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Preparation & Setup (Day 1, Morning)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 2,
+          "name": "Audit Category 1 - Request Tracing (Day 1, Afternoon)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 3,
+          "name": "Audit Category 2 - Error Context (Day 2, Morning)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 4,
+          "name": "Audit Category 3 - Product Analytics (Day 2, Afternoon)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 5,
+          "name": "Audit Category 4 - Performance Metrics (Day 3, Morning)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 6,
+          "name": "Audit Category 5 - Log Accessibility (Day 3, Afternoon)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 7,
+          "name": "Consolidate Audit Results (Day 3, End of Day)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 8,
+          "name": "Create Remediation Plan (If Fail) [CONDITIONAL]",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 9,
+          "name": "Update .claude/CLAUDE.md & Commit (Day 3, End of Day)",
+          "agent": "documentation-engineer-+-git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_dashboard_visualization_creation",
+    "title": "Workflow: Dashboard & Visualization Creation Workflow",
+    "description": "Create and deploy dashboards/visualizations with version control and automation (6 steps, 2-5 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "dashboard-visualization-creation",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Define Dashboard Requirements (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.data_analyst-or-'data-analyst'-}}{%-else-%}data-analyst{%-endif-%}-or-product-owner"
+        },
+        {
+          "order": 2,
+          "name": "Develop Dashboard (1-3 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.developer-or-'developer'-}}{%-else-%}developer{%-endif-%}-or-{%-if-config.agents-%}{{-config.agents.data_analyst-or-'data-analyst'-}}{%-else-%}data-analyst{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Validate Dashboard (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.developer-or-'developer'-}}{%-else-%}developer{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Deploy Dashboard (0.5-1 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.developer-or-'developer'-}}{%-else-%}developer{%-endif-%}-or-devops-engineer"
+        },
+        {
+          "order": 5,
+          "name": "Document Dashboard (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-'documentation-engineer'-}}{%-else-%}documentation-engineer{%-endif-%}"
+        },
+        {
+          "order": 6,
+          "name": "Commit & Review (0.2 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.git_committer-or-'git-committer'-}}{%-else-%}git-committer{%-endif-%}"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_ml_model_development",
+    "title": "Workflow: ML Model Development",
+    "description": "End-to-end machine learning model lifecycle from requirements to production deployment (11 steps, 15-25 days (3-5 weeks))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "ml-model-development",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Define ML Use Case Requirements (Day 1)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 2,
+          "name": "Design ML Solution (Days 2-3)",
+          "agent": "ml-engineer"
+        },
+        {
+          "order": 3,
+          "name": "Ensure Training Data Availability (Days 3-4)",
+          "agent": "{%-if-config.project.type-==-'data-platform'-%}gold-transformation-engineer{%-else-%}data-engineer{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Feature Engineering {% if config.ml_platform and config.ml_platform.feature_store %}& Feature Store Creation{% endif %} (Days 5-7)",
+          "agent": "ml-engineer"
+        },
+        {
+          "order": 5,
+          "name": "Model Training, Tuning, Evaluation (Days 8-12)",
+          "agent": "ml-engineer"
+        },
+        {
+          "order": 6,
+          "name": "Review ML Infrastructure & Best Practices (Days 13-14)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 7,
+          "name": "Optimize Feature Computation & Inference (Days 15-16)",
+          "agent": "performance-engineer"
+        },
+        {
+          "order": 8,
+          "name": "Model Registration & Deployment (Days 17-18)",
+          "agent": "ml-engineer"
+        },
+        {
+          "order": 9,
+          "name": "Create Model Monitoring Dashboard (Days 19-20)",
+          "agent": "{%-if-config.project.type-==-'data-platform'-%}data-analyst{%-else-%}ml-engineer{%-endif-%}"
+        },
+        {
+          "order": 10,
+          "name": "Document ML Model & Use Case (Days 21-22)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 11,
+          "name": "Commit All ML Artifacts (Day 23)",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_frontend_security_hardening",
+    "title": "Workflow: Frontend Security Hardening Workflow",
+    "description": "Comprehensive security implementation and audit for frontend applications (8 steps, 3-5 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "frontend-security-hardening",
+      "workflow_type": "quality",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Implement Authentication{% if config.security and config.security.authentication %} ({{ config.security.authentication.method }}){% endif %} (1-2 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-}}{%-else-%}security-engineer{%-endif-%}"
+        },
+        {
+          "order": 2,
+          "name": "Implement Input Validation (1-2 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-}}{%-else-%}security-engineer{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "XSS Prevention (1 day)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-%}{%-else-%}security-engineer{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Security Headers (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-%}{%-else-%}security-engineer{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Rate Limiting (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-}}{%-else-%}security-engineer{%-endif-%}"
+        },
+        {
+          "order": 6,
+          "name": "Security Audit (1 day)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.security_engineer-or-'security-engineer'-}}-+-{{-config.agents.test_engineer-or-'test-engineer'-}}{%-else-%}security-engineer-+-test-engineer{%-endif-%}"
+        },
+        {
+          "order": 7,
+          "name": "Documentation (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_engineer-or-'documentation-engineer'-}}{%-else-%}documentation-engineer{%-endif-%}"
+        },
+        {
+          "order": 8,
+          "name": "Commit Security Changes (0.5 days)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.git_committer-or-'git-committer'-}}{%-else-%}git-committer{%-endif-%}"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_weekly_sprint",
+    "title": "Workflow: Weekly Sprint",
+    "description": "Execute parallel feature development for weekly sprint completion (1 steps, 3-5 days (3-7 features/components))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "weekly-sprint",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 2,
+          "name": "Integration Engineering",
+          "agent": "integration-engineer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_architecture_review",
+    "title": "Workflow: Architecture Review",
+    "description": "Systematic architecture review for sprints, code, infrastructure, and system design (7 steps, 2-3 days)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "architecture-review",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Request Architecture Review (Day 1, Morning)",
+          "agent": "sprint-planning-agent"
+        },
+        {
+          "order": 2,
+          "name": "Review Sprint Plan / Design (Day 1, Afternoon)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Review Code & Infrastructure (Day 2)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Create Architecture Review Report (Day 2-3)",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Implement Recommendations (Day 3)",
+          "agent": "relevant-development-agents-({%-if-config.project.type-==-'web-app'-%}web-developer{%-elif-config.project.type-==-'api'-%}api-developer{%-elif-config.project.type-==-'ml'-%}ml-engineer{%-else-%}developers{%-endif-%},-devops-engineer,-etc.)"
+        },
+        {
+          "order": 6,
+          "name": "Update Architecture Documentation (Day 3)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 7,
+          "name": "Commit Changes (Day 3)",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_claude_md_auto_update",
+    "title": "Workflow: .claude/CLAUDE.md Auto-Update Workflow",
+    "description": "Automatically keep .claude/CLAUDE.md up to date as the project evolves (6 steps, 20-30 minutes)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "claude-md-auto-update",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Detect Changes (5 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-'documentation-maintenance-engineer'-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}"
+        },
+        {
+          "order": 2,
+          "name": "Gather Context (5 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-'documentation-maintenance-engineer'-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Generate Updates (10 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-'documentation-maintenance-engineer'-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}"
+        },
+        {
+          "order": 4,
+          "name": "Apply Updates (5 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-'documentation-maintenance-engineer'-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}"
+        },
+        {
+          "order": 5,
+          "name": "Verify & Quality Check (3 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.documentation_maintenance-or-'documentation-maintenance-engineer'-}}{%-else-%}documentation-maintenance-engineer{%-endif-%}"
+        },
+        {
+          "order": 6,
+          "name": "Commit Changes (2 minutes)",
+          "agent": "{%-if-config.agents-%}{{-config.agents.git_committer-or-'git-committer'-}}{%-else-%}git-committer{%-endif-%}"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_single_feature_development",
+    "title": "Workflow: Single Feature Development",
+    "description": "Complete development of a single feature from specification to deployment (7 steps, 1-3 days (depending on complexity))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "single-feature-development",
+      "workflow_type": "development",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Architecture & Design",
+          "agent": "{%-if-config.architecture-%}{{-config.architecture.specialist-}}{%-else-%}architecture-specialist{%-endif-%}"
+        },
+        {
+          "order": 2,
+          "name": "Implementation",
+          "agent": "{%-if-config.project.type-==-'web-app'-%}web-developer{%-elif-config.project.type-==-'api'-%}api-developer{%-elif-config.project.type-==-'ml'-%}ml-engineer{%-else-%}developer{%-endif-%}"
+        },
+        {
+          "order": 3,
+          "name": "Comprehensive Testing",
+          "agent": "test-engineer"
+        },
+        {
+          "order": 4,
+          "name": "Security Review",
+          "agent": "security-reviewer"
+        },
+        {
+          "order": 5,
+          "name": "Integration",
+          "agent": "integration-engineer"
+        },
+        {
+          "order": 6,
+          "name": "Documentation",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 7,
+          "name": "Commit & Push",
+          "agent": "git-committer"
+        }
+      ],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_documentation_diagrams",
+    "title": "Workflow: Documentation & Diagrams Workflow",
+    "description": "Create comprehensive technical documentation with professional Mermaid diagrams",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "documentation-diagrams",
+      "workflow_type": "documentation",
+      "steps": [],
+      "quality_gates": []
+    }
+  },
+  {
+    "name": "vibey_workflow_codebase_audit_discovery",
+    "title": "Workflow: Codebase Audit & Discovery",
+    "description": "Comprehensive analysis of existing codebase before first sprint planning (11 steps, 60-105 minutes (code audit only) OR 10-20 minutes (git history only) OR 70-125 minutes (both))",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "description": "Name of the feature or task"
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Requirements and acceptance criteria"
+        },
+        "project_type": {
+          "type": "string",
+          "description": "Project type (web-app, api, ml, data-platform)",
+          "default": "web-app"
+        }
+      },
+      "required": [
+        "feature_name",
+        "requirements"
+      ]
+    },
+    "_metadata": {
+      "asset_type": "workflow",
+      "asset_id": "codebase-audit-discovery",
+      "workflow_type": "planning",
+      "steps": [
+        {
+          "order": 1,
+          "name": "Detect Project Type & Structure (5-10 minutes)",
+          "agent": "researcher"
+        },
+        {
+          "order": 2,
+          "name": "Detect Technology Stack (10-15 minutes)",
+          "agent": "researcher"
+        },
+        {
+          "order": 3,
+          "name": "Review Existing Documentation (5-10 minutes)",
+          "agent": "researcher"
+        },
+        {
+          "order": 4,
+          "name": "Security Scan (10-15 minutes)",
+          "agent": "security-reviewer"
+        },
+        {
+          "order": 5,
+          "name": "Logging & Observability Audit (5-10 minutes)",
+          "agent": "observability-engineer"
+        },
+        {
+          "order": 6,
+          "name": "Test Coverage Analysis (10-15 minutes)",
+          "agent": "test-engineer-(via-researcher-agent)"
+        },
+        {
+          "order": 7,
+          "name": "Code Quality Metrics (5-10 minutes)",
+          "agent": "researcher"
+        },
+        {
+          "order": 8,
+          "name": "Identify Patterns & Conventions (5 minutes)",
+          "agent": "architecture-specialist-(via-researcher)"
+        },
+        {
+          "order": 9,
+          "name": "Git History Analysis (OPTIONAL - Can Run Independently)",
+          "agent": "researcher"
+        },
+        {
+          "order": 10,
+          "name": "Generate Audit Report (5-10 minutes)",
+          "agent": "documentation-engineer"
+        },
+        {
+          "order": 11,
+          "name": "Pre-fill Project Configuration (5 minutes)",
+          "agent": "sprint-planning-agent"
+        }
+      ],
+      "quality_gates": []
+    }
+  }
+]

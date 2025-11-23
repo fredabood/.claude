@@ -1,0 +1,53 @@
+sprint:
+  id: continue-port-2
+  name: Context Providers & Multi-IDE Support
+  track_id: continue-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  created: '2025-11-22T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: continue-port-1
+    blocker_type: sprint
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  plan_file: docs/development/CONTINUE_PORT_IMPLEMENTATION.md
+  deliverables:
+  - Context provider implementation
+  - JetBrains integration testing
+  - MCP server integration
+  - Integration examples
+  - Documentation
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-22T00:00:00+00:00'
+    estimated_duration: 1.5 weeks
+    actual_duration: null
+    estimated_tokens: 35000
+    actual_tokens: null
+    agents_used:
+    - web-developer
+    - test-engineer
+    - docs-writer

@@ -12,7 +12,7 @@ track:
   progress:
     sprints_total: 1
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -103,9 +103,9 @@ track:
   standards: []
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00+00:00'
+    last_updated: '2025-11-22T00:00:00+00:00'
     design_doc: docs/development/PLATFORM_RESEARCH_2025.md
-    implementation_plan: null
+    implementation_plan: docs/development/AIDER_PORT_IMPLEMENTATION.md
     notes: "Aider is the highest-priority new platform port due to:\n\n1. Excellent\
       \ Compatibility (95%)\n   - Configuration-driven (YAML)\n   - Model abstraction\n\
       \   - Custom prompts/templates\n   - Similar agent concepts\n\n2. Low Effort\

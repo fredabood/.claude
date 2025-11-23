@@ -1,0 +1,33 @@
+task:
+  id: windsurf-port-2-task-006
+  sprint_id: windsurf-port-2
+  track_id: windsurf-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Example projects
+  description: |
+    Web-app example with Windsurf, API project example, full workflow demonstration
+  status: not_started
+  blocked: false
+  created: '2025-11-23T04:54:00.180014+00:00'
+  started: null
+  completed: null
+  assigned_agent: docs-writer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-23T04:54:00.180014+00:00'
+    token_efficiency: null
+    duration_hours: null

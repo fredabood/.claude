@@ -1,0 +1,54 @@
+sprint:
+  id: windsurf-port-2
+  name: Agentic Workflow & VS Code Compatibility
+  track_id: windsurf-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  created: '2025-11-22T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: windsurf-port-1
+    blocker_type: sprint
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  plan_file: docs/development/WINDSURF_PORT_IMPLEMENTATION.md
+  deliverables:
+  - Advanced Cascade integration
+  - MCP tool wrapper
+  - VS Code compatibility testing
+  - Integration tests
+  - Documentation
+  - Example projects
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-22T00:00:00+00:00'
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: 45000
+    actual_tokens: null
+    agents_used:
+    - web-developer
+    - test-engineer
+    - docs-writer

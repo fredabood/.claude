@@ -1,0 +1,33 @@
+task:
+  id: windsurf-port-2-task-002
+  sprint_id: windsurf-port-2
+  track_id: windsurf-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: MCP tool wrapper
+  description: |
+    Wrap select Vibey agents as MCP tools, return structured results to Cascade, test tool invocation
+  status: not_started
+  blocked: false
+  created: '2025-11-23T04:54:00.179695+00:00'
+  started: null
+  completed: null
+  assigned_agent: web-developer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-23T04:54:00.179695+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,33 @@
+task:
+  id: jetbrains-port-2-task-002
+  sprint_id: jetbrains-port-2
+  track_id: jetbrains-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Test in WebStorm
+  description: |
+    JavaScript/TypeScript workflows, frontend agent testing, document any differences
+  status: not_started
+  blocked: false
+  created: '2025-11-23T04:54:00.180810+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-23T04:54:00.180810+00:00'
+    token_efficiency: null
+    duration_hours: null

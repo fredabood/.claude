@@ -1,0 +1,53 @@
+sprint:
+  id: jetbrains-port-1
+  name: JetBrains MCP Configuration & IDE Setup
+  track_id: jetbrains-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  created: '2025-11-22T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: goose-port
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  plan_file: docs/development/JETBRAINS_PORT_IMPLEMENTATION.md
+  deliverables:
+  - .junie/mcp.json template
+  - .junie/guidelines.md template
+  - .idea/ai/ directory structure
+  - JetBrainsAdapter class
+  - MCP server connection testing
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-22T00:00:00+00:00'
+    estimated_duration: 1.5 weeks
+    actual_duration: null
+    estimated_tokens: 35000
+    actual_tokens: null
+    agents_used:
+    - web-developer
+    - test-engineer
+    - docs-writer

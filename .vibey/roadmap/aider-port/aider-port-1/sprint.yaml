@@ -1,0 +1,55 @@
+sprint:
+  id: aider-port-1
+  name: Aider Platform Adapter Implementation
+  track_id: aider-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  created: '2025-11-22T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 8
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 8
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: goose-port
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  plan_file: docs/development/AIDER_PORT_IMPLEMENTATION.md
+  deliverables:
+  - AiderAdapter class
+  - aider.conf.yml template
+  - Agent prompt templates
+  - Workflow script generation
+  - Git hook integration
+  - Integration tests
+  - Documentation
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-22T00:00:00+00:00'
+    estimated_duration: 2-3 weeks
+    actual_duration: null
+    estimated_tokens: 60000
+    actual_tokens: null
+    agents_used:
+    - web-developer
+    - test-engineer
+    - docs-writer

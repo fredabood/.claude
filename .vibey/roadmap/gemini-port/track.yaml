@@ -144,165 +144,65 @@ track:
     last_updated: '2025-11-22T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      GEMINI PLATFORM PORT
-
-      This track implements Vibey support for Google's Gemini AI platform,
-      enabling Vibey's agent orchestration framework to work with Gemini
-      models across various Google AI interfaces.
-
-      TARGET PLATFORMS:
-      1. Gemini API (direct API access)
-      2. Google AI Studio (web-based development)
-      3. Vertex AI (enterprise cloud platform)
-      4. Potential future IDE integrations
-
-      KEY GEMINI FEATURES TO LEVERAGE:
-
-      1. Extended Context Window
-         - Gemini 1.5 Pro: 1M tokens (up to 2M in preview)
-         - Gemini 1.5 Flash: 1M tokens
-         - Enables larger task contexts and fewer splits
-
-      2. Multi-Modal Capabilities
-         - Image understanding
-         - Video analysis
-         - Audio processing
-         - Document analysis (PDFs, etc.)
-
-      3. Function Calling
-         - Native tool/function support
-         - Maps well to Vibey agent capabilities
-
-      4. Code Execution
-         - Gemini can execute Python code
-         - Potential for enhanced automation
-
-      5. Grounding
-         - Google Search grounding
-         - Vertex AI Search integration
-
-      SPRINT BREAKDOWN:
-
-      Sprint 1: Research & Architecture (2 weeks)
-      - Study Gemini API specifications
-      - Analyze AI Studio capabilities
-      - Evaluate Vertex AI integration options
-      - Research MCP compatibility/alternatives
-      - Design adapter architecture
-      - Identify key differences from Claude
-
-      Sprint 2: API Integration & MCP (2 weeks)
-      - Implement Gemini API client
-      - Explore MCP server compatibility
-      - If no MCP: design alternative tool exposure
-      - Handle authentication (API keys, OAuth, service accounts)
-      - Implement streaming responses
-      - Error handling and rate limiting
-
-      Sprint 3: Agent System Adaptation (3 weeks)
-      - Convert agent prompts to Gemini format
-      - Adapt system instructions
-      - Implement function calling for agents
-      - Handle context window differences
-      - Test agent behavior parity
-      - Performance optimization
-
-      Sprint 4: Workflow & Context Management (2 weeks)
-      - Adapt workflows for Gemini
-      - Leverage extended context window
-      - Implement context loading strategies
-      - Optimize for 1M token contexts
-      - Handle multi-modal inputs (optional)
-      - Cross-session context management
-
-      Sprint 5: AI Studio & Vertex AI (2 weeks)
-      - AI Studio integration guide
-      - Vertex AI deployment support
-      - Enterprise authentication flows
-      - Cloud resource management
-      - Monitoring and logging integration
-      - Cost tracking utilities
-
-      Sprint 6: Testing & Launch (2 weeks)
-      - Comprehensive test suite
-      - Performance benchmarks
-      - User documentation
-      - Migration guide
-      - Example projects
-      - Community feedback collection
-
-      TECHNICAL CONSIDERATIONS:
-
-      1. API Differences
-         - Different message format than Claude
-         - Separate system instruction handling
-         - Function calling syntax differences
-         - Safety settings configuration
-
-      2. Context Window Strategy
-         - Gemini's 1M context enables different approaches
-         - May need to reconsider task splitting algorithms
-         - Opportunity for enhanced context loading
-
-      3. Multi-Modal Opportunities
-         - Workflow steps could include images
-         - Code review with screenshots
-         - Documentation with diagrams
-         - Architecture diagram analysis
-
-      4. Enterprise Features
-         - Vertex AI integration for enterprise
-         - VPC-SC support considerations
-         - Data residency requirements
-         - Compliance certifications
-
-      RISKS & MITIGATION:
-
-      Risk: API changes during development
-      → Pin to stable API version
-      → Monitor Google AI announcements
-      → Design for adaptability
-
-      Risk: Different behavior than Claude
-      → Comprehensive prompt engineering
-      → Behavior parity testing
-      → Document differences for users
-
-      Risk: MCP not supported
-      → Design adapter pattern as fallback
-      → Direct function calling integration
-      → Maintain consistent tool interface
-
-      Risk: Enterprise complexity
-      → Phased enterprise feature rollout
-      → Start with API-key auth
-      → Add Vertex AI later
-
-      SUCCESS METRICS:
-
-      - All core agents functional on Gemini
-      - 5+ workflows validated end-to-end
-      - <5% behavior difference from Claude baseline
-      - Documentation complete with examples
-      - User migration guide validated
-      - Community adoption signals positive
-
-      TIMELINE & DEPENDENCIES:
-
-      Timeline: ~3 months (13 weeks across 6 sprints)
-      Priority: HIGH (ecosystem diversification)
-      Dependencies: platform-context-management, mcp-server
-      Blocks: multi-platform
-
-      GEMINI CONTEXT WINDOWS (for platform detection):
-
-      - gemini-1.5-pro: 1,000,000 tokens (up to 2M preview)
-      - gemini-1.5-flash: 1,000,000 tokens
-      - gemini-1.0-pro: 30,720 tokens
-      - gemini-1.0-ultra: 30,720 tokens
-
-      This port represents a significant expansion opportunity,
-      bringing Vibey to Google's AI ecosystem and its large context
-      windows that could reduce task fragmentation significantly.
+    notes: "GEMINI PLATFORM PORT\n\nThis track implements Vibey support for Google's\
+      \ Gemini AI platform,\nenabling Vibey's agent orchestration framework to work\
+      \ with Gemini\nmodels across various Google AI interfaces.\n\nTARGET PLATFORMS:\n\
+      1. Gemini API (direct API access)\n2. Google AI Studio (web-based development)\n\
+      3. Vertex AI (enterprise cloud platform)\n4. Potential future IDE integrations\n\
+      \nKEY GEMINI FEATURES TO LEVERAGE:\n\n1. Extended Context Window\n   - Gemini\
+      \ 1.5 Pro: 1M tokens (up to 2M in preview)\n   - Gemini 1.5 Flash: 1M tokens\n\
+      \   - Enables larger task contexts and fewer splits\n\n2. Multi-Modal Capabilities\n\
+      \   - Image understanding\n   - Video analysis\n   - Audio processing\n   -\
+      \ Document analysis (PDFs, etc.)\n\n3. Function Calling\n   - Native tool/function\
+      \ support\n   - Maps well to Vibey agent capabilities\n\n4. Code Execution\n\
+      \   - Gemini can execute Python code\n   - Potential for enhanced automation\n\
+      \n5. Grounding\n   - Google Search grounding\n   - Vertex AI Search integration\n\
+      \nSPRINT BREAKDOWN:\n\nSprint 1: Research & Architecture (2 weeks)\n- Study\
+      \ Gemini API specifications\n- Analyze AI Studio capabilities\n- Evaluate Vertex\
+      \ AI integration options\n- Research MCP compatibility/alternatives\n- Design\
+      \ adapter architecture\n- Identify key differences from Claude\n\nSprint 2:\
+      \ API Integration & MCP (2 weeks)\n- Implement Gemini API client\n- Explore\
+      \ MCP server compatibility\n- If no MCP: design alternative tool exposure\n\
+      - Handle authentication (API keys, OAuth, service accounts)\n- Implement streaming\
+      \ responses\n- Error handling and rate limiting\n\nSprint 3: Agent System Adaptation\
+      \ (3 weeks)\n- Convert agent prompts to Gemini format\n- Adapt system instructions\n\
+      - Implement function calling for agents\n- Handle context window differences\n\
+      - Test agent behavior parity\n- Performance optimization\n\nSprint 4: Workflow\
+      \ & Context Management (2 weeks)\n- Adapt workflows for Gemini\n- Leverage extended\
+      \ context window\n- Implement context loading strategies\n- Optimize for 1M\
+      \ token contexts\n- Handle multi-modal inputs (optional)\n- Cross-session context\
+      \ management\n\nSprint 5: AI Studio & Vertex AI (2 weeks)\n- AI Studio integration\
+      \ guide\n- Vertex AI deployment support\n- Enterprise authentication flows\n\
+      - Cloud resource management\n- Monitoring and logging integration\n- Cost tracking\
+      \ utilities\n\nSprint 6: Testing & Launch (2 weeks)\n- Comprehensive test suite\n\
+      - Performance benchmarks\n- User documentation\n- Migration guide\n- Example\
+      \ projects\n- Community feedback collection\n\nTECHNICAL CONSIDERATIONS:\n\n\
+      1. API Differences\n   - Different message format than Claude\n   - Separate\
+      \ system instruction handling\n   - Function calling syntax differences\n  \
+      \ - Safety settings configuration\n\n2. Context Window Strategy\n   - Gemini's\
+      \ 1M context enables different approaches\n   - May need to reconsider task\
+      \ splitting algorithms\n   - Opportunity for enhanced context loading\n\n3.\
+      \ Multi-Modal Opportunities\n   - Workflow steps could include images\n   -\
+      \ Code review with screenshots\n   - Documentation with diagrams\n   - Architecture\
+      \ diagram analysis\n\n4. Enterprise Features\n   - Vertex AI integration for\
+      \ enterprise\n   - VPC-SC support considerations\n   - Data residency requirements\n\
+      \   - Compliance certifications\n\nRISKS & MITIGATION:\n\nRisk: API changes\
+      \ during development\n→ Pin to stable API version\n→ Monitor Google AI announcements\n\
+      → Design for adaptability\n\nRisk: Different behavior than Claude\n→ Comprehensive\
+      \ prompt engineering\n→ Behavior parity testing\n→ Document differences for\
+      \ users\n\nRisk: MCP not supported\n→ Design adapter pattern as fallback\n→\
+      \ Direct function calling integration\n→ Maintain consistent tool interface\n\
+      \nRisk: Enterprise complexity\n→ Phased enterprise feature rollout\n→ Start\
+      \ with API-key auth\n→ Add Vertex AI later\n\nSUCCESS METRICS:\n\n- All core\
+      \ agents functional on Gemini\n- 5+ workflows validated end-to-end\n- <5% behavior\
+      \ difference from Claude baseline\n- Documentation complete with examples\n\
+      - User migration guide validated\n- Community adoption signals positive\n\n\
+      TIMELINE & DEPENDENCIES:\n\nTimeline: ~3 months (13 weeks across 6 sprints)\n\
+      Priority: HIGH (ecosystem diversification)\nDependencies: platform-context-management,\
+      \ mcp-server\nBlocks: multi-platform\n\nGEMINI CONTEXT WINDOWS (for platform\
+      \ detection):\n\n- gemini-1.5-pro: 1,000,000 tokens (up to 2M preview)\n- gemini-1.5-flash:\
+      \ 1,000,000 tokens\n- gemini-1.0-pro: 30,720 tokens\n- gemini-1.0-ultra: 30,720\
+      \ tokens\n\nThis port represents a significant expansion opportunity,\nbringing\
+      \ Vibey to Google's AI ecosystem and its large context\nwindows that could reduce\
+      \ task fragmentation significantly.\n"
     estimated_tokens: 0

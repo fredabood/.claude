@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 20
-    tracks_completed: 12
-    sprints_total: 52
-    sprints_completed: 46
-    tasks_total: 382
-    tasks_completed: 367
-    completion_percent: 96
+    tracks_completed: 13
+    sprints_total: 72
+    sprints_completed: 49
+    tasks_total: 400
+    tasks_completed: 379
+    completion_percent: 94
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -68,7 +68,7 @@ roadmap:
     priority: high
   - id: multi-platform
     name: Multi-Platform Architecture
-    status: not_started
+    status: completed
     priority: medium
   - id: aider-port
     name: Aider Platform Port

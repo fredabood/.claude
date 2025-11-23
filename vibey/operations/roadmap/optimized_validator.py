@@ -366,7 +366,8 @@ def validate_schema_full(data: Any, file_path: Path) -> FileValidationResult:
 
 def _validate_task_schema(task: Dict[str, Any], result: FileValidationResult):
     """Validate task schema."""
-    required_fields = ['id', 'sprint_id', 'track_id', 'status', 'title', 'description']
+    # Note: description is optional for backward compatibility with existing tasks
+    required_fields = ['id', 'sprint_id', 'track_id', 'status']
     for field in required_fields:
         if field not in task:
             result.valid = False
@@ -374,7 +375,7 @@ def _validate_task_schema(task: Dict[str, Any], result: FileValidationResult):
 
     # Validate status enum
     if 'status' in task:
-        valid_statuses = ['not_started', 'in_progress', 'completed', 'blocked', 'cancelled']
+        valid_statuses = ['not_started', 'in_progress', 'paused', 'completed', 'blocked', 'cancelled', 'superseded', "won't_do"]
         if task['status'] not in valid_statuses:
             result.valid = False
             result.errors.append(f"Invalid status: {task['status']}")
@@ -390,7 +391,7 @@ def _validate_sprint_schema(sprint: Dict[str, Any], result: FileValidationResult
 
     # Validate status enum
     if 'status' in sprint:
-        valid_statuses = ['not_started', 'in_progress', 'completion_gate_check', 'completed']
+        valid_statuses = ['not_started', 'in_progress', 'paused', 'completion_gate_check', 'completed', 'production_gate_check', 'production_ready', 'deployed', 'superseded', "won't_do"]
         if sprint['status'] not in valid_statuses:
             result.valid = False
             result.errors.append(f"Invalid status: {sprint['status']}")
@@ -406,7 +407,7 @@ def _validate_track_schema(track: Dict[str, Any], result: FileValidationResult):
 
     # Validate status enum
     if 'status' in track:
-        valid_statuses = ['not_started', 'in_progress', 'blocked', 'completed']
+        valid_statuses = ['not_started', 'in_progress', 'paused', 'completion_gate_check', 'completed', 'production_gate_check', 'production_ready', 'deployed', 'superseded', "won't_do"]
         if track['status'] not in valid_statuses:
             result.valid = False
             result.errors.append(f"Invalid status: {track['status']}")

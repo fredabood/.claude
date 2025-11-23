@@ -67,11 +67,7 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: roadmap-integrity-fixes-1-task-007
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []

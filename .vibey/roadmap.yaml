@@ -14,7 +14,7 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 33
+    tracks_total: 31
     tracks_completed: 17
     sprints_total: 91
     sprints_completed: 59
@@ -138,14 +138,6 @@ roadmap:
     name: Enhanced Git Integration
     status: planned
     priority: medium
-  - id: discovery-context-integration
-    name: Discovery Mode Context Directory Integration
-    status: planned
-    priority: high
-  - id: context-engineering-study
-    name: Context Engineering Study & Git Versioning Gaps
-    status: planned
-    priority: high
   - id: atlassian-integration
     name: Atlassian Integration (Jira & Confluence)
     status: planned

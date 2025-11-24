@@ -1,7 +1,7 @@
 sprint:
-  id: context-engineering-study-2
+  id: user-journey-audit-19
   name: Gap Analysis - Git Versioning for Vibe Coding Sessions
-  track_id: context-engineering-study
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: context-engineering-study-2-task-001
+  - id: user-journey-audit-19-task-001
     name: Identify context artifacts suitable for git versioning
     status: planned
     priority: critical
@@ -28,7 +28,7 @@ sprint:
       - File read/write operations log
       - Search queries and results
       - Configuration state changes
-  - id: context-engineering-study-2-task-002
+  - id: user-journey-audit-19-task-002
     name: Analyze git workflow patterns for context versioning
     status: planned
     priority: critical
@@ -41,7 +41,7 @@ sprint:
       - Merge strategies for context convergence
       - Tag conventions for reproducible states
       - .gitignore patterns for ephemeral context
-  - id: context-engineering-study-2-task-003
+  - id: user-journey-audit-19-task-003
     name: Identify Vibey context versioning gaps
     status: planned
     priority: critical
@@ -55,7 +55,7 @@ sprint:
       - Context lacking audit metadata
       - Context that breaks reproducibility
       Rate each gap by severity (critical/high/medium/low)
-  - id: context-engineering-study-2-task-004
+  - id: user-journey-audit-19-task-004
     name: Design context snapshot format specification
     status: planned
     priority: high
@@ -68,7 +68,7 @@ sprint:
       - Compression strategies for large context
       - Reference handling (pointers to files vs inline)
       - Metadata fields (timestamp, hash, parent, session)
-  - id: context-engineering-study-2-task-005
+  - id: user-journey-audit-19-task-005
     name: Analyze context diff and merge challenges
     status: planned
     priority: high
@@ -81,7 +81,7 @@ sprint:
       - Three-way merges for context branches
       - Conflict resolution strategies
       - Binary content in context (images, embeddings)
-  - id: context-engineering-study-2-task-006
+  - id: user-journey-audit-19-task-006
     name: Study session reconstruction requirements
     status: planned
     priority: high
@@ -94,7 +94,7 @@ sprint:
       - Environment state requirements
       - Tool availability requirements
       - Model version pinning needs
-  - id: context-engineering-study-2-task-007
+  - id: user-journey-audit-19-task-007
     name: Produce Git Versioning Gap Analysis Report
     status: planned
     priority: critical
@@ -108,9 +108,9 @@ sprint:
       - Prioritized remediation recommendations
       - Effort estimates for closing gaps
   dependencies:
-  - context-engineering-study-1
+  - user-journey-audit-18
   blocked_by:
-  - context-engineering-study-1
+  - user-journey-audit-18
   quality_gates:
   - name: Gap Coverage
     threshold: 95

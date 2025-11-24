@@ -1,7 +1,7 @@
 sprint:
-  id: context-engineering-study-1
+  id: user-journey-audit-18
   name: Context Engineering Research & Landscape Analysis
-  track_id: context-engineering-study
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: context-engineering-study-1-task-001
+  - id: user-journey-audit-18-task-001
     name: Define context taxonomy for vibe coding sessions
     status: planned
     priority: critical
@@ -27,7 +27,7 @@ sprint:
       - Tool context (tool calls, results, errors)
       - Agent context (agent instructions, handoffs)
       - Temporal context (session state, checkpoints)
-  - id: context-engineering-study-1-task-002
+  - id: user-journey-audit-18-task-002
     name: Document context lifecycle and state transitions
     status: planned
     priority: critical
@@ -40,7 +40,7 @@ sprint:
       - Context pruning (what gets dropped and why)
       - Context persistence (what survives session end)
       - Context restoration (what loads on session resume)
-  - id: context-engineering-study-1-task-003
+  - id: user-journey-audit-18-task-003
     name: Research context engineering in competing tools
     status: planned
     priority: high
@@ -53,7 +53,7 @@ sprint:
       - Continue.dev (context providers, embeddings)
       - Aider (repo map, chat history, file tracking)
       - Cody (embeddings, code graph, context windows)
-  - id: context-engineering-study-1-task-004
+  - id: user-journey-audit-18-task-004
     name: Analyze Vibey's current context architecture
     status: planned
     priority: high
@@ -65,7 +65,7 @@ sprint:
       - How context is stored (.vibey/, roadmap, config)
       - What context is passed to AI agents
       - Current limitations and pain points
-  - id: context-engineering-study-1-task-005
+  - id: user-journey-audit-18-task-005
     name: Study context window management strategies
     status: planned
     priority: medium
@@ -78,7 +78,7 @@ sprint:
       - Chunking approaches
       - Token budgeting
       - Context compression techniques
-  - id: context-engineering-study-1-task-006
+  - id: user-journey-audit-18-task-006
     name: Document context determinism requirements
     status: planned
     priority: high
@@ -90,7 +90,7 @@ sprint:
       - External dependencies (API calls, file system state)
       - Environment variations (OS, tools, versions)
       - Model variations (temperature, model version)
-  - id: context-engineering-study-1-task-007
+  - id: user-journey-audit-18-task-007
     name: Produce Context Engineering Landscape Report
     status: planned
     priority: critical
@@ -103,8 +103,10 @@ sprint:
       - Competitive analysis summary
       - Current state assessment
       - Key findings and insights
-  dependencies: []
-  blocked_by: []
+  dependencies:
+  - user-journey-audit-17
+  blocked_by:
+  - user-journey-audit-17
   quality_gates:
   - name: Research Depth
     threshold: 90

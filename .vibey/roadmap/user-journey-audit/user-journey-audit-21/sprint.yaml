@@ -1,7 +1,7 @@
 sprint:
-  id: discovery-context-integration-1
+  id: user-journey-audit-21
   name: Discovery Output Architecture
-  track_id: discovery-context-integration
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,44 +13,46 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: discovery-context-integration-1-task-001
+  - id: user-journey-audit-21-task-001
     name: Design discovery output schema for context directories
     status: planned
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
-  - id: discovery-context-integration-1-task-002
+  - id: user-journey-audit-21-task-002
     name: Create DiscoveryOutput data models
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-1-task-003
+  - id: user-journey-audit-21-task-003
     name: Implement context directory writer base class
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-1-task-004
+  - id: user-journey-audit-21-task-004
     name: Create codebase audit context writer
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-1-task-005
+  - id: user-journey-audit-21-task-005
     name: Create git history analysis context writer
     status: planned
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-1-task-006
+  - id: user-journey-audit-21-task-006
     name: Create dependency analysis context writer
     status: planned
     priority: medium
     estimated_hours: 4
     assigned_agent: backend-engineer
-  dependencies: []
-  blocked_by: []
+  dependencies:
+  - user-journey-audit-20
+  blocked_by:
+  - user-journey-audit-20
   quality_gates:
   - name: Schema Validation
     threshold: 100

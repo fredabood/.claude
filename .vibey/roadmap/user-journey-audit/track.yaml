@@ -8,11 +8,11 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 34 weeks
+  estimated_duration: 44 weeks
   progress:
-    sprints_total: 17
+    sprints_total: 22
     sprints_completed: 0
-    tasks_total: 120
+    tasks_total: 153
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -121,6 +121,38 @@ track:
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 8
+    started: null
+  # Part 5: Context Engineering Study (Sprints 18-20)
+  - id: user-journey-audit-18
+    name: Context Engineering Research & Landscape Analysis
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-19
+    name: Gap Analysis - Git Versioning for Vibe Coding Sessions
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-20
+    name: Transparency, Auditability & Reproducibility Design
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  # Part 6: Discovery Context Integration (Sprints 21-22)
+  - id: user-journey-audit-21
+    name: Discovery Output Architecture
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 6
+    started: null
+  - id: user-journey-audit-22
+    name: Context Directory Writers & CLI Integration
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 6
     started: null
   dependencies: []
   blocks: []
@@ -292,6 +324,15 @@ track:
       - Contributor persona included in journey mapping (Sprint 3)
       - Contributor walkthroughs included in journey generation (Sprint 4)
       - Documentation considers contributor use cases throughout
+
+      PART 5: CONTEXT ENGINEERING STUDY (Sprints 18-20)
+      18. Context engineering research & landscape analysis
+      19. Gap analysis - Git versioning for vibe coding sessions
+      20. Transparency, auditability & reproducibility design
+
+      PART 6: DISCOVERY CONTEXT INTEGRATION (Sprints 21-22)
+      21. Discovery output architecture
+      22. Context directory writers & CLI integration
 
       SUCCESS CRITERIA:
       - 100% documentation completeness

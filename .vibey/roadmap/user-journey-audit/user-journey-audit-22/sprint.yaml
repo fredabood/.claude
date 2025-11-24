@@ -1,7 +1,7 @@
 sprint:
-  id: discovery-context-integration-2
+  id: user-journey-audit-22
   name: Context Directory Writers & CLI Integration
-  track_id: discovery-context-integration
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,46 +13,46 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: discovery-context-integration-2-task-001
+  - id: user-journey-audit-22-task-001
     name: Create architecture discovery context writer
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-2-task-002
+  - id: user-journey-audit-22-task-002
     name: Add --output-context flag to vibey discover command
     status: planned
     priority: high
     estimated_hours: 4
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-2-task-003
+  - id: user-journey-audit-22-task-003
     name: Implement automatic context directory creation per track
     status: planned
     priority: high
     estimated_hours: 4
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-2-task-004
+  - id: user-journey-audit-22-task-004
     name: Add discovery context loading for AI agents
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-  - id: discovery-context-integration-2-task-005
+  - id: user-journey-audit-22-task-005
     name: Create test suite for discovery context integration
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
-  - id: discovery-context-integration-2-task-006
+  - id: user-journey-audit-22-task-006
     name: Document discovery context workflow
     status: planned
     priority: medium
     estimated_hours: 3
     assigned_agent: docs-writer
   dependencies:
-  - discovery-context-integration-1
+  - user-journey-audit-21
   blocked_by:
-  - discovery-context-integration-1
+  - user-journey-audit-21
   quality_gates:
   - name: Integration Tests
     threshold: 95

@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 31
     tracks_completed: 17
-    sprints_total: 91
+    sprints_total: 92
     sprints_completed: 59
-    tasks_total: 683
+    tasks_total: 690
     tasks_completed: 518
-    completion_percent: 76
+    completion_percent: 75
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -40,7 +40,7 @@ roadmap:
     priority: high
   - id: mcp-server
     name: MCP Server Foundation
-    status: production_ready
+    status: in_progress
     priority: critical
   - id: infrastructure-fixes
     name: Critical Infrastructure Fixes

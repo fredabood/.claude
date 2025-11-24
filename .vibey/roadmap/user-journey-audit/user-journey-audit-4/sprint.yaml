@@ -55,6 +55,8 @@ sprint:
       - Sprint planning and execution
       - Platform deployment workflow
       - Integration setup workflows
+      - Contributor first contribution workflow
+      - Contributor development environment setup
       Each journey links to CLI reference
       Each journey addresses discovered pain points
   - id: user-journey-audit-4-task-004

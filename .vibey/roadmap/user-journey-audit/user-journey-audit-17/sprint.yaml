@@ -1,0 +1,156 @@
+sprint:
+  id: user-journey-audit-17
+  name: Contributor Experience & Project Documentation
+  track_id: user-journey-audit
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: user-journey-audit-17-task-001
+    name: Audit and update README.md
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: |
+      Align README with current project state:
+      - Update project description and value proposition
+      - Update installation instructions
+      - Update quick start examples
+      - Update feature list to match current capabilities
+      - Update badges and status indicators
+      - Add/update architecture overview
+      - Ensure all links work
+      - Add contributor quick links
+  - id: user-journey-audit-17-task-002
+    name: Audit and update CHANGELOG.md
+    status: planned
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: docs-writer
+    description: |
+      Align CHANGELOG with current state:
+      - Review git history for missing entries
+      - Ensure all releases documented
+      - Follow Keep a Changelog format
+      - Categorize changes (Added, Changed, Fixed, etc.)
+      - Link to relevant PRs/issues
+      - Add migration notes where needed
+      - Document breaking changes clearly
+  - id: user-journey-audit-17-task-003
+    name: Audit and update CONTRIBUTING.md
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: |
+      Comprehensive contributor guide:
+      - Development environment setup
+      - Code style and conventions
+      - Testing requirements
+      - PR process and expectations
+      - Issue reporting guidelines
+      - Documentation contribution guide
+      - Roadmap contribution process
+      - Code of conduct reference
+  - id: user-journey-audit-17-task-004
+    name: Create contributor onboarding guide
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: docs-writer
+    description: |
+      First-time contributor experience:
+      - Repository structure overview
+      - Key files and their purposes
+      - How to find good first issues
+      - Development workflow walkthrough
+      - Common pitfalls and solutions
+      - Where to ask questions
+      - Mentorship/review process
+  - id: user-journey-audit-17-task-005
+    name: Create development workflow documentation
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: docs-writer
+    description: |
+      Document development processes:
+      - Branch naming conventions
+      - Commit message format
+      - Testing workflow (local, CI)
+      - Code review process
+      - Release process
+      - Roadmap update workflow
+      - Documentation update workflow
+  - id: user-journey-audit-17-task-006
+    name: Create contributor journey walkthroughs
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: |
+      Step-by-step contributor journeys:
+      - First bug fix journey
+      - First feature contribution journey
+      - Documentation contribution journey
+      - Roadmap/planning contribution journey
+      - Test contribution journey
+      - Platform adapter contribution journey
+  - id: user-journey-audit-17-task-007
+    name: Validate contributor experience end-to-end
+    status: planned
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: test-engineer
+    description: |
+      Test contributor workflows:
+      - Clone and setup from scratch
+      - Run tests successfully
+      - Make a sample change
+      - Submit PR following guidelines
+      - Verify CI passes
+      - Document any friction points
+      - Create issues for improvements
+  dependencies:
+  - user-journey-audit-16
+  blocked_by:
+  - user-journey-audit-16
+  quality_gates:
+  - name: README Accuracy
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: README accurately reflects current project state
+  - name: CONTRIBUTING Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: CONTRIBUTING covers all contribution scenarios
+  - name: Contributor Onboarding Success
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: New contributors can successfully set up and contribute
+  deliverables:
+  - Updated README.md aligned to current state
+  - Updated CHANGELOG.md with complete history
+  - Comprehensive CONTRIBUTING.md
+  - Contributor onboarding guide
+  - Development workflow documentation
+  - Contributor journey walkthroughs
+  - Validated contributor experience
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 17 focuses on contributor experience and project documentation.
+      Ensures README, CHANGELOG, and CONTRIBUTING are aligned and complete.
+      Creates contributor-specific journey walkthroughs.

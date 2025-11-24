@@ -8,11 +8,11 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 32 weeks
+  estimated_duration: 34 weeks
   progress:
-    sprints_total: 16
+    sprints_total: 17
     sprints_completed: 0
-    tasks_total: 112
+    tasks_total: 119
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -115,6 +115,13 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
+  # Part 4: Contributor Experience (Sprint 17)
+  - id: user-journey-audit-17
+    name: Contributor Experience & Project Documentation
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -208,6 +215,13 @@ track:
   - Integration test suite
   - CI coverage enforcement
   - Coverage maintenance documentation
+  # Part 4: Contributor Experience
+  - Updated README.md aligned to current state
+  - Updated CHANGELOG.md with complete history
+  - Comprehensive CONTRIBUTING.md
+  - Contributor onboarding guide
+  - Development workflow documentation
+  - Contributor journey walkthroughs
   strategic_value:
   - 'Completeness: 100% documentation coverage of all functionality'
   - 'Correctness: All documentation verified accurate and working'
@@ -220,6 +234,8 @@ track:
   - 'Regression Prevention: Changes caught immediately'
   - 'Confidence: Refactoring safe with full coverage'
   - 'Reliability: 95%+ pass rate ensures stability'
+  - 'Contributor Experience: Smooth onboarding for new contributors'
+  - 'Project Health: README, CHANGELOG, CONTRIBUTING aligned to current state'
   commits: []
   standards: []
   metadata:
@@ -263,6 +279,19 @@ track:
       14. Common utilities coverage (vibey/common/)
       15. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)
       16. Integration tests & final validation
+
+      PART 4: CONTRIBUTOR EXPERIENCE (Sprint 17)
+      17. Contributor experience & project documentation
+          - README.md aligned to current project state
+          - CHANGELOG.md with complete release history
+          - CONTRIBUTING.md with comprehensive contributor guide
+          - Contributor onboarding and journey walkthroughs
+          - Development workflow documentation
+
+      CONTRIBUTOR CONSIDERATIONS:
+      - Contributor persona included in journey mapping (Sprint 3)
+      - Contributor walkthroughs included in journey generation (Sprint 4)
+      - Documentation considers contributor use cases throughout
 
       SUCCESS CRITERIA:
       - 100% documentation completeness

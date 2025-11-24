@@ -27,6 +27,8 @@ sprint:
       - Team Member: Daily usage patterns
       - Platform Migrator: Migration concerns, comparison points
       - Power User: Advanced needs, customization desires
+      - Contributor: Development setup, contribution workflow, PR process
+      - First-time Contributor: Onboarding friction, finding good first issues
   - id: user-journey-audit-3-task-002
     name: Map new user onboarding experience
     status: planned

@@ -1,6 +1,6 @@
 sprint:
   id: user-journey-audit-10
-  name: Config System Test Coverage
+  name: CLI Test Coverage
   track_id: user-journey-audit
   status: planned
   blocked: false
@@ -14,119 +14,119 @@ sprint:
     completion_percent: 0
   tasks:
   - id: user-journey-audit-10-task-001
-    name: Audit existing config tests and coverage
+    name: Audit existing CLI tests and coverage
     status: planned
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
     description: |
-      Baseline config test coverage:
-      - Run pytest-cov on vibey/config/
+      Baseline CLI test coverage:
+      - Run pytest-cov on vibey/cli/
       - Document current coverage percentage
-      - Identify untested loaders
-      - Identify untested models
+      - Identify untested commands
+      - Identify untested options/flags
+      - Map tests to CLI reference commands
   - id: user-journey-audit-10-task-002
-    name: Write tests for config loader
+    name: Write tests for vibey/cli/main.py
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test CLI entry point:
+      - Test main() function
+      - Test CLI group setup
+      - Test help output
+      - Test version output
+      - Test invalid command handling
+  - id: user-journey-audit-10-task-003
+    name: Write tests for vibey/cli/commands.py
+    status: planned
+    priority: critical
+    estimated_hours: 12
+    assigned_agent: test-engineer
+    description: |
+      Test all CLI commands:
+      - Test each command happy path
+      - Test each command with all options
+      - Test error cases for each command
+      - Test output formatting
+      - Mock external dependencies
+  - id: user-journey-audit-10-task-004
+    name: Write tests for roadmap CLI commands
     status: planned
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
     description: |
-      Test config loading:
-      - load_config() function
-      - Modular config loading
-      - Legacy config fallback
-      - Config file discovery
-      - Environment variable overrides
-      - Error handling for missing/invalid
-  - id: user-journey-audit-10-task-003
-    name: Write tests for config models
-    status: planned
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test config models:
-      - ProjectConfig model
-      - FrameworkConfig model
-      - AgentsConfig model
-      - QualityGatesConfig model
-      - Validation for each model
-      - Default values
-  - id: user-journey-audit-10-task-004
-    name: Write tests for config validation
-    status: planned
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test config validation:
-      - Schema validation
-      - Required field validation
-      - Type validation
-      - Cross-field validation
-      - Helpful error messages
+      Test roadmap subcommands:
+      - vibey roadmap init
+      - vibey roadmap status
+      - vibey roadmap show
+      - vibey roadmap update
+      - All options and variations
   - id: user-journey-audit-10-task-005
-    name: Write tests for config migration
+    name: Write tests for docs CLI commands
     status: planned
     priority: high
-    estimated_hours: 6
+    estimated_hours: 8
     assigned_agent: test-engineer
     description: |
-      Test config migration:
-      - migrate_config() function
-      - Legacy to modular conversion
-      - Backup creation
-      - Dry run mode
-      - Error recovery
+      Test docs subcommands:
+      - vibey docs generate
+      - vibey docs check
+      - Output format tests
+      - Error handling tests
   - id: user-journey-audit-10-task-006
-    name: Verify 100% config coverage achieved
+    name: Verify 100% CLI coverage achieved
     status: planned
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
     description: |
       Validate coverage target:
-      - Run pytest-cov --cov=vibey/config
+      - Run pytest-cov --cov=vibey/cli
       - Verify 100% line coverage
       - Verify 100% branch coverage
+      - Document any exclusions with justification
       - Fix any remaining gaps
   - id: user-journey-audit-10-task-007
-    name: Document config testing patterns
+    name: Document CLI testing patterns
     status: planned
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
     description: |
-      Create config testing guide:
-      - Temporary config files for tests
-      - Environment variable mocking
-      - Config fixture patterns
-      - Validation testing strategies
+      Create CLI testing guide:
+      - How to test Click commands
+      - Mocking patterns for CLI tests
+      - Testing output formats
+      - Testing error handling
+      - Examples for each pattern
   dependencies:
   - user-journey-audit-9
   blocked_by:
   - user-journey-audit-9
   quality_gates:
-  - name: Config Coverage
+  - name: CLI Coverage
     threshold: 100
     blocking: true
     status: not_run
-  - name: Config Pass Rate
+  - name: CLI Pass Rate
     threshold: 95
     blocking: true
     status: not_run
   deliverables:
-  - Config test coverage baseline
-  - Tests for config loader
-  - Tests for config models
-  - Tests for config validation
-  - Tests for config migration
-  - 100% config coverage verified
-  - Config testing documentation
+  - CLI test coverage baseline
+  - Tests for vibey/cli/main.py
+  - Tests for vibey/cli/commands.py
+  - Tests for roadmap commands
+  - Tests for docs commands
+  - 100% CLI coverage verified
+  - CLI testing documentation
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     notes: |
-      Sprint 4 achieves 100% test coverage of config system.
-      Target: vibey/config/ directory
+      Sprint 1 achieves 100% test coverage of the CLI layer.
+      Target: vibey/cli/ directory

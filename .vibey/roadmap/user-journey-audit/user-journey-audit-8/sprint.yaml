@@ -1,6 +1,6 @@
 sprint:
   id: user-journey-audit-8
-  name: Operations Library Test Coverage
+  name: Documentation Correctness & Accuracy Review
   track_id: user-journey-audit
   status: planned
   blocked: false
@@ -14,119 +14,127 @@ sprint:
     completion_percent: 0
   tasks:
   - id: user-journey-audit-8-task-001
-    name: Audit existing operations tests and coverage
+    name: Verify all code examples work
     status: planned
     priority: critical
-    estimated_hours: 4
+    estimated_hours: 10
     assigned_agent: test-engineer
     description: |
-      Baseline operations test coverage:
-      - Run pytest-cov on vibey/operations/
-      - Document current coverage percentage
-      - Identify untested functions
-      - Map tests to operations modules
+      Test all documentation code examples:
+      - Extract code examples from all docs
+      - Create automated tests for examples
+      - Run examples against current codebase
+      - Identify broken/outdated examples
+      - Fix or flag for update
   - id: user-journey-audit-8-task-002
-    name: Write tests for vibey/operations/roadmap/query.py
+    name: Verify CLI command documentation accuracy
     status: planned
     priority: critical
-    estimated_hours: 10
+    estimated_hours: 8
     assigned_agent: test-engineer
     description: |
-      Test roadmap query operations:
-      - get_roadmap_status()
-      - get_track_status()
-      - get_sprint_status()
-      - get_task_status()
-      - Query filtering and sorting
-      - Error handling for missing data
+      Test CLI documentation accuracy:
+      - Run each documented command
+      - Verify output matches docs
+      - Verify options work as described
+      - Check error messages match
+      - Update any inaccuracies
   - id: user-journey-audit-8-task-003
-    name: Write tests for vibey/operations/roadmap/update.py
+    name: Audit internal links and references
     status: planned
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: test-engineer
+    priority: high
+    estimated_hours: 6
+    assigned_agent: docs-writer
     description: |
-      Test roadmap update operations:
-      - update_task_status()
-      - update_sprint_status()
-      - update_track_status()
-      - Progress recalculation
-      - Validation of status transitions
-      - Error handling for invalid updates
+      Check all internal references:
+      - Verify all internal links work
+      - Check cross-references are accurate
+      - Verify file path references
+      - Check anchor links
+      - Create broken link report
   - id: user-journey-audit-8-task-004
-    name: Write tests for vibey/operations/roadmap/context.py
-    status: planned
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test context operations:
-      - load_context()
-      - save_context()
-      - Context file discovery
-      - Context merging
-      - Context validation
-  - id: user-journey-audit-8-task-005
-    name: Write tests for vibey/operations/docs/
-    status: planned
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test documentation operations:
-      - generate_cli_reference()
-      - check_documentation()
-      - Template rendering
-      - Output formatting
-      - Error handling
-  - id: user-journey-audit-8-task-006
-    name: Verify 100% operations coverage achieved
-    status: planned
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: |
-      Validate coverage target:
-      - Run pytest-cov --cov=vibey/operations
-      - Verify 100% line coverage
-      - Verify 100% branch coverage
-      - Fix any remaining gaps
-  - id: user-journey-audit-8-task-007
-    name: Document operations testing patterns
+    name: Audit external links and resources
     status: planned
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
     description: |
-      Create operations testing guide:
-      - Mocking file system operations
-      - Testing YAML read/write
-      - Testing business logic
-      - Fixture patterns
+      Verify external references:
+      - Check all external URLs work
+      - Verify external resources still exist
+      - Update deprecated external links
+      - Add archive links where appropriate
+      - Document link checking process
+  - id: user-journey-audit-8-task-005
+    name: Review technical accuracy with codebase
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: |
+      Cross-reference docs with code:
+      - Verify API signatures match docs
+      - Check configuration options match
+      - Verify default values documented correctly
+      - Ensure error codes/messages accurate
+      - Update any code drift
+  - id: user-journey-audit-8-task-006
+    name: Review version and compatibility info
+    status: planned
+    priority: high
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: |
+      Audit version information:
+      - Check version numbers are current
+      - Verify Python version requirements
+      - Check dependency versions
+      - Update compatibility matrices
+      - Document breaking changes
+  - id: user-journey-audit-8-task-007
+    name: Create documentation accuracy test suite
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+    description: |
+      Automate accuracy checks:
+      - Create tests for code examples
+      - Create link checker automation
+      - Create API signature validators
+      - Integrate into CI pipeline
+      - Alert on documentation drift
   dependencies:
   - user-journey-audit-7
   blocked_by:
   - user-journey-audit-7
   quality_gates:
-  - name: Operations Coverage
+  - name: Code Examples Valid
     threshold: 100
     blocking: true
     status: not_run
-  - name: Operations Pass Rate
-    threshold: 95
+    description: All code examples execute successfully
+  - name: Links Valid
+    threshold: 100
     blocking: true
     status: not_run
+    description: All internal and external links work
+  - name: Technical Accuracy
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Documentation matches current codebase
   deliverables:
-  - Operations test coverage baseline
-  - Tests for query operations
-  - Tests for update operations
-  - Tests for context operations
-  - Tests for docs operations
-  - 100% operations coverage verified
-  - Operations testing documentation
+  - Verified code examples (all working)
+  - CLI documentation accuracy verification
+  - Internal link audit and fixes
+  - External link audit and fixes
+  - Technical accuracy verification
+  - Version/compatibility info update
+  - Automated documentation accuracy test suite
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     notes: |
-      Sprint 2 achieves 100% test coverage of the operations layer.
-      Target: vibey/operations/ directory
+      Sprint 8 ensures all documentation is correct and accurate.
+      All examples work, all links valid, all technical info current.

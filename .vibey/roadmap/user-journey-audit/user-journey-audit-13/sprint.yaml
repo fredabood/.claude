@@ -1,6 +1,6 @@
 sprint:
   id: user-journey-audit-13
-  name: Integration Tests & Final Validation
+  name: Config System Test Coverage
   track_id: user-journey-audit
   status: planned
   blocked: false
@@ -14,134 +14,119 @@ sprint:
     completion_percent: 0
   tasks:
   - id: user-journey-audit-13-task-001
-    name: Design integration test suite
-    status: planned
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: |
-      Design integration tests:
-      - End-to-end workflow tests
-      - Cross-module interaction tests
-      - CLI to operations to models flow
-      - Config to operations flow
-      - Test data management strategy
-  - id: user-journey-audit-13-task-002
-    name: Write workflow integration tests
-    status: planned
-    priority: critical
-    estimated_hours: 12
-    assigned_agent: test-engineer
-    description: |
-      Test complete workflows:
-      - Roadmap initialization workflow
-      - Sprint execution workflow
-      - Task completion workflow
-      - Progress reporting workflow
-      - Documentation generation workflow
-  - id: user-journey-audit-13-task-003
-    name: Write error propagation tests
-    status: planned
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test error handling across layers:
-      - Errors from models to operations
-      - Errors from operations to CLI
-      - Error message preservation
-      - Context propagation
-      - Recovery and rollback
-  - id: user-journey-audit-13-task-004
-    name: Validate 100% overall coverage
-    status: planned
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: |
-      Final coverage validation:
-      - Run pytest-cov --cov=vibey
-      - Verify 100% line coverage overall
-      - Verify 100% branch coverage overall
-      - Generate coverage report
-      - Document any exclusions
-  - id: user-journey-audit-13-task-005
-    name: Validate 95%+ pass rate
+    name: Audit existing config tests and coverage
     status: planned
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
     description: |
-      Final pass rate validation:
-      - Run full test suite
-      - Calculate pass rate
-      - Investigate any failures
-      - Fix flaky tests
-      - Document known issues
-  - id: user-journey-audit-13-task-006
-    name: Set up CI coverage enforcement
+      Baseline config test coverage:
+      - Run pytest-cov on vibey/config/
+      - Document current coverage percentage
+      - Identify untested loaders
+      - Identify untested models
+  - id: user-journey-audit-13-task-002
+    name: Write tests for config loader
     status: planned
     priority: critical
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    estimated_hours: 10
+    assigned_agent: test-engineer
     description: |
-      CI integration:
-      - pytest-cov configuration
-      - Coverage threshold enforcement (100%)
-      - Pass rate threshold (95%)
-      - PR coverage comments
-      - Coverage badge generation
-      - Fail build on coverage drop
-  - id: user-journey-audit-13-task-007
-    name: Produce final coverage report and documentation
+      Test config loading:
+      - load_config() function
+      - Modular config loading
+      - Legacy config fallback
+      - Config file discovery
+      - Environment variable overrides
+      - Error handling for missing/invalid
+  - id: user-journey-audit-13-task-003
+    name: Write tests for config models
     status: planned
     priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test config models:
+      - ProjectConfig model
+      - FrameworkConfig model
+      - AgentsConfig model
+      - QualityGatesConfig model
+      - Validation for each model
+      - Default values
+  - id: user-journey-audit-13-task-004
+    name: Write tests for config validation
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test config validation:
+      - Schema validation
+      - Required field validation
+      - Type validation
+      - Cross-field validation
+      - Helpful error messages
+  - id: user-journey-audit-13-task-005
+    name: Write tests for config migration
+    status: planned
+    priority: high
     estimated_hours: 6
+    assigned_agent: test-engineer
+    description: |
+      Test config migration:
+      - migrate_config() function
+      - Legacy to modular conversion
+      - Backup creation
+      - Dry run mode
+      - Error recovery
+  - id: user-journey-audit-13-task-006
+    name: Verify 100% config coverage achieved
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Validate coverage target:
+      - Run pytest-cov --cov=vibey/config
+      - Verify 100% line coverage
+      - Verify 100% branch coverage
+      - Fix any remaining gaps
+  - id: user-journey-audit-13-task-007
+    name: Document config testing patterns
+    status: planned
+    priority: medium
+    estimated_hours: 4
     assigned_agent: docs-writer
     description: |
-      Final deliverables:
-      - Coverage report by module
-      - Pass rate report
-      - Test suite documentation
-      - Maintenance guide
-      - CI integration documentation
-      - README badges setup
+      Create config testing guide:
+      - Temporary config files for tests
+      - Environment variable mocking
+      - Config fixture patterns
+      - Validation testing strategies
   dependencies:
-  - user-journey-audit-12
+  - user-journey-audit-9
   blocked_by:
-  - user-journey-audit-12
+  - user-journey-audit-9
   quality_gates:
-  - name: Overall Coverage
+  - name: Config Coverage
     threshold: 100
     blocking: true
     status: not_run
-    description: 100% code coverage across entire library
-  - name: Overall Pass Rate
+  - name: Config Pass Rate
     threshold: 95
     blocking: true
     status: not_run
-    description: 95%+ of all tests pass
-  - name: CI Enforcement
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: CI properly enforces coverage requirements
   deliverables:
-  - Integration test suite
-  - Workflow integration tests
-  - Error propagation tests
-  - Final 100% coverage verification
-  - Final 95%+ pass rate verification
-  - CI coverage enforcement
-  - Final coverage report and documentation
+  - Config test coverage baseline
+  - Tests for config loader
+  - Tests for config models
+  - Tests for config validation
+  - Tests for config migration
+  - 100% config coverage verified
+  - Config testing documentation
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     notes: |
-      Sprint 7 validates overall coverage and sets up enforcement.
-
-      SUCCESS CRITERIA MET:
-      - 100% code coverage across all vibey/ modules
-      - 95%+ test pass rate
-      - CI enforces both thresholds
-      - Coverage cannot regress
+      Sprint 4 achieves 100% test coverage of config system.
+      Target: vibey/config/ directory

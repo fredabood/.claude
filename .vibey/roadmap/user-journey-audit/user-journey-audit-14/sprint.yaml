@@ -1,0 +1,130 @@
+sprint:
+  id: user-journey-audit-14
+  name: Common Utilities & Error Handling Test Coverage
+  track_id: user-journey-audit
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: user-journey-audit-14-task-001
+    name: Audit existing common tests and coverage
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Baseline common test coverage:
+      - Run pytest-cov on vibey/common/
+      - Document current coverage percentage
+      - Identify untested utilities
+      - Identify untested error types
+  - id: user-journey-audit-14-task-002
+    name: Write tests for error types
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: |
+      Test all error types in errors.py:
+      - VibeyError base class
+      - ConfigError and subtypes
+      - RoadmapError and subtypes
+      - ValidationError and subtypes
+      - Error context and metadata
+      - Error message formatting
+  - id: user-journey-audit-14-task-003
+    name: Write tests for error renderers
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test error rendering:
+      - CLIRenderer (colored output)
+      - MCPRenderer (JSON output)
+      - PlainTextRenderer
+      - LoggingRenderer
+      - Renderer selection logic
+  - id: user-journey-audit-14-task-004
+    name: Write tests for utility functions
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test utility functions:
+      - File utilities
+      - Path utilities
+      - String utilities
+      - Date/time utilities
+      - Any helper functions
+  - id: user-journey-audit-14-task-005
+    name: Write tests for shared constants and types
+    status: planned
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Test constants and types:
+      - Status enums
+      - Priority enums
+      - Type definitions
+      - Default values
+  - id: user-journey-audit-14-task-006
+    name: Verify 100% common coverage achieved
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Validate coverage target:
+      - Run pytest-cov --cov=vibey/common
+      - Verify 100% line coverage
+      - Verify 100% branch coverage
+      - Fix any remaining gaps
+  - id: user-journey-audit-14-task-007
+    name: Document error handling testing patterns
+    status: planned
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: |
+      Create error testing guide:
+      - Testing exception raising
+      - Testing error messages
+      - Testing error context
+      - Renderer testing patterns
+  dependencies:
+  - user-journey-audit-10
+  blocked_by:
+  - user-journey-audit-10
+  quality_gates:
+  - name: Common Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+  - name: Common Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+  deliverables:
+  - Common test coverage baseline
+  - Tests for error types
+  - Tests for error renderers
+  - Tests for utility functions
+  - Tests for constants and types
+  - 100% common coverage verified
+  - Error handling testing documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 5 achieves 100% test coverage of common utilities.
+      Target: vibey/common/ directory

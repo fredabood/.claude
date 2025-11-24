@@ -8,14 +8,15 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 26 weeks
+  estimated_duration: 32 weeks
   progress:
-    sprints_total: 13
+    sprints_total: 16
     sprints_completed: 0
-    tasks_total: 91
+    tasks_total: 112
     tasks_completed: 0
     completion_percent: 0
   sprints:
+  # Part 1: Documentation & UX Discovery (Sprints 1-6)
   - id: user-journey-audit-1
     name: Documentation & Code Audit
     status: planned
@@ -52,43 +53,63 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
+  # Part 2: Documentation Quality & Best Practices (Sprints 7-9)
   - id: user-journey-audit-7
-    name: CLI Test Coverage
+    name: Documentation Completeness Audit
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-8
-    name: Operations Library Test Coverage
+    name: Documentation Correctness & Accuracy Review
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-9
-    name: Roadmap Models & Serialization Test Coverage
+    name: Documentation Organization & Best Practices
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
+  # Part 3: Test Coverage (Sprints 10-16)
   - id: user-journey-audit-10
-    name: Config System Test Coverage
+    name: CLI Test Coverage
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-11
-    name: Common Utilities & Error Handling Test Coverage
+    name: Operations Library Test Coverage
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-12
-    name: MCP Server & Platform Adapters Test Coverage
+    name: Roadmap Models & Serialization Test Coverage
     status: planned
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-13
+    name: Config System Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-14
+    name: Common Utilities & Error Handling Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-15
+    name: MCP Server & Platform Adapters Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-16
     name: Integration Tests & Final Validation
     status: planned
     estimated_duration: 2 weeks
@@ -100,6 +121,26 @@ track:
   depends_on: []
   depended_on_by: []
   quality_gates:
+  # Documentation Quality Gates
+  - name: Documentation Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% of features and CLI commands documented
+    score: null
+  - name: Documentation Correctness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All code examples work, all links valid, all info accurate
+    score: null
+  - name: Documentation Usability
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Docs follow best practices and are intuitively organized
+    score: null
+  # User Journey Quality Gates
   - name: CLI Reference Coverage
     threshold: 100
     blocking: true
@@ -118,6 +159,7 @@ track:
     status: not_run
     description: All user journeys analyzed for friction points
     score: null
+  # Test Coverage Quality Gates
   - name: Overall Test Coverage
     threshold: 100
     blocking: true
@@ -136,6 +178,7 @@ track:
   - docs-writer
   - test-engineer
   deliverables:
+  # Part 1: Documentation & UX Discovery
   - Documentation and code audit report
   - CLI reference guide auto-generation tooling
   - Auto-generated CLI reference guide (100% coverage)
@@ -146,6 +189,15 @@ track:
   - Friction analysis report
   - Prioritized improvement recommendations
   - UX improvement roadmap
+  # Part 2: Documentation Quality
+  - Documentation completeness audit and gap report
+  - Documentation correctness verification (all examples work)
+  - Link audit (internal and external)
+  - Technical accuracy verification
+  - Documentation style guide
+  - Reorganized documentation structure
+  - Documentation contribution guide
+  # Part 3: Test Coverage
   - 100% test coverage of vibey/cli/
   - 100% test coverage of vibey/operations/
   - 100% test coverage of vibey/roadmap/
@@ -158,6 +210,8 @@ track:
   - Coverage maintenance documentation
   strategic_value:
   - 'Completeness: 100% documentation coverage of all functionality'
+  - 'Correctness: All documentation verified accurate and working'
+  - 'Usability: Documentation follows best practices and conventions'
   - 'Accuracy: Auto-generation prevents documentation drift'
   - 'Maintainability: CLI changes auto-propagate to docs'
   - 'Onboarding: Complete user journeys for all personas'
@@ -177,7 +231,7 @@ track:
       Comprehensive audit ensuring documentation, user journeys, and test
       coverage have 100% coverage of Vibey's functionality.
 
-      PART 1: DOCUMENTATION & UX (Sprints 1-6)
+      PART 1: DOCUMENTATION & UX DISCOVERY (Sprints 1-6)
       1. Audit existing docs and code
       2. Build CLI reference auto-generation (100% coverage)
       3. Map actual user journeys per persona (discover pain points)
@@ -189,17 +243,30 @@ track:
       Journey mapping (Sprint 3) happens BEFORE walkthrough generation
       (Sprint 4) so that the walkthroughs address discovered pain points.
 
-      PART 2: TEST COVERAGE (Sprints 7-13)
-      7. CLI test coverage (vibey/cli/)
-      8. Operations library coverage (vibey/operations/)
-      9. Roadmap models coverage (vibey/roadmap/)
-      10. Config system coverage (vibey/config/)
-      11. Common utilities coverage (vibey/common/)
-      12. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)
-      13. Integration tests & final validation
+      PART 2: DOCUMENTATION QUALITY & BEST PRACTICES (Sprints 7-9)
+      7. Documentation completeness audit (100% CLI coverage)
+      8. Documentation correctness review (all examples work, links valid)
+      9. Documentation organization & best practices (intuitive structure)
+
+      DOCUMENTATION REQUIREMENTS:
+      - 100% coverage over CLI reference guide
+      - Expand on all scenarios in user journey flow
+      - Follow technical writing best practices
+      - Organized intuitively following conventions for similar projects
+      - Benchmarked against Claude Code, Cursor, Aider documentation
+
+      PART 3: TEST COVERAGE (Sprints 10-16)
+      10. CLI test coverage (vibey/cli/)
+      11. Operations library coverage (vibey/operations/)
+      12. Roadmap models coverage (vibey/roadmap/)
+      13. Config system coverage (vibey/config/)
+      14. Common utilities coverage (vibey/common/)
+      15. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)
+      16. Integration tests & final validation
 
       SUCCESS CRITERIA:
-      - 100% documentation coverage
+      - 100% documentation completeness
+      - 100% documentation correctness
       - 100% user journey coverage
       - 100% code coverage (line and branch)
       - 95%+ test pass rate

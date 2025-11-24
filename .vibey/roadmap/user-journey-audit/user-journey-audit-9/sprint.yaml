@@ -1,6 +1,6 @@
 sprint:
   id: user-journey-audit-9
-  name: Roadmap Models & Serialization Test Coverage
+  name: Documentation Organization & Best Practices
   track_id: user-journey-audit
   status: planned
   blocked: false
@@ -14,120 +14,130 @@ sprint:
     completion_percent: 0
   tasks:
   - id: user-journey-audit-9-task-001
-    name: Audit existing models tests and coverage
+    name: Benchmark against similar project documentation
     status: planned
     priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
+    estimated_hours: 8
+    assigned_agent: docs-writer
     description: |
-      Baseline models test coverage:
-      - Run pytest-cov on vibey/roadmap/
-      - Document current coverage percentage
-      - Identify untested models
-      - Identify untested serialization paths
+      Study documentation best practices:
+      - Review Claude Code documentation structure
+      - Review Cursor documentation organization
+      - Review Aider documentation patterns
+      - Review other CLI tool docs (gh, npm, etc.)
+      - Document patterns and conventions to adopt
   - id: user-journey-audit-9-task-002
-    name: Write tests for Roadmap model
+    name: Design intuitive documentation structure
     status: planned
     priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
+    estimated_hours: 6
+    assigned_agent: architecture-agent
     description: |
-      Test Roadmap model:
-      - Construction and validation
-      - Property accessors
-      - Progress calculations
-      - Serialization to YAML
-      - Deserialization from YAML
-      - Edge cases (empty, invalid)
+      Create optimal documentation architecture:
+      - Define documentation taxonomy
+      - Create logical groupings
+      - Design navigation hierarchy
+      - Plan cross-linking strategy
+      - Define entry points for different users
   - id: user-journey-audit-9-task-003
-    name: Write tests for Track model
+    name: Apply technical writing best practices
     status: planned
     priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
+    estimated_hours: 10
+    assigned_agent: docs-writer
     description: |
-      Test Track model:
-      - Construction and validation
-      - Status transitions
-      - Progress calculations
-      - Dependencies handling
-      - Quality gates
-      - Serialization/deserialization
+      Implement technical writing standards:
+      - Consistent terminology glossary
+      - Clear, concise language
+      - Active voice usage
+      - Proper heading hierarchy
+      - Scannable formatting (lists, tables)
+      - Meaningful code comments
   - id: user-journey-audit-9-task-004
-    name: Write tests for Sprint model
+    name: Improve documentation usability
     status: planned
-    priority: critical
+    priority: high
     estimated_hours: 8
-    assigned_agent: test-engineer
+    assigned_agent: docs-writer
     description: |
-      Test Sprint model:
-      - Construction and validation
-      - Status transitions
-      - Task aggregation
-      - Progress calculations
-      - Serialization/deserialization
+      Enhance user experience:
+      - Add table of contents where needed
+      - Improve search discoverability
+      - Add "See also" cross-references
+      - Include prerequisites clearly
+      - Add estimated reading times
+      - Include difficulty indicators
   - id: user-journey-audit-9-task-005
-    name: Write tests for Task model
-    status: planned
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: |
-      Test Task model:
-      - Construction and validation
-      - All status values
-      - Blocking/blocked_by relationships
-      - Commit associations
-      - Serialization/deserialization
-  - id: user-journey-audit-9-task-006
-    name: Write tests for serialization utilities
+    name: Create documentation style guide
     status: planned
     priority: high
     estimated_hours: 6
-    assigned_agent: test-engineer
+    assigned_agent: docs-writer
     description: |
-      Test serialization:
-      - YAML serializers
-      - Custom representers
-      - Round-trip serialization
-      - Schema validation
-      - Error handling for malformed data
-  - id: user-journey-audit-9-task-007
-    name: Verify 100% models coverage achieved
+      Establish documentation standards:
+      - Writing style guide
+      - Formatting conventions
+      - Code example standards
+      - Screenshot/diagram guidelines
+      - Terminology dictionary
+      - Template for new docs
+  - id: user-journey-audit-9-task-006
+    name: Reorganize documentation directory structure
     status: planned
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
     description: |
-      Validate coverage target:
-      - Run pytest-cov --cov=vibey/roadmap
-      - Verify 100% line coverage
-      - Verify 100% branch coverage
-      - Fix any remaining gaps
+      Implement new structure:
+      - Reorganize docs/ directory
+      - Update all internal links
+      - Create redirects if needed
+      - Update README navigation
+      - Verify no broken references
+  - id: user-journey-audit-9-task-007
+    name: Create documentation contribution guide
+    status: planned
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: |
+      Enable community contributions:
+      - How to contribute to docs
+      - Documentation review process
+      - Style guide reference
+      - Templates for common doc types
+      - CI checks for documentation PRs
   dependencies:
   - user-journey-audit-8
   blocked_by:
   - user-journey-audit-8
   quality_gates:
-  - name: Models Coverage
+  - name: Structure Follows Best Practices
     threshold: 100
     blocking: true
     status: not_run
-  - name: Models Pass Rate
+    description: Documentation structure matches industry best practices
+  - name: Style Guide Compliance
     threshold: 95
     blocking: true
     status: not_run
+    description: All docs follow established style guide
+  - name: Usability Score
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Documentation passes usability review
   deliverables:
-  - Models test coverage baseline
-  - Tests for Roadmap model
-  - Tests for Track model
-  - Tests for Sprint model
-  - Tests for Task model
-  - Tests for serialization utilities
-  - 100% models coverage verified
+  - Benchmark analysis of similar projects
+  - New documentation structure design
+  - Technical writing improvements applied
+  - Enhanced documentation usability
+  - Documentation style guide
+  - Reorganized documentation directory
+  - Documentation contribution guide
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     notes: |
-      Sprint 3 achieves 100% test coverage of roadmap models.
-      Target: vibey/roadmap/ directory
+      Sprint 9 applies documentation best practices and reorganization.
+      Ensures docs are intuitive, well-organized, and follow conventions.

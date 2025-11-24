@@ -1,6 +1,6 @@
 sprint:
   id: user-journey-audit-12
-  name: MCP Server & Platform Adapters Test Coverage
+  name: Roadmap Models & Serialization Test Coverage
   track_id: user-journey-audit
   status: planned
   blocked: false
@@ -14,123 +14,120 @@ sprint:
     completion_percent: 0
   tasks:
   - id: user-journey-audit-12-task-001
-    name: Audit existing MCP and adapter tests
+    name: Audit existing models tests and coverage
     status: planned
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
     description: |
-      Baseline MCP/adapter test coverage:
-      - Run pytest-cov on vibey/mcp/ and vibey/adapters/
+      Baseline models test coverage:
+      - Run pytest-cov on vibey/roadmap/
       - Document current coverage percentage
-      - Identify untested endpoints
-      - Identify untested adapters
+      - Identify untested models
+      - Identify untested serialization paths
   - id: user-journey-audit-12-task-002
-    name: Write tests for MCP server
+    name: Write tests for Roadmap model
     status: planned
     priority: critical
-    estimated_hours: 10
+    estimated_hours: 8
     assigned_agent: test-engineer
     description: |
-      Test MCP server:
-      - Server initialization
-      - Tool registration
-      - Tool execution
-      - Request/response handling
-      - Error handling
-      - Protocol compliance
+      Test Roadmap model:
+      - Construction and validation
+      - Property accessors
+      - Progress calculations
+      - Serialization to YAML
+      - Deserialization from YAML
+      - Edge cases (empty, invalid)
   - id: user-journey-audit-12-task-003
-    name: Write tests for MCP tools
+    name: Write tests for Track model
     status: planned
     priority: critical
-    estimated_hours: 10
+    estimated_hours: 8
     assigned_agent: test-engineer
     description: |
-      Test each MCP tool:
-      - roadmap_status tool
-      - roadmap_update tool
-      - Other exposed tools
-      - Input validation
-      - Output formatting
-      - Error responses
+      Test Track model:
+      - Construction and validation
+      - Status transitions
+      - Progress calculations
+      - Dependencies handling
+      - Quality gates
+      - Serialization/deserialization
   - id: user-journey-audit-12-task-004
-    name: Write tests for platform adapter base
+    name: Write tests for Sprint model
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test Sprint model:
+      - Construction and validation
+      - Status transitions
+      - Task aggregation
+      - Progress calculations
+      - Serialization/deserialization
+  - id: user-journey-audit-12-task-005
+    name: Write tests for Task model
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test Task model:
+      - Construction and validation
+      - All status values
+      - Blocking/blocked_by relationships
+      - Commit associations
+      - Serialization/deserialization
+  - id: user-journey-audit-12-task-006
+    name: Write tests for serialization utilities
     status: planned
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
     description: |
-      Test adapter base class:
-      - PlatformAdapter interface
-      - Required method signatures
-      - Default implementations
-      - Adapter registration
-  - id: user-journey-audit-12-task-005
-    name: Write tests for each platform adapter
-    status: planned
-    priority: high
-    estimated_hours: 10
-    assigned_agent: test-engineer
-    description: |
-      Test platform adapters:
-      - ClaudeAdapter
-      - GooseAdapter
-      - CursorAdapter
-      - Other adapters
-      - Platform-specific behavior
-      - Configuration handling
-  - id: user-journey-audit-12-task-006
-    name: Verify 100% MCP/adapter coverage achieved
+      Test serialization:
+      - YAML serializers
+      - Custom representers
+      - Round-trip serialization
+      - Schema validation
+      - Error handling for malformed data
+  - id: user-journey-audit-12-task-007
+    name: Verify 100% models coverage achieved
     status: planned
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
     description: |
       Validate coverage target:
-      - Run pytest-cov --cov=vibey/mcp --cov=vibey/adapters
+      - Run pytest-cov --cov=vibey/roadmap
       - Verify 100% line coverage
       - Verify 100% branch coverage
       - Fix any remaining gaps
-  - id: user-journey-audit-12-task-007
-    name: Document MCP/adapter testing patterns
-    status: planned
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: |
-      Create MCP/adapter testing guide:
-      - MCP protocol testing
-      - Mocking external platforms
-      - Adapter testing strategies
-      - Integration vs unit testing
   dependencies:
-  - user-journey-audit-11
+  - user-journey-audit-8
   blocked_by:
-  - user-journey-audit-11
+  - user-journey-audit-8
   quality_gates:
-  - name: MCP Coverage
+  - name: Models Coverage
     threshold: 100
     blocking: true
     status: not_run
-  - name: Adapters Coverage
-    threshold: 100
-    blocking: true
-    status: not_run
-  - name: MCP/Adapters Pass Rate
+  - name: Models Pass Rate
     threshold: 95
     blocking: true
     status: not_run
   deliverables:
-  - MCP/adapter test coverage baseline
-  - Tests for MCP server
-  - Tests for MCP tools
-  - Tests for adapter base
-  - Tests for platform adapters
-  - 100% MCP/adapter coverage verified
-  - MCP/adapter testing documentation
+  - Models test coverage baseline
+  - Tests for Roadmap model
+  - Tests for Track model
+  - Tests for Sprint model
+  - Tests for Task model
+  - Tests for serialization utilities
+  - 100% models coverage verified
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
     notes: |
-      Sprint 6 achieves 100% test coverage of MCP and adapters.
-      Targets: vibey/mcp/ and vibey/adapters/ directories
+      Sprint 3 achieves 100% test coverage of roadmap models.
+      Target: vibey/roadmap/ directory

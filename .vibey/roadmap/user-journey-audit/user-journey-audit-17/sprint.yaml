@@ -9,7 +9,7 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
   tasks:
@@ -20,8 +20,10 @@ sprint:
     estimated_hours: 8
     assigned_agent: docs-writer
     description: |
-      Align README with current project state:
-      - Update project description and value proposition
+      Align README with current project state and positioning:
+      - Update project positioning: "comprehensive framework for
+        context engineering lifecycle management with vibe coding tools"
+      - Craft compelling value proposition around context engineering
       - Update installation instructions
       - Update quick start examples
       - Update feature list to match current capabilities
@@ -119,6 +121,25 @@ sprint:
       - Verify CI passes
       - Document any friction points
       - Create issues for improvements
+  - id: user-journey-audit-17-task-008
+    name: Ensure positioning consistency across all documentation
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: |
+      Align all documentation to new positioning:
+      - Position: "comprehensive framework for context engineering
+        lifecycle management with vibe coding tools"
+      - Audit all docs for consistent messaging
+      - Update CLAUDE.md project description
+      - Update docs/getting-started/ positioning
+      - Update docs/guides/ descriptions
+      - Update docs/reference/ introductions
+      - Ensure feature descriptions align with positioning
+      - Create positioning style guide for future docs
+      - Define key terms: context engineering, lifecycle management,
+        vibe coding, context versioning, session reproducibility
   dependencies:
   - user-journey-audit-16
   blocked_by:
@@ -139,14 +160,21 @@ sprint:
     blocking: true
     status: not_run
     description: New contributors can successfully set up and contribute
+  - name: Positioning Consistency
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All documentation reflects consistent context engineering positioning
   deliverables:
-  - Updated README.md aligned to current state
+  - Updated README.md with context engineering positioning
   - Updated CHANGELOG.md with complete history
   - Comprehensive CONTRIBUTING.md
   - Contributor onboarding guide
   - Development workflow documentation
   - Contributor journey walkthroughs
   - Validated contributor experience
+  - Positioning consistency across all documentation
+  - Positioning style guide and key terms glossary
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
@@ -154,3 +182,14 @@ sprint:
       Sprint 17 focuses on contributor experience and project documentation.
       Ensures README, CHANGELOG, and CONTRIBUTING are aligned and complete.
       Creates contributor-specific journey walkthroughs.
+
+      POSITIONING UPDATE:
+      Updates Vibey's positioning as a "comprehensive framework for context
+      engineering lifecycle management with vibe coding tools."
+
+      Key terms to define consistently:
+      - Context engineering: Managing the context that AI coding assistants use
+      - Lifecycle management: From session start to completion and beyond
+      - Vibe coding: AI-assisted development workflows
+      - Context versioning: Git-based context history
+      - Session reproducibility: Recreating coding sessions from context

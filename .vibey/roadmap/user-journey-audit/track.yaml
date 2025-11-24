@@ -8,11 +8,11 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 12 weeks
+  estimated_duration: 26 weeks
   progress:
-    sprints_total: 6
+    sprints_total: 13
     sprints_completed: 0
-    tasks_total: 42
+    tasks_total: 91
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -52,13 +52,53 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
+  - id: user-journey-audit-7
+    name: CLI Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-8
+    name: Operations Library Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-9
+    name: Roadmap Models & Serialization Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-10
+    name: Config System Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-11
+    name: Common Utilities & Error Handling Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-12
+    name: MCP Server & Platform Adapters Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-13
+    name: Integration Tests & Final Validation
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
   dependencies: []
-  blocks:
-  - unit-test-coverage
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - unit-test-coverage
+  depended_on_by: []
   quality_gates:
   - name: CLI Reference Coverage
     threshold: 100
@@ -78,10 +118,23 @@ track:
     status: not_run
     description: All user journeys analyzed for friction points
     score: null
+  - name: Overall Test Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% code coverage across all vibey library components
+    score: null
+  - name: Test Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: 95%+ of all tests must pass
+    score: null
   assigned_agents:
   - architecture-agent
   - backend-engineer
   - docs-writer
+  - test-engineer
   deliverables:
   - Documentation and code audit report
   - CLI reference guide auto-generation tooling
@@ -93,12 +146,26 @@ track:
   - Friction analysis report
   - Prioritized improvement recommendations
   - UX improvement roadmap
+  - 100% test coverage of vibey/cli/
+  - 100% test coverage of vibey/operations/
+  - 100% test coverage of vibey/roadmap/
+  - 100% test coverage of vibey/config/
+  - 100% test coverage of vibey/common/
+  - 100% test coverage of vibey/mcp/
+  - 100% test coverage of vibey/adapters/
+  - Integration test suite
+  - CI coverage enforcement
+  - Coverage maintenance documentation
   strategic_value:
   - 'Completeness: 100% documentation coverage of all functionality'
   - 'Accuracy: Auto-generation prevents documentation drift'
   - 'Maintainability: CLI changes auto-propagate to docs'
   - 'Onboarding: Complete user journeys for all personas'
   - 'UX: Data-driven friction reduction and improvements'
+  - 'Quality: Every library component fully tested'
+  - 'Regression Prevention: Changes caught immediately'
+  - 'Confidence: Refactoring safe with full coverage'
+  - 'Reliability: 95%+ pass rate ensures stability'
   commits: []
   standards: []
   metadata:
@@ -107,11 +174,10 @@ track:
     design_doc: null
     implementation_plan: null
     notes: |
-      Comprehensive audit ensuring documentation and user journeys
-      have 100% coverage of Vibey's functionality, followed by
-      UX analysis and improvement planning.
+      Comprehensive audit ensuring documentation, user journeys, and test
+      coverage have 100% coverage of Vibey's functionality.
 
-      SPRINT FLOW:
+      PART 1: DOCUMENTATION & UX (Sprints 1-6)
       1. Audit existing docs and code
       2. Build CLI reference auto-generation (100% coverage)
       3. Map actual user journeys per persona (discover pain points)
@@ -123,6 +189,18 @@ track:
       Journey mapping (Sprint 3) happens BEFORE walkthrough generation
       (Sprint 4) so that the walkthroughs address discovered pain points.
 
-      TEST COVERAGE:
-      Unit test coverage is handled in separate unit-test-coverage track
-      which depends on this track's CLI reference output.
+      PART 2: TEST COVERAGE (Sprints 7-13)
+      7. CLI test coverage (vibey/cli/)
+      8. Operations library coverage (vibey/operations/)
+      9. Roadmap models coverage (vibey/roadmap/)
+      10. Config system coverage (vibey/config/)
+      11. Common utilities coverage (vibey/common/)
+      12. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)
+      13. Integration tests & final validation
+
+      SUCCESS CRITERIA:
+      - 100% documentation coverage
+      - 100% user journey coverage
+      - 100% code coverage (line and branch)
+      - 95%+ test pass rate
+      - CI enforcement to prevent regression

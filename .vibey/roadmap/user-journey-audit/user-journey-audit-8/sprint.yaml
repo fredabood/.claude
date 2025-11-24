@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-2
+  id: user-journey-audit-8
   name: Operations Library Test Coverage
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-2-task-001
+  - id: user-journey-audit-8-task-001
     name: Audit existing operations tests and coverage
     status: planned
     priority: critical
@@ -25,7 +25,7 @@ sprint:
       - Document current coverage percentage
       - Identify untested functions
       - Map tests to operations modules
-  - id: unit-test-coverage-2-task-002
+  - id: user-journey-audit-8-task-002
     name: Write tests for vibey/operations/roadmap/query.py
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - get_task_status()
       - Query filtering and sorting
       - Error handling for missing data
-  - id: unit-test-coverage-2-task-003
+  - id: user-journey-audit-8-task-003
     name: Write tests for vibey/operations/roadmap/update.py
     status: planned
     priority: critical
@@ -53,7 +53,7 @@ sprint:
       - Progress recalculation
       - Validation of status transitions
       - Error handling for invalid updates
-  - id: unit-test-coverage-2-task-004
+  - id: user-journey-audit-8-task-004
     name: Write tests for vibey/operations/roadmap/context.py
     status: planned
     priority: high
@@ -66,7 +66,7 @@ sprint:
       - Context file discovery
       - Context merging
       - Context validation
-  - id: unit-test-coverage-2-task-005
+  - id: user-journey-audit-8-task-005
     name: Write tests for vibey/operations/docs/
     status: planned
     priority: high
@@ -79,7 +79,7 @@ sprint:
       - Template rendering
       - Output formatting
       - Error handling
-  - id: unit-test-coverage-2-task-006
+  - id: user-journey-audit-8-task-006
     name: Verify 100% operations coverage achieved
     status: planned
     priority: critical
@@ -91,7 +91,7 @@ sprint:
       - Verify 100% line coverage
       - Verify 100% branch coverage
       - Fix any remaining gaps
-  - id: unit-test-coverage-2-task-007
+  - id: user-journey-audit-8-task-007
     name: Document operations testing patterns
     status: planned
     priority: medium
@@ -104,9 +104,9 @@ sprint:
       - Testing business logic
       - Fixture patterns
   dependencies:
-  - unit-test-coverage-1
+  - user-journey-audit-7
   blocked_by:
-  - unit-test-coverage-1
+  - user-journey-audit-7
   quality_gates:
   - name: Operations Coverage
     threshold: 100

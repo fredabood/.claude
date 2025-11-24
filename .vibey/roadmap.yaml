@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 34
+    tracks_total: 33
     tracks_completed: 17
-    sprints_total: 94
+    sprints_total: 87
     sprints_completed: 59
-    tasks_total: 703
+    tasks_total: 654
     tasks_completed: 518
-    completion_percent: 74
+    completion_percent: 79
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -152,10 +152,6 @@ roadmap:
     priority: high
   - id: user-journey-audit
     name: User Journey Audit & Documentation Coverage
-    status: planned
-    priority: high
-  - id: unit-test-coverage
-    name: Unit Test Coverage & Library Validation
     status: planned
     priority: high
   dependencies: []

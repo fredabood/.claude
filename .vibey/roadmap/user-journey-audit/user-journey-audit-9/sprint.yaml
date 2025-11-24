@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-3
+  id: user-journey-audit-9
   name: Roadmap Models & Serialization Test Coverage
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-3-task-001
+  - id: user-journey-audit-9-task-001
     name: Audit existing models tests and coverage
     status: planned
     priority: critical
@@ -25,7 +25,7 @@ sprint:
       - Document current coverage percentage
       - Identify untested models
       - Identify untested serialization paths
-  - id: unit-test-coverage-3-task-002
+  - id: user-journey-audit-9-task-002
     name: Write tests for Roadmap model
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - Serialization to YAML
       - Deserialization from YAML
       - Edge cases (empty, invalid)
-  - id: unit-test-coverage-3-task-003
+  - id: user-journey-audit-9-task-003
     name: Write tests for Track model
     status: planned
     priority: critical
@@ -53,7 +53,7 @@ sprint:
       - Dependencies handling
       - Quality gates
       - Serialization/deserialization
-  - id: unit-test-coverage-3-task-004
+  - id: user-journey-audit-9-task-004
     name: Write tests for Sprint model
     status: planned
     priority: critical
@@ -66,7 +66,7 @@ sprint:
       - Task aggregation
       - Progress calculations
       - Serialization/deserialization
-  - id: unit-test-coverage-3-task-005
+  - id: user-journey-audit-9-task-005
     name: Write tests for Task model
     status: planned
     priority: critical
@@ -79,7 +79,7 @@ sprint:
       - Blocking/blocked_by relationships
       - Commit associations
       - Serialization/deserialization
-  - id: unit-test-coverage-3-task-006
+  - id: user-journey-audit-9-task-006
     name: Write tests for serialization utilities
     status: planned
     priority: high
@@ -92,7 +92,7 @@ sprint:
       - Round-trip serialization
       - Schema validation
       - Error handling for malformed data
-  - id: unit-test-coverage-3-task-007
+  - id: user-journey-audit-9-task-007
     name: Verify 100% models coverage achieved
     status: planned
     priority: critical
@@ -105,9 +105,9 @@ sprint:
       - Verify 100% branch coverage
       - Fix any remaining gaps
   dependencies:
-  - unit-test-coverage-2
+  - user-journey-audit-8
   blocked_by:
-  - unit-test-coverage-2
+  - user-journey-audit-8
   quality_gates:
   - name: Models Coverage
     threshold: 100

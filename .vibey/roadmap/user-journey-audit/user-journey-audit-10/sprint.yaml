@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-4
+  id: user-journey-audit-10
   name: Config System Test Coverage
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-4-task-001
+  - id: user-journey-audit-10-task-001
     name: Audit existing config tests and coverage
     status: planned
     priority: critical
@@ -25,7 +25,7 @@ sprint:
       - Document current coverage percentage
       - Identify untested loaders
       - Identify untested models
-  - id: unit-test-coverage-4-task-002
+  - id: user-journey-audit-10-task-002
     name: Write tests for config loader
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - Config file discovery
       - Environment variable overrides
       - Error handling for missing/invalid
-  - id: unit-test-coverage-4-task-003
+  - id: user-journey-audit-10-task-003
     name: Write tests for config models
     status: planned
     priority: critical
@@ -53,7 +53,7 @@ sprint:
       - QualityGatesConfig model
       - Validation for each model
       - Default values
-  - id: unit-test-coverage-4-task-004
+  - id: user-journey-audit-10-task-004
     name: Write tests for config validation
     status: planned
     priority: high
@@ -66,7 +66,7 @@ sprint:
       - Type validation
       - Cross-field validation
       - Helpful error messages
-  - id: unit-test-coverage-4-task-005
+  - id: user-journey-audit-10-task-005
     name: Write tests for config migration
     status: planned
     priority: high
@@ -79,7 +79,7 @@ sprint:
       - Backup creation
       - Dry run mode
       - Error recovery
-  - id: unit-test-coverage-4-task-006
+  - id: user-journey-audit-10-task-006
     name: Verify 100% config coverage achieved
     status: planned
     priority: critical
@@ -91,7 +91,7 @@ sprint:
       - Verify 100% line coverage
       - Verify 100% branch coverage
       - Fix any remaining gaps
-  - id: unit-test-coverage-4-task-007
+  - id: user-journey-audit-10-task-007
     name: Document config testing patterns
     status: planned
     priority: medium
@@ -104,9 +104,9 @@ sprint:
       - Config fixture patterns
       - Validation testing strategies
   dependencies:
-  - unit-test-coverage-3
+  - user-journey-audit-9
   blocked_by:
-  - unit-test-coverage-3
+  - user-journey-audit-9
   quality_gates:
   - name: Config Coverage
     threshold: 100

@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-5
+  id: user-journey-audit-11
   name: Common Utilities & Error Handling Test Coverage
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-5-task-001
+  - id: user-journey-audit-11-task-001
     name: Audit existing common tests and coverage
     status: planned
     priority: critical
@@ -25,7 +25,7 @@ sprint:
       - Document current coverage percentage
       - Identify untested utilities
       - Identify untested error types
-  - id: unit-test-coverage-5-task-002
+  - id: user-journey-audit-11-task-002
     name: Write tests for error types
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - ValidationError and subtypes
       - Error context and metadata
       - Error message formatting
-  - id: unit-test-coverage-5-task-003
+  - id: user-journey-audit-11-task-003
     name: Write tests for error renderers
     status: planned
     priority: critical
@@ -52,7 +52,7 @@ sprint:
       - PlainTextRenderer
       - LoggingRenderer
       - Renderer selection logic
-  - id: unit-test-coverage-5-task-004
+  - id: user-journey-audit-11-task-004
     name: Write tests for utility functions
     status: planned
     priority: high
@@ -65,7 +65,7 @@ sprint:
       - String utilities
       - Date/time utilities
       - Any helper functions
-  - id: unit-test-coverage-5-task-005
+  - id: user-journey-audit-11-task-005
     name: Write tests for shared constants and types
     status: planned
     priority: medium
@@ -77,7 +77,7 @@ sprint:
       - Priority enums
       - Type definitions
       - Default values
-  - id: unit-test-coverage-5-task-006
+  - id: user-journey-audit-11-task-006
     name: Verify 100% common coverage achieved
     status: planned
     priority: critical
@@ -89,7 +89,7 @@ sprint:
       - Verify 100% line coverage
       - Verify 100% branch coverage
       - Fix any remaining gaps
-  - id: unit-test-coverage-5-task-007
+  - id: user-journey-audit-11-task-007
     name: Document error handling testing patterns
     status: planned
     priority: medium
@@ -102,9 +102,9 @@ sprint:
       - Testing error context
       - Renderer testing patterns
   dependencies:
-  - unit-test-coverage-4
+  - user-journey-audit-10
   blocked_by:
-  - unit-test-coverage-4
+  - user-journey-audit-10
   quality_gates:
   - name: Common Coverage
     threshold: 100

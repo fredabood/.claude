@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-7
+  id: user-journey-audit-13
   name: Integration Tests & Final Validation
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-7-task-001
+  - id: user-journey-audit-13-task-001
     name: Design integration test suite
     status: planned
     priority: critical
@@ -26,7 +26,7 @@ sprint:
       - CLI to operations to models flow
       - Config to operations flow
       - Test data management strategy
-  - id: unit-test-coverage-7-task-002
+  - id: user-journey-audit-13-task-002
     name: Write workflow integration tests
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - Task completion workflow
       - Progress reporting workflow
       - Documentation generation workflow
-  - id: unit-test-coverage-7-task-003
+  - id: user-journey-audit-13-task-003
     name: Write error propagation tests
     status: planned
     priority: high
@@ -52,7 +52,7 @@ sprint:
       - Error message preservation
       - Context propagation
       - Recovery and rollback
-  - id: unit-test-coverage-7-task-004
+  - id: user-journey-audit-13-task-004
     name: Validate 100% overall coverage
     status: planned
     priority: critical
@@ -65,7 +65,7 @@ sprint:
       - Verify 100% branch coverage overall
       - Generate coverage report
       - Document any exclusions
-  - id: unit-test-coverage-7-task-005
+  - id: user-journey-audit-13-task-005
     name: Validate 95%+ pass rate
     status: planned
     priority: critical
@@ -78,7 +78,7 @@ sprint:
       - Investigate any failures
       - Fix flaky tests
       - Document known issues
-  - id: unit-test-coverage-7-task-006
+  - id: user-journey-audit-13-task-006
     name: Set up CI coverage enforcement
     status: planned
     priority: critical
@@ -92,7 +92,7 @@ sprint:
       - PR coverage comments
       - Coverage badge generation
       - Fail build on coverage drop
-  - id: unit-test-coverage-7-task-007
+  - id: user-journey-audit-13-task-007
     name: Produce final coverage report and documentation
     status: planned
     priority: critical
@@ -107,9 +107,9 @@ sprint:
       - CI integration documentation
       - README badges setup
   dependencies:
-  - unit-test-coverage-6
+  - user-journey-audit-12
   blocked_by:
-  - unit-test-coverage-6
+  - user-journey-audit-12
   quality_gates:
   - name: Overall Coverage
     threshold: 100

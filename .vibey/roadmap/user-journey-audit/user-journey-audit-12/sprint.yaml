@@ -1,7 +1,7 @@
 sprint:
-  id: unit-test-coverage-6
+  id: user-journey-audit-12
   name: MCP Server & Platform Adapters Test Coverage
-  track_id: unit-test-coverage
+  track_id: user-journey-audit
   status: planned
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
@@ -13,7 +13,7 @@ sprint:
     tasks_completed: 0
     completion_percent: 0
   tasks:
-  - id: unit-test-coverage-6-task-001
+  - id: user-journey-audit-12-task-001
     name: Audit existing MCP and adapter tests
     status: planned
     priority: critical
@@ -25,7 +25,7 @@ sprint:
       - Document current coverage percentage
       - Identify untested endpoints
       - Identify untested adapters
-  - id: unit-test-coverage-6-task-002
+  - id: user-journey-audit-12-task-002
     name: Write tests for MCP server
     status: planned
     priority: critical
@@ -39,7 +39,7 @@ sprint:
       - Request/response handling
       - Error handling
       - Protocol compliance
-  - id: unit-test-coverage-6-task-003
+  - id: user-journey-audit-12-task-003
     name: Write tests for MCP tools
     status: planned
     priority: critical
@@ -53,7 +53,7 @@ sprint:
       - Input validation
       - Output formatting
       - Error responses
-  - id: unit-test-coverage-6-task-004
+  - id: user-journey-audit-12-task-004
     name: Write tests for platform adapter base
     status: planned
     priority: high
@@ -65,7 +65,7 @@ sprint:
       - Required method signatures
       - Default implementations
       - Adapter registration
-  - id: unit-test-coverage-6-task-005
+  - id: user-journey-audit-12-task-005
     name: Write tests for each platform adapter
     status: planned
     priority: high
@@ -79,7 +79,7 @@ sprint:
       - Other adapters
       - Platform-specific behavior
       - Configuration handling
-  - id: unit-test-coverage-6-task-006
+  - id: user-journey-audit-12-task-006
     name: Verify 100% MCP/adapter coverage achieved
     status: planned
     priority: critical
@@ -91,7 +91,7 @@ sprint:
       - Verify 100% line coverage
       - Verify 100% branch coverage
       - Fix any remaining gaps
-  - id: unit-test-coverage-6-task-007
+  - id: user-journey-audit-12-task-007
     name: Document MCP/adapter testing patterns
     status: planned
     priority: medium
@@ -104,9 +104,9 @@ sprint:
       - Adapter testing strategies
       - Integration vs unit testing
   dependencies:
-  - unit-test-coverage-5
+  - user-journey-audit-11
   blocked_by:
-  - unit-test-coverage-5
+  - user-journey-audit-11
   quality_gates:
   - name: MCP Coverage
     threshold: 100

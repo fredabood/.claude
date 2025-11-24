@@ -1,0 +1,90 @@
+track:
+  id: git-integration
+  name: Enhanced Git Integration
+  roadmap_id: vibey-framework-v2
+  status: planned
+  blocked: false
+  priority: medium
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 weeks
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 18
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: git-integration-1
+    name: Git History & Commit Analysis
+    status: planned
+    estimated_duration: 3 weeks
+    tasks_count: 7
+    started: null
+  - id: git-integration-2
+    name: Git Hooks & Workflow Automation
+    status: planned
+    estimated_duration: 3 weeks
+    tasks_count: 11
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates:
+  - name: Git Integration Tests
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Comprehensive tests for all git operations
+    score: null
+  - name: Backward Compatibility
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Existing git workflows must continue to work
+    score: null
+  assigned_agents:
+  - backend-engineer
+  - test-engineer
+  - coordinator
+  deliverables:
+  - Commit-to-task correlation engine
+  - Git history analysis for sprint velocity
+  - Automatic task status updates from commits
+  - Pre-commit validation hooks for roadmap integrity
+  - Branch management integration
+  - Pull request workflow automation
+  - Git diff analysis for code review context
+  - PR merge checkpoint for task status conflict detection
+  - Blocker and quality gate git integration design
+  - Roadmap hierarchy and dependency mapping git integration design
+  - Git commit requirements policy for task status changes
+  strategic_value:
+  - 'Traceability: Link commits to tasks for audit trail'
+  - 'Automation: Reduce manual status updates'
+  - 'Velocity: Accurate sprint metrics from git history'
+  - 'Quality: Pre-commit hooks prevent invalid states'
+  - 'Workflow: Better branch and PR management'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      Enhanced git integration to improve traceability, automation, and
+      developer workflow. Key features:
+
+      1. Commit Analysis: Parse commit messages to correlate with tasks
+      2. History Mining: Extract sprint velocity and patterns from git log
+      3. Auto-Updates: Mark tasks complete based on commit conventions
+      4. Pre-commit Hooks: Validate roadmap state before commits
+      5. Branch Integration: Track feature branches per task/sprint
+      6. PR Automation: Generate PR descriptions from task context
+
+      This track builds on existing infrastructure-fixes work that added
+      basic commit-to-task mapping. Goal is production-ready git integration.

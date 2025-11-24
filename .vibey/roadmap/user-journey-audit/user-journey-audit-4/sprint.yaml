@@ -1,0 +1,133 @@
+sprint:
+  id: user-journey-audit-4
+  name: User Journey Walkthrough Generation
+  track_id: user-journey-audit
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: user-journey-audit-4-task-001
+    name: Design user journey document structure
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: architecture-agent
+    description: |
+      Design journey document format:
+      - Link to CLI reference for each command used
+      - Step-by-step walkthrough format
+      - Expected output examples
+      - Error handling guidance (informed by pain points)
+      - Cross-references between journeys
+      - Coverage tracking metadata
+  - id: user-journey-audit-4-task-002
+    name: Generate new user onboarding journey walkthrough
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: |
+      Write complete onboarding walkthrough:
+      - Installation to first success
+      - Every command with CLI reference link
+      - Expected outputs at each step
+      - Address pain points from Sprint 3
+      - Common errors and solutions
+      - Track which CLI commands are covered
+      Must cover 100% of onboarding-relevant CLI
+  - id: user-journey-audit-4-task-003
+    name: Generate workflow journeys for each persona
+    status: planned
+    priority: critical
+    estimated_hours: 12
+    assigned_agent: docs-writer
+    description: |
+      Write journey docs for each persona:
+      - Solo developer daily workflow
+      - Team lead setup and management
+      - Sprint planning and execution
+      - Platform deployment workflow
+      - Integration setup workflows
+      Each journey links to CLI reference
+      Each journey addresses discovered pain points
+  - id: user-journey-audit-4-task-004
+    name: Verify 100% CLI reference coverage in journeys
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: architecture-agent
+    description: |
+      Validate coverage completeness:
+      - Parse all journey docs for CLI references
+      - Compare to CLI reference command list
+      - Identify uncovered commands
+      - Add journeys or extend existing for gaps
+      Must achieve 100% coverage
+  - id: user-journey-audit-4-task-005
+    name: Build CLI reference change trigger system
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Automate user journey updates on CLI changes:
+      - Detect CLI reference changes (diff)
+      - Identify affected user journeys
+      - Generate review checklist
+      - CI warning when journeys may be stale
+      - `vibey docs check journeys` command
+  - id: user-journey-audit-4-task-006
+    name: Add journey coverage to CI validation
+    status: planned
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      CI integration for journey coverage:
+      - Validate all CLI commands appear in journeys
+      - Warn on new commands without journey coverage
+      - Report coverage percentage
+      - Block merge if coverage drops below 100%
+  - id: user-journey-audit-4-task-007
+    name: Review and refine journeys based on pain points
+    status: planned
+    priority: high
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: |
+      Quality review of generated journeys:
+      - Verify pain points are addressed
+      - Ensure guidance is actionable
+      - Check for consistency across journeys
+      - Validate examples work as documented
+  dependencies:
+  - user-journey-audit-3
+  blocked_by:
+  - user-journey-audit-3
+  quality_gates:
+  - name: Journey CLI Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: User journeys cover 100% of CLI reference
+  deliverables:
+  - User journey document structure spec
+  - New user onboarding journey walkthrough
+  - Persona-specific workflow journeys
+  - CLI coverage verification report
+  - CLI change trigger system
+  - Journey coverage CI integration
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 4 generates user journey walkthroughs AFTER journey
+      mapping (Sprint 3), so walkthroughs address discovered pain
+      points rather than being generic feature documentation.

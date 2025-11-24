@@ -1,0 +1,142 @@
+sprint:
+  id: atlassian-integration-1
+  name: Jira Core Integration & Data Mapping
+  track_id: atlassian-integration
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: atlassian-integration-1-task-001
+    name: Design Jira to Vibey data model mapping
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: architecture-agent
+    description: |
+      Define mappings between Jira and Vibey concepts:
+      - Jira Project → Track (1:1 or 1:many)
+      - Jira Sprint → Sprint (direct mapping)
+      - Jira Epic → Sprint (alternative hierarchy)
+      - Jira Issue → Task (Story, Task, Bug, Sub-task)
+      - Jira Status → Task Status (configurable)
+      - Jira Priority → Task Priority
+      - Jira Assignee → assigned_agent
+      - Custom field mappings
+  - id: atlassian-integration-1-task-002
+    name: Implement Atlassian OAuth 2.0 authentication
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: |
+      Implement OAuth 2.0 (3LO) for Atlassian Cloud:
+      - Authorization URL generation
+      - Callback handler
+      - Token exchange
+      - Token refresh
+      - Secure token storage
+      - PAT support for Server/DC
+  - id: atlassian-integration-1-task-003
+    name: Create Jira REST API client
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: |
+      Build comprehensive Jira API client:
+      - Project endpoints (list, get, create)
+      - Sprint endpoints (list, get, create, update)
+      - Issue endpoints (search, get, create, update, transition)
+      - Board endpoints (list, get sprints)
+      - User endpoints (search, get)
+      - Rate limiting and retry logic
+      - Pagination handling
+  - id: atlassian-integration-1-task-004
+    name: Implement Jira project to track import
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Import Jira project as Vibey track:
+      - Fetch project metadata
+      - Create track.yaml from project
+      - Map project settings to track config
+      - Handle project categories/components
+      - vibey atlassian import project <key>
+  - id: atlassian-integration-1-task-005
+    name: Implement Jira sprint to sprint import
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Import Jira sprints as Vibey sprints:
+      - Fetch sprints from board
+      - Create sprint.yaml from Jira sprint
+      - Map sprint dates and goals
+      - Handle active/future/closed states
+      - Link to parent track
+  - id: atlassian-integration-1-task-006
+    name: Implement Jira issue to task import
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Import Jira issues as Vibey tasks:
+      - JQL query support for filtering
+      - Create task entries from issues
+      - Map status, priority, assignee
+      - Handle subtasks and links
+      - Preserve Jira issue key reference
+  - id: atlassian-integration-1-task-007
+    name: Create integration tests for Jira import
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+    description: |
+      Test Jira import functionality:
+      - Mock Jira API responses
+      - Test project import scenarios
+      - Test sprint import scenarios
+      - Test issue import scenarios
+      - Test error handling
+      - Test pagination
+  dependencies: []
+  blocked_by: []
+  quality_gates:
+  - name: API Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+  deliverables:
+  - Jira to Vibey data mapping specification
+  - OAuth 2.0 authentication implementation
+  - Jira REST API client library
+  - Project import command
+  - Sprint import command
+  - Issue import command
+  - Integration test suite
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 1 establishes the foundation for Jira integration:
+      - Authentication with Atlassian Cloud and Server
+      - API client for all Jira operations
+      - One-way import from Jira to Vibey
+
+      Focus is on reading from Jira - writing comes in Sprint 2.
+
+      Jira API Reference:
+      - REST API v3: https://developer.atlassian.com/cloud/jira/platform/rest/v3/
+      - Agile API: https://developer.atlassian.com/cloud/jira/software/rest/

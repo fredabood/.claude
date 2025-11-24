@@ -1,0 +1,130 @@
+sprint:
+  id: unit-test-coverage-1
+  name: CLI Test Coverage
+  track_id: unit-test-coverage
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: unit-test-coverage-1-task-001
+    name: Audit existing CLI tests and coverage
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Baseline CLI test coverage:
+      - Run pytest-cov on vibey/cli/
+      - Document current coverage percentage
+      - Identify untested commands
+      - Identify untested options/flags
+      - Map tests to CLI reference commands
+  - id: unit-test-coverage-1-task-002
+    name: Write tests for vibey/cli/main.py
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test CLI entry point:
+      - Test main() function
+      - Test CLI group setup
+      - Test help output
+      - Test version output
+      - Test invalid command handling
+  - id: unit-test-coverage-1-task-003
+    name: Write tests for vibey/cli/commands.py
+    status: planned
+    priority: critical
+    estimated_hours: 12
+    assigned_agent: test-engineer
+    description: |
+      Test all CLI commands:
+      - Test each command happy path
+      - Test each command with all options
+      - Test error cases for each command
+      - Test output formatting
+      - Mock external dependencies
+  - id: unit-test-coverage-1-task-004
+    name: Write tests for roadmap CLI commands
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: |
+      Test roadmap subcommands:
+      - vibey roadmap init
+      - vibey roadmap status
+      - vibey roadmap show
+      - vibey roadmap update
+      - All options and variations
+  - id: unit-test-coverage-1-task-005
+    name: Write tests for docs CLI commands
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      Test docs subcommands:
+      - vibey docs generate
+      - vibey docs check
+      - Output format tests
+      - Error handling tests
+  - id: unit-test-coverage-1-task-006
+    name: Verify 100% CLI coverage achieved
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Validate coverage target:
+      - Run pytest-cov --cov=vibey/cli
+      - Verify 100% line coverage
+      - Verify 100% branch coverage
+      - Document any exclusions with justification
+      - Fix any remaining gaps
+  - id: unit-test-coverage-1-task-007
+    name: Document CLI testing patterns
+    status: planned
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: |
+      Create CLI testing guide:
+      - How to test Click commands
+      - Mocking patterns for CLI tests
+      - Testing output formats
+      - Testing error handling
+      - Examples for each pattern
+  dependencies: []
+  blocked_by: []
+  quality_gates:
+  - name: CLI Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+  - name: CLI Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+  deliverables:
+  - CLI test coverage baseline
+  - Tests for vibey/cli/main.py
+  - Tests for vibey/cli/commands.py
+  - Tests for roadmap commands
+  - Tests for docs commands
+  - 100% CLI coverage verified
+  - CLI testing documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 1 achieves 100% test coverage of the CLI layer.
+      Target: vibey/cli/ directory

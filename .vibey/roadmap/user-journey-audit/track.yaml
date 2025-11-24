@@ -1,0 +1,128 @@
+track:
+  id: user-journey-audit
+  name: User Journey Audit & Documentation Coverage
+  roadmap_id: vibey-framework-v2
+  status: planned
+  blocked: false
+  priority: high
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 12 weeks
+  progress:
+    sprints_total: 6
+    sprints_completed: 0
+    tasks_total: 42
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: user-journey-audit-1
+    name: Documentation & Code Audit
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-2
+    name: CLI Reference Guide Tooling & Generation
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-3
+    name: Journey Mapping & Pain Point Discovery
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-4
+    name: User Journey Walkthrough Generation
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-5
+    name: Friction Analysis & Gap Identification
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-6
+    name: Recommendations & Improvement Roadmap
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  dependencies: []
+  blocks:
+  - unit-test-coverage
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - unit-test-coverage
+  quality_gates:
+  - name: CLI Reference Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: CLI reference guide covers 100% of vibey CLI
+    score: null
+  - name: User Journey Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: User journeys cover 100% of CLI reference functionality
+    score: null
+  - name: Friction Analysis Coverage
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: All user journeys analyzed for friction points
+    score: null
+  assigned_agents:
+  - architecture-agent
+  - backend-engineer
+  - docs-writer
+  deliverables:
+  - Documentation and code audit report
+  - CLI reference guide auto-generation tooling
+  - Auto-generated CLI reference guide (100% coverage)
+  - User persona journey maps
+  - Comprehensive user journey walkthroughs (100% CLI coverage)
+  - Automated doc refresh system (CLI → user journeys)
+  - Pain point inventory with severity ratings
+  - Friction analysis report
+  - Prioritized improvement recommendations
+  - UX improvement roadmap
+  strategic_value:
+  - 'Completeness: 100% documentation coverage of all functionality'
+  - 'Accuracy: Auto-generation prevents documentation drift'
+  - 'Maintainability: CLI changes auto-propagate to docs'
+  - 'Onboarding: Complete user journeys for all personas'
+  - 'UX: Data-driven friction reduction and improvements'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      Comprehensive audit ensuring documentation and user journeys
+      have 100% coverage of Vibey's functionality, followed by
+      UX analysis and improvement planning.
+
+      SPRINT FLOW:
+      1. Audit existing docs and code
+      2. Build CLI reference auto-generation (100% coverage)
+      3. Map actual user journeys per persona (discover pain points)
+      4. Generate user journey walkthroughs (100% CLI coverage)
+      5. Analyze friction and gaps
+      6. Create prioritized improvement roadmap
+
+      KEY INSIGHT:
+      Journey mapping (Sprint 3) happens BEFORE walkthrough generation
+      (Sprint 4) so that the walkthroughs address discovered pain points.
+
+      TEST COVERAGE:
+      Unit test coverage is handled in separate unit-test-coverage track
+      which depends on this track's CLI reference output.

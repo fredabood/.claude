@@ -1,0 +1,136 @@
+sprint:
+  id: user-journey-audit-2
+  name: CLI Reference Guide Tooling & Generation
+  track_id: user-journey-audit
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: user-journey-audit-2-task-001
+    name: Design CLI reference auto-generation architecture
+    status: planned
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: architecture-agent
+    description: |
+      Design the auto-generation system:
+      - How to introspect Click commands programmatically
+      - Output format (Markdown, structured data, both?)
+      - Template system for consistent formatting
+      - Handling of examples and usage patterns
+      - Version tracking and change detection
+      - Integration with build/CI pipeline
+  - id: user-journey-audit-2-task-002
+    name: Build CLI introspection module
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Create module to extract CLI metadata:
+      - Walk Click command tree
+      - Extract command names, help text
+      - Extract options, flags, arguments
+      - Extract types, defaults, required status
+      - Extract examples from docstrings
+      - Output as structured data (JSON/YAML)
+  - id: user-journey-audit-2-task-003
+    name: Build CLI reference Markdown generator
+    status: planned
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Create Markdown generator from CLI metadata:
+      - Jinja2 templates for reference format
+      - Command hierarchy navigation
+      - Option/flag tables
+      - Example code blocks
+      - Cross-references between commands
+      - Table of contents generation
+  - id: user-journey-audit-2-task-004
+    name: Implement drift detection
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Detect when CLI changes without doc regeneration:
+      - Hash CLI metadata on generation
+      - Compare current CLI to stored hash
+      - CI check that fails if drift detected
+      - Clear error message showing what changed
+      - `vibey docs check` command
+  - id: user-journey-audit-2-task-005
+    name: Implement vibey docs generate cli command
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Add CLI command for doc generation:
+      - `vibey docs generate cli` - generate CLI reference
+      - `vibey docs generate cli --check` - verify up to date
+      - `vibey docs generate cli --output PATH` - custom output
+      - Integrate with existing CLI structure
+  - id: user-journey-audit-2-task-006
+    name: Generate initial CLI reference guide
+    status: planned
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Run the generator to produce CLI reference:
+      - Generate complete CLI reference
+      - Verify 100% command coverage
+      - Review output for quality
+      - Place in docs/reference/CLI_REFERENCE.md
+      - Commit as baseline
+  - id: user-journey-audit-2-task-007
+    name: Add CI integration for CLI reference freshness
+    status: planned
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Integrate into CI/CD pipeline:
+      - Pre-commit hook option
+      - GitHub Actions check
+      - Fail PR if CLI reference is stale
+      - Auto-generate in CI (optional)
+      - Document CI integration
+  dependencies:
+  - user-journey-audit-1
+  blocked_by:
+  - user-journey-audit-1
+  quality_gates:
+  - name: CLI Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Generated reference covers 100% of CLI
+  deliverables:
+  - CLI auto-generation architecture design
+  - CLI introspection module
+  - Markdown generator with templates
+  - Drift detection system
+  - vibey docs generate cli command
+  - Generated CLI reference guide (100% coverage)
+  - CI integration for freshness checks
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 2 builds tooling to auto-generate CLI reference.
+      Key principle: CLI reference is NEVER manually edited.
+      It is always generated from code, ensuring accuracy.
+
+      The drift detection ensures the reference stays current.
+      CI integration prevents merging code that would cause drift.

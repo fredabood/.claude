@@ -1,0 +1,153 @@
+track:
+  id: unit-test-coverage
+  name: Unit Test Coverage & Library Validation
+  roadmap_id: vibey-framework-v2
+  status: planned
+  blocked: false
+  priority: high
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 14 weeks
+  progress:
+    sprints_total: 7
+    sprints_completed: 0
+    tasks_total: 49
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: unit-test-coverage-1
+    name: CLI Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-2
+    name: Operations Library Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-3
+    name: Roadmap Models & Serialization Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-4
+    name: Config System Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-5
+    name: Common Utilities & Error Handling Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-6
+    name: MCP Server & Platform Adapters Test Coverage
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: unit-test-coverage-7
+    name: Integration Tests & Final Validation
+    status: planned
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  dependencies:
+  - user-journey-audit
+  blocks: []
+  blocked_by:
+  - user-journey-audit
+  depends_on:
+  - user-journey-audit
+  depended_on_by: []
+  quality_gates:
+  - name: Overall Test Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% code coverage across all vibey library components
+    score: null
+  - name: Test Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: 95%+ of all tests must pass
+    score: null
+  - name: CLI Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% coverage of CLI reference guide
+    score: null
+  - name: Operations Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% coverage of operations library
+    score: null
+  - name: Models Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% coverage of roadmap models
+    score: null
+  assigned_agents:
+  - test-engineer
+  - backend-engineer
+  deliverables:
+  - 100% test coverage of vibey/cli/
+  - 100% test coverage of vibey/operations/
+  - 100% test coverage of vibey/roadmap/
+  - 100% test coverage of vibey/config/
+  - 100% test coverage of vibey/common/
+  - 100% test coverage of vibey/mcp/
+  - 100% test coverage of vibey/adapters/
+  - Integration test suite
+  - CI coverage enforcement
+  - Coverage maintenance documentation
+  strategic_value:
+  - 'Quality: Every library component fully tested'
+  - 'Regression Prevention: Changes caught immediately'
+  - 'Confidence: Refactoring safe with full coverage'
+  - 'Reliability: 95%+ pass rate ensures stability'
+  - 'Maintainability: Tests document expected behavior'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      Comprehensive test coverage for all vibey Python library components.
+
+      SUCCESS CRITERIA:
+      - 100% code coverage (line and branch)
+      - 95%+ test pass rate
+      - All public APIs tested
+      - Error paths tested
+      - Edge cases covered
+
+      LIBRARY COMPONENTS:
+      1. vibey/cli/ - CLI commands and entry points
+      2. vibey/operations/ - Core business logic
+         - roadmap/ - Roadmap operations
+         - docs/ - Documentation operations
+      3. vibey/roadmap/ - Models and serialization
+      4. vibey/config/ - Config loading and models
+      5. vibey/common/ - Shared utilities and errors
+      6. vibey/mcp/ - MCP server implementation
+      7. vibey/adapters/ - Platform adapters
+
+      COVERAGE ENFORCEMENT:
+      - pytest-cov for coverage measurement
+      - CI fails if coverage < 100%
+      - CI fails if pass rate < 95%
+      - Coverage badges in README
+      - Per-module coverage reports

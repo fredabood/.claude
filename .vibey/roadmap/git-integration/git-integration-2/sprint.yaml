@@ -1,0 +1,282 @@
+sprint:
+  id: git-integration-2
+  name: Git Hooks & Workflow Automation
+  track_id: git-integration
+  status: planned
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    tasks_total: 11
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: git-integration-2-task-001
+    name: Design pre-commit validation hook architecture
+    status: planned
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+  - id: git-integration-2-task-002
+    name: Implement roadmap validation pre-commit hook
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: git-integration-2-task-003
+    name: Add automatic task status updates from commits
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+  - id: git-integration-2-task-004
+    name: Create branch-to-task linking system
+    status: planned
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: git-integration-2-task-005
+    name: Build PR description generator from task context
+    status: planned
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: git-integration-2-task-006
+    name: Create test suite for git hooks and automation
+    status: planned
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+  - id: git-integration-2-task-007
+    name: Document git workflow automation setup
+    status: planned
+    priority: medium
+    estimated_hours: 3
+    assigned_agent: docs-writer
+  - id: git-integration-2-task-008
+    name: Implement PR merge checkpoint for task status conflicts
+    status: planned
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: |
+      Create a merge checkpoint that detects task completion conflicts:
+
+      CONFLICT CONDITION:
+      - A task is NEWLY marked complete in this PR (changed from
+        incomplete → complete in the PR's diff)
+      - AND that SAME task is ALREADY marked complete in the target branch
+
+      NOT A CONFLICT:
+      - Tasks complete in target but untouched in PR (no change)
+      - Tasks complete in both branches (agreement, no conflict)
+      - Tasks incomplete in target, marked complete in PR (normal flow)
+
+      This catches the case where two people independently completed
+      the same task - requiring reconciliation to determine which
+      completion is authoritative and whether work was duplicated.
+
+      IMPLEMENTATION:
+      - Hook into git merge/PR merge workflow
+      - Diff PR branch against target to find task status changes
+      - For each task newly marked complete, check target branch status
+      - If conflict detected, block merge and require reconciliation
+      - Provide clear error: "Task X is marked complete in this PR,
+        but was already completed in <target> at <commit>"
+
+      RESOLUTION OPTIONS:
+      - Keep target's completion (discard PR's completion claim)
+      - Keep PR's completion (override target's completion)
+      - Merge completions (both contributed, document in audit log)
+
+      FEATURES:
+      - Log all conflict resolutions for audit trail
+      - Integration with GitHub/GitLab PR checks
+      - vibey git check-merge command for CI/CD
+  - id: git-integration-2-task-009
+    name: Design blocker and quality gate integration with git
+    status: planned
+    priority: high
+    estimated_hours: 8
+    assigned_agent: architecture-agent
+    description: |
+      Review and design how roadmap blockers and quality gates integrate
+      with git workflows:
+
+      BLOCKERS → GIT INTEGRATION:
+      - Can a PR be merged if it references a blocked task?
+      - Should blocked tasks prevent commits to related branches?
+      - How do blocker changes propagate through git history?
+      - Visualize blocker status in PR descriptions/checks
+
+      QUALITY GATES → GIT INTEGRATION:
+      - Quality gates as GitHub/GitLab PR check requirements
+      - Block merge until quality gates pass (test coverage, etc.)
+      - Auto-update quality gate scores from CI/CD results
+      - Quality gate status in commit metadata
+      - Pre-merge validation: "Sprint X requires 95% test coverage"
+
+      ENFORCEMENT MODES:
+      - Advisory: Warn but allow merge
+      - Blocking: Prevent merge until resolved
+      - Audit-only: Log but don't interfere
+
+      QUESTIONS TO ANSWER:
+      - Should git enforce roadmap constraints or just report?
+      - How to handle emergency overrides?
+      - What's the UX for blocked merges?
+      - How do quality gates map to CI/CD checks?
+
+      DELIVERABLES:
+      - Integration design document
+      - Recommended enforcement policies
+      - Implementation plan for blocker/gate git hooks
+  - id: git-integration-2-task-010
+    name: Design roadmap hierarchy and dependency mapping git integration
+    status: planned
+    priority: high
+    estimated_hours: 10
+    assigned_agent: architecture-agent
+    description: |
+      Review and design how roadmap hierarchy (roadmap → track → sprint →
+      task) and dependency calculations integrate with git:
+
+      HIERARCHY → GIT MAPPING:
+      - How does roadmap structure map to git organization?
+        * Track per branch? Sprint per branch? Task per commit?
+        * Monorepo vs multi-repo considerations
+      - Should hierarchy changes be atomic commits?
+      - How to visualize roadmap tree in git history?
+      - Tagging strategy for milestones (track/sprint completion)
+
+      DEPENDENCY CALCULATIONS → GIT:
+      - How are dependency graphs versioned in git?
+      - When dependencies change, what gets committed?
+      - Dependency validation as pre-commit/pre-merge check
+      - Circular dependency detection in git hooks
+      - Cross-track dependencies and multi-branch workflows
+
+      PROGRESS CALCULATIONS → GIT:
+      - Should progress percentages be committed or computed?
+      - How to handle progress conflicts on merge?
+      - Completion rollups (task → sprint → track → roadmap)
+      - Progress recalculation triggers in git hooks
+
+      DEPENDENCY CASCADE SCENARIOS:
+      - Task A blocks Task B: What happens in git when A completes?
+      - Sprint X depends on Sprint Y: Branch merge ordering?
+      - Track dependencies: Release branch coordination?
+
+      GIT AS SOURCE OF TRUTH vs YAML AS SOURCE OF TRUTH:
+      - Can git history reconstruct roadmap state at any point?
+      - Should roadmap state be derived from git or stored explicitly?
+      - Hybrid approach: YAML state + git audit trail?
+
+      DELIVERABLES:
+      - Hierarchy-to-git mapping specification
+      - Dependency versioning strategy
+      - Progress calculation git integration design
+      - Recommendations for source of truth model
+  - id: git-integration-2-task-011
+    name: Design git commit requirements for task status changes
+    status: planned
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: architecture-agent
+    description: |
+      Define requirements for git commits when task status changes,
+      particularly task completion:
+
+      CORE REQUIREMENT:
+      - Task marked complete → MUST have associated git commit
+      - Commit proves work was done and provides audit trail
+      - Links task completion to actual code changes
+
+      PRACTICALITY ANALYSIS FOR ALL STATUS UPDATES:
+      Consider requiring git commits for every status change:
+
+      STATUS CHANGES TO EVALUATE:
+      - planned → in_progress: Start work (maybe commit?)
+      - in_progress → blocked: Hit blocker (commit with context?)
+      - blocked → in_progress: Unblocked (commit?)
+      - in_progress → completed: DEFINITELY commit
+      - completed → in_progress: Reopened (commit with reason?)
+      - any → cancelled: Cancelled (commit?)
+
+      ARGUMENTS FOR COMMITS ON ALL CHANGES:
+      + Complete audit trail
+      + Git history = roadmap history
+      + Reproducibility at any point
+      + Forces deliberate status changes
+
+      ARGUMENTS AGAINST:
+      - Noise in git history
+      - Friction slows development
+      - Some changes are administrative
+      - May encourage batching (less granular)
+
+      HYBRID APPROACHES:
+      1. Require commits only for: completed, blocked, cancelled
+      2. Auto-commit status changes (no manual commit needed)
+      3. Batch status commits (daily status snapshot)
+      4. Separate status branch (keeps main clean)
+      5. Status in commit message convention (no separate commit)
+
+      IMPLEMENTATION OPTIONS:
+      - Pre-status-change hook: Block if no staged changes
+      - Post-status-change hook: Auto-commit status YAML
+      - CLI enforcement: `vibey task complete` requires commit
+      - Advisory mode: Warn but allow uncommitted changes
+
+      DELIVERABLES:
+      - Policy recommendation: which status changes require commits
+      - Implementation design for commit requirements
+      - UX design for enforcing commit requirements
+      - Escape hatch design for exceptions
+  dependencies:
+  - git-integration-1
+  blocked_by:
+  - git-integration-1
+  quality_gates:
+  - name: Hook Integration Tests
+    threshold: 95
+    blocking: true
+    status: not_run
+  - name: No Breaking Changes
+    threshold: 100
+    blocking: true
+    status: not_run
+  deliverables:
+  - Pre-commit hook for roadmap validation
+  - Post-commit hook for automatic task updates
+  - Branch naming convention enforcement
+  - PR description template generator
+  - vibey git hooks install command
+  - PR merge checkpoint for task status conflict detection
+  - Blocker and quality gate git integration design
+  - Roadmap hierarchy and dependency mapping git integration design
+  - Git commit requirements policy for task status changes
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: |
+      Sprint 2 focuses on git hooks and workflow automation.
+
+      Pre-commit validation will:
+      1. Validate roadmap YAML integrity
+      2. Check task status consistency
+      3. Verify referenced tasks exist
+      4. Prevent commits with invalid roadmap state
+
+      Post-commit automation will:
+      1. Parse commit for task references
+      2. Update task status if commit indicates completion
+      3. Add commit SHA to task commits list
+      4. Recalculate progress percentages
+
+      Branch integration will:
+      1. Link feature branches to tasks/sprints
+      2. Track branch lifecycle (created, merged, deleted)
+      3. Generate PR descriptions from linked tasks

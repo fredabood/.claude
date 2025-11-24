@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 28
+    tracks_total: 34
     tracks_completed: 17
-    sprints_total: 70
+    sprints_total: 94
     sprints_completed: 59
-    tasks_total: 533
+    tasks_total: 703
     tasks_completed: 518
-    completion_percent: 97
+    completion_percent: 74
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -134,6 +134,30 @@ roadmap:
     name: Roadmap Data Integrity & Validation System
     status: completed
     priority: critical
+  - id: git-integration
+    name: Enhanced Git Integration
+    status: planned
+    priority: medium
+  - id: discovery-context-integration
+    name: Discovery Mode Context Directory Integration
+    status: planned
+    priority: high
+  - id: context-engineering-study
+    name: Context Engineering Study & Git Versioning Gaps
+    status: planned
+    priority: high
+  - id: atlassian-integration
+    name: Atlassian Integration (Jira & Confluence)
+    status: planned
+    priority: high
+  - id: user-journey-audit
+    name: User Journey Audit & Documentation Coverage
+    status: planned
+    priority: high
+  - id: unit-test-coverage
+    name: Unit Test Coverage & Library Validation
+    status: planned
+    priority: high
   dependencies: []
   blocked_by: []
   version_history:

@@ -2066,6 +2066,517 @@ def export_stats(ctx, platform: str):
 
 
 # ============================================================================
+# Git Command Group
+# ============================================================================
+
+from vibey.cli.git_commands import git_group
+cli.add_command(git_group, name='git')
+
+
+# ============================================================================
+# Content Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def content(ctx):
+    """
+    Manage framework content (agents, workflows, templates, handoffs).
+
+    Provides CRUD operations for content management with validation,
+    backups, and search capabilities.
+
+    Examples:
+
+      vibey content list                  # List all content
+      vibey content list --type agent     # List only agents
+      vibey content show coordinator      # Show content details
+      vibey content search "database"     # Search content
+      vibey content create agent          # Create new agent
+      vibey content edit coordinator      # Edit existing content
+      vibey content delete my-agent       # Delete content
+      vibey content validate              # Validate all content
+    """
+    pass
+
+
+@content.command('list')
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff', 'schema', 'example']),
+              help='Filter by content type')
+@click.option('--category', help='Filter by category (subdirectory)')
+@click.option('--format', 'output_format', type=click.Choice(['table', 'json', 'simple']), default='table',
+              help='Output format')
+@click.pass_context
+def content_list(ctx, content_type: Optional[str], category: Optional[str], output_format: str):
+    """List all content items
+
+    Shows all agents, workflows, templates, and other content with
+    optional filtering by type and category.
+
+    Examples:
+      vibey content list                    # List all content
+      vibey content list --type agent       # List only agents
+      vibey content list --type workflow --category planning
+      vibey content list --format json      # JSON output
+    """
+    import json
+    from rich.table import Table
+    from vibey.operations.content import list_content, ContentType
+
+    ctype = ContentType(content_type) if content_type else None
+    items = list_content(ctype, category)
+
+    if not items:
+        console.print("[yellow]No content found[/yellow]")
+        sys.exit(0)
+
+    if output_format == 'json':
+        data = [item.to_dict() for item in items]
+        console.print(json.dumps(data, indent=2))
+    elif output_format == 'simple':
+        for item in items:
+            console.print(f"{item.content_type.value}/{item.category or 'root'}/{item.id}")
+    else:
+        # Table format
+        table = Table(title=f"Content ({len(items)} items)")
+        table.add_column("Type", style="cyan")
+        table.add_column("Category", style="dim")
+        table.add_column("ID", style="green")
+        table.add_column("Name")
+        table.add_column("Version", style="dim")
+
+        for item in sorted(items, key=lambda x: (x.content_type.value, x.category or '', x.id)):
+            table.add_row(
+                item.content_type.value,
+                item.category or "-",
+                item.id,
+                item.name,
+                item.metadata.version
+            )
+
+        console.print(table)
+
+    sys.exit(0)
+
+
+@content.command('show')
+@click.argument('content_id')
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff', 'schema', 'example']),
+              help='Content type (speeds up lookup)')
+@click.option('--json', 'output_json', is_flag=True, help='Output as JSON')
+@click.option('--body', is_flag=True, help='Include full body text')
+@click.pass_context
+def content_show(ctx, content_id: str, content_type: Optional[str], output_json: bool, body: bool):
+    """Show content details
+
+    Displays metadata and optionally the full body of a content item.
+
+    Examples:
+      vibey content show coordinator
+      vibey content show sprint-planning --type workflow
+      vibey content show coordinator --body
+      vibey content show coordinator --json
+    """
+    import json
+    from vibey.operations.content import load_content, ContentType
+
+    ctype = ContentType(content_type) if content_type else None
+    item = load_content(content_id, ctype)
+
+    if item is None:
+        console.print(f"[red]Content not found: {content_id}[/red]")
+        sys.exit(1)
+
+    if output_json:
+        data = item.to_dict()
+        if body:
+            data['body'] = item.body
+        console.print(json.dumps(data, indent=2))
+    else:
+        console.print(f"\n[bold]{item.name}[/bold] ({item.id})")
+        console.print("=" * 60)
+        console.print(f"Type:     {item.content_type.value}")
+        console.print(f"Category: {item.category or 'root'}")
+        console.print(f"Version:  {item.metadata.version}")
+        console.print(f"Path:     {item.relative_path}")
+
+        if item.metadata.description:
+            console.print(f"\n[bold]Description:[/bold]\n{item.metadata.description}")
+
+        if item.metadata.tags:
+            console.print(f"\n[bold]Tags:[/bold] {', '.join(item.metadata.tags)}")
+
+        # Show type-specific extra fields
+        if item.metadata.extra:
+            console.print(f"\n[bold]Metadata:[/bold]")
+            for key, value in item.metadata.extra.items():
+                if isinstance(value, (list, dict)):
+                    console.print(f"  {key}: {json.dumps(value, indent=4)}")
+                else:
+                    console.print(f"  {key}: {value}")
+
+        if body:
+            console.print(f"\n[bold]Body:[/bold]")
+            console.print(item.body)
+
+    sys.exit(0)
+
+
+@content.command('search')
+@click.argument('query')
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff', 'schema', 'example']),
+              help='Filter by content type')
+@click.option('--category', help='Filter by category')
+@click.option('--limit', default=20, help='Maximum results')
+@click.pass_context
+def content_search(ctx, query: str, content_type: Optional[str], category: Optional[str], limit: int):
+    """Search content by keywords
+
+    Searches content by name, description, tags, and body text.
+    Results are ranked by relevance.
+
+    Examples:
+      vibey content search "database"
+      vibey content search "api" --type agent
+      vibey content search "test" --limit 50
+    """
+    from rich.table import Table
+    from vibey.operations.content import search_content, ContentType
+
+    ctype = ContentType(content_type) if content_type else None
+    results = search_content(query, ctype, category, limit=limit)
+
+    if not results:
+        console.print(f"[yellow]No results for '{query}'[/yellow]")
+        sys.exit(0)
+
+    table = Table(title=f"Search Results for '{query}' ({len(results)} matches)")
+    table.add_column("Score", style="dim", width=6)
+    table.add_column("Type", style="cyan")
+    table.add_column("ID", style="green")
+    table.add_column("Name")
+    table.add_column("Matched", style="dim")
+
+    for result in results:
+        table.add_row(
+            f"{result.score:.0f}",
+            result.item.content_type.value,
+            result.item.id,
+            result.item.name,
+            ", ".join(result.matched_fields[:3])
+        )
+
+    console.print(table)
+    sys.exit(0)
+
+
+@content.command('create')
+@click.argument('content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff']))
+@click.option('--id', 'content_id', required=True, help='Content ID (e.g., my-agent)')
+@click.option('--name', required=True, help='Display name')
+@click.option('--category', help='Category (subdirectory, e.g., core, planning)')
+@click.option('--subtype', help='Subtype (e.g., core, planning, development for agents)')
+@click.option('--description', default='', help='Description')
+@click.option('--version', default='1.0.0', help='Version')
+@click.pass_context
+def content_create(ctx, content_type: str, content_id: str, name: str,
+                   category: Optional[str], subtype: Optional[str],
+                   description: str, version: str):
+    """Create new content
+
+    Creates a new agent, workflow, template, or handoff with
+    validated frontmatter and a starter body.
+
+    Examples:
+      vibey content create agent --id my-agent --name "My Agent" --category core --subtype core
+      vibey content create workflow --id my-flow --name "My Workflow" --subtype planning
+      vibey content create template --id my-template --name "My Template"
+    """
+    from vibey.operations.content import create_content, ContentType
+
+    ctype = ContentType(content_type)
+
+    frontmatter = {
+        'id': content_id,
+        'name': name,
+        'version': version,
+    }
+
+    if subtype:
+        frontmatter['type'] = subtype
+    elif ctype == ContentType.AGENT:
+        frontmatter['type'] = 'development'  # Default agent type
+    elif ctype == ContentType.WORKFLOW:
+        frontmatter['type'] = 'development'  # Default workflow type
+
+    if description:
+        frontmatter['description'] = description
+
+    # Default body based on content type
+    if ctype == ContentType.AGENT:
+        body = f"""# {name}
+
+**Role:** [Describe the agent's role]
+
+## Purpose
+
+[Describe what this agent does]
+
+## Trigger Patterns
+
+- keyword1
+- keyword2
+
+## Required Inputs
+
+- Input 1
+- Input 2
+
+## Outputs
+
+- Output 1
+- Output 2
+
+## Quality Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Handoffs
+
+- Hands off to: [agent-id]
+"""
+    elif ctype == ContentType.WORKFLOW:
+        body = f"""# {name}
+
+## Overview
+
+[Describe the workflow]
+
+## Steps
+
+1. **Step 1**: [Description]
+2. **Step 2**: [Description]
+3. **Step 3**: [Description]
+
+## Prerequisites
+
+- Prerequisite 1
+- Prerequisite 2
+
+## Expected Outputs
+
+- Output 1
+- Output 2
+"""
+    else:
+        body = f"""# {name}
+
+[Content here]
+"""
+
+    result = create_content(ctype, frontmatter, body, category)
+
+    if result.success:
+        console.print(f"[green]✓ Created {content_type}: {content_id}[/green]")
+        if result.content:
+            console.print(f"  Path: {result.content.filepath}")
+    else:
+        console.print(f"[red]✗ Failed to create {content_type}[/red]")
+        for error in result.errors:
+            console.print(f"  • {error}")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@content.command('edit')
+@click.argument('content_id')
+@click.option('--set', 'updates', multiple=True, help='Field=value pairs to update')
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff']),
+              help='Content type')
+@click.pass_context
+def content_edit(ctx, content_id: str, updates: tuple, content_type: Optional[str]):
+    """Edit existing content
+
+    Updates frontmatter fields in existing content.
+    Creates a backup before making changes.
+
+    Examples:
+      vibey content edit coordinator --set version=1.1.0
+      vibey content edit my-agent --set type=core --set "description=New description"
+    """
+    from vibey.operations.content import update_content, ContentType
+
+    if not updates:
+        console.print("[yellow]No updates specified. Use --set field=value[/yellow]")
+        sys.exit(1)
+
+    # Parse updates into dict
+    update_dict = {}
+    for update in updates:
+        if '=' not in update:
+            console.print(f"[red]Invalid update format: {update}[/red]")
+            console.print("Use: --set field=value")
+            sys.exit(1)
+        key, value = update.split('=', 1)
+        update_dict[key] = value
+
+    ctype = ContentType(content_type) if content_type else None
+    result = update_content(content_id, update_dict, ctype)
+
+    if result.success:
+        console.print(f"[green]✓ Updated {content_id}[/green]")
+        if result.backup_path:
+            console.print(f"  Backup: {result.backup_path}")
+    else:
+        console.print(f"[red]✗ Failed to update {content_id}[/red]")
+        for error in result.errors:
+            console.print(f"  • {error}")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@content.command('delete')
+@click.argument('content_id')
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff']),
+              help='Content type')
+@click.option('--force', is_flag=True, help='Delete even if referenced by other content')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation')
+@click.pass_context
+def content_delete(ctx, content_id: str, content_type: Optional[str], force: bool, yes: bool):
+    """Delete content (moves to trash)
+
+    Removes content by moving it to .vibey/trash/.
+    Can be restored later if needed.
+
+    Examples:
+      vibey content delete my-agent
+      vibey content delete my-agent --force
+      vibey content delete my-agent -y
+    """
+    from rich.prompt import Confirm
+    from vibey.operations.content import delete_content, load_content, ContentType
+
+    ctype = ContentType(content_type) if content_type else None
+
+    # First verify content exists
+    item = load_content(content_id, ctype)
+    if item is None:
+        console.print(f"[red]Content not found: {content_id}[/red]")
+        sys.exit(1)
+
+    # Confirm deletion
+    if not yes:
+        console.print(f"\n[yellow]About to delete: {item.name} ({item.id})[/yellow]")
+        console.print(f"  Type: {item.content_type.value}")
+        console.print(f"  Path: {item.filepath}")
+        console.print("")
+        if not Confirm.ask("Delete this content?"):
+            console.print("[dim]Cancelled[/dim]")
+            sys.exit(0)
+
+    result = delete_content(content_id, ctype, force)
+
+    if result.success:
+        console.print(f"[green]✓ Deleted {content_id}[/green]")
+        if result.backup_path:
+            console.print(f"  Moved to: {result.backup_path}")
+    else:
+        console.print(f"[red]✗ Failed to delete {content_id}[/red]")
+        for error in result.errors:
+            console.print(f"  • {error}")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@content.command('validate')
+@click.argument('content_id', required=False)
+@click.option('--type', 'content_type', type=click.Choice(['agent', 'workflow', 'template', 'handoff']),
+              help='Content type to validate')
+@click.option('--all', 'validate_all', is_flag=True, help='Validate all content')
+@click.pass_context
+def content_validate_cmd(ctx, content_id: Optional[str], content_type: Optional[str], validate_all: bool):
+    """Validate content frontmatter
+
+    Checks content for required fields and valid values.
+
+    Examples:
+      vibey content validate coordinator
+      vibey content validate --type agent --all
+      vibey content validate --all
+    """
+    from vibey.operations.content import list_content, load_content, ContentType
+    from vibey.operations.content.writer import ContentValidator
+
+    validator = ContentValidator()
+
+    if content_id:
+        # Validate single content
+        ctype = ContentType(content_type) if content_type else None
+        item = load_content(content_id, ctype)
+
+        if item is None:
+            console.print(f"[red]Content not found: {content_id}[/red]")
+            sys.exit(1)
+
+        result = validator.validate(item.content_type, item._raw_frontmatter, item.body)
+
+        if result.is_valid:
+            console.print(f"[green]✓ {content_id} is valid[/green]")
+            if result.warnings:
+                for warning in result.warnings:
+                    console.print(f"  [yellow]Warning: {warning}[/yellow]")
+            sys.exit(0)
+        else:
+            console.print(f"[red]✗ {content_id} has errors[/red]")
+            for error in result.errors:
+                console.print(f"  • {error}")
+            sys.exit(1)
+    else:
+        # Validate multiple content
+        ctype = ContentType(content_type) if content_type else None
+        items = list_content(ctype)
+
+        if not items:
+            console.print("[yellow]No content to validate[/yellow]")
+            sys.exit(0)
+
+        valid_count = 0
+        invalid_count = 0
+        errors_by_item = {}
+
+        for item in items:
+            result = validator.validate(item.content_type, item._raw_frontmatter, item.body)
+            if result.is_valid:
+                valid_count += 1
+            else:
+                invalid_count += 1
+                errors_by_item[item.id] = result.errors
+
+        console.print(f"\n[bold]Validation Results[/bold]")
+        console.print(f"  Valid:   {valid_count}")
+        console.print(f"  Invalid: {invalid_count}")
+        console.print(f"  Total:   {len(items)}")
+
+        if errors_by_item:
+            console.print(f"\n[red]Items with errors:[/red]")
+            for item_id, errors in list(errors_by_item.items())[:10]:
+                console.print(f"\n  {item_id}:")
+                for error in errors[:3]:
+                    console.print(f"    • {error}")
+                if len(errors) > 3:
+                    console.print(f"    ... and {len(errors) - 3} more")
+
+            if len(errors_by_item) > 10:
+                console.print(f"\n  ... and {len(errors_by_item) - 10} more items with errors")
+
+        sys.exit(0 if invalid_count == 0 else 1)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

@@ -1,7 +1,7 @@
 """
 Workflow Discovery Module.
 
-Scans the framework/workflows/ directory for workflow markdown files
+Scans the vibey/content/workflows/ directory for workflow markdown files
 and extracts their frontmatter for MCP tool generation.
 """
 
@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 from .parser import FrontmatterParser
+from vibey.content import get_workflows_dir
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ class WorkflowDefinition:
 
 class WorkflowDiscovery:
     """
-    Discover workflows from framework/workflows/ directory.
+    Discover workflows from vibey/content/workflows/ directory.
 
     Scans all markdown files, extracts frontmatter, and returns
     WorkflowDefinition objects for MCP tool generation.
@@ -115,15 +116,36 @@ class WorkflowDiscovery:
 
     REQUIRED_FIELDS = ['id', 'name', 'type', 'version']
 
-    def __init__(self, root_dir: Path):
+    def __init__(self, root_dir: Optional[Path] = None):
         """
         Initialize workflow discovery.
 
         Args:
-            root_dir: Root directory of Vibey repository
+            root_dir: Root directory of Vibey repository (optional, uses package path if not provided)
         """
-        self.root_dir = Path(root_dir)
-        self.workflows_dir = self.root_dir / 'framework' / 'workflows'
+        self.root_dir = Path(root_dir) if root_dir else None
+
+        # Determine workflows directory
+        if self.root_dir:
+            # When root_dir is provided (e.g., tests), look for workflows there
+            # Check multiple possible paths in order of preference:
+            # 1. vibey/content/workflows (package structure from repo root)
+            # 2. content/workflows (test structure)
+            # 3. framework/workflows (legacy structure)
+            possible_paths = [
+                self.root_dir / 'vibey' / 'content' / 'workflows',
+                self.root_dir / 'content' / 'workflows',
+                self.root_dir / 'framework' / 'workflows',
+            ]
+            self.workflows_dir = possible_paths[-1]  # Default to last option
+            for path in possible_paths:
+                if path.exists():
+                    self.workflows_dir = path
+                    break
+        else:
+            # Use content accessor for package-aware path resolution
+            self.workflows_dir = get_workflows_dir()
+
         self.parser = FrontmatterParser()
 
     def discover(self) -> List[WorkflowDefinition]:

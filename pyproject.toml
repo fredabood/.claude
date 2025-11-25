@@ -34,6 +34,7 @@ dependencies = [
     "click>=8.1.0",
     "rich>=13.0.0",
     "pydantic>=2.0.0",
+    "jsonschema>=4.0.0",
 ]
 
 [project.optional-dependencies]
@@ -46,19 +47,26 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/vibey-framework/vibey"
-Documentation = "https://vibey-framework.dev"
-Repository = "https://github.com/vibey-framework/vibey"
-Issues = "https://github.com/vibey-framework/vibey/issues"
+Homepage = "https://github.com/fredabood/vibey"
+Documentation = "https://github.com/fredabood/vibey#readme"
+Repository = "https://github.com/fredabood/vibey"
+Issues = "https://github.com/fredabood/vibey/issues"
 
 [project.scripts]
 vibey = "vibey.cli.main:cli"
 
-[tool.setuptools]
-packages = ["vibey", "vibey.cli", "vibey.roadmap", "vibey.config", "vibey.platform"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["vibey*"]
 
 [tool.setuptools.package-data]
-vibey = ["py.typed"]
+vibey = [
+    "py.typed",
+    "content/**/*.md",
+    "content/**/*.yaml",
+    "content/**/*.yml",
+    "content/**/*.j2",
+]
 
 [tool.black]
 line-length = 100

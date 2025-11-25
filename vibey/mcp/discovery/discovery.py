@@ -172,8 +172,8 @@ class ToolDiscovery:
         """
         hash_input = []
 
-        # Get mod times for agent files
-        agents_dir = self.root_dir / 'framework' / 'agents'
+        # Get mod times for agent files (use discovery instance's directory)
+        agents_dir = self.agent_discovery.agents_dir
         if agents_dir.exists():
             for f in agents_dir.rglob('*.md'):
                 try:
@@ -182,8 +182,8 @@ class ToolDiscovery:
                 except OSError:
                     pass
 
-        # Get mod times for workflow files
-        workflows_dir = self.root_dir / 'framework' / 'workflows'
+        # Get mod times for workflow files (use discovery instance's directory)
+        workflows_dir = self.workflow_discovery.workflows_dir
         if workflows_dir.exists():
             for f in workflows_dir.rglob('*.md'):
                 try:

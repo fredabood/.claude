@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-11-25T05:46:58.734492+00:00",
+  "last_sync": "2025-11-25T14:57:36.114918+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -1065,17 +1065,16 @@
       "checksum": "3938bfc7e720b2ee20feb53b293e916496a155aac7762546954adfbdff41b526",
       "synced_at": "2025-11-25T05:04:21.529726+00:00",
       "file_size": 13346
+    },
+    "mcp-server/mcp-server-4-plan.md": {
+      "source_path": "roadmap/mcp-server/mcp-server-4-plan.md",
+      "target_path": "roadmap/mcp-server/mcp-server-4-plan.md",
+      "checksum": "6d452b1afa7ab39754edfcca8132dd269209e7a4289c6b01efa30abfdcf3f496",
+      "synced_at": "2025-11-25T14:57:36.112580+00:00",
+      "file_size": 5475
     }
   },
   "sync_history": [
-    {
-      "timestamp": "2025-11-23T21:02:10.175207+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.022885,
-      "errors": 0
-    },
     {
       "timestamp": "2025-11-23T21:02:10.715732+00:00",
       "files_copied": 0,
@@ -1466,6 +1465,14 @@
       "files_skipped": 83,
       "files_deleted": 0,
       "duration_seconds": 0.026208,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-25T14:57:36.114918+00:00",
+      "files_copied": 1,
+      "files_skipped": 83,
+      "files_deleted": 0,
+      "duration_seconds": 0.043235,
       "errors": 0
     }
   ]

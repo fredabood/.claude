@@ -619,6 +619,16 @@ audit_log:
   reason: Task completed via CLI by system
   commit: 225dd00
   source: cli
+- timestamp: '2025-11-25T14:57:35.702987+00:00'
+  object_type: sprint
+  object_id: git-integration-4
+  field: status
+  old_value: completion_gate_check
+  new_value: completed
+  changed_by: system
+  reason: Sprint completed via CLI by system
+  commit: b18c051
+  source: cli
 metadata:
-  last_updated: '2025-11-25T05:46:58.367254+00:00'
-  total_entries: 62
+  last_updated: '2025-11-25T14:57:35.722094+00:00'
+  total_entries: 63

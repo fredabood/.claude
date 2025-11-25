@@ -34,11 +34,7 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 1d6f6effa623c8c7bd6ddc25df25c60253fc1bb8
-    message: 'feat: Implement quality gate CI integration (Task git-integration-3-task-005)'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-25T00:04:35-05:00'
+  commits: []
   metadata:
     last_updated: '2025-11-25T05:04:47.373889+00:00'
     token_efficiency: null

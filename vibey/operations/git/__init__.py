@@ -172,6 +172,21 @@ from vibey.operations.git.ci_integration import (
     get_pr_gate_section,
 )
 
+from vibey.operations.git.merge_ordering import (
+    DependencyLevel,
+    MergeRecommendation,
+    DependencyNode,
+    DependencyEdge,
+    MergeOrderItem,
+    DependencyCheckResult,
+    MergeOrderReport,
+    MergeOrderAnalyzer,
+    get_merge_order,
+    check_branch_dependencies,
+    format_merge_order_report,
+    format_dependency_check_result,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -301,4 +316,17 @@ __all__ = [
     "check_ci_gates",
     "format_ci_output",
     "get_pr_gate_section",
+    # Merge ordering
+    "DependencyLevel",
+    "MergeRecommendation",
+    "DependencyNode",
+    "DependencyEdge",
+    "MergeOrderItem",
+    "DependencyCheckResult",
+    "MergeOrderReport",
+    "MergeOrderAnalyzer",
+    "get_merge_order",
+    "check_branch_dependencies",
+    "format_merge_order_report",
+    "format_dependency_check_result",
 ]

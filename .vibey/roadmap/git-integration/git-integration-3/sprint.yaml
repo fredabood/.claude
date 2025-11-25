@@ -14,14 +14,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 9
-    development_tasks_completed: 5
+    development_tasks_completed: 6
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 9
-    tasks_completed: 5
-    completion_percent: 55
+    tasks_completed: 6
+    completion_percent: 66
   tasks: []
   development_gates: []
   blocks: []

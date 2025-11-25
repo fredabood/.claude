@@ -143,6 +143,7 @@ track:
   - Integration guide (docs/guides/CURSOR_INTEGRATION.md)
   - Migration guide (Claude Code to Cursor)
   - E2E test suite
+  - Explore options to automate MCP setup when Vibey deploys for Cursor
   strategic_value:
   - 'Zero Drift: Generated artifacts always match source definitions'
   - 'MCP Reuse: Leverages existing 46-tool MCP server'

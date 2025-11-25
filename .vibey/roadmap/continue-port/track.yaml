@@ -100,6 +100,7 @@ track:
   - JetBrains plugin configuration
   - Multi-IDE documentation
   - Continue integration examples
+  - Explore options to automate MCP setup when Vibey deploys for Continue
   strategic_value:
   - 'Multi-IDE Reach: VS Code + JetBrains in one adapter'
   - 'IDE Extension Market: Largest developer segment'

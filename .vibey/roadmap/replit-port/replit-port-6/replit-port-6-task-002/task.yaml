@@ -1,0 +1,75 @@
+task:
+  id: replit-port-6-task-002
+  name: Write quick start guide
+  status: not_started
+  priority: critical
+  estimated_hours: 8
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write comprehensive quick start guide for Replit users.
+
+    GUIDE STRUCTURE:
+    1. Introduction
+       - What is Vibey?
+       - Why use Vibey on Replit?
+       - Prerequisites
+       - Expected outcomes
+
+    2. Getting Started (5 minutes)
+       - Fork the template
+       - Run the MCP server
+       - Open the Extension
+       - View sample roadmap
+
+    3. Your First Project (10 minutes)
+       - Create roadmap
+       - Define tracks and sprints
+       - Add tasks
+       - Assign agents
+
+    4. Using the Extension
+       - Dashboard overview
+       - Viewing roadmap
+       - Managing sprints
+       - Updating tasks
+
+    5. MCP Integration
+       - What is MCP?
+       - How Vibey uses MCP
+       - Available tools
+       - Tool invocation
+
+    6. Next Steps
+       - Advanced features
+       - Customization options
+       - Additional resources
+       - Community support
+
+    GUIDE FEATURES:
+    - Step-by-step instructions
+    - Screenshots for each step
+    - Code examples
+    - Common pitfalls
+    - Troubleshooting tips
+
+    TARGET AUDIENCE:
+    - New to Vibey
+    - Familiar with Replit
+    - Basic Python knowledge
+    - AI-assisted development interest
+
+    DELIVERABLES:
+    - QUICK_START.md guide
+    - Screenshots
+    - Example code snippets
+    - Video walkthrough (optional)
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

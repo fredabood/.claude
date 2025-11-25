@@ -1,0 +1,47 @@
+task:
+  id: replit-port-2-task-002
+  name: Implement ReplitContextGenerator
+  status: not_started
+  priority: critical
+  estimated_hours: 12
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement ReplitContextGenerator to parse frontmatter and generate
+    REPLIT.md context files.
+
+    GENERATOR RESPONSIBILITIES:
+    - Parse frontmatter from agents/*.md
+    - Extract Replit-specific metadata
+    - Generate REPLIT.md context file
+    - Include agent instructions and capabilities
+    - Format for Replit Agent consumption
+
+    FRONTMATTER FIELDS:
+    - name: Agent name
+    - description: Agent purpose
+    - capabilities: List of capabilities
+    - replit_commands: Replit-specific commands
+    - file_patterns: File type associations
+
+    REPLIT.MD FORMAT:
+    - Markdown-based context file
+    - Agent instructions section
+    - Tool reference section
+    - Example usage section
+    - Troubleshooting section
+
+    DELIVERABLES:
+    - ReplitContextGenerator class
+    - Frontmatter parsing logic
+    - REPLIT.md template
+    - Generator tests
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

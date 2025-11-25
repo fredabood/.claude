@@ -13,16 +13,16 @@ track:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 10
-    tasks_completed: 6
-    completion_percent: 60
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: cody-port-1
     name: Core Adapter & MCP Configuration
-    status: completed
+    status: not_started
     estimated_duration: 3 weeks
     tasks_count: 6
-    started: '2025-11-23T00:00:00+00:00'
-    completed: '2025-11-23T00:00:00+00:00'
+    started: null
+    completed: null
     description: 'Create CodyAdapter extending BaseAdapter.
 
       Implement CodyContextGenerator for CODY.md.

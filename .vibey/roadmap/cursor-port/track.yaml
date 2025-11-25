@@ -2,23 +2,23 @@ track:
   id: cursor-port
   name: Cursor Platform Port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: not_started
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T12:00:00+00:00'
+  started: null
   completed: null
   estimated_duration: 2-3 weeks
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 12
-    tasks_completed: 9
-    completion_percent: 75
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: cursor-port-1
     name: Core Adapter & MCP Configuration
-    status: completed
+    status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 7
     started: null

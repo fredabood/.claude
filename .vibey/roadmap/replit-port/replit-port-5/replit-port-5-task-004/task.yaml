@@ -1,0 +1,75 @@
+task:
+  id: replit-port-5-task-004
+  name: Implement file handlers for .vibey/ files
+  status: not_started
+  priority: medium
+  estimated_hours: 8
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement custom file handlers for .vibey/ directory files in Replit.
+
+    FILE HANDLER FEATURES:
+    1. YAML Syntax Highlighting
+       - Custom syntax highlighting for .vibey/**/*.yaml
+       - Frontmatter highlighting in markdown
+       - Schema-aware highlighting
+
+    2. File Previews
+       - roadmap.yaml preview
+       - track.yaml preview
+       - sprint.yaml preview
+       - task.yaml preview
+
+    3. Quick Actions
+       - Open in roadmap view
+       - Update status
+       - Generate context
+       - Validate schema
+
+    4. Inline Editing
+       - Edit status inline
+       - Update metadata
+       - Validation on save
+       - Auto-formatting
+
+    FILE HANDLER REGISTRATION:
+    ```typescript
+    import { registerFileHandler } from '@replit/extensions';
+
+    registerFileHandler({
+      pattern: '**/.vibey/**/*.yaml',
+      handler: async (file) => {
+        const content = await file.read();
+        const parsed = YAML.parse(content);
+        // Render custom preview
+      }
+    });
+    ```
+
+    PREVIEW RENDERING:
+    - Parse YAML content
+    - Render structured view
+    - Show key fields prominently
+    - Link to full view in extension
+
+    ERROR HANDLING:
+    - Invalid YAML syntax
+    - Schema validation errors
+    - File access errors
+    - Clear error messages
+
+    DELIVERABLES:
+    - File handler implementations
+    - Preview components
+    - Syntax highlighting
+    - Validation logic
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

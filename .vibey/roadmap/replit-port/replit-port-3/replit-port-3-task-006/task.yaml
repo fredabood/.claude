@@ -1,0 +1,61 @@
+task:
+  id: replit-port-3-task-006
+  name: Create configuration validation
+  status: not_started
+  priority: medium
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create validation logic for generated Replit configurations.
+
+    VALIDATION CHECKS:
+    1. .replit TOML Validation
+       - Valid TOML syntax
+       - Required fields present
+       - Valid run command
+       - Language specified
+
+    2. replit.nix Validation
+       - Valid Nix syntax
+       - All dependencies resolvable
+       - No conflicting packages
+       - Nix channel available
+
+    3. MCP Config Validation
+       - Valid YAML syntax
+       - Server settings valid
+       - Tool paths exist
+       - Port not in use
+
+    4. Cross-Configuration Validation
+       - Dependencies consistent
+       - Environment variables aligned
+       - Paths resolve correctly
+       - No circular dependencies
+
+    VALIDATION LEVELS:
+    - Error: Must fix before deployment
+    - Warning: Should fix, non-blocking
+    - Info: Informational only
+
+    VALIDATION REPORTING:
+    - Clear error messages
+    - Fix suggestions
+    - Documentation links
+    - Example corrections
+
+    DELIVERABLES:
+    - Validation framework
+    - Validation rules
+    - Error reporting
+    - Fix suggestions
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

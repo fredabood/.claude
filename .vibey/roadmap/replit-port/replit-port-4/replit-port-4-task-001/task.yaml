@@ -1,0 +1,68 @@
+task:
+  id: replit-port-4-task-001
+  name: Initialize Extension project structure
+  status: not_started
+  priority: critical
+  estimated_hours: 6
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Initialize Replit Extension project with React and TypeScript.
+
+    PROJECT STRUCTURE:
+    ```
+    vibey-replit-extension/
+    ├── src/
+    │   ├── components/       # React components
+    │   ├── hooks/            # Custom hooks
+    │   ├── lib/              # Utilities
+    │   ├── types/            # TypeScript types
+    │   └── index.tsx         # Entry point
+    ├── public/
+    │   └── manifest.json     # Extension manifest
+    ├── package.json
+    ├── tsconfig.json
+    └── vite.config.ts
+    ```
+
+    DEPENDENCIES:
+    - React 18+
+    - TypeScript 5+
+    - Vite (build tool)
+    - @replit/extensions (Replit Extensions API)
+    - MCP client library
+
+    CONFIGURATION:
+    - TypeScript strict mode
+    - ESLint + Prettier
+    - Vite for fast builds
+    - Extension manifest
+
+    MANIFEST.JSON:
+    ```json
+    {
+      "name": "vibey",
+      "version": "1.0.0",
+      "description": "Vibey Agent Framework for Replit",
+      "permissions": [
+        "read:files",
+        "write:files",
+        "execute:commands"
+      ]
+    }
+    ```
+
+    DELIVERABLES:
+    - Extension project structure
+    - Build configuration
+    - Development environment
+    - Basic entry point
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

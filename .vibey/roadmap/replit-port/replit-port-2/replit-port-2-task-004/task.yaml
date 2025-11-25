@@ -1,0 +1,57 @@
+task:
+  id: replit-port-2-task-004
+  name: Implement validate_deployment method
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement validate_deployment method to verify successful deployment
+    in Replit environment.
+
+    VALIDATION CHECKS:
+    1. File Structure
+       - All required files present
+       - Correct directory structure
+       - Proper permissions
+
+    2. Configuration
+       - .replit TOML valid
+       - replit.nix valid
+       - Environment variables set
+
+    3. MCP Server
+       - Server starts successfully
+       - All tools registered
+       - Tools accessible
+
+    4. Extension
+       - Extension installed
+       - Extension loads correctly
+       - MCP connectivity works
+
+    5. Context Files
+       - REPLIT.md generated
+       - Frontmatter parsed correctly
+       - Agent instructions valid
+
+    VALIDATION LEVELS:
+    - Critical: Must pass for deployment
+    - Warning: Should pass but non-blocking
+    - Info: Informational only
+
+    DELIVERABLES:
+    - validate_deployment() method
+    - Validation report format
+    - Fix suggestions
+    - Validation tests
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

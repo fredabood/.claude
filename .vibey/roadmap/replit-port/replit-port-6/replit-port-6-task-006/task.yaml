@@ -1,0 +1,86 @@
+task:
+  id: replit-port-6-task-006
+  name: Write release notes
+  status: not_started
+  priority: medium
+  estimated_hours: 4
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write comprehensive release notes for Replit port launch.
+
+    RELEASE NOTES STRUCTURE:
+    1. Overview
+       - What's new in Replit port
+       - Key features
+       - Benefits for users
+       - Platform compatibility
+
+    2. Features
+       - ReplitAdapter
+       - ReplitContextGenerator
+       - Configuration generation
+       - Extension functionality
+       - MCP integration
+
+    3. Installation
+       - Fork template
+       - Manual installation
+       - From source
+
+    4. Getting Started
+       - Quick start guide link
+       - Extension guide link
+       - Example projects
+       - Tutorial videos
+
+    5. Known Limitations
+       - Browser Python constraints
+       - Performance considerations
+       - Feature limitations
+       - Workarounds
+
+    6. Migration Guide
+       - Coming from Claude Code
+       - Coming from local setup
+       - Configuration differences
+       - Platform-specific changes
+
+    7. What's Next
+       - Future enhancements
+       - Roadmap for Replit port
+       - Community contributions
+       - Feedback channels
+
+    RELEASE METADATA:
+    ```yaml
+    version: 1.0.0
+    release_date: 2025-XX-XX
+    platform: Replit
+    components:
+      - ReplitAdapter v1.0.0
+      - Extension v1.0.0
+      - Template v1.0.0
+    ```
+
+    ANNOUNCEMENT CHANNELS:
+    - Vibey website blog post
+    - GitHub release notes
+    - Replit community forum
+    - Twitter/social media
+    - Newsletter
+
+    DELIVERABLES:
+    - RELEASE_NOTES.md
+    - Blog post draft
+    - Social media posts
+    - Community announcements
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

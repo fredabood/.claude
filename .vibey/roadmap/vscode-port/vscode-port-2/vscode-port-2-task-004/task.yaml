@@ -1,0 +1,48 @@
+task:
+  id: vscode-port-2-task-004
+  name: Quality gate validation
+  sprint_id: vscode-port-2
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  actual_duration: null
+  description: |
+    Validate all quality gates for VS Code port.
+
+    Quality gates to validate:
+    1. Zero-Drift Validation (100%)
+       - All artifacts generated from frontmatter
+       - CI fails on manual edits
+    2. MCP Tool Parity (100%)
+       - All 46 MCP tools accessible from VS Code
+    3. Agent Mode Integration (95%)
+       - VS Code Agent Mode can invoke all Vibey tools
+    4. Documentation (90%)
+       - Integration guide complete
+
+    Files to create:
+    - .vibey/roadmap/vscode-port/vscode-port-2/quality-gate-report.md
+  acceptance_criteria:
+  - All blocking quality gates pass
+  - Quality gate scores documented
+  - Issues identified and resolved
+  - Report generated and reviewed
+  assigned_agents:
+  - test-engineer
+  depends_on:
+  - vscode-port-2-task-001
+  - vscode-port-2-task-002
+  - vscode-port-2-task-003
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 4 hours
+    complexity: medium
+    notes: Final validation before track completion

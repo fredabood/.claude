@@ -1,0 +1,88 @@
+task:
+  id: replit-port-4-task-006
+  name: Configure extension manifest
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Configure extension manifest with permissions, commands, and metadata.
+
+    MANIFEST CONFIGURATION:
+    ```json
+    {
+      "name": "vibey",
+      "version": "1.0.0",
+      "description": "Vibey Agent Framework for Replit",
+      "author": "Vibey Framework Team",
+      "icon": "icon.svg",
+
+      "permissions": [
+        "read:files",
+        "write:files",
+        "execute:commands",
+        "read:git",
+        "workspace:read"
+      ],
+
+      "commands": [
+        {
+          "id": "vibey:roadmap",
+          "label": "Show Roadmap",
+          "icon": "map"
+        },
+        {
+          "id": "vibey:sprint",
+          "label": "Show Sprint",
+          "icon": "sprint"
+        }
+      ],
+
+      "views": {
+        "sidebar": {
+          "id": "vibey-sidebar",
+          "title": "Vibey",
+          "icon": "icon.svg"
+        }
+      },
+
+      "fileHandlers": [
+        {
+          "pattern": "**/.vibey/**/*.yaml",
+          "handler": "vibeyFileHandler"
+        }
+      ]
+    }
+    ```
+
+    PERMISSIONS:
+    - File system access for .vibey/ directory
+    - Git access for sync operations
+    - Command execution for CLUI
+    - Workspace metadata access
+
+    VIEWS:
+    - Sidebar panel for Dashboard
+    - Status bar items
+    - Context menu items
+
+    FILE HANDLERS:
+    - .vibey/**/*.yaml files
+    - Syntax highlighting
+    - Preview support
+
+    DELIVERABLES:
+    - Complete manifest.json
+    - Icon assets
+    - Permission documentation
+    - Installation guide
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

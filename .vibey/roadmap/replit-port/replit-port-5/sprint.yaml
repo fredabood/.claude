@@ -1,0 +1,59 @@
+sprint:
+  id: replit-port-5
+  name: Extension Features
+  track_id: replit-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 weeks
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: replit-port-4
+    target_status: completed
+    reason: Extension scaffolding must complete before feature implementation
+    optional: false
+  blocked_by: []
+  depended_on_by:
+  - replit-port-6
+  quality_gates:
+  - name: Feature Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All roadmap visualization features working
+  - name: E2E Test Coverage
+    threshold: 80
+    blocking: true
+    status: not_run
+    description: End-to-end tests cover user workflows
+  deliverables:
+  - RoadmapView component
+  - SprintProgress component
+  - TaskList component
+  - File handler for .vibey/ files
+  - End-to-end testing
+  - UI polish and refinements
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 5 implements full extension features for roadmap visualization.
+
+      Components:
+      - RoadmapView: Track hierarchy, progress bars, status indicators
+      - SprintProgress: Current sprint details, task lists, completions
+      - TaskList: Interactive task management, status updates
+      - File handlers: Syntax highlighting, previews for .vibey/ files
+
+      User workflows:
+      - View roadmap structure
+      - Monitor sprint progress
+      - Update task status
+      - Browse .vibey/ files

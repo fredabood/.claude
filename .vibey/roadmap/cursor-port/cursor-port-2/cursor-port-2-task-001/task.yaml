@@ -1,0 +1,34 @@
+task:
+  id: cursor-port-2-task-001
+  name: Integration tests with Cursor
+  sprint_id: cursor-port-2
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 8 hours
+  description: |
+    Create integration tests for Cursor IDE deployment.
+
+    Test scenarios:
+    - Deploy to Cursor project (vibey deploy --platform cursor)
+    - Verify .cursor/mcp.json creation and format
+    - Verify CURSOR.md generation from frontmatter
+    - Verify .cursorrules generation
+    - Verify checksum validation (zero-drift)
+    - Test MCP server connectivity via Cursor
+    - Test agent/workflow visibility in Cursor
+
+    Environment: Requires Cursor IDE installed
+  deliverables:
+    - tests/integration/cursor/test_cursor_deployment.py
+    - Test fixtures and sample projects
+  assigned_agents:
+    - test-engineer
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    priority: critical
+    complexity: high

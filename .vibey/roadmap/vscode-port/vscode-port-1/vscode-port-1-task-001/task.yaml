@@ -1,0 +1,41 @@
+task:
+  id: vscode-port-1-task-001
+  name: Create VSCodeAdapter base class
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  actual_duration: null
+  description: |
+    Create VSCodeAdapter class extending BaseAdapter.
+
+    Responsibilities:
+    - Implement platform-specific adapter interface
+    - Define VS Code-specific configuration structure
+    - Handle .vscode directory and mcp.json generation
+    - Integrate with existing MCP server
+
+    Files to create:
+    - vibey/adapters/vscode/__init__.py
+    - vibey/adapters/vscode/adapter.py
+  acceptance_criteria:
+  - VSCodeAdapter extends BaseAdapter interface
+  - Implements all required adapter methods
+  - Type hints and docstrings complete
+  - Passes initial code review
+  assigned_agents:
+  - web-developer
+  depends_on: []
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 4 hours
+    complexity: medium
+    notes: Foundation for VS Code integration

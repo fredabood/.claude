@@ -1,0 +1,81 @@
+task:
+  id: replit-port-6-task-005
+  name: Validate template and documentation
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Validate template functionality and documentation accuracy.
+
+    VALIDATION AREAS:
+    1. Template Functionality
+       - Fork template successfully
+       - All files present
+       - Dependencies install correctly
+       - MCP server starts
+       - Extension loads
+
+    2. Sample Project
+       - Roadmap displays correctly
+       - All YAML files valid
+       - Agent definitions work
+       - Workflows accessible
+       - Context generation works
+
+    3. Documentation Accuracy
+       - Follow quick start guide
+       - Verify all steps work
+       - Test all code examples
+       - Check all links
+       - Validate screenshots current
+
+    4. Extension Validation
+       - Dashboard displays data
+       - Roadmap view works
+       - Sprint management works
+       - Task updates work
+       - File handlers work
+       - CLUI commands work
+
+    5. User Experience
+       - First-time user test
+       - Document pain points
+       - Identify confusing steps
+       - Suggest improvements
+
+    VALIDATION PROCESS:
+    ```
+    1. Fresh Replit account
+    2. Fork template
+    3. Follow quick start guide
+    4. Complete all steps
+    5. Document issues
+    6. Rate experience (1-10)
+    7. Suggest improvements
+    ```
+
+    VALIDATION CRITERIA:
+    - [ ] Template forks in < 30 seconds
+    - [ ] MCP server starts in < 60 seconds
+    - [ ] Extension loads in < 10 seconds
+    - [ ] All features work as documented
+    - [ ] No confusing error messages
+    - [ ] Documentation is clear
+    - [ ] User experience is smooth
+
+    DELIVERABLES:
+    - Validation report
+    - Issue tracking
+    - User experience feedback
+    - Improvement recommendations
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

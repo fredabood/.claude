@@ -1,0 +1,54 @@
+sprint:
+  id: vscode-port-2
+  name: Testing & Documentation
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  description: |
+    Integration testing with VS Code Agent Mode.
+    E2E tests with Copilot and native chat.
+    Complete integration documentation.
+  progress:
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  quality_gates:
+  - name: Integration Test Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: All VS Code integration paths covered by tests
+    score: null
+  - name: Agent Mode Compatibility
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: VS Code Agent Mode can invoke all Vibey tools
+    score: null
+  - name: Documentation Quality
+    threshold: 90
+    blocking: false
+    status: not_run
+    description: Integration guide complete and user-tested
+    score: null
+  deliverables:
+  - Integration test suite
+  - E2E test suite with VS Code Agent Mode
+  - VS Code integration guide (docs/guides/VSCODE_INTEGRATION.md)
+  - Quality gate validation reports
+  assigned_agents:
+  - test-engineer
+  - docs-writer
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 2 focuses on testing and documentation to ensure VS Code integration is production-ready.
+      Validates zero-drift architecture and full MCP tool parity.

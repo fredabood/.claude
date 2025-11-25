@@ -1,0 +1,45 @@
+task:
+  id: vscode-port-1-task-006
+  name: Write unit tests for generators
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  actual_duration: null
+  description: |
+    Write comprehensive unit tests for context and settings generators.
+
+    Test coverage:
+    - VSCodeContextGenerator (VSCODE.md generation)
+    - VSCodeSettingsGenerator (mcp.json generation)
+    - Frontmatter parsing
+    - JSON validation
+    - Error handling
+
+    Files to create:
+    - tests/adapters/vscode/test_context_generator.py
+    - tests/adapters/vscode/test_settings_generator.py
+  acceptance_criteria:
+  - 90%+ code coverage for generators
+  - All generation methods tested
+  - Validates output format
+  - Tests pass consistently
+  - Fast execution (< 2 seconds)
+  assigned_agents:
+  - test-engineer
+  depends_on:
+  - vscode-port-1-task-002
+  - vscode-port-1-task-003
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 6 hours
+    complexity: medium
+    notes: Quality gate requirement

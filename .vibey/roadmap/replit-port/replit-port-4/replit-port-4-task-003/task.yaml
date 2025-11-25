@@ -1,0 +1,68 @@
+task:
+  id: replit-port-4-task-003
+  name: Implement useVibey hook
+  status: not_started
+  priority: critical
+  estimated_hours: 10
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement useVibey React hook for MCP server connectivity.
+
+    HOOK INTERFACE:
+    ```typescript
+    interface UseVibeyReturn {
+      // Connection state
+      connected: boolean;
+      connecting: boolean;
+      error: Error | null;
+
+      // Roadmap operations
+      getRoadmap: () => Promise<Roadmap>;
+      getTracks: () => Promise<Track[]>;
+      getSprints: (trackId: string) => Promise<Sprint[]>;
+      getTasks: (sprintId: string) => Promise<Task[]>;
+
+      // Update operations
+      updateTaskStatus: (taskId: string, status: Status) => Promise<void>;
+      updateSprintStatus: (sprintId: string, status: Status) => Promise<void>;
+
+      // Context operations
+      generateContext: (options: ContextOptions) => Promise<string>;
+    }
+    ```
+
+    IMPLEMENTATION:
+    - MCP client initialization
+    - Connection management
+    - Tool invocation wrappers
+    - Error handling
+    - Retry logic
+    - Caching strategy
+
+    MCP CLIENT:
+    - Connect to local MCP server
+    - Handle WebSocket connection
+    - Tool discovery
+    - Request/response handling
+
+    ERROR HANDLING:
+    - Connection errors
+    - Tool invocation errors
+    - Timeout handling
+    - User-friendly messages
+
+    DELIVERABLES:
+    - useVibey hook implementation
+    - TypeScript types
+    - Error handling
+    - Documentation
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

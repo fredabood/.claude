@@ -1,0 +1,44 @@
+task:
+  id: vscode-port-2-task-002
+  name: E2E tests with Agent Mode
+  sprint_id: vscode-port-2
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 8 hours
+  actual_duration: null
+  description: |
+    Write end-to-end tests with VS Code Agent Mode.
+
+    Test scenarios:
+    - Multi-step workflows (sprint planning, feature development)
+    - Agent-to-agent handoffs
+    - Tool invocations from VS Code chat
+    - Context file usage
+    - Error handling and recovery
+
+    Files to create:
+    - tests/e2e/test_vscode_agent_mode.py
+    - tests/e2e/test_vscode_workflows.py
+  acceptance_criteria:
+  - 95%+ Agent Mode compatibility
+  - All Vibey tools accessible from VS Code
+  - Multi-step workflows complete successfully
+  - Clear error messages
+  - Automated test execution
+  assigned_agents:
+  - test-engineer
+  depends_on:
+  - vscode-port-2-task-001
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 8 hours
+    complexity: high
+    notes: Validates Agent Mode integration

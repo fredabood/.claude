@@ -1,0 +1,24 @@
+task:
+  id: copilot-port-2-task-001
+  title: Integration tests with Copilot CLI
+  sprint_id: copilot-port-2
+  track_id: copilot-port
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Integration test suite validating all 46 Vibey MCP tools work correctly through GitHub Copilot. Test tool discovery, invocation, and response handling.
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: high
+  complexity: high
+  estimated_tokens: 4000
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []
+  deliverables:
+  - tests/integration/test_copilot_mcp_tools.py
+  - Integration test suite for all 46 tools
+  - Test automation scripts
+  commits: []

@@ -1,0 +1,37 @@
+sprint:
+  id: amazonq-port-1
+  name: Core Adapter & MCP Configuration
+  track_id: amazonq-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  quality_gates: []
+  deliverables:
+    - AmazonQAdapter base class
+    - AmazonQContextGenerator
+    - AmazonQSettingsGenerator
+    - vibey deploy --platform amazonq CLI command
+    - Unit test suite for adapter and generators
+  metadata:
+    created_by: roadmap-integrity-fixes
+    last_updated: '2025-11-24T00:00:00+00:00'
+    description: |
+      Create AmazonQAdapter extending BaseAdapter.
+      Generate .amazonq/mcp.json configuration.
+      Integrate with Amazon Q MCP support (GA April 2025).
+
+      KEY INSIGHT: Amazon Q has FULL MCP SUPPORT.
+      - CLI: GA April 2025
+      - IDE plugins (VS Code, JetBrains): GA June 2025
+      - Admin controls: August 2025

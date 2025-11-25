@@ -1,0 +1,34 @@
+task:
+  id: cody-port-2-task-002
+  sprint_id: cody-port-2
+  track_id: cody-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Create Prompt Library templates"
+  description: "Design Prompt Library templates for Sourcegraph UI integration with Vibey workflows"
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: docs-writer
+  priority: low
+  phase_label: implementation
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  deliverables:
+  - templates/cody/prompts/agent-templates.md
+  - templates/cody/prompts/workflow-templates.md
+  - Prompt Library import instructions
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: "Manual copy to Sourcegraph UI (no programmatic API)"

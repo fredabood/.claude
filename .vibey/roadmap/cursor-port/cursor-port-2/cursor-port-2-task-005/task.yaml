@@ -1,0 +1,46 @@
+task:
+  id: cursor-port-2-task-005
+  name: Quality gate validation
+  sprint_id: cursor-port-2
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  description: |
+    Validate all track-level quality gates.
+
+    Quality Gates:
+    1. Zero-Drift Validation (100%, blocking)
+       - All Cursor artifacts generated from frontmatter
+       - CI fails on manual edits
+       - Checksum validation working
+
+    2. MCP Tool Parity (100%, blocking)
+       - All 46 MCP tools accessible from Cursor
+       - .cursor/mcp.json correctly configured
+       - Tools respond correctly
+
+    3. Context Generation (100%, blocking)
+       - CURSOR.md documents all agents and workflows
+       - .cursorrules generated correctly
+       - All frontmatter extracted
+
+    4. Documentation (90%, non-blocking)
+       - Integration guide complete
+       - Migration guide complete
+       - Examples provided
+
+    Deliverable: Quality gate validation report
+  deliverables:
+    - Quality gate validation report
+    - Test results and screenshots
+  assigned_agents:
+    - test-engineer
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    priority: critical
+    complexity: medium

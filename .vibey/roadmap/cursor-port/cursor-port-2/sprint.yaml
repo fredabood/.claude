@@ -1,0 +1,47 @@
+sprint:
+  id: cursor-port-2
+  name: Testing & Documentation
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  description: |
+    Integration testing with Cursor IDE.
+    E2E tests for all MCP tools via Composer.
+    Complete integration documentation.
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  quality_gates:
+    - name: Integration Test Coverage
+      threshold: 90
+      blocking: true
+      status: not_run
+      description: All MCP tools tested through Cursor Composer
+      score: null
+    - name: Documentation Completeness
+      threshold: 90
+      blocking: false
+      status: not_run
+      description: Integration and migration guides are complete
+      score: null
+  assigned_agents:
+    - test-engineer
+    - documentation-engineer
+  deliverables:
+    - Integration test suite for Cursor IDE
+    - E2E tests for MCP tools via Composer
+    - Cursor integration guide (docs/guides/CURSOR_INTEGRATION.md)
+    - Migration guide (Claude Code to Cursor)
+    - Quality gate validation results
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 2 focuses on validation and documentation.
+      Ensures all 46 MCP tools work correctly in Cursor environment.

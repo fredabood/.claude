@@ -1,0 +1,76 @@
+task:
+  id: replit-port-4-task-004
+  name: Create Dashboard component
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create Dashboard component showing roadmap summary and quick stats.
+
+    DASHBOARD FEATURES:
+    1. Roadmap Overview
+       - Total tracks
+       - Active tracks
+       - Track progress bars
+       - Track status indicators
+
+    2. Sprint Summary
+       - Current sprint
+       - Sprint progress
+       - Tasks in progress
+       - Upcoming sprints
+
+    3. Quick Stats
+       - Total tasks
+       - Completed tasks
+       - Completion percentage
+       - Velocity metrics
+
+    4. Recent Activity
+       - Recent commits
+       - Task updates
+       - Status changes
+       - Blockers
+
+    COMPONENT STRUCTURE:
+    ```typescript
+    interface DashboardProps {
+      roadmap: Roadmap;
+      tracks: Track[];
+      currentSprint?: Sprint;
+    }
+
+    export function Dashboard({ roadmap, tracks, currentSprint }: DashboardProps) {
+      const { getRoadmap, getTracks } = useVibey();
+      // Implementation
+    }
+    ```
+
+    UI ELEMENTS:
+    - Progress bars
+    - Status badges
+    - Cards for sections
+    - Charts/graphs (optional)
+
+    INTERACTIVITY:
+    - Click track to view details
+    - Click sprint to view tasks
+    - Refresh data
+    - Filter by status
+
+    DELIVERABLES:
+    - Dashboard component
+    - Sub-components (stats cards, progress bars)
+    - Responsive design
+    - Loading states
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

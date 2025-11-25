@@ -1,0 +1,27 @@
+task:
+  id: amazonq-port-1-task-007
+  name: Write unit tests for generators
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write comprehensive unit tests for AmazonQContextGenerator and
+    AmazonQSettingsGenerator to ensure correct file generation and zero-drift.
+  acceptance_criteria:
+    - Unit tests for AmazonQContextGenerator
+    - Unit tests for AmazonQSettingsGenerator
+    - Test zero-drift guarantees
+    - Test MCP configuration correctness
+    - Tests pass with >90% code coverage
+  dependencies:
+    - amazonq-port-1-task-002
+    - amazonq-port-1-task-003
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

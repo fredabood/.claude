@@ -1,0 +1,31 @@
+task:
+  id: cursor-port-1-task-006
+  name: Write unit tests for adapter
+  sprint_id: cursor-port-1
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  description: |
+    Write comprehensive unit tests for CursorAdapter.
+
+    Test coverage:
+    - CursorAdapter.deploy() method
+    - CursorAdapter.generate_context() method
+    - CursorAdapter.generate_settings() method
+    - Error handling and validation
+    - Checksum generation and verification
+
+    Target: 90%+ coverage on adapter.py
+  deliverables:
+    - tests/adapters/cursor/test_adapter.py
+  assigned_agents:
+    - test-engineer
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    priority: high
+    complexity: low

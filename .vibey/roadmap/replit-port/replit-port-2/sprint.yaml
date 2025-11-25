@@ -1,0 +1,55 @@
+sprint:
+  id: replit-port-2
+  name: Adapter Foundation
+  track_id: replit-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: replit-port-1
+    target_status: completed
+    reason: MCP validation must complete before adapter implementation
+    optional: false
+  blocked_by: []
+  depended_on_by:
+  - replit-port-3
+  - replit-port-4
+  quality_gates:
+  - name: Adapter Interface Compliance
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: ReplitAdapter implements full PlatformAdapter interface
+  - name: Test Coverage
+    threshold: 80
+    blocking: true
+    status: not_run
+    description: Unit tests cover core adapter functionality
+  deliverables:
+  - ReplitAdapter class implementing PlatformAdapter
+  - ReplitContextGenerator for REPLIT.md generation
+  - deploy() and validate_deployment() methods
+  - Unit test suite
+  - Integration test suite
+  - Adapter documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 2 creates the core ReplitAdapter following the PlatformAdapter
+      interface established in the Gemini port.
+
+      Architecture:
+      - ReplitAdapter extends PlatformAdapter
+      - ReplitContextGenerator parses frontmatter → REPLIT.md
+      - Deploy methods handle web environment constraints
+      - Comprehensive test coverage

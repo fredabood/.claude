@@ -1,0 +1,32 @@
+task:
+  id: cursor-port-1-task-001
+  name: Create CursorAdapter base class
+  sprint_id: cursor-port-1
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  description: |
+    Create CursorAdapter class extending BaseAdapter.
+
+    Responsibilities:
+    - Implement deploy() method for Cursor-specific deployment
+    - Override generate_context() for CURSOR.md generation
+    - Override generate_settings() for .cursor/mcp.json generation
+    - Follow adapter pattern from gemini-port
+
+    File: vibey/adapters/cursor/adapter.py
+  deliverables:
+    - vibey/adapters/cursor/adapter.py
+    - vibey/adapters/cursor/__init__.py
+  assigned_agents:
+    - web-developer
+    - architecture-agent
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    priority: critical
+    complexity: medium

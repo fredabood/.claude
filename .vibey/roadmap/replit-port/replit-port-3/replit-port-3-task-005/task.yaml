@@ -1,0 +1,60 @@
+task:
+  id: replit-port-3-task-005
+  name: Implement drift detection with checksums
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement zero-drift validation using checksums to detect manual edits.
+
+    CHECKSUM SYSTEM:
+    - Calculate SHA256 checksums for generated files
+    - Store checksums in .vibey/checksums.yaml
+    - Validate checksums on CI runs
+    - Fail CI if checksums mismatch
+
+    CHECKSUM FILE STRUCTURE:
+    ```yaml
+    checksums:
+      generated_at: "2025-11-24T12:00:00Z"
+      files:
+        .replit:
+          checksum: "abc123..."
+          generated_from: ".vibey/config/project.yaml"
+        replit.nix:
+          checksum: "def456..."
+          generated_from: "pyproject.toml"
+        .vibey/config/mcp.yaml:
+          checksum: "ghi789..."
+          generated_from: ".vibey/config/project.yaml"
+    ```
+
+    VALIDATION PROCESS:
+    1. Read .vibey/checksums.yaml
+    2. Calculate current checksums
+    3. Compare against stored checksums
+    4. Report mismatches
+    5. Suggest regeneration command
+
+    CI INTEGRATION:
+    - Add checksum validation to CI pipeline
+    - Fail on drift detection
+    - Provide clear error messages
+    - Suggest fix commands
+
+    DELIVERABLES:
+    - Checksum calculation logic
+    - Validation method
+    - CI integration script
+    - Error reporting
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

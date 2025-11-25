@@ -1,0 +1,43 @@
+task:
+  id: vscode-port-1-task-005
+  name: Write unit tests for adapter
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  actual_duration: null
+  description: |
+    Write comprehensive unit tests for VSCodeAdapter.
+
+    Test coverage:
+    - Adapter initialization
+    - Configuration validation
+    - Platform-specific methods
+    - Error handling
+    - Edge cases
+
+    Files to create:
+    - tests/adapters/vscode/test_adapter.py
+  acceptance_criteria:
+  - 90%+ code coverage for adapter.py
+  - All public methods tested
+  - Error cases covered
+  - Tests pass consistently
+  - Fast execution (< 1 second)
+  assigned_agents:
+  - test-engineer
+  depends_on:
+  - vscode-port-1-task-001
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 4 hours
+    complexity: low
+    notes: Quality gate requirement

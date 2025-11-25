@@ -1,0 +1,46 @@
+sprint:
+  id: cody-port-1
+  track_id: cody-port
+  name: Core Adapter & MCP Configuration
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: cody-port-1-task-001
+    name: Create CodyAdapter base class
+    status: not_started
+  - id: cody-port-1-task-002
+    name: Implement CodyContextGenerator
+    status: not_started
+  - id: cody-port-1-task-003
+    name: Implement CodySettingsGenerator
+    status: not_started
+  - id: cody-port-1-task-004
+    name: Add vibey deploy --platform cody CLI
+    status: not_started
+  - id: cody-port-1-task-005
+    name: Write unit tests for adapter
+    status: not_started
+  - id: cody-port-1-task-006
+    name: Write unit tests for generators
+    status: not_started
+  description: 'Create CodyAdapter extending BaseAdapter.
+
+    Implement CodyContextGenerator for CODY.md.
+
+    Implement CodySettingsGenerator for MCP config.
+
+    Add ''vibey deploy --platform cody'' CLI command.
+
+
+    KEY INSIGHT: Cody has native MCP support via OpenCtx.
+
+    We reuse the existing MCP server (46 tools).
+
+    '

@@ -1,0 +1,56 @@
+task:
+  id: replit-port-2-task-007
+  name: Write adapter documentation
+  status: not_started
+  priority: medium
+  estimated_hours: 6
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write comprehensive documentation for ReplitAdapter.
+
+    DOCUMENTATION SECTIONS:
+    1. Architecture Overview
+       - Component diagram
+       - Data flow
+       - Integration points
+       - Extension architecture
+
+    2. API Reference
+       - ReplitAdapter class
+       - ReplitContextGenerator class
+       - Public methods
+       - Configuration options
+
+    3. Usage Guide
+       - Deployment steps
+       - Configuration guide
+       - Extension setup
+       - Troubleshooting
+
+    4. Developer Guide
+       - Extending the adapter
+       - Adding new features
+       - Testing approach
+       - Contributing guidelines
+
+    5. Examples
+       - Basic deployment
+       - Custom configuration
+       - Extension customization
+       - Advanced scenarios
+
+    DELIVERABLES:
+    - REPLIT_ADAPTER.md documentation
+    - API reference
+    - Usage examples
+    - Architecture diagrams
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

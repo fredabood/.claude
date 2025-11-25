@@ -1,0 +1,82 @@
+task:
+  id: replit-port-6-task-003
+  name: Write extension installation guide
+  status: not_started
+  priority: high
+  estimated_hours: 6
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write detailed extension installation and configuration guide.
+
+    GUIDE SECTIONS:
+    1. Extension Installation
+       - Installing from template (pre-installed)
+       - Installing manually
+       - Installing from source
+       - Troubleshooting installation
+
+    2. Extension Configuration
+       - Extension settings
+       - MCP server connection
+       - File handler settings
+       - CLUI command shortcuts
+
+    3. Extension Features
+       - Dashboard panel
+       - Roadmap view
+       - Sprint management
+       - Task management
+       - File handlers
+       - CLUI commands
+
+    4. Usage Examples
+       - Common workflows
+       - Keyboard shortcuts
+       - Tips and tricks
+       - Best practices
+
+    5. Troubleshooting
+       - Extension not loading
+       - MCP connection issues
+       - Data not displaying
+       - Performance issues
+
+    6. Advanced Topics
+       - Customizing the extension
+       - Adding custom commands
+       - Extending functionality
+       - Contributing improvements
+
+    INSTALLATION METHODS:
+    ```bash
+    # Method 1: Fork template (recommended)
+    # Extension is pre-installed
+
+    # Method 2: Manual installation
+    # Open Extensions panel
+    # Search for "vibey"
+    # Click Install
+
+    # Method 3: From source
+    git clone https://github.com/vibey/vibey-replit-extension
+    cd vibey-replit-extension
+    npm install
+    npm run build
+    # Install extension from local build
+    ```
+
+    DELIVERABLES:
+    - EXTENSION_GUIDE.md
+    - Installation screenshots
+    - Configuration examples
+    - Troubleshooting flowchart
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

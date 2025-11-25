@@ -1,0 +1,59 @@
+sprint:
+  id: replit-port-4
+  name: Extension Scaffolding
+  track_id: replit-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 weeks
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: replit-port-2
+    target_status: completed
+    reason: Adapter foundation required before extension development
+    optional: false
+  - type: sprint
+    target_id: replit-port-3
+    target_status: completed
+    reason: Configuration generation needed for extension setup
+    optional: false
+  blocked_by: []
+  depended_on_by:
+  - replit-port-5
+  quality_gates:
+  - name: Extension Initialization
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Extension initializes successfully in Replit workspace
+  - name: MCP Connectivity
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: useVibey hook connects to MCP server
+  deliverables:
+  - Extension project structure
+  - React/TypeScript scaffolding
+  - useVibey hook for MCP connectivity
+  - Dashboard component
+  - CLUI command registration
+  - Extension manifest configuration
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 4 creates the Replit Extension foundation using React and TypeScript.
+
+      Architecture:
+      - React components with TypeScript
+      - useVibey hook wraps MCP client
+      - Dashboard shows roadmap summary
+      - CLUI commands for common operations
+      - Extension manifest defines permissions

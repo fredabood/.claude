@@ -1,0 +1,40 @@
+sprint:
+  id: cody-port-2
+  track_id: cody-port
+  name: Enterprise Features & Documentation
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: cody-port-2-task-001
+    name: Implement Sourcegraph Enterprise module
+    status: not_started
+  - id: cody-port-2-task-002
+    name: Create Prompt Library templates
+    status: not_started
+  - id: cody-port-2-task-003
+    name: Write E2E tests with Cody extension
+    status: not_started
+  - id: cody-port-2-task-004
+    name: Write Cody integration guide
+    status: not_started
+  description: 'Enterprise Sourcegraph integration features.
+
+    Cross-repository context for workflows.
+
+    Prompt Library templates for Sourcegraph UI.
+
+    Complete integration documentation.
+
+
+    NOTE: Cody Free/Pro sunset July 2025.
+
+    Focus on Enterprise-only features.
+
+    '

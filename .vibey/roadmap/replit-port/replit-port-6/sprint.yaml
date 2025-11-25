@@ -1,0 +1,60 @@
+sprint:
+  id: replit-port-6
+  name: Template & Documentation
+  track_id: replit-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: replit-port-5
+    target_status: completed
+    reason: Extension features must complete before template creation
+    optional: false
+  blocked_by: []
+  depended_on_by: []
+  quality_gates:
+  - name: Template Forkable
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Template can be forked and runs successfully
+  - name: Documentation Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All user documentation complete and accurate
+  deliverables:
+  - vibey-replit-template (forkable Replit template)
+  - Quick start guide for Replit users
+  - Extension installation guide
+  - Published to Replit Templates
+  - Template validation
+  - Release notes
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 6 creates the forkable Replit template and publishes documentation.
+
+      Template includes:
+      - Pre-configured .replit and replit.nix
+      - MCP server setup
+      - Extension pre-installed
+      - Sample project structure
+      - Quick start instructions
+
+      Documentation covers:
+      - Forking and initial setup
+      - Extension installation
+      - Common workflows
+      - Troubleshooting
+      - Platform limitations

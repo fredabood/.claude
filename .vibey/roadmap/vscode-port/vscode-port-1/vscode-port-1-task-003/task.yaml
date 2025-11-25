@@ -1,0 +1,53 @@
+task:
+  id: vscode-port-1-task-003
+  name: Implement VSCodeSettingsGenerator (.vscode/mcp.json)
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  actual_duration: null
+  description: |
+    Implement VSCodeSettingsGenerator to generate .vscode/mcp.json configuration.
+
+    Responsibilities:
+    - Generate MCP server configuration for VS Code
+    - Configure stdio transport with python command
+    - Include environment variables
+    - Validate against VS Code MCP schema
+
+    Files to create:
+    - vibey/adapters/vscode/settings_generator.py
+
+    Configuration format:
+    {
+      "servers": {
+        "vibey": {
+          "command": "python",
+          "args": ["-m", "vibey.mcp.server"],
+          "env": {}
+        }
+      }
+    }
+  acceptance_criteria:
+  - Generates valid .vscode/mcp.json
+  - MCP server configuration correct
+  - Works with VS Code native MCP support
+  - Type hints and docstrings complete
+  - Manual testing with VS Code
+  assigned_agents:
+  - web-developer
+  depends_on:
+  - vscode-port-1-task-001
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 6 hours
+    complexity: medium
+    notes: Critical for VS Code MCP integration

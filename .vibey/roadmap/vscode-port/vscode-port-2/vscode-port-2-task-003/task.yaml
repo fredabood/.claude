@@ -1,0 +1,47 @@
+task:
+  id: vscode-port-2-task-003
+  name: Write VS Code integration guide
+  sprint_id: vscode-port-2
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  actual_duration: null
+  description: |
+    Write comprehensive VS Code integration guide.
+
+    Documentation sections:
+    - Prerequisites (VS Code version, MCP support)
+    - Installation and setup
+    - Deployment (vibey deploy --platform vscode)
+    - Configuration (.vscode/mcp.json)
+    - Agent Mode usage
+    - Tool discovery and invocation
+    - Troubleshooting
+    - Example workflows
+
+    Files to create:
+    - docs/guides/VSCODE_INTEGRATION.md
+  acceptance_criteria:
+  - Clear step-by-step instructions
+  - Screenshots/examples included
+  - Troubleshooting section complete
+  - User-tested for clarity
+  - Linked from main README
+  assigned_agents:
+  - docs-writer
+  depends_on:
+  - vscode-port-2-task-001
+  - vscode-port-2-task-002
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 6 hours
+    complexity: low
+    notes: Critical for user adoption

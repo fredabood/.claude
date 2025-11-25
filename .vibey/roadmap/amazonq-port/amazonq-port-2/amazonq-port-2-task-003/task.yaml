@@ -1,0 +1,25 @@
+task:
+  id: amazonq-port-2-task-003
+  name: Enterprise admin control testing
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: infrastructure-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Test enterprise admin controls for MCP server governance in Amazon Q
+    Developer to ensure compliance with enterprise security requirements.
+  acceptance_criteria:
+    - Tests for enterprise admin MCP governance
+    - Tests for IAM/SSO authentication
+    - Tests for MCP server approval workflows
+    - Documentation of enterprise setup
+    - Tests pass successfully
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

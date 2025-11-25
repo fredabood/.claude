@@ -1,0 +1,26 @@
+task:
+  id: amazonq-port-1-task-001
+  name: Create AmazonQAdapter base class
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create AmazonQAdapter class extending BaseAdapter to provide Amazon Q specific
+    platform integration following the adapter pattern established in multi-platform track.
+  acceptance_criteria:
+    - AmazonQAdapter class created in vibey/adapters/amazonq/adapter.py
+    - Extends BaseAdapter with required abstract methods implemented
+    - Handles Amazon Q specific configuration requirements
+    - Integrates with AWS authentication mechanisms
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+    - amazonq-port-1-task-002
+    - amazonq-port-1-task-003
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

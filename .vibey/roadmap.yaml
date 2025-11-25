@@ -96,27 +96,27 @@ roadmap:
     priority: medium
   - id: cursor-port
     name: Cursor Platform Port
-    status: in_progress
+    status: not_started
     priority: high
   - id: copilot-port
     name: GitHub Copilot Platform Port
-    status: in_progress
+    status: not_started
     priority: high
   - id: cody-port
     name: Sourcegraph Cody Platform Port
-    status: in_progress
+    status: not_started
     priority: low
   - id: replit-port
     name: Replit Agent Platform Port
-    status: in_progress
+    status: not_started
     priority: medium
   - id: vscode-port
     name: VS Code Native MCP Port
-    status: in_progress
+    status: not_started
     priority: high
   - id: amazonq-port
     name: Amazon Q Developer Platform Port
-    status: in_progress
+    status: not_started
     priority: medium
   - id: standards-system
     name: Roadmap Standards System

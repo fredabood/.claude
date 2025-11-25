@@ -1,0 +1,63 @@
+task:
+  id: replit-port-3-task-004
+  name: Generate MCP server configuration
+  status: not_started
+  priority: high
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Generate MCP server configuration for Replit environment.
+
+    CONFIGURATION REQUIREMENTS:
+    - Server startup parameters
+    - Tool registration settings
+    - Environment-specific overrides
+    - Extension integration settings
+
+    MCP CONFIG STRUCTURE:
+    ```yaml
+    mcp:
+      server:
+        host: "0.0.0.0"
+        port: 3000
+        environment: "replit"
+
+      tools:
+        discovery_path: "vibey/mcp/tools"
+        auto_register: true
+        enabled_tools: []  # Empty = all tools
+
+      replit:
+        extension_enabled: true
+        agent_integration: true
+        file_handlers: true
+    ```
+
+    GENERATION LOGIC:
+    - Read base MCP configuration
+    - Apply Replit-specific overrides
+    - Configure tool discovery
+    - Set extension integration
+    - Write to .vibey/config/mcp.yaml
+
+    REPLIT-SPECIFIC SETTINGS:
+    - Browser-compatible server settings
+    - Web socket configuration
+    - CORS settings for extension
+    - Performance optimizations
+
+    DELIVERABLES:
+    - MCP config generation method
+    - Configuration template
+    - Validation logic
+    - Unit tests
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

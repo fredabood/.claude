@@ -1,0 +1,27 @@
+task:
+  id: copilot-port-2-task-006
+  title: Quality gate validation and sign-off
+  sprint_id: copilot-port-2
+  track_id: copilot-port
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Validate all quality gates for copilot-port track. Verify MCP integration (100%), custom agents (95%), documentation (90%), and test coverage (85%).
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: high
+  complexity: medium
+  estimated_tokens: 2000
+  actual_tokens: null
+  dependencies:
+  - copilot-port-2-task-002
+  - copilot-port-2-task-004
+  - copilot-port-2-task-005
+  blocked_by: []
+  deliverables:
+  - Quality gate validation report
+  - Sign-off documentation
+  - Readiness checklist
+  commits: []

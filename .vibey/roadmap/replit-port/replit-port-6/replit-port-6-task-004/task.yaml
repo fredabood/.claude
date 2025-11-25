@@ -1,0 +1,73 @@
+task:
+  id: replit-port-6-task-004
+  name: Publish to Replit Templates
+  status: not_started
+  priority: critical
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Publish vibey-replit-template to Replit Templates marketplace.
+
+    PUBLISHING PROCESS:
+    1. Template Preparation
+       - Verify all files present
+       - Test template thoroughly
+       - Update documentation
+       - Add metadata
+
+    2. Template Submission
+       - Submit to Replit Templates
+       - Provide description
+       - Add tags and category
+       - Upload screenshots
+
+    3. Review Process
+       - Address Replit review feedback
+       - Make necessary changes
+       - Resubmit if required
+       - Final approval
+
+    4. Post-Publication
+       - Announce on social media
+       - Add to Vibey website
+       - Update documentation
+       - Monitor usage analytics
+
+    TEMPLATE METADATA:
+    ```json
+    {
+      "name": "Vibey Agent Framework",
+      "shortDescription": "AI-powered agent orchestration for development workflows",
+      "longDescription": "...",
+      "tags": ["ai", "agents", "mcp", "workflow", "python"],
+      "category": "Tools",
+      "author": "Vibey Framework Team",
+      "website": "https://vibey.dev",
+      "repository": "https://github.com/vibey/vibey-replit-template"
+    }
+    ```
+
+    QUALITY CHECKLIST:
+    - [ ] All dependencies installed correctly
+    - [ ] MCP server starts successfully
+    - [ ] Extension loads without errors
+    - [ ] Sample project works
+    - [ ] Documentation is clear
+    - [ ] Screenshots are current
+    - [ ] Template forks successfully
+
+    DELIVERABLES:
+    - Published template on Replit
+    - Template listing page
+    - Analytics setup
+    - Announcement posts
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

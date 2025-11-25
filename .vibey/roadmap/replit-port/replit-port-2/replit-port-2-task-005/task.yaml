@@ -1,0 +1,61 @@
+task:
+  id: replit-port-2-task-005
+  name: Create unit tests for adapter
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create comprehensive unit test suite for ReplitAdapter.
+
+    TEST COVERAGE:
+    1. ReplitAdapter Class
+       - get_platform_info()
+       - validate_environment()
+       - get_config_paths()
+       - format_output()
+
+    2. ReplitContextGenerator
+       - Frontmatter parsing
+       - REPLIT.md generation
+       - Template rendering
+       - Error handling
+
+    3. Deployment Methods
+       - deploy() success cases
+       - deploy() error cases
+       - Rollback scenarios
+       - File operations
+
+    4. Validation Methods
+       - validate_deployment() checks
+       - Error reporting
+       - Fix suggestions
+
+    TESTING APPROACH:
+    - Mock Replit environment
+    - Test with sample data
+    - Edge case coverage
+    - Error path testing
+
+    TARGET METRICS:
+    - 80%+ code coverage
+    - All public methods tested
+    - Error paths validated
+    - Performance benchmarks
+
+    DELIVERABLES:
+    - Unit test suite
+    - Test fixtures
+    - Mock utilities
+    - Coverage report
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

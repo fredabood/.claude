@@ -1,0 +1,29 @@
+task:
+  id: amazonq-port-2-task-005
+  name: Quality gate validation
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Validate all quality gates for Amazon Q port including zero-drift,
+    MCP tool parity, AWS authentication, and documentation completeness.
+  acceptance_criteria:
+    - Zero-drift validation passes (100%)
+    - MCP tool parity validation passes (46/46 tools accessible)
+    - AWS authentication validation passes
+    - Documentation quality gate passes (>90%)
+    - Quality gate report generated
+  dependencies:
+    - amazonq-port-2-task-001
+    - amazonq-port-2-task-002
+    - amazonq-port-2-task-003
+    - amazonq-port-2-task-004
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

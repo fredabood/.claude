@@ -2,27 +2,27 @@ track:
   id: replit-port
   name: Replit Agent Platform Port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: not_started
   blocked: false
   priority: medium
-  created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
   completed: null
   estimated_duration: 8 weeks
   progress:
     sprints_total: 6
     sprints_completed: 0
     tasks_total: 36
-    tasks_completed: 12
-    completion_percent: 33
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: replit-port-1
     name: Research & MCP Validation
-    status: completed
+    status: not_started
     estimated_duration: 1 week
     tasks_count: 5
-    started: '2025-11-23T00:00:00+00:00'
-    completed: '2025-11-23T00:00:00+00:00'
+    started: null
+    completed: null
     description: 'Validate MCP server runs in Replit environment, test tool discovery,
 
       and document platform-specific limitations.
@@ -41,11 +41,11 @@ track:
       '
   - id: replit-port-2
     name: Adapter Foundation
-    status: completed
+    status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 7
-    started: '2025-11-23T00:00:00+00:00'
-    completed: '2025-11-23T00:00:00+00:00'
+    started: null
+    completed: null
     description: 'Create ReplitAdapter following PlatformAdapter interface.
 
       Implement core deployment methods and context generation.
@@ -246,7 +246,7 @@ track:
   standards: []
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
+    last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md
     implementation_plan: .vibey/roadmap/replit-port/context/IMPLEMENTATION_PLAN.md
     notes: "REPLIT PORT - WEB-NATIVE PLATFORM (Nov 2025 Research)\n\nCRITICAL UPDATE:\

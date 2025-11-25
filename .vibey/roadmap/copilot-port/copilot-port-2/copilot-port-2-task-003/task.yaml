@@ -1,0 +1,24 @@
+task:
+  id: copilot-port-2-task-003
+  title: Organization-level configuration guide
+  sprint_id: copilot-port-2
+  track_id: copilot-port
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Document organization-level Copilot configuration patterns. Cover team settings, shared custom agents, and multi-repository coordination.
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: docs-writer
+  priority: medium
+  complexity: medium
+  estimated_tokens: 2500
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []
+  deliverables:
+  - docs/platforms/copilot/ORGANIZATION_CONFIG.md
+  - Team configuration patterns
+  - Multi-repo coordination guide
+  commits: []

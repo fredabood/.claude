@@ -1,0 +1,70 @@
+task:
+  id: replit-port-5-task-001
+  name: Create RoadmapView component
+  status: not_started
+  priority: critical
+  estimated_hours: 10
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create RoadmapView component for visualizing track hierarchy and progress.
+
+    COMPONENT FEATURES:
+    1. Track List
+       - Track cards with status badges
+       - Progress bars showing completion
+       - Expandable/collapsible sections
+       - Click to view sprints
+
+    2. Track Details
+       - Track name and description
+       - Sprint count and progress
+       - Assigned agents
+       - Dependencies and blockers
+
+    3. Visual Hierarchy
+       - Tree view of tracks
+       - Indentation for sub-tracks
+       - Connection lines
+       - Status color coding
+
+    4. Filtering & Sorting
+       - Filter by status (active, completed, blocked)
+       - Filter by priority
+       - Sort by progress, name, date
+       - Search by name
+
+    COMPONENT STRUCTURE:
+    ```typescript
+    interface RoadmapViewProps {
+      roadmap: Roadmap;
+      onTrackClick: (trackId: string) => void;
+    }
+
+    export function RoadmapView({ roadmap, onTrackClick }: RoadmapViewProps) {
+      const { getTracks } = useVibey();
+      const [tracks, setTracks] = useState<Track[]>([]);
+      // Implementation
+    }
+    ```
+
+    INTERACTIONS:
+    - Click track to expand sprints
+    - Hover to show tooltip
+    - Drag to reorder (optional)
+    - Context menu for actions
+
+    DELIVERABLES:
+    - RoadmapView component
+    - TrackCard sub-component
+    - Filtering controls
+    - Responsive design
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

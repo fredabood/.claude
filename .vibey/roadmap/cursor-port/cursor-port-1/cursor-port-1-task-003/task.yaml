@@ -1,0 +1,41 @@
+task:
+  id: cursor-port-1-task-003
+  name: Implement CursorSettingsGenerator (.cursor/mcp.json)
+  sprint_id: cursor-port-1
+  track_id: cursor-port
+  status: not_started
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  description: |
+    Implement CursorSettingsGenerator for .cursor/mcp.json generation.
+
+    Config format:
+    {
+      "mcpServers": {
+        "vibey": {
+          "command": "python",
+          "args": ["-m", "vibey.mcp.server"],
+          "env": {}
+        }
+      }
+    }
+
+    Responsibilities:
+    - Generate .cursor/mcp.json from config
+    - Support stdio transport (primary)
+    - Add checksum validation
+
+    File: vibey/adapters/cursor/settings_generator.py
+  deliverables:
+    - vibey/adapters/cursor/settings_generator.py
+    - .cursor/mcp.json template
+  assigned_agents:
+    - web-developer
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    priority: critical
+    complexity: low

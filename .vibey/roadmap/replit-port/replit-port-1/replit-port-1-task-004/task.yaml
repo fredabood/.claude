@@ -1,0 +1,40 @@
+task:
+  id: replit-port-1-task-004
+  name: Verify frontmatter parsing in browser Python
+  status: not_started
+  priority: critical
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Verify that Vibey's frontmatter parsing works correctly in Replit's
+    browser-based Python environment.
+
+    TESTING SCOPE:
+    - PyYAML library compatibility
+    - Frontmatter extraction from markdown files
+    - YAML parsing accuracy
+    - Performance in browser Python
+    - Error handling and edge cases
+
+    TEST CASES:
+    1. Simple frontmatter (agents/*.md)
+    2. Complex nested structures (workflows/*.md)
+    3. Large frontmatter blocks
+    4. Unicode and special characters
+    5. Malformed YAML handling
+
+    DELIVERABLES:
+    - Frontmatter parsing test suite
+    - Browser Python compatibility report
+    - Performance benchmarks
+    - Error handling validation
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

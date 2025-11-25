@@ -1,0 +1,25 @@
+task:
+  id: amazonq-port-2-task-001
+  name: Integration tests with Q CLI
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create integration tests to validate Vibey MCP server integration with
+    Amazon Q Developer CLI including tool discovery and execution.
+  acceptance_criteria:
+    - Integration test suite for Amazon Q CLI
+    - Tests for MCP server startup and connection
+    - Tests for tool discovery (all 46 tools)
+    - Tests for tool execution via Q CLI
+    - Tests pass successfully
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

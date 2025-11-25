@@ -1,0 +1,66 @@
+task:
+  id: replit-port-6-task-001
+  name: Create vibey-replit-template
+  status: not_started
+  priority: critical
+  estimated_hours: 10
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create forkable Replit template with pre-configured Vibey framework.
+
+    TEMPLATE STRUCTURE:
+    ```
+    vibey-replit-template/
+    ├── .replit                    # Pre-configured run settings
+    ├── replit.nix                 # Dependencies
+    ├── .vibey/                    # Framework directory
+    │   ├── config/                # Configuration files
+    │   ├── roadmap/               # Sample roadmap
+    │   └── checksums.yaml         # Zero-drift checksums
+    ├── vibey/                     # Framework code
+    ├── extensions/                # Vibey Extension
+    ├── README.md                  # Quick start guide
+    └── GETTING_STARTED.md         # Detailed guide
+    ```
+
+    TEMPLATE FEATURES:
+    1. Pre-configured .replit and replit.nix
+    2. MCP server ready to run
+    3. Extension pre-installed
+    4. Sample project with roadmap
+    5. Quick start documentation
+    6. Troubleshooting guide
+
+    SAMPLE PROJECT:
+    - Simple web application
+    - 2-3 tracks with sprints
+    - Example tasks
+    - Agent definitions
+    - Workflow examples
+
+    TEMPLATE METADATA:
+    ```json
+    {
+      "name": "vibey-replit-template",
+      "description": "Vibey Agent Framework for Replit",
+      "tags": ["agents", "ai", "workflow", "mcp"],
+      "category": "Tools",
+      "language": "python"
+    }
+    ```
+
+    DELIVERABLES:
+    - Complete template repository
+    - Sample project
+    - Configuration files
+    - Documentation
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

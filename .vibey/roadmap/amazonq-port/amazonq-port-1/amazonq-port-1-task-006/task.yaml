@@ -1,0 +1,25 @@
+task:
+  id: amazonq-port-1-task-006
+  name: Write unit tests for adapter
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Write comprehensive unit tests for AmazonQAdapter class to ensure correct
+    implementation of adapter pattern and Amazon Q integration.
+  acceptance_criteria:
+    - Unit tests for AmazonQAdapter class
+    - Test coverage of all adapter methods
+    - Test AWS authentication handling
+    - Tests pass with >90% code coverage
+  dependencies:
+    - amazonq-port-1-task-001
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

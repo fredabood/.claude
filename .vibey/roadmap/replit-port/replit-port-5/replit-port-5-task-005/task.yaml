@@ -1,0 +1,82 @@
+task:
+  id: replit-port-5-task-005
+  name: Create end-to-end testing
+  status: not_started
+  priority: high
+  estimated_hours: 12
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create end-to-end test suite for Extension features and workflows.
+
+    E2E TEST SCENARIOS:
+    1. Extension Initialization
+       - Extension loads successfully
+       - MCP connection established
+       - Dashboard displays data
+
+    2. Roadmap Visualization
+       - View roadmap
+       - Expand/collapse tracks
+       - Click track to view sprints
+       - Navigate to tasks
+
+    3. Sprint Management
+       - View sprint details
+       - See task list
+       - Update sprint status
+       - View progress charts
+
+    4. Task Management
+       - View task list
+       - Update task status
+       - View task details
+       - Filter and sort tasks
+
+    5. File Handlers
+       - Open .vibey/*.yaml files
+       - Preview renders correctly
+       - Quick actions work
+       - Validation works
+
+    6. CLUI Commands
+       - vibey:roadmap command
+       - vibey:sprint command
+       - vibey:task command
+       - vibey:sync command
+
+    TESTING FRAMEWORK:
+    - Playwright for E2E tests
+    - Replit Extensions test harness
+    - Mock MCP server
+    - Test fixtures
+
+    TEST SETUP:
+    ```typescript
+    describe('Extension E2E Tests', () => {
+      beforeEach(async () => {
+        // Initialize extension
+        // Connect to mock MCP server
+        // Load test data
+      });
+
+      test('displays roadmap on load', async () => {
+        // Test implementation
+      });
+    });
+    ```
+
+    DELIVERABLES:
+    - E2E test suite
+    - Test fixtures
+    - CI integration
+    - Test documentation
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

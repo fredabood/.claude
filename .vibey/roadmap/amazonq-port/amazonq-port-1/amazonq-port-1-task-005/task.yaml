@@ -1,0 +1,25 @@
+task:
+  id: amazonq-port-1-task-005
+  name: Handle AWS authentication integration
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: infrastructure-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement AWS IAM/SSO authentication integration for MCP server to work
+    securely with Amazon Q Developer in enterprise environments.
+  acceptance_criteria:
+    - AWS credential detection and validation
+    - Support for AWS IAM and SSO authentication
+    - Environment variable configuration for AWS auth
+    - Documentation of authentication setup process
+  dependencies:
+    - amazonq-port-1-task-003
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

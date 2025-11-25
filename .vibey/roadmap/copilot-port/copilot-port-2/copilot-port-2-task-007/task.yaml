@@ -1,0 +1,25 @@
+task:
+  id: copilot-port-2-task-007
+  title: Performance benchmarks vs native tools
+  sprint_id: copilot-port-2
+  track_id: copilot-port
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Benchmark Vibey MCP tools performance against native Copilot capabilities. Measure latency, throughput, and resource usage. Document performance characteristics.
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: low
+  complexity: medium
+  estimated_tokens: 2000
+  actual_tokens: null
+  dependencies:
+  - copilot-port-2-task-001
+  blocked_by: []
+  deliverables:
+  - Performance benchmark report
+  - Comparison analysis vs native tools
+  - Optimization recommendations
+  commits: []

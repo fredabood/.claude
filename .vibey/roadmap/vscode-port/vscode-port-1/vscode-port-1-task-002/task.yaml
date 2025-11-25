@@ -1,0 +1,42 @@
+task:
+  id: vscode-port-1-task-002
+  name: Implement VSCodeContextGenerator
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 hours
+  actual_duration: null
+  description: |
+    Implement VSCodeContextGenerator to generate VSCODE.md context file.
+
+    Responsibilities:
+    - Parse agent and workflow frontmatter
+    - Generate VS Code-specific context markdown
+    - Include MCP tool descriptions
+    - Format for VS Code native chat
+
+    Files to create:
+    - vibey/adapters/vscode/context_generator.py
+  acceptance_criteria:
+  - Generates VSCODE.md from frontmatter (zero-drift)
+  - Includes all agents and workflows
+  - Includes MCP tool descriptions
+  - Type hints and docstrings complete
+  - Manual testing with sample project
+  assigned_agents:
+  - web-developer
+  depends_on:
+  - vscode-port-1-task-001
+  blocks: []
+  commits: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    effort_estimate: 6 hours
+    complexity: medium
+    notes: Zero-drift architecture - generated from frontmatter

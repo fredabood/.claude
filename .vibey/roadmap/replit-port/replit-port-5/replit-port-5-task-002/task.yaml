@@ -1,0 +1,76 @@
+task:
+  id: replit-port-5-task-002
+  name: Create SprintProgress component
+  status: not_started
+  priority: critical
+  estimated_hours: 10
+  assigned_agent: frontend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create SprintProgress component for visualizing sprint details and task progress.
+
+    COMPONENT FEATURES:
+    1. Sprint Header
+       - Sprint name and description
+       - Status badge
+       - Progress percentage
+       - Duration and dates
+
+    2. Progress Visualization
+       - Circular progress chart
+       - Task completion bar
+       - Tasks by status breakdown
+       - Completion timeline
+
+    3. Sprint Metadata
+       - Assigned agents
+       - Dependencies
+       - Blockers (if any)
+       - Quality gates
+
+    4. Quick Actions
+       - View all tasks
+       - Update sprint status
+       - Generate context
+       - Sync with Git
+
+    COMPONENT STRUCTURE:
+    ```typescript
+    interface SprintProgressProps {
+      sprint: Sprint;
+      tasks: Task[];
+      onTaskClick: (taskId: string) => void;
+    }
+
+    export function SprintProgress({ sprint, tasks, onTaskClick }: SprintProgressProps) {
+      const { updateSprintStatus } = useVibey();
+      // Implementation
+    }
+    ```
+
+    PROGRESS CALCULATION:
+    - Total tasks vs completed tasks
+    - Estimated hours vs actual hours
+    - Velocity metrics
+    - Burndown chart (optional)
+
+    INTERACTIVITY:
+    - Click task to view details
+    - Update sprint status
+    - Filter tasks by status
+    - Export sprint report
+
+    DELIVERABLES:
+    - SprintProgress component
+    - Progress charts
+    - Status update controls
+    - Responsive design
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

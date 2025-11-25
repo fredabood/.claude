@@ -1,0 +1,45 @@
+task:
+  id: replit-port-3-task-001
+  name: Create ReplitConfigGenerator class
+  status: not_started
+  priority: critical
+  estimated_hours: 10
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Create ReplitConfigGenerator class for generating Replit configuration
+    files from Vibey frontmatter (zero-drift architecture).
+
+    GENERATOR RESPONSIBILITIES:
+    - Parse frontmatter from project configuration
+    - Generate .replit TOML file
+    - Generate replit.nix file
+    - Generate MCP server configuration
+    - Calculate checksums for drift detection
+
+    ZERO-DRIFT DESIGN:
+    - All configs generated from frontmatter
+    - Checksums stored in .vibey/checksums.yaml
+    - CI fails on manual edits
+    - Regeneration required for changes
+
+    CONFIG SOURCES:
+    - .vibey/config/project.yaml
+    - agents/*.md frontmatter
+    - workflows/*.md frontmatter
+    - Platform-specific overrides
+
+    DELIVERABLES:
+    - ReplitConfigGenerator class
+    - Checksum calculation logic
+    - Config validation
+    - Generator documentation
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

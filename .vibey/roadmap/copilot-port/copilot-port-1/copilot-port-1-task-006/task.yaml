@@ -1,0 +1,25 @@
+task:
+  id: copilot-port-1-task-006
+  title: Unit tests for CopilotAdapter
+  sprint_id: copilot-port-1
+  track_id: copilot-port
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Comprehensive unit test suite for CopilotAdapter. Target 95%+ code coverage. Test configuration generation, agent export, and error handling.
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: high
+  complexity: medium
+  estimated_tokens: 3000
+  actual_tokens: null
+  dependencies:
+  - copilot-port-1-task-005
+  blocked_by: []
+  deliverables:
+  - tests/adapters/test_copilot_adapter.py
+  - tests/adapters/test_agent_generator.py
+  - Unit test suite with 95%+ coverage
+  commits: []

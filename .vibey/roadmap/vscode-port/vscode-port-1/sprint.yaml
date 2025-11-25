@@ -1,0 +1,53 @@
+sprint:
+  id: vscode-port-1
+  name: Core Adapter & MCP Configuration
+  track_id: vscode-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  description: |
+    Create VSCodeAdapter extending BaseAdapter.
+    Generate .vscode/mcp.json configuration.
+    Integrate with VS Code native MCP support (GA July 2025).
+
+    KEY INSIGHT: VS Code has FULL MCP SUPPORT (GA in v1.102).
+    No extension needed - just mcp.json config file.
+    Full spec: Tools, Resources, Prompts, Sampling, Auth.
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  quality_gates:
+  - name: Unit Test Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: All adapter and generator code covered by unit tests
+    score: null
+  - name: Code Quality
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Type hints, docstrings, and linting standards met
+    score: null
+  deliverables:
+  - VSCodeAdapter class (vibey/adapters/vscode/adapter.py)
+  - VSCodeContextGenerator (vibey/adapters/vscode/context_generator.py)
+  - VSCodeSettingsGenerator (vibey/adapters/vscode/settings_generator.py)
+  - vibey deploy --platform vscode CLI command
+  - Unit test suite for adapter and generators
+  assigned_agents:
+  - web-developer
+  - test-engineer
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 1 focuses on core adapter implementation and MCP configuration generation.
+      All artifacts are generated from frontmatter (zero-drift architecture).

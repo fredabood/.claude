@@ -1,0 +1,54 @@
+sprint:
+  id: replit-port-3
+  name: Configuration Generation
+  track_id: replit-port
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - type: sprint
+    target_id: replit-port-2
+    target_status: completed
+    reason: Adapter foundation required before configuration generation
+    optional: false
+  blocked_by: []
+  depended_on_by:
+  - replit-port-4
+  quality_gates:
+  - name: Zero-Drift Validation
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All Replit artifacts generated from frontmatter with checksums
+  - name: Configuration Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Generated configs cover all Replit requirements
+  deliverables:
+  - ReplitConfigGenerator class
+  - .replit TOML generation from project.yaml
+  - replit.nix generation for dependencies
+  - MCP server configuration
+  - Drift detection with checksums
+  - Configuration validation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 3 implements zero-drift configuration generation for Replit.
+
+      Generated artifacts:
+      1. .replit (TOML) - Run command, language, environment
+      2. replit.nix - Dependencies via Nix package manager
+      3. MCP server config - Tool discovery and registration
+
+      Checksum system prevents manual edits (CI fails on drift).

@@ -459,6 +459,26 @@ audit_log:
   reason: Task completed via CLI by system
   commit: 0e38de5
   source: cli
+- timestamp: '2025-11-25T05:15:23.557577+00:00'
+  object_type: task
+  object_id: git-integration-3-task-009
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: 449bd51
+  source: cli
+- timestamp: '2025-11-25T05:16:36.306534+00:00'
+  object_type: task
+  object_id: git-integration-3-task-009
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 449bd51
+  source: cli
 metadata:
-  last_updated: '2025-11-25T05:15:01.804354+00:00'
-  total_entries: 46
+  last_updated: '2025-11-25T05:16:36.321411+00:00'
+  total_entries: 48

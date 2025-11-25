@@ -15,11 +15,11 @@ task:
     \   - Adding to existing project\n   - Migrating from other tools\n\nFORMAT:\n\
     - Main docs in docs/guides/\n- Reference in docs/reference/\n- Inline help in\
     \ CLI\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-25T05:15:23.557409+00:00'
+  completed: '2025-11-25T05:16:36.306355+00:00'
   assigned_agent: docs-writer
   priority: medium
   phase_label: null

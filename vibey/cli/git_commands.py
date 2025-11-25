@@ -56,6 +56,10 @@ from vibey.operations.git import (
     validate_roadmap,
     repair_roadmap,
     rollback_roadmap,
+    TagRepairer,
+    find_dangling_tags,
+    repair_all_tags,
+    move_tag,
 )
 
 console = Console()
@@ -3046,6 +3050,300 @@ def repair_cmd(ctx, repo: str, dry_run: bool, output_format: str):
 
             if result.issues_found > 0:
                 console.print(f"\n[dim]Use --format detailed for more information[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@git_group.command('validate-tags')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.option('--format', 'output_format', type=click.Choice(['summary', 'detailed', 'json']), default='summary',
+              help='Output format')
+@click.pass_context
+def validate_tags_cmd(ctx, repo: str, output_format: str):
+    """
+    Detect dangling tags (pointing to missing commits).
+
+    After rebase/squash operations, tags may point to commits that
+    no longer exist. This command detects such tags.
+
+    Examples:
+
+      vibey git validate-tags                    # Check for dangling tags
+      vibey git validate-tags --format detailed  # Show all details
+      vibey git validate-tags --format json      # JSON output
+    """
+    try:
+        dangling_tags, error = find_dangling_tags(repo_path=repo)
+
+        if error:
+            console.print(f"[red]Error:[/red] {error}")
+            sys.exit(1)
+
+        if output_format == 'json':
+            output = {
+                'dangling_count': len(dangling_tags),
+                'tags': [
+                    {
+                        'tag_name': tag.tag_name,
+                        'commit_sha': tag.commit_sha,
+                        'tag_type': tag.tag_type,
+                        'entity_id': tag.entity_id,
+                        'has_message': tag.message is not None
+                    }
+                    for tag in dangling_tags
+                ]
+            }
+            console.print(json.dumps(output, indent=2))
+
+        elif output_format == 'detailed':
+            console.print()
+
+            # Status panel
+            status_text = "ISSUES FOUND" if dangling_tags else "ALL TAGS VALID"
+            status_color = "yellow" if dangling_tags else "green"
+            status_icon = "!" if dangling_tags else "✓"
+
+            console.print(Panel(
+                f"[bold {status_color}]{status_icon} {status_text}[/bold {status_color}]\n\n"
+                f"[cyan]Dangling Tags:[/cyan] {len(dangling_tags)}",
+                title="Tag Validation",
+                border_style=status_color
+            ))
+
+            if dangling_tags:
+                # Group by type
+                roadmap_tags = [t for t in dangling_tags if t.tag_type in ('sprint', 'task')]
+                other_tags = [t for t in dangling_tags if t.tag_type not in ('sprint', 'task')]
+
+                if roadmap_tags:
+                    console.print("\n[bold yellow]Roadmap Tags (Sprint/Task):[/bold yellow]\n")
+                    for tag in roadmap_tags:
+                        entity_part = f" ({tag.entity_id})" if tag.entity_id else ""
+                        console.print(f"  [yellow]![/yellow] {tag.tag_name}{entity_part}")
+                        console.print(f"    [dim]→ Points to: {tag.commit_sha[:8]}[/dim]")
+                        if tag.message:
+                            msg_preview = tag.message.split('\n')[0][:60]
+                            console.print(f"    [dim]→ Message: {msg_preview}...[/dim]")
+
+                if other_tags:
+                    console.print("\n[bold]Other Tags:[/bold]\n")
+                    for tag in other_tags:
+                        console.print(f"  [yellow]![/yellow] {tag.tag_name}")
+                        console.print(f"    [dim]→ Points to: {tag.commit_sha[:8]}[/dim]")
+
+                console.print(f"\n[dim]Use 'vibey git repair-tags' to attempt automatic repair[/dim]")
+
+        else:  # summary
+            status_icon = "[green]✓[/green]" if not dangling_tags else "[yellow]![/yellow]"
+            status_text = "All tags valid" if not dangling_tags else f"{len(dangling_tags)} dangling tags found"
+
+            console.print()
+            console.print(f"{status_icon} [bold]Tag Validation:[/bold] {status_text}")
+
+            if dangling_tags:
+                roadmap_tags = [t for t in dangling_tags if t.tag_type in ('sprint', 'task')]
+                other_tags = [t for t in dangling_tags if t.tag_type not in ('sprint', 'task')]
+
+                if roadmap_tags:
+                    console.print(f"\n[yellow]Roadmap tags (sprint/task): {len(roadmap_tags)}[/yellow]")
+                    for tag in roadmap_tags[:3]:
+                        entity_part = f" ({tag.entity_id})" if tag.entity_id else ""
+                        console.print(f"  • {tag.tag_name}{entity_part}")
+                    if len(roadmap_tags) > 3:
+                        console.print(f"  [dim]... and {len(roadmap_tags) - 3} more[/dim]")
+
+                if other_tags:
+                    console.print(f"\n[dim]Other tags: {len(other_tags)}[/dim]")
+
+                console.print(f"\n[dim]Use --format detailed for more information[/dim]")
+                console.print(f"[dim]Use 'vibey git repair-tags' to attempt automatic repair[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@git_group.command('repair-tags')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.option('--strategy', type=click.Choice(['message_match']), default='message_match',
+              help='Repair strategy (default: message_match)')
+@click.option('--dry-run', is_flag=True, default=False, help='Show what would be repaired without making changes')
+@click.option('--all-tags', is_flag=True, default=False, help='Repair all tags, not just roadmap tags')
+@click.option('--format', 'output_format', type=click.Choice(['summary', 'detailed', 'json']), default='summary',
+              help='Output format')
+@click.pass_context
+def repair_tags_cmd(ctx, repo: str, strategy: str, dry_run: bool, all_tags: bool, output_format: str):
+    """
+    Automatically repair dangling tags.
+
+    Searches for commits matching the original tag and recreates
+    the tags on the new commits. By default only repairs roadmap
+    tags (sprint/task tags).
+
+    Examples:
+
+      vibey git repair-tags --dry-run      # Preview repairs
+      vibey git repair-tags                # Repair roadmap tags
+      vibey git repair-tags --all-tags     # Repair all dangling tags
+    """
+    try:
+        only_roadmap = not all_tags
+        summary, error = repair_all_tags(
+            repo_path=repo,
+            strategy=strategy,
+            dry_run=dry_run,
+            only_roadmap=only_roadmap
+        )
+
+        if error:
+            console.print(f"[red]Error:[/red] {error}")
+            sys.exit(1)
+
+        if output_format == 'json':
+            output = {
+                'dangling_found': summary.dangling_found,
+                'repaired': summary.repaired,
+                'unfixable': summary.unfixable,
+                'dry_run': dry_run,
+                'repairs': [
+                    {
+                        'tag_name': r.tag_name,
+                        'old_sha': r.old_sha,
+                        'new_sha': r.new_sha,
+                        'success': r.success,
+                        'reason': r.reason
+                    }
+                    for r in summary.repairs
+                ],
+                'errors': summary.errors
+            }
+            console.print(json.dumps(output, indent=2))
+
+        elif output_format == 'detailed':
+            console.print()
+
+            # Status panel
+            if dry_run:
+                status_text = "DRY RUN"
+                status_color = "yellow"
+                status_icon = "ℹ"
+            else:
+                status_text = "REPAIR COMPLETE"
+                status_color = "green" if summary.unfixable == 0 else "yellow"
+                status_icon = "✓" if summary.unfixable == 0 else "!"
+
+            console.print(Panel(
+                f"[bold {status_color}]{status_icon} {status_text}[/bold {status_color}]\n\n"
+                f"[cyan]Dangling Found:[/cyan] {summary.dangling_found}\n"
+                f"[cyan]Repaired:[/cyan] {summary.repaired}\n"
+                f"[cyan]Unfixable:[/cyan] {summary.unfixable}",
+                title="Tag Repair",
+                border_style=status_color
+            ))
+
+            # Successful repairs
+            successful = [r for r in summary.repairs if r.success]
+            if successful:
+                action = "Would repair" if dry_run else "Repaired"
+                console.print(f"\n[bold green]{action}:[/bold green]\n")
+                for repair in successful:
+                    console.print(f"  [green]✓[/green] {repair.tag_name}")
+                    console.print(f"    [dim]→ {repair.old_sha[:8]} → {repair.new_sha[:8]}[/dim]")
+
+            # Failed repairs
+            failed = [r for r in summary.repairs if not r.success]
+            if failed:
+                console.print("\n[bold red]Unfixable:[/bold red]\n")
+                for repair in failed:
+                    console.print(f"  [red]✗[/red] {repair.tag_name}")
+                    console.print(f"    [dim]→ {repair.reason}[/dim]")
+
+            if summary.errors:
+                console.print("\n[bold red]Errors:[/bold red]\n")
+                for err in summary.errors:
+                    console.print(f"  [red]✗[/red] {err}")
+
+            if dry_run and successful:
+                console.print(f"\n[yellow]This was a dry run. Remove --dry-run to apply repairs.[/yellow]")
+
+        else:  # summary
+            if dry_run:
+                console.print()
+                console.print(f"[yellow]ℹ[/yellow] [bold]Dry Run - Tag Repair[/bold]")
+            else:
+                status_icon = "[green]✓[/green]" if summary.unfixable == 0 else "[yellow]![/yellow]"
+                console.print()
+                console.print(f"{status_icon} [bold]Tag Repair[/bold]")
+
+            console.print(f"\n[cyan]Dangling found:[/cyan] {summary.dangling_found}")
+            console.print(f"[cyan]Repaired:[/cyan] {summary.repaired}")
+            console.print(f"[cyan]Unfixable:[/cyan] {summary.unfixable}")
+
+            if summary.repaired > 0:
+                action = "Would repair" if dry_run else "Repaired"
+                console.print(f"\n[bold]{action} tags:[/bold]")
+                successful = [r for r in summary.repairs if r.success]
+                for repair in successful[:5]:
+                    console.print(f"  • {repair.tag_name} ({repair.old_sha[:8]} → {repair.new_sha[:8]})")
+                if len(successful) > 5:
+                    console.print(f"  [dim]... and {len(successful) - 5} more[/dim]")
+
+            if summary.unfixable > 0:
+                console.print(f"\n[yellow]Unfixable: {summary.unfixable} tags[/yellow]")
+                failed = [r for r in summary.repairs if not r.success]
+                for repair in failed[:3]:
+                    console.print(f"  • {repair.tag_name}: {repair.reason}")
+                if len(failed) > 3:
+                    console.print(f"  [dim]... and {len(failed) - 3} more[/dim]")
+
+            if dry_run and summary.repaired > 0:
+                console.print(f"\n[yellow]This was a dry run. Remove --dry-run to apply repairs.[/yellow]")
+
+            if summary.dangling_found > 0:
+                console.print(f"\n[dim]Use --format detailed for more information[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@git_group.command('tag-move')
+@click.argument('tag_name')
+@click.argument('new_sha')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.option('--force', is_flag=True, default=False, help='Force move even if tag exists')
+@click.pass_context
+def tag_move_cmd(ctx, tag_name: str, new_sha: str, repo: str, force: bool):
+    """
+    Manually move a tag to a different commit.
+
+    Deletes the tag from its current location and recreates it
+    on the specified commit. Preserves annotation messages.
+
+    Examples:
+
+      vibey git tag-move sprint/my-sprint/start abc1234 --force
+      vibey git tag-move task/my-task-1 def5678
+    """
+    try:
+        success, error = move_tag(tag_name, new_sha, repo_path=repo, force=force)
+
+        if not success:
+            console.print(f"[red]Error:[/red] {error}")
+            sys.exit(1)
+
+        console.print()
+        console.print(f"[green]✓[/green] [bold]Tag moved successfully[/bold]")
+        console.print(f"\n[cyan]Tag:[/cyan] {tag_name}")
+        console.print(f"[cyan]New commit:[/cyan] {new_sha}")
 
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")

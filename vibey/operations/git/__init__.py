@@ -127,6 +127,16 @@ from vibey.operations.git.error_handler import (
     rollback_roadmap,
 )
 
+from vibey.operations.git.tag_repair import (
+    DanglingTag,
+    TagRepairResult,
+    RepairSummary,
+    TagRepairer,
+    find_dangling_tags,
+    repair_all_tags,
+    move_tag,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -219,4 +229,12 @@ __all__ = [
     "validate_roadmap",
     "repair_roadmap",
     "rollback_roadmap",
+    # Tag repair
+    "DanglingTag",
+    "TagRepairResult",
+    "RepairSummary",
+    "TagRepairer",
+    "find_dangling_tags",
+    "repair_all_tags",
+    "move_tag",
 ]

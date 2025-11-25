@@ -17,10 +17,10 @@ roadmap:
     tracks_total: 34
     tracks_completed: 20
     sprints_total: 134
-    sprints_completed: 77
+    sprints_completed: 78
     tasks_total: 957
-    tasks_completed: 637
-    completion_percent: 66
+    tasks_completed: 648
+    completion_percent: 67
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -1951,11 +1951,141 @@ roadmap:
     description: Sprint 'Multi-IDE Testing & Documentation' completed
     context:
       sprint_id: jetbrains-port-2
+  - timestamp: '2025-11-25T05:04:21.467705+00:00'
+    type: task_completed
+    description: Task 'Implement quality gate CI integration' completed
+    context:
+      task_id: git-integration-3-task-005
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:05:26.317573+00:00'
+    type: task_started
+    description: Task 'Implement dependency-aware merge ordering' started
+    context:
+      task_id: git-integration-3-task-006
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:09:09.288006+00:00'
+    type: task_completed
+    description: Task 'Implement dependency-aware merge ordering' completed
+    context:
+      task_id: git-integration-3-task-006
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:10:14.151627+00:00'
+    type: task_started
+    description: Task 'Implement strategy preset adoption' started
+    context:
+      task_id: git-integration-3-task-007
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:13:05.104613+00:00'
+    type: task_completed
+    description: Task 'Implement strategy preset adoption' completed
+    context:
+      task_id: git-integration-3-task-007
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:13:31.058030+00:00'
+    type: task_started
+    description: Task 'Create integration test suite' started
+    context:
+      task_id: git-integration-3-task-008
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:15:02.114464+00:00'
+    type: task_completed
+    description: Task 'Create integration test suite' completed
+    context:
+      task_id: git-integration-3-task-008
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:15:23.875333+00:00'
+    type: task_started
+    description: Task 'Complete git integration documentation' started
+    context:
+      task_id: git-integration-3-task-009
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:16:36.628645+00:00'
+    type: task_completed
+    description: Task 'Complete git integration documentation' completed
+    context:
+      task_id: git-integration-3-task-009
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:18:04.677877+00:00'
+    type: sprint_completed
+    description: Sprint 'Advanced Integration & Conflict Resolution' completed
+    context:
+      sprint_id: git-integration-3
+  - timestamp: '2025-11-25T05:20:08.088975+00:00'
+    type: sprint_started
+    description: Sprint 'Vibey Repository Dogfooding & Configuration' started
+    context:
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:26:31.970053+00:00'
+    type: task_started
+    description: Task 'Review and document enforcement mode options' started
+    context:
+      task_id: git-integration-4-task-001
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:27:21.426593+00:00'
+    type: task_completed
+    description: Task 'Review and document enforcement mode options' completed
+    context:
+      task_id: git-integration-4-task-001
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:28:05.717657+00:00'
+    type: task_started
+    description: Task 'Configure commit tracking and evidence requirements' started
+    context:
+      task_id: git-integration-4-task-002
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:33:38.088752+00:00'
+    type: task_completed
+    description: Task 'Configure commit tracking and evidence requirements' completed
+    context:
+      task_id: git-integration-4-task-002
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:34:56.062851+00:00'
+    type: task_started
+    description: Task 'Implement CLI usage validation and suggestions' started
+    context:
+      task_id: git-integration-4-task-003
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:38:41.690133+00:00'
+    type: task_completed
+    description: Task 'Implement CLI usage validation and suggestions' completed
+    context:
+      task_id: git-integration-4-task-003
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:39:05.993056+00:00'
+    type: task_started
+    description: Task 'Set up advisory mode with selective blocking' started
+    context:
+      task_id: git-integration-4-task-004
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:41:19.439585+00:00'
+    type: task_completed
+    description: Task 'Set up advisory mode with selective blocking' completed
+    context:
+      task_id: git-integration-4-task-004
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:44:49.690014+00:00'
+    type: task_started
+    description: Task 'Evaluate dogfooding experience and iterate' started
+    context:
+      task_id: git-integration-4-task-005
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:45:40.126098+00:00'
+    type: task_started
+    description: Task 'Evaluate dogfooding experience and iterate' started
+    context:
+      task_id: git-integration-4-task-005
+      sprint_id: git-integration-4
+  - timestamp: '2025-11-25T05:46:58.676309+00:00'
+    type: task_completed
+    description: Task 'Evaluate dogfooding experience and iterate' completed
+    context:
+      task_id: git-integration-4-task-005
+      sprint_id: git-integration-4
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-23T21:04:54.235395+00:00'
+    last_updated: '2025-11-25T05:46:58.676311+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

@@ -40,7 +40,8 @@ except ImportError:
 def complete_task(
     root_dir: Path,
     task_id: str,
-    completed_by: str = "system"
+    completed_by: str = "system",
+    skip_commit_check: bool = False
 ) -> int:
     """
     Mark a task as completed.
@@ -49,6 +50,7 @@ def complete_task(
         root_dir: Root directory containing .vibey/
         task_id: ID of the task to complete (format: sprint-id-task-nnn)
         completed_by: Name of the user completing the task
+        skip_commit_check: If True, skip commit evidence validation
 
     Returns:
         Exit code: 0 for success, 1 for error
@@ -80,6 +82,22 @@ def complete_task(
     if not task:
         print(f"❌ Task '{task_id}' not found")
         return 1
+
+    # Check commit evidence before completion (unless skipped)
+    if not skip_commit_check:
+        try:
+            from vibey.operations.git.commit_evidence import check_commit_evidence
+            evidence_result = check_commit_evidence(task_id, root_dir)
+
+            if not evidence_result.can_complete:
+                print(f"❌ Cannot complete task: {evidence_result.message}")
+                return 1
+
+            if evidence_result.message and not evidence_result.has_evidence:
+                # Advisory warning
+                print(evidence_result.message)
+        except ImportError:
+            pass  # Module not available, skip check
 
     # Enforce standards before completion
     from .standards_enforcement import enforce_standards, print_enforcement_results, get_failure_summary

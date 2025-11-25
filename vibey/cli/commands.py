@@ -165,13 +165,13 @@ def roadmap_start_cmd(item_id: str) -> int:
         return 1
 
 
-def roadmap_complete_cmd(item_id: str) -> int:
+def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
     """Complete a track, sprint, or task."""
     root_dir = Path.cwd()  # Project root
 
     # Task IDs contain '-task-'
     if '-task-' in item_id:
-        return complete_task(root_dir, item_id)
+        return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
 
     # Check if it's a sprint (ends with -N where N is a number)
     # Sprint format: track-name-N (e.g., platform-context-management-5)
@@ -1504,3 +1504,82 @@ def validate_assets_cmd(asset_type: str = 'all', verbose: bool = False) -> int:
     print('=' * 60)
 
     return 0 if report.is_valid else 1
+
+
+def roadmap_sync_commits_cmd(dry_run: bool = False) -> int:
+    """Scan git history and link commits to tasks based on commit messages."""
+    from vibey.operations.git.commit_evidence import sync_commits_from_git
+    from vibey.operations.roadmap import add_commit_to_task
+
+    root_dir = Path.cwd()
+
+    print("Scanning git history for task references...")
+
+    found_commits = sync_commits_from_git(root_dir, dry_run=dry_run)
+
+    if not found_commits:
+        print("No commits with task references found.")
+        return 0
+
+    print(f"\nFound {sum(len(commits) for commits in found_commits.values())} commits referencing {len(found_commits)} tasks:")
+    print()
+
+    linked_count = 0
+    for task_id, commits in sorted(found_commits.items()):
+        print(f"  {task_id}: {len(commits)} commit(s)")
+        for sha in commits[:3]:  # Show first 3
+            print(f"    - {sha[:8]}")
+        if len(commits) > 3:
+            print(f"    ... and {len(commits) - 3} more")
+
+        if not dry_run:
+            # Link each commit
+            for sha in commits:
+                try:
+                    result = add_commit_to_task(
+                        task_id=task_id,
+                        commit_sha=sha,
+                        vibey_path=root_dir / ".vibey",
+                        auto_detect=False
+                    )
+                    if result == 0:
+                        linked_count += 1
+                except Exception:
+                    pass  # Skip errors silently
+
+    if dry_run:
+        print(f"\n[DRY RUN] Would link {sum(len(c) for c in found_commits.values())} commits")
+    else:
+        print(f"\n✅ Linked {linked_count} commits to tasks")
+
+    return 0
+
+
+def roadmap_validate_commits_cmd() -> int:
+    """Validate that all completed tasks have commit evidence."""
+    from vibey.operations.git.commit_evidence import validate_all_tasks_have_commits
+
+    root_dir = Path.cwd()
+
+    print("Validating commit evidence for completed tasks...")
+    print()
+
+    issues = validate_all_tasks_have_commits(root_dir)
+
+    if not issues:
+        print("✅ All completed tasks have commit evidence")
+        return 0
+
+    print(f"❌ Found {len(issues)} completed task(s) without commits:")
+    print()
+
+    for result in issues:
+        print(f"  • {result.task_id}")
+        print(f"    {result.message}")
+        print()
+
+    print("To link commits:")
+    print("  vibey roadmap add-commit <task-id> <sha>")
+    print("  vibey roadmap sync-commits  # Auto-link from git history")
+
+    return 1

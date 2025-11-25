@@ -225,18 +225,20 @@ def roadmap_start(ctx, item_id: str, skip_compatibility: bool, force: bool):
 
 @roadmap.command('complete')
 @click.argument('item_id')
+@click.option('--no-commits', is_flag=True, help='Skip commit evidence check (for non-code tasks)')
 @click.pass_context
-def roadmap_complete(ctx, item_id: str):
+def roadmap_complete(ctx, item_id: str, no_commits: bool):
     """Complete a track, sprint, or task
 
     Examples:
       vibey roadmap complete my-track                    # Complete a track
       vibey roadmap complete my-track-1                  # Complete a sprint
       vibey roadmap complete my-track-1-task-001        # Complete a task
+      vibey roadmap complete task-001 --no-commits      # Skip commit check
     """
     from vibey.cli.commands import roadmap_complete_cmd
 
-    exit_code = roadmap_complete_cmd(item_id)
+    exit_code = roadmap_complete_cmd(item_id, skip_commit_check=no_commits)
     sys.exit(exit_code)
 
 
@@ -278,6 +280,41 @@ def roadmap_add_commit(ctx, task_id: str, commit_sha: Optional[str], auto: bool)
     from vibey.cli.commands import roadmap_add_commit_cmd
 
     exit_code = roadmap_add_commit_cmd(task_id, commit_sha, auto)
+    sys.exit(exit_code)
+
+
+@roadmap.command('sync-commits')
+@click.option('--dry-run', is_flag=True, help='Show what would be linked without making changes')
+@click.pass_context
+def roadmap_sync_commits(ctx, dry_run: bool):
+    """Scan git history and link commits to tasks based on commit messages
+
+    Automatically finds commits that reference task IDs and links them
+    to the corresponding tasks in the roadmap.
+
+    Examples:
+      vibey roadmap sync-commits
+      vibey roadmap sync-commits --dry-run
+    """
+    from vibey.cli.commands import roadmap_sync_commits_cmd
+
+    exit_code = roadmap_sync_commits_cmd(dry_run)
+    sys.exit(exit_code)
+
+
+@roadmap.command('validate-commits')
+@click.pass_context
+def roadmap_validate_commits(ctx):
+    """Validate that all completed tasks have commit evidence
+
+    Checks all completed tasks and reports any that are missing commits.
+
+    Examples:
+      vibey roadmap validate-commits
+    """
+    from vibey.cli.commands import roadmap_validate_commits_cmd
+
+    exit_code = roadmap_validate_commits_cmd()
     sys.exit(exit_code)
 
 

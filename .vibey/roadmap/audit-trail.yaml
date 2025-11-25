@@ -479,6 +479,46 @@ audit_log:
   reason: Task completed via CLI by system
   commit: 449bd51
   source: cli
+- timestamp: '2025-11-25T05:18:04.376872+00:00'
+  object_type: sprint
+  object_id: git-integration-3
+  field: status
+  old_value: completion_gate_check
+  new_value: completed
+  changed_by: system
+  reason: Sprint completed via CLI by system
+  commit: de13927
+  source: cli
+- timestamp: '2025-11-25T05:20:07.962972+00:00'
+  object_type: sprint
+  object_id: git-integration-4
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Sprint started via CLI by system
+  commit: de13927
+  source: cli
+- timestamp: '2025-11-25T05:26:31.665137+00:00'
+  object_type: task
+  object_id: git-integration-4-task-001
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: de13927
+  source: cli
+- timestamp: '2025-11-25T05:27:21.113759+00:00'
+  object_type: task
+  object_id: git-integration-4-task-001
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: de13927
+  source: cli
 metadata:
-  last_updated: '2025-11-25T05:16:36.321411+00:00'
-  total_entries: 48
+  last_updated: '2025-11-25T05:27:21.129568+00:00'
+  total_entries: 52

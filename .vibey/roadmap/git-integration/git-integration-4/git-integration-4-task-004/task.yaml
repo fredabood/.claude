@@ -1,54 +1,43 @@
 task:
   id: git-integration-4-task-004
-  name: Set up advisory mode with selective blocking
+  sprint_id: git-integration-4
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Set up advisory mode with selective blocking
+  description: "Configure Vibey repository with advisory mode for most rules,\nbut\
+    \ block critical violations like invalid YAML.\n\nRECOMMENDED CONFIGURATION:\n\
+    ```yaml\n# .vibey/config/git.yaml\ngit:\n  enforcement:\n    mode: advisory  #\
+    \ Default: warn but don't block\n\n    rules:\n      # BLOCKING: Prevent corruption\n\
+    \      yaml_integrity:\n        enabled: true\n        mode: blocking\n\n    \
+    \  # ADVISORY: Encourage best practices\n      task_reference:\n        enabled:\
+    \ true\n        mode: advisory\n\n      cli_usage:\n        enabled: true\n  \
+    \      mode: advisory\n        suggest_cli_commands: true\n\n      commit_evidence:\n\
+    \        enabled: true\n        mode: advisory\n        require_commits: false\
+    \  # Start advisory\n```\n\nDELIVERABLES:\n- Git integration configuration for\
+    \ Vibey repo\n- Pre-commit and commit-msg hooks installed\n- Advisory warnings\
+    \ configured and tested\n"
   status: not_started
-  priority: high
-  estimated_hours: 4
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Configure Vibey repository with advisory mode for most rules,
-    but block critical violations like invalid YAML.
-
-    RECOMMENDED CONFIGURATION:
-    ```yaml
-    # .vibey/config/git.yaml
-    git:
-      enforcement:
-        mode: advisory  # Default: warn but don't block
-
-        rules:
-          # BLOCKING: Prevent corruption
-          yaml_integrity:
-            enabled: true
-            mode: blocking
-
-          # ADVISORY: Encourage best practices
-          task_reference:
-            enabled: true
-            mode: advisory
-
-          cli_usage:
-            enabled: true
-            mode: advisory
-            suggest_cli_commands: true
-
-          commit_evidence:
-            enabled: true
-            mode: advisory
-            require_commits: false  # Start advisory
-    ```
-
-    DELIVERABLES:
-    - Git integration configuration for Vibey repo
-    - Pre-commit and commit-msg hooks installed
-    - Advisory warnings configured and tested
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

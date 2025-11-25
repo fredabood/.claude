@@ -1,37 +1,39 @@
 task:
   id: git-integration-4-task-003
-  name: Implement CLI usage validation and suggestions
+  sprint_id: git-integration-4
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CLI usage validation and suggestions
+  description: "Detect manual YAML edits and suggest appropriate CLI commands instead.\n\
+    \nDETECTION:\n- Pre-commit hook detects YAML changes\n- Analyze what changed (task\
+    \ status, sprint progress, etc.)\n- Generate appropriate CLI command suggestion\n\
+    \nEXAMPLE OUTPUT:\n  [vibey] Advisory:\n    ⚠ Manual YAML edit detected: sprint.yaml\n\
+    \      Modified: tasks_completed, completion_percent\n      Suggestion: vibey\
+    \ roadmap update sprint git-integration-1 --status completed\n\n  Proceeding with\
+    \ commit... ✓\n\nDELIVERABLES:\n- YAML change detection logic\n- CLI command suggestion\
+    \ generator\n- Integration with pre-commit hook\n"
   status: not_started
-  priority: medium
-  estimated_hours: 5
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Detect manual YAML edits and suggest appropriate CLI commands instead.
-
-    DETECTION:
-    - Pre-commit hook detects YAML changes
-    - Analyze what changed (task status, sprint progress, etc.)
-    - Generate appropriate CLI command suggestion
-
-    EXAMPLE OUTPUT:
-      [vibey] Advisory:
-        ⚠ Manual YAML edit detected: sprint.yaml
-          Modified: tasks_completed, completion_percent
-          Suggestion: vibey roadmap update sprint git-integration-1 --status completed
-
-      Proceeding with commit... ✓
-
-    DELIVERABLES:
-    - YAML change detection logic
-    - CLI command suggestion generator
-    - Integration with pre-commit hook
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

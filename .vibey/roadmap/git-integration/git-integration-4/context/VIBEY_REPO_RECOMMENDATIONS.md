@@ -1,17 +1,25 @@
 # Vibey Repository Git Integration Recommendations
 
 **Sprint:** git-integration-4
-**Status:** Planning
-**Author:** Architecture discussions from Sprint 1
-**Date:** 2025-11-24
+**Status:** Approved
+**Author:** Architecture discussions from Sprint 1, updated Sprint 4
+**Date:** 2025-11-25
 
 ---
 
 ## Executive Summary
 
-This document captures recommendations for configuring git integration features in the Vibey repository itself. These recommendations emerged from discussions during Sprint 1 implementation about dogfooding best practices.
+This document captures the approved configuration for git integration features in the Vibey repository itself.
 
-**Key Recommendation:** Start with **Advisory Mode** with selective blocking for critical violations.
+**Approved Configuration:** **Blocking Mode** with strict enforcement:
+
+| Rule | Mode | Requirement |
+|------|------|-------------|
+| Commit → Task | **Blocking** | Every commit must reference a task |
+| Task → Commit | **Blocking** | Every task completion requires commits |
+| CLI/MCP Usage | **Blocking** | Roadmap updates must use CLI or MCP |
+| Track Branches | **Blocking** | Active tracks must have dedicated branches |
+| YAML Integrity | **Blocking** | Invalid YAML always blocked |
 
 ---
 
@@ -300,16 +308,16 @@ git:
 
 ---
 
-## Recommended Configuration for Vibey
+## Approved Configuration for Vibey
 
 ### Complete Configuration File
 
 ```yaml
 # .vibey/config/git.yaml
 git:
-  # Enforcement philosophy
+  # Enforcement philosophy - STRICT MODE
   enforcement:
-    mode: advisory  # Warn but don't block
+    mode: blocking  # Enforce all rules
 
     # Audit logging (track compliance)
     audit:
@@ -317,77 +325,120 @@ git:
       file: .vibey/audit/enforcement.log
       retention_days: 90
 
-    # Individual rules
+    # Individual rules - ALL BLOCKING
     rules:
       # BLOCKING: Prevent corruption
       yaml_integrity:
         enabled: true
-        mode: blocking  # Always block invalid YAML
+        mode: blocking
+        description: "Invalid YAML is never allowed"
 
-      # ADVISORY: Encourage task references
+      # BLOCKING: Every commit must reference a task
       task_reference:
         enabled: true
-        mode: advisory
+        mode: blocking
         require_valid_id: true
+        description: "Every commit must reference a valid task ID"
+        patterns:
+          - "feat(<task-id>):"
+          - "fix(<task-id>):"
+          - "Task: <task-id>"
+          - "[<task-id>]"
 
-      # ADVISORY: Suggest CLI usage
+      # BLOCKING: CLI/MCP required for roadmap updates
       cli_usage:
         enabled: true
-        mode: advisory
-        suggest_cli_commands: true
+        mode: blocking
+        require_cli_or_mcp: true
         detect_manual_edits: true
+        description: "Roadmap YAML updates must use CLI or MCP, not manual edits"
+        allowed_manual_files:
+          - "context/*.md"  # Context docs can be manual
 
-      # ADVISORY: Check for commit evidence
+      # BLOCKING: Tasks require commit evidence
       commit_evidence:
         enabled: true
-        mode: advisory
-        require_commits: false  # Start false
-        warn_missing: true
-        suggest_link_commands: true
+        mode: blocking
+        require_commits: true
+        description: "Every task completion requires at least one commit"
+        exceptions:
+          task_types:
+            - documentation  # Pure docs tasks may not have code commits
+            - planning
+            - review
 
-      # ADVISORY: Warn about status issues
-      task_status:
+      # BLOCKING: Track branches required
+      track_branches:
         enabled: true
-        mode: advisory
-        warn_blocked: true
-        warn_completed_modifications: true
+        mode: blocking
+        require_branch_for_tracks: true
+        branch_pattern: "track/<track-id>"
+        description: "Active tracks must have dedicated branches"
+
+      # BLOCKING: Dependency ordering
+      merge_ordering:
+        enabled: true
+        mode: blocking
+        enforce_dependency_order: true
+        description: "Branches must be merged in dependency order"
 
   # Commit tracking
   commit_tracking:
     record_commits: true
-    require_commits: false  # Start advisory
-    auto_link: true  # Auto-link commits with task refs
+    require_commits: true  # REQUIRED
+    auto_link: true
+    bidirectional: true  # Both commit→task and task→commit
+
+  # Branch strategy
+  branching:
+    strategy: hierarchical
+    require_track_branches: true
+    branch_patterns:
+      track: "track/<track-id>"
+      sprint: "sprint/<sprint-id>"
+      task: "feature/<task-id>"
 
   # Validation points
   validation:
-    on_commit: true   # Pre-commit hook
-    on_push: false    # Don't validate every push (yet)
-    on_merge: true    # Validate PRs
+    on_commit: true    # Pre-commit hook
+    on_push: true      # Pre-push hook
+    on_merge: true     # PR merge checks
 ```
 
 ### Why This Configuration?
 
-1. **YAML Integrity = Blocking**
+1. **Every Commit → Task (Blocking)**
+   - Full traceability of all changes
+   - Audit trail for compliance
+   - No orphan commits
+
+2. **Every Task → Commit (Blocking)**
+   - Proof of work for all tasks
+   - Prevents marking tasks complete without evidence
+   - Exception for pure documentation/planning tasks
+
+3. **CLI/MCP Required (Blocking)**
+   - Ensures data consistency
+   - Proper validation on all updates
+   - Prevents calculation errors from manual edits
+
+4. **Track Branches Required (Blocking)**
+   - Clear ownership of code changes
+   - Better PR organization
+   - Supports hierarchical merge strategy
+
+5. **YAML Integrity (Blocking)**
    - Invalid YAML breaks everything
-   - No good reason to allow corrupt files
-   - Escape hatch: `--no-verify` for emergencies
+   - Non-negotiable
 
-2. **Everything Else = Advisory**
-   - Guides toward best practices
-   - Doesn't block work
-   - Collects metrics
-   - Identifies UX issues
+### Escape Hatches
 
-3. **Commit Tracking = Record, Don't Require**
-   - Track commits automatically
-   - Warn if missing, don't block
-   - Allows non-code tasks
-   - Lower friction for adoption
+For emergencies, `--no-verify` bypasses hooks:
+```bash
+git commit --no-verify -m "emergency: Critical hotfix"
+```
 
-4. **CLI Suggestions = Enabled**
-   - Helps learn CLI commands
-   - Shows value of using tools
-   - Non-intrusive
+All bypasses are logged to the audit file for review.
 
 ---
 

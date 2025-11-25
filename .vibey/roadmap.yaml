@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 33
-    tracks_completed: 17
-    sprints_total: 97
-    sprints_completed: 60
-    tasks_total: 726
-    tasks_completed: 526
-    completion_percent: 72
+    tracks_total: 34
+    tracks_completed: 20
+    sprints_total: 134
+    sprints_completed: 77
+    tasks_total: 957
+    tasks_completed: 637
+    completion_percent: 66
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -104,7 +104,7 @@ roadmap:
     priority: high
   - id: cody-port
     name: Sourcegraph Cody Platform Port
-    status: not_started
+    status: in_progress
     priority: low
   - id: replit-port
     name: Replit Agent Platform Port

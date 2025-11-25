@@ -8,26 +8,41 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Add the untracked brew-package directory to git version control.
+  description: 'Add the untracked brew-package directory to git version control.
+
 
     CURRENT STATE:
+
     - .vibey/roadmap/brew-package/ is completely untracked
+
     - Contains track.yaml, 2 sprint directories, 12 embedded tasks
+
     - Data at risk of loss
 
+
     COMMANDS:
+
     ```bash
+
     cd /Users/fredabood/Repositories/vibey
+
     git add .vibey/roadmap/brew-package/
+
     git status  # Verify files staged
+
     ```
 
+
     VERIFICATION:
+
     - git ls-files --error-unmatch .vibey/roadmap/brew-package/track.yaml
+
     - Should return path (not error)
 
+
     DO NOT COMMIT YET - batch with other fixes in task-005.
+
+    '
   acceptance_criteria:
   - brew-package directory staged in git
   - All files (track.yaml, sprint.yaml files) included
@@ -36,6 +51,10 @@ task:
   blocked_by: []
   depended_on_by:
   - roadmap-integrity-fixes-2-1-task-005
-  commits: []
+  commits:
+  - sha: e2386e5c74f61c4c01c66e127b9081a354d92d2d
+    message: 'fix: Roadmap data integrity remediation (Phase 2, Sprint 1)'
+    author: '@fredabood <fredabood@gmail.com>'
+    date: '2025-11-24T23:15:38-05:00'
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: '2025-11-25T04:50:22.790582+00:00'

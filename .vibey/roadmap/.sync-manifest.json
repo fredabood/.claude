@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-11-24T14:53:19.657982+00:00",
+  "last_sync": "2025-11-25T05:04:21.529980+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -1044,17 +1044,30 @@
       "checksum": "fd833a447c7633199103764ed58b6cd41440c913937737ba0c1347fa969f0064",
       "synced_at": "2025-11-23T19:01:55.745038+00:00",
       "file_size": 18918
+    },
+    "roadmap-integrity-fixes/roadmap-integrity-fixes-11/TASK_PLAN.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-11/TASK_PLAN.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-11/TASK_PLAN.md",
+      "checksum": "49862f1c192abbaec9612fc0c7c490d1fd9b2d994fab88645c36174c22fc280f",
+      "synced_at": "2025-11-25T05:04:21.529308+00:00",
+      "file_size": 13110
+    },
+    "roadmap-integrity-fixes/roadmap-integrity-fixes-2/GIT-INTEGRATION-AUDIT-SUMMARY.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-2/GIT-INTEGRATION-AUDIT-SUMMARY.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-2/GIT-INTEGRATION-AUDIT-SUMMARY.md",
+      "checksum": "4ad426d32683c8fa83688e4c37eefe2f5080ed53c0f86ccb8e3daf2e5df29881",
+      "synced_at": "2025-11-25T05:04:21.529548+00:00",
+      "file_size": 6658
+    },
+    "roadmap-integrity-fixes/roadmap-integrity-fixes-2/git-integration-audit-remediation-plan.md": {
+      "source_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-2/git-integration-audit-remediation-plan.md",
+      "target_path": "roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-2/git-integration-audit-remediation-plan.md",
+      "checksum": "3938bfc7e720b2ee20feb53b293e916496a155aac7762546954adfbdff41b526",
+      "synced_at": "2025-11-25T05:04:21.529726+00:00",
+      "file_size": 13346
     }
   },
   "sync_history": [
-    {
-      "timestamp": "2025-11-10T23:44:55.880137+00:00",
-      "files_copied": 0,
-      "files_skipped": 75,
-      "files_deleted": 0,
-      "duration_seconds": 0.00828,
-      "errors": 0
-    },
     {
       "timestamp": "2025-11-10T23:47:33.497899+00:00",
       "files_copied": 0,
@@ -1445,6 +1458,14 @@
       "files_skipped": 80,
       "files_deleted": 0,
       "duration_seconds": 0.027184,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-25T05:04:21.529980+00:00",
+      "files_copied": 3,
+      "files_skipped": 80,
+      "files_deleted": 0,
+      "duration_seconds": 0.031925,
       "errors": 0
     }
   ]

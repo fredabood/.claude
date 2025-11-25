@@ -389,6 +389,16 @@ audit_log:
   reason: Task started via CLI by system
   commit: 441f5bb
   source: cli
+- timestamp: '2025-11-25T05:04:21.157190+00:00'
+  object_type: task
+  object_id: git-integration-3-task-005
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 617a1bc
+  source: cli
 metadata:
-  last_updated: '2025-11-25T05:01:14.852017+00:00'
-  total_entries: 39
+  last_updated: '2025-11-25T05:04:21.170381+00:00'
+  total_entries: 40

@@ -2,43 +2,51 @@ sprint:
   id: git-integration-3
   name: Advanced Integration & Conflict Resolution
   track_id: git-integration
+  roadmap_id: vibey-framework-v2
   status: in_progress
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: '2025-11-25T00:15:00+00:00'
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 3.5 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 9
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 9
-    tasks_completed: 3
-    completion_percent: 33
+    tasks_completed: 5
+    completion_percent: 55
   tasks: []
-
-  dependencies:
-  - git-integration-0
-  - git-integration-1
-  - git-integration-2
+  development_gates: []
+  blocks: []
   blocked_by:
-  - git-integration-0
-  - git-integration-1
-  - git-integration-2
+  - dependency_id: git-integration-0
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  - dependency_id: git-integration-1
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  - dependency_id: git-integration-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Integration Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: 90%+ coverage for advanced features
-  - name: CI Integration Tests
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All CI integrations tested and working
-  - name: Documentation Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All features documented
+  plan_file: null
   deliverables:
   - Error handling and recovery system
   - Tag repair automation (validate-tags, repair-tags)
@@ -49,31 +57,12 @@ sprint:
   - Strategy preset adoption commands (list, adopt, validate)
   - Comprehensive integration test suite
   - Complete git integration documentation
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-25T00:00:00+00:00'
-    notes: |
-      Sprint 3 builds advanced features on top of Sprint 2's core hooks.
-
-      TASK ORDER:
-      Tasks are ordered by implementation priority:
-      1. Error handling (foundation)
-      2. Tag repair (critical for git ops)
-      3. PR conflict detection (high-value)
-      4. Blocker enforcement (prevent invalid work)
-      5. Quality gate CI (automation)
-      6. Dependency ordering (smart merging)
-      7. Strategy presets (UX improvement)
-      8. Integration tests (validation)
-      9. Documentation (final polish)
-
-      KEY FEATURES:
-      - Conflict detection prevents duplicate task completion claims
-      - Quality gates integrate with CI/CD for automated checks
-      - Blocker enforcement prevents work on blocked items
-      - Dependency ordering suggests optimal merge sequence
-
-      All features respect the enforcement philosophy from Sprint 0:
-      - Off/Advisory/Blocking/Audit modes
-      - Configurable per-project and per-branch
-      - Clear error messages with remediation steps
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

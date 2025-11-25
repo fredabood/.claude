@@ -13,8 +13,8 @@ track:
     sprints_total: 5
     sprints_completed: 3
     tasks_total: 41
-    tasks_completed: 30
-    completion_percent: 73
+    tasks_completed: 32
+    completion_percent: 78
   sprints:
   - id: git-integration-0
     name: Integration Architecture & Design
@@ -22,21 +22,18 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 7
     started: '2025-11-24T00:00:00+00:00'
-    completed: '2025-11-24T00:00:00+00:00'
   - id: git-integration-1
     name: Git History & Commit Analysis
     status: completed
     estimated_duration: 2.5 weeks
     tasks_count: 9
     started: '2025-11-24T00:00:00+00:00'
-    completed: '2025-11-24T18:00:00+00:00'
   - id: git-integration-2
     name: Git Hooks Core
     status: completed
     estimated_duration: 3 weeks
     tasks_count: 11
     started: '2025-11-24T18:45:00+00:00'
-    completed: '2025-11-25T00:00:00+00:00'
   - id: git-integration-3
     name: Advanced Integration & Conflict Resolution
     status: in_progress
@@ -90,7 +87,6 @@ track:
   - test-engineer
   - docs-writer
   deliverables:
-  # Sprint 0: Architecture & Design
   - Vibey-Git primitive mapping specification
   - Source of truth policy document
   - Commit message convention specification
@@ -98,24 +94,20 @@ track:
   - Enforcement philosophy specification
   - State reconstruction design
   - Comprehensive architecture document
-  # Sprint 1: Analysis
   - Commit-to-task correlation engine
   - Git history analysis for sprint velocity
   - vibey git analyze CLI command
-  # Sprint 2: Hooks
   - Pre-commit and commit-msg hooks
   - vibey git hooks install/uninstall commands
   - Automatic task status updates from commits
   - Branch-to-task linking system
   - PR description generator
-  # Sprint 3: Advanced
   - PR merge checkpoint for task status conflicts
   - Quality gate CI integration
   - Blocker enforcement in git workflow
   - Dependency-aware merge ordering
   - Error handling and recovery system
   - Complete git integration documentation
-  # Sprint 4: Dogfooding
   - Vibey repository enforcement mode configuration
   - Commit tracking and evidence requirements
   - CLI usage validation and suggestions
@@ -137,59 +129,30 @@ track:
     last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      Enhanced git integration with architecture-first approach.
-
-      SPRINT STRUCTURE:
-      0. Integration Architecture & Design (2 weeks, 7 tasks) ✅ COMPLETE
-         Establishes "true north" for Vibey-Git integration:
-         - How primitives map (roadmap→repo, task→commit, etc.)
-         - Three-scenario source of truth (YAML-only, Hybrid, Git-primary)
-         - Commit conventions and branching strategy
-         - Enforcement philosophy (advisory/blocking/audit)
-         - 10 architecture documents, 157KB of design specs
-
-      1. Git History & Commit Analysis (2.5 weeks, 9 tasks)
-         Reading/analyzing git history:
-         - Parse commits for task references (conventional, footer, bracket)
-         - Calculate sprint velocity from git log
-         - State reconstruction (state-at, diff, history, progress, rollback)
-         - Sprint/task tag parsing
-         - vibey git analyze command
-
-      2. Git Hooks Core (3 weeks, 11 tasks)
-         Core hook infrastructure:
-         - Pre-commit validation
-         - Commit-msg parsing
-         - Auto status updates
-         - Branch linking
-         - Sprint tagging system
-         - Git-primary sync command
-         - Mode detection and strategy enforcement
-
-      3. Advanced Integration (3.5 weeks, 9 tasks)
-         Advanced features:
-         - PR merge conflict detection
-         - Quality gate CI integration
-         - Blocker enforcement
-         - Dependency-aware merging
-         - Tag repair automation
-         - Strategy preset adoption
-
-      4. Vibey Repository Dogfooding (1.5 weeks, 5 tasks)
-         Apply git integration to Vibey itself:
-         - Review enforcement mode options (off/advisory/blocking/audit)
-         - Configure commit tracking (require_commits setting)
-         - Implement CLI usage suggestions vs manual YAML edits
-         - Set up advisory mode with YAML integrity blocking
-         - Evaluate dogfooding experience and iterate
-
-      DEPENDENCY CHAIN:
-      Sprint 0 → Sprint 1 ─┐
-                          ├→ Sprint 3 → Sprint 4
-      Sprint 0 → Sprint 2 ─┘
-
-      Sprint 0 (design) must complete before any implementation starts.
-      Sprint 1 and 2 can run in parallel after Sprint 0.
-      Sprint 3 requires both Sprint 1 and 2.
-      Sprint 4 (dogfooding) requires Sprint 3 completion.
+    notes: "Enhanced git integration with architecture-first approach.\n\nSPRINT STRUCTURE:\n\
+      0. Integration Architecture & Design (2 weeks, 7 tasks) ✅ COMPLETE\n   Establishes\
+      \ \"true north\" for Vibey-Git integration:\n   - How primitives map (roadmap→repo,\
+      \ task→commit, etc.)\n   - Three-scenario source of truth (YAML-only, Hybrid,\
+      \ Git-primary)\n   - Commit conventions and branching strategy\n   - Enforcement\
+      \ philosophy (advisory/blocking/audit)\n   - 10 architecture documents, 157KB\
+      \ of design specs\n\n1. Git History & Commit Analysis (2.5 weeks, 9 tasks)\n\
+      \   Reading/analyzing git history:\n   - Parse commits for task references (conventional,\
+      \ footer, bracket)\n   - Calculate sprint velocity from git log\n   - State\
+      \ reconstruction (state-at, diff, history, progress, rollback)\n   - Sprint/task\
+      \ tag parsing\n   - vibey git analyze command\n\n2. Git Hooks Core (3 weeks,\
+      \ 11 tasks)\n   Core hook infrastructure:\n   - Pre-commit validation\n   -\
+      \ Commit-msg parsing\n   - Auto status updates\n   - Branch linking\n   - Sprint\
+      \ tagging system\n   - Git-primary sync command\n   - Mode detection and strategy\
+      \ enforcement\n\n3. Advanced Integration (3.5 weeks, 9 tasks)\n   Advanced features:\n\
+      \   - PR merge conflict detection\n   - Quality gate CI integration\n   - Blocker\
+      \ enforcement\n   - Dependency-aware merging\n   - Tag repair automation\n \
+      \  - Strategy preset adoption\n\n4. Vibey Repository Dogfooding (1.5 weeks,\
+      \ 5 tasks)\n   Apply git integration to Vibey itself:\n   - Review enforcement\
+      \ mode options (off/advisory/blocking/audit)\n   - Configure commit tracking\
+      \ (require_commits setting)\n   - Implement CLI usage suggestions vs manual\
+      \ YAML edits\n   - Set up advisory mode with YAML integrity blocking\n   - Evaluate\
+      \ dogfooding experience and iterate\n\nDEPENDENCY CHAIN:\nSprint 0 → Sprint\
+      \ 1 ─┐\n                    ├→ Sprint 3 → Sprint 4\nSprint 0 → Sprint 2 ─┘\n\
+      \nSprint 0 (design) must complete before any implementation starts.\nSprint\
+      \ 1 and 2 can run in parallel after Sprint 0.\nSprint 3 requires both Sprint\
+      \ 1 and 2.\nSprint 4 (dogfooding) requires Sprint 3 completion.\n"

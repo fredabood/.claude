@@ -1,12 +1,13 @@
 """
 MCP Tools.
 
-Tool definitions and handlers for roadmap operations.
+Tool definitions and handlers for roadmap and content operations.
 """
 
 from .task_tools import get_task_tools, handle_task_tool
 from .sprint_tools import get_sprint_tools, handle_sprint_tool
 from .query_tools import get_query_tools, handle_query_tool
+from .content_tools import get_content_tools, handle_content_tool
 
 __all__ = [
     "get_task_tools",
@@ -15,4 +16,6 @@ __all__ = [
     "handle_sprint_tool",
     "get_query_tools",
     "handle_query_tool",
+    "get_content_tools",
+    "handle_content_tool",
 ]

@@ -59,7 +59,7 @@ RECOMMENDED_SECTIONS = [
 @pytest.fixture
 def agents_dir():
     """Get the agents directory path."""
-    return Path(__file__).parent.parent.parent / 'framework' / 'agents'
+    return Path(__file__).parent.parent.parent / 'vibey' / 'content' / 'agents'
 
 
 @pytest.fixture

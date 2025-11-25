@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Dict, List, Any, Tuple, Optional
 import yaml
 
+from vibey.content import get_agents_dir, get_workflows_dir, get_templates_dir
+
 
 # Required fields by asset type
 REQUIRED_FIELDS = {
@@ -204,11 +206,11 @@ class FrontmatterValidator:
     def validate_assets(self, asset_type: str) -> FrontmatterValidationReport:
         """Validate all assets of a given type."""
         if asset_type == 'agents':
-            search_dir = self.root_dir / 'framework' / 'agents'
+            search_dir = get_agents_dir()
         elif asset_type == 'workflows':
-            search_dir = self.root_dir / 'framework' / 'workflows'
+            search_dir = get_workflows_dir()
         elif asset_type == 'handoffs':
-            search_dir = self.root_dir / 'framework' / 'templates' / 'handoffs'
+            search_dir = get_templates_dir() / 'handoffs'
         else:
             return self.report
 

@@ -423,25 +423,25 @@ class TestGooseConfigurationValidation:
         assert vibey_ext['timeout'] > 0
 
     def test_server_script_exists(self):
-        """Test MCP server script exists."""
-        server_script = PROJECT_ROOT / 'scripts' / 'run-mcp-server.py'
-        assert server_script.exists(), f"Server script not found: {server_script}"
+        """Test MCP server module exists."""
+        server_module = PROJECT_ROOT / 'vibey' / 'mcp' / 'server.py'
+        assert server_module.exists(), f"Server module not found: {server_module}"
 
     def test_server_script_syntax(self):
-        """Test MCP server script has valid Python syntax."""
-        server_script = PROJECT_ROOT / 'scripts' / 'run-mcp-server.py'
+        """Test MCP server module has valid Python syntax."""
+        server_module = PROJECT_ROOT / 'vibey' / 'mcp' / 'server.py'
 
-        if not server_script.exists():
-            pytest.skip("Server script not found")
+        if not server_module.exists():
+            pytest.skip("Server module not found")
 
         # Check syntax by compiling
-        with open(server_script) as f:
+        with open(server_module) as f:
             code = f.read()
 
         try:
-            compile(code, server_script, 'exec')
+            compile(code, server_module, 'exec')
         except SyntaxError as e:
-            pytest.fail(f"Server script has syntax error: {e}")
+            pytest.fail(f"Server module has syntax error: {e}")
 
 
 class TestPerformanceBaseline:

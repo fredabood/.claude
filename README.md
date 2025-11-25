@@ -1,6 +1,6 @@
 # Vibey Agent Framework
 
-**Version:** 1.3.0 (Config-to-Docs Architecture)
+**Version:** 2.5.0
 **Status:** Production Ready (Platform-Agnostic Core)
 
 An intelligent, platform-agnostic agent orchestration framework that provides specialized agents, structured workflows, quality gates, and automatic agent selection for building production-quality software across multiple AI coding platforms.
@@ -12,7 +12,17 @@ An intelligent, platform-agnostic agent orchestration framework that provides sp
 
 ---
 
-## 🎯 What's New in v1.3.0
+## What's New in v2.5.0
+
+### pip Installation Support
+
+Vibey is now available on PyPI:
+
+```bash
+pip install vibey-framework
+```
+
+After installation, the `vibey` CLI is available globally, and framework content (agents, workflows, templates) is accessible programmatically via `vibey.content`.
 
 ### Platform-Agnostic Architecture
 
@@ -61,29 +71,47 @@ The `.vibey/` directory is now **permanent** and contains:
 
 ---
 
-## Quick Start (3 Steps)
+## Installation
 
-### 1. Navigate to Your Project
+### Via pip (Recommended)
+
+```bash
+pip install vibey-framework
+```
+
+### For Development
+
+```bash
+git clone https://github.com/fredabood/vibey.git
+cd vibey
+pip install -e .
+```
+
+---
+
+## Quick Start
+
+### 1. Install the Package
+
+```bash
+pip install vibey-framework
+```
+
+### 2. Initialize in Your Project
 
 ```bash
 cd /path/to/your-project
-```
-
-### 2. Clone Framework
-
-```bash
-git clone https://github.com/fredabood/vibey.git .vibey
+vibey init
 ```
 
 ### 3. Deploy to Your Platform
 
 ```bash
 # For Claude Code users
-cd .vibey
-./vibey deploy --platform claude-code
+vibey deploy --platform claude-code
 
 # For Goose users
-./vibey deploy --platform goose
+vibey deploy --platform goose
 ```
 
 **That's it!** The framework will:
@@ -664,6 +692,47 @@ MIT License - see LICENSE file
 
 ---
 
+## Programmatic Access
+
+After installation, you can access framework content programmatically:
+
+```python
+from vibey.content import (
+    get_content_root,
+    get_agents_dir,
+    get_workflows_dir,
+    get_templates_dir,
+    get_schemas_dir,
+    get_examples_dir,
+    get_config_dir
+)
+
+# Get paths to content directories
+agents_dir = get_agents_dir()
+workflows_dir = get_workflows_dir()
+templates_dir = get_templates_dir()
+
+# List all agent files
+for agent_file in agents_dir.rglob('*.md'):
+    print(f"Found agent: {agent_file.name}")
+
+# Access workflow content
+workflow = (workflows_dir / 'development' / 'feature-development.md').read_text()
+```
+
+For MCP tool discovery:
+
+```python
+from vibey.mcp.discovery import ToolDiscovery
+
+# Discover all agents and workflows as MCP tools
+discovery = ToolDiscovery()
+tools = discovery.get_all_tools()
+print(f"Found {len(tools)} MCP tools")
+```
+
+---
+
 ## Framework Statistics
 
 **Total Lines:** ~50,600+ across 68 components
@@ -694,10 +763,10 @@ MIT License - see LICENSE file
 
 ---
 
-**Ready to build production-quality software with Vibey!** 🚀
+**Ready to build production-quality software with Vibey!**
 
 ```bash
+pip install vibey-framework
 cd your-project
-git clone https://github.com/fredabood/vibey.git .vibey
-.vibey/vibey deploy --platform claude-code
+vibey init && vibey deploy --platform claude-code
 ```

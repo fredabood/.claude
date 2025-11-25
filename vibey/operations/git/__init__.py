@@ -137,6 +137,15 @@ from vibey.operations.git.tag_repair import (
     move_tag,
 )
 
+from vibey.operations.git.merge_checker import (
+    TaskStatusChange,
+    TaskConflict,
+    ConflictResolution,
+    MergeCheckResult,
+    MergeChecker,
+    check_merge,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -237,4 +246,11 @@ __all__ = [
     "find_dangling_tags",
     "repair_all_tags",
     "move_tag",
+    # Merge checker
+    "TaskStatusChange",
+    "TaskConflict",
+    "ConflictResolution",
+    "MergeCheckResult",
+    "MergeChecker",
+    "check_merge",
 ]

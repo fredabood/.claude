@@ -60,6 +60,8 @@ from vibey.operations.git import (
     find_dangling_tags,
     repair_all_tags,
     move_tag,
+    MergeChecker,
+    check_merge,
 )
 
 console = Console()
@@ -3344,6 +3346,156 @@ def tag_move_cmd(ctx, tag_name: str, new_sha: str, repo: str, force: bool):
         console.print(f"[green]✓[/green] [bold]Tag moved successfully[/bold]")
         console.print(f"\n[cyan]Tag:[/cyan] {tag_name}")
         console.print(f"[cyan]New commit:[/cyan] {new_sha}")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@git_group.command('check-merge')
+@click.argument('pr_branch')
+@click.option('--target', 'target_branch', default='main', help='Target branch (default: main)')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.option('--format', 'output_format', type=click.Choice(['summary', 'detailed', 'json']), default='summary',
+              help='Output format')
+@click.pass_context
+def check_merge_cmd(ctx, pr_branch: str, target_branch: str, repo: str, output_format: str):
+    """
+    Check for task completion conflicts before merging a PR.
+
+    Detects when a task is marked complete in both the PR branch
+    and target branch, which may indicate duplicate work or conflicts.
+
+    Examples:
+
+      vibey git check-merge feature/task-123            # Check against main
+      vibey git check-merge feature/fix --target dev    # Check against dev
+      vibey git check-merge my-branch --format detailed # Detailed output
+    """
+    try:
+        result, error = check_merge(pr_branch, target_branch, repo_path=repo)
+
+        if error:
+            console.print(f"[red]Error:[/red] {error}")
+            sys.exit(1)
+
+        if output_format == 'json':
+            output = {
+                'pr_branch': result.pr_branch,
+                'target_branch': result.target_branch,
+                'safe_to_merge': result.safe_to_merge,
+                'conflicts': [
+                    {
+                        'task_id': c.task_id,
+                        'file_path': c.file_path,
+                        'pr_status': c.pr_status,
+                        'target_status': c.target_status,
+                        'severity': c.severity,
+                        'pr_commit': c.pr_commit,
+                        'target_commit': c.target_commit
+                    }
+                    for c in result.conflicts
+                ],
+                'warnings': result.warnings,
+                'checked_at': result.checked_at.isoformat()
+            }
+            console.print(json.dumps(output, indent=2))
+
+        elif output_format == 'detailed':
+            console.print()
+
+            # Status panel
+            status_text = "SAFE TO MERGE" if result.safe_to_merge else "CONFLICTS DETECTED"
+            status_color = "green" if result.safe_to_merge else "red"
+            status_icon = "✓" if result.safe_to_merge else "✗"
+
+            console.print(Panel(
+                f"[bold {status_color}]{status_icon} {status_text}[/bold {status_color}]\n\n"
+                f"[cyan]PR Branch:[/cyan] {result.pr_branch}\n"
+                f"[cyan]Target Branch:[/cyan] {result.target_branch}\n"
+                f"[cyan]Conflicts:[/cyan] {len(result.conflicts)}\n"
+                f"[cyan]Warnings:[/cyan] {len(result.warnings)}",
+                title="Merge Check",
+                border_style=status_color
+            ))
+
+            # Conflicts
+            if result.conflicts:
+                errors = [c for c in result.conflicts if c.severity == 'error']
+                warns = [c for c in result.conflicts if c.severity == 'warning']
+
+                if errors:
+                    console.print("\n[bold red]Conflicts (Blocking):[/bold red]\n")
+                    for conflict in errors:
+                        console.print(f"  [red]✗[/red] {conflict.task_id}")
+                        console.print(f"    [dim]File: {conflict.file_path}[/dim]")
+                        console.print(f"    [dim]PR: {conflict.pr_status} | Target: {conflict.target_status}[/dim]")
+                        if conflict.pr_commit:
+                            console.print(f"    [dim]PR commit: {conflict.pr_commit[:8]}[/dim]")
+                        if conflict.target_commit:
+                            console.print(f"    [dim]Target commit: {conflict.target_commit[:8]}[/dim]")
+                        console.print()
+
+                if warns:
+                    console.print("\n[bold yellow]Conflicts (Advisory):[/bold yellow]\n")
+                    for conflict in warns:
+                        console.print(f"  [yellow]![/yellow] {conflict.task_id}")
+                        console.print(f"    [dim]File: {conflict.file_path}[/dim]")
+                        console.print(f"    [dim]PR: {conflict.pr_status} | Target: {conflict.target_status}[/dim]")
+                        console.print()
+
+            # Warnings
+            if result.warnings:
+                console.print("\n[bold yellow]Warnings:[/bold yellow]\n")
+                for warning in result.warnings:
+                    console.print(f"  [yellow]![/yellow] {warning}")
+
+            if not result.safe_to_merge:
+                console.print("\n[red]⚠ Merge blocked due to conflicts. Reconciliation required.[/red]")
+                console.print("\n[bold]Resolution options:[/bold]")
+                console.print("  1. Keep target's completion (discard PR claim)")
+                console.print("  2. Keep PR's completion (override target)")
+                console.print("  3. Merge completions (both contributed)")
+
+        else:  # summary
+            status_icon = "[green]✓[/green]" if result.safe_to_merge else "[red]✗[/red]"
+            status_text = "Safe to merge" if result.safe_to_merge else "Conflicts detected"
+
+            console.print()
+            console.print(f"{status_icon} [bold]Merge Check:[/bold] {status_text}")
+            console.print(f"\n[cyan]PR:[/cyan] {result.pr_branch} → {result.target_branch}")
+
+            if result.conflicts:
+                errors = [c for c in result.conflicts if c.severity == 'error']
+                warns = [c for c in result.conflicts if c.severity == 'warning']
+
+                if errors:
+                    console.print(f"\n[red]Blocking conflicts: {len(errors)}[/red]")
+                    for conflict in errors[:3]:
+                        console.print(f"  • {conflict.task_id}: {conflict.pr_status} (PR) vs {conflict.target_status} (target)")
+                    if len(errors) > 3:
+                        console.print(f"  [dim]... and {len(errors) - 3} more[/dim]")
+
+                if warns:
+                    console.print(f"\n[yellow]Advisory conflicts: {len(warns)}[/yellow]")
+                    for conflict in warns[:3]:
+                        console.print(f"  • {conflict.task_id}: {conflict.pr_status} (PR) vs {conflict.target_status} (target)")
+                    if len(warns) > 3:
+                        console.print(f"  [dim]... and {len(warns) - 3} more[/dim]")
+
+            if result.warnings:
+                console.print(f"\n[yellow]Warnings: {len(result.warnings)}[/yellow]")
+                for warning in result.warnings[:3]:
+                    console.print(f"  • {warning}")
+                if len(result.warnings) > 3:
+                    console.print(f"  [dim]... and {len(result.warnings) - 3} more[/dim]")
+
+            if not result.safe_to_merge:
+                console.print(f"\n[red]⚠ Merge blocked. Use --format detailed for resolution options.[/red]")
+            elif result.warnings:
+                console.print(f"\n[dim]Use --format detailed for more information[/dim]")
 
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")

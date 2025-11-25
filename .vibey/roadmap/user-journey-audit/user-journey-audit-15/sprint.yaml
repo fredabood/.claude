@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-15
   name: MCP Server & Platform Adapters Test Coverage
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-15-task-001
     name: Audit existing MCP and adapter tests
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -27,7 +27,7 @@ sprint:
       - Identify untested adapters
   - id: user-journey-audit-15-task-002
     name: Write tests for MCP server
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -41,7 +41,7 @@ sprint:
       - Protocol compliance
   - id: user-journey-audit-15-task-003
     name: Write tests for MCP tools
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -55,7 +55,7 @@ sprint:
       - Error responses
   - id: user-journey-audit-15-task-004
     name: Write tests for platform adapter base
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
@@ -67,7 +67,7 @@ sprint:
       - Adapter registration
   - id: user-journey-audit-15-task-005
     name: Write tests for each platform adapter
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -81,7 +81,7 @@ sprint:
       - Configuration handling
   - id: user-journey-audit-15-task-006
     name: Verify 100% MCP/adapter coverage achieved
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -93,7 +93,7 @@ sprint:
       - Fix any remaining gaps
   - id: user-journey-audit-15-task-007
     name: Document MCP/adapter testing patterns
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer

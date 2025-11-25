@@ -2,7 +2,7 @@ sprint:
   id: mcp-server-3
   name: MCP Resources, Prompts & Handoff Discovery
   track_id: mcp-server
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: mcp-server-3-task-001
     name: Design MCP Resources architecture
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Integration with existing discovery system
   - id: mcp-server-3-task-002
     name: Implement MCP Resources for workflows
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -42,7 +42,7 @@ sprint:
       - Integration with workflow discovery
   - id: mcp-server-3-task-003
     name: Implement MCP Resources for handoffs
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -55,7 +55,7 @@ sprint:
       - Integration with agent tools
   - id: mcp-server-3-task-004
     name: Design MCP Prompts architecture
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -68,7 +68,7 @@ sprint:
       - User-facing prompt descriptions
   - id: mcp-server-3-task-005
     name: Implement MCP Prompts for quality gates
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -82,7 +82,7 @@ sprint:
       - Return structured gate results
   - id: mcp-server-3-task-006
     name: Implement handoff discovery and tool generation
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -95,7 +95,7 @@ sprint:
       - Return rendered handoff content
   - id: mcp-server-3-task-007
     name: Test and document MCP enhancements
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
@@ -109,8 +109,10 @@ sprint:
       - Update platform integration guides
   dependencies:
   - mcp-server-2
+  - user-journey-audit-2
   blocked_by:
   - mcp-server-2
+  - user-journey-audit-2
   quality_gates:
   - name: Resources Implementation
     threshold: 100
@@ -136,7 +138,7 @@ sprint:
   - Platform integration guide updates
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
+    last_updated: '2025-11-24T00:00:00+00:00'
     notes: |
       Sprint 3 adds MCP Resources, Prompts, and handoff discovery.
       These are future enhancements noted in the original MCP implementation.
@@ -144,3 +146,10 @@ sprint:
       MCP Resources: Expose workflow and handoff content as browsable resources
       MCP Prompts: Quality gate checks as interactive prompts
       Handoff Discovery: Auto-generate tools for handoff template rendering
+
+      DEPENDENCY ADDED (2025-11-24):
+      Now depends on user-journey-audit-2 (CLI Reference Guide).
+      Rationale: The auto-generated CLI reference provides a comprehensive view
+      of all CLI operations, which informs what Resources and Prompts should be
+      exposed via MCP. This prevents building incomplete/misaligned primitives
+      and reduces rework risk.

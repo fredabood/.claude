@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-7
   name: Documentation Completeness Audit
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-7-task-001
     name: Create documentation inventory
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -28,7 +28,7 @@ sprint:
       - Note last updated dates
   - id: user-journey-audit-7-task-002
     name: Audit CLI reference coverage
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -41,7 +41,7 @@ sprint:
       - Create coverage gap report
   - id: user-journey-audit-7-task-003
     name: Audit user journey scenario coverage
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -54,7 +54,7 @@ sprint:
       - Create scenario coverage matrix
   - id: user-journey-audit-7-task-004
     name: Audit API and integration documentation
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -67,7 +67,7 @@ sprint:
       - Integration examples present
   - id: user-journey-audit-7-task-005
     name: Audit getting started and onboarding docs
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -80,7 +80,7 @@ sprint:
       - Troubleshooting for new users
   - id: user-journey-audit-7-task-006
     name: Create documentation gap report
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -93,7 +93,7 @@ sprint:
       - Effort estimates for each gap
   - id: user-journey-audit-7-task-007
     name: Create documentation completeness dashboard
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: backend-engineer

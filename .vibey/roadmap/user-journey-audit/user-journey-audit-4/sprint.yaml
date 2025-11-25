@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-4
   name: User Journey Walkthrough Generation
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-4-task-001
     name: Design user journey document structure
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Coverage tracking metadata
   - id: user-journey-audit-4-task-002
     name: Generate new user onboarding journey walkthrough
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -44,7 +44,7 @@ sprint:
       Must cover 100% of onboarding-relevant CLI
   - id: user-journey-audit-4-task-003
     name: Generate workflow journeys for each persona
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 12
     assigned_agent: docs-writer
@@ -61,7 +61,7 @@ sprint:
       Each journey addresses discovered pain points
   - id: user-journey-audit-4-task-004
     name: Verify 100% CLI reference coverage in journeys
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -74,7 +74,7 @@ sprint:
       Must achieve 100% coverage
   - id: user-journey-audit-4-task-005
     name: Build CLI reference change trigger system
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -87,7 +87,7 @@ sprint:
       - `vibey docs check journeys` command
   - id: user-journey-audit-4-task-006
     name: Add journey coverage to CI validation
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: backend-engineer
@@ -99,7 +99,7 @@ sprint:
       - Block merge if coverage drops below 100%
   - id: user-journey-audit-4-task-007
     name: Review and refine journeys based on pain points
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: docs-writer

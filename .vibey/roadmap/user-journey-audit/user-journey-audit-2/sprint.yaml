@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-2
   name: CLI Reference Guide Tooling & Generation
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-2-task-001
     name: Design CLI reference auto-generation architecture
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Integration with build/CI pipeline
   - id: user-journey-audit-2-task-002
     name: Build CLI introspection module
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -43,7 +43,7 @@ sprint:
       - Output as structured data (JSON/YAML)
   - id: user-journey-audit-2-task-003
     name: Build CLI reference Markdown generator
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -57,7 +57,7 @@ sprint:
       - Table of contents generation
   - id: user-journey-audit-2-task-004
     name: Implement drift detection
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -70,7 +70,7 @@ sprint:
       - `vibey docs check` command
   - id: user-journey-audit-2-task-005
     name: Implement vibey docs generate cli command
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: backend-engineer
@@ -82,7 +82,7 @@ sprint:
       - Integrate with existing CLI structure
   - id: user-journey-audit-2-task-006
     name: Generate initial CLI reference guide
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: backend-engineer
@@ -95,7 +95,7 @@ sprint:
       - Commit as baseline
   - id: user-journey-audit-2-task-007
     name: Add CI integration for CLI reference freshness
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: backend-engineer
@@ -110,6 +110,8 @@ sprint:
   - user-journey-audit-1
   blocked_by:
   - user-journey-audit-1
+  depended_on_by:
+  - mcp-server-3
   quality_gates:
   - name: CLI Coverage
     threshold: 100

@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-14
   name: Common Utilities & Error Handling Test Coverage
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-14-task-001
     name: Audit existing common tests and coverage
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -27,7 +27,7 @@ sprint:
       - Identify untested error types
   - id: user-journey-audit-14-task-002
     name: Write tests for error types
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -41,7 +41,7 @@ sprint:
       - Error message formatting
   - id: user-journey-audit-14-task-003
     name: Write tests for error renderers
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -54,7 +54,7 @@ sprint:
       - Renderer selection logic
   - id: user-journey-audit-14-task-004
     name: Write tests for utility functions
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -67,7 +67,7 @@ sprint:
       - Any helper functions
   - id: user-journey-audit-14-task-005
     name: Write tests for shared constants and types
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -79,7 +79,7 @@ sprint:
       - Default values
   - id: user-journey-audit-14-task-006
     name: Verify 100% common coverage achieved
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -91,7 +91,7 @@ sprint:
       - Fix any remaining gaps
   - id: user-journey-audit-14-task-007
     name: Document error handling testing patterns
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer

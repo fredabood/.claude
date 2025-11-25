@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-12
   name: Roadmap Models & Serialization Test Coverage
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-12-task-001
     name: Audit existing models tests and coverage
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -27,7 +27,7 @@ sprint:
       - Identify untested serialization paths
   - id: user-journey-audit-12-task-002
     name: Write tests for Roadmap model
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -41,7 +41,7 @@ sprint:
       - Edge cases (empty, invalid)
   - id: user-journey-audit-12-task-003
     name: Write tests for Track model
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -55,7 +55,7 @@ sprint:
       - Serialization/deserialization
   - id: user-journey-audit-12-task-004
     name: Write tests for Sprint model
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -68,7 +68,7 @@ sprint:
       - Serialization/deserialization
   - id: user-journey-audit-12-task-005
     name: Write tests for Task model
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -81,7 +81,7 @@ sprint:
       - Serialization/deserialization
   - id: user-journey-audit-12-task-006
     name: Write tests for serialization utilities
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
@@ -94,7 +94,7 @@ sprint:
       - Error handling for malformed data
   - id: user-journey-audit-12-task-007
     name: Verify 100% models coverage achieved
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer

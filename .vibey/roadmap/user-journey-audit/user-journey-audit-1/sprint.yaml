@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-1
   name: Documentation & Code Audit
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-1-task-001
     name: Inventory all existing documentation files
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -30,7 +30,7 @@ sprint:
       Create inventory with file paths, purposes, last updated dates
   - id: user-journey-audit-1-task-002
     name: Inventory all CLI commands and options
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -44,7 +44,7 @@ sprint:
       Create machine-readable inventory (YAML/JSON)
   - id: user-journey-audit-1-task-003
     name: Find and catalog existing user journey documentation
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -58,7 +58,7 @@ sprint:
       Map each to the functionality it covers
   - id: user-journey-audit-1-task-004
     name: Audit documentation completeness against codebase
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -71,7 +71,7 @@ sprint:
       Create coverage matrix showing gaps
   - id: user-journey-audit-1-task-005
     name: Audit documentation correctness
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -85,7 +85,7 @@ sprint:
       Flag all inaccuracies with severity
   - id: user-journey-audit-1-task-006
     name: Audit test suite coverage of documented features
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
@@ -97,7 +97,7 @@ sprint:
       Create test-to-documentation mapping
   - id: user-journey-audit-1-task-007
     name: Produce comprehensive audit report
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: docs-writer

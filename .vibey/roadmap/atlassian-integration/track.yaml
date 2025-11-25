@@ -2,7 +2,7 @@ track:
   id: atlassian-integration
   name: Atlassian Integration (Jira & Confluence)
   roadmap_id: vibey-framework-v2
-  status: planned
+  status: not_started
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
@@ -18,25 +18,25 @@ track:
   sprints:
   - id: atlassian-integration-1
     name: Jira Core Integration & Data Mapping
-    status: planned
+    status: not_started
     estimated_duration: 3 weeks
     tasks_count: 7
     started: null
   - id: atlassian-integration-2
     name: Jira Bidirectional Sync & Conflict Resolution
-    status: planned
+    status: not_started
     estimated_duration: 3 weeks
     tasks_count: 7
     started: null
   - id: atlassian-integration-3
     name: Confluence Documentation Integration
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: atlassian-integration-4
     name: Unified Atlassian Experience & Polish
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null

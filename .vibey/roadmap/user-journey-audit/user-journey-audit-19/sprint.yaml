@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-19
   name: Gap Analysis - Git Versioning for Vibe Coding Sessions
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-19-task-001
     name: Identify context artifacts suitable for git versioning
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -30,7 +30,7 @@ sprint:
       - Configuration state changes
   - id: user-journey-audit-19-task-002
     name: Analyze git workflow patterns for context versioning
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -43,7 +43,7 @@ sprint:
       - .gitignore patterns for ephemeral context
   - id: user-journey-audit-19-task-003
     name: Identify Vibey context versioning gaps
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: architecture-agent
@@ -57,7 +57,7 @@ sprint:
       Rate each gap by severity (critical/high/medium/low)
   - id: user-journey-audit-19-task-004
     name: Design context snapshot format specification
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -70,7 +70,7 @@ sprint:
       - Metadata fields (timestamp, hash, parent, session)
   - id: user-journey-audit-19-task-005
     name: Analyze context diff and merge challenges
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -83,7 +83,7 @@ sprint:
       - Binary content in context (images, embeddings)
   - id: user-journey-audit-19-task-006
     name: Study session reconstruction requirements
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -96,7 +96,7 @@ sprint:
       - Model version pinning needs
   - id: user-journey-audit-19-task-007
     name: Produce Git Versioning Gap Analysis Report
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer

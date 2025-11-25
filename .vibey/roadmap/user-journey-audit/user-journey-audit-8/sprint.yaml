@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-8
   name: Documentation Correctness & Accuracy Review
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-8-task-001
     name: Verify all code examples work
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -28,7 +28,7 @@ sprint:
       - Fix or flag for update
   - id: user-journey-audit-8-task-002
     name: Verify CLI command documentation accuracy
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -41,7 +41,7 @@ sprint:
       - Update any inaccuracies
   - id: user-journey-audit-8-task-003
     name: Audit internal links and references
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -54,7 +54,7 @@ sprint:
       - Create broken link report
   - id: user-journey-audit-8-task-004
     name: Audit external links and resources
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
@@ -67,7 +67,7 @@ sprint:
       - Document link checking process
   - id: user-journey-audit-8-task-005
     name: Review technical accuracy with codebase
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
@@ -80,7 +80,7 @@ sprint:
       - Update any code drift
   - id: user-journey-audit-8-task-006
     name: Review version and compatibility info
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: docs-writer
@@ -93,7 +93,7 @@ sprint:
       - Document breaking changes
   - id: user-journey-audit-8-task-007
     name: Create documentation accuracy test suite
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer

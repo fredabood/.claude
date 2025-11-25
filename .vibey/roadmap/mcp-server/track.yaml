@@ -30,7 +30,7 @@ track:
     started: '2025-11-10T18:00:00+00:00'
   - id: mcp-server-3
     name: MCP Resources, Prompts & Handoff Discovery
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
@@ -39,6 +39,11 @@ track:
     target_id: documentation-system
     target_status: completed
     reason: Will be first track to use new hierarchical documentation structure
+    optional: false
+  - type: sprint
+    target_id: user-journey-audit-2
+    target_status: completed
+    reason: CLI Reference Guide informs MCP Resources/Prompts design for Sprint 3
     optional: false
   blocks:
   - type: track

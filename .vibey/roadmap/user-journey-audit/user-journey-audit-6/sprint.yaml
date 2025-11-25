@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-6
   name: Recommendations & Improvement Roadmap
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-6-task-001
     name: Prioritize friction points by impact and effort
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Deprioritize (low impact regardless of effort)
   - id: user-journey-audit-6-task-002
     name: Design quick win improvements
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -43,7 +43,7 @@ sprint:
       Target: Improvements achievable in 1-2 weeks each
   - id: user-journey-audit-6-task-003
     name: Design strategic improvements
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -57,7 +57,7 @@ sprint:
       - Risk mitigations
   - id: user-journey-audit-6-task-004
     name: Define success metrics and tracking
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -71,7 +71,7 @@ sprint:
       - Retention indicators
   - id: user-journey-audit-6-task-005
     name: Create improvement roadmap
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -85,7 +85,7 @@ sprint:
       - Milestone definitions
   - id: user-journey-audit-6-task-006
     name: Create new roadmap tracks from recommendations
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
@@ -98,7 +98,7 @@ sprint:
       - Integrate into main roadmap
   - id: user-journey-audit-6-task-007
     name: Produce final audit report and recommendations
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer

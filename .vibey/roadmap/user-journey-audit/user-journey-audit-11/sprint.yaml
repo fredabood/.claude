@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-11
   name: Operations Library Test Coverage
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-11-task-001
     name: Audit existing operations tests and coverage
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -27,7 +27,7 @@ sprint:
       - Map tests to operations modules
   - id: user-journey-audit-11-task-002
     name: Write tests for vibey/operations/roadmap/query.py
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -41,7 +41,7 @@ sprint:
       - Error handling for missing data
   - id: user-journey-audit-11-task-003
     name: Write tests for vibey/operations/roadmap/update.py
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
@@ -55,7 +55,7 @@ sprint:
       - Error handling for invalid updates
   - id: user-journey-audit-11-task-004
     name: Write tests for vibey/operations/roadmap/context.py
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -68,7 +68,7 @@ sprint:
       - Context validation
   - id: user-journey-audit-11-task-005
     name: Write tests for vibey/operations/docs/
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
@@ -81,7 +81,7 @@ sprint:
       - Error handling
   - id: user-journey-audit-11-task-006
     name: Verify 100% operations coverage achieved
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
@@ -93,7 +93,7 @@ sprint:
       - Fix any remaining gaps
   - id: user-journey-audit-11-task-007
     name: Document operations testing patterns
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer

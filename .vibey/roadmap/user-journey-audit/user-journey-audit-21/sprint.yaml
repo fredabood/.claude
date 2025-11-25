@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-21
   name: Discovery Output Architecture
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,37 +15,37 @@ sprint:
   tasks:
   - id: user-journey-audit-21-task-001
     name: Design discovery output schema for context directories
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
   - id: user-journey-audit-21-task-002
     name: Create DiscoveryOutput data models
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
   - id: user-journey-audit-21-task-003
     name: Implement context directory writer base class
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
   - id: user-journey-audit-21-task-004
     name: Create codebase audit context writer
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
   - id: user-journey-audit-21-task-005
     name: Create git history analysis context writer
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
   - id: user-journey-audit-21-task-006
     name: Create dependency analysis context writer
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: backend-engineer

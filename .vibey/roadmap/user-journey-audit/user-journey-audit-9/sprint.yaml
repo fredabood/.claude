@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-9
   name: Documentation Organization & Best Practices
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-9-task-001
     name: Benchmark against similar project documentation
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -28,7 +28,7 @@ sprint:
       - Document patterns and conventions to adopt
   - id: user-journey-audit-9-task-002
     name: Design intuitive documentation structure
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -41,7 +41,7 @@ sprint:
       - Define entry points for different users
   - id: user-journey-audit-9-task-003
     name: Apply technical writing best practices
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: docs-writer
@@ -55,7 +55,7 @@ sprint:
       - Meaningful code comments
   - id: user-journey-audit-9-task-004
     name: Improve documentation usability
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -69,7 +69,7 @@ sprint:
       - Include difficulty indicators
   - id: user-journey-audit-9-task-005
     name: Create documentation style guide
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -83,7 +83,7 @@ sprint:
       - Template for new docs
   - id: user-journey-audit-9-task-006
     name: Reorganize documentation directory structure
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -96,7 +96,7 @@ sprint:
       - Verify no broken references
   - id: user-journey-audit-9-task-007
     name: Create documentation contribution guide
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer

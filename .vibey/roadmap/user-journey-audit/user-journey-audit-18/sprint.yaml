@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-18
   name: Context Engineering Research & Landscape Analysis
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-18-task-001
     name: Define context taxonomy for vibe coding sessions
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Temporal context (session state, checkpoints)
   - id: user-journey-audit-18-task-002
     name: Document context lifecycle and state transitions
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -42,7 +42,7 @@ sprint:
       - Context restoration (what loads on session resume)
   - id: user-journey-audit-18-task-003
     name: Research context engineering in competing tools
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 12
     assigned_agent: architecture-agent
@@ -55,7 +55,7 @@ sprint:
       - Cody (embeddings, code graph, context windows)
   - id: user-journey-audit-18-task-004
     name: Analyze Vibey's current context architecture
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -67,7 +67,7 @@ sprint:
       - Current limitations and pain points
   - id: user-journey-audit-18-task-005
     name: Study context window management strategies
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -80,7 +80,7 @@ sprint:
       - Context compression techniques
   - id: user-journey-audit-18-task-006
     name: Document context determinism requirements
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -92,7 +92,7 @@ sprint:
       - Model variations (temperature, model version)
   - id: user-journey-audit-18-task-007
     name: Produce Context Engineering Landscape Report
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer

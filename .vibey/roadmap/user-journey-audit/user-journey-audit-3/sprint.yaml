@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-3
   name: Journey Mapping & Pain Point Discovery
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-3-task-001
     name: Define user personas and their goals
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -31,7 +31,7 @@ sprint:
       - First-time Contributor: Onboarding friction, finding good first issues
   - id: user-journey-audit-3-task-002
     name: Map new user onboarding experience
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -46,7 +46,7 @@ sprint:
       - Common failure modes and recovery
   - id: user-journey-audit-3-task-003
     name: Map roadmap creation and management experience
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -60,7 +60,7 @@ sprint:
       - Archiving and cleanup
   - id: user-journey-audit-3-task-004
     name: Map sprint execution experience
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -75,7 +75,7 @@ sprint:
       - What's missing or awkward?
   - id: user-journey-audit-3-task-005
     name: Map multi-platform and integration experiences
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -89,7 +89,7 @@ sprint:
       - What's unclear or broken?
   - id: user-journey-audit-3-task-006
     name: Identify and catalog all pain points
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -102,7 +102,7 @@ sprint:
       - Identify quick wins vs deep issues
   - id: user-journey-audit-3-task-007
     name: Compile journey maps with annotated pain points
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: docs-writer

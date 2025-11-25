@@ -2,7 +2,7 @@ sprint:
   id: atlassian-integration-2
   name: Jira Bidirectional Sync & Conflict Resolution
   track_id: atlassian-integration
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: atlassian-integration-2-task-001
     name: Implement Vibey to Jira export (write operations)
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
@@ -29,7 +29,7 @@ sprint:
       - vibey atlassian export <track>
   - id: atlassian-integration-2-task-002
     name: Design sync state tracking system
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -43,7 +43,7 @@ sprint:
       - .vibey/atlassian/sync-state.yaml
   - id: atlassian-integration-2-task-003
     name: Implement bidirectional sync engine
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 12
     assigned_agent: backend-engineer
@@ -57,7 +57,7 @@ sprint:
       - vibey atlassian sync --direction=both
   - id: atlassian-integration-2-task-004
     name: Implement conflict detection and resolution
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
@@ -73,7 +73,7 @@ sprint:
       - vibey atlassian conflicts
   - id: atlassian-integration-2-task-005
     name: Implement Jira webhooks for real-time sync
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -87,7 +87,7 @@ sprint:
       - Webhook registration management
   - id: atlassian-integration-2-task-006
     name: Add sync configuration options
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -101,7 +101,7 @@ sprint:
       - .vibey/config/atlassian.yaml
   - id: atlassian-integration-2-task-007
     name: Create bidirectional sync tests
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer

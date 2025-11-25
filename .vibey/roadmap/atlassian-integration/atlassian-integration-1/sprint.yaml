@@ -2,7 +2,7 @@ sprint:
   id: atlassian-integration-1
   name: Jira Core Integration & Data Mapping
   track_id: atlassian-integration
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: atlassian-integration-1-task-001
     name: Design Jira to Vibey data model mapping
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -31,7 +31,7 @@ sprint:
       - Custom field mappings
   - id: atlassian-integration-1-task-002
     name: Implement Atlassian OAuth 2.0 authentication
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
@@ -45,7 +45,7 @@ sprint:
       - PAT support for Server/DC
   - id: atlassian-integration-1-task-003
     name: Create Jira REST API client
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
@@ -60,7 +60,7 @@ sprint:
       - Pagination handling
   - id: atlassian-integration-1-task-004
     name: Implement Jira project to track import
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -73,7 +73,7 @@ sprint:
       - vibey atlassian import project <key>
   - id: atlassian-integration-1-task-005
     name: Implement Jira sprint to sprint import
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -86,7 +86,7 @@ sprint:
       - Link to parent track
   - id: atlassian-integration-1-task-006
     name: Implement Jira issue to task import
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -99,7 +99,7 @@ sprint:
       - Preserve Jira issue key reference
   - id: atlassian-integration-1-task-007
     name: Create integration tests for Jira import
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer

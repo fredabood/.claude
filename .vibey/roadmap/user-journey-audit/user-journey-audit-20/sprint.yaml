@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-20
   name: Transparency, Auditability & Reproducibility Design
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-20-task-001
     name: Design transparency framework for context visibility
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -29,7 +29,7 @@ sprint:
       - Integration with IDE context panels
   - id: user-journey-audit-20-task-002
     name: Design auditability framework for context decisions
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
@@ -43,7 +43,7 @@ sprint:
       - Integration with external audit systems
   - id: user-journey-audit-20-task-003
     name: Design reproducibility protocol for sessions
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: architecture-agent
@@ -58,7 +58,7 @@ sprint:
       - Reproducibility score/grade system
   - id: user-journey-audit-20-task-004
     name: Design context provenance tracking
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -71,7 +71,7 @@ sprint:
       - Dependency graph (what context depends on what)
   - id: user-journey-audit-20-task-005
     name: Design context integrity verification
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -84,7 +84,7 @@ sprint:
       - Tampering detection
   - id: user-journey-audit-20-task-006
     name: Create implementation roadmap recommendations
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
@@ -98,7 +98,7 @@ sprint:
       - Risk assessment and mitigations
   - id: user-journey-audit-20-task-007
     name: Produce final study report and specifications
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: docs-writer

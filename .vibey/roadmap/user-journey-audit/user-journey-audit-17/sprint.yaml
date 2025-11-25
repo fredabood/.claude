@@ -2,7 +2,7 @@ sprint:
   id: user-journey-audit-17
   name: Contributor Experience & Project Documentation
   track_id: user-journey-audit
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: user-journey-audit-17-task-001
     name: Audit and update README.md
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -33,7 +33,7 @@ sprint:
       - Add contributor quick links
   - id: user-journey-audit-17-task-002
     name: Audit and update CHANGELOG.md
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -48,7 +48,7 @@ sprint:
       - Document breaking changes clearly
   - id: user-journey-audit-17-task-003
     name: Audit and update CONTRIBUTING.md
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -64,7 +64,7 @@ sprint:
       - Code of conduct reference
   - id: user-journey-audit-17-task-004
     name: Create contributor onboarding guide
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -79,7 +79,7 @@ sprint:
       - Mentorship/review process
   - id: user-journey-audit-17-task-005
     name: Create development workflow documentation
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
@@ -94,7 +94,7 @@ sprint:
       - Documentation update workflow
   - id: user-journey-audit-17-task-006
     name: Create contributor journey walkthroughs
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -108,7 +108,7 @@ sprint:
       - Platform adapter contribution journey
   - id: user-journey-audit-17-task-007
     name: Validate contributor experience end-to-end
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: test-engineer
@@ -123,7 +123,7 @@ sprint:
       - Create issues for improvements
   - id: user-journey-audit-17-task-008
     name: Ensure positioning consistency across all documentation
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer

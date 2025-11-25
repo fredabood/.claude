@@ -2,7 +2,7 @@ track:
   id: user-journey-audit
   name: User Journey Audit & Documentation Coverage
   roadmap_id: vibey-framework-v2
-  status: planned
+  status: not_started
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
@@ -19,145 +19,159 @@ track:
   # Part 1: Documentation & UX Discovery (Sprints 1-6)
   - id: user-journey-audit-1
     name: Documentation & Code Audit
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-2
     name: CLI Reference Guide Tooling & Generation
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-3
     name: Journey Mapping & Pain Point Discovery
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-4
     name: User Journey Walkthrough Generation
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-5
     name: Friction Analysis & Gap Identification
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-6
     name: Recommendations & Improvement Roadmap
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   # Part 2: Documentation Quality & Best Practices (Sprints 7-9)
   - id: user-journey-audit-7
     name: Documentation Completeness Audit
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-8
     name: Documentation Correctness & Accuracy Review
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-9
     name: Documentation Organization & Best Practices
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   # Part 3: Test Coverage (Sprints 10-16)
   - id: user-journey-audit-10
     name: CLI Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-11
     name: Operations Library Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-12
     name: Roadmap Models & Serialization Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-13
     name: Config System Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-14
     name: Common Utilities & Error Handling Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-15
     name: MCP Server & Platform Adapters Test Coverage
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-16
     name: Integration Tests & Final Validation
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   # Part 4: Contributor Experience (Sprint 17)
   - id: user-journey-audit-17
     name: Contributor Experience & Project Documentation
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 8
     started: null
   # Part 5: Context Engineering Study (Sprints 18-20)
   - id: user-journey-audit-18
     name: Context Engineering Research & Landscape Analysis
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-19
     name: Gap Analysis - Git Versioning for Vibe Coding Sessions
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   - id: user-journey-audit-20
     name: Transparency, Auditability & Reproducibility Design
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 7
     started: null
   # Part 6: Discovery Context Integration (Sprints 21-22)
   - id: user-journey-audit-21
     name: Discovery Output Architecture
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 6
     started: null
   - id: user-journey-audit-22
     name: Context Directory Writers & CLI Integration
-    status: planned
+    status: not_started
     estimated_duration: 2 weeks
     tasks_count: 6
     started: null
-  dependencies: []
+  dependencies:
+  - type: track
+    target_id: python-package
+    target_status: completed
+    reason: Package must be pip-installable before testing user journeys
+    optional: false
+  - type: track
+    target_id: git-integration
+    target_status: completed
+    reason: Git integration features must be complete before auditing user journeys
+    optional: false
   blocks: []
-  blocked_by: []
-  depends_on: []
+  blocked_by:
+  - python-package
+  - git-integration
+  depends_on:
+  - python-package
+  - git-integration
   depended_on_by: []
   quality_gates:
   # Documentation Quality Gates

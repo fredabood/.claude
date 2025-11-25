@@ -2,7 +2,7 @@ sprint:
   id: atlassian-integration-4
   name: Unified Atlassian Experience & Polish
   track_id: atlassian-integration
-  status: planned
+  status: not_started
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -15,7 +15,7 @@ sprint:
   tasks:
   - id: atlassian-integration-4-task-001
     name: Create unified vibey atlassian CLI
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -30,7 +30,7 @@ sprint:
       - Error messages with remediation hints
   - id: atlassian-integration-4-task-002
     name: Implement Jira-Confluence cross-linking
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -43,7 +43,7 @@ sprint:
       - Cross-reference resolution
   - id: atlassian-integration-4-task-003
     name: Add Atlassian notifications and alerts
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -56,7 +56,7 @@ sprint:
       - Dashboard widget data
   - id: atlassian-integration-4-task-004
     name: Implement bulk operations and performance optimization
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
@@ -70,7 +70,7 @@ sprint:
       - Progress tracking for bulk ops
   - id: atlassian-integration-4-task-005
     name: Create Atlassian admin configuration
-    status: planned
+    status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
@@ -84,7 +84,7 @@ sprint:
       - .vibey/config/atlassian.yaml schema
   - id: atlassian-integration-4-task-006
     name: Write comprehensive documentation
-    status: planned
+    status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: docs-writer
@@ -99,7 +99,7 @@ sprint:
       - Migration guide from standalone Jira
   - id: atlassian-integration-4-task-007
     name: End-to-end integration testing
-    status: planned
+    status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer

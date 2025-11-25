@@ -1,53 +1,41 @@
 task:
   id: git-integration-3-task-009
-  name: Complete git integration documentation
+  sprint_id: git-integration-3
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Complete git integration documentation
+  description: "Comprehensive documentation for all git integration:\n\nCONTENT:\n\
+    1. Architecture Overview\n   - From Sprint 0 architecture doc\n   - Diagrams and\
+    \ flow charts\n\n2. Setup Guide\n   - Installation\n   - Configuration\n   - Team\
+    \ rollout\n\n3. Feature Reference\n   - All git commands\n   - All hooks\n   -\
+    \ All CI integrations\n\n4. Workflow Guides\n   - Solo developer workflow\n  \
+    \ - Team workflow\n   - Enterprise workflow\n\n5. Troubleshooting\n   - Common\
+    \ issues\n   - Error messages\n   - Recovery procedures\n\n6. Migration Guide\n\
+    \   - Adding to existing project\n   - Migrating from other tools\n\nFORMAT:\n\
+    - Main docs in docs/guides/\n- Reference in docs/reference/\n- Inline help in\
+    \ CLI\n"
   status: not_started
-  priority: medium
-  estimated_hours: 6
-  assigned_agent: docs-writer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Comprehensive documentation for all git integration:
-
-    CONTENT:
-    1. Architecture Overview
-       - From Sprint 0 architecture doc
-       - Diagrams and flow charts
-
-    2. Setup Guide
-       - Installation
-       - Configuration
-       - Team rollout
-
-    3. Feature Reference
-       - All git commands
-       - All hooks
-       - All CI integrations
-
-    4. Workflow Guides
-       - Solo developer workflow
-       - Team workflow
-       - Enterprise workflow
-
-    5. Troubleshooting
-       - Common issues
-       - Error messages
-       - Recovery procedures
-
-    6. Migration Guide
-       - Adding to existing project
-       - Migrating from other tools
-
-    FORMAT:
-    - Main docs in docs/guides/
-    - Reference in docs/reference/
-    - Inline help in CLI
-  acceptance_criteria: []
+  assigned_agent: docs-writer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

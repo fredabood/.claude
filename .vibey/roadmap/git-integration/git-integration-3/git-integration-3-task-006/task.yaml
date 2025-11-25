@@ -1,46 +1,40 @@
 task:
   id: git-integration-3-task-006
-  name: Implement dependency-aware merge ordering
+  sprint_id: git-integration-3
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement dependency-aware merge ordering
+  description: "Suggest/enforce merge order based on roadmap dependencies:\n\nSCENARIOS:\n\
+    - Sprint B depends on Sprint A\n  → Warn if merging B's branch before A's\n\n\
+    - Task 2 depends on Task 1\n  → Suggest merging Task 1's PR first\n\n- Track X\
+    \ blocks Track Y\n  → Prevent Y's branch merge until X complete\n\nIMPLEMENTATION:\n\
+    - Analyze dependency graph\n- Compare with branch/PR state\n- Generate merge order\
+    \ recommendation\n\nCLI COMMANDS:\n- vibey git merge-order\n  Show recommended\
+    \ merge sequence\n\n- vibey git dependency-check <branch>\n  Check if branch dependencies\
+    \ are satisfied\n\nFEATURES:\n- Configurable enforcement (suggest vs block)\n\
+    - Dependency visualization\n- Override capability for exceptions\n"
   status: not_started
-  priority: medium
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Suggest/enforce merge order based on roadmap dependencies:
-
-    SCENARIOS:
-    - Sprint B depends on Sprint A
-      → Warn if merging B's branch before A's
-
-    - Task 2 depends on Task 1
-      → Suggest merging Task 1's PR first
-
-    - Track X blocks Track Y
-      → Prevent Y's branch merge until X complete
-
-    IMPLEMENTATION:
-    - Analyze dependency graph
-    - Compare with branch/PR state
-    - Generate merge order recommendation
-
-    CLI COMMANDS:
-    - vibey git merge-order
-      Show recommended merge sequence
-
-    - vibey git dependency-check <branch>
-      Check if branch dependencies are satisfied
-
-    FEATURES:
-    - Configurable enforcement (suggest vs block)
-    - Dependency visualization
-    - Override capability for exceptions
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

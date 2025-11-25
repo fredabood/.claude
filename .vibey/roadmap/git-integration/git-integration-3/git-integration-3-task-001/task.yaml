@@ -1,46 +1,40 @@
 task:
   id: git-integration-3-task-001
-  name: Implement error handling and recovery
+  sprint_id: git-integration-3
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement error handling and recovery
+  description: "Robust error handling for git integration:\n\nERROR SCENARIOS:\n-\
+    \ Git operation fails mid-update\n- Roadmap YAML becomes corrupted\n- Hook crashes\
+    \ during commit\n- Network failure during remote ops\n\nRECOVERY PROCEDURES:\n\
+    - Automatic rollback of partial updates\n- Manual recovery commands\n- State validation\
+    \ and repair\n\nIMPLEMENTATION:\n- Transaction-like updates (backup → modify →\
+    \ commit)\n- vibey git repair command\n- Corruption detection and reporting\n\n\
+    CLI COMMANDS:\n- vibey git repair\n  Detect and fix roadmap inconsistencies\n\n\
+    - vibey git validate\n  Check roadmap-git state consistency\n\n- vibey git rollback\
+    \ <commit>\n  Restore roadmap state from commit\n"
   status: completed
-  priority: high
-  estimated_hours: 6
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: '2025-11-25T00:00:00+00:00'
   completed: '2025-11-25T00:30:00+00:00'
-  description: |
-    Robust error handling for git integration:
-
-    ERROR SCENARIOS:
-    - Git operation fails mid-update
-    - Roadmap YAML becomes corrupted
-    - Hook crashes during commit
-    - Network failure during remote ops
-
-    RECOVERY PROCEDURES:
-    - Automatic rollback of partial updates
-    - Manual recovery commands
-    - State validation and repair
-
-    IMPLEMENTATION:
-    - Transaction-like updates (backup → modify → commit)
-    - vibey git repair command
-    - Corruption detection and reporting
-
-    CLI COMMANDS:
-    - vibey git repair
-      Detect and fix roadmap inconsistencies
-
-    - vibey git validate
-      Check roadmap-git state consistency
-
-    - vibey git rollback <commit>
-      Restore roadmap state from commit
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
-  commits:
-  - '1407645'
+  deliverables: []
+  commits: []
   metadata:
     last_updated: '2025-11-25T00:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null

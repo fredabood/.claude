@@ -1,52 +1,44 @@
 task:
   id: git-integration-3-task-002
-  name: Implement tag repair automation
+  sprint_id: git-integration-3
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement tag repair automation
+  description: "Automate repair of dangling tags after rebase/squash:\n\nPROBLEM (from\
+    \ Sprint 0 addendum):\n- After rebase/squash, tags point to old (non-existent)\
+    \ SHAs\n- Sprint and task tags become invalid\n- Need to re-create tags on new\
+    \ commits\n\nCLI COMMANDS:\n- vibey git validate-tags\n  Detect dangling tags\
+    \ (tags pointing to missing commits)\n\n- vibey git repair-tags\n  Automatically\
+    \ repair tags by finding new commits\n\n- vibey git tag-move <tag> <new-sha>\n\
+    \  Manually move a tag to different commit\n\nREPAIR ALGORITHM:\n1. Find all dangling\
+    \ tags\n2. For each tag:\n   - Parse tag name to get task/sprint ID\n   - Get\
+    \ original commit message\n   - Search new commits for matching message + task\
+    \ ref\n   - Delete old tag, recreate on new commit\n3. Report repaired/unfixable\
+    \ tags\n\nAUTOMATIC HOOKS:\n- post-rebase hook: detect and repair tags\n- post-merge\
+    \ hook: repair after squash merge\n\nCONFIGURATION:\n- git.tags.repair.auto: true/false\n\
+    - git.tags.repair.strategy: message_match|manual|skip\n"
   status: completed
-  priority: high
-  estimated_hours: 6
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: '2025-11-25T00:30:00+00:00'
   completed: '2025-11-25T01:00:00+00:00'
-  description: |
-    Automate repair of dangling tags after rebase/squash:
-
-    PROBLEM (from Sprint 0 addendum):
-    - After rebase/squash, tags point to old (non-existent) SHAs
-    - Sprint and task tags become invalid
-    - Need to re-create tags on new commits
-
-    CLI COMMANDS:
-    - vibey git validate-tags
-      Detect dangling tags (tags pointing to missing commits)
-
-    - vibey git repair-tags
-      Automatically repair tags by finding new commits
-
-    - vibey git tag-move <tag> <new-sha>
-      Manually move a tag to different commit
-
-    REPAIR ALGORITHM:
-    1. Find all dangling tags
-    2. For each tag:
-       - Parse tag name to get task/sprint ID
-       - Get original commit message
-       - Search new commits for matching message + task ref
-       - Delete old tag, recreate on new commit
-    3. Report repaired/unfixable tags
-
-    AUTOMATIC HOOKS:
-    - post-rebase hook: detect and repair tags
-    - post-merge hook: repair after squash merge
-
-    CONFIGURATION:
-    - git.tags.repair.auto: true/false
-    - git.tags.repair.strategy: message_match|manual|skip
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
-  commits:
-  - '7481cd6'
+  deliverables: []
+  commits: []
   metadata:
     last_updated: '2025-11-25T01:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

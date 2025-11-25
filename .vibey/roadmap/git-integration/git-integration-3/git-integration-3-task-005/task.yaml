@@ -1,45 +1,41 @@
 task:
   id: git-integration-3-task-005
-  name: Implement quality gate CI integration
+  sprint_id: git-integration-3
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement quality gate CI integration
+  description: "Connect quality gates to CI/CD checks:\n\nQUALITY GATE → CI CHECK\
+    \ MAPPING:\n- Test Coverage gate → coverage CI job\n- Test Pass Rate gate → test\
+    \ CI job\n- Documentation gate → docs CI job\n- Custom gates → configurable job\
+    \ mapping\n\nIMPLEMENTATION:\n- vibey git ci-status command\n  Report quality\
+    \ gate status for CI\n\n- GitHub Actions integration\n  Output gate status as\
+    \ check annotations\n\n- GitLab CI integration\n  Output gate status in job results\n\
+    \nFEATURES:\n- Block merge until gates pass (configurable)\n- Auto-update gate\
+    \ scores from CI results\n- Gate status in PR description\n\nCONFIGURATION:\n\
+    - Map gate names to CI job names\n- Threshold overrides per branch\n- Required\
+    \ vs optional gates\n"
   status: not_started
-  priority: high
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Connect quality gates to CI/CD checks:
-
-    QUALITY GATE → CI CHECK MAPPING:
-    - Test Coverage gate → coverage CI job
-    - Test Pass Rate gate → test CI job
-    - Documentation gate → docs CI job
-    - Custom gates → configurable job mapping
-
-    IMPLEMENTATION:
-    - vibey git ci-status command
-      Report quality gate status for CI
-
-    - GitHub Actions integration
-      Output gate status as check annotations
-
-    - GitLab CI integration
-      Output gate status in job results
-
-    FEATURES:
-    - Block merge until gates pass (configurable)
-    - Auto-update gate scores from CI results
-    - Gate status in PR description
-
-    CONFIGURATION:
-    - Map gate names to CI job names
-    - Threshold overrides per branch
-    - Required vs optional gates
-  acceptance_criteria: []
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null

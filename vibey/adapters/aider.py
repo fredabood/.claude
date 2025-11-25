@@ -10,7 +10,7 @@ Aider is a CLI-based AI coding assistant with:
 - Git integration for commits
 
 Source of Truth Architecture:
-All .aider/ files are GENERATED from framework/ sources.
+All .aider/ files are GENERATED from vibey/content/ sources.
 Never edit generated files - modify source and regenerate.
 """
 
@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 import re
 
 from vibey.adapters.base import PlatformAdapter, DeploymentResult
+from vibey.content import get_agents_dir, get_workflows_dir
 
 
 class AiderAdapter(PlatformAdapter):
@@ -29,14 +30,14 @@ class AiderAdapter(PlatformAdapter):
 
     Deploys Vibey framework to .aider/ directory with:
     - aider.conf.yml (main configuration)
-    - agents/ (system prompts converted from framework/agents/)
-    - workflows/ (Python scripts converted from framework/workflows/)
+    - agents/ (system prompts converted from vibey/content/agents/)
+    - workflows/ (Python scripts converted from vibey/content/workflows/)
     - hooks/ (git hooks for quality gates)
     - .generated (marker file with timestamp)
 
     Source of Truth:
-    - framework/agents/*.md → .aider/agents/*.md
-    - framework/workflows/*.md → .aider/workflows/*.py
+    - vibey/content/agents/*.md → .aider/agents/*.md
+    - vibey/content/workflows/*.md → .aider/workflows/*.py
     - .vibey/config/*.yaml → .aider/aider.conf.yml
 
     All output files are regenerated on each deploy() call.
@@ -118,19 +119,19 @@ class AiderAdapter(PlatformAdapter):
             result.files_created.append(config_path)
 
             # Step 5: Convert agents to system prompts
-            framework_agents = source_dir.parent / "framework" / "agents"
-            if framework_agents.exists():
+            content_agents = get_agents_dir()
+            if content_agents.exists():
                 agents_created = self._convert_agents(
-                    framework_agents,
+                    content_agents,
                     target_dir / "agents"
                 )
                 result.files_created.extend(agents_created)
 
             # Step 6: Convert workflows to Python scripts
-            framework_workflows = source_dir.parent / "framework" / "workflows"
-            if framework_workflows.exists():
+            content_workflows = get_workflows_dir()
+            if content_workflows.exists():
                 workflows_created = self._convert_workflows(
-                    framework_workflows,
+                    content_workflows,
                     target_dir / "workflows"
                 )
                 result.files_created.extend(workflows_created)
@@ -167,15 +168,15 @@ class AiderAdapter(PlatformAdapter):
 # All files are regenerated on each deployment.
 #
 # To update these files:
-#   1. Edit the source files in framework/agents/ or framework/workflows/
+#   1. Edit the source files in vibey/content/agents/ or vibey/content/workflows/
 #   2. Run: vibey deploy --platform aider
 #
 # Generation timestamp: {datetime.now(timezone.utc).isoformat()}
 # Generator: vibey deploy --platform aider
 #
 # Source of truth:
-#   framework/agents/*.md → .aider/agents/*.md
-#   framework/workflows/*.md → .aider/workflows/*.py
+#   vibey/content/agents/*.md → .aider/agents/*.md
+#   vibey/content/workflows/*.md → .aider/workflows/*.py
 #   .vibey/config/*.yaml → .aider/aider.conf.yml
 """
         marker_path.write_text(content)
@@ -246,7 +247,7 @@ chat-history-file: .aider/chat-history.md
         Convert framework agents to Aider system prompts.
 
         Args:
-            agents_dir: Source framework/agents/ directory
+            agents_dir: Source vibey/content/agents/ directory
             output_dir: Target .aider/agents/ directory
 
         Returns:
@@ -298,7 +299,7 @@ chat-history-file: .aider/chat-history.md
         # Build Aider system prompt
         prompt = f"""# {title} - Aider System Prompt
 # GENERATED - DO NOT EDIT
-# Source: framework/agents/*/{agent_id}.md
+# Source: vibey/content/agents/*/{agent_id}.md
 # Regenerate with: vibey deploy --platform aider
 
 You are acting as a **{title}** in this coding session.
@@ -319,7 +320,7 @@ You are acting as a **{title}** in this coding session.
         Convert framework workflows to Aider Python scripts.
 
         Args:
-            workflows_dir: Source framework/workflows/ directory
+            workflows_dir: Source vibey/content/workflows/ directory
             output_dir: Target .aider/workflows/ directory
 
         Returns:
@@ -371,7 +372,7 @@ You are acting as a **{title}** in this coding session.
 {title} - Aider Workflow Script
 
 GENERATED - DO NOT EDIT
-Source: framework/workflows/*/{workflow_id.replace('_', '-')}.md
+Source: vibey/content/workflows/*/{workflow_id.replace('_', '-')}.md
 Regenerate with: vibey deploy --platform aider
 
 Usage:

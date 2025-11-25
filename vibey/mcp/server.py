@@ -22,6 +22,7 @@ from .adapters.roadmap_adapter import RoadmapAdapter
 from .tools.task_tools import get_task_tools, handle_task_tool
 from .tools.sprint_tools import get_sprint_tools, handle_sprint_tool
 from .tools.query_tools import get_query_tools, handle_query_tool
+from .tools.content_tools import get_content_tools, handle_content_tool
 from .utils.errors import VibeyMCPError
 from .discovery import ToolDiscovery
 
@@ -150,6 +151,9 @@ class VibeyMCPServer:
         tools.extend(get_sprint_tools())
         tools.extend(get_query_tools())
 
+        # Content management tools
+        tools.extend(get_content_tools())
+
         # Dynamic agent and workflow tools (from frontmatter discovery)
         try:
             discovered_tools = self.tool_discovery.get_all_tools()
@@ -194,8 +198,12 @@ class VibeyMCPServer:
                 return await handle_sprint_tool(tool_name, arguments, self.adapter)
 
             # Route to query tools
-            if tool_name.startswith("vibey_") and ("query" in tool_name or "list" in tool_name or "status" in tool_name):
+            if tool_name.startswith("vibey_") and ("query" in tool_name or "roadmap" in tool_name):
                 return await handle_query_tool(tool_name, arguments, self.adapter)
+
+            # Route to content tools
+            if tool_name.startswith("vibey_content_"):
+                return await handle_content_tool(tool_name, arguments)
 
             # Route to dynamic agent/workflow tools
             if tool_name.startswith("vibey_"):

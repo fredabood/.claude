@@ -30,6 +30,7 @@ from ..models import (
     QualityGate,
     TrackMetadata,
     SprintProgress,
+    SprintBlocker,
     TaskSummary,
     DevelopmentGate,
     SprintMetadata,
@@ -793,6 +794,11 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
     # Check if this is a directory (hierarchical structure)
     if file_path.is_dir():
         # Load tasks from hierarchical structure
+        # Extract sprint_id and track_id from directory path:
+        # .vibey/roadmap/{track_id}/{sprint_id}/{task_id}/task.yaml
+        sprint_id = file_path.name
+        track_id = file_path.parent.name
+
         tasks_data = []
         for item in file_path.iterdir():
             # Skip non-directories and special directories
@@ -804,7 +810,13 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
                 with open(task_file, 'r') as f:
                     task_yaml = yaml.safe_load(f)
                     if task_yaml and 'task' in task_yaml:
-                        tasks_data.append(task_yaml['task'])
+                        task_data = task_yaml['task']
+                        # Inject sprint_id and track_id from path if not present
+                        if 'sprint_id' not in task_data:
+                            task_data['sprint_id'] = sprint_id
+                        if 'track_id' not in task_data:
+                            task_data['track_id'] = track_id
+                        tasks_data.append(task_data)
     else:
         # Legacy flat structure
         with open(file_path, 'r') as f:

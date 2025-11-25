@@ -1,0 +1,155 @@
+sprint:
+  id: brew-package-2
+  name: Release Automation & Testing
+  track_id: brew-package
+  status: not_started
+  blocked: true
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: brew-package-2-task-001
+    name: Create formula update automation
+    status: not_started
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: devops-engineer
+    description: |
+      Automate formula updates when new PyPI versions are released:
+      - Create GitHub Action in homebrew-vibey repo
+      - Trigger on: manual dispatch, or webhook from main repo
+      - Steps:
+        1. Fetch latest version from PyPI
+        2. Download tarball and compute SHA256
+        3. Update formula version and checksum
+        4. Regenerate dependency resources with poet
+        5. Run brew audit
+        6. Create PR or auto-commit
+
+      Alternative: Use bump-formula-pr action
+      ```yaml
+      - uses: dawidd6/action-homebrew-bump-formula@v3
+        with:
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          formula: vibey
+      ```
+  - id: brew-package-2-task-002
+    name: Add CI testing for formula
+    status: not_started
+    priority: high
+    estimated_hours: 3
+    assigned_agent: devops-engineer
+    description: |
+      Add GitHub Actions CI to test formula on each change:
+      - Test on macos-latest (Apple Silicon)
+      - Test on macos-13 (Intel) if needed
+      - Test on ubuntu-latest (Linuxbrew)
+      - Steps:
+        1. brew tap local tap
+        2. brew install --build-from-source vibey
+        3. brew test vibey
+        4. Run basic CLI commands
+      - Fail PR if tests fail
+  - id: brew-package-2-task-003
+    name: Add version synchronization workflow
+    status: not_started
+    priority: high
+    estimated_hours: 3
+    assigned_agent: devops-engineer
+    description: |
+      Create workflow in main vibey repo to trigger formula updates:
+      - Trigger after successful PyPI publish
+      - Use repository_dispatch to notify homebrew-vibey repo
+      - Pass version number and SHA256 as payload
+      - Homebrew repo receives event and updates formula
+
+      Main repo workflow:
+      ```yaml
+      - name: Trigger Homebrew update
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.HOMEBREW_REPO_TOKEN }}
+          repository: vibey-framework/homebrew-vibey
+          event-type: pypi-release
+          client-payload: '{"version": "${{ env.VERSION }}", "sha256": "${{ env.SHA256 }}"}'
+      ```
+  - id: brew-package-2-task-004
+    name: Test Linux (Linuxbrew) support
+    status: not_started
+    priority: medium
+    estimated_hours: 2
+    assigned_agent: test-engineer
+    description: |
+      Verify formula works on Linux:
+      - Test on Ubuntu 22.04 with Linuxbrew
+      - Verify Python dependency resolution
+      - Check for any macOS-specific assumptions
+      - Document any Linux-specific notes
+      - Add Linux to CI matrix if supported
+  - id: brew-package-2-task-005
+    name: Document release process
+    status: not_started
+    priority: medium
+    estimated_hours: 2
+    assigned_agent: docs-writer
+    description: |
+      Document the release automation:
+      - Add RELEASING.md to homebrew-vibey repo
+      - Document manual formula update process
+      - Document automated update flow
+      - Document troubleshooting common issues
+      - Add runbook for failed updates
+  dependencies:
+  - brew-package-1
+  blocked_by:
+  - brew-package-1
+  depended_on_by: []
+  quality_gates:
+  - name: CI Passes on All Platforms
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Formula tests pass on macOS and Linux
+  - name: Automation Works
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Formula auto-updates when new PyPI version is released
+  deliverables:
+  - Formula update automation (GitHub Action)
+  - CI testing workflow
+  - Version sync workflow between repos
+  - Linux (Linuxbrew) support verification
+  - Release process documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 2 adds automation to keep the Homebrew formula in sync
+      with PyPI releases.
+
+      AUTOMATION FLOW:
+      1. Developer merges to main in vibey repo
+      2. CI publishes to PyPI
+      3. CI triggers repository_dispatch to homebrew-vibey
+      4. homebrew-vibey workflow updates formula
+      5. CI tests the updated formula
+      6. Auto-merge or create PR for review
+
+      MANUAL OVERRIDE:
+      Maintainers can always manually update the formula by:
+      1. Editing Formula/vibey.rb
+      2. Running: brew bump-formula-pr --url <new-url> --sha256 <sha>
+
+      FUTURE: Submit to homebrew-core
+      Once stable, consider submitting to homebrew-core for
+      direct `brew install vibey` without needing a tap.
+      Requirements:
+      - Notable user base
+      - Regular releases
+      - Stable formula

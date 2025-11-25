@@ -1,0 +1,31 @@
+task:
+  id: roadmap-integrity-fixes-2-5-task-003
+  name: Update audit report
+  status: not_started
+  priority: medium
+  estimated_hours: 0.2
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  description: |
+    Update the comprehensive audit report with remediation results.
+
+    CREATE: .vibey/roadmap/context/AUDIT_REMEDIATION_REPORT_2025-11-24.md
+
+    CONTENT:
+    1. Original Issues Found (from parallel audit)
+    2. Remediation Actions Taken
+    3. Verification Results
+    4. Remaining Known Issues (if any)
+    5. Recommendations for Future
+
+    Include metrics:
+    - Tracks fixed
+    - Tasks migrated
+    - Status syncs applied
+    - Git tracking restored
+  acceptance_criteria:
+  - Report created in context/
+  - All remediation documented
+  - Metrics included
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

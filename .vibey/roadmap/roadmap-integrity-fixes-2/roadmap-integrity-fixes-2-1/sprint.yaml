@@ -1,0 +1,44 @@
+sprint:
+  id: roadmap-integrity-fixes-2-1
+  name: Critical Git & Status Fixes
+  track_id: roadmap-integrity-fixes-2
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 30 minutes
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-2
+  - roadmap-integrity-fixes-2-3
+  - roadmap-integrity-fixes-2-4
+  quality_gates:
+  - name: All Files Tracked
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: git ls-files confirms all track files tracked
+  deliverables:
+  - brew-package track committed to git
+  - python-package track committed to git
+  - git-integration status synced
+  - python-package status synced
+  - jetbrains-port status synced
+  metadata:
+    created_by: parallel-track-audit
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      CRITICAL priority sprint - must complete first.
+
+      Fixes:
+      1. Data loss risk from untracked files
+      2. Status mismatches causing incorrect roadmap progress
+
+      All tasks are quick fixes (5-10 minutes each).

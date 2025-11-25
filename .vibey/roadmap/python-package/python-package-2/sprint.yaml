@@ -1,0 +1,141 @@
+sprint:
+  id: python-package-2
+  name: Testing & Distribution
+  track_id: python-package
+  status: completed
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T14:45:00+00:00'
+  estimated_duration: 1 week
+  progress:
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100
+  tasks:
+  - id: python-package-2-task-001
+    name: Create package installation tests
+    status: completed
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Create tests that verify package installation:
+      - Test all vibey.* subpackages importable
+      - Test framework content accessible via accessor
+      - Test CLI entry point works (vibey --help)
+      - Test MCP server can discover agents/workflows
+      - Run in isolated virtual environment
+      - Add to CI pipeline
+  - id: python-package-2-task-002
+    name: Test pip install from local build
+    status: completed
+    priority: critical
+    estimated_hours: 2
+    assigned_agent: test-engineer
+    description: |
+      Verify local package build and install:
+      - python -m build (create sdist and wheel)
+      - pip install dist/vibey_framework-*.whl in clean venv
+      - Run installation tests
+      - Verify vibey CLI works
+      - Verify vibey init deploys framework content
+  - id: python-package-2-task-003
+    name: Test editable install
+    status: completed
+    priority: high
+    estimated_hours: 2
+    assigned_agent: test-engineer
+    description: |
+      Verify editable install works for development:
+      - pip install -e . in clean venv
+      - Verify code changes reflected without reinstall
+      - Verify framework content accessible
+      - Verify CLI works
+      - Document any caveats
+  - id: python-package-2-task-004
+    name: Update existing tests for new structure
+    status: completed
+    priority: high
+    estimated_hours: 3
+    assigned_agent: test-engineer
+    description: |
+      Fix any tests broken by restructuring:
+      - Update paths in test fixtures
+      - Update imports if any changed
+      - Ensure test suite passes (target: 95%+)
+      - Update conftest.py if needed
+  - id: python-package-2-task-005
+    name: Create distribution documentation
+    status: completed
+    priority: medium
+    estimated_hours: 2
+    assigned_agent: docs-writer
+    description: |
+      Document package installation and distribution:
+      - Update README.md with pip install instructions
+      - Document development setup (editable install)
+      - Document how to access framework content programmatically
+      - Add troubleshooting section for common install issues
+  - id: python-package-2-task-006
+    name: Prepare for PyPI publication
+    status: completed
+    priority: medium
+    estimated_hours: 2
+    assigned_agent: backend-engineer
+    description: |
+      Prepare package for PyPI:
+      - Verify package metadata (name, version, description)
+      - Verify classifiers and keywords
+      - Test upload to TestPyPI
+      - Verify install from TestPyPI works
+      - Document release process
+      - Note: Actual PyPI publish deferred to release milestone
+  dependencies:
+  - python-package-1
+  blocked_by:
+  - python-package-1
+  depended_on_by: []
+  quality_gates:
+  - name: Clean Install Works
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: pip install in clean venv produces working package
+  - name: Editable Install Works
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: pip install -e . works for development
+  - name: Test Suite Passes
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: 95%+ of tests pass after restructuring
+  - name: TestPyPI Verification
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Package installable from TestPyPI
+  deliverables:
+  - Package installation test suite
+  - Verified local build and install
+  - Verified editable install
+  - Updated existing tests
+  - Distribution documentation
+  - TestPyPI verification
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 2 focuses on verification and distribution readiness.
+
+      Key tests:
+      1. Fresh venv + pip install dist/*.whl
+      2. Import all vibey.* packages
+      3. Access framework content via accessor
+      4. Run vibey --help
+      5. Run vibey init in temp directory
+
+      TestPyPI provides a safe way to verify the package works
+      when installed from a package index, without polluting PyPI.

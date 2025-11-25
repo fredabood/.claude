@@ -1,0 +1,69 @@
+task:
+  id: roadmap-integrity-fixes-2-2-task-006
+  name: Validate and commit git-integration schema migration
+  status: not_started
+  priority: high
+  estimated_hours: 0.3
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Validate the schema migration and commit all changes.
+
+    VALIDATION:
+    1. Count task.yaml files:
+       ```bash
+       find .vibey/roadmap/git-integration -name "task.yaml" | wc -l
+       # Should be 41
+       ```
+
+    2. Verify sprint.yaml files have empty tasks:
+       ```bash
+       grep "tasks: \[\]" .vibey/roadmap/git-integration/*/sprint.yaml
+       # Should show 5 matches
+       ```
+
+    3. Run roadmap validation:
+       ```bash
+       vibey roadmap validate
+       ```
+
+    COMMIT:
+    ```bash
+    git add .vibey/roadmap/git-integration/
+    git commit -m "refactor: Migrate git-integration to hierarchical task schema
+
+    - Extract 41 embedded tasks to individual task.yaml files
+    - Sprint 0: 7 tasks (architecture)
+    - Sprint 1: 9 tasks (analysis)
+    - Sprint 2: 11 tasks (hooks)
+    - Sprint 3: 9 tasks (advanced)
+    - Sprint 4: 5 tasks (dogfooding)
+    - Update sprint.yaml files to use empty tasks array
+
+    Part of roadmap-integrity-fixes-2 remediation.
+
+    Generated with Claude Code"
+    ```
+  acceptance_criteria:
+  - 41 task.yaml files exist
+  - All sprint.yaml files have tasks:[]
+  - vibey roadmap validate passes
+  - Changes committed to git
+  dependencies:
+  - roadmap-integrity-fixes-2-2-task-001
+  - roadmap-integrity-fixes-2-2-task-002
+  - roadmap-integrity-fixes-2-2-task-003
+  - roadmap-integrity-fixes-2-2-task-004
+  - roadmap-integrity-fixes-2-2-task-005
+  blocked_by:
+  - roadmap-integrity-fixes-2-2-task-001
+  - roadmap-integrity-fixes-2-2-task-002
+  - roadmap-integrity-fixes-2-2-task-003
+  - roadmap-integrity-fixes-2-2-task-004
+  - roadmap-integrity-fixes-2-2-task-005
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

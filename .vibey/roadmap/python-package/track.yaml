@@ -1,0 +1,138 @@
+track:
+  id: python-package
+  name: Python Package Structure & Distribution
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T16:00:00+00:00'
+  estimated_duration: 4 weeks
+  progress:
+    sprints_total: 3
+    sprints_completed: 3
+    tasks_total: 24
+    tasks_completed: 24
+    completion_percent: 100
+  sprints:
+  - id: python-package-1
+    name: Package Structure & Configuration
+    status: completed
+    estimated_duration: 1 week
+    tasks_count: 8
+    started: '2025-11-24T00:00:00+00:00'
+  - id: python-package-2
+    name: Testing & Distribution
+    status: completed
+    estimated_duration: 1 week
+    tasks_count: 6
+    started: '2025-11-24T00:00:00+00:00'
+  - id: python-package-3
+    name: Content Management Interface
+    status: completed
+    estimated_duration: 2 weeks
+    tasks_count: 10
+    started: '2025-11-24T00:00:00+00:00'
+  dependencies: []
+  blocks:
+  - type: track
+    target_id: user-journey-audit
+    at_status: not_started
+    reason: Package must be installable before user journey testing
+  - type: track
+    target_id: brew-package
+    at_status: not_started
+    reason: PyPI package must be published before Homebrew formula can reference it
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - user-journey-audit
+  - brew-package
+  quality_gates:
+  - name: Package Installable
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: pip install vibey works from clean environment
+    score: null
+  - name: All Subpackages Included
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All vibey.* subpackages importable after install
+    score: null
+  - name: Content Files Bundled
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: vibey/content/ (agents, workflows, templates) accessible after pip install
+    score: null
+  - name: CLI Functional
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: vibey --help and all commands work after pip install
+    score: null
+  - name: Content CRUD Operations
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: CLI and MCP content management commands work
+    score: null
+  assigned_agents:
+  - backend-engineer
+  - test-engineer
+  deliverables:
+  - Restructured package with content/ inside vibey/ (renamed from framework/)
+  - Fixed pyproject.toml with all subpackages
+  - Package data configuration for markdown/yaml content
+  - Working pip install from PyPI
+  - Installation verification tests
+  - Distribution documentation
+  - Content management CLI commands (vibey content list/show/create/edit/delete)
+  - Content management MCP tools (vibey_content_*)
+  - Content operations library (vibey.operations.content)
+  strategic_value:
+  - 'Blocker Removal: pip install vibey currently broken'
+  - 'User Experience: Single command installation'
+  - 'Distribution: PyPI availability for all users'
+  - 'Foundation: Required for all downstream tracks'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      CRITICAL PACKAGING FIX + CONTENT MANAGEMENT
+
+      Current Issues:
+      1. framework/ directory not included in pip package
+      2. Several vibey/ subpackages missing from pyproject.toml:
+         - vibey.operations
+         - vibey.mcp
+         - vibey.adapters
+         - vibey.common
+      3. pip install vibey results in non-functional installation
+      4. No CRUD interface for managing content (agents, workflows, templates)
+
+      Solution:
+      1. Move framework/ into vibey/content/ (rename for clarity)
+      2. Update pyproject.toml to use find_packages()
+      3. Add package_data for markdown/yaml content
+      4. Test installation from clean environment
+      5. Publish to PyPI
+      6. Add content management CLI commands
+      7. Add content management MCP tools
+
+      This is a BLOCKER for:
+      - User adoption (can't pip install)
+      - User journey audit (can't test installation flow)
+      - All platform ports (need working base package)
+
+      CONTENT MANAGEMENT enables:
+      - Users to create/edit/delete agents without manual YAML editing
+      - AI assistants to manage content via MCP tools
+      - Safer modifications with validation and backups

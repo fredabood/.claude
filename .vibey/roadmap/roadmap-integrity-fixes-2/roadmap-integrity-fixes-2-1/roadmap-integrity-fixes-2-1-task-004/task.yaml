@@ -1,0 +1,43 @@
+task:
+  id: roadmap-integrity-fixes-2-1-task-004
+  name: Sync jetbrains-port status in roadmap.yaml
+  status: not_started
+  priority: high
+  estimated_hours: 0.1
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Fix jetbrains-port status mismatch.
+
+    MISMATCH:
+    - track.yaml: status: completed
+    - roadmap.yaml: status: in_progress
+
+    LOCATION: Find jetbrains-port in roadmap.yaml tracks list
+
+    EDIT roadmap.yaml:
+    ```yaml
+    # Change from:
+    - id: jetbrains-port
+      name: JetBrains AI Assistant Port
+      status: in_progress
+
+    # To:
+    - id: jetbrains-port
+      name: JetBrains AI Assistant Port
+      status: completed
+    ```
+
+    DO NOT COMMIT YET - batch with other fixes in task-005.
+  acceptance_criteria:
+  - jetbrains-port status is completed in roadmap.yaml
+  - Status matches track.yaml
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-1-task-005
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

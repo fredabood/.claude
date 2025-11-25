@@ -1,0 +1,216 @@
+sprint:
+  id: python-package-3
+  name: Content Management Interface
+  track_id: python-package
+  status: completed
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T16:00:00+00:00'
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 10
+    tasks_completed: 10
+    completion_percent: 100
+  tasks:
+  - id: python-package-3-task-001
+    name: Design content operations API
+    status: completed
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: architecture-agent
+    description: |
+      Design the content operations API:
+      - Define ContentItem model (base for agents, workflows, templates, handoffs)
+      - Define CRUD operations interface
+      - Plan validation and schema enforcement
+      - Design backup/rollback strategy for edits
+      - Define content types enum (agent, workflow, template, handoff, schema)
+      - Plan search/filter capabilities
+  - id: python-package-3-task-002
+    name: Create content operations library
+    status: completed
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Implement vibey/operations/content/:
+      - __init__.py with public API
+      - models.py - ContentItem, ContentType, ContentMetadata
+      - loader.py - Load content from vibey/content/
+      - writer.py - Write content with validation
+      - validator.py - Validate frontmatter and structure
+      - backup.py - Create backups before modifications
+      - search.py - Search content by name, type, keywords
+  - id: python-package-3-task-003
+    name: Implement content list operation
+    status: completed
+    priority: high
+    estimated_hours: 3
+    assigned_agent: backend-engineer
+    description: |
+      Create list_content() function:
+      - List all content items with optional type filter
+      - Return ContentItem objects with metadata
+      - Support sorting (name, type, modified date)
+      - Support filtering (type, keyword, tag)
+      - Cache results for performance
+  - id: python-package-3-task-004
+    name: Implement content show operation
+    status: completed
+    priority: high
+    estimated_hours: 3
+    assigned_agent: backend-engineer
+    description: |
+      Create get_content() function:
+      - Load content by ID or path
+      - Parse frontmatter into structured metadata
+      - Return full content with body text
+      - Include validation status
+      - Show related content (handoffs, dependencies)
+  - id: python-package-3-task-005
+    name: Implement content create operation
+    status: completed
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Create create_content() function:
+      - Create new content from template
+      - Validate required frontmatter fields
+      - Generate unique ID if not provided
+      - Place in correct directory based on type
+      - Support interactive prompts for required fields
+      - Validate against schema before writing
+  - id: python-package-3-task-006
+    name: Implement content edit operation
+    status: completed
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Create update_content() function:
+      - Create backup before editing
+      - Update frontmatter fields safely
+      - Preserve body content unless explicitly changed
+      - Validate changes against schema
+      - Support field-level updates (not full replacement)
+      - Atomic write (temp file + rename)
+  - id: python-package-3-task-007
+    name: Implement content delete operation
+    status: completed
+    priority: medium
+    estimated_hours: 2
+    assigned_agent: backend-engineer
+    description: |
+      Create delete_content() function:
+      - Create backup before deleting
+      - Check for references from other content
+      - Warn if content is referenced elsewhere
+      - Support --force to skip reference check
+      - Move to .vibey/trash/ instead of hard delete
+  - id: python-package-3-task-008
+    name: Add CLI content commands
+    status: completed
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Add CLI commands to vibey/cli/main.py:
+      - vibey content list [--type TYPE] [--search QUERY]
+      - vibey content show <id>
+      - vibey content create <type> [--name NAME] [--interactive]
+      - vibey content edit <id> [--field FIELD=VALUE]
+      - vibey content delete <id> [--force]
+      - vibey content validate [<id>] [--all]
+      - vibey content search <query>
+
+      Include rich output formatting with tables.
+  - id: python-package-3-task-009
+    name: Add MCP content tools
+    status: completed
+    priority: critical
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Add MCP tools to vibey/mcp/tools/content_tools.py:
+      - vibey_content_list - List all content
+      - vibey_content_show - Show content details
+      - vibey_content_create - Create new content
+      - vibey_content_update - Update content fields
+      - vibey_content_delete - Delete content
+      - vibey_content_search - Search content
+      - vibey_content_validate - Validate content
+
+      Register tools in MCP server get_tools().
+  - id: python-package-3-task-010
+    name: Create content management tests
+    status: completed
+    priority: high
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: |
+      Create comprehensive tests for content management:
+      - Unit tests for content operations
+      - CLI integration tests
+      - MCP tool tests
+      - Backup/rollback tests
+      - Validation tests
+      - Search tests
+      - Edge cases (invalid content, missing fields)
+  dependencies:
+  - python-package-1
+  - python-package-2
+  blocked_by:
+  - python-package-1
+  - python-package-2
+  depended_on_by: []
+  quality_gates:
+  - name: CLI Content Commands
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All content CLI commands work correctly
+  - name: MCP Content Tools
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All content MCP tools work correctly
+  - name: Content Test Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: 90%+ test coverage for content operations
+  deliverables:
+  - Content operations library (vibey/operations/content/)
+  - CLI content command group (list, show, create, edit, delete, validate, search)
+  - MCP content tools (7 tools)
+  - Content management test suite
+  - Content type templates for creating new content
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 3 adds CRUD/DDL operations for content (agents, workflows,
+      templates, handoffs) to both CLI and MCP interfaces.
+
+      MOTIVATION:
+      - Users currently must manually edit YAML frontmatter
+      - No validation until MCP server tries to load content
+      - No backup/rollback for accidental changes
+      - AI assistants have no way to create/modify content programmatically
+
+      DESIGN PRINCIPLES:
+      - Safe by default: backups before any modification
+      - Validation before write: catch errors early
+      - Interactive mode: prompt for required fields
+      - Soft delete: move to trash, not hard delete
+      - Atomic writes: prevent partial/corrupted files
+
+      CONTENT TYPES SUPPORTED:
+      - agent: Specialized AI agent definitions
+      - workflow: Multi-step process definitions
+      - template: Handoff template definitions
+      - handoff: Rendered handoff documents
+      - schema: YAML schemas for validation
+      - example: Example configurations

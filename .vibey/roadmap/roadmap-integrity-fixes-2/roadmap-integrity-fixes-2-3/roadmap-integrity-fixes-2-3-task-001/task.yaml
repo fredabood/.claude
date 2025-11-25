@@ -1,0 +1,17 @@
+task:
+  id: roadmap-integrity-fixes-2-3-task-001
+  name: Extract python-package-1 tasks to task.yaml files
+  status: not_started
+  priority: high
+  estimated_hours: 0.4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  description: |
+    Extract 8 embedded tasks from python-package-1/sprint.yaml.
+    All tasks should be marked completed.
+  acceptance_criteria:
+  - 8 task directories created
+  - 8 task.yaml files with status: completed
+  - sprint.yaml updated with tasks:[]
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

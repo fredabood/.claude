@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 31
+    tracks_total: 33
     tracks_completed: 17
-    sprints_total: 92
-    sprints_completed: 59
-    tasks_total: 690
-    tasks_completed: 518
-    completion_percent: 75
+    sprints_total: 97
+    sprints_completed: 60
+    tasks_total: 726
+    tasks_completed: 526
+    completion_percent: 72
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -92,7 +92,7 @@ roadmap:
     priority: medium
   - id: jetbrains-port
     name: JetBrains AI Assistant Port
-    status: in_progress
+    status: completed
     priority: medium
   - id: cursor-port
     name: Cursor Platform Port
@@ -136,16 +136,28 @@ roadmap:
     priority: critical
   - id: git-integration
     name: Enhanced Git Integration
-    status: planned
-    priority: medium
+    status: in_progress
+    priority: high
   - id: atlassian-integration
     name: Atlassian Integration (Jira & Confluence)
-    status: planned
+    status: not_started
     priority: high
   - id: user-journey-audit
     name: User Journey Audit & Documentation Coverage
-    status: planned
+    status: not_started
     priority: high
+  - id: python-package
+    name: Python Package Structure & Distribution
+    status: completed
+    priority: critical
+  - id: brew-package
+    name: Homebrew Package Distribution
+    status: not_started
+    priority: medium
+  - id: roadmap-integrity-fixes-2
+    name: Roadmap Data Integrity Remediation (Phase 2)
+    status: not_started
+    priority: critical
   dependencies: []
   blocked_by: []
   version_history:

@@ -1,0 +1,73 @@
+task:
+  id: roadmap-integrity-fixes-2-1-task-005
+  name: Commit all Sprint 1 fixes
+  status: not_started
+  priority: critical
+  estimated_hours: 0.1
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Commit all Sprint 1 changes in a single atomic commit.
+
+    PRE-COMMIT VERIFICATION:
+    ```bash
+    git status
+    # Should show:
+    # - new file: .vibey/roadmap/brew-package/...
+    # - new file: .vibey/roadmap/python-package/...
+    # - modified: .vibey/roadmap.yaml
+    ```
+
+    COMMIT:
+    ```bash
+    git add .vibey/roadmap.yaml
+    git add .vibey/roadmap/brew-package/
+    git add .vibey/roadmap/python-package/
+    git add .vibey/roadmap/roadmap-integrity-fixes-2/
+
+    git commit -m "fix: Roadmap data integrity remediation (Phase 2, Sprint 1)
+
+    - Add brew-package track to git (was untracked)
+    - Add python-package track to git (was untracked)
+    - Sync git-integration status: not_started -> in_progress
+    - Sync python-package status: not_started -> completed
+    - Sync jetbrains-port status: in_progress -> completed
+    - Create roadmap-integrity-fixes-2 track for remaining remediation
+
+    Resolves critical data loss risk and status mismatches.
+
+    Generated with Claude Code"
+    ```
+
+    POST-COMMIT VERIFICATION:
+    ```bash
+    # Verify all files tracked
+    git ls-files .vibey/roadmap/brew-package/track.yaml
+    git ls-files .vibey/roadmap/python-package/track.yaml
+
+    # Verify status in roadmap.yaml
+    grep -A2 "id: git-integration" .vibey/roadmap.yaml
+    grep -A2 "id: python-package" .vibey/roadmap.yaml
+    grep -A2 "id: jetbrains-port" .vibey/roadmap.yaml
+    ```
+  acceptance_criteria:
+  - All files committed successfully
+  - No untracked roadmap files remain
+  - git log shows commit with proper message
+  - Post-commit verification passes
+  dependencies:
+  - roadmap-integrity-fixes-2-1-task-001
+  - roadmap-integrity-fixes-2-1-task-002
+  - roadmap-integrity-fixes-2-1-task-003
+  - roadmap-integrity-fixes-2-1-task-004
+  blocked_by:
+  - roadmap-integrity-fixes-2-1-task-001
+  - roadmap-integrity-fixes-2-1-task-002
+  - roadmap-integrity-fixes-2-1-task-003
+  - roadmap-integrity-fixes-2-1-task-004
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

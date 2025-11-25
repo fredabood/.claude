@@ -1,0 +1,27 @@
+task:
+  id: roadmap-integrity-fixes-2-4-task-008
+  name: Fix mcp-server sprints_completed counter
+  status: not_started
+  priority: low
+  estimated_hours: 0.1
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  description: |
+    Fix the sprints_completed counter in mcp-server track.yaml.
+
+    ISSUE:
+    - Current: sprints_completed: 0
+    - Expected: sprints_completed: 2 (Sprint 1 and 2 are production_ready)
+
+    EDIT .vibey/roadmap/mcp-server/track.yaml:
+    Change line ~14 from:
+      sprints_completed: 0
+    To:
+      sprints_completed: 2
+
+    This is a cosmetic fix - does not affect actual completion state.
+  acceptance_criteria:
+  - sprints_completed shows 2
+  - Matches actual sprint statuses
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

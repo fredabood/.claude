@@ -1,0 +1,58 @@
+sprint:
+  id: roadmap-integrity-fixes-2-4
+  name: Platform Port Task Extraction
+  track_id: roadmap-integrity-fixes-2
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 hours
+  progress:
+    tasks_total: 8
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  dependencies:
+  - roadmap-integrity-fixes-2-1
+  blocked_by:
+  - roadmap-integrity-fixes-2-1
+  depended_on_by:
+  - roadmap-integrity-fixes-2-5
+  quality_gates:
+  - name: All Ports Have Tasks
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 6 empty ports have task.yaml files
+  - name: Progress Reset
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Progress counters reset to 0% for unstarted work
+  deliverables:
+  - Task hierarchies for 6 platform ports
+  - Accurate progress counters (reset phantom progress)
+  - continue-port adapter naming fixed
+  - mcp-server sprints_completed fixed
+  metadata:
+    created_by: parallel-track-audit
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Fix 6 empty platform port tracks with phantom progress.
+
+      TRACKS TO FIX:
+      - amazonq-port: 0 tasks, claims 33-75% complete
+      - cody-port: 0 tasks, claims 33-75% complete
+      - copilot-port: 0 tasks, claims 33-75% complete
+      - cursor-port: 0 tasks, claims 33-75% complete
+      - replit-port: 0 tasks, claims 33-75% complete
+      - vscode-port: 0 tasks, claims 33-75% complete
+
+      All have adapters but no task files. Extract embedded
+      task descriptions from track.yaml to proper task.yaml files
+      and reset progress to 0%.
+
+      Also fix minor issues:
+      - continue-port adapter naming (continuedev → continue)
+      - mcp-server sprints_completed (0 → 2)

@@ -1,0 +1,120 @@
+track:
+  id: roadmap-integrity-fixes-2
+  name: Roadmap Data Integrity Remediation (Phase 2)
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: critical
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    sprints_total: 5
+    sprints_completed: 0
+    tasks_total: 29
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: roadmap-integrity-fixes-2-1
+    name: Critical Git & Status Fixes
+    status: not_started
+    estimated_duration: 30 minutes
+    tasks_count: 5
+    started: null
+  - id: roadmap-integrity-fixes-2-2
+    name: Schema Migration (git-integration)
+    status: not_started
+    estimated_duration: 2 hours
+    tasks_count: 6
+    started: null
+  - id: roadmap-integrity-fixes-2-3
+    name: Schema Migration (python-package)
+    status: not_started
+    estimated_duration: 1.5 hours
+    tasks_count: 6
+    started: null
+  - id: roadmap-integrity-fixes-2-4
+    name: Platform Port Task Extraction
+    status: not_started
+    estimated_duration: 3 hours
+    tasks_count: 8
+    started: null
+  - id: roadmap-integrity-fixes-2-5
+    name: Final Validation & Documentation
+    status: not_started
+    estimated_duration: 1 hour
+    tasks_count: 4
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates:
+  - name: All Tracks Git Tracked
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All track files must be committed to git
+    score: null
+  - name: Status Consistency
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All track.yaml statuses must match roadmap.yaml
+    score: null
+  - name: Schema Compliance
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: 95%+ of active tracks use hierarchical task.yaml schema
+    score: null
+  - name: Validation Pass
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: vibey roadmap validate must pass with no errors
+    score: null
+  assigned_agents:
+  - backend-engineer
+  - architecture-agent
+  deliverables:
+  - All tracks committed to git (brew-package, python-package)
+  - Status sync between track.yaml and roadmap.yaml (3 tracks)
+  - Schema migration for git-integration (41 tasks)
+  - Schema migration for python-package (24 tasks)
+  - Platform port task extraction (6 tracks)
+  - Full validation passing
+  - Audit documentation
+  strategic_value:
+  - 'Data Integrity: Ensure all roadmap data is version controlled'
+  - 'Consistency: Unified schema across all tracks'
+  - 'Accuracy: Progress counters reflect reality'
+  - 'Visibility: All tracks visible in roadmap queries'
+  commits: []
+  standards: []
+  metadata:
+    created_by: parallel-track-audit
+    last_updated: '2025-11-24T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      Phase 2 of roadmap data integrity remediation.
+
+      Based on comprehensive parallel audit of all 34 tracks on 2025-11-24.
+
+      CRITICAL ISSUES FOUND:
+      1. 2 tracks untracked in git (data loss risk)
+      2. 3 tracks with status mismatches
+      3. 2 active tracks with embedded schema needing migration
+      4. 6 platform ports with phantom progress (0 actual tasks)
+
+      ESTIMATED EFFORT: 8 hours total
+
+      SPRINT STRUCTURE:
+      - Sprint 1: Critical fixes (git tracking, status sync)
+      - Sprint 2: git-integration schema migration
+      - Sprint 3: python-package schema migration
+      - Sprint 4: Platform port task extraction
+      - Sprint 5: Validation and documentation

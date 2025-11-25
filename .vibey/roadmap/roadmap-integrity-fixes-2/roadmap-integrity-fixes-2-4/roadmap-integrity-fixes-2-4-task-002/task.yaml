@@ -1,0 +1,19 @@
+task:
+  id: roadmap-integrity-fixes-2-4-task-002
+  name: Create task hierarchy for cody-port
+  status: not_started
+  priority: medium
+  estimated_hours: 0.4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  description: |
+    Create proper sprint/task structure for cody-port.
+    Same process as amazonq-port.
+    Adapter exists: vibey/adapters/cody.py
+  acceptance_criteria:
+  - Sprint directory created
+  - 6+ task.yaml files created
+  - All tasks status: not_started
+  - Progress shows 0%
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

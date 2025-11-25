@@ -1,0 +1,70 @@
+task:
+  id: roadmap-integrity-fixes-2-2-task-001
+  name: Extract git-integration-0 tasks to task.yaml files
+  status: not_started
+  priority: high
+  estimated_hours: 0.5
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Extract 7 embedded tasks from git-integration-0/sprint.yaml to individual task.yaml files.
+
+    SOURCE: .vibey/roadmap/git-integration/git-integration-0/sprint.yaml
+    TASKS TO EXTRACT: 7 (architecture & design tasks)
+
+    FOR EACH TASK:
+    1. Create directory: git-integration-0-task-00N/
+    2. Create task.yaml with proper schema
+    3. Preserve all fields (id, name, status, priority, description, etc.)
+
+    EXAMPLE STRUCTURE:
+    ```
+    git-integration-0/
+    ├── sprint.yaml (update to tasks: [])
+    ├── git-integration-0-task-001/
+    │   └── task.yaml
+    ├── git-integration-0-task-002/
+    │   └── task.yaml
+    ... (7 total)
+    ```
+
+    TASK.YAML TEMPLATE:
+    ```yaml
+    task:
+      id: git-integration-0-task-001
+      name: [from embedded]
+      status: [from embedded]
+      priority: [from embedded]
+      estimated_hours: [from embedded]
+      assigned_agent: [from embedded]
+      created: '2025-11-24T00:00:00+00:00'
+      started: [from embedded or null]
+      completed: [from embedded or null]
+      description: |
+        [from embedded]
+      acceptance_criteria: []
+      dependencies: []
+      blocked_by: []
+      depended_on_by: []
+      commits: [from embedded or []]
+      metadata:
+        last_updated: '2025-11-24T00:00:00+00:00'
+    ```
+
+    After extraction, update sprint.yaml:
+    - Set tasks: []
+    - Keep progress counters accurate
+  acceptance_criteria:
+  - 7 task directories created
+  - 7 task.yaml files with correct content
+  - sprint.yaml updated with tasks:[]
+  - Progress counters still accurate
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-2-task-006
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

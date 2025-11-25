@@ -1,0 +1,37 @@
+task:
+  id: roadmap-integrity-fixes-2-5-task-002
+  name: Document schema decisions
+  status: not_started
+  priority: medium
+  estimated_hours: 0.3
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  description: |
+    Document schema decisions made during remediation.
+
+    CREATE: .vibey/roadmap/SCHEMA_DECISIONS.md
+
+    CONTENT:
+    1. Hierarchical vs Embedded Tasks
+       - Hierarchical is canonical for active tracks
+       - Embedded acceptable for completed tracks (historical)
+       - Embedded acceptable for planning-only (not_started)
+
+    2. Status Taxonomy
+       - not_started: Planning allowed, no implementation
+       - in_progress: Implementation underway
+       - completed: All work done
+
+    3. Progress Counters
+       - Must match actual task files
+       - Reset phantom progress to 0%
+
+    4. Quality Gates
+       - Run before marking track complete
+       - Document results in track.yaml
+  acceptance_criteria:
+  - SCHEMA_DECISIONS.md created
+  - Covers all key decisions
+  - Provides examples
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,34 @@
+task:
+  id: roadmap-integrity-fixes-2-2-task-002
+  name: Extract git-integration-1 tasks to task.yaml files
+  status: not_started
+  priority: high
+  estimated_hours: 0.5
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Extract 9 embedded tasks from git-integration-1/sprint.yaml to individual task.yaml files.
+
+    SOURCE: .vibey/roadmap/git-integration/git-integration-1/sprint.yaml
+    TASKS TO EXTRACT: 9 (git history & commit analysis tasks)
+
+    Follow same process as task-001:
+    1. Create task directories
+    2. Create task.yaml files
+    3. Update sprint.yaml to tasks: []
+
+    All 9 tasks should be marked completed (this sprint is done).
+  acceptance_criteria:
+  - 9 task directories created
+  - 9 task.yaml files with correct content
+  - All tasks show status: completed
+  - sprint.yaml updated with tasks:[]
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-2-task-006
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

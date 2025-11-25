@@ -1,0 +1,41 @@
+task:
+  id: roadmap-integrity-fixes-2-1-task-001
+  name: Add brew-package track to git
+  status: not_started
+  priority: critical
+  estimated_hours: 0.1
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Add the untracked brew-package directory to git version control.
+
+    CURRENT STATE:
+    - .vibey/roadmap/brew-package/ is completely untracked
+    - Contains track.yaml, 2 sprint directories, 12 embedded tasks
+    - Data at risk of loss
+
+    COMMANDS:
+    ```bash
+    cd /Users/fredabood/Repositories/vibey
+    git add .vibey/roadmap/brew-package/
+    git status  # Verify files staged
+    ```
+
+    VERIFICATION:
+    - git ls-files --error-unmatch .vibey/roadmap/brew-package/track.yaml
+    - Should return path (not error)
+
+    DO NOT COMMIT YET - batch with other fixes in task-005.
+  acceptance_criteria:
+  - brew-package directory staged in git
+  - All files (track.yaml, sprint.yaml files) included
+  - No errors from git add
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - roadmap-integrity-fixes-2-1-task-005
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

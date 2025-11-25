@@ -633,18 +633,29 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
                 reason=b['reason'],
             ))
 
-    # Parse blockers
-    blocked_by = [
-        SprintBlocker(
-            dependency_id=b['dependency_id'],
-            dependency_type=b['dependency_type'],
-            current_status=b['current_status'],
-            required_status=b['required_status'],
-            blocking_since=_parse_datetime(b['blocking_since']),
-            estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
-        )
-        for b in sprint_data.get('blocked_by', [])
-    ]
+    # Parse blockers (backward compatible with simple string format)
+    blocked_by = []
+    for b in sprint_data.get('blocked_by', []):
+        if isinstance(b, str):
+            # Simple string format (legacy) - sprint ID as blocker
+            blocked_by.append(SprintBlocker(
+                dependency_id=b,
+                dependency_type='sprint',
+                current_status='not_started',
+                required_status='completed',
+                blocking_since=None,
+                estimated_resolution=None,
+            ))
+        elif isinstance(b, dict):
+            # Structured format with full blocker info
+            blocked_by.append(SprintBlocker(
+                dependency_id=b['dependency_id'],
+                dependency_type=b.get('dependency_type', 'sprint'),
+                current_status=b.get('current_status', 'not_started'),
+                required_status=b.get('required_status', 'completed'),
+                blocking_since=_parse_datetime(b.get('blocking_since')),
+                estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
+            ))
 
     # Parse depends_on (new cached dependency tracking)
     depends_on = [

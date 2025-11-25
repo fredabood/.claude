@@ -24,6 +24,29 @@ from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
 from vibey.operations.roadmap.audit_trail import log_status_change
 
+# Import CLI change tracker for pre-commit hook compatibility
+try:
+    from vibey.operations.git.cli_change_tracker import record_cli_change
+    CLI_CHANGE_TRACKER_AVAILABLE = True
+except ImportError:
+    CLI_CHANGE_TRACKER_AVAILABLE = False
+
+def _record_cli_changes(file_path: Path, root_dir: Path) -> None:
+    """Record that a file was modified by CLI."""
+    if CLI_CHANGE_TRACKER_AVAILABLE:
+        try:
+            # If it's a directory (tasks are in hierarchical structure), find all task.yaml files
+            if file_path.is_dir():
+                for task_yaml in file_path.rglob("task.yaml"):
+                    rel_path = str(task_yaml.relative_to(root_dir))
+                    record_cli_change(rel_path, root_dir)
+            else:
+                # It's a file, record it directly
+                rel_path = str(file_path.relative_to(root_dir))
+                record_cli_change(rel_path, root_dir)
+        except ValueError:
+            pass  # File not under root_dir
+
 # Import sync hooks for automatic documentation synchronization
 try:
     import sys
@@ -137,6 +160,7 @@ def complete_task(
 
     # Save tasks
     save_tasks(tasks, tasks_path)
+    _record_cli_changes(tasks_path, root_dir)
     print(f"✅ Task '{task.title}' marked as completed")
 
     # Update dependency caches for all dependents
@@ -230,6 +254,7 @@ def start_task(
 
     # Save tasks
     save_tasks(tasks, tasks_path)
+    _record_cli_changes(tasks_path, root_dir)
     print(f"✅ Task '{task.title}' marked as in progress")
 
     # Update dependency caches for all dependents
@@ -904,6 +929,7 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
 
     # Save sprint
     save_sprint(sprint, sprint_path)
+    _record_cli_changes(sprint_path, fs.root_dir)
 
     # Update track progress
     track_id = sprint_id.rsplit('-', 1)[0]  # Extract track ID
@@ -975,6 +1001,7 @@ def _update_track_progress(fs: FileSystemManager, track_id: str):
 
     # Save track
     save_track(track, track_path)
+    _record_cli_changes(track_path, fs.root_dir)
 
     # Update roadmap progress
     _update_roadmap_progress(fs)
@@ -1037,6 +1064,7 @@ def _update_roadmap_progress(fs: FileSystemManager):
 
     # Save roadmap
     save_roadmap(roadmap, roadmap_path)
+    _record_cli_changes(roadmap_path, fs.root_dir)
 
 
 def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:

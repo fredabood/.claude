@@ -355,7 +355,17 @@ class YAMLChangeAnalyzer:
         results = []
         staged_files = self._get_staged_roadmap_files()
 
+        # Check for CLI-made changes
+        try:
+            from vibey.operations.git.cli_change_tracker import load_cli_changes
+            cli_changes = load_cli_changes(self.repo_path)
+        except ImportError:
+            cli_changes = set()
+
         for file_path in staged_files:
+            # Skip files that were modified by CLI commands
+            if file_path in cli_changes:
+                continue
             file_type = self._get_file_type(file_path)
             if not file_type:
                 continue

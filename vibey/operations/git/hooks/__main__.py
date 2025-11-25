@@ -18,9 +18,12 @@ def main():
         from vibey.operations.git.hooks.commit_msg import main as commit_msg_main
         # Pass remaining args (commit message file path)
         return commit_msg_main(args[1:])
+    elif args[0] == "post-commit":
+        from vibey.operations.git.hooks.post_commit import main as post_commit_main
+        return post_commit_main()
     else:
         print(f"Unknown hook: {args[0]}")
-        print("Usage: python -m vibey.operations.git.hooks [pre-commit|commit-msg <file>]")
+        print("Usage: python -m vibey.operations.git.hooks [pre-commit|commit-msg <file>|post-commit]")
         return 1
 
 if __name__ == "__main__":

@@ -187,6 +187,24 @@ from vibey.operations.git.merge_ordering import (
     format_dependency_check_result,
 )
 
+from vibey.operations.git.strategy_adoption import (
+    StrategyPreset,
+    EnforcementLevel,
+    BranchRequirement,
+    StrategyRequirement,
+    StrategyConfig,
+    ValidationResult,
+    ValidationReport,
+    AdoptionResult,
+    StrategyAdoption,
+    list_strategies,
+    adopt_strategy,
+    show_strategy,
+    validate_strategy,
+    format_strategy_list,
+    format_validation_report,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -329,4 +347,20 @@ __all__ = [
     "check_branch_dependencies",
     "format_merge_order_report",
     "format_dependency_check_result",
+    # Strategy adoption
+    "StrategyPreset",
+    "EnforcementLevel",
+    "BranchRequirement",
+    "StrategyRequirement",
+    "StrategyConfig",
+    "ValidationResult",
+    "ValidationReport",
+    "AdoptionResult",
+    "StrategyAdoption",
+    "list_strategies",
+    "adopt_strategy",
+    "show_strategy",
+    "validate_strategy",
+    "format_strategy_list",
+    "format_validation_report",
 ]

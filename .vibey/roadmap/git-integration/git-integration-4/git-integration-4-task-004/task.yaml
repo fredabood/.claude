@@ -17,10 +17,10 @@ task:
     \  # Start advisory\n```\n\nDELIVERABLES:\n- Git integration configuration for\
     \ Vibey repo\n- Pre-commit and commit-msg hooks installed\n- Advisory warnings\
     \ configured and tested\n"
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: null
+  started: '2025-11-25T05:39:05.677453+00:00'
   completed: null
   assigned_agent: backend-engineer
   priority: high

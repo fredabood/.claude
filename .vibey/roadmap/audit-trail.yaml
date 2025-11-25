@@ -529,6 +529,46 @@ audit_log:
   reason: Task started via CLI by system
   commit: bcd6d4f
   source: cli
+- timestamp: '2025-11-25T05:33:37.775580+00:00'
+  object_type: task
+  object_id: git-integration-4-task-002
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: e7248bd
+  source: cli
+- timestamp: '2025-11-25T05:34:55.752273+00:00'
+  object_type: task
+  object_id: git-integration-4-task-003
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: e7248bd
+  source: cli
+- timestamp: '2025-11-25T05:38:41.373318+00:00'
+  object_type: task
+  object_id: git-integration-4-task-003
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 965f710
+  source: cli
+- timestamp: '2025-11-25T05:39:05.677625+00:00'
+  object_type: task
+  object_id: git-integration-4-task-004
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: 965f710
+  source: cli
 metadata:
-  last_updated: '2025-11-25T05:28:05.425520+00:00'
-  total_entries: 53
+  last_updated: '2025-11-25T05:39:05.694885+00:00'
+  total_entries: 57

@@ -107,7 +107,6 @@ track:
   - Performance benchmarks (baseline for other platforms)
   - Bug fixes for any issues discovered
   - Updated Claude Code documentation
-  - Explore options to automate MCP setup when Vibey deploys for Claude Code
   strategic_value:
   - 'Baseline Validation: Establishes known-good reference implementation'
   - 'Bug Discovery: Find and fix issues before they propagate to other platforms'

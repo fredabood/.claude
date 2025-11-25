@@ -93,7 +93,6 @@ track:
   - Command sequence support
   - Terminal workflow documentation
   - Aider integration examples
-  - Explore options to automate MCP setup when Vibey deploys for Aider
   strategic_value:
   - 'Terminal Users: Reach developers who prefer CLI tools'
   - 'Git Integration: Leverage Aider''s git-centric workflow'

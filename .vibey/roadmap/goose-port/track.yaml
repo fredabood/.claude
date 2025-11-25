@@ -174,7 +174,6 @@ track:
   - Frontmatter schema documentation
   - Goose integration guide
   - Recipe development guide
-  - Explore options to automate MCP setup when Vibey deploys for Goose
   strategic_value:
   - 'Platform Agnostic: Single MCP server works with Goose, Claude Code, and future MCP clients'
   - 'Zero Drift: Dynamic discovery ensures MCP tools always match agent/workflow definitions'

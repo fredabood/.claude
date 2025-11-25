@@ -137,7 +137,6 @@ track:
   - ~/.aws/amazonq/mcp.json global config template
   - Integration guide (docs/guides/AMAZONQ_INTEGRATION.md)
   - E2E test suite
-  - Explore options to automate MCP setup when Vibey deploys for Amazon Q
   strategic_value:
   - 'Zero Drift: Generated artifacts always match source definitions'
   - 'MCP Reuse: Leverages existing 46-tool MCP server'

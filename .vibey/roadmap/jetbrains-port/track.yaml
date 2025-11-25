@@ -103,7 +103,6 @@ track:
   - Multi-IDE test results (IntelliJ, PyCharm, WebStorm, GoLand)
   - JetBrains integration guide
   - IDE-specific configuration examples
-  - Explore options to automate MCP setup when Vibey deploys for JetBrains
   strategic_value:
   - 'Professional Developers: Java, Kotlin, Python, Go, PHP, Ruby, Rust communities'
   - 'Enterprise Market: Large organizations using JetBrains'

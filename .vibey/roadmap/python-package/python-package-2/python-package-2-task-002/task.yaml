@@ -1,0 +1,24 @@
+task:
+  id: python-package-2-task-002
+  name: Test pip install from local build
+  status: completed
+  priority: critical
+  estimated_hours: 2
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T14:45:00+00:00'
+  description: |
+    Verify local package build and install:
+    - python -m build (create sdist and wheel)
+    - pip install dist/vibey_framework-*.whl in clean venv
+    - Run installation tests
+    - Verify vibey CLI works
+    - Verify vibey init deploys framework content
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

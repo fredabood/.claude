@@ -1,0 +1,24 @@
+task:
+  id: python-package-3-task-004
+  name: Implement content show operation
+  status: completed
+  priority: high
+  estimated_hours: 3
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T16:00:00+00:00'
+  description: |
+    Create get_content() function:
+    - Load content by ID or path
+    - Parse frontmatter into structured metadata
+    - Return full content with body text
+    - Include validation status
+    - Show related content (handoffs, dependencies)
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,110 @@
+sprint:
+  id: roadmap-integrity-fixes-11
+  name: Python Package Track Schema Migration & Git Integration
+  track_id: roadmap-integrity-fixes
+  status: not_started
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 4 hours
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  dependencies:
+  - roadmap-integrity-fixes-0
+  - roadmap-integrity-fixes-1
+  blocked_by: []
+  depended_on_by: []
+  quality_gates:
+  - name: Schema Compliance
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 24 tasks have individual task.yaml files
+    score: null
+  - name: Git Tracking
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All python-package files tracked in git
+    score: null
+  - name: Status Synchronization
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: roadmap.yaml and track.yaml show same status
+    score: null
+  - name: Quality Gates Executed
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All 5 track quality gates run and documented
+    score: null
+  deliverables:
+  - 24 task.yaml files created from embedded task data
+  - python-package track added to git tracking
+  - roadmap.yaml status updated to 'completed'
+  - All 5 quality gates executed and results documented
+  - Comprehensive commit documenting track completion
+  - Updated audit report with remediation results
+  metadata:
+    created_by: roadmap-integrity-fixes-track
+    last_updated: '2025-11-24T00:00:00+00:00'
+    audit_report: .vibey/roadmap/roadmap-integrity-fixes/context/python-package-track-audit.md
+    notes: |
+      PYTHON PACKAGE TRACK REMEDIATION
+
+      The python-package track shows 'completed' status in track.yaml but has
+      CRITICAL data integrity issues:
+
+      1. ENTIRE track directory UNTRACKED in git (data loss risk)
+      2. roadmap.yaml shows 'not_started', track.yaml shows 'completed' (status mismatch)
+      3. 24 tasks embedded in sprint.yaml files instead of task.yaml files (schema violation)
+      4. Quality gates never executed despite completion claims
+
+      DELIVERABLE VERIFICATION:
+      ✅ Sprint 1: vibey/content/ exists, pyproject.toml configured, all packages importable
+      ✅ Sprint 3: content operations library, CLI commands, MCP tools all verified
+      ⚠️ Sprint 2: Tests exist but distribution verification unclear
+
+      REMEDIATION APPROACH:
+      This sprint will migrate the track to proper schema structure WITHOUT losing data:
+
+      Phase 1: Data Preservation
+      - Create backup of current state
+      - Document existing structure
+
+      Phase 2: Schema Migration
+      - Extract 24 embedded tasks from sprint.yaml files
+      - Create task directories (python-package-1-task-001/, etc.)
+      - Generate task.yaml files with proper structure
+      - Update sprint.yaml files to remove embedded tasks
+
+      Phase 3: Git Integration
+      - Add all files to git staging
+      - Create comprehensive commit documenting track
+      - Verify all files tracked
+
+      Phase 4: Status Synchronization
+      - Update roadmap.yaml: not_started → completed
+      - Recalculate progress counters
+      - Update timestamps
+
+      Phase 5: Quality Gate Execution
+      - Run package installation tests
+      - Verify subpackages importable
+      - Test CLI content commands
+      - Test MCP content tools
+      - Document results in track.yaml
+
+      Phase 6: Validation
+      - Run vibey roadmap validate
+      - Verify no schema violations
+      - Update audit report with results
+
+      ESTIMATED EFFORT: 3-4 hours (medium complexity, medium risk)
+
+      APPROVAL: Recommended to proceed - work is legitimate, deliverables verified,
+      but data at risk from being untracked.

@@ -146,6 +146,19 @@ from vibey.operations.git.merge_checker import (
     check_merge,
 )
 
+from vibey.operations.git.blocker_enforcer import (
+    EnforcementMode,
+    BlockerInfo,
+    BlockedItem,
+    BlockerViolation,
+    EnforcementResult,
+    BlockerStatus,
+    BlockerEnforcer,
+    check_commit_blockers,
+    get_blocker_status,
+    format_blocker_status,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -253,4 +266,15 @@ __all__ = [
     "MergeCheckResult",
     "MergeChecker",
     "check_merge",
+    # Blocker enforcer
+    "EnforcementMode",
+    "BlockerInfo",
+    "BlockedItem",
+    "BlockerViolation",
+    "EnforcementResult",
+    "BlockerStatus",
+    "BlockerEnforcer",
+    "check_commit_blockers",
+    "get_blocker_status",
+    "format_blocker_status",
 ]

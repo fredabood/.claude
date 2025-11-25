@@ -211,30 +211,75 @@ class PreCommitHook:
         if not self.config.cli_usage.get("enabled", False):
             return
 
-        # Get staged roadmap YAML files
+        try:
+            from vibey.operations.git.yaml_analyzer import YAMLChangeAnalyzer
+
+            # Determine if we're in blocking mode for CLI usage
+            cli_mode = self.config.cli_usage.get("mode") or self.config.mode
+            blocking_mode = cli_mode == "blocking"
+
+            analyzer = YAMLChangeAnalyzer(str(self.repo_path))
+            results = analyzer.analyze_staged_changes(blocking_mode=blocking_mode)
+
+            for result in results:
+                # Determine severity based on mode and whether it should block
+                if result.should_block and blocking_mode:
+                    severity = "error"
+                else:
+                    severity = "warning"
+
+                # Build suggestion string from all suggestions
+                if result.suggestions:
+                    # Take the highest priority suggestion
+                    best_suggestion = sorted(
+                        result.suggestions,
+                        key=lambda s: {"high": 0, "medium": 1, "low": 2}.get(s.priority, 2)
+                    )[0]
+                    suggestion_text = best_suggestion.command
+                else:
+                    suggestion_text = None
+
+                # Build change description
+                changed_fields = ", ".join(set(c.field_name for c in result.changes))
+
+                self.issues.append(ValidationIssue(
+                    severity=severity,
+                    rule="cli_usage",
+                    message=f"Manual YAML edit detected: {result.file_path}\n      Modified: {changed_fields}",
+                    file=result.file_path,
+                    suggestion=f"Use: {suggestion_text}" if suggestion_text else None,
+                ))
+
+        except ImportError:
+            # Fallback to basic detection if yaml_analyzer not available
+            self._check_cli_usage_basic()
+
+    def _check_cli_usage_basic(self) -> None:
+        """Basic CLI usage check (fallback when yaml_analyzer unavailable)."""
         staged_files = self._get_staged_files()
         roadmap_files = [
             f for f in staged_files
             if f.startswith(".vibey/roadmap/") and (
                 f.endswith("/sprint.yaml") or
-                f.endswith("/track.yaml")
+                f.endswith("/track.yaml") or
+                f.endswith("/task.yaml")
             )
         ]
 
         for file in roadmap_files:
-            # Get the diff to see what changed
             result = self._run_git("diff", "--cached", file)
             if result.returncode == 0:
                 diff = result.stdout
 
-                # Check for common manual edit patterns
                 if "status:" in diff or "progress:" in diff or "completed:" in diff:
-                    # Extract file type
                     if file.endswith("sprint.yaml"):
                         item_type = "sprint"
                         item_id = file.split("/")[-2]
                     elif file.endswith("track.yaml"):
                         item_type = "track"
+                        item_id = file.split("/")[-2]
+                    elif file.endswith("task.yaml"):
+                        item_type = "task"
                         item_id = file.split("/")[-2]
                     else:
                         continue

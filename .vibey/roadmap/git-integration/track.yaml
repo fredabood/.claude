@@ -2,38 +2,70 @@ track:
   id: git-integration
   name: Enhanced Git Integration
   roadmap_id: vibey-framework-v2
-  status: planned
+  status: in_progress
   blocked: false
-  priority: medium
-  created: '2025-11-23T00:00:00+00:00'
-  started: null
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
   completed: null
-  estimated_duration: 6 weeks
+  estimated_duration: 12.5 weeks
   progress:
-    sprints_total: 2
-    sprints_completed: 0
-    tasks_total: 18
-    tasks_completed: 0
-    completion_percent: 0
+    sprints_total: 5
+    sprints_completed: 3
+    tasks_total: 41
+    tasks_completed: 27
+    completion_percent: 66
   sprints:
+  - id: git-integration-0
+    name: Integration Architecture & Design
+    status: completed
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: '2025-11-24T00:00:00+00:00'
+    completed: '2025-11-24T00:00:00+00:00'
   - id: git-integration-1
     name: Git History & Commit Analysis
-    status: planned
-    estimated_duration: 3 weeks
-    tasks_count: 7
-    started: null
+    status: completed
+    estimated_duration: 2.5 weeks
+    tasks_count: 9
+    started: '2025-11-24T00:00:00+00:00'
+    completed: '2025-11-24T18:00:00+00:00'
   - id: git-integration-2
-    name: Git Hooks & Workflow Automation
-    status: planned
+    name: Git Hooks Core
+    status: completed
     estimated_duration: 3 weeks
     tasks_count: 11
+    started: '2025-11-24T18:45:00+00:00'
+    completed: '2025-11-25T00:00:00+00:00'
+  - id: git-integration-3
+    name: Advanced Integration & Conflict Resolution
+    status: in_progress
+    estimated_duration: 3.5 weeks
+    tasks_count: 9
+    started: '2025-11-25T00:15:00+00:00'
+  - id: git-integration-4
+    name: Vibey Repository Dogfooding & Configuration
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 5
     started: null
   dependencies: []
-  blocks: []
+  blocks:
+  - type: track
+    target_id: user-journey-audit
+    at_status: not_started
+    reason: Git integration features must be complete before auditing user journeys
   blocked_by: []
   depends_on: []
-  depended_on_by: []
+  depended_on_by:
+  - user-journey-audit
   quality_gates:
+  - name: Architecture Review
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Integration architecture document reviewed and approved
+    score: null
   - name: Git Integration Tests
     threshold: 95
     blocking: true
@@ -46,45 +78,118 @@ track:
     status: not_run
     description: Existing git workflows must continue to work
     score: null
+  - name: Cross-Platform Compatibility
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All features work on macOS, Linux, Windows
+    score: null
   assigned_agents:
+  - architecture-agent
   - backend-engineer
   - test-engineer
-  - coordinator
+  - docs-writer
   deliverables:
+  # Sprint 0: Architecture & Design
+  - Vibey-Git primitive mapping specification
+  - Source of truth policy document
+  - Commit message convention specification
+  - Branching strategy specification
+  - Enforcement philosophy specification
+  - State reconstruction design
+  - Comprehensive architecture document
+  # Sprint 1: Analysis
   - Commit-to-task correlation engine
   - Git history analysis for sprint velocity
+  - vibey git analyze CLI command
+  # Sprint 2: Hooks
+  - Pre-commit and commit-msg hooks
+  - vibey git hooks install/uninstall commands
   - Automatic task status updates from commits
-  - Pre-commit validation hooks for roadmap integrity
-  - Branch management integration
-  - Pull request workflow automation
-  - Git diff analysis for code review context
-  - PR merge checkpoint for task status conflict detection
-  - Blocker and quality gate git integration design
-  - Roadmap hierarchy and dependency mapping git integration design
-  - Git commit requirements policy for task status changes
+  - Branch-to-task linking system
+  - PR description generator
+  # Sprint 3: Advanced
+  - PR merge checkpoint for task status conflicts
+  - Quality gate CI integration
+  - Blocker enforcement in git workflow
+  - Dependency-aware merge ordering
+  - Error handling and recovery system
+  - Complete git integration documentation
+  # Sprint 4: Dogfooding
+  - Vibey repository enforcement mode configuration
+  - Commit tracking and evidence requirements
+  - CLI usage validation and suggestions
+  - Advisory mode implementation for Vibey repo
+  - Dogfooding evaluation and iteration
   strategic_value:
+  - 'Vision: Clear architectural foundation for all git integration'
   - 'Traceability: Link commits to tasks for audit trail'
   - 'Automation: Reduce manual status updates'
   - 'Velocity: Accurate sprint metrics from git history'
   - 'Quality: Pre-commit hooks prevent invalid states'
   - 'Workflow: Better branch and PR management'
+  - 'Conflict Resolution: Detect duplicate task completions'
+  - 'CI Integration: Quality gates as automated checks'
   commits: []
   standards: []
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
+    last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
     notes: |
-      Enhanced git integration to improve traceability, automation, and
-      developer workflow. Key features:
+      Enhanced git integration with architecture-first approach.
 
-      1. Commit Analysis: Parse commit messages to correlate with tasks
-      2. History Mining: Extract sprint velocity and patterns from git log
-      3. Auto-Updates: Mark tasks complete based on commit conventions
-      4. Pre-commit Hooks: Validate roadmap state before commits
-      5. Branch Integration: Track feature branches per task/sprint
-      6. PR Automation: Generate PR descriptions from task context
+      SPRINT STRUCTURE:
+      0. Integration Architecture & Design (2 weeks, 7 tasks) ✅ COMPLETE
+         Establishes "true north" for Vibey-Git integration:
+         - How primitives map (roadmap→repo, task→commit, etc.)
+         - Three-scenario source of truth (YAML-only, Hybrid, Git-primary)
+         - Commit conventions and branching strategy
+         - Enforcement philosophy (advisory/blocking/audit)
+         - 10 architecture documents, 157KB of design specs
 
-      This track builds on existing infrastructure-fixes work that added
-      basic commit-to-task mapping. Goal is production-ready git integration.
+      1. Git History & Commit Analysis (2.5 weeks, 9 tasks)
+         Reading/analyzing git history:
+         - Parse commits for task references (conventional, footer, bracket)
+         - Calculate sprint velocity from git log
+         - State reconstruction (state-at, diff, history, progress, rollback)
+         - Sprint/task tag parsing
+         - vibey git analyze command
+
+      2. Git Hooks Core (3 weeks, 11 tasks)
+         Core hook infrastructure:
+         - Pre-commit validation
+         - Commit-msg parsing
+         - Auto status updates
+         - Branch linking
+         - Sprint tagging system
+         - Git-primary sync command
+         - Mode detection and strategy enforcement
+
+      3. Advanced Integration (3.5 weeks, 9 tasks)
+         Advanced features:
+         - PR merge conflict detection
+         - Quality gate CI integration
+         - Blocker enforcement
+         - Dependency-aware merging
+         - Tag repair automation
+         - Strategy preset adoption
+
+      4. Vibey Repository Dogfooding (1.5 weeks, 5 tasks)
+         Apply git integration to Vibey itself:
+         - Review enforcement mode options (off/advisory/blocking/audit)
+         - Configure commit tracking (require_commits setting)
+         - Implement CLI usage suggestions vs manual YAML edits
+         - Set up advisory mode with YAML integrity blocking
+         - Evaluate dogfooding experience and iterate
+
+      DEPENDENCY CHAIN:
+      Sprint 0 → Sprint 1 ─┐
+                          ├→ Sprint 3 → Sprint 4
+      Sprint 0 → Sprint 2 ─┘
+
+      Sprint 0 (design) must complete before any implementation starts.
+      Sprint 1 and 2 can run in parallel after Sprint 0.
+      Sprint 3 requires both Sprint 1 and 2.
+      Sprint 4 (dogfooding) requires Sprint 3 completion.

@@ -1,0 +1,417 @@
+sprint:
+  id: git-integration-3
+  name: Advanced Integration & Conflict Resolution
+  track_id: git-integration
+  status: in_progress
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-25T00:15:00+00:00'
+  completed: null
+  estimated_duration: 3.5 weeks
+  progress:
+    tasks_total: 9
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: git-integration-3-task-001
+    name: Implement error handling and recovery
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Robust error handling for git integration:
+
+      ERROR SCENARIOS:
+      - Git operation fails mid-update
+      - Roadmap YAML becomes corrupted
+      - Hook crashes during commit
+      - Network failure during remote ops
+
+      RECOVERY PROCEDURES:
+      - Automatic rollback of partial updates
+      - Manual recovery commands
+      - State validation and repair
+
+      IMPLEMENTATION:
+      - Transaction-like updates (backup → modify → commit)
+      - vibey git repair command
+      - Corruption detection and reporting
+
+      CLI COMMANDS:
+      - vibey git repair
+        Detect and fix roadmap inconsistencies
+
+      - vibey git validate
+        Check roadmap-git state consistency
+
+      - vibey git rollback <commit>
+        Restore roadmap state from commit
+
+  - id: git-integration-3-task-002
+    name: Implement tag repair automation
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: |
+      Automate repair of dangling tags after rebase/squash:
+
+      PROBLEM (from Sprint 0 addendum):
+      - After rebase/squash, tags point to old (non-existent) SHAs
+      - Sprint and task tags become invalid
+      - Need to re-create tags on new commits
+
+      CLI COMMANDS:
+      - vibey git validate-tags
+        Detect dangling tags (tags pointing to missing commits)
+
+      - vibey git repair-tags
+        Automatically repair tags by finding new commits
+
+      - vibey git tag-move <tag> <new-sha>
+        Manually move a tag to different commit
+
+      REPAIR ALGORITHM:
+      1. Find all dangling tags
+      2. For each tag:
+         - Parse tag name to get task/sprint ID
+         - Get original commit message
+         - Search new commits for matching message + task ref
+         - Delete old tag, recreate on new commit
+      3. Report repaired/unfixable tags
+
+      AUTOMATIC HOOKS:
+      - post-rebase hook: detect and repair tags
+      - post-merge hook: repair after squash merge
+
+      CONFIGURATION:
+      - git.tags.repair.auto: true/false
+      - git.tags.repair.strategy: message_match|manual|skip
+
+  - id: git-integration-3-task-003
+    name: Implement PR merge checkpoint for task conflicts
+    status: not_started
+    priority: high
+    estimated_hours: 12
+    assigned_agent: backend-engineer
+    description: |
+      Detect and handle task completion conflicts during PR merges:
+
+      CONFLICT CONDITION:
+      - A task is NEWLY marked complete in PR (changed incomplete → complete)
+      - AND that SAME task is ALREADY complete in target branch
+
+      NOT A CONFLICT:
+      - Tasks complete in target but untouched in PR
+      - Tasks complete in both (agreement)
+      - Tasks incomplete in target, complete in PR (normal flow)
+
+      IMPLEMENTATION:
+      - Pre-merge hook or CI check
+      - Diff PR branch against target for task status changes
+      - For each newly completed task, check target status
+      - Block merge if conflict detected
+
+      ERROR MESSAGE:
+      "Task X is marked complete in this PR, but was already
+       completed in <target> at commit <sha>. Reconciliation required."
+
+      RESOLUTION OPTIONS:
+      - Keep target's completion (discard PR claim)
+      - Keep PR's completion (override target)
+      - Merge completions (both contributed)
+
+      FEATURES:
+      - Audit log for all conflict resolutions
+      - GitHub/GitLab PR check integration
+      - vibey git check-merge command for CI
+
+  - id: git-integration-3-task-004
+    name: Implement blocker enforcement in git workflow
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Enforce roadmap blockers in git operations:
+
+      ENFORCEMENT SCENARIOS:
+      - PR references blocked task → warn/block merge
+      - Commit claims to complete blocked task → reject
+      - Branch created for blocked sprint → warn
+
+      IMPLEMENTATION:
+      - Check blocker status in pre-commit hook
+      - Check blocker status in PR merge check
+      - vibey git blocker-status command
+
+      ENFORCEMENT MODES:
+      - Advisory: Show blocker warnings
+      - Blocking: Prevent operations on blocked items
+      - Audit: Log attempts, don't block
+
+      BLOCKER VISUALIZATION:
+      - Show blockers in PR description
+      - Annotate blocked commits
+      - Dashboard of blocked work
+
+  - id: git-integration-3-task-005
+    name: Implement quality gate CI integration
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Connect quality gates to CI/CD checks:
+
+      QUALITY GATE → CI CHECK MAPPING:
+      - Test Coverage gate → coverage CI job
+      - Test Pass Rate gate → test CI job
+      - Documentation gate → docs CI job
+      - Custom gates → configurable job mapping
+
+      IMPLEMENTATION:
+      - vibey git ci-status command
+        Report quality gate status for CI
+
+      - GitHub Actions integration
+        Output gate status as check annotations
+
+      - GitLab CI integration
+        Output gate status in job results
+
+      FEATURES:
+      - Block merge until gates pass (configurable)
+      - Auto-update gate scores from CI results
+      - Gate status in PR description
+
+      CONFIGURATION:
+      - Map gate names to CI job names
+      - Threshold overrides per branch
+      - Required vs optional gates
+
+  - id: git-integration-3-task-006
+    name: Implement dependency-aware merge ordering
+    status: not_started
+    priority: medium
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: |
+      Suggest/enforce merge order based on roadmap dependencies:
+
+      SCENARIOS:
+      - Sprint B depends on Sprint A
+        → Warn if merging B's branch before A's
+
+      - Task 2 depends on Task 1
+        → Suggest merging Task 1's PR first
+
+      - Track X blocks Track Y
+        → Prevent Y's branch merge until X complete
+
+      IMPLEMENTATION:
+      - Analyze dependency graph
+      - Compare with branch/PR state
+      - Generate merge order recommendation
+
+      CLI COMMANDS:
+      - vibey git merge-order
+        Show recommended merge sequence
+
+      - vibey git dependency-check <branch>
+        Check if branch dependencies are satisfied
+
+      FEATURES:
+      - Configurable enforcement (suggest vs block)
+      - Dependency visualization
+      - Override capability for exceptions
+
+  - id: git-integration-3-task-007
+    name: Implement strategy preset adoption
+    status: not_started
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+    description: |
+      Add commands for adopting Git strategy presets:
+
+      PRESETS (from Sprint 0 addendum):
+      1. trunk-based: No branches, commits on main
+      2. feature-branch: Branch per task, PR-based
+      3. gitflow: Track branches, sprint branches optional
+      4. hierarchical: Full track/sprint/task hierarchy
+
+      CLI COMMANDS:
+      - vibey git strategy list
+        Show available presets with descriptions
+
+      - vibey git strategy adopt <preset>
+        Adopt a preset strategy
+        Updates .vibey/config/git.yaml with requirements
+
+      - vibey git strategy show
+        Show current strategy configuration
+
+      - vibey git strategy validate
+        Check if current Git state meets strategy requirements
+
+      ADOPTION WORKFLOW:
+      1. User runs: vibey git strategy adopt gitflow
+      2. Shows what will be configured
+      3. Asks for confirmation
+      4. Updates config file
+      5. Validates current state
+      6. Suggests fixes for violations
+
+      CUSTOMIZATION:
+      - vibey git strategy adopt gitflow --customize
+        Interactive prompts to modify preset
+
+      PRESET DEFINITIONS:
+      - Load from vibey/config/strategy_presets.yaml
+      - Include requirements, enforcement mode, examples
+
+  - id: git-integration-3-task-008
+    name: Create integration test suite
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: test-engineer
+    description: |
+      End-to-end tests with real git workflows:
+
+      TEST SCENARIOS:
+      1. Full PR workflow
+         - Create branch, make commits, open PR
+         - Verify task status updates
+         - Verify merge conflict detection
+         - Test merge completion
+
+      2. Multi-developer simulation
+         - Concurrent task completion
+         - Merge conflict resolution
+         - Dependency ordering
+
+      3. CI/CD integration
+         - Quality gate reporting
+         - Blocker enforcement
+         - Status checks
+
+      4. Edge cases
+         - Squash merges
+         - Rebases
+         - Force pushes
+         - Detached HEAD
+
+      TEST INFRASTRUCTURE:
+      - Docker-based isolated environments
+      - Mock GitHub/GitLab APIs
+      - Automated PR creation/merge
+
+  - id: git-integration-3-task-009
+    name: Complete git integration documentation
+    status: not_started
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: docs-writer
+    description: |
+      Comprehensive documentation for all git integration:
+
+      CONTENT:
+      1. Architecture Overview
+         - From Sprint 0 architecture doc
+         - Diagrams and flow charts
+
+      2. Setup Guide
+         - Installation
+         - Configuration
+         - Team rollout
+
+      3. Feature Reference
+         - All git commands
+         - All hooks
+         - All CI integrations
+
+      4. Workflow Guides
+         - Solo developer workflow
+         - Team workflow
+         - Enterprise workflow
+
+      5. Troubleshooting
+         - Common issues
+         - Error messages
+         - Recovery procedures
+
+      6. Migration Guide
+         - Adding to existing project
+         - Migrating from other tools
+
+      FORMAT:
+      - Main docs in docs/guides/
+      - Reference in docs/reference/
+      - Inline help in CLI
+
+  dependencies:
+  - git-integration-0
+  - git-integration-1
+  - git-integration-2
+  blocked_by:
+  - git-integration-0
+  - git-integration-1
+  - git-integration-2
+  depended_on_by: []
+  quality_gates:
+  - name: Integration Test Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: 90%+ coverage for advanced features
+  - name: CI Integration Tests
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All CI integrations tested and working
+  - name: Documentation Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All features documented
+  deliverables:
+  - Error handling and recovery system
+  - Tag repair automation (validate-tags, repair-tags)
+  - PR merge checkpoint for task conflicts
+  - Blocker enforcement system
+  - Quality gate CI integration
+  - Dependency-aware merge ordering
+  - Strategy preset adoption commands (list, adopt, validate)
+  - Comprehensive integration test suite
+  - Complete git integration documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-25T00:00:00+00:00'
+    notes: |
+      Sprint 3 builds advanced features on top of Sprint 2's core hooks.
+
+      TASK ORDER:
+      Tasks are ordered by implementation priority:
+      1. Error handling (foundation)
+      2. Tag repair (critical for git ops)
+      3. PR conflict detection (high-value)
+      4. Blocker enforcement (prevent invalid work)
+      5. Quality gate CI (automation)
+      6. Dependency ordering (smart merging)
+      7. Strategy presets (UX improvement)
+      8. Integration tests (validation)
+      9. Documentation (final polish)
+
+      KEY FEATURES:
+      - Conflict detection prevents duplicate task completion claims
+      - Quality gates integrate with CI/CD for automated checks
+      - Blocker enforcement prevents work on blocked items
+      - Dependency ordering suggests optimal merge sequence
+
+      All features respect the enforcement philosophy from Sprint 0:
+      - Off/Advisory/Blocking/Audit modes
+      - Configurable per-project and per-branch
+      - Clear error messages with remediation steps

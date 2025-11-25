@@ -161,7 +161,8 @@ def update_dependent_cache(
 def complete_task(
     fs: FileSystemManager,
     task_id: str,
-    completed_by: str = "system"
+    completed_by: str = "system",
+    skip_commit_check: bool = False
 ) -> bool:
     """Mark a task as completed."""
     # Extract sprint ID from task ID (everything before -task-)
@@ -189,6 +190,22 @@ def complete_task(
     if not task:
         print(f"❌ Task '{task_id}' not found")
         return False
+
+    # Check commit evidence before completion (unless skipped)
+    if not skip_commit_check:
+        try:
+            from vibey.operations.git.commit_evidence import check_commit_evidence
+            evidence_result = check_commit_evidence(task_id, fs.root_dir)
+
+            if not evidence_result.can_complete:
+                print(f"❌ Cannot complete task: {evidence_result.message}")
+                return False
+
+            if evidence_result.message and not evidence_result.has_evidence:
+                # Advisory warning
+                print(evidence_result.message)
+        except ImportError:
+            pass  # Module not available, skip check
 
     # Update task
     task.status = TaskStatus.COMPLETED

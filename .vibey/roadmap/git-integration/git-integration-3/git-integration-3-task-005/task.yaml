@@ -1,0 +1,45 @@
+task:
+  id: git-integration-3-task-005
+  name: Implement quality gate CI integration
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Connect quality gates to CI/CD checks:
+
+    QUALITY GATE → CI CHECK MAPPING:
+    - Test Coverage gate → coverage CI job
+    - Test Pass Rate gate → test CI job
+    - Documentation gate → docs CI job
+    - Custom gates → configurable job mapping
+
+    IMPLEMENTATION:
+    - vibey git ci-status command
+      Report quality gate status for CI
+
+    - GitHub Actions integration
+      Output gate status as check annotations
+
+    - GitLab CI integration
+      Output gate status in job results
+
+    FEATURES:
+    - Block merge until gates pass (configurable)
+    - Auto-update gate scores from CI results
+    - Gate status in PR description
+
+    CONFIGURATION:
+    - Map gate names to CI job names
+    - Threshold overrides per branch
+    - Required vs optional gates
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,41 @@
+task:
+  id: git-integration-2-task-005
+  name: Create branch-to-task linking system
+  status: completed
+  priority: medium
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T18:45:00+00:00'
+  completed: '2025-11-24T23:11:03.355736+00:00'
+  description: |
+    Link Git branches to roadmap tasks/sprints:
+
+    BRANCH NAMING CONVENTIONS (from Sprint 0):
+    - task/git-integration-2-task-001
+    - sprint/python-package-3
+    - track/user-journey-audit
+
+    FEATURES:
+    - Auto-detect task from branch name
+    - Record branch in task metadata
+    - Track branch lifecycle (created, merged, deleted)
+    - Query: "Which branch is working on task X?"
+
+    CLI COMMANDS:
+    - vibey git branch create <task-id>
+      Create branch with proper naming
+
+    - vibey git branch link <branch> <task-id>
+      Link existing branch to task
+
+    - vibey git branch status
+      Show task-branch mappings
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits:
+  - def5678
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

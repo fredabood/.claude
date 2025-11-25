@@ -1,0 +1,55 @@
+task:
+  id: git-integration-3-task-007
+  name: Implement strategy preset adoption
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Add commands for adopting Git strategy presets:
+
+    PRESETS (from Sprint 0 addendum):
+    1. trunk-based: No branches, commits on main
+    2. feature-branch: Branch per task, PR-based
+    3. gitflow: Track branches, sprint branches optional
+    4. hierarchical: Full track/sprint/task hierarchy
+
+    CLI COMMANDS:
+    - vibey git strategy list
+      Show available presets with descriptions
+
+    - vibey git strategy adopt <preset>
+      Adopt a preset strategy
+      Updates .vibey/config/git.yaml with requirements
+
+    - vibey git strategy show
+      Show current strategy configuration
+
+    - vibey git strategy validate
+      Check if current Git state meets strategy requirements
+
+    ADOPTION WORKFLOW:
+    1. User runs: vibey git strategy adopt gitflow
+    2. Shows what will be configured
+    3. Asks for confirmation
+    4. Updates config file
+    5. Validates current state
+    6. Suggests fixes for violations
+
+    CUSTOMIZATION:
+    - vibey git strategy adopt gitflow --customize
+      Interactive prompts to modify preset
+
+    PRESET DEFINITIONS:
+    - Load from vibey/config/strategy_presets.yaml
+    - Include requirements, enforcement mode, examples
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

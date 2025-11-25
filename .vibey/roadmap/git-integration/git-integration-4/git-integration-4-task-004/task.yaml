@@ -1,0 +1,54 @@
+task:
+  id: git-integration-4-task-004
+  name: Set up advisory mode with selective blocking
+  status: not_started
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Configure Vibey repository with advisory mode for most rules,
+    but block critical violations like invalid YAML.
+
+    RECOMMENDED CONFIGURATION:
+    ```yaml
+    # .vibey/config/git.yaml
+    git:
+      enforcement:
+        mode: advisory  # Default: warn but don't block
+
+        rules:
+          # BLOCKING: Prevent corruption
+          yaml_integrity:
+            enabled: true
+            mode: blocking
+
+          # ADVISORY: Encourage best practices
+          task_reference:
+            enabled: true
+            mode: advisory
+
+          cli_usage:
+            enabled: true
+            mode: advisory
+            suggest_cli_commands: true
+
+          commit_evidence:
+            enabled: true
+            mode: advisory
+            require_commits: false  # Start advisory
+    ```
+
+    DELIVERABLES:
+    - Git integration configuration for Vibey repo
+    - Pre-commit and commit-msg hooks installed
+    - Advisory warnings configured and tested
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -156,7 +156,7 @@ roadmap:
     priority: medium
   - id: roadmap-integrity-fixes-2
     name: Roadmap Data Integrity Remediation (Phase 2)
-    status: not_started
+    status: in_progress
     priority: critical
   dependencies: []
   blocked_by: []

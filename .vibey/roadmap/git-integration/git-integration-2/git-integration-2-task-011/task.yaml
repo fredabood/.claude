@@ -1,0 +1,51 @@
+task:
+  id: git-integration-2-task-011
+  name: Implement mode detection and strategy enforcement
+  status: completed
+  priority: high
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T18:45:00+00:00'
+  completed: '2025-11-24T23:42:57.277018+00:00'
+  description: |
+    Add source-of-truth mode detection and strategy validation:
+
+    MODE DETECTION (from Sprint 0 addendum):
+    1. Check if Git repo exists → yaml-only if not
+    2. Check strategy.enforce → hybrid if false
+    3. Check allow_git_primary + requirements → git if all true
+    4. Default: hybrid
+
+    CLI COMMANDS:
+    - vibey git mode
+      Show current mode and why it was chosen
+
+    - vibey git validate --mode
+      Check if mode requirements are satisfied
+
+    STRATEGY ENFORCEMENT:
+    - Load strategy requirements from config
+    - Validate branch naming conventions
+    - Check required branches exist
+    - Verify required tags present
+    - Enforce merge target rules (hierarchical)
+
+    CONFIGURATION LOADING:
+    - Read .vibey/config/git.yaml
+    - Apply strategy preset if configured
+    - Merge with custom requirements
+    - Validate config schema
+
+    INTEGRATION:
+    - Hooks respect current mode
+    - Commands behave differently per mode
+    - Warnings if mode requirements not met
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits:
+  - stu6789
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

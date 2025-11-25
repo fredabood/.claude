@@ -1,0 +1,39 @@
+task:
+  id: git-integration-2-task-003
+  name: Add git hooks install/uninstall commands
+  status: completed
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T18:45:00+00:00'
+  completed: '2025-11-25T00:00:00+00:00'
+  description: |
+    Add CLI commands for managing git hooks:
+
+    COMMANDS:
+    - vibey git hooks install
+      Install all Vibey git hooks to .git/hooks/
+      Options: --force (overwrite existing), --backup
+
+    - vibey git hooks uninstall
+      Remove Vibey git hooks
+      Options: --restore (restore backups)
+
+    - vibey git hooks status
+      Show which hooks are installed and their versions
+
+    - vibey git hooks update
+      Update hooks to latest version
+
+    FEATURES:
+    - Detect existing hooks and offer to chain
+    - Support for hook directories (Git 2.9+)
+    - Cross-platform compatibility (bash/python)
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

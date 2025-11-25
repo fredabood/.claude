@@ -1,0 +1,49 @@
+task:
+  id: git-integration-3-task-003
+  name: Implement PR merge checkpoint for task conflicts
+  status: completed
+  priority: high
+  estimated_hours: 12
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-25T01:00:00+00:00'
+  completed: '2025-11-25T01:30:00+00:00'
+  description: |
+    Detect and handle task completion conflicts during PR merges:
+
+    CONFLICT CONDITION:
+    - A task is NEWLY marked complete in PR (changed incomplete → complete)
+    - AND that SAME task is ALREADY complete in target branch
+
+    NOT A CONFLICT:
+    - Tasks complete in target but untouched in PR
+    - Tasks complete in both (agreement)
+    - Tasks incomplete in target, complete in PR (normal flow)
+
+    IMPLEMENTATION:
+    - Pre-merge hook or CI check
+    - Diff PR branch against target for task status changes
+    - For each newly completed task, check target status
+    - Block merge if conflict detected
+
+    ERROR MESSAGE:
+    "Task X is marked complete in this PR, but was already
+     completed in <target> at commit <sha>. Reconciliation required."
+
+    RESOLUTION OPTIONS:
+    - Keep target's completion (discard PR claim)
+    - Keep PR's completion (override target)
+    - Merge completions (both contributed)
+
+    FEATURES:
+    - Audit log for all conflict resolutions
+    - GitHub/GitLab PR check integration
+    - vibey git check-merge command for CI
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits:
+  - '94a5db3'
+  metadata:
+    last_updated: '2025-11-25T01:30:00+00:00'

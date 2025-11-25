@@ -1,0 +1,35 @@
+task:
+  id: git-integration-4-task-002
+  name: Configure commit tracking and evidence requirements
+  status: not_started
+  priority: high
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Implement and configure the require_commits setting and commit tracking
+    for the Vibey repository.
+
+    CONFIGURATION DECISIONS:
+    - record_commits: true/false - Store commit SHAs in YAML
+    - require_commits: true/false - Require commits for task completion
+    - Override policies for non-code tasks
+
+    FEATURES:
+    - Bidirectional traceability (commits → tasks, tasks → commits)
+    - Reconciliation algorithm implementation
+    - CLI commands: validate, repair, link-commits, sync-commits
+
+    DELIVERABLES:
+    - Commit tracking configuration
+    - Validation and repair tools
+    - Documentation for commit evidence requirements
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

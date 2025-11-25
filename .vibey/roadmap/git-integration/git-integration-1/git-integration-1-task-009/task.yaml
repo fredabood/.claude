@@ -1,0 +1,41 @@
+task:
+  id: git-integration-1-task-009
+  name: Add sprint and task tag parsing
+  status: completed
+  priority: medium
+  estimated_hours: 3
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T18:00:00+00:00'
+  description: |
+    Add support for parsing Git tags as explicit state markers:
+
+    TAG FORMATS (from Sprint 0 addendum):
+    - Sprint tags: sprint/<sprint-id>/start, sprint/<sprint-id>/end
+    - Task tags: <track>/<sprint>/<task>/<marker>
+
+    FEATURES:
+    - Detect sprint boundaries from tags
+    - Use tags for commit range queries
+    - Parse task tags for explicit milestones
+    - Query commits between tags efficiently
+
+    INTEGRATION:
+    - Enhance commit correlation engine to use tags
+    - Speed up analysis by using tag refs instead of full log scan
+    - Support both message-based and tag-based task linking
+
+    CLI ADDITIONS:
+    - vibey git tags --task <task-id>
+      List all tags for a task
+
+    - vibey git tag-range <task-id>
+      Get commit range between task start/end tags
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

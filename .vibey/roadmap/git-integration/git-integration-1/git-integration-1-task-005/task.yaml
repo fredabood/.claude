@@ -1,0 +1,19 @@
+task:
+  id: git-integration-1-task-005
+  name: Add vibey git analyze CLI command
+  status: completed
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T18:00:00+00:00'
+  description: |
+    Add vibey git analyze CLI command for analyzing Git history and commit patterns.
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,45 @@
+task:
+  id: git-integration-4-task-005
+  name: Evaluate dogfooding experience and iterate
+  status: not_started
+  priority: medium
+  estimated_hours: 6
+  assigned_agent: architecture-agent
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Use the git integration features for real Vibey development,
+    collect feedback, and iterate on configuration.
+
+    EVALUATION CRITERIA:
+    - Friction points in daily workflow
+    - Effectiveness of advisory warnings
+    - Accuracy of CLI suggestions
+    - Value of commit tracking
+    - Quality of error messages
+
+    METRICS TO TRACK:
+    - Commit compliance rate (% with task refs)
+    - Manual YAML edits vs CLI usage
+    - Advisory warnings triggered
+    - Overrides used
+
+    ITERATION AREAS:
+    - Tune warning thresholds
+    - Improve suggestion quality
+    - Adjust enforcement modes
+    - Refine configuration
+
+    DELIVERABLES:
+    - Dogfooding evaluation report
+    - Configuration adjustments
+    - UX improvement recommendations
+    - Lessons learned document
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

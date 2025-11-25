@@ -2,32 +2,32 @@ track:
   id: roadmap-integrity-fixes-2
   name: Roadmap Data Integrity Remediation (Phase 2)
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-11-24T00:00:00+00:00'
-  started: null
+  started: '2025-11-24T00:00:00+00:00'
   completed: null
   estimated_duration: 2 weeks
   progress:
     sprints_total: 5
-    sprints_completed: 0
+    sprints_completed: 2
     tasks_total: 29
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 11
+    completion_percent: 38
   sprints:
   - id: roadmap-integrity-fixes-2-1
     name: Critical Git & Status Fixes
-    status: not_started
+    status: completed
     estimated_duration: 30 minutes
     tasks_count: 5
-    started: null
+    started: '2025-11-24T00:00:00+00:00'
   - id: roadmap-integrity-fixes-2-2
     name: Schema Migration (git-integration)
-    status: not_started
+    status: completed
     estimated_duration: 2 hours
     tasks_count: 6
-    started: null
+    started: '2025-11-24T00:00:00+00:00'
   - id: roadmap-integrity-fixes-2-3
     name: Schema Migration (python-package)
     status: not_started

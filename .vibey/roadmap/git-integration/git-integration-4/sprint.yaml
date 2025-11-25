@@ -1,0 +1,59 @@
+sprint:
+  id: git-integration-4
+  name: Vibey Repository Dogfooding & Configuration
+  track_id: git-integration
+  status: not_started
+  blocked: false
+  created: '2025-11-24T18:30:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 1.5 weeks
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+
+  dependencies:
+  - git-integration-3
+  blocked_by:
+  - git-integration-3
+  depended_on_by: []
+  quality_gates:
+  - name: Configuration Validation
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Git integration config valid and working
+  - name: Dogfooding Success
+    threshold: 90
+    blocking: false
+    status: not_run
+    description: Team successfully using git integration features
+  deliverables:
+  - Enforcement mode recommendations for Vibey
+  - Commit tracking configuration
+  - CLI usage validation implementation
+  - Advisory mode setup for Vibey repository
+  - Dogfooding evaluation report
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T18:30:00+00:00'
+    notes: |
+      Sprint 4 focuses on applying git integration features to the Vibey
+      repository itself (dogfooding).
+
+      This sprint validates the design and implementation from Sprints 0-3
+      by using the features in real development.
+
+      KEY DECISIONS TO VALIDATE:
+      - Is advisory mode the right default?
+      - Should require_commits be enabled for Vibey?
+      - Are CLI suggestions helpful or annoying?
+      - Is the enforcement philosophy correct?
+
+      SUCCESS CRITERIA:
+      - Team comfortably using git integration
+      - Advisory mode proving valuable
+      - Configuration feels right for Vibey's workflow
+      - Identified UX improvements for other users

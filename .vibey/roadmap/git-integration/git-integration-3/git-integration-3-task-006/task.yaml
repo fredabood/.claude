@@ -1,0 +1,46 @@
+task:
+  id: git-integration-3-task-006
+  name: Implement dependency-aware merge ordering
+  status: not_started
+  priority: medium
+  estimated_hours: 8
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Suggest/enforce merge order based on roadmap dependencies:
+
+    SCENARIOS:
+    - Sprint B depends on Sprint A
+      → Warn if merging B's branch before A's
+
+    - Task 2 depends on Task 1
+      → Suggest merging Task 1's PR first
+
+    - Track X blocks Track Y
+      → Prevent Y's branch merge until X complete
+
+    IMPLEMENTATION:
+    - Analyze dependency graph
+    - Compare with branch/PR state
+    - Generate merge order recommendation
+
+    CLI COMMANDS:
+    - vibey git merge-order
+      Show recommended merge sequence
+
+    - vibey git dependency-check <branch>
+      Check if branch dependencies are satisfied
+
+    FEATURES:
+    - Configurable enforcement (suggest vs block)
+    - Dependency visualization
+    - Override capability for exceptions
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

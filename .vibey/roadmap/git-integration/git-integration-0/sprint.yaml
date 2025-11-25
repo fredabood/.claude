@@ -1,0 +1,58 @@
+sprint:
+  id: git-integration-0
+  name: Integration Architecture & Design
+  track_id: git-integration
+  status: completed
+  blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T00:00:00+00:00'
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 7
+    tasks_completed: 7
+    completion_percent: 100
+  tasks: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by:
+  - git-integration-1
+  - git-integration-2
+  - git-integration-3
+  quality_gates:
+  - name: Architecture Review
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Architecture document reviewed and approved
+  - name: Design Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All design questions answered with clear decisions
+  deliverables:
+  - Vibey-Git primitive mapping specification
+  - Source of truth policy document
+  - Commit message convention specification
+  - Branching strategy specification
+  - Enforcement philosophy specification
+  - State reconstruction design
+  - Comprehensive architecture document
+  - Quick reference card
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    notes: |
+      Sprint 0 establishes the "true north" for Vibey-Git integration.
+
+      All subsequent sprints implement features aligned with these design
+      decisions. No implementation should proceed without clarity on:
+      1. How Vibey primitives map to Git primitives
+      2. Which system is the source of truth
+      3. What commit conventions to use
+      4. How branches relate to roadmap structure
+      5. How strictly to enforce integration rules
+      6. Whether state can be reconstructed from Git
+
+      This sprint is BLOCKING for all other git-integration sprints.
+      The architecture document produced here guides all implementation.

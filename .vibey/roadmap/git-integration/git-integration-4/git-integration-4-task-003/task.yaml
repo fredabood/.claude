@@ -1,0 +1,37 @@
+task:
+  id: git-integration-4-task-003
+  name: Implement CLI usage validation and suggestions
+  status: not_started
+  priority: medium
+  estimated_hours: 5
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Detect manual YAML edits and suggest appropriate CLI commands instead.
+
+    DETECTION:
+    - Pre-commit hook detects YAML changes
+    - Analyze what changed (task status, sprint progress, etc.)
+    - Generate appropriate CLI command suggestion
+
+    EXAMPLE OUTPUT:
+      [vibey] Advisory:
+        ⚠ Manual YAML edit detected: sprint.yaml
+          Modified: tasks_completed, completion_percent
+          Suggestion: vibey roadmap update sprint git-integration-1 --status completed
+
+      Proceeding with commit... ✓
+
+    DELIVERABLES:
+    - YAML change detection logic
+    - CLI command suggestion generator
+    - Integration with pre-commit hook
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,53 @@
+task:
+  id: git-integration-2-task-007
+  name: Create test suite for git hooks
+  status: completed
+  priority: high
+  estimated_hours: 6
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T18:45:00+00:00'
+  completed: '2025-11-24T23:25:00.000000+00:00'
+  description: |
+    Comprehensive tests for git hooks functionality:
+
+    TEST CATEGORIES:
+    1. Pre-commit hook tests
+       - Valid roadmap passes
+       - Invalid YAML fails (blocking mode)
+       - Invalid YAML warns (advisory mode)
+       - Missing tasks detected
+
+    2. Commit-msg hook tests
+       - Valid formats accepted
+       - Invalid formats rejected/warned
+       - Task ID extraction accurate
+       - Multi-task parsing works
+
+    3. Install/uninstall tests
+       - Fresh install works
+       - Upgrade preserves config
+       - Uninstall cleans up
+       - Backup/restore works
+
+    4. Status update tests
+       - Correct status transitions
+       - Commit SHA recorded
+       - Dry-run doesn't modify
+
+    5. Branch linking tests
+       - Name parsing accurate
+       - Lifecycle tracking works
+
+    TEST INFRASTRUCTURE:
+    - Isolated git repos for testing
+    - Mock roadmap fixtures
+    - Cross-platform testing
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits:
+  - jkl3456
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

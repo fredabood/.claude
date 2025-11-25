@@ -1,0 +1,53 @@
+task:
+  id: git-integration-3-task-009
+  name: Complete git integration documentation
+  status: not_started
+  priority: medium
+  estimated_hours: 6
+  assigned_agent: docs-writer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Comprehensive documentation for all git integration:
+
+    CONTENT:
+    1. Architecture Overview
+       - From Sprint 0 architecture doc
+       - Diagrams and flow charts
+
+    2. Setup Guide
+       - Installation
+       - Configuration
+       - Team rollout
+
+    3. Feature Reference
+       - All git commands
+       - All hooks
+       - All CI integrations
+
+    4. Workflow Guides
+       - Solo developer workflow
+       - Team workflow
+       - Enterprise workflow
+
+    5. Troubleshooting
+       - Common issues
+       - Error messages
+       - Recovery procedures
+
+    6. Migration Guide
+       - Adding to existing project
+       - Migrating from other tools
+
+    FORMAT:
+    - Main docs in docs/guides/
+    - Reference in docs/reference/
+    - Inline help in CLI
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,19 @@
+task:
+  id: git-integration-1-task-001
+  name: Design commit message parsing schema
+  status: completed
+  priority: high
+  estimated_hours: 4
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T18:00:00+00:00'
+  description: |
+    Design commit message parsing schema for extracting task IDs and metadata from Git commits.
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

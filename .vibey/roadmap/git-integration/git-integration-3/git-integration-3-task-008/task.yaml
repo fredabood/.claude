@@ -1,0 +1,47 @@
+task:
+  id: git-integration-3-task-008
+  name: Create integration test suite
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: test-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    End-to-end tests with real git workflows:
+
+    TEST SCENARIOS:
+    1. Full PR workflow
+       - Create branch, make commits, open PR
+       - Verify task status updates
+       - Verify merge conflict detection
+       - Test merge completion
+
+    2. Multi-developer simulation
+       - Concurrent task completion
+       - Merge conflict resolution
+       - Dependency ordering
+
+    3. CI/CD integration
+       - Quality gate reporting
+       - Blocker enforcement
+       - Status checks
+
+    4. Edge cases
+       - Squash merges
+       - Rebases
+       - Force pushes
+       - Detached HEAD
+
+    TEST INFRASTRUCTURE:
+    - Docker-based isolated environments
+    - Mock GitHub/GitLab APIs
+    - Automated PR creation/merge
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,39 @@
+task:
+  id: git-integration-3-task-004
+  name: Implement blocker enforcement in git workflow
+  status: not_started
+  priority: high
+  estimated_hours: 8
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Enforce roadmap blockers in git operations:
+
+    ENFORCEMENT SCENARIOS:
+    - PR references blocked task → warn/block merge
+    - Commit claims to complete blocked task → reject
+    - Branch created for blocked sprint → warn
+
+    IMPLEMENTATION:
+    - Check blocker status in pre-commit hook
+    - Check blocker status in PR merge check
+    - vibey git blocker-status command
+
+    ENFORCEMENT MODES:
+    - Advisory: Show blocker warnings
+    - Blocking: Prevent operations on blocked items
+    - Audit: Log attempts, don't block
+
+    BLOCKER VISUALIZATION:
+    - Show blockers in PR description
+    - Annotate blocked commits
+    - Dashboard of blocked work
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits: []
+  metadata:
+    last_updated: '2025-11-24T00:00:00+00:00'

@@ -1,0 +1,52 @@
+task:
+  id: git-integration-3-task-002
+  name: Implement tag repair automation
+  status: completed
+  priority: high
+  estimated_hours: 6
+  assigned_agent: backend-engineer
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-25T00:30:00+00:00'
+  completed: '2025-11-25T01:00:00+00:00'
+  description: |
+    Automate repair of dangling tags after rebase/squash:
+
+    PROBLEM (from Sprint 0 addendum):
+    - After rebase/squash, tags point to old (non-existent) SHAs
+    - Sprint and task tags become invalid
+    - Need to re-create tags on new commits
+
+    CLI COMMANDS:
+    - vibey git validate-tags
+      Detect dangling tags (tags pointing to missing commits)
+
+    - vibey git repair-tags
+      Automatically repair tags by finding new commits
+
+    - vibey git tag-move <tag> <new-sha>
+      Manually move a tag to different commit
+
+    REPAIR ALGORITHM:
+    1. Find all dangling tags
+    2. For each tag:
+       - Parse tag name to get task/sprint ID
+       - Get original commit message
+       - Search new commits for matching message + task ref
+       - Delete old tag, recreate on new commit
+    3. Report repaired/unfixable tags
+
+    AUTOMATIC HOOKS:
+    - post-rebase hook: detect and repair tags
+    - post-merge hook: repair after squash merge
+
+    CONFIGURATION:
+    - git.tags.repair.auto: true/false
+    - git.tags.repair.strategy: message_match|manual|skip
+  acceptance_criteria: []
+  dependencies: []
+  blocked_by: []
+  depended_on_by: []
+  commits:
+  - '7481cd6'
+  metadata:
+    last_updated: '2025-11-25T01:00:00+00:00'

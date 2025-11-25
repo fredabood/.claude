@@ -159,6 +159,19 @@ from vibey.operations.git.blocker_enforcer import (
     format_blocker_status,
 )
 
+from vibey.operations.git.ci_integration import (
+    CIPlatform,
+    GateResult,
+    GateMapping,
+    GateCheckResult,
+    CIStatusReport,
+    CIConfig,
+    CIIntegration,
+    check_ci_gates,
+    format_ci_output,
+    get_pr_gate_section,
+)
+
 __all__ = [
     # Schema types
     "CommitFormat",
@@ -277,4 +290,15 @@ __all__ = [
     "check_commit_blockers",
     "get_blocker_status",
     "format_blocker_status",
+    # CI integration
+    "CIPlatform",
+    "GateResult",
+    "GateMapping",
+    "GateCheckResult",
+    "CIStatusReport",
+    "CIConfig",
+    "CIIntegration",
+    "check_ci_gates",
+    "format_ci_output",
+    "get_pr_gate_section",
 ]

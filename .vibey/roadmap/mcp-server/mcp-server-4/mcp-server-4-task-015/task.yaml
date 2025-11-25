@@ -1,0 +1,24 @@
+task:
+  id: mcp-server-4-task-015
+  title: Implementation - Platform Adapters Integration
+  sprint_id: mcp-server-4
+  track_id: mcp-server
+  task_type: development
+  status: not_started
+  blocked: false
+  description: Integrate MCP auto-setup with existing platform adapters. Update deploy
+    commands to optionally auto-configure MCP. Update BaseAdapter with auto-setup
+    hook, implement auto-setup for high-priority platforms, and add --auto-mcp flag
+    to deploy commands.
+  created: '2025-11-25T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  complexity: medium
+  estimated_tokens: 12000
+  actual_tokens: null
+  dependencies: []
+  blocked_by: []
+  deliverables: []
+  commits: []

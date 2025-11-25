@@ -1,0 +1,45 @@
+sprint:
+  id: mcp-server-4
+  name: MCP Setup Automation for Platform Deployments
+  track_id: mcp-server
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-25T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 15
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 15
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: .vibey/roadmap/mcp-server/mcp-server-4-plan.md
+  deliverables:
+  - Research documentation for each platform's MCP automation options
+  - MCPAutoSetup module with platform-specific implementations
+  - Updated deploy command with --auto-mcp option
+  - Integration tests for auto-setup functionality
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-25T00:00:00+00:00'
+    estimated_duration: 4 weeks
+    actual_duration: null
+    estimated_tokens: 80000
+    actual_tokens: null
+    agents_used: null

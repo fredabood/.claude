@@ -2,6 +2,7 @@
 Roadmap update operations.
 
 Handles all write operations: completing tasks, progressing status, adding tracks/sprints, etc.
+Supports both YAML and SQLite backends with automatic detection.
 """
 
 from pathlib import Path
@@ -23,6 +24,122 @@ from vibey.cli.roadmap_lib.activity import ActivityLogger
 from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
 from vibey.operations.roadmap.audit_trail import log_status_change
+
+
+def _use_sqlite_backend(root_dir: Path) -> bool:
+    """
+    Determine whether to use SQLite backend for updates.
+
+    Uses SQLite if:
+    1. Database file exists at .vibey/roadmap.db
+    2. Database has valid schema (can query database_state)
+
+    Args:
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        True if SQLite backend should be used, False for YAML-only
+    """
+    db_path = root_dir / ".vibey" / "roadmap.db"
+    if not db_path.exists():
+        return False
+
+    try:
+        from vibey.roadmap.database import get_connection
+        conn = get_connection(db_path=db_path)
+        row = conn.execute("SELECT schema_version FROM database_state WHERE id = 1").fetchone()
+        return row is not None
+    except Exception:
+        return False
+
+
+def _mark_db_dirty(root_dir: Path) -> None:
+    """Mark the database as dirty (has uncommitted changes)."""
+    if not _use_sqlite_backend(root_dir):
+        return
+    try:
+        from vibey.roadmap.database import get_connection
+        db_path = root_dir / ".vibey" / "roadmap.db"
+        conn = get_connection(db_path=db_path)
+        conn.execute("UPDATE database_state SET is_dirty = 1 WHERE id = 1")
+        conn.commit()
+    except Exception:
+        pass  # Silently ignore DB errors for dirty flag
+
+
+def _sync_task_to_db(task: Task, root_dir: Path) -> None:
+    """Sync task changes to SQLite database if backend is enabled."""
+    if not _use_sqlite_backend(root_dir):
+        return
+    try:
+        from vibey.roadmap.database.crud import update_task
+        update_task(
+            task_id=task.id,
+            status=task.status.value if hasattr(task.status, 'value') else str(task.status),
+            started=task.started,
+            completed=task.completed,
+            blocked=task.blocked,
+            assigned_agent=task.assigned_agent,
+        )
+        _mark_db_dirty(root_dir)
+    except Exception as e:
+        print(f"  ⚠️  Failed to sync task to database: {e}")
+
+
+def _sync_sprint_to_db(sprint: Sprint, root_dir: Path) -> None:
+    """Sync sprint changes to SQLite database if backend is enabled."""
+    if not _use_sqlite_backend(root_dir):
+        return
+    try:
+        from vibey.roadmap.database.crud import update_sprint
+        update_sprint(
+            sprint_id=sprint.id,
+            status=sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status),
+            started=sprint.started,
+            completed=sprint.completed,
+            blocked=sprint.blocked,
+            production_ready_at=sprint.production_ready_at,
+            deployed_at=sprint.deployed_at,
+        )
+        _mark_db_dirty(root_dir)
+    except Exception as e:
+        print(f"  ⚠️  Failed to sync sprint to database: {e}")
+
+
+def _sync_track_to_db(track: Track, root_dir: Path) -> None:
+    """Sync track changes to SQLite database if backend is enabled."""
+    if not _use_sqlite_backend(root_dir):
+        return
+    try:
+        from vibey.roadmap.database.crud import update_track
+        update_track(
+            track_id=track.id,
+            status=track.status.value if hasattr(track.status, 'value') else str(track.status),
+            started=track.started,
+            completed=track.completed,
+            blocked=track.blocked,
+        )
+        _mark_db_dirty(root_dir)
+    except Exception as e:
+        print(f"  ⚠️  Failed to sync track to database: {e}")
+
+
+def _sync_roadmap_to_db(roadmap: Roadmap, root_dir: Path) -> None:
+    """Sync roadmap changes to SQLite database if backend is enabled."""
+    if not _use_sqlite_backend(root_dir):
+        return
+    try:
+        from vibey.roadmap.database.crud import update_roadmap
+        update_roadmap(
+            roadmap_id=roadmap.id,
+            status=roadmap.status.value if hasattr(roadmap.status, 'value') else str(roadmap.status),
+            started=roadmap.started,
+            completed=roadmap.completed,
+            blocked=roadmap.blocked,
+        )
+        _mark_db_dirty(root_dir)
+    except Exception as e:
+        print(f"  ⚠️  Failed to sync roadmap to database: {e}")
 
 # Import CLI change tracker for pre-commit hook compatibility
 try:
@@ -161,6 +278,7 @@ def complete_task(
     # Save tasks
     save_tasks(tasks, tasks_path)
     _record_cli_changes(tasks_path, root_dir)
+    _sync_task_to_db(task, root_dir)
     print(f"✅ Task '{task.title}' marked as completed")
 
     # Update dependency caches for all dependents
@@ -255,6 +373,7 @@ def start_task(
     # Save tasks
     save_tasks(tasks, tasks_path)
     _record_cli_changes(tasks_path, root_dir)
+    _sync_task_to_db(task, root_dir)
     print(f"✅ Task '{task.title}' marked as in progress")
 
     # Update dependency caches for all dependents
@@ -332,6 +451,7 @@ def assign_task(
 
     # Save tasks
     save_tasks(tasks, tasks_path)
+    _sync_task_to_db(task, root_dir)
     print(f"✅ Task '{task.title}' assigned to {agent}")
 
     # Log activity
@@ -401,6 +521,7 @@ def start_sprint(
 
     # Save sprint
     save_sprint(sprint, sprint_path)
+    _sync_sprint_to_db(sprint, root_dir)
     print(f"✅ Sprint '{sprint.name}' started")
 
     # Update track
@@ -427,6 +548,7 @@ def start_sprint(
             )
 
             save_track(track, track_path)
+            _sync_track_to_db(track, root_dir)
             print(f"✅ Track '{track.name}' started")
 
     # Update roadmap
@@ -438,6 +560,7 @@ def start_sprint(
         if roadmap.status == Status.NOT_STARTED:
             roadmap.status = Status.IN_PROGRESS
             save_roadmap(roadmap, roadmap_path)
+            _sync_roadmap_to_db(roadmap, root_dir)
             print(f"✅ Roadmap '{roadmap.name}' started")
 
     # Log activity
@@ -522,6 +645,7 @@ def complete_sprint(
 
     # Save sprint
     save_sprint(sprint, sprint_path)
+    _sync_sprint_to_db(sprint, root_dir)
     print(f"✅ Sprint '{sprint.name}' marked as completed")
 
     # Update dependency caches for all dependents
@@ -603,6 +727,7 @@ def complete_track(
 
     # Save track
     save_track(track, track_path)
+    _sync_track_to_db(track, root_dir)
     print(f"✅ Track '{track.name}' marked as completed")
 
     # Update dependency caches for all dependents
@@ -930,6 +1055,7 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
     # Save sprint
     save_sprint(sprint, sprint_path)
     _record_cli_changes(sprint_path, fs.root_dir)
+    _sync_sprint_to_db(sprint, fs.root_dir)
 
     # Update track progress
     track_id = sprint_id.rsplit('-', 1)[0]  # Extract track ID
@@ -1002,6 +1128,7 @@ def _update_track_progress(fs: FileSystemManager, track_id: str):
     # Save track
     save_track(track, track_path)
     _record_cli_changes(track_path, fs.root_dir)
+    _sync_track_to_db(track, fs.root_dir)
 
     # Update roadmap progress
     _update_roadmap_progress(fs)
@@ -1065,6 +1192,7 @@ def _update_roadmap_progress(fs: FileSystemManager):
     # Save roadmap
     save_roadmap(roadmap, roadmap_path)
     _record_cli_changes(roadmap_path, fs.root_dir)
+    _sync_roadmap_to_db(roadmap, fs.root_dir)
 
 
 def _refresh_all_dependency_caches(fs: FileSystemManager) -> int:

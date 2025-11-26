@@ -41,10 +41,14 @@ track:
     tasks_count: 7
     started: null
   dependencies: []
-  blocks: []
+  blocks:
+  - type: sprint
+    target_id: git-integration-5
+    reason: "git-integration-5 depends on SQLite backend for DB-based integrity verification"
   blocked_by: []
   depends_on: []
-  depended_on_by: []
+  depended_on_by:
+  - git-integration-5
   quality_gates:
   - name: Schema Review
     threshold: 100

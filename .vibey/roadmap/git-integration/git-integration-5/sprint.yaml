@@ -4,7 +4,8 @@ sprint:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
+  blocked_reason: "Waiting for SQLite backend implementation. Sprint 5 tasks will be revised to use DB as source of truth instead of separate manifest system. This simplifies architecture and avoids throwaway work."
   created: '2025-11-26T01:21:21.766611+00:00'
   started: null
   completion_gate_check_at: null
@@ -25,8 +26,12 @@ sprint:
   tasks: []
   development_gates: []
   blocks: []
-  blocked_by: []
-  depends_on: []
+  blocked_by:
+  - type: track
+    target_id: sqlite-backend
+    reason: "SQLite backend provides DB as source of truth, replacing manifest-based verification"
+  depends_on:
+  - sqlite-backend-1
   depended_on_by: []
   plan_file: /Users/fredabood/Repositories/vibey/.vibey/roadmap/git-integration/git-integration-5-plan.md
   deliverables: []

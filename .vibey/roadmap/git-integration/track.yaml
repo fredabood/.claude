@@ -49,6 +49,8 @@ track:
   - id: git-integration-5
     name: Roadmap Integrity Protection
     status: not_started
+    blocked: true
+    blocked_by: sqlite-backend
     estimated_duration: 2.5 weeks
     tasks_count: 22
     started: null

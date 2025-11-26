@@ -1,0 +1,64 @@
+sprint:
+  id: sqlite-backend-4
+  name: Data Validation & Integrity Audit
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-26T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 8
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 8
+    tasks_completed: 0
+    completion_percent: 0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - sqlite-backend-3
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Dual-database comparison framework
+  - Computed DB (tasks as source of truth)
+  - Declared DB (YAML counters as-is)
+  - Integrity audit report generator
+  - YAML remediation tooling
+  - Validated roadmap state
+  - Confidence metrics for database approach
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-26T14:00:00+00:00'
+    estimated_duration: 1.5 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+    notes: |
+      Validation sprint to verify database approach and fix roadmap integrity issues.
+
+      PROCESS:
+      1. Build "Computed DB" - read task files, compute aggregations via views
+      2. Build "Declared DB" - read YAML counters as-is (no computation)
+      3. Compare databases - identify mismatches
+      4. Generate audit report - prioritized list of discrepancies
+      5. Remediate YAML files - fix counters to match computed values
+      6. Iterate until zero discrepancies
+
+      SUCCESS CRITERIA:
+      - Computed DB == Declared DB (zero discrepancies)
+      - All YAML files pass validation
+      - High confidence in database approach before production use

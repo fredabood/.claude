@@ -8,11 +8,11 @@ track:
   created: '2025-11-26T12:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 6 weeks
+  estimated_duration: 7.5 weeks
   progress:
-    sprints_total: 4
+    sprints_total: 5
     sprints_completed: 0
-    tasks_total: 28
+    tasks_total: 36
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -39,6 +39,12 @@ track:
     status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 7
+    started: null
+  - id: sqlite-backend-4
+    name: Data Validation & Integrity Audit
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 8
     started: null
   dependencies: []
   blocks:

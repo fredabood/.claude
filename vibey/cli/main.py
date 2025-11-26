@@ -78,8 +78,14 @@ def cli(ctx, verbose: bool, quiet: bool):
 # ============================================================================
 
 @cli.group()
+@click.option(
+    '--backend', '-b',
+    type=click.Choice(['auto', 'sqlite', 'yaml'], case_sensitive=False),
+    default=None,
+    help='Storage backend: auto (default), sqlite, or yaml'
+)
 @click.pass_context
-def roadmap(ctx):
+def roadmap(ctx, backend: Optional[str]):
     """
     Manage roadmap system - tracks, sprints, tasks, and dependencies.
 
@@ -95,8 +101,14 @@ def roadmap(ctx):
       vibey roadmap status         # Show current status
       vibey roadmap show sprint-1  # Show sprint details
       vibey roadmap start task-001 # Start a task
+
+    Backend modes:
+      auto   - Use SQLite if available, else YAML (default)
+      sqlite - Force SQLite, error if unavailable
+      yaml   - Force YAML, ignore database
     """
-    pass
+    ctx.ensure_object(dict)
+    ctx.obj['BACKEND'] = backend
 
 
 @roadmap.command('init')
@@ -2801,6 +2813,22 @@ def query_stats(ctx):
     from vibey.cli.commands import db_query_stats_cmd
 
     exit_code = db_query_stats_cmd()
+    sys.exit(exit_code)
+
+
+@roadmap_db.command('config')
+@click.pass_context
+def db_config(ctx):
+    """Show current backend configuration.
+
+    Displays the effective backend mode, database path, and validation settings.
+
+    Examples:
+      vibey roadmap db config
+    """
+    from vibey.cli.commands import db_config_cmd
+
+    exit_code = db_config_cmd()
     sys.exit(exit_code)
 
 

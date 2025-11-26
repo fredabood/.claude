@@ -2342,3 +2342,69 @@ def db_query_stats_cmd() -> int:
     except Exception as e:
         print(f"❌ Query failed: {e}")
         return 1
+
+
+def db_config_cmd() -> int:
+    """Show current backend configuration."""
+    from vibey.roadmap.serialization.backend import (
+        load_roadmap_config,
+        validate_database,
+        get_backend,
+        EXPECTED_SCHEMA_VERSION,
+    )
+
+    root_dir = Path.cwd()
+    config = load_roadmap_config(root_dir)
+
+    db_path_str = config["database"]["path"]
+    if not db_path_str.startswith("/"):
+        db_path = root_dir / db_path_str
+    else:
+        db_path = Path(db_path_str)
+
+    print("=" * 60)
+    print("⚙️  Backend Configuration")
+    print("=" * 60)
+
+    # Config source
+    config_path = root_dir / ".vibey" / "config" / "roadmap.yaml"
+    if config_path.exists():
+        print(f"\n📁 Config file: {config_path}")
+    else:
+        print(f"\n📁 Config file: (using defaults)")
+
+    # Mode
+    print(f"\n🔧 Backend Mode: {config['backend']}")
+    if config['backend'] == 'auto':
+        print("   Auto mode selects SQLite if valid, else YAML")
+
+    # Database settings
+    print(f"\n📊 Database Settings:")
+    print(f"   Path: {db_path}")
+    print(f"   Validate on load: {config['database']['validate_on_load']}")
+    print(f"   Fallback to YAML: {config['database']['fallback_to_yaml']}")
+    print(f"   Expected schema: {EXPECTED_SCHEMA_VERSION}")
+
+    # Database status
+    print(f"\n🗄️  Database Status:")
+    if db_path.exists():
+        print(f"   File exists: ✅")
+        is_valid, error = validate_database(db_path)
+        if is_valid:
+            print(f"   Validation: ✅ Passed")
+        else:
+            print(f"   Validation: ❌ {error}")
+    else:
+        print(f"   File exists: ❌")
+        print(f"   Run 'vibey roadmap db init' to create database")
+
+    # Effective backend
+    try:
+        backend = get_backend(root_dir=root_dir)
+        backend_type = type(backend).__name__
+        print(f"\n🎯 Effective Backend: {backend_type}")
+    except Exception as e:
+        print(f"\n🎯 Effective Backend: ❌ Error: {e}")
+
+    print()
+    return 0

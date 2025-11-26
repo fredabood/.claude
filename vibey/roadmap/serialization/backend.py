@@ -676,21 +676,230 @@ class SyncManager:
         return status
 
 
+# Expected database schema version - must match schema.py
+EXPECTED_SCHEMA_VERSION = "1.0.0"
+
+
+class DatabaseValidationError(BackendError):
+    """Raised when database validation fails."""
+    pass
+
+
+class DatabaseCorruptedError(BackendError):
+    """Raised when database fails integrity check."""
+
+    def __init__(self, details: str = ""):
+        message = (
+            "Database integrity check failed.\n"
+            f"{details}\n\n" if details else "\n"
+            "Options:\n"
+            "  vibey roadmap db rebuild --force  # Rebuild from YAML\n"
+            "  rm .vibey/roadmap.db  # Delete and reinitialize"
+        )
+        super().__init__(message)
+
+
+def load_roadmap_config(root_dir: Optional[Path] = None) -> dict:
+    """
+    Load roadmap configuration from .vibey/config/roadmap.yaml.
+
+    Args:
+        root_dir: Project root directory (defaults to current working directory)
+
+    Returns:
+        Configuration dict with defaults applied
+    """
+    import yaml
+
+    root_dir = root_dir or Path.cwd()
+    config_path = root_dir / ".vibey" / "config" / "roadmap.yaml"
+
+    defaults = {
+        "backend": "auto",  # "auto", "sqlite", "yaml"
+        "database": {
+            "path": ".vibey/roadmap.db",
+            "validate_on_load": True,
+            "fallback_to_yaml": True,
+        }
+    }
+
+    if not config_path.exists():
+        return defaults
+
+    try:
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f) or {}
+    except Exception:
+        return defaults
+
+    # Merge with defaults
+    result = defaults.copy()
+    if "backend" in config:
+        result["backend"] = config["backend"]
+    if "database" in config:
+        for key in result["database"]:
+            if key in config["database"]:
+                result["database"][key] = config["database"][key]
+
+    return result
+
+
+def validate_database(db_path: Path) -> tuple[bool, str]:
+    """
+    Validate that the database is usable.
+
+    Checks:
+    1. File exists
+    2. Schema version matches expected
+    3. Required tables exist
+    4. Integrity check passes
+
+    Args:
+        db_path: Path to the SQLite database file
+
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    import sqlite3
+
+    # Check file exists
+    if not db_path.exists():
+        return False, "Database file not found"
+
+    try:
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        # Check schema version
+        try:
+            row = conn.execute(
+                "SELECT schema_version FROM database_state WHERE id = 1"
+            ).fetchone()
+            if row is None:
+                return False, "Database state not initialized"
+
+            db_version = row['schema_version']
+            if db_version != EXPECTED_SCHEMA_VERSION:
+                return False, f"Schema version mismatch: got {db_version}, expected {EXPECTED_SCHEMA_VERSION}"
+        except sqlite3.OperationalError as e:
+            if "no such table" in str(e):
+                return False, "Database schema not initialized (missing database_state table)"
+            raise
+
+        # Check required tables exist
+        required_tables = ['roadmaps', 'tracks', 'sprints', 'tasks']
+        existing_tables = set()
+        for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall():
+            existing_tables.add(row['name'])
+
+        missing_tables = set(required_tables) - existing_tables
+        if missing_tables:
+            return False, f"Missing tables: {', '.join(missing_tables)}"
+
+        # Quick integrity check
+        result = conn.execute("PRAGMA integrity_check(1)").fetchone()
+        if result[0] != "ok":
+            return False, f"Integrity check failed: {result[0]}"
+
+        conn.close()
+        return True, ""
+
+    except sqlite3.DatabaseError as e:
+        return False, f"Database error: {e}"
+    except Exception as e:
+        return False, f"Validation error: {e}"
+
+
+def get_backend(
+    mode: Optional[str] = None,
+    root_dir: Optional[Path] = None,
+    validate: bool = True,
+    fallback: bool = True,
+) -> RoadmapBackend:
+    """
+    Get the appropriate backend based on configuration and mode.
+
+    Args:
+        mode: Backend mode override ("auto", "sqlite", "yaml", or None for config)
+        root_dir: Project root directory
+        validate: Whether to validate database before using
+        fallback: Whether to fall back to YAML on database errors
+
+    Returns:
+        RoadmapBackend instance
+
+    Raises:
+        BackendError: If requested backend is unavailable
+        SchemaMismatchError: If database schema version doesn't match
+        DatabaseCorruptedError: If database fails integrity check
+    """
+    import sys
+
+    root_dir = root_dir or Path.cwd()
+    config = load_roadmap_config(root_dir)
+
+    # Determine effective mode
+    effective_mode = mode or config["backend"]
+
+    # Get database path
+    db_path_str = config["database"]["path"]
+    if not db_path_str.startswith("/"):
+        db_path = root_dir / db_path_str
+    else:
+        db_path = Path(db_path_str)
+
+    roadmap_dir = root_dir / ".vibey" / "roadmap"
+
+    # Handle explicit YAML mode
+    if effective_mode == "yaml":
+        return YAMLBackend(roadmap_dir)
+
+    # Handle explicit SQLite mode
+    if effective_mode == "sqlite":
+        if validate or config["database"]["validate_on_load"]:
+            is_valid, error = validate_database(db_path)
+            if not is_valid:
+                if fallback and config["database"]["fallback_to_yaml"]:
+                    print(f"⚠️  Database error: {error}", file=sys.stderr)
+                    print("   Falling back to YAML backend", file=sys.stderr)
+                    return YAMLBackend(roadmap_dir)
+                else:
+                    raise BackendError(f"Database unavailable: {error}")
+
+        return SQLiteBackend(db_path)
+
+    # Handle auto mode (default)
+    if effective_mode == "auto":
+        # Check if database exists and is valid
+        if db_path.exists():
+            if validate or config["database"]["validate_on_load"]:
+                is_valid, error = validate_database(db_path)
+                if is_valid:
+                    return SQLiteBackend(db_path)
+                else:
+                    # Warn but fall back to YAML
+                    if fallback and config["database"]["fallback_to_yaml"]:
+                        print(f"⚠️  Database error: {error}", file=sys.stderr)
+                        print("   Falling back to YAML backend", file=sys.stderr)
+            else:
+                # Skip validation, just use SQLite if file exists
+                return SQLiteBackend(db_path)
+
+        # Fall back to YAML
+        return YAMLBackend(roadmap_dir)
+
+    # Unknown mode
+    raise BackendError(f"Unknown backend mode: {effective_mode}")
+
+
 def get_default_backend() -> RoadmapBackend:
     """
     Get the default backend based on configuration.
 
-    Currently returns YAML backend for backward compatibility.
-    Will return SQLite backend when database is available and configured.
+    This is a convenience wrapper around get_backend() for backward compatibility.
+    Prefer using get_backend() directly for more control.
 
     Returns:
         RoadmapBackend instance
     """
-    from ..database import database_exists
-
-    # Check if SQLite database exists and is preferred
-    if database_exists():
-        return SQLiteBackend()
-
-    # Fall back to YAML backend
-    return YAMLBackend()
+    return get_backend()

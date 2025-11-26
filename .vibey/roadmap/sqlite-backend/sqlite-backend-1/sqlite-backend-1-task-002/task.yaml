@@ -4,16 +4,35 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement schema creation and migration"
+  title: "Implement schema creation (25 tables from design)"
   description: |
-    Implement database schema management:
-    - Create all tables per design document
-    - Foreign key constraints
-    - CHECK constraints for valid enum values
-    - Indexes for common queries
-    - Schema version tracking
-    - Migration support for future schema changes
-    Use schema.py from design document.
+    Implement database schema from 002-sqlite-schema-design.md:
+
+    Core entity tables (4):
+    - roadmaps, tracks, sprints, tasks
+
+    Relationship tables (4):
+    - entity_blocks, entity_blocked_by, entity_depends_on, external_dependencies
+
+    Quality & gates (2):
+    - quality_gates (polymorphic: track/sprint), development_gates
+
+    Supporting data (7):
+    - deliverables, entity_deliverables (junction)
+    - commits, entity_commits (junction)
+    - assigned_agents, standards, strategic_value
+
+    Roadmap-level (2):
+    - version_history, activity_log
+
+    Summary tables (3):
+    - track_summaries, sprint_summaries, task_summaries
+
+    Sync & validation (3):
+    - yaml_checksums, database_state, sync_conflicts
+
+    Include all FK constraints, CHECK constraints for enums, indexes.
+    Schema version tracking in database_state table.
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -22,7 +41,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -34,9 +53,11 @@ task:
   - sqlite-backend-1-task-004
   blocked_by: []
   deliverables:
-  - schema.py with all DDL
-  - Migration system
-  - Schema tests
+  - vibey/roadmap/database/schema.py with all 25 tables
+  - CREATE TABLE statements with constraints
+  - Index definitions for common queries
+  - Schema creation function
+  - Schema tests verifying table structure
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

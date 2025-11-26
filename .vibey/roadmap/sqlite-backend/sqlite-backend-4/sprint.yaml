@@ -31,13 +31,14 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Dual-database comparison framework
-  - Computed DB (tasks as source of truth)
-  - Declared DB (YAML counters as-is)
+  - Computed DB builder (aggregations from task statuses)
+  - Declared DB builder (YAML counters as-is)
+  - Database comparison engine with severity classification
+  - vibey roadmap validate command (schema/references/computed/full levels)
   - Integrity audit report generator
-  - YAML remediation tooling
-  - Validated roadmap state
-  - Confidence metrics for database approach
+  - YAML auto-remediation tooling
+  - Validated Vibey roadmap state (zero discrepancies)
+  - Confidence metrics and lessons learned documentation
   commits: []
   standards: []
   metadata:

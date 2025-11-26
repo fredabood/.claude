@@ -4,15 +4,29 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement dependency and relationship tables"
+  title: "Implement relationship and junction table operations"
   description: |
-    Implement junction tables and relationship management:
-    - task_dependencies: depends_on relationships
-    - task_blocks: blocks/blocked_by relationships
-    - quality_gates: track/sprint quality gates
-    - assigned_agents: agent assignments
-    CRUD operations for adding/removing relationships.
-    Query helpers for dependency chain traversal.
+    Implement CRUD for relationship tables in crud/relationships.py:
+
+    Blocking relationships (entity_blocks, entity_blocked_by):
+    - add_blocker(), remove_blocker(), get_blockers(), get_blocked_by()
+    - Polymorphic: works for task/sprint/track
+
+    Soft dependencies (entity_depends_on):
+    - add_dependency(), remove_dependency(), get_dependencies()
+    - Different semantics: ordering hints, not blocking
+
+    Junction tables (many-to-many):
+    - entity_deliverables: link_deliverable(), unlink_deliverable()
+    - entity_commits: link_commit(), unlink_commit()
+
+    Quality gates (quality_gates):
+    - add_gate(), update_gate(), remove_gate(), list_gates()
+    - Polymorphic: owner_type = 'track' or 'sprint'
+
+    Query helpers:
+    - get_dependency_chain(entity_id) - recursive CTE for transitive deps
+    - detect_circular_dependencies() - cycle detection
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -21,7 +35,7 @@ task:
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation
-  estimated_tokens: 2500
+  estimated_tokens: 3500
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -32,9 +46,10 @@ task:
   - sqlite-backend-1-task-005
   blocked_by: []
   deliverables:
-  - Junction table implementations
-  - Relationship CRUD operations
-  - Dependency traversal queries
+  - vibey/roadmap/database/crud/relationships.py
+  - Recursive CTE for dependency traversal
+  - Circular dependency detection
+  - Unit tests for relationship operations
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

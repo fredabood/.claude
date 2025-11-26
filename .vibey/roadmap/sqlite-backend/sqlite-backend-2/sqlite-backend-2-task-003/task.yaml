@@ -4,15 +4,36 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Update task mutation commands to use database"
+  title: "Update update operations to use database backend"
   description: |
-    Update task state commands to write to database:
-    - vibey roadmap start <task-id>
-    - vibey roadmap complete <task-id>
-    - vibey roadmap block <task-id>
-    - vibey roadmap edit <task-id>
-    Database writes, no YAML writes (until sync).
-    Verify triggers fire correctly (auto-completion, timestamps).
+    Update vibey/operations/roadmap/update.py to use SQLite when available:
+
+    complete_task():
+    - UPDATE tasks SET status = 'completed', completed = NOW()
+    - Triggers handle: progress update, blocker clearing, activity log
+    - Set database_state.is_dirty = 1
+    - Expected speedup: 20x (1 UPDATE vs 4+ file writes)
+
+    start_task():
+    - UPDATE tasks SET status = 'in_progress', started = NOW()
+    - Set database_state.is_dirty = 1
+
+    complete_sprint(), start_sprint():
+    - Similar pattern, triggers handle cascades
+
+    complete_track():
+    - Similar pattern
+
+    Key change: NO YAML writes on mutation!
+    - All writes go to SQLite
+    - database_state.is_dirty tracks uncommitted changes
+    - YAML sync happens in pre-commit hook (Sprint 3)
+
+    Verify triggers fire correctly:
+    - Timestamps auto-updated
+    - Progress counters auto-updated
+    - Blocked flags auto-updated
+    - Activity log auto-populated
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -21,7 +42,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 3500
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -32,8 +53,10 @@ task:
   - sqlite-backend-2-task-004
   blocked_by: []
   deliverables:
-  - Updated mutation commands
+  - Updated vibey/operations/roadmap/update.py
+  - Dirty flag management
   - Trigger verification tests
+  - Performance benchmarks
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

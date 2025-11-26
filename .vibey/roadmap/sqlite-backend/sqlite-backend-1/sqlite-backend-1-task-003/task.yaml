@@ -6,13 +6,29 @@ task:
   task_type: development
   title: "Implement core entity CRUD operations"
   description: |
-    Implement CRUD operations for core entities:
-    - Roadmap: create, read, update, delete
-    - Track: create, read, update, delete, list_by_roadmap
-    - Sprint: create, read, update, delete, list_by_track
-    - Task: create, read, update, delete, list_by_sprint
-    Use parameterized queries to prevent SQL injection.
-    Return dataclass instances, not raw dicts.
+    Implement CRUD operations in vibey/roadmap/database/crud/:
+
+    crud/roadmap.py:
+    - create_roadmap(), get_roadmap(), update_roadmap(), delete_roadmap()
+
+    crud/track.py:
+    - create_track(), get_track(), update_track(), delete_track()
+    - list_tracks_by_roadmap()
+
+    crud/sprint.py:
+    - create_sprint(), get_sprint(), update_sprint(), delete_sprint()
+    - list_sprints_by_track()
+
+    crud/task.py:
+    - create_task(), get_task(), update_task(), delete_task()
+    - list_tasks_by_sprint()
+
+    Key requirements:
+    - Use parameterized queries (prevent SQL injection)
+    - Return existing vibey/roadmap/models/ dataclass instances
+    - Map between SQL rows and model objects
+    - Handle nested objects (progress, metadata, etc.)
+    - Use connection from task-001
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -21,7 +37,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 4000
+  estimated_tokens: 5000
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -33,9 +49,11 @@ task:
   - sqlite-backend-1-task-006
   blocked_by: []
   deliverables:
-  - CRUD functions for all entities
-  - Entity dataclasses
-  - Unit tests for CRUD operations
+  - vibey/roadmap/database/crud/roadmap.py
+  - vibey/roadmap/database/crud/track.py
+  - vibey/roadmap/database/crud/sprint.py
+  - vibey/roadmap/database/crud/task.py
+  - Unit tests for all CRUD operations
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

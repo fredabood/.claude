@@ -4,15 +4,31 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement connection management"
+  title: "Implement serialization bridge (sql_loader/sql_dumper)"
   description: |
-    Implement robust database connection handling:
-    - Connection pooling (or single connection with proper locking)
-    - Transaction context manager
-    - Automatic connection recovery
-    - Database file location management (.vibey/roadmap.db)
-    - WAL mode for better concurrency
-    - Busy timeout configuration
+    Create SQL-based serialization in vibey/roadmap/serialization/:
+
+    sql_loader.py (parallel to yaml_loader.py):
+    - load_roadmap_sql() -> Roadmap
+    - load_track_sql() -> Track
+    - load_sprint_sql() -> Sprint
+    - load_task_sql() -> Task
+    - load_tasks_sql() -> List[Task]
+
+    sql_dumper.py (parallel to yaml_dumper.py):
+    - save_roadmap_sql(roadmap: Roadmap)
+    - save_track_sql(track: Track)
+    - save_sprint_sql(sprint: Sprint)
+    - save_task_sql(task: Task)
+
+    backend.py (abstraction layer):
+    - RoadmapBackend protocol
+    - YAMLBackend implementation (wraps existing)
+    - SQLiteBackend implementation (uses new functions)
+    - get_backend() factory function
+
+    Key requirement: Return IDENTICAL model objects as yaml_loader.
+    This enables transparent switching between backends.
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -21,9 +37,9 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 1500
+  estimated_tokens: 3000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies:
@@ -33,9 +49,10 @@ task:
   - sqlite-backend-1-task-008
   blocked_by: []
   deliverables:
-  - Connection manager
-  - Transaction support
-  - Configuration options
+  - vibey/roadmap/serialization/sql_loader.py
+  - vibey/roadmap/serialization/sql_dumper.py
+  - vibey/roadmap/serialization/backend.py
+  - Unit tests comparing SQL vs YAML output
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

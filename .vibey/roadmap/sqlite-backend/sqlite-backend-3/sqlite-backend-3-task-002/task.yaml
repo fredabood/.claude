@@ -6,12 +6,36 @@ task:
   task_type: development
   title: "Implement YAML to DB rebuild"
   description: |
-    Create command to rebuild database from YAML files:
-    - vibey roadmap db rebuild: Parse all YAML, populate DB
-    - Handle incremental updates (only changed files)
-    - Validate YAML before importing
-    - Report import errors clearly
-    - Support --force to overwrite existing DB
+    Implement rebuild logic in vibey/roadmap/database/sync/rebuild.py:
+
+    vibey roadmap db rebuild command:
+    - Parse all YAML files using existing yaml_loader.py
+    - Insert/update all entities into database tables
+    - Compute and store checksums in yaml_checksums table
+    - Set database_state.is_dirty = 0
+    - Record source_commit (git HEAD) and source_branch
+
+    Pre-rebuild safety check:
+    - Check database_state.is_dirty flag
+    - If dirty (uncommitted changes): error with instructions
+      "Database has uncommitted changes. Options:
+       - vibey roadmap dump (save changes to YAML first)
+       - vibey roadmap db rebuild --force (discard local changes)"
+    - --force flag to discard uncommitted changes
+
+    Rebuild modes:
+    - Full rebuild (default): DROP all tables, recreate, reimport
+    - Incremental (--incremental): Compare checksums, only update changed
+
+    Validation during import:
+    - Use existing vibey/roadmap/validation/ for YAML validation
+    - Log errors per file with line numbers
+    - Option to continue on errors (--skip-errors)
+    - Summary at end: "Imported X tracks, Y sprints, Z tasks. N errors."
+
+    Post-rebuild:
+    - Run computed views and verify accuracy
+    - Report any integrity issues
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -20,7 +44,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 3500
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -31,9 +55,10 @@ task:
   - sqlite-backend-3-task-005
   blocked_by: []
   deliverables:
-  - DB rebuild command
-  - YAML parser integration
-  - Error reporting
+  - vibey/roadmap/database/sync/rebuild.py
+  - Pre-rebuild dirty check
+  - Full and incremental rebuild modes
+  - Validation and error reporting
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

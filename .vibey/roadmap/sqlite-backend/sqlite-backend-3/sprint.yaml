@@ -32,13 +32,14 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables:
-  - DB to YAML dump command (deterministic)
-  - YAML to DB rebuild command
-  - Pre-commit hook integration
-  - Post-merge hook for rebuild
-  - Migration guide
-  - Roundtrip tests
-  - Documentation
+  - Deterministic DB to YAML dump (byte-for-byte reproducible)
+  - YAML to DB rebuild with validation
+  - Pre-commit hook with auto-dump and conflict detection
+  - Post-merge and post-checkout hooks with auto-rebuild
+  - Checksum-based change detection
+  - Sync conflict logging and resolution
+  - Roundtrip tests (DB → YAML → DB)
+  - Migration guide for existing repositories
   commits: []
   standards: []
   metadata:

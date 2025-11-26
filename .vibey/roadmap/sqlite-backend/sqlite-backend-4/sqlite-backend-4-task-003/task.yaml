@@ -6,12 +6,36 @@ task:
   task_type: development
   title: "Implement database comparison engine"
   description: |
-    Create comparison logic between Computed DB and Declared DB:
-    - Compare sprint progress (tasks_total, tasks_completed, completion_percent)
-    - Compare track progress (sprints_total, sprints_completed, etc.)
-    - Compare roadmap progress (tracks_total, tracks_completed, etc.)
-    - Identify all mismatches with field-level detail
-    - Calculate discrepancy severity (minor drift vs major error)
+    Create comparison logic in vibey/roadmap/database/validation/compare.py:
+
+    Comparison fields per level:
+    Sprint: tasks_total, tasks_completed, completion_percent,
+            development_tasks_total, development_tasks_completed
+    Track: sprints_total, sprints_completed, tasks_total, tasks_completed,
+           completion_percent
+    Roadmap: tracks_total, tracks_completed, sprints_total, sprints_completed,
+             tasks_total, tasks_completed, completion_percent
+
+    Mismatch classification:
+    - CRITICAL: tasks_completed wrong (affects blocking decisions)
+    - HIGH: completion_percent > 5% off
+    - MEDIUM: totals wrong (file count mismatch)
+    - LOW: completion_percent < 5% off (rounding)
+
+    Output format (per mismatch):
+    {
+      "entity_type": "sprint",
+      "entity_id": "sqlite-backend-1",
+      "field": "tasks_completed",
+      "computed": 5,
+      "declared": 3,
+      "severity": "CRITICAL",
+      "suggestion": "Update .vibey/roadmap/sqlite-backend/sqlite-backend-1/sprint.yaml"
+    }
+
+    CLI command: vibey roadmap validate --level=full
+    - Runs comparison and reports all mismatches
+    - Exit code 0 if no mismatches, 1 otherwise
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
@@ -32,9 +56,9 @@ task:
   - sqlite-backend-4-task-004
   blocked_by: []
   deliverables:
-  - Comparison engine
-  - Mismatch detection logic
-  - Severity classification
+  - vibey/roadmap/database/validation/compare.py
+  - Severity classification system
+  - CLI validate --level=full command
   commits: []
   metadata:
     last_updated: '2025-11-26T14:00:00+00:00'

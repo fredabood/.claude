@@ -4,15 +4,32 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement computed views"
+  title: "Implement computed views (13 views from design)"
   description: |
-    Implement SQL views for automatic aggregations:
-    - sprint_progress_view: task counts and completion per sprint
-    - track_progress_view: sprint/task aggregations per track
-    - roadmap_progress_view: overall roadmap metrics
-    - blocked_tasks_view: tasks with unresolved blockers
-    - overdue_tasks_view: tasks past estimated completion
-    Create Python functions to query these views.
+    Implement SQL views from 003-computed-views-design.md:
+
+    Progress aggregation views:
+    - v_sprint_progress: task counts, completion % per sprint
+    - v_track_progress: sprint/task aggregations per track
+    - v_roadmap_progress: overall roadmap metrics
+
+    Blocking/dependency views:
+    - v_blocked_entities: all blocked items with blocker details
+    - v_unblocked_tasks: tasks ready to start (no blockers)
+    - v_dependency_chain: transitive dependency graph
+
+    Quality gate views:
+    - v_quality_gate_summary: gate status by entity
+
+    Status views:
+    - v_tasks_by_status: task counts grouped by status
+    - v_overdue_tasks: past estimated completion
+    - v_recent_activity: activity log with entity details
+
+    Create in vibey/roadmap/database/views.py:
+    - VIEW_DEFINITIONS dict with all DDL
+    - create_views() function
+    - Query helpers for each view
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -21,7 +38,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 2000
+  estimated_tokens: 2500
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -30,12 +47,13 @@ task:
   - sqlite-backend-1-task-003
   - sqlite-backend-1-task-004
   blocks:
-  - sqlite-backend-1-task-007
+  - sqlite-backend-1-task-006
   blocked_by: []
   deliverables:
-  - View DDL statements
-  - Python query functions
-  - View accuracy tests
+  - vibey/roadmap/database/views.py with 13 view definitions
+  - View creation function
+  - Python query helpers for each view
+  - View accuracy tests (computed vs expected)
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

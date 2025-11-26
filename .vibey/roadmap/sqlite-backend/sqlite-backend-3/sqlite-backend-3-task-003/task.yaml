@@ -6,12 +6,34 @@ task:
   task_type: development
   title: "Integrate with pre-commit hook"
   description: |
-    Update pre-commit hook to dump database before commit:
-    - Detect if database mode is active
-    - Run vibey roadmap db dump before staging
-    - Stage the generated YAML files
-    - Detect manual YAML edits (not in DB) and warn/block
-    - Integration with git-integration-5 integrity protection
+    Update vibey/operations/git/hooks/pre_commit.py for SQLite integration:
+
+    Pre-commit flow (when database mode active):
+    1. Check if database exists and is valid
+    2. Check database_state.is_dirty
+    3. If dirty:
+       a. Run pre-dump safety check (detect manual YAML edits)
+       b. If manual edits detected:
+          - Log conflict to sync_conflicts table
+          - Block commit with message explaining conflict
+          - Suggest resolution: rebuild --force or dump --force
+       c. If no conflicts: run dump
+       d. Stage generated YAML files (git add .vibey/roadmap/)
+    4. Continue with existing YAML validation
+
+    New validation rule (yaml_db_sync):
+    - Compare YAML file checksums with yaml_checksums table
+    - Block if YAML modified manually when DB is source of truth
+    - Enforcement mode: blocking (default), advisory, audit
+
+    Update hooks/installer.py:
+    - Install SQLite-aware pre-commit hook
+    - Keep backward compatibility (YAML-only mode still works)
+
+    Error messages should be clear:
+    - "Database has uncommitted changes - running dump..."
+    - "YAML files modified manually - sync conflict detected"
+    - "Suggestion: vibey roadmap db rebuild --force"
   status: not_started
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
@@ -20,7 +42,7 @@ task:
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 2000
+  estimated_tokens: 2500
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -31,8 +53,10 @@ task:
   - sqlite-backend-3-task-005
   blocked_by: []
   deliverables:
-  - Pre-commit hook integration
-  - Manual edit detection
+  - Updated pre_commit.py with SQLite support
+  - yaml_db_sync validation rule
+  - Conflict detection and resolution guidance
+  - Updated hook installer
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

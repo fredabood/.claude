@@ -32,11 +32,12 @@ sprint:
   - sqlite-backend-3
   plan_file: null
   deliverables:
-  - Updated CLI commands using database
-  - Database initialization command
-  - Status command using computed views
-  - Query commands leveraging SQL
-  - Backward compatibility with YAML-only mode
+  - vibey roadmap db subcommand group (init, rebuild, status, backup)
+  - Updated query operations using SQLite views
+  - Updated update operations with trigger-based cascades
+  - Backend mode detection and configuration
+  - Performance benchmarks (YAML vs SQLite)
+  - CLI integration tests
   commits: []
   standards: []
   metadata:

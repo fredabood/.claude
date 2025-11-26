@@ -6,15 +6,39 @@ task:
   task_type: development
   title: "Create comprehensive test suite for database layer"
   description: |
-    Create test suite covering:
-    - Schema creation and migration
-    - All CRUD operations
-    - Referential integrity constraints
-    - View accuracy (computed vs expected values)
-    - Trigger behavior
-    - Connection handling
-    - Transaction rollback
-    - Error handling
+    Create test suite in tests/roadmap/database/:
+
+    test_connection.py:
+    - WAL mode enabled
+    - Transaction context manager
+    - Busy timeout handling
+
+    test_schema.py:
+    - All 25 tables created
+    - FK constraints enforced
+    - CHECK constraints work
+    - Indexes exist
+
+    test_crud.py:
+    - CRUD for roadmap, track, sprint, task
+    - Relationship CRUD operations
+    - Junction table operations
+
+    test_views.py:
+    - All 13 views return correct data
+    - Progress aggregation accuracy
+    - Computed vs expected values match
+
+    test_triggers.py:
+    - Timestamp auto-updates
+    - Blocked flag sync
+    - Auto-completion cascades
+    - Validation triggers block invalid operations
+
+    test_serialization_bridge.py:
+    - SQL loader returns same models as YAML loader
+    - Roundtrip: Model -> SQL -> Model identical
+
     Target: 95%+ coverage of database module.
   status: not_started
   blocked: false
@@ -24,7 +48,7 @@ task:
   assigned_agent: test-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -34,9 +58,9 @@ task:
   blocks: []
   blocked_by: []
   deliverables:
-  - tests/test_database.py
-  - Coverage report
-  - CI integration
+  - tests/roadmap/database/ test suite
+  - Coverage report (95%+ target)
+  - CI integration for database tests
   commits: []
   metadata:
     last_updated: '2025-11-26T12:00:00+00:00'

@@ -2832,6 +2832,35 @@ def db_config(ctx):
     sys.exit(exit_code)
 
 
+@roadmap_db.command('validate')
+@click.option('--level', type=click.Choice(['schema', 'references', 'computed', 'full']),
+              default='full', help='Validation level')
+@click.option('--compare', is_flag=True, help='Compare database with YAML files')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.pass_context
+def db_validate(ctx, level: str, compare: bool, verbose: bool):
+    """Validate database integrity and consistency.
+
+    Validation levels:
+      schema     - Check tables, indexes, and constraints exist
+      references - Check foreign key relationships are valid
+      computed   - Verify computed values match (progress, counts)
+      full       - Run all validation checks (default)
+
+    The --compare flag adds DB vs YAML comparison to detect drift.
+
+    Examples:
+      vibey roadmap db validate
+      vibey roadmap db validate --level schema
+      vibey roadmap db validate --compare
+      vibey roadmap db validate --compare --verbose
+    """
+    from vibey.cli.commands import db_validate_cmd
+
+    exit_code = db_validate_cmd(level=level, compare=compare, verbose=verbose)
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

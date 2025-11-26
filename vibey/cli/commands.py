@@ -2344,6 +2344,210 @@ def db_query_stats_cmd() -> int:
         return 1
 
 
+def db_validate_cmd(level: str = 'full', compare: bool = False, verbose: bool = False) -> int:
+    """Validate database integrity and consistency."""
+    import sqlite3
+
+    root_dir = Path.cwd()
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ Database not found")
+        print("   Run 'vibey roadmap db init' to create database")
+        return 1
+
+    errors = []
+    warnings = []
+
+    print("=" * 60)
+    print("🔍 Database Validation")
+    print("=" * 60)
+
+    try:
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        # Schema validation
+        if level in ('schema', 'full'):
+            print("\n📋 Schema Validation...")
+
+            # Check required tables
+            required_tables = [
+                'roadmaps', 'tracks', 'sprints', 'tasks',
+                'entity_depends_on', 'entity_blocked_by', 'entity_blocks',
+                'deliverables', 'commits', 'quality_gates',
+                'database_state', 'yaml_checksums'
+            ]
+
+            existing = {r['name'] for r in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()}
+
+            missing = set(required_tables) - existing
+            if missing:
+                errors.append(f"Missing tables: {', '.join(sorted(missing))}")
+                print(f"   ❌ Missing {len(missing)} tables")
+            else:
+                print(f"   ✅ All {len(required_tables)} required tables exist")
+
+            # Check schema version
+            try:
+                row = conn.execute(
+                    "SELECT schema_version FROM database_state WHERE id = 1"
+                ).fetchone()
+                if row:
+                    print(f"   ✅ Schema version: {row['schema_version']}")
+                else:
+                    errors.append("Database state not initialized")
+            except sqlite3.OperationalError:
+                errors.append("database_state table not accessible")
+
+            # SQLite integrity check
+            result = conn.execute("PRAGMA integrity_check(100)").fetchall()
+            if len(result) == 1 and result[0][0] == "ok":
+                print("   ✅ SQLite integrity check passed")
+            else:
+                for row in result:
+                    errors.append(f"Integrity issue: {row[0]}")
+                print(f"   ❌ Integrity check found {len(result)} issues")
+
+        # Reference validation
+        if level in ('references', 'full'):
+            print("\n🔗 Reference Validation...")
+
+            # Enable foreign key checking
+            conn.execute("PRAGMA foreign_keys = ON")
+
+            # Check foreign key violations
+            violations = conn.execute("PRAGMA foreign_key_check").fetchall()
+            if violations:
+                for v in violations[:10]:  # Show first 10
+                    errors.append(f"FK violation in {v[0]}: rowid {v[1]} -> {v[2]}")
+                if len(violations) > 10:
+                    errors.append(f"... and {len(violations) - 10} more FK violations")
+                print(f"   ❌ {len(violations)} foreign key violations")
+            else:
+                print("   ✅ All foreign key relationships valid")
+
+            # Check orphan tasks (tasks with invalid sprint_id)
+            orphan_tasks = conn.execute("""
+                SELECT t.id FROM tasks t
+                LEFT JOIN sprints s ON t.sprint_id = s.id
+                WHERE s.id IS NULL
+            """).fetchall()
+            if orphan_tasks:
+                for t in orphan_tasks[:5]:
+                    warnings.append(f"Orphan task: {t['id']}")
+                print(f"   ⚠️  {len(orphan_tasks)} orphan tasks found")
+            else:
+                print("   ✅ No orphan tasks")
+
+            # Check orphan sprints
+            orphan_sprints = conn.execute("""
+                SELECT s.id FROM sprints s
+                LEFT JOIN tracks tr ON s.track_id = tr.id
+                WHERE tr.id IS NULL
+            """).fetchall()
+            if orphan_sprints:
+                for s in orphan_sprints[:5]:
+                    warnings.append(f"Orphan sprint: {s['id']}")
+                print(f"   ⚠️  {len(orphan_sprints)} orphan sprints found")
+            else:
+                print("   ✅ No orphan sprints")
+
+        # Computed values validation
+        if level in ('computed', 'full'):
+            print("\n📊 Computed Values Validation...")
+
+            # Count entities
+            roadmap_count = conn.execute("SELECT COUNT(*) as c FROM roadmaps").fetchone()['c']
+            track_count = conn.execute("SELECT COUNT(*) as c FROM tracks").fetchone()['c']
+            sprint_count = conn.execute("SELECT COUNT(*) as c FROM sprints").fetchone()['c']
+            task_count = conn.execute("SELECT COUNT(*) as c FROM tasks").fetchone()['c']
+
+            print(f"   📋 Roadmaps: {roadmap_count}")
+            print(f"   📋 Tracks: {track_count}")
+            print(f"   📋 Sprints: {sprint_count}")
+            print(f"   📋 Tasks: {task_count}")
+
+            # Task status distribution
+            status_dist = conn.execute("""
+                SELECT status, COUNT(*) as count
+                FROM tasks
+                GROUP BY status
+                ORDER BY count DESC
+            """).fetchall()
+
+            print(f"\n   📈 Task Status Distribution:")
+            for row in status_dist:
+                pct = 100.0 * row['count'] / task_count if task_count > 0 else 0
+                print(f"      {row['status']:<15}: {row['count']:>4} ({pct:.1f}%)")
+
+            # Count sprints with tasks
+            sprints_with_tasks = conn.execute("""
+                SELECT COUNT(DISTINCT sprint_id) as c FROM tasks
+            """).fetchone()['c']
+            sprints_without_tasks = sprint_count - sprints_with_tasks
+
+            if sprints_without_tasks > 0:
+                warnings.append(f"{sprints_without_tasks} sprints have no tasks")
+                print(f"\n   ⚠️  {sprints_without_tasks} sprints have no tasks")
+            else:
+                print(f"\n   ✅ All sprints have at least one task")
+
+        # Compare with YAML
+        if compare:
+            print("\n📄 DB vs YAML Comparison...")
+
+            from vibey.roadmap.serialization.backend import SyncManager
+            sync = SyncManager(
+                roadmap_dir=root_dir / ".vibey" / "roadmap",
+                db_path=db_path
+            )
+
+            modified_files = sync.check_yaml_modified()
+            if modified_files:
+                print(f"   ⚠️  {len(modified_files)} YAML files modified since last load:")
+                for f in modified_files[:10]:
+                    print(f"      - {f}")
+                if len(modified_files) > 10:
+                    print(f"      ... and {len(modified_files) - 10} more")
+                warnings.append(f"{len(modified_files)} YAML files modified")
+            else:
+                print("   ✅ Database and YAML files are in sync")
+
+            is_dirty = sync.is_db_dirty()
+            if is_dirty:
+                print("   ⚠️  Database has uncommitted changes")
+                warnings.append("Database dirty flag set")
+            else:
+                print("   ✅ No uncommitted database changes")
+
+        conn.close()
+
+        # Summary
+        print("\n" + "=" * 60)
+        if errors:
+            print(f"❌ Validation FAILED with {len(errors)} errors")
+            if verbose:
+                for e in errors:
+                    print(f"   ❌ {e}")
+            return 1
+        elif warnings:
+            print(f"⚠️  Validation PASSED with {len(warnings)} warnings")
+            if verbose:
+                for w in warnings:
+                    print(f"   ⚠️ {w}")
+            return 0
+        else:
+            print("✅ Validation PASSED - no issues found")
+            return 0
+
+    except Exception as e:
+        print(f"\n❌ Validation error: {e}")
+        return 1
+
+
 def db_config_cmd() -> int:
     """Show current backend configuration."""
     from vibey.roadmap.serialization.backend import (

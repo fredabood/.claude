@@ -243,16 +243,23 @@ def load_roadmap(roadmap_id: str = "vibey-framework-v2") -> Roadmap:
         description=meta_data.get('description'),
     )
 
+    # Handle missing start date for in-progress roadmaps
+    status = Status(roadmap_data['status'])
+    created = _parse_datetime(roadmap_data['created'])
+    started = _parse_datetime(roadmap_data.get('started'))
+    if status == Status.IN_PROGRESS and started is None:
+        started = created  # Default to created date if in-progress but no start date
+
     # Create roadmap
     roadmap = Roadmap(
         id=roadmap_data['id'],
         name=roadmap_data['name'],
         version=roadmap_data['version'],
         version_strategy=version_strategy,
-        status=Status(roadmap_data['status']),
+        status=status,
         blocked=bool(roadmap_data.get('blocked', False)),
-        created=_parse_datetime(roadmap_data['created']),
-        started=_parse_datetime(roadmap_data.get('started')),
+        created=created,
+        started=started,
         target_completion=_parse_datetime(roadmap_data.get('target_completion')),
         completed=_parse_datetime(roadmap_data.get('completed')),
         deployed=_parse_datetime(roadmap_data.get('deployed')),
@@ -429,17 +436,29 @@ def load_track(track_id: str) -> Track:
         notes=meta_data.get('notes'),
     )
 
+    # Handle missing dates for status validation
+    status = Status(track_data['status'])
+    created = _parse_datetime(track_data['created'])
+    started = _parse_datetime(track_data.get('started'))
+    completed = _parse_datetime(track_data.get('completed'))
+
+    # Fix missing dates based on status
+    if status == Status.IN_PROGRESS and started is None:
+        started = created
+    if status == Status.COMPLETED and completed is None:
+        completed = started or created
+
     # Create track
     track = Track(
         id=track_data['id'],
         name=track_data['name'],
         roadmap_id=track_data['roadmap_id'],
-        status=Status(track_data['status']),
+        status=status,
         blocked=bool(track_data.get('blocked', False)),
         priority=Priority(track_data['priority']) if track_data.get('priority') else Priority.MEDIUM,
-        created=_parse_datetime(track_data['created']),
-        started=_parse_datetime(track_data.get('started')),
-        completed=_parse_datetime(track_data.get('completed')),
+        created=created,
+        started=started,
+        completed=completed,
         estimated_duration=track_data.get('estimated_duration'),
         progress=progress,
         sprints=sprints,
@@ -612,21 +631,39 @@ def load_sprint(sprint_id: str) -> Sprint:
         agents_used=meta_data.get('agents_used'),
     )
 
+    # Handle missing dates for status validation
+    status = Status(sprint_data['status'])
+    created = _parse_datetime(sprint_data['created'])
+    started = _parse_datetime(sprint_data.get('started'))
+    completed = _parse_datetime(sprint_data.get('completed'))
+    production_ready_at = _parse_datetime(sprint_data.get('production_ready_at'))
+    deployed_at = _parse_datetime(sprint_data.get('deployed_at'))
+
+    # Fix missing dates based on status
+    if status == Status.IN_PROGRESS and started is None:
+        started = created
+    if status == Status.COMPLETED and completed is None:
+        completed = started or created
+    if status == Status.PRODUCTION_READY and production_ready_at is None:
+        production_ready_at = completed or started or created
+    if status == Status.DEPLOYED and deployed_at is None:
+        deployed_at = production_ready_at or completed or started or created
+
     # Create sprint
     sprint = Sprint(
         id=sprint_data['id'],
         name=sprint_data['name'],
         track_id=sprint_data['track_id'],
         roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),
-        status=Status(sprint_data['status']),
+        status=status,
         blocked=bool(sprint_data.get('blocked', False)),
-        created=_parse_datetime(sprint_data['created']),
-        started=_parse_datetime(sprint_data.get('started')),
+        created=created,
+        started=started,
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
-        completed=_parse_datetime(sprint_data.get('completed')),
+        completed=completed,
         production_gate_check_at=_parse_datetime(sprint_data.get('production_gate_check_at')),
-        production_ready_at=_parse_datetime(sprint_data.get('production_ready_at')),
-        deployed_at=_parse_datetime(sprint_data.get('deployed_at')),
+        production_ready_at=production_ready_at,
+        deployed_at=deployed_at,
         progress=progress,
         tasks=tasks,
         development_gates=development_gates,
@@ -860,6 +897,18 @@ def _load_task_from_row(conn, row) -> Task:
         duration_hours=meta_data.get('duration_hours'),
     )
 
+    # Handle missing dates for status validation
+    status = TaskStatus(task_data['status'])
+    created = _parse_datetime(task_data['created'])
+    started = _parse_datetime(task_data.get('started'))
+    completed = _parse_datetime(task_data.get('completed'))
+
+    # Fix missing dates based on status
+    if status == TaskStatus.IN_PROGRESS and started is None:
+        started = created
+    if status == TaskStatus.COMPLETED and completed is None:
+        completed = started or created
+
     # Create task
     task = Task(
         id=task_data['id'],
@@ -869,15 +918,15 @@ def _load_task_from_row(conn, row) -> Task:
         task_type=TaskType(task_data['task_type']),
         title=task_data['title'],
         description=task_data.get('description', ''),
-        status=TaskStatus(task_data['status']),
+        status=status,
         blocked=bool(task_data.get('blocked', False)),
-        created=_parse_datetime(task_data['created']),
-        started=_parse_datetime(task_data.get('started')),
-        completed=_parse_datetime(task_data.get('completed')),
+        created=created,
+        started=started,
+        completed=completed,
         assigned_agent=task_data.get('assigned_agent'),
         priority=Priority(task_data['priority']) if task_data.get('priority') else Priority.MEDIUM,
         phase_label=task_data.get('phase_label'),
-        estimated_tokens=task_data.get('estimated_tokens', 1),
+        estimated_tokens=task_data.get('estimated_tokens') or 1,
         actual_tokens=task_data.get('actual_tokens'),
         complexity=Complexity(task_data['complexity']) if task_data.get('complexity') else Complexity.MEDIUM,
         gate_info=gate_info,

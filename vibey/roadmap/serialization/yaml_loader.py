@@ -359,12 +359,12 @@ def load_track(file_path: Union[str, Path]) -> Track:
                 reason='Blocks track from starting',
             ))
         elif isinstance(b, dict):
-            # Structured format
+            # Structured format (at_status is optional, default to 'not_started')
             blocks.append(TrackDependency(
                 type=DependencyType(b['type']),
                 target_id=b['target_id'],
-                target_status=b['at_status'],
-                reason=b['reason'],
+                target_status=b.get('at_status', b.get('target_status', 'not_started')),
+                reason=b.get('reason', 'Blocks target from starting'),
             ))
 
     # Parse blockers (backward compatible with simple string format)

@@ -2614,6 +2614,110 @@ def content_validate_cmd(ctx, content_id: Optional[str], content_type: Optional[
 
 
 # ============================================================================
+# Database Subcommand Group
+# ============================================================================
+
+@roadmap.group('db')
+@click.pass_context
+def roadmap_db(ctx):
+    """
+    Database operations for roadmap state management.
+
+    The database backend provides faster queries and automatic integrity
+    enforcement via SQLite. Use these commands to manage the database.
+
+    Examples:
+
+      vibey roadmap db init       # Initialize database from YAML
+      vibey roadmap db status     # Show database status
+      vibey roadmap db rebuild    # Rebuild database from YAML
+      vibey roadmap db backup     # Create database backup
+    """
+    pass
+
+
+@roadmap_db.command('init')
+@click.option('--force', '-f', is_flag=True, help='Overwrite existing database')
+@click.pass_context
+def db_init(ctx, force: bool):
+    """Initialize SQLite database from YAML files.
+
+    Creates .vibey/roadmap.db with all roadmap data loaded from YAML.
+    Computes checksums for change detection and sets up triggers.
+
+    Examples:
+      vibey roadmap db init
+      vibey roadmap db init --force  # Overwrite existing
+    """
+    from vibey.cli.commands import db_init_cmd
+
+    exit_code = db_init_cmd(force=force)
+    sys.exit(exit_code)
+
+
+@roadmap_db.command('rebuild')
+@click.option('--force', '-f', is_flag=True, help='Force rebuild even with uncommitted changes')
+@click.pass_context
+def db_rebuild(ctx, force: bool):
+    """Rebuild database from YAML files.
+
+    Drops all tables and reloads from YAML. Use after pulling changes
+    or to fix database corruption.
+
+    WARNING: Uncommitted database changes will be lost!
+
+    Examples:
+      vibey roadmap db rebuild
+      vibey roadmap db rebuild --force  # Skip dirty check
+    """
+    from vibey.cli.commands import db_rebuild_cmd
+
+    exit_code = db_rebuild_cmd(force=force)
+    sys.exit(exit_code)
+
+
+@roadmap_db.command('status')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed information')
+@click.pass_context
+def db_status(ctx, verbose: bool):
+    """Show database status and health.
+
+    Displays:
+    - Database existence and location
+    - Dirty flag (uncommitted changes)
+    - Row counts vs YAML file counts
+    - Schema version and integrity
+    - Checksum mismatches (if any)
+
+    Examples:
+      vibey roadmap db status
+      vibey roadmap db status -v  # Detailed view
+    """
+    from vibey.cli.commands import db_status_cmd
+
+    exit_code = db_status_cmd(verbose=verbose)
+    sys.exit(exit_code)
+
+
+@roadmap_db.command('backup')
+@click.option('--output', '-o', type=click.Path(), help='Custom backup path')
+@click.pass_context
+def db_backup(ctx, output: Optional[str]):
+    """Create a backup of the database.
+
+    Creates a timestamped copy of .vibey/roadmap.db for safekeeping.
+
+    Examples:
+      vibey roadmap db backup
+      vibey roadmap db backup -o ./my-backup.db
+    """
+    from vibey.cli.commands import db_backup_cmd
+
+    exit_code = db_backup_cmd(output_path=output)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

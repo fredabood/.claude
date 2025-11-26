@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 36
     tracks_completed: 20
-    sprints_total: 169
+    sprints_total: 164
     sprints_completed: 81
-    tasks_total: 1113
+    tasks_total: 1077
     tasks_completed: 669
-    completion_percent: 60
+    completion_percent: 62
   tracks:
   - id: core-framework
     name: Core Framework Enhancements

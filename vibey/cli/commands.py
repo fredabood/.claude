@@ -1583,3 +1583,407 @@ def roadmap_validate_commits_cmd() -> int:
     print("  vibey roadmap sync-commits  # Auto-link from git history")
 
     return 1
+
+
+# ============================================================================
+# Database Commands
+# ============================================================================
+
+def db_init_cmd(force: bool = False) -> int:
+    """Initialize SQLite database from YAML files."""
+    from datetime import datetime, timezone
+    import shutil
+
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    db_path = vibey_dir / "roadmap.db"
+
+    # Check if database already exists
+    if db_path.exists() and not force:
+        print(f"❌ Database already exists at {db_path}")
+        print("   Use --force to overwrite")
+        return 1
+
+    # Import database modules
+    try:
+        from vibey.roadmap.database.connection import get_connection, close_connection
+        from vibey.roadmap.database.schema import create_schema, SCHEMA_VERSION
+        from vibey.roadmap.database.views import create_views
+        from vibey.roadmap.database.triggers import create_triggers
+        from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_task
+    except ImportError as e:
+        print(f"❌ Database module not available: {e}")
+        return 1
+
+    print("🗄️  Initializing SQLite database...")
+    print(f"   Path: {db_path}")
+
+    # Remove existing database if force
+    if db_path.exists() and force:
+        db_path.unlink()
+        print("   Removed existing database")
+
+    try:
+        # Create schema
+        print("   Creating schema (25 tables)...")
+        conn = get_connection(db_path=db_path)
+        create_schema(conn=conn)
+
+        # Create views
+        print("   Creating views (13 computed views)...")
+        create_views(conn=conn)
+
+        # Create triggers
+        print("   Creating triggers (40 triggers)...")
+        create_triggers(conn=conn)
+
+        conn.commit()
+
+        # Load YAML data into database
+        print("   Loading roadmap data from YAML...")
+        roadmap_yaml = vibey_dir / "roadmap.yaml"
+
+        if not roadmap_yaml.exists():
+            print("   ⚠️  No roadmap.yaml found, database initialized empty")
+        else:
+            roadmap = load_roadmap(roadmap_yaml)
+            _load_roadmap_to_db(conn, roadmap, vibey_dir)
+
+        # Set database state
+        now = datetime.now(timezone.utc).isoformat()
+        conn.execute("""
+            UPDATE database_state SET
+                is_dirty = 0,
+                last_yaml_load = ?,
+                source_commit = NULL
+            WHERE id = 1
+        """, (now,))
+        conn.commit()
+
+        print(f"\n✅ Database initialized successfully")
+        print(f"   Schema version: {SCHEMA_VERSION}")
+
+        # Show counts
+        counts = {}
+        for table in ['roadmaps', 'tracks', 'sprints', 'tasks']:
+            row = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+            counts[table] = row[0]
+
+        print(f"   Roadmaps: {counts['roadmaps']}")
+        print(f"   Tracks:   {counts['tracks']}")
+        print(f"   Sprints:  {counts['sprints']}")
+        print(f"   Tasks:    {counts['tasks']}")
+
+        close_connection(db_path=db_path)
+        return 0
+
+    except Exception as e:
+        print(f"\n❌ Error initializing database: {e}")
+        if db_path.exists():
+            db_path.unlink()
+        return 1
+
+
+def _normalize_status(status_value: str) -> str:
+    """Normalize status value to match database constraints."""
+    # Map model values to database values
+    status_map = {
+        "won't_do": "wont_do",
+        "superseded": "completed",  # Map superseded to completed
+    }
+    return status_map.get(status_value, status_value)
+
+
+def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
+    """Load roadmap data into database."""
+    from datetime import datetime, timezone
+    from vibey.roadmap.database.crud import (
+        create_roadmap as db_create_roadmap,
+        create_track as db_create_track,
+        create_sprint as db_create_sprint,
+        create_task as db_create_task,
+    )
+    from vibey.roadmap.serialization import load_track, load_sprint, load_task
+
+    now = datetime.now(timezone.utc)
+
+    # Create roadmap record
+    status_val = roadmap.status.value if hasattr(roadmap.status, 'value') else str(roadmap.status)
+    db_create_roadmap(
+        id=roadmap.id,
+        name=roadmap.name,
+        version=roadmap.version,
+        status=_normalize_status(status_val),
+        blocked=roadmap.blocked,
+        created=roadmap.created or now,
+        conn=conn,
+    )
+
+    # Load each track
+    roadmap_dir = vibey_dir / "roadmap"
+    loaded_tracks = 0
+    loaded_sprints = 0
+    loaded_tasks = 0
+    skipped_tracks = 0
+    skipped_sprints = 0
+    skipped_tasks = 0
+
+    for track_summary in roadmap.tracks:
+        track_dir = roadmap_dir / track_summary.id
+        track_yaml = track_dir / "track.yaml"
+
+        if not track_yaml.exists():
+            continue
+
+        try:
+            track = load_track(track_yaml)
+        except (KeyError, ValueError, AttributeError, TypeError) as e:
+            skipped_tracks += 1
+            continue
+
+        try:
+            track_status = track.status.value if hasattr(track.status, 'value') else str(track.status)
+            db_create_track(
+                id=track.id,
+                roadmap_id=roadmap.id,
+                name=track.name,
+                status=_normalize_status(track_status),
+                blocked=track.blocked,
+                priority=track.priority.value if hasattr(track, 'priority') and track.priority else 'medium',
+                created=track.created or now,
+                conn=conn,
+            )
+            loaded_tracks += 1
+        except Exception as e:
+            skipped_tracks += 1
+            continue
+
+        # Load sprints for this track
+        for sprint_summary in track.sprints:
+            sprint_dir = track_dir / sprint_summary.id
+            sprint_yaml = sprint_dir / "sprint.yaml"
+
+            if not sprint_yaml.exists():
+                continue
+
+            try:
+                sprint = load_sprint(sprint_yaml)
+            except (KeyError, ValueError, AttributeError, TypeError) as e:
+                skipped_sprints += 1
+                continue
+
+            sprint_status = sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status)
+            db_create_sprint(
+                id=sprint.id,
+                track_id=track.id,
+                roadmap_id=roadmap.id,
+                name=sprint.name,
+                status=_normalize_status(sprint_status),
+                blocked=sprint.blocked,
+                created=sprint.created or now,
+                conn=conn,
+            )
+            loaded_sprints += 1
+
+            # Load tasks for this sprint
+            for task_dir_entry in sprint_dir.iterdir():
+                if not task_dir_entry.is_dir():
+                    continue
+
+                task_yaml = task_dir_entry / "task.yaml"
+                if not task_yaml.exists():
+                    continue
+
+                try:
+                    task = load_task(task_yaml)
+                except (KeyError, ValueError, AttributeError, TypeError) as e:
+                    skipped_tasks += 1
+                    continue
+
+                try:
+                    task_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
+                    db_create_task(
+                        id=task.id,
+                        sprint_id=sprint.id,
+                        track_id=track.id,
+                        roadmap_id=roadmap.id,
+                        task_type=task.task_type.value if hasattr(task.task_type, 'value') else str(task.task_type),
+                        title=task.title,
+                        status=_normalize_status(task_status),
+                        blocked=task.blocked,
+                        priority=task.priority.value if hasattr(task, 'priority') and task.priority else 'medium',
+                        created=task.created or now,
+                        conn=conn,
+                    )
+                    loaded_tasks += 1
+                except Exception as e:
+                    skipped_tasks += 1
+                    continue
+
+    # Print summary
+    total_skipped = skipped_tracks + skipped_sprints + skipped_tasks
+    if total_skipped > 0:
+        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
+        print(f"   Skipped {skipped_tracks} tracks, {skipped_sprints} sprints, {skipped_tasks} tasks (validation errors)")
+    else:
+        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
+
+
+def db_rebuild_cmd(force: bool = False) -> int:
+    """Rebuild database from YAML files."""
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    db_path = vibey_dir / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found. Run 'vibey roadmap db init' first.")
+        return 1
+
+    # Check for uncommitted changes
+    if not force:
+        try:
+            from vibey.roadmap.database.connection import get_connection
+
+            conn = get_connection(db_path=db_path)
+            row = conn.execute("SELECT is_dirty FROM database_state WHERE id = 1").fetchone()
+
+            if row and row[0]:
+                print("❌ Database has uncommitted changes!")
+                print("   Use --force to discard changes and rebuild")
+                print("   Or commit your changes first")
+                return 1
+        except Exception:
+            pass  # If we can't check, proceed with caution
+
+    print("🔄 Rebuilding database from YAML...")
+
+    # Backup current database
+    backup_path = db_path.with_suffix('.db.bak')
+    import shutil
+    shutil.copy2(db_path, backup_path)
+    print(f"   Backup created: {backup_path}")
+
+    # Remove and reinitialize
+    db_path.unlink()
+
+    result = db_init_cmd(force=True)
+
+    if result == 0:
+        print("\n✅ Database rebuilt successfully")
+        # Remove backup on success
+        backup_path.unlink()
+    else:
+        print("\n❌ Rebuild failed, restoring backup...")
+        shutil.move(backup_path, db_path)
+
+    return result
+
+
+def db_status_cmd(verbose: bool = False) -> int:
+    """Show database status."""
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    db_path = vibey_dir / "roadmap.db"
+
+    print("🗄️  Database Status")
+    print("=" * 50)
+
+    # Check if database exists
+    if not db_path.exists():
+        print(f"\n❌ Database not found")
+        print(f"   Expected: {db_path}")
+        print(f"\n   Run 'vibey roadmap db init' to create")
+        return 1
+
+    print(f"\n📍 Location: {db_path}")
+    print(f"   Size: {db_path.stat().st_size / 1024:.1f} KB")
+
+    try:
+        from vibey.roadmap.database.connection import get_connection, get_database_info
+        from vibey.roadmap.database.schema import get_schema_version, validate_schema
+
+        conn = get_connection(db_path=db_path)
+
+        # Schema version
+        version = get_schema_version(conn=conn)
+        print(f"\n📋 Schema Version: {version}")
+
+        # Database state
+        row = conn.execute("""
+            SELECT is_dirty, last_yaml_load, source_commit
+            FROM database_state WHERE id = 1
+        """).fetchone()
+
+        if row:
+            is_dirty = row[0]
+            last_load = row[1]
+            source_commit = row[2]
+
+            dirty_status = "⚠️  Yes (uncommitted changes)" if is_dirty else "✅ No"
+            print(f"\n🔄 Dirty Flag: {dirty_status}")
+            print(f"   Last YAML Load: {last_load or 'Never'}")
+            if source_commit:
+                print(f"   Source Commit: {source_commit[:8]}")
+
+        # Row counts
+        print("\n📊 Data Counts:")
+        for table in ['roadmaps', 'tracks', 'sprints', 'tasks']:
+            count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            print(f"   {table.capitalize():12} {count:>6}")
+
+        if verbose:
+            # Validate schema
+            print("\n🔍 Schema Validation:")
+            validation = validate_schema(conn=conn)
+            if validation['valid']:
+                print("   ✅ Schema is valid")
+            else:
+                print("   ❌ Schema validation failed:")
+                for issue in validation.get('missing_tables', []):
+                    print(f"      Missing table: {issue}")
+
+            # Database info
+            info = get_database_info(conn=conn)
+            print(f"\n⚙️  Database Info:")
+            print(f"   Journal Mode: {info.get('journal_mode', 'unknown')}")
+            print(f"   Page Size: {info.get('page_size', 'unknown')}")
+            print(f"   Tables: {info.get('table_count', 'unknown')}")
+
+        print()
+        return 0
+
+    except Exception as e:
+        print(f"\n❌ Error reading database: {e}")
+        return 1
+
+
+def db_backup_cmd(output_path: Optional[str] = None) -> int:
+    """Create a database backup."""
+    from datetime import datetime
+    import shutil
+
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    db_path = vibey_dir / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found to backup")
+        return 1
+
+    # Generate backup path
+    if output_path:
+        backup_path = Path(output_path)
+    else:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_path = vibey_dir / f"roadmap.db.backup.{timestamp}"
+
+    # Create backup
+    try:
+        shutil.copy2(db_path, backup_path)
+        size_kb = backup_path.stat().st_size / 1024
+        print(f"✅ Backup created: {backup_path}")
+        print(f"   Size: {size_kb:.1f} KB")
+        return 0
+    except Exception as e:
+        print(f"❌ Backup failed: {e}")
+        return 1

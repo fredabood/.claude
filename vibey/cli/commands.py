@@ -1987,3 +1987,358 @@ def db_backup_cmd(output_path: Optional[str] = None) -> int:
     except Exception as e:
         print(f"❌ Backup failed: {e}")
         return 1
+
+
+# ============================================================================
+# Database Query Commands
+# ============================================================================
+
+def db_query_blocked_cmd(track_filter: Optional[str] = None, verbose: bool = False) -> int:
+    """Query all blocked tasks with blocker information."""
+    root_dir = Path.cwd()
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found. Run 'vibey roadmap db init' first.")
+        return 1
+
+    try:
+        import sqlite3
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        # Query blocked tasks
+        query = """
+            SELECT t.id, t.title, t.status, t.track_id, t.sprint_id,
+                   eb.blocker_id, eb.blocker_type, eb.reason
+            FROM tasks t
+            JOIN entity_blocked_by eb ON eb.blocked_type = 'task' AND eb.blocked_id = t.id
+            WHERE t.blocked = 1
+        """
+        params = []
+        if track_filter:
+            query += " AND t.track_id = ?"
+            params.append(track_filter)
+        query += " ORDER BY t.track_id, t.sprint_id, t.id"
+
+        rows = conn.execute(query, params).fetchall()
+
+        if not rows:
+            print("✅ No blocked tasks found!")
+            return 0
+
+        print(f"🚧 Blocked Tasks ({len(rows)} blockers)")
+        print("=" * 60)
+
+        current_task = None
+        for row in rows:
+            if row['id'] != current_task:
+                current_task = row['id']
+                print(f"\n📋 {row['title']}")
+                print(f"   ID: {row['id']}")
+                print(f"   Status: {row['status']}")
+                if verbose:
+                    print(f"   Track: {row['track_id']}")
+                    print(f"   Sprint: {row['sprint_id']}")
+                print("   Blocked by:")
+
+            blocker_info = f"     - {row['blocker_type']}: {row['blocker_id']}"
+            if row['reason'] and verbose:
+                blocker_info += f" ({row['reason']})"
+            print(blocker_info)
+
+        print()
+        return 0
+
+    except Exception as e:
+        print(f"❌ Query failed: {e}")
+        return 1
+
+
+def db_query_progress_cmd(group_by: str = 'track') -> int:
+    """Query progress grouped by track, sprint, or status."""
+    root_dir = Path.cwd()
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found. Run 'vibey roadmap db init' first.")
+        return 1
+
+    try:
+        import sqlite3
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        if group_by == 'track':
+            # Try computed view first, fallback to direct query
+            try:
+                rows = conn.execute("""
+                    SELECT track_id, tasks_total, tasks_completed, completion_percent
+                    FROM v_track_progress
+                    ORDER BY track_id
+                """).fetchall()
+            except sqlite3.OperationalError:
+                # Fallback query
+                rows = conn.execute("""
+                    SELECT track_id,
+                           COUNT(*) as tasks_total,
+                           SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as tasks_completed,
+                           ROUND(SUM(CASE WHEN status = 'completed' THEN 1.0 ELSE 0.0 END) / COUNT(*) * 100, 1) as completion_percent
+                    FROM tasks
+                    GROUP BY track_id
+                    ORDER BY track_id
+                """).fetchall()
+
+            print("📊 Progress by Track")
+            print("=" * 60)
+            for row in rows:
+                pct = row['completion_percent'] or 0
+                bar = "█" * int(pct / 5) + "░" * (20 - int(pct / 5))
+                print(f"{row['track_id'][:30]:<30} [{bar}] {pct:>5.1f}% ({row['tasks_completed']}/{row['tasks_total']})")
+
+        elif group_by == 'sprint':
+            try:
+                rows = conn.execute("""
+                    SELECT sprint_id, track_id, tasks_total, tasks_completed, completion_percent
+                    FROM v_sprint_progress
+                    ORDER BY track_id, sprint_id
+                """).fetchall()
+            except sqlite3.OperationalError:
+                rows = conn.execute("""
+                    SELECT sprint_id, track_id,
+                           COUNT(*) as tasks_total,
+                           SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as tasks_completed,
+                           ROUND(SUM(CASE WHEN status = 'completed' THEN 1.0 ELSE 0.0 END) / COUNT(*) * 100, 1) as completion_percent
+                    FROM tasks
+                    GROUP BY sprint_id, track_id
+                    ORDER BY track_id, sprint_id
+                """).fetchall()
+
+            print("📊 Progress by Sprint")
+            print("=" * 70)
+            current_track = None
+            for row in rows:
+                if row['track_id'] != current_track:
+                    current_track = row['track_id']
+                    print(f"\n📁 {current_track}")
+                pct = row['completion_percent'] or 0
+                bar = "█" * int(pct / 10) + "░" * (10 - int(pct / 10))
+                print(f"  {row['sprint_id']:<35} [{bar}] {pct:>5.1f}% ({row['tasks_completed']}/{row['tasks_total']})")
+
+        elif group_by == 'status':
+            rows = conn.execute("""
+                SELECT status, COUNT(*) as count
+                FROM tasks
+                GROUP BY status
+                ORDER BY
+                    CASE status
+                        WHEN 'not_started' THEN 1
+                        WHEN 'in_progress' THEN 2
+                        WHEN 'completed' THEN 3
+                        ELSE 4
+                    END
+            """).fetchall()
+
+            total = sum(r['count'] for r in rows)
+            print("📊 Tasks by Status")
+            print("=" * 40)
+            for row in rows:
+                pct = (row['count'] / total * 100) if total > 0 else 0
+                bar = "█" * int(pct / 5) + "░" * (20 - int(pct / 5))
+                print(f"{row['status']:<15} [{bar}] {row['count']:>4} ({pct:.1f}%)")
+
+        print()
+        return 0
+
+    except Exception as e:
+        print(f"❌ Query failed: {e}")
+        return 1
+
+
+def db_query_deps_cmd(entity_id: str, direction: str = 'both') -> int:
+    """Query dependency chain for an entity."""
+    root_dir = Path.cwd()
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found. Run 'vibey roadmap db init' first.")
+        return 1
+
+    try:
+        import sqlite3
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        # Determine entity type
+        if '-task-' in entity_id:
+            entity_type = 'task'
+        elif any(entity_id.endswith(f'-{i}') for i in range(100)):
+            entity_type = 'sprint'
+        else:
+            entity_type = 'track'
+
+        print(f"🔗 Dependency Chain for {entity_type}: {entity_id}")
+        print("=" * 60)
+
+        if direction in ('up', 'both'):
+            # What this entity depends on
+            deps = conn.execute("""
+                SELECT dependency_type, dependency_id, reason
+                FROM entity_depends_on
+                WHERE dependent_type = ? AND dependent_id = ?
+            """, (entity_type, entity_id)).fetchall()
+
+            print(f"\n⬆️  Dependencies ({len(deps)}):")
+            if deps:
+                for d in deps:
+                    reason = f" - {d['reason']}" if d['reason'] else ""
+                    print(f"   {d['dependency_type']}: {d['dependency_id']}{reason}")
+            else:
+                print("   (none)")
+
+        if direction in ('down', 'both'):
+            # What depends on this entity
+            dependents = conn.execute("""
+                SELECT dependent_type, dependent_id, reason
+                FROM entity_depends_on
+                WHERE dependency_type = ? AND dependency_id = ?
+            """, (entity_type, entity_id)).fetchall()
+
+            print(f"\n⬇️  Dependents ({len(dependents)}):")
+            if dependents:
+                for d in dependents:
+                    reason = f" - {d['reason']}" if d['reason'] else ""
+                    print(f"   {d['dependent_type']}: {d['dependent_id']}{reason}")
+            else:
+                print("   (none)")
+
+        # Also show blocks/blocked_by
+        if direction in ('up', 'both'):
+            blockers = conn.execute("""
+                SELECT blocker_type, blocker_id, reason
+                FROM entity_blocked_by
+                WHERE blocked_type = ? AND blocked_id = ?
+            """, (entity_type, entity_id)).fetchall()
+
+            print(f"\n🚫 Blocked by ({len(blockers)}):")
+            if blockers:
+                for b in blockers:
+                    reason = f" - {b['reason']}" if b['reason'] else ""
+                    print(f"   {b['blocker_type']}: {b['blocker_id']}{reason}")
+            else:
+                print("   (none)")
+
+        if direction in ('down', 'both'):
+            blocks = conn.execute("""
+                SELECT blocked_type, blocked_id, reason
+                FROM entity_blocks
+                WHERE blocker_type = ? AND blocker_id = ?
+            """, (entity_type, entity_id)).fetchall()
+
+            print(f"\n🔒 Blocks ({len(blocks)}):")
+            if blocks:
+                for b in blocks:
+                    reason = f" - {b['reason']}" if b['reason'] else ""
+                    print(f"   {b['blocked_type']}: {b['blocked_id']}{reason}")
+            else:
+                print("   (none)")
+
+        print()
+        return 0
+
+    except Exception as e:
+        print(f"❌ Query failed: {e}")
+        return 1
+
+
+def db_query_stats_cmd() -> int:
+    """Query overall roadmap statistics."""
+    root_dir = Path.cwd()
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        print("❌ No database found. Run 'vibey roadmap db init' first.")
+        return 1
+
+    try:
+        import sqlite3
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        print("📊 Roadmap Statistics")
+        print("=" * 50)
+
+        # Entity counts
+        tracks = conn.execute("SELECT COUNT(*) as c FROM tracks").fetchone()['c']
+        sprints = conn.execute("SELECT COUNT(*) as c FROM sprints").fetchone()['c']
+        tasks = conn.execute("SELECT COUNT(*) as c FROM tasks").fetchone()['c']
+
+        print(f"\n📁 Entity Counts:")
+        print(f"   Tracks:  {tracks}")
+        print(f"   Sprints: {sprints}")
+        print(f"   Tasks:   {tasks}")
+
+        # Task status breakdown
+        status_rows = conn.execute("""
+            SELECT status, COUNT(*) as count
+            FROM tasks
+            GROUP BY status
+            ORDER BY count DESC
+        """).fetchall()
+
+        print(f"\n📋 Tasks by Status:")
+        for row in status_rows:
+            pct = (row['count'] / tasks * 100) if tasks > 0 else 0
+            print(f"   {row['status']:<15}: {row['count']:>4} ({pct:.1f}%)")
+
+        # Completion rate
+        completed = conn.execute(
+            "SELECT COUNT(*) as c FROM tasks WHERE status = 'completed'"
+        ).fetchone()['c']
+        completion_rate = (completed / tasks * 100) if tasks > 0 else 0
+
+        print(f"\n✅ Overall Completion Rate: {completion_rate:.1f}%")
+        bar = "█" * int(completion_rate / 5) + "░" * (20 - int(completion_rate / 5))
+        print(f"   [{bar}]")
+
+        # Blocked items
+        blocked_tasks = conn.execute(
+            "SELECT COUNT(*) as c FROM tasks WHERE blocked = 1"
+        ).fetchone()['c']
+        blocked_sprints = conn.execute(
+            "SELECT COUNT(*) as c FROM sprints WHERE blocked = 1"
+        ).fetchone()['c']
+        blocked_tracks = conn.execute(
+            "SELECT COUNT(*) as c FROM tracks WHERE blocked = 1"
+        ).fetchone()['c']
+
+        print(f"\n🚧 Blocked Items:")
+        print(f"   Tracks:  {blocked_tracks}")
+        print(f"   Sprints: {blocked_sprints}")
+        print(f"   Tasks:   {blocked_tasks}")
+
+        # Tasks by priority
+        priority_rows = conn.execute("""
+            SELECT priority, COUNT(*) as count
+            FROM tasks
+            GROUP BY priority
+            ORDER BY
+                CASE priority
+                    WHEN 'critical' THEN 1
+                    WHEN 'high' THEN 2
+                    WHEN 'medium' THEN 3
+                    WHEN 'low' THEN 4
+                    ELSE 5
+                END
+        """).fetchall()
+
+        print(f"\n⚡ Tasks by Priority:")
+        for row in priority_rows:
+            print(f"   {row['priority']:<10}: {row['count']:>4}")
+
+        print()
+        return 0
+
+    except Exception as e:
+        print(f"❌ Query failed: {e}")
+        return 1

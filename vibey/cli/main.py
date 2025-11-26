@@ -2718,6 +2718,93 @@ def db_backup(ctx, output: Optional[str]):
 
 
 # ============================================================================
+# Database Query Commands (vibey roadmap db query)
+# ============================================================================
+
+@roadmap_db.group('query')
+@click.pass_context
+def db_query(ctx):
+    """Query the database for roadmap insights.
+
+    These commands leverage SQLite's power to provide
+    fast queries that would be expensive with YAML parsing.
+    """
+    pass
+
+
+@db_query.command('blocked')
+@click.option('--track', '-t', help='Filter by track ID')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed blocker info')
+@click.pass_context
+def query_blocked(ctx, track: Optional[str], verbose: bool):
+    """List all blocked tasks with blocker information.
+
+    Shows tasks that are blocked by dependencies and what they're waiting for.
+
+    Examples:
+      vibey roadmap db query blocked
+      vibey roadmap db query blocked -t sqlite-backend
+      vibey roadmap db query blocked -v
+    """
+    from vibey.cli.commands import db_query_blocked_cmd
+
+    exit_code = db_query_blocked_cmd(track_filter=track, verbose=verbose)
+    sys.exit(exit_code)
+
+
+@db_query.command('progress')
+@click.option('--by', type=click.Choice(['track', 'sprint', 'status']), default='track',
+              help='Group progress by')
+@click.pass_context
+def query_progress(ctx, by: str):
+    """Show progress summary grouped by track, sprint, or status.
+
+    Examples:
+      vibey roadmap db query progress
+      vibey roadmap db query progress --by sprint
+      vibey roadmap db query progress --by status
+    """
+    from vibey.cli.commands import db_query_progress_cmd
+
+    exit_code = db_query_progress_cmd(group_by=by)
+    sys.exit(exit_code)
+
+
+@db_query.command('deps')
+@click.argument('entity_id')
+@click.option('--direction', type=click.Choice(['up', 'down', 'both']), default='both',
+              help='Show dependencies (up), dependents (down), or both')
+@click.pass_context
+def query_deps(ctx, entity_id: str, direction: str):
+    """Show dependency chain for a task, sprint, or track.
+
+    Examples:
+      vibey roadmap db query deps sqlite-backend-2-task-001
+      vibey roadmap db query deps sqlite-backend --direction up
+    """
+    from vibey.cli.commands import db_query_deps_cmd
+
+    exit_code = db_query_deps_cmd(entity_id=entity_id, direction=direction)
+    sys.exit(exit_code)
+
+
+@db_query.command('stats')
+@click.pass_context
+def query_stats(ctx):
+    """Show overall roadmap statistics.
+
+    Displays completion rates, task counts by status, and other metrics.
+
+    Examples:
+      vibey roadmap db query stats
+    """
+    from vibey.cli.commands import db_query_stats_cmd
+
+    exit_code = db_query_stats_cmd()
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

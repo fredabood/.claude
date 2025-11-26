@@ -15,9 +15,9 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 34
-    tracks_completed: 21
+    tracks_completed: 20
     sprints_total: 135
-    sprints_completed: 81
+    sprints_completed: 80
     tasks_total: 972
     tasks_completed: 648
     completion_percent: 66
@@ -136,7 +136,7 @@ roadmap:
     priority: critical
   - id: git-integration
     name: Enhanced Git Integration
-    status: completed
+    status: in_progress
     priority: high
   - id: atlassian-integration
     name: Atlassian Integration (Jira & Confluence)
@@ -2081,16 +2081,11 @@ roadmap:
     context:
       task_id: git-integration-4-task-005
       sprint_id: git-integration-4
-  - timestamp: '2025-11-25T14:57:36.037416+00:00'
-    type: sprint_completed
-    description: Sprint 'Vibey Repository Dogfooding & Configuration' completed
-    context:
-      sprint_id: git-integration-4
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-25T14:57:36.037419+00:00'
+    last_updated: '2025-11-25T05:46:58.676311+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

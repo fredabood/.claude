@@ -13,11 +13,11 @@ task:
     - blocked_tasks: tasks with unresolved blockers
     - dependency_graph: full dependency chain visualization
     These views replace manually-maintained counter fields.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T10:00:00+00:00'
+  completed: '2025-11-26T12:00:00+00:00'
   assigned_agent: architecture-agent
   priority: high
   phase_label: design

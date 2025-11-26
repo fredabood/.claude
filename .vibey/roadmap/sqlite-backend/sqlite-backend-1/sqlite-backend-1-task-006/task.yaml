@@ -35,11 +35,11 @@ task:
     - Enforce referential integrity
 
     Create in vibey/roadmap/database/triggers.py
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T12:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation

@@ -2,32 +2,34 @@ track:
   id: sqlite-backend
   name: SQLite Database Backend
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-26T12:00:00+00:00'
-  started: null
+  started: '2025-11-26T10:00:00+00:00'
   completed: null
   estimated_duration: 7.5 weeks
   progress:
     sprints_total: 5
-    sprints_completed: 0
+    sprints_completed: 2
     tasks_total: 36
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 15
+    completion_percent: 42
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
-    status: not_started
+    status: completed
     estimated_duration: 1 week
     tasks_count: 6
-    started: null
+    started: '2025-11-26T10:00:00+00:00'
+    completed: '2025-11-26T12:00:00+00:00'
   - id: sqlite-backend-1
     name: Core Implementation
-    status: not_started
+    status: completed
     estimated_duration: 2 weeks
-    tasks_count: 8
-    started: null
+    tasks_count: 9
+    started: '2025-11-26T12:00:00+00:00'
+    completed: '2025-11-26T18:00:00+00:00'
   - id: sqlite-backend-2
     name: CLI Integration
     status: not_started

@@ -27,11 +27,11 @@ task:
     Query helpers:
     - get_dependency_chain(entity_id) - recursive CTE for transitive deps
     - detect_circular_dependencies() - cycle detection
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T12:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation

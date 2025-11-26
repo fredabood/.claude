@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-6
   id: replit-port-6-task-001
   name: Create vibey-replit-template
   status: not_started

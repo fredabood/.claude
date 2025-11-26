@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-5-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-5
   name: Mark track complete and commit
   status: not_started
   priority: high

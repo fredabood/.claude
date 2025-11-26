@@ -1,5 +1,8 @@
 task:
   id: git-integration-0-task-003
+  sprint_id: git-integration-0
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Design commit message conventions
   status: completed
   priority: high

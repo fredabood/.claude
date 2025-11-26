@@ -1,5 +1,8 @@
 task:
   id: git-integration-2-task-009
+  sprint_id: git-integration-2
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Implement sprint tagging system
   status: completed
   priority: high

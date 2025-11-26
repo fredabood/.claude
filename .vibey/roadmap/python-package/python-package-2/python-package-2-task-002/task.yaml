@@ -1,5 +1,8 @@
 task:
   id: python-package-2-task-002
+  roadmap_id: vibey-framework-v2
+  track_id: python-package
+  sprint_id: python-package-2
   name: Test pip install from local build
   status: completed
   priority: critical

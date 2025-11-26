@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-1-task-003
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-1
   name: Sync git-integration and python-package status in roadmap.yaml
   status: not_started
   priority: critical

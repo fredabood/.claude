@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-5
   id: replit-port-5-task-006
   name: UI polish and refinements
   status: not_started

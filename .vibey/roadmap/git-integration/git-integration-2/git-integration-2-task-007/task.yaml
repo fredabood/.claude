@@ -1,5 +1,8 @@
 task:
   id: git-integration-2-task-007
+  sprint_id: git-integration-2
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Create test suite for git hooks
   status: completed
   priority: high

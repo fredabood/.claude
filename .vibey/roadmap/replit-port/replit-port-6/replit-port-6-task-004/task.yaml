@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-6
   id: replit-port-6-task-004
   name: Publish to Replit Templates
   status: not_started

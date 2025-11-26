@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Fix sprints_completed counter"
   description: "Update from 0 to appropriate value"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

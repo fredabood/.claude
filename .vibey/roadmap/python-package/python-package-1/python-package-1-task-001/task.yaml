@@ -1,5 +1,8 @@
 task:
   id: python-package-1-task-001
+  roadmap_id: vibey-framework-v2
+  track_id: python-package
+  sprint_id: python-package-1
   name: Move framework/ into vibey/content/
   status: completed
   priority: critical

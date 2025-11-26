@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-1
   id: replit-port-1-task-003
   name: Document platform constraints in REPLIT_CONSTRAINTS.md
   status: not_started

@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-001
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-4
   name: Create task hierarchy for amazonq-port
   status: not_started
   priority: medium

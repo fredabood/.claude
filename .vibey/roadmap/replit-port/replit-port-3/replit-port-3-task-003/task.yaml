@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-3
   id: replit-port-3-task-003
   name: Implement replit.nix generation
   status: not_started

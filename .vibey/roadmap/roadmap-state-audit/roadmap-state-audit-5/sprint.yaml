@@ -3,7 +3,7 @@ sprint:
   name: 'Audit: continue-port'
   track_id: roadmap-state-audit
   roadmap_id: vibey-framework-v2
-  status: pending
+  status: in_progress
   blocked: false
   created: '2025-11-23T20:35:52.725661+00:00'
   started: null

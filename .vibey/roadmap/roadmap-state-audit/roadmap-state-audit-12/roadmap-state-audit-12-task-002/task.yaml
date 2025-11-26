@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Update Sprint 1-4 task statuses"
   description: "Change all 32 tasks from not_started to completed"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

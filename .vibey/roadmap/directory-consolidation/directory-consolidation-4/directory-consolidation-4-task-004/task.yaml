@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-4-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Final content verification and documentation
   sprint_id: directory-consolidation-4
   status: completed

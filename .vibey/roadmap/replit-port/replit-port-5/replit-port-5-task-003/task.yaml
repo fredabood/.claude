@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-5
   id: replit-port-5-task-003
   name: Create TaskList component
   status: not_started

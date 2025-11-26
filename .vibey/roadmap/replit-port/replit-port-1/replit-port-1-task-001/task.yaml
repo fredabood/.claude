@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-1
   id: replit-port-1-task-001
   name: Validate MCP server in Replit environment
   status: not_started

@@ -1,5 +1,8 @@
 task:
   id: git-integration-1-task-005
+  sprint_id: git-integration-1
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Add vibey git analyze CLI command
   status: completed
   priority: high

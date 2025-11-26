@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Update Sprint 1 status"
   description: "Change from completed to in_progress"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

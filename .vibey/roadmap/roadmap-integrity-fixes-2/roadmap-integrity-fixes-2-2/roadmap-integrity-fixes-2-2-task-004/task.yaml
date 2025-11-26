@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-2-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-2
   name: Extract git-integration-3 tasks to task.yaml files
   status: not_started
   priority: high

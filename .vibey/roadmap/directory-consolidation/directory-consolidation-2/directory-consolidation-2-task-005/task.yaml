@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-2-task-005
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Delete remaining framework/ Python code
   sprint_id: directory-consolidation-2
   status: completed

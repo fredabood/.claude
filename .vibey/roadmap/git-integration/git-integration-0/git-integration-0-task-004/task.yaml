@@ -1,5 +1,8 @@
 task:
   id: git-integration-0-task-004
+  sprint_id: git-integration-0
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Design branching strategy
   status: completed
   priority: high

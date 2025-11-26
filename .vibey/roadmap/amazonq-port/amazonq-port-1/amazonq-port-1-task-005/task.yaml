@@ -1,5 +1,8 @@
 task:
   id: amazonq-port-1-task-005
+  roadmap_id: vibey-framework-v2
+  track_id: amazonq-port
+  sprint_id: amazonq-port-1
   name: Handle AWS authentication integration
   status: not_started
   priority: high

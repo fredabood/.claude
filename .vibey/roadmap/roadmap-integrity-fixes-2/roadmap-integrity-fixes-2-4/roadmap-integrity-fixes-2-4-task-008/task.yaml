@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-008
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-4
   name: Fix mcp-server sprints_completed counter
   status: not_started
   priority: low

@@ -1,5 +1,8 @@
 task:
   id: python-package-3-task-001
+  roadmap_id: vibey-framework-v2
+  track_id: python-package
+  sprint_id: python-package-3
   name: Design content operations API
   status: completed
   priority: critical

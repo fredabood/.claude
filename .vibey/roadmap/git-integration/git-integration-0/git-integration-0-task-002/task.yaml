@@ -1,5 +1,8 @@
 task:
   id: git-integration-0-task-002
+  sprint_id: git-integration-0
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Establish source of truth model
   status: completed
   priority: critical

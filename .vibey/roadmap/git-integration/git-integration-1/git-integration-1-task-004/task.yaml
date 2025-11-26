@@ -1,5 +1,8 @@
 task:
   id: git-integration-1-task-004
+  sprint_id: git-integration-1
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Build sprint velocity calculator from git history
   status: completed
   priority: medium

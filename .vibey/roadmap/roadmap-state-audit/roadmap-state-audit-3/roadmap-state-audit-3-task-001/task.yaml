@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Fix quality gate scores"
   description: "Update gates from not_run to passed with actual scores"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
@@ -28,4 +28,4 @@ task:
     last_updated: '2025-11-23T20:51:06.889497+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Remediation task generated from data integrity audit"
+    notes: "VERIFIED 2025-11-26: Quality gates in claude-port track.yaml show status 'passed' with actual scores (100, 97, 75, 85). Gates are properly updated, not 'not_run'. Keeping not_started - may need to verify if scores are accurate."

@@ -1,5 +1,8 @@
 task:
   id: amazonq-port-2-task-003
+  roadmap_id: vibey-framework-v2
+  track_id: amazonq-port
+  sprint_id: amazonq-port-2
   name: Enterprise admin control testing
   status: not_started
   priority: high

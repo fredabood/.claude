@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-006
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-3
   name: Commit python-package schema migration
   status: not_started
   priority: high

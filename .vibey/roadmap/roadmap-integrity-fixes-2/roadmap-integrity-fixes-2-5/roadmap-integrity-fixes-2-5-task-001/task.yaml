@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-5-task-001
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-5
   name: Run full roadmap validation
   status: not_started
   priority: high

@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-5-task-003
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Consolidate and delete backup directories
   sprint_id: directory-consolidation-5
   status: completed

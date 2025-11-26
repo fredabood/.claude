@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-007
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-4
   name: Fix continue-port adapter naming
   status: not_started
   priority: medium

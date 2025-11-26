@@ -1,5 +1,8 @@
 task:
   id: git-integration-0-task-007
+  sprint_id: git-integration-0
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Produce integration architecture document
   status: completed
   priority: critical

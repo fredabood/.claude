@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Reconcile progress counters"
   description: "Sync development_tasks_completed with tasks_completed"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

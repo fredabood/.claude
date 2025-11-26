@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-4
   name: Create task hierarchy for cursor-port
   status: not_started
   priority: medium

@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Verify Sprint 2-3 task completion"
   description: "Add commit references or reset status for 7 unverified tasks"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

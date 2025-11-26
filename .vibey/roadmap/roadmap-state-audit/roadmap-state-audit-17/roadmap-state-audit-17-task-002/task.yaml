@@ -6,11 +6,11 @@ task:
   task_type: development
   title: "Update path references"
   description: "Change framework/mcp/ to vibey/mcp/"
-  status: pending
+  status: completed
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T00:00:00+00:00'
+  completed: '2025-11-26T00:00:00+00:00'
   assigned_agent: coordinator
   priority: high
   phase_label: remediation

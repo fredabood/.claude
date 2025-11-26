@@ -1,4 +1,7 @@
 task:
+  roadmap_id: vibey-framework-v2
+  track_id: replit-port
+  sprint_id: replit-port-4
   id: replit-port-4-task-006
   name: Configure extension manifest
   status: not_started

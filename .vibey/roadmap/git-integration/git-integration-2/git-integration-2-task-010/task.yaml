@@ -1,5 +1,8 @@
 task:
   id: git-integration-2-task-010
+  sprint_id: git-integration-2
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
   name: Implement Git-primary sync command
   status: completed
   priority: high

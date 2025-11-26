@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-002
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-3
   name: Extract python-package-2 tasks to task.yaml files
   status: not_started
   priority: high

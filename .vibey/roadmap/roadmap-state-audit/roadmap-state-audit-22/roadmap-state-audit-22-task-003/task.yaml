@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Add task-003 started timestamp"
   description: "Populate null started field"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

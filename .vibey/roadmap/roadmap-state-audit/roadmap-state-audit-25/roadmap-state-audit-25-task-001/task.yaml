@@ -6,7 +6,7 @@ task:
   task_type: development
   title: "Fix commit references"
   description: "Update all 51 tasks from 205c877 to correct commits"
-  status: pending
+  status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null

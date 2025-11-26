@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-1-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-1
   name: Sync jetbrains-port status in roadmap.yaml
   status: not_started
   priority: high

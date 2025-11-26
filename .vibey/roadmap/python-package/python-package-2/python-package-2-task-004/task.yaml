@@ -1,5 +1,8 @@
 task:
   id: python-package-2-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: python-package
+  sprint_id: python-package-2
   name: Update existing tests for new structure
   status: completed
   priority: high

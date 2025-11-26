@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-1-task-002
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Delete framework/scripts/ (fully redundant)
   sprint_id: directory-consolidation-1
   status: completed

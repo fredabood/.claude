@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-3-task-004
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Create content audit report with recommendations
   sprint_id: directory-consolidation-3
   status: completed

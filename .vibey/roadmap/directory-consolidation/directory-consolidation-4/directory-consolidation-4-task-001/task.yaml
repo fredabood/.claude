@@ -1,5 +1,7 @@
 task:
   id: directory-consolidation-4-task-001
+  roadmap_id: vibey-framework-v2
+  track_id: directory-consolidation
   name: Merge framework/docs/ into docs/
   sprint_id: directory-consolidation-4
   status: completed

@@ -1,5 +1,8 @@
 task:
   id: amazonq-port-2-task-002
+  roadmap_id: vibey-framework-v2
+  track_id: amazonq-port
+  sprint_id: amazonq-port-2
   name: E2E tests with Q IDE plugins
   status: not_started
   priority: high

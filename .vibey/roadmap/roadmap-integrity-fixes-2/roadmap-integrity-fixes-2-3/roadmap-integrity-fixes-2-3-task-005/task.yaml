@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-005
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-3
   name: Verify python-package deliverables
   status: not_started
   priority: high

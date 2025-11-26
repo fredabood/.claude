@@ -1,5 +1,8 @@
 task:
   id: roadmap-integrity-fixes-2-1-task-005
+  roadmap_id: vibey-framework-v2
+  track_id: roadmap-integrity-fixes-2
+  sprint_id: roadmap-integrity-fixes-2-1
   name: Commit all Sprint 1 fixes
   status: not_started
   priority: critical

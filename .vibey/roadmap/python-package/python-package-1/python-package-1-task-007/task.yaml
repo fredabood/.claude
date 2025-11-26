@@ -1,5 +1,8 @@
 task:
   id: python-package-1-task-007
+  roadmap_id: vibey-framework-v2
+  track_id: python-package
+  sprint_id: python-package-1
   name: Update CLI deploy command to use content accessor
   status: completed
   priority: high

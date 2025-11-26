@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: 12.5 weeks
   progress:
-    sprints_total: 5
+    sprints_total: 6
     sprints_completed: 4
-    tasks_total: 41
+    tasks_total: 63
     tasks_completed: 41
-    completion_percent: 100
+    completion_percent: 65
   sprints:
   - id: git-integration-0
     name: Integration Architecture & Design
@@ -46,6 +46,12 @@ track:
     estimated_duration: 1.5 weeks
     tasks_count: 5
     started: '2025-11-25T05:20:07.962959+00:00'
+  - id: git-integration-5
+    name: Roadmap Integrity Protection
+    status: not_started
+    estimated_duration: 2.5 weeks
+    tasks_count: 22
+    started: null
   dependencies: []
   blocks:
   - type: track

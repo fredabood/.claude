@@ -23,7 +23,7 @@ from typing import Dict, List, Optional, Tuple
 repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
 
-from vibey.roadmap.models import Sprint, Task, TaskStatus, Priority, Complexity
+from vibey.roadmap.models import Sprint, SprintProgress, SprintMetadata, Task, TaskMetadata, TaskStatus, TaskType, Priority, Complexity
 from vibey.roadmap.serialization import save_sprint, save_tasks, load_track, save_track
 from vibey.roadmap.directory_manager import DirectoryManager
 
@@ -246,83 +246,75 @@ def create_sprint_from_plan(
     )
 
     # Create sprint YAML
+    now = datetime.now(timezone.utc)
     sprint_data = Sprint(
         id=sprint_id,
-        sprint_id=sprint_id,
+        name=metadata.get('name', sprint_id),
         track_id=track_id,
         roadmap_id="vibey-framework-v2",  # TODO: Get from roadmap
-        name=metadata.get('name', sprint_id),
-        description=f"Sprint from plan: {plan_path.name}",
         status=TaskStatus.IN_PROGRESS if start else TaskStatus.NOT_STARTED,
         blocked=False,
-        created=datetime.now(timezone.utc),
-        started=datetime.now(timezone.utc) if start else None,
-        completed=None,
-        estimated_duration=metadata.get('estimated_duration', '2 weeks'),
-        priority=Priority(metadata.get('priority', 'medium')),
-        tasks_total=len(tasks),
-        tasks_completed=0,
-        progress_percent=0,
-        dependencies=[],
+        created=now,
+        progress=SprintProgress(
+            development_tasks_total=len(tasks),
+            development_tasks_completed=0,
+            completion_gate_tasks_total=0,
+            completion_gate_tasks_completed=0,
+            production_gate_tasks_total=0,
+            production_gate_tasks_completed=0,
+            tasks_total=len(tasks),
+            tasks_completed=0,
+            completion_percent=0,
+        ),
+        tasks=[],  # Task summaries will be populated later
+        development_gates=[],
         blocks=[],
         blocked_by=[],
         depends_on=[],
         depended_on_by=[],
-        metadata={
-            'source_plan': str(plan_path),
-            'created_from_plan': datetime.now(timezone.utc).isoformat(),
-        }
+        metadata=SprintMetadata(
+            last_updated=now,
+            estimated_duration=metadata.get('estimated_duration', '2 weeks'),
+        ),
+        started=now if start else None,
+        plan_file=str(plan_path),
     )
 
     sprint_yaml = sprint_dir / "sprint.yaml"
     save_sprint(sprint_data, sprint_yaml)
     print(f"✓ Created: {sprint_yaml}")
 
-    # Create task YAMLs
+    # Create task objects
     print(f"\n📝 Creating {len(tasks)} tasks...")
+    task_objects = []
     for task_data in tasks:
+        task_now = datetime.now(timezone.utc)
         task = Task(
             id=task_data['id'],
-            task_id=task_data['id'],
             sprint_id=sprint_id,
             track_id=track_id,
             roadmap_id="vibey-framework-v2",
-            task_type='development',
+            task_type=TaskType.DEVELOPMENT,
             title=task_data['title'],
             description=task_data.get('description', ''),
             status=TaskStatus.NOT_STARTED,
             blocked=False,
-            created=datetime.now(timezone.utc),
-            started=None,
-            completed=None,
-            assigned_agent=task_data.get('assigned_agent', 'web-developer'),
+            created=task_now,
+            assigned_agent=task_data.get('assigned_agent', 'backend-engineer'),
             priority=Priority(task_data.get('priority', 'medium')),
             complexity=Complexity(task_data.get('complexity', 'medium')),
             estimated_tokens=task_data.get('estimated_tokens', 5000),
-            actual_tokens=None,
             dependencies=[],
             blocks=[],
             blocked_by=[],
             depends_on=[],
             depended_on_by=[],
-            deliverables=[],
-            commits=[],
-            metadata={}
+            metadata=TaskMetadata(last_updated=task_now),
         )
+        task_objects.append(task)
 
-        # Create task directory and YAML
-        task_dir = dir_manager.create_task_directory(
-            track_slug=track_id,
-            sprint_slug=sprint_id,
-            task_id=task_data['id'],
-            task_slug=task_data['id'],
-            create_context=True
-        )
-
-        task_yaml = task_dir / "task.yaml"
-        from vibey.roadmap.serialization import save_task
-        save_task(task, task_yaml)
-
+    # Save all tasks to sprint directory (hierarchical format)
+    save_tasks(task_objects, sprint_dir)
     print(f"✓ Created {len(tasks)} task files")
 
     print(f"\n✅ Sprint {sprint_id} created successfully!")

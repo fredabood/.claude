@@ -1,0 +1,42 @@
+task:
+  id: sqlite-backend-2-task-005
+  sprint_id: sqlite-backend-2
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Implement database mode detection and fallback"
+  description: |
+    Implement automatic mode selection:
+    - If .vibey/roadmap.db exists and is valid: use database
+    - If no database: fall back to YAML parsing
+    - Add config option: roadmap.backend = "auto" | "db" | "yaml"
+    - Graceful degradation if database is corrupted
+    Ensure all commands work in both modes.
+  status: not_started
+  blocked: false
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - sqlite-backend-2-task-001
+  blocks:
+  - sqlite-backend-2-task-006
+  blocked_by: []
+  deliverables:
+  - Mode detection logic
+  - Config option
+  - Fallback handling
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

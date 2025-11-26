@@ -1,0 +1,44 @@
+task:
+  id: sqlite-backend-0-task-002
+  sprint_id: sqlite-backend-0
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Design SQLite database schema"
+  description: |
+    Design the SQLite schema with:
+    - Core tables: roadmaps, tracks, sprints, tasks
+    - Junction tables for many-to-many relationships (dependencies, blocks)
+    - Appropriate indexes for common queries
+    - Foreign key constraints for referential integrity
+    - CHECK constraints for valid status values
+    - Timestamp fields for audit trail
+  status: not_started
+  blocked: false
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: architecture-agent
+  priority: high
+  phase_label: design
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - sqlite-backend-0-task-001
+  blocks:
+  - sqlite-backend-0-task-003
+  - sqlite-backend-0-task-004
+  blocked_by: []
+  deliverables:
+  - SQLite schema DDL
+  - Entity-relationship diagram
+  - Index strategy document
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

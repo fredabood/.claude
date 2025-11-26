@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 35
+    tracks_total: 36
     tracks_completed: 20
-    sprints_total: 164
+    sprints_total: 168
     sprints_completed: 81
-    tasks_total: 1077
+    tasks_total: 1105
     tasks_completed: 669
-    completion_percent: 62
+    completion_percent: 61
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -162,6 +162,10 @@ roadmap:
     name: Roadmap State Integrity Audit
     status: in_progress
     priority: medium
+  - id: sqlite-backend
+    name: SQLite Database Backend
+    status: not_started
+    priority: high
   dependencies: []
   blocked_by: []
   version_history:

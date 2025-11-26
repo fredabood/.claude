@@ -1,0 +1,44 @@
+task:
+  id: sqlite-backend-1-task-005
+  sprint_id: sqlite-backend-1
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Implement computed views"
+  description: |
+    Implement SQL views for automatic aggregations:
+    - sprint_progress_view: task counts and completion per sprint
+    - track_progress_view: sprint/task aggregations per track
+    - roadmap_progress_view: overall roadmap metrics
+    - blocked_tasks_view: tasks with unresolved blockers
+    - overdue_tasks_view: tasks past estimated completion
+    Create Python functions to query these views.
+  status: not_started
+  blocked: false
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - sqlite-backend-1-task-003
+  - sqlite-backend-1-task-004
+  blocks:
+  - sqlite-backend-1-task-007
+  blocked_by: []
+  deliverables:
+  - View DDL statements
+  - Python query functions
+  - View accuracy tests
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

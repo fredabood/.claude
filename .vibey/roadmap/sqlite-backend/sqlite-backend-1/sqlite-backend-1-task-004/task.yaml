@@ -1,0 +1,43 @@
+task:
+  id: sqlite-backend-1-task-004
+  sprint_id: sqlite-backend-1
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Implement dependency and relationship tables"
+  description: |
+    Implement junction tables and relationship management:
+    - task_dependencies: depends_on relationships
+    - task_blocks: blocks/blocked_by relationships
+    - quality_gates: track/sprint quality gates
+    - assigned_agents: agent assignments
+    CRUD operations for adding/removing relationships.
+    Query helpers for dependency chain traversal.
+  status: not_started
+  blocked: false
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - sqlite-backend-1-task-002
+  blocks:
+  - sqlite-backend-1-task-005
+  blocked_by: []
+  deliverables:
+  - Junction table implementations
+  - Relationship CRUD operations
+  - Dependency traversal queries
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

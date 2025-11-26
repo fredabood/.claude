@@ -1,0 +1,135 @@
+track:
+  id: sqlite-backend
+  name: SQLite Database Backend
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 6 weeks
+  progress:
+    sprints_total: 4
+    sprints_completed: 0
+    tasks_total: 28
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: sqlite-backend-0
+    name: Design & Schema
+    status: not_started
+    estimated_duration: 1 week
+    tasks_count: 6
+    started: null
+  - id: sqlite-backend-1
+    name: Core Implementation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 8
+    started: null
+  - id: sqlite-backend-2
+    name: CLI Integration
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 7
+    started: null
+  - id: sqlite-backend-3
+    name: Sync System & Migration
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 7
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates:
+  - name: Schema Review
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Database schema reviewed and approved
+    score: null
+  - name: Data Integrity Tests
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All referential integrity constraints verified
+    score: null
+  - name: YAML Roundtrip Tests
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: DB dump to YAML and rebuild produces identical state
+    score: null
+  - name: Performance Benchmarks
+    threshold: 90
+    blocking: false
+    status: not_run
+    description: Query performance meets targets
+    score: null
+  assigned_agents:
+  - architecture-agent
+  - backend-engineer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Database schema design document
+  - SQLite database module (vibey/roadmap/database/)
+  - Computed views for progress aggregations
+  - CRUD operations for all roadmap entities
+  - CLI commands updated to use database
+  - YAML to DB rebuild command
+  - DB to YAML dump command (deterministic output)
+  - Pre-commit hook integration
+  - Migration guide for existing repositories
+  - Comprehensive test suite
+  strategic_value:
+  - 'Consistency: Eliminate manual counter updates and state drift'
+  - 'Integrity: Foreign keys prevent orphan tasks and invalid references'
+  - 'Performance: Fast queries vs parsing hundreds of YAML files'
+  - 'Atomicity: Single transaction for complex operations'
+  - 'Automation: Triggers for auto-completion and dependency enforcement'
+  - 'Queries: Enable complex roadmap queries (blocked tasks, velocity, etc.)'
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-11-26T12:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      SQLite backend to replace YAML as working state for roadmap operations.
+
+      PROBLEM SOLVED:
+      Current YAML-based system requires manual synchronization of:
+      - Progress counters (tasks_completed, completion_percent)
+      - Sprint aggregations
+      - Track aggregations
+      - Roadmap-level metrics
+      This leads to state drift and validation errors (262 fixed in recent session).
+
+      SOLUTION:
+      - SQLite database as single source of truth during work
+      - Computed views for all aggregations (always accurate)
+      - Foreign keys for referential integrity
+      - YAML files remain for version control (human-readable diffs)
+      - Deterministic DB → YAML dump on commit
+      - YAML → DB rebuild on pull
+
+      ARCHITECTURE:
+      ```
+      vibey CLI → SQLite DB (working state)
+                      ↓
+      git commit → dump DB → YAML files (version control)
+                      ↓
+      git pull → rebuild DB from YAML
+      ```
+
+      RELATIONSHIP TO GIT-INTEGRATION-5:
+      - git-integration-5 focuses on INTEGRITY PROTECTION (preventing unauthorized changes)
+      - sqlite-backend focuses on DATA CONSISTENCY (eliminating manual sync)
+      - These are orthogonal concerns and can be implemented independently
+      - SQLite can later integrate with signing system (checksums in DB)

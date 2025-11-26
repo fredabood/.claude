@@ -1,0 +1,41 @@
+task:
+  id: sqlite-backend-1-task-001
+  sprint_id: sqlite-backend-1
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "Create database module structure"
+  description: |
+    Set up the database module at vibey/roadmap/database/:
+    - __init__.py with public API
+    - connection.py for database connection management
+    - schema.py for DDL and migrations
+    - models.py for entity dataclasses
+    - queries.py for common query patterns
+    Add to package structure and ensure imports work.
+  status: not_started
+  blocked: false
+  created: '2025-11-26T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-1-task-002
+  blocked_by: []
+  deliverables:
+  - vibey/roadmap/database/ module
+  - Module structure documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

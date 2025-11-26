@@ -14,10 +14,12 @@
 5. [Option 4: Hook-Based Enforcement](#option-4-hook-based-enforcement)
 6. [Option 5: Server-Side Enforcement](#option-5-server-side-enforcement)
 7. [Option 6: CLI Manifest Tracking](#option-6-cli-manifest-tracking)
-8. [User Onboarding & Key Management](#user-onboarding--key-management)
-9. [Comparison Matrix](#comparison-matrix)
-10. [Recommended Architecture](#recommended-architecture)
-11. [Implementation Roadmap](#implementation-roadmap)
+8. [Option 7: Git Submodule Architecture](#option-7-git-submodule-architecture)
+9. [Option 8: SQLite Database Backend](#option-8-sqlite-database-backend)
+10. [User Onboarding & Key Management](#user-onboarding--key-management)
+11. [Comparison Matrix](#comparison-matrix)
+12. [Recommended Architecture](#recommended-architecture)
+13. [Implementation Roadmap](#implementation-roadmap)
 
 ---
 
@@ -590,6 +592,298 @@ Required component but needs cryptographic protection to prevent forgery.
 
 ---
 
+## Option 7: Git Submodule Architecture
+
+### Description
+
+Make `.vibey/` a separate Git repository (submodule) with its own stricter access controls and signing requirements. The main repository only tracks a commit hash reference to the submodule.
+
+### How It Works
+
+```
+main-repo/
+├── .vibey/              ← Git submodule (separate repo)
+│   └── roadmap/
+├── src/                 ← Code (main repo)
+└── .gitmodules          ← Submodule config pointing to .vibey repo
+```
+
+**Workflow:**
+
+```
+1. Developer makes roadmap change via CLI
+2. CLI updates files in .vibey/ submodule
+3. Developer commits to submodule: cd .vibey && git commit
+4. Developer pushes submodule: git push (to submodule remote)
+   ↓
+   Submodule remote enforces:
+   - Signed commits required
+   - PR review required
+   - Branch protection rules
+   ↓
+5. If push succeeds, update parent repo's submodule reference
+6. Commit parent repo: git add .vibey && git commit
+```
+
+**Why this works against AI bypass:**
+
+```
+Current problem:
+  AI → edits .vibey/*.yaml → git commit --no-verify → ✅ bypassed
+
+With submodule:
+  AI → edits .vibey/*.yaml → git commit --no-verify (submodule) → git push
+                                                                      ↓
+                                                         ❌ BLOCKED by submodule remote
+                                                            (requires signed commits/PR)
+```
+
+The enforcement moves to the **submodule's remote server**, which AI cannot bypass locally.
+
+### Pros
+
+| Pro | Explanation |
+|-----|-------------|
+| Leverages existing Git infrastructure | No custom signing system needed |
+| Server-side enforcement built-in | Submodule remote can require signed commits, PR approval |
+| Clear audit trail | Submodule has its own git history |
+| Different access controls possible | Submodule repo can have stricter permissions than main repo |
+| Two-step commit = more friction | AI must commit to submodule AND update parent |
+| Industry standard | Submodules are well-understood Git feature |
+
+### Cons
+
+| Con | Explanation |
+|-----|-------------|
+| Submodules are confusing | Notorious for UX issues (detached HEAD, sync problems) |
+| Two-step commit process | Every roadmap change requires two commits |
+| Clone complexity | Requires `git clone --recurse-submodules` |
+| Merge conflicts in submodule refs | Can be confusing to resolve |
+| Submodule sync issues | Easy to forget to push submodule before parent |
+| Doesn't prevent local bypass | AI can still commit locally with --no-verify |
+
+### Gaps
+
+- Enforcement only happens at push time to submodule remote
+- Local commits can still be made with `--no-verify`
+- Adds significant workflow complexity for all users
+- Submodule state can get out of sync with parent
+- Requires separate repository infrastructure
+
+### Mitigation Strategies
+
+| Challenge | Mitigation |
+|-----------|------------|
+| UX complexity | `vibey commit` wrapper that handles both repos |
+| Forgetting to push submodule | Pre-push hook on parent checks submodule is pushed |
+| Clone issues | Document in README, add setup script |
+| Detached HEAD | Pre-commit hook warns if submodule is detached |
+
+### Verdict: Viable Alternative
+
+Trades implementation complexity for UX complexity. Best suited for teams already comfortable with submodules who want to leverage existing Git server infrastructure rather than building custom signing.
+
+---
+
+## Option 8: SQLite Database Backend
+
+### Description
+
+Use a local SQLite database as the working state for roadmap operations. YAML files remain in Git for version control, but are only written during commits (dump from DB) and read during pulls (rebuild DB from YAML). The database file is in `.gitignore`.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         Git Repository                       │
+│  ┌─────────────────┐         ┌─────────────────────────┐    │
+│  │ .vibey/roadmap/ │ ◄─────► │ .vibey/roadmap.db       │    │
+│  │ *.yaml files    │  sync   │ (SQLite, in .gitignore) │    │
+│  │ (versioned)     │         │ (working state)         │    │
+│  └─────────────────┘         └─────────────────────────┘    │
+│         ▲                              ▲                     │
+│         │                              │                     │
+│    git pull                      vibey CLI                   │
+│    (rebuild DB)                  (all operations)            │
+│    git commit                                                │
+│    (dump DB → YAML)                                          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### How It Works
+
+```
+git pull
+    ↓
+post-merge hook: vibey db rebuild (YAML → DB)
+    ↓
+User works: vibey roadmap start/complete/edit (DB operations only)
+    ↓
+git commit
+    ↓
+pre-commit hook: vibey db dump (DB → YAML)
+    ↓
+YAML files staged with current DB state
+    ↓
+commit proceeds
+```
+
+### Why This Could Work
+
+**Scenario: AI edits YAML directly, then commits normally**
+```
+1. AI edits .vibey/roadmap/task.yaml directly
+2. AI runs: git add . && git commit
+3. Pre-commit hook runs: vibey db dump
+4. DB state → OVERWRITES YAML files
+5. AI's manual changes are GONE
+6. Committed YAML reflects DB state (unchanged by AI)
+```
+
+The database becomes the **single source of truth** during work. YAML is just a serialization format for version control.
+
+### Schema Example
+
+```sql
+CREATE TABLE tracks (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    progress_json TEXT,
+    metadata_json TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE sprints (
+    id TEXT PRIMARY KEY,
+    track_id TEXT REFERENCES tracks(id),
+    name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    progress_json TEXT,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE tasks (
+    id TEXT PRIMARY KEY,
+    sprint_id TEXT REFERENCES sprints(id),
+    title TEXT NOT NULL,
+    status TEXT NOT NULL,
+    assigned_agent TEXT,
+    priority TEXT,
+    updated_at TIMESTAMP
+);
+
+-- Optional integrity checking
+CREATE TABLE _checksums (
+    table_name TEXT,
+    record_id TEXT,
+    checksum TEXT,  -- HMAC of record data
+    PRIMARY KEY (table_name, record_id)
+);
+```
+
+### Pros
+
+| Pro | Explanation |
+|-----|-------------|
+| Natural bypass prevention | Manual YAML edits get overwritten on commit |
+| Performance | SQLite queries vs YAML file parsing |
+| ACID transactions | Atomic operations, rollback support |
+| Complex queries | `SELECT * FROM tasks WHERE status='blocked'` trivial |
+| Binary format | AI less likely to edit `.db` file directly |
+| Recovery | DB corruption → rebuild from YAML |
+
+### Cons
+
+| Con | Explanation |
+|-----|-------------|
+| Doesn't solve --no-verify | AI can still bypass pre-commit hook |
+| Silent data loss risk | If detection not implemented, changes silently discarded |
+| Migration effort | Need to build DB schema, sync logic |
+| Merge conflict handling | Must rebuild DB after YAML conflict resolution |
+| AI could edit DB directly | `sqlite3 .vibey/roadmap.db "UPDATE..."` |
+
+### Critical Limitation
+
+**The `--no-verify` bypass still works:**
+
+```
+1. AI edits YAML directly
+2. AI runs: git commit --no-verify
+3. Pre-commit hook SKIPPED (no DB dump)
+4. AI's YAML changes committed directly
+5. Next git pull → DB rebuilt with AI's invalid changes!
+```
+
+The database approach provides a detection/overwrite mechanism, but doesn't prevent bypass when hooks are skipped.
+
+### Enhanced Version: Detect and Reject
+
+Instead of silent overwrite, detect mismatches and block:
+
+```
+git commit
+    ↓
+pre-commit hook:
+    ↓
+Compare YAML ↔ DB
+    ↓
+┌─────────────────────────────────────────────────────────────┐
+│ YAML has changes not in DB?                                  │
+│                                                              │
+│ ❌ ERROR: YAML modified outside CLI                          │
+│                                                              │
+│ Changed files:                                               │
+│   .vibey/roadmap/sprint-1/task-001/task.yaml                │
+│                                                              │
+│ Diff:                                                        │
+│   - status: in_progress                                      │
+│   + status: completed                                        │
+│                                                              │
+│ To track this change properly, run:                          │
+│   vibey roadmap complete git-integration-5-task-001          │
+│                                                              │
+│ Commit aborted.                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Hybrid: Database + Checksums
+
+Add integrity protection without full crypto:
+
+```python
+import hmac
+import hashlib
+
+SECRET_KEY = load_from_home_directory("~/.vibey/secret")  # Outside git
+
+def write_record(db, table, record):
+    checksum = hmac.new(SECRET_KEY, serialize(record), hashlib.sha256).hexdigest()
+    db.execute(f"INSERT INTO {table} VALUES (?, ?)", (record, checksum))
+
+def read_record(db, table, id):
+    record, stored_checksum = db.execute(f"SELECT * FROM {table} WHERE id=?", (id,))
+    expected = hmac.new(SECRET_KEY, serialize(record), hashlib.sha256).hexdigest()
+    if stored_checksum != expected:
+        raise IntegrityError(f"Record {id} was modified outside CLI")
+    return record
+```
+
+This prevents AI from directly editing the database (it doesn't have the secret key).
+
+### Verdict: Valuable for Performance, Insufficient for Security
+
+The database approach provides:
+- ✅ Significant performance benefits
+- ✅ Powerful query capabilities
+- ✅ Detection mechanism for YAML edits (when hooks run)
+- ❌ Does NOT prevent `--no-verify` bypass
+- ❌ Requires server-side enforcement as backstop
+
+**Best used in combination with server-side CI verification (Option 5).**
+
+---
+
 ## User Onboarding & Key Management
 
 ### Scenarios to Handle
@@ -660,24 +954,40 @@ New Developer Carol:
 
 ### Effectiveness Against Attack Vectors
 
-| Attack Vector | Option 1 (Block --no-verify) | Option 2 (Vibey Signing) | Option 3 (GPG) | Option 4 (Hooks) | Option 5 (Server) | Option 6 (Manifest) |
-|--------------|------------------------------|-------------------------|----------------|-----------------|-------------------|---------------------|
-| AI direct YAML edit | ❌ No | ✅ Yes | ❌ No | ⚠️ Partial | ✅ Yes | ⚠️ Partial |
-| AI uses --no-verify | ⚠️ Partial | ✅ Yes | ❌ No | ❌ No | ✅ Yes | ⚠️ Partial |
-| AI modifies hooks | ❌ No | ⚠️ Partial | ❌ No | ❌ No | ✅ Yes | ❌ No |
-| AI forges manifest | N/A | ✅ Yes | N/A | N/A | ✅ Yes | ❌ No |
-| AI has GPG access | N/A | ✅ Yes | ❌ No | N/A | ⚠️ Partial | N/A |
+| Attack Vector | Opt 1 (Block flag) | Opt 2 (Signing) | Opt 3 (GPG) | Opt 4 (Hooks) | Opt 5 (Server) | Opt 6 (Manifest) | Opt 7 (Submodule) | Opt 8 (SQLite) |
+|--------------|---------------------|-----------------|-------------|---------------|----------------|------------------|-------------------|----------------|
+| AI direct YAML edit | ❌ No | ✅ Yes | ❌ No | ⚠️ Partial | ✅ Yes | ⚠️ Partial | ✅ Yes (at push) | ⚠️ Partial |
+| AI uses --no-verify | ⚠️ Partial | ✅ Yes | ❌ No | ❌ No | ✅ Yes | ⚠️ Partial | ✅ Yes (at push) | ❌ No |
+| AI modifies hooks | ❌ No | ⚠️ Partial | ❌ No | ❌ No | ✅ Yes | ❌ No | ✅ Yes | ❌ No |
+| AI forges manifest | N/A | ✅ Yes | N/A | N/A | ✅ Yes | ❌ No | N/A | ⚠️ Partial |
+| AI has GPG access | N/A | ✅ Yes | ❌ No | N/A | ⚠️ Partial | N/A | ⚠️ Partial | N/A |
+| AI edits DB directly | N/A | N/A | N/A | N/A | N/A | N/A | N/A | ⚠️ (w/ checksum) |
 
 ### Implementation Characteristics
 
-| Characteristic | Option 1 | Option 2 | Option 3 | Option 4 | Option 5 | Option 6 |
-|---------------|----------|----------|----------|----------|----------|----------|
-| Platform-agnostic | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Implementation effort | Low | High | Low | Medium | Medium | Medium |
-| Maintenance burden | High | Medium | Low | Low | Low | Low |
-| User friction | Low | Medium | Medium | Low | Low | Low |
-| Cryptographic strength | None | Strong | Strong | None | Varies | None |
-| Requires server | No | No | Optional | No | Yes | No |
+| Characteristic | Opt 1 | Opt 2 | Opt 3 | Opt 4 | Opt 5 | Opt 6 | Opt 7 | Opt 8 |
+|---------------|-------|-------|-------|-------|-------|-------|-------|-------|
+| Platform-agnostic | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Implementation effort | Low | High | Low | Medium | Medium | Medium | Medium | Medium-High |
+| Maintenance burden | High | Medium | Low | Low | Low | Low | Medium | Medium |
+| User friction | Low | Medium | Medium | Low | Low | Low | High | Low |
+| Cryptographic strength | None | Strong | Strong | None | Varies | None | Varies | Optional |
+| Requires server | No | No | Optional | No | Yes | No | Yes | No |
+| Query performance | N/A | N/A | N/A | N/A | N/A | N/A | N/A | ✅ Excellent |
+| Offline capability | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
+
+### Summary by Approach
+
+| Approach | Best For | Key Tradeoff |
+|----------|----------|--------------|
+| **Option 1: Block --no-verify** | Quick friction | Platform-specific, easily bypassed |
+| **Option 2: Vibey Signing** | Strong guarantees | Complex implementation, key management |
+| **Option 3: GPG Signing** | Identity verification | Doesn't prove CLI usage |
+| **Option 4: Hooks** | Developer experience | Bypassable with --no-verify |
+| **Option 5: Server CI** | Non-bypassable enforcement | Delayed feedback, requires server |
+| **Option 6: Manifest** | Foundation layer | Can be forged without signing |
+| **Option 7: Submodule** | Leverage existing Git infra | Poor UX, submodule complexity |
+| **Option 8: SQLite** | Performance + queries | Doesn't solve --no-verify bypass |
 
 ---
 
@@ -701,7 +1011,7 @@ Layer 4: Server Enforcement (Option 5)
     ↓ Final non-bypassable verification
 ```
 
-### Recommended Combination
+### Recommended Combination (Primary Path)
 
 | Layer | Implementation | Purpose |
 |-------|---------------|---------|
@@ -710,6 +1020,42 @@ Layer 4: Server Enforcement (Option 5)
 | **Integrity** | Manifest entry signing | Prove manifest not forged |
 | **Local enforcement** | Pre-commit + pre-push hooks | Fast feedback |
 | **Final enforcement** | GitHub Actions CI | Non-bypassable verification |
+
+### Alternative Architectures
+
+#### Alternative A: Submodule-Based (Option 7)
+
+Best for teams comfortable with submodules who want simpler implementation:
+
+```
+Layer 1: .vibey/ as Git submodule
+    ↓ Separate repository with own history
+
+Layer 2: Submodule remote protection
+    ↓ Require signed commits, PR review
+
+Layer 3: Parent repo hooks
+    ↓ Verify submodule is pushed before parent commit
+```
+
+**Tradeoff:** Simpler server-side enforcement, but worse developer experience.
+
+#### Alternative B: Database + Server CI (Option 8 + Option 5)
+
+Best for teams prioritizing performance and query capabilities:
+
+```
+Layer 1: SQLite database (working state)
+    ↓ All CLI operations use DB
+
+Layer 2: Pre-commit hook (DB → YAML dump)
+    ↓ YAML reflects DB state, detects manual edits
+
+Layer 3: Server CI verification
+    ↓ Final enforcement (required because --no-verify bypasses hooks)
+```
+
+**Tradeoff:** Excellent performance, but still requires server-side enforcement.
 
 ### Minimum Viable Protection
 
@@ -728,6 +1074,16 @@ Without cryptographic signing, AI could forge manifest entries, but CI could use
 - Timestamp plausibility
 - Change size limits
 - Pattern detection
+
+### Architecture Decision Matrix
+
+| If you need... | Choose... |
+|----------------|-----------|
+| Strongest guarantees | Primary path (signing + server CI) |
+| Simplest implementation | Submodule (Option 7) + server protection |
+| Best performance | Database (Option 8) + server CI |
+| Offline-first workflow | Signing (Option 2) without server dependency |
+| Minimal changes | Manifest (Option 6) + hooks (Option 4) + server CI |
 
 ---
 

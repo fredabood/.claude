@@ -1,0 +1,158 @@
+track:
+  id: git-integration
+  name: Enhanced Git Integration
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: high
+  created: '2025-11-24T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-25T15:00:00+00:00'
+  estimated_duration: 12.5 weeks
+  progress:
+    sprints_total: 5
+    sprints_completed: 5
+    tasks_total: 41
+    tasks_completed: 41
+    completion_percent: 100
+  sprints:
+  - id: git-integration-0
+    name: Integration Architecture & Design
+    status: completed
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: '2025-11-24T00:00:00+00:00'
+  - id: git-integration-1
+    name: Git History & Commit Analysis
+    status: completed
+    estimated_duration: 2.5 weeks
+    tasks_count: 9
+    started: '2025-11-24T00:00:00+00:00'
+  - id: git-integration-2
+    name: Git Hooks Core
+    status: completed
+    estimated_duration: 3 weeks
+    tasks_count: 11
+    started: '2025-11-24T18:45:00+00:00'
+  - id: git-integration-3
+    name: Advanced Integration & Conflict Resolution
+    status: completed
+    estimated_duration: 3.5 weeks
+    tasks_count: 9
+    started: '2025-11-25T00:15:00+00:00'
+  - id: git-integration-4
+    name: Vibey Repository Dogfooding & Configuration
+    status: completed
+    estimated_duration: 1.5 weeks
+    tasks_count: 5
+    started: '2025-11-25T05:20:07.962959+00:00'
+  dependencies: []
+  blocks:
+  - type: track
+    target_id: user-journey-audit
+    at_status: not_started
+    reason: Git integration features must be complete before auditing user journeys
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - user-journey-audit
+  quality_gates:
+  - name: Architecture Review
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Integration architecture document reviewed and approved
+    score: null
+  - name: Git Integration Tests
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: Comprehensive tests for all git operations
+    score: null
+  - name: Backward Compatibility
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: Existing git workflows must continue to work
+    score: null
+  - name: Cross-Platform Compatibility
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All features work on macOS, Linux, Windows
+    score: null
+  assigned_agents:
+  - architecture-agent
+  - backend-engineer
+  - test-engineer
+  - docs-writer
+  deliverables:
+  - Vibey-Git primitive mapping specification
+  - Source of truth policy document
+  - Commit message convention specification
+  - Branching strategy specification
+  - Enforcement philosophy specification
+  - State reconstruction design
+  - Comprehensive architecture document
+  - Commit-to-task correlation engine
+  - Git history analysis for sprint velocity
+  - vibey git analyze CLI command
+  - Pre-commit and commit-msg hooks
+  - vibey git hooks install/uninstall commands
+  - Automatic task status updates from commits
+  - Branch-to-task linking system
+  - PR description generator
+  - PR merge checkpoint for task status conflicts
+  - Quality gate CI integration
+  - Blocker enforcement in git workflow
+  - Dependency-aware merge ordering
+  - Error handling and recovery system
+  - Complete git integration documentation
+  - Vibey repository enforcement mode configuration
+  - Commit tracking and evidence requirements
+  - CLI usage validation and suggestions
+  - Advisory mode implementation for Vibey repo
+  - Dogfooding evaluation and iteration
+  strategic_value:
+  - 'Vision: Clear architectural foundation for all git integration'
+  - 'Traceability: Link commits to tasks for audit trail'
+  - 'Automation: Reduce manual status updates'
+  - 'Velocity: Accurate sprint metrics from git history'
+  - 'Quality: Pre-commit hooks prevent invalid states'
+  - 'Workflow: Better branch and PR management'
+  - 'Conflict Resolution: Detect duplicate task completions'
+  - 'CI Integration: Quality gates as automated checks'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-24T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: "Enhanced git integration with architecture-first approach.\n\nSPRINT STRUCTURE:\n\
+      0. Integration Architecture & Design (2 weeks, 7 tasks) ✅ COMPLETE\n   Establishes\
+      \ \"true north\" for Vibey-Git integration:\n   - How primitives map (roadmap→repo,\
+      \ task→commit, etc.)\n   - Three-scenario source of truth (YAML-only, Hybrid,\
+      \ Git-primary)\n   - Commit conventions and branching strategy\n   - Enforcement\
+      \ philosophy (advisory/blocking/audit)\n   - 10 architecture documents, 157KB\
+      \ of design specs\n\n1. Git History & Commit Analysis (2.5 weeks, 9 tasks)\n\
+      \   Reading/analyzing git history:\n   - Parse commits for task references (conventional,\
+      \ footer, bracket)\n   - Calculate sprint velocity from git log\n   - State\
+      \ reconstruction (state-at, diff, history, progress, rollback)\n   - Sprint/task\
+      \ tag parsing\n   - vibey git analyze command\n\n2. Git Hooks Core (3 weeks,\
+      \ 11 tasks)\n   Core hook infrastructure:\n   - Pre-commit validation\n   -\
+      \ Commit-msg parsing\n   - Auto status updates\n   - Branch linking\n   - Sprint\
+      \ tagging system\n   - Git-primary sync command\n   - Mode detection and strategy\
+      \ enforcement\n\n3. Advanced Integration (3.5 weeks, 9 tasks)\n   Advanced features:\n\
+      \   - PR merge conflict detection\n   - Quality gate CI integration\n   - Blocker\
+      \ enforcement\n   - Dependency-aware merging\n   - Tag repair automation\n \
+      \  - Strategy preset adoption\n\n4. Vibey Repository Dogfooding (1.5 weeks,\
+      \ 5 tasks)\n   Apply git integration to Vibey itself:\n   - Review enforcement\
+      \ mode options (off/advisory/blocking/audit)\n   - Configure commit tracking\
+      \ (require_commits setting)\n   - Implement CLI usage suggestions vs manual\
+      \ YAML edits\n   - Set up advisory mode with YAML integrity blocking\n   - Evaluate\
+      \ dogfooding experience and iterate\n\nDEPENDENCY CHAIN:\nSprint 0 → Sprint\
+      \ 1 ─┐\n                    ├→ Sprint 3 → Sprint 4\nSprint 0 → Sprint 2 ─┘\n\
+      \nSprint 0 (design) must complete before any implementation starts.\nSprint\
+      \ 1 and 2 can run in parallel after Sprint 0.\nSprint 3 requires both Sprint\
+      \ 1 and 2.\nSprint 4 (dogfooding) requires Sprint 3 completion.\n"

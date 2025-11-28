@@ -29,6 +29,83 @@ def _format_datetime(dt: Optional[datetime]) -> Optional[str]:
     return dt.isoformat() + 'Z' if dt.tzinfo is None else dt.isoformat()
 
 
+def _serialize_commits(commits: list) -> Optional[str]:
+    """Serialize commits list to JSON."""
+    if not commits:
+        return None
+    return json.dumps([
+        {
+            'sha': getattr(c, 'sha', getattr(c, 'commit_hash', None)),
+            'message': getattr(c, 'message', getattr(c, 'commit_message', None)),
+            'author': getattr(c, 'author', None),
+            'committed_at': _format_datetime(getattr(c, 'committed_at', None)),
+            'task_id': getattr(c, 'task_id', None),
+            'sprint_id': getattr(c, 'sprint_id', None),
+        }
+        for c in commits
+    ])
+
+
+def _serialize_deliverables(deliverables: list) -> Optional[str]:
+    """Serialize deliverables list to JSON."""
+    if not deliverables:
+        return None
+    return json.dumps([
+        {
+            'type': getattr(d, 'type', 'code').value if hasattr(getattr(d, 'type', None), 'value') else str(getattr(d, 'type', 'code')),
+            'paths': getattr(d, 'paths', []),
+        }
+        for d in deliverables
+    ])
+
+
+def _serialize_standards(standards: list) -> Optional[str]:
+    """Serialize standards list to JSON."""
+    if not standards:
+        return None
+    return json.dumps([
+        {
+            'id': getattr(s, 'id', None),
+            'name': getattr(s, 'name', None),
+            'description': getattr(s, 'description', None),
+            'level': getattr(s, 'level', 'recommended').value if hasattr(getattr(s, 'level', None), 'value') else str(getattr(s, 'level', 'recommended')),
+            'status': getattr(s, 'status', 'active').value if hasattr(getattr(s, 'status', None), 'value') else str(getattr(s, 'status', 'active')),
+        }
+        for s in standards
+    ])
+
+
+def _serialize_sprint_summaries(sprints: list) -> Optional[str]:
+    """Serialize sprint summaries list to JSON."""
+    if not sprints:
+        return None
+    return json.dumps([
+        {
+            'id': s.id,
+            'name': s.name,
+            'status': s.status.value if hasattr(s.status, 'value') else str(s.status),
+            'estimated_duration': getattr(s, 'estimated_duration', None),
+            'tasks_count': getattr(s, 'tasks_count', None),
+        }
+        for s in sprints
+    ])
+
+
+def _serialize_task_summaries(tasks: list) -> Optional[str]:
+    """Serialize task summaries list to JSON."""
+    if not tasks:
+        return None
+    return json.dumps([
+        {
+            'id': t.id,
+            'title': t.title,
+            'status': t.status.value if hasattr(t.status, 'value') else str(t.status),
+            'task_type': t.task_type.value if hasattr(t.task_type, 'value') else str(t.task_type),
+        }
+        for t in tasks
+    ])
+
+
 def save_roadmap(roadmap: Roadmap, db_path: Optional['Path'] = None):
     """
     Save a roadmap to SQLite database.
@@ -128,13 +205,22 @@ def save_track(track: Track, db_path: Optional['Path'] = None):
             'notes': track.metadata.notes,
         })
 
+        # Serialize authored data
+        dependencies_json = json.dumps([
+            {'target_id': d.target_id, 'reason': d.reason}
+            for d in track.dependencies
+        ]) if track.dependencies else None
+        standards_json = _serialize_standards(track.standards)
+        strategic_value_json = json.dumps(track.strategic_value) if track.strategic_value else None
+
         # Upsert track
         conn.execute("""
             INSERT OR REPLACE INTO tracks (
                 id, name, roadmap_id, status, blocked, priority,
                 created, started, completed, estimated_duration,
+                dependencies_json, standards_json, strategic_value_json,
                 metadata
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             track.id,
             track.name,
@@ -146,6 +232,9 @@ def save_track(track: Track, db_path: Optional['Path'] = None):
             _format_datetime(track.started),
             _format_datetime(track.completed),
             track.estimated_duration,
+            dependencies_json,
+            standards_json,
+            strategic_value_json,
             metadata_json,
         ))
 
@@ -165,20 +254,21 @@ def save_track(track: Track, db_path: Optional['Path'] = None):
                 VALUES ('track', ?, ?, ?, ?)
             """, (track.id, block.type.value, block.target_id, block.reason))
 
+        # Save dependencies with business logic fields from depends_on
         conn.execute("DELETE FROM entity_blocked_by WHERE blocked_type = 'track' AND blocked_id = ?", (track.id,))
-        for blocker in track.blocked_by:
+        for dep in track.depends_on:
             conn.execute("""
-                INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, reason)
-                VALUES ('track', ?, ?, ?, ?)
-            """, (track.id, blocker.dependency_type, blocker.dependency_id, None))
+                INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, required_status, blocks_transition_to, reason)
+                VALUES ('track', ?, ?, ?, ?, ?, ?)
+            """, (track.id, dep.blocker_type, dep.blocker_id, dep.required_status, dep.blocks_transition_to, None))
 
         # Save quality gates
         conn.execute("DELETE FROM quality_gates WHERE owner_type = 'track' AND owner_id = ?", (track.id,))
         for qg in track.quality_gates:
             conn.execute("""
-                INSERT INTO quality_gates (owner_type, owner_id, name, threshold, status, blocking)
-                VALUES ('track', ?, ?, ?, ?, ?)
-            """, (track.id, qg.name, qg.threshold, qg.status.value, int(qg.blocking)))
+                INSERT INTO quality_gates (owner_type, owner_id, name, description, threshold, status, blocking, score)
+                VALUES ('track', ?, ?, ?, ?, ?, ?, ?)
+            """, (track.id, qg.name, qg.description, qg.threshold, qg.status.value, int(qg.blocking), qg.score))
 
 
 def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
@@ -204,13 +294,28 @@ def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
             'agents_used': sprint.metadata.agents_used,
         })
 
+        # Serialize authored data
+        # Note: Sprint has deliverables as list of strings in YAML
+        dependencies_json = None  # Sprint dependencies are in depends_on, not external
+        standards_json = _serialize_standards(sprint.standards) if hasattr(sprint, 'standards') else None
+        development_gates_json = json.dumps([
+            {
+                'type': dg.type.value if hasattr(dg.type, 'value') else str(dg.type),
+                'target_id': dg.target_id,
+                'target_status': dg.target_status,
+                'reason': dg.reason,
+            }
+            for dg in sprint.development_gates
+        ]) if sprint.development_gates else None
+
         # Upsert sprint
         conn.execute("""
             INSERT OR REPLACE INTO sprints (
                 id, name, track_id, roadmap_id, status, blocked, blocked_reason,
                 created, started, completed,
-                plan_file, metadata
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                plan_file, dependencies_json, standards_json, development_gates_json,
+                metadata
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             sprint.id,
             sprint.name,
@@ -223,6 +328,9 @@ def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
             _format_datetime(sprint.started),
             _format_datetime(sprint.completed),
             sprint.plan_file,
+            dependencies_json,
+            standards_json,
+            development_gates_json,
             metadata_json,
         ))
 
@@ -234,12 +342,13 @@ def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
                 VALUES ('sprint', ?, ?, ?, ?)
             """, (sprint.id, block.type.value, block.target_id, block.reason))
 
+        # Save dependencies with business logic fields from depends_on
         conn.execute("DELETE FROM entity_blocked_by WHERE blocked_type = 'sprint' AND blocked_id = ?", (sprint.id,))
-        for blocker in sprint.blocked_by:
+        for dep in sprint.depends_on:
             conn.execute("""
-                INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, reason)
-                VALUES ('sprint', ?, ?, ?, ?)
-            """, (sprint.id, blocker.dependency_type, blocker.dependency_id, None))
+                INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, required_status, blocks_transition_to, reason)
+                VALUES ('sprint', ?, ?, ?, ?, ?, ?)
+            """, (sprint.id, dep.blocker_type, dep.blocker_id, dep.required_status, dep.blocks_transition_to, None))
 
         # Save development gates
         # Note: development_gates table has (name, description, status) columns
@@ -252,6 +361,14 @@ def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
                 INSERT INTO development_gates (sprint_id, name, description, status)
                 VALUES (?, ?, ?, 'pending')
             """, (sprint.id, name, dg.reason or ''))
+
+        # Save sprint-level quality gates
+        conn.execute("DELETE FROM quality_gates WHERE owner_type = 'sprint' AND owner_id = ?", (sprint.id,))
+        for qg in sprint.quality_gates:
+            conn.execute("""
+                INSERT INTO quality_gates (owner_type, owner_id, name, description, threshold, status, blocking, score)
+                VALUES ('sprint', ?, ?, ?, ?, ?, ?, ?)
+            """, (sprint.id, qg.name, qg.description, qg.threshold, qg.status.value, int(qg.blocking), qg.score))
 
 
 def save_task(task: Task):
@@ -301,6 +418,20 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                     'recommendations': task.audit_results.recommendations,
                 })
 
+            # Serialize authored data (source of truth - aggregates up to sprints/tracks)
+            commits_json = _serialize_commits(task.commits)
+            deliverables_json = _serialize_deliverables(task.deliverables)
+            # Dependencies are external blockers, different from depends_on (roadmap entities)
+            dependencies_json = json.dumps([
+                {'target_id': d.target_id, 'reason': d.reason}
+                for d in task.dependencies
+            ]) if hasattr(task, 'dependencies') and task.dependencies else None
+            standards_json = _serialize_standards(task.standards) if hasattr(task, 'standards') and task.standards else None
+            # assigned_agent is singular in model, but we store as JSON array for consistency
+            assigned_agents_json = json.dumps([task.assigned_agent]) if task.assigned_agent else None
+            # estimated_duration from metadata if available
+            estimated_duration = getattr(task.metadata, 'estimated_duration', None) if task.metadata else None
+
             # Upsert task
             conn.execute("""
                 INSERT OR REPLACE INTO tasks (
@@ -309,8 +440,11 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                     created, started, completed,
                     assigned_agent, priority, phase_label,
                     estimated_tokens, actual_tokens, complexity,
-                    gate_info, audit_results, metadata
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    gate_info, audit_results,
+                    commits_json, deliverables_json, dependencies_json, standards_json,
+                    assigned_agents_json, estimated_duration,
+                    metadata
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 task.id,
                 task.sprint_id,
@@ -332,6 +466,12 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                 task.complexity.value,
                 gate_info_json,
                 audit_results_json,
+                commits_json,
+                deliverables_json,
+                dependencies_json,
+                standards_json,
+                assigned_agents_json,
+                estimated_duration,
                 metadata_json,
             ))
 
@@ -343,12 +483,13 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                     VALUES ('task', ?, ?, ?, ?)
                 """, (task.id, block.type.value, block.target_id, block.reason))
 
+            # Save dependencies with business logic fields from depends_on
             conn.execute("DELETE FROM entity_blocked_by WHERE blocked_type = 'task' AND blocked_id = ?", (task.id,))
-            for blocker in task.blocked_by:
+            for dep in task.depends_on:
                 conn.execute("""
-                    INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, reason)
-                    VALUES ('task', ?, ?, ?, ?)
-                """, (task.id, blocker.dependency_type, blocker.dependency_id, None))
+                    INSERT INTO entity_blocked_by (blocked_type, blocked_id, blocker_type, blocker_id, required_status, blocks_transition_to, reason)
+                    VALUES ('task', ?, ?, ?, ?, ?, ?)
+                """, (task.id, dep.blocker_type, dep.blocker_id, dep.required_status, dep.blocks_transition_to, None))
 
             # Save deliverables
             # Note: deliverables table has (description, status, artifact_path) columns

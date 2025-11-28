@@ -103,6 +103,13 @@ CREATE TABLE IF NOT EXISTS tracks (
     -- Estimates
     estimated_duration TEXT,
 
+    -- Authored data (JSON arrays) - these are NOT aggregated from children
+    dependencies_json TEXT,  -- JSON array of external dependency descriptions
+    standards_json TEXT,  -- JSON array of Standard objects (can inherit down)
+    strategic_value_json TEXT,  -- JSON array of strategic value descriptions
+
+    -- Note: commits, deliverables, assigned_agents, estimated_duration aggregate up from sprints via views
+
     -- Metadata (JSON)
     metadata TEXT
 );
@@ -135,6 +142,13 @@ CREATE TABLE IF NOT EXISTS sprints (
 
     -- References
     plan_file TEXT,
+
+    -- Authored data (JSON arrays) - these are NOT aggregated from children
+    dependencies_json TEXT,  -- JSON array of external dependency descriptions
+    standards_json TEXT,  -- JSON array of Standard objects (can inherit down)
+    development_gates_json TEXT,  -- JSON array of DevelopmentGate objects
+
+    -- Note: commits, deliverables, assigned_agents, estimated_duration aggregate up from tasks via views
 
     -- Metadata (JSON)
     metadata TEXT
@@ -180,6 +194,14 @@ CREATE TABLE IF NOT EXISTS tasks (
     -- Gate-specific (for completion_gate and production_gate tasks)
     gate_info TEXT,  -- JSON
     audit_results TEXT,  -- JSON
+
+    -- Authored data (JSON arrays) - source of truth, aggregates up to sprints/tracks
+    commits_json TEXT,  -- JSON array of GitCommit objects
+    deliverables_json TEXT,  -- JSON array of Deliverable objects
+    dependencies_json TEXT,  -- JSON array of external dependency descriptions
+    standards_json TEXT,  -- JSON array of Standard objects (can inherit from sprint/track)
+    assigned_agents_json TEXT,  -- JSON array of agent names working on this task
+    estimated_duration TEXT,  -- Human/AI-provided time estimate
 
     -- Metadata (JSON)
     metadata TEXT
@@ -239,6 +261,10 @@ CREATE TABLE IF NOT EXISTS entity_blocked_by (
     -- Blocking entity (must complete first)
     blocker_type TEXT NOT NULL CHECK (blocker_type IN ('track', 'sprint', 'task')),
     blocker_id TEXT NOT NULL,
+
+    -- Dependency business logic
+    required_status TEXT DEFAULT 'completed',  -- Status blocker must reach to unblock (e.g., 'completed', 'production_ready')
+    blocks_transition_to TEXT DEFAULT 'in_progress',  -- What transition this blocks (e.g., 'in_progress', 'completed')
 
     -- Context
     reason TEXT,
@@ -443,6 +469,10 @@ CREATE TABLE IF NOT EXISTS activity_log (
     entity_type TEXT,  -- track, sprint, task, or null for roadmap-level
     entity_id TEXT,
     actor TEXT,  -- Who/what caused the event
+
+    -- State snapshots for time-travel and debugging
+    old_state TEXT,  -- JSON snapshot of entity before change
+    new_state TEXT,  -- JSON snapshot of entity after change
 
     -- Additional data (JSON)
     metadata TEXT

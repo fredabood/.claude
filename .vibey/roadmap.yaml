@@ -15,12 +15,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 36
-    tracks_completed: 20
-    sprints_total: 164
-    sprints_completed: 81
-    tasks_total: 1077
-    tasks_completed: 669
-    completion_percent: 62
+    tracks_completed: 18
+    sprints_total: 176
+    sprints_completed: 87
+    tasks_total: 899
+    tasks_completed: 656
+    completion_percent: 72
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -72,7 +72,7 @@ roadmap:
     priority: high
   - id: gemini-port
     name: Gemini Platform Port
-    status: completed
+    status: in_progress
     priority: high
   - id: multi-platform
     name: Multi-Platform Architecture
@@ -96,11 +96,11 @@ roadmap:
     priority: medium
   - id: cursor-port
     name: Cursor Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: copilot-port
     name: GitHub Copilot Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: cody-port
     name: Sourcegraph Cody Platform Port
@@ -108,15 +108,15 @@ roadmap:
     priority: low
   - id: replit-port
     name: Replit Agent Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: vscode-port
     name: VS Code Native MCP Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: amazonq-port
     name: Amazon Q Developer Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: standards-system
     name: Roadmap Standards System
@@ -132,7 +132,7 @@ roadmap:
     priority: critical
   - id: roadmap-integrity-fixes
     name: Roadmap Data Integrity & Validation System
-    status: completed
+    status: in_progress
     priority: critical
   - id: git-integration
     name: Enhanced Git Integration
@@ -160,11 +160,11 @@ roadmap:
     priority: critical
   - id: roadmap-state-audit
     name: Roadmap State Integrity Audit
-    status: in_progress
+    status: superseded
     priority: medium
   - id: sqlite-backend
     name: SQLite Database Backend
-    status: not_started
+    status: in_progress
     priority: high
   dependencies: []
   blocked_by: []

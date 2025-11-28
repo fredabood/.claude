@@ -1,7 +1,7 @@
 """
 SQL Views for computed roadmap metrics.
 
-This module defines 13 views that compute all progress aggregations automatically
+This module defines 21 views that compute all progress aggregations automatically
 from task data, replacing the 24 manually-maintained counter fields.
 
 Views are organized into categories:
@@ -10,6 +10,9 @@ Views are organized into categories:
 - Quality gates: v_quality_gate_summary, v_failing_quality_gates
 - Activity/reporting: v_recent_activity, v_velocity_metrics
 - Summary data: v_track_summary_data, v_sprint_summary_data, v_task_summary_data
+- Data integrity validation: v_track_sprint_summaries
+- Aggregation (sprint): v_sprint_commits, v_sprint_deliverables, v_sprint_assigned_agents, v_sprint_estimated_duration
+- Aggregation (track): v_track_commits, v_track_deliverables, v_track_assigned_agents
 """
 
 import sqlite3
@@ -390,24 +393,188 @@ VIEW_DEFINITIONS = {
             t.gate_info
         FROM tasks t
     """,
+
+    # -------------------------------------------------------------------------
+    # Data Integrity Validation Views
+    # -------------------------------------------------------------------------
+
+    "v_track_sprint_summaries": """
+        CREATE VIEW v_track_sprint_summaries AS
+        SELECT
+            s.track_id,
+            s.id AS sprint_id,
+            s.name,
+            s.status,
+            -- Extract estimated_duration from metadata JSON
+            json_extract(s.metadata, '$.estimated_duration') AS estimated_duration,
+            -- Compute tasks_count from actual tasks
+            (SELECT COUNT(*) FROM tasks t WHERE t.sprint_id = s.id) AS tasks_count,
+            s.started,
+            s.completed
+        FROM sprints s
+        ORDER BY s.track_id, s.id
+    """,
+
+    # -------------------------------------------------------------------------
+    # Aggregation Views (roll up authored data from child entities)
+    # -------------------------------------------------------------------------
+
+    "v_sprint_commits": """
+        CREATE VIEW v_sprint_commits AS
+        SELECT
+            t.sprint_id,
+            t.track_id,
+            -- Aggregate all commits from tasks in this sprint as JSON array
+            '[' || GROUP_CONCAT(
+                CASE WHEN t.commits_json IS NOT NULL AND t.commits_json != '[]'
+                THEN SUBSTR(t.commits_json, 2, LENGTH(t.commits_json) - 2)
+                END
+            ) || ']' AS commits_json,
+            COUNT(CASE WHEN t.commits_json IS NOT NULL AND t.commits_json != '[]' THEN 1 END) AS tasks_with_commits
+        FROM tasks t
+        WHERE t.commits_json IS NOT NULL
+        GROUP BY t.sprint_id, t.track_id
+    """,
+
+    "v_sprint_deliverables": """
+        CREATE VIEW v_sprint_deliverables AS
+        SELECT
+            t.sprint_id,
+            t.track_id,
+            -- Aggregate all deliverables from tasks in this sprint as JSON array
+            '[' || GROUP_CONCAT(
+                CASE WHEN t.deliverables_json IS NOT NULL AND t.deliverables_json != '[]'
+                THEN SUBSTR(t.deliverables_json, 2, LENGTH(t.deliverables_json) - 2)
+                END
+            ) || ']' AS deliverables_json,
+            COUNT(CASE WHEN t.deliverables_json IS NOT NULL AND t.deliverables_json != '[]' THEN 1 END) AS tasks_with_deliverables
+        FROM tasks t
+        WHERE t.deliverables_json IS NOT NULL
+        GROUP BY t.sprint_id, t.track_id
+    """,
+
+    "v_sprint_assigned_agents": """
+        CREATE VIEW v_sprint_assigned_agents AS
+        SELECT
+            t.sprint_id,
+            t.track_id,
+            -- Get distinct agents assigned to tasks in this sprint
+            '[' || GROUP_CONCAT(DISTINCT
+                CASE WHEN t.assigned_agent IS NOT NULL
+                THEN '"' || t.assigned_agent || '"'
+                END
+            ) || ']' AS assigned_agents_json,
+            COUNT(DISTINCT t.assigned_agent) AS unique_agents
+        FROM tasks t
+        WHERE t.assigned_agent IS NOT NULL
+        GROUP BY t.sprint_id, t.track_id
+    """,
+
+    "v_sprint_estimated_duration": """
+        CREATE VIEW v_sprint_estimated_duration AS
+        SELECT
+            t.sprint_id,
+            t.track_id,
+            -- Sum estimated durations (assumes format like '2 hours', '1 day', etc.)
+            -- For now, just concatenate as JSON array - parsing would require application logic
+            '[' || GROUP_CONCAT(
+                CASE WHEN t.estimated_duration IS NOT NULL
+                THEN '"' || t.estimated_duration || '"'
+                END
+            ) || ']' AS estimated_durations_json,
+            COUNT(CASE WHEN t.estimated_duration IS NOT NULL THEN 1 END) AS tasks_with_estimates
+        FROM tasks t
+        WHERE t.estimated_duration IS NOT NULL
+        GROUP BY t.sprint_id, t.track_id
+    """,
+
+    "v_track_commits": """
+        CREATE VIEW v_track_commits AS
+        SELECT
+            sc.track_id,
+            -- Aggregate commits from all sprints in this track
+            '[' || GROUP_CONCAT(
+                CASE WHEN sc.commits_json IS NOT NULL AND sc.commits_json != '[]' AND sc.commits_json != '[null]'
+                THEN SUBSTR(sc.commits_json, 2, LENGTH(sc.commits_json) - 2)
+                END
+            ) || ']' AS commits_json,
+            SUM(sc.tasks_with_commits) AS total_tasks_with_commits
+        FROM v_sprint_commits sc
+        GROUP BY sc.track_id
+    """,
+
+    "v_track_deliverables": """
+        CREATE VIEW v_track_deliverables AS
+        SELECT
+            sd.track_id,
+            -- Aggregate deliverables from all sprints in this track
+            '[' || GROUP_CONCAT(
+                CASE WHEN sd.deliverables_json IS NOT NULL AND sd.deliverables_json != '[]' AND sd.deliverables_json != '[null]'
+                THEN SUBSTR(sd.deliverables_json, 2, LENGTH(sd.deliverables_json) - 2)
+                END
+            ) || ']' AS deliverables_json,
+            SUM(sd.tasks_with_deliverables) AS total_tasks_with_deliverables
+        FROM v_sprint_deliverables sd
+        GROUP BY sd.track_id
+    """,
+
+    "v_track_assigned_agents": """
+        CREATE VIEW v_track_assigned_agents AS
+        SELECT
+            t.track_id,
+            -- Get distinct agents assigned to any task in this track
+            '[' || GROUP_CONCAT(DISTINCT
+                CASE WHEN t.assigned_agent IS NOT NULL
+                THEN '"' || t.assigned_agent || '"'
+                END
+            ) || ']' AS assigned_agents_json,
+            COUNT(DISTINCT t.assigned_agent) AS unique_agents
+        FROM tasks t
+        WHERE t.assigned_agent IS NOT NULL
+        GROUP BY t.track_id
+    """,
 }
 
 
 # Views must be created in this order due to dependencies
 VIEW_ORDER = [
+    # Progress views (depend on each other)
     "v_sprint_progress",      # Base view - no dependencies
     "v_track_progress",       # Depends on v_sprint_progress
     "v_roadmap_progress",     # Depends on v_track_progress
+
+    # Blocking/dependency views
     "v_blocked_entities",     # No dependencies
     "v_unblocked_tasks",      # Depends on v_blocked_entities
     "v_dependency_chain",     # No dependencies
+
+    # Quality gate views
     "v_quality_gate_summary", # No dependencies
     "v_failing_quality_gates",# No dependencies
+
+    # Activity/metrics views
     "v_recent_activity",      # No dependencies
     "v_velocity_metrics",     # No dependencies
+
+    # Summary data views
     "v_track_summary_data",   # No dependencies
     "v_sprint_summary_data",  # No dependencies
     "v_task_summary_data",    # No dependencies
+
+    # Data integrity validation
+    "v_track_sprint_summaries",  # No dependencies
+
+    # Aggregation views (roll up authored data from child entities)
+    # Sprint-level aggregations (from tasks)
+    "v_sprint_commits",           # Aggregates task commits to sprint
+    "v_sprint_deliverables",      # Aggregates task deliverables to sprint
+    "v_sprint_assigned_agents",   # Aggregates task agents to sprint
+    "v_sprint_estimated_duration", # Aggregates task durations to sprint
+
+    # Track-level aggregations (from sprints/tasks)
+    "v_track_commits",            # Depends on v_sprint_commits
+    "v_track_deliverables",       # Depends on v_sprint_deliverables
+    "v_track_assigned_agents",    # Aggregates from tasks directly
 ]
 
 
@@ -865,3 +1032,40 @@ def get_all_progress(
         "tracks": tracks,
         "sprints": sprints,
     }
+
+
+def get_track_sprint_summaries(
+    track_id: Optional[str] = None,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get computed sprint summaries for data integrity validation.
+
+    This view computes sprint summaries directly from sprints and tasks tables,
+    useful for comparing against embedded YAML summaries to detect drift.
+
+    Args:
+        track_id: Filter by track (optional)
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of sprint summary dictionaries with:
+        - track_id, sprint_id, name, status
+        - estimated_duration (from metadata)
+        - tasks_count (computed from tasks table)
+        - started, completed timestamps
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    if track_id:
+        rows = conn.execute(
+            "SELECT * FROM v_track_sprint_summaries WHERE track_id = ?",
+            (track_id,),
+        ).fetchall()
+    else:
+        rows = conn.execute("SELECT * FROM v_track_sprint_summaries").fetchall()
+
+    return [dict(row) for row in rows]

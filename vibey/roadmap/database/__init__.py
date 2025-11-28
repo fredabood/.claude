@@ -115,6 +115,18 @@ from .triggers import (
     rebuild_summary_tables,
 )
 
+from .compare_databases import (
+    compare_databases,
+    compare_declared_counters,
+    compare_relationships,
+    compare_json_columns,
+    find_true_gaps,
+    ComparisonReport,
+    CategoryReport,
+    ComparisonResult,
+    ColumnMapping,
+)
+
 __all__ = [
     # Connection management
     "get_connection",
@@ -177,4 +189,14 @@ __all__ = [
     "DEFAULT_DB_FILENAME",
     "DEFAULT_VIBEY_DIR",
     "DEFAULT_BUSY_TIMEOUT_MS",
+    # Comparison
+    "compare_databases",
+    "compare_declared_counters",
+    "compare_relationships",
+    "compare_json_columns",
+    "find_true_gaps",
+    "ComparisonReport",
+    "CategoryReport",
+    "ComparisonResult",
+    "ColumnMapping",
 ]

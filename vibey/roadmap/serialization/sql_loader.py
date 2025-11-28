@@ -387,7 +387,8 @@ def load_track(track_id: str) -> Track:
             reason=b_dict.get('reason', ''),
         ))
 
-    # Load blockers (what blocks this track) from entity_blocked_by
+    # Load dependencies (what blocks this track) from entity_blocked_by
+    # Now includes business logic fields: required_status, blocks_transition_to
     blocker_rows = conn.execute(
         """SELECT * FROM entity_blocked_by
            WHERE blocked_type = 'track' AND blocked_id = ?
@@ -395,17 +396,28 @@ def load_track(track_id: str) -> Track:
         (track_id,)
     ).fetchall()
 
-    blocked_by = [
-        TrackBlocker(
-            dependency_id=b['blocker_id'],
-            dependency_type=b['blocker_type'],
+    blocked_by = []
+    depends_on = []
+    for b in blocker_rows:
+        b_dict = _row_to_dict(b)
+        # Create TrackBlocker for backward compatibility
+        blocked_by.append(TrackBlocker(
+            dependency_id=b_dict['blocker_id'],
+            dependency_type=b_dict['blocker_type'],
             current_status='unknown',
-            required_status='completed',
+            required_status=b_dict.get('required_status', 'completed'),
             blocking_since=None,
             estimated_resolution=None,
-        )
-        for b in blocker_rows
-    ]
+        ))
+        # Create DependencyStatus with full business logic
+        depends_on.append(DependencyStatus(
+            blocker_id=b_dict['blocker_id'],
+            blocker_type=b_dict['blocker_type'],
+            required_status=b_dict.get('required_status', 'completed'),
+            current_status='unknown',  # Would need status lookup
+            blocks_transition_to=b_dict.get('blocks_transition_to', 'in_progress'),
+            last_checked=None,
+        ))
 
     # Load quality gates
     qg_rows = conn.execute(
@@ -453,31 +465,17 @@ def load_track(track_id: str) -> Track:
     # Use stored blocked value from database
     blocked = bool(track_data.get('blocked', False))
 
-    # Create synthetic depends_on entries to match blocked flag
-    # The Track model validates that blocked=True iff depends_on has unsatisfied deps
-    depends_on = []
-    if blocked:
-        # If we have blocked_by entries, convert them to depends_on
-        if blocked_by:
-            for blocker in blocked_by:
-                depends_on.append(DependencyStatus(
-                    blocker_id=blocker.dependency_id,
-                    blocker_type=blocker.dependency_type,
-                    required_status=blocker.required_status,
-                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
-                    blocks_transition_to='in_progress',
-                    last_checked=None,
-                ))
-        else:
-            # No blockers in DB but blocked=True, create placeholder
-            depends_on.append(DependencyStatus(
-                blocker_id='unknown',
-                blocker_type='external',
-                required_status='resolved',
-                current_status='pending',
-                blocks_transition_to='in_progress',
-                last_checked=None,
-            ))
+    # depends_on is already populated from entity_blocked_by with full business logic
+    # If blocked=True but no depends_on entries, create placeholder for validation
+    if blocked and not depends_on:
+        depends_on.append(DependencyStatus(
+            blocker_id='unknown',
+            blocker_type='external',
+            required_status='resolved',
+            current_status='pending',
+            blocks_transition_to='in_progress',
+            last_checked=None,
+        ))
 
     # Create track
     track = Track(
@@ -650,7 +648,7 @@ def load_sprint(sprint_id: str) -> Sprint:
         for b in blocks_rows
     ]
 
-    # Load blockers (what blocks this sprint)
+    # Load dependencies (what blocks this sprint) with business logic fields
     blocker_rows = conn.execute(
         """SELECT * FROM entity_blocked_by
            WHERE blocked_type = 'sprint' AND blocked_id = ?
@@ -658,17 +656,48 @@ def load_sprint(sprint_id: str) -> Sprint:
         (sprint_id,)
     ).fetchall()
 
-    blocked_by = [
-        SprintBlocker(
-            dependency_id=b['blocker_id'],
-            dependency_type=b['blocker_type'],
+    blocked_by = []
+    depends_on_from_db = []
+    for b in blocker_rows:
+        b_dict = _row_to_dict(b)
+        # Create SprintBlocker for backward compatibility
+        blocked_by.append(SprintBlocker(
+            dependency_id=b_dict['blocker_id'],
+            dependency_type=b_dict['blocker_type'],
             current_status='unknown',
-            required_status='completed',
+            required_status=b_dict.get('required_status', 'completed'),
             blocking_since=None,
             estimated_resolution=None,
-        )
-        for b in blocker_rows
-    ]
+        ))
+        # Create DependencyStatus with full business logic
+        depends_on_from_db.append(DependencyStatus(
+            blocker_id=b_dict['blocker_id'],
+            blocker_type=b_dict['blocker_type'],
+            required_status=b_dict.get('required_status', 'completed'),
+            current_status='unknown',
+            blocks_transition_to=b_dict.get('blocks_transition_to', 'in_progress'),
+            last_checked=None,
+        ))
+
+    # Load sprint-level quality gates
+    qg_rows = conn.execute(
+        """SELECT * FROM quality_gates
+           WHERE owner_type = 'sprint' AND owner_id = ?
+           ORDER BY name""",
+        (sprint_id,)
+    ).fetchall()
+
+    quality_gates = []
+    for qg in qg_rows:
+        qg_dict = _row_to_dict(qg)
+        quality_gates.append(QualityGate(
+            name=qg_dict['name'],
+            threshold=qg_dict.get('threshold') or 0,
+            blocking=bool(qg_dict.get('blocking', True)),
+            status=GateStatus(qg_dict['status']) if qg_dict.get('status') else GateStatus.PENDING,
+            description=qg_dict.get('description'),
+            score=qg_dict.get('score'),
+        ))
 
     # Parse metadata from JSON
     meta_data = _parse_json(sprint_data.get('metadata'), {})
@@ -703,31 +732,18 @@ def load_sprint(sprint_id: str) -> Sprint:
     # Use stored blocked value from database
     blocked = bool(sprint_data.get('blocked', False))
 
-    # Create synthetic depends_on entries to match blocked flag
-    # The Sprint model validates that blocked=True iff depends_on has unsatisfied deps
-    depends_on = []
-    if blocked:
-        # If we have blocked_by entries, convert them to depends_on
-        if blocked_by:
-            for blocker in blocked_by:
-                depends_on.append(DependencyStatus(
-                    blocker_id=blocker.dependency_id,
-                    blocker_type=blocker.dependency_type,
-                    required_status=blocker.required_status,
-                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
-                    blocks_transition_to='in_progress',
-                    last_checked=None,
-                ))
-        else:
-            # No blockers in DB but blocked=True, create placeholder
-            depends_on.append(DependencyStatus(
-                blocker_id='unknown',
-                blocker_type='external',
-                required_status='resolved',
-                current_status='pending',
-                blocks_transition_to='in_progress',
-                last_checked=None,
-            ))
+    # depends_on is already populated from entity_blocked_by with full business logic
+    depends_on = depends_on_from_db
+    # If blocked=True but no depends_on entries, create placeholder for validation
+    if blocked and not depends_on:
+        depends_on.append(DependencyStatus(
+            blocker_id='unknown',
+            blocker_type='external',
+            required_status='resolved',
+            current_status='pending',
+            blocks_transition_to='in_progress',
+            last_checked=None,
+        ))
 
     # Create sprint
     sprint = Sprint(
@@ -757,6 +773,7 @@ def load_sprint(sprint_id: str) -> Sprint:
         commits=[],
         metadata=metadata,
         standards=[],
+        quality_gates=quality_gates,
     )
 
     return sprint
@@ -934,7 +951,7 @@ def _load_task_from_row(conn, row) -> Task:
             reason=b_dict.get('reason', ''),
         ))
 
-    # Load blockers (what blocks this task)
+    # Load dependencies (what blocks this task) with business logic fields
     blocker_rows = conn.execute(
         """SELECT * FROM entity_blocked_by
            WHERE blocked_type = 'task' AND blocked_id = ?
@@ -943,15 +960,26 @@ def _load_task_from_row(conn, row) -> Task:
     ).fetchall()
 
     blocked_by = []
+    depends_on = []
     for b in blocker_rows:
         b_dict = _row_to_dict(b)
+        # Create TaskBlocker for backward compatibility
         blocked_by.append(TaskBlocker(
             dependency_id=b_dict['blocker_id'],
             dependency_type=b_dict['blocker_type'],
             current_status='unknown',
-            required_status='completed',
+            required_status=b_dict.get('required_status', 'completed'),
             blocking_since=None,
             estimated_resolution=None,
+        ))
+        # Create DependencyStatus with full business logic
+        depends_on.append(DependencyStatus(
+            blocker_id=b_dict['blocker_id'],
+            blocker_type=b_dict['blocker_type'],
+            required_status=b_dict.get('required_status', 'completed'),
+            current_status='unknown',
+            blocks_transition_to=b_dict.get('blocks_transition_to', 'in_progress'),
+            last_checked=None,
         ))
 
     # Load deliverables
@@ -1001,34 +1029,19 @@ def _load_task_from_row(conn, row) -> Task:
         completed = started or created
 
     # Use stored blocked value from database
-    # Note: depends_on is not fully persisted to DB yet, so we trust the stored flag
     blocked = bool(task_data.get('blocked', False))
 
-    # Create synthetic depends_on entries to match blocked flag
-    # The Task model validates that blocked=True iff depends_on has unsatisfied deps
-    depends_on = []
-    if blocked:
-        # If we have blocked_by entries, convert them to depends_on
-        if blocked_by:
-            for blocker in blocked_by:
-                depends_on.append(DependencyStatus(
-                    blocker_id=blocker.dependency_id,
-                    blocker_type=blocker.dependency_type,
-                    required_status=blocker.required_status,
-                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
-                    blocks_transition_to='in_progress',
-                    last_checked=None,
-                ))
-        else:
-            # No blockers in DB but blocked=True, create placeholder
-            depends_on.append(DependencyStatus(
-                blocker_id='unknown',
-                blocker_type='external',
-                required_status='resolved',
-                current_status='pending',
-                blocks_transition_to='in_progress',
-                last_checked=None,
-            ))
+    # depends_on is already populated from entity_blocked_by with full business logic
+    # If blocked=True but no depends_on entries, create placeholder for validation
+    if blocked and not depends_on:
+        depends_on.append(DependencyStatus(
+            blocker_id='unknown',
+            blocker_type='external',
+            required_status='resolved',
+            current_status='pending',
+            blocks_transition_to='in_progress',
+            last_checked=None,
+        ))
 
     # Create task
     task = Task(

@@ -3,19 +3,19 @@ sprint:
   name: Schema Completion & Data Integrity
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
-  created: '2025-11-28T18:00:00+00:00'
-  started: null
+  created: '2025-11-28T16:00:00+00:00'
+  started: '2025-11-28T16:00:00+00:00'
   completion_gate_check_at: null
-  completed: null
+  completed: '2025-11-28T17:00:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 3
-    tasks_completed: 0
-    completion_percent: 0.0
+    tasks_total: 4
+    tasks_completed: 4
+    completion_percent: 100.0
   tasks: []
   development_gates: []
   blocks: []
@@ -34,31 +34,37 @@ sprint:
   - quality_gates table with description and score fields populated
   - entity_blocked_by table with required_status, blocks_transition_to, and reason fields
   - Updated data integrity report comparing computed vs declared databases
+  - Transactional activity log with atomic entity + audit writes
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-28T18:00:00+00:00'
-    estimated_duration: 0.5 weeks
+    last_updated: '2025-11-28T16:00:00+00:00'
+    estimated_duration: 1 week
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
     notes: |
-      Sprint to complete the SQLite schema so computed database captures 100% of YAML data.
+      Sprint to complete the SQLite schema so computed database captures 100% of YAML data,
+      and implement transactional activity log to prevent audit/entity drift.
 
       PROBLEM:
       - 3 missing tables identified in computed vs declared comparison
       - track_sprint_summaries: redundant data, can be computed
       - track_quality_gates: exists but missing description/score fields
       - dependencies: missing required_status, blocks_transition_to, reason fields
+      - Activity log writes are trigger-based, could drift from entity state
 
       SOLUTION:
       - Add computed view for track_sprint_summaries
       - Fix sql_dumper to save description/score for quality_gates
       - Extend entity_blocked_by schema and sql_dumper for dependency business logic
+      - Implement hybrid transactional writes: activity_log + entity updates in single transaction
 
       SUCCESS CRITERIA:
       - Zero table/column gaps in computed vs declared comparison
       - All 140 quality gates have descriptions preserved
       - All 28 dependencies have business logic fields preserved
       - Data integrity report shows no schema gaps
+      - All entity mutations atomically write to activity_log + entity tables
+      - Transaction rollback on any failure prevents drift

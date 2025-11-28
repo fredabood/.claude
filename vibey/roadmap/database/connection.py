@@ -14,7 +14,7 @@ import sqlite3
 import threading
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional, Generator, Any
+from typing import Optional, Generator, Any, Union
 
 # Thread-local storage for connections
 _local = threading.local()
@@ -51,7 +51,16 @@ def get_db_path(base_dir: Optional[Path] = None) -> Path:
 
     Returns:
         Path to roadmap.db file
+
+    Environment Variables:
+        VIBEY_DB_PATH: If set, overrides the default database path.
     """
+    # Check for environment variable override
+    import os
+    env_path = os.environ.get('VIBEY_DB_PATH')
+    if env_path:
+        return Path(env_path)
+
     if base_dir is None:
         base_dir = Path.cwd()
     return base_dir / DEFAULT_VIBEY_DIR / DEFAULT_DB_FILENAME
@@ -272,14 +281,14 @@ def temporary_connection(
 
 
 def database_exists(
-    db_path: Optional[Path] = None,
+    db_path: Optional[Union[Path, str]] = None,
     base_dir: Optional[Path] = None,
 ) -> bool:
     """
     Check if the database file exists.
 
     Args:
-        db_path: Direct path to database file.
+        db_path: Direct path to database file (Path or string).
         base_dir: Base directory containing .vibey folder.
 
     Returns:
@@ -287,6 +296,8 @@ def database_exists(
     """
     if db_path is None:
         db_path = get_db_path(base_dir)
+    elif isinstance(db_path, str):
+        db_path = Path(db_path)
     return db_path.exists()
 
 

@@ -4,7 +4,7 @@ sprint:
   track_id: amazonq-port
   status: in_progress
   blocked: false
-  created: '2025-11-24T00:00:00+00:00'
+  created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 1.5 weeks

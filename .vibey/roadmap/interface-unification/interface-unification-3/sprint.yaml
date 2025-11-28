@@ -97,4 +97,5 @@ sprint:
   - Test suite (>90% coverage)
   - Clean codebase
   metadata:
+    last_updated: '2025-11-12T00:00:00+00:00'
     estimated_tokens: 0

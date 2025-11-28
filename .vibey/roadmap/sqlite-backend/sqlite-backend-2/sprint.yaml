@@ -21,7 +21,12 @@ sprint:
   blocks: []
   blocked_by: []
   depends_on:
-  - sqlite-backend-1
+  - blocker_id: sqlite-backend-1
+    blocker_type: sprint
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-27T00:00:00+00:00'
   depended_on_by:
   - sqlite-backend-3
   plan_file: null

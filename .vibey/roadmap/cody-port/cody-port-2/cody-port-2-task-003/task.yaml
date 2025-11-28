@@ -3,7 +3,7 @@ task:
   sprint_id: cody-port-2
   track_id: cody-port
   roadmap_id: vibey-framework-v2
-  task_type: testing
+  task_type: development
   title: Write E2E tests with Cody extension
   description: Create end-to-end tests validating Vibey integration with Cody VS Code
     extension

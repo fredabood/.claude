@@ -3,7 +3,7 @@ task:
   sprint_id: cody-port-2
   track_id: cody-port
   roadmap_id: vibey-framework-v2
-  task_type: documentation
+  task_type: development
   title: Write Cody integration guide
   description: Create comprehensive integration guide for using Vibey with Sourcegraph
     Cody Enterprise

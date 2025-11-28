@@ -30,4 +30,5 @@ sprint:
   quality_gates: []
   dependencies: []
   metadata:
+    last_updated: '2025-11-07T03:00:00+00:00'
     estimated_tokens: 360000

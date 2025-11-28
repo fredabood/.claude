@@ -473,6 +473,7 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
             'roadmap_id': sprint.roadmap_id,
             'status': sprint.status.value,
             'blocked': sprint.blocked,
+            'blocked_reason': sprint.blocked_reason,
             'created': _format_datetime(sprint.created),
             'started': _format_datetime(sprint.started),
             'completion_gate_check_at': _format_datetime(sprint.completion_gate_check_at),
@@ -497,7 +498,12 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                     'title': t.title,
                     'status': t.status.value,
                     'task_type': t.task_type.value,
-                    'gate_info': t.gate_info,
+                    'gate_info': {
+                        'blocks_status': t.gate_info.blocks_status,
+                        'threshold': t.gate_info.threshold,
+                        'is_blocking': t.gate_info.is_blocking,
+                        'score': t.gate_info.score,
+                    } if t.gate_info else None,
                 }
                 for t in sprint.tasks
             ],
@@ -544,6 +550,13 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
             'depended_on_by': sprint.depended_on_by,
             'plan_file': sprint.plan_file,
             'deliverables': sprint.deliverables,
+            'description': sprint.description,
+            'goal': sprint.goal,
+            'success_criteria': sprint.success_criteria,
+            'risks': sprint.risks,
+            'notes': sprint.notes,
+            'assigned_agents': sprint.assigned_agents,
+            'quality_gates': sprint.quality_gates,
             'commits': [
                 {
                     'task_id': c.task_id,
@@ -752,3 +765,54 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
 
     with open(file_path, 'w') as f:
         yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+# =============================================================================
+# AUDIT TRAIL DUMPER
+# =============================================================================
+
+def save_audit_trail(
+    entries: List[dict],
+    file_path: Union[str, Path],
+    metadata: Optional[dict] = None,
+):
+    """
+    Save audit trail to YAML file.
+
+    Args:
+        entries: List of audit trail entry dictionaries
+        file_path: Path to save audit-trail.yaml file
+        metadata: Optional metadata dictionary (if None, will be computed)
+    """
+    from datetime import datetime, timezone
+
+    file_path = Path(file_path)
+
+    # Compute metadata if not provided
+    if metadata is None:
+        metadata = {
+            'last_updated': datetime.now(timezone.utc).isoformat(),
+            'total_entries': len(entries),
+        }
+
+    data = {
+        'audit_log': [
+            {
+                'timestamp': e['timestamp'],
+                'object_type': e['object_type'],
+                'object_id': e['object_id'],
+                'field': e['field'],
+                'old_value': e.get('old_value'),
+                'new_value': e.get('new_value'),
+                'changed_by': e['changed_by'],
+                'reason': e['reason'],
+                'commit': e.get('commit'),
+                'source': e.get('source', 'cli'),
+            }
+            for e in entries
+        ],
+        'metadata': metadata,
+    }
+
+    with open(file_path, 'w') as f:
+        yaml.safe_dump(data, f, default_flow_style=False, sort_keys=False)

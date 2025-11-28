@@ -37,7 +37,7 @@ task:
       up to 0.5 for keyword matches. Returns sorted recommendations by confidence.'
     verification: Code verified in vibey/cli/roadmap_lib/agents.py lines 21-119 -
       recommend_agent_for_task() method with keyword and task type matching
-  task_type: design
+  task_type: development
   estimated_tokens: 40000
   size_category: L
   original_estimated_duration: 4 hours

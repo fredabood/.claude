@@ -2729,6 +2729,36 @@ def db_backup(ctx, output: Optional[str]):
     sys.exit(exit_code)
 
 
+@roadmap_db.command('dump')
+@click.option('--force', '-f', is_flag=True, help='Overwrite YAML even if modified externally')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.pass_context
+def db_dump(ctx, force: bool, verbose: bool):
+    """Dump database state to YAML files.
+
+    Exports the current database state to hierarchical YAML files
+    for version control. This is the reverse of 'db rebuild'.
+
+    Safety checks:
+    - Detects if YAML files were modified externally since last load
+    - Use --force to overwrite external changes
+
+    After dump:
+    - YAML files updated with database state
+    - Database marked as clean (is_dirty = 0)
+    - Checksums stored for change detection
+
+    Examples:
+      vibey roadmap db dump
+      vibey roadmap db dump --force  # Overwrite external changes
+      vibey roadmap db dump -v       # Verbose output
+    """
+    from vibey.cli.commands import db_dump_cmd
+
+    exit_code = db_dump_cmd(force=force, verbose=verbose)
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Database Query Commands (vibey roadmap db query)
 # ============================================================================

@@ -53,6 +53,7 @@ from ..models import (
     TaskType,
     GateStatus,
     DependencyType,
+    DependencyStatus,
     Complexity,
     DeliverableType,
     ActivityType,
@@ -449,10 +450,34 @@ def load_track(track_id: str) -> Track:
     if status == Status.COMPLETED and completed is None:
         completed = started or created
 
-    # Determine actual blocked state based on blockers
-    has_unsatisfied_deps = any(
-        b.current_status != b.required_status for b in blocked_by
-    ) if blocked_by else False
+    # Use stored blocked value from database
+    blocked = bool(track_data.get('blocked', False))
+
+    # Create synthetic depends_on entries to match blocked flag
+    # The Track model validates that blocked=True iff depends_on has unsatisfied deps
+    depends_on = []
+    if blocked:
+        # If we have blocked_by entries, convert them to depends_on
+        if blocked_by:
+            for blocker in blocked_by:
+                depends_on.append(DependencyStatus(
+                    blocker_id=blocker.dependency_id,
+                    blocker_type=blocker.dependency_type,
+                    required_status=blocker.required_status,
+                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
+                    blocks_transition_to='in_progress',
+                    last_checked=None,
+                ))
+        else:
+            # No blockers in DB but blocked=True, create placeholder
+            depends_on.append(DependencyStatus(
+                blocker_id='unknown',
+                blocker_type='external',
+                required_status='resolved',
+                current_status='pending',
+                blocks_transition_to='in_progress',
+                last_checked=None,
+            ))
 
     # Create track
     track = Track(
@@ -460,7 +485,7 @@ def load_track(track_id: str) -> Track:
         name=track_data['name'],
         roadmap_id=track_data['roadmap_id'],
         status=status,
-        blocked=has_unsatisfied_deps,  # Compute from actual blockers
+        blocked=blocked,  # Use stored value from database
         priority=Priority(track_data['priority']) if track_data.get('priority') else Priority.MEDIUM,
         created=created,
         started=started,
@@ -471,7 +496,7 @@ def load_track(track_id: str) -> Track:
         dependencies=dependencies,
         blocks=blocks,
         blocked_by=blocked_by,
-        depends_on=[],
+        depends_on=depends_on,
         depended_on_by=[],
         quality_gates=quality_gates,
         assigned_agents=[],
@@ -675,12 +700,34 @@ def load_sprint(sprint_id: str) -> Sprint:
     if status == Status.DEPLOYED and deployed_at is None:
         deployed_at = production_ready_at or completed or started or created
 
-    # Determine actual blocked state based on blockers
-    # The model validates that blocked=True iff there are unsatisfied dependencies
-    # So we compute blocked from the actual data rather than trusting the DB flag
-    has_unsatisfied_deps = any(
-        b.current_status != b.required_status for b in blocked_by
-    ) if blocked_by else False
+    # Use stored blocked value from database
+    blocked = bool(sprint_data.get('blocked', False))
+
+    # Create synthetic depends_on entries to match blocked flag
+    # The Sprint model validates that blocked=True iff depends_on has unsatisfied deps
+    depends_on = []
+    if blocked:
+        # If we have blocked_by entries, convert them to depends_on
+        if blocked_by:
+            for blocker in blocked_by:
+                depends_on.append(DependencyStatus(
+                    blocker_id=blocker.dependency_id,
+                    blocker_type=blocker.dependency_type,
+                    required_status=blocker.required_status,
+                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
+                    blocks_transition_to='in_progress',
+                    last_checked=None,
+                ))
+        else:
+            # No blockers in DB but blocked=True, create placeholder
+            depends_on.append(DependencyStatus(
+                blocker_id='unknown',
+                blocker_type='external',
+                required_status='resolved',
+                current_status='pending',
+                blocks_transition_to='in_progress',
+                last_checked=None,
+            ))
 
     # Create sprint
     sprint = Sprint(
@@ -689,7 +736,8 @@ def load_sprint(sprint_id: str) -> Sprint:
         track_id=sprint_data['track_id'],
         roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),
         status=status,
-        blocked=has_unsatisfied_deps,  # Compute from actual blockers
+        blocked=blocked,  # Use stored value from database
+        blocked_reason=sprint_data.get('blocked_reason'),
         created=created,
         started=started,
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
@@ -702,7 +750,7 @@ def load_sprint(sprint_id: str) -> Sprint:
         development_gates=development_gates,
         blocks=blocks,
         blocked_by=blocked_by,
-        depends_on=[],
+        depends_on=depends_on,
         depended_on_by=[],
         plan_file=sprint_data.get('plan_file'),
         deliverables=[],
@@ -952,10 +1000,35 @@ def _load_task_from_row(conn, row) -> Task:
     if status == TaskStatus.COMPLETED and completed is None:
         completed = started or created
 
-    # Determine actual blocked state based on blockers
-    has_unsatisfied_deps = any(
-        b.current_status != b.required_status for b in blocked_by
-    ) if blocked_by else False
+    # Use stored blocked value from database
+    # Note: depends_on is not fully persisted to DB yet, so we trust the stored flag
+    blocked = bool(task_data.get('blocked', False))
+
+    # Create synthetic depends_on entries to match blocked flag
+    # The Task model validates that blocked=True iff depends_on has unsatisfied deps
+    depends_on = []
+    if blocked:
+        # If we have blocked_by entries, convert them to depends_on
+        if blocked_by:
+            for blocker in blocked_by:
+                depends_on.append(DependencyStatus(
+                    blocker_id=blocker.dependency_id,
+                    blocker_type=blocker.dependency_type,
+                    required_status=blocker.required_status,
+                    current_status=blocker.current_status,  # 'unknown' != 'completed' means unsatisfied
+                    blocks_transition_to='in_progress',
+                    last_checked=None,
+                ))
+        else:
+            # No blockers in DB but blocked=True, create placeholder
+            depends_on.append(DependencyStatus(
+                blocker_id='unknown',
+                blocker_type='external',
+                required_status='resolved',
+                current_status='pending',
+                blocks_transition_to='in_progress',
+                last_checked=None,
+            ))
 
     # Create task
     task = Task(
@@ -967,7 +1040,7 @@ def _load_task_from_row(conn, row) -> Task:
         title=task_data['title'],
         description=task_data.get('description', ''),
         status=status,
-        blocked=has_unsatisfied_deps,  # Compute from actual blockers
+        blocked=blocked,  # Use stored value from database
         created=created,
         started=started,
         completed=completed,
@@ -982,7 +1055,7 @@ def _load_task_from_row(conn, row) -> Task:
         dependencies=dependencies,
         blocks=blocks,
         blocked_by=blocked_by,
-        depends_on=[],
+        depends_on=depends_on,
         depended_on_by=[],
         deliverables=deliverables,
         commits=[],
@@ -990,3 +1063,117 @@ def _load_task_from_row(conn, row) -> Task:
     )
 
     return task
+
+
+# =============================================================================
+# AUDIT TRAIL LOADER
+# =============================================================================
+
+def load_audit_trail(limit: Optional[int] = None) -> List[dict]:
+    """
+    Load audit trail entries from SQLite database.
+
+    Args:
+        limit: Maximum number of entries to load (None = all)
+
+    Returns:
+        List of audit trail entry dictionaries
+    """
+    conn = get_connection()
+
+    query = "SELECT * FROM audit_trail ORDER BY timestamp ASC"
+    if limit:
+        query += f" LIMIT {limit}"
+
+    rows = conn.execute(query).fetchall()
+
+    entries = []
+    for row in rows:
+        entry = _row_to_dict(row)
+        entries.append({
+            'timestamp': entry['timestamp'],
+            'object_type': entry['object_type'],
+            'object_id': entry['object_id'],
+            'field': entry['field'],
+            'old_value': entry['old_value'],
+            'new_value': entry['new_value'],
+            'changed_by': entry['changed_by'],
+            'reason': entry['reason'],
+            'commit': entry.get('commit_sha'),
+            'source': entry['source'],
+        })
+
+    return entries
+
+
+def load_audit_trail_for_object(object_id: str) -> List[dict]:
+    """
+    Load audit trail entries for a specific object.
+
+    Args:
+        object_id: ID of the track/sprint/task
+
+    Returns:
+        List of audit trail entry dictionaries
+    """
+    conn = get_connection()
+
+    rows = conn.execute(
+        "SELECT * FROM audit_trail WHERE object_id = ? ORDER BY timestamp ASC",
+        (object_id,)
+    ).fetchall()
+
+    entries = []
+    for row in rows:
+        entry = _row_to_dict(row)
+        entries.append({
+            'timestamp': entry['timestamp'],
+            'object_type': entry['object_type'],
+            'object_id': entry['object_id'],
+            'field': entry['field'],
+            'old_value': entry['old_value'],
+            'new_value': entry['new_value'],
+            'changed_by': entry['changed_by'],
+            'reason': entry['reason'],
+            'commit': entry.get('commit_sha'),
+            'source': entry['source'],
+        })
+
+    return entries
+
+
+def load_audit_trail_field_history(object_id: str, field: str) -> List[dict]:
+    """
+    Load audit trail entries for a specific field on an object.
+
+    Args:
+        object_id: ID of the track/sprint/task
+        field: Field name to get history for
+
+    Returns:
+        List of audit trail entry dictionaries
+    """
+    conn = get_connection()
+
+    rows = conn.execute(
+        "SELECT * FROM audit_trail WHERE object_id = ? AND field = ? ORDER BY timestamp ASC",
+        (object_id, field)
+    ).fetchall()
+
+    entries = []
+    for row in rows:
+        entry = _row_to_dict(row)
+        entries.append({
+            'timestamp': entry['timestamp'],
+            'object_type': entry['object_type'],
+            'object_id': entry['object_id'],
+            'field': entry['field'],
+            'old_value': entry['old_value'],
+            'new_value': entry['new_value'],
+            'changed_by': entry['changed_by'],
+            'reason': entry['reason'],
+            'commit': entry.get('commit_sha'),
+            'source': entry['source'],
+        })
+
+    return entries

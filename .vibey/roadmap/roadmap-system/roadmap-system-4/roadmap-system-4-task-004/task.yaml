@@ -35,7 +35,7 @@ task:
       Ready for CLI integration.
     verification: Code verified in vibey/cli/roadmap_lib/versioning.py - full implementation
       with error handling and type hints
-  task_type: implementation
+  task_type: development
   estimated_tokens: 40000
   size_category: L
   original_estimated_duration: 4 hours

@@ -4,7 +4,7 @@ YAML loader for roadmap objects.
 Loads YAML files and converts them to Python dataclass objects.
 """
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from pathlib import Path
 from typing import Union, Dict, Any, List
 
@@ -59,15 +59,29 @@ from ..models import (
 )
 
 
-def _parse_datetime(value: Union[str, datetime, None]) -> Union[datetime, None]:
-    """Parse datetime from string or passthrough."""
+def _parse_datetime(value: Union[str, datetime, date, None]) -> Union[datetime, None]:
+    """Parse datetime from string, date, or datetime - always returns timezone-aware datetime."""
     if value is None:
         return None
+
+    # Handle date objects (YAML parses unquoted dates like 2025-11-23 as date)
+    if isinstance(value, date) and not isinstance(value, datetime):
+        return datetime(value.year, value.month, value.day, tzinfo=timezone.utc)
+
     if isinstance(value, datetime):
+        # If naive datetime, make it timezone-aware (assume UTC)
+        if value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
         return value
+
     if isinstance(value, str):
         # Try ISO 8601 format
-        return datetime.fromisoformat(value.replace('Z', '+00:00'))
+        dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        # If naive datetime, make it timezone-aware (assume UTC)
+        if dt.tzinfo is None:
+            return dt.replace(tzinfo=timezone.utc)
+        return dt
+
     return value
 
 
@@ -454,11 +468,11 @@ def load_track(file_path: Union[str, Path]) -> Track:
             author=c['author'],
         ))
 
-    # Parse metadata
-    meta_data = track_data['metadata']
+    # Parse metadata (backward compatible - defaults provided for missing fields)
+    meta_data = track_data.get('metadata', {})
     metadata = TrackMetadata(
-        created_by=meta_data['created_by'],
-        last_updated=_parse_datetime(meta_data['last_updated']),
+        created_by=meta_data.get('created_by', 'unknown'),
+        last_updated=_parse_datetime(meta_data.get('last_updated', '2025-01-01T00:00:00+00:00')),
         design_doc=meta_data.get('design_doc'),
         implementation_plan=meta_data.get('implementation_plan'),
         notes=meta_data.get('notes'),
@@ -576,19 +590,31 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     if 'tasks' in sprint_data:
         tasks = []
         for t in sprint_data['tasks']:
-            # Handle multiple field name variations (backward compatibility)
-            title = t.get('title') or t.get('name', 'Unknown')  # 'title' or 'name'
-            status = Status(t.get('status', 'not_started'))  # Default to not_started if missing
-            task_type_str = t.get('task_type') or t.get('type', 'development')  # 'task_type' or 'type'
-            task_type = TaskType(task_type_str)
+            # Handle string format (new schema: just task IDs)
+            if isinstance(t, str):
+                # Task ID string - create minimal TaskSummary
+                tasks.append(TaskSummary(
+                    id=t,
+                    title=t,  # Use ID as placeholder title
+                    status=Status.NOT_STARTED,  # Will be loaded from task.yaml
+                    task_type=TaskType.DEVELOPMENT,
+                    gate_info=None,
+                ))
+            else:
+                # Dict format (old embedded schema)
+                # Handle multiple field name variations (backward compatibility)
+                title = t.get('title') or t.get('name', 'Unknown')  # 'title' or 'name'
+                status = Status(t.get('status', 'not_started'))  # Default to not_started if missing
+                task_type_str = t.get('task_type') or t.get('type', 'development')  # 'task_type' or 'type'
+                task_type = TaskType(task_type_str)
 
-            tasks.append(TaskSummary(
-                id=t['id'],
-                title=title,
-                status=status,
-                task_type=task_type,
-                gate_info=t.get('gate_info'),
-            ))
+                tasks.append(TaskSummary(
+                    id=t['id'],
+                    title=title,
+                    status=status,
+                    task_type=task_type,
+                    gate_info=t.get('gate_info'),
+                ))
     else:
         # Old format: task_summaries dict - create minimal TaskSummary objects
         tasks = []
@@ -700,10 +726,15 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         from datetime import timezone
         meta_data = {'last_updated': datetime.now(timezone.utc).isoformat()}
 
+    # Handle estimated_duration/actual_duration at both sprint level and metadata level
+    # Sprint-level takes precedence (backward compatibility)
+    estimated_duration = sprint_data.get('estimated_duration') or meta_data.get('estimated_duration')
+    actual_duration = sprint_data.get('actual_duration') or meta_data.get('actual_duration')
+
     metadata = SprintMetadata(
         last_updated=_parse_datetime(meta_data['last_updated']),
-        estimated_duration=meta_data.get('estimated_duration'),
-        actual_duration=meta_data.get('actual_duration'),
+        estimated_duration=estimated_duration,
+        actual_duration=actual_duration,
         estimated_tokens=meta_data.get('estimated_tokens'),
         actual_tokens=meta_data.get('actual_tokens'),
         agents_used=meta_data.get('agents_used'),
@@ -746,6 +777,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),  # Default if missing
         status=Status(sprint_data['status']),
         blocked=computed_blocked,  # Use computed value instead of YAML value
+        blocked_reason=sprint_data.get('blocked_reason'),
         created=_parse_datetime(sprint_data.get('created', datetime.now())),
         started=_parse_datetime(sprint_data.get('started')),
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
@@ -762,6 +794,13 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         depended_on_by=depended_on_by,
         plan_file=sprint_data.get('plan_file'),
         deliverables=sprint_data.get('deliverables', []),
+        description=sprint_data.get('description'),
+        goal=sprint_data.get('goal'),
+        success_criteria=sprint_data.get('success_criteria', []),
+        risks=sprint_data.get('risks', []),
+        notes=sprint_data.get('notes'),
+        assigned_agents=sprint_data.get('assigned_agents', []),
+        quality_gates=sprint_data.get('quality_gates', []),
         commits=commits,
         metadata=metadata,
         standards=standards,
@@ -1086,3 +1125,66 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         tasks.append(task)
 
     return tasks
+
+
+# =============================================================================
+# AUDIT TRAIL LOADER
+# =============================================================================
+
+def load_audit_trail(roadmap_dir: Union[str, Path]) -> List[dict]:
+    """
+    Load audit trail from audit-trail.yaml file.
+
+    Args:
+        roadmap_dir: Path to the roadmap directory containing audit-trail.yaml
+
+    Returns:
+        List of audit trail entry dictionaries
+    """
+    roadmap_dir = Path(roadmap_dir)
+    audit_file = roadmap_dir / 'audit-trail.yaml'
+
+    if not audit_file.exists():
+        return []
+
+    with open(audit_file, 'r') as f:
+        data = yaml.safe_load(f) or {}
+
+    entries = []
+    for entry in data.get('audit_log', []):
+        entries.append({
+            'timestamp': entry['timestamp'],
+            'object_type': entry['object_type'],
+            'object_id': entry['object_id'],
+            'field': entry['field'],
+            'old_value': entry.get('old_value'),
+            'new_value': entry.get('new_value'),
+            'changed_by': entry['changed_by'],
+            'reason': entry['reason'],
+            'commit': entry.get('commit'),
+            'source': entry.get('source', 'cli'),
+        })
+
+    return entries
+
+
+def load_audit_trail_metadata(roadmap_dir: Union[str, Path]) -> dict:
+    """
+    Load audit trail metadata from audit-trail.yaml file.
+
+    Args:
+        roadmap_dir: Path to the roadmap directory containing audit-trail.yaml
+
+    Returns:
+        Metadata dictionary
+    """
+    roadmap_dir = Path(roadmap_dir)
+    audit_file = roadmap_dir / 'audit-trail.yaml'
+
+    if not audit_file.exists():
+        return {}
+
+    with open(audit_file, 'r') as f:
+        data = yaml.safe_load(f) or {}
+
+    return data.get('metadata', {})

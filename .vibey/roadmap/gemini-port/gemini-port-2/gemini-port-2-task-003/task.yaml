@@ -8,7 +8,7 @@ task:
   blocked: false
   priority: high
   complexity: medium
-  created: '2025-11-23T05:11:27.053106+00:00'
+  created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: '2025-11-23T18:03:00+00:00'
   description: API key authentication, service account authentication for Vertex AI,

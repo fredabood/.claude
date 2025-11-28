@@ -29,7 +29,7 @@ def _format_datetime(dt: Optional[datetime]) -> Optional[str]:
     return dt.isoformat() + 'Z' if dt.tzinfo is None else dt.isoformat()
 
 
-def save_roadmap(roadmap: Roadmap):
+def save_roadmap(roadmap: Roadmap, db_path: Optional['Path'] = None):
     """
     Save a roadmap to SQLite database.
 
@@ -38,8 +38,10 @@ def save_roadmap(roadmap: Roadmap):
 
     Args:
         roadmap: Roadmap object to save
+        db_path: Optional path to database file
     """
-    with transaction() as conn:
+    from pathlib import Path
+    with transaction(db_path=db_path) as conn:
         # Encode version_strategy and metadata as JSON
         version_strategy_json = json.dumps({
             'major_on': roadmap.version_strategy.major_on.value,
@@ -104,7 +106,7 @@ def save_roadmap(roadmap: Roadmap):
             """, (roadmap.id, _format_datetime(al.timestamp), al.type.value, al.description, al.context))
 
 
-def save_track(track: Track):
+def save_track(track: Track, db_path: Optional['Path'] = None):
     """
     Save a track to SQLite database.
 
@@ -113,8 +115,10 @@ def save_track(track: Track):
 
     Args:
         track: Track object to save
+        db_path: Optional path to database file
     """
-    with transaction() as conn:
+    from pathlib import Path
+    with transaction(db_path=db_path) as conn:
         # Encode metadata as JSON
         metadata_json = json.dumps({
             'created_by': getattr(track.metadata, 'created_by', None),
@@ -177,7 +181,7 @@ def save_track(track: Track):
             """, (track.id, qg.name, qg.threshold, qg.status.value, int(qg.blocking)))
 
 
-def save_sprint(sprint: Sprint):
+def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
     """
     Save a sprint to SQLite database.
 
@@ -186,8 +190,10 @@ def save_sprint(sprint: Sprint):
 
     Args:
         sprint: Sprint object to save
+        db_path: Optional path to database file
     """
-    with transaction() as conn:
+    from pathlib import Path
+    with transaction(db_path=db_path) as conn:
         # Encode metadata as JSON
         metadata_json = json.dumps({
             'last_updated': _format_datetime(sprint.metadata.last_updated),
@@ -201,10 +207,10 @@ def save_sprint(sprint: Sprint):
         # Upsert sprint
         conn.execute("""
             INSERT OR REPLACE INTO sprints (
-                id, name, track_id, roadmap_id, status, blocked,
+                id, name, track_id, roadmap_id, status, blocked, blocked_reason,
                 created, started, completed,
                 plan_file, metadata
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             sprint.id,
             sprint.name,
@@ -212,6 +218,7 @@ def save_sprint(sprint: Sprint):
             sprint.roadmap_id,
             sprint.status.value,
             int(sprint.blocked),
+            sprint.blocked_reason,
             _format_datetime(sprint.created),
             _format_datetime(sprint.started),
             _format_datetime(sprint.completed),
@@ -257,14 +264,16 @@ def save_task(task: Task):
     save_tasks([task])
 
 
-def save_tasks(tasks: List[Task]):
+def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
     """
     Save multiple tasks to SQLite database.
 
     Args:
         tasks: List of Task objects to save
+        db_path: Optional path to database file
     """
-    with transaction() as conn:
+    from pathlib import Path
+    with transaction(db_path=db_path) as conn:
         for task in tasks:
             # Encode metadata as JSON
             metadata_json = json.dumps({
@@ -361,7 +370,13 @@ def save_tasks(tasks: List[Task]):
                 """, (deliverable_id, task.id))
 
 
-def save_full_roadmap(roadmap: Roadmap, tracks: List[Track], sprints: List[Sprint], tasks: List[Task]):
+def save_full_roadmap(
+    roadmap: Roadmap,
+    tracks: List[Track],
+    sprints: List[Sprint],
+    tasks: List[Task],
+    db_path: Optional['Path'] = None,
+):
     """
     Save a complete roadmap hierarchy to SQLite database.
 
@@ -373,8 +388,10 @@ def save_full_roadmap(roadmap: Roadmap, tracks: List[Track], sprints: List[Sprin
         tracks: List of all Track objects
         sprints: List of all Sprint objects
         tasks: List of all Task objects
+        db_path: Optional path to database file
     """
-    with transaction() as conn:
+    from pathlib import Path
+    with transaction(db_path=db_path) as conn:
         # Disable triggers for bulk operations
         disable_triggers_for_bulk_operations(conn)
 
@@ -387,17 +404,91 @@ def save_full_roadmap(roadmap: Roadmap, tracks: List[Track], sprints: List[Sprin
             enable_triggers_for_bulk_operations(conn)
 
     # Save in order: roadmap -> tracks -> sprints -> tasks
-    save_roadmap(roadmap)
+    save_roadmap(roadmap, db_path=db_path)
 
     for track in tracks:
-        save_track(track)
+        save_track(track, db_path=db_path)
 
     for sprint in sprints:
-        save_sprint(sprint)
+        save_sprint(sprint, db_path=db_path)
 
-    save_tasks(tasks)
+    save_tasks(tasks, db_path=db_path)
 
     # Rebuild summary tables based on actual data
-    with transaction() as conn:
+    with transaction(db_path=db_path) as conn:
         from ..database import rebuild_summary_tables
         rebuild_summary_tables(conn)
+
+
+# =============================================================================
+# AUDIT TRAIL DUMPER
+# =============================================================================
+
+def save_audit_trail_entry(
+    entry: dict,
+    db_path: Optional['Path'] = None,
+):
+    """
+    Save a single audit trail entry to SQLite database.
+
+    Args:
+        entry: Dictionary with audit trail entry data
+        db_path: Optional path to database file
+    """
+    with transaction(db_path=db_path) as conn:
+        conn.execute("""
+            INSERT INTO audit_trail (
+                timestamp, object_type, object_id, field,
+                old_value, new_value, changed_by, reason,
+                commit_sha, source
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            entry['timestamp'],
+            entry['object_type'],
+            entry['object_id'],
+            entry['field'],
+            entry.get('old_value'),
+            entry.get('new_value'),
+            entry['changed_by'],
+            entry['reason'],
+            entry.get('commit'),
+            entry['source'],
+        ))
+
+
+def save_audit_trail(
+    entries: List[dict],
+    db_path: Optional['Path'] = None,
+    clear_existing: bool = False,
+):
+    """
+    Save audit trail entries to SQLite database.
+
+    Args:
+        entries: List of audit trail entry dictionaries
+        db_path: Optional path to database file
+        clear_existing: If True, clear all existing entries first
+    """
+    with transaction(db_path=db_path) as conn:
+        if clear_existing:
+            conn.execute("DELETE FROM audit_trail")
+
+        for entry in entries:
+            conn.execute("""
+                INSERT INTO audit_trail (
+                    timestamp, object_type, object_id, field,
+                    old_value, new_value, changed_by, reason,
+                    commit_sha, source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                entry['timestamp'],
+                entry['object_type'],
+                entry['object_id'],
+                entry['field'],
+                entry.get('old_value'),
+                entry.get('new_value'),
+                entry['changed_by'],
+                entry['reason'],
+                entry.get('commit'),
+                entry['source'],
+            ))

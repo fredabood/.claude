@@ -41,7 +41,7 @@ task:
       lines 169-173, 372-374. Command is fully functional and accessible via "roadmap
       agents"
     cli_status: FULLY WIRED - accessible via "roadmap agents" command
-  task_type: implementation
+  task_type: development
   estimated_tokens: 40000
   size_category: L
   original_estimated_duration: 4 hours

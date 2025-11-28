@@ -31,7 +31,7 @@ task:
   blocked_by: []
   blocks: []
   metadata: {}
-  task_type: testing
+  task_type: development
   estimated_tokens: 40000
   size_category: L
   original_estimated_duration: 4 hours

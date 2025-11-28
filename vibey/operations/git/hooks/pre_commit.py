@@ -385,6 +385,76 @@ class PreCommitHook:
         except Exception as e:
             print(f"Warning: Could not write audit log: {e}")
 
+    def _sync_database_to_yaml(self) -> bool:
+        """
+        Sync SQLite database to YAML if database has uncommitted changes.
+
+        Returns:
+            True if sync succeeded or wasn't needed, False if sync failed
+        """
+        try:
+            from vibey.roadmap.database.connection import database_exists, get_db_path
+            from vibey.roadmap.serialization.backend import SyncManager
+
+            db_path = get_db_path(self.repo_path)
+
+            # Check if database exists
+            if not database_exists(db_path=db_path):
+                return True  # No database, nothing to sync
+
+            roadmap_dir = self.repo_path / ".vibey" / "roadmap"
+            sync = SyncManager(roadmap_dir=roadmap_dir, db_path=db_path)
+
+            # Check if database is dirty
+            if not sync.is_db_dirty():
+                return True  # Database is clean, nothing to sync
+
+            # Database has uncommitted changes - dump to YAML
+            print(f"{self.YELLOW}[vibey]{self.RESET} Database has uncommitted changes, syncing to YAML...")
+
+            try:
+                sync.dump()
+
+                # Get list of modified YAML files
+                modified_files = self._get_modified_yaml_files()
+
+                if modified_files:
+                    # Stage the modified YAML files
+                    for f in modified_files:
+                        self._run_git("add", f)
+                    print(f"{self.GREEN}[vibey]{self.RESET} ✓ Synced and staged {len(modified_files)} YAML files")
+
+                return True
+
+            except Exception as e:
+                self.issues.append(ValidationIssue(
+                    severity="error",
+                    rule="db_sync",
+                    message=f"Failed to sync database to YAML: {e}",
+                    suggestion="Run 'vibey roadmap db dump' manually or use --no-verify to skip",
+                ))
+                return False
+
+        except ImportError:
+            # SQLite backend not available, skip sync
+            return True
+
+    def _get_modified_yaml_files(self) -> List[str]:
+        """Get list of modified YAML files in .vibey/roadmap/."""
+        result = self._run_git("status", "--porcelain", ".vibey/roadmap/")
+        if result.returncode != 0:
+            return []
+
+        files = []
+        for line in result.stdout.strip().split("\n"):
+            if line and len(line) > 3:
+                status = line[:2]
+                file_path = line[3:]
+                if file_path.endswith(".yaml") and status.strip():
+                    files.append(file_path)
+
+        return files
+
     def run(self) -> int:
         """
         Run pre-commit validation.
@@ -395,6 +465,9 @@ class PreCommitHook:
         # Check if hook is disabled
         if self.config.mode == "off":
             return 0
+
+        # Sync database to YAML if needed
+        self._sync_database_to_yaml()
 
         # Run validations
         self._validate_roadmap_files()

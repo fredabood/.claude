@@ -109,6 +109,22 @@ track:
       - Migration guide (Claude Code → Gemini)
 
       '
+  - id: gemini-port-5
+    name: AI Studio & Vertex AI Integration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+    completed: null
+    description: null
+  - id: gemini-port-6
+    name: Testing, Documentation & Launch
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+    completed: null
+    description: null
   dependencies:
   - type: track
     target_id: platform-context-management

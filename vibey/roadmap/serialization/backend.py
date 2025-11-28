@@ -451,7 +451,7 @@ class SyncManager:
 
         yaml_files = self.find_all_yaml_files()
 
-        with transaction() as conn:
+        with transaction(db_path=self.db_path) as conn:
             conn.execute("DELETE FROM yaml_checksums")
             for yaml_file in yaml_files:
                 checksum = self.compute_file_checksum(yaml_file)
@@ -474,7 +474,7 @@ class SyncManager:
         """
         from ..database import get_connection
 
-        conn = get_connection()
+        conn = get_connection(db_path=self.db_path)
         modified_files = []
 
         for row in conn.execute("SELECT file_path, checksum FROM yaml_checksums").fetchall():
@@ -493,7 +493,7 @@ class SyncManager:
         """Check if database has uncommitted changes."""
         from ..database import get_connection
 
-        conn = get_connection()
+        conn = get_connection(db_path=self.db_path)
         row = conn.execute(
             "SELECT is_dirty FROM database_state WHERE id = 1"
         ).fetchone()
@@ -504,7 +504,7 @@ class SyncManager:
         """Mark database as having uncommitted changes."""
         from ..database import get_connection, transaction
 
-        with transaction() as conn:
+        with transaction(db_path=self.db_path) as conn:
             conn.execute("""
                 INSERT OR REPLACE INTO database_state (id, is_dirty, last_yaml_dump)
                 VALUES (1, 1, NULL)
@@ -514,7 +514,7 @@ class SyncManager:
         """Mark database as clean (no uncommitted changes)."""
         from ..database import get_connection, transaction
 
-        with transaction() as conn:
+        with transaction(db_path=self.db_path) as conn:
             conn.execute("""
                 UPDATE database_state
                 SET is_dirty = 0, last_yaml_dump = datetime('now')
@@ -580,6 +580,8 @@ class SyncManager:
             create_views,
             create_triggers,
             drop_all_tables,
+            drop_views,
+            drop_triggers,
             disable_triggers_for_bulk_operations,
             enable_triggers_for_bulk_operations,
             rebuild_summary_tables,
@@ -617,19 +619,21 @@ class SyncManager:
                 pass
 
         # Rebuild database
-        with transaction() as conn:
-            # Drop and recreate schema
-            drop_all_tables(conn)
-            create_schema(conn)
-            create_views(conn)
-            create_triggers(conn)
+        # Drop and recreate schema (each function handles its own transactions)
+        # Pass db_path to ensure correct database is used
+        drop_triggers(db_path=self.db_path)  # Drop triggers first to avoid errors during table drops
+        drop_views(db_path=self.db_path)     # Drop views before tables
+        drop_all_tables(db_path=self.db_path)
+        create_schema(db_path=self.db_path)
+        create_views(db_path=self.db_path)
+        create_triggers(db_path=self.db_path)
 
-            # Disable triggers during bulk load
-            disable_triggers_for_bulk_operations(conn)
+        # Disable triggers during bulk load
+        disable_triggers_for_bulk_operations(db_path=self.db_path)
 
         # Save all entities (with triggers disabled for performance)
         from .sql_dumper import save_full_roadmap
-        save_full_roadmap(roadmap, tracks, sprints, tasks)
+        save_full_roadmap(roadmap, tracks, sprints, tasks, db_path=self.db_path)
 
         # Store checksums for tracking
         self.store_yaml_checksums()

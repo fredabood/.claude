@@ -3,7 +3,7 @@ sprint:
   name: Core Adapter & MCP Configuration
   track_id: cursor-port
   status: in_progress
-  created: '2025-11-24T00:00:00+00:00'
+  created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 1.5 weeks

@@ -8,7 +8,7 @@ task:
   blocked: false
   priority: critical
   complexity: high
-  created: '2025-11-23T05:11:27.055133+00:00'
+  created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: '2025-11-23T18:30:00+00:00'
   description: Adapt agent prompts for Gemini format, handle instruction differences,

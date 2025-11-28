@@ -40,4 +40,5 @@ sprint:
   - CLI check-compatibility command
   - Warning message system
   metadata:
+    last_updated: '2025-11-12T00:00:00+00:00'
     estimated_tokens: 0

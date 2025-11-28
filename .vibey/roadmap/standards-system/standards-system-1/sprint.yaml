@@ -91,4 +91,5 @@ sprint:
     - No breaking changes\n- Standards can be added to YAML\n- Standards serialize/deserialize\
     \ correctly\n"
   metadata:
+    last_updated: '2025-11-11T00:00:00+00:00'
     estimated_tokens: 160000

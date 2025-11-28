@@ -4,7 +4,7 @@ SQLite schema definitions for roadmap database.
 This module contains the DDL for creating the database schema.
 Schema is populated in task-002.
 
-Tables (25 total):
+Tables (26 total):
 - Core Entities (4): roadmaps, tracks, sprints, tasks
 - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
 - Quality & Gates (2): quality_gates, development_gates
@@ -13,6 +13,7 @@ Tables (25 total):
 - Roadmap-Level (2): version_history, activity_log
 - Summaries (3): track_summaries, sprint_summaries, task_summaries
 - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
+- Audit Trail (1): audit_trail
 """
 
 import sqlite3
@@ -33,7 +34,7 @@ def get_schema_ddl() -> str:
     Returns:
         SQL string with CREATE TABLE statements
 
-    Tables (25 total):
+    Tables (26 total):
     - Core Entities (4): roadmaps, tracks, sprints, tasks
     - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
     - Quality & Gates (2): quality_gates, development_gates
@@ -42,6 +43,7 @@ def get_schema_ddl() -> str:
     - Roadmap-Level (2): version_history, activity_log
     - Summaries (3): track_summaries, sprint_summaries, task_summaries
     - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
+    - Audit Trail (1): audit_trail
     """
     return """
 -- =============================================================================
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS roadmaps (
     status TEXT NOT NULL CHECK (status IN (
         'not_started', 'in_progress', 'paused',
         'completion_gate_check', 'completed',
-        'production_gate_check', 'production_ready', 'deployed', 'wont_do'
+        'production_gate_check', 'production_ready', 'deployed', 'wont_do', 'superseded'
     )),
     blocked INTEGER NOT NULL DEFAULT 0,
 
@@ -88,7 +90,7 @@ CREATE TABLE IF NOT EXISTS tracks (
     status TEXT NOT NULL CHECK (status IN (
         'not_started', 'in_progress', 'paused',
         'completion_gate_check', 'completed',
-        'production_gate_check', 'production_ready', 'deployed', 'wont_do'
+        'production_gate_check', 'production_ready', 'deployed', 'wont_do', 'superseded'
     )),
     blocked INTEGER NOT NULL DEFAULT 0,
     priority TEXT CHECK (priority IN ('critical', 'high', 'medium', 'low')),
@@ -117,7 +119,7 @@ CREATE TABLE IF NOT EXISTS sprints (
     status TEXT NOT NULL CHECK (status IN (
         'not_started', 'in_progress', 'paused',
         'completion_gate_check', 'completed',
-        'production_gate_check', 'production_ready', 'deployed', 'wont_do'
+        'production_gate_check', 'production_ready', 'deployed', 'wont_do', 'superseded'
     )),
     blocked INTEGER NOT NULL DEFAULT 0,
     blocked_reason TEXT,
@@ -156,7 +158,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     -- Status & Lifecycle
     status TEXT NOT NULL CHECK (status IN (
         'not_started', 'in_progress', 'paused',
-        'completion_gate_check', 'completed', 'wont_do'
+        'completion_gate_check', 'completed', 'wont_do', 'superseded'
     )),
     blocked INTEGER NOT NULL DEFAULT 0,
 
@@ -555,6 +557,31 @@ CREATE TABLE IF NOT EXISTS sync_conflicts (
     yaml_value TEXT,
     description TEXT
 );
+
+-- 26. audit_trail
+-- Field-level change tracking for tracks, sprints, and tasks
+-- Separate from activity_log which tracks roadmap-level events
+CREATE TABLE IF NOT EXISTS audit_trail (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    -- When
+    timestamp TEXT NOT NULL,
+
+    -- What changed
+    object_type TEXT NOT NULL CHECK (object_type IN ('track', 'sprint', 'task')),
+    object_id TEXT NOT NULL,
+    field TEXT NOT NULL,
+    old_value TEXT,
+    new_value TEXT,
+
+    -- Who/why
+    changed_by TEXT NOT NULL,
+    reason TEXT NOT NULL,
+
+    -- Context
+    commit_sha TEXT,  -- Git commit SHA (short form)
+    source TEXT NOT NULL CHECK (source IN ('cli', 'mcp', 'manual', 'automated', 'system'))
+);
 """
 
 
@@ -675,6 +702,19 @@ CREATE INDEX IF NOT EXISTS idx_activity_log_entity ON activity_log(entity_type, 
 
 -- Unresolved sync conflicts
 CREATE INDEX IF NOT EXISTS idx_sync_conflicts_unresolved ON sync_conflicts(resolved_at) WHERE resolved_at IS NULL;
+
+-- =============================================================================
+-- AUDIT TRAIL INDEXES
+-- =============================================================================
+
+-- Audit trail by object (for history lookups)
+CREATE INDEX IF NOT EXISTS idx_audit_trail_object ON audit_trail(object_type, object_id);
+
+-- Audit trail by time (for recent changes)
+CREATE INDEX IF NOT EXISTS idx_audit_trail_time ON audit_trail(timestamp);
+
+-- Audit trail by field (for field-specific history)
+CREATE INDEX IF NOT EXISTS idx_audit_trail_field ON audit_trail(object_id, field);
 """
 
 
@@ -834,6 +874,8 @@ EXPECTED_TABLES = [
     "yaml_checksums",
     "database_state",
     "sync_conflicts",
+    # Audit Trail (1)
+    "audit_trail",
 ]
 
 

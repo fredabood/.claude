@@ -3,7 +3,7 @@ task:
   sprint_id: cody-port-1
   track_id: cody-port
   roadmap_id: vibey-framework-v2
-  task_type: testing
+  task_type: development
   title: Write unit tests for adapter
   description: Create comprehensive unit tests for CodyAdapter class
   status: completed

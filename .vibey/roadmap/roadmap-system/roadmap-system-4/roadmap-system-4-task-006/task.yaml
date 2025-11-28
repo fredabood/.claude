@@ -37,7 +37,7 @@ task:
       and vibey/cli/roadmap (wired lines 176-183, 376-378). Command is fully functional
       and accessible via "roadmap version"
     cli_status: FULLY WIRED - accessible via "roadmap version" command
-  task_type: implementation
+  task_type: development
   estimated_tokens: 40000
   size_category: L
   original_estimated_duration: 4 hours

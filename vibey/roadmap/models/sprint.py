@@ -142,6 +142,9 @@ class Sprint:
 
     metadata: SprintMetadata
 
+    # Blocking reason (optional explanation for blocked status)
+    blocked_reason: Optional[str] = None
+
     # Optional timing
     started: Optional[datetime] = None
     completion_gate_check_at: Optional[datetime] = None
@@ -153,6 +156,17 @@ class Sprint:
     # Documentation
     plan_file: Optional[str] = None
     deliverables: List[str] = field(default_factory=list)
+    description: Optional[str] = None  # Sprint description
+    goal: Optional[str] = None  # Sprint goal
+    success_criteria: List[str] = field(default_factory=list)  # Success criteria
+    risks: List[str] = field(default_factory=list)  # Identified risks
+    notes: Optional[str] = None  # Additional notes
+
+    # Team assignment
+    assigned_agents: List[str] = field(default_factory=list)
+
+    # Quality gates (sprint-level quality gates)
+    quality_gates: List = field(default_factory=list)  # List[QualityGate] - uses Any to avoid circular import
 
     # Commit tracking - records commits that completed tasks in this sprint
     commits: List[TaskCompletionCommit] = field(default_factory=list)

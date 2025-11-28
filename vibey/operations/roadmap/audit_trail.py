@@ -68,17 +68,28 @@ class AuditTrail:
 
 
 class AuditTrailManager:
-    """Manages audit trail storage and operations."""
+    """Manages audit trail storage and operations.
 
-    def __init__(self, root_dir: Path):
+    Supports dual storage:
+    - YAML file (audit-trail.yaml) - source of truth, git-tracked
+    - SQLite database (audit_trail table) - for fast querying
+
+    By default, writes to both and reads from YAML. When use_sqlite=True,
+    reads from SQLite for better query performance.
+    """
+
+    def __init__(self, root_dir: Path, use_sqlite: bool = False):
         """
         Initialize audit trail manager.
 
         Args:
             root_dir: Project root directory containing .vibey/
+            use_sqlite: If True, read from SQLite instead of YAML (writes to both)
         """
         self.root_dir = Path(root_dir)
         self.audit_file = self.root_dir / ".vibey" / "roadmap" / "audit-trail.yaml"
+        self.use_sqlite = use_sqlite
+        self._db_available = None  # Lazy-check
         self._ensure_audit_file()
 
     def _ensure_audit_file(self):
@@ -86,6 +97,28 @@ class AuditTrailManager:
         if not self.audit_file.exists():
             self.audit_file.parent.mkdir(parents=True, exist_ok=True)
             self._save_trail(AuditTrail())
+
+    def _is_db_available(self) -> bool:
+        """Check if SQLite database is available."""
+        if self._db_available is None:
+            try:
+                from vibey.roadmap.database import database_exists
+                self._db_available = database_exists(base_dir=self.root_dir)
+            except ImportError:
+                self._db_available = False
+        return self._db_available
+
+    def _save_to_db(self, entry: 'AuditEntry'):
+        """Save a single entry to SQLite database."""
+        if not self._is_db_available():
+            return
+
+        try:
+            from vibey.roadmap.serialization.sql_dumper import save_audit_trail_entry
+            save_audit_trail_entry(entry.to_dict())
+        except Exception:
+            # Don't fail if DB write fails - YAML is the source of truth
+            pass
 
     def _get_current_user(self) -> str:
         """Get current user name."""
@@ -111,7 +144,17 @@ class AuditTrailManager:
         return None
 
     def load_trail(self) -> AuditTrail:
-        """Load audit trail from disk."""
+        """Load audit trail from storage.
+
+        By default loads from YAML (source of truth).
+        If use_sqlite=True, loads from SQLite for better query performance.
+        """
+        if self.use_sqlite and self._is_db_available():
+            return self._load_trail_from_db()
+        return self._load_trail_from_yaml()
+
+    def _load_trail_from_yaml(self) -> AuditTrail:
+        """Load audit trail from YAML file."""
         if not self.audit_file.exists():
             return AuditTrail()
 
@@ -125,6 +168,26 @@ class AuditTrailManager:
         trail = AuditTrail(entries=entries)
         trail.metadata = data.get('metadata', {})
         return trail
+
+    def _load_trail_from_db(self) -> AuditTrail:
+        """Load audit trail from SQLite database."""
+        try:
+            from vibey.roadmap.serialization.sql_loader import load_audit_trail
+            entry_dicts = load_audit_trail()
+
+            entries = []
+            for entry_dict in entry_dicts:
+                entries.append(AuditEntry(**entry_dict))
+
+            trail = AuditTrail(entries=entries)
+            trail.metadata = {
+                'total_entries': len(entries),
+                'source': 'sqlite',
+            }
+            return trail
+        except Exception:
+            # Fall back to YAML if DB read fails
+            return self._load_trail_from_yaml()
 
     def _save_trail(self, trail: AuditTrail):
         """Save audit trail to disk."""
@@ -176,10 +239,13 @@ class AuditTrailManager:
             source=source
         )
 
-        # Add to trail and save
-        trail = self.load_trail()
+        # Add to trail and save to YAML (source of truth)
+        trail = self._load_trail_from_yaml()  # Always load from YAML for consistency
         trail.add_entry(entry)
         self._save_trail(trail)
+
+        # Also save to SQLite if available
+        self._save_to_db(entry)
 
         return entry
 
@@ -289,6 +355,65 @@ class AuditTrailManager:
         lines.append("=" * 80)
 
         return "\n".join(lines)
+
+    def sync_to_database(self) -> int:
+        """
+        Sync all YAML audit trail entries to SQLite database.
+
+        This is useful for initial population or after manual YAML edits.
+
+        Returns:
+            Number of entries synced
+        """
+        if not self._is_db_available():
+            return 0
+
+        try:
+            from vibey.roadmap.serialization.sql_dumper import save_audit_trail
+
+            # Load from YAML
+            trail = self._load_trail_from_yaml()
+
+            # Save all entries to DB (clearing existing)
+            entry_dicts = [e.to_dict() for e in trail.entries]
+            save_audit_trail(entry_dicts, clear_existing=True)
+
+            return len(entry_dicts)
+        except Exception as e:
+            raise RuntimeError(f"Failed to sync audit trail to database: {e}") from e
+
+    def sync_from_database(self) -> int:
+        """
+        Sync all SQLite audit trail entries to YAML file.
+
+        This overwrites the YAML file with database contents.
+        Use with caution - this makes the database the source of truth.
+
+        Returns:
+            Number of entries synced
+        """
+        if not self._is_db_available():
+            return 0
+
+        try:
+            from vibey.roadmap.serialization.sql_loader import load_audit_trail
+
+            # Load from database
+            entry_dicts = load_audit_trail()
+
+            # Convert to AuditEntry objects
+            entries = [AuditEntry(**e) for e in entry_dicts]
+
+            # Create trail and save to YAML
+            trail = AuditTrail(entries=entries)
+            trail.metadata['last_updated'] = datetime.now(timezone.utc).isoformat()
+            trail.metadata['total_entries'] = len(entries)
+            trail.metadata['synced_from'] = 'sqlite'
+            self._save_trail(trail)
+
+            return len(entries)
+        except Exception as e:
+            raise RuntimeError(f"Failed to sync audit trail from database: {e}") from e
 
 
 def log_status_change(

@@ -10,26 +10,35 @@ task:
   started: '2025-11-22T20:30:00+00:00'
   completed: '2025-11-22T20:35:00+00:00'
   estimated_tokens: 8000
-  description: |
-    Implement platform validation and user warnings:
+  description: 'Implement platform validation and user warnings:
+
     - Validate platform name against known platforms
+
     - Warn if platform detection fails
+
     - Warn if context window seems incorrect
+
     - Integration with existing CLI output
 
+
     Deliverables:
+
     - vibey/platform/validation.py - Validation logic
+
     - Warning message templates
+
     - Integration with platform detection flow
+
+    '
   success_criteria:
-    - Invalid platform names generate warnings
-    - Unknown platforms show helpful message
-    - Context window outliers flagged
-    - Warnings use consistent formatting
-    - Validation integrates with CLI commands
-    - Unit tests for validation logic
+  - Invalid platform names generate warnings
+  - Unknown platforms show helpful message
+  - Context window outliers flagged
+  - Warnings use consistent formatting
+  - Validation integrates with CLI commands
+  - Unit tests for validation logic
   dependencies:
-    - platform-context-management-1-task-004
+  - platform-context-management-1-task-004
   blocked_by: []
   assigned_agent: web-developer
   commits: []

@@ -11,71 +11,24 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Write detailed extension installation and configuration guide.
-
-    GUIDE SECTIONS:
-    1. Extension Installation
-       - Installing from template (pre-installed)
-       - Installing manually
-       - Installing from source
-       - Troubleshooting installation
-
-    2. Extension Configuration
-       - Extension settings
-       - MCP server connection
-       - File handler settings
-       - CLUI command shortcuts
-
-    3. Extension Features
-       - Dashboard panel
-       - Roadmap view
-       - Sprint management
-       - Task management
-       - File handlers
-       - CLUI commands
-
-    4. Usage Examples
-       - Common workflows
-       - Keyboard shortcuts
-       - Tips and tricks
-       - Best practices
-
-    5. Troubleshooting
-       - Extension not loading
-       - MCP connection issues
-       - Data not displaying
-       - Performance issues
-
-    6. Advanced Topics
-       - Customizing the extension
-       - Adding custom commands
-       - Extending functionality
-       - Contributing improvements
-
-    INSTALLATION METHODS:
-    ```bash
-    # Method 1: Fork template (recommended)
-    # Extension is pre-installed
-
-    # Method 2: Manual installation
-    # Open Extensions panel
-    # Search for "vibey"
-    # Click Install
-
-    # Method 3: From source
-    git clone https://github.com/vibey/vibey-replit-extension
-    cd vibey-replit-extension
-    npm install
-    npm run build
-    # Install extension from local build
-    ```
-
-    DELIVERABLES:
-    - EXTENSION_GUIDE.md
-    - Installation screenshots
-    - Configuration examples
-    - Troubleshooting flowchart
+  description: "Write detailed extension installation and configuration guide.\n\n\
+    GUIDE SECTIONS:\n1. Extension Installation\n   - Installing from template (pre-installed)\n\
+    \   - Installing manually\n   - Installing from source\n   - Troubleshooting installation\n\
+    \n2. Extension Configuration\n   - Extension settings\n   - MCP server connection\n\
+    \   - File handler settings\n   - CLUI command shortcuts\n\n3. Extension Features\n\
+    \   - Dashboard panel\n   - Roadmap view\n   - Sprint management\n   - Task management\n\
+    \   - File handlers\n   - CLUI commands\n\n4. Usage Examples\n   - Common workflows\n\
+    \   - Keyboard shortcuts\n   - Tips and tricks\n   - Best practices\n\n5. Troubleshooting\n\
+    \   - Extension not loading\n   - MCP connection issues\n   - Data not displaying\n\
+    \   - Performance issues\n\n6. Advanced Topics\n   - Customizing the extension\n\
+    \   - Adding custom commands\n   - Extending functionality\n   - Contributing\
+    \ improvements\n\nINSTALLATION METHODS:\n```bash\n# Method 1: Fork template (recommended)\n\
+    # Extension is pre-installed\n\n# Method 2: Manual installation\n# Open Extensions\
+    \ panel\n# Search for \"vibey\"\n# Click Install\n\n# Method 3: From source\n\
+    git clone https://github.com/vibey/vibey-replit-extension\ncd vibey-replit-extension\n\
+    npm install\nnpm run build\n# Install extension from local build\n```\n\nDELIVERABLES:\n\
+    - EXTENSION_GUIDE.md\n- Installation screenshots\n- Configuration examples\n-\
+    \ Troubleshooting flowchart\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -83,3 +36,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

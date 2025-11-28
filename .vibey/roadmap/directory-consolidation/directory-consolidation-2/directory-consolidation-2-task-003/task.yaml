@@ -8,22 +8,21 @@ task:
   priority: medium
   complexity: medium
   estimated_hours: 1
-  description: |
-    Move documentation sync engine from framework/docs/ to vibey/operations/docs/.
+  description: 'Move documentation sync engine from framework/docs/ to vibey/operations/docs/.
 
+    '
   files_to_move:
-    - "framework/docs/generator.py -> vibey/operations/docs/generator.py"
-    - "framework/docs/sync_engine.py -> vibey/operations/docs/sync_engine.py"
-    - "framework/docs/sync_hooks.py -> vibey/operations/docs/sync_hooks.py"
-    - "framework/docs/sync_manifest.py -> vibey/operations/docs/sync_manifest.py"
-
+  - framework/docs/generator.py -> vibey/operations/docs/generator.py
+  - framework/docs/sync_engine.py -> vibey/operations/docs/sync_engine.py
+  - framework/docs/sync_hooks.py -> vibey/operations/docs/sync_hooks.py
+  - framework/docs/sync_manifest.py -> vibey/operations/docs/sync_manifest.py
   import_updates:
-    - "from framework.docs -> from vibey.operations.docs"
-    - "import framework.docs -> import vibey.operations.docs"
-
+  - from framework.docs -> from vibey.operations.docs
+  - import framework.docs -> import vibey.operations.docs
   verification:
-    - Doc sync commands work
-    - Doc generation works
-
+  - Doc sync commands work
+  - Doc generation works
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

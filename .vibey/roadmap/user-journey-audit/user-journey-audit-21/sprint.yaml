@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 6
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-21-task-001
     name: Design discovery output schema for context directories
@@ -68,19 +68,32 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 1 establishes the architecture for writing discovery
+    notes: 'Sprint 1 establishes the architecture for writing discovery
+
       outputs to context directories.
 
+
       Output file formats:
+
       - codebase-audit.md: Markdown with structured sections
+
       - git-analysis.md: Commit patterns, velocity, contributors
+
       - dependencies.yaml: Structured dependency data
+
       - architecture.md: Component diagrams, relationships
 
+
       Each writer will:
+
       1. Accept discovery results as input
+
       2. Format for the appropriate output type
+
       3. Write to track context directory
+
       4. Support incremental updates (append/merge)
+
       5. Include timestamps and discovery metadata
+
+      '

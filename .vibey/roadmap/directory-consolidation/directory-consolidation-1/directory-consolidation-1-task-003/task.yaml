@@ -8,22 +8,23 @@ task:
   priority: high
   complexity: low
   estimated_hours: 0.5
-  description: |
-    Delete entire framework/roadmap/ directory (20 files).
+  description: 'Delete entire framework/roadmap/ directory (20 files).
+
     Every file has an exact duplicate in vibey/roadmap/.
 
+    '
   directories_to_delete:
-    - framework/roadmap/models/
-    - framework/roadmap/serialization/
-    - framework/roadmap/validation/
-    - framework/roadmap/schema/
-    - framework/roadmap/examples/
-    - framework/roadmap/*.py (all files)
-
+  - framework/roadmap/models/
+  - framework/roadmap/serialization/
+  - framework/roadmap/validation/
+  - framework/roadmap/schema/
+  - framework/roadmap/examples/
+  - framework/roadmap/*.py (all files)
   verification:
-    - Verify vibey/roadmap/ has all models
-    - Check no imports reference framework.roadmap
-    - Run tests to verify nothing breaks
-
+  - Verify vibey/roadmap/ has all models
+  - Check no imports reference framework.roadmap
+  - Run tests to verify nothing breaks
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

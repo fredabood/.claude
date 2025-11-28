@@ -4,19 +4,25 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Add database-powered query commands"
-  description: |
-    Add new query commands leveraging SQL power:
+  title: Add database-powered query commands
+  description: 'Add new query commands leveraging SQL power:
+
     - vibey roadmap query blocked: List all blocked tasks with blocker info
+
     - vibey roadmap query overdue: Tasks past estimated completion
+
     - vibey roadmap query velocity: Sprint completion velocity
+
     - vibey roadmap query deps <task-id>: Full dependency chain
+
     These queries would be expensive with YAML parsing.
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T14:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation

@@ -9,22 +9,16 @@ task:
   estimated_hours: 0.1
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  description: |
-    Fix the sprints_completed counter in mcp-server track.yaml.
-
-    ISSUE:
-    - Current: sprints_completed: 0
-    - Expected: sprints_completed: 2 (Sprint 1 and 2 are production_ready)
-
-    EDIT .vibey/roadmap/mcp-server/track.yaml:
-    Change line ~14 from:
-      sprints_completed: 0
-    To:
-      sprints_completed: 2
-
-    This is a cosmetic fix - does not affect actual completion state.
+  description: "Fix the sprints_completed counter in mcp-server track.yaml.\n\nISSUE:\n\
+    - Current: sprints_completed: 0\n- Expected: sprints_completed: 2 (Sprint 1 and\
+    \ 2 are production_ready)\n\nEDIT .vibey/roadmap/mcp-server/track.yaml:\nChange\
+    \ line ~14 from:\n  sprints_completed: 0\nTo:\n  sprints_completed: 2\n\nThis\
+    \ is a cosmetic fix - does not affect actual completion state.\n"
   acceptance_criteria:
   - sprints_completed shows 2
   - Matches actual sprint statuses
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false
+  started: null
+  completed: null

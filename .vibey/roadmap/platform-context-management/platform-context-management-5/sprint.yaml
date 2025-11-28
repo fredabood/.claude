@@ -6,13 +6,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-12T00:00:00+00:00'
-  started: '2025-11-22T21:50:00+00:00'
-  completed: '2025-11-22T22:20:00+00:00'
+  started: null
+  completed: '2025-11-12T00:00:00+00:00'
   estimated_duration: 1 week
   progress:
     tasks_total: 6
     tasks_completed: 6
-    completion_percent: 100
+    completion_percent: 100.0
   tasks:
   - id: platform-context-management-5-task-001
     status: completed

@@ -5,7 +5,9 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: true
-  blocked_reason: "Waiting for SQLite backend implementation. Sprint 5 tasks will be revised to use DB as source of truth instead of separate manifest system. This simplifies architecture and avoids throwaway work."
+  blocked_reason: Waiting for SQLite backend implementation. Sprint 5 tasks will be
+    revised to use DB as source of truth instead of separate manifest system. This
+    simplifies architecture and avoids throwaway work.
   created: '2025-11-26T01:21:21.766611+00:00'
   started: null
   completion_gate_check_at: null
@@ -14,22 +16,17 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 22
-    development_tasks_completed: 0
-    completion_gate_tasks_total: 0
-    completion_gate_tasks_completed: 0
-    production_gate_tasks_total: 0
-    production_gate_tasks_completed: 0
     tasks_total: 22
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   development_gates: []
   blocks: []
   blocked_by:
   - type: track
     target_id: sqlite-backend
-    reason: "SQLite backend provides DB as source of truth, replacing manifest-based verification"
+    reason: SQLite backend provides DB as source of truth, replacing manifest-based
+      verification
   depends_on:
   - sqlite-backend-1
   depended_on_by: []

@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 6
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-22-task-001
     name: Create architecture discovery context writer
@@ -72,28 +72,13 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 2 completes the integration with CLI and AI context loading.
-
-      CLI Usage:
-        vibey discover --output-context
-        vibey discover codebase --track mytrack
-        vibey discover git-history --track mytrack
-        vibey discover dependencies --track mytrack
-        vibey discover all --track mytrack
-
-      Context Loading Flow:
-      1. Discovery runs and writes to context/
-      2. AI agent loads track context
-      3. Discovery results included in prompt
-      4. Agent has full project understanding
-
-      Directory structure after discovery:
-        .vibey/roadmap/[track]/context/
-        ├── discovery/
-        │   ├── codebase-audit.md
-        │   ├── git-analysis.md
-        │   ├── dependencies.yaml
-        │   ├── architecture.md
-        │   └── discovery-manifest.yaml
-        └── ...other context files
+    notes: "Sprint 2 completes the integration with CLI and AI context loading.\n\n\
+      CLI Usage:\n  vibey discover --output-context\n  vibey discover codebase --track\
+      \ mytrack\n  vibey discover git-history --track mytrack\n  vibey discover dependencies\
+      \ --track mytrack\n  vibey discover all --track mytrack\n\nContext Loading Flow:\n\
+      1. Discovery runs and writes to context/\n2. AI agent loads track context\n\
+      3. Discovery results included in prompt\n4. Agent has full project understanding\n\
+      \nDirectory structure after discovery:\n  .vibey/roadmap/[track]/context/\n\
+      \  ├── discovery/\n  │   ├── codebase-audit.md\n  │   ├── git-analysis.md\n\
+      \  │   ├── dependencies.yaml\n  │   ├── architecture.md\n  │   └── discovery-manifest.yaml\n\
+      \  └── ...other context files\n"

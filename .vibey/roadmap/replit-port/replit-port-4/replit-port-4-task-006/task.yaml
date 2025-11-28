@@ -11,77 +11,24 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Configure extension manifest with permissions, commands, and metadata.
-
-    MANIFEST CONFIGURATION:
-    ```json
-    {
-      "name": "vibey",
-      "version": "1.0.0",
-      "description": "Vibey Agent Framework for Replit",
-      "author": "Vibey Framework Team",
-      "icon": "icon.svg",
-
-      "permissions": [
-        "read:files",
-        "write:files",
-        "execute:commands",
-        "read:git",
-        "workspace:read"
-      ],
-
-      "commands": [
-        {
-          "id": "vibey:roadmap",
-          "label": "Show Roadmap",
-          "icon": "map"
-        },
-        {
-          "id": "vibey:sprint",
-          "label": "Show Sprint",
-          "icon": "sprint"
-        }
-      ],
-
-      "views": {
-        "sidebar": {
-          "id": "vibey-sidebar",
-          "title": "Vibey",
-          "icon": "icon.svg"
-        }
-      },
-
-      "fileHandlers": [
-        {
-          "pattern": "**/.vibey/**/*.yaml",
-          "handler": "vibeyFileHandler"
-        }
-      ]
-    }
-    ```
-
-    PERMISSIONS:
-    - File system access for .vibey/ directory
-    - Git access for sync operations
-    - Command execution for CLUI
-    - Workspace metadata access
-
-    VIEWS:
-    - Sidebar panel for Dashboard
-    - Status bar items
-    - Context menu items
-
-    FILE HANDLERS:
-    - .vibey/**/*.yaml files
-    - Syntax highlighting
-    - Preview support
-
-    DELIVERABLES:
-    - Complete manifest.json
-    - Icon assets
-    - Permission documentation
-    - Installation guide
+  description: "Configure extension manifest with permissions, commands, and metadata.\n\
+    \nMANIFEST CONFIGURATION:\n```json\n{\n  \"name\": \"vibey\",\n  \"version\":\
+    \ \"1.0.0\",\n  \"description\": \"Vibey Agent Framework for Replit\",\n  \"author\"\
+    : \"Vibey Framework Team\",\n  \"icon\": \"icon.svg\",\n\n  \"permissions\": [\n\
+    \    \"read:files\",\n    \"write:files\",\n    \"execute:commands\",\n    \"\
+    read:git\",\n    \"workspace:read\"\n  ],\n\n  \"commands\": [\n    {\n      \"\
+    id\": \"vibey:roadmap\",\n      \"label\": \"Show Roadmap\",\n      \"icon\":\
+    \ \"map\"\n    },\n    {\n      \"id\": \"vibey:sprint\",\n      \"label\": \"\
+    Show Sprint\",\n      \"icon\": \"sprint\"\n    }\n  ],\n\n  \"views\": {\n  \
+    \  \"sidebar\": {\n      \"id\": \"vibey-sidebar\",\n      \"title\": \"Vibey\"\
+    ,\n      \"icon\": \"icon.svg\"\n    }\n  },\n\n  \"fileHandlers\": [\n    {\n\
+    \      \"pattern\": \"**/.vibey/**/*.yaml\",\n      \"handler\": \"vibeyFileHandler\"\
+    \n    }\n  ]\n}\n```\n\nPERMISSIONS:\n- File system access for .vibey/ directory\n\
+    - Git access for sync operations\n- Command execution for CLUI\n- Workspace metadata\
+    \ access\n\nVIEWS:\n- Sidebar panel for Dashboard\n- Status bar items\n- Context\
+    \ menu items\n\nFILE HANDLERS:\n- .vibey/**/*.yaml files\n- Syntax highlighting\n\
+    - Preview support\n\nDELIVERABLES:\n- Complete manifest.json\n- Icon assets\n\
+    - Permission documentation\n- Installation guide\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -89,3 +36,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

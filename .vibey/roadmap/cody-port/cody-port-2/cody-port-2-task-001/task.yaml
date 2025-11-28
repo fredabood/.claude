@@ -4,8 +4,9 @@ task:
   track_id: cody-port
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement Sourcegraph Enterprise module"
-  description: "Create enterprise module for Sourcegraph code graph and cross-repository context features"
+  title: Implement Sourcegraph Enterprise module
+  description: Create enterprise module for Sourcegraph code graph and cross-repository
+    context features
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
@@ -35,4 +36,4 @@ task:
     last_updated: '2025-11-24T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Enterprise-only features for post-July 2025 Cody"
+    notes: Enterprise-only features for post-July 2025 Cody

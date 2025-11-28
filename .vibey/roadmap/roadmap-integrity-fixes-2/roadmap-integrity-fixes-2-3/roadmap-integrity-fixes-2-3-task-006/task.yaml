@@ -9,30 +9,48 @@ task:
   estimated_hours: 0.2
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  description: |
-    Validate and commit python-package schema migration.
+  description: 'Validate and commit python-package schema migration.
+
 
     VALIDATION:
+
     - 24 task.yaml files exist
+
     - sprint.yaml files have empty tasks array
+
     - Quality gates documented
 
+
     COMMIT:
+
     ```bash
+
     git add .vibey/roadmap/python-package/
+
     git commit -m "refactor: Migrate python-package to hierarchical task schema
 
+
     - Extract 24 embedded tasks to individual task.yaml files
+
     - Sprint 1: 8 tasks (package structure)
+
     - Sprint 2: 6 tasks (testing & distribution)
+
     - Sprint 3: 10 tasks (content management)
+
     - Run and document quality gate results
+
     - Verify all deliverables exist
+
 
     Part of roadmap-integrity-fixes-2 remediation.
 
+
     Generated with Claude Code"
+
     ```
+
+    '
   acceptance_criteria:
   - All changes committed
   - Commit message documents migration
@@ -44,3 +62,6 @@ task:
   - roadmap-integrity-fixes-2-3-task-005
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false
+  started: null
+  completed: null

@@ -4,14 +4,14 @@ sprint:
   track_id: claude-port
   status: completed
   created: '2025-11-10T23:48:00-05:00'
-  started: '2025-11-10T23:48:00-05:00'
-  completed: '2025-11-11T13:18:00-05:00'
+  started: null
+  completed: '2025-11-10T23:48:00-05:00'
   estimated_duration: 2 weeks
   actual_duration: 14 hours
   progress:
     tasks_total: 8
     tasks_completed: 8
-    completion_percent: 100
+    completion_percent: 100.0
   tasks:
   - id: claude-port-1-task-001
     status: completed
@@ -131,3 +131,4 @@ sprint:
 
       '
     estimated_tokens: 160000
+  blocked: false

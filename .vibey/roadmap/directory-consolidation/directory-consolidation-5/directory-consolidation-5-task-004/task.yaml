@@ -5,35 +5,47 @@ task:
   name: Final .vibey cleanup and verification
   sprint_id: directory-consolidation-5
   status: completed
-  completed: '2025-11-23'
+  completed: '2025-11-23T00:00:00+00:00'
   priority: high
   complexity: low
   estimated_hours: 0.25
-  description: |
-    Final cleanup and verification of .vibey directory structure.
+  description: 'Final cleanup and verification of .vibey directory structure.
+
 
     EXPECTED FINAL STRUCTURE:
+
     .vibey/
+
     ├── .cache/           # Keep - runtime cache
+
     ├── .gitignore        # Keep - git ignore rules
+
     ├── config/           # Keep - modular configuration
+
     ├── roadmap/          # Keep - all roadmap data
+
     ├── roadmap.yaml      # Keep - main roadmap file
+
     ├── roadmap.yaml.bak  # Delete - old backup
+
     └── templates/        # Keep - framework templates
 
+
     CLEANUP:
+
     - Delete roadmap.yaml.bak (obsolete backup)
+
     - Verify no orphaned directories remain
+
     - Update CLAUDE.md if needed
 
+    '
   verification:
-    - .vibey/ contains only expected directories
-    - No orphaned files or directories
-    - All roadmap data intact
-
+  - .vibey/ contains only expected directories
+  - No orphaned files or directories
+  - All roadmap data intact
   blocked_by:
-    - directory-consolidation-5-task-001
-    - directory-consolidation-5-task-002
-    - directory-consolidation-5-task-003
+  - directory-consolidation-5-task-001
+  - directory-consolidation-5-task-002
+  - directory-consolidation-5-task-003
   commits: []

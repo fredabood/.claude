@@ -5,19 +5,20 @@ task:
   name: Move track_summaries/ to track context
   sprint_id: directory-consolidation-5
   status: completed
-  completed: '2025-11-23'
+  completed: '2025-11-23T00:00:00+00:00'
   priority: medium
   complexity: low
   estimated_hours: 0.25
-  description: |
-    Move track summary documentation to appropriate track context.
+  description: 'Move track summary documentation to appropriate track context.
+
 
     FILES TO MOVE:
+
     - track_summaries/roadmap-integration-COMPLETED.md → .vibey/roadmap/roadmap-integration/context/
 
+    '
   verification:
-    - File moved to track context
-    - Empty track_summaries/ directory deleted
-
+  - File moved to track context
+  - Empty track_summaries/ directory deleted
   blocked_by: []
   commits: []

@@ -10,10 +10,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    development_tasks_total: 5
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   depends_on:
   - blocker_id: platform-context-management
     blocker_type: track

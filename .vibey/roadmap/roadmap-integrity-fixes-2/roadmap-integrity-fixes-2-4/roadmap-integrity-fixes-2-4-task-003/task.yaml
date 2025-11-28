@@ -9,10 +9,13 @@ task:
   estimated_hours: 0.4
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  description: |
-    Create proper sprint/task structure for copilot-port.
+  description: 'Create proper sprint/task structure for copilot-port.
+
     Same process as amazonq-port.
+
     Adapter exists: vibey/adapters/copilot.py
+
+    '
   acceptance_criteria:
   - Sprint directory created
   - 6+ task.yaml files created
@@ -20,3 +23,6 @@ task:
   - Progress shows 0%
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false
+  started: null
+  completed: null

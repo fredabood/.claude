@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Document organization-level Copilot configuration patterns. Cover team settings, shared custom agents, and multi-repository coordination.
+  description: Document organization-level Copilot configuration patterns. Cover team
+    settings, shared custom agents, and multi-repository coordination.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

@@ -8,14 +8,17 @@ sprint:
   started: null
   completed: null
   estimated_duration: 1 week
-  description: |
-    Integration testing with VS Code Agent Mode.
+  description: 'Integration testing with VS Code Agent Mode.
+
     E2E tests with Copilot and native chat.
+
     Complete integration documentation.
+
+    '
   progress:
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   quality_gates:
   - name: Integration Test Coverage
@@ -49,6 +52,9 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 2 focuses on testing and documentation to ensure VS Code integration is production-ready.
+    notes: 'Sprint 2 focuses on testing and documentation to ensure VS Code integration
+      is production-ready.
+
       Validates zero-drift architecture and full MCP tool parity.
+
+      '

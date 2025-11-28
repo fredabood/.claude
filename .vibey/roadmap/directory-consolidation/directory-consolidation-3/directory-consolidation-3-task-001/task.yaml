@@ -8,25 +8,31 @@ task:
   priority: high
   complexity: medium
   estimated_hours: 1
-  description: |
-    Analyze content duplication between framework/docs/ and docs/.
+  description: 'Analyze content duplication between framework/docs/ and docs/.
+
 
     KNOWN DUPLICATES (5 files with same name):
+
     - PLATFORM_AGNOSTIC_ARCHITECTURE.md
+
     - README.md
+
     - ROADMAP_USER_GUIDE.md
+
     - TROUBLESHOOTING.md
+
     - YAML_MARKDOWN_SEPARATION.md
 
+    '
   analysis_steps:
-    - Compare file contents for actual duplication
-    - Identify which version is authoritative
-    - Check for references to each location
-    - Recommend merge/delete actions
-
+  - Compare file contents for actual duplication
+  - Identify which version is authoritative
+  - Check for references to each location
+  - Recommend merge/delete actions
   output:
-    - Duplicate analysis report
-    - Recommended actions per file
-
+  - Duplicate analysis report
+  - Recommended actions per file
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

@@ -2,19 +2,19 @@ track:
   id: gemini-port
   name: Gemini Platform Port
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-22T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T19:15:00+00:00'
+  completed: null
   estimated_duration: 6 weeks
   progress:
-    sprints_total: 4
+    sprints_total: 6
     sprints_completed: 4
-    tasks_total: 24
-    tasks_completed: 24
-    completion_percent: 100
+    tasks_total: 32
+    tasks_completed: 22
+    completion_percent: 68.8
   sprints:
   - id: gemini-port-1
     name: Generators & Build Pipeline
@@ -23,12 +23,27 @@ track:
     tasks_count: 8
     started: '2025-11-23T00:00:00+00:00'
     completed: '2025-11-23T14:57:03+00:00'
-    description: "Create zero-drift generators that read YAML frontmatter from\nagents/workflows/handoffs\
-      \ and produce Gemini-specific artifacts.\n\nKEY OUTPUTS:\n- GeminiContextGenerator:\
-      \ frontmatter \u2192 GEMINI.md\n- GeminiCommandGenerator: frontmatter \u2192\
-      \ TOML commands\n- Extension manifest generator\n- vibey export gemini CLI command\n\
-      \nZERO-DRIFT PRINCIPLE: All Gemini artifacts are generated from\nthe same frontmatter\
-      \ used by MCP server. No manual maintenance.\n"
+    description: 'Create zero-drift generators that read YAML frontmatter from
+
+      agents/workflows/handoffs and produce Gemini-specific artifacts.
+
+
+      KEY OUTPUTS:
+
+      - GeminiContextGenerator: frontmatter → GEMINI.md
+
+      - GeminiCommandGenerator: frontmatter → TOML commands
+
+      - Extension manifest generator
+
+      - vibey export gemini CLI command
+
+
+      ZERO-DRIFT PRINCIPLE: All Gemini artifacts are generated from
+
+      the same frontmatter used by MCP server. No manual maintenance.
+
+      '
   - id: gemini-port-2
     name: Gemini Platform Adapter Integration
     status: completed
@@ -80,9 +95,20 @@ track:
     tasks_count: 5
     started: '2025-11-23T18:35:00+00:00'
     completed: '2025-11-23T19:15:00+00:00'
-    description: "End-to-end testing and documentation.\n\nKEY OUTPUTS:\n- E2E tests\
-      \ for extension installation\n- Drift detection tests\n- Installation guide\n\
-      - Migration guide (Claude Code \u2192 Gemini)\n"
+    description: 'End-to-end testing and documentation.
+
+
+      KEY OUTPUTS:
+
+      - E2E tests for extension installation
+
+      - Drift detection tests
+
+      - Installation guide
+
+      - Migration guide (Claude Code → Gemini)
+
+      '
   dependencies:
   - type: track
     target_id: platform-context-management
@@ -157,14 +183,14 @@ track:
   - test-engineer
   - docs-writer
   deliverables:
-  - "GeminiContextGenerator (frontmatter \u2192 GEMINI.md)"
-  - "GeminiCommandGenerator (frontmatter \u2192 TOML commands)"
+  - GeminiContextGenerator (frontmatter → GEMINI.md)
+  - GeminiCommandGenerator (frontmatter → TOML commands)
   - GeminiAdapter extending BaseAdapter
   - vibey export gemini CLI command
   - Gemini extension package (installable)
   - Sequential orchestration patterns
   - Installation guide
-  - "Migration guide (Claude Code \u2192 Gemini)"
+  - Migration guide (Claude Code → Gemini)
   - E2E test suite
   strategic_value:
   - 'Zero Drift: Generated artifacts always match source definitions'
@@ -183,51 +209,25 @@ track:
     notes: "GEMINI PORT - ZERO-DRIFT ARCHITECTURE (Nov 2025)\n\nKEY INSIGHT: Gemini\
       \ Code Assist now has native MCP support and an\nextension system. We don't\
       \ build a separate API adapter - we generate\nGemini-specific artifacts from\
-      \ the same frontmatter used by MCP server.\n\nARCHITECTURE:\n\u250C\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502            SINGLE SOURCE\
-      \ OF TRUTH                          \u2502\n\u2502  agents/*.md, workflows/*.md,\
-      \ handoffs/*.md (frontmatter)  \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n                          \u2502\n       \u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n       \u25BC\
-      \                  \u25BC                  \u25BC\n\u250C\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2510  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 MCP Server    \u2502  \u2502\
-      \ GEMINI.md     \u2502  \u2502 TOML Commands \u2502\n\u2502 (from goose)  \u2502\
-      \  \u2502 Generator     \u2502  \u2502 Generator     \u2502\n\u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n       \u2502      \
-      \            \u2502                  \u2502\n       \u2514\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                   \
-      \       \u25BC\n             \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2510\n             \u2502  Gemini Extension\
-      \       \u2502\n             \u2502  (generated artifact)   \u2502\n       \
-      \      \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2518\n\nGEMINI EXTENSION POINTS:\n1. GEMINI.md - Context files (\u2248\
-      \ CLAUDE.md)\n2. MCP Servers - Native support in settings.json\n3. Custom Commands\
-      \ - TOML files in .gemini/commands/\n4. Extensions - Bundles all of the above\n\
-      \nTIMELINE: 6 weeks (reduced from 13 weeks original estimate)\n- Sprint 1: Generators\
-      \ & Build Pipeline (2 weeks)\n- Sprint 2: Platform Adapter (1.5 weeks)\n- Sprint\
-      \ 3: Sequential Orchestration (1.5 weeks)\n- Sprint 4: Testing & Docs (1 week)\n\
-      \nCOMPARISON TO ORIGINAL PLAN:\n- Removed: AI Studio/Vertex AI focus (enterprise,\
-      \ defer)\n- Removed: Gemini API client (native MCP eliminates need)\n- Added:\
-      \ Zero-drift generators\n- Added: Extension packaging\n- Reduced: 32 tasks \u2192\
-      \ 24 tasks, 6 sprints \u2192 4 sprints\n"
+      \ the same frontmatter used by MCP server.\n\nARCHITECTURE:\n┌─────────────────────────────────────────────────────────────┐\n\
+      │            SINGLE SOURCE OF TRUTH                          │\n│  agents/*.md,\
+      \ workflows/*.md, handoffs/*.md (frontmatter)  │\n└─────────────────────────────────────────────────────────────┘\n\
+      \                          │\n       ┌──────────────────┼──────────────────┐\n\
+      \       ▼                  ▼                  ▼\n┌───────────────┐  ┌───────────────┐\
+      \  ┌───────────────┐\n│ MCP Server    │  │ GEMINI.md     │  │ TOML Commands\
+      \ │\n│ (from goose)  │  │ Generator     │  │ Generator     │\n└───────────────┘\
+      \  └───────────────┘  └───────────────┘\n       │                  │       \
+      \           │\n       └──────────────────┼──────────────────┘\n            \
+      \              ▼\n             ┌─────────────────────────┐\n             │ \
+      \ Gemini Extension       │\n             │  (generated artifact)   │\n     \
+      \        └─────────────────────────┘\n\nGEMINI EXTENSION POINTS:\n1. GEMINI.md\
+      \ - Context files (≈ CLAUDE.md)\n2. MCP Servers - Native support in settings.json\n\
+      3. Custom Commands - TOML files in .gemini/commands/\n4. Extensions - Bundles\
+      \ all of the above\n\nTIMELINE: 6 weeks (reduced from 13 weeks original estimate)\n\
+      - Sprint 1: Generators & Build Pipeline (2 weeks)\n- Sprint 2: Platform Adapter\
+      \ (1.5 weeks)\n- Sprint 3: Sequential Orchestration (1.5 weeks)\n- Sprint 4:\
+      \ Testing & Docs (1 week)\n\nCOMPARISON TO ORIGINAL PLAN:\n- Removed: AI Studio/Vertex\
+      \ AI focus (enterprise, defer)\n- Removed: Gemini API client (native MCP eliminates\
+      \ need)\n- Added: Zero-drift generators\n- Added: Extension packaging\n- Reduced:\
+      \ 32 tasks → 24 tasks, 6 sprints → 4 sprints\n"
     estimated_tokens: 0

@@ -42,8 +42,8 @@ task:
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486586+00:00'
-  started: '2025-11-08T15:17:16.668500+00:00'
-  completed: '2025-11-08T15:17:54.041325+00:00'
+  started: '2025-11-27T11:04:09.426763+00:00'
+  completed: '2025-11-27T11:04:09.426763+00:00'
   assigned_agent: docs-writer
   priority: medium
   phase_label: null

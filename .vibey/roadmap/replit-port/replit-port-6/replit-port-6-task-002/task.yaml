@@ -11,64 +11,21 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Write comprehensive quick start guide for Replit users.
-
-    GUIDE STRUCTURE:
-    1. Introduction
-       - What is Vibey?
-       - Why use Vibey on Replit?
-       - Prerequisites
-       - Expected outcomes
-
-    2. Getting Started (5 minutes)
-       - Fork the template
-       - Run the MCP server
-       - Open the Extension
-       - View sample roadmap
-
-    3. Your First Project (10 minutes)
-       - Create roadmap
-       - Define tracks and sprints
-       - Add tasks
-       - Assign agents
-
-    4. Using the Extension
-       - Dashboard overview
-       - Viewing roadmap
-       - Managing sprints
-       - Updating tasks
-
-    5. MCP Integration
-       - What is MCP?
-       - How Vibey uses MCP
-       - Available tools
-       - Tool invocation
-
-    6. Next Steps
-       - Advanced features
-       - Customization options
-       - Additional resources
-       - Community support
-
-    GUIDE FEATURES:
-    - Step-by-step instructions
-    - Screenshots for each step
-    - Code examples
-    - Common pitfalls
-    - Troubleshooting tips
-
-    TARGET AUDIENCE:
-    - New to Vibey
-    - Familiar with Replit
-    - Basic Python knowledge
-    - AI-assisted development interest
-
-    DELIVERABLES:
-    - QUICK_START.md guide
-    - Screenshots
-    - Example code snippets
-    - Video walkthrough (optional)
+  description: "Write comprehensive quick start guide for Replit users.\n\nGUIDE STRUCTURE:\n\
+    1. Introduction\n   - What is Vibey?\n   - Why use Vibey on Replit?\n   - Prerequisites\n\
+    \   - Expected outcomes\n\n2. Getting Started (5 minutes)\n   - Fork the template\n\
+    \   - Run the MCP server\n   - Open the Extension\n   - View sample roadmap\n\n\
+    3. Your First Project (10 minutes)\n   - Create roadmap\n   - Define tracks and\
+    \ sprints\n   - Add tasks\n   - Assign agents\n\n4. Using the Extension\n   -\
+    \ Dashboard overview\n   - Viewing roadmap\n   - Managing sprints\n   - Updating\
+    \ tasks\n\n5. MCP Integration\n   - What is MCP?\n   - How Vibey uses MCP\n  \
+    \ - Available tools\n   - Tool invocation\n\n6. Next Steps\n   - Advanced features\n\
+    \   - Customization options\n   - Additional resources\n   - Community support\n\
+    \nGUIDE FEATURES:\n- Step-by-step instructions\n- Screenshots for each step\n\
+    - Code examples\n- Common pitfalls\n- Troubleshooting tips\n\nTARGET AUDIENCE:\n\
+    - New to Vibey\n- Familiar with Replit\n- Basic Python knowledge\n- AI-assisted\
+    \ development interest\n\nDELIVERABLES:\n- QUICK_START.md guide\n- Screenshots\n\
+    - Example code snippets\n- Video walkthrough (optional)\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -76,3 +33,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

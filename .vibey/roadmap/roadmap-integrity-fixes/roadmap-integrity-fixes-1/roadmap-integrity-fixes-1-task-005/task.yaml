@@ -17,10 +17,10 @@ task:
     \ = []\n\n       for task in tasks:\n           if task.id not in visited:\n \
     \              find_cycles(task, visited, rec_stack, cycles)\n\n       return\
     \ cycles\n   ```\n\n   Handling:\n   - Detect all circular dependencies\n   -\
-    \ Report full cycle chain (A \u2192 B \u2192 C \u2192 A)\n   - Flag all tasks\
-    \ in cycle\n   - Suggest breaking points\n   - Validation fails with clear error\n\
-    \n2. Orphaned Tasks:\n\n   Example:\n   - Task references sprint_id: \"deleted-sprint-1\"\
-    \n   - Sprint doesn't exist (deleted or never created)\n\n   Detection:\n   ```python\n\
+    \ Report full cycle chain (A → B → C → A)\n   - Flag all tasks in cycle\n   -\
+    \ Suggest breaking points\n   - Validation fails with clear error\n\n2. Orphaned\
+    \ Tasks:\n\n   Example:\n   - Task references sprint_id: \"deleted-sprint-1\"\n\
+    \   - Sprint doesn't exist (deleted or never created)\n\n   Detection:\n   ```python\n\
     \   def find_orphaned_tasks(tasks, sprints):\n       \"\"\"Find tasks referencing\
     \ non-existent sprints\"\"\"\n       sprint_ids = {s.id for s in sprints}\n  \
     \     orphaned = []\n\n       for task in tasks:\n           if task.sprint_id\
@@ -116,7 +116,7 @@ task:
   blocked: false
   created: '2025-11-12T20:50:00+00:00'
   started: null
-  completed: '2025-11-23T21:00:00+00:00'
+  completed: '2025-11-27T11:10:31.393854+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

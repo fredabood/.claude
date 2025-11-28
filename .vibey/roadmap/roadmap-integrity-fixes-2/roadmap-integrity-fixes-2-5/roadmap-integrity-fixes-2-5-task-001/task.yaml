@@ -49,3 +49,6 @@ task:
     message: 'feat: Complete roadmap-integrity-fixes-2 track (Sprint 5)'
     author: '@fredabood <fredabood@gmail.com>'
     date: '2025-11-24T23:41:47-05:00'
+  blocked: false
+  started: null
+  completed: null

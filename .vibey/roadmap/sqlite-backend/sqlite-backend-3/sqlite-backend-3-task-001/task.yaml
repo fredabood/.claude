@@ -4,43 +4,26 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement deterministic DB to YAML dump"
-  description: |
-    Implement dump logic in vibey/roadmap/database/sync/dump.py:
-
-    vibey roadmap dump command:
-    - Query all entities from database
-    - Write to hierarchical YAML structure:
-      - .vibey/roadmap.yaml (roadmap root)
-      - .vibey/roadmap/{track}/track.yaml
-      - .vibey/roadmap/{track}/{sprint}/sprint.yaml
-      - .vibey/roadmap/{track}/{sprint}/{task}/task.yaml
-
-    Deterministic output requirements (from 005-yaml-sync-strategy.md):
-    - Fixed key ordering per entity type (defined in code)
-    - Arrays sorted by ID or natural key
-    - ISO 8601 timestamps with Z suffix
-    - Explicit null for optional fields (no omission)
-    - 2-space indentation, no flow style
-
-    Pre-dump safety check:
-    - Compute current checksums of YAML files
-    - Compare with yaml_checksums table (stored at load time)
-    - If mismatch: YAML was edited manually since load
-    - Error with instructions: "YAML modified outside CLI, run rebuild first"
-    - --force flag to overwrite anyway
-
-    Post-dump:
-    - Update yaml_checksums with new checksums
-    - Set database_state.is_dirty = 0
-    - Record last_yaml_dump timestamp
-
-    Test: Run dump twice, compare byte-for-byte (must be identical)
-  status: not_started
+  title: Implement deterministic DB to YAML dump
+  description: "Implement dump logic in vibey/roadmap/database/sync/dump.py:\n\nvibey\
+    \ roadmap dump command:\n- Query all entities from database\n- Write to hierarchical\
+    \ YAML structure:\n  - .vibey/roadmap.yaml (roadmap root)\n  - .vibey/roadmap/{track}/track.yaml\n\
+    \  - .vibey/roadmap/{track}/{sprint}/sprint.yaml\n  - .vibey/roadmap/{track}/{sprint}/{task}/task.yaml\n\
+    \nDeterministic output requirements (from 005-yaml-sync-strategy.md):\n- Fixed\
+    \ key ordering per entity type (defined in code)\n- Arrays sorted by ID or natural\
+    \ key\n- ISO 8601 timestamps with Z suffix\n- Explicit null for optional fields\
+    \ (no omission)\n- 2-space indentation, no flow style\n\nPre-dump safety check:\n\
+    - Compute current checksums of YAML files\n- Compare with yaml_checksums table\
+    \ (stored at load time)\n- If mismatch: YAML was edited manually since load\n\
+    - Error with instructions: \"YAML modified outside CLI, run rebuild first\"\n\
+    - --force flag to overwrite anyway\n\nPost-dump:\n- Update yaml_checksums with\
+    \ new checksums\n- Set database_state.is_dirty = 0\n- Record last_yaml_dump timestamp\n\
+    \nTest: Run dump twice, compare byte-for-byte (must be identical)\n"
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T18:00:00+00:00'
+  completed: '2025-11-26T22:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation

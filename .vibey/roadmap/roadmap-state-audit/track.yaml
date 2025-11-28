@@ -2,19 +2,19 @@ track:
   id: roadmap-state-audit
   name: Roadmap State Integrity Audit
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: superseded
   blocked: false
   priority: critical
   created: '2025-11-23T20:35:52.725661+00:00'
   started: '2025-11-23T20:35:52.725661+00:00'
-  completed: null
+  completed: '2025-11-27T00:00:00+00:00'
   estimated_duration: 1 week
   progress:
     sprints_total: 28
     sprints_completed: 0
     tasks_total: 83
-    tasks_completed: 16
-    completion_percent: 19
+    tasks_completed: 14
+    completion_percent: 16.9
   sprints:
   - id: roadmap-state-audit-1
     name: 'Audit: aider-port'

@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Documentation
-  description: |
-    Windsurf adapter guide, workflow best practices for Cascade, migration guide (VS Code to Windsurf)
+  description: 'Windsurf adapter guide, workflow best practices for Cascade, migration
+    guide (VS Code to Windsurf)
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.179939+00:00'

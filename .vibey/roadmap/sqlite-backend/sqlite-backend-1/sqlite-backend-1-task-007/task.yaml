@@ -4,31 +4,50 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement serialization bridge (sql_loader/sql_dumper)"
-  description: |
-    Create SQL-based serialization in vibey/roadmap/serialization/:
+  title: Implement serialization bridge (sql_loader/sql_dumper)
+  description: 'Create SQL-based serialization in vibey/roadmap/serialization/:
+
 
     sql_loader.py (parallel to yaml_loader.py):
+
     - load_roadmap_sql() -> Roadmap
+
     - load_track_sql() -> Track
+
     - load_sprint_sql() -> Sprint
+
     - load_task_sql() -> Task
+
     - load_tasks_sql() -> List[Task]
 
+
     sql_dumper.py (parallel to yaml_dumper.py):
+
     - save_roadmap_sql(roadmap: Roadmap)
+
     - save_track_sql(track: Track)
+
     - save_sprint_sql(sprint: Sprint)
+
     - save_task_sql(task: Task)
 
+
     backend.py (abstraction layer):
+
     - RoadmapBackend protocol
+
     - YAMLBackend implementation (wraps existing)
+
     - SQLiteBackend implementation (uses new functions)
+
     - get_backend() factory function
 
+
     Key requirement: Return IDENTICAL model objects as yaml_loader.
+
     This enables transparent switching between backends.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

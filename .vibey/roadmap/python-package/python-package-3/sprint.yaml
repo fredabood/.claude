@@ -5,13 +5,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T16:00:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 2 weeks
   progress:
     tasks_total: 10
     tasks_completed: 10
-    completion_percent: 100
+    completion_percent: 100.0
   tasks: []
   dependencies:
   - python-package-1
@@ -45,27 +45,47 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 3 adds CRUD/DDL operations for content (agents, workflows,
+    notes: 'Sprint 3 adds CRUD/DDL operations for content (agents, workflows,
+
       templates, handoffs) to both CLI and MCP interfaces.
 
+
       MOTIVATION:
+
       - Users currently must manually edit YAML frontmatter
+
       - No validation until MCP server tries to load content
+
       - No backup/rollback for accidental changes
+
       - AI assistants have no way to create/modify content programmatically
 
+
       DESIGN PRINCIPLES:
+
       - Safe by default: backups before any modification
+
       - Validation before write: catch errors early
+
       - Interactive mode: prompt for required fields
+
       - Soft delete: move to trash, not hard delete
+
       - Atomic writes: prevent partial/corrupted files
 
+
       CONTENT TYPES SUPPORTED:
+
       - agent: Specialized AI agent definitions
+
       - workflow: Multi-step process definitions
+
       - template: Handoff template definitions
+
       - handoff: Rendered handoff documents
+
       - schema: YAML schemas for validation
+
       - example: Example configurations
+
+      '

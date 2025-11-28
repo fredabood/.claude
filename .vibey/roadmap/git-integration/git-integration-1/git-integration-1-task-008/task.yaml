@@ -9,39 +9,21 @@ task:
   estimated_hours: 8
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T18:00:00+00:00'
-  description: |
-    Implement commands for reconstructing roadmap state from Git history:
-
-    COMMANDS (from Sprint 0 design):
-    1. vibey git state-at <ref>
-       Show roadmap state at specific commit/tag/date
-
-    2. vibey git diff <ref1> <ref2>
-       Compare roadmap states between two refs
-
-    3. vibey git history <task-id>
-       Show complete change history for a task
-
-    4. vibey git progress <sprint-id>
-       Show sprint progress over time (for burndown charts)
-
-    5. vibey git rollback <ref>
-       Restore roadmap YAML files to state at ref
-
-    IMPLEMENTATION (from 006-state-reconstruction.md):
-    - Use git show/checkout to read YAML at specific commits
-    - Parse YAML changes to derive history
-    - Support date-based queries (convert date to commit)
-    - Cache frequently accessed states for performance
-    - Provide both summary and detailed output formats
-
-    FEATURES:
-    - Point-in-time state queries
-    - Attribution (who changed what, when)
-    - Progress history for sprint burndown
-    - Safe rollback with dry-run mode
+  started: '2025-11-27T11:04:09.412776+00:00'
+  completed: '2025-11-27T11:04:09.412776+00:00'
+  description: "Implement commands for reconstructing roadmap state from Git history:\n\
+    \nCOMMANDS (from Sprint 0 design):\n1. vibey git state-at <ref>\n   Show roadmap\
+    \ state at specific commit/tag/date\n\n2. vibey git diff <ref1> <ref2>\n   Compare\
+    \ roadmap states between two refs\n\n3. vibey git history <task-id>\n   Show complete\
+    \ change history for a task\n\n4. vibey git progress <sprint-id>\n   Show sprint\
+    \ progress over time (for burndown charts)\n\n5. vibey git rollback <ref>\n  \
+    \ Restore roadmap YAML files to state at ref\n\nIMPLEMENTATION (from 006-state-reconstruction.md):\n\
+    - Use git show/checkout to read YAML at specific commits\n- Parse YAML changes\
+    \ to derive history\n- Support date-based queries (convert date to commit)\n-\
+    \ Cache frequently accessed states for performance\n- Provide both summary and\
+    \ detailed output formats\n\nFEATURES:\n- Point-in-time state queries\n- Attribution\
+    \ (who changed what, when)\n- Progress history for sprint burndown\n- Safe rollback\
+    \ with dry-run mode\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -49,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

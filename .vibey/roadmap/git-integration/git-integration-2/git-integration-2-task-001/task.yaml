@@ -9,29 +9,46 @@ task:
   estimated_hours: 6
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T18:45:00+00:00'
-  completed: '2025-11-25T00:00:00+00:00'
-  description: |
-    Build the pre-commit hook infrastructure based on Sprint 0 design:
+  started: '2025-11-27T11:04:09.395890+00:00'
+  completed: '2025-11-27T11:04:09.395890+00:00'
+  description: 'Build the pre-commit hook infrastructure based on Sprint 0 design:
+
 
     HOOK RESPONSIBILITIES:
+
     - Validate roadmap YAML syntax and schema
+
     - Check task status consistency
+
     - Verify referenced tasks exist
+
     - Validate commit message format (per Sprint 0 conventions)
+
     - Enforce configured enforcement mode
 
+
     IMPLEMENTATION:
+
     - Hook script in vibey/operations/git/hooks/
+
     - Configuration loading from .vibey/config/
+
     - Exit codes following Git conventions
+
     - Clear error messages with remediation hints
 
+
     ENFORCEMENT MODES (from Sprint 0):
+
     - Off: Skip all checks
+
     - Advisory: Warn but exit 0
+
     - Blocking: Exit non-zero on violations
+
     - Audit: Log violations, exit 0
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -39,3 +56,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

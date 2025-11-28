@@ -8,20 +8,21 @@ task:
   priority: medium
   complexity: low
   estimated_hours: 0.25
-  description: |
-    Delete framework/platform_adapters/ directory (4 files).
+  description: 'Delete framework/platform_adapters/ directory (4 files).
+
     This is legacy code superseded by vibey/adapters/.
 
+    '
   files_to_delete:
-    - framework/platform_adapters/__init__.py
-    - framework/platform_adapters/base.py
-    - framework/platform_adapters/claude_adapter.py
-    - framework/platform_adapters/registry.py
-
+  - framework/platform_adapters/__init__.py
+  - framework/platform_adapters/base.py
+  - framework/platform_adapters/claude_adapter.py
+  - framework/platform_adapters/registry.py
   verification:
-    - Check for any imports from framework.platform_adapters
-    - Update any found imports to use vibey.adapters
-    - Run tests to verify nothing breaks
-
+  - Check for any imports from framework.platform_adapters
+  - Update any found imports to use vibey.adapters
+  - Run tests to verify nothing breaks
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

@@ -8,25 +8,30 @@ task:
   priority: medium
   complexity: medium
   estimated_hours: 1
-  description: |
-    Review the 162 files in .vibey/roadmap/*/context/ directories.
+  description: 'Review the 162 files in .vibey/roadmap/*/context/ directories.
+
     Identify obsolete audit reports, redundant remediation files, and cleanup opportunities.
 
+
     PATTERNS TO ANALYZE:
+
     - Multiple TRACK_AUDIT_REPORT files per track (keep latest?)
+
     - Dated remediation reports (archive older ones?)
+
     - Completed track context (can be archived?)
 
+    '
   analysis_steps:
-    - Count files per track context
-    - Identify patterns (audits, remediation, implementation plans)
-    - Flag obsolete or redundant files
-    - Recommend archival strategy
-
+  - Count files per track context
+  - Identify patterns (audits, remediation, implementation plans)
+  - Flag obsolete or redundant files
+  - Recommend archival strategy
   output:
-    - Context file inventory by track
-    - Cleanup recommendations
-    - Archival strategy proposal
-
+  - Context file inventory by track
+  - Cleanup recommendations
+  - Archival strategy proposal
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

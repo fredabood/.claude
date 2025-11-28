@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Migration guide for teams already using GitHub Copilot. Cover transitioning workflows, integrating Vibey agents, and adopting best practices.
+  description: Migration guide for teams already using GitHub Copilot. Cover transitioning
+    workflows, integrating Vibey agents, and adopting best practices.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

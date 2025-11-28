@@ -11,14 +11,20 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Extract 5 embedded tasks from git-integration-4/sprint.yaml to individual task.yaml files.
+  description: 'Extract 5 embedded tasks from git-integration-4/sprint.yaml to individual
+    task.yaml files.
+
 
     SOURCE: .vibey/roadmap/git-integration/git-integration-4/sprint.yaml
+
     TASKS TO EXTRACT: 5 (dogfooding tasks)
 
+
     NOTE: This sprint is NOT STARTED
+
     - All 5 tasks should be status: not_started
+
+    '
   acceptance_criteria:
   - 5 task directories created
   - 5 task.yaml files with correct content
@@ -31,3 +37,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

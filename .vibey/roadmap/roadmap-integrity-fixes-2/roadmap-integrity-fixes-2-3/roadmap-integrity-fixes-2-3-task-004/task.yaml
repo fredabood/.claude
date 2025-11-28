@@ -9,23 +9,37 @@ task:
   estimated_hours: 0.5
   assigned_agent: test-engineer
   created: '2025-11-24T00:00:00+00:00'
-  description: |
-    Run and document quality gate results for python-package track.
+  description: 'Run and document quality gate results for python-package track.
+
 
     QUALITY GATES TO RUN:
+
     1. Package Installable: pip install vibey works
+
     2. All Subpackages Included: vibey.* importable
+
     3. Content Files Bundled: vibey/content/ accessible
+
     4. CLI Functional: vibey --help works
+
     5. Content CRUD Operations: content management works
 
+
     For each gate:
+
     - Run validation test
+
     - Record pass/fail
+
     - Update track.yaml quality_gates section
+
+    '
   acceptance_criteria:
   - All 5 quality gates executed
   - Results documented in track.yaml
   - Any failures noted with remediation plan
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false
+  started: null
+  completed: null

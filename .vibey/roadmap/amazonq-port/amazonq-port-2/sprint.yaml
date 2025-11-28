@@ -11,22 +11,25 @@ sprint:
   progress:
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   dependencies: []
   blocked_by: []
   depended_on_by: []
   quality_gates: []
   deliverables:
-    - Integration test suite with Q CLI
-    - E2E test suite with Q IDE plugins
-    - Enterprise admin control tests
-    - Amazon Q integration guide documentation
-    - Quality gate validation report
+  - Integration test suite with Q CLI
+  - E2E test suite with Q IDE plugins
+  - Enterprise admin control tests
+  - Amazon Q integration guide documentation
+  - Quality gate validation report
   metadata:
     created_by: roadmap-integrity-fixes
     last_updated: '2025-11-24T00:00:00+00:00'
-    description: |
-      Integration testing with Amazon Q CLI and IDE.
+    description: 'Integration testing with Amazon Q CLI and IDE.
+
       Enterprise IAM and admin control validation.
+
       Complete integration documentation.
+
+      '

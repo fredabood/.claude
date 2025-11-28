@@ -4,8 +4,8 @@ task:
   track_id: claude-port
   status: completed
   created: '2025-11-10T23:48:00-05:00'
-  started: '2025-11-10T23:48:00-05:00'
-  completed: '2025-11-11T00:03:00-05:00'
+  started: '2025-11-27T11:04:09.564507+00:00'
+  completed: '2025-11-27T11:04:09.564507+00:00'
   estimated_duration: 3 hours
   actual_duration: 15 minutes
   priority: high
@@ -56,3 +56,4 @@ task:
   estimated_tokens: 30000
   size_category: L
   original_estimated_duration: 3 hours
+  blocked: false

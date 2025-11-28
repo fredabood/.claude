@@ -4,14 +4,20 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement YAML remediation tooling"
-  description: |
-    Create tools to fix YAML files based on audit findings:
+  title: Implement YAML remediation tooling
+  description: 'Create tools to fix YAML files based on audit findings:
+
     - vibey roadmap fix-counters: Update progress fields to match computed values
+
     - vibey roadmap fix-counters --dry-run: Preview changes without writing
+
     - vibey roadmap fix-counters --file <path>: Fix specific file
+
     - Preserve YAML formatting and comments where possible
+
     - Generate fix report showing what was changed
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

@@ -9,10 +9,12 @@ task:
   estimated_hours: 6
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T18:00:00+00:00'
-  description: |
-    Build sprint velocity calculator from git history for measuring team productivity.
+  started: '2025-11-27T11:04:09.411066+00:00'
+  completed: '2025-11-27T11:04:09.411066+00:00'
+  description: 'Build sprint velocity calculator from git history for measuring team
+    productivity.
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -20,3 +22,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

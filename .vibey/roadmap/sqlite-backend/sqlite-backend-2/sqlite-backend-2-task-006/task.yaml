@@ -4,19 +4,25 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Update validation commands for database"
-  description: |
-    Update validation to work with database:
+  title: Update validation commands for database
+  description: 'Update validation to work with database:
+
     - vibey roadmap validate: Validate database integrity
+
     - vibey roadmap validate-fast: Quick referential integrity check
+
     - vibey roadmap validate --compare: Compare DB vs YAML
+
     Database validation can check foreign keys, constraints.
+
     Add comparison mode to detect drift between DB and YAML.
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T14:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation

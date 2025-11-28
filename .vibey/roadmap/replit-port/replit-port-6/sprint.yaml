@@ -11,7 +11,7 @@ sprint:
   progress:
     tasks_total: 6
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   dependencies:
   - type: sprint
@@ -42,19 +42,32 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 6 creates the forkable Replit template and publishes documentation.
+    notes: 'Sprint 6 creates the forkable Replit template and publishes documentation.
+
 
       Template includes:
+
       - Pre-configured .replit and replit.nix
+
       - MCP server setup
+
       - Extension pre-installed
+
       - Sample project structure
+
       - Quick start instructions
 
+
       Documentation covers:
+
       - Forking and initial setup
+
       - Extension installation
+
       - Common workflows
+
       - Troubleshooting
+
       - Platform limitations
+
+      '

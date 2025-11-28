@@ -11,46 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement validate_deployment method to verify successful deployment
-    in Replit environment.
-
-    VALIDATION CHECKS:
-    1. File Structure
-       - All required files present
-       - Correct directory structure
-       - Proper permissions
-
-    2. Configuration
-       - .replit TOML valid
-       - replit.nix valid
-       - Environment variables set
-
-    3. MCP Server
-       - Server starts successfully
-       - All tools registered
-       - Tools accessible
-
-    4. Extension
-       - Extension installed
-       - Extension loads correctly
-       - MCP connectivity works
-
-    5. Context Files
-       - REPLIT.md generated
-       - Frontmatter parsed correctly
-       - Agent instructions valid
-
-    VALIDATION LEVELS:
-    - Critical: Must pass for deployment
-    - Warning: Should pass but non-blocking
-    - Info: Informational only
-
-    DELIVERABLES:
-    - validate_deployment() method
-    - Validation report format
-    - Fix suggestions
-    - Validation tests
+  description: "Implement validate_deployment method to verify successful deployment\n\
+    in Replit environment.\n\nVALIDATION CHECKS:\n1. File Structure\n   - All required\
+    \ files present\n   - Correct directory structure\n   - Proper permissions\n\n\
+    2. Configuration\n   - .replit TOML valid\n   - replit.nix valid\n   - Environment\
+    \ variables set\n\n3. MCP Server\n   - Server starts successfully\n   - All tools\
+    \ registered\n   - Tools accessible\n\n4. Extension\n   - Extension installed\n\
+    \   - Extension loads correctly\n   - MCP connectivity works\n\n5. Context Files\n\
+    \   - REPLIT.md generated\n   - Frontmatter parsed correctly\n   - Agent instructions\
+    \ valid\n\nVALIDATION LEVELS:\n- Critical: Must pass for deployment\n- Warning:\
+    \ Should pass but non-blocking\n- Info: Informational only\n\nDELIVERABLES:\n\
+    - validate_deployment() method\n- Validation report format\n- Fix suggestions\n\
+    - Validation tests\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -58,3 +30,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

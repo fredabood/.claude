@@ -9,15 +9,21 @@ task:
   estimated_hours: 2
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T00:00:00+00:00'
-  description: |
-    Add package_data to include non-Python files:
+  started: '2025-11-27T11:04:09.357476+00:00'
+  completed: '2025-11-27T11:04:09.357476+00:00'
+  description: 'Add package_data to include non-Python files:
+
     - content/**/*.md (agents, workflows, templates)
+
     - content/**/*.yaml (config, schemas, examples)
+
     - content/**/*.yml
+
     - content/**/*.j2 (Jinja2 templates if any)
+
     - Verify MANIFEST.in not needed with modern setuptools
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -25,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

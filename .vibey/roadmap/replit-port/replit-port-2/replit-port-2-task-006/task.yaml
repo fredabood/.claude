@@ -11,51 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create integration tests for ReplitAdapter in actual Replit environment.
-
-    INTEGRATION TEST SCENARIOS:
-    1. Full Deployment Flow
-       - Initialize new Replit project
-       - Deploy Vibey framework
-       - Validate deployment
-       - Verify functionality
-
-    2. MCP Server Integration
-       - Start MCP server
-       - Test tool discovery
-       - Invoke tools
-       - Handle errors
-
-    3. Extension Integration
-       - Load extension
-       - Connect to MCP server
-       - Test UI components
-       - Verify data flow
-
-    4. Context Generation
-       - Parse frontmatter
-       - Generate REPLIT.md
-       - Validate output
-       - Test with Replit Agent
-
-    TESTING ENVIRONMENT:
-    - Real Replit workspace
-    - Live MCP server
-    - Actual Extension
-    - Production-like data
-
-    CI/CD INTEGRATION:
-    - Automated test runs
-    - Replit API integration
-    - Test report generation
-    - Failure notifications
-
-    DELIVERABLES:
-    - Integration test suite
-    - Test environment setup
-    - CI/CD configuration
-    - Test documentation
+  description: "Create integration tests for ReplitAdapter in actual Replit environment.\n\
+    \nINTEGRATION TEST SCENARIOS:\n1. Full Deployment Flow\n   - Initialize new Replit\
+    \ project\n   - Deploy Vibey framework\n   - Validate deployment\n   - Verify\
+    \ functionality\n\n2. MCP Server Integration\n   - Start MCP server\n   - Test\
+    \ tool discovery\n   - Invoke tools\n   - Handle errors\n\n3. Extension Integration\n\
+    \   - Load extension\n   - Connect to MCP server\n   - Test UI components\n  \
+    \ - Verify data flow\n\n4. Context Generation\n   - Parse frontmatter\n   - Generate\
+    \ REPLIT.md\n   - Validate output\n   - Test with Replit Agent\n\nTESTING ENVIRONMENT:\n\
+    - Real Replit workspace\n- Live MCP server\n- Actual Extension\n- Production-like\
+    \ data\n\nCI/CD INTEGRATION:\n- Automated test runs\n- Replit API integration\n\
+    - Test report generation\n- Failure notifications\n\nDELIVERABLES:\n- Integration\
+    \ test suite\n- Test environment setup\n- CI/CD configuration\n- Test documentation\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -63,3 +30,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

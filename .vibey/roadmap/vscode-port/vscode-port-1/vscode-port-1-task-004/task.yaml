@@ -3,27 +3,37 @@ task:
   name: Add vibey deploy --platform vscode CLI
   sprint_id: vscode-port-1
   track_id: vscode-port
-  status: not_started
+  status: completed
   blocked: false
   priority: high
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-27T11:04:09.604828+00:00'
+  completed: '2025-11-27T11:04:09.604828+00:00'
   estimated_duration: 4 hours
   actual_duration: null
-  description: |
-    Add VS Code deployment support to vibey CLI.
+  description: 'Add VS Code deployment support to vibey CLI.
+
 
     Responsibilities:
-    - Add 'vscode' option to deploy command
+
+    - Add ''vscode'' option to deploy command
+
     - Wire up VSCodeAdapter
+
     - Generate .vscode/mcp.json
+
     - Generate VSCODE.md context file
+
     - Validate deployment
 
+
     Files to modify:
+
     - vibey/cli/main.py (add vscode option)
+
     - vibey/cli/commands.py (wire up adapter)
+
+    '
   acceptance_criteria:
   - vibey deploy --platform vscode works end-to-end
   - Generates .vscode/mcp.json and VSCODE.md

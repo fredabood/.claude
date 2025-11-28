@@ -4,25 +4,29 @@ task:
   track_id: amazonq-port
   sprint_id: amazonq-port-1
   name: Implement AmazonQContextGenerator
-  status: not_started
+  status: completed
   priority: high
   estimated_hours: 4
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
-  description: |
-    Implement AmazonQContextGenerator to generate Amazon Q specific context files
+  started: '2025-11-27T11:04:09.261680+00:00'
+  completed: '2025-11-27T11:04:09.261680+00:00'
+  description: 'Implement AmazonQContextGenerator to generate Amazon Q specific context
+    files
+
     from agent and workflow frontmatter following zero-drift architecture.
+
+    '
   acceptance_criteria:
-    - AmazonQContextGenerator class created in vibey/adapters/amazonq/context_generator.py
-    - Generates .amazonq/ directory structure
-    - Converts agent/workflow frontmatter to Amazon Q context format
-    - Maintains zero-drift guarantee with source definitions
+  - AmazonQContextGenerator class created in vibey/adapters/amazonq/context_generator.py
+  - Generates .amazonq/ directory structure
+  - Converts agent/workflow frontmatter to Amazon Q context format
+  - Maintains zero-drift guarantee with source definitions
   dependencies:
-    - amazonq-port-1-task-001
+  - amazonq-port-1-task-001
   blocked_by: []
   depended_on_by: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

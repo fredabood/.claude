@@ -3,8 +3,8 @@ sprint:
   name: Move Unique Code & Update Imports
   track_id: directory-consolidation
   status: completed
-  started: 2025-11-23
-  completed: 2025-11-23
+  started: '2025-11-23T00:00:00+00:00'
+  completed: '2025-11-23T00:00:00+00:00'
   estimated_duration: 1-2 days
   tasks:
   - directory-consolidation-2-task-001
@@ -20,3 +20,7 @@ sprint:
     Final cleanup and verification.
 
     '
+  progress:
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100.0

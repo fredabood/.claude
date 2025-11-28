@@ -4,21 +4,31 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Fix quality_gates schema/model/CLI consistency"
-  description: |
-    Currently quality_gates has inconsistent support across the codebase:
+  title: Fix quality_gates schema/model/CLI consistency
+  description: 'Currently quality_gates has inconsistent support across the codebase:
+
 
     | Level  | Schema | Model | YAML Files | CLI |
+
     |--------|--------|-------|------------|-----|
+
     | Track  | ✅     | ✅    | ✅         | ❌  |
+
     | Sprint | ❌     | ❌    | ✅         | ✅  |
 
+
     This task fixes the gap by:
+
     1. Adding quality_gates to sprint.schema.yaml
+
     2. Adding quality_gates to sprint.py model (Sprint class)
+
     3. Adding --track-id support to CLI gate command
 
+
     This ensures the SQLite database schema matches a consistent Vibey implementation.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T19:00:00+00:00'
@@ -46,7 +56,10 @@ task:
     last_updated: '2025-11-26T19:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Discovered during SQLite design review - quality_gates are used in sprint
+    notes: 'Discovered during SQLite design review - quality_gates are used in sprint
+
       YAML files and CLI but not defined in sprint schema/model. Track-level
+
       gates are in schema/model but CLI only supports sprints.
+
+      '

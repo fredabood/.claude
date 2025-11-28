@@ -8,20 +8,21 @@ task:
   priority: high
   complexity: low
   estimated_hours: 0.5
-  description: |
-    Delete entire framework/scripts/ directory (42 files, 1.5MB).
+  description: 'Delete entire framework/scripts/ directory (42 files, 1.5MB).
+
     This is fully redundant with vibey/cli/ which is the authoritative location.
 
+    '
   directories_to_delete:
-    - framework/scripts/roadmap_commands/
-    - framework/scripts/roadmap-lib/
-    - framework/scripts/tests/
-    - framework/scripts/ (all standalone .py files)
-
+  - framework/scripts/roadmap_commands/
+  - framework/scripts/roadmap-lib/
+  - framework/scripts/tests/
+  - framework/scripts/ (all standalone .py files)
   verification:
-    - Verify vibey/cli/ has all equivalent functionality
-    - Run CLI commands to confirm they still work
-    - Run tests to verify nothing breaks
-
+  - Verify vibey/cli/ has all equivalent functionality
+  - Run CLI commands to confirm they still work
+  - Run tests to verify nothing breaks
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
+  started: null
   completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 2 weeks
   progress:
     sprints_total: 5
-    sprints_completed: 5
+    sprints_completed: 4
     tasks_total: 29
-    tasks_completed: 29
-    completion_percent: 100
+    tasks_completed: 0
+    completion_percent: 0.0
   sprints:
   - id: roadmap-integrity-fixes-2-1
     name: Critical Git & Status Fixes
@@ -99,22 +99,36 @@ track:
     last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      Phase 2 of roadmap data integrity remediation.
+    notes: 'Phase 2 of roadmap data integrity remediation.
+
 
       Based on comprehensive parallel audit of all 34 tracks on 2025-11-24.
 
+
       CRITICAL ISSUES FOUND:
+
       1. 2 tracks untracked in git (data loss risk)
+
       2. 3 tracks with status mismatches
+
       3. 2 active tracks with embedded schema needing migration
+
       4. 6 platform ports with phantom progress (0 actual tasks)
+
 
       ESTIMATED EFFORT: 8 hours total
 
+
       SPRINT STRUCTURE:
+
       - Sprint 1: Critical fixes (git tracking, status sync)
+
       - Sprint 2: git-integration schema migration
+
       - Sprint 3: python-package schema migration
+
       - Sprint 4: Platform port task extraction
+
       - Sprint 5: Validation and documentation
+
+      '

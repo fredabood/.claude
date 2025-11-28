@@ -8,27 +8,42 @@ task:
   priority: high
   complexity: medium
   estimated_hours: 1
-  description: |
-    Categorize the 171 files in docs/ into permanent documentation vs session-specific artifacts.
+  description: 'Categorize the 171 files in docs/ into permanent documentation vs
+    session-specific artifacts.
+
 
     LIKELY SESSION-SPECIFIC (should move to .vibey/roadmap/*/context/):
+
     - *_2025-*.md (dated files)
+
     - SESSION_*.md
+
     - TEST_*.md (test session reports)
+
     - *_COMPLETE.md (completion reports)
+
     - *_SUMMARY.md (sprint summaries)
 
+
     LIKELY PERMANENT:
+
     - ARCHITECTURE.md
+
     - CONFIG_SYSTEM.md
+
     - CLI_USAGE.md
+
     - FRAMEWORK_ROADMAP.md
+
     - guides/*
+
     - reference/*
 
+    '
   output:
-    - Categorized file list
-    - Recommended destination for each file
-
+  - Categorized file list
+  - Recommended destination for each file
   blocked_by: []
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

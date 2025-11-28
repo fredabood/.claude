@@ -9,27 +9,42 @@ task:
   estimated_hours: 8
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T18:45:00+00:00'
-  completed: '2025-11-24T22:28:49.352232+00:00'
-  description: |
-    Auto-update task status based on commit messages:
+  started: '2025-11-27T11:04:09.397305+00:00'
+  completed: '2025-11-27T11:04:09.397305+00:00'
+  description: 'Auto-update task status based on commit messages:
+
 
     TRIGGERS:
+
     - Commit with "completes task-id" → mark completed
+
     - Commit with "starts task-id" → mark in_progress
+
     - Commit with "blocks task-id" → mark blocked
+
     - Configurable keywords per status
 
+
     IMPLEMENTATION:
+
     - Post-commit hook or CLI command
+
     - Parse commit message for status indicators
+
     - Update roadmap YAML atomically
-    - Record commit SHA in task's commits list
+
+    - Record commit SHA in task''s commits list
+
 
     SAFETY:
+
     - Dry-run mode for testing
+
     - Undo capability (track previous status)
+
     - Conflict detection (task already in target status)
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -38,3 +53,4 @@ task:
   - abc1234
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

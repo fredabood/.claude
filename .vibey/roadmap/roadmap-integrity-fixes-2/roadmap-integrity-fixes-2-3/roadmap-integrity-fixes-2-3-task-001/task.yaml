@@ -25,3 +25,6 @@ task:
     message: 'feat: Schema migration for python-package track (24 tasks)'
     author: '@fredabood <fredabood@gmail.com>'
     date: '2025-11-24T23:28:39-05:00'
+  blocked: false
+  started: null
+  completed: null

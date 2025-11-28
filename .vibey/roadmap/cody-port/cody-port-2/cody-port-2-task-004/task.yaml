@@ -4,8 +4,9 @@ task:
   track_id: cody-port
   roadmap_id: vibey-framework-v2
   task_type: documentation
-  title: "Write Cody integration guide"
-  description: "Create comprehensive integration guide for using Vibey with Sourcegraph Cody Enterprise"
+  title: Write Cody integration guide
+  description: Create comprehensive integration guide for using Vibey with Sourcegraph
+    Cody Enterprise
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
@@ -48,4 +49,4 @@ task:
     last_updated: '2025-11-24T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Include OpenCtx configuration and MCP setup"
+    notes: Include OpenCtx configuration and MCP setup

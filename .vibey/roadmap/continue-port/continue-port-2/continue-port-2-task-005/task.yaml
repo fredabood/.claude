@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Complete documentation
-  description: |
-    User guide with screenshots, multi-IDE setup instructions, troubleshooting guide
+  description: 'User guide with screenshots, multi-IDE setup instructions, troubleshooting
+    guide
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.178876+00:00'

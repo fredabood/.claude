@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-16-task-001
     name: Design integration test suite
@@ -19,93 +19,137 @@ sprint:
     priority: critical
     estimated_hours: 6
     assigned_agent: test-engineer
-    description: |
-      Design integration tests:
+    description: 'Design integration tests:
+
       - End-to-end workflow tests
+
       - Cross-module interaction tests
+
       - CLI to operations to models flow
+
       - Config to operations flow
+
       - Test data management strategy
+
+      '
   - id: user-journey-audit-16-task-002
     name: Write workflow integration tests
     status: not_started
     priority: critical
     estimated_hours: 12
     assigned_agent: test-engineer
-    description: |
-      Test complete workflows:
+    description: 'Test complete workflows:
+
       - Roadmap initialization workflow
+
       - Sprint execution workflow
+
       - Task completion workflow
+
       - Progress reporting workflow
+
       - Documentation generation workflow
+
+      '
   - id: user-journey-audit-16-task-003
     name: Write error propagation tests
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
-    description: |
-      Test error handling across layers:
+    description: 'Test error handling across layers:
+
       - Errors from models to operations
+
       - Errors from operations to CLI
+
       - Error message preservation
+
       - Context propagation
+
       - Recovery and rollback
+
+      '
   - id: user-journey-audit-16-task-004
     name: Validate 100% overall coverage
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: test-engineer
-    description: |
-      Final coverage validation:
+    description: 'Final coverage validation:
+
       - Run pytest-cov --cov=vibey
+
       - Verify 100% line coverage overall
+
       - Verify 100% branch coverage overall
+
       - Generate coverage report
+
       - Document any exclusions
+
+      '
   - id: user-journey-audit-16-task-005
     name: Validate 95%+ pass rate
     status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
-    description: |
-      Final pass rate validation:
+    description: 'Final pass rate validation:
+
       - Run full test suite
+
       - Calculate pass rate
+
       - Investigate any failures
+
       - Fix flaky tests
+
       - Document known issues
+
+      '
   - id: user-journey-audit-16-task-006
     name: Set up CI coverage enforcement
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: backend-engineer
-    description: |
-      CI integration:
+    description: 'CI integration:
+
       - pytest-cov configuration
+
       - Coverage threshold enforcement (100%)
+
       - Pass rate threshold (95%)
+
       - PR coverage comments
+
       - Coverage badge generation
+
       - Fail build on coverage drop
+
+      '
   - id: user-journey-audit-16-task-007
     name: Produce final coverage report and documentation
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: docs-writer
-    description: |
-      Final deliverables:
+    description: 'Final deliverables:
+
       - Coverage report by module
+
       - Pass rate report
+
       - Test suite documentation
+
       - Maintenance guide
+
       - CI integration documentation
+
       - README badges setup
+
+      '
   dependencies:
   - user-journey-audit-12
   blocked_by:
@@ -137,11 +181,17 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 7 validates overall coverage and sets up enforcement.
+    notes: 'Sprint 7 validates overall coverage and sets up enforcement.
+
 
       SUCCESS CRITERIA MET:
+
       - 100% code coverage across all vibey/ modules
+
       - 95%+ test pass rate
+
       - CI enforces both thresholds
+
       - Coverage cannot regress
+
+      '

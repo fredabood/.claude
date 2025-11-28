@@ -1,0 +1,177 @@
+roadmap:
+  id: vibey-framework-v2
+  name: Vibey Multi-Platform Agent Framework
+  version: 1.3.0
+  version_strategy:
+    major_on: roadmap_milestone
+    minor_on: track_completion
+    patch_on: sprint_production_ready
+  status: in_progress
+  blocked: false
+  created: '2024-11-01T00:00:00+00:00'
+  started: '2024-11-01T00:00:00+00:00'
+  target_completion: null
+  completed: null
+  deployed: null
+  progress:
+    tracks_total: 35
+    tracks_completed: 20
+    sprints_total: 100
+    sprints_completed: 45
+    tasks_total: 482
+    tasks_completed: 338
+    completion_percent: 70.0
+  tracks:
+  - id: aider-port
+    name: Aider Platform Port
+    status: in_progress
+    priority: high
+  - id: amazonq-port
+    name: Amazon Q Developer Platform Port
+    status: not_started
+    priority: medium
+  - id: atlassian-integration
+    name: Atlassian Integration (Jira & Confluence)
+    status: not_started
+    priority: high
+  - id: brew-package
+    name: Homebrew Package Distribution
+    status: not_started
+    priority: medium
+  - id: claude-port
+    name: Claude Code Platform Validation
+    status: completed
+    priority: critical
+  - id: cody-port
+    name: Sourcegraph Cody Platform Port
+    status: in_progress
+    priority: low
+  - id: continue-port
+    name: Continue.dev Platform Port
+    status: in_progress
+    priority: high
+  - id: copilot-port
+    name: GitHub Copilot Platform Port
+    status: not_started
+    priority: high
+  - id: core-framework
+    name: Core Framework Enhancements
+    status: completed
+    priority: high
+  - id: cursor-port
+    name: Cursor Platform Port
+    status: not_started
+    priority: high
+  - id: directory-consolidation
+    name: Directory Structure Consolidation
+    status: completed
+    priority: medium
+  - id: directory-migration
+    name: Platform-Agnostic Architecture (Design & Implementation)
+    status: completed
+    priority: critical
+  - id: documentation-system
+    name: Hierarchical Documentation & Context Management System
+    status: completed
+    priority: high
+  - id: gemini-port
+    name: Gemini Platform Port
+    status: completed
+    priority: high
+  - id: git-integration
+    name: Enhanced Git Integration
+    status: in_progress
+    priority: high
+  - id: goose-port
+    name: Goose Platform Port
+    status: completed
+    priority: critical
+  - id: infrastructure-fixes
+    name: Critical Infrastructure Fixes
+    status: completed
+    priority: critical
+  - id: interface-unification
+    name: Interface Unification & Simplification
+    status: completed
+    priority: critical
+  - id: jetbrains-port
+    name: JetBrains AI Assistant Port
+    status: completed
+    priority: medium
+  - id: mcp-server
+    name: MCP Server Foundation
+    status: in_progress
+    priority: critical
+  - id: missing-agents
+    name: Missing Agents Implementation
+    status: completed
+    priority: high
+  - id: multi-platform
+    name: Multi-Platform Architecture
+    status: completed
+    priority: medium
+  - id: platform-context-management
+    name: Platform Context Management System
+    status: completed
+    priority: critical
+  - id: python-package
+    name: Python Package Structure & Distribution
+    status: completed
+    priority: critical
+  - id: replit-port
+    name: Replit Agent Platform Port
+    status: not_started
+    priority: medium
+  - id: roadmap-integration
+    name: Roadmap Integration into /vibey Commands
+    status: completed
+    priority: high
+  - id: roadmap-integrity-fixes
+    name: Roadmap Data Integrity & Validation System
+    status: completed
+    priority: critical
+  - id: roadmap-integrity-fixes-2
+    name: Roadmap Data Integrity Remediation (Phase 2)
+    status: completed
+    priority: critical
+  - id: roadmap-state-audit
+    name: Roadmap State Integrity Audit
+    status: in_progress
+    priority: critical
+  - id: roadmap-system
+    name: Roadmap Object Hierarchy Implementation
+    status: completed
+    priority: critical
+  - id: standards-system
+    name: Roadmap Standards System
+    status: completed
+    priority: critical
+  - id: testing-system
+    name: Comprehensive Testing & Quality Assurance
+    status: completed
+    priority: critical
+  - id: user-journey-audit
+    name: User Journey Audit & Documentation Coverage
+    status: not_started
+    priority: high
+  - id: vscode-port
+    name: VS Code Native MCP Port
+    status: not_started
+    priority: high
+  - id: windsurf-port
+    name: Windsurf/Codeium Platform Port
+    status: in_progress
+    priority: high
+  dependencies: []
+  blocked_by: []
+  version_history: []
+  deployed_platforms: []
+  standards: []
+  activity_log: []
+  metadata:
+    created_by: unknown
+    framework_version: 1.0.0
+    schema_version: '2.1'
+    last_updated: null
+    purpose: null
+    description: null

@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T16:00:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 4 weeks
   progress:
     sprints_total: 3
     sprints_completed: 3
     tasks_total: 24
     tasks_completed: 24
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: python-package-1
     name: Package Structure & Configuration
@@ -66,7 +66,8 @@ track:
     threshold: 100
     blocking: true
     status: not_run
-    description: vibey/content/ (agents, workflows, templates) accessible after pip install
+    description: vibey/content/ (agents, workflows, templates) accessible after pip
+      install
     score: null
   - name: CLI Functional
     threshold: 100
@@ -105,34 +106,17 @@ track:
     last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      CRITICAL PACKAGING FIX + CONTENT MANAGEMENT
-
-      Current Issues:
-      1. framework/ directory not included in pip package
-      2. Several vibey/ subpackages missing from pyproject.toml:
-         - vibey.operations
-         - vibey.mcp
-         - vibey.adapters
-         - vibey.common
-      3. pip install vibey results in non-functional installation
-      4. No CRUD interface for managing content (agents, workflows, templates)
-
-      Solution:
-      1. Move framework/ into vibey/content/ (rename for clarity)
-      2. Update pyproject.toml to use find_packages()
-      3. Add package_data for markdown/yaml content
-      4. Test installation from clean environment
-      5. Publish to PyPI
-      6. Add content management CLI commands
-      7. Add content management MCP tools
-
-      This is a BLOCKER for:
-      - User adoption (can't pip install)
-      - User journey audit (can't test installation flow)
-      - All platform ports (need working base package)
-
-      CONTENT MANAGEMENT enables:
-      - Users to create/edit/delete agents without manual YAML editing
-      - AI assistants to manage content via MCP tools
-      - Safer modifications with validation and backups
+    notes: "CRITICAL PACKAGING FIX + CONTENT MANAGEMENT\n\nCurrent Issues:\n1. framework/\
+      \ directory not included in pip package\n2. Several vibey/ subpackages missing\
+      \ from pyproject.toml:\n   - vibey.operations\n   - vibey.mcp\n   - vibey.adapters\n\
+      \   - vibey.common\n3. pip install vibey results in non-functional installation\n\
+      4. No CRUD interface for managing content (agents, workflows, templates)\n\n\
+      Solution:\n1. Move framework/ into vibey/content/ (rename for clarity)\n2. Update\
+      \ pyproject.toml to use find_packages()\n3. Add package_data for markdown/yaml\
+      \ content\n4. Test installation from clean environment\n5. Publish to PyPI\n\
+      6. Add content management CLI commands\n7. Add content management MCP tools\n\
+      \nThis is a BLOCKER for:\n- User adoption (can't pip install)\n- User journey\
+      \ audit (can't test installation flow)\n- All platform ports (need working base\
+      \ package)\n\nCONTENT MANAGEMENT enables:\n- Users to create/edit/delete agents\
+      \ without manual YAML editing\n- AI assistants to manage content via MCP tools\n\
+      - Safer modifications with validation and backups\n"

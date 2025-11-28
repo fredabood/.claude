@@ -4,8 +4,9 @@ task:
   track_id: cody-port
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create Prompt Library templates"
-  description: "Design Prompt Library templates for Sourcegraph UI integration with Vibey workflows"
+  title: Create Prompt Library templates
+  description: Design Prompt Library templates for Sourcegraph UI integration with
+    Vibey workflows
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
@@ -31,4 +32,4 @@ task:
     last_updated: '2025-11-24T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Manual copy to Sourcegraph UI (no programmatic API)"
+    notes: Manual copy to Sourcegraph UI (no programmatic API)

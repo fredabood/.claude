@@ -11,71 +11,23 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create end-to-end test suite for Extension features and workflows.
-
-    E2E TEST SCENARIOS:
-    1. Extension Initialization
-       - Extension loads successfully
-       - MCP connection established
-       - Dashboard displays data
-
-    2. Roadmap Visualization
-       - View roadmap
-       - Expand/collapse tracks
-       - Click track to view sprints
-       - Navigate to tasks
-
-    3. Sprint Management
-       - View sprint details
-       - See task list
-       - Update sprint status
-       - View progress charts
-
-    4. Task Management
-       - View task list
-       - Update task status
-       - View task details
-       - Filter and sort tasks
-
-    5. File Handlers
-       - Open .vibey/*.yaml files
-       - Preview renders correctly
-       - Quick actions work
-       - Validation works
-
-    6. CLUI Commands
-       - vibey:roadmap command
-       - vibey:sprint command
-       - vibey:task command
-       - vibey:sync command
-
-    TESTING FRAMEWORK:
-    - Playwright for E2E tests
-    - Replit Extensions test harness
-    - Mock MCP server
-    - Test fixtures
-
-    TEST SETUP:
-    ```typescript
-    describe('Extension E2E Tests', () => {
-      beforeEach(async () => {
-        // Initialize extension
-        // Connect to mock MCP server
-        // Load test data
-      });
-
-      test('displays roadmap on load', async () => {
-        // Test implementation
-      });
-    });
-    ```
-
-    DELIVERABLES:
-    - E2E test suite
-    - Test fixtures
-    - CI integration
-    - Test documentation
+  description: "Create end-to-end test suite for Extension features and workflows.\n\
+    \nE2E TEST SCENARIOS:\n1. Extension Initialization\n   - Extension loads successfully\n\
+    \   - MCP connection established\n   - Dashboard displays data\n\n2. Roadmap Visualization\n\
+    \   - View roadmap\n   - Expand/collapse tracks\n   - Click track to view sprints\n\
+    \   - Navigate to tasks\n\n3. Sprint Management\n   - View sprint details\n  \
+    \ - See task list\n   - Update sprint status\n   - View progress charts\n\n4.\
+    \ Task Management\n   - View task list\n   - Update task status\n   - View task\
+    \ details\n   - Filter and sort tasks\n\n5. File Handlers\n   - Open .vibey/*.yaml\
+    \ files\n   - Preview renders correctly\n   - Quick actions work\n   - Validation\
+    \ works\n\n6. CLUI Commands\n   - vibey:roadmap command\n   - vibey:sprint command\n\
+    \   - vibey:task command\n   - vibey:sync command\n\nTESTING FRAMEWORK:\n- Playwright\
+    \ for E2E tests\n- Replit Extensions test harness\n- Mock MCP server\n- Test fixtures\n\
+    \nTEST SETUP:\n```typescript\ndescribe('Extension E2E Tests', () => {\n  beforeEach(async\
+    \ () => {\n    // Initialize extension\n    // Connect to mock MCP server\n  \
+    \  // Load test data\n  });\n\n  test('displays roadmap on load', async () =>\
+    \ {\n    // Test implementation\n  });\n});\n```\n\nDELIVERABLES:\n- E2E test\
+    \ suite\n- Test fixtures\n- CI integration\n- Test documentation\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -83,3 +35,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

@@ -5,13 +5,39 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement sync manifest tracking system
-  description: "Create sync manifest (.vibey/roadmap/.sync-manifest.json) to track\n\
-    what files have been synchronized and when.\n\nImplementation:\n- Design sync\
-    \ manifest JSON schema\n- Track synchronized files with checksums\n- Record sync\
-    \ timestamps\n- Store source \u2192 target mappings\n- Enable incremental sync\
-    \ (only changed files)\n- Provide sync history\n\nAcceptance Criteria:\n- Manifest\
-    \ tracks all synchronized files\n- Checksums enable change detection\n- Incremental\
-    \ sync works correctly\n- Sync history queryable\n- Manifest updated atomically\n"
+  description: 'Create sync manifest (.vibey/roadmap/.sync-manifest.json) to track
+
+    what files have been synchronized and when.
+
+
+    Implementation:
+
+    - Design sync manifest JSON schema
+
+    - Track synchronized files with checksums
+
+    - Record sync timestamps
+
+    - Store source → target mappings
+
+    - Enable incremental sync (only changed files)
+
+    - Provide sync history
+
+
+    Acceptance Criteria:
+
+    - Manifest tracks all synchronized files
+
+    - Checksums enable change detection
+
+    - Incremental sync works correctly
+
+    - Sync history queryable
+
+    - Manifest updated atomically
+
+    '
   status: completed
   blocked: false
   created: '2025-11-09T19:59:00+00:00'

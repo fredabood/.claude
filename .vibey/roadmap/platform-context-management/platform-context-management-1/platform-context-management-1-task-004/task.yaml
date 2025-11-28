@@ -10,25 +10,33 @@ task:
   started: '2025-11-22T20:30:00+00:00'
   completed: '2025-11-22T20:35:00+00:00'
   estimated_tokens: 10000
-  description: |
-    Add CLI commands for platform configuration:
+  description: 'Add CLI commands for platform configuration:
+
     - vibey config platform show - Show detected/configured platform
+
     - vibey config platform set <name> --context-window <size>
+
     - vibey config platform detect - Force re-detection
 
+
     Deliverables:
+
     - CLI commands in vibey/cli/main.py
+
     - Command implementations in vibey/cli/commands.py
+
     - User-friendly output with platform details
+
+    '
   success_criteria:
-    - vibey config platform show displays platform info
-    - vibey config platform set stores platform in config
-    - vibey config platform detect runs detection
-    - Commands use consistent CLI patterns
-    - Help text clear and informative
-    - Unit tests for CLI commands
+  - vibey config platform show displays platform info
+  - vibey config platform set stores platform in config
+  - vibey config platform detect runs detection
+  - Commands use consistent CLI patterns
+  - Help text clear and informative
+  - Unit tests for CLI commands
   dependencies:
-    - platform-context-management-1-task-003
+  - platform-context-management-1-task-003
   blocked_by: []
   assigned_agent: web-developer
   commits: []

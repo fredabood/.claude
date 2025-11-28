@@ -11,54 +11,19 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create React scaffolding with base components and routing.
-
-    COMPONENT STRUCTURE:
-    ```
-    src/components/
-    ├── App.tsx              # Root component
-    ├── Layout.tsx           # Main layout
-    ├── Header.tsx           # Header with navigation
-    ├── Sidebar.tsx          # Sidebar navigation
-    ├── ErrorBoundary.tsx   # Error handling
-    └── Loading.tsx          # Loading states
-    ```
-
-    BASE COMPONENTS:
-    1. App.tsx
-       - Main application component
-       - Replit Extensions API initialization
-       - Global state provider
-       - Error boundary wrapper
-
-    2. Layout.tsx
-       - Header, sidebar, main content
-       - Responsive design
-       - Theme support
-
-    3. Navigation
-       - Roadmap view
-       - Sprint view
-       - Task view
-       - Settings
-
-    STYLING:
-    - Replit design system
-    - Tailwind CSS
-    - Dark mode support
-    - Responsive layouts
-
-    STATE MANAGEMENT:
-    - React Context for global state
-    - useState for local state
-    - Custom hooks for reusability
-
-    DELIVERABLES:
-    - Base React components
-    - Layout structure
-    - Navigation system
-    - Styling setup
+  description: "Create React scaffolding with base components and routing.\n\nCOMPONENT\
+    \ STRUCTURE:\n```\nsrc/components/\n├── App.tsx              # Root component\n\
+    ├── Layout.tsx           # Main layout\n├── Header.tsx           # Header with\
+    \ navigation\n├── Sidebar.tsx          # Sidebar navigation\n├── ErrorBoundary.tsx\
+    \   # Error handling\n└── Loading.tsx          # Loading states\n```\n\nBASE COMPONENTS:\n\
+    1. App.tsx\n   - Main application component\n   - Replit Extensions API initialization\n\
+    \   - Global state provider\n   - Error boundary wrapper\n\n2. Layout.tsx\n  \
+    \ - Header, sidebar, main content\n   - Responsive design\n   - Theme support\n\
+    \n3. Navigation\n   - Roadmap view\n   - Sprint view\n   - Task view\n   - Settings\n\
+    \nSTYLING:\n- Replit design system\n- Tailwind CSS\n- Dark mode support\n- Responsive\
+    \ layouts\n\nSTATE MANAGEMENT:\n- React Context for global state\n- useState for\
+    \ local state\n- Custom hooks for reusability\n\nDELIVERABLES:\n- Base React components\n\
+    - Layout structure\n- Navigation system\n- Styling setup\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -66,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

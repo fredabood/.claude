@@ -11,47 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement replit.nix generation for dependency management via Nix.
-
-    NIX FILE STRUCTURE:
-    ```nix
-    { pkgs }: {
-      deps = [
-        pkgs.python311
-        pkgs.python311Packages.pip
-        pkgs.python311Packages.pyyaml
-        pkgs.python311Packages.click
-        pkgs.python311Packages.jinja2
-      ];
-    }
-    ```
-
-    DEPENDENCY DETECTION:
-    - Parse pyproject.toml
-    - Extract dependencies
-    - Map Python packages to Nix packages
-    - Include Vibey framework dependencies
-    - Add platform-specific packages
-
-    PACKAGE MAPPING:
-    - pyyaml → pkgs.python311Packages.pyyaml
-    - click → pkgs.python311Packages.click
-    - jinja2 → pkgs.python311Packages.jinja2
-    - Custom packages → pkgs.python311Packages.pip
-
-    GENERATION LOGIC:
-    - Read dependencies from pyproject.toml
-    - Map to Nix package names
-    - Generate Nix expression
-    - Validate Nix syntax
-    - Write to replit.nix
-
-    DELIVERABLES:
-    - replit.nix generation method
-    - Package mapping table
-    - Validation logic
-    - Unit tests
+  description: "Implement replit.nix generation for dependency management via Nix.\n\
+    \nNIX FILE STRUCTURE:\n```nix\n{ pkgs }: {\n  deps = [\n    pkgs.python311\n \
+    \   pkgs.python311Packages.pip\n    pkgs.python311Packages.pyyaml\n    pkgs.python311Packages.click\n\
+    \    pkgs.python311Packages.jinja2\n  ];\n}\n```\n\nDEPENDENCY DETECTION:\n- Parse\
+    \ pyproject.toml\n- Extract dependencies\n- Map Python packages to Nix packages\n\
+    - Include Vibey framework dependencies\n- Add platform-specific packages\n\nPACKAGE\
+    \ MAPPING:\n- pyyaml → pkgs.python311Packages.pyyaml\n- click → pkgs.python311Packages.click\n\
+    - jinja2 → pkgs.python311Packages.jinja2\n- Custom packages → pkgs.python311Packages.pip\n\
+    \nGENERATION LOGIC:\n- Read dependencies from pyproject.toml\n- Map to Nix package\
+    \ names\n- Generate Nix expression\n- Validate Nix syntax\n- Write to replit.nix\n\
+    \nDELIVERABLES:\n- replit.nix generation method\n- Package mapping table\n- Validation\
+    \ logic\n- Unit tests\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -59,3 +30,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

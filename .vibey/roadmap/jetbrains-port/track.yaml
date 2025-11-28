@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T21:10:00+00:00'
+  started: null
+  completed: '2025-11-09T00:00:00+00:00'
   estimated_duration: 3 weeks
   progress:
     sprints_total: 2
     sprints_completed: 2
     tasks_total: 12
     tasks_completed: 12
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: jetbrains-port-1
     name: JetBrains MCP Configuration & IDE Setup

@@ -9,26 +9,41 @@ task:
   estimated_hours: 0.2
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  description: |
-    Fix the adapter directory naming mismatch for continue-port.
+  description: 'Fix the adapter directory naming mismatch for continue-port.
+
 
     ISSUE:
+
     - Track is named: continue-port
+
     - Adapter directory is: vibey/adapters/continuedev/
 
+
     OPTIONS:
+
     1. Rename directory to continue/ (preferred)
+
     2. Update track references to use continuedev
 
+
     If renaming:
+
     ```bash
+
     git mv vibey/adapters/continuedev vibey/adapters/continue
+
     ```
 
+
     Update any imports that reference the old name.
+
+    '
   acceptance_criteria:
   - Adapter directory matches track naming convention
   - All imports updated
   - No broken references
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false
+  started: null
+  completed: null

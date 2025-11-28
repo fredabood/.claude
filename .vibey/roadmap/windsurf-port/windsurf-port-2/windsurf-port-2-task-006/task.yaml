@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Example projects
-  description: |
-    Web-app example with Windsurf, API project example, full workflow demonstration
+  description: 'Web-app example with Windsurf, API project example, full workflow
+    demonstration
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.180014+00:00'

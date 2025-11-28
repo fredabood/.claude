@@ -3,10 +3,10 @@ track:
   name: Windsurf/Codeium Platform Port
   roadmap_id: vibey-framework-v2
   status: in_progress
-  blocked: true
+  blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-09T00:00:00+00:00'
   completed: null
   estimated_duration: 4 weeks
   progress:
@@ -14,7 +14,7 @@ track:
     sprints_completed: 1
     tasks_total: 13
     tasks_completed: 7
-    completion_percent: 53
+    completion_percent: 53.8
   sprints:
   - id: windsurf-port-1
     name: Windsurf Adapter & Cascade Integration

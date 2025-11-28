@@ -31,14 +31,14 @@ task:
     \ (weighted high)\n   - Commit message body (weighted medium)\n   - File paths\
     \ (extracted features, weighted high)\n   - Branch names if available (weighted\
     \ low)\n\n4. File Path Pattern Matching:\n\n   Examples:\n   - Commit modifies\
-    \ `vibey/roadmap/models/` \u2192 maps to roadmap-system tasks\n   - Commit modifies\
-    \ `docs/` \u2192 maps to documentation-system tasks\n   - Commit modifies `tests/`\
-    \ \u2192 maps to testing-system tasks\n   - Commit modifies `.vibey/roadmap/track-id/`\
-    \ \u2192 maps to that track\n\n5. Temporal Filtering:\n\n   - Commits before task\
-    \ creation date: likely not related (unless backfilling old work)\n   - Commits\
-    \ after task completion: likely not related\n   - Commits during task active period:\
-    \ higher confidence\n   - Commits within \xB17 days of task dates: medium confidence\n\
-    \n6. Confidence Scoring Formula:\n\n   ```\n   confidence_score = (\n     keyword_match_score\
+    \ `vibey/roadmap/models/` → maps to roadmap-system tasks\n   - Commit modifies\
+    \ `docs/` → maps to documentation-system tasks\n   - Commit modifies `tests/`\
+    \ → maps to testing-system tasks\n   - Commit modifies `.vibey/roadmap/track-id/`\
+    \ → maps to that track\n\n5. Temporal Filtering:\n\n   - Commits before task creation\
+    \ date: likely not related (unless backfilling old work)\n   - Commits after task\
+    \ completion: likely not related\n   - Commits during task active period: higher\
+    \ confidence\n   - Commits within ±7 days of task dates: medium confidence\n\n\
+    6. Confidence Scoring Formula:\n\n   ```\n   confidence_score = (\n     keyword_match_score\
     \ * 0.40 +\n     file_path_score * 0.35 +\n     temporal_score * 0.15 +\n    \
     \ author_score * 0.10\n   )\n   ```\n\n   - keyword_match_score: % of task keywords\
     \ in commit (0-100)\n   - file_path_score: relevance of changed files to task\
@@ -80,7 +80,7 @@ task:
   blocked: false
   created: '2025-11-12T20:50:00+00:00'
   started: null
-  completed: '2025-11-23T21:00:00+00:00'
+  completed: '2025-11-27T11:10:31.395099+00:00'
   assigned_agent: web-developer
   priority: critical
   phase_label: null

@@ -11,63 +11,21 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Polish UI and refine user experience across all Extension features.
-
-    POLISH AREAS:
-    1. Visual Design
-       - Consistent spacing and padding
-       - Proper color usage
-       - Icon consistency
-       - Typography hierarchy
-
-    2. Animations & Transitions
-       - Smooth transitions
-       - Loading animations
-       - Hover effects
-       - State change animations
-
-    3. Responsive Design
-       - Small screen support
-       - Large screen optimization
-       - Flexible layouts
-       - Proper breakpoints
-
-    4. Accessibility
-       - Keyboard navigation
-       - Screen reader support
-       - ARIA labels
-       - Focus indicators
-
-    5. Performance
-       - Optimize re-renders
-       - Lazy loading
-       - Code splitting
-       - Bundle optimization
-
-    6. Error Handling UX
-       - User-friendly errors
-       - Recovery suggestions
-       - Retry mechanisms
-       - Clear messaging
-
-    REPLIT DESIGN SYSTEM:
-    - Use Replit colors
-    - Use Replit icons
-    - Match Replit patterns
-    - Consistent with Replit UX
-
-    FEEDBACK MECHANISMS:
-    - Loading states
-    - Success messages
-    - Error messages
-    - Progress indicators
-
-    DELIVERABLES:
-    - Polished UI components
-    - Animation implementations
-    - Accessibility improvements
-    - Performance optimizations
+  description: "Polish UI and refine user experience across all Extension features.\n\
+    \nPOLISH AREAS:\n1. Visual Design\n   - Consistent spacing and padding\n   - Proper\
+    \ color usage\n   - Icon consistency\n   - Typography hierarchy\n\n2. Animations\
+    \ & Transitions\n   - Smooth transitions\n   - Loading animations\n   - Hover\
+    \ effects\n   - State change animations\n\n3. Responsive Design\n   - Small screen\
+    \ support\n   - Large screen optimization\n   - Flexible layouts\n   - Proper\
+    \ breakpoints\n\n4. Accessibility\n   - Keyboard navigation\n   - Screen reader\
+    \ support\n   - ARIA labels\n   - Focus indicators\n\n5. Performance\n   - Optimize\
+    \ re-renders\n   - Lazy loading\n   - Code splitting\n   - Bundle optimization\n\
+    \n6. Error Handling UX\n   - User-friendly errors\n   - Recovery suggestions\n\
+    \   - Retry mechanisms\n   - Clear messaging\n\nREPLIT DESIGN SYSTEM:\n- Use Replit\
+    \ colors\n- Use Replit icons\n- Match Replit patterns\n- Consistent with Replit\
+    \ UX\n\nFEEDBACK MECHANISMS:\n- Loading states\n- Success messages\n- Error messages\n\
+    - Progress indicators\n\nDELIVERABLES:\n- Polished UI components\n- Animation\
+    \ implementations\n- Accessibility improvements\n- Performance optimizations\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -75,3 +33,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

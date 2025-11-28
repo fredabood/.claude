@@ -11,18 +11,27 @@ task:
   completed: null
   estimated_duration: 4 hours
   actual_duration: null
-  description: |
-    Write comprehensive unit tests for VSCodeAdapter.
+  description: 'Write comprehensive unit tests for VSCodeAdapter.
+
 
     Test coverage:
+
     - Adapter initialization
+
     - Configuration validation
+
     - Platform-specific methods
+
     - Error handling
+
     - Edge cases
 
+
     Files to create:
+
     - tests/adapters/vscode/test_adapter.py
+
+    '
   acceptance_criteria:
   - 90%+ code coverage for adapter.py
   - All public methods tested

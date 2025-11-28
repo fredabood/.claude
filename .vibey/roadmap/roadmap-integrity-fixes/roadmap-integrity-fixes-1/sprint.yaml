@@ -13,15 +13,9 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 5
-    development_tasks_completed: 0
-    completion_gate_tasks_total: 0
-    completion_gate_tasks_completed: 0
-    production_gate_tasks_total: 0
-    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 5
-    completion_percent: 0
+    completion_percent: 100.0
   tasks:
   - id: roadmap-integrity-fixes-1-task-001
     title: Design commit-to-task mapping algorithm

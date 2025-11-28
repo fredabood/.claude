@@ -1688,8 +1688,7 @@ def _normalize_status(status_value: str) -> str:
     """Normalize status value to match database constraints."""
     # Map model values to database values
     status_map = {
-        "won't_do": "wont_do",
-        "superseded": "completed",  # Map superseded to completed
+        "superseded": "wont_do",  # Superseded is semantically equivalent to wont_do
     }
     return status_map.get(status_value, status_value)
 
@@ -1877,6 +1876,145 @@ def db_rebuild_cmd(force: bool = False) -> int:
         shutil.move(backup_path, db_path)
 
     return result
+
+
+def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:
+    """Dump database state to YAML files."""
+    root_dir = Path.cwd()
+    vibey_dir = root_dir / ".vibey"
+    db_path = vibey_dir / "roadmap.db"
+    roadmap_dir = vibey_dir / "roadmap"
+
+    if not db_path.exists():
+        print("❌ Database not found")
+        print("   Run 'vibey roadmap db init' first")
+        return 1
+
+    print("📤 Dumping database to YAML files...")
+
+    try:
+        from vibey.roadmap.serialization.backend import SyncManager, YAMLModifiedError
+
+        sync = SyncManager(roadmap_dir=roadmap_dir, db_path=db_path)
+
+        # Check for external modifications
+        if not force:
+            modified_files = sync.check_yaml_modified()
+            if modified_files:
+                print("\n⚠️  YAML files were modified externally!")
+                print("   Modified files:")
+                for f in modified_files[:10]:
+                    print(f"     - {f}")
+                if len(modified_files) > 10:
+                    print(f"     ... and {len(modified_files) - 10} more")
+                print("\n   Options:")
+                print("     vibey roadmap db dump --force  # Overwrite external changes")
+                print("     vibey roadmap db rebuild       # Load external changes into DB")
+                return 1
+
+        # Perform the dump
+        if verbose:
+            print("\n   Loading from database...")
+
+        # Load all data from SQLite
+        roadmap = sync.sqlite_backend.load_roadmap()
+        if verbose:
+            print(f"   ✓ Loaded roadmap: {roadmap.name}")
+
+        # Get all tracks
+        tracks = []
+        sprints = []
+        tasks = []
+
+        # Query all tracks from database
+        from vibey.roadmap.database.connection import get_connection
+        conn = get_connection(db_path=db_path)
+        track_rows = conn.execute("SELECT id FROM tracks").fetchall()
+
+        for track_row in track_rows:
+            track = sync.sqlite_backend.load_track(track_row['id'])
+            tracks.append(track)
+            if verbose:
+                print(f"   ✓ Loaded track: {track.id}")
+
+            # Get sprints for this track
+            sprint_rows = conn.execute(
+                "SELECT id FROM sprints WHERE track_id = ?",
+                (track.id,)
+            ).fetchall()
+
+            for sprint_row in sprint_rows:
+                sprint = sync.sqlite_backend.load_sprint(sprint_row['id'])
+                sprints.append(sprint)
+                if verbose:
+                    print(f"     ✓ Loaded sprint: {sprint.id}")
+
+                # Get tasks for this sprint
+                sprint_tasks = sync.sqlite_backend.load_tasks_by_sprint(sprint.id)
+                tasks.extend(sprint_tasks)
+                if verbose and sprint_tasks:
+                    print(f"       ✓ Loaded {len(sprint_tasks)} tasks")
+
+        if verbose:
+            print(f"\n   Writing to YAML files...")
+
+        # Save roadmap
+        sync.yaml_backend.save_roadmap(roadmap)
+        if verbose:
+            print(f"   ✓ Saved roadmap.yaml")
+
+        # Save tracks
+        for track in tracks:
+            sync.yaml_backend.save_track(track)
+            if verbose:
+                print(f"   ✓ Saved {track.id}/track.yaml")
+
+        # Save sprints
+        for sprint in sprints:
+            sync.yaml_backend.save_sprint(sprint)
+            if verbose:
+                print(f"   ✓ Saved {sprint.track_id}/{sprint.id}/sprint.yaml")
+
+        # Save tasks (grouped by sprint)
+        tasks_by_sprint = {}
+        for task in tasks:
+            if task.sprint_id not in tasks_by_sprint:
+                tasks_by_sprint[task.sprint_id] = []
+            tasks_by_sprint[task.sprint_id].append(task)
+
+        for sprint_id, sprint_tasks in tasks_by_sprint.items():
+            # Find the track_id for this sprint
+            if sprint_tasks:
+                track_id = sprint_tasks[0].track_id
+                sprint_dir = roadmap_dir / track_id / sprint_id
+                sync.yaml_backend.save_tasks(sprint_tasks)
+                if verbose:
+                    print(f"   ✓ Saved {len(sprint_tasks)} tasks in {sprint_id}")
+
+        # Update checksums and mark clean
+        if verbose:
+            print("\n   Updating checksums...")
+        sync.store_yaml_checksums()
+        sync.mark_db_clean()
+
+        # Summary
+        print(f"\n✅ Dump complete!")
+        print(f"   Tracks:  {len(tracks)}")
+        print(f"   Sprints: {len(sprints)}")
+        print(f"   Tasks:   {len(tasks)}")
+        print(f"\n   Database marked clean (is_dirty = 0)")
+
+        return 0
+
+    except YAMLModifiedError as e:
+        print(f"\n❌ {e}")
+        return 1
+    except Exception as e:
+        print(f"\n❌ Dump failed: {e}")
+        import traceback
+        if verbose:
+            traceback.print_exc()
+        return 1
 
 
 def db_status_cmd(verbose: bool = False) -> int:

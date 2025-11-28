@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Comprehensive unit test suite for CopilotAdapter. Target 95%+ code coverage. Test configuration generation, agent export, and error handling.
+  description: Comprehensive unit test suite for CopilotAdapter. Target 95%+ code
+    coverage. Test configuration generation, agent export, and error handling.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

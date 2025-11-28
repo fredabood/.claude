@@ -5,8 +5,9 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integration examples
-  description: |
-    Web-app project example, API project example, ML project example
+  description: 'Web-app project example, API project example, ML project example
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.178786+00:00'

@@ -95,6 +95,7 @@ def _parse_json(value: Optional[str], default: Any = None) -> Any:
     return value
 
 
+
 def load_roadmap(roadmap_id: str = "vibey-framework-v2") -> Roadmap:
     """
     Load a roadmap from SQLite database.
@@ -448,13 +449,18 @@ def load_track(track_id: str) -> Track:
     if status == Status.COMPLETED and completed is None:
         completed = started or created
 
+    # Determine actual blocked state based on blockers
+    has_unsatisfied_deps = any(
+        b.current_status != b.required_status for b in blocked_by
+    ) if blocked_by else False
+
     # Create track
     track = Track(
         id=track_data['id'],
         name=track_data['name'],
         roadmap_id=track_data['roadmap_id'],
         status=status,
-        blocked=bool(track_data.get('blocked', False)),
+        blocked=has_unsatisfied_deps,  # Compute from actual blockers
         priority=Priority(track_data['priority']) if track_data.get('priority') else Priority.MEDIUM,
         created=created,
         started=started,
@@ -531,22 +537,42 @@ def load_sprint(sprint_id: str) -> Sprint:
     except Exception:
         pass
 
-    # Load task summaries
+    # Load task summaries (including gate_info for gate tasks)
     task_rows = conn.execute(
-        "SELECT id, title, status, task_type FROM tasks WHERE sprint_id = ? ORDER BY id",
+        "SELECT id, title, status, task_type, gate_info FROM tasks WHERE sprint_id = ? ORDER BY id",
         (sprint_id,)
     ).fetchall()
 
-    tasks = [
-        TaskSummary(
+    tasks = []
+    for t in task_rows:
+        task_type_str = t['task_type']
+        gate_info = None
+
+        # Parse gate_info from JSON if present
+        gate_info_data = _parse_json(t['gate_info']) if t['gate_info'] else None
+        if gate_info_data:
+            gate_info = GateInfo(
+                blocks_status=gate_info_data.get('blocks_status', 'completed'),
+                threshold=gate_info_data.get('threshold', 0),
+                is_blocking=gate_info_data.get('is_blocking', True),
+                score=gate_info_data.get('score'),
+            )
+        elif task_type_str in ('completion_gate', 'production_gate'):
+            # Gate tasks require gate_info - provide default if missing
+            gate_info = GateInfo(
+                blocks_status='completed',
+                threshold=0,
+                is_blocking=True,
+                score=None,
+            )
+
+        tasks.append(TaskSummary(
             id=t['id'],
             title=t['title'],
             status=Status(t['status']),
-            task_type=TaskType(t['task_type']),
-            gate_info=None,
-        )
-        for t in task_rows
-    ]
+            task_type=TaskType(task_type_str),
+            gate_info=gate_info,
+        ))
 
     # Load development gates
     # Note: development_gates table stores encoded gate info in name column
@@ -649,6 +675,13 @@ def load_sprint(sprint_id: str) -> Sprint:
     if status == Status.DEPLOYED and deployed_at is None:
         deployed_at = production_ready_at or completed or started or created
 
+    # Determine actual blocked state based on blockers
+    # The model validates that blocked=True iff there are unsatisfied dependencies
+    # So we compute blocked from the actual data rather than trusting the DB flag
+    has_unsatisfied_deps = any(
+        b.current_status != b.required_status for b in blocked_by
+    ) if blocked_by else False
+
     # Create sprint
     sprint = Sprint(
         id=sprint_data['id'],
@@ -656,7 +689,7 @@ def load_sprint(sprint_id: str) -> Sprint:
         track_id=sprint_data['track_id'],
         roadmap_id=sprint_data.get('roadmap_id', 'vibey-framework-v2'),
         status=status,
-        blocked=bool(sprint_data.get('blocked', False)),
+        blocked=has_unsatisfied_deps,  # Compute from actual blockers
         created=created,
         started=started,
         completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
@@ -789,12 +822,22 @@ def _load_task_from_row(conn, row) -> Task:
     # Parse gate_info from JSON if present
     gate_info = None
     gate_info_data = _parse_json(task_data.get('gate_info'))
+    task_type_str = task_data['task_type']
+
     if gate_info_data:
         gate_info = GateInfo(
             blocks_status=gate_info_data.get('blocks_status', 'completed'),
             threshold=gate_info_data.get('threshold', 0),
             is_blocking=gate_info_data.get('is_blocking', True),
             score=gate_info_data.get('score'),
+        )
+    elif task_type_str in ('completion_gate', 'production_gate'):
+        # Gate tasks require gate_info - provide default if missing
+        gate_info = GateInfo(
+            blocks_status='completed',
+            threshold=0,
+            is_blocking=True,
+            score=None,
         )
 
     # Parse audit_results from JSON if present
@@ -909,6 +952,11 @@ def _load_task_from_row(conn, row) -> Task:
     if status == TaskStatus.COMPLETED and completed is None:
         completed = started or created
 
+    # Determine actual blocked state based on blockers
+    has_unsatisfied_deps = any(
+        b.current_status != b.required_status for b in blocked_by
+    ) if blocked_by else False
+
     # Create task
     task = Task(
         id=task_data['id'],
@@ -919,7 +967,7 @@ def _load_task_from_row(conn, row) -> Task:
         title=task_data['title'],
         description=task_data.get('description', ''),
         status=status,
-        blocked=bool(task_data.get('blocked', False)),
+        blocked=has_unsatisfied_deps,  # Compute from actual blockers
         created=created,
         started=started,
         completed=completed,

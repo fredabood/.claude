@@ -11,14 +11,20 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Extract 11 embedded tasks from git-integration-2/sprint.yaml to individual task.yaml files.
+  description: 'Extract 11 embedded tasks from git-integration-2/sprint.yaml to individual
+    task.yaml files.
+
 
     SOURCE: .vibey/roadmap/git-integration/git-integration-2/sprint.yaml
+
     TASKS TO EXTRACT: 11 (git hooks core tasks)
 
+
     Follow same process as previous tasks.
+
     All 11 tasks should be marked completed (this sprint is done).
+
+    '
   acceptance_criteria:
   - 11 task directories created
   - 11 task.yaml files with correct content
@@ -31,3 +37,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

@@ -4,15 +4,22 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Document confidence metrics and lessons learned"
-  description: |
-    Final documentation for validation sprint:
+  title: Document confidence metrics and lessons learned
+  description: 'Final documentation for validation sprint:
+
     - Confidence metrics for database approach
+
     - Total discrepancies found and fixed
+
     - Root cause analysis of drift patterns
+
     - Recommendations for preventing future drift
+
     - Comparison of manual validation vs DB approach
+
     - Sign-off that database approach is production-ready
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

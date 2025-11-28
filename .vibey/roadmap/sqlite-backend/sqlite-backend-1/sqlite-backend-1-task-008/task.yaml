@@ -4,42 +4,69 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create comprehensive test suite for database layer"
-  description: |
-    Create test suite in tests/roadmap/database/:
+  title: Create comprehensive test suite for database layer
+  description: 'Create test suite in tests/roadmap/database/:
+
 
     test_connection.py:
+
     - WAL mode enabled
+
     - Transaction context manager
+
     - Busy timeout handling
 
+
     test_schema.py:
+
     - All 25 tables created
+
     - FK constraints enforced
+
     - CHECK constraints work
+
     - Indexes exist
 
+
     test_crud.py:
+
     - CRUD for roadmap, track, sprint, task
+
     - Relationship CRUD operations
+
     - Junction table operations
 
+
     test_views.py:
+
     - All 13 views return correct data
+
     - Progress aggregation accuracy
+
     - Computed vs expected values match
 
+
     test_triggers.py:
+
     - Timestamp auto-updates
+
     - Blocked flag sync
+
     - Auto-completion cascades
+
     - Validation triggers block invalid operations
 
+
     test_serialization_bridge.py:
+
     - SQL loader returns same models as YAML loader
+
     - Roundtrip: Model -> SQL -> Model identical
 
+
     Target: 95%+ coverage of database module.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

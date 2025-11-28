@@ -80,4 +80,5 @@ task:
     date: '2025-11-11T17:33:23+00:00'
     message: 'feat: Implement missing agents - close 38% agent gap (6 new + 2 enhanced)'
   deliverables:
-  - framework/agents/architecture/architecture-agent.md (719 lines, 19KB - largest agent file)
+  - framework/agents/architecture/architecture-agent.md (719 lines, 19KB - largest
+    agent file)

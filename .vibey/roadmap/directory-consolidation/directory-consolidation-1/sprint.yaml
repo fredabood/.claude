@@ -3,8 +3,8 @@ sprint:
   name: Low-Risk Cleanup & Preparation
   track_id: directory-consolidation
   status: completed
-  started: 2025-11-23
-  completed: 2025-11-23
+  started: '2025-11-23T00:00:00+00:00'
+  completed: '2025-11-23T00:00:00+00:00'
   estimated_duration: 1 day
   tasks:
   - directory-consolidation-1-task-001
@@ -17,3 +17,7 @@ sprint:
     This phase has minimal risk as the authoritative code exists in vibey/.
 
     '
+  progress:
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100.0

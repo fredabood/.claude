@@ -5,27 +5,25 @@ task:
   name: Final content verification and documentation
   sprint_id: directory-consolidation-4
   status: completed
-  completed: '2025-11-23'
+  completed: '2025-11-23T00:00:00+00:00'
   priority: high
   complexity: low
   estimated_hours: 0.5
-  description: |
-    Final verification and documentation of content consolidation.
+  description: 'Final verification and documentation of content consolidation.
 
+    '
   verification_steps:
-    - Verify docs/ structure is clean and logical
-    - Verify framework/ only contains agents, workflows, templates, config
-    - Verify .vibey/roadmap/*/context/ is organized
-    - Check for orphaned files or broken references
-    - Run tests to ensure nothing broken
-
+  - Verify docs/ structure is clean and logical
+  - Verify framework/ only contains agents, workflows, templates, config
+  - Verify .vibey/roadmap/*/context/ is organized
+  - Check for orphaned files or broken references
+  - Run tests to ensure nothing broken
   documentation_updates:
-    - Update CLAUDE.md with new content organization
-    - Document content organization guidelines
-    - Update README.md if needed
-
+  - Update CLAUDE.md with new content organization
+  - Document content organization guidelines
+  - Update README.md if needed
   blocked_by:
-    - directory-consolidation-4-task-001
-    - directory-consolidation-4-task-002
-    - directory-consolidation-4-task-003
+  - directory-consolidation-4-task-001
+  - directory-consolidation-4-task-002
+  - directory-consolidation-4-task-003
   commits: []

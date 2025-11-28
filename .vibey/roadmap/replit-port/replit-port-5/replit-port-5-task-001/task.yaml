@@ -11,59 +11,22 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create RoadmapView component for visualizing track hierarchy and progress.
-
-    COMPONENT FEATURES:
-    1. Track List
-       - Track cards with status badges
-       - Progress bars showing completion
-       - Expandable/collapsible sections
-       - Click to view sprints
-
-    2. Track Details
-       - Track name and description
-       - Sprint count and progress
-       - Assigned agents
-       - Dependencies and blockers
-
-    3. Visual Hierarchy
-       - Tree view of tracks
-       - Indentation for sub-tracks
-       - Connection lines
-       - Status color coding
-
-    4. Filtering & Sorting
-       - Filter by status (active, completed, blocked)
-       - Filter by priority
-       - Sort by progress, name, date
-       - Search by name
-
-    COMPONENT STRUCTURE:
-    ```typescript
-    interface RoadmapViewProps {
-      roadmap: Roadmap;
-      onTrackClick: (trackId: string) => void;
-    }
-
-    export function RoadmapView({ roadmap, onTrackClick }: RoadmapViewProps) {
-      const { getTracks } = useVibey();
-      const [tracks, setTracks] = useState<Track[]>([]);
-      // Implementation
-    }
-    ```
-
-    INTERACTIONS:
-    - Click track to expand sprints
-    - Hover to show tooltip
-    - Drag to reorder (optional)
-    - Context menu for actions
-
-    DELIVERABLES:
-    - RoadmapView component
-    - TrackCard sub-component
-    - Filtering controls
-    - Responsive design
+  description: "Create RoadmapView component for visualizing track hierarchy and progress.\n\
+    \nCOMPONENT FEATURES:\n1. Track List\n   - Track cards with status badges\n  \
+    \ - Progress bars showing completion\n   - Expandable/collapsible sections\n \
+    \  - Click to view sprints\n\n2. Track Details\n   - Track name and description\n\
+    \   - Sprint count and progress\n   - Assigned agents\n   - Dependencies and blockers\n\
+    \n3. Visual Hierarchy\n   - Tree view of tracks\n   - Indentation for sub-tracks\n\
+    \   - Connection lines\n   - Status color coding\n\n4. Filtering & Sorting\n \
+    \  - Filter by status (active, completed, blocked)\n   - Filter by priority\n\
+    \   - Sort by progress, name, date\n   - Search by name\n\nCOMPONENT STRUCTURE:\n\
+    ```typescript\ninterface RoadmapViewProps {\n  roadmap: Roadmap;\n  onTrackClick:\
+    \ (trackId: string) => void;\n}\n\nexport function RoadmapView({ roadmap, onTrackClick\
+    \ }: RoadmapViewProps) {\n  const { getTracks } = useVibey();\n  const [tracks,\
+    \ setTracks] = useState<Track[]>([]);\n  // Implementation\n}\n```\n\nINTERACTIONS:\n\
+    - Click track to expand sprints\n- Hover to show tooltip\n- Drag to reorder (optional)\n\
+    - Context menu for actions\n\nDELIVERABLES:\n- RoadmapView component\n- TrackCard\
+    \ sub-component\n- Filtering controls\n- Responsive design\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -71,3 +34,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

@@ -12,7 +12,7 @@ track:
   progress:
     sprints_total: 4
     sprints_completed: 0
-    tasks_total: 28
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -100,44 +100,20 @@ track:
     last_updated: '2025-11-23T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      Atlassian integration to use Jira and Confluence as sources of truth.
-
-      JIRA INTEGRATION:
-      - Jira Project → Roadmap Track
-      - Jira Sprint → Roadmap Sprint
-      - Jira Epic → Roadmap Sprint (alternative mapping)
-      - Jira Issue/Story/Task → Roadmap Task
-      - Jira Status → Task Status (configurable mapping)
-      - Jira Labels/Components → Task metadata
-
-      CONFLUENCE INTEGRATION:
-      - Confluence Space → docs/ folder
-      - Confluence Page → Markdown file
-      - Confluence Page Tree → Folder hierarchy
-      - Confluence Attachments → Referenced assets
-      - Confluence Comments → (future: inline comments)
-
-      SYNC MODES:
-      1. Jira as Source of Truth (recommended for teams)
-         - Changes in Jira push to Vibey
-         - Vibey is read-only reflection
-      2. Vibey as Source of Truth (solo developers)
-         - Changes in Vibey push to Jira
-         - Jira reflects Vibey state
-      3. Bidirectional (advanced)
-         - Changes sync both ways
-         - Conflict resolution required
-
-      AUTHENTICATION:
-      - Atlassian Cloud: OAuth 2.0 (3LO)
-      - Atlassian Server/DC: Personal Access Tokens
-      - Service account support for automation
-
-      CLI COMMANDS:
-      - vibey atlassian connect
-      - vibey atlassian sync jira
-      - vibey atlassian sync confluence
-      - vibey atlassian status
-      - vibey atlassian import <project>
-      - vibey atlassian export <track>
+    notes: "Atlassian integration to use Jira and Confluence as sources of truth.\n\
+      \nJIRA INTEGRATION:\n- Jira Project → Roadmap Track\n- Jira Sprint → Roadmap\
+      \ Sprint\n- Jira Epic → Roadmap Sprint (alternative mapping)\n- Jira Issue/Story/Task\
+      \ → Roadmap Task\n- Jira Status → Task Status (configurable mapping)\n- Jira\
+      \ Labels/Components → Task metadata\n\nCONFLUENCE INTEGRATION:\n- Confluence\
+      \ Space → docs/ folder\n- Confluence Page → Markdown file\n- Confluence Page\
+      \ Tree → Folder hierarchy\n- Confluence Attachments → Referenced assets\n- Confluence\
+      \ Comments → (future: inline comments)\n\nSYNC MODES:\n1. Jira as Source of\
+      \ Truth (recommended for teams)\n   - Changes in Jira push to Vibey\n   - Vibey\
+      \ is read-only reflection\n2. Vibey as Source of Truth (solo developers)\n \
+      \  - Changes in Vibey push to Jira\n   - Jira reflects Vibey state\n3. Bidirectional\
+      \ (advanced)\n   - Changes sync both ways\n   - Conflict resolution required\n\
+      \nAUTHENTICATION:\n- Atlassian Cloud: OAuth 2.0 (3LO)\n- Atlassian Server/DC:\
+      \ Personal Access Tokens\n- Service account support for automation\n\nCLI COMMANDS:\n\
+      - vibey atlassian connect\n- vibey atlassian sync jira\n- vibey atlassian sync\
+      \ confluence\n- vibey atlassian status\n- vibey atlassian import <project>\n\
+      - vibey atlassian export <track>\n"

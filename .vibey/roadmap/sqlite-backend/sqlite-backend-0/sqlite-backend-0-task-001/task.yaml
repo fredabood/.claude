@@ -4,15 +4,23 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Analyze current YAML schema and data model"
-  description: |
-    Review existing roadmap YAML structure to understand all entities, relationships,
+  title: Analyze current YAML schema and data model
+  description: 'Review existing roadmap YAML structure to understand all entities,
+    relationships,
+
     and computed fields. Document current data model including:
+
     - Roadmap, Track, Sprint, Task entities
+
     - Progress aggregations at each level
+
     - Dependency relationships (blocks, blocked_by, depends_on)
+
     - Quality gates and their states
+
     - Metadata fields
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

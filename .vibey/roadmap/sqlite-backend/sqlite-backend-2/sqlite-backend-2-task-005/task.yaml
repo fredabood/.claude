@@ -4,40 +4,24 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement backend mode detection and configuration"
-  description: |
-    Implement automatic backend selection in vibey/roadmap/serialization/backend.py:
-
-    Mode detection logic:
-    1. Check config: .vibey/config/roadmap.yaml → backend: "auto"|"sqlite"|"yaml"
-    2. If "auto" (default):
-       - If .vibey/roadmap.db exists and is valid: use sqlite
-       - Otherwise: use yaml
-    3. If "sqlite": require database, error if missing
-    4. If "yaml": always use YAML (ignore database)
-
-    Database validation:
-    - Check file exists
-    - Check schema version matches expected
-    - Check tables exist
-    - Quick integrity check (PRAGMA integrity_check)
-
-    Graceful degradation:
-    - If database corrupted: warn and fall back to YAML
-    - If schema version mismatch: warn and offer rebuild
-
-    Add CLI flags:
-    - --backend=sqlite|yaml (override for single command)
-
-    Integration points:
-    - get_backend() called by operations layer
-    - Returns YAMLBackend or SQLiteBackend
-    - Operations don't know which backend is active
-  status: not_started
+  title: Implement backend mode detection and configuration
+  description: "Implement automatic backend selection in vibey/roadmap/serialization/backend.py:\n\
+    \nMode detection logic:\n1. Check config: .vibey/config/roadmap.yaml → backend:\
+    \ \"auto\"|\"sqlite\"|\"yaml\"\n2. If \"auto\" (default):\n   - If .vibey/roadmap.db\
+    \ exists and is valid: use sqlite\n   - Otherwise: use yaml\n3. If \"sqlite\"\
+    : require database, error if missing\n4. If \"yaml\": always use YAML (ignore\
+    \ database)\n\nDatabase validation:\n- Check file exists\n- Check schema version\
+    \ matches expected\n- Check tables exist\n- Quick integrity check (PRAGMA integrity_check)\n\
+    \nGraceful degradation:\n- If database corrupted: warn and fall back to YAML\n\
+    - If schema version mismatch: warn and offer rebuild\n\nAdd CLI flags:\n- --backend=sqlite|yaml\
+    \ (override for single command)\n\nIntegration points:\n- get_backend() called\
+    \ by operations layer\n- Returns YAMLBackend or SQLiteBackend\n- Operations don't\
+    \ know which backend is active\n"
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T14:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation

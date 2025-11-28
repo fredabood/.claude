@@ -4,31 +4,49 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement core entity CRUD operations"
-  description: |
-    Implement CRUD operations in vibey/roadmap/database/crud/:
+  title: Implement core entity CRUD operations
+  description: 'Implement CRUD operations in vibey/roadmap/database/crud/:
+
 
     crud/roadmap.py:
+
     - create_roadmap(), get_roadmap(), update_roadmap(), delete_roadmap()
 
+
     crud/track.py:
+
     - create_track(), get_track(), update_track(), delete_track()
+
     - list_tracks_by_roadmap()
 
+
     crud/sprint.py:
+
     - create_sprint(), get_sprint(), update_sprint(), delete_sprint()
+
     - list_sprints_by_track()
 
+
     crud/task.py:
+
     - create_task(), get_task(), update_task(), delete_task()
+
     - list_tasks_by_sprint()
 
+
     Key requirements:
+
     - Use parameterized queries (prevent SQL injection)
+
     - Return existing vibey/roadmap/models/ dataclass instances
+
     - Map between SQL rows and model objects
+
     - Handle nested objects (progress, metadata, etc.)
+
     - Use connection from task-001
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

@@ -5,13 +5,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T18:00:00+00:00'
+  started: null
+  completed: '2025-11-23T00:00:00+00:00'
   estimated_duration: 2.5 weeks
   progress:
     tasks_total: 9
     tasks_completed: 9
-    completion_percent: 100
+    completion_percent: 100.0
   tasks: []
   dependencies:
   - git-integration-0
@@ -36,17 +36,28 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 1 focuses on git history analysis and commit correlation.
+    notes: 'Sprint 1 focuses on git history analysis and commit correlation.
+
 
       Key commit message formats to support:
+
       - feat(task-id): description
+
       - fix(task-id): description
+
       - Conventional commits with task references
+
       - [TASK-123] style references
 
+
       The correlation engine will:
+
       1. Parse commit messages for task IDs
+
       2. Link commits to roadmap tasks
+
       3. Calculate contribution metrics
+
       4. Provide sprint velocity from actual work
+
+      '

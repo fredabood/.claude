@@ -4,27 +4,30 @@ task:
   track_id: amazonq-port
   sprint_id: amazonq-port-1
   name: Add vibey deploy --platform amazonq CLI
-  status: not_started
+  status: completed
   priority: high
   estimated_hours: 4
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
-  description: |
-    Add Amazon Q platform support to vibey deploy CLI command to enable
+  started: '2025-11-27T11:04:09.262840+00:00'
+  completed: '2025-11-27T11:04:09.262840+00:00'
+  description: 'Add Amazon Q platform support to vibey deploy CLI command to enable
+
     deployment of Vibey framework to Amazon Q Developer environment.
+
+    '
   acceptance_criteria:
-    - vibey deploy --platform amazonq command implemented
-    - Calls AmazonQAdapter to generate all required files
-    - Validates generated configuration
-    - Provides clear deployment instructions
+  - vibey deploy --platform amazonq command implemented
+  - Calls AmazonQAdapter to generate all required files
+  - Validates generated configuration
+  - Provides clear deployment instructions
   dependencies:
-    - amazonq-port-1-task-001
-    - amazonq-port-1-task-002
-    - amazonq-port-1-task-003
+  - amazonq-port-1-task-001
+  - amazonq-port-1-task-002
+  - amazonq-port-1-task-003
   blocked_by: []
   depended_on_by: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

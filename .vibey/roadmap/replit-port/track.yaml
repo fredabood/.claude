@@ -2,19 +2,19 @@ track:
   id: replit-port
   name: Replit Agent Platform Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-11-24T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 8 weeks
   progress:
     sprints_total: 6
     sprints_completed: 0
     tasks_total: 36
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 4
+    completion_percent: 11.1
   sprints:
   - id: replit-port-1
     name: Research & MCP Validation
@@ -263,54 +263,24 @@ track:
       \ Vibey.\nValidates that the framework can run in browser-based Python environments.\n\
       \nUNIQUE CHALLENGES:\n- Web-based environment (no local filesystem)\n- JavaScript/React\
       \ Extension development (new skillset)\n- No programmatic Agent invocation API\
-      \ (yet)\n- Browser sandbox limitations\n\nARCHITECTURE (Zero-Drift):\n\u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2510\n\u2502            SINGLE SOURCE OF TRUTH                           \
-      \   \u2502\n\u2502  agents/*.md, workflows/*.md, handoffs/*.md (frontmatter)\
-      \      \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n                        \u2502\n       \u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n       \u25BC                \u25BC\
-      \                \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u250C\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2510\n\u2502 MCP Server    \u2502  \u2502 REPLIT.md     \u2502\
-      \  \u2502 .replit       \u2502\n\u2502 (reusable)    \u2502  \u2502 Generator\
-      \     \u2502  \u2502 Generator     \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518  \u2514\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2518  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518\n       \u2502                  \u2502\
-      \                  \u2502\n       \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518\n                          \u25BC\n   \
-      \          \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2510\n             \u2502  Replit Extension       \u2502\n   \
-      \          \u2502  (generated artifact)   \u2502\n             \u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n       \
-      \                   \u2502\n                          \u25BC\n             \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\
-      \n             \u2502  Forkable Template      \u2502\n             \u2502  (distribution)\
-      \         \u2502\n             \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518\n\nREPLIT INTEGRATION POINTS:\n1. MCP Servers\
-      \ - Native support (shipped 2024)\n2. Extensions - Custom UI panels, commands,\
-      \ file handlers\n3. Templates - Forkable project distribution\n4. .replit -\
-      \ TOML configuration file\n5. replit.nix - Nix-based dependency management\n\
+      \ (yet)\n- Browser sandbox limitations\n\nARCHITECTURE (Zero-Drift):\n┌─────────────────────────────────────────────────────────────────┐\n\
+      │            SINGLE SOURCE OF TRUTH                              │\n│  agents/*.md,\
+      \ workflows/*.md, handoffs/*.md (frontmatter)      │\n└─────────────────────────────────────────────────────────────────┘\n\
+      \                        │\n       ┌────────────────┼────────────────┐\n   \
+      \    ▼                ▼                ▼\n┌───────────────┐  ┌───────────────┐\
+      \  ┌───────────────┐\n│ MCP Server    │  │ REPLIT.md     │  │ .replit      \
+      \ │\n│ (reusable)    │  │ Generator     │  │ Generator     │\n└───────────────┘\
+      \  └───────────────┘  └───────────────┘\n       │                  │       \
+      \           │\n       └──────────────────┼──────────────────┘\n            \
+      \              ▼\n             ┌─────────────────────────┐\n             │ \
+      \ Replit Extension       │\n             │  (generated artifact)   │\n     \
+      \        └─────────────────────────┘\n                          │\n        \
+      \                  ▼\n             ┌─────────────────────────┐\n           \
+      \  │  Forkable Template      │\n             │  (distribution)         │\n \
+      \            └─────────────────────────┘\n\nREPLIT INTEGRATION POINTS:\n1. MCP\
+      \ Servers - Native support (shipped 2024)\n2. Extensions - Custom UI panels,\
+      \ commands, file handlers\n3. Templates - Forkable project distribution\n4.\
+      \ .replit - TOML configuration file\n5. replit.nix - Nix-based dependency management\n\
       \nTIMELINE: 8 weeks (increased from 4-6 for comprehensive port)\n- Sprint 1:\
       \ Research & MCP Validation (1 week)\n- Sprint 2: Adapter Foundation (1.5 weeks)\n\
       - Sprint 3: Configuration Generation (1 week)\n- Sprint 4: Extension Scaffolding\

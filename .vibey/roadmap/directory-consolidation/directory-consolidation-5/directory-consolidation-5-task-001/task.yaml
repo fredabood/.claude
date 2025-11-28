@@ -5,28 +5,37 @@ task:
   name: Move sprint_docs/ and sprint_summaries/ to track contexts
   sprint_id: directory-consolidation-5
   status: completed
-  completed: '2025-11-23'
+  completed: '2025-11-23T00:00:00+00:00'
   priority: high
   complexity: medium
   estimated_hours: 0.5
-  description: |
-    Move documentation from sprint_docs/ and sprint_summaries/ to appropriate
+  description: 'Move documentation from sprint_docs/ and sprint_summaries/ to appropriate
+
     track context directories based on track association.
 
+
     FILES TO MOVE:
+
     - sprint_docs/core-framework/* → .vibey/roadmap/core-framework/context/
+
     - sprint_docs/documentation-system/* → .vibey/roadmap/documentation-system/context/
+
     - sprint_summaries/core-framework-*.md → .vibey/roadmap/core-framework/context/
+
     - sprint_summaries/roadmap-integration-*.md → .vibey/roadmap/roadmap-integration/context/
+
     - sprint_summaries/*INTERFACE_UNIFICATION*.md → .vibey/roadmap/interface-unification/context/
+
     - sprint_summaries/*MCP*.md → .vibey/roadmap/mcp-server/context/
+
     - sprint_summaries/*DOCUMENTATION*.md → .vibey/roadmap/documentation-system/context/
+
     - Other summaries → .vibey/roadmap/directory-consolidation/context/archived-docs/
 
+    '
   verification:
-    - All files moved to appropriate track contexts
-    - Empty sprint_docs/ and sprint_summaries/ directories deleted
-    - No broken references
-
+  - All files moved to appropriate track contexts
+  - Empty sprint_docs/ and sprint_summaries/ directories deleted
+  - No broken references
   blocked_by: []
   commits: []

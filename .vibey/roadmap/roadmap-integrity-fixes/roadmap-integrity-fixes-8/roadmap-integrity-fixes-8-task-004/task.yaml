@@ -11,14 +11,14 @@ task:
     \ scripts/migrate-roadmap-schema.py \\\n  --from-version 2.0 \\\n  --to-version\
     \ 2.1 \\\n  --dry-run \\\n  --verbose\n\nMigrations to support:\n- Add missing\
     \ fields\n- Rename fields\n- Move fields to new location\n- Convert field types\n\
-    - Remove deprecated fields\n\nArchitecture:\n- Migration registry (version \u2192\
-    \ transformations)\n- Transformation functions (YAML \u2192 YAML)\n- Validation\
-    \ hooks (before/after)\n- Progress reporting\n- Error handling\n"
+    - Remove deprecated fields\n\nArchitecture:\n- Migration registry (version → transformations)\n\
+    - Transformation functions (YAML → YAML)\n- Validation hooks (before/after)\n\
+    - Progress reporting\n- Error handling\n"
   status: completed
   blocked: false
   created: '2025-11-20T00:17:11.812593+00:00'
-  started: null
-  completed: '2025-11-23T21:00:00+00:00'
+  started: '2025-11-27T11:04:09.439738+00:00'
+  completed: '2025-11-27T11:04:09.439738+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

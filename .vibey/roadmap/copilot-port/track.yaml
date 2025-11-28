@@ -2,19 +2,19 @@ track:
   id: copilot-port
   name: GitHub Copilot Platform Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 6 weeks
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 14
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 5
+    completion_percent: 35.7
   sprints:
   - id: copilot-port-1
     name: MCP Integration & Custom Agents

@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: VS Code compatibility testing
-  description: |
-    Verify VS Code extension compatibility, test with VS Code settings import, document differences
+  description: 'Verify VS Code extension compatibility, test with VS Code settings
+    import, document differences
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.179778+00:00'

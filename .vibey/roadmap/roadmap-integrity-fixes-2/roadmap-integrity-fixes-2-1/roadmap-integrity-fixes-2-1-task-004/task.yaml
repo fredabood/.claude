@@ -11,29 +11,12 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Fix jetbrains-port status mismatch.
-
-    MISMATCH:
-    - track.yaml: status: completed
-    - roadmap.yaml: status: in_progress
-
-    LOCATION: Find jetbrains-port in roadmap.yaml tracks list
-
-    EDIT roadmap.yaml:
-    ```yaml
-    # Change from:
-    - id: jetbrains-port
-      name: JetBrains AI Assistant Port
-      status: in_progress
-
-    # To:
-    - id: jetbrains-port
-      name: JetBrains AI Assistant Port
-      status: completed
-    ```
-
-    DO NOT COMMIT YET - batch with other fixes in task-005.
+  description: "Fix jetbrains-port status mismatch.\n\nMISMATCH:\n- track.yaml: status:\
+    \ completed\n- roadmap.yaml: status: in_progress\n\nLOCATION: Find jetbrains-port\
+    \ in roadmap.yaml tracks list\n\nEDIT roadmap.yaml:\n```yaml\n# Change from:\n\
+    - id: jetbrains-port\n  name: JetBrains AI Assistant Port\n  status: in_progress\n\
+    \n# To:\n- id: jetbrains-port\n  name: JetBrains AI Assistant Port\n  status:\
+    \ completed\n```\n\nDO NOT COMMIT YET - batch with other fixes in task-005.\n"
   acceptance_criteria:
   - jetbrains-port status is completed in roadmap.yaml
   - Status matches track.yaml
@@ -44,3 +27,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

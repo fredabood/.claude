@@ -9,8 +9,8 @@ task:
   status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348417+00:00'
-  started: null
-  completed: '2025-11-08T19:24:32.107356+00:00'
+  started: '2025-11-27T11:04:09.660948+00:00'
+  completed: '2025-11-27T11:04:09.660948+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

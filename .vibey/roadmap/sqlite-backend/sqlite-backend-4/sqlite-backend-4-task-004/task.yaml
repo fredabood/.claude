@@ -4,14 +4,20 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create integrity audit report generator"
-  description: |
-    Generate comprehensive audit report from comparison results:
+  title: Create integrity audit report generator
+  description: 'Generate comprehensive audit report from comparison results:
+
     - Summary statistics (total mismatches, by severity, by entity type)
+
     - Detailed mismatch list (file, field, expected, actual, diff)
+
     - Prioritized remediation order
+
     - Output formats: console, markdown, JSON
+
     - Command: vibey roadmap audit-integrity
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

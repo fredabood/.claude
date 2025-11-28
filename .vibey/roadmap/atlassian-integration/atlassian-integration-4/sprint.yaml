@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: atlassian-integration-4-task-001
     name: Create unified vibey atlassian CLI
@@ -19,98 +19,147 @@ sprint:
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Polish CLI experience:
+    description: 'Polish CLI experience:
+
       - vibey atlassian connect (setup wizard)
+
       - vibey atlassian status (connection health)
+
       - vibey atlassian sync (unified sync)
+
       - vibey atlassian import (smart import)
+
       - vibey atlassian export (smart export)
+
       - Progress indicators and logging
+
       - Error messages with remediation hints
+
+      '
   - id: atlassian-integration-4-task-002
     name: Implement Jira-Confluence cross-linking
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-    description: |
-      Link Jira issues and Confluence pages:
+    description: 'Link Jira issues and Confluence pages:
+
       - Auto-link related docs to tasks
+
       - Create Confluence pages from task descriptions
+
       - Embed Jira issue status in docs
+
       - Link roadmap docs to Confluence space
+
       - Cross-reference resolution
+
+      '
   - id: atlassian-integration-4-task-003
     name: Add Atlassian notifications and alerts
     status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
-    description: |
-      Integration with Atlassian notifications:
+    description: 'Integration with Atlassian notifications:
+
       - Post sync status to Jira comments
+
       - Create Confluence page for sync reports
+
       - Slack/Teams notifications via Atlassian
+
       - Email notifications for sync failures
+
       - Dashboard widget data
+
+      '
   - id: atlassian-integration-4-task-004
     name: Implement bulk operations and performance optimization
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Handle large-scale operations:
+    description: 'Handle large-scale operations:
+
       - Batch API calls
+
       - Parallel sync operations
+
       - Incremental sync (only changes)
+
       - Caching for read operations
+
       - Rate limit handling
+
       - Progress tracking for bulk ops
+
+      '
   - id: atlassian-integration-4-task-005
     name: Create Atlassian admin configuration
     status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: backend-engineer
-    description: |
-      Admin configuration options:
+    description: 'Admin configuration options:
+
       - Multiple Atlassian site support
+
       - Per-track Atlassian mapping
+
       - Team/user mapping configuration
+
       - Custom field mappings
+
       - Sync schedules (cron-based)
+
       - .vibey/config/atlassian.yaml schema
+
+      '
   - id: atlassian-integration-4-task-006
     name: Write comprehensive documentation
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: docs-writer
-    description: |
-      Document Atlassian integration:
+    description: 'Document Atlassian integration:
+
       - Setup guide (OAuth, connection)
+
       - Jira integration guide
+
       - Confluence integration guide
+
       - Sync configuration reference
+
       - Troubleshooting guide
+
       - Best practices for teams
+
       - Migration guide from standalone Jira
+
+      '
   - id: atlassian-integration-4-task-007
     name: End-to-end integration testing
     status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
-    description: |
-      Full integration validation:
+    description: 'Full integration validation:
+
       - Complete workflow tests
+
       - Multi-project scenarios
+
       - Team collaboration scenarios
+
       - Error recovery tests
+
       - Performance benchmarks
+
       - Security audit
+
+      '
   dependencies:
   - atlassian-integration-2
   - atlassian-integration-3
@@ -141,17 +190,28 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 4 polishes the integration and adds advanced features.
+    notes: 'Sprint 4 polishes the integration and adds advanced features.
+
 
       Focus areas:
+
       1. User experience - smooth CLI, good errors
+
       2. Cross-product integration - Jira + Confluence together
+
       3. Enterprise features - bulk ops, notifications
+
       4. Documentation - make it easy to adopt
 
+
       After this sprint, teams can:
+
       - Manage Vibey roadmap from Jira
+
       - Keep Confluence docs in sync with repo
+
       - Get full audit trail in Atlassian
+
       - Collaborate with non-technical stakeholders
+
+      '

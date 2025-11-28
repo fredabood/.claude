@@ -9,14 +9,19 @@ task:
   estimated_hours: 2
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T00:00:00+00:00'
-  description: |
-    Update platform adapters to find content:
+  started: '2025-11-27T11:04:09.358745+00:00'
+  completed: '2025-11-27T11:04:09.358745+00:00'
+  description: 'Update platform adapters to find content:
+
     - vibey/adapters/claude_code.py
+
     - vibey/adapters/goose.py
+
     - Any other adapters referencing framework/
+
     - Use get_templates_dir() for handoff templates
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -24,3 +29,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

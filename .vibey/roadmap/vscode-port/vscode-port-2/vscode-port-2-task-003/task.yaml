@@ -11,21 +11,33 @@ task:
   completed: null
   estimated_duration: 6 hours
   actual_duration: null
-  description: |
-    Write comprehensive VS Code integration guide.
+  description: 'Write comprehensive VS Code integration guide.
+
 
     Documentation sections:
+
     - Prerequisites (VS Code version, MCP support)
+
     - Installation and setup
+
     - Deployment (vibey deploy --platform vscode)
+
     - Configuration (.vscode/mcp.json)
+
     - Agent Mode usage
+
     - Tool discovery and invocation
+
     - Troubleshooting
+
     - Example workflows
 
+
     Files to create:
+
     - docs/guides/VSCODE_INTEGRATION.md
+
+    '
   acceptance_criteria:
   - Clear step-by-step instructions
   - Screenshots/examples included

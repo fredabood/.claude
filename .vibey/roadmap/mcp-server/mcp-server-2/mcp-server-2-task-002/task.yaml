@@ -9,8 +9,8 @@ task:
   description: Implement vibey_query_track, vibey_list_blockers, vibey_list_dependencies,
     vibey_roadmap_status
   created: '2025-11-10T18:00:00+00:00'
-  started: '2025-11-10T18:45:00+00:00'
-  completed: '2025-11-10T19:15:00+00:00'
+  started: '2025-11-27T11:04:09.332537+00:00'
+  completed: '2025-11-27T11:04:09.332537+00:00'
   assigned_agent: web-developer
   priority: high
   complexity: medium

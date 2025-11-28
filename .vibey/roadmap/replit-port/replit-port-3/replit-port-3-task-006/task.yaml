@@ -11,50 +11,19 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create validation logic for generated Replit configurations.
-
-    VALIDATION CHECKS:
-    1. .replit TOML Validation
-       - Valid TOML syntax
-       - Required fields present
-       - Valid run command
-       - Language specified
-
-    2. replit.nix Validation
-       - Valid Nix syntax
-       - All dependencies resolvable
-       - No conflicting packages
-       - Nix channel available
-
-    3. MCP Config Validation
-       - Valid YAML syntax
-       - Server settings valid
-       - Tool paths exist
-       - Port not in use
-
-    4. Cross-Configuration Validation
-       - Dependencies consistent
-       - Environment variables aligned
-       - Paths resolve correctly
-       - No circular dependencies
-
-    VALIDATION LEVELS:
-    - Error: Must fix before deployment
-    - Warning: Should fix, non-blocking
-    - Info: Informational only
-
-    VALIDATION REPORTING:
-    - Clear error messages
-    - Fix suggestions
-    - Documentation links
-    - Example corrections
-
-    DELIVERABLES:
-    - Validation framework
-    - Validation rules
-    - Error reporting
-    - Fix suggestions
+  description: "Create validation logic for generated Replit configurations.\n\nVALIDATION\
+    \ CHECKS:\n1. .replit TOML Validation\n   - Valid TOML syntax\n   - Required fields\
+    \ present\n   - Valid run command\n   - Language specified\n\n2. replit.nix Validation\n\
+    \   - Valid Nix syntax\n   - All dependencies resolvable\n   - No conflicting\
+    \ packages\n   - Nix channel available\n\n3. MCP Config Validation\n   - Valid\
+    \ YAML syntax\n   - Server settings valid\n   - Tool paths exist\n   - Port not\
+    \ in use\n\n4. Cross-Configuration Validation\n   - Dependencies consistent\n\
+    \   - Environment variables aligned\n   - Paths resolve correctly\n   - No circular\
+    \ dependencies\n\nVALIDATION LEVELS:\n- Error: Must fix before deployment\n- Warning:\
+    \ Should fix, non-blocking\n- Info: Informational only\n\nVALIDATION REPORTING:\n\
+    - Clear error messages\n- Fix suggestions\n- Documentation links\n- Example corrections\n\
+    \nDELIVERABLES:\n- Validation framework\n- Validation rules\n- Error reporting\n\
+    - Fix suggestions\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -62,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-3-task-001
     name: Define user personas and their goals
@@ -19,100 +19,151 @@ sprint:
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Create detailed persona definitions:
+    description: 'Create detailed persona definitions:
+
       - New User: Goals, technical level, expectations
+
       - Solo Developer: Workflow patterns, pain tolerance
+
       - Team Lead: Setup needs, team coordination
+
       - Team Member: Daily usage patterns
+
       - Platform Migrator: Migration concerns, comparison points
+
       - Power User: Advanced needs, customization desires
+
       - Contributor: Development setup, contribution workflow, PR process
+
       - First-time Contributor: Onboarding friction, finding good first issues
+
+      '
   - id: user-journey-audit-3-task-002
     name: Map new user onboarding experience
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
-    description: |
-      Document the complete new user experience:
+    description: 'Document the complete new user experience:
+
       - Discovery: How do users find Vibey?
-      - Installation: What's the actual experience?
-      - First run: What happens, what's confusing?
+
+      - Installation: What''s the actual experience?
+
+      - First run: What happens, what''s confusing?
+
       - Configuration: Pain points in initial setup
+
       - First success: Time to first value
+
       - Documentation touchpoints and quality
+
       - Common failure modes and recovery
+
+      '
   - id: user-journey-audit-3-task-003
     name: Map roadmap creation and management experience
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Document roadmap lifecycle experience:
+    description: 'Document roadmap lifecycle experience:
+
       - Creating a new roadmap (friction points)
+
       - Adding tracks and sprints (UX issues)
+
       - Defining tasks and dependencies
+
       - Updating progress (manual effort)
+
       - Viewing status and reports (clarity)
+
       - Archiving and cleanup
+
+      '
   - id: user-journey-audit-3-task-004
     name: Map sprint execution experience
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Document sprint workflow experience:
+    description: 'Document sprint workflow experience:
+
       - Sprint planning process
+
       - Starting a sprint
+
       - Daily task management friction
+
       - Handling blockers
+
       - Completing tasks
+
       - Sprint review and completion
-      - What's missing or awkward?
+
+      - What''s missing or awkward?
+
+      '
   - id: user-journey-audit-3-task-005
     name: Map multi-platform and integration experiences
     status: not_started
     priority: medium
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Document platform and integration experiences:
+    description: 'Document platform and integration experiences:
+
       - Platform deployment complexity
+
       - Git integration setup and daily usage
+
       - Jira/Confluence connection experience
+
       - Webhook configuration complexity
+
       - Troubleshooting integrations
-      - What's unclear or broken?
+
+      - What''s unclear or broken?
+
+      '
   - id: user-journey-audit-3-task-006
     name: Identify and catalog all pain points
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Compile pain point inventory:
+    description: 'Compile pain point inventory:
+
       - List all friction points discovered
+
       - Categorize by journey phase
+
       - Rate severity (Critical/High/Medium/Low)
+
       - Note frequency of occurrence
+
       - Identify quick wins vs deep issues
+
+      '
   - id: user-journey-audit-3-task-007
     name: Compile journey maps with annotated pain points
     status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: docs-writer
-    description: |
-      Create comprehensive journey map document:
+    description: 'Create comprehensive journey map document:
+
       - Visual journey diagrams per persona
+
       - Step-by-step experience descriptions
+
       - Pain points flagged at each step
+
       - Cross-reference to CLI reference commands
+
       - Input for walkthrough generation (Sprint 4)
+
+      '
   dependencies:
   - user-journey-audit-2
   blocked_by:
@@ -130,7 +181,10 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 3 maps actual user experiences BEFORE generating
+    notes: 'Sprint 3 maps actual user experiences BEFORE generating
+
       walkthrough documentation. This ensures walkthroughs
-      address real pain points and aren't just feature lists.
+
+      address real pain points and aren''t just feature lists.
+
+      '

@@ -11,53 +11,89 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement .replit TOML generation from Vibey project configuration.
+  description: 'Implement .replit TOML generation from Vibey project configuration.
+
 
     TOML STRUCTURE:
+
     ```toml
+
     run = "python -m vibey.mcp.server"
+
     language = "python3"
+
     entrypoint = "main.py"
 
+
     [env]
+
     VIBEY_MODE = "replit"
+
     VIBEY_CONFIG_PATH = ".vibey/config"
 
+
     [nix]
+
     channel = "stable-23_11"
 
+
     [gitHubImport]
+
     requiredFiles = [".replit", "replit.nix"]
 
+
     [languages.python3]
+
     pattern = "**/*.py"
 
+
     [unitTest]
+
     language = "python3"
 
+
     [deployment]
+
     run = ["sh", "-c", "python -m vibey.mcp.server"]
+
     ```
 
+
     GENERATION LOGIC:
+
     - Read project.yaml configuration
+
     - Extract Replit-specific settings
+
     - Generate TOML structure
+
     - Validate TOML syntax
+
     - Write to .replit file
 
+
     CONFIGURATION MAPPING:
+
     - project.platform.replit.run_command → run
+
     - project.platform.replit.language → language
+
     - project.platform.replit.env → [env]
+
     - project.platform.replit.nix_channel → [nix].channel
 
+
     DELIVERABLES:
+
     - .replit generation method
+
     - TOML template
+
     - Validation logic
+
     - Unit tests
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -65,3 +101,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

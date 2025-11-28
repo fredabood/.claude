@@ -11,57 +11,20 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Initialize Replit Extension project with React and TypeScript.
-
-    PROJECT STRUCTURE:
-    ```
-    vibey-replit-extension/
-    ├── src/
-    │   ├── components/       # React components
-    │   ├── hooks/            # Custom hooks
-    │   ├── lib/              # Utilities
-    │   ├── types/            # TypeScript types
-    │   └── index.tsx         # Entry point
-    ├── public/
-    │   └── manifest.json     # Extension manifest
-    ├── package.json
-    ├── tsconfig.json
-    └── vite.config.ts
-    ```
-
-    DEPENDENCIES:
-    - React 18+
-    - TypeScript 5+
-    - Vite (build tool)
-    - @replit/extensions (Replit Extensions API)
-    - MCP client library
-
-    CONFIGURATION:
-    - TypeScript strict mode
-    - ESLint + Prettier
-    - Vite for fast builds
-    - Extension manifest
-
-    MANIFEST.JSON:
-    ```json
-    {
-      "name": "vibey",
-      "version": "1.0.0",
-      "description": "Vibey Agent Framework for Replit",
-      "permissions": [
-        "read:files",
-        "write:files",
-        "execute:commands"
-      ]
-    }
-    ```
-
-    DELIVERABLES:
-    - Extension project structure
-    - Build configuration
-    - Development environment
-    - Basic entry point
+  description: "Initialize Replit Extension project with React and TypeScript.\n\n\
+    PROJECT STRUCTURE:\n```\nvibey-replit-extension/\n├── src/\n│   ├── components/\
+    \       # React components\n│   ├── hooks/            # Custom hooks\n│   ├──\
+    \ lib/              # Utilities\n│   ├── types/            # TypeScript types\n\
+    │   └── index.tsx         # Entry point\n├── public/\n│   └── manifest.json  \
+    \   # Extension manifest\n├── package.json\n├── tsconfig.json\n└── vite.config.ts\n\
+    ```\n\nDEPENDENCIES:\n- React 18+\n- TypeScript 5+\n- Vite (build tool)\n- @replit/extensions\
+    \ (Replit Extensions API)\n- MCP client library\n\nCONFIGURATION:\n- TypeScript\
+    \ strict mode\n- ESLint + Prettier\n- Vite for fast builds\n- Extension manifest\n\
+    \nMANIFEST.JSON:\n```json\n{\n  \"name\": \"vibey\",\n  \"version\": \"1.0.0\"\
+    ,\n  \"description\": \"Vibey Agent Framework for Replit\",\n  \"permissions\"\
+    : [\n    \"read:files\",\n    \"write:files\",\n    \"execute:commands\"\n  ]\n\
+    }\n```\n\nDELIVERABLES:\n- Extension project structure\n- Build configuration\n\
+    - Development environment\n- Basic entry point\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -69,3 +32,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

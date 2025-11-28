@@ -4,15 +4,22 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Iterate remediation until zero discrepancies"
-  description: |
-    Execute remediation cycles until audit passes:
+  title: Iterate remediation until zero discrepancies
+  description: 'Execute remediation cycles until audit passes:
+
     - Run fix-counters to remediate issues
+
     - Re-run audit to verify fixes
+
     - Document any edge cases or issues
+
     - Repeat until Computed DB == Declared DB
+
     - Track iteration count and issues per cycle
+
     Success: Zero discrepancies across entire roadmap
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

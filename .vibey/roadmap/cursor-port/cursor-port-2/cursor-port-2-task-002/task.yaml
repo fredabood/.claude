@@ -8,32 +8,46 @@ task:
   started: null
   completed: null
   estimated_duration: 12 hours
-  description: |
-    Create end-to-end tests for all 46 MCP tools via Cursor Composer.
+  description: 'Create end-to-end tests for all 46 MCP tools via Cursor Composer.
+
 
     Test coverage:
+
     - All roadmap tools (query, update, context)
+
     - All workflow tools (list, get, execute)
+
     - All agent tools (list, get)
+
     - All validation tools (frontmatter, quality gates)
+
     - Tool error handling and edge cases
 
+
     Method:
+
     - Use Cursor Composer to invoke each tool
+
     - Verify tool responses match expected format
+
     - Test tool chaining and workflows
+
     - Verify MCP protocol compliance
 
+
     Environment: Requires Cursor IDE with MCP enabled
+
+    '
   deliverables:
-    - tests/e2e/cursor/test_mcp_tools.py
-    - Tool invocation scripts
-    - Test result documentation
+  - tests/e2e/cursor/test_mcp_tools.py
+  - Tool invocation scripts
+  - Test result documentation
   assigned_agents:
-    - test-engineer
+  - test-engineer
   commits: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
     priority: critical
     complexity: high
+  blocked: false

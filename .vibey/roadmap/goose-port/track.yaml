@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
-  started: '2025-11-22T00:00:00+00:00'
-  completed: '2025-11-22T23:00:00+00:00'
+  started: null
+  completed: '2025-11-07T02:00:00+00:00'
   estimated_duration: 9 weeks
   progress:
     sprints_total: 5
     sprints_completed: 5
-    tasks_total: 34
-    tasks_completed: 34
-    completion_percent: 100
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
   - id: goose-port-1
     name: Frontmatter Schema & Asset Migration
@@ -22,19 +22,31 @@ track:
     estimated_duration: 2 weeks
     tasks_count: 8
     started: null
-    description: |
-      Design YAML frontmatter schema for agents/workflows/handoffs.
+    description: 'Design YAML frontmatter schema for agents/workflows/handoffs.
+
       Migrate all 19 agents, 16 workflows, and 22 handoffs to include
+
       structured frontmatter that MCP server can parse dynamically.
+
       Tasks:
+
       1. Design frontmatter schema for agents (id, name, type, triggers, inputs, outputs)
+
       2. Design frontmatter schema for workflows (id, name, steps, agents, quality_gates)
+
       3. Design frontmatter schema for handoffs (id, name, from_agent, to_agent, fields)
+
       4. Create migration script to add frontmatter to existing files
+
       5. Migrate 19 agent markdown files
+
       6. Migrate 16 workflow markdown files
+
       7. Migrate 22 handoff template files
+
       8. Validate all migrations with schema validator
+
+      '
   - id: goose-port-2
     name: Dynamic Discovery in MCP Server
     status: completed
@@ -42,16 +54,25 @@ track:
     tasks_count: 6
     started: '2025-11-22T00:00:00+00:00'
     completed: '2025-11-22T00:00:00+00:00'
-    description: |
-      Extend existing MCP server with dynamic tool discovery.
+    description: 'Extend existing MCP server with dynamic tool discovery.
+
       MCP server scans frontmatter and generates tools automatically.
+
       Tasks:
+
       1. Create frontmatter parser (YAML extraction from markdown)
+
       2. Create agent discovery module (scan framework/agents/)
+
       3. Create workflow discovery module (scan framework/workflows/)
+
       4. Create dynamic tool generator (frontmatter → MCP tool schema)
+
       5. Integrate discovery into VibeyMCPServer.get_tools()
+
       6. Add caching for discovered tools (rebuild on file change)
+
+      '
   - id: goose-port-3
     name: Platform Adapter Architecture
     status: completed
@@ -59,17 +80,25 @@ track:
     tasks_count: 8
     started: '2025-11-22T00:00:00+00:00'
     completed: '2025-11-22T00:00:00+00:00'
-    description: |
-      Built extensible platform adapter architecture for zero-drift translation.
+    description: 'Built extensible platform adapter architecture for zero-drift translation.
+
       Successfully tested with Goose - 46 tools available via MCP protocol.
 
+
       KEY ACHIEVEMENTS:
+
       - BaseAdapter and CompositeAdapter pattern implemented
+
       - GooseAdapter composes MCPAdapter (no duplication)
+
       - Real MCP protocol with FastMCP SDK
+
       - vibey export CLI command
 
+
       See: .vibey/roadmap/goose-port/goose-port-3/context/PLATFORM_ADAPTER_ARCHITECTURE.md
+
+      '
   - id: goose-port-4
     name: Testing & Quality Gates
     status: completed
@@ -77,10 +106,13 @@ track:
     tasks_count: 7
     started: '2025-11-22T21:00:00+00:00'
     completed: '2025-11-22T22:30:00+00:00'
-    description: |
-      Comprehensive testing of MCP server and Goose integration.
+    description: 'Comprehensive testing of MCP server and Goose integration.
+
       85 tests passing: 18 unit (parser) + 23 unit (discovery) +
+
       21 integration + 23 E2E. Performance benchmarks established.
+
+      '
   - id: goose-port-5
     name: Documentation & Launch
     status: completed
@@ -88,10 +120,13 @@ track:
     tasks_count: 5
     started: '2025-11-22T22:30:00+00:00'
     completed: '2025-11-22T23:00:00+00:00'
-    description: |
-      Complete documentation and launch preparation.
+    description: 'Complete documentation and launch preparation.
+
       Created: Frontmatter schema reference, Goose integration guide,
+
       Recipe development guide, Migration guide, Updated README.
+
+      '
   dependencies:
   - type: track
     target_id: roadmap-system
@@ -175,7 +210,8 @@ track:
   - Goose integration guide
   - Recipe development guide
   strategic_value:
-  - 'Platform Agnostic: Single MCP server works with Goose, Claude Code, and future MCP clients'
+  - 'Platform Agnostic: Single MCP server works with Goose, Claude Code, and future
+    MCP clients'
   - 'Zero Drift: Dynamic discovery ensures MCP tools always match agent/workflow definitions'
   - 'LLM Agnostic: Goose supports Claude, GPT-4, Gemini, and local models'
   - 'Ecosystem Access: 1000+ MCP tools available through Goose'
@@ -188,42 +224,19 @@ track:
     last_updated: '2025-11-22T00:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md#goose-compatibility-analysis
     implementation_plan: null
-    notes: |
-      GOOSE PORT - REVISED ARCHITECTURE (Nov 2025)
-
-      Key Decision: Extend existing MCP server with dynamic discovery
-      instead of building separate Goose-specific extensions.
-
-      APPROACH:
-      1. Add YAML frontmatter to all agents/workflows/handoffs
-      2. MCP server dynamically discovers and generates tools from frontmatter
-      3. Zero drift - tools always match source definitions
-      4. Works with any MCP client (Goose, Claude Code, future clients)
-
-      FRONTMATTER EXAMPLE (agent):
-      ---
-      id: test-engineer
-      name: Test Engineer
-      type: quality
-      triggers:
-        keywords: [write tests, pytest, coverage]
-        file_patterns: [tests/*, test_*.py]
-      inputs:
-        - name: code_to_test
-          type: string
-          required: true
-      ---
-
-      BENEFITS:
-      - Single source of truth (markdown files)
-      - Human-readable + machine-parseable
-      - No manual tool definitions to maintain
-      - Automatic tool generation from 57 assets
-
-      TIMELINE: 9 weeks (reduced from 16 weeks)
-      - Sprint 1: Schema design + asset migration (2 weeks)
-      - Sprint 2: Dynamic discovery implementation (2 weeks)
-      - Sprint 3: Goose integration + recipes (2 weeks)
-      - Sprint 4: Testing + quality gates (2 weeks)
-      - Sprint 5: Documentation + launch (1 week)
+    notes: "GOOSE PORT - REVISED ARCHITECTURE (Nov 2025)\n\nKey Decision: Extend existing\
+      \ MCP server with dynamic discovery\ninstead of building separate Goose-specific\
+      \ extensions.\n\nAPPROACH:\n1. Add YAML frontmatter to all agents/workflows/handoffs\n\
+      2. MCP server dynamically discovers and generates tools from frontmatter\n3.\
+      \ Zero drift - tools always match source definitions\n4. Works with any MCP\
+      \ client (Goose, Claude Code, future clients)\n\nFRONTMATTER EXAMPLE (agent):\n\
+      ---\nid: test-engineer\nname: Test Engineer\ntype: quality\ntriggers:\n  keywords:\
+      \ [write tests, pytest, coverage]\n  file_patterns: [tests/*, test_*.py]\ninputs:\n\
+      \  - name: code_to_test\n    type: string\n    required: true\n---\n\nBENEFITS:\n\
+      - Single source of truth (markdown files)\n- Human-readable + machine-parseable\n\
+      - No manual tool definitions to maintain\n- Automatic tool generation from 57\
+      \ assets\n\nTIMELINE: 9 weeks (reduced from 16 weeks)\n- Sprint 1: Schema design\
+      \ + asset migration (2 weeks)\n- Sprint 2: Dynamic discovery implementation\
+      \ (2 weeks)\n- Sprint 3: Goose integration + recipes (2 weeks)\n- Sprint 4:\
+      \ Testing + quality gates (2 weeks)\n- Sprint 5: Documentation + launch (1 week)\n"
     estimated_tokens: 0

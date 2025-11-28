@@ -4,8 +4,8 @@ task:
   track_id: roadmap-state-audit
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create requirements-test.txt"
-  description: "Add missing file or update CI workflow"
+  title: Create requirements-test.txt
+  description: Add missing file or update CI workflow
   status: completed
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
@@ -28,4 +28,6 @@ task:
     last_updated: '2025-11-26T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Remediation task generated from data integrity audit. VERIFIED 2025-11-26: requirements-test.txt not needed - modern approach uses pyproject.toml [project.optional-dependencies] dev section with pytest, pytest-cov, black, ruff, mypy."
+    notes: 'Remediation task generated from data integrity audit. VERIFIED 2025-11-26:
+      requirements-test.txt not needed - modern approach uses pyproject.toml [project.optional-dependencies]
+      dev section with pytest, pytest-cov, black, ruff, mypy.'

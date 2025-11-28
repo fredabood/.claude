@@ -3,31 +3,41 @@ task:
   name: Add vibey deploy --platform cursor CLI
   sprint_id: cursor-port-1
   track_id: cursor-port
-  status: not_started
+  status: completed
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-27T11:04:09.317187+00:00'
+  completed: '2025-11-27T11:04:09.317187+00:00'
   estimated_duration: 4 hours
-  description: |
-    Add 'vibey deploy --platform cursor' CLI command.
+  description: 'Add ''vibey deploy --platform cursor'' CLI command.
+
 
     Behavior:
+
     - Detect/create .cursor directory
+
     - Generate CURSOR.md
+
     - Generate .cursor/mcp.json
+
     - Generate .cursorrules (if applicable)
+
     - Calculate and store checksums
+
     - Provide success feedback
 
-    Follow existing pattern from 'vibey deploy --platform claude-code'.
+
+    Follow existing pattern from ''vibey deploy --platform claude-code''.
+
+    '
   deliverables:
-    - Updated vibey/cli/commands/deploy.py
-    - CLI integration tests
+  - Updated vibey/cli/commands/deploy.py
+  - CLI integration tests
   assigned_agents:
-    - web-developer
+  - web-developer
   commits: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
     priority: high
     complexity: medium
+  blocked: false

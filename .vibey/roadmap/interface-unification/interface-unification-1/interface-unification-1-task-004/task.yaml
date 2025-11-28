@@ -1,0 +1,26 @@
+task:
+  id: interface-unification-1-task-004
+  sprint_id: interface-unification-1
+  track_id: interface-unification
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement missing features in CLI (if any)
+  description: ''
+  status: completed
+  blocked: false
+  created: '2025-11-27T11:04:09.531990+00:00'
+  started: '2025-11-27T11:04:09.531990+00:00'
+  completed: '2025-11-27T11:04:09.531990+00:00'
+  assigned_agent: null
+  priority: medium
+  estimated_tokens: 1
+  complexity: medium
+  gate_info: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata: {}

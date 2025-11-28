@@ -11,44 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Validate the schema migration and commit all changes.
-
-    VALIDATION:
-    1. Count task.yaml files:
-       ```bash
-       find .vibey/roadmap/git-integration -name "task.yaml" | wc -l
-       # Should be 41
-       ```
-
-    2. Verify sprint.yaml files have empty tasks:
-       ```bash
-       grep "tasks: \[\]" .vibey/roadmap/git-integration/*/sprint.yaml
-       # Should show 5 matches
-       ```
-
-    3. Run roadmap validation:
-       ```bash
-       vibey roadmap validate
-       ```
-
-    COMMIT:
-    ```bash
-    git add .vibey/roadmap/git-integration/
-    git commit -m "refactor: Migrate git-integration to hierarchical task schema
-
-    - Extract 41 embedded tasks to individual task.yaml files
-    - Sprint 0: 7 tasks (architecture)
-    - Sprint 1: 9 tasks (analysis)
-    - Sprint 2: 11 tasks (hooks)
-    - Sprint 3: 9 tasks (advanced)
-    - Sprint 4: 5 tasks (dogfooding)
-    - Update sprint.yaml files to use empty tasks array
-
-    Part of roadmap-integrity-fixes-2 remediation.
-
-    Generated with Claude Code"
-    ```
+  description: "Validate the schema migration and commit all changes.\n\nVALIDATION:\n\
+    1. Count task.yaml files:\n   ```bash\n   find .vibey/roadmap/git-integration\
+    \ -name \"task.yaml\" | wc -l\n   # Should be 41\n   ```\n\n2. Verify sprint.yaml\
+    \ files have empty tasks:\n   ```bash\n   grep \"tasks: \\[\\]\" .vibey/roadmap/git-integration/*/sprint.yaml\n\
+    \   # Should show 5 matches\n   ```\n\n3. Run roadmap validation:\n   ```bash\n\
+    \   vibey roadmap validate\n   ```\n\nCOMMIT:\n```bash\ngit add .vibey/roadmap/git-integration/\n\
+    git commit -m \"refactor: Migrate git-integration to hierarchical task schema\n\
+    \n- Extract 41 embedded tasks to individual task.yaml files\n- Sprint 0: 7 tasks\
+    \ (architecture)\n- Sprint 1: 9 tasks (analysis)\n- Sprint 2: 11 tasks (hooks)\n\
+    - Sprint 3: 9 tasks (advanced)\n- Sprint 4: 5 tasks (dogfooding)\n- Update sprint.yaml\
+    \ files to use empty tasks array\n\nPart of roadmap-integrity-fixes-2 remediation.\n\
+    \nGenerated with Claude Code\"\n```\n"
   acceptance_criteria:
   - 41 task.yaml files exist
   - All sprint.yaml files have tasks:[]
@@ -70,3 +44,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

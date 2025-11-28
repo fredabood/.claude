@@ -9,32 +9,18 @@ task:
   estimated_hours: 3
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T18:00:00+00:00'
-  description: |
-    Add support for parsing Git tags as explicit state markers:
-
-    TAG FORMATS (from Sprint 0 addendum):
-    - Sprint tags: sprint/<sprint-id>/start, sprint/<sprint-id>/end
-    - Task tags: <track>/<sprint>/<task>/<marker>
-
-    FEATURES:
-    - Detect sprint boundaries from tags
-    - Use tags for commit range queries
-    - Parse task tags for explicit milestones
-    - Query commits between tags efficiently
-
-    INTEGRATION:
-    - Enhance commit correlation engine to use tags
-    - Speed up analysis by using tag refs instead of full log scan
-    - Support both message-based and tag-based task linking
-
-    CLI ADDITIONS:
-    - vibey git tags --task <task-id>
-      List all tags for a task
-
-    - vibey git tag-range <task-id>
-      Get commit range between task start/end tags
+  started: '2025-11-27T11:04:09.413201+00:00'
+  completed: '2025-11-27T11:04:09.413201+00:00'
+  description: "Add support for parsing Git tags as explicit state markers:\n\nTAG\
+    \ FORMATS (from Sprint 0 addendum):\n- Sprint tags: sprint/<sprint-id>/start,\
+    \ sprint/<sprint-id>/end\n- Task tags: <track>/<sprint>/<task>/<marker>\n\nFEATURES:\n\
+    - Detect sprint boundaries from tags\n- Use tags for commit range queries\n- Parse\
+    \ task tags for explicit milestones\n- Query commits between tags efficiently\n\
+    \nINTEGRATION:\n- Enhance commit correlation engine to use tags\n- Speed up analysis\
+    \ by using tag refs instead of full log scan\n- Support both message-based and\
+    \ tag-based task linking\n\nCLI ADDITIONS:\n- vibey git tags --task <task-id>\n\
+    \  List all tags for a task\n\n- vibey git tag-range <task-id>\n  Get commit range\
+    \ between task start/end tags\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -42,3 +28,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

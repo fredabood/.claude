@@ -4,21 +4,15 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create database module structure and connection management"
-  description: |
-    Set up the database module at vibey/roadmap/database/:
-    - __init__.py with public API exports
-    - connection.py for database connection management:
-      - WAL mode for better concurrency
-      - Transaction context manager
-      - Busy timeout configuration
-      - Database file at .vibey/roadmap.db
-    - schema.py stub for DDL (populated in task-002)
-    - crud/ subdirectory for entity operations
-    - sync/ subdirectory for YAML synchronization
-
-    Connection management is foundational and must be implemented first.
-    Use sqlite3 from Python standard library (no external dependencies).
+  title: Create database module structure and connection management
+  description: "Set up the database module at vibey/roadmap/database/:\n- __init__.py\
+    \ with public API exports\n- connection.py for database connection management:\n\
+    \  - WAL mode for better concurrency\n  - Transaction context manager\n  - Busy\
+    \ timeout configuration\n  - Database file at .vibey/roadmap.db\n- schema.py stub\
+    \ for DDL (populated in task-002)\n- crud/ subdirectory for entity operations\n\
+    - sync/ subdirectory for YAML synchronization\n\nConnection management is foundational\
+    \ and must be implemented first.\nUse sqlite3 from Python standard library (no\
+    \ external dependencies).\n"
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

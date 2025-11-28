@@ -4,25 +4,28 @@ task:
   track_id: amazonq-port
   sprint_id: amazonq-port-1
   name: Implement AmazonQSettingsGenerator
-  status: not_started
+  status: completed
   priority: high
   estimated_hours: 4
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
-  description: |
-    Implement AmazonQSettingsGenerator to generate .amazonq/mcp.json configuration
+  started: '2025-11-27T11:04:09.262283+00:00'
+  completed: '2025-11-27T11:04:09.262283+00:00'
+  description: 'Implement AmazonQSettingsGenerator to generate .amazonq/mcp.json configuration
+
     for MCP server integration with Amazon Q Developer.
+
+    '
   acceptance_criteria:
-    - AmazonQSettingsGenerator class created in vibey/adapters/amazonq/settings_generator.py
-    - Generates .amazonq/mcp.json with correct MCP server configuration
-    - Supports both local and global configuration paths
-    - Includes AWS authentication environment variables
+  - AmazonQSettingsGenerator class created in vibey/adapters/amazonq/settings_generator.py
+  - Generates .amazonq/mcp.json with correct MCP server configuration
+  - Supports both local and global configuration paths
+  - Includes AWS authentication environment variables
   dependencies:
-    - amazonq-port-1-task-001
+  - amazonq-port-1-task-001
   blocked_by: []
   depended_on_by: []
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

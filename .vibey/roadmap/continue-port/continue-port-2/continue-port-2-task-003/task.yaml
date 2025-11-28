@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: MCP server integration
-  description: |
-    Configure Vibey MCP server in Continue, test tool discovery, verify agent invocation
+  description: 'Configure Vibey MCP server in Continue, test tool discovery, verify
+    agent invocation
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.178700+00:00'

@@ -11,43 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement deployment methods for ReplitAdapter to handle framework
-    deployment in Replit environment.
-
-    DEPLOYMENT METHODS:
-    1. deploy()
-       - Copy framework files to Replit workspace
-       - Generate configuration files
-       - Set up MCP server
-       - Initialize extension
-
-    2. deploy_agents()
-       - Deploy agent definitions
-       - Generate REPLIT.md files
-       - Register with Replit Agent
-
-    3. deploy_workflows()
-       - Deploy workflow definitions
-       - Update documentation
-       - Configure workflow routing
-
-    4. deploy_config()
-       - Generate .replit TOML
-       - Generate replit.nix
-       - Set environment variables
-
-    WEB ENVIRONMENT CONSIDERATIONS:
-    - File system limitations
-    - Permission constraints
-    - Network access patterns
-    - Resource limitations
-
-    DELIVERABLES:
-    - deploy() implementation
-    - Deployment helper methods
-    - Rollback capability
-    - Deployment tests
+  description: "Implement deployment methods for ReplitAdapter to handle framework\n\
+    deployment in Replit environment.\n\nDEPLOYMENT METHODS:\n1. deploy()\n   - Copy\
+    \ framework files to Replit workspace\n   - Generate configuration files\n   -\
+    \ Set up MCP server\n   - Initialize extension\n\n2. deploy_agents()\n   - Deploy\
+    \ agent definitions\n   - Generate REPLIT.md files\n   - Register with Replit\
+    \ Agent\n\n3. deploy_workflows()\n   - Deploy workflow definitions\n   - Update\
+    \ documentation\n   - Configure workflow routing\n\n4. deploy_config()\n   - Generate\
+    \ .replit TOML\n   - Generate replit.nix\n   - Set environment variables\n\nWEB\
+    \ ENVIRONMENT CONSIDERATIONS:\n- File system limitations\n- Permission constraints\n\
+    - Network access patterns\n- Resource limitations\n\nDELIVERABLES:\n- deploy()\
+    \ implementation\n- Deployment helper methods\n- Rollback capability\n- Deployment\
+    \ tests\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -55,3 +30,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

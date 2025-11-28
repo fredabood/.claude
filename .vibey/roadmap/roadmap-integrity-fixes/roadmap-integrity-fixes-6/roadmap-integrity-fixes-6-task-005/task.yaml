@@ -15,10 +15,10 @@ task:
     \ roadmap validation\n\n   # Check if roadmap files changed\n   if git diff --cached\
     \ --name-only | grep -q \"^.vibey/roadmap/\"\n   then\n     echo \"Validating\
     \ roadmap data...\"\n     vibey roadmap validate\n     if [ $? -ne 0 ]; then\n\
-    \       echo \"\u274C Roadmap validation failed. Fix issues before committing.\"\
-    \n       exit 1\n     fi\n     echo \"\u2705 Roadmap validation passed.\"\n  \
-    \ fi\n   exit 0\n   ```\n\n4. Installation:\n   - Add hook installer to vibey\
-    \ CLI\n   - Command: vibey roadmap install-hooks\n   - Auto-install on first roadmap\
+    \       echo \"❌ Roadmap validation failed. Fix issues before committing.\"\n\
+    \       exit 1\n     fi\n     echo \"✅ Roadmap validation passed.\"\n   fi\n \
+    \  exit 0\n   ```\n\n4. Installation:\n   - Add hook installer to vibey CLI\n\
+    \   - Command: vibey roadmap install-hooks\n   - Auto-install on first roadmap\
     \ command (optional)\n   - Document manual installation\n\n5. Configuration:\n\
     \   - Allow bypass for emergencies (--no-verify)\n   - Add config option to disable\
     \ validation\n   - Support custom validation rules\n\n6. Testing:\n   - Test with\
@@ -28,8 +28,8 @@ task:
   status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
-  started: '2025-11-21T03:24:51.973912+00:00'
-  completed: '2025-11-23T21:00:00+00:00'
+  started: '2025-11-27T11:04:09.445817+00:00'
+  completed: '2025-11-27T11:04:09.445817+00:00'
   assigned_agent: web-developer
   priority: high
   phase_label: null

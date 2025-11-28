@@ -4,13 +4,13 @@ sprint:
   name: Documentation & Launch
   status: completed
   created: '2025-11-22T00:00:00+00:00'
-  started: '2025-11-22T22:30:00+00:00'
-  completed: '2025-11-22T23:00:00+00:00'
+  started: null
+  completed: '2025-11-22T00:00:00+00:00'
   estimated_duration: 1 week
   progress:
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 100
+    completion_percent: 0.0
   tasks:
   - id: goose-port-5-task-001
     name: Frontmatter schema reference documentation
@@ -40,3 +40,4 @@ sprint:
   - docs/guides/RECIPE_DEVELOPMENT.md - How to create Goose recipes
   - docs/guides/MIGRATION_CLAUDE_TO_GOOSE.md - Migration guide
   - Updated README.md with Goose support announcement
+  blocked: false

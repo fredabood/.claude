@@ -4,41 +4,27 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Integrate with pre-commit hook"
-  description: |
-    Update vibey/operations/git/hooks/pre_commit.py for SQLite integration:
-
-    Pre-commit flow (when database mode active):
-    1. Check if database exists and is valid
-    2. Check database_state.is_dirty
-    3. If dirty:
-       a. Run pre-dump safety check (detect manual YAML edits)
-       b. If manual edits detected:
-          - Log conflict to sync_conflicts table
-          - Block commit with message explaining conflict
-          - Suggest resolution: rebuild --force or dump --force
-       c. If no conflicts: run dump
-       d. Stage generated YAML files (git add .vibey/roadmap/)
-    4. Continue with existing YAML validation
-
-    New validation rule (yaml_db_sync):
-    - Compare YAML file checksums with yaml_checksums table
-    - Block if YAML modified manually when DB is source of truth
-    - Enforcement mode: blocking (default), advisory, audit
-
-    Update hooks/installer.py:
-    - Install SQLite-aware pre-commit hook
-    - Keep backward compatibility (YAML-only mode still works)
-
-    Error messages should be clear:
-    - "Database has uncommitted changes - running dump..."
-    - "YAML files modified manually - sync conflict detected"
-    - "Suggestion: vibey roadmap db rebuild --force"
-  status: not_started
+  title: Integrate with pre-commit hook
+  description: "Update vibey/operations/git/hooks/pre_commit.py for SQLite integration:\n\
+    \nPre-commit flow (when database mode active):\n1. Check if database exists and\
+    \ is valid\n2. Check database_state.is_dirty\n3. If dirty:\n   a. Run pre-dump\
+    \ safety check (detect manual YAML edits)\n   b. If manual edits detected:\n \
+    \     - Log conflict to sync_conflicts table\n      - Block commit with message\
+    \ explaining conflict\n      - Suggest resolution: rebuild --force or dump --force\n\
+    \   c. If no conflicts: run dump\n   d. Stage generated YAML files (git add .vibey/roadmap/)\n\
+    4. Continue with existing YAML validation\n\nNew validation rule (yaml_db_sync):\n\
+    - Compare YAML file checksums with yaml_checksums table\n- Block if YAML modified\
+    \ manually when DB is source of truth\n- Enforcement mode: blocking (default),\
+    \ advisory, audit\n\nUpdate hooks/installer.py:\n- Install SQLite-aware pre-commit\
+    \ hook\n- Keep backward compatibility (YAML-only mode still works)\n\nError messages\
+    \ should be clear:\n- \"Database has uncommitted changes - running dump...\"\n\
+    - \"YAML files modified manually - sync conflict detected\"\n- \"Suggestion: vibey\
+    \ roadmap db rebuild --force\"\n"
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T18:00:00+00:00'
+  completed: '2025-11-26T22:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation

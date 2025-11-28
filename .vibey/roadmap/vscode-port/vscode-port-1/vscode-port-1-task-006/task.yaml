@@ -11,19 +11,29 @@ task:
   completed: null
   estimated_duration: 6 hours
   actual_duration: null
-  description: |
-    Write comprehensive unit tests for context and settings generators.
+  description: 'Write comprehensive unit tests for context and settings generators.
+
 
     Test coverage:
+
     - VSCodeContextGenerator (VSCODE.md generation)
+
     - VSCodeSettingsGenerator (mcp.json generation)
+
     - Frontmatter parsing
+
     - JSON validation
+
     - Error handling
 
+
     Files to create:
+
     - tests/adapters/vscode/test_context_generator.py
+
     - tests/adapters/vscode/test_settings_generator.py
+
+    '
   acceptance_criteria:
   - 90%+ code coverage for generators
   - All generation methods tested

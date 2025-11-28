@@ -5,13 +5,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
+  started: null
   completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 2 hours
   progress:
     tasks_total: 6
-    tasks_completed: 6
-    completion_percent: 100
+    tasks_completed: 0
+    completion_percent: 0.0
   tasks: []
   dependencies:
   - roadmap-integrity-fixes-2-1
@@ -37,19 +37,32 @@ sprint:
   metadata:
     created_by: parallel-track-audit
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Migrate git-integration from embedded task schema to hierarchical.
+    notes: 'Migrate git-integration from embedded task schema to hierarchical.
+
 
       CURRENT STATE:
+
       - 5 sprints with embedded tasks in sprint.yaml
+
       - Sprint 0: 7 tasks (architecture)
+
       - Sprint 1: 9 tasks (analysis)
+
       - Sprint 2: 11 tasks (hooks)
+
       - Sprint 3: 9 tasks (advanced)
+
       - Sprint 4: 5 tasks (dogfooding)
+
       - Total: 41 embedded tasks
 
+
       TARGET STATE:
+
       - 41 individual task.yaml files
+
       - sprint.yaml files have tasks: []
+
       - Progress counters accurate
+
+      '

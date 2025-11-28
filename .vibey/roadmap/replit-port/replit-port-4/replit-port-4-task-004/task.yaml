@@ -11,65 +11,21 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create Dashboard component showing roadmap summary and quick stats.
-
-    DASHBOARD FEATURES:
-    1. Roadmap Overview
-       - Total tracks
-       - Active tracks
-       - Track progress bars
-       - Track status indicators
-
-    2. Sprint Summary
-       - Current sprint
-       - Sprint progress
-       - Tasks in progress
-       - Upcoming sprints
-
-    3. Quick Stats
-       - Total tasks
-       - Completed tasks
-       - Completion percentage
-       - Velocity metrics
-
-    4. Recent Activity
-       - Recent commits
-       - Task updates
-       - Status changes
-       - Blockers
-
-    COMPONENT STRUCTURE:
-    ```typescript
-    interface DashboardProps {
-      roadmap: Roadmap;
-      tracks: Track[];
-      currentSprint?: Sprint;
-    }
-
-    export function Dashboard({ roadmap, tracks, currentSprint }: DashboardProps) {
-      const { getRoadmap, getTracks } = useVibey();
-      // Implementation
-    }
-    ```
-
-    UI ELEMENTS:
-    - Progress bars
-    - Status badges
-    - Cards for sections
-    - Charts/graphs (optional)
-
-    INTERACTIVITY:
-    - Click track to view details
-    - Click sprint to view tasks
-    - Refresh data
-    - Filter by status
-
-    DELIVERABLES:
-    - Dashboard component
-    - Sub-components (stats cards, progress bars)
-    - Responsive design
-    - Loading states
+  description: "Create Dashboard component showing roadmap summary and quick stats.\n\
+    \nDASHBOARD FEATURES:\n1. Roadmap Overview\n   - Total tracks\n   - Active tracks\n\
+    \   - Track progress bars\n   - Track status indicators\n\n2. Sprint Summary\n\
+    \   - Current sprint\n   - Sprint progress\n   - Tasks in progress\n   - Upcoming\
+    \ sprints\n\n3. Quick Stats\n   - Total tasks\n   - Completed tasks\n   - Completion\
+    \ percentage\n   - Velocity metrics\n\n4. Recent Activity\n   - Recent commits\n\
+    \   - Task updates\n   - Status changes\n   - Blockers\n\nCOMPONENT STRUCTURE:\n\
+    ```typescript\ninterface DashboardProps {\n  roadmap: Roadmap;\n  tracks: Track[];\n\
+    \  currentSprint?: Sprint;\n}\n\nexport function Dashboard({ roadmap, tracks,\
+    \ currentSprint }: DashboardProps) {\n  const { getRoadmap, getTracks } = useVibey();\n\
+    \  // Implementation\n}\n```\n\nUI ELEMENTS:\n- Progress bars\n- Status badges\n\
+    - Cards for sections\n- Charts/graphs (optional)\n\nINTERACTIVITY:\n- Click track\
+    \ to view details\n- Click sprint to view tasks\n- Refresh data\n- Filter by status\n\
+    \nDELIVERABLES:\n- Dashboard component\n- Sub-components (stats cards, progress\
+    \ bars)\n- Responsive design\n- Loading states\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -77,3 +33,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

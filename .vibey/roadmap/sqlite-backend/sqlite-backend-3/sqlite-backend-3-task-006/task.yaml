@@ -4,20 +4,27 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create migration guide"
-  description: |
-    Create documentation for migrating existing repositories:
+  title: Create migration guide
+  description: 'Create documentation for migrating existing repositories:
+
     - Step-by-step migration guide
+
     - Backup recommendations
+
     - Rollback procedures
+
     - Troubleshooting common issues
+
     - FAQ section
+
     - Configuration options
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T18:00:00+00:00'
+  completed: '2025-11-26T22:00:00+00:00'
   assigned_agent: docs-writer
   priority: medium
   phase_label: implementation

@@ -4,13 +4,13 @@ sprint:
   name: Frontmatter Schema & Asset Migration
   status: completed
   created: '2025-11-22T00:00:00+00:00'
-  started: '2025-11-22T00:00:00+00:00'
+  started: null
   completed: '2025-11-22T00:00:00+00:00'
   estimated_duration: 2 weeks
   progress:
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 100
+    completion_percent: 0.0
   tasks:
   - id: goose-port-1-task-001
     name: Design frontmatter schema for agents
@@ -43,3 +43,4 @@ sprint:
     structured frontmatter that MCP server can parse dynamically.
 
     '
+  blocked: false

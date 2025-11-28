@@ -9,19 +9,28 @@ task:
   estimated_hours: 6
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T16:00:00+00:00'
-  description: |
-    Add MCP tools to vibey/mcp/tools/content_tools.py:
+  started: '2025-11-27T11:04:09.348107+00:00'
+  completed: '2025-11-27T11:04:09.348107+00:00'
+  description: 'Add MCP tools to vibey/mcp/tools/content_tools.py:
+
     - vibey_content_list - List all content
+
     - vibey_content_show - Show content details
+
     - vibey_content_create - Create new content
+
     - vibey_content_update - Update content fields
+
     - vibey_content_delete - Delete content
+
     - vibey_content_search - Search content
+
     - vibey_content_validate - Validate content
 
+
     Register tools in MCP server get_tools().
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -29,3 +38,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

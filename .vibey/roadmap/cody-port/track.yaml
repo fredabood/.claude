@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: low
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-24T00:00:00+00:00'
   completed: null
   estimated_duration: 5 weeks
   progress:
     sprints_total: 2
-    sprints_completed: 0
+    sprints_completed: 1
     tasks_total: 10
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 6
+    completion_percent: 60.0
   sprints:
   - id: cody-port-1
     name: Core Adapter & MCP Configuration
@@ -162,34 +162,16 @@ track:
       \ UPDATE: Cody Free/Pro tiers sunset July 23, 2025.\nOnly Cody Enterprise will\
       \ continue. Sourcegraph recommends Amp\nfor non-enterprise users.\n\nKEY DISCOVERY:\
       \ Cody has NATIVE MCP SUPPORT via OpenCtx.\nWe reuse the existing Vibey MCP\
-      \ server (46 tools) - no new\nAPI client needed.\n\nARCHITECTURE:\n\u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 \
-      \        SINGLE SOURCE OF TRUTH                   \u2502\n\u2502  agents/*.md,\
-      \ workflows/*.md (frontmatter)       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                  \u2502\n     \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u25BC\
-      \           \u25BC           \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\
-      \n\u2502MCP Srv  \u2502 \u2502CODY.md  \u2502 \u2502settings \u2502\n\u2502\
-      (reuse)  \u2502 \u2502Generator\u2502 \u2502Generator\u2502\n\u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n                  \u2502\n                  \u25BC\
-      \n         \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n         \u2502  .cody/  \
-      \        \u2502\n         \u2502  \u251C\u2500\u2500 CODY.md    \u2502\n   \
-      \      \u2502  \u251C\u2500\u2500 settings   \u2502\n         \u2502  \u2514\
-      \u2500\u2500 checksums  \u2502\n         \u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\
-      \n\nCODY EXTENSION POINTS:\n1. MCP Servers - Native support via OpenCtx (PRIMARY)\n\
+      \ server (46 tools) - no new\nAPI client needed.\n\nARCHITECTURE:\n┌──────────────────────────────────────────────────┐\n\
+      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
+      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
+      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
+      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │CODY.md  │ │settings\
+      \ │\n│(reuse)  │ │Generator│ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
+      \                  │\n                  ▼\n         ┌─────────────────┐\n  \
+      \       │  .cody/          │\n         │  ├── CODY.md    │\n         │  ├──\
+      \ settings   │\n         │  └── checksums  │\n         └─────────────────┘\n\
+      \nCODY EXTENSION POINTS:\n1. MCP Servers - Native support via OpenCtx (PRIMARY)\n\
       2. Prompt Library - UI-based, no programmatic API\n3. OpenCtx Providers - External\
       \ context (experimental)\n4. Context Mentions - @-syntax for dynamic context\n\
       \nINTEGRATION APPROACH:\n- MCP via OpenCtx (primary) - reuse existing server\n\

@@ -4,19 +4,30 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create design document and get review"
-  description: |
-    Consolidate all design work into comprehensive design document:
+  title: Create design document and get review
+  description: 'Consolidate all design work into comprehensive design document:
+
     - Executive summary
+
     - Problem statement (why SQLite)
+
     - Architecture overview
+
     - Schema design with ER diagram
+
     - View and trigger specifications
+
     - Sync strategy
+
     - Migration plan
+
     - Performance considerations
+
     - Security considerations (integrity with signing integration)
+
     Get review and approval before implementation.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

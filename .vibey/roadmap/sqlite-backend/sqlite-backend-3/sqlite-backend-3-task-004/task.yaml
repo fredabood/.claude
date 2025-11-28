@@ -4,43 +4,27 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Integrate with post-merge and post-checkout hooks"
-  description: |
-    Create vibey/operations/git/hooks/post_merge.py:
-
-    Post-merge flow:
-    1. Check if database mode is active
-    2. Check if any .vibey/roadmap/**/*.yaml files changed in merge
-    3. If YAML files changed:
-       a. Check database_state.is_dirty (uncommitted local changes)
-       b. If dirty: warn user about potential conflict
-          "Warning: Local DB changes exist. Merge may have updated YAML.
-           Run: vibey roadmap db status (to check sync state)"
-       c. If not dirty: run rebuild automatically
-    4. Report status: "Database rebuilt from merged YAML files"
-
-    Post-checkout flow:
-    - Same as post-merge (branch switch may have different YAML)
-    - Only trigger if .vibey/roadmap/ files differ between branches
-
-    Update hooks/installer.py:
-    - Install post-merge hook
-    - Install post-checkout hook
-    - Both hooks call same rebuild logic
-
-    Handle merge conflicts in YAML files:
-    - Detect conflict markers (<<<<<<, ======, >>>>>>)
-    - Block rebuild until conflicts resolved
-    - Clear error message with file list
-
-    Integration with database_state:
-    - After successful rebuild, update source_commit to merged HEAD
-    - Update source_branch if branch changed
-  status: not_started
+  title: Integrate with post-merge and post-checkout hooks
+  description: "Create vibey/operations/git/hooks/post_merge.py:\n\nPost-merge flow:\n\
+    1. Check if database mode is active\n2. Check if any .vibey/roadmap/**/*.yaml\
+    \ files changed in merge\n3. If YAML files changed:\n   a. Check database_state.is_dirty\
+    \ (uncommitted local changes)\n   b. If dirty: warn user about potential conflict\n\
+    \      \"Warning: Local DB changes exist. Merge may have updated YAML.\n     \
+    \  Run: vibey roadmap db status (to check sync state)\"\n   c. If not dirty: run\
+    \ rebuild automatically\n4. Report status: \"Database rebuilt from merged YAML\
+    \ files\"\n\nPost-checkout flow:\n- Same as post-merge (branch switch may have\
+    \ different YAML)\n- Only trigger if .vibey/roadmap/ files differ between branches\n\
+    \nUpdate hooks/installer.py:\n- Install post-merge hook\n- Install post-checkout\
+    \ hook\n- Both hooks call same rebuild logic\n\nHandle merge conflicts in YAML\
+    \ files:\n- Detect conflict markers (<<<<<<, ======, >>>>>>)\n- Block rebuild\
+    \ until conflicts resolved\n- Clear error message with file list\n\nIntegration\
+    \ with database_state:\n- After successful rebuild, update source_commit to merged\
+    \ HEAD\n- Update source_branch if branch changed\n"
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T18:00:00+00:00'
+  completed: '2025-11-26T22:00:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: implementation

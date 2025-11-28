@@ -4,15 +4,22 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Design YAML synchronization strategy"
-  description: |
-    Design the bidirectional sync between SQLite and YAML:
+  title: Design YAML synchronization strategy
+  description: 'Design the bidirectional sync between SQLite and YAML:
+
     - DB to YAML dump: Deterministic output (sorted keys, consistent formatting)
+
     - YAML to DB rebuild: Parse all YAML files into DB
+
     - Conflict detection: Identify YAML changes not in DB
+
     - Merge strategy: How to handle external YAML edits
+
     - Hook integration points: When to dump/rebuild
+
     - Partial sync: Only sync changed entities
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

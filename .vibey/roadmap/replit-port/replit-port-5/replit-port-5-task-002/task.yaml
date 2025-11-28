@@ -11,65 +11,23 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create SprintProgress component for visualizing sprint details and task progress.
-
-    COMPONENT FEATURES:
-    1. Sprint Header
-       - Sprint name and description
-       - Status badge
-       - Progress percentage
-       - Duration and dates
-
-    2. Progress Visualization
-       - Circular progress chart
-       - Task completion bar
-       - Tasks by status breakdown
-       - Completion timeline
-
-    3. Sprint Metadata
-       - Assigned agents
-       - Dependencies
-       - Blockers (if any)
-       - Quality gates
-
-    4. Quick Actions
-       - View all tasks
-       - Update sprint status
-       - Generate context
-       - Sync with Git
-
-    COMPONENT STRUCTURE:
-    ```typescript
-    interface SprintProgressProps {
-      sprint: Sprint;
-      tasks: Task[];
-      onTaskClick: (taskId: string) => void;
-    }
-
-    export function SprintProgress({ sprint, tasks, onTaskClick }: SprintProgressProps) {
-      const { updateSprintStatus } = useVibey();
-      // Implementation
-    }
-    ```
-
-    PROGRESS CALCULATION:
-    - Total tasks vs completed tasks
-    - Estimated hours vs actual hours
-    - Velocity metrics
-    - Burndown chart (optional)
-
-    INTERACTIVITY:
-    - Click task to view details
-    - Update sprint status
-    - Filter tasks by status
-    - Export sprint report
-
-    DELIVERABLES:
-    - SprintProgress component
-    - Progress charts
-    - Status update controls
-    - Responsive design
+  description: "Create SprintProgress component for visualizing sprint details and\
+    \ task progress.\n\nCOMPONENT FEATURES:\n1. Sprint Header\n   - Sprint name and\
+    \ description\n   - Status badge\n   - Progress percentage\n   - Duration and\
+    \ dates\n\n2. Progress Visualization\n   - Circular progress chart\n   - Task\
+    \ completion bar\n   - Tasks by status breakdown\n   - Completion timeline\n\n\
+    3. Sprint Metadata\n   - Assigned agents\n   - Dependencies\n   - Blockers (if\
+    \ any)\n   - Quality gates\n\n4. Quick Actions\n   - View all tasks\n   - Update\
+    \ sprint status\n   - Generate context\n   - Sync with Git\n\nCOMPONENT STRUCTURE:\n\
+    ```typescript\ninterface SprintProgressProps {\n  sprint: Sprint;\n  tasks: Task[];\n\
+    \  onTaskClick: (taskId: string) => void;\n}\n\nexport function SprintProgress({\
+    \ sprint, tasks, onTaskClick }: SprintProgressProps) {\n  const { updateSprintStatus\
+    \ } = useVibey();\n  // Implementation\n}\n```\n\nPROGRESS CALCULATION:\n- Total\
+    \ tasks vs completed tasks\n- Estimated hours vs actual hours\n- Velocity metrics\n\
+    - Burndown chart (optional)\n\nINTERACTIVITY:\n- Click task to view details\n\
+    - Update sprint status\n- Filter tasks by status\n- Export sprint report\n\nDELIVERABLES:\n\
+    - SprintProgress component\n- Progress charts\n- Status update controls\n- Responsive\
+    \ design\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -77,3 +35,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

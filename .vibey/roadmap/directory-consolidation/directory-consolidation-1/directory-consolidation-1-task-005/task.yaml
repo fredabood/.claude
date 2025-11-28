@@ -8,24 +8,25 @@ task:
   priority: high
   complexity: medium
   estimated_hours: 1
-  description: |
-    After deleting redundant files, run full test suite to verify
+  description: 'After deleting redundant files, run full test suite to verify
+
     nothing is broken. Fix any import errors found.
 
+    '
   steps:
-    - Run pytest to identify any failures
-    - Fix broken imports (update framework.* to vibey.*)
-    - Re-run tests until all pass
-    - Document any issues found
-
+  - Run pytest to identify any failures
+  - Fix broken imports (update framework.* to vibey.*)
+  - Re-run tests until all pass
+  - Document any issues found
   verification:
-    - All tests pass
-    - CLI commands work
-    - No import errors
-
+  - All tests pass
+  - CLI commands work
+  - No import errors
   blocked_by:
-    - directory-consolidation-1-task-001
-    - directory-consolidation-1-task-002
-    - directory-consolidation-1-task-003
-    - directory-consolidation-1-task-004
+  - directory-consolidation-1-task-001
+  - directory-consolidation-1-task-002
+  - directory-consolidation-1-task-003
+  - directory-consolidation-1-task-004
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

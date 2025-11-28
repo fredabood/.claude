@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-9-task-001
     name: Benchmark against similar project documentation
@@ -19,94 +19,139 @@ sprint:
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
-    description: |
-      Study documentation best practices:
+    description: 'Study documentation best practices:
+
       - Review Claude Code documentation structure
+
       - Review Cursor documentation organization
+
       - Review Aider documentation patterns
+
       - Review other CLI tool docs (gh, npm, etc.)
+
       - Document patterns and conventions to adopt
+
+      '
   - id: user-journey-audit-9-task-002
     name: Design intuitive documentation structure
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Create optimal documentation architecture:
+    description: 'Create optimal documentation architecture:
+
       - Define documentation taxonomy
+
       - Create logical groupings
+
       - Design navigation hierarchy
+
       - Plan cross-linking strategy
+
       - Define entry points for different users
+
+      '
   - id: user-journey-audit-9-task-003
     name: Apply technical writing best practices
     status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: docs-writer
-    description: |
-      Implement technical writing standards:
+    description: 'Implement technical writing standards:
+
       - Consistent terminology glossary
+
       - Clear, concise language
+
       - Active voice usage
+
       - Proper heading hierarchy
+
       - Scannable formatting (lists, tables)
+
       - Meaningful code comments
+
+      '
   - id: user-journey-audit-9-task-004
     name: Improve documentation usability
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: docs-writer
-    description: |
-      Enhance user experience:
+    description: 'Enhance user experience:
+
       - Add table of contents where needed
+
       - Improve search discoverability
+
       - Add "See also" cross-references
+
       - Include prerequisites clearly
+
       - Add estimated reading times
+
       - Include difficulty indicators
+
+      '
   - id: user-journey-audit-9-task-005
     name: Create documentation style guide
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: docs-writer
-    description: |
-      Establish documentation standards:
+    description: 'Establish documentation standards:
+
       - Writing style guide
+
       - Formatting conventions
+
       - Code example standards
+
       - Screenshot/diagram guidelines
+
       - Terminology dictionary
+
       - Template for new docs
+
+      '
   - id: user-journey-audit-9-task-006
     name: Reorganize documentation directory structure
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: backend-engineer
-    description: |
-      Implement new structure:
+    description: 'Implement new structure:
+
       - Reorganize docs/ directory
+
       - Update all internal links
+
       - Create redirects if needed
+
       - Update README navigation
+
       - Verify no broken references
+
+      '
   - id: user-journey-audit-9-task-007
     name: Create documentation contribution guide
     status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
-    description: |
-      Enable community contributions:
+    description: 'Enable community contributions:
+
       - How to contribute to docs
+
       - Documentation review process
+
       - Style guide reference
+
       - Templates for common doc types
+
       - CI checks for documentation PRs
+
+      '
   dependencies:
   - user-journey-audit-8
   blocked_by:
@@ -138,6 +183,8 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 9 applies documentation best practices and reorganization.
+    notes: 'Sprint 9 applies documentation best practices and reorganization.
+
       Ensures docs are intuitive, well-organized, and follow conventions.
+
+      '

@@ -4,12 +4,13 @@ task:
   sprint_id: copilot-port-1
   track_id: copilot-port
   task_type: development
-  status: not_started
+  status: completed
   blocked: false
-  description: Implement CopilotAdapter class following the established adapter pattern. Handle MCP server configuration, custom agent export, and platform-specific requirements.
+  description: Implement CopilotAdapter class following the established adapter pattern.
+    Handle MCP server configuration, custom agent export, and platform-specific requirements.
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-27T11:04:09.669755+00:00'
+  completed: '2025-11-27T11:04:09.669755+00:00'
   assigned_agent: web-developer
   priority: high
   complexity: medium

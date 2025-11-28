@@ -11,7 +11,7 @@ sprint:
   progress:
     tasks_total: 5
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   dependencies: []
   blocked_by: []
@@ -34,11 +34,16 @@ sprint:
   metadata:
     created_by: parallel-track-audit
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      CRITICAL priority sprint - must complete first.
+    notes: 'CRITICAL priority sprint - must complete first.
+
 
       Fixes:
+
       1. Data loss risk from untracked files
+
       2. Status mismatches causing incorrect roadmap progress
 
+
       All tasks are quick fixes (5-10 minutes each).
+
+      '

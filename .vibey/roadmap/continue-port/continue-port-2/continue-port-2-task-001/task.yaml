@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Vibey context provider implementation
-  description: |
-    Workflow context provider, quality gates provider, sprint/task context provider
+  description: 'Workflow context provider, quality gates provider, sprint/task context
+    provider
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.178540+00:00'

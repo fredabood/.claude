@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: high
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T10:00:00+00:00'
+  started: '2025-11-26T12:00:00+00:00'
   completed: null
   estimated_duration: 7.5 weeks
   progress:
     sprints_total: 5
-    sprints_completed: 2
-    tasks_total: 36
-    tasks_completed: 15
-    completion_percent: 42
+    sprints_completed: 4
+    tasks_total: 37
+    tasks_completed: 29
+    completion_percent: 78.4
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -52,7 +52,7 @@ track:
   blocks:
   - type: sprint
     target_id: git-integration-5
-    reason: "git-integration-5 depends on SQLite backend for DB-based integrity verification"
+    reason: git-integration-5 depends on SQLite backend for DB-based integrity verification
   blocked_by: []
   depends_on: []
   depended_on_by:
@@ -112,36 +112,19 @@ track:
     last_updated: '2025-11-26T12:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      SQLite backend to replace YAML as working state for roadmap operations.
-
-      PROBLEM SOLVED:
-      Current YAML-based system requires manual synchronization of:
-      - Progress counters (tasks_completed, completion_percent)
-      - Sprint aggregations
-      - Track aggregations
-      - Roadmap-level metrics
-      This leads to state drift and validation errors (262 fixed in recent session).
-
-      SOLUTION:
-      - SQLite database as single source of truth during work
-      - Computed views for all aggregations (always accurate)
-      - Foreign keys for referential integrity
-      - YAML files remain for version control (human-readable diffs)
-      - Deterministic DB → YAML dump on commit
-      - YAML → DB rebuild on pull
-
-      ARCHITECTURE:
-      ```
-      vibey CLI → SQLite DB (working state)
-                      ↓
-      git commit → dump DB → YAML files (version control)
-                      ↓
-      git pull → rebuild DB from YAML
-      ```
-
-      RELATIONSHIP TO GIT-INTEGRATION-5:
-      - git-integration-5 focuses on INTEGRITY PROTECTION (preventing unauthorized changes)
-      - sqlite-backend focuses on DATA CONSISTENCY (eliminating manual sync)
-      - These are orthogonal concerns and can be implemented independently
-      - SQLite can later integrate with signing system (checksums in DB)
+    notes: "SQLite backend to replace YAML as working state for roadmap operations.\n\
+      \nPROBLEM SOLVED:\nCurrent YAML-based system requires manual synchronization\
+      \ of:\n- Progress counters (tasks_completed, completion_percent)\n- Sprint aggregations\n\
+      - Track aggregations\n- Roadmap-level metrics\nThis leads to state drift and\
+      \ validation errors (262 fixed in recent session).\n\nSOLUTION:\n- SQLite database\
+      \ as single source of truth during work\n- Computed views for all aggregations\
+      \ (always accurate)\n- Foreign keys for referential integrity\n- YAML files\
+      \ remain for version control (human-readable diffs)\n- Deterministic DB → YAML\
+      \ dump on commit\n- YAML → DB rebuild on pull\n\nARCHITECTURE:\n```\nvibey CLI\
+      \ → SQLite DB (working state)\n                ↓\ngit commit → dump DB → YAML\
+      \ files (version control)\n                ↓\ngit pull → rebuild DB from YAML\n\
+      ```\n\nRELATIONSHIP TO GIT-INTEGRATION-5:\n- git-integration-5 focuses on INTEGRITY\
+      \ PROTECTION (preventing unauthorized changes)\n- sqlite-backend focuses on\
+      \ DATA CONSISTENCY (eliminating manual sync)\n- These are orthogonal concerns\
+      \ and can be implemented independently\n- SQLite can later integrate with signing\
+      \ system (checksums in DB)\n"

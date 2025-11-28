@@ -4,41 +4,63 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Update update operations to use database backend"
-  description: |
-    Update vibey/operations/roadmap/update.py to use SQLite when available:
+  title: Update update operations to use database backend
+  description: 'Update vibey/operations/roadmap/update.py to use SQLite when available:
+
 
     complete_task():
-    - UPDATE tasks SET status = 'completed', completed = NOW()
+
+    - UPDATE tasks SET status = ''completed'', completed = NOW()
+
     - Triggers handle: progress update, blocker clearing, activity log
+
     - Set database_state.is_dirty = 1
+
     - Expected speedup: 20x (1 UPDATE vs 4+ file writes)
 
+
     start_task():
-    - UPDATE tasks SET status = 'in_progress', started = NOW()
+
+    - UPDATE tasks SET status = ''in_progress'', started = NOW()
+
     - Set database_state.is_dirty = 1
 
+
     complete_sprint(), start_sprint():
+
     - Similar pattern, triggers handle cascades
 
+
     complete_track():
+
     - Similar pattern
 
+
     Key change: NO YAML writes on mutation!
+
     - All writes go to SQLite
+
     - database_state.is_dirty tracks uncommitted changes
+
     - YAML sync happens in pre-commit hook (Sprint 3)
 
+
     Verify triggers fire correctly:
+
     - Timestamps auto-updated
+
     - Progress counters auto-updated
+
     - Blocked flags auto-updated
+
     - Activity log auto-populated
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T14:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation

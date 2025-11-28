@@ -11,60 +11,20 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement CLUI (Command-Line User Interface) commands for common Vibey
-    operations in Replit.
-
-    CLUI COMMANDS:
-    1. vibey:roadmap
-       - Show roadmap overview
-       - Display in Extension panel
-
-    2. vibey:sprint
-       - Show current sprint details
-       - List tasks
-
-    3. vibey:task <task-id>
-       - Show task details
-       - Update task status
-
-    4. vibey:sync
-       - Sync roadmap with Git
-       - Refresh MCP data
-
-    5. vibey:context
-       - Generate context file
-       - Show in editor
-
-    COMMAND REGISTRATION:
-    ```typescript
-    import { registerCommand } from '@replit/extensions';
-
-    registerCommand({
-      id: 'vibey:roadmap',
-      label: 'Vibey: Show Roadmap',
-      handler: async () => {
-        // Open extension panel with roadmap
-      }
-    });
-    ```
-
-    COMMAND FEATURES:
-    - Auto-completion
-    - Parameter validation
-    - Error handling
-    - Progress indicators
-
-    INTEGRATION:
-    - Extension panel opens on command
-    - Data loaded via useVibey hook
-    - Results displayed in UI
-
-    DELIVERABLES:
-    - CLUI command implementations
-    - Command registration
-    - Help documentation
-    - Error handling
+  description: "Implement CLUI (Command-Line User Interface) commands for common Vibey\n\
+    operations in Replit.\n\nCLUI COMMANDS:\n1. vibey:roadmap\n   - Show roadmap overview\n\
+    \   - Display in Extension panel\n\n2. vibey:sprint\n   - Show current sprint\
+    \ details\n   - List tasks\n\n3. vibey:task <task-id>\n   - Show task details\n\
+    \   - Update task status\n\n4. vibey:sync\n   - Sync roadmap with Git\n   - Refresh\
+    \ MCP data\n\n5. vibey:context\n   - Generate context file\n   - Show in editor\n\
+    \nCOMMAND REGISTRATION:\n```typescript\nimport { registerCommand } from '@replit/extensions';\n\
+    \nregisterCommand({\n  id: 'vibey:roadmap',\n  label: 'Vibey: Show Roadmap',\n\
+    \  handler: async () => {\n    // Open extension panel with roadmap\n  }\n});\n\
+    ```\n\nCOMMAND FEATURES:\n- Auto-completion\n- Parameter validation\n- Error handling\n\
+    - Progress indicators\n\nINTEGRATION:\n- Extension panel opens on command\n- Data\
+    \ loaded via useVibey hook\n- Results displayed in UI\n\nDELIVERABLES:\n- CLUI\
+    \ command implementations\n- Command registration\n- Help documentation\n- Error\
+    \ handling\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -72,3 +32,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

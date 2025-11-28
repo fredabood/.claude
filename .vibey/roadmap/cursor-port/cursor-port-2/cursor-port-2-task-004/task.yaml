@@ -8,29 +8,21 @@ task:
   started: null
   completed: null
   estimated_duration: 4 hours
-  description: |
-    Write migration guide for existing Claude Code users.
-
-    Content:
-    - Claude Code vs. Cursor comparison
-    - Feature parity matrix (what's supported, what's different)
-    - Migration steps:
-      1. Backup existing .claude directory
-      2. Deploy to Cursor (vibey deploy --platform cursor)
-      3. Configure MCP server in Cursor
-      4. Verify agent/workflow availability
-    - Workflow differences (slash commands vs. MCP tools)
-    - Troubleshooting migration issues
-
-    File: docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md
+  description: "Write migration guide for existing Claude Code users.\n\nContent:\n\
+    - Claude Code vs. Cursor comparison\n- Feature parity matrix (what's supported,\
+    \ what's different)\n- Migration steps:\n  1. Backup existing .claude directory\n\
+    \  2. Deploy to Cursor (vibey deploy --platform cursor)\n  3. Configure MCP server\
+    \ in Cursor\n  4. Verify agent/workflow availability\n- Workflow differences (slash\
+    \ commands vs. MCP tools)\n- Troubleshooting migration issues\n\nFile: docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md\n"
   deliverables:
-    - docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md
-    - Feature comparison table
+  - docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md
+  - Feature comparison table
   assigned_agents:
-    - documentation-engineer
+  - documentation-engineer
   commits: []
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
     priority: medium
     complexity: low
+  blocked: false

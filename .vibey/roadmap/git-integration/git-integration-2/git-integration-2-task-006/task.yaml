@@ -9,30 +9,15 @@ task:
   estimated_hours: 6
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T18:45:00+00:00'
-  completed: '2025-11-24T23:17:22.896398+00:00'
-  description: |
-    Generate PR descriptions from linked task context:
-
-    CONTENT GENERATED:
-    - Task name and description
-    - Sprint context
-    - Related tasks (dependencies, blocks)
-    - Quality gates applicable
-    - Checklist from task requirements
-
-    CLI COMMAND:
-    - vibey git pr-description [--task TASK_ID]
-      Generate PR description markdown
-
-    INTEGRATION:
-    - GitHub CLI (gh pr create --body)
-    - GitLab CLI
-    - Copy to clipboard option
-
-    TEMPLATE:
-    - Configurable template in .vibey/config/
-    - Jinja2 templating support
+  started: '2025-11-27T11:04:09.398174+00:00'
+  completed: '2025-11-27T11:04:09.398174+00:00'
+  description: "Generate PR descriptions from linked task context:\n\nCONTENT GENERATED:\n\
+    - Task name and description\n- Sprint context\n- Related tasks (dependencies,\
+    \ blocks)\n- Quality gates applicable\n- Checklist from task requirements\n\n\
+    CLI COMMAND:\n- vibey git pr-description [--task TASK_ID]\n  Generate PR description\
+    \ markdown\n\nINTEGRATION:\n- GitHub CLI (gh pr create --body)\n- GitLab CLI\n\
+    - Copy to clipboard option\n\nTEMPLATE:\n- Configurable template in .vibey/config/\n\
+    - Jinja2 templating support\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -41,3 +26,4 @@ task:
   - ghi9012
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

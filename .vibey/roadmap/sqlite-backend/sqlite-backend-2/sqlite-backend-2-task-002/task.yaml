@@ -4,42 +4,64 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Update query operations to use database backend"
-  description: |
-    Update vibey/operations/roadmap/query.py to use SQLite when available:
+  title: Update query operations to use database backend
+  description: 'Update vibey/operations/roadmap/query.py to use SQLite when available:
+
 
     query_roadmap_summary():
+
     - Use v_roadmap_progress view instead of loading all YAML files
+
     - Expected speedup: 10x+ for large roadmaps
 
+
     query_track_details():
+
     - Use v_track_progress view
+
     - Single query vs loading all sprint files
 
+
     query_sprint_details():
+
     - Use v_sprint_progress view
+
     - Single query vs loading all task files
 
+
     query_blockers():
+
     - Use v_blocked_entities view
+
     - Recursive CTE for transitive blockers
 
+
     query_dependencies():
+
     - Use v_dependency_chain view
+
     - Replace BFS traversal with SQL
 
+
     Implementation approach:
+
     - Import backend abstraction from serialization
+
     - Check backend mode (SQLite vs YAML)
+
     - Call appropriate functions based on mode
+
     - Return identical data structures (no CLI changes needed)
 
+
     CLI commands (status, show) automatically benefit.
-  status: not_started
+
+    '
+  status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-26T14:00:00+00:00'
+  completed: '2025-11-26T18:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation

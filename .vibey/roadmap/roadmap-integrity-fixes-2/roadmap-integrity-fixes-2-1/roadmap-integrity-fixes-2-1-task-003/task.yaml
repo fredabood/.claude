@@ -11,51 +11,20 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Fix status mismatches between track.yaml and roadmap.yaml.
-
-    MISMATCHES TO FIX:
-
-    1. git-integration:
-       - track.yaml: status: in_progress, priority: high
-       - roadmap.yaml: status: not_started, priority: medium
-       - FIX: Change roadmap.yaml to in_progress, high
-
-    2. python-package:
-       - track.yaml: status: completed
-       - roadmap.yaml: status: not_started
-       - FIX: Change roadmap.yaml to completed
-
-    LOCATION IN roadmap.yaml:
-    - git-integration: around line 137-140
-    - python-package: around line 149-152
-
-    EDIT roadmap.yaml:
-    ```yaml
-    # Change git-integration from:
-    - id: git-integration
-      name: Enhanced Git Integration
-      status: not_started
-      priority: medium
-
-    # To:
-    - id: git-integration
-      name: Enhanced Git Integration
-      status: in_progress
-      priority: high
-
-    # Change python-package from:
-    - id: python-package
-      name: Python Package Structure & Distribution
-      status: not_started
-
-    # To:
-    - id: python-package
-      name: Python Package Structure & Distribution
-      status: completed
-    ```
-
-    DO NOT COMMIT YET - batch with other fixes in task-005.
+  description: "Fix status mismatches between track.yaml and roadmap.yaml.\n\nMISMATCHES\
+    \ TO FIX:\n\n1. git-integration:\n   - track.yaml: status: in_progress, priority:\
+    \ high\n   - roadmap.yaml: status: not_started, priority: medium\n   - FIX: Change\
+    \ roadmap.yaml to in_progress, high\n\n2. python-package:\n   - track.yaml: status:\
+    \ completed\n   - roadmap.yaml: status: not_started\n   - FIX: Change roadmap.yaml\
+    \ to completed\n\nLOCATION IN roadmap.yaml:\n- git-integration: around line 137-140\n\
+    - python-package: around line 149-152\n\nEDIT roadmap.yaml:\n```yaml\n# Change\
+    \ git-integration from:\n- id: git-integration\n  name: Enhanced Git Integration\n\
+    \  status: not_started\n  priority: medium\n\n# To:\n- id: git-integration\n \
+    \ name: Enhanced Git Integration\n  status: in_progress\n  priority: high\n\n\
+    # Change python-package from:\n- id: python-package\n  name: Python Package Structure\
+    \ & Distribution\n  status: not_started\n\n# To:\n- id: python-package\n  name:\
+    \ Python Package Structure & Distribution\n  status: completed\n```\n\nDO NOT\
+    \ COMMIT YET - batch with other fixes in task-005.\n"
   acceptance_criteria:
   - git-integration status is in_progress in roadmap.yaml
   - git-integration priority is high in roadmap.yaml
@@ -68,3 +37,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

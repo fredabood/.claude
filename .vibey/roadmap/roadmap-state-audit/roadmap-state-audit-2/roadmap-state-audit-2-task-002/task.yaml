@@ -4,8 +4,8 @@ task:
   track_id: roadmap-state-audit
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Create task YAML files"
-  description: "Create task.yaml files for all 12 tasks"
+  title: Create task YAML files
+  description: Create task.yaml files for all 12 tasks
   status: completed
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
@@ -28,4 +28,6 @@ task:
     last_updated: '2025-11-23T20:51:06.889497+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "VERIFIED 2025-11-26: Task YAML files exist. Found 12 task.yaml files in amazonq-port subdirectories (sprint 1 has 7, sprint 2 has 5). Issue already fixed."
+    notes: 'VERIFIED 2025-11-26: Task YAML files exist. Found 12 task.yaml files in
+      amazonq-port subdirectories (sprint 1 has 7, sprint 2 has 5). Issue already
+      fixed.'

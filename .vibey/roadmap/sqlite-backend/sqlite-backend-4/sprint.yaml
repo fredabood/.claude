@@ -13,15 +13,9 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 8
-    development_tasks_completed: 0
-    completion_gate_tasks_total: 0
-    completion_gate_tasks_completed: 0
-    production_gate_tasks_total: 0
-    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   development_gates: []
   blocks: []
@@ -42,24 +36,55 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-27T21:45:00+00:00'
     estimated_duration: 1.5 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Validation sprint to verify database approach and fix roadmap integrity issues.
+    source_of_truth_backup: /tmp/yaml_original/roadmap
+    backup_created: '2025-11-27T21:13:59+00:00'
+    backup_file_count: 1097
+    remediation_performed: '2025-11-27T21:45:00+00:00'
+    remediation_notes: |
+      Merged git HEAD (content fields) with backup (status fields).
+      - 862 task files merged
+      - 172 sprint files merged
+      - 36 track files merged
+      Initial audit found 98% data loss during SQLite db dump:
+      - 615 tasks lost 'started' timestamp
+      - 288 tasks lost 'description'
+      - 269 tasks lost 'completed' precision
+      - 224 tasks lost 'complexity'
+      - 222 tasks lost 'assigned_agent'
+      - 114 tasks lost 'commits'
+      - 108 tasks lost 'deliverables'
+      Code fix applied: Changed Status enum from "won't_do" to "wont_do"
+    notes: 'Validation sprint to verify database approach and fix roadmap integrity
+      issues.
+
 
       PROCESS:
+
       1. Build "Computed DB" - read task files, compute aggregations via views
+
       2. Build "Declared DB" - read YAML counters as-is (no computation)
+
       3. Compare databases - identify mismatches
+
       4. Generate audit report - prioritized list of discrepancies
+
       5. Remediate YAML files - fix counters to match computed values
+
       6. Iterate until zero discrepancies
 
+
       SUCCESS CRITERIA:
+
       - Computed DB == Declared DB (zero discrepancies)
+
       - All YAML files pass validation
+
       - High confidence in database approach before production use
+
+      '

@@ -2,19 +2,19 @@ track:
   id: cursor-port
   name: Cursor Platform Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 2-3 weeks
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 12
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 5
+    completion_percent: 41.7
   sprints:
   - id: cursor-port-1
     name: Core Adapter & MCP Configuration
@@ -165,35 +165,17 @@ track:
       \ Streamable HTTP\n- Project-level config: .cursor/mcp.json\n- One-click server\
       \ installation with OAuth\n- Extension API for programmatic registration\n\n\
       COMPATIBILITY RATING: 85-95% (MCP-based, like Windsurf)\nESTIMATED EFFORT: 2-3\
-      \ weeks (minimal adapter needed)\n\nARCHITECTURE (Zero-Drift):\n\u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 \
-      \        SINGLE SOURCE OF TRUTH                   \u2502\n\u2502  agents/*.md,\
-      \ workflows/*.md (frontmatter)       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                  \u2502\n     \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u25BC\
-      \           \u25BC           \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\
-      \n\u2502MCP Srv  \u2502 \u2502CURSOR.md\u2502 \u2502mcp.json \u2502\n\u2502\
-      (reuse)  \u2502 \u2502Generator\u2502 \u2502Generator\u2502\n\u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n                  \u2502\n                  \u25BC\
-      \n         \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n         \u2502  .cursor/\
-      \        \u2502\n         \u2502  \u251C\u2500\u2500 mcp.json   \u2502\n   \
-      \      \u2502  \u251C\u2500\u2500 CURSOR.md  \u2502\n         \u2502  \u2514\
-      \u2500\u2500 checksums  \u2502\n         \u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\
-      \n\nCONFIG FORMAT (.cursor/mcp.json):\n{\n  \"mcpServers\": {\n    \"vibey\"\
-      : {\n      \"command\": \"python\",\n      \"args\": [\"-m\", \"framework.mcp.server\"\
+      \ weeks (minimal adapter needed)\n\nARCHITECTURE (Zero-Drift):\n┌──────────────────────────────────────────────────┐\n\
+      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
+      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
+      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
+      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │CURSOR.md│ │mcp.json\
+      \ │\n│(reuse)  │ │Generator│ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
+      \                  │\n                  ▼\n         ┌─────────────────┐\n  \
+      \       │  .cursor/        │\n         │  ├── mcp.json   │\n         │  ├──\
+      \ CURSOR.md  │\n         │  └── checksums  │\n         └─────────────────┘\n\
+      \nCONFIG FORMAT (.cursor/mcp.json):\n{\n  \"mcpServers\": {\n    \"vibey\":\
+      \ {\n      \"command\": \"python\",\n      \"args\": [\"-m\", \"framework.mcp.server\"\
       ],\n      \"env\": {}\n    }\n  }\n}\n\nSUPPORTED TRANSPORTS:\n- stdio (local,\
       \ Cursor-managed) - PRIMARY\n- SSE (remote, multi-user)\n- Streamable HTTP (remote,\
       \ multi-user)\n\nSOURCES:\n- https://docs.cursor.com/context/model-context-protocol\n\

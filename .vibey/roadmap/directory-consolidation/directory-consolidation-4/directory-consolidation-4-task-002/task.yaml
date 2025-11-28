@@ -5,30 +5,35 @@ task:
   name: Move session-specific docs to .vibey/roadmap/*/context/
   sprint_id: directory-consolidation-4
   status: completed
-  completed: '2025-11-23'
+  completed: '2025-11-23T00:00:00+00:00'
   priority: high
   complexity: high
   estimated_hours: 2
-  description: |
-    Move session-specific documentation from docs/ to appropriate .vibey/roadmap/*/context/ directories.
+  description: 'Move session-specific documentation from docs/ to appropriate .vibey/roadmap/*/context/
+    directories.
+
 
     FILE PATTERNS TO MOVE:
+
     - Dated files (*_2025-*.md)
+
     - Session reports (SESSION_*.md)
+
     - Sprint summaries (*_SUMMARY.md, SPRINT_*_COMPLETE.md)
+
     - Test session reports (TEST_*.md)
+
     - One-time audit reports (*_AUDIT_*.md)
 
+    '
   destination_mapping:
-    - Test reports -> .vibey/roadmap/testing-system/context/
-    - Sprint summaries -> .vibey/sprint_summaries/ or track context
-    - Audit reports -> appropriate track context
-
+  - Test reports -> .vibey/roadmap/testing-system/context/
+  - Sprint summaries -> .vibey/sprint_summaries/ or track context
+  - Audit reports -> appropriate track context
   verification:
-    - docs/ contains only permanent documentation
-    - All moved files accessible in new locations
-    - No broken references
-
+  - docs/ contains only permanent documentation
+  - All moved files accessible in new locations
+  - No broken references
   blocked_by:
-    - directory-consolidation-3-task-004
+  - directory-consolidation-3-task-004
   commits: []

@@ -9,22 +9,13 @@ task:
   estimated_hours: 2
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T00:00:00+00:00'
-  description: |
-    Update pyproject.toml to include all subpackages:
-    - Replace manual package list with find_packages()
-    - Ensure all vibey.* subpackages discovered:
-      - vibey.cli
-      - vibey.operations
-      - vibey.mcp
-      - vibey.adapters
-      - vibey.common
-      - vibey.config
-      - vibey.platform
-      - vibey.roadmap
-      - vibey.content
-    - Verify nested packages included (e.g., vibey.roadmap.models)
+  started: '2025-11-27T11:04:09.357024+00:00'
+  completed: '2025-11-27T11:04:09.357024+00:00'
+  description: "Update pyproject.toml to include all subpackages:\n- Replace manual\
+    \ package list with find_packages()\n- Ensure all vibey.* subpackages discovered:\n\
+    \  - vibey.cli\n  - vibey.operations\n  - vibey.mcp\n  - vibey.adapters\n  - vibey.common\n\
+    \  - vibey.config\n  - vibey.platform\n  - vibey.roadmap\n  - vibey.content\n\
+    - Verify nested packages included (e.g., vibey.roadmap.models)\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -32,3 +23,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

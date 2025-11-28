@@ -4,35 +4,54 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement schema creation (25 tables from design)"
-  description: |
-    Implement database schema from 002-sqlite-schema-design.md:
+  title: Implement schema creation (25 tables from design)
+  description: 'Implement database schema from 002-sqlite-schema-design.md:
+
 
     Core entity tables (4):
+
     - roadmaps, tracks, sprints, tasks
 
+
     Relationship tables (4):
+
     - entity_blocks, entity_blocked_by, entity_depends_on, external_dependencies
 
+
     Quality & gates (2):
+
     - quality_gates (polymorphic: track/sprint), development_gates
 
+
     Supporting data (7):
+
     - deliverables, entity_deliverables (junction)
+
     - commits, entity_commits (junction)
+
     - assigned_agents, standards, strategic_value
 
+
     Roadmap-level (2):
+
     - version_history, activity_log
 
+
     Summary tables (3):
+
     - track_summaries, sprint_summaries, task_summaries
 
+
     Sync & validation (3):
+
     - yaml_checksums, database_state, sync_conflicts
 
+
     Include all FK constraints, CHECK constraints for enums, indexes.
+
     Schema version tracking in database_state table.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

@@ -11,57 +11,21 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Implement useVibey React hook for MCP server connectivity.
-
-    HOOK INTERFACE:
-    ```typescript
-    interface UseVibeyReturn {
-      // Connection state
-      connected: boolean;
-      connecting: boolean;
-      error: Error | null;
-
-      // Roadmap operations
-      getRoadmap: () => Promise<Roadmap>;
-      getTracks: () => Promise<Track[]>;
-      getSprints: (trackId: string) => Promise<Sprint[]>;
-      getTasks: (sprintId: string) => Promise<Task[]>;
-
-      // Update operations
-      updateTaskStatus: (taskId: string, status: Status) => Promise<void>;
-      updateSprintStatus: (sprintId: string, status: Status) => Promise<void>;
-
-      // Context operations
-      generateContext: (options: ContextOptions) => Promise<string>;
-    }
-    ```
-
-    IMPLEMENTATION:
-    - MCP client initialization
-    - Connection management
-    - Tool invocation wrappers
-    - Error handling
-    - Retry logic
-    - Caching strategy
-
-    MCP CLIENT:
-    - Connect to local MCP server
-    - Handle WebSocket connection
-    - Tool discovery
-    - Request/response handling
-
-    ERROR HANDLING:
-    - Connection errors
-    - Tool invocation errors
-    - Timeout handling
-    - User-friendly messages
-
-    DELIVERABLES:
-    - useVibey hook implementation
-    - TypeScript types
-    - Error handling
-    - Documentation
+  description: "Implement useVibey React hook for MCP server connectivity.\n\nHOOK\
+    \ INTERFACE:\n```typescript\ninterface UseVibeyReturn {\n  // Connection state\n\
+    \  connected: boolean;\n  connecting: boolean;\n  error: Error | null;\n\n  //\
+    \ Roadmap operations\n  getRoadmap: () => Promise<Roadmap>;\n  getTracks: () =>\
+    \ Promise<Track[]>;\n  getSprints: (trackId: string) => Promise<Sprint[]>;\n \
+    \ getTasks: (sprintId: string) => Promise<Task[]>;\n\n  // Update operations\n\
+    \  updateTaskStatus: (taskId: string, status: Status) => Promise<void>;\n  updateSprintStatus:\
+    \ (sprintId: string, status: Status) => Promise<void>;\n\n  // Context operations\n\
+    \  generateContext: (options: ContextOptions) => Promise<string>;\n}\n```\n\n\
+    IMPLEMENTATION:\n- MCP client initialization\n- Connection management\n- Tool\
+    \ invocation wrappers\n- Error handling\n- Retry logic\n- Caching strategy\n\n\
+    MCP CLIENT:\n- Connect to local MCP server\n- Handle WebSocket connection\n- Tool\
+    \ discovery\n- Request/response handling\n\nERROR HANDLING:\n- Connection errors\n\
+    - Tool invocation errors\n- Timeout handling\n- User-friendly messages\n\nDELIVERABLES:\n\
+    - useVibey hook implementation\n- TypeScript types\n- Error handling\n- Documentation\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -69,3 +33,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

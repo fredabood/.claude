@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-10-task-001
     name: Audit existing CLI tests and coverage
@@ -19,90 +19,131 @@ sprint:
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
-    description: |
-      Baseline CLI test coverage:
+    description: 'Baseline CLI test coverage:
+
       - Run pytest-cov on vibey/cli/
+
       - Document current coverage percentage
+
       - Identify untested commands
+
       - Identify untested options/flags
+
       - Map tests to CLI reference commands
+
+      '
   - id: user-journey-audit-10-task-002
     name: Write tests for vibey/cli/main.py
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
-    description: |
-      Test CLI entry point:
+    description: 'Test CLI entry point:
+
       - Test main() function
+
       - Test CLI group setup
+
       - Test help output
+
       - Test version output
+
       - Test invalid command handling
+
+      '
   - id: user-journey-audit-10-task-003
     name: Write tests for vibey/cli/commands.py
     status: not_started
     priority: critical
     estimated_hours: 12
     assigned_agent: test-engineer
-    description: |
-      Test all CLI commands:
+    description: 'Test all CLI commands:
+
       - Test each command happy path
+
       - Test each command with all options
+
       - Test error cases for each command
+
       - Test output formatting
+
       - Mock external dependencies
+
+      '
   - id: user-journey-audit-10-task-004
     name: Write tests for roadmap CLI commands
     status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
-    description: |
-      Test roadmap subcommands:
+    description: 'Test roadmap subcommands:
+
       - vibey roadmap init
+
       - vibey roadmap status
+
       - vibey roadmap show
+
       - vibey roadmap update
+
       - All options and variations
+
+      '
   - id: user-journey-audit-10-task-005
     name: Write tests for docs CLI commands
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
-    description: |
-      Test docs subcommands:
+    description: 'Test docs subcommands:
+
       - vibey docs generate
+
       - vibey docs check
+
       - Output format tests
+
       - Error handling tests
+
+      '
   - id: user-journey-audit-10-task-006
     name: Verify 100% CLI coverage achieved
     status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
-    description: |
-      Validate coverage target:
+    description: 'Validate coverage target:
+
       - Run pytest-cov --cov=vibey/cli
+
       - Verify 100% line coverage
+
       - Verify 100% branch coverage
+
       - Document any exclusions with justification
+
       - Fix any remaining gaps
+
+      '
   - id: user-journey-audit-10-task-007
     name: Document CLI testing patterns
     status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
-    description: |
-      Create CLI testing guide:
+    description: 'Create CLI testing guide:
+
       - How to test Click commands
+
       - Mocking patterns for CLI tests
+
       - Testing output formats
+
       - Testing error handling
+
       - Examples for each pattern
+
+      '
   dependencies:
   - user-journey-audit-9
   blocked_by:
@@ -127,6 +168,8 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 1 achieves 100% test coverage of the CLI layer.
+    notes: 'Sprint 1 achieves 100% test coverage of the CLI layer.
+
       Target: vibey/cli/ directory
+
+      '

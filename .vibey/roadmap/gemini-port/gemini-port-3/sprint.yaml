@@ -10,10 +10,9 @@ sprint:
   completed: '2025-11-23T18:30:00+00:00'
   estimated_duration: 1.5 weeks
   progress:
-    development_tasks_total: 5
     tasks_total: 6
-    tasks_completed: 0
-    completion_percent: 100
+    tasks_completed: 6
+    completion_percent: 100.0
   depends_on:
   - blocker_id: gemini-port-2
     blocker_type: sprint

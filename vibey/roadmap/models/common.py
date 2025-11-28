@@ -19,7 +19,7 @@ class Status(str, Enum):
     PRODUCTION_READY = "production_ready"
     DEPLOYED = "deployed"
     SUPERSEDED = "superseded"  # Track/sprint has been superseded/merged into another
-    WONT_DO = "won't_do"
+    WONT_DO = "wont_do"
 
 
 class TaskStatus(str, Enum):
@@ -30,7 +30,7 @@ class TaskStatus(str, Enum):
     PAUSED = "paused"
     COMPLETION_GATE_CHECK = "completion_gate_check"
     COMPLETED = "completed"
-    WONT_DO = "won't_do"
+    WONT_DO = "wont_do"
 
 
 class Priority(str, Enum):

@@ -2,19 +2,19 @@ track:
   id: vscode-port
   name: VS Code Native MCP Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-11-24T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 2 weeks
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 10
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 4
+    completion_percent: 40.0
   sprints:
   - id: vscode-port-1
     name: Core Adapter & MCP Configuration
@@ -157,31 +157,17 @@ track:
       \ stdio, HTTP, SSE, Unix sockets, pipes\n- 128 tools max per request\n\nCONFIG\
       \ FORMAT (.vscode/mcp.json):\n{\n  \"servers\": {\n    \"vibey\": {\n      \"\
       command\": \"python\",\n      \"args\": [\"-m\", \"framework.mcp.server\"],\n\
-      \      \"env\": {}\n    }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n\u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 \
-      \        SINGLE SOURCE OF TRUTH                   \u2502\n\u2502  agents/*.md,\
-      \ workflows/*.md (frontmatter)       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                  \u2502\n     \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u25BC\
-      \           \u25BC           \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\
-      \n\u2502MCP Srv  \u2502 \u2502VSCODE.md\u2502 \u2502mcp.json \u2502\n\u2502\
-      (reuse)  \u2502 \u2502Generator\u2502 \u2502Generator\u2502\n\u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n\nWHY SEPARATE FROM COPILOT-PORT:\n- Copilot is GitHub's\
-      \ AI assistant (separate track)\n- This track targets VS Code's native MCP capabilities\n\
-      - Works with Agent Mode (autonomous pair programmer)\n- Works with ANY AI assistant\
-      \ (not just Copilot)\n\nCOMPATIBILITY: 90-95% (MCP-based, minimal adapter)\n\
-      ESTIMATED EFFORT: 2 weeks\n\nSOURCES:\n- https://code.visualstudio.com/docs/copilot/chat/mcp-servers\n\
+      \      \"env\": {}\n    }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n┌──────────────────────────────────────────────────┐\n\
+      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
+      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
+      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
+      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │VSCODE.md│ │mcp.json\
+      \ │\n│(reuse)  │ │Generator│ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
+      \nWHY SEPARATE FROM COPILOT-PORT:\n- Copilot is GitHub's AI assistant (separate\
+      \ track)\n- This track targets VS Code's native MCP capabilities\n- Works with\
+      \ Agent Mode (autonomous pair programmer)\n- Works with ANY AI assistant (not\
+      \ just Copilot)\n\nCOMPATIBILITY: 90-95% (MCP-based, minimal adapter)\nESTIMATED\
+      \ EFFORT: 2 weeks\n\nSOURCES:\n- https://code.visualstudio.com/docs/copilot/chat/mcp-servers\n\
       - https://code.visualstudio.com/blogs/2025/06/12/full-mcp-spec-support\n- https://github.blog/changelog/2025-07-14-model-context-protocol-mcp-support-in-vs-code-is-generally-available/\n\
       \nTimeline: Q4 2025 (2 weeks, high priority)\n"
     estimated_tokens: 0

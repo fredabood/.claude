@@ -10,7 +10,7 @@ sprint:
   progress:
     tasks_total: 4
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: cody-port-2-task-001
     name: Implement Sourcegraph Enterprise module
@@ -38,3 +38,4 @@ sprint:
     Focus on Enterprise-only features.
 
     '
+  blocked: false

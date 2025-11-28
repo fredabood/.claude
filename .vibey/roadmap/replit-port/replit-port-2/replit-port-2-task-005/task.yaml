@@ -11,50 +11,18 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create comprehensive unit test suite for ReplitAdapter.
-
-    TEST COVERAGE:
-    1. ReplitAdapter Class
-       - get_platform_info()
-       - validate_environment()
-       - get_config_paths()
-       - format_output()
-
-    2. ReplitContextGenerator
-       - Frontmatter parsing
-       - REPLIT.md generation
-       - Template rendering
-       - Error handling
-
-    3. Deployment Methods
-       - deploy() success cases
-       - deploy() error cases
-       - Rollback scenarios
-       - File operations
-
-    4. Validation Methods
-       - validate_deployment() checks
-       - Error reporting
-       - Fix suggestions
-
-    TESTING APPROACH:
-    - Mock Replit environment
-    - Test with sample data
-    - Edge case coverage
-    - Error path testing
-
-    TARGET METRICS:
-    - 80%+ code coverage
-    - All public methods tested
-    - Error paths validated
-    - Performance benchmarks
-
-    DELIVERABLES:
-    - Unit test suite
-    - Test fixtures
-    - Mock utilities
-    - Coverage report
+  description: "Create comprehensive unit test suite for ReplitAdapter.\n\nTEST COVERAGE:\n\
+    1. ReplitAdapter Class\n   - get_platform_info()\n   - validate_environment()\n\
+    \   - get_config_paths()\n   - format_output()\n\n2. ReplitContextGenerator\n\
+    \   - Frontmatter parsing\n   - REPLIT.md generation\n   - Template rendering\n\
+    \   - Error handling\n\n3. Deployment Methods\n   - deploy() success cases\n \
+    \  - deploy() error cases\n   - Rollback scenarios\n   - File operations\n\n4.\
+    \ Validation Methods\n   - validate_deployment() checks\n   - Error reporting\n\
+    \   - Fix suggestions\n\nTESTING APPROACH:\n- Mock Replit environment\n- Test\
+    \ with sample data\n- Edge case coverage\n- Error path testing\n\nTARGET METRICS:\n\
+    - 80%+ code coverage\n- All public methods tested\n- Error paths validated\n-\
+    \ Performance benchmarks\n\nDELIVERABLES:\n- Unit test suite\n- Test fixtures\n\
+    - Mock utilities\n- Coverage report\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -62,3 +30,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

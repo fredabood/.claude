@@ -4,8 +4,9 @@ task:
   track_id: cody-port
   roadmap_id: vibey-framework-v2
   task_type: testing
-  title: "Write E2E tests with Cody extension"
-  description: "Create end-to-end tests validating Vibey integration with Cody VS Code extension"
+  title: Write E2E tests with Cody extension
+  description: Create end-to-end tests validating Vibey integration with Cody VS Code
+    extension
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
@@ -36,4 +37,4 @@ task:
     last_updated: '2025-11-24T00:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: "Validate MCP tool access and context generation"
+    notes: Validate MCP tool access and context generation

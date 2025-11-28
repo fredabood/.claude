@@ -31,7 +31,7 @@ def format_status(status) -> str:
         "production_gate_check": "🔍",
         "production_ready": "🚀",
         "deployed": "🌟",
-        "won't_do": "❌",
+        "wont_do": "❌",
     }
 
     status_value = status.value if hasattr(status, 'value') else str(status)

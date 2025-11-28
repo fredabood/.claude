@@ -9,29 +9,46 @@ task:
   estimated_hours: 4
   assigned_agent: architecture-agent
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T00:00:00+00:00'
-  description: |
-    Define standard commit message format for Vibey integration:
+  started: '2025-11-27T11:04:09.405053+00:00'
+  completed: '2025-11-27T11:04:09.405053+00:00'
+  description: 'Define standard commit message format for Vibey integration:
+
 
     FORMATS TO SUPPORT:
+
     - Conventional commits: feat(task-id): description
+
     - Footer references: Task: task-id, Status: completed
+
     - Bracket notation: [task-id] description
+
     - Multiple tasks in single commit
 
+
     QUESTIONS TO ANSWER:
+
     - Required vs optional task references?
+
     - How to reference sprint/track completion?
+
     - How to indicate status changes in commits?
+
     - Multi-task commits - how to attribute?
+
     - Merge commits - special handling?
 
+
     DELIVERABLES:
+
     - Commit message specification
+
     - Parsing rules and regex patterns
+
     - Examples for common scenarios
+
     - Linting rules for validation
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -39,3 +56,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

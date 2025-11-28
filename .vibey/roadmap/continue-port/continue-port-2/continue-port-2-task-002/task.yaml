@@ -5,8 +5,9 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: JetBrains integration testing
-  description: |
-    Test in IntelliJ IDEA, PyCharm, verify feature parity with VS Code
+  description: 'Test in IntelliJ IDEA, PyCharm, verify feature parity with VS Code
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.178621+00:00'

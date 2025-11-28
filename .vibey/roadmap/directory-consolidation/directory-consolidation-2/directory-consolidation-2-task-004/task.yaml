@@ -8,27 +8,27 @@ task:
   priority: critical
   complexity: high
   estimated_hours: 2
-  description: |
-    Update all import statements across the codebase to use vibey.* instead of framework.*.
+  description: 'Update all import statements across the codebase to use vibey.* instead
+    of framework.*.
 
+    '
   files_to_update:
-    - vibey/cli/main.py
-    - vibey/cli/commands.py
-    - "vibey/adapters/**/*.py"
-    - "tests/**/*.py"
-
+  - vibey/cli/main.py
+  - vibey/cli/commands.py
+  - vibey/adapters/**/*.py
+  - tests/**/*.py
   import_patterns:
-    - "from framework.mcp -> from vibey.mcp"
-    - "from framework.adapters -> from vibey.adapters"
-    - "from framework.docs -> from vibey.operations.docs"
-
+  - from framework.mcp -> from vibey.mcp
+  - from framework.adapters -> from vibey.adapters
+  - from framework.docs -> from vibey.operations.docs
   verification:
-    - No remaining "from framework" imports in vibey/
-    - All tests pass
-    - CLI works
-
+  - No remaining "from framework" imports in vibey/
+  - All tests pass
+  - CLI works
   blocked_by:
-    - directory-consolidation-2-task-001
-    - directory-consolidation-2-task-002
-    - directory-consolidation-2-task-003
+  - directory-consolidation-2-task-001
+  - directory-consolidation-2-task-002
+  - directory-consolidation-2-task-003
   commits: []
+  started: '2025-11-28T00:10:21.406912+00:00'
+  completed: '2025-11-28T00:10:21.406912+00:00'

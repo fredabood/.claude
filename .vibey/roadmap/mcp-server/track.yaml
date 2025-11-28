@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'
-  started: '2025-11-10T12:00:00+00:00'
+  started: '2025-11-09T00:00:00+00:00'
   completed: null
   estimated_duration: 4 weeks
   progress:
     sprints_total: 4
-    sprints_completed: 2
-    tasks_total: 38
+    sprints_completed: 0
+    tasks_total: 31
     tasks_completed: 16
-    completion_percent: 42
+    completion_percent: 51.6
   sprints:
   - id: mcp-server-1
     name: MCP Server Foundation
@@ -106,7 +106,7 @@ track:
   - Goose integration via ~/.config/goose/config.yaml
   - MCP server run script (scripts/run-mcp-server.py)
   strategic_value:
-  - "Platform Multiplier: 1 server \u2192 4+ platforms supported"
+  - 'Platform Multiplier: 1 server → 4+ platforms supported'
   - 'Time Savings: 8-10 weeks saved vs building individual adapters'
   - 'Future-Proof: MCP is industry standard (Anthropic, OpenAI, Google)'
   - 'Maintenance Efficiency: Update 1 server vs 4 adapters'
@@ -120,34 +120,31 @@ track:
     design_doc: docs/development/MCP_VS_ADAPTER_STRATEGY.md
     implementation_plan: null
     notes: "MCP SERVER - COMPLETED IMPLEMENTATION (Nov 2025)\n\nACTUAL ARCHITECTURE\
-      \ (as built):\n\nframework/mcp/\n\u251C\u2500\u2500 server.py              #\
-      \ FastMCP-based server (VibeyMCPServer)\n\u251C\u2500\u2500 discovery/     \
-      \        # Dynamic tool discovery\n\u2502   \u251C\u2500\u2500 parser.py   \
-      \       # YAML frontmatter extraction\n\u2502   \u251C\u2500\u2500 agents.py\
-      \          # Agent discovery (19 agents)\n\u2502   \u251C\u2500\u2500 workflows.py\
-      \       # Workflow discovery (16 workflows)\n\u2502   \u251C\u2500\u2500 generator.py\
-      \       # Frontmatter \u2192 MCP tool schema\n\u2502   \u2514\u2500\u2500 discovery.py\
-      \       # Main orchestrator with caching\n\u251C\u2500\u2500 adapters/\n\u2502\
-      \   \u2514\u2500\u2500 roadmap_adapter.py # Roadmap operations (11 tools)\n\u2514\
-      \u2500\u2500 tools/\n    \u2514\u2500\u2500 query_tools.py     # Query tool\
-      \ implementations\n\nframework/adapters/        # Platform adapter architecture\n\
-      \u251C\u2500\u2500 base.py               # BaseAdapter + CompositeAdapter\n\u251C\
-      \u2500\u2500 registry.py           # AdapterRegistry\n\u251C\u2500\u2500 mcp/adapter.py\
-      \        # MCPAdapter (BaseAdapter)\n\u2514\u2500\u2500 goose/adapter.py   \
-      \   # GooseAdapter (CompositeAdapter)\n\nKEY DECISIONS:\n\n1. Dynamic Discovery\
-      \ (not manual mapping)\n   - All agents/workflows have YAML frontmatter\n  \
-      \ - MCP server scans frontmatter and generates tools\n   - Zero drift: tools\
-      \ always match source definitions\n\n2. Tools Only (Resources/Prompts deferred)\n\
-      \   - Implemented: 46 MCP tools\n   - Deferred: Resources and Prompts (future\
-      \ enhancement)\n   - Rationale: Tools cover 95% of use cases\n\n3. Adapter Pattern\n\
-      \   - BaseAdapter: Direct translation (MCP, Cursor, Aider)\n   - CompositeAdapter:\
-      \ Builds on others (Goose uses MCP)\n   - Prevents code duplication across platforms\n\
-      \n4. Caching with File-Change Detection\n   - MD5 hash of source file modification\
-      \ times\n   - 60-second TTL\n   - Automatic invalidation on file changes\n\n\
-      TOOL BREAKDOWN:\n- 19 agent tools (vibey_web_developer, vibey_test_engineer,\
-      \ etc.)\n- 16 workflow tools (vibey_workflow_feature_development, etc.)\n- 11\
-      \ roadmap tools (vibey_roadmap_status, vibey_roadmap_show, etc.)\n\nPLATFORM\
-      \ SUPPORT:\n\u2705 Claude Code (via .mcp.json)\n\u2705 Goose (via ~/.config/goose/config.yaml)\n\
-      \U0001F52C JetBrains AI (untested but MCP-compatible)\n\U0001F52C VS Code (untested\
-      \ but MCP-compatible)\n\nFUTURE ENHANCEMENTS:\n- MCP Resources for workflow/handoff\
-      \ content\n- MCP Prompts for quality gates\n- Handoff discovery and tool generation\n"
+      \ (as built):\n\nframework/mcp/\n├── server.py              # FastMCP-based\
+      \ server (VibeyMCPServer)\n├── discovery/             # Dynamic tool discovery\n\
+      │   ├── parser.py          # YAML frontmatter extraction\n│   ├── agents.py\
+      \          # Agent discovery (19 agents)\n│   ├── workflows.py       # Workflow\
+      \ discovery (16 workflows)\n│   ├── generator.py       # Frontmatter → MCP tool\
+      \ schema\n│   └── discovery.py       # Main orchestrator with caching\n├── adapters/\n\
+      │   └── roadmap_adapter.py # Roadmap operations (11 tools)\n└── tools/\n   \
+      \ └── query_tools.py     # Query tool implementations\n\nframework/adapters/\
+      \        # Platform adapter architecture\n├── base.py               # BaseAdapter\
+      \ + CompositeAdapter\n├── registry.py           # AdapterRegistry\n├── mcp/adapter.py\
+      \        # MCPAdapter (BaseAdapter)\n└── goose/adapter.py      # GooseAdapter\
+      \ (CompositeAdapter)\n\nKEY DECISIONS:\n\n1. Dynamic Discovery (not manual mapping)\n\
+      \   - All agents/workflows have YAML frontmatter\n   - MCP server scans frontmatter\
+      \ and generates tools\n   - Zero drift: tools always match source definitions\n\
+      \n2. Tools Only (Resources/Prompts deferred)\n   - Implemented: 46 MCP tools\n\
+      \   - Deferred: Resources and Prompts (future enhancement)\n   - Rationale:\
+      \ Tools cover 95% of use cases\n\n3. Adapter Pattern\n   - BaseAdapter: Direct\
+      \ translation (MCP, Cursor, Aider)\n   - CompositeAdapter: Builds on others\
+      \ (Goose uses MCP)\n   - Prevents code duplication across platforms\n\n4. Caching\
+      \ with File-Change Detection\n   - MD5 hash of source file modification times\n\
+      \   - 60-second TTL\n   - Automatic invalidation on file changes\n\nTOOL BREAKDOWN:\n\
+      - 19 agent tools (vibey_web_developer, vibey_test_engineer, etc.)\n- 16 workflow\
+      \ tools (vibey_workflow_feature_development, etc.)\n- 11 roadmap tools (vibey_roadmap_status,\
+      \ vibey_roadmap_show, etc.)\n\nPLATFORM SUPPORT:\n✅ Claude Code (via .mcp.json)\n\
+      ✅ Goose (via ~/.config/goose/config.yaml)\n\U0001F52C JetBrains AI (untested\
+      \ but MCP-compatible)\n\U0001F52C VS Code (untested but MCP-compatible)\n\n\
+      FUTURE ENHANCEMENTS:\n- MCP Resources for workflow/handoff content\n- MCP Prompts\
+      \ for quality gates\n- Handoff discovery and tool generation\n"

@@ -9,31 +9,50 @@ task:
   estimated_hours: 8
   assigned_agent: architecture-agent
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T00:00:00+00:00'
-  description: |
-    Establish the foundational mapping between Vibey and Git primitives:
+  started: '2025-11-27T11:04:09.404052+00:00'
+  completed: '2025-11-27T11:04:09.404052+00:00'
+  description: 'Establish the foundational mapping between Vibey and Git primitives:
+
 
     MAPPING QUESTIONS:
+
     - Roadmap → Repository? Branch? Tag namespace?
+
     - Track → Branch? Directory? Tag prefix?
+
     - Sprint → Branch? Tag? Commit range?
+
     - Task → Commit(s)? Branch? Issue?
+
     - Quality Gate → CI check? Tag? Commit status?
+
     - Blocker → Branch protection? Label?
+
     - Dependency → Branch dependency? Merge order?
 
+
     CONSIDERATIONS:
+
     - Does the mapping preserve hierarchy?
+
     - Can mappings be bidirectional (Git → Vibey)?
+
     - How do parallel tracks/sprints work?
+
     - Compatibility with existing Git workflows
 
+
     DELIVERABLES:
+
     - Mapping specification document
+
     - Decision rationale for each mapping
+
     - Examples showing mappings in practice
+
     - Edge cases and limitations
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -41,3 +60,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

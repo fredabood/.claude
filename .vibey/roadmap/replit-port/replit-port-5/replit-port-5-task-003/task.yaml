@@ -11,69 +11,24 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Create TaskList component for interactive task management.
-
-    COMPONENT FEATURES:
-    1. Task Table/List
-       - Task name and ID
-       - Status badge
-       - Priority indicator
-       - Assigned agent
-       - Estimated hours
-
-    2. Status Management
-       - Click to change status
-       - Status dropdown
-       - Keyboard shortcuts
-       - Bulk status update
-
-    3. Task Details Panel
-       - Full description
-       - Acceptance criteria
-       - Dependencies
-       - Commits
-       - Comments
-
-    4. Filtering & Sorting
-       - Filter by status
-       - Filter by agent
-       - Filter by priority
-       - Sort by various fields
-       - Search by name
-
-    COMPONENT STRUCTURE:
-    ```typescript
-    interface TaskListProps {
-      tasks: Task[];
-      sprintId: string;
-      onTaskUpdate: (taskId: string, updates: Partial<Task>) => Promise<void>;
-    }
-
-    export function TaskList({ tasks, sprintId, onTaskUpdate }: TaskListProps) {
-      const { updateTaskStatus } = useVibey();
-      const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-      // Implementation
-    }
-    ```
-
-    INTERACTIONS:
-    - Click task to view details
-    - Click status to change
-    - Hover for quick info
-    - Drag to reorder (optional)
-
-    STATUS WORKFLOW:
-    not_started → in_progress → completed
-    - Visual feedback on changes
-    - Optimistic updates
-    - Error handling
-
-    DELIVERABLES:
-    - TaskList component
-    - TaskRow sub-component
-    - TaskDetails panel
-    - Status controls
+  description: "Create TaskList component for interactive task management.\n\nCOMPONENT\
+    \ FEATURES:\n1. Task Table/List\n   - Task name and ID\n   - Status badge\n  \
+    \ - Priority indicator\n   - Assigned agent\n   - Estimated hours\n\n2. Status\
+    \ Management\n   - Click to change status\n   - Status dropdown\n   - Keyboard\
+    \ shortcuts\n   - Bulk status update\n\n3. Task Details Panel\n   - Full description\n\
+    \   - Acceptance criteria\n   - Dependencies\n   - Commits\n   - Comments\n\n\
+    4. Filtering & Sorting\n   - Filter by status\n   - Filter by agent\n   - Filter\
+    \ by priority\n   - Sort by various fields\n   - Search by name\n\nCOMPONENT STRUCTURE:\n\
+    ```typescript\ninterface TaskListProps {\n  tasks: Task[];\n  sprintId: string;\n\
+    \  onTaskUpdate: (taskId: string, updates: Partial<Task>) => Promise<void>;\n\
+    }\n\nexport function TaskList({ tasks, sprintId, onTaskUpdate }: TaskListProps)\
+    \ {\n  const { updateTaskStatus } = useVibey();\n  const [selectedTask, setSelectedTask]\
+    \ = useState<Task | null>(null);\n  // Implementation\n}\n```\n\nINTERACTIONS:\n\
+    - Click task to view details\n- Click status to change\n- Hover for quick info\n\
+    - Drag to reorder (optional)\n\nSTATUS WORKFLOW:\nnot_started → in_progress →\
+    \ completed\n- Visual feedback on changes\n- Optimistic updates\n- Error handling\n\
+    \nDELIVERABLES:\n- TaskList component\n- TaskRow sub-component\n- TaskDetails\
+    \ panel\n- Status controls\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -81,3 +36,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

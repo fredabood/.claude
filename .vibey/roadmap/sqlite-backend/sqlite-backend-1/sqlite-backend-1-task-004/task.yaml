@@ -4,29 +4,45 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Implement relationship and junction table operations"
-  description: |
-    Implement CRUD for relationship tables in crud/relationships.py:
+  title: Implement relationship and junction table operations
+  description: 'Implement CRUD for relationship tables in crud/relationships.py:
+
 
     Blocking relationships (entity_blocks, entity_blocked_by):
+
     - add_blocker(), remove_blocker(), get_blockers(), get_blocked_by()
+
     - Polymorphic: works for task/sprint/track
 
+
     Soft dependencies (entity_depends_on):
+
     - add_dependency(), remove_dependency(), get_dependencies()
+
     - Different semantics: ordering hints, not blocking
 
+
     Junction tables (many-to-many):
+
     - entity_deliverables: link_deliverable(), unlink_deliverable()
+
     - entity_commits: link_commit(), unlink_commit()
 
+
     Quality gates (quality_gates):
+
     - add_gate(), update_gate(), remove_gate(), list_gates()
-    - Polymorphic: owner_type = 'track' or 'sprint'
+
+    - Polymorphic: owner_type = ''track'' or ''sprint''
+
 
     Query helpers:
+
     - get_dependency_chain(entity_id) - recursive CTE for transitive deps
+
     - detect_circular_dependencies() - cycle detection
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

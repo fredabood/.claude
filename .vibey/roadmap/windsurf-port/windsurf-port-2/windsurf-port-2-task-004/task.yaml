@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integration tests
-  description: |
-    End-to-end deployment tests, workflow execution tests, MCP integration tests
+  description: 'End-to-end deployment tests, workflow execution tests, MCP integration
+    tests
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.179857+00:00'

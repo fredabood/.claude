@@ -2,15 +2,15 @@ sprint:
   id: cody-port-1
   track_id: cody-port
   name: Core Adapter & MCP Configuration
-  status: not_started
+  status: completed
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 3 weeks
   progress:
     tasks_total: 6
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 6
+    completion_percent: 100.0
   tasks:
   - id: cody-port-1-task-001
     name: Create CodyAdapter base class
@@ -44,3 +44,4 @@ sprint:
     We reuse the existing MCP server (46 tools).
 
     '
+  blocked: false

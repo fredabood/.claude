@@ -5,13 +5,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T14:45:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 1 week
   progress:
     tasks_total: 6
     tasks_completed: 6
-    completion_percent: 100
+    completion_percent: 100.0
   tasks: []
   dependencies:
   - python-package-1
@@ -49,15 +49,24 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 2 focuses on verification and distribution readiness.
+    notes: 'Sprint 2 focuses on verification and distribution readiness.
+
 
       Key tests:
+
       1. Fresh venv + pip install dist/*.whl
+
       2. Import all vibey.* packages
+
       3. Access framework content via accessor
+
       4. Run vibey --help
+
       5. Run vibey init in temp directory
 
+
       TestPyPI provides a safe way to verify the package works
+
       when installed from a package index, without polluting PyPI.
+
+      '

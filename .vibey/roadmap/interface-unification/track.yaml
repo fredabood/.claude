@@ -14,7 +14,7 @@ track:
     sprints_completed: 3
     tasks_total: 17
     tasks_completed: 17
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: interface-unification-1
     name: Delete Legacy Interfaces & Consolidate

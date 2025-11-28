@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: high
   created: '2025-11-05T00:00:00+00:00'
-  started: '2025-11-05T12:00:00+00:00'
-  completed: '2025-11-09T13:20:00+00:00'
+  started: null
+  completed: '2025-11-05T00:00:00+00:00'
   estimated_duration: 3 months
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 20
     tasks_completed: 20
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: core-framework-3
     name: Framework Polish & Refinements

@@ -11,75 +11,23 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Write comprehensive release notes for Replit port launch.
-
-    RELEASE NOTES STRUCTURE:
-    1. Overview
-       - What's new in Replit port
-       - Key features
-       - Benefits for users
-       - Platform compatibility
-
-    2. Features
-       - ReplitAdapter
-       - ReplitContextGenerator
-       - Configuration generation
-       - Extension functionality
-       - MCP integration
-
-    3. Installation
-       - Fork template
-       - Manual installation
-       - From source
-
-    4. Getting Started
-       - Quick start guide link
-       - Extension guide link
-       - Example projects
-       - Tutorial videos
-
-    5. Known Limitations
-       - Browser Python constraints
-       - Performance considerations
-       - Feature limitations
-       - Workarounds
-
-    6. Migration Guide
-       - Coming from Claude Code
-       - Coming from local setup
-       - Configuration differences
-       - Platform-specific changes
-
-    7. What's Next
-       - Future enhancements
-       - Roadmap for Replit port
-       - Community contributions
-       - Feedback channels
-
-    RELEASE METADATA:
-    ```yaml
-    version: 1.0.0
-    release_date: 2025-XX-XX
-    platform: Replit
-    components:
-      - ReplitAdapter v1.0.0
-      - Extension v1.0.0
-      - Template v1.0.0
-    ```
-
-    ANNOUNCEMENT CHANNELS:
-    - Vibey website blog post
-    - GitHub release notes
-    - Replit community forum
-    - Twitter/social media
-    - Newsletter
-
-    DELIVERABLES:
-    - RELEASE_NOTES.md
-    - Blog post draft
-    - Social media posts
-    - Community announcements
+  description: "Write comprehensive release notes for Replit port launch.\n\nRELEASE\
+    \ NOTES STRUCTURE:\n1. Overview\n   - What's new in Replit port\n   - Key features\n\
+    \   - Benefits for users\n   - Platform compatibility\n\n2. Features\n   - ReplitAdapter\n\
+    \   - ReplitContextGenerator\n   - Configuration generation\n   - Extension functionality\n\
+    \   - MCP integration\n\n3. Installation\n   - Fork template\n   - Manual installation\n\
+    \   - From source\n\n4. Getting Started\n   - Quick start guide link\n   - Extension\
+    \ guide link\n   - Example projects\n   - Tutorial videos\n\n5. Known Limitations\n\
+    \   - Browser Python constraints\n   - Performance considerations\n   - Feature\
+    \ limitations\n   - Workarounds\n\n6. Migration Guide\n   - Coming from Claude\
+    \ Code\n   - Coming from local setup\n   - Configuration differences\n   - Platform-specific\
+    \ changes\n\n7. What's Next\n   - Future enhancements\n   - Roadmap for Replit\
+    \ port\n   - Community contributions\n   - Feedback channels\n\nRELEASE METADATA:\n\
+    ```yaml\nversion: 1.0.0\nrelease_date: 2025-XX-XX\nplatform: Replit\ncomponents:\n\
+    \  - ReplitAdapter v1.0.0\n  - Extension v1.0.0\n  - Template v1.0.0\n```\n\n\
+    ANNOUNCEMENT CHANNELS:\n- Vibey website blog post\n- GitHub release notes\n- Replit\
+    \ community forum\n- Twitter/social media\n- Newsletter\n\nDELIVERABLES:\n- RELEASE_NOTES.md\n\
+    - Blog post draft\n- Social media posts\n- Community announcements\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -87,3 +35,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

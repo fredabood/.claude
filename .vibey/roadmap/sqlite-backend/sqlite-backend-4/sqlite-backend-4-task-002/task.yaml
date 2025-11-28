@@ -4,14 +4,20 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Build Declared DB from YAML counters"
-  description: |
-    Create a second database that reads YAML files as-is without computation:
+  title: Build Declared DB from YAML counters
+  description: 'Create a second database that reads YAML files as-is without computation:
+
     - Read sprint.yaml progress fields directly (tasks_total, tasks_completed, etc.)
+
     - Read track.yaml progress fields directly
+
     - Read roadmap.yaml progress fields directly
+
     - Store in tables matching the computed view schemas
+
     This represents "what YAML currently says" - may have drift.
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

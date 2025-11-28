@@ -5,8 +5,10 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Advanced Cascade integration
-  description: |
-    Multi-step workflow optimization, state passing between workflow steps, quality gate checkpoints
+  description: 'Multi-step workflow optimization, state passing between workflow steps,
+    quality gate checkpoints
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.179599+00:00'

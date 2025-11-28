@@ -4,12 +4,13 @@ task:
   sprint_id: copilot-port-1
   track_id: copilot-port
   task_type: development
-  status: not_started
+  status: completed
   blocked: false
-  description: Add CLI command to export Vibey configuration for GitHub Copilot. Generate custom agent profiles and MCP configuration in one command.
+  description: Add CLI command to export Vibey configuration for GitHub Copilot. Generate
+    custom agent profiles and MCP configuration in one command.
   created: '2025-11-24T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-27T11:04:09.670965+00:00'
+  completed: '2025-11-27T11:04:09.670965+00:00'
   assigned_agent: web-developer
   priority: high
   complexity: medium

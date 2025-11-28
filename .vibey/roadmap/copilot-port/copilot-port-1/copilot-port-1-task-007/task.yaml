@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Create quick start guide for integrating Vibey with GitHub Copilot. Cover installation, configuration, custom agents, and common workflows.
+  description: Create quick start guide for integrating Vibey with GitHub Copilot.
+    Cover installation, configuration, custom agents, and common workflows.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

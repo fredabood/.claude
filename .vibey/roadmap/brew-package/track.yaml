@@ -3,7 +3,7 @@ track:
   name: Homebrew Package Distribution
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
+  blocked: false
   priority: medium
   created: '2025-11-24T00:00:00+00:00'
   started: null
@@ -12,7 +12,7 @@ track:
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 12
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
   sprints:
@@ -89,30 +89,15 @@ track:
     last_updated: '2025-11-24T00:00:00+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      HOMEBREW DISTRIBUTION
-
-      Provides `brew install vibey` for macOS and Linux users.
-
-      TWO OPTIONS FOR FORMULA:
-      1. PyPI-based: Downloads from PyPI, installs with pip
-         - Pro: Simple, leverages existing PyPI release
-         - Con: Requires Python dependency management
-      2. Source-based: Builds from GitHub release tarball
-         - Pro: More control, can pin dependencies
-         - Con: More complex formula
-
-      RECOMMENDED: PyPI-based formula using virtualenv resource.
-
-      TAP REPOSITORY:
-      - Create github.com/vibey-framework/homebrew-vibey
-      - Users install with: brew tap vibey-framework/vibey && brew install vibey
-      - Or shorthand: brew install vibey-framework/vibey/vibey
-
-      FUTURE: Submit to homebrew-core for `brew install vibey` without tap.
-
-      DEPENDENCIES:
-      - python@3.11 or python@3.12
-      - No native dependencies (pure Python)
-
-      BLOCKED BY: python-package track must complete first (need PyPI release)
+    notes: "HOMEBREW DISTRIBUTION\n\nProvides `brew install vibey` for macOS and Linux\
+      \ users.\n\nTWO OPTIONS FOR FORMULA:\n1. PyPI-based: Downloads from PyPI, installs\
+      \ with pip\n   - Pro: Simple, leverages existing PyPI release\n   - Con: Requires\
+      \ Python dependency management\n2. Source-based: Builds from GitHub release\
+      \ tarball\n   - Pro: More control, can pin dependencies\n   - Con: More complex\
+      \ formula\n\nRECOMMENDED: PyPI-based formula using virtualenv resource.\n\n\
+      TAP REPOSITORY:\n- Create github.com/vibey-framework/homebrew-vibey\n- Users\
+      \ install with: brew tap vibey-framework/vibey && brew install vibey\n- Or shorthand:\
+      \ brew install vibey-framework/vibey/vibey\n\nFUTURE: Submit to homebrew-core\
+      \ for `brew install vibey` without tap.\n\nDEPENDENCIES:\n- python@3.11 or python@3.12\n\
+      - No native dependencies (pure Python)\n\nBLOCKED BY: python-package track must\
+      \ complete first (need PyPI release)\n"

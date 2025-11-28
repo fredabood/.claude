@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-13-task-001
     name: Audit existing config tests and coverage
@@ -19,90 +19,131 @@ sprint:
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
-    description: |
-      Baseline config test coverage:
+    description: 'Baseline config test coverage:
+
       - Run pytest-cov on vibey/config/
+
       - Document current coverage percentage
+
       - Identify untested loaders
+
       - Identify untested models
+
+      '
   - id: user-journey-audit-13-task-002
     name: Write tests for config loader
     status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: test-engineer
-    description: |
-      Test config loading:
+    description: 'Test config loading:
+
       - load_config() function
+
       - Modular config loading
+
       - Legacy config fallback
+
       - Config file discovery
+
       - Environment variable overrides
+
       - Error handling for missing/invalid
+
+      '
   - id: user-journey-audit-13-task-003
     name: Write tests for config models
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: test-engineer
-    description: |
-      Test config models:
+    description: 'Test config models:
+
       - ProjectConfig model
+
       - FrameworkConfig model
+
       - AgentsConfig model
+
       - QualityGatesConfig model
+
       - Validation for each model
+
       - Default values
+
+      '
   - id: user-journey-audit-13-task-004
     name: Write tests for config validation
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: test-engineer
-    description: |
-      Test config validation:
+    description: 'Test config validation:
+
       - Schema validation
+
       - Required field validation
+
       - Type validation
+
       - Cross-field validation
+
       - Helpful error messages
+
+      '
   - id: user-journey-audit-13-task-005
     name: Write tests for config migration
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
-    description: |
-      Test config migration:
+    description: 'Test config migration:
+
       - migrate_config() function
+
       - Legacy to modular conversion
+
       - Backup creation
+
       - Dry run mode
+
       - Error recovery
+
+      '
   - id: user-journey-audit-13-task-006
     name: Verify 100% config coverage achieved
     status: not_started
     priority: critical
     estimated_hours: 4
     assigned_agent: test-engineer
-    description: |
-      Validate coverage target:
+    description: 'Validate coverage target:
+
       - Run pytest-cov --cov=vibey/config
+
       - Verify 100% line coverage
+
       - Verify 100% branch coverage
+
       - Fix any remaining gaps
+
+      '
   - id: user-journey-audit-13-task-007
     name: Document config testing patterns
     status: not_started
     priority: medium
     estimated_hours: 4
     assigned_agent: docs-writer
-    description: |
-      Create config testing guide:
+    description: 'Create config testing guide:
+
       - Temporary config files for tests
+
       - Environment variable mocking
+
       - Config fixture patterns
+
       - Validation testing strategies
+
+      '
   dependencies:
   - user-journey-audit-9
   blocked_by:
@@ -127,6 +168,8 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 4 achieves 100% test coverage of config system.
+    notes: 'Sprint 4 achieves 100% test coverage of config system.
+
       Target: vibey/config/ directory
+
+      '

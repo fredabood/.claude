@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: atlassian-integration-3-task-001
     name: Design Confluence to docs folder mapping
@@ -19,98 +19,133 @@ sprint:
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Define mappings between Confluence and docs:
+    description: 'Define mappings between Confluence and docs:
+
       - Confluence Space → docs/ root or subfolder
+
       - Confluence Page Tree → Folder hierarchy
+
       - Page Title → Filename (slugified)
+
       - Page Content → Markdown conversion
+
       - Attachments → Assets folder
+
       - Labels → Front matter tags
+
+      '
   - id: atlassian-integration-3-task-002
     name: Create Confluence REST API client
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Build Confluence API client:
+    description: 'Build Confluence API client:
+
       - Space endpoints (list, get)
+
       - Content endpoints (list, get, create, update)
+
       - Content tree navigation
+
       - Attachment endpoints
+
       - Search endpoints (CQL)
+
       - Rate limiting and pagination
+
+      '
   - id: atlassian-integration-3-task-003
     name: Implement Confluence to Markdown converter
     status: not_started
     priority: critical
     estimated_hours: 10
     assigned_agent: backend-engineer
-    description: |
-      Convert Confluence storage format to Markdown:
-      - Parse Confluence XHTML storage format
-      - Convert to GitHub-flavored Markdown
-      - Handle tables, code blocks, macros
-      - Preserve images and links
-      - Handle Confluence-specific macros:
-        * Code blocks, panels, info/warning
-        * Table of contents, children display
-        * Jira issue links
+    description: "Convert Confluence storage format to Markdown:\n- Parse Confluence\
+      \ XHTML storage format\n- Convert to GitHub-flavored Markdown\n- Handle tables,\
+      \ code blocks, macros\n- Preserve images and links\n- Handle Confluence-specific\
+      \ macros:\n  * Code blocks, panels, info/warning\n  * Table of contents, children\
+      \ display\n  * Jira issue links\n"
   - id: atlassian-integration-3-task-004
     name: Implement Confluence page import
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Import Confluence pages as Markdown:
+    description: 'Import Confluence pages as Markdown:
+
       - Import single page
+
       - Import page tree recursively
+
       - Import entire space
+
       - Download attachments
+
       - Generate front matter
+
       - vibey atlassian import confluence <space>
+
+      '
   - id: atlassian-integration-3-task-005
     name: Implement Markdown to Confluence export
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Push Markdown docs to Confluence:
+    description: 'Push Markdown docs to Confluence:
+
       - Convert Markdown to Confluence storage format
+
       - Create new pages
+
       - Update existing pages
+
       - Upload attachments
+
       - Maintain page hierarchy
+
       - vibey atlassian export docs <space>
+
+      '
   - id: atlassian-integration-3-task-006
     name: Implement docs bidirectional sync
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: backend-engineer
-    description: |
-      Sync docs with Confluence:
+    description: 'Sync docs with Confluence:
+
       - Track sync state per page
+
       - Detect local and remote changes
+
       - Handle conflicts (similar to Jira)
+
       - Webhook support for real-time sync
+
       - vibey atlassian sync confluence
+
+      '
   - id: atlassian-integration-3-task-007
     name: Create Confluence integration tests
     status: not_started
     priority: high
     estimated_hours: 6
     assigned_agent: test-engineer
-    description: |
-      Test Confluence functionality:
+    description: 'Test Confluence functionality:
+
       - API client tests
+
       - Markdown conversion tests
+
       - Import/export scenarios
+
       - Sync scenarios
+
       - Edge cases (special characters, large pages)
+
+      '
   dependencies:
   - atlassian-integration-1
   blocked_by:
@@ -135,16 +170,25 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 3 adds Confluence integration for documentation.
+    notes: 'Sprint 3 adds Confluence integration for documentation.
+
 
       Key challenge: Confluence storage format is complex XHTML.
+
       Need high-fidelity conversion to/from Markdown.
 
+
       Confluence API Reference:
+
       - REST API: https://developer.atlassian.com/cloud/confluence/rest/v2/
 
+
       Conversion considerations:
+
       - Confluence macros have no Markdown equivalent
+
       - Some formatting will be lossy
+
       - Round-trip conversion should preserve meaning
+
+      '

@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Comprehensive enterprise deployment guide for Vibey + GitHub Copilot. Cover security, compliance, GitHub Enterprise integration, and corporate policies.
+  description: Comprehensive enterprise deployment guide for Vibey + GitHub Copilot.
+    Cover security, compliance, GitHub Enterprise integration, and corporate policies.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

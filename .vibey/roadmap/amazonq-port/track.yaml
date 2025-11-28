@@ -2,19 +2,19 @@ track:
   id: amazonq-port
   name: Amazon Q Developer Platform Port
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
-  started: null
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: 3 weeks
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 12
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 5
+    completion_percent: 41.7
   sprints:
   - id: amazonq-port-1
     name: Core Adapter & MCP Configuration
@@ -159,30 +159,16 @@ track:
       - Enterprise admin controls for MCP governance\n\nCONFIG FORMAT (.amazonq/mcp.json):\n\
       {\n  \"mcpServers\": {\n    \"vibey\": {\n      \"command\": \"python\",\n \
       \     \"args\": [\"-m\", \"framework.mcp.server\"],\n      \"env\": {}\n   \
-      \ }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n\u250C\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502         SINGLE SOURCE OF\
-      \ TRUTH                   \u2502\n\u2502  agents/*.md, workflows/*.md (frontmatter)\
-      \       \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2518\n                  \u2502\n     \u250C\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253C\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u25BC           \u25BC   \
-      \        \u25BC\n\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2510 \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u250C\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502MCP Srv\
-      \  \u2502 \u2502AMAZONQ  \u2502 \u2502mcp.json \u2502\n\u2502(reuse)  \u2502\
-      \ \u2502.md Gen  \u2502 \u2502Generator\u2502\n\u2514\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2518\n\nUNIQUE AWS CONSIDERATIONS:\n- AWS IAM integration for authentication\n\
-      - Enterprise admin controls for MCP governance\n- Multi-IDE support (VS Code\
-      \ + JetBrains)\n\nCOMPATIBILITY: 85-90% (MCP-based, minimal adapter)\nESTIMATED\
-      \ EFFORT: 3 weeks\n\nSOURCES:\n- https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-cli-model-context-protocol/\n\
+      \ }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n┌──────────────────────────────────────────────────┐\n\
+      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
+      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
+      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
+      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │AMAZONQ  │ │mcp.json\
+      \ │\n│(reuse)  │ │.md Gen  │ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
+      \nUNIQUE AWS CONSIDERATIONS:\n- AWS IAM integration for authentication\n- Enterprise\
+      \ admin controls for MCP governance\n- Multi-IDE support (VS Code + JetBrains)\n\
+      \nCOMPATIBILITY: 85-90% (MCP-based, minimal adapter)\nESTIMATED EFFORT: 3 weeks\n\
+      \nSOURCES:\n- https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-cli-model-context-protocol/\n\
       - https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.html\n-\
       \ https://aws.amazon.com/blogs/devops/use-model-context-protocol-with-amazon-q-developer-for-context-aware-ide-workflows/\n\
       \nTimeline: Q4 2025 (3 weeks, medium priority)\n"

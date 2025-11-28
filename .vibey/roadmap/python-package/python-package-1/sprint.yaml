@@ -5,13 +5,13 @@ sprint:
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
+  started: null
   completed: '2025-11-24T00:00:00+00:00'
   estimated_duration: 1 week
   progress:
     tasks_total: 8
     tasks_completed: 8
-    completion_percent: 100
+    completion_percent: 100.0
   tasks: []
   dependencies: []
   blocked_by: []
@@ -37,17 +37,28 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 1 focuses on restructuring the package so that
+    notes: 'Sprint 1 focuses on restructuring the package so that
+
       pip install vibey includes all necessary code AND content.
 
+
       KEY CHANGE: Renaming framework/ → content/
+
       The name "content" better reflects what the directory contains:
+
       agents, workflows, templates, schemas, and examples.
 
+
       Key principle: Use importlib.resources (or importlib_resources
+
       backport) for accessing package data, not __file__ relative paths.
+
       This ensures it works for:
+
       - Regular pip install
+
       - Editable install (pip install -e .)
+
       - Zipimport (rare but possible)
+
+      '

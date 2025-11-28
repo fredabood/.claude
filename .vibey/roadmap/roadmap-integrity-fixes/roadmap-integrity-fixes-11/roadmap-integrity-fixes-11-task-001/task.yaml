@@ -18,32 +18,52 @@ task:
   blocked_by: []
   depended_on_by:
   - roadmap-integrity-fixes-11-task-002
-  description: |
-    PHASE 1: DATA PRESERVATION
+  description: 'PHASE 1: DATA PRESERVATION
+
 
     Create comprehensive backup of python-package track before any modifications.
 
+
     Tasks:
+
     1. Copy entire .vibey/roadmap/python-package/ directory to backup location
+
     2. Create snapshot in .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
+
     3. Document current file structure (tree output)
+
     4. Document current git status
+
     5. Verify backup complete and readable
 
+
     Backup Location:
+
     .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
 
+
     Files to backup:
+
     - track.yaml
+
     - python-package-1/sprint.yaml (8 embedded tasks)
+
     - python-package-2/sprint.yaml (6 embedded tasks)
+
     - python-package-3/sprint.yaml (10 embedded tasks)
 
+
     Success Criteria:
+
     - Backup directory exists with all 4 files
+
     - File structure documented
+
     - Git status documented
+
     - Backup verified readable
+
+    '
   acceptance_criteria:
   - Backup directory created at .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
   - All 4 YAML files copied to backup
@@ -63,7 +83,9 @@ task:
   metadata:
     created_by: roadmap-integrity-fixes-track
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Critical first step - protect existing data before modifications.
+    notes: 'Critical first step - protect existing data before modifications.
+
 
       This backup serves as rollback point if migration encounters issues.
+
+      '

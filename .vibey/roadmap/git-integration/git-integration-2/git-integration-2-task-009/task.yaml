@@ -9,38 +9,19 @@ task:
   estimated_hours: 4
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T18:45:00+00:00'
-  completed: '2025-11-24T23:33:56.585141+00:00'
-  description: |
-    Create commands for managing sprint boundary tags:
-
-    TAG FORMAT (from Sprint 0 architecture):
-    - sprint/<sprint-id>/start - Marks sprint beginning
-    - sprint/<sprint-id>/end - Marks sprint completion
-
-    CLI COMMANDS:
-    - vibey git tag sprint-start <sprint-id>
-      Create start tag at current commit
-
-    - vibey git tag sprint-end <sprint-id>
-      Create end tag at current commit
-
-    - vibey sprint start <sprint-id>
-      Combined: Update sprint status + create start tag
-
-    - vibey sprint complete <sprint-id>
-      Combined: Update sprint status + create end tag
-
-    FEATURES:
-    - Annotated tags with sprint metadata
-    - Prevent duplicate tags (error if tag exists)
-    - Push tags to remote (optional)
-    - List all sprint tags
-
-    INTEGRATION:
-    - Used by Sprint 1's velocity calculator
-    - Used by state reconstruction queries
-    - Enables commit range queries per sprint
+  started: '2025-11-27T11:04:09.399376+00:00'
+  completed: '2025-11-27T11:04:09.399376+00:00'
+  description: "Create commands for managing sprint boundary tags:\n\nTAG FORMAT (from\
+    \ Sprint 0 architecture):\n- sprint/<sprint-id>/start - Marks sprint beginning\n\
+    - sprint/<sprint-id>/end - Marks sprint completion\n\nCLI COMMANDS:\n- vibey git\
+    \ tag sprint-start <sprint-id>\n  Create start tag at current commit\n\n- vibey\
+    \ git tag sprint-end <sprint-id>\n  Create end tag at current commit\n\n- vibey\
+    \ sprint start <sprint-id>\n  Combined: Update sprint status + create start tag\n\
+    \n- vibey sprint complete <sprint-id>\n  Combined: Update sprint status + create\
+    \ end tag\n\nFEATURES:\n- Annotated tags with sprint metadata\n- Prevent duplicate\
+    \ tags (error if tag exists)\n- Push tags to remote (optional)\n- List all sprint\
+    \ tags\n\nINTEGRATION:\n- Used by Sprint 1's velocity calculator\n- Used by state\
+    \ reconstruction queries\n- Enables commit range queries per sprint\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -49,3 +30,4 @@ task:
   - mno7890
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

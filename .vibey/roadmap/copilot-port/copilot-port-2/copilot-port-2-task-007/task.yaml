@@ -6,7 +6,8 @@ task:
   task_type: development
   status: not_started
   blocked: false
-  description: Benchmark Vibey MCP tools performance against native Copilot capabilities. Measure latency, throughput, and resource usage. Document performance characteristics.
+  description: Benchmark Vibey MCP tools performance against native Copilot capabilities.
+    Measure latency, throughput, and resource usage. Document performance characteristics.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null

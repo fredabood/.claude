@@ -8,20 +8,14 @@ sprint:
   created: '2025-11-16T00:00:00+00:00'
   started: null
   completion_gate_check_at: null
-  completed: '2025-11-20T00:07:39.436980+00:00'
+  completed: '2025-11-16T00:00:00+00:00'
   production_gate_check_at: '2025-11-22T15:52:27.683378+00:00'
   production_ready_at: '2025-11-22T15:52:53.170277+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 13
-    development_tasks_completed: 13
-    completion_gate_tasks_total: 0
-    completion_gate_tasks_completed: 0
-    production_gate_tasks_total: 0
-    production_gate_tasks_completed: 0
     tasks_total: 13
     tasks_completed: 13
-    completion_percent: 100
+    completion_percent: 100.0
   tasks:
   - id: roadmap-integrity-fixes-7-task-001
     title: Fix active YAML Python serialization corruption

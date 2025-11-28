@@ -4,14 +4,20 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Run initial audit on Vibey roadmap"
-  description: |
-    Execute first audit cycle on the Vibey repository roadmap:
+  title: Run initial audit on Vibey roadmap
+  description: 'Execute first audit cycle on the Vibey repository roadmap:
+
     - Run vibey roadmap audit-integrity
+
     - Document all discrepancies found
+
     - Categorize issues by root cause
+
     - Create remediation plan
+
     - This validates the audit tooling works correctly
+
+    '
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'

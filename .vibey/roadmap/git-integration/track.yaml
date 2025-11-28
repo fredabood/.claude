@@ -13,8 +13,8 @@ track:
     sprints_total: 6
     sprints_completed: 5
     tasks_total: 63
-    tasks_completed: 46
-    completion_percent: 73
+    tasks_completed: 41
+    completion_percent: 65.1
   sprints:
   - id: git-integration-0
     name: Integration Architecture & Design

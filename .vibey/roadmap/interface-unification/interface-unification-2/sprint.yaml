@@ -11,9 +11,9 @@ sprint:
   estimated_duration: 1 week
   actual_duration: 6 hours
   progress:
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 100
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100.0
   tasks:
   - id: interface-unification-2-task-001
     status: completed

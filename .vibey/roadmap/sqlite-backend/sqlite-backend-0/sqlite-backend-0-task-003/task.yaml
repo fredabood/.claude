@@ -4,15 +4,22 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: "Design computed views for aggregations"
-  description: |
-    Design SQL views that compute aggregations automatically:
+  title: Design computed views for aggregations
+  description: 'Design SQL views that compute aggregations automatically:
+
     - sprint_progress: tasks_total, tasks_completed, completion_percent per sprint
+
     - track_progress: sprints_total, sprints_completed, tasks aggregations per track
+
     - roadmap_progress: track counts, overall completion
+
     - blocked_tasks: tasks with unresolved blockers
+
     - dependency_graph: full dependency chain visualization
+
     These views replace manually-maintained counter fields.
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'

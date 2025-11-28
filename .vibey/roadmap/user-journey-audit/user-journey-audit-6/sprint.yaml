@@ -9,9 +9,9 @@ sprint:
   completed: null
   estimated_duration: 2 weeks
   progress:
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks:
   - id: user-journey-audit-6-task-001
     name: Prioritize friction points by impact and effort
@@ -19,98 +19,147 @@ sprint:
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Create prioritization matrix:
+    description: 'Create prioritization matrix:
+
       - Impact score (user value, adoption effect)
+
       - Effort estimate (dev time, complexity)
+
       - Risk assessment (breaking changes, dependencies)
+
       - Quick wins identification (high impact, low effort)
+
       - Strategic investments (high impact, high effort)
+
       - Deprioritize (low impact regardless of effort)
+
+      '
   - id: user-journey-audit-6-task-002
     name: Design quick win improvements
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: architecture-agent
-    description: |
-      Detail quick win solutions:
+    description: 'Detail quick win solutions:
+
       - Specific changes needed
+
       - Implementation approach
+
       - Success metrics
+
       - Rollout plan
+
       - Rollback plan if needed
+
       Target: Improvements achievable in 1-2 weeks each
+
+      '
   - id: user-journey-audit-6-task-003
     name: Design strategic improvements
     status: not_started
     priority: high
     estimated_hours: 8
     assigned_agent: architecture-agent
-    description: |
-      Detail larger improvements:
+    description: 'Detail larger improvements:
+
       - Architecture changes needed
+
       - Phased implementation plan
+
       - Dependencies and prerequisites
+
       - Resource requirements
+
       - Timeline estimates
+
       - Risk mitigations
+
+      '
   - id: user-journey-audit-6-task-004
     name: Define success metrics and tracking
     status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
-    description: |
-      Establish measurement framework:
+    description: 'Establish measurement framework:
+
       - Time to first success metric
+
       - Task completion time metrics
+
       - Error rate tracking
+
       - User satisfaction proxies
+
       - Adoption funnel metrics
+
       - Retention indicators
+
+      '
   - id: user-journey-audit-6-task-005
     name: Create improvement roadmap
     status: not_started
     priority: critical
     estimated_hours: 6
     assigned_agent: architecture-agent
-    description: |
-      Build phased improvement plan:
+    description: 'Build phased improvement plan:
+
       - Phase 1: Quick wins (immediate)
+
       - Phase 2: High-priority fixes (1-2 months)
+
       - Phase 3: Strategic improvements (3-6 months)
+
       - Dependencies between improvements
+
       - Resource allocation recommendations
+
       - Milestone definitions
+
+      '
   - id: user-journey-audit-6-task-006
     name: Create new roadmap tracks from recommendations
     status: not_started
     priority: high
     estimated_hours: 4
     assigned_agent: architecture-agent
-    description: |
-      Convert recommendations to actionable tracks:
+    description: 'Convert recommendations to actionable tracks:
+
       - Identify improvements needing dedicated tracks
+
       - Draft track definitions
+
       - Define sprints and tasks
+
       - Link to audit findings
+
       - Integrate into main roadmap
+
+      '
   - id: user-journey-audit-6-task-007
     name: Produce final audit report and recommendations
     status: not_started
     priority: critical
     estimated_hours: 8
     assigned_agent: docs-writer
-    description: |
-      Create executive summary and full report:
+    description: 'Create executive summary and full report:
+
       - Executive summary (1-2 pages)
+
       - Key findings overview
+
       - Prioritized recommendations
+
       - Improvement roadmap
+
       - Success metrics
+
       - Appendices with detailed analysis
+
       - Presentation deck for stakeholders
+
+      '
   dependencies:
   - user-journey-audit-5
   blocked_by:
@@ -132,7 +181,10 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: |
-      Sprint 6 turns analysis into action. Every friction point
+    notes: 'Sprint 6 turns analysis into action. Every friction point
+
       identified should have a clear recommendation and path
+
       to resolution. Output feeds directly into future work.
+
+      '

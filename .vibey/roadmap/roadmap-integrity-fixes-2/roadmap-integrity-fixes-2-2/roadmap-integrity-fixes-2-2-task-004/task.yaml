@@ -11,17 +11,25 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Extract 9 embedded tasks from git-integration-3/sprint.yaml to individual task.yaml files.
+  description: 'Extract 9 embedded tasks from git-integration-3/sprint.yaml to individual
+    task.yaml files.
+
 
     SOURCE: .vibey/roadmap/git-integration/git-integration-3/sprint.yaml
+
     TASKS TO EXTRACT: 9 (advanced integration tasks)
 
+
     NOTE: This sprint is IN PROGRESS
+
     - Tasks 001-003: completed
+
     - Tasks 004-009: not_started
 
+
     Preserve accurate status for each task.
+
+    '
   acceptance_criteria:
   - 9 task directories created
   - 9 task.yaml files with correct content
@@ -35,3 +43,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

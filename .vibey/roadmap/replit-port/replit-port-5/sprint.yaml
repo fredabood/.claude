@@ -11,7 +11,7 @@ sprint:
   progress:
     tasks_total: 6
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   tasks: []
   dependencies:
   - type: sprint
@@ -43,17 +43,28 @@ sprint:
   metadata:
     created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: |
-      Sprint 5 implements full extension features for roadmap visualization.
+    notes: 'Sprint 5 implements full extension features for roadmap visualization.
+
 
       Components:
+
       - RoadmapView: Track hierarchy, progress bars, status indicators
+
       - SprintProgress: Current sprint details, task lists, completions
+
       - TaskList: Interactive task management, status updates
+
       - File handlers: Syntax highlighting, previews for .vibey/ files
 
+
       User workflows:
+
       - View roadmap structure
+
       - Monitor sprint progress
+
       - Update task status
+
       - Browse .vibey/ files
+
+      '

@@ -10,10 +10,9 @@ sprint:
   completed: '2025-11-23T14:57:03.456950+00:00'
   estimated_duration: 2 weeks
   progress:
-    development_tasks_total: 8
     tasks_total: 6
-    tasks_completed: 0
-    completion_percent: 100
+    tasks_completed: 6
+    completion_percent: 100.0
   depends_on: []
   plan_file: docs/development/GEMINI_PORT_IMPLEMENTATION.md
   description: 'Create zero-drift generators that read YAML frontmatter from existing

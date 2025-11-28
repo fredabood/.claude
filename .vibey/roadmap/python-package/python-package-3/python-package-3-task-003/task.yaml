@@ -9,15 +9,21 @@ task:
   estimated_hours: 3
   assigned_agent: backend-engineer
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-24T00:00:00+00:00'
-  completed: '2025-11-24T16:00:00+00:00'
-  description: |
-    Create list_content() function:
+  started: '2025-11-27T11:04:09.345249+00:00'
+  completed: '2025-11-27T11:04:09.345249+00:00'
+  description: 'Create list_content() function:
+
     - List all content items with optional type filter
+
     - Return ContentItem objects with metadata
+
     - Support sorting (name, type, modified date)
+
     - Support filtering (type, keyword, tag)
+
     - Cache results for performance
+
+    '
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -25,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

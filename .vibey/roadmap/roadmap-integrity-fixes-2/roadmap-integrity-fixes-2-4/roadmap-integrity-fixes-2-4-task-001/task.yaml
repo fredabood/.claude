@@ -59,3 +59,6 @@ task:
     message: 'feat: Create hierarchical structure for 6 platform port tracks'
     author: '@fredabood <fredabood@gmail.com>'
     date: '2025-11-24T23:39:44-05:00'
+  blocked: false
+  started: null
+  completed: null

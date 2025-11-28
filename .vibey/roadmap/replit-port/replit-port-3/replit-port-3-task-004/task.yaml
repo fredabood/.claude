@@ -11,52 +11,19 @@ task:
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: |
-    Generate MCP server configuration for Replit environment.
-
-    CONFIGURATION REQUIREMENTS:
-    - Server startup parameters
-    - Tool registration settings
-    - Environment-specific overrides
-    - Extension integration settings
-
-    MCP CONFIG STRUCTURE:
-    ```yaml
-    mcp:
-      server:
-        host: "0.0.0.0"
-        port: 3000
-        environment: "replit"
-
-      tools:
-        discovery_path: "vibey/mcp/tools"
-        auto_register: true
-        enabled_tools: []  # Empty = all tools
-
-      replit:
-        extension_enabled: true
-        agent_integration: true
-        file_handlers: true
-    ```
-
-    GENERATION LOGIC:
-    - Read base MCP configuration
-    - Apply Replit-specific overrides
-    - Configure tool discovery
-    - Set extension integration
-    - Write to .vibey/config/mcp.yaml
-
-    REPLIT-SPECIFIC SETTINGS:
-    - Browser-compatible server settings
-    - Web socket configuration
-    - CORS settings for extension
-    - Performance optimizations
-
-    DELIVERABLES:
-    - MCP config generation method
-    - Configuration template
-    - Validation logic
-    - Unit tests
+  description: "Generate MCP server configuration for Replit environment.\n\nCONFIGURATION\
+    \ REQUIREMENTS:\n- Server startup parameters\n- Tool registration settings\n-\
+    \ Environment-specific overrides\n- Extension integration settings\n\nMCP CONFIG\
+    \ STRUCTURE:\n```yaml\nmcp:\n  server:\n    host: \"0.0.0.0\"\n    port: 3000\n\
+    \    environment: \"replit\"\n\n  tools:\n    discovery_path: \"vibey/mcp/tools\"\
+    \n    auto_register: true\n    enabled_tools: []  # Empty = all tools\n\n  replit:\n\
+    \    extension_enabled: true\n    agent_integration: true\n    file_handlers:\
+    \ true\n```\n\nGENERATION LOGIC:\n- Read base MCP configuration\n- Apply Replit-specific\
+    \ overrides\n- Configure tool discovery\n- Set extension integration\n- Write\
+    \ to .vibey/config/mcp.yaml\n\nREPLIT-SPECIFIC SETTINGS:\n- Browser-compatible\
+    \ server settings\n- Web socket configuration\n- CORS settings for extension\n\
+    - Performance optimizations\n\nDELIVERABLES:\n- MCP config generation method\n\
+    - Configuration template\n- Validation logic\n- Unit tests\n"
   acceptance_criteria: []
   dependencies: []
   blocked_by: []
@@ -64,3 +31,4 @@ task:
   commits: []
   metadata:
     last_updated: '2025-11-24T00:00:00+00:00'
+  blocked: false

@@ -4,43 +4,68 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Build Declared DB from YAML counters
-  description: 'Create a second database that reads YAML files as-is without computation:
+  title: Add description and score fields to quality_gates table
+  description: |
+    Fix sql_dumper.py to preserve description and score fields when saving quality gates.
 
-    - Read sprint.yaml progress fields directly (tasks_total, tasks_completed, etc.)
+    CURRENT STATE:
+    - quality_gates table exists with 140 rows (correct count)
+    - Schema has description and score columns
+    - sql_dumper.py line 179 only saves: owner_type, owner_id, name, threshold, status, blocking
+    - description field is empty in computed DB but has data in declared DB
+    - score field exists but may not be populated
 
-    - Read track.yaml progress fields directly
+    IMPLEMENTATION:
+    1. Update sql_dumper.py save_track() function:
+       - Line 178-181: Add description and score to INSERT statement
+       - Change from:
+         INSERT INTO quality_gates (owner_type, owner_id, name, threshold, status, blocking)
+         VALUES ('track', ?, ?, ?, ?, ?)
+       - To:
+         INSERT INTO quality_gates (owner_type, owner_id, name, description, threshold, status, blocking, score)
+         VALUES ('track', ?, ?, ?, ?, ?, ?, ?)
 
-    - Read roadmap.yaml progress fields directly
+    2. Verify QualityGate model has description and score attributes
 
-    - Store in tables matching the computed view schemas
+    3. Update compare_databases.py to:
+       - Compare quality_gates table (computed) vs track_quality_gates table (declared)
+       - Account for schema differences (polymorphic vs direct track_id)
+       - Report any missing descriptions
 
-    This represents "what YAML currently says" - may have drift.
+    4. Regenerate computed database and verify all 140 gates have descriptions
 
-    '
+    SUCCESS CRITERIA:
+    - All 140 quality gates have description field populated
+    - Comparison shows 0 data gaps for quality gates
+    - Schema matches: computed quality_gates ≡ declared track_quality_gates
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-28T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 2500
+  estimated_tokens: 500
   actual_tokens: null
-  complexity: medium
+  complexity: low
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-4-task-003
+  blocks: []
   blocked_by: []
   deliverables:
-  - Declared DB builder script
-  - Tables matching computed view schemas
+  - Updated sql_dumper.py with description/score fields
+  - Updated compare_databases.py with quality_gates comparison
+  - Regenerated computed.db with complete quality gate data
+  - Comparison report showing 0 quality gate gaps
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-28T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      Simple fix - the schema already supports these fields, just need to
+      populate them in the dumper. The comparison script flagged this as
+      a "missing table" because it used different table names, but the
+      data structure is equivalent.

@@ -1,6 +1,6 @@
 task:
-  id: sqlite-backend-4-task-006
-  sprint_id: sqlite-backend-4
+  id: sqlite-backend-7-task-006
+  sprint_id: sqlite-backend-7
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
@@ -32,9 +32,9 @@ task:
   gate_info: null
   audit_results: null
   dependencies:
-  - sqlite-backend-4-task-005
+  - sqlite-backend-7-task-005
   blocks:
-  - sqlite-backend-4-task-007
+  - sqlite-backend-7-task-007
   blocked_by: []
   deliverables:
   - Initial audit report

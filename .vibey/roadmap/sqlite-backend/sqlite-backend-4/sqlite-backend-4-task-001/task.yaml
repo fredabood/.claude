@@ -4,70 +4,72 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Build Computed DB from task files
-  description: 'Create validation tooling in vibey/roadmap/database/validation/:
+  title: Add track_sprint_summaries computed view
+  description: |
+    Add a computed view to the SQLite schema that generates track_sprint_summaries
+    from existing sprints and tasks tables, eliminating redundant embedded data.
 
+    CURRENT STATE:
+    - track.yaml files contain embedded sprint summaries that drift from actual sprint.yaml
+    - 25 mismatches detected between embedded summaries and actual sprints
+    - Declared database has separate track_sprint_summaries table (173 rows)
 
-    computed_db.py - Build database from task files only:
+    IMPLEMENTATION:
+    1. Add view to schema.sql:
+       CREATE VIEW track_sprint_summaries AS
+       SELECT
+           s.track_id,
+           s.id AS sprint_id,
+           s.name,
+           s.status,
+           (SELECT SUM(CASE WHEN estimated_duration IS NOT NULL THEN 1 ELSE 0 END)
+            FROM tasks WHERE sprint_id = s.id) AS estimated_duration,
+           (SELECT COUNT(*) FROM tasks WHERE sprint_id = s.id) AS tasks_count,
+           s.started,
+           s.completed
+       FROM sprints s;
 
-    - Read all task.yaml files into tasks table
+    2. Update compare_databases.py to:
+       - Recognize track_sprint_summaries as a view in computed DB
+       - Compare view output against declared table
+       - Report any data discrepancies
 
-    - Read entity metadata (id, name, status) from sprint/track/roadmap YAML
+    3. Update integrity_audit.py to:
+       - Include track_sprint_summaries comparison in report
+       - Flag embedded summary drift as integrity issue
+       - Recommend using computed view as source of truth
 
-    - DO NOT read progress counters from YAML
-
-    - Use v_sprint_progress view to compute sprint progress
-
-    - Use v_track_progress view to compute track progress
-
-    - Use v_roadmap_progress view to compute roadmap progress
-
-
-    This represents "ground truth" - what counters SHOULD be based on
-
-    actual task statuses.
-
-
-    CLI command: vibey roadmap validate --level=computed
-
-    - Builds computed DB in memory (or temp file)
-
-    - Uses existing views from Sprint 1
-
-
-    Key insight from impact audit:
-
-    - Current codebase has ~24 computed fields that require manual sync
-
-    - These views replace ALL manual aggregations
-
-    - Comparison with declared values reveals state drift
-
-    '
+    SUCCESS CRITERIA:
+    - View returns 173 rows matching sprint count
+    - Comparison shows view data matches actual sprint data
+    - Drift from embedded summaries clearly identified in report
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-28T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 800
   actual_tokens: null
-  complexity: high
+  complexity: low
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-4-task-003
+  blocks: []
   blocked_by: []
   deliverables:
-  - vibey/roadmap/database/validation/computed_db.py
-  - CLI validate --level=computed command
-  - Uses views from Sprint 1 for aggregation
+  - track_sprint_summaries view in schema.sql
+  - Updated compare_databases.py with view comparison
+  - Updated integrity_audit.py with drift detection
+  - Findings documented in data integrity report
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-28T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      This view eliminates the need for embedded sprint summaries in track.yaml.
+      The 25 mismatches between embedded and actual data prove that redundant
+      data storage leads to drift. Computing on-the-fly is the correct approach.

@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-4
-  name: Data Validation & Integrity Audit
+  name: Schema Completion & Data Integrity
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-28T18:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 8
+    tasks_total: 3
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -26,70 +26,39 @@ sprint:
     required_status: completed
     current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-27T00:00:00+00:00'
+    last_checked: '2025-11-28T18:00:00+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Computed DB builder (aggregations from task statuses)
-  - Declared DB builder (YAML counters as-is)
-  - Database comparison engine with severity classification
-  - vibey roadmap validate command (schema/references/computed/full levels)
-  - Integrity audit report generator
-  - YAML auto-remediation tooling
-  - Validated Vibey roadmap state (zero discrepancies)
-  - Confidence metrics and lessons learned documentation
+  - track_sprint_summaries computed view with data integrity validation
+  - quality_gates table with description and score fields populated
+  - entity_blocked_by table with required_status, blocks_transition_to, and reason fields
+  - Updated data integrity report comparing computed vs declared databases
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-27T21:45:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: '2025-11-28T18:00:00+00:00'
+    estimated_duration: 0.5 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    source_of_truth_backup: /tmp/yaml_original/roadmap
-    backup_created: '2025-11-27T21:13:59+00:00'
-    backup_file_count: 1097
-    remediation_performed: '2025-11-27T21:45:00+00:00'
-    remediation_notes: |
-      Merged git HEAD (content fields) with backup (status fields).
-      - 862 task files merged
-      - 172 sprint files merged
-      - 36 track files merged
-      Initial audit found 98% data loss during SQLite db dump:
-      - 615 tasks lost 'started' timestamp
-      - 288 tasks lost 'description'
-      - 269 tasks lost 'completed' precision
-      - 224 tasks lost 'complexity'
-      - 222 tasks lost 'assigned_agent'
-      - 114 tasks lost 'commits'
-      - 108 tasks lost 'deliverables'
-      Code fix applied: Changed Status enum from "won't_do" to "wont_do"
-    notes: 'Validation sprint to verify database approach and fix roadmap integrity
-      issues.
+    notes: |
+      Sprint to complete the SQLite schema so computed database captures 100% of YAML data.
 
+      PROBLEM:
+      - 3 missing tables identified in computed vs declared comparison
+      - track_sprint_summaries: redundant data, can be computed
+      - track_quality_gates: exists but missing description/score fields
+      - dependencies: missing required_status, blocks_transition_to, reason fields
 
-      PROCESS:
-
-      1. Build "Computed DB" - read task files, compute aggregations via views
-
-      2. Build "Declared DB" - read YAML counters as-is (no computation)
-
-      3. Compare databases - identify mismatches
-
-      4. Generate audit report - prioritized list of discrepancies
-
-      5. Remediate YAML files - fix counters to match computed values
-
-      6. Iterate until zero discrepancies
-
+      SOLUTION:
+      - Add computed view for track_sprint_summaries
+      - Fix sql_dumper to save description/score for quality_gates
+      - Extend entity_blocked_by schema and sql_dumper for dependency business logic
 
       SUCCESS CRITERIA:
-
-      - Computed DB == Declared DB (zero discrepancies)
-
-      - All YAML files pass validation
-
-      - High confidence in database approach before production use
-
-      '
+      - Zero table/column gaps in computed vs declared comparison
+      - All 140 quality gates have descriptions preserved
+      - All 28 dependencies have business logic fields preserved
+      - Data integrity report shows no schema gaps

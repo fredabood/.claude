@@ -1,0 +1,94 @@
+task:
+  id: sqlite-backend-5-task-003
+  sprint_id: sqlite-backend-5
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update compare_databases.py to compare declared vs computed views
+  description: |
+    Update the comparison script to correctly identify true data gaps by
+    comparing declared counter columns against computed views.
+
+    CURRENT STATE:
+    - compare_databases.py reports 34 missing columns
+    - 9 of these are declared counters (declared_tasks_total, etc.)
+    - These counters have equivalent data in computed views (v_track_progress, etc.)
+    - Script incorrectly flags these as "missing" because it only checks column names
+
+    COMPARISON LOGIC TO ADD:
+
+    1. DECLARED COUNTER COMPARISON:
+       Map declared columns to computed view columns:
+       - tracks.declared_sprints_total → v_track_progress.sprints_total
+       - tracks.declared_sprints_completed → v_track_progress.sprints_completed
+       - tracks.declared_tasks_total → v_track_progress.tasks_total
+       - tracks.declared_tasks_completed → v_track_progress.tasks_completed
+       - tracks.declared_completion_percent → v_track_progress.completion_percent
+       - sprints.declared_tasks_total → v_sprint_progress.tasks_total
+       - sprints.declared_tasks_completed → v_sprint_progress.tasks_completed
+       - sprints.declared_completion_percent → v_sprint_progress.completion_percent
+
+       Compare values and report:
+       - Exact matches (majority of cases)
+       - Rounding differences (65.9 vs 66.0 - acceptable)
+       - True discrepancies (manual counter not updated)
+
+    2. RELATIONSHIP COLUMN COMPARISON:
+       Map declared columns to relationship views:
+       - tasks.blocked_by → v_task_relationships.blocked_by (JSON)
+       - tasks.blocks → v_task_relationships.blocks (JSON)
+       - sprints.blocked_by, blocks, depends_on, depended_on_by → v_sprint_relationships
+       - tracks.blocked_by, blocks, depends_on, depended_on_by → v_track_relationships
+
+    3. REPORT STRUCTURE:
+       Separate gaps into categories:
+       a) TRUE DATA LOSS - columns with no equivalent in computed DB
+       b) COMPUTED EQUIVALENTS - declared counters with matching views
+       c) NORMALIZED DATA - relationships in separate tables
+       d) ROUNDING DIFFERENCES - minor numeric discrepancies
+
+    IMPLEMENTATION:
+    1. Add function to map declared columns to computed sources
+    2. Add comparison logic for each category
+    3. Update report to show categorized results
+    4. Add summary showing true vs false-positive gaps
+
+    SUCCESS CRITERIA:
+    - Report clearly distinguishes true gaps from false positives
+    - Declared counter comparison shows value-level accuracy
+    - Relationship comparison validates data integrity
+    - Final gap count reflects only actual data loss
+  status: not_started
+  blocked: false
+  created: '2025-11-28T18:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 1200
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  deliverables:
+  - Updated compare_databases.py with categorized comparison
+  - Declared counter vs computed view comparison
+  - Relationship column vs normalized table comparison
+  - Accurate gap report with true data loss count
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T18:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      This task is critical for accurate assessment of SQLite readiness.
+      Current "62 gaps" count is misleading because it includes:
+      - Columns that are intentionally computed (not stored)
+      - Data that exists in normalized tables (not denormalized columns)
+
+      After this task, the gap count will reflect only true data loss,
+      enabling informed decision about production cutover.

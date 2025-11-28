@@ -8,13 +8,13 @@ track:
   created: '2025-11-26T12:00:00+00:00'
   started: '2025-11-26T12:00:00+00:00'
   completed: null
-  estimated_duration: 7.5 weeks
+  estimated_duration: 9 weeks
   progress:
-    sprints_total: 5
+    sprints_total: 9
     sprints_completed: 4
-    tasks_total: 37
+    tasks_total: 56
     tasks_completed: 29
-    completion_percent: 78.4
+    completion_percent: 51.8
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -32,21 +32,47 @@ track:
     completed: '2025-11-26T18:00:00+00:00'
   - id: sqlite-backend-2
     name: CLI Integration
-    status: not_started
+    status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 7
-    started: null
+    started: '2025-11-26T14:00:00+00:00'
+    completed: '2025-11-26T18:00:00+00:00'
   - id: sqlite-backend-3
     name: Sync System & Migration
-    status: not_started
+    status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 7
-    started: null
+    started: '2025-11-26T18:00:00+00:00'
+    completed: '2025-11-26T22:00:00+00:00'
   - id: sqlite-backend-4
+    name: Schema Completion & Data Integrity
+    status: not_started
+    estimated_duration: 0.5 weeks
+    tasks_count: 3
+    started: null
+  - id: sqlite-backend-5
+    name: Column Gap Remediation & Comparison Tooling
+    status: not_started
+    estimated_duration: 0.5 weeks
+    tasks_count: 3
+    started: null
+  - id: sqlite-backend-6
+    name: YAML Structure Migration & File Format Analysis
+    status: not_started
+    estimated_duration: 1 week
+    tasks_count: 6
+    started: null
+  - id: sqlite-backend-7
     name: Data Validation & Integrity Audit
     status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 8
+    started: null
+  - id: sqlite-backend-8
+    name: Production Cutover & Sync System
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 7
     started: null
   dependencies: []
   blocks:

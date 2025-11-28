@@ -4,47 +4,84 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement database comparison engine
-  description: "Create comparison logic in vibey/roadmap/database/validation/compare.py:\n\
-    \nComparison fields per level:\nSprint: tasks_total, tasks_completed, completion_percent,\n\
-    \        development_tasks_total, development_tasks_completed\nTrack: sprints_total,\
-    \ sprints_completed, tasks_total, tasks_completed,\n       completion_percent\n\
-    Roadmap: tracks_total, tracks_completed, sprints_total, sprints_completed,\n \
-    \        tasks_total, tasks_completed, completion_percent\n\nMismatch classification:\n\
-    - CRITICAL: tasks_completed wrong (affects blocking decisions)\n- HIGH: completion_percent\
-    \ > 5% off\n- MEDIUM: totals wrong (file count mismatch)\n- LOW: completion_percent\
-    \ < 5% off (rounding)\n\nOutput format (per mismatch):\n{\n  \"entity_type\":\
-    \ \"sprint\",\n  \"entity_id\": \"sqlite-backend-1\",\n  \"field\": \"tasks_completed\"\
-    ,\n  \"computed\": 5,\n  \"declared\": 3,\n  \"severity\": \"CRITICAL\",\n  \"\
-    suggestion\": \"Update .vibey/roadmap/sqlite-backend/sqlite-backend-1/sprint.yaml\"\
-    \n}\n\nCLI command: vibey roadmap validate --level=full\n- Runs comparison and\
-    \ reports all mismatches\n- Exit code 0 if no mismatches, 1 otherwise\n"
+  title: Add business logic fields to entity_blocked_by table
+  description: |
+    Extend entity_blocked_by schema and sql_dumper to preserve dependency business logic.
+
+    CURRENT STATE:
+    - entity_blocked_by table has 102 rows (dependencies captured)
+    - Missing fields: required_status, blocks_transition_to
+    - reason field exists but always NULL (not saved by dumper)
+    - declared dependencies table has 28 rows with full business logic
+
+    DISCREPANCY ANALYSIS:
+    - declared.dependencies: 28 rows from sprint.depends_on fields
+    - computed.entity_blocked_by: 102 rows from blocked_by fields
+    - Different sources: depends_on vs blocked_by are semantically different
+
+    IMPLEMENTATION:
+    1. Extend entity_blocked_by schema in schema.sql:
+       ALTER TABLE entity_blocked_by ADD COLUMN required_status TEXT;
+       ALTER TABLE entity_blocked_by ADD COLUMN blocks_transition_to TEXT;
+       -- reason column already exists
+
+    2. Update sql_dumper.py for tracks (line 168-173):
+       - Extract required_status from DependencyStatus model
+       - Extract blocks_transition_to from DependencyStatus model
+       - Save reason field (currently hardcoded to None)
+
+    3. Update sql_dumper.py for sprints (line 237-242):
+       - Same changes as tracks
+
+    4. Update sql_dumper.py for tasks (line 346-350):
+       - Same changes as tracks/sprints
+
+    5. Update compare_databases.py to:
+       - Compare entity_blocked_by against declared dependencies
+       - Report missing business logic fields
+       - Flag where required_status differs from default 'completed'
+
+    6. Regenerate computed database and verify business logic preserved
+
+    SUCCESS CRITERIA:
+    - entity_blocked_by has required_status, blocks_transition_to columns
+    - All dependencies have business logic fields populated
+    - reason field populated where defined in YAML
+    - Comparison shows 0 dependency business logic gaps
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-28T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 1200
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-4-task-001
-  - sqlite-backend-4-task-002
-  blocks:
-  - sqlite-backend-4-task-004
+  dependencies: []
+  blocks: []
   blocked_by: []
   deliverables:
-  - vibey/roadmap/database/validation/compare.py
-  - Severity classification system
-  - CLI validate --level=full command
+  - Extended entity_blocked_by schema with business logic fields
+  - Updated sql_dumper.py for tracks, sprints, and tasks
+  - Updated compare_databases.py with dependency comparison
+  - Regenerated computed.db with complete dependency data
+  - Comparison report showing 0 dependency gaps
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-28T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      Key insight: The DependencyStatus model in models/common.py defines:
+      - required_status: Status blocker must reach to unblock (e.g., "completed")
+      - blocks_transition_to: What transition this blocks (e.g., "in_progress")
+
+      These fields enable sophisticated dependency logic:
+      - "Can't start until X is completed" (blocks_transition_to='in_progress')
+      - "Can't complete until X is production_ready" (blocks_transition_to='completed')
+
+      Without preserving these, the database loses critical workflow logic.

@@ -1,0 +1,71 @@
+sprint:
+  id: sqlite-backend-5
+  name: Column Gap Remediation & Comparison Tooling
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-28T18:30:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend-4
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-28T18:30:00+00:00'
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - JSON columns added for human-provided data (commits, deliverables, etc.)
+  - Relationship aggregation views for blocked_by/blocks/depends_on
+  - Updated compare_databases.py comparing declared counters to computed views
+  - Accurate gap report showing only true data losses
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-28T18:30:00+00:00'
+    estimated_duration: 0.5 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+    notes: |
+      Sprint to address the 34 missing columns identified in computed vs declared comparison.
+
+      ANALYSIS OF 34 MISSING COLUMNS:
+
+      1. DECLARED COUNTERS (9 columns) - NOT MISSING, just stored differently:
+         - declared_tasks_total, declared_tasks_completed, declared_completion_percent
+         - declared_sprints_total, declared_sprints_completed
+         - These are computed by v_track_progress and v_sprint_progress views
+         - Comparison script needs to compare declared columns to computed views
+
+      2. RELATIONSHIP COLUMNS (9 columns) - NOT MISSING, normalized into tables:
+         - blocked_by, blocks, depends_on, depended_on_by
+         - Data exists in entity_blocked_by, entity_blocks, entity_depends_on
+         - Need aggregation views to reconstruct JSON arrays
+
+      3. HUMAN-PROVIDED DATA (16 columns) - TRULY MISSING:
+         - commits, deliverables, estimated_duration, dependencies (on tasks)
+         - commits, deliverables, standards, development_gates (on sprints)
+         - commits, deliverables, standards, strategic_value, assigned_agents (on tracks)
+         - These must be stored as JSON columns
+
+      SUCCESS CRITERIA:
+      - compare_databases.py shows 0 false-positive gaps for computed data
+      - All human-provided data preserved in computed database
+      - Relationship data accessible via aggregation views

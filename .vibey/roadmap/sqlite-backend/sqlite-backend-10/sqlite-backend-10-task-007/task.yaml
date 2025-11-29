@@ -1,0 +1,50 @@
+task:
+  id: sqlite-backend-10-task-007
+  sprint_id: sqlite-backend-10
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Iterate remediation until zero discrepancies
+  description: 'Execute remediation cycles until audit passes:
+
+    - Run fix-counters to remediate issues
+
+    - Re-run audit to verify fixes
+
+    - Document any edge cases or issues
+
+    - Repeat until Computed DB == Declared DB
+
+    - Track iteration count and issues per cycle
+
+    Success: Zero discrepancies across entire roadmap
+
+    '
+  status: not_started
+  blocked: false
+  created: '2025-11-26T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: critical
+  phase_label: validation
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies:
+  - sqlite-backend-10-task-006
+  blocks:
+  - sqlite-backend-10-task-008
+  blocked_by: []
+  deliverables:
+  - Zero-discrepancy audit report
+  - Remediation iteration log
+  - Edge case documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-26T14:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

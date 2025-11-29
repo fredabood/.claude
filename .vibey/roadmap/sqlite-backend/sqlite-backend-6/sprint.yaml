@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-6
-  name: YAML Structure Migration & File Format Analysis
+  name: Unified Ticket Architecture & Criteria-Based Completion
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-28T19:30:00+00:00'
+  created: '2025-11-29T12:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 6
+    tasks_total: 11
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -24,89 +24,150 @@ sprint:
   - blocker_id: sqlite-backend-5
     blocker_type: sprint
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-28T19:30:00+00:00'
+    last_checked: '2025-11-29T18:00:00+00:00'
+  # CRITICAL PATH: 5 → 6 → 7 → 8 → 9 → 10 → 11
+  # Sprint 12 (file format analysis) is DEFERRED to post-production.
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Analysis of optimal YAML structure mirroring SQLite schema
-  - File format comparison (YAML vs JSON vs XML) with trade-offs
-  - Migration plan for .vibey directory restructure
-  - Context file consolidation strategy
-  - Implementation of new directory structure
-  - Migration script for existing roadmaps
+  - Completable base class with criteria-based completion
+  - Criterion with polymorphic CriterionTarget types
+  - Layer 1 Ticket class extending Completable
+  - Layer 2 HierarchicalTicket with smart accessors
+  - Layer 3 domain models (RoadmapTicket, TrackTicket, SprintTicket, TaskTicket)
+  - Requirement system for criterion templates with inheritance
+  - Unified enum types (TicketStatus, CriterionTargetType, InheritMode, etc.)
+  - SQLAlchemy ORM with criteria table (polymorphic targets)
+  - Migration adapters for criteria-based model
+  - Comprehensive test suite for all layers
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-28T19:30:00+00:00'
-    estimated_duration: 1 week
+    last_updated: '2025-11-29T17:30:00+00:00'
+    estimated_duration: 2 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
     notes: |
-      Sprint to restructure .vibey directory to mirror SQLite database 1:1.
+      Sprint to implement unified ticket architecture with CRITERIA-BASED
+      COMPLETION MODEL. This is THE deterministic interface for calculating
+      whether a ticket has been completed - the guardrail against AI manipulation.
 
-      CURRENT STRUCTURE (problematic):
-      .vibey/
-        roadmap.yaml
-        roadmap.db
-        roadmap/
-          <track-id>/           # One folder per track
-            track.yaml
-            context/
-            <sprint-id>/        # One folder per sprint
-              sprint.yaml
-              context/
-              <task-id>/        # One folder per task
-                task.yaml
-                context/
+      KEY ARCHITECTURAL CHANGE:
+      - criteria: List[Criterion] is THE source of truth for ALL blocking
+      - Criterion.blocks_transition_to unifies dependencies, completion, gates
+      - can_transition_to(status) is THE unified interface
+      - Children are IMPLICIT via CompletableTarget criteria
 
-      PROBLEMS:
-      1. Directory depth: 4-5 levels deep for task files
-      2. Unbounded growth: directories grow with tracks/sprints/tasks
-      3. Complex navigation: finding files requires knowing hierarchy
-      4. Dump/init complexity: must traverse tree, transform data
-      5. Context files scattered: audit/research files in many places
+      UNIFIED BLOCKING MODEL:
+      All blocking relationships use Criterion with blocks_transition_to:
+      - IN_PROGRESS: dependency (must be met before starting)
+      - COMPLETED: success criteria (must be met before completing)
+      - PRODUCTION_READY: production gate (must be met before deploying)
 
-      PROPOSED STRUCTURE (mirrors SQLite):
-      .vibey/
-        roadmap/
-          roadmap.db
-          tables/
-            roadmaps/           # One file per row
-              <roadmap-id>.yaml
-            tracks/
-              <track-id>.yaml
-            sprints/
-              <sprint-id>.yaml
-            tasks/
-              <task-id>.yaml
-            audit_trail/
-              <entry-id>.yaml
-            ... (other tables)
-          views/                # Optional: materialized views
-          triggers/
-            <trigger-name>.sql
-          context/              # All context files consolidated
-            <track>_<sprint>_<task>/
-              <timestamp>_<title>.md
+      This ELIMINATES the separate Dependency class.
 
-      BENEFITS:
-      1. Flat structure: max 3 levels deep
-      2. Bounded directories: fixed number based on schema
-      3. 1:1 mapping: each file = one row, each folder = one table
-      4. Simple dump/init: iterate folders, read/write files
-      5. Context consolidated: single location for all analysis
+      CORE COMPLETION MODEL:
 
-      FILE FORMAT CONSIDERATIONS:
-      - YAML: Human readable, good AI context, verbose
-      - JSON: Pandas/Spark compatible, less readable, compact
-      - XML: Schema validation, verbose, legacy tooling
+      1. Completable (base class):
+         - id, name, description
+         - criteria: List[Criterion]  <- THE source of truth
+         - can_transition_to(status) -> tuple[bool, List[str]]
+         - progress_for_transition(status) -> Progress
+         - children: List[str] (derived from CompletableTarget criteria)
 
-      Must evaluate trade-offs for:
-      - SQLite <-> text translation speed
-      - AI readability in prompts
-      - Human editability
-      - Tooling ecosystem (pandas, spark, jq, yq)
+      2. Criterion:
+         - id, description, required
+         - blocks_transition_to: TicketStatus = COMPLETED  <- KEY FIELD
+         - target: CriterionTarget (polymorphic)
+         - is_met: bool (delegated to target.is_satisfied())
+
+      3. CriterionTarget types:
+         - CompletableTarget: another ticket must be complete (creates parent-child)
+         - FileExistsTarget: file(s) must exist (deliverable)
+         - TestPassesTarget: test must pass with thresholds
+         - ThresholdTarget: metric meets threshold
+         - ManualTarget: human assessment
+         - ExternalTarget: external system check
+
+      IMPLICIT PARENT-CHILD RELATIONSHIPS:
+      - Children are NOT stored in explicit lists
+      - Children are DERIVED from CompletableTarget criteria
+      - Example: Roadmap has criteria with CompletableTarget for each track
+      - children property extracts completable_ids from criteria
+
+      REQUIREMENT INHERITANCE:
+      - Requirements are criterion TEMPLATES that cascade down hierarchy
+      - RequirementResolver handles hybrid inheritance:
+        - INHERIT: stricter of local vs ancestor wins
+        - OVERRIDE: local replaces ancestor
+        - SKIP: explicitly not applicable
+      - ApplicabilityRules filter requirements by ticket/task type
+      - RequirementInstantiator generates criteria from requirements
+
+      LAYER ARCHITECTURE:
+
+      LAYER 1: Ticket (extends Completable)
+      - Adds work semantics: status, lifecycle, assignment, commits
+      - NO separate dependencies field - sibling deps are criteria with
+        blocks_transition_to=IN_PROGRESS
+      - Adds requirements_local (templates for children)
+      - start() checks can_start(), complete() checks can_complete()
+      - THE deterministic interface for ALL state transitions
+
+      LAYER 2: HierarchicalTicket (extends Ticket)
+      - Smart accessors based on hierarchy attributes
+      - commits: local if leaf, aggregated if parent
+      - requirements_effective: resolved with inheritance modes
+      - all_criteria: explicit + instantiated from requirements
+      - progress: computed from all_criteria (universal formula)
+
+      LAYER 3: Domain Models (THIN - only semantic-specific fields)
+      - RoadmapTicket: version, activity_log, deployed_platforms
+      - TrackTicket: priority, strategic_value
+      - SprintTicket: extended lifecycle, plan_file, development_gates
+      - TaskTicket: task_type, estimated_tokens, gate_info
+
+      SMART ACCESSOR BEHAVIOR BY TYPE:
+      ┌─────────────┬────────────┬─────────────┬──────────┐
+      │ Type        │ commits    │ requirements│ progress │
+      ├─────────────┼────────────┼─────────────┼──────────┤
+      │ Roadmap     │ aggregated │ local       │ computed │
+      │ Track       │ aggregated │ effective   │ computed │
+      │ Sprint      │ aggregated │ effective   │ computed │
+      │ Task        │ local      │ effective   │ computed │
+      └─────────────┴────────────┴─────────────┴──────────┘
+
+      Progress is now computed from criteria PER TRANSITION TYPE:
+      - progress = progress_for_transition(COMPLETED) - default
+      - start_progress = progress_for_transition(IN_PROGRESS)
+      - deploy_progress = progress_for_transition(PRODUCTION_READY)
+
+      Same formula for all: met_criteria / total_criteria.
+
+      TASK EXECUTION ORDER:
+      1. Task 010 (Enums) - no dependencies
+      2. Task 009 (Completable, Criterion, Targets) - depends on 010
+      3. Task 011 (Requirement System) - depends on 009
+      4. Task 001 (Ticket base class) - depends on 009, 010, 011
+      5. Task 002 (HierarchicalTicket) - depends on 001
+      6. Tasks 003-006 (Domain models) - depend on 001, 002
+      7. Task 007 (ORM with criteria table) - depends on 003-006
+      8. Task 008 (Migration) - depends on 007
+
+      ORM SCHEMA:
+      - tickets table: single-table inheritance for all ticket types
+      - criteria table: separate, with polymorphic target_json
+      - Foreign key: criteria.ticket_id -> tickets.id
+
+      SPRINT SEQUENCE (after renumbering):
+      - Sprint 6: Unified Ticket Architecture (THIS SPRINT)
+      - Sprint 7: Serialization Migration
+      - Sprint 8: Operations Migration
+      - Sprint 9: Interface Migration
+      - Sprint 10: Data Validation & Integrity Audit
+      - Sprint 11: Production Cutover & Sync System
+      - Sprint 12 (DEFERRED): File Format Analysis (optional optimization)

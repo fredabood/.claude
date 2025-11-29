@@ -3,59 +3,141 @@ task:
   sprint_id: sqlite-backend-8
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Fix data integrity issues in roadmap YAML
+  task_type: testing
+  title: Integration testing for all operations
   description: |
-    Fix all data integrity issues identified in the audit:
+    Comprehensive integration testing to verify all operations
+    work correctly with new unified ticket models.
 
-    1. Fix 15 tasks with invalid dates (started < created):
-       - All in directory-consolidation track
-       - Error: "Start date must be after or equal to creation date"
-       - Fix: Set created = started or adjust dates appropriately
+    TEST SCENARIOS:
 
-    2. Fix status inconsistencies:
-       - roadmap-integrity-fixes-2: marked completed with 0/29 tasks done
-       - 4 sprints marked completed with 0 tasks completed
-       - Fix: Set status to not_started or in_progress
+    1. TASK LIFECYCLE:
+       - Create task with TaskTicket
+       - Start task (status transition)
+       - Add commits to task
+       - Complete task
+       - Verify commits appear in sprint.commits (aggregation)
 
-    3. Fix stale progress counters:
-       - 4 tracks have sprints_completed mismatch
-       - Embedded sprint summaries in track.yaml don't match sprint.yaml
-       - Fix: Update counters to match computed values
+    2. SPRINT LIFECYCLE:
+       - Create sprint with SprintTicket
+       - Add tasks to sprint
+       - Complete all development tasks
+       - Pass completion gates
+       - Complete sprint
+       - Verify progress computed correctly
 
-    Use integrity_audit.py output as reference:
-    - /tmp/integrity_audit/integrity_report.txt
-    - /tmp/integrity_audit/computed.db (ground truth)
-    - /tmp/integrity_audit/declared.db (current YAML state)
+    3. TRACK LIFECYCLE:
+       - Create track with TrackTicket
+       - Add sprints to track
+       - Complete sprints
+       - Verify track.commits includes all sprint commits
+       - Verify track.progress computed from sprints
 
-    After fixes, re-run audit to verify zero discrepancies.
+    4. STANDARDS INHERITANCE:
+       - Define standard on roadmap
+       - Verify track.standards includes roadmap standard
+       - Verify sprint.standards includes track + roadmap
+       - Verify task.standards includes full chain
+       - Override standard at track level
+       - Verify override takes precedence
+
+    5. QUALITY GATES CASCADE:
+       - Define quality gate on track
+       - Verify gate applies to sprints
+       - Verify blocking gate prevents sprint completion
+
+    6. HIERARCHY NAVIGATION:
+       - Create full hierarchy (roadmap → track → sprint → task)
+       - Navigate up: task.get_sprint().get_track().get_roadmap()
+       - Navigate down: roadmap.get_tracks()[0].get_sprints()
+       - Verify hierarchy attributes correct at each level
+
+    7. AGGREGATION CORRECTNESS:
+       - Add commit to task
+       - Verify sprint.commits_aggregated includes it
+       - Verify track.commits_aggregated includes it
+       - Verify roadmap.commits_aggregated includes it
+
+    8. DEPENDENCY HANDLING:
+       - Create task with depends_on
+       - Verify is_blocked computed correctly
+       - Complete dependency
+       - Verify task unblocked
+
+    9. ERROR CASES:
+       - Invalid status transition
+       - Missing required fields
+       - Invalid hierarchy (task without sprint)
+       - Circular dependency detection
+
+    10. PERFORMANCE:
+        - Load large roadmap (100+ tasks)
+        - Measure aggregation time
+        - Measure hierarchy traversal time
+        - Compare with baseline
+
+    TEST DATA:
+
+    Use real sqlite-backend track as test fixture:
+    - 10+ sprints
+    - 67+ tasks
+    - Mix of completed/in-progress/not-started
+    - Standards defined at multiple levels
+
+    IMPLEMENTATION:
+
+    1. Create integration test framework
+    2. Create test fixtures from real data
+    3. Implement test for each scenario
+    4. Add performance benchmarks
+    5. Generate coverage report
+
+    SUCCESS CRITERIA:
+    - All integration tests pass
+    - 90%+ code coverage for operations
+    - Performance within 2x of baseline
+    - No regressions from previous behavior
   status: not_started
   blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: test-engineer
   priority: high
-  phase_label: bugfix
-  estimated_tokens: 2000
+  phase_label: testing
+  estimated_tokens: 4000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-8-task-007
+  - sqlite-backend-8-task-006
   blocked_by:
+  - sqlite-backend-8-task-001
+  - sqlite-backend-8-task-002
   - sqlite-backend-8-task-003
   - sqlite-backend-8-task-004
   deliverables:
-  - Fixed 15 tasks with date validation errors
-  - Fixed roadmap-integrity-fixes-2 status
-  - Updated stale progress counters
-  - Zero discrepancies in integrity audit
+  - tests/operations/roadmap/test_integration.py
+  - Test fixtures from real data
+  - Performance benchmark results
+  - Coverage report
   commits: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      GATE TASK: This is the quality gate for Sprint 6c.
+
+      If integration tests fail, we cannot proceed with
+      interface migration (Sprint 6d).
+
+      Focus on end-to-end scenarios that exercise:
+      - Smart accessor aggregation
+      - Standards inheritance
+      - Hierarchy navigation
+      - Status transitions
+
+      Use real roadmap data for realistic testing.

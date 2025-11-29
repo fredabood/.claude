@@ -1,0 +1,104 @@
+task:
+  id: sqlite-backend-12-task-003
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design context file consolidation strategy
+  description: |
+    Plan consolidation of context files from scattered track/sprint/task folders
+    into a single organized location.
+
+    CURRENT STATE:
+    Context files are scattered across:
+    - .vibey/roadmap/<track>/context/
+    - .vibey/roadmap/<track>/<sprint>/context/
+    - .vibey/roadmap/<track>/<sprint>/<task>/context/
+
+    File types found:
+    - TRACK_AUDIT_REPORT.md
+    - REMEDIATION_*.md
+    - IMPLEMENTATION_PLAN.md
+    - SESSION_*.md
+    - TEST_*.md
+    - Various dated files (*_2025-*.md)
+
+    PROPOSED CONSOLIDATION:
+
+    Option A: Flat with naming convention
+    .vibey/roadmap/context/
+      <track>_AUDIT.md
+      <track>_<sprint>_PLAN.md
+      <track>_<sprint>_<task>_<timestamp>_<title>.md
+
+    Option B: Hierarchical by scope
+    .vibey/roadmap/context/
+      tracks/
+        <track>/
+          AUDIT.md
+          ...
+      sprints/
+        <sprint>/
+          PLAN.md
+          ...
+      tasks/
+        <task>/
+          <timestamp>_<title>.md
+
+    Option C: Hierarchical by type
+    .vibey/roadmap/context/
+      audits/
+        <track>_AUDIT.md
+      plans/
+        <sprint>_PLAN.md
+      sessions/
+        <timestamp>_<title>.md
+
+    CONSIDERATIONS:
+    1. Preserve historical context (don't lose files)
+    2. Easy to find context for specific entity
+    3. Scalable naming (no collisions)
+    4. Git-friendly (stable paths)
+    5. Archive strategy for old files
+
+    MIGRATION REQUIREMENTS:
+    - Inventory all existing context files
+    - Map old paths to new paths
+    - Create migration script
+    - Update any code referencing context paths
+    - Preserve git history if possible
+
+    DELIVERABLES:
+    - Context file inventory (count per location)
+    - Recommended structure
+    - Naming convention specification
+    - Migration script design
+  status: not_started
+  blocked: false
+  created: '2025-11-28T19:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: architecture-agent
+  priority: medium
+  phase_label: design
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-12-task-005
+  blocked_by:
+  - sqlite-backend-12-task-001
+  deliverables:
+  - Context file inventory
+  - Consolidation structure recommendation
+  - Naming convention spec
+  - Migration script design
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T19:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

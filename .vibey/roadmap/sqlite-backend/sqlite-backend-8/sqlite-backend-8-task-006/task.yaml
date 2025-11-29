@@ -4,61 +4,120 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Add embedded sprint summary validation to integrity audit
+  title: Performance benchmarks and optimization
   description: |
-    Extend /tmp/integrity_audit.py to detect stale embedded summaries:
+    Benchmark performance of new operations implementation and
+    optimize any hotspots that exceed acceptable thresholds.
 
-    Current gap:
-    - Audit compares track.yaml progress section vs computed values
-    - Audit compares sprint.yaml progress vs task counts
-    - Audit does NOT check embedded `sprints:` list in track.yaml
+    BENCHMARK SCENARIOS:
 
-    Example discrepancy found manually:
-    - track.yaml line 35: sqlite-backend-2 status: not_started
-    - sprint.yaml: sqlite-backend-2 status: completed
+    1. LOAD PERFORMANCE:
+       - Load single task: < 10ms
+       - Load task with ancestors: < 50ms
+       - Load sprint with children: < 100ms
+       - Load full roadmap: < 500ms
 
-    Required changes:
-    1. Parse track.yaml `sprints:` list (embedded summaries)
-    2. Compare each entry against actual sprint.yaml
-    3. Report mismatches in new section: "EMBEDDED SUMMARY MISMATCHES"
-    4. Include: sprint_id, field, embedded_value, actual_value
+    2. AGGREGATION PERFORMANCE:
+       - sprint.commits (10 tasks): < 20ms
+       - track.commits (5 sprints, 50 tasks): < 100ms
+       - roadmap.commits (all): < 500ms
 
-    Add to compare_databases() function:
-    ```python
-    # Compare embedded sprint summaries vs actual sprint.yaml
-    for track_yaml in track_files:
-        for embedded in track_yaml['sprints']:
-            actual = sprint_yaml_files[embedded['id']]
-            if embedded['status'] != actual['status']:
-                report['embedded_mismatches'].append(...)
-    ```
+    3. INHERITANCE PERFORMANCE:
+       - task.standards (4-level chain): < 10ms
+       - Multiple standards check: < 50ms
 
-    Move script from /tmp/ to vibey/roadmap/database/validation/
+    4. QUERY PERFORMANCE:
+       - Find blocked tasks: < 100ms
+       - Find tasks by status: < 100ms
+       - Get progress for roadmap: < 200ms
+
+    5. UPDATE PERFORMANCE:
+       - Update task status: < 50ms
+       - Add commit to task: < 50ms
+       - Complete sprint (cascade): < 200ms
+
+    OPTIMIZATION TARGETS:
+
+    1. LAZY LOADING:
+       - Don't load children until accessed
+       - Don't compute aggregation until accessed
+       - Cache computed values
+
+    2. EAGER LOADING OPTIONS:
+       For known access patterns, provide eager loading:
+
+       # Load sprint with tasks for display
+       sprint = repo.get_with_children(sprint_id,
+           eager=['tasks', 'tasks.commits'])
+
+    3. CACHING:
+       - Cache aggregated values with invalidation
+       - Cache effective standards
+       - Invalidate on change
+
+    4. DATABASE OPTIMIZATION:
+       - Ensure indexes on parent_id
+       - Use SQL views for common aggregations
+       - Consider materialized views for large roadmaps
+
+    5. BATCH OPERATIONS:
+       - Load multiple tickets in one query
+       - Batch updates in transactions
+
+    IMPLEMENTATION:
+
+    1. Create benchmark suite
+    2. Run benchmarks against current implementation
+    3. Identify hotspots (> 2x threshold)
+    4. Implement optimizations
+    5. Re-run benchmarks
+    6. Document optimization decisions
+
+    SUCCESS CRITERIA:
+    - All benchmarks within 2x of baseline
+    - No operation > 1 second
+    - Aggregation scales linearly
+    - Memory usage acceptable
   status: not_started
   blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 2000
+  phase_label: optimization
+  estimated_tokens: 3000
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-8-task-007
-  blocked_by: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-8-task-005
   deliverables:
-  - Embedded summary validation in integrity audit
-  - New report section for embedded mismatches
-  - Script moved to vibey/roadmap/database/validation/
-  - CLI integration via `vibey roadmap db validate`
+  - Benchmark suite
+  - Performance baseline document
+  - Optimization implementations
+  - Performance comparison report
   commits: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      Performance is important because roadmap operations
+      run frequently during development sessions.
+
+      KEY INSIGHT: Smart accessors may add overhead.
+      The trade-off is:
+      - Simpler code (fewer bugs, easier maintenance)
+      - Potentially slower (more computation per access)
+
+      Mitigation strategies:
+      1. Lazy evaluation (don't compute until needed)
+      2. Caching (compute once, reuse)
+      3. Eager loading (known patterns)
+      4. SQL optimization (push computation to DB)
+
+      Target: Operations should feel instant (< 200ms user-perceived).

@@ -1,0 +1,150 @@
+task:
+  id: sqlite-backend-9-task-004
+  sprint_id: sqlite-backend-9
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: End-to-end testing
+  description: |
+    Comprehensive end-to-end testing of the complete unified
+    ticket architecture from CLI through to database.
+
+    TEST SCENARIOS:
+
+    1. FULL WORKFLOW - CREATE:
+       $ vibey roadmap init my-project
+       $ vibey roadmap add-track core-features
+       $ vibey roadmap add-sprint core-features sprint-1
+       $ vibey roadmap add-task core-features sprint-1 "Implement feature"
+
+       Verify:
+       - All tickets created with correct hierarchy
+       - parent_id references correct
+       - Hierarchy attributes computed correctly
+
+    2. FULL WORKFLOW - STANDARDS:
+       $ vibey roadmap add-standard my-project testing
+       $ vibey roadmap show my-project/core-features/sprint-1/task-001
+
+       Verify:
+       - Standard inherited by track, sprint, task
+       - Display shows inheritance source
+       - Enforcement applies at all levels
+
+    3. FULL WORKFLOW - COMMITS:
+       $ vibey roadmap add-commit task-001 abc123 "feat: add feature"
+       $ vibey roadmap show sprint-1
+
+       Verify:
+       - Commit added to task.commits_local
+       - Commit appears in sprint.commits (aggregated)
+       - Commit appears in track.commits (aggregated)
+
+    4. FULL WORKFLOW - PROGRESS:
+       $ vibey roadmap update task-001 --status completed
+       $ vibey roadmap status
+
+       Verify:
+       - Task marked completed
+       - Sprint progress updated (computed)
+       - Track progress updated (computed)
+       - Roadmap progress updated (computed)
+
+    5. FULL WORKFLOW - DEPENDENCIES:
+       $ vibey roadmap add-dependency task-002 --depends-on task-001
+       $ vibey roadmap find --blocked
+
+       Verify:
+       - Dependency created correctly
+       - task-002 shows as blocked
+       - Completing task-001 unblocks task-002
+
+    6. MCP INTEGRATION:
+       - Start MCP server
+       - Call get_task via MCP
+       - Verify response includes inheritance info
+       - Call update_task via MCP
+       - Verify changes persisted
+
+    7. PERSISTENCE ROUND-TRIP:
+       - Create full roadmap via CLI
+       - Verify YAML files in v2 format
+       - Load database from YAML
+       - Verify database contains all data
+       - Dump database to YAML
+       - Compare with original
+
+    8. MIGRATION SCENARIO:
+       - Start with v1 format YAML files
+       - Run migrate-format command
+       - Verify files converted to v2
+       - Verify all data preserved
+       - Run full workflow on migrated data
+
+    9. ERROR SCENARIOS:
+       - Invalid status transition
+       - Missing parent reference
+       - Circular dependency
+       - Invalid hierarchy constraint
+
+    10. PERFORMANCE SCENARIO:
+        - Large roadmap (100+ tasks)
+        - Measure CLI response time
+        - Measure MCP response time
+        - Verify within acceptable limits
+
+    IMPLEMENTATION:
+
+    1. Create E2E test framework
+    2. Implement test for each scenario
+    3. Use real CLI commands (subprocess)
+    4. Use real MCP calls
+    5. Verify file system state
+    6. Verify database state
+    7. Generate test report
+
+    SUCCESS CRITERIA:
+    - All E2E scenarios pass
+    - No data loss in any workflow
+    - Performance acceptable
+    - Error handling correct
+    - Migration path verified
+  status: not_started
+  blocked: false
+  created: '2025-11-29T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: test-engineer
+  priority: critical
+  phase_label: testing
+  estimated_tokens: 4500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-9-task-005
+  blocked_by:
+  - sqlite-backend-9-task-001
+  - sqlite-backend-9-task-002
+  - sqlite-backend-9-task-003
+  deliverables:
+  - tests/e2e/test_unified_ticket_workflow.py
+  - E2E test framework
+  - Test report
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T14:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GATE TASK: This is the final quality gate.
+
+      E2E tests verify the entire system works together:
+      - CLI → Operations → Serialization → Database
+      - MCP → Operations → Serialization → Database
+      - YAML ↔ Pydantic ↔ SQLite round-trips
+
+      If E2E tests pass, the unified ticket architecture
+      is ready for production use.

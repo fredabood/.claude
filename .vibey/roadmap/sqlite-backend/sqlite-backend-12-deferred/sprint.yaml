@@ -1,0 +1,133 @@
+sprint:
+  id: sqlite-backend-12
+  name: YAML Structure Migration & File Format Analysis
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-28T19:30:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend-11
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T18:30:00+00:00'
+  # NOTE: Sprint 12 (file format analysis) is DEFERRED and depends on Sprint 11
+  # (production cutover). Only pursue this after production is running.
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Analysis of optimal YAML structure mirroring SQLite schema
+  - File format comparison (YAML vs JSON vs XML) with trade-offs
+  - Migration plan for .vibey directory restructure
+  - Context file consolidation strategy
+  - Implementation of new directory structure
+  - Migration script for existing roadmaps
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-29T18:00:00+00:00'
+    estimated_duration: 1 week
+    deferred: true
+    defer_reason: |
+      Sprint 12 (file format analysis) is DEFERRED until after the unified
+      ticket architecture is fully implemented and production is running.
+
+      RATIONALE:
+      - Sprint 12 proposes restructuring .vibey/ directory to mirror SQLite tables
+      - This restructuring may conflict with the criteria-based unified model
+      - The unified model uses relationships (parent-child via CompletableTarget)
+        which may require different file organization than flat table mirrors
+      - Better to implement the model first, then optimize file structure
+
+      RECOMMENDED SEQUENCE:
+      1. Complete Sprints 6 → 7 → 8 → 9 → 10 → 11
+      2. Evaluate if file restructuring still provides value
+      3. If yes, execute Sprint 12 (optimization)
+      4. If no, cancel Sprint 12
+
+      CRITICAL PATH: 5 → 6 → 7 → 8 → 9 → 10 → 11 (then optionally 12)
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+    notes: |
+      Sprint to restructure .vibey directory to mirror SQLite database 1:1.
+
+      CURRENT STRUCTURE (problematic):
+      .vibey/
+        roadmap.yaml
+        roadmap.db
+        roadmap/
+          <track-id>/           # One folder per track
+            track.yaml
+            context/
+            <sprint-id>/        # One folder per sprint
+              sprint.yaml
+              context/
+              <task-id>/        # One folder per task
+                task.yaml
+                context/
+
+      PROBLEMS:
+      1. Directory depth: 4-5 levels deep for task files
+      2. Unbounded growth: directories grow with tracks/sprints/tasks
+      3. Complex navigation: finding files requires knowing hierarchy
+      4. Dump/init complexity: must traverse tree, transform data
+      5. Context files scattered: audit/research files in many places
+
+      PROPOSED STRUCTURE (mirrors SQLite):
+      .vibey/
+        roadmap/
+          roadmap.db
+          tables/
+            roadmaps/           # One file per row
+              <roadmap-id>.yaml
+            tracks/
+              <track-id>.yaml
+            sprints/
+              <sprint-id>.yaml
+            tasks/
+              <task-id>.yaml
+            audit_trail/
+              <entry-id>.yaml
+            ... (other tables)
+          views/                # Optional: materialized views
+          triggers/
+            <trigger-name>.sql
+          context/              # All context files consolidated
+            <track>_<sprint>_<task>/
+              <timestamp>_<title>.md
+
+      BENEFITS:
+      1. Flat structure: max 3 levels deep
+      2. Bounded directories: fixed number based on schema
+      3. 1:1 mapping: each file = one row, each folder = one table
+      4. Simple dump/init: iterate folders, read/write files
+      5. Context consolidated: single location for all analysis
+
+      FILE FORMAT CONSIDERATIONS:
+      - YAML: Human readable, good AI context, verbose
+      - JSON: Pandas/Spark compatible, less readable, compact
+      - XML: Schema validation, verbose, legacy tooling
+
+      Must evaluate trade-offs for:
+      - SQLite <-> text translation speed
+      - AI readability in prompts
+      - Human editability
+      - Tooling ecosystem (pandas, spark, jq, yq)

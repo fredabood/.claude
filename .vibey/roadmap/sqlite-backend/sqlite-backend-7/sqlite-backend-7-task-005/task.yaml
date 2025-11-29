@@ -4,23 +4,82 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement YAML remediation tooling
-  description: 'Create tools to fix YAML files based on audit findings:
+  title: Update sql_dumper.py with SQLAlchemy ORM
+  description: |
+    Replace direct SQL inserts/updates in sql_dumper.py with SQLAlchemy
+    ORM operations using the new TicketORM models.
 
-    - vibey roadmap fix-counters: Update progress fields to match computed values
+    CURRENT STATE:
+    - sql_dumper.py uses raw SQL INSERT/UPDATE
+    - Accepts old dataclass models
+    - Manual JSON serialization
 
-    - vibey roadmap fix-counters --dry-run: Preview changes without writing
+    CHANGES REQUIRED:
 
-    - vibey roadmap fix-counters --file <path>: Fix specific file
+    1. USE REPOSITORY PATTERN:
+       Replace direct SQL with TicketRepository:
 
-    - Preserve YAML formatting and comments where possible
+       # OLD
+       def save_task(db_path: str, task: Task) -> None:
+           conn = get_connection(db_path)
+           conn.execute(
+               "INSERT OR REPLACE INTO tasks (...) VALUES (...)",
+               task_to_row(task)
+           )
 
-    - Generate fix report showing what was changed
+       # NEW
+       def save_task(db_path: str, task: TaskTicket) -> None:
+           repo = TicketRepository(get_session(db_path))
+           repo.save(task)  # ORM handles serialization
 
-    '
+    2. PYDANTIC → ORM CONVERSION:
+       Repository handles conversion via TicketORM.from_pydantic():
+
+       class TicketRepository:
+           def save(self, ticket: Ticket) -> None:
+               orm_obj = TicketORM.from_pydantic(ticket)
+               self.session.merge(orm_obj)
+               self.session.commit()
+
+    3. JSON COLUMN SERIALIZATION:
+       ORM handles Python objects → JSON columns:
+       - list[GitCommit] → commits_local_json
+       - list[Standard] → standards_local_json
+       - list[DependencyRef] → depends_on_json
+
+    4. HIERARCHY PRESERVATION:
+       When saving a ticket:
+       - Save parent_id reference
+       - Do NOT save computed hierarchy attributes
+       - Children are saved separately (not cascaded)
+
+    5. TRANSACTION SUPPORT:
+       def save_sprint_with_tasks(sprint: SprintTicket) -> None:
+           with session.begin():
+               repo.save(sprint)
+               for task in sprint.get_children():
+                   repo.save(task)
+           # All or nothing
+
+    IMPLEMENTATION STEPS:
+
+    1. Update save_task() to use TicketRepository
+    2. Update save_sprint() to use TicketRepository
+    3. Update save_track() to use TicketRepository
+    4. Update save_roadmap() to use TicketRepository
+    5. Add transaction support for batch saves
+    6. Handle upsert logic (insert or update)
+    7. Update all callers to pass new types
+
+    SUCCESS CRITERIA:
+    - All save functions accept new Pydantic models
+    - JSON columns serialize correctly
+    - Transactions work for batch operations
+    - Round-trip: save → load produces identical objects
+    - Performance: Acceptable vs raw SQL
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
@@ -28,21 +87,32 @@ task:
   phase_label: implementation
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-7-task-004
+  dependencies: []
   blocks:
   - sqlite-backend-7-task-006
-  blocked_by: []
+  blocked_by:
+  - sqlite-backend-7-task-001
+  - sqlite-backend-7-task-002
+  - sqlite-backend-7-task-003
+  - sqlite-backend-7-task-004
   deliverables:
-  - vibey roadmap fix-counters command
-  - Dry-run mode
-  - Fix report generation
+  - Updated vibey/roadmap/serialization/sql_dumper.py
+  - Transaction support for batch saves
+  - tests/roadmap/serialization/test_sql_dumper_orm.py
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      This task completes the ORM integration for persistence.
+
+      After this task, the full round-trip works:
+      YAML → Pydantic → SQLite → Pydantic → YAML
+
+      Key consideration: Performance of ORM vs raw SQL.
+      For bulk operations (rebuild entire database), may want
+      to keep raw SQL option available.

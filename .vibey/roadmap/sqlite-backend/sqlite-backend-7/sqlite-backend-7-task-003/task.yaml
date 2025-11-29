@@ -4,47 +4,118 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement database comparison engine
-  description: "Create comparison logic in vibey/roadmap/database/validation/compare.py:\n\
-    \nComparison fields per level:\nSprint: tasks_total, tasks_completed, completion_percent,\n\
-    \        development_tasks_total, development_tasks_completed\nTrack: sprints_total,\
-    \ sprints_completed, tasks_total, tasks_completed,\n       completion_percent\n\
-    Roadmap: tracks_total, tracks_completed, sprints_total, sprints_completed,\n \
-    \        tasks_total, tasks_completed, completion_percent\n\nMismatch classification:\n\
-    - CRITICAL: tasks_completed wrong (affects blocking decisions)\n- HIGH: completion_percent\
-    \ > 5% off\n- MEDIUM: totals wrong (file count mismatch)\n- LOW: completion_percent\
-    \ < 5% off (rounding)\n\nOutput format (per mismatch):\n{\n  \"entity_type\":\
-    \ \"sprint\",\n  \"entity_id\": \"sqlite-backend-1\",\n  \"field\": \"tasks_completed\"\
-    ,\n  \"computed\": 5,\n  \"declared\": 3,\n  \"severity\": \"CRITICAL\",\n  \"\
-    suggestion\": \"Update .vibey/roadmap/sqlite-backend/sqlite-backend-1/sprint.yaml\"\
-    \n}\n\nCLI command: vibey roadmap validate --level=full\n- Runs comparison and\
-    \ reports all mismatches\n- Exit code 0 if no mismatches, 1 otherwise\n"
+  title: Update sql_loader.py with SQLAlchemy ORM
+  description: |
+    Replace direct SQL queries in sql_loader.py with SQLAlchemy ORM
+    operations using the new TicketORM models from Sprint 6a Task 007.
+
+    CURRENT STATE:
+    - sql_loader.py uses raw SQL queries
+    - Returns old dataclass models
+    - No ORM abstraction
+
+    CHANGES REQUIRED:
+
+    1. USE REPOSITORY PATTERN:
+       Replace direct SQL with TicketRepository from Task 6a-007:
+
+       # OLD
+       def load_task(db_path: str, task_id: str) -> Task:
+           conn = get_connection(db_path)
+           cursor = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
+           row = cursor.fetchone()
+           return Task(**row_to_dict(row))
+
+       # NEW
+       def load_task(db_path: str, task_id: str) -> TaskTicket:
+           repo = TicketRepository(get_session(db_path))
+           return repo.get(task_id)  # Returns TaskTicket via ORM
+
+    2. HIERARCHY LOADING:
+       Use repository methods for hierarchy:
+
+       def load_task_with_ancestors(task_id: str) -> TaskTicket:
+           repo = TicketRepository(session)
+           task = repo.get_with_ancestors(task_id)
+           # task.standards_effective now works (ancestors loaded)
+           return task
+
+       def load_sprint_with_children(sprint_id: str) -> SprintTicket:
+           repo = TicketRepository(session)
+           sprint = repo.get_with_children(sprint_id)
+           # sprint.commits_aggregated now works (children loaded)
+           return sprint
+
+    3. LAZY LOADING SUPPORT:
+       Configure SQLAlchemy for lazy loading of relationships:
+       - parent relationship: lazy loaded on access
+       - children relationship: lazy loaded on access
+       - Option for eager loading when needed
+
+    4. JSON COLUMN DESERIALIZATION:
+       ORM handles JSON columns → Python objects:
+       - commits_local_json → list[GitCommit]
+       - standards_local_json → list[Standard]
+       - depends_on_json → list[DependencyRef]
+
+    5. SESSION MANAGEMENT:
+       Use existing connection.py infrastructure:
+
+       def get_session(db_path: str) -> Session:
+           engine = get_engine(db_path)
+           return Session(engine)
+
+    IMPLEMENTATION STEPS:
+
+    1. Add SQLAlchemy session management to connection.py
+    2. Update load_task() to use TicketRepository
+    3. Update load_sprint() to use TicketRepository
+    4. Update load_track() to use TicketRepository
+    5. Update load_roadmap() to use TicketRepository
+    6. Add hierarchy loading functions
+    7. Configure lazy/eager loading options
+    8. Update all callers to expect new types
+
+    SUCCESS CRITERIA:
+    - All load functions return new Pydantic models
+    - Hierarchy relationships load correctly
+    - JSON columns deserialize to proper types
+    - Lazy loading works for parent/children
+    - Performance: No regression vs raw SQL
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
+  priority: critical
   phase_label: implementation
-  estimated_tokens: 3000
+  estimated_tokens: 3500
   actual_tokens: null
   complexity: high
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-7-task-001
-  - sqlite-backend-7-task-002
+  dependencies: []
   blocks:
+  - sqlite-backend-7-task-005
+  - sqlite-backend-7-task-006
+  blocked_by:
   - sqlite-backend-7-task-004
-  blocked_by: []
   deliverables:
-  - vibey/roadmap/database/validation/compare.py
-  - Severity classification system
-  - CLI validate --level=full command
+  - Updated vibey/roadmap/serialization/sql_loader.py
+  - SQLAlchemy session management in connection.py
+  - tests/roadmap/serialization/test_sql_loader_orm.py
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      DEPENDS ON: Sprint 6a Task 007 (ORM models)
+
+      This task replaces raw SQL with SQLAlchemy ORM.
+      The key benefit is automatic JSON deserialization
+      and relationship management.
+
+      Consider keeping raw SQL as fallback for performance-
+      critical queries where ORM overhead matters.

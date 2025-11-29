@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-7
-  name: Data Validation & Integrity Audit
+  name: Serialization Migration
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 8
+    tasks_total: 7
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -26,70 +26,47 @@ sprint:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-27T00:00:00+00:00'
+    last_checked: '2025-11-29T14:00:00+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Computed DB builder (aggregations from task statuses)
-  - Declared DB builder (YAML counters as-is)
-  - Database comparison engine with severity classification
-  - vibey roadmap validate command (schema/references/computed/full levels)
-  - Integrity audit report generator
-  - YAML auto-remediation tooling
-  - Validated Vibey roadmap state (zero discrepancies)
-  - Confidence metrics and lessons learned documentation
+  - Updated yaml_loader.py using new Pydantic models
+  - Updated yaml_dumper.py with hierarchy serialization
+  - Updated sql_loader.py with SQLAlchemy ORM
+  - Updated sql_dumper.py with SQLAlchemy ORM
+  - Database schema migration script
+  - Backward compatibility for existing YAML files
+  - Migration CLI command (vibey roadmap migrate-format)
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-27T21:45:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: '2025-11-29T14:00:00+00:00'
+    estimated_duration: 2 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    source_of_truth_backup: /tmp/yaml_original/roadmap
-    backup_created: '2025-11-27T21:13:59+00:00'
-    backup_file_count: 1097
-    remediation_performed: '2025-11-27T21:45:00+00:00'
-    remediation_notes: |
-      Merged git HEAD (content fields) with backup (status fields).
-      - 862 task files merged
-      - 172 sprint files merged
-      - 36 track files merged
-      Initial audit found 98% data loss during SQLite db dump:
-      - 615 tasks lost 'started' timestamp
-      - 288 tasks lost 'description'
-      - 269 tasks lost 'completed' precision
-      - 224 tasks lost 'complexity'
-      - 222 tasks lost 'assigned_agent'
-      - 114 tasks lost 'commits'
-      - 108 tasks lost 'deliverables'
-      Code fix applied: Changed Status enum from "won't_do" to "wont_do"
-    notes: 'Validation sprint to verify database approach and fix roadmap integrity
-      issues.
+    notes: |
+      Sprint 7: Serialization Migration
 
+      GOAL: Update all serialization code to use new unified ticket models
+      while maintaining backward compatibility with existing YAML files.
 
-      PROCESS:
+      DEPENDS ON: Sprint 6 (unified ticket architecture)
 
-      1. Build "Computed DB" - read task files, compute aggregations via views
+      KEY CHALLENGES:
+      1. YAML files use old field names (commits vs commits_local)
+      2. Database schema needs new hierarchy columns
+      3. Must read old format, write new format
+      4. Round-trip integrity must be maintained
 
-      2. Build "Declared DB" - read YAML counters as-is (no computation)
+      BACKWARD COMPATIBILITY STRATEGY:
+      - yaml_loader: Detect format version, load appropriately
+      - yaml_dumper: Always write new format
+      - Migration command: Convert old files to new format
 
-      3. Compare databases - identify mismatches
-
-      4. Generate audit report - prioritized list of discrepancies
-
-      5. Remediate YAML files - fix counters to match computed values
-
-      6. Iterate until zero discrepancies
-
-
-      SUCCESS CRITERIA:
-
-      - Computed DB == Declared DB (zero discrepancies)
-
-      - All YAML files pass validation
-
-      - High confidence in database approach before production use
-
-      '
+      TESTING REQUIREMENTS:
+      - Load all existing YAML files successfully
+      - Round-trip: YAML → Pydantic → YAML produces valid output
+      - Round-trip: YAML → Pydantic → SQLite → Pydantic → YAML works
+      - No data loss during migration

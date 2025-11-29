@@ -1,0 +1,61 @@
+task:
+  id: sqlite-backend-11-task-005
+  sprint_id: sqlite-backend-11
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix data integrity issues in roadmap YAML
+  description: |
+    Fix all data integrity issues identified in the audit:
+
+    1. Fix 15 tasks with invalid dates (started < created):
+       - All in directory-consolidation track
+       - Error: "Start date must be after or equal to creation date"
+       - Fix: Set created = started or adjust dates appropriately
+
+    2. Fix status inconsistencies:
+       - roadmap-integrity-fixes-2: marked completed with 0/29 tasks done
+       - 4 sprints marked completed with 0 tasks completed
+       - Fix: Set status to not_started or in_progress
+
+    3. Fix stale progress counters:
+       - 4 tracks have sprints_completed mismatch
+       - Embedded sprint summaries in track.yaml don't match sprint.yaml
+       - Fix: Update counters to match computed values
+
+    Use integrity_audit.py output as reference:
+    - /tmp/integrity_audit/integrity_report.txt
+    - /tmp/integrity_audit/computed.db (ground truth)
+    - /tmp/integrity_audit/declared.db (current YAML state)
+
+    After fixes, re-run audit to verify zero discrepancies.
+  status: not_started
+  blocked: false
+  created: '2025-11-28T17:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: bugfix
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-11-task-007
+  blocked_by:
+  - sqlite-backend-11-task-003
+  - sqlite-backend-11-task-004
+  deliverables:
+  - Fixed 15 tasks with date validation errors
+  - Fixed roadmap-integrity-fixes-2 status
+  - Updated stale progress counters
+  - Zero discrepancies in integrity audit
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T17:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

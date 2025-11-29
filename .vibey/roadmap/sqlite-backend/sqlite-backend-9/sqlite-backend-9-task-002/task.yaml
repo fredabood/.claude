@@ -1,0 +1,154 @@
+task:
+  id: sqlite-backend-9-task-002
+  sprint_id: sqlite-backend-9
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update MCP tools for aggregation
+  description: |
+    Update MCP server tools to properly return aggregated and
+    inherited data using the new unified ticket models.
+
+    MCP TOOLS TO UPDATE:
+
+    1. task_tools.py:
+       - get_task: Return TaskTicket with effective standards
+       - update_task: Accept TaskTicket updates
+       - get_task_commits: Return commits_local (not aggregated)
+       - get_task_standards: Return standards_effective
+
+    2. sprint_tools.py:
+       - get_sprint: Return SprintTicket with children loaded
+       - get_sprint_commits: Return commits (aggregated from tasks)
+       - get_sprint_progress: Return computed progress
+       - get_sprint_standards: Return standards_effective
+
+    3. query_tools.py:
+       - find_by_status: Use new model types
+       - find_blocked: Use computed blocked status
+       - get_hierarchy: New tool for hierarchy navigation
+
+    4. roadmap_adapter.py:
+       - Convert new models to MCP response format
+       - Include inheritance metadata
+       - Include aggregation source info
+
+    MCP RESPONSE CHANGES:
+
+    1. Task Response:
+       {
+         "id": "sqlite-backend-6a-task-001",
+         "name": "Implement Layer 1 - Base Ticket",
+         "status": "not_started",
+         "commits": [],  // commits_local for tasks
+         "standards": [
+           {
+             "id": "code-style",
+             "name": "Code Style",
+             "source": "vibey-framework-v2",  // inheritance source
+             "inherited": true
+           }
+         ],
+         "hierarchy": {
+           "is_ultimate_child": true,
+           "parent_id": "sqlite-backend-6a",
+           "path": ["vibey-framework-v2", "sqlite-backend", "sqlite-backend-6a"]
+         }
+       }
+
+    2. Sprint Response:
+       {
+         "id": "sqlite-backend-6a",
+         "name": "Unified Ticket Architecture",
+         "commits": [...],  // aggregated from tasks
+         "commits_source": "aggregated",  // indicates source
+         "progress": {
+           "total": 10,
+           "completed": 0,
+           "computed": true  // indicates computed
+         }
+       }
+
+    NEW MCP TOOLS:
+
+    1. get_hierarchy(ticket_id):
+       Returns full hierarchy path and position:
+       {
+         "ticket_id": "sqlite-backend-6a-task-001",
+         "path": [
+           {"id": "vibey-framework-v2", "type": "roadmap"},
+           {"id": "sqlite-backend", "type": "track"},
+           {"id": "sqlite-backend-6a", "type": "sprint"},
+           {"id": "sqlite-backend-6a-task-001", "type": "task"}
+         ],
+         "is_ultimate_parent": false,
+         "is_ultimate_child": true,
+         "depth": 4
+       }
+
+    2. get_effective_standards(ticket_id):
+       Returns standards with inheritance chain:
+       {
+         "ticket_id": "sqlite-backend-6a-task-001",
+         "standards": [
+           {"id": "s1", "source": "vibey-framework-v2", "inherited": true},
+           {"id": "s2", "source": "sqlite-backend", "inherited": true},
+           {"id": "s3", "source": "sqlite-backend-6a-task-001", "inherited": false}
+         ]
+       }
+
+    IMPLEMENTATION STEPS:
+
+    1. Update task_tools.py
+    2. Update sprint_tools.py
+    3. Update query_tools.py
+    4. Update roadmap_adapter.py
+    5. Add new hierarchy tools
+    6. Update MCP response schemas
+    7. Update MCP tests
+
+    SUCCESS CRITERIA:
+    - All tools return new model data
+    - Inheritance source included in responses
+    - Aggregation source indicated
+    - New hierarchy tools work correctly
+    - MCP clients receive correct data
+  status: not_started
+  blocked: false
+  created: '2025-11-29T14:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-9-task-004
+  blocked_by: []
+  deliverables:
+  - Updated MCP tools (task, sprint, query)
+  - Updated roadmap_adapter.py
+  - New hierarchy MCP tools
+  - tests/mcp/test_tools_v2.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T14:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      MCP COMPATIBILITY CONCERN:
+
+      Existing MCP clients may expect old response format.
+      Consider:
+      1. Version the MCP API
+      2. Add backward compatibility mode
+      3. Document breaking changes
+
+      The key additions (inheritance source, aggregation
+      indicator) are additive and shouldn't break clients
+      that ignore unknown fields.

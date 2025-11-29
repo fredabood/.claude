@@ -1,0 +1,77 @@
+sprint:
+  id: sqlite-backend-9
+  name: Interface Migration
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  created: '2025-11-29T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks: []
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend-8
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T14:00:00+00:00'
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Updated CLI commands for inheritance display
+  - Updated MCP tools for aggregation
+  - Migration guide for users
+  - Updated documentation
+  - End-to-end testing
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-11-29T14:00:00+00:00'
+    estimated_duration: 1 week
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+    notes: |
+      Sprint 9: Interface Migration
+
+      GOAL: Update CLI and MCP interfaces to properly display
+      and interact with the new unified ticket architecture.
+
+      DEPENDS ON: Sprint 8 (operations migration)
+
+      KEY USER-FACING CHANGES:
+      1. Standards show inheritance source
+      2. Commits show aggregation source
+      3. Progress computed in real-time
+      4. New hierarchy navigation commands
+
+      CLI COMMANDS TO UPDATE:
+      - vibey roadmap show
+      - vibey roadmap status
+      - vibey roadmap find
+      - vibey roadmap add-standard
+      - vibey roadmap list
+
+      MCP TOOLS TO UPDATE:
+      - task_tools.py
+      - sprint_tools.py
+      - query_tools.py
+      - roadmap_adapter.py
+
+      DOCUMENTATION:
+      - Migration guide for existing users
+      - Updated command reference
+      - Architecture documentation

@@ -4,85 +4,245 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update CLI and tooling for new directory structure
+  title: Implement Layer 3 - TaskTicket (Ultimate Child)
   description: |
-    Update all CLI commands and tooling to work with the new table-based
-    directory structure.
+    Create the TaskTicket class - the atomic work unit (leaf node).
+    Task is ALWAYS an ultimate child (is_ultimate_child=True).
 
-    CLI COMMANDS TO UPDATE:
+    DESIGN PRINCIPLE: L3 contains ONLY semantic-specific fields.
+    All common fields and behaviors inherited from L1/L2.
 
-    1. vibey roadmap db init:
-       - Create tables/ subdirectories
-       - Initialize empty files or folders
-       - Set up context/ directory
+    HIERARCHY CONSTRAINTS:
+    - is_ultimate_child: True (always - no children/CompletableTarget allowed)
+    - is_child: True (always has Sprint parent via parent_ref)
+    - is_parent: False (never - leaf node, no CompletableTarget criteria)
+    - is_ultimate_parent: False
+    - is_intermediate: False
 
-    2. vibey roadmap db dump:
-       - Iterate SQLite tables
-       - Write one file per row to tables/<table>/
-       - Simple 1:1 mapping (no hierarchy traversal)
+    These constraints are ENFORCED by validators.
 
-    3. vibey roadmap db rebuild:
-       - Read all files from tables/
-       - Insert into SQLite
-       - Validate foreign keys
+    INHERITED FROM L1 (Ticket extends Completable):
+    - From Completable: id, name, description, criteria (THE source of truth)
+    - From Completable: is_complete, progress, blocking_reasons (computed)
+    - From Completable: children = [] (always empty for tasks)
+    - Ticket-specific: status, lifecycle timestamps
+    - Ticket-specific: assigned_agents, priority, commits, dependencies
+    - Ticket-specific: requirements_local (but rarely used - tasks inherit)
+    - Ticket-specific: parent_ref (denormalized for fast lookup)
 
-    4. vibey roadmap db validate:
-       - Check file counts match row counts
-       - Validate YAML syntax
-       - Check foreign key references
+    INHERITED FROM L2 (HierarchicalTicket):
+    - Smart accessors: commits (local for tasks - no children to aggregate)
+    - Smart accessors: requirements_effective (full inheritance chain)
+    - Smart accessors: all_criteria (explicit + instantiated from requirements)
+    - Hierarchy traversal: parent, ancestors (no children/descendants)
+    - Convenience accessors: deliverables, tests, thresholds, manual_checks
 
-    5. vibey roadmap update:
-       - Update correct file path in new structure
-       - No longer need to navigate hierarchy
+    SMART ACCESSOR BEHAVIOR FOR TASKS:
+    Because is_ultimate_child=True:
+    - commits → returns commits (local only, no aggregation)
+    - requirements_effective → full inheritance from sprint + track + roadmap
+    - all_criteria → explicit criteria + instantiated from requirements
+    - is_complete → all(c.is_met() for c in all_criteria)
+    - progress → met_criteria / total_criteria (same formula as parents)
 
-    6. vibey roadmap query:
-       - Work with flat file structure
-       - Faster file lookups (no tree traversal)
+    TASK-SPECIFIC FIELDS (L3 only):
 
-    CODE CHANGES EXPECTED:
-    - vibey/operations/roadmap/db.py
-    - vibey/operations/roadmap/query.py
-    - vibey/operations/roadmap/update.py
-    - vibey/cli/commands.py (path references)
+    1. Type Discriminator:
+       - ticket_type: Literal["task"] = "task"
 
-    TESTING:
-    - All existing CLI tests should pass
-    - New tests for table-based paths
-    - Performance comparison (old vs new)
+    2. Parent References:
+       - sprint_id: str (required, must match parent_id)
+       - track_id: str (required, grandparent reference)
+       - roadmap_id: str (required, root reference)
 
-    DELIVERABLES:
-    - Updated CLI commands
-    - Updated operations code
-    - Test results
-    - Performance benchmark
+    3. Task Classification:
+       - task_type_detail: TaskType enum (development, completion_gate,
+         production_gate, documentation, testing, research, review)
+       - title: str (short task title - alias for name)
+
+    4. Assignment:
+       - assigned_agent: Optional[str] (single agent for task)
+       - priority: Priority enum
+       - phase_label: Optional[str]
+
+    5. Estimation:
+       - estimated_tokens: int (required, > 0)
+       - actual_tokens: Optional[int]
+       - complexity: Complexity enum (low, medium, high)
+
+    6. Gate-Specific (for gate tasks only):
+       - gate_info: Optional[GateInfo]
+       - audit_results: Optional[AuditResults]
+
+    7. PARENT TYPE CONSTRAINT:
+       - parent_ref must reference a SprintTicket ID
+       - get_sprint() -> SprintTicket
+
+    8. NO CHILDREN (enforced):
+       - Cannot have CompletableTarget criteria (leaf node)
+       - children property always returns []
+       - Validation error if CompletableTarget criterion added
+
+    Note: Tasks have criteria like FileExistsTarget, TestPassesTarget,
+    ThresholdTarget, ManualTarget - but NOT CompletableTarget.
+
+    Example task criteria:
+
+    criteria:
+      - id: "deliverable-api"
+        description: "API module exists"
+        target:
+          type: "file_exists"
+          paths: ["src/api.py"]
+
+      - id: "test-coverage"
+        description: "Test coverage ≥85%"
+        target:
+          type: "threshold"
+          metric_name: "coverage"
+          threshold: 85.0
+          comparison: "gte"
+
+      - id: "tests-pass"
+        description: "Unit tests pass"
+        target:
+          type: "test_passes"
+          test_command: "pytest tests/test_api.py"
+          pass_threshold: 100.0
+
+    SUPPORTING CLASSES (task-specific):
+    - GateInfo:
+      - blocks_status: str (what status this gate blocks)
+      - threshold: float (pass threshold 0-100)
+      - is_blocking: bool
+      - score: Optional[float]
+      - evaluated_at: Optional[datetime]
+      - has_passed() -> bool
+
+    - AuditResults:
+      - issues_found: int
+      - issues_fixed: int
+      - recommendations: list[str]
+      - audit_type: str
+      - audited_at: datetime
+
+    VALIDATORS:
+    - Cannot have CompletableTarget criteria (ultimate child constraint)
+    - Task ID must start with sprint_id + "-task-"
+    - estimated_tokens must be > 0
+    - Development tasks cannot have gate_info
+    - Gate tasks must have gate_info
+    - If gate_info.is_blocking, gate must pass before sprint completes
+
+    COMPUTED PROPERTIES (via Completable base):
+    - is_complete: all(c.is_met() for c in all_criteria)
+    - progress: met_criteria / total_criteria
+    - blocking_reasons: [c.description for c if not c.is_met()]
+    - children: [] (always empty for tasks)
+
+    Task-specific computed:
+    - token_efficiency: Optional[float] (actual / estimated)
+    - size_category: SizeCategory (computed from estimated_tokens)
+
+    METHODS:
+    - get_sprint() -> SprintTicket
+    - get_track() -> TrackTicket (via sprint)
+    - get_roadmap() -> RoadmapTicket (via track)
+    - is_development_task() -> bool
+    - is_quality_gate() -> bool
+    - has_passed_gate() -> bool
+
+    IMPLEMENTATION:
+
+    1. Add TaskTicket to vibey/roadmap/models/ticket/domain.py
+    2. Inherit from HierarchicalTicket
+    3. Add validator: cannot have children
+    4. Add GateInfo and AuditResults classes
+    5. Implement task-specific methods
+
+    SUCCESS CRITERIA:
+    - TaskTicket cannot have CompletableTarget criteria (validation error)
+    - is_ultimate_child always returns True
+    - is_complete = all criteria met (FileExists, TestPasses, etc.)
+    - Progress computed from task's own criteria
+    - Requirements inherited from sprint + track + roadmap
+    - Instantiated criteria generated from effective requirements
+    - Gate tasks require gate_info, dev tasks reject it
+    - Token estimation and efficiency tracking works
+    - Smart accessors work correctly (local commits, no aggregation)
+    - 100% test coverage
   status: not_started
   blocked: false
-  created: '2025-11-28T19:30:00+00:00'
+  created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
+  priority: medium
   phase_label: implementation
-  estimated_tokens: 3500
+  estimated_tokens: 1800
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
+  blocks:
+  - sqlite-backend-6-task-007
+  depends_on:
+  - blocker_id: sqlite-backend-6-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
+  - blocker_id: sqlite-backend-6-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-6-task-007
   blocked_by:
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
+  - sqlite-backend-6-task-001
+  - sqlite-backend-6-task-002
   deliverables:
-  - Updated CLI commands for new structure
-  - Updated operations code
-  - Test results
-  - Performance benchmark
+  - TaskTicket class in vibey/roadmap/models/ticket/domain.py
+  - GateInfo class
+  - AuditResults class
+  - tests/roadmap/models/ticket/test_task.py
   commits: []
   metadata:
-    last_updated: '2025-11-28T19:30:00+00:00'
+    last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      This task finalizes the sprint by ensuring all tooling
-      works with the new directory structure.
+      THINNER L3: Most fields now inherited from L1/L2.
+
+      TaskTicket is unique because it's ALWAYS an ultimate child.
+      This means:
+      - Cannot have CompletableTarget criteria (leaf node)
+      - commits = local only (no aggregation)
+      - requirements_effective = full inheritance chain
+      - is_complete = all(c.is_met() for c in all_criteria)
+
+      KEY CHANGE: Task completion is now deterministic:
+      - criteria field holds FileExistsTarget, TestPassesTarget, etc.
+      - instantiated_criteria generated from effective requirements
+      - all_criteria = explicit + instantiated
+      - is_complete = all criteria met
+
+      This is THE deterministic interface that prevents AI manipulation.
+      The AI cannot mark a task complete unless all criteria are met.
+
+      Example criteria for a development task:
+        criteria:
+          - target: {type: file_exists, paths: ["src/api.py"]}
+          - target: {type: test_passes, test_command: "pytest", pass_threshold: 100}
+          - target: {type: threshold, metric_name: "coverage", threshold: 85}
+
+      Task-specific concerns:
+      - Gate vs development task distinction
+      - Token estimation and efficiency
+      - Gate blocking semantics
+
+      Can run in parallel with tasks 003, 004, 005.

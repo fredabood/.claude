@@ -1,0 +1,91 @@
+task:
+  id: sqlite-backend-12-task-004
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement new directory structure and file format
+  description: |
+    Implement the chosen directory structure and file format based on
+    analysis from tasks 001 and 002.
+
+    IMPLEMENTATION STEPS:
+
+    1. Create new directory structure:
+       - Create table folders matching SQLite schema
+       - Set up context consolidation folder
+       - Create triggers folder if needed
+
+    2. Update serialization code:
+       - Modify yaml_dumper.py to write to new structure
+       - Modify yaml_loader.py to read from new structure
+       - Add format conversion if changing from YAML
+
+    3. Update sql_dumper.py:
+       - Simplify to iterate table folders
+       - One file per row, direct mapping
+       - Remove hierarchical traversal logic
+
+    4. Update sql_loader.py:
+       - Simplify to read from table folders
+       - Direct mapping from files to rows
+       - Remove hierarchical assembly logic
+
+    5. Update path utilities:
+       - vibey/roadmap/paths.py or similar
+       - New functions for table-based paths
+       - Deprecate old hierarchical paths
+
+    CODE CHANGES EXPECTED:
+    - vibey/roadmap/serialization/yaml_dumper.py
+    - vibey/roadmap/serialization/yaml_loader.py
+    - vibey/roadmap/serialization/sql_dumper.py
+    - vibey/roadmap/serialization/sql_loader.py
+    - vibey/operations/roadmap/*.py (path references)
+
+    TESTING:
+    - Round-trip test: YAML -> SQLite -> YAML
+    - Verify all 892 tasks preserved
+    - Verify all relationships maintained
+    - Performance comparison (old vs new)
+
+    DELIVERABLES:
+    - Updated serialization code
+    - New path utility functions
+    - Test results showing data integrity
+    - Performance benchmark results
+  status: not_started
+  blocked: false
+  created: '2025-11-28T19:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-12-task-005
+  - sqlite-backend-12-task-006
+  blocked_by:
+  - sqlite-backend-12-task-001
+  - sqlite-backend-12-task-002
+  deliverables:
+  - Updated yaml_dumper.py
+  - Updated yaml_loader.py
+  - Updated sql_dumper.py
+  - Updated sql_loader.py
+  - New path utilities
+  - Round-trip test results
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T19:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      This is the core implementation task. Success here enables
+      simpler dump/init operations and bounded directory growth.

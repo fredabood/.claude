@@ -4,45 +4,151 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Create integrity audit report generator
-  description: 'Generate comprehensive audit report from comparison results:
+  title: Database schema migration for hierarchy columns
+  description: |
+    Create database schema migration that adds hierarchy columns to all
+    entity tables and creates new aggregation views.
 
-    - Summary statistics (total mismatches, by severity, by entity type)
+    CURRENT SCHEMA:
+    - 26 tables defined in schema.py
+    - Entity tables: roadmaps, tracks, sprints, tasks
+    - No hierarchy columns (parent_id, is_parent, etc.)
+    - Separate commit tables per level
 
-    - Detailed mismatch list (file, field, expected, actual, diff)
+    SCHEMA CHANGES REQUIRED:
 
-    - Prioritized remediation order
+    1. ADD HIERARCHY COLUMNS TO ALL ENTITIES:
+       ALTER TABLE tasks ADD COLUMN parent_id TEXT REFERENCES tickets(id);
+       ALTER TABLE tasks ADD COLUMN ticket_type TEXT DEFAULT 'task';
+       -- Note: is_parent, is_child, etc. are COMPUTED, not stored
 
-    - Output formats: console, markdown, JSON
+    2. RENAME CONTENT COLUMNS:
+       -- Option A: Rename in place (breaking)
+       ALTER TABLE tasks RENAME COLUMN commits_json TO commits_local_json;
 
-    - Command: vibey roadmap audit-integrity
+       -- Option B: Add new column, copy data (non-breaking)
+       ALTER TABLE tasks ADD COLUMN commits_local_json TEXT;
+       UPDATE tasks SET commits_local_json = commits_json;
 
-    '
+    3. UNIFIED TICKETS TABLE (for single-table inheritance):
+       CREATE TABLE tickets (
+           id TEXT PRIMARY KEY,
+           ticket_type TEXT NOT NULL,  -- discriminator
+           name TEXT NOT NULL,
+           parent_id TEXT REFERENCES tickets(id),
+           status TEXT NOT NULL,
+           -- ... common fields
+           -- Type-specific fields (nullable)
+           version TEXT,  -- roadmap only
+           priority TEXT,  -- track/task only
+           estimated_tokens INTEGER,  -- task only
+           -- JSON columns for complex data
+           commits_local_json TEXT,
+           deliverables_local_json TEXT,
+           standards_local_json TEXT,
+           depends_on_json TEXT
+       );
+
+    4. AGGREGATION VIEWS:
+       CREATE VIEW task_commits_aggregated AS
+       SELECT
+           t.id as ticket_id,
+           json_group_array(c.value) as commits_json
+       FROM tickets t
+       JOIN tickets child ON child.parent_id = t.id
+       JOIN json_each(child.commits_local_json) c
+       WHERE t.ticket_type IN ('roadmap', 'track', 'sprint')
+       GROUP BY t.id;
+
+    5. EFFECTIVE STANDARDS VIEW:
+       CREATE VIEW ticket_standards_effective AS
+       WITH RECURSIVE ancestors AS (
+           SELECT id, parent_id, standards_local_json, 0 as depth
+           FROM tickets
+           UNION ALL
+           SELECT a.id, t.parent_id, t.standards_local_json, a.depth + 1
+           FROM ancestors a
+           JOIN tickets t ON a.parent_id = t.id
+       )
+       SELECT
+           id as ticket_id,
+           json_group_array(json(s.value)) as standards_json
+       FROM ancestors
+       JOIN json_each(standards_local_json) s
+       GROUP BY id;
+
+    MIGRATION STRATEGY:
+
+    1. Create migration script: migrations/006_unified_ticket_schema.sql
+    2. Backup existing database before migration
+    3. Create new tables alongside old tables
+    4. Copy data with field transformations
+    5. Validate data integrity
+    6. Drop old tables (or rename as backup)
+
+    IMPLEMENTATION STEPS:
+
+    1. Write schema migration SQL
+    2. Write data migration SQL (copy + transform)
+    3. Create aggregation views
+    4. Create effective standards view
+    5. Update schema.py with new DDL
+    6. Create migration CLI command
+    7. Add rollback capability
+    8. Test with real database
+
+    SUCCESS CRITERIA:
+    - Migration completes without data loss
+    - All existing data preserved
+    - New columns populated correctly
+    - Views return correct aggregations
+    - Rollback works if needed
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
+  priority: critical
   phase_label: implementation
-  estimated_tokens: 2500
+  estimated_tokens: 4000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-7-task-003
+  dependencies: []
   blocks:
+  - sqlite-backend-7-task-003
   - sqlite-backend-7-task-005
   blocked_by: []
   deliverables:
-  - Audit report generator
-  - Multiple output formats
-  - vibey roadmap audit-integrity command
+  - migrations/006_unified_ticket_schema.sql
+  - Updated vibey/roadmap/database/schema.py
+  - Aggregation views in vibey/roadmap/database/views.py
+  - Migration CLI command
+  - Rollback script
+  - tests/roadmap/database/test_migration_006.py
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      CRITICAL: Must not lose any existing data.
+
+      Consider whether to use single-table inheritance (one tickets
+      table) or keep separate tables (roadmaps, tracks, sprints, tasks)
+      with shared columns.
+
+      Single-table pros:
+      - Simpler ORM mapping
+      - Easier hierarchy queries
+      - One place for common columns
+
+      Single-table cons:
+      - Many nullable columns
+      - Larger table size
+      - Type-specific constraints harder
+
+      RECOMMENDATION: Use single-table inheritance as specified
+      in Sprint 6a Task 007 (ORM design).

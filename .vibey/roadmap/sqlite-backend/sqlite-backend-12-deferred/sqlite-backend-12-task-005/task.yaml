@@ -1,0 +1,97 @@
+task:
+  id: sqlite-backend-12-task-005
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create migration script for existing roadmaps
+  description: |
+    Build a migration script to convert existing .vibey directory structure
+    to the new table-based structure.
+
+    MIGRATION REQUIREMENTS:
+
+    1. Pre-migration validation:
+       - Count all files in current structure
+       - Validate YAML syntax of all files
+       - Create backup of .vibey/roadmap/
+
+    2. Entity extraction:
+       - Extract all track.yaml -> tracks/<id>.yaml
+       - Extract all sprint.yaml -> sprints/<id>.yaml
+       - Extract all task.yaml -> tasks/<id>.yaml
+       - Extract roadmap.yaml -> roadmaps/<id>.yaml
+
+    3. Context consolidation:
+       - Find all */context/ directories
+       - Move files with new naming convention
+       - Preserve file timestamps
+
+    4. Relationship preservation:
+       - Ensure all foreign keys valid
+       - Verify no orphan entities
+       - Check blocked_by/blocks references
+
+    5. Post-migration validation:
+       - Count files in new structure
+       - Verify counts match
+       - Load into SQLite and compare
+
+    SCRIPT INTERFACE:
+    ```bash
+    vibey roadmap migrate-structure [--dry-run] [--backup-dir PATH]
+
+    Options:
+      --dry-run      Show what would be done without changing files
+      --backup-dir   Where to store backup (default: .vibey-backup-<timestamp>)
+      --force        Skip confirmation prompts
+    ```
+
+    ROLLBACK SUPPORT:
+    - Keep backup until explicitly deleted
+    - Provide rollback command: vibey roadmap migrate-structure --rollback
+
+    EDGE CASES:
+    - Partially migrated state (idempotent re-run)
+    - Files with special characters in names
+    - Symlinks in .vibey directory
+    - Git submodules
+
+    DELIVERABLES:
+    - Migration script (Python)
+    - CLI command integration
+    - Dry-run mode
+    - Rollback capability
+    - Migration documentation
+  status: not_started
+  blocked: false
+  created: '2025-11-28T19:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 4000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-12-task-006
+  blocked_by:
+  - sqlite-backend-12-task-003
+  - sqlite-backend-12-task-004
+  deliverables:
+  - Migration script
+  - CLI command for migration
+  - Dry-run and rollback modes
+  - Migration documentation
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T19:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      Critical: This script will be run on production data.
+      Must be thoroughly tested and have rollback capability.

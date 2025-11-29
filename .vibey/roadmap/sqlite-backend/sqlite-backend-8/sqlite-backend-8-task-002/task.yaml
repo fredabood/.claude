@@ -4,37 +4,121 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Modify update operations to write to both backends
+  title: Update update.py with smart accessor usage
   description: |
-    Update vibey/operations/roadmap/update.py to write to SQLite when available:
+    Refactor update.py operations to use new unified ticket models
+    and leverage smart accessors for consistent updates.
 
-    Current behavior:
-    - `_use_sqlite_backend()` checks if DB is initialized
-    - If True, sets `is_dirty = 1` in database_state
-    - Still only writes to YAML via save_roadmap/track/sprint/tasks
+    CURRENT STATE:
+    - update.py handles status transitions, commit sync, etc.
+    - Uses old dataclass models
+    - Manual aggregation for progress updates
 
-    Required changes:
-    1. Import sql_dumper functions (save_track, save_sprint, save_tasks, etc.)
-    2. After each YAML save, also call corresponding sql_dumper function
-    3. Mark database as NOT dirty after successful dual-write
-    4. Handle errors gracefully (YAML is still authoritative)
+    CHANGES REQUIRED:
 
-    Affected functions (see grep results):
-    - save_tasks() calls at lines 279, 374, 453, 905, 1321
-    - save_sprint() calls at lines 523, 647, 935, 1056, 1281
-    - save_track() calls at lines 550, 729, 965, 1129, 1247
+    1. UPDATE IMPORTS:
+       from vibey.roadmap.models.ticket import (
+           TaskTicket, SprintTicket, TrackTicket, RoadmapTicket,
+           TicketStatus, GitCommit
+       )
 
-    Key insight: YAML remains source of truth, SQLite is kept in sync
-    for fast queries. On conflict, YAML wins.
+    2. STATUS TRANSITION UPDATES:
+       Use Ticket methods for transitions:
+
+       # OLD
+       def complete_task(task_id):
+           task = load_task(task_id)
+           task.status = 'completed'
+           task.completed = datetime.now()
+           save_task(task)
+
+       # NEW
+       def complete_task(task_id):
+           task = load_task(task_id)
+           if not task.can_complete():
+               raise ValidationError(task.get_blocking_reason())
+           updated_task = task.complete()  # Returns new instance
+           save_task(updated_task)
+
+    3. COMMIT SYNC UPDATES:
+       Simplified with smart accessors:
+
+       # OLD - manual aggregation
+       def sync_commits_to_sprint(sprint_id):
+           sprint = load_sprint(sprint_id)
+           all_commits = []
+           for task in sprint.tasks:
+               all_commits.extend(task.commits)
+           sprint.commits = all_commits
+           save_sprint(sprint)
+
+       # NEW - smart accessor handles it
+       def get_sprint_commits(sprint_id):
+           sprint = load_sprint_with_children(sprint_id)
+           return sprint.commits  # Already aggregated
+       # No sync needed - aggregation is computed on access
+
+    4. PROGRESS UPDATES:
+       Progress is computed, not stored:
+
+       # OLD - manual calculation
+       def update_sprint_progress(sprint_id):
+           sprint = load_sprint(sprint_id)
+           completed = sum(1 for t in sprint.tasks if t.status == 'completed')
+           sprint.progress.completed = completed
+           save_sprint(sprint)
+
+       # NEW - computed automatically
+       def get_sprint_progress(sprint_id):
+           sprint = load_sprint_with_children(sprint_id)
+           return sprint.progress  # Computed from children
+
+    5. FUNCTIONS TO UPDATE:
+       - update_task_status()
+       - update_sprint_status()
+       - update_track_status()
+       - complete_task()
+       - complete_sprint()
+       - add_commit_to_task()
+       - sync_progress()
+       - cascade_block_status()
+
+    6. NEW PATTERN - IMMUTABLE UPDATES:
+       Use model_copy() for immutable state changes:
+
+       def add_commit(task_id, commit: GitCommit):
+           task = load_task(task_id)
+           updated_task = task.model_copy(update={
+               'commits_local': task.commits_local + [commit]
+           })
+           save_task(updated_task)
+
+    IMPLEMENTATION STEPS:
+
+    1. Update imports to new model types
+    2. Replace status updates with transition methods
+    3. Remove manual aggregation code (smart accessors handle it)
+    4. Remove manual progress calculation (computed)
+    5. Use model_copy() for immutable updates
+    6. Update all callers
+    7. Add/update tests
+
+    SUCCESS CRITERIA:
+    - All update functions use new models
+    - Transition methods enforce validation
+    - No manual aggregation code
+    - No manual progress calculation
+    - Immutable update pattern used
+    - All existing functionality preserved
   status: not_started
   blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: critical
   phase_label: implementation
-  estimated_tokens: 5000
+  estimated_tokens: 4000
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -42,16 +126,29 @@ task:
   dependencies: []
   blocks:
   - sqlite-backend-8-task-004
-  blocked_by:
-  - sqlite-backend-8-task-001
+  - sqlite-backend-8-task-005
+  blocked_by: []
   deliverables:
-  - Modified update.py with dual-write to YAML and SQLite
-  - sql_dumper imports and calls after each YAML save
-  - Error handling for SQLite failures (non-blocking)
-  - Unit tests for dual-write behavior
+  - Updated vibey/operations/roadmap/update.py
+  - Immutable update patterns
+  - tests/operations/roadmap/test_update_v2.py
   commits: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      KEY SIMPLIFICATION: Smart accessors eliminate sync code.
+
+      Currently update.py has complex logic to:
+      - Sync commits from tasks to sprints to tracks
+      - Calculate progress at each level
+      - Propagate blocked status
+
+      With smart accessors, most of this becomes unnecessary:
+      - commits are aggregated on access
+      - progress is computed on access
+      - blocked status computed from dependencies
+
+      This significantly reduces code complexity and
+      eliminates sync bugs.

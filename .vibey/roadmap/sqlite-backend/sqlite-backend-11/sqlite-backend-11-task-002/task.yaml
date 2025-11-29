@@ -1,0 +1,57 @@
+task:
+  id: sqlite-backend-11-task-002
+  sprint_id: sqlite-backend-11
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Modify update operations to write to both backends
+  description: |
+    Update vibey/operations/roadmap/update.py to write to SQLite when available:
+
+    Current behavior:
+    - `_use_sqlite_backend()` checks if DB is initialized
+    - If True, sets `is_dirty = 1` in database_state
+    - Still only writes to YAML via save_roadmap/track/sprint/tasks
+
+    Required changes:
+    1. Import sql_dumper functions (save_track, save_sprint, save_tasks, etc.)
+    2. After each YAML save, also call corresponding sql_dumper function
+    3. Mark database as NOT dirty after successful dual-write
+    4. Handle errors gracefully (YAML is still authoritative)
+
+    Affected functions (see grep results):
+    - save_tasks() calls at lines 279, 374, 453, 905, 1321
+    - save_sprint() calls at lines 523, 647, 935, 1056, 1281
+    - save_track() calls at lines 550, 729, 965, 1129, 1247
+
+    Key insight: YAML remains source of truth, SQLite is kept in sync
+    for fast queries. On conflict, YAML wins.
+  status: not_started
+  blocked: false
+  created: '2025-11-28T17:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: critical
+  phase_label: implementation
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-11-task-004
+  blocked_by:
+  - sqlite-backend-11-task-001
+  deliverables:
+  - Modified update.py with dual-write to YAML and SQLite
+  - sql_dumper imports and calls after each YAML save
+  - Error handling for SQLite failures (non-blocking)
+  - Unit tests for dual-write behavior
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T17:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

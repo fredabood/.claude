@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-8
-  name: Production Cutover & Sync System
+  name: Operations Migration
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 7
+    tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -26,46 +26,59 @@ sprint:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-28T17:00:00+00:00'
+    last_checked: '2025-11-29T14:00:00+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Initialized production database (.vibey/roadmap.db)
-  - Update operations write to both YAML and SQLite
-  - Pre-commit hook dumps DB to YAML when dirty
-  - Post-merge hook rebuilds DB from YAML
-  - Fixed data integrity issues (15 invalid tasks, stale counters)
-  - Embedded sprint summary validation in track.yaml
-  - Working end-to-end sync system
+  - Updated query.py with hierarchy-aware queries
+  - Updated update.py with smart accessor usage
+  - Updated standards_enforcement.py with inheritance
+  - Updated remaining operations files
+  - Integration tests for all operations
+  - Performance benchmarks
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     estimated_duration: 1.5 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
     notes: |
-      Final sprint to enable SQLite as source of truth for roadmap operations.
+      Sprint 8: Operations Migration
 
-      PROBLEM:
-      - Database exists but not initialized (no database_state table)
-      - Update operations write to YAML only, not SQLite
-      - Git hooks don't sync DB <-> YAML
-      - 15 tasks have invalid dates (started < created)
-      - Stale embedded sprint summaries in track.yaml
+      GOAL: Update all roadmap operations to use new unified ticket
+      models with smart accessors for aggregation and inheritance.
 
-      SOLUTION:
-      - Initialize production DB with schema
-      - Modify update.py to write to both backends
-      - Add DB dump to pre-commit hook
-      - Add DB rebuild to post-merge hook
-      - Fix data integrity issues
-      - Add embedded summary validation
+      DEPENDS ON: Sprint 7 (serialization migration)
 
-      SUCCESS CRITERIA:
-      - `vibey roadmap db status` shows healthy database
-      - All updates persist to both YAML and SQLite
-      - Git operations maintain sync automatically
-      - Zero integrity issues in audit report
+      KEY CHANGES:
+      1. Query operations use hierarchy-aware loading
+      2. Update operations use smart accessors
+      3. Standards enforcement uses inheritance chain
+      4. Commit tracking uses unified GitCommit
+
+      OPERATIONS FILES (17 total):
+      - query.py (CRITICAL)
+      - update.py (CRITICAL)
+      - standards_enforcement.py (CRITICAL)
+      - add_commit.py (HIGH)
+      - validate.py (HIGH)
+      - summarize.py (HIGH)
+      - context.py (HIGH)
+      - commit_mapper.py (HIGH)
+      - auto_repair.py (MEDIUM)
+      - audit_trail.py (MEDIUM)
+      - checkpoint_verifier.py (MEDIUM)
+      - safe_yaml_editor.py (MEDIUM)
+      - advanced_validator.py (MEDIUM)
+      - doc_tracking.py (LOW)
+      - init.py (LOW)
+
+      SMART ACCESSOR USAGE:
+      Operations should use smart accessors instead of
+      accessing _local fields directly:
+      - task.commits (not task.commits_local)
+      - sprint.standards (not sprint.standards_local)
+      - track.progress (not track.progress_local)

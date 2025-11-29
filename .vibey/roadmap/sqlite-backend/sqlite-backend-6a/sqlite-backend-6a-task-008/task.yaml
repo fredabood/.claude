@@ -1,0 +1,148 @@
+task:
+  id: sqlite-backend-6a-task-008
+  sprint_id: sqlite-backend-6a
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate existing dataclass models to unified Pydantic models
+  description: |
+    Create migration adapters and update codebase to use the new unified
+    ticket architecture instead of the existing separate dataclass models.
+
+    CURRENT STATE:
+
+    Existing Models (dataclasses in vibey/roadmap/models/):
+    - roadmap.py: Roadmap, Progress, TrackSummary, etc.
+    - track.py: Track, TrackProgress, SprintSummary, etc.
+    - sprint.py: Sprint, SprintProgress, TaskSummary, etc.
+    - task.py: Task, TaskMetadata, GateInfo, etc.
+    - common.py: Status, TaskStatus, Priority, TaskType, etc.
+
+    These are used by:
+    - vibey/roadmap/serialization/yaml_loader.py
+    - vibey/roadmap/serialization/yaml_dumper.py
+    - vibey/roadmap/serialization/sql_loader.py
+    - vibey/roadmap/serialization/sql_dumper.py
+    - vibey/operations/roadmap/*.py
+    - vibey/cli/commands.py
+
+    MIGRATION STRATEGY:
+
+    1. Phase 1: Adapter Layer (Non-Breaking)
+       Create adapters that convert between old and new models:
+
+       class ModelAdapter:
+           @staticmethod
+           def roadmap_to_ticket(old: Roadmap) -> RoadmapTicket: ...
+
+           @staticmethod
+           def ticket_to_roadmap(new: RoadmapTicket) -> Roadmap: ...
+
+           # Similar for Track, Sprint, Task
+
+       This allows gradual migration without breaking existing code.
+
+    2. Phase 2: Update Serialization
+       - yaml_loader.py: Load YAML -> construct new Pydantic models
+       - yaml_dumper.py: Dump new Pydantic models -> YAML
+       - sql_loader.py: Query DB -> construct new Pydantic models via ORM
+       - sql_dumper.py: Save new Pydantic models -> DB via ORM
+
+    3. Phase 3: Update Operations
+       - Update vibey/operations/roadmap/*.py to use new models
+       - Use repository pattern instead of direct SQL
+       - Leverage aggregation/inheritance methods
+
+    4. Phase 4: Deprecation
+       - Mark old models as deprecated
+       - Update all imports to use new models
+       - Remove adapter layer once migration complete
+
+    FIELD MAPPING:
+
+    Old Roadmap -> New RoadmapTicket:
+    - id -> id
+    - name -> name
+    - version -> version
+    - status -> status
+    - blocked -> blocked
+    - created -> created_at
+    - started -> started_at
+    - completed -> completed_at
+    - tracks -> (computed from children)
+    - progress -> progress_local
+    - activity_log -> activity_log
+    - metadata -> metadata (flatten some fields)
+    - standards -> standards_local
+    - blocked_by -> depends_on (convert to DependencyRef)
+
+    Similar mappings for Track, Sprint, Task.
+
+    BREAKING CHANGES TO HANDLE:
+
+    1. Timestamp field names: created -> created_at
+    2. Progress structure: separate _local vs _aggregated
+    3. Standards: _local vs _effective
+    4. blocked_by -> depends_on (different structure)
+    5. Summary objects (TrackSummary, etc.) -> computed from children
+
+    DELIVERABLES:
+
+    1. vibey/roadmap/models/ticket/adapters.py:
+       - ModelAdapter class with conversion methods
+       - Field mapping utilities
+
+    2. Updated serialization modules:
+       - yaml_loader.py using new models
+       - yaml_dumper.py using new models
+       - sql_loader.py using ORM
+       - sql_dumper.py using ORM
+
+    3. Migration documentation:
+       - Field mapping reference
+       - Breaking changes list
+       - Upgrade guide for any external code
+
+    SUCCESS CRITERIA:
+    - Existing YAML files load correctly into new models
+    - Round-trip YAML -> Pydantic -> YAML produces identical output
+    - Round-trip YAML -> Pydantic -> SQLite -> Pydantic -> YAML works
+    - All existing tests pass (with adapter layer)
+    - Operations use new repository pattern
+    - No data loss during migration
+  status: not_started
+  blocked: false
+  created: '2025-11-29T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-6a-task-007
+  deliverables:
+  - vibey/roadmap/models/ticket/adapters.py
+  - Updated yaml_loader.py
+  - Updated yaml_dumper.py
+  - Updated sql_loader.py
+  - Updated sql_dumper.py
+  - Migration documentation
+  - tests/roadmap/models/ticket/test_adapters.py
+  - tests/roadmap/models/ticket/test_migration.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      This is the largest and most complex task in the sprint.
+      Consider splitting into sub-tasks if scope grows.
+      Adapter layer allows non-breaking incremental migration.
+      May need to coordinate with Sprint 6 file format work.

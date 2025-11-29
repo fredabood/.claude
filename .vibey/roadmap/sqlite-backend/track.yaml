@@ -8,13 +8,13 @@ track:
   created: '2025-11-26T12:00:00+00:00'
   started: '2025-11-26T12:00:00+00:00'
   completed: null
-  estimated_duration: 9 weeks
+  estimated_duration: 10.5 weeks
   progress:
-    sprints_total: 9
+    sprints_total: 10
     sprints_completed: 6
-    tasks_total: 57
+    tasks_total: 65
     tasks_completed: 36
-    completion_percent: 63.2
+    completion_percent: 55.4
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -63,6 +63,12 @@ track:
     status: not_started
     estimated_duration: 1 week
     tasks_count: 6
+    started: null
+  - id: sqlite-backend-6a
+    name: Unified Ticket Architecture & ORM
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 8
     started: null
   - id: sqlite-backend-7
     name: Data Validation & Integrity Audit
@@ -126,6 +132,9 @@ track:
   - Pre-commit hook integration
   - Migration guide for existing repositories
   - Comprehensive test suite
+  - Unified Ticket architecture with three-layer design
+  - SQLAlchemy ORM with single-table inheritance
+  - Pydantic validation replacing dataclass __post_init__
   strategic_value:
   - 'Consistency: Eliminate manual counter updates and state drift'
   - 'Integrity: Foreign keys prevent orphan tasks and invalid references'
@@ -133,6 +142,9 @@ track:
   - 'Atomicity: Single transaction for complex operations'
   - 'Automation: Triggers for auto-completion and dependency enforcement'
   - 'Queries: Enable complex roadmap queries (blocked tasks, velocity, etc.)'
+  - 'Unified Model: Single Ticket hierarchy with explicit aggregation/inheritance'
+  - 'Type Safety: Pydantic validation with IDE support'
+  - 'ORM: SQLAlchemy for clean database abstraction'
   commits: []
   standards: []
   metadata:

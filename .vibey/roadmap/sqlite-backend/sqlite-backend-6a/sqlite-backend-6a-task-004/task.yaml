@@ -1,0 +1,92 @@
+task:
+  id: sqlite-backend-6a-task-004
+  sprint_id: sqlite-backend-6a
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Layer 3 - TrackTicket
+  description: |
+    Create the TrackTicket class - the parallelization boundary.
+    Tracks group related sprints and can run in parallel with other tracks.
+
+    DESIGN REQUIREMENTS:
+
+    1. Type Discriminator:
+       - ticket_type: Literal["track"] = "track"
+
+    2. Aggregation Rules:
+       - commits: concat from Sprint -> Task
+       - deliverables: concat from Sprint -> Task
+
+    3. Inheritance Rules:
+       - standards: merge (track standards + roadmap standards cascade down)
+       - quality_gates: merge (track gates apply to sprints)
+       - assigned_agents: default_only (track team works on sprints if not overridden)
+
+    4. Track-Specific Fields:
+       Parent Reference:
+       - roadmap_id: str (required, parent roadmap)
+
+       Priority:
+       - priority: Priority enum (critical, high, medium, low)
+
+       Estimates:
+       - estimated_duration: Optional[str]
+
+       Strategic Context:
+       - strategic_value_local: list[str] (why this track matters)
+
+    5. Computed Properties:
+       - sprints_total: int
+       - sprints_completed: int
+       - tasks_total: int (aggregate from sprints)
+       - tasks_completed: int (aggregate from sprints)
+
+    6. Validators:
+       - Track ID format: simple slug (no "/" or leading "-")
+       - roadmap_id must be set
+
+    IMPLEMENTATION:
+
+    1. Add TrackTicket to vibey/roadmap/models/ticket/domain.py
+    2. Define _aggregation_rules and _inheritance_rules
+    3. Add computed properties that read from progress breakdown
+    4. Implement ID format validator
+
+    SUCCESS CRITERIA:
+    - Track IDs validated as simple slugs
+    - Standards from track + roadmap cascade to sprints/tasks
+    - Quality gates defined on track apply to all sprints
+    - Progress breakdown includes tasks from all child sprints
+    - 100% test coverage
+  status: not_started
+  blocked: false
+  created: '2025-11-29T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 1800
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-6a-task-007
+  - sqlite-backend-6a-task-008
+  blocked_by:
+  - sqlite-backend-6a-task-001
+  - sqlite-backend-6a-task-002
+  deliverables:
+  - TrackTicket class in vibey/roadmap/models/ticket/domain.py
+  - tests/roadmap/models/ticket/test_track.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      Can run in parallel with tasks 003, 005, 006.
+      Track is the parallelization boundary - no dependencies between sibling tracks.

@@ -1,0 +1,119 @@
+task:
+  id: sqlite-backend-6a-task-006
+  sprint_id: sqlite-backend-6a
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Layer 3 - TaskTicket
+  description: |
+    Create the TaskTicket class - the atomic work unit (leaf node).
+    Tasks have no children and are sized to fit within a context window.
+
+    DESIGN REQUIREMENTS:
+
+    1. Type Discriminator:
+       - ticket_type: Literal["task"] = "task"
+
+    2. Aggregation Rules:
+       - None (leaf node - no children to aggregate from)
+       - BUT: task's commits/deliverables aggregate UP to sprint/track/roadmap
+
+    3. Inheritance Rules:
+       - standards: merge (effective = task + sprint + track + roadmap standards)
+       - assigned_agents: default_only (inherit from sprint/track if not set)
+
+    4. Task-Specific Fields:
+       Parent References:
+       - sprint_id: str (required, parent sprint)
+       - track_id: str (required, grandparent track)
+       - roadmap_id: str (required, root roadmap)
+
+       Classification:
+       - task_type: TaskType enum (development, completion_gate, production_gate)
+       - title: str (short task title)
+
+       Assignment:
+       - assigned_agent: Optional[str] (single agent for tasks)
+       - priority: Priority enum
+       - phase_label: Optional[str]
+
+       Estimation:
+       - estimated_tokens: int (required, > 0)
+       - actual_tokens: Optional[int]
+       - complexity: Complexity enum (simple, medium, complex)
+       - estimated_duration: Optional[str]
+
+       Gate-Specific:
+       - gate_info: Optional[GateInfo] (for gate tasks only)
+       - audit_results: Optional[AuditResults]
+
+    5. Computed Properties:
+       - token_efficiency: Optional[float] (actual / estimated)
+       - size_category: SizeCategory (auto-computed from estimated_tokens)
+
+    6. Task-Specific Methods:
+       - is_development_task() -> bool
+       - is_quality_gate() -> bool
+       - has_passed_gate() -> bool
+
+    7. Validators:
+       - Task ID must start with sprint_id + "-"
+       - estimated_tokens must be > 0
+       - Development tasks cannot have gate_info
+       - Gate tasks must have gate_info
+       - Completion gates must block "completed" status
+       - Production gates must block "production_ready" status
+
+    8. Supporting Classes (from existing models):
+       - TaskType: development, completion_gate, production_gate
+       - Complexity: simple, medium, complex
+       - SizeCategory: S, M, L, XL, XXL (with from_tokens classmethod)
+       - GateInfo: blocks_status, threshold, is_blocking, score, has_passed()
+       - AuditResults: issues_found, issues_fixed, recommendations
+
+    IMPLEMENTATION:
+
+    1. Add TaskTicket to vibey/roadmap/models/ticket/domain.py
+    2. Define _aggregation_rules (empty) and _inheritance_rules
+    3. Implement gate validation logic
+    4. Add token efficiency and size category computation
+
+    SUCCESS CRITERIA:
+    - Task IDs validated as sprint-scoped
+    - Gate tasks require gate_info, dev tasks reject it
+    - Token estimation and efficiency tracking works
+    - Standards from entire ancestor chain are effective
+    - 100% test coverage
+  status: not_started
+  blocked: false
+  created: '2025-11-29T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-6a-task-007
+  - sqlite-backend-6a-task-008
+  blocked_by:
+  - sqlite-backend-6a-task-001
+  - sqlite-backend-6a-task-002
+  deliverables:
+  - TaskTicket class in vibey/roadmap/models/ticket/domain.py
+  - GateInfo and AuditResults classes (if not reusing existing)
+  - tests/roadmap/models/ticket/test_task.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      Can run in parallel with tasks 003, 004, 005.
+      Task is the leaf node - most constrained but also simplest aggregation.
+      Many supporting classes already exist in current models/common.py.

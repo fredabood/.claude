@@ -1,0 +1,115 @@
+task:
+  id: sqlite-backend-6a-task-005
+  sprint_id: sqlite-backend-6a
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Layer 3 - SprintTicket
+  description: |
+    Create the SprintTicket class - the deployable unit of work.
+    Sprints have extended lifecycle states and can reach production.
+
+    DESIGN REQUIREMENTS:
+
+    1. Type Discriminator:
+       - ticket_type: Literal["sprint"] = "sprint"
+
+    2. Aggregation Rules:
+       - commits: concat from Task
+       - deliverables: concat from Task
+
+    3. Inheritance Rules:
+       - standards: merge (sprint + track + roadmap standards cascade to tasks)
+       - assigned_agents: default_only (sprint team works on tasks if not overridden)
+
+    4. Sprint-Specific Fields:
+       Parent References:
+       - track_id: str (required, parent track)
+       - roadmap_id: str (required, root roadmap)
+
+       Extended Lifecycle:
+       - completion_gate_check_at: Optional[datetime]
+       - production_gate_check_at: Optional[datetime]
+       - production_ready_at: Optional[datetime]
+       - deployed_at: Optional[datetime]
+
+       Planning:
+       - plan_file: Optional[str]
+       - goal: Optional[str]
+       - success_criteria: list[str]
+       - risks: list[str]
+
+       Estimates:
+       - estimated_duration: Optional[str]
+       - estimated_tokens: Optional[int]
+       - actual_tokens: Optional[int]
+
+       Development Gates:
+       - development_gates: list[DevelopmentGate]
+
+    5. Computed Properties:
+       - tasks_total: int
+       - tasks_completed: int
+       - development_tasks_completed: int (from breakdown)
+       - completion_gates_passed: int (from breakdown)
+
+    6. Sprint-Specific Methods:
+       - can_enter_completion_gate_check() -> bool
+         (all development tasks complete)
+       - can_complete() -> bool
+         (all dev tasks + completion gates done)
+       - can_be_production_ready() -> bool
+         (all tasks including production gates done)
+
+    7. Validators:
+       - Sprint ID must start with track_id + "-"
+       - track_id and roadmap_id must be set
+
+    8. Supporting Classes:
+       - DevelopmentGate: name, description, status, resolved_at
+
+    IMPLEMENTATION:
+
+    1. Add SprintTicket to vibey/roadmap/models/ticket/domain.py
+    2. Define _aggregation_rules and _inheritance_rules
+    3. Implement lifecycle transition methods
+    4. Add progress breakdown for task types
+
+    SUCCESS CRITERIA:
+    - Sprint IDs validated as track-scoped
+    - Lifecycle methods correctly check task type breakdown
+    - Extended lifecycle timestamps track sprint progression
+    - Standards from sprint + track + roadmap cascade to tasks
+    - 100% test coverage
+  status: not_started
+  blocked: false
+  created: '2025-11-29T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 2200
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-6a-task-007
+  - sqlite-backend-6a-task-008
+  blocked_by:
+  - sqlite-backend-6a-task-001
+  - sqlite-backend-6a-task-002
+  deliverables:
+  - SprintTicket class in vibey/roadmap/models/ticket/domain.py
+  - DevelopmentGate class
+  - tests/roadmap/models/ticket/test_sprint.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-29T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      Can run in parallel with tasks 003, 004, 006.
+      Sprint has the most complex lifecycle with multiple gate checks.

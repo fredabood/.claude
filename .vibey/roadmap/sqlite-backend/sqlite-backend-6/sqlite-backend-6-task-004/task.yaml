@@ -5,231 +5,98 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Layer 1 - Ticket Base Class
-  description: |
-    Create the Ticket class that extends Completable with work-specific
-    semantics. This is Layer 1 of the three-layer architecture.
-
-    DESIGN PRINCIPLE: Ticket IS a Completable with additional work
-    tracking (lifecycle, assignment, commits, dependencies).
-
-    Completion is determined by criteria (inherited from Completable).
-    Ticket adds work semantics on top.
-
-    LAYER 1 FIELDS:
-
-    1. From Completable (inherited):
-       - id: str
-       - name: str
-       - description: Optional[str]
-       - criteria: List[Criterion]
-
-       Computed (inherited):
-       - is_complete: bool
-       - progress: Progress
-       - blocking_reasons: List[str]
-       - children: List[str]
-
-    2. Identity Extension:
-       - parent_ref: Optional[str]
-         (denormalized for fast parent lookup)
-
-       Note: parent_ref is set when this ticket is referenced by a
-       CompletableTarget criterion in another ticket. It's denormalized
-       for O(1) lookup, but the source of truth is the criterion.
-
-    3. Lifecycle (Ticket-specific):
-       - status: TicketStatus
-         (not_started, in_progress, paused, completed, cancelled)
-
-       - created_at: datetime
-       - started_at: Optional[datetime]
-       - completed_at: Optional[datetime]
-       - updated_at: datetime
-
-       Lifecycle rules:
-       - IN_PROGRESS requires started_at
-       - COMPLETED requires completed_at AND is_complete == True
-       - Cannot complete if is_complete == False (criteria not met)
-
-    4. Work Assignment:
-       - assigned_agents: List[str]
-       - priority: Priority
-
-    5. Work Evidence:
-       - commits: List[GitCommit]
-         (git commits associated with this work)
-
-    6. Sibling Dependencies (NOW UNIFIED INTO CRITERIA):
-       Dependencies are NO LONGER a separate field. They are expressed
-       as Criterion with blocks_transition_to=IN_PROGRESS.
-
-       Example - Task 003 depends on Task 002:
-       criteria:
-         - id: dep-task-002
-           description: "Task 002 must complete before starting"
-           target:
-             type: completable
-             completable_id: task-002
-             required_status: completed
-           blocks_transition_to: in_progress  # <-- Makes it a dependency
-
-       Note: Parent-child is ALSO via criteria (CompletableTarget), but
-       with blocks_transition_to=COMPLETED (the default).
-
-       Computed:
-       - is_blocked: bool = not can_start()[0]
-         (can_start checks criteria where blocks_transition_to=IN_PROGRESS)
-
-    7. Requirement Templates:
-       - requirements_local: List[Requirement]
-         (requirement templates defined on this ticket)
-
-       Note: These cascade to children. Actual criteria are generated
-       by RequirementInstantiator when the ticket is created/updated.
-
-    8. Estimation:
-       - estimated_duration: Optional[str]
-
-    9. Metadata:
-       - metadata: Dict[str, Any]
-
-    HIERARCHY ATTRIBUTES (computed from Completable):
-
-    - is_parent: bool
-      Computed: len(children) > 0
-      True if this ticket has child tickets (via CompletableTarget criteria)
-
-    - is_child: bool
-      Computed: parent_ref is not None
-      True if this ticket is referenced by another ticket's criterion
-
-    - is_ultimate_parent: bool
-      Computed: is_parent and not is_child
-      True for root tickets (Roadmap)
-
-    - is_ultimate_child: bool
-      Computed: is_child and not is_parent
-      True for leaf tickets (Task)
-
-    - is_intermediate: bool
-      Computed: is_parent and is_child
-      True for middle tickets (Track, Sprint)
-
-    KEY METHODS:
-
-    1. Lifecycle Transitions (inherited from Completable, extended):
-       - can_transition_to(status: TicketStatus) -> tuple[bool, List[str]]
-         THE unified interface for ALL transition checks
-       - can_start() -> tuple[bool, List[str]]
-         = can_transition_to(IN_PROGRESS)
-       - can_complete() -> tuple[bool, List[str]]
-         = can_transition_to(COMPLETED)
-       - can_deploy() -> tuple[bool, List[str]]
-         = can_transition_to(PRODUCTION_READY)
-
-       - start() -> Ticket (checks can_start first)
-       - complete() -> Ticket (checks can_complete first)
-       - pause() -> Ticket
-       - cancel() -> Ticket
-
-       Note: All transitions use can_transition_to() which checks
-       criteria filtered by blocks_transition_to. This is THE
-       deterministic interface.
-
-    2. Criterion Management (inherited from Completable):
-       - get_criterion(id: str) -> Optional[Criterion]
-       - add_criterion(criterion: Criterion) -> None
-       - remove_criterion(id: str) -> bool
-       - refresh_criteria() -> None
-
-    3. Progress Per Transition:
-       - progress_for_transition(status: TicketStatus) -> Progress
-       - start_progress: Progress (toward IN_PROGRESS)
-       - completion_progress: Progress (toward COMPLETED)
-       - deploy_progress: Progress (toward PRODUCTION_READY)
-
-    4. Convenience Accessors (filter criteria by target type):
-       - deliverables: List[Criterion]
-         (criteria with FileExistsTarget)
-
-       - tests: List[Criterion]
-         (criteria with TestPassesTarget)
-
-       - subtasks: List[Criterion]
-         (criteria with CompletableTarget, blocks_transition_to=COMPLETED)
-
-       - dependencies: List[Criterion]
-         (criteria with CompletableTarget, blocks_transition_to=IN_PROGRESS)
-
-       - manual_checks: List[Criterion]
-         (criteria with ManualTarget)
-
-       - production_gates: List[Criterion]
-         (criteria with blocks_transition_to=PRODUCTION_READY)
-
-    VALIDATION RULES:
-
-    1. Status consistency:
-       - IN_PROGRESS requires started_at to be set
-       - COMPLETED requires completed_at AND can_complete() == True
-       - PRODUCTION_READY requires can_deploy() == True
-       - PAUSED is always allowed
-
-    2. Unified Blocking (via can_transition_to):
-       - Cannot transition to IN_PROGRESS if can_start() fails
-       - Cannot transition to COMPLETED if can_complete() fails
-       - Cannot transition to PRODUCTION_READY if can_deploy() fails
-
-       All checks use the same mechanism: filter criteria by
-       blocks_transition_to, check if all are met.
-
-    3. Timestamps:
-       - started_at >= created_at
-       - completed_at >= started_at
-
-    4. Parent consistency:
-       - If parent_ref is set, that parent must have a CompletableTarget
-         criterion referencing this ticket's id
-
-    IMPLEMENTATION:
-
-    1. Create vibey/roadmap/models/ticket/ticket.py:
-       - Ticket class extending Completable
-       - All lifecycle methods
-       - Convenience accessors
-       - Validation
-
-    2. Use Pydantic v2 features:
-       - Field() with descriptions
-       - field_validator for field-level validation
-       - model_validator for cross-field validation
-       - computed_field for derived properties
-       - model_copy() for immutable updates
-
-    FILE STRUCTURE:
-    vibey/roadmap/models/ticket/
-      __init__.py
-      enums.py          <- Task 010
-      completable.py    <- Task 009
-      targets.py        <- Task 009
-      support.py        <- Task 009
-      requirements.py   <- Task 011
-      ticket.py         <- This task (Layer 1)
-      hierarchical.py   <- Task 002 (Layer 2)
-      domain.py         <- Tasks 003-006 (Layer 3)
-
-    SUCCESS CRITERIA:
-    - Ticket extends Completable correctly
-    - Lifecycle transitions use unified can_transition_to()
-    - Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)
-    - No separate dependencies field - all in criteria
-    - start() checks can_start(), complete() checks can_complete()
-    - Hierarchy attributes computed correctly
-    - Convenience accessors filter by target type AND blocks_transition_to
-    - Progress tracked per transition type
-    - Full test coverage
+  description: "Create the Ticket class that extends Completable with work-specific\n\
+    semantics. This is Layer 1 of the three-layer architecture.\n\nDESIGN PRINCIPLE:\
+    \ Ticket IS a Completable with additional work\ntracking (lifecycle, assignment,\
+    \ commits, dependencies).\n\nCompletion is determined by criteria (inherited from\
+    \ Completable).\nTicket adds work semantics on top.\n\nLAYER 1 FIELDS:\n\n1. From\
+    \ Completable (inherited):\n   - id: str\n   - name: str\n   - description: Optional[str]\n\
+    \   - criteria: List[Criterion]\n\n   Computed (inherited):\n   - is_complete:\
+    \ bool\n   - progress: Progress\n   - blocking_reasons: List[str]\n   - children:\
+    \ List[str]\n\n2. Identity Extension:\n   - parent_ref: Optional[str]\n     (denormalized\
+    \ for fast parent lookup)\n\n   Note: parent_ref is set when this ticket is referenced\
+    \ by a\n   CompletableTarget criterion in another ticket. It's denormalized\n\
+    \   for O(1) lookup, but the source of truth is the criterion.\n\n3. Lifecycle\
+    \ (Ticket-specific):\n   - status: TicketStatus\n     (not_started, in_progress,\
+    \ paused, completed, cancelled)\n\n   - created_at: datetime\n   - started_at:\
+    \ Optional[datetime]\n   - completed_at: Optional[datetime]\n   - updated_at:\
+    \ datetime\n\n   Lifecycle rules:\n   - IN_PROGRESS requires started_at\n   -\
+    \ COMPLETED requires completed_at AND is_complete == True\n   - Cannot complete\
+    \ if is_complete == False (criteria not met)\n\n4. Work Assignment:\n   - assigned_agents:\
+    \ List[str]\n   - priority: Priority\n\n5. Work Evidence:\n   - commits: List[GitCommit]\n\
+    \     (git commits associated with this work)\n\n6. Sibling Dependencies (NOW\
+    \ UNIFIED INTO CRITERIA):\n   Dependencies are NO LONGER a separate field. They\
+    \ are expressed\n   as Criterion with blocks_transition_to=IN_PROGRESS.\n\n  \
+    \ Example - Task 003 depends on Task 002:\n   criteria:\n     - id: dep-task-002\n\
+    \       description: \"Task 002 must complete before starting\"\n       target:\n\
+    \         type: completable\n         completable_id: task-002\n         required_status:\
+    \ completed\n       blocks_transition_to: in_progress  # <-- Makes it a dependency\n\
+    \n   Note: Parent-child is ALSO via criteria (CompletableTarget), but\n   with\
+    \ blocks_transition_to=COMPLETED (the default).\n\n   Computed:\n   - is_blocked:\
+    \ bool = not can_start()[0]\n     (can_start checks criteria where blocks_transition_to=IN_PROGRESS)\n\
+    \n7. Requirement Templates:\n   - requirements_local: List[Requirement]\n    \
+    \ (requirement templates defined on this ticket)\n\n   Note: These cascade to\
+    \ children. Actual criteria are generated\n   by RequirementInstantiator when\
+    \ the ticket is created/updated.\n\n8. Estimation:\n   - estimated_duration: Optional[str]\n\
+    \n9. Metadata:\n   - metadata: Dict[str, Any]\n\nHIERARCHY ATTRIBUTES (computed\
+    \ from Completable):\n\n- is_parent: bool\n  Computed: len(children) > 0\n  True\
+    \ if this ticket has child tickets (via CompletableTarget criteria)\n\n- is_child:\
+    \ bool\n  Computed: parent_ref is not None\n  True if this ticket is referenced\
+    \ by another ticket's criterion\n\n- is_ultimate_parent: bool\n  Computed: is_parent\
+    \ and not is_child\n  True for root tickets (Roadmap)\n\n- is_ultimate_child:\
+    \ bool\n  Computed: is_child and not is_parent\n  True for leaf tickets (Task)\n\
+    \n- is_intermediate: bool\n  Computed: is_parent and is_child\n  True for middle\
+    \ tickets (Track, Sprint)\n\nKEY METHODS:\n\n1. Lifecycle Transitions (inherited\
+    \ from Completable, extended):\n   - can_transition_to(status: TicketStatus) ->\
+    \ tuple[bool, List[str]]\n     THE unified interface for ALL transition checks\n\
+    \   - can_start() -> tuple[bool, List[str]]\n     = can_transition_to(IN_PROGRESS)\n\
+    \   - can_complete() -> tuple[bool, List[str]]\n     = can_transition_to(COMPLETED)\n\
+    \   - can_deploy() -> tuple[bool, List[str]]\n     = can_transition_to(PRODUCTION_READY)\n\
+    \n   - start() -> Ticket (checks can_start first)\n   - complete() -> Ticket (checks\
+    \ can_complete first)\n   - pause() -> Ticket\n   - cancel() -> Ticket\n\n   Note:\
+    \ All transitions use can_transition_to() which checks\n   criteria filtered by\
+    \ blocks_transition_to. This is THE\n   deterministic interface.\n\n2. Criterion\
+    \ Management (inherited from Completable):\n   - get_criterion(id: str) -> Optional[Criterion]\n\
+    \   - add_criterion(criterion: Criterion) -> None\n   - remove_criterion(id: str)\
+    \ -> bool\n   - refresh_criteria() -> None\n\n3. Progress Per Transition:\n  \
+    \ - progress_for_transition(status: TicketStatus) -> Progress\n   - start_progress:\
+    \ Progress (toward IN_PROGRESS)\n   - completion_progress: Progress (toward COMPLETED)\n\
+    \   - deploy_progress: Progress (toward PRODUCTION_READY)\n\n4. Convenience Accessors\
+    \ (filter criteria by target type):\n   - deliverables: List[Criterion]\n    \
+    \ (criteria with FileExistsTarget)\n\n   - tests: List[Criterion]\n     (criteria\
+    \ with TestPassesTarget)\n\n   - subtasks: List[Criterion]\n     (criteria with\
+    \ CompletableTarget, blocks_transition_to=COMPLETED)\n\n   - dependencies: List[Criterion]\n\
+    \     (criteria with CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\n\
+    \   - manual_checks: List[Criterion]\n     (criteria with ManualTarget)\n\n  \
+    \ - production_gates: List[Criterion]\n     (criteria with blocks_transition_to=PRODUCTION_READY)\n\
+    \nVALIDATION RULES:\n\n1. Status consistency:\n   - IN_PROGRESS requires started_at\
+    \ to be set\n   - COMPLETED requires completed_at AND can_complete() == True\n\
+    \   - PRODUCTION_READY requires can_deploy() == True\n   - PAUSED is always allowed\n\
+    \n2. Unified Blocking (via can_transition_to):\n   - Cannot transition to IN_PROGRESS\
+    \ if can_start() fails\n   - Cannot transition to COMPLETED if can_complete()\
+    \ fails\n   - Cannot transition to PRODUCTION_READY if can_deploy() fails\n\n\
+    \   All checks use the same mechanism: filter criteria by\n   blocks_transition_to,\
+    \ check if all are met.\n\n3. Timestamps:\n   - started_at >= created_at\n   -\
+    \ completed_at >= started_at\n\n4. Parent consistency:\n   - If parent_ref is\
+    \ set, that parent must have a CompletableTarget\n     criterion referencing this\
+    \ ticket's id\n\nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/ticket.py:\n\
+    \   - Ticket class extending Completable\n   - All lifecycle methods\n   - Convenience\
+    \ accessors\n   - Validation\n\n2. Use Pydantic v2 features:\n   - Field() with\
+    \ descriptions\n   - field_validator for field-level validation\n   - model_validator\
+    \ for cross-field validation\n   - computed_field for derived properties\n   -\
+    \ model_copy() for immutable updates\n\nFILE STRUCTURE:\nvibey/roadmap/models/ticket/\n\
+    \  __init__.py\n  enums.py          <- Task 010\n  completable.py    <- Task 009\n\
+    \  targets.py        <- Task 009\n  support.py        <- Task 009\n  requirements.py\
+    \   <- Task 011\n  ticket.py         <- This task (Layer 1)\n  hierarchical.py\
+    \   <- Task 002 (Layer 2)\n  domain.py         <- Tasks 003-006 (Layer 3)\n\n\
+    SUCCESS CRITERIA:\n- Ticket extends Completable correctly\n- Lifecycle transitions\
+    \ use unified can_transition_to()\n- Dependencies expressed as criteria (blocks_transition_to:\
+    \ IN_PROGRESS)\n- No separate dependencies field - all in criteria\n- start()\
+    \ checks can_start(), complete() checks can_complete()\n- Hierarchy attributes\
+    \ computed correctly\n- Convenience accessors filter by target type AND blocks_transition_to\n\
+    - Progress tracked per transition type\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
@@ -238,20 +105,50 @@ task:
   phase_label: implementation
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-002
-  - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
+  - type: task
+    target_id: sqlite-backend-6-task-002
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-003
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-004
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-005
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-006
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-6-task-009
-  - sqlite-backend-6-task-010
-  - sqlite-backend-6-task-011
+  - dependency_id: sqlite-backend-6-task-009
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495647+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-010
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495648+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-011
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495648+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-009
     blocker_type: task
@@ -278,37 +175,17 @@ task:
   - sqlite-backend-6-task-005
   - sqlite-backend-6-task-006
   deliverables:
-  - vibey/roadmap/models/ticket/ticket.py
-  - vibey/roadmap/models/ticket/__init__.py
-  - tests/roadmap/models/ticket/test_ticket.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/ticket.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/__init__.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_ticket.py
   commits: []
   metadata:
     last_updated: '2025-11-29T17:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      CORE LAYER 1 TASK
-
-      Key design decisions:
-
-      1. Ticket IS-A Completable
-         - Inherits criteria-based completion
-         - Inherits can_transition_to() unified interface
-         - Adds work semantics (lifecycle, assignment, etc.)
-
-      2. Parent-child via criteria
-         - CompletableTarget with blocks_transition_to=COMPLETED
-         - parent_ref is denormalized for fast lookup
-         - children computed from criteria
-
-      3. Dependencies UNIFIED into criteria
-         - NO separate dependencies field
-         - Dependencies = criteria with blocks_transition_to=IN_PROGRESS
-         - Same Criterion class, different blocks_transition_to value
-
-      4. ALL transitions are deterministic
-         - can_transition_to(status) is THE unified interface
-         - start() checks can_start() (IN_PROGRESS criteria)
-         - complete() checks can_complete() (COMPLETED criteria)
-         - deploy() checks can_deploy() (PRODUCTION_READY criteria)
-         - THE guardrail for AI manipulation applies to ALL states

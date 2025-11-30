@@ -50,7 +50,7 @@ task:
     - Comparison shows 0 dependency business logic gaps
   status: completed
   blocked: false
-  created: '2025-11-28T18:00:00+00:00'
+  created: '2025-11-28T15:00:00+00:00'
   started: '2025-11-28T16:25:00+00:00'
   completed: '2025-11-28T16:45:00+00:00'
   assigned_agent: backend-engineer
@@ -65,11 +65,21 @@ task:
   blocks: []
   blocked_by: []
   deliverables:
-  - Extended entity_blocked_by schema with business logic fields
-  - Updated sql_dumper.py for tracks, sprints, and tasks
-  - Updated compare_databases.py with dependency comparison
-  - Regenerated computed.db with complete dependency data
-  - Comparison report showing 0 dependency gaps
+  - type: code
+    paths:
+    - Extended entity_blocked_by schema with business logic fields
+  - type: code
+    paths:
+    - Updated sql_dumper.py for tracks, sprints, and tasks
+  - type: code
+    paths:
+    - Updated compare_databases.py with dependency comparison
+  - type: code
+    paths:
+    - Regenerated computed.db with complete dependency data
+  - type: documentation
+    paths:
+    - Comparison report showing 0 dependency gaps
   commits: []
   metadata:
     last_updated: '2025-11-28T18:00:00+00:00'

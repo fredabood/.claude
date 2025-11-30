@@ -3,7 +3,7 @@ task:
   sprint_id: sqlite-backend-10
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: documentation
+  task_type: development
   title: Create migration guide and documentation
   description: |
     Create comprehensive documentation for the unified ticket

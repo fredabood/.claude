@@ -5,73 +5,35 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add is_automatic Flag and refresh() to CriterionTarget
-  description: |
-    Implement the is_automatic property and refresh() method on all CriterionTarget
-    types to support auto-progression of parent tickets when children complete.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5
-
-    CHANGES TO CriterionTarget BASE CLASS:
-
-    1. Add abstract property:
-       @property
-       @abstractmethod
-       def is_automatic(self) -> bool:
-           """Can this target auto-evaluate without human intervention?"""
-
-    2. Add optional refresh method:
-       def refresh(self, context: RefreshContext) -> None:
-           """Refresh cached state from external source."""
-           pass  # Default no-op, override in subclasses
-
-    3. Create RefreshContext dataclass:
-       @dataclass
-       class RefreshContext:
-           ticket_registry: TicketRegistry
-           test_runner: Optional[TestRunner] = None
-           metrics: Optional[MetricsSource] = None
-           http_client: Optional[HttpClient] = None
-           activity_log: List[ActivityLogEntry] = field(default_factory=list)
-
-    PER-TARGET IMPLEMENTATION:
-
-    CompletableTarget:
-      - is_automatic: True (can check ticket status)
-      - refresh(): Update current_status from ticket_registry
-
-    FileExistsTarget:
-      - is_automatic: True (can check filesystem)
-      - refresh(): Update existing_paths/missing_paths via Path.exists()
-
-    TestPassesTarget:
-      - is_automatic: True (can run test command)
-      - refresh(): Run test_command, update last_result
-
-    ThresholdTarget:
-      - is_automatic: True (can query metrics)
-      - refresh(): Get current_value from metrics source
-
-    ManualTarget:
-      - is_automatic: False (requires human)
-      - refresh(): No-op (must use assess() method)
-
-    ExternalTarget:
-      - is_automatic: True (can query endpoint)
-      - refresh(): HTTP GET to endpoint, update current_status
-
-    FILE CHANGES:
-    - vibey/roadmap/models/ticket/targets.py (update all target classes)
-    - vibey/roadmap/models/ticket/support.py (add RefreshContext)
-    - tests/roadmap/models/ticket/test_targets.py (add refresh tests)
-
-    SUCCESS CRITERIA:
-    - All CriterionTarget types implement is_automatic property
-    - Automatic targets implement refresh() method
-    - ManualTarget.is_automatic returns False
-    - RefreshContext provides access to external systems
-    - Full test coverage for refresh behavior
+  description: "Implement the is_automatic property and refresh() method on all CriterionTarget\n\
+    types to support auto-progression of parent tickets when children complete.\n\n\
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5\n\nCHANGES TO CriterionTarget\
+    \ BASE CLASS:\n\n1. Add abstract property:\n   @property\n   @abstractmethod\n\
+    \   def is_automatic(self) -> bool:\n       \"\"\"Can this target auto-evaluate\
+    \ without human intervention?\"\"\"\n\n2. Add optional refresh method:\n   def\
+    \ refresh(self, context: RefreshContext) -> None:\n       \"\"\"Refresh cached\
+    \ state from external source.\"\"\"\n       pass  # Default no-op, override in\
+    \ subclasses\n\n3. Create RefreshContext dataclass:\n   @dataclass\n   class RefreshContext:\n\
+    \       ticket_registry: TicketRegistry\n       test_runner: Optional[TestRunner]\
+    \ = None\n       metrics: Optional[MetricsSource] = None\n       http_client:\
+    \ Optional[HttpClient] = None\n       activity_log: List[ActivityLogEntry] = field(default_factory=list)\n\
+    \nPER-TARGET IMPLEMENTATION:\n\nCompletableTarget:\n  - is_automatic: True (can\
+    \ check ticket status)\n  - refresh(): Update current_status from ticket_registry\n\
+    \nFileExistsTarget:\n  - is_automatic: True (can check filesystem)\n  - refresh():\
+    \ Update existing_paths/missing_paths via Path.exists()\n\nTestPassesTarget:\n\
+    \  - is_automatic: True (can run test command)\n  - refresh(): Run test_command,\
+    \ update last_result\n\nThresholdTarget:\n  - is_automatic: True (can query metrics)\n\
+    \  - refresh(): Get current_value from metrics source\n\nManualTarget:\n  - is_automatic:\
+    \ False (requires human)\n  - refresh(): No-op (must use assess() method)\n\n\
+    ExternalTarget:\n  - is_automatic: True (can query endpoint)\n  - refresh(): HTTP\
+    \ GET to endpoint, update current_status\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/targets.py\
+    \ (update all target classes)\n- vibey/roadmap/models/ticket/support.py (add RefreshContext)\n\
+    - tests/roadmap/models/ticket/test_targets.py (add refresh tests)\n\nSUCCESS CRITERIA:\n\
+    - All CriterionTarget types implement is_automatic property\n- Automatic targets\
+    \ implement refresh() method\n- ManualTarget.is_automatic returns False\n- RefreshContext\
+    \ provides access to external systems\n- Full test coverage for refresh behavior\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T10:00:00+00:00'
   started: null
   completed: null
@@ -85,9 +47,17 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-013
+  - type: task
+    target_id: sqlite-backend-6-task-013
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-6-task-009
+  - dependency_id: sqlite-backend-6-task-009
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495672+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-009
     blocker_type: task
@@ -98,21 +68,17 @@ task:
   depended_on_by:
   - sqlite-backend-6-task-013
   deliverables:
-  - vibey/roadmap/models/ticket/targets.py
-  - vibey/roadmap/models/ticket/support.py
-  - tests/roadmap/models/ticket/test_targets.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/targets.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/support.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_targets.py
   commits: []
   metadata:
     last_updated: '2025-11-30T10:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      GAP REMEDIATION: Auto-Progression Support
-
-      This task adds the infrastructure needed for automatic status
-      progression when criteria are met. The is_automatic flag tells
-      the system which criteria can be auto-evaluated vs which require
-      human intervention.
-
-      Key insight: ManualTarget is the ONLY non-automatic target.
-      All others can refresh their state from external sources.

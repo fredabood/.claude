@@ -5,254 +5,123 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Migrate existing dataclass models to unified Pydantic models
-  description: |
-    Create migration adapters and update codebase to use the new unified
-    ticket architecture with criteria-based completion model.
-
-    KEY ARCHITECTURAL CHANGE:
-    The new model uses `criteria: List[Criterion]` as THE source of truth
-    for completion. Parent-child relationships are implicit via
-    CompletableTarget criteria, not explicit `tracks`/`sprints`/`tasks` lists.
-
-    CURRENT STATE:
-
-    Existing Models (dataclasses in vibey/roadmap/models/):
-    - roadmap.py: Roadmap, Progress, TrackSummary, etc.
-    - track.py: Track, TrackProgress, SprintSummary, etc.
-    - sprint.py: Sprint, SprintProgress, TaskSummary, etc.
-    - task.py: Task, TaskMetadata, GateInfo, etc.
-    - common.py: Status, TaskStatus, Priority, TaskType, etc.
-
-    These are used by:
-    - vibey/roadmap/serialization/yaml_loader.py
-    - vibey/roadmap/serialization/yaml_dumper.py
-    - vibey/roadmap/serialization/sql_loader.py
-    - vibey/roadmap/serialization/sql_dumper.py
-    - vibey/operations/roadmap/*.py
-    - vibey/cli/commands.py
-
-    MIGRATION STRATEGY:
-
-    1. Phase 1: Adapter Layer (Non-Breaking)
-       Create adapters that convert between old and new models:
-
-       class ModelAdapter:
-           @staticmethod
-           def roadmap_to_ticket(old: Roadmap) -> RoadmapTicket:
-               # Convert explicit tracks list to CompletableTarget criteria
-               criteria = [
-                   Criterion(
-                       id=f"track-{track_id}",
-                       description=f"Track {track_id} complete",
-                       target=CompletableTarget(
-                           completable_id=track_id,
-                           required_status=TicketStatus.COMPLETED
-                       )
-                   )
-                   for track_id in old.tracks
-               ]
-               return RoadmapTicket(criteria=criteria, ...)
-
-           @staticmethod
-           def ticket_to_roadmap(new: RoadmapTicket) -> Roadmap:
-               # Extract track IDs from CompletableTarget criteria
-               tracks = [
-                   c.target.completable_id
-                   for c in new.criteria
-                   if isinstance(c.target, CompletableTarget)
-               ]
-               return Roadmap(tracks=tracks, ...)
-
-       Similar adapters for Track -> TrackTicket, Sprint -> SprintTicket, etc.
-
-    2. Phase 2: Update Serialization
-       - yaml_loader.py: Load YAML -> construct new Pydantic models
-         - Handle criteria field with polymorphic targets
-         - Generate criteria from legacy tracks/sprints/tasks lists
-       - yaml_dumper.py: Dump new Pydantic models -> YAML
-         - Serialize criteria with target type discriminator
-         - Optionally emit legacy format for backward compatibility
-       - sql_loader.py: Query DB -> construct via ORM
-         - Load from tickets + criteria tables (separate)
-         - Deserialize polymorphic targets from JSON
-       - sql_dumper.py: Save via ORM
-         - Persist to tickets + criteria tables
-         - Serialize targets as JSON with type discriminator
-
-    3. Phase 3: Update Operations
-       - Update vibey/operations/roadmap/*.py to use new models
-       - Use TicketRepository pattern instead of direct SQL
-       - Leverage smart accessors (is_complete, progress, children)
-       - Use Completable.can_complete() for deterministic completion
-
-    4. Phase 4: Deprecation
-       - Mark old models as deprecated
-       - Update all imports to use new models
-       - Remove adapter layer once migration complete
-       - Remove legacy YAML format support (or keep as backward compat)
-
-    FIELD MAPPING:
-
-    Old Roadmap -> New RoadmapTicket:
-    - id -> id
-    - name -> name
-    - version -> version
-    - status -> status
-    - created -> created_at
-    - started -> started_at
-    - completed -> completed_at
-    - tracks -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)
-    - progress -> (computed from criteria)
-    - activity_log -> activity_log
-    - metadata -> metadata
-    - blocked_by -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)
-    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)
-
-    NOTE: The Dependency class has been ELIMINATED. Dependencies are now
-    expressed as Criterion with blocks_transition_to=IN_PROGRESS.
-
-    Old Sprint -> New SprintTicket:
-    - tasks -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)
-    - deliverables -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)
-    - success_criteria -> criteria.descriptions
-    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)
-    - development_gates -> criteria (as various targets, blocks_transition_to=PRODUCTION_READY)
-
-    Old Task -> New TaskTicket:
-    - deliverables (strings) -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)
-    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)
-    - (no subtasks - tasks are leaf nodes)
-    - Add criteria for test coverage, code review, etc.
-
-    BREAKING CHANGES TO HANDLE:
-
-    1. Children lists -> CompletableTarget criteria (blocks_transition_to=COMPLETED)
-       - tracks: List[str] becomes criteria with CompletableTarget
-       - sprints: List[str] becomes criteria with CompletableTarget
-       - tasks: List[str] becomes criteria with CompletableTarget
-
-    2. Dependencies -> CompletableTarget criteria (blocks_transition_to=IN_PROGRESS)
-       - blocked_by: List[str] becomes criteria with CompletableTarget
-       - depends_on: List[Dependency] becomes criteria with CompletableTarget
-       - The Dependency class is ELIMINATED
-
-    3. Production gates -> Criteria (blocks_transition_to=PRODUCTION_READY)
-       - development_gates become criteria blocking production readiness
-
-    4. Progress is now computed from criteria PER TRANSITION
-       - progress = progress_for_transition(COMPLETED)
-       - start_progress = progress_for_transition(IN_PROGRESS)
-       - deploy_progress = progress_for_transition(PRODUCTION_READY)
-
-    5. can_transition_to(status) is THE unified interface
-       - can_start() = can_transition_to(IN_PROGRESS)
-       - can_complete() = can_transition_to(COMPLETED)
-       - can_deploy() = can_transition_to(PRODUCTION_READY)
-       - Cannot override - THE guardrail against AI manipulation
-
-    6. Deliverables become FileExistsTarget criteria
-       - deliverables: ["src/api.py"] becomes:
-         criteria: [{target: {type: file_exists, paths: ["src/api.py"]},
-                    blocks_transition_to: completed}]
-
-    7. Requirements cascade and instantiate as criteria
-       - Roadmap requirements become task criteria via instantiation
-
-    8. Timestamp field names: created -> created_at
-
-    9. Enum consolidation: Status/TaskStatus -> TicketStatus
-
-    YAML FORMAT CHANGES:
-
-    Old format (explicit children and dependencies):
-    ```yaml
-    roadmap:
-      tracks:
-        - core-framework
-        - goose-port
-      blocked_by:
-        - other-roadmap
-    ```
-
-    New format (criteria-based with blocks_transition_to):
-    ```yaml
-    roadmap:
-      criteria:
-        # Children (block COMPLETED)
-        - id: track-core
-          description: Core framework track complete
-          target:
-            type: completable
-            completable_id: core-framework
-            required_status: completed
-          blocks_transition_to: completed  # Default, can omit
-
-        # Dependencies (block IN_PROGRESS)
-        - id: dep-other-roadmap
-          description: Other roadmap must complete before starting
-          target:
-            type: completable
-            completable_id: other-roadmap
-            required_status: completed
-          blocks_transition_to: in_progress  # Makes it a dependency
-
-        # Production gates (block PRODUCTION_READY)
-        - id: gate-security-audit
-          description: Security audit must pass
-          target:
-            type: manual
-            assessor: security-team
-          blocks_transition_to: production_ready
-    ```
-
-    MIGRATION TOOL:
-
-    Create vibey/roadmap/migration/yaml_migrator.py:
-    - migrate_roadmap_yaml(old_yaml) -> new_yaml
-    - migrate_track_yaml(old_yaml) -> new_yaml
-    - migrate_sprint_yaml(old_yaml) -> new_yaml
-    - migrate_task_yaml(old_yaml) -> new_yaml
-
-    Each function:
-    1. Parses old YAML
-    2. Converts to new Pydantic model via adapter
-    3. Dumps to new YAML format
-
-    DELIVERABLES:
-
-    1. vibey/roadmap/models/ticket/adapters.py:
-       - ModelAdapter class with conversion methods
-       - Legacy-to-criteria conversion utilities
-       - Criteria-to-legacy extraction utilities
-
-    2. vibey/roadmap/migration/yaml_migrator.py:
-       - YAML format migration functions
-       - Batch migration for entire roadmap directory
-
-    3. Updated serialization modules:
-       - yaml_loader.py: Handle criteria with polymorphic targets
-       - yaml_dumper.py: Serialize criteria with target type
-       - sql_loader.py: Load from tickets + criteria tables via ORM
-       - sql_dumper.py: Save to tickets + criteria tables via ORM
-
-    4. Migration documentation:
-       - Criteria-based completion model explained
-       - Field mapping reference
-       - Breaking changes list
-       - Upgrade guide for any external code
-
-    SUCCESS CRITERIA:
-    - Existing YAML files load correctly into new models
-    - Legacy children lists converted to CompletableTarget criteria
-    - Round-trip YAML -> Pydantic -> YAML produces equivalent output
-    - Round-trip YAML -> Pydantic -> SQLite -> Pydantic -> YAML works
-    - All existing tests pass (with adapter layer)
-    - Operations use new repository pattern
-    - is_complete computed correctly from criteria
-    - Progress computed correctly from criteria
-    - No data loss during migration
+  description: "Create migration adapters and update codebase to use the new unified\n\
+    ticket architecture with criteria-based completion model.\n\nKEY ARCHITECTURAL\
+    \ CHANGE:\nThe new model uses `criteria: List[Criterion]` as THE source of truth\n\
+    for completion. Parent-child relationships are implicit via\nCompletableTarget\
+    \ criteria, not explicit `tracks`/`sprints`/`tasks` lists.\n\nCURRENT STATE:\n\
+    \nExisting Models (dataclasses in vibey/roadmap/models/):\n- roadmap.py: Roadmap,\
+    \ Progress, TrackSummary, etc.\n- track.py: Track, TrackProgress, SprintSummary,\
+    \ etc.\n- sprint.py: Sprint, SprintProgress, TaskSummary, etc.\n- task.py: Task,\
+    \ TaskMetadata, GateInfo, etc.\n- common.py: Status, TaskStatus, Priority, TaskType,\
+    \ etc.\n\nThese are used by:\n- vibey/roadmap/serialization/yaml_loader.py\n-\
+    \ vibey/roadmap/serialization/yaml_dumper.py\n- vibey/roadmap/serialization/sql_loader.py\n\
+    - vibey/roadmap/serialization/sql_dumper.py\n- vibey/operations/roadmap/*.py\n\
+    - vibey/cli/commands.py\n\nMIGRATION STRATEGY:\n\n1. Phase 1: Adapter Layer (Non-Breaking)\n\
+    \   Create adapters that convert between old and new models:\n\n   class ModelAdapter:\n\
+    \       @staticmethod\n       def roadmap_to_ticket(old: Roadmap) -> RoadmapTicket:\n\
+    \           # Convert explicit tracks list to CompletableTarget criteria\n   \
+    \        criteria = [\n               Criterion(\n                   id=f\"track-{track_id}\"\
+    ,\n                   description=f\"Track {track_id} complete\",\n          \
+    \         target=CompletableTarget(\n                       completable_id=track_id,\n\
+    \                       required_status=TicketStatus.COMPLETED\n             \
+    \      )\n               )\n               for track_id in old.tracks\n      \
+    \     ]\n           return RoadmapTicket(criteria=criteria, ...)\n\n       @staticmethod\n\
+    \       def ticket_to_roadmap(new: RoadmapTicket) -> Roadmap:\n           # Extract\
+    \ track IDs from CompletableTarget criteria\n           tracks = [\n         \
+    \      c.target.completable_id\n               for c in new.criteria\n       \
+    \        if isinstance(c.target, CompletableTarget)\n           ]\n          \
+    \ return Roadmap(tracks=tracks, ...)\n\n   Similar adapters for Track -> TrackTicket,\
+    \ Sprint -> SprintTicket, etc.\n\n2. Phase 2: Update Serialization\n   - yaml_loader.py:\
+    \ Load YAML -> construct new Pydantic models\n     - Handle criteria field with\
+    \ polymorphic targets\n     - Generate criteria from legacy tracks/sprints/tasks\
+    \ lists\n   - yaml_dumper.py: Dump new Pydantic models -> YAML\n     - Serialize\
+    \ criteria with target type discriminator\n     - Optionally emit legacy format\
+    \ for backward compatibility\n   - sql_loader.py: Query DB -> construct via ORM\n\
+    \     - Load from tickets + criteria tables (separate)\n     - Deserialize polymorphic\
+    \ targets from JSON\n   - sql_dumper.py: Save via ORM\n     - Persist to tickets\
+    \ + criteria tables\n     - Serialize targets as JSON with type discriminator\n\
+    \n3. Phase 3: Update Operations\n   - Update vibey/operations/roadmap/*.py to\
+    \ use new models\n   - Use TicketRepository pattern instead of direct SQL\n  \
+    \ - Leverage smart accessors (is_complete, progress, children)\n   - Use Completable.can_complete()\
+    \ for deterministic completion\n\n4. Phase 4: Deprecation\n   - Mark old models\
+    \ as deprecated\n   - Update all imports to use new models\n   - Remove adapter\
+    \ layer once migration complete\n   - Remove legacy YAML format support (or keep\
+    \ as backward compat)\n\nFIELD MAPPING:\n\nOld Roadmap -> New RoadmapTicket:\n\
+    - id -> id\n- name -> name\n- version -> version\n- status -> status\n- created\
+    \ -> created_at\n- started -> started_at\n- completed -> completed_at\n- tracks\
+    \ -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)\n- progress\
+    \ -> (computed from criteria)\n- activity_log -> activity_log\n- metadata -> metadata\n\
+    - blocked_by -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
+    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
+    \nNOTE: The Dependency class has been ELIMINATED. Dependencies are now\nexpressed\
+    \ as Criterion with blocks_transition_to=IN_PROGRESS.\n\nOld Sprint -> New SprintTicket:\n\
+    - tasks -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)\n-\
+    \ deliverables -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)\n\
+    - success_criteria -> criteria.descriptions\n- depends_on -> criteria (as CompletableTarget,\
+    \ blocks_transition_to=IN_PROGRESS)\n- development_gates -> criteria (as various\
+    \ targets, blocks_transition_to=PRODUCTION_READY)\n\nOld Task -> New TaskTicket:\n\
+    - deliverables (strings) -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)\n\
+    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
+    - (no subtasks - tasks are leaf nodes)\n- Add criteria for test coverage, code\
+    \ review, etc.\n\nBREAKING CHANGES TO HANDLE:\n\n1. Children lists -> CompletableTarget\
+    \ criteria (blocks_transition_to=COMPLETED)\n   - tracks: List[str] becomes criteria\
+    \ with CompletableTarget\n   - sprints: List[str] becomes criteria with CompletableTarget\n\
+    \   - tasks: List[str] becomes criteria with CompletableTarget\n\n2. Dependencies\
+    \ -> CompletableTarget criteria (blocks_transition_to=IN_PROGRESS)\n   - blocked_by:\
+    \ List[str] becomes criteria with CompletableTarget\n   - depends_on: List[Dependency]\
+    \ becomes criteria with CompletableTarget\n   - The Dependency class is ELIMINATED\n\
+    \n3. Production gates -> Criteria (blocks_transition_to=PRODUCTION_READY)\n  \
+    \ - development_gates become criteria blocking production readiness\n\n4. Progress\
+    \ is now computed from criteria PER TRANSITION\n   - progress = progress_for_transition(COMPLETED)\n\
+    \   - start_progress = progress_for_transition(IN_PROGRESS)\n   - deploy_progress\
+    \ = progress_for_transition(PRODUCTION_READY)\n\n5. can_transition_to(status)\
+    \ is THE unified interface\n   - can_start() = can_transition_to(IN_PROGRESS)\n\
+    \   - can_complete() = can_transition_to(COMPLETED)\n   - can_deploy() = can_transition_to(PRODUCTION_READY)\n\
+    \   - Cannot override - THE guardrail against AI manipulation\n\n6. Deliverables\
+    \ become FileExistsTarget criteria\n   - deliverables: [\"src/api.py\"] becomes:\n\
+    \     criteria: [{target: {type: file_exists, paths: [\"src/api.py\"]},\n    \
+    \            blocks_transition_to: completed}]\n\n7. Requirements cascade and\
+    \ instantiate as criteria\n   - Roadmap requirements become task criteria via\
+    \ instantiation\n\n8. Timestamp field names: created -> created_at\n\n9. Enum\
+    \ consolidation: Status/TaskStatus -> TicketStatus\n\nYAML FORMAT CHANGES:\n\n\
+    Old format (explicit children and dependencies):\n```yaml\nroadmap:\n  tracks:\n\
+    \    - core-framework\n    - goose-port\n  blocked_by:\n    - other-roadmap\n\
+    ```\n\nNew format (criteria-based with blocks_transition_to):\n```yaml\nroadmap:\n\
+    \  criteria:\n    # Children (block COMPLETED)\n    - id: track-core\n      description:\
+    \ Core framework track complete\n      target:\n        type: completable\n  \
+    \      completable_id: core-framework\n        required_status: completed\n  \
+    \    blocks_transition_to: completed  # Default, can omit\n\n    # Dependencies\
+    \ (block IN_PROGRESS)\n    - id: dep-other-roadmap\n      description: Other roadmap\
+    \ must complete before starting\n      target:\n        type: completable\n  \
+    \      completable_id: other-roadmap\n        required_status: completed\n   \
+    \   blocks_transition_to: in_progress  # Makes it a dependency\n\n    # Production\
+    \ gates (block PRODUCTION_READY)\n    - id: gate-security-audit\n      description:\
+    \ Security audit must pass\n      target:\n        type: manual\n        assessor:\
+    \ security-team\n      blocks_transition_to: production_ready\n```\n\nMIGRATION\
+    \ TOOL:\n\nCreate vibey/roadmap/migration/yaml_migrator.py:\n- migrate_roadmap_yaml(old_yaml)\
+    \ -> new_yaml\n- migrate_track_yaml(old_yaml) -> new_yaml\n- migrate_sprint_yaml(old_yaml)\
+    \ -> new_yaml\n- migrate_task_yaml(old_yaml) -> new_yaml\n\nEach function:\n1.\
+    \ Parses old YAML\n2. Converts to new Pydantic model via adapter\n3. Dumps to\
+    \ new YAML format\n\nDELIVERABLES:\n\n1. vibey/roadmap/models/ticket/adapters.py:\n\
+    \   - ModelAdapter class with conversion methods\n   - Legacy-to-criteria conversion\
+    \ utilities\n   - Criteria-to-legacy extraction utilities\n\n2. vibey/roadmap/migration/yaml_migrator.py:\n\
+    \   - YAML format migration functions\n   - Batch migration for entire roadmap\
+    \ directory\n\n3. Updated serialization modules:\n   - yaml_loader.py: Handle\
+    \ criteria with polymorphic targets\n   - yaml_dumper.py: Serialize criteria with\
+    \ target type\n   - sql_loader.py: Load from tickets + criteria tables via ORM\n\
+    \   - sql_dumper.py: Save to tickets + criteria tables via ORM\n\n4. Migration\
+    \ documentation:\n   - Criteria-based completion model explained\n   - Field mapping\
+    \ reference\n   - Breaking changes list\n   - Upgrade guide for any external code\n\
+    \nSUCCESS CRITERIA:\n- Existing YAML files load correctly into new models\n- Legacy\
+    \ children lists converted to CompletableTarget criteria\n- Round-trip YAML ->\
+    \ Pydantic -> YAML produces equivalent output\n- Round-trip YAML -> Pydantic ->\
+    \ SQLite -> Pydantic -> YAML works\n- All existing tests pass (with adapter layer)\n\
+    - Operations use new repository pattern\n- is_complete computed correctly from\
+    \ criteria\n- Progress computed correctly from criteria\n- No data loss during\
+    \ migration\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
@@ -261,11 +130,18 @@ task:
   phase_label: implementation
   estimated_tokens: 5000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
+  blocked_by:
+  - dependency_id: sqlite-backend-6-task-007
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495601+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-007
     blocker_type: task
@@ -274,58 +150,39 @@ task:
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by: []
-  blocked_by:
-  - sqlite-backend-6-task-007
   deliverables:
-  - vibey/roadmap/models/ticket/adapters.py
-  - vibey/roadmap/migration/yaml_migrator.py
-  - Updated yaml_loader.py with criteria support
-  - Updated yaml_dumper.py with criteria support
-  - Updated sql_loader.py with ORM integration
-  - Updated sql_dumper.py with ORM integration
-  - Migration documentation (CRITERIA_MIGRATION.md)
-  - tests/roadmap/models/ticket/test_adapters.py
-  - tests/roadmap/models/ticket/test_migration.py
-  - tests/roadmap/migration/test_yaml_migrator.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/adapters.py
+  - type: code
+    paths:
+    - vibey/roadmap/migration/yaml_migrator.py
+  - type: code
+    paths:
+    - Updated yaml_loader.py with criteria support
+  - type: code
+    paths:
+    - Updated yaml_dumper.py with criteria support
+  - type: code
+    paths:
+    - Updated sql_loader.py with ORM integration
+  - type: code
+    paths:
+    - Updated sql_dumper.py with ORM integration
+  - type: code
+    paths:
+    - Migration documentation (CRITERIA_MIGRATION.md)
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_adapters.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_migration.py
+  - type: code
+    paths:
+    - tests/roadmap/migration/test_yaml_migrator.py
   commits: []
   metadata:
     last_updated: '2025-11-29T17:30:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      This is the largest and most complex task in the sprint.
-      Consider splitting into sub-tasks if scope grows.
-
-      KEY MIGRATION CHALLENGE:
-      Converting explicit children AND dependencies to CompletableTarget
-      criteria is the core transformation. The blocks_transition_to field
-      determines what type of relationship it is.
-
-      UNIFIED BLOCKING MODEL:
-      All blocking relationships use Criterion with blocks_transition_to:
-      - IN_PROGRESS: dependency (must be met before starting)
-      - COMPLETED: success criteria / children (must be met before completing)
-      - PRODUCTION_READY: production gate (must be met before deploying)
-
-      MIGRATION TRANSFORMATIONS:
-      - Roadmap.tracks -> criteria (blocks_transition_to=COMPLETED)
-      - Track.sprints -> criteria (blocks_transition_to=COMPLETED)
-      - Sprint.tasks -> criteria (blocks_transition_to=COMPLETED)
-      - *.blocked_by -> criteria (blocks_transition_to=IN_PROGRESS)
-      - *.depends_on -> criteria (blocks_transition_to=IN_PROGRESS)
-      - *.deliverables -> criteria with FileExistsTarget (blocks_transition_to=COMPLETED)
-      - *.development_gates -> criteria (blocks_transition_to=PRODUCTION_READY)
-
-      The Dependency class is ELIMINATED. Dependencies are now criteria
-      with blocks_transition_to=IN_PROGRESS.
-
-      The adapter layer allows non-breaking incremental migration.
-      Operations can continue using old models while we migrate.
-
-      DETERMINISTIC COMPLETION:
-      After migration, can_transition_to(status) is THE unified interface.
-      Progress is computed per transition type.
-      This is THE guardrail against AI manipulation.
-      The AI cannot transition a ticket unless all relevant criteria are met.
-
-      May need to coordinate with Sprint 6 file format work.

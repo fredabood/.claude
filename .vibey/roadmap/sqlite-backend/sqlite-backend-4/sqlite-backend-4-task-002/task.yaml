@@ -40,7 +40,7 @@ task:
     - Schema matches: computed quality_gates ≡ declared track_quality_gates
   status: completed
   blocked: false
-  created: '2025-11-28T18:00:00+00:00'
+  created: '2025-11-28T15:00:00+00:00'
   started: '2025-11-28T16:15:00+00:00'
   completed: '2025-11-28T16:25:00+00:00'
   assigned_agent: backend-engineer
@@ -55,10 +55,18 @@ task:
   blocks: []
   blocked_by: []
   deliverables:
-  - Updated sql_dumper.py with description/score fields
-  - Updated compare_databases.py with quality_gates comparison
-  - Regenerated computed.db with complete quality gate data
-  - Comparison report showing 0 quality gate gaps
+  - type: code
+    paths:
+    - Updated sql_dumper.py with description/score fields
+  - type: code
+    paths:
+    - Updated compare_databases.py with quality_gates comparison
+  - type: code
+    paths:
+    - Regenerated computed.db with complete quality gate data
+  - type: documentation
+    paths:
+    - Comparison report showing 0 quality gate gaps
   commits: []
   metadata:
     last_updated: '2025-11-28T18:00:00+00:00'

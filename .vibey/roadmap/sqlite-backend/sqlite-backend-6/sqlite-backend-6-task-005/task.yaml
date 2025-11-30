@@ -5,220 +5,100 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Layer 2 - HierarchicalTicket Smart Accessors
-  description: |
-    Create HierarchicalTicket that extends Ticket with smart accessors
-    for aggregation and inheritance. This is Layer 2 of the architecture.
-
-    DESIGN PRINCIPLE: Smart accessors use hierarchy attributes to
-    determine field behavior automatically. No L3 knowledge needed.
-
-    LAYER 2 SMART ACCESSORS:
-
-    1. commits (aggregation):
-       @property
-       def commits(self) -> List[GitCommit]:
-           """
-           Commits: local if leaf, aggregated if parent.
-
-           - is_ultimate_child: return self._commits_local
-           - is_parent: aggregate from all children recursively
-           """
-           if self.is_ultimate_child:
-               return self._commits_local
-           return self._aggregate_commits()
-
-       def _aggregate_commits(self) -> List[GitCommit]:
-           """Collect commits from all descendant tickets."""
-           all_commits = list(self._commits_local)
-           for child_id in self.children:
-               child = self._load_child(child_id)
-               all_commits.extend(child.commits)  # Recursive
-           return sorted(all_commits, key=lambda c: c.timestamp)
-
-    2. requirements_effective (inheritance):
-       @property
-       def requirements_effective(self) -> List[Requirement]:
-           """
-           Requirements: local if root, effective (inherited) if child.
-
-           Uses RequirementResolver to handle inheritance modes:
-           - INHERIT: stricter of local vs ancestor
-           - OVERRIDE: local replaces ancestor
-           - SKIP: explicitly excluded
-           """
-           if self.is_ultimate_parent:
-               return self.requirements_local
-           return RequirementResolver().resolve(self)
-
-    3. instantiated_criteria (from requirements):
-       @property
-       def instantiated_criteria(self) -> List[Criterion]:
-           """
-           Criteria generated from applicable requirements.
-
-           These are ADDED to explicit criteria, not replacing them.
-           """
-           return RequirementInstantiator().instantiate(self)
-
-       @property
-       def all_criteria(self) -> List[Criterion]:
-           """Explicit criteria + instantiated from requirements."""
-           return self.criteria + self.instantiated_criteria
-
-    4. progress_for_transition (computed from criteria):
-       def progress_for_transition(self, status: TicketStatus) -> Progress:
-           """
-           Progress toward a specific transition.
-
-           Filters all_criteria by blocks_transition_to, then computes:
-           progress = met_criteria / total_criteria
-           """
-           relevant = [c for c in self.all_criteria
-                       if c.blocks_transition_to == status]
-           total = len(relevant)
-           met = sum(1 for c in relevant if c.is_met())
-           return Progress(total=total, completed=met)
-
-       @computed_field
-       def progress(self) -> Progress:
-           """Default progress (toward COMPLETED)."""
-           return self.progress_for_transition(TicketStatus.COMPLETED)
-
-       @computed_field
-       def start_progress(self) -> Progress:
-           """Progress toward being able to start (IN_PROGRESS)."""
-           return self.progress_for_transition(TicketStatus.IN_PROGRESS)
-
-       @computed_field
-       def deploy_progress(self) -> Progress:
-           """Progress toward production readiness."""
-           return self.progress_for_transition(TicketStatus.PRODUCTION_READY)
-
-    CONVENIENCE ACCESSORS:
-
-    These filter criteria by target type AND blocks_transition_to:
-
-    @property
-    def deliverables(self) -> List[Criterion]:
-        """File-based criteria (FileExistsTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, FileExistsTarget)]
-
-    @property
-    def tests(self) -> List[Criterion]:
-        """Test-based criteria (TestPassesTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, TestPassesTarget)]
-
-    @property
-    def subtasks(self) -> List[Criterion]:
-        """Child ticket criteria (CompletableTarget blocking COMPLETED)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, CompletableTarget)
-                and c.blocks_transition_to == TicketStatus.COMPLETED]
-
-    @property
-    def dependencies(self) -> List[Criterion]:
-        """Sibling dependencies (CompletableTarget blocking IN_PROGRESS)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, CompletableTarget)
-                and c.blocks_transition_to == TicketStatus.IN_PROGRESS]
-
-    @property
-    def thresholds(self) -> List[Criterion]:
-        """Threshold-based criteria (ThresholdTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, ThresholdTarget)]
-
-    @property
-    def manual_checks(self) -> List[Criterion]:
-        """Manual assessment criteria (ManualTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, ManualTarget)]
-
-    @property
-    def production_gates(self) -> List[Criterion]:
-        """Production deployment gates (any target blocking PRODUCTION_READY)."""
-        return [c for c in self.all_criteria
-                if c.blocks_transition_to == TicketStatus.PRODUCTION_READY]
-
-    HIERARCHY TRAVERSAL:
-
-    @property
-    def parent(self) -> Optional[HierarchicalTicket]:
-        """Load parent ticket if exists."""
-        if self.parent_ref is None:
-            return None
-        return self._load_ticket(self.parent_ref)
-
-    @property
-    def children_tickets(self) -> List[HierarchicalTicket]:
-        """Load all child tickets."""
-        return [self._load_ticket(child_id) for child_id in self.children]
-
-    @property
-    def ancestors(self) -> List[HierarchicalTicket]:
-        """All ancestors from parent to root."""
-        result = []
-        current = self.parent
-        while current is not None:
-            result.append(current)
-            current = current.parent
-        return result
-
-    @property
-    def descendants(self) -> List[HierarchicalTicket]:
-        """All descendants (children, grandchildren, etc.)."""
-        result = []
-        for child in self.children_tickets:
-            result.append(child)
-            result.extend(child.descendants)
-        return result
-
-    LOADER ABSTRACTION:
-
-    The _load_ticket and _load_child methods use dependency injection:
-
-    class TicketLoader(Protocol):
-        def load(self, ticket_id: str) -> HierarchicalTicket: ...
-
-    class HierarchicalTicket(Ticket):
-        _loader: ClassVar[Optional[TicketLoader]] = None
-
-        @classmethod
-        def set_loader(cls, loader: TicketLoader) -> None:
-            cls._loader = loader
-
-        def _load_ticket(self, ticket_id: str) -> HierarchicalTicket:
-            if self._loader is None:
-                raise RuntimeError("No loader configured")
-            return self._loader.load(ticket_id)
-
-    IMPLEMENTATION:
-
-    1. Create vibey/roadmap/models/ticket/hierarchical.py:
-       - HierarchicalTicket class extending Ticket
-       - All smart accessors
-       - Hierarchy traversal methods
-       - Loader abstraction
-
-    2. Integrate with RequirementResolver from Task 011
-    3. Full test coverage with mock loader
-
-    SUCCESS CRITERIA:
-    - All smart accessors work correctly
-    - Aggregation collects from all descendants
-    - Inheritance resolves with correct modes
-    - Instantiated criteria added to explicit criteria
-    - progress_for_transition filters by blocks_transition_to
-    - progress, start_progress, deploy_progress computed correctly
-    - Convenience accessors filter by target type AND blocks_transition_to
-    - dependencies accessor returns criteria blocking IN_PROGRESS
-    - subtasks accessor returns criteria blocking COMPLETED
-    - production_gates accessor returns criteria blocking PRODUCTION_READY
-    - Full test coverage
+  description: "Create HierarchicalTicket that extends Ticket with smart accessors\n\
+    for aggregation and inheritance. This is Layer 2 of the architecture.\n\nDESIGN\
+    \ PRINCIPLE: Smart accessors use hierarchy attributes to\ndetermine field behavior\
+    \ automatically. No L3 knowledge needed.\n\nLAYER 2 SMART ACCESSORS:\n\n1. commits\
+    \ (aggregation):\n   @property\n   def commits(self) -> List[GitCommit]:\n   \
+    \    \"\"\"\n       Commits: local if leaf, aggregated if parent.\n\n       -\
+    \ is_ultimate_child: return self._commits_local\n       - is_parent: aggregate\
+    \ from all children recursively\n       \"\"\"\n       if self.is_ultimate_child:\n\
+    \           return self._commits_local\n       return self._aggregate_commits()\n\
+    \n   def _aggregate_commits(self) -> List[GitCommit]:\n       \"\"\"Collect commits\
+    \ from all descendant tickets.\"\"\"\n       all_commits = list(self._commits_local)\n\
+    \       for child_id in self.children:\n           child = self._load_child(child_id)\n\
+    \           all_commits.extend(child.commits)  # Recursive\n       return sorted(all_commits,\
+    \ key=lambda c: c.timestamp)\n\n2. requirements_effective (inheritance):\n   @property\n\
+    \   def requirements_effective(self) -> List[Requirement]:\n       \"\"\"\n  \
+    \     Requirements: local if root, effective (inherited) if child.\n\n       Uses\
+    \ RequirementResolver to handle inheritance modes:\n       - INHERIT: stricter\
+    \ of local vs ancestor\n       - OVERRIDE: local replaces ancestor\n       - SKIP:\
+    \ explicitly excluded\n       \"\"\"\n       if self.is_ultimate_parent:\n   \
+    \        return self.requirements_local\n       return RequirementResolver().resolve(self)\n\
+    \n3. instantiated_criteria (from requirements):\n   @property\n   def instantiated_criteria(self)\
+    \ -> List[Criterion]:\n       \"\"\"\n       Criteria generated from applicable\
+    \ requirements.\n\n       These are ADDED to explicit criteria, not replacing\
+    \ them.\n       \"\"\"\n       return RequirementInstantiator().instantiate(self)\n\
+    \n   @property\n   def all_criteria(self) -> List[Criterion]:\n       \"\"\"Explicit\
+    \ criteria + instantiated from requirements.\"\"\"\n       return self.criteria\
+    \ + self.instantiated_criteria\n\n4. progress_for_transition (computed from criteria):\n\
+    \   def progress_for_transition(self, status: TicketStatus) -> Progress:\n   \
+    \    \"\"\"\n       Progress toward a specific transition.\n\n       Filters all_criteria\
+    \ by blocks_transition_to, then computes:\n       progress = met_criteria / total_criteria\n\
+    \       \"\"\"\n       relevant = [c for c in self.all_criteria\n            \
+    \       if c.blocks_transition_to == status]\n       total = len(relevant)\n \
+    \      met = sum(1 for c in relevant if c.is_met())\n       return Progress(total=total,\
+    \ completed=met)\n\n   @computed_field\n   def progress(self) -> Progress:\n \
+    \      \"\"\"Default progress (toward COMPLETED).\"\"\"\n       return self.progress_for_transition(TicketStatus.COMPLETED)\n\
+    \n   @computed_field\n   def start_progress(self) -> Progress:\n       \"\"\"\
+    Progress toward being able to start (IN_PROGRESS).\"\"\"\n       return self.progress_for_transition(TicketStatus.IN_PROGRESS)\n\
+    \n   @computed_field\n   def deploy_progress(self) -> Progress:\n       \"\"\"\
+    Progress toward production readiness.\"\"\"\n       return self.progress_for_transition(TicketStatus.PRODUCTION_READY)\n\
+    \nCONVENIENCE ACCESSORS:\n\nThese filter criteria by target type AND blocks_transition_to:\n\
+    \n@property\ndef deliverables(self) -> List[Criterion]:\n    \"\"\"File-based\
+    \ criteria (FileExistsTarget).\"\"\"\n    return [c for c in self.all_criteria\n\
+    \            if isinstance(c.target, FileExistsTarget)]\n\n@property\ndef tests(self)\
+    \ -> List[Criterion]:\n    \"\"\"Test-based criteria (TestPassesTarget).\"\"\"\
+    \n    return [c for c in self.all_criteria\n            if isinstance(c.target,\
+    \ TestPassesTarget)]\n\n@property\ndef subtasks(self) -> List[Criterion]:\n  \
+    \  \"\"\"Child ticket criteria (CompletableTarget blocking COMPLETED).\"\"\"\n\
+    \    return [c for c in self.all_criteria\n            if isinstance(c.target,\
+    \ CompletableTarget)\n            and c.blocks_transition_to == TicketStatus.COMPLETED]\n\
+    \n@property\ndef dependencies(self) -> List[Criterion]:\n    \"\"\"Sibling dependencies\
+    \ (CompletableTarget blocking IN_PROGRESS).\"\"\"\n    return [c for c in self.all_criteria\n\
+    \            if isinstance(c.target, CompletableTarget)\n            and c.blocks_transition_to\
+    \ == TicketStatus.IN_PROGRESS]\n\n@property\ndef thresholds(self) -> List[Criterion]:\n\
+    \    \"\"\"Threshold-based criteria (ThresholdTarget).\"\"\"\n    return [c for\
+    \ c in self.all_criteria\n            if isinstance(c.target, ThresholdTarget)]\n\
+    \n@property\ndef manual_checks(self) -> List[Criterion]:\n    \"\"\"Manual assessment\
+    \ criteria (ManualTarget).\"\"\"\n    return [c for c in self.all_criteria\n \
+    \           if isinstance(c.target, ManualTarget)]\n\n@property\ndef production_gates(self)\
+    \ -> List[Criterion]:\n    \"\"\"Production deployment gates (any target blocking\
+    \ PRODUCTION_READY).\"\"\"\n    return [c for c in self.all_criteria\n       \
+    \     if c.blocks_transition_to == TicketStatus.PRODUCTION_READY]\n\nHIERARCHY\
+    \ TRAVERSAL:\n\n@property\ndef parent(self) -> Optional[HierarchicalTicket]:\n\
+    \    \"\"\"Load parent ticket if exists.\"\"\"\n    if self.parent_ref is None:\n\
+    \        return None\n    return self._load_ticket(self.parent_ref)\n\n@property\n\
+    def children_tickets(self) -> List[HierarchicalTicket]:\n    \"\"\"Load all child\
+    \ tickets.\"\"\"\n    return [self._load_ticket(child_id) for child_id in self.children]\n\
+    \n@property\ndef ancestors(self) -> List[HierarchicalTicket]:\n    \"\"\"All ancestors\
+    \ from parent to root.\"\"\"\n    result = []\n    current = self.parent\n   \
+    \ while current is not None:\n        result.append(current)\n        current\
+    \ = current.parent\n    return result\n\n@property\ndef descendants(self) -> List[HierarchicalTicket]:\n\
+    \    \"\"\"All descendants (children, grandchildren, etc.).\"\"\"\n    result\
+    \ = []\n    for child in self.children_tickets:\n        result.append(child)\n\
+    \        result.extend(child.descendants)\n    return result\n\nLOADER ABSTRACTION:\n\
+    \nThe _load_ticket and _load_child methods use dependency injection:\n\nclass\
+    \ TicketLoader(Protocol):\n    def load(self, ticket_id: str) -> HierarchicalTicket:\
+    \ ...\n\nclass HierarchicalTicket(Ticket):\n    _loader: ClassVar[Optional[TicketLoader]]\
+    \ = None\n\n    @classmethod\n    def set_loader(cls, loader: TicketLoader) ->\
+    \ None:\n        cls._loader = loader\n\n    def _load_ticket(self, ticket_id:\
+    \ str) -> HierarchicalTicket:\n        if self._loader is None:\n            raise\
+    \ RuntimeError(\"No loader configured\")\n        return self._loader.load(ticket_id)\n\
+    \nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/hierarchical.py:\n\
+    \   - HierarchicalTicket class extending Ticket\n   - All smart accessors\n  \
+    \ - Hierarchy traversal methods\n   - Loader abstraction\n\n2. Integrate with\
+    \ RequirementResolver from Task 011\n3. Full test coverage with mock loader\n\n\
+    SUCCESS CRITERIA:\n- All smart accessors work correctly\n- Aggregation collects\
+    \ from all descendants\n- Inheritance resolves with correct modes\n- Instantiated\
+    \ criteria added to explicit criteria\n- progress_for_transition filters by blocks_transition_to\n\
+    - progress, start_progress, deploy_progress computed correctly\n- Convenience\
+    \ accessors filter by target type AND blocks_transition_to\n- dependencies accessor\
+    \ returns criteria blocking IN_PROGRESS\n- subtasks accessor returns criteria\
+    \ blocking COMPLETED\n- production_gates accessor returns criteria blocking PRODUCTION_READY\n\
+    - Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
@@ -227,18 +107,38 @@ task:
   phase_label: implementation
   estimated_tokens: 3500
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
-  - sqlite-backend-6-task-007
+  - type: task
+    target_id: sqlite-backend-6-task-003
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-004
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-005
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-006
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-007
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-6-task-001
+  - dependency_id: sqlite-backend-6-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495625+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-001
     blocker_type: task
@@ -253,38 +153,14 @@ task:
   - sqlite-backend-6-task-006
   - sqlite-backend-6-task-007
   deliverables:
-  - vibey/roadmap/models/ticket/hierarchical.py
-  - tests/roadmap/models/ticket/test_hierarchical.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/hierarchical.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_hierarchical.py
   commits: []
   metadata:
     last_updated: '2025-11-29T17:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      LAYER 2 - Smart accessor pattern.
-
-      Key insight: Behavior is determined by hierarchy attributes
-      (is_parent, is_child, etc.) from L1. No L3 knowledge needed.
-
-      UNIFIED BLOCKING MODEL:
-      All blocking relationships use Criterion with blocks_transition_to.
-      Progress is computed per transition type.
-
-      Smart accessor behavior table:
-      ┌─────────────┬────────────┬─────────────┬──────────┐
-      │ Type        │ commits    │ requirements│ progress │
-      ├─────────────┼────────────┼─────────────┼──────────┤
-      │ Roadmap     │ aggregated │ local       │ computed │
-      │ Track       │ aggregated │ effective   │ computed │
-      │ Sprint      │ aggregated │ effective   │ computed │
-      │ Task        │ local      │ effective   │ computed │
-      └─────────────┴────────────┴─────────────┴──────────┘
-
-      Progress computed per transition:
-      - progress = toward COMPLETED (default)
-      - start_progress = toward IN_PROGRESS
-      - deploy_progress = toward PRODUCTION_READY
-
-      Convenience accessors distinguish by blocks_transition_to:
-      - subtasks = CompletableTarget + blocks COMPLETED (parent-child)
-      - dependencies = CompletableTarget + blocks IN_PROGRESS (siblings)

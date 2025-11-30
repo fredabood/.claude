@@ -5,112 +5,48 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Define Enum Types for Unified Completion Model
-  description: |
-    Create all enum types needed by the unified completion model.
-    This is the foundation - everything else imports from here.
-
-    DESIGN PRINCIPLE: Single source of truth for all type values.
-    All enums defined here, imported everywhere else.
-
-    ENUM DEFINITIONS:
-
-    1. TicketStatus (lifecycle states)
-       Values:
-       - NOT_STARTED = "not_started"
-       - IN_PROGRESS = "in_progress"
-       - PAUSED = "paused"
-       - COMPLETED = "completed"
-       - CANCELLED = "cancelled"
-
-    2. TicketType (hierarchy discriminator)
-       Values:
-       - ROADMAP = "roadmap"
-       - TRACK = "track"
-       - SPRINT = "sprint"
-       - TASK = "task"
-
-    3. TaskType (semantic task classification)
-       Values:
-       - DEVELOPMENT = "development"
-       - DOCUMENTATION = "documentation"
-       - TESTING = "testing"
-       - RESEARCH = "research"
-       - REVIEW = "review"
-       - INFRASTRUCTURE = "infrastructure"
-
-    4. CriterionTargetType (polymorphic target discriminator)
-       Values:
-       - COMPLETABLE = "completable"      # Another ticket must be complete
-       - FILE_EXISTS = "file_exists"      # File(s) must exist
-       - TEST_PASSES = "test_passes"      # Test must pass
-       - THRESHOLD = "threshold"          # Metric meets threshold
-       - MANUAL = "manual"                # Human assessment
-       - EXTERNAL = "external"            # External system check
-
-    5. ThresholdComparison (how to compare values)
-       Values:
-       - GTE = "gte"   # >= (at least)
-       - GT = "gt"     # > (more than)
-       - EQ = "eq"     # == (exactly)
-       - LTE = "lte"   # <= (at most)
-       - LT = "lt"     # < (less than)
-
-    6. Priority (ticket priority levels)
-       Values:
-       - CRITICAL = "critical"
-       - HIGH = "high"
-       - MEDIUM = "medium"
-       - LOW = "low"
-
-    7. Complexity (work complexity estimate)
-       Values:
-       - LOW = "low"
-       - MEDIUM = "medium"
-       - HIGH = "high"
-
-    8. InheritMode (requirement inheritance behavior)
-       Values:
-       - INHERIT = "inherit"    # Use stricter of local vs ancestor
-       - OVERRIDE = "override"  # Replace ancestor entirely
-       - SKIP = "skip"          # Explicitly not applicable
-
-    9. EnforcementMode (how strictly requirement applies)
-       Values:
-       - BLOCKING = "blocking"      # Prevents completion
-       - WARNING = "warning"        # Shows warning, allows completion
-       - AUDIT = "audit"            # Logs only
-
-    10. RequirementType (what kind of requirement)
-        Values:
-        - TEST_COVERAGE = "test_coverage"
-        - CODE_STYLE = "code_style"
-        - DOCUMENTATION = "documentation"
-        - SECURITY = "security"
-        - PERFORMANCE = "performance"
-        - REVIEW = "review"
-        - CUSTOM = "custom"
-
-    11. DependencyType (sibling relationship type)
-        Values:
-        - BLOCKS = "blocks"           # This blocks that
-        - DEPENDS_ON = "depends_on"   # This depends on that
-        - RELATED = "related"         # Informational link
-
-    IMPLEMENTATION:
-
-    1. Create vibey/roadmap/models/ticket/enums.py
-    2. Use Python StrEnum pattern for JSON/YAML serialization:
-       class TicketStatus(str, Enum):
-           NOT_STARTED = "not_started"
-
-    3. Add docstrings for each enum and value
-    4. Export all enums from __init__.py
-
-    SUCCESS CRITERIA:
-    - All 11 enum types defined
-    - StrEnum pattern for serialization
-    - Comprehensive docstrings
-    - 100% test coverage
+  description: "Create all enum types needed by the unified completion model.\nThis\
+    \ is the foundation - everything else imports from here.\n\nDESIGN PRINCIPLE:\
+    \ Single source of truth for all type values.\nAll enums defined here, imported\
+    \ everywhere else.\n\nENUM DEFINITIONS:\n\n1. TicketStatus (lifecycle states)\n\
+    \   Values:\n   - NOT_STARTED = \"not_started\"\n   - IN_PROGRESS = \"in_progress\"\
+    \n   - PAUSED = \"paused\"\n   - COMPLETED = \"completed\"\n   - CANCELLED = \"\
+    cancelled\"\n\n2. TicketType (hierarchy discriminator)\n   Values:\n   - ROADMAP\
+    \ = \"roadmap\"\n   - TRACK = \"track\"\n   - SPRINT = \"sprint\"\n   - TASK =\
+    \ \"task\"\n\n3. TaskType (semantic task classification)\n   Values:\n   - DEVELOPMENT\
+    \ = \"development\"\n   - DOCUMENTATION = \"documentation\"\n   - TESTING = \"\
+    testing\"\n   - RESEARCH = \"research\"\n   - REVIEW = \"review\"\n   - INFRASTRUCTURE\
+    \ = \"infrastructure\"\n\n4. CriterionTargetType (polymorphic target discriminator)\n\
+    \   Values:\n   - COMPLETABLE = \"completable\"      # Another ticket must be\
+    \ complete\n   - FILE_EXISTS = \"file_exists\"      # File(s) must exist\n   -\
+    \ TEST_PASSES = \"test_passes\"      # Test must pass\n   - THRESHOLD = \"threshold\"\
+    \          # Metric meets threshold\n   - MANUAL = \"manual\"                #\
+    \ Human assessment\n   - EXTERNAL = \"external\"            # External system\
+    \ check\n\n5. ThresholdComparison (how to compare values)\n   Values:\n   - GTE\
+    \ = \"gte\"   # >= (at least)\n   - GT = \"gt\"     # > (more than)\n   - EQ =\
+    \ \"eq\"     # == (exactly)\n   - LTE = \"lte\"   # <= (at most)\n   - LT = \"\
+    lt\"     # < (less than)\n\n6. Priority (ticket priority levels)\n   Values:\n\
+    \   - CRITICAL = \"critical\"\n   - HIGH = \"high\"\n   - MEDIUM = \"medium\"\n\
+    \   - LOW = \"low\"\n\n7. Complexity (work complexity estimate)\n   Values:\n\
+    \   - LOW = \"low\"\n   - MEDIUM = \"medium\"\n   - HIGH = \"high\"\n\n8. InheritMode\
+    \ (requirement inheritance behavior)\n   Values:\n   - INHERIT = \"inherit\" \
+    \   # Use stricter of local vs ancestor\n   - OVERRIDE = \"override\"  # Replace\
+    \ ancestor entirely\n   - SKIP = \"skip\"          # Explicitly not applicable\n\
+    \n9. EnforcementMode (how strictly requirement applies)\n   Values:\n   - BLOCKING\
+    \ = \"blocking\"      # Prevents completion\n   - WARNING = \"warning\"      \
+    \  # Shows warning, allows completion\n   - AUDIT = \"audit\"            # Logs\
+    \ only\n\n10. RequirementType (what kind of requirement)\n    Values:\n    - TEST_COVERAGE\
+    \ = \"test_coverage\"\n    - CODE_STYLE = \"code_style\"\n    - DOCUMENTATION\
+    \ = \"documentation\"\n    - SECURITY = \"security\"\n    - PERFORMANCE = \"performance\"\
+    \n    - REVIEW = \"review\"\n    - CUSTOM = \"custom\"\n\n11. DependencyType (sibling\
+    \ relationship type)\n    Values:\n    - BLOCKS = \"blocks\"           # This\
+    \ blocks that\n    - DEPENDS_ON = \"depends_on\"   # This depends on that\n  \
+    \  - RELATED = \"related\"         # Informational link\n\nIMPLEMENTATION:\n\n\
+    1. Create vibey/roadmap/models/ticket/enums.py\n2. Use Python StrEnum pattern\
+    \ for JSON/YAML serialization:\n   class TicketStatus(str, Enum):\n       NOT_STARTED\
+    \ = \"not_started\"\n\n3. Add docstrings for each enum and value\n4. Export all\
+    \ enums from __init__.py\n\nSUCCESS CRITERIA:\n- All 11 enum types defined\n-\
+    \ StrEnum pattern for serialization\n- Comprehensive docstrings\n- 100% test coverage\n"
   status: not_started
   blocked: false
   created: '2025-11-29T12:00:00+00:00'
@@ -121,29 +57,32 @@ task:
   phase_label: foundation
   estimated_tokens: 1500
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-009
-  - sqlite-backend-6-task-001
+  - type: task
+    target_id: sqlite-backend-6-task-009
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-6-task-001
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by:
   - sqlite-backend-6-task-009
   deliverables:
-  - vibey/roadmap/models/ticket/enums.py
-  - tests/roadmap/models/ticket/test_enums.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/enums.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_enums.py
   commits: []
   metadata:
     last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      FIRST TASK - No dependencies.
-
-      Key addition: CriterionTargetType enum for polymorphic
-      target discrimination in the unified completion model.
-
-      All enums use StrEnum pattern for JSON/YAML compatibility.

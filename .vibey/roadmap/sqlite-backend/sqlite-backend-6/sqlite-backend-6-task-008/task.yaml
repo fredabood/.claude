@@ -5,137 +5,69 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Layer 3 - SprintTicket (Intermediate)
-  description: |
-    Create the SprintTicket class - the deployable unit of work.
-    Sprint is ALWAYS intermediate (is_intermediate=True).
-
-    DESIGN PRINCIPLE: L3 contains ONLY semantic-specific fields.
-    All common fields and behaviors inherited from L1/L2.
-
-    HIERARCHY CONSTRAINTS:
-    - is_intermediate: True (always - has both parent and children)
-    - is_parent: True (always has Task children via CompletableTarget criteria)
-    - is_child: True (always has Track parent via parent_ref)
-    - is_ultimate_parent: False
-    - is_ultimate_child: False
-
-    INHERITED FROM L1 (Ticket extends Completable):
-    - From Completable: id, name, description, criteria (THE source of truth)
-    - From Completable: is_complete, progress, blocking_reasons, children (computed)
-    - Ticket-specific: status, lifecycle timestamps
-    - Ticket-specific: assigned_agents, priority, commits, dependencies
-    - Ticket-specific: requirements_local (templates for children)
-    - Ticket-specific: parent_ref (denormalized for fast lookup)
-
-    INHERITED FROM L2 (HierarchicalTicket):
-    - Smart accessors: commits (aggregated from tasks)
-    - Smart accessors: requirements_effective (merged from track + roadmap + local)
-    - Hierarchy traversal: parent, children_tickets, ancestors, descendants
-    - Convenience accessors: deliverables, tests, subtasks, manual_checks
-
-    SPRINT-SPECIFIC FIELDS (L3 only):
-
-    1. Type Discriminator:
-       - ticket_type: Literal["sprint"] = "sprint"
-
-    2. Parent References:
-       - track_id: str (required, must match parent_id)
-       - roadmap_id: str (required, grandparent reference)
-
-    3. Extended Lifecycle (sprint has more lifecycle stages):
-       - completion_gate_check_at: Optional[datetime]
-       - production_gate_check_at: Optional[datetime]
-       - production_ready_at: Optional[datetime]
-       - deployed_at: Optional[datetime]
-
-    4. Planning:
-       - plan_file: Optional[str] (path to sprint plan document)
-       - goal: Optional[str] (sprint objective)
-       - success_criteria_text: list[str] (human-readable, NOT the same as criteria)
-       - risks: list[str]
-
-       NOTE: success_criteria_text is LEGACY - human-readable descriptions.
-       The actual completion criteria are in the `criteria` field from Completable.
-       success_criteria_text may be deprecated in favor of criteria descriptions.
-
-    5. Estimation:
-       - estimated_tokens: Optional[int] (aggregate from tasks)
-       - actual_tokens: Optional[int] (aggregate from tasks)
-
-    6. Development Gates (sprint-specific blocking):
-       - development_gates: list[DevelopmentGate]
-
-    7. PARENT TYPE CONSTRAINT:
-       - parent_ref must reference a TrackTicket ID
-       - get_track() -> TrackTicket
-
-    8. CHILD TYPE CONSTRAINT:
-       - Children derived from CompletableTarget criteria
-       - Must reference TaskTicket IDs in CompletableTarget criteria
-       - get_tasks() -> list[TaskTicket] (typed accessor, filters criteria)
-
-    Note on children: Sprint's children (tasks) are determined by
-    CompletableTarget criteria. Example:
-
-    criteria:
-      - id: "task-001"
-        description: "Task 001 complete"
-        target:
-          type: "completable"
-          completable_id: "sqlite-backend-6-task-001"
-          required_status: "completed"
-
-    SUPPORTING CLASS (sprint-specific):
-    - DevelopmentGate:
-      - name: str
-      - description: Optional[str]
-      - status: GateStatus
-      - resolved_at: Optional[datetime]
-      - blocking: bool = True
-
-    VALIDATORS:
-    - parent_ref must be set and match track_id
-    - Sprint ID must start with track_id + "-"
-    - track_id and roadmap_id must be set
-    - Extended lifecycle timestamps must be in order
-    - All CompletableTarget criteria must reference TaskTicket IDs
-
-    COMPUTED PROPERTIES (via Completable base):
-    - is_complete: all criteria met
-    - progress: met_criteria / total_criteria
-    - children: list of completable_ids from CompletableTarget criteria
-    - tasks_total: len(subtasks)
-    - tasks_completed: count where target.is_satisfied()
-    - development_tasks_completed: count dev tasks where complete
-    - completion_gates_passed: count gate tasks where complete
-
-    METHODS:
-    - get_track() -> TrackTicket
-    - get_tasks() -> list[TaskTicket]
-    - can_enter_completion_gate_check() -> bool (all dev tasks complete)
-    - can_complete() -> bool (all dev + completion gates done)
-    - can_be_production_ready() -> bool (all tasks including prod gates)
-
-    IMPLEMENTATION:
-
-    1. Add SprintTicket to vibey/roadmap/models/ticket/domain.py
-    2. Inherit from HierarchicalTicket
-    3. Add DevelopmentGate class
-    4. Implement extended lifecycle validators
-    5. Implement lifecycle transition methods
-
-    SUCCESS CRITERIA:
-    - SprintTicket must have track_id and roadmap_id
-    - is_intermediate always returns True
-    - Children derived from CompletableTarget criteria
-    - is_complete = all task criteria satisfied
-    - Progress = tasks_completed / tasks_total
-    - Extended lifecycle timestamps validated in order
-    - Development gates block sprint completion
-    - Smart accessors work correctly
-    - 100% test coverage
+  description: "Create the SprintTicket class - the deployable unit of work.\nSprint\
+    \ is ALWAYS intermediate (is_intermediate=True).\n\nDESIGN PRINCIPLE: L3 contains\
+    \ ONLY semantic-specific fields.\nAll common fields and behaviors inherited from\
+    \ L1/L2.\n\nHIERARCHY CONSTRAINTS:\n- is_intermediate: True (always - has both\
+    \ parent and children)\n- is_parent: True (always has Task children via CompletableTarget\
+    \ criteria)\n- is_child: True (always has Track parent via parent_ref)\n- is_ultimate_parent:\
+    \ False\n- is_ultimate_child: False\n\nINHERITED FROM L1 (Ticket extends Completable):\n\
+    - From Completable: id, name, description, criteria (THE source of truth)\n- From\
+    \ Completable: is_complete, progress, blocking_reasons, children (computed)\n\
+    - Ticket-specific: status, lifecycle timestamps\n- Ticket-specific: assigned_agents,\
+    \ priority, commits, dependencies\n- Ticket-specific: requirements_local (templates\
+    \ for children)\n- Ticket-specific: parent_ref (denormalized for fast lookup)\n\
+    \nINHERITED FROM L2 (HierarchicalTicket):\n- Smart accessors: commits (aggregated\
+    \ from tasks)\n- Smart accessors: requirements_effective (merged from track +\
+    \ roadmap + local)\n- Hierarchy traversal: parent, children_tickets, ancestors,\
+    \ descendants\n- Convenience accessors: deliverables, tests, subtasks, manual_checks\n\
+    \nSPRINT-SPECIFIC FIELDS (L3 only):\n\n1. Type Discriminator:\n   - ticket_type:\
+    \ Literal[\"sprint\"] = \"sprint\"\n\n2. Parent References:\n   - track_id: str\
+    \ (required, must match parent_id)\n   - roadmap_id: str (required, grandparent\
+    \ reference)\n\n3. Extended Lifecycle (sprint has more lifecycle stages):\n  \
+    \ - completion_gate_check_at: Optional[datetime]\n   - production_gate_check_at:\
+    \ Optional[datetime]\n   - production_ready_at: Optional[datetime]\n   - deployed_at:\
+    \ Optional[datetime]\n\n4. Planning:\n   - plan_file: Optional[str] (path to sprint\
+    \ plan document)\n   - goal: Optional[str] (sprint objective)\n   - success_criteria_text:\
+    \ list[str] (human-readable, NOT the same as criteria)\n   - risks: list[str]\n\
+    \n   NOTE: success_criteria_text is LEGACY - human-readable descriptions.\n  \
+    \ The actual completion criteria are in the `criteria` field from Completable.\n\
+    \   success_criteria_text may be deprecated in favor of criteria descriptions.\n\
+    \n5. Estimation:\n   - estimated_tokens: Optional[int] (aggregate from tasks)\n\
+    \   - actual_tokens: Optional[int] (aggregate from tasks)\n\n6. Development Gates\
+    \ (sprint-specific blocking):\n   - development_gates: list[DevelopmentGate]\n\
+    \n7. PARENT TYPE CONSTRAINT:\n   - parent_ref must reference a TrackTicket ID\n\
+    \   - get_track() -> TrackTicket\n\n8. CHILD TYPE CONSTRAINT:\n   - Children derived\
+    \ from CompletableTarget criteria\n   - Must reference TaskTicket IDs in CompletableTarget\
+    \ criteria\n   - get_tasks() -> list[TaskTicket] (typed accessor, filters criteria)\n\
+    \nNote on children: Sprint's children (tasks) are determined by\nCompletableTarget\
+    \ criteria. Example:\n\ncriteria:\n  - id: \"task-001\"\n    description: \"Task\
+    \ 001 complete\"\n    target:\n      type: \"completable\"\n      completable_id:\
+    \ \"sqlite-backend-6-task-001\"\n      required_status: \"completed\"\n\nSUPPORTING\
+    \ CLASS (sprint-specific):\n- DevelopmentGate:\n  - name: str\n  - description:\
+    \ Optional[str]\n  - status: GateStatus\n  - resolved_at: Optional[datetime]\n\
+    \  - blocking: bool = True\n\nVALIDATORS:\n- parent_ref must be set and match\
+    \ track_id\n- Sprint ID must start with track_id + \"-\"\n- track_id and roadmap_id\
+    \ must be set\n- Extended lifecycle timestamps must be in order\n- All CompletableTarget\
+    \ criteria must reference TaskTicket IDs\n\nCOMPUTED PROPERTIES (via Completable\
+    \ base):\n- is_complete: all criteria met\n- progress: met_criteria / total_criteria\n\
+    - children: list of completable_ids from CompletableTarget criteria\n- tasks_total:\
+    \ len(subtasks)\n- tasks_completed: count where target.is_satisfied()\n- development_tasks_completed:\
+    \ count dev tasks where complete\n- completion_gates_passed: count gate tasks\
+    \ where complete\n\nMETHODS:\n- get_track() -> TrackTicket\n- get_tasks() -> list[TaskTicket]\n\
+    - can_enter_completion_gate_check() -> bool (all dev tasks complete)\n- can_complete()\
+    \ -> bool (all dev + completion gates done)\n- can_be_production_ready() -> bool\
+    \ (all tasks including prod gates)\n\nIMPLEMENTATION:\n\n1. Add SprintTicket to\
+    \ vibey/roadmap/models/ticket/domain.py\n2. Inherit from HierarchicalTicket\n\
+    3. Add DevelopmentGate class\n4. Implement extended lifecycle validators\n5. Implement\
+    \ lifecycle transition methods\n\nSUCCESS CRITERIA:\n- SprintTicket must have\
+    \ track_id and roadmap_id\n- is_intermediate always returns True\n- Children derived\
+    \ from CompletableTarget criteria\n- is_complete = all task criteria satisfied\n\
+    - Progress = tasks_completed / tasks_total\n- Extended lifecycle timestamps validated\
+    \ in order\n- Development gates block sprint completion\n- Smart accessors work\
+    \ correctly\n- 100% test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
@@ -149,7 +81,23 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-007
+  - type: task
+    target_id: sqlite-backend-6-task-007
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by:
+  - dependency_id: sqlite-backend-6-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495688+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495688+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-001
     blocker_type: task
@@ -165,39 +113,18 @@ task:
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
   - sqlite-backend-6-task-007
-  blocked_by:
-  - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-002
   deliverables:
-  - SprintTicket class in vibey/roadmap/models/ticket/domain.py
-  - DevelopmentGate class
-  - tests/roadmap/models/ticket/test_sprint.py
+  - type: code
+    paths:
+    - SprintTicket class in vibey/roadmap/models/ticket/domain.py
+  - type: code
+    paths:
+    - DevelopmentGate class
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_sprint.py
   commits: []
   metadata:
     last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      THINNER L3: Most fields now inherited from L1/L2.
-
-      SprintTicket is intermediate but has the MOST complex lifecycle
-      with multiple gate checks (completion, production).
-
-      Smart accessors from L2 handle:
-      - requirements_effective = merged (from track + roadmap + local)
-      - commits = aggregated (from all tasks)
-      - progress = computed from criteria (tasks as CompletableTarget)
-
-      KEY CHANGE: Children are now implicit via CompletableTarget criteria.
-      Sprint doesn't store `tasks` list - instead it has criteria like:
-        criteria:
-          - target: {type: completable, completable_id: "sqlite-backend-6-task-001"}
-
-      The `children` property derives task IDs from these criteria.
-
-      Sprint-specific behavior:
-      - Extended lifecycle with gate checks
-      - Development gates that block completion
-      - Task type breakdown (dev vs gate tasks)
-
-      Can run in parallel with tasks 003, 004, 006.

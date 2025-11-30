@@ -5,123 +5,62 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Layer 3 - RoadmapTicket (Ultimate Parent)
-  description: |
-    Create the RoadmapTicket class - the top-level container in the hierarchy.
-    Roadmap is ALWAYS an ultimate parent (is_ultimate_parent=True).
-
-    DESIGN PRINCIPLE: L3 contains ONLY semantic-specific fields.
-    All common fields and behaviors inherited from L1/L2.
-
-    HIERARCHY CONSTRAINTS:
-    - is_ultimate_parent: True (always - no parent allowed)
-    - is_parent: True (always has Track children via CompletableTarget criteria)
-    - is_child: False (never - root of hierarchy)
-    - is_ultimate_child: False (never - always has children)
-
-    These constraints are ENFORCED by validators - if someone tries to
-    set parent_ref on a RoadmapTicket, validation fails.
-
-    INHERITED FROM L1 (Ticket extends Completable):
-    - From Completable: id, name, description, criteria (THE source of truth)
-    - From Completable: is_complete, progress, blocking_reasons, children (computed)
-    - Ticket-specific: status, lifecycle timestamps
-    - Ticket-specific: assigned_agents, priority, commits, dependencies
-    - Ticket-specific: requirements_local (templates for children)
-
-    INHERITED FROM L2 (HierarchicalTicket):
-    - Smart accessors: commits (aggregated), requirements_effective (local for root)
-    - Smart accessors: all_criteria (explicit + instantiated from requirements)
-    - Hierarchy traversal: parent, children_tickets, ancestors, descendants
-    - Convenience accessors: deliverables, tests, subtasks, manual_checks
-
-    ROADMAP-SPECIFIC FIELDS (L3 only):
-
-    1. Type Discriminator:
-       - ticket_type: Literal["roadmap"] = "roadmap"
-
-    2. Version Management:
-       - version: str (semantic version, default "0.1.0")
-       - version_strategy: Optional[VersionStrategy]
-       - version_history: list[VersionHistoryEntry]
-
-    3. Target Dates:
-       - target_completion: Optional[datetime]
-
-    4. Deployment Tracking:
-       - deployed_at: Optional[datetime]
-       - deployed_platforms: list[PlatformDeployment]
-
-    5. Activity Tracking:
-       - activity_log: list[ActivityLogEntry]
-
-    6. CHILD TYPE CONSTRAINT:
-       - Children derived from CompletableTarget criteria (not explicit)
-       - Must reference TrackTicket IDs in CompletableTarget criteria
-       - get_tracks() -> list[TrackTicket] (typed accessor, filters criteria)
-
-    Note on children: Roadmap's children (tracks) are determined by
-    CompletableTarget criteria. Example:
-
-    criteria:
-      - id: "track-core"
-        description: "Core framework track complete"
-        target:
-          type: "completable"
-          completable_id: "core-framework"
-          required_status: "completed"
-
-    This criterion creates the parent-child relationship.
-
-    SUPPORTING CLASSES (defined in support.py - Task 009):
-    - VersionStrategy: scheme, auto_bump, components
-    - ActivityLogEntry: timestamp, action, ticket_id, actor, details
-    - PlatformDeployment: platform, context_window, deployed_at, primary
-
-    ADDITIONAL SUPPORT CLASS (roadmap-specific):
-    - VersionHistoryEntry:
-      - version: str
-      - released_at: datetime
-      - milestone: Optional[str]
-      - git_tag: Optional[str]
-      - description: Optional[str]
-
-    VALIDATORS:
-    - parent_ref must be None (ultimate parent constraint)
-    - version must be valid semver format
-    - All CompletableTarget criteria must reference TrackTicket IDs
-
-    COMPUTED PROPERTIES (via Completable base):
-    - is_complete: all criteria met
-    - progress: met_criteria / total_criteria
-    - children: list of completable_ids from CompletableTarget criteria
-    - tracks_total: len(subtasks) - subtasks filters CompletableTarget
-    - tracks_completed: count where target.is_satisfied()
-
-    METHODS:
-    - get_tracks() -> list[TrackTicket]
-    - bump_version(part: str) -> RoadmapTicket
-    - log_activity(action: str, details: str) -> None
-
-    IMPLEMENTATION:
-
-    1. Add RoadmapTicket to vibey/roadmap/models/ticket/domain.py
-    2. Inherit from HierarchicalTicket
-    3. Add validator: parent_id must be None
-    4. Add VersionHistoryEntry class (roadmap-specific)
-    5. Implement typed child accessor (get_tracks)
-
-    SUCCESS CRITERIA:
-    - RoadmapTicket cannot have parent_ref set (validation error)
-    - is_ultimate_parent always returns True
-    - Children derived from CompletableTarget criteria
-    - is_complete = all track criteria satisfied
-    - Progress = tracks_completed / tracks_total
-    - Version management works correctly
-    - Activity log captures roadmap-level events
-    - Smart accessors inherited from L2 work correctly
-    - 100% test coverage
+  description: "Create the RoadmapTicket class - the top-level container in the hierarchy.\n\
+    Roadmap is ALWAYS an ultimate parent (is_ultimate_parent=True).\n\nDESIGN PRINCIPLE:\
+    \ L3 contains ONLY semantic-specific fields.\nAll common fields and behaviors\
+    \ inherited from L1/L2.\n\nHIERARCHY CONSTRAINTS:\n- is_ultimate_parent: True\
+    \ (always - no parent allowed)\n- is_parent: True (always has Track children via\
+    \ CompletableTarget criteria)\n- is_child: False (never - root of hierarchy)\n\
+    - is_ultimate_child: False (never - always has children)\n\nThese constraints\
+    \ are ENFORCED by validators - if someone tries to\nset parent_ref on a RoadmapTicket,\
+    \ validation fails.\n\nINHERITED FROM L1 (Ticket extends Completable):\n- From\
+    \ Completable: id, name, description, criteria (THE source of truth)\n- From Completable:\
+    \ is_complete, progress, blocking_reasons, children (computed)\n- Ticket-specific:\
+    \ status, lifecycle timestamps\n- Ticket-specific: assigned_agents, priority,\
+    \ commits, dependencies\n- Ticket-specific: requirements_local (templates for\
+    \ children)\n\nINHERITED FROM L2 (HierarchicalTicket):\n- Smart accessors: commits\
+    \ (aggregated), requirements_effective (local for root)\n- Smart accessors: all_criteria\
+    \ (explicit + instantiated from requirements)\n- Hierarchy traversal: parent,\
+    \ children_tickets, ancestors, descendants\n- Convenience accessors: deliverables,\
+    \ tests, subtasks, manual_checks\n\nROADMAP-SPECIFIC FIELDS (L3 only):\n\n1. Type\
+    \ Discriminator:\n   - ticket_type: Literal[\"roadmap\"] = \"roadmap\"\n\n2. Version\
+    \ Management:\n   - version: str (semantic version, default \"0.1.0\")\n   - version_strategy:\
+    \ Optional[VersionStrategy]\n   - version_history: list[VersionHistoryEntry]\n\
+    \n3. Target Dates:\n   - target_completion: Optional[datetime]\n\n4. Deployment\
+    \ Tracking:\n   - deployed_at: Optional[datetime]\n   - deployed_platforms: list[PlatformDeployment]\n\
+    \n5. Activity Tracking:\n   - activity_log: list[ActivityLogEntry]\n\n6. CHILD\
+    \ TYPE CONSTRAINT:\n   - Children derived from CompletableTarget criteria (not\
+    \ explicit)\n   - Must reference TrackTicket IDs in CompletableTarget criteria\n\
+    \   - get_tracks() -> list[TrackTicket] (typed accessor, filters criteria)\n\n\
+    Note on children: Roadmap's children (tracks) are determined by\nCompletableTarget\
+    \ criteria. Example:\n\ncriteria:\n  - id: \"track-core\"\n    description: \"\
+    Core framework track complete\"\n    target:\n      type: \"completable\"\n  \
+    \    completable_id: \"core-framework\"\n      required_status: \"completed\"\n\
+    \nThis criterion creates the parent-child relationship.\n\nSUPPORTING CLASSES\
+    \ (defined in support.py - Task 009):\n- VersionStrategy: scheme, auto_bump, components\n\
+    - ActivityLogEntry: timestamp, action, ticket_id, actor, details\n- PlatformDeployment:\
+    \ platform, context_window, deployed_at, primary\n\nADDITIONAL SUPPORT CLASS (roadmap-specific):\n\
+    - VersionHistoryEntry:\n  - version: str\n  - released_at: datetime\n  - milestone:\
+    \ Optional[str]\n  - git_tag: Optional[str]\n  - description: Optional[str]\n\n\
+    VALIDATORS:\n- parent_ref must be None (ultimate parent constraint)\n- version\
+    \ must be valid semver format\n- All CompletableTarget criteria must reference\
+    \ TrackTicket IDs\n\nCOMPUTED PROPERTIES (via Completable base):\n- is_complete:\
+    \ all criteria met\n- progress: met_criteria / total_criteria\n- children: list\
+    \ of completable_ids from CompletableTarget criteria\n- tracks_total: len(subtasks)\
+    \ - subtasks filters CompletableTarget\n- tracks_completed: count where target.is_satisfied()\n\
+    \nMETHODS:\n- get_tracks() -> list[TrackTicket]\n- bump_version(part: str) ->\
+    \ RoadmapTicket\n- log_activity(action: str, details: str) -> None\n\nIMPLEMENTATION:\n\
+    \n1. Add RoadmapTicket to vibey/roadmap/models/ticket/domain.py\n2. Inherit from\
+    \ HierarchicalTicket\n3. Add validator: parent_id must be None\n4. Add VersionHistoryEntry\
+    \ class (roadmap-specific)\n5. Implement typed child accessor (get_tracks)\n\n\
+    SUCCESS CRITERIA:\n- RoadmapTicket cannot have parent_ref set (validation error)\n\
+    - is_ultimate_parent always returns True\n- Children derived from CompletableTarget\
+    \ criteria\n- is_complete = all track criteria satisfied\n- Progress = tracks_completed\
+    \ / tracks_total\n- Version management works correctly\n- Activity log captures\
+    \ roadmap-level events\n- Smart accessors inherited from L2 work correctly\n-\
+    \ 100% test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
@@ -135,7 +74,23 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-007
+  - type: task
+    target_id: sqlite-backend-6-task-007
+    at_status: not_started
+    reason: Blocks task from starting
+  blocked_by:
+  - dependency_id: sqlite-backend-6-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495704+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495705+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-6-task-001
     blocker_type: task
@@ -151,34 +106,18 @@ task:
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
   - sqlite-backend-6-task-007
-  blocked_by:
-  - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-002
   deliverables:
-  - RoadmapTicket class in vibey/roadmap/models/ticket/domain.py
-  - VersionHistoryEntry class
-  - tests/roadmap/models/ticket/test_roadmap.py
+  - type: code
+    paths:
+    - RoadmapTicket class in vibey/roadmap/models/ticket/domain.py
+  - type: code
+    paths:
+    - VersionHistoryEntry class
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_roadmap.py
   commits: []
   metadata:
     last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      THINNER L3: Most fields now inherited from L1/L2.
-
-      RoadmapTicket is unique because it's ALWAYS an ultimate parent.
-      This means:
-      - requirements_effective = requirements_local (no inheritance)
-      - commits = aggregated (from all descendants)
-      - progress = computed from criteria (tracks as CompletableTarget)
-
-      KEY CHANGE: Children are now implicit via CompletableTarget criteria.
-      Roadmap doesn't store `tracks` list - instead it has criteria like:
-        criteria:
-          - target: {type: completable, completable_id: "core-track"}
-
-      The `children` property derives track IDs from these criteria.
-
-      The hierarchy constraint (parent_ref=None) is enforced via validator.
-
-      Tasks 003-006 can run in parallel after Tasks 001-002 complete.

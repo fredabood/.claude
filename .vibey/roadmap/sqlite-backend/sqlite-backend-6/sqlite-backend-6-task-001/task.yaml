@@ -5,59 +5,29 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Analyze optimal directory structure mirroring SQLite schema
-  description: |
-    Design the new .vibey directory structure that mirrors SQLite database 1:1.
-    This analysis informs the unified ticket architecture design.
-
-    CURRENT STRUCTURE ANALYSIS:
-    - roadmap/ contains 36+ track folders
-    - Each track contains sprint folders (avg 3-5 per track)
-    - Each sprint contains task folders (avg 5-10 per sprint)
-    - Total: ~36 tracks * 4 sprints * 7 tasks = ~1000 directories
-    - Depth: 5 levels (.vibey/roadmap/track/sprint/task/)
-
-    PROPOSED STRUCTURE OPTIONS:
-
-    Option A: Table-based folders
-    .vibey/roadmap/
-      tables/
-        tracks/       # 36 files
-        sprints/      # 175 files
-        tasks/        # 892 files
-        audit_trail/  # 62 files
-      context/        # All context consolidated
-
-    Option B: Entity-type folders (flatter)
-    .vibey/roadmap/
-      tracks.d/       # 36 files
-      sprints.d/      # 175 files
-      tasks.d/        # 892 files
-      context.d/      # All context files
-
-    Option C: Single folder with prefixes
-    .vibey/roadmap/
-      entities/
-        track_<id>.yaml
-        sprint_<id>.yaml
-        task_<id>.yaml
-
-    EVALUATION CRITERIA:
-    1. Dump/init simplicity (1:1 with SQL)
-    2. File system navigation ease
-    3. Git diff readability
-    4. Tool compatibility (glob patterns)
-    5. Scalability (10K+ tasks)
-
-    DELIVERABLES:
-    - Comparison matrix of options
-    - Recommendation with rationale
-    - Sample directory tree for chosen approach
-    - File naming convention specification
-  status: not_started
+  description: "Design the new .vibey directory structure that mirrors SQLite database\
+    \ 1:1.\nThis analysis informs the unified ticket architecture design.\n\nCURRENT\
+    \ STRUCTURE ANALYSIS:\n- roadmap/ contains 36+ track folders\n- Each track contains\
+    \ sprint folders (avg 3-5 per track)\n- Each sprint contains task folders (avg\
+    \ 5-10 per sprint)\n- Total: ~36 tracks * 4 sprints * 7 tasks = ~1000 directories\n\
+    - Depth: 5 levels (.vibey/roadmap/track/sprint/task/)\n\nPROPOSED STRUCTURE OPTIONS:\n\
+    \nOption A: Table-based folders\n.vibey/roadmap/\n  tables/\n    tracks/     \
+    \  # 36 files\n    sprints/      # 175 files\n    tasks/        # 892 files\n\
+    \    audit_trail/  # 62 files\n  context/        # All context consolidated\n\n\
+    Option B: Entity-type folders (flatter)\n.vibey/roadmap/\n  tracks.d/       #\
+    \ 36 files\n  sprints.d/      # 175 files\n  tasks.d/        # 892 files\n  context.d/\
+    \      # All context files\n\nOption C: Single folder with prefixes\n.vibey/roadmap/\n\
+    \  entities/\n    track_<id>.yaml\n    sprint_<id>.yaml\n    task_<id>.yaml\n\n\
+    EVALUATION CRITERIA:\n1. Dump/init simplicity (1:1 with SQL)\n2. File system navigation\
+    \ ease\n3. Git diff readability\n4. Tool compatibility (glob patterns)\n5. Scalability\
+    \ (10K+ tasks)\n\nDELIVERABLES:\n- Comparison matrix of options\n- Recommendation\
+    \ with rationale\n- Sample directory tree for chosen approach\n- File naming convention\
+    \ specification\n"
+  status: completed
   blocked: false
   created: '2025-11-30T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-30T20:10:50.495751+00:00'
+  completed: '2025-11-30T20:12:46.733653+00:00'
   assigned_agent: architecture-agent
   priority: high
   phase_label: design
@@ -68,18 +38,28 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-003
+  - type: task
+    target_id: sqlite-backend-6-task-003
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Directory structure comparison matrix
-  - Recommended structure with rationale
-  - File naming convention spec
-  - Sample directory tree
+  - type: code
+    paths:
+    - Directory structure comparison matrix
+  - type: code
+    paths:
+    - Recommended structure with rationale
+  - type: code
+    paths:
+    - File naming convention spec
+  - type: code
+    paths:
+    - Sample directory tree
   commits: []
   metadata:
     last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Moved from sprint 13-deferred to front of sprint 6 so directory
-      structure decisions inform the unified ticket architecture design.

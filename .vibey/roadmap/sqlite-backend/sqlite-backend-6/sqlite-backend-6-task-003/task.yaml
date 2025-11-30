@@ -5,79 +5,32 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Design context file consolidation strategy
-  description: |
-    Plan consolidation of context files from scattered track/sprint/task folders
-    into a single organized location. This informs the unified architecture design.
-
-    CURRENT STATE:
-    Context files are scattered across:
-    - .vibey/roadmap/<track>/context/
-    - .vibey/roadmap/<track>/<sprint>/context/
-    - .vibey/roadmap/<track>/<sprint>/<task>/context/
-
-    File types found:
-    - TRACK_AUDIT_REPORT.md
-    - REMEDIATION_*.md
-    - IMPLEMENTATION_PLAN.md
-    - SESSION_*.md
-    - TEST_*.md
-    - Various dated files (*_2025-*.md)
-
-    PROPOSED CONSOLIDATION:
-
-    Option A: Flat with naming convention
-    .vibey/roadmap/context/
-      <track>_AUDIT.md
-      <track>_<sprint>_PLAN.md
-      <track>_<sprint>_<task>_<timestamp>_<title>.md
-
-    Option B: Hierarchical by scope
-    .vibey/roadmap/context/
-      tracks/
-        <track>/
-          AUDIT.md
-          ...
-      sprints/
-        <sprint>/
-          PLAN.md
-          ...
-      tasks/
-        <task>/
-          <timestamp>_<title>.md
-
-    Option C: Hierarchical by type
-    .vibey/roadmap/context/
-      audits/
-        <track>_AUDIT.md
-      plans/
-        <sprint>_PLAN.md
-      sessions/
-        <timestamp>_<title>.md
-
-    CONSIDERATIONS:
-    1. Preserve historical context (don't lose files)
-    2. Easy to find context for specific entity
-    3. Scalable naming (no collisions)
-    4. Git-friendly (stable paths)
-    5. Archive strategy for old files
-
-    MIGRATION REQUIREMENTS:
-    - Inventory all existing context files
-    - Map old paths to new paths
-    - Create migration script design
-    - Update any code referencing context paths
-    - Preserve git history if possible
-
-    DELIVERABLES:
-    - Context file inventory (count per location)
-    - Recommended structure
-    - Naming convention specification
-    - Migration script design
-  status: not_started
+  description: "Plan consolidation of context files from scattered track/sprint/task\
+    \ folders\ninto a single organized location. This informs the unified architecture\
+    \ design.\n\nCURRENT STATE:\nContext files are scattered across:\n- .vibey/roadmap/<track>/context/\n\
+    - .vibey/roadmap/<track>/<sprint>/context/\n- .vibey/roadmap/<track>/<sprint>/<task>/context/\n\
+    \nFile types found:\n- TRACK_AUDIT_REPORT.md\n- REMEDIATION_*.md\n- IMPLEMENTATION_PLAN.md\n\
+    - SESSION_*.md\n- TEST_*.md\n- Various dated files (*_2025-*.md)\n\nPROPOSED CONSOLIDATION:\n\
+    \nOption A: Flat with naming convention\n.vibey/roadmap/context/\n  <track>_AUDIT.md\n\
+    \  <track>_<sprint>_PLAN.md\n  <track>_<sprint>_<task>_<timestamp>_<title>.md\n\
+    \nOption B: Hierarchical by scope\n.vibey/roadmap/context/\n  tracks/\n    <track>/\n\
+    \      AUDIT.md\n      ...\n  sprints/\n    <sprint>/\n      PLAN.md\n      ...\n\
+    \  tasks/\n    <task>/\n      <timestamp>_<title>.md\n\nOption C: Hierarchical\
+    \ by type\n.vibey/roadmap/context/\n  audits/\n    <track>_AUDIT.md\n  plans/\n\
+    \    <sprint>_PLAN.md\n  sessions/\n    <timestamp>_<title>.md\n\nCONSIDERATIONS:\n\
+    1. Preserve historical context (don't lose files)\n2. Easy to find context for\
+    \ specific entity\n3. Scalable naming (no collisions)\n4. Git-friendly (stable\
+    \ paths)\n5. Archive strategy for old files\n\nMIGRATION REQUIREMENTS:\n- Inventory\
+    \ all existing context files\n- Map old paths to new paths\n- Create migration\
+    \ script design\n- Update any code referencing context paths\n- Preserve git history\
+    \ if possible\n\nDELIVERABLES:\n- Context file inventory (count per location)\n\
+    - Recommended structure\n- Naming convention specification\n- Migration script\
+    \ design\n"
+  status: completed
   blocked: false
   created: '2025-11-30T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-11-30T20:19:25.148975+00:00'
+  completed: '2025-11-30T20:26:52.675432+00:00'
   assigned_agent: architecture-agent
   priority: medium
   phase_label: design
@@ -89,18 +42,35 @@ task:
   dependencies: []
   blocks: []
   blocked_by:
-  - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-002
+  - dependency_id: sqlite-backend-6-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495639+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495640+00:00'
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Context file inventory
-  - Consolidation structure recommendation
-  - Naming convention spec
-  - Migration script design
+  - type: code
+    paths:
+    - Context file inventory
+  - type: code
+    paths:
+    - Consolidation structure recommendation
+  - type: code
+    paths:
+    - Naming convention spec
+  - type: code
+    paths:
+    - Migration script design
   commits: []
   metadata:
     last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Moved from sprint 13-deferred to front of sprint 6.
-      This task depends on directory structure and file format decisions.

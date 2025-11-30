@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-11-25T05:46:58.734492+00:00",
+  "last_sync": "2025-11-30T20:26:53.198809+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -1065,33 +1065,107 @@
       "checksum": "3938bfc7e720b2ee20feb53b293e916496a155aac7762546954adfbdff41b526",
       "synced_at": "2025-11-25T05:04:21.529726+00:00",
       "file_size": 13346
+    },
+    "ROOT_CAUSE_AUDIT_REPORT.md": {
+      "source_path": "roadmap/ROOT_CAUSE_AUDIT_REPORT.md",
+      "target_path": "roadmap/ROOT_CAUSE_AUDIT_REPORT.md",
+      "checksum": "b423e38a909d769db7455d27f9d4f010dd7896265ef30feabd1a5cdfdc827c2c",
+      "synced_at": "2025-11-30T20:12:47.240893+00:00",
+      "file_size": 68948
+    },
+    "audit_reports/audit_report_20251127_090554.md": {
+      "source_path": "roadmap/audit_reports/audit_report_20251127_090554.md",
+      "target_path": "roadmap/audit_reports/audit_report_20251127_090554.md",
+      "checksum": "7b44b7917fd5e728005c1c82f9a88e731ed809b36bcb1057d3d6fdb381adaa84",
+      "synced_at": "2025-11-30T20:12:47.241939+00:00",
+      "file_size": 15898
+    },
+    "git-integration/git-integration-5-plan.md": {
+      "source_path": "roadmap/git-integration/git-integration-5-plan.md",
+      "target_path": "roadmap/git-integration/git-integration-5-plan.md",
+      "checksum": "2e3e03cea24a3bffaf06e9f9e5fb6c572f638a8038ce42e7ae0d4bbcecbbd0c8",
+      "synced_at": "2025-11-30T20:12:47.243728+00:00",
+      "file_size": 10664
+    },
+    "mcp-server/mcp-server-4-plan.md": {
+      "source_path": "roadmap/mcp-server/mcp-server-4-plan.md",
+      "target_path": "roadmap/mcp-server/mcp-server-4-plan.md",
+      "checksum": "6d452b1afa7ab39754edfcca8132dd269209e7a4289c6b01efa30abfdcf3f496",
+      "synced_at": "2025-11-30T20:12:47.243995+00:00",
+      "file_size": 5475
+    },
+    "sqlite-backend/GAP_ANALYSIS.md": {
+      "source_path": "roadmap/sqlite-backend/GAP_ANALYSIS.md",
+      "target_path": "roadmap/sqlite-backend/GAP_ANALYSIS.md",
+      "checksum": "7a328e1d6a3c1705c9f2f0867767f13d3a7992407c477f6d80c748a30d8031eb",
+      "synced_at": "2025-11-30T20:12:47.245078+00:00",
+      "file_size": 20524
+    },
+    "sqlite-backend/TRACK_ALIGNMENT_REVIEW.md": {
+      "source_path": "roadmap/sqlite-backend/TRACK_ALIGNMENT_REVIEW.md",
+      "target_path": "roadmap/sqlite-backend/TRACK_ALIGNMENT_REVIEW.md",
+      "checksum": "7b9d34c15ce682d7c4c9a86dc8309c59b1d22ca4759a8cd82c236f874be6dc4e",
+      "synced_at": "2025-11-30T20:12:47.245269+00:00",
+      "file_size": 5780
+    },
+    "sqlite-backend/sqlite-backend-11/docs/INTEGRITY_AUDIT_REPORT.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-11/docs/INTEGRITY_AUDIT_REPORT.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-11/docs/INTEGRITY_AUDIT_REPORT.md",
+      "checksum": "ecbfc99bbfb0a09ff646c752d293b9accf0e2410522d48a0879a0099c856cd8b",
+      "synced_at": "2025-11-30T20:12:47.245738+00:00",
+      "file_size": 5344
+    },
+    "sqlite-backend/sqlite-backend-3/docs/MIGRATION_GUIDE.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-3/docs/MIGRATION_GUIDE.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-3/docs/MIGRATION_GUIDE.md",
+      "checksum": "725e00bb68f86f1b32b082061f7c56ae0bedbb1532635abe11c35e80cb9754da",
+      "synced_at": "2025-11-30T20:12:47.246010+00:00",
+      "file_size": 6384
+    },
+    "sqlite-backend/sqlite-backend-6/UNIFIED_TICKET_ARCHITECTURE.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/UNIFIED_TICKET_ARCHITECTURE.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/UNIFIED_TICKET_ARCHITECTURE.md",
+      "checksum": "0942cb47fa9ef80851caf2ff7275ac8732a0c1ca09e11a33ba47a7653b1c1c26",
+      "synced_at": "2025-11-30T20:12:47.246262+00:00",
+      "file_size": 112420
+    },
+    "sqlite-backend/sqlite-backend-6/archive/COMPLETABLE_UNIFICATION.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/COMPLETABLE_UNIFICATION.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/COMPLETABLE_UNIFICATION.md",
+      "checksum": "0f1ff894142a657081cedc7cbf68a4c45a0dc8bbb80716092768691ba3687201",
+      "synced_at": "2025-11-30T20:12:47.246481+00:00",
+      "file_size": 17197
+    },
+    "sqlite-backend/sqlite-backend-6/archive/COMPREHENSIVE_IMPACT_ASSESSMENT.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/COMPREHENSIVE_IMPACT_ASSESSMENT.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/COMPREHENSIVE_IMPACT_ASSESSMENT.md",
+      "checksum": "3bf375353b35529e62950c070b2efc41a0043c8e494a5c1caefdaeeee09570d8",
+      "synced_at": "2025-11-30T20:12:47.246681+00:00",
+      "file_size": 36417
+    },
+    "sqlite-backend/sqlite-backend-6/archive/DEPENDENCY_SYSTEM_ANALYSIS.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/DEPENDENCY_SYSTEM_ANALYSIS.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/DEPENDENCY_SYSTEM_ANALYSIS.md",
+      "checksum": "cd9fabfc99cd33af65da6bfbe5d1231e3576bc19f8f3d35d125b04256c960dc2",
+      "synced_at": "2025-11-30T20:12:47.246899+00:00",
+      "file_size": 19666
+    },
+    "sqlite-backend/sqlite-backend-6/archive/IMPACT_ANALYSIS.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/IMPACT_ANALYSIS.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/IMPACT_ANALYSIS.md",
+      "checksum": "63fde208a12623211c453fa6d6b39093d7970b543d66575520ab7b19521bcd94",
+      "synced_at": "2025-11-30T20:12:47.247112+00:00",
+      "file_size": 13814
+    },
+    "sqlite-backend/sqlite-backend-6/archive/REVISED_ARCHITECTURE.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/REVISED_ARCHITECTURE.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-6/archive/REVISED_ARCHITECTURE.md",
+      "checksum": "1c66665c8470b31cd36061f94cd1639d9bf03009be241ecf4627e256703f8791",
+      "synced_at": "2025-11-30T20:12:47.247303+00:00",
+      "file_size": 23241
     }
   },
   "sync_history": [
-    {
-      "timestamp": "2025-11-23T21:02:10.175207+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.022885,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-23T21:02:10.715732+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.027661,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-23T21:02:11.261049+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.02696,
-      "errors": 0
-    },
     {
       "timestamp": "2025-11-23T21:02:11.781851+00:00",
       "files_copied": 0,
@@ -1466,6 +1540,30 @@
       "files_skipped": 83,
       "files_deleted": 0,
       "duration_seconds": 0.026208,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-30T20:12:47.247340+00:00",
+      "files_copied": 14,
+      "files_skipped": 83,
+      "files_deleted": 0,
+      "duration_seconds": 0.042323,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-30T20:14:27.804733+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.031018,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-11-30T20:26:53.198809+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.041275,
       "errors": 0
     }
   ]

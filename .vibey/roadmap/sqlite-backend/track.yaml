@@ -13,8 +13,8 @@ track:
     sprints_total: 13
     sprints_completed: 6
     tasks_total: 101
-    tasks_completed: 36
-    completion_percent: 35.6
+    tasks_completed: 39
+    completion_percent: 38
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -22,52 +22,42 @@ track:
     estimated_duration: 1 week
     tasks_count: 6
     started: '2025-11-26T10:00:00+00:00'
-    completed: '2025-11-26T12:00:00+00:00'
   - id: sqlite-backend-1
     name: Core Implementation
     status: completed
     estimated_duration: 2 weeks
     tasks_count: 9
     started: '2025-11-26T12:00:00+00:00'
-    completed: '2025-11-26T18:00:00+00:00'
   - id: sqlite-backend-2
     name: CLI Integration
     status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 7
     started: '2025-11-26T14:00:00+00:00'
-    completed: '2025-11-26T18:00:00+00:00'
   - id: sqlite-backend-3
     name: Sync System & Migration
     status: completed
     estimated_duration: 1.5 weeks
     tasks_count: 7
     started: '2025-11-26T18:00:00+00:00'
-    completed: '2025-11-26T22:00:00+00:00'
   - id: sqlite-backend-4
     name: Schema Completion & Data Integrity
     status: completed
     estimated_duration: 1 week
     tasks_count: 4
     started: '2025-11-28T16:00:00+00:00'
-    completed: '2025-11-28T17:00:00+00:00'
   - id: sqlite-backend-5
     name: Column Gap Remediation & Comparison Tooling
     status: completed
     estimated_duration: 0.5 weeks
     tasks_count: 3
     started: '2025-11-28T18:30:00+00:00'
-    completed: '2025-11-28T19:30:00+00:00'
-  # CRITICAL PATH: 6 → 7 → 8 → 9 → 10 → 11 → 12
-  # Note: Directory structure analysis (tasks 001-003) now at front of Sprint 6
-  # Note: Directory structure implementation integrated into Sprint 8 (task 011)
-  # Note: Migration script and CLI updates integrated into Sprint 12 (tasks 008-009)
   - id: sqlite-backend-6
     name: Unified Ticket Architecture & Criteria-Based Completion
-    status: not_started
+    status: in_progress
     estimated_duration: 2.5 weeks
     tasks_count: 18
-    started: null
+    started: '2025-11-30T20:10:46.077503+00:00'
   - id: sqlite-backend-7
     name: Artifact System Architecture
     status: not_started
@@ -108,6 +98,7 @@ track:
   blocks:
   - type: sprint
     target_id: git-integration-5
+    at_status: not_started
     reason: git-integration-5 depends on SQLite backend for DB-based integrity verification
   blocked_by: []
   depends_on: []

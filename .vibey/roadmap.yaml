@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 18
     sprints_total: 180
     sprints_completed: 87
-    tasks_total: 927
-    tasks_completed: 656
-    completion_percent: 70
+    tasks_total: 943
+    tasks_completed: 659
+    completion_percent: 69
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -2102,11 +2102,57 @@ roadmap:
       - CLI usage validation implementation
       - Advisory mode setup for Vibey repository
       - Dogfooding evaluation report
+  - timestamp: '2025-11-30T20:10:46.211227+00:00'
+    type: sprint_started
+    description: Sprint 'Unified Ticket Architecture & Criteria-Based Completion'
+      started
+    context:
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:10:50.944056+00:00'
+    type: task_started
+    description: Task 'Analyze optimal directory structure mirroring SQLite schema'
+      started
+    context:
+      task_id: sqlite-backend-6-task-001
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:12:47.172607+00:00'
+    type: task_completed
+    description: Task 'Analyze optimal directory structure mirroring SQLite schema'
+      completed
+    context:
+      task_id: sqlite-backend-6-task-001
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:12:52.405987+00:00'
+    type: task_started
+    description: Task 'Evaluate file formats (YAML vs JSON vs XML) for roadmap data'
+      started
+    context:
+      task_id: sqlite-backend-6-task-002
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:14:27.741085+00:00'
+    type: task_completed
+    description: Task 'Evaluate file formats (YAML vs JSON vs XML) for roadmap data'
+      completed
+    context:
+      task_id: sqlite-backend-6-task-002
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:19:25.584954+00:00'
+    type: task_started
+    description: Task 'Design context file consolidation strategy' started
+    context:
+      task_id: sqlite-backend-6-task-003
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-11-30T20:26:53.122654+00:00'
+    type: task_completed
+    description: Task 'Design context file consolidation strategy' completed
+    context:
+      task_id: sqlite-backend-6-task-003
+      sprint_id: sqlite-backend-6
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-11-26T12:26:33+00:00'
+    last_updated: '2025-11-30T20:26:53.122659+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

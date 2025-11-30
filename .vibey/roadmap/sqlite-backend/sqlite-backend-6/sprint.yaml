@@ -3,19 +3,26 @@ sprint:
   name: Unified Ticket Architecture & Criteria-Based Completion
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
+  blocked_reason: null
   created: '2025-11-29T12:00:00+00:00'
-  started: null
+  started: '2025-11-30T20:10:46.077503+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 15
-    tasks_completed: 0
-    completion_percent: 0.0
+    development_tasks_total: 18
+    development_tasks_completed: 3
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 18
+    tasks_completed: 3
+    completion_percent: 16
   tasks: []
   development_gates: []
   blocks: []
@@ -27,8 +34,6 @@ sprint:
     current_status: completed
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T18:00:00+00:00'
-  # CRITICAL PATH: 5 → 6 → 7 → 8 → 9 → 10 → 11
-  # Sprint 12 (file format analysis) is DEFERRED to post-production.
   depended_on_by: []
   plan_file: null
   deliverables:
@@ -42,6 +47,13 @@ sprint:
   - SQLAlchemy ORM with criteria table (polymorphic targets)
   - Migration adapters for criteria-based model
   - Comprehensive test suite for all layers
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -51,123 +63,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Sprint to implement unified ticket architecture with CRITERIA-BASED
-      COMPLETION MODEL. This is THE deterministic interface for calculating
-      whether a ticket has been completed - the guardrail against AI manipulation.
-
-      KEY ARCHITECTURAL CHANGE:
-      - criteria: List[Criterion] is THE source of truth for ALL blocking
-      - Criterion.blocks_transition_to unifies dependencies, completion, gates
-      - can_transition_to(status) is THE unified interface
-      - Children are IMPLICIT via CompletableTarget criteria
-
-      UNIFIED BLOCKING MODEL:
-      All blocking relationships use Criterion with blocks_transition_to:
-      - IN_PROGRESS: dependency (must be met before starting)
-      - COMPLETED: success criteria (must be met before completing)
-      - PRODUCTION_READY: production gate (must be met before deploying)
-
-      This ELIMINATES the separate Dependency class.
-
-      CORE COMPLETION MODEL:
-
-      1. Completable (base class):
-         - id, name, description
-         - criteria: List[Criterion]  <- THE source of truth
-         - can_transition_to(status) -> tuple[bool, List[str]]
-         - progress_for_transition(status) -> Progress
-         - children: List[str] (derived from CompletableTarget criteria)
-
-      2. Criterion:
-         - id, description, required
-         - blocks_transition_to: TicketStatus = COMPLETED  <- KEY FIELD
-         - target: CriterionTarget (polymorphic)
-         - is_met: bool (delegated to target.is_satisfied())
-
-      3. CriterionTarget types:
-         - CompletableTarget: another ticket must be complete (creates parent-child)
-         - FileExistsTarget: file(s) must exist (deliverable)
-         - TestPassesTarget: test must pass with thresholds
-         - ThresholdTarget: metric meets threshold
-         - ManualTarget: human assessment
-         - ExternalTarget: external system check
-
-      IMPLICIT PARENT-CHILD RELATIONSHIPS:
-      - Children are NOT stored in explicit lists
-      - Children are DERIVED from CompletableTarget criteria
-      - Example: Roadmap has criteria with CompletableTarget for each track
-      - children property extracts completable_ids from criteria
-
-      REQUIREMENT INHERITANCE:
-      - Requirements are criterion TEMPLATES that cascade down hierarchy
-      - RequirementResolver handles hybrid inheritance:
-        - INHERIT: stricter of local vs ancestor wins
-        - OVERRIDE: local replaces ancestor
-        - SKIP: explicitly not applicable
-      - ApplicabilityRules filter requirements by ticket/task type
-      - RequirementInstantiator generates criteria from requirements
-
-      LAYER ARCHITECTURE:
-
-      LAYER 1: Ticket (extends Completable)
-      - Adds work semantics: status, lifecycle, assignment, commits
-      - NO separate dependencies field - sibling deps are criteria with
-        blocks_transition_to=IN_PROGRESS
-      - Adds requirements_local (templates for children)
-      - start() checks can_start(), complete() checks can_complete()
-      - THE deterministic interface for ALL state transitions
-
-      LAYER 2: HierarchicalTicket (extends Ticket)
-      - Smart accessors based on hierarchy attributes
-      - commits: local if leaf, aggregated if parent
-      - requirements_effective: resolved with inheritance modes
-      - all_criteria: explicit + instantiated from requirements
-      - progress: computed from all_criteria (universal formula)
-
-      LAYER 3: Domain Models (THIN - only semantic-specific fields)
-      - RoadmapTicket: version, activity_log, deployed_platforms
-      - TrackTicket: priority, strategic_value
-      - SprintTicket: extended lifecycle, plan_file, development_gates
-      - TaskTicket: task_type, estimated_tokens, gate_info
-
-      SMART ACCESSOR BEHAVIOR BY TYPE:
-      ┌─────────────┬────────────┬─────────────┬──────────┐
-      │ Type        │ commits    │ requirements│ progress │
-      ├─────────────┼────────────┼─────────────┼──────────┤
-      │ Roadmap     │ aggregated │ local       │ computed │
-      │ Track       │ aggregated │ effective   │ computed │
-      │ Sprint      │ aggregated │ effective   │ computed │
-      │ Task        │ local      │ effective   │ computed │
-      └─────────────┴────────────┴─────────────┴──────────┘
-
-      Progress is now computed from criteria PER TRANSITION TYPE:
-      - progress = progress_for_transition(COMPLETED) - default
-      - start_progress = progress_for_transition(IN_PROGRESS)
-      - deploy_progress = progress_for_transition(PRODUCTION_READY)
-
-      Same formula for all: met_criteria / total_criteria.
-
-      TASK EXECUTION ORDER:
-      1. Task 010 (Enums) - no dependencies
-      2. Task 009 (Completable, Criterion, Targets) - depends on 010
-      3. Task 011 (Requirement System) - depends on 009
-      4. Task 001 (Ticket base class) - depends on 009, 010, 011
-      5. Task 002 (HierarchicalTicket) - depends on 001
-      6. Tasks 003-006 (Domain models) - depend on 001, 002
-      7. Task 007 (ORM with criteria table) - depends on 003-006
-      8. Task 008 (Migration) - depends on 007
-
-      ORM SCHEMA:
-      - tickets table: single-table inheritance for all ticket types
-      - criteria table: separate, with polymorphic target_json
-      - Foreign key: criteria.ticket_id -> tickets.id
-
-      SPRINT SEQUENCE (after renumbering):
-      - Sprint 6: Unified Ticket Architecture (THIS SPRINT)
-      - Sprint 7: Serialization Migration
-      - Sprint 8: Operations Migration
-      - Sprint 9: Interface Migration
-      - Sprint 10: Data Validation & Integrity Audit
-      - Sprint 11: Production Cutover & Sync System
-      - Sprint 12 (DEFERRED): File Format Analysis (optional optimization)

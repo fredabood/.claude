@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: 15 weeks
   progress:
-    sprints_total: 14
+    sprints_total: 13
     sprints_completed: 6
-    tasks_total: 103
+    tasks_total: 101
     tasks_completed: 36
-    completion_percent: 35.0
+    completion_percent: 35.6
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -59,11 +59,14 @@ track:
     started: '2025-11-28T18:30:00+00:00'
     completed: '2025-11-28T19:30:00+00:00'
   # CRITICAL PATH: 6 → 7 → 8 → 9 → 10 → 11 → 12
+  # Note: Directory structure analysis (tasks 001-003) now at front of Sprint 6
+  # Note: Directory structure implementation integrated into Sprint 8 (task 011)
+  # Note: Migration script and CLI updates integrated into Sprint 12 (tasks 008-009)
   - id: sqlite-backend-6
     name: Unified Ticket Architecture & Criteria-Based Completion
     status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 15
+    estimated_duration: 2.5 weeks
+    tasks_count: 18
     started: null
   - id: sqlite-backend-7
     name: Artifact System Architecture
@@ -74,8 +77,8 @@ track:
   - id: sqlite-backend-8
     name: Serialization Migration
     status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 10
+    estimated_duration: 2.5 weeks
+    tasks_count: 11
     started: null
   - id: sqlite-backend-9
     name: Operations Migration
@@ -96,19 +99,11 @@ track:
     tasks_count: 8
     started: null
   - id: sqlite-backend-12
-    name: Production Cutover & Sync System
+    name: Production Cutover & Directory Structure Migration
     status: not_started
-    estimated_duration: 1.5 weeks
-    tasks_count: 7
+    estimated_duration: 2 weeks
+    tasks_count: 9
     started: null
-  # DEFERRED: Sprint 13 is optional optimization after production
-  - id: sqlite-backend-13-deferred
-    name: YAML Structure Migration & File Format Analysis (DEFERRED)
-    status: not_started
-    estimated_duration: 1 week
-    tasks_count: 6
-    started: null
-    deferred: true
   dependencies: []
   blocks:
   - type: sprint

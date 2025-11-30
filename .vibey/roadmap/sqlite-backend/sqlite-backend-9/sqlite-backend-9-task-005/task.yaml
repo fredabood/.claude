@@ -3,7 +3,7 @@ task:
   sprint_id: sqlite-backend-9
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: testing
+  task_type: development
   title: Integration testing for all operations
   description: |
     Comprehensive integration testing to verify all operations

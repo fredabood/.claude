@@ -4,287 +4,110 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement Layer 2 - HierarchicalTicket Smart Accessors
+  title: Evaluate file formats (YAML vs JSON vs XML) for roadmap data
   description: |
-    Create HierarchicalTicket that extends Ticket with smart accessors
-    for aggregation and inheritance. This is Layer 2 of the architecture.
+    Compare file formats for storing roadmap data, considering SQLite translation
+    and AI/human readability trade-offs. This analysis informs serialization design.
 
-    DESIGN PRINCIPLE: Smart accessors use hierarchy attributes to
-    determine field behavior automatically. No L3 knowledge needed.
+    FORMATS TO EVALUATE:
 
-    LAYER 2 SMART ACCESSORS:
+    1. YAML (current)
+       Pros:
+       - Human readable/editable
+       - Good for AI context (natural language-like)
+       - Comments supported
+       - Anchors/aliases for deduplication
+       Cons:
+       - Indentation-sensitive (error-prone)
+       - Multiple parsers with subtle differences
+       - Slower to parse than JSON
+       - No native schema validation
 
-    1. commits (aggregation):
-       @property
-       def commits(self) -> List[GitCommit]:
-           """
-           Commits: local if leaf, aggregated if parent.
+    2. JSON
+       Pros:
+       - Pandas/Spark native support
+       - Fast parsing (C libraries)
+       - Strict schema (JSON Schema)
+       - Universal tooling (jq, etc.)
+       - SQLite JSON functions for direct queries
+       Cons:
+       - Less human readable (no comments)
+       - Verbose for nested structures
+       - No multiline strings
 
-           - is_ultimate_child: return self._commits_local
-           - is_parent: aggregate from all children recursively
-           """
-           if self.is_ultimate_child:
-               return self._commits_local
-           return self._aggregate_commits()
+    3. XML
+       Pros:
+       - Schema validation (XSD)
+       - XSLT for transformations
+       - Mature tooling
+       Cons:
+       - Very verbose
+       - Poor AI readability
+       - Heavy parsing overhead
+       - Outdated ecosystem
 
-       def _aggregate_commits(self) -> List[GitCommit]:
-           """Collect commits from all descendant tickets."""
-           all_commits = list(self._commits_local)
-           for child_id in self.children:
-               child = self._load_child(child_id)
-               all_commits.extend(child.commits)  # Recursive
-           return sorted(all_commits, key=lambda c: c.timestamp)
+    4. JSONL (JSON Lines)
+       Pros:
+       - Streaming-friendly
+       - One record per line
+       - Append-only friendly
+       - Great for pandas.read_json(lines=True)
+       Cons:
+       - No single-file structure
+       - Less human readable
 
-    2. requirements_effective (inheritance):
-       @property
-       def requirements_effective(self) -> List[Requirement]:
-           """
-           Requirements: local if root, effective (inherited) if child.
+    EVALUATION CRITERIA:
+    1. SQLite <-> text translation speed
+    2. AI readability in prompts
+    3. Human editability
+    4. Pandas/Spark integration
+    5. Git diff quality
+    6. Schema validation options
+    7. Error resilience
 
-           Uses RequirementResolver to handle inheritance modes:
-           - INHERIT: stricter of local vs ancestor
-           - OVERRIDE: local replaces ancestor
-           - SKIP: explicitly excluded
-           """
-           if self.is_ultimate_parent:
-               return self.requirements_local
-           return RequirementResolver().resolve(self)
+    BENCHMARK APPROACH:
+    - Convert current roadmap to each format
+    - Measure file sizes
+    - Measure parse/serialize times
+    - Test with pandas read/write
+    - Evaluate diff readability
+    - Test AI comprehension with sample prompts
 
-    3. instantiated_criteria (from requirements):
-       @property
-       def instantiated_criteria(self) -> List[Criterion]:
-           """
-           Criteria generated from applicable requirements.
-
-           These are ADDED to explicit criteria, not replacing them.
-           """
-           return RequirementInstantiator().instantiate(self)
-
-       @property
-       def all_criteria(self) -> List[Criterion]:
-           """Explicit criteria + instantiated from requirements."""
-           return self.criteria + self.instantiated_criteria
-
-    4. progress_for_transition (computed from criteria):
-       def progress_for_transition(self, status: TicketStatus) -> Progress:
-           """
-           Progress toward a specific transition.
-
-           Filters all_criteria by blocks_transition_to, then computes:
-           progress = met_criteria / total_criteria
-           """
-           relevant = [c for c in self.all_criteria
-                       if c.blocks_transition_to == status]
-           total = len(relevant)
-           met = sum(1 for c in relevant if c.is_met())
-           return Progress(total=total, completed=met)
-
-       @computed_field
-       def progress(self) -> Progress:
-           """Default progress (toward COMPLETED)."""
-           return self.progress_for_transition(TicketStatus.COMPLETED)
-
-       @computed_field
-       def start_progress(self) -> Progress:
-           """Progress toward being able to start (IN_PROGRESS)."""
-           return self.progress_for_transition(TicketStatus.IN_PROGRESS)
-
-       @computed_field
-       def deploy_progress(self) -> Progress:
-           """Progress toward production readiness."""
-           return self.progress_for_transition(TicketStatus.PRODUCTION_READY)
-
-    CONVENIENCE ACCESSORS:
-
-    These filter criteria by target type AND blocks_transition_to:
-
-    @property
-    def deliverables(self) -> List[Criterion]:
-        """File-based criteria (FileExistsTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, FileExistsTarget)]
-
-    @property
-    def tests(self) -> List[Criterion]:
-        """Test-based criteria (TestPassesTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, TestPassesTarget)]
-
-    @property
-    def subtasks(self) -> List[Criterion]:
-        """Child ticket criteria (CompletableTarget blocking COMPLETED)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, CompletableTarget)
-                and c.blocks_transition_to == TicketStatus.COMPLETED]
-
-    @property
-    def dependencies(self) -> List[Criterion]:
-        """Sibling dependencies (CompletableTarget blocking IN_PROGRESS)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, CompletableTarget)
-                and c.blocks_transition_to == TicketStatus.IN_PROGRESS]
-
-    @property
-    def thresholds(self) -> List[Criterion]:
-        """Threshold-based criteria (ThresholdTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, ThresholdTarget)]
-
-    @property
-    def manual_checks(self) -> List[Criterion]:
-        """Manual assessment criteria (ManualTarget)."""
-        return [c for c in self.all_criteria
-                if isinstance(c.target, ManualTarget)]
-
-    @property
-    def production_gates(self) -> List[Criterion]:
-        """Production deployment gates (any target blocking PRODUCTION_READY)."""
-        return [c for c in self.all_criteria
-                if c.blocks_transition_to == TicketStatus.PRODUCTION_READY]
-
-    HIERARCHY TRAVERSAL:
-
-    @property
-    def parent(self) -> Optional[HierarchicalTicket]:
-        """Load parent ticket if exists."""
-        if self.parent_ref is None:
-            return None
-        return self._load_ticket(self.parent_ref)
-
-    @property
-    def children_tickets(self) -> List[HierarchicalTicket]:
-        """Load all child tickets."""
-        return [self._load_ticket(child_id) for child_id in self.children]
-
-    @property
-    def ancestors(self) -> List[HierarchicalTicket]:
-        """All ancestors from parent to root."""
-        result = []
-        current = self.parent
-        while current is not None:
-            result.append(current)
-            current = current.parent
-        return result
-
-    @property
-    def descendants(self) -> List[HierarchicalTicket]:
-        """All descendants (children, grandchildren, etc.)."""
-        result = []
-        for child in self.children_tickets:
-            result.append(child)
-            result.extend(child.descendants)
-        return result
-
-    LOADER ABSTRACTION:
-
-    The _load_ticket and _load_child methods use dependency injection:
-
-    class TicketLoader(Protocol):
-        def load(self, ticket_id: str) -> HierarchicalTicket: ...
-
-    class HierarchicalTicket(Ticket):
-        _loader: ClassVar[Optional[TicketLoader]] = None
-
-        @classmethod
-        def set_loader(cls, loader: TicketLoader) -> None:
-            cls._loader = loader
-
-        def _load_ticket(self, ticket_id: str) -> HierarchicalTicket:
-            if self._loader is None:
-                raise RuntimeError("No loader configured")
-            return self._loader.load(ticket_id)
-
-    IMPLEMENTATION:
-
-    1. Create vibey/roadmap/models/ticket/hierarchical.py:
-       - HierarchicalTicket class extending Ticket
-       - All smart accessors
-       - Hierarchy traversal methods
-       - Loader abstraction
-
-    2. Integrate with RequirementResolver from Task 011
-    3. Full test coverage with mock loader
-
-    SUCCESS CRITERIA:
-    - All smart accessors work correctly
-    - Aggregation collects from all descendants
-    - Inheritance resolves with correct modes
-    - Instantiated criteria added to explicit criteria
-    - progress_for_transition filters by blocks_transition_to
-    - progress, start_progress, deploy_progress computed correctly
-    - Convenience accessors filter by target type AND blocks_transition_to
-    - dependencies accessor returns criteria blocking IN_PROGRESS
-    - subtasks accessor returns criteria blocking COMPLETED
-    - production_gates accessor returns criteria blocking PRODUCTION_READY
-    - Full test coverage
+    DELIVERABLES:
+    - Benchmark results table
+    - Sample files in each format
+    - Recommendation with rationale
+    - Migration path if changing formats
   status: not_started
   blocked: false
-  created: '2025-11-29T12:00:00+00:00'
+  created: '2025-11-30T20:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: architecture-agent
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3500
+  phase_label: research
+  estimated_tokens: 3000
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
   - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
-  - sqlite-backend-6-task-007
-  blocked_by:
-  - sqlite-backend-6-task-001
-  depends_on:
-  - blocker_id: sqlite-backend-6-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
-  depended_on_by:
-  - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
-  - sqlite-backend-6-task-007
+  blocked_by: []
   deliverables:
-  - vibey/roadmap/models/ticket/hierarchical.py
-  - tests/roadmap/models/ticket/test_hierarchical.py
+  - File format benchmark results
+  - Sample files in YAML/JSON/XML/JSONL
+  - Format recommendation with rationale
+  - Migration path document
   commits: []
   metadata:
-    last_updated: '2025-11-29T17:00:00+00:00'
+    last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      LAYER 2 - Smart accessor pattern.
-
-      Key insight: Behavior is determined by hierarchy attributes
-      (is_parent, is_child, etc.) from L1. No L3 knowledge needed.
-
-      UNIFIED BLOCKING MODEL:
-      All blocking relationships use Criterion with blocks_transition_to.
-      Progress is computed per transition type.
-
-      Smart accessor behavior table:
-      ┌─────────────┬────────────┬─────────────┬──────────┐
-      │ Type        │ commits    │ requirements│ progress │
-      ├─────────────┼────────────┼─────────────┼──────────┤
-      │ Roadmap     │ aggregated │ local       │ computed │
-      │ Track       │ aggregated │ effective   │ computed │
-      │ Sprint      │ aggregated │ effective   │ computed │
-      │ Task        │ local      │ effective   │ computed │
-      └─────────────┴────────────┴─────────────┴──────────┘
-
-      Progress computed per transition:
-      - progress = toward COMPLETED (default)
-      - start_progress = toward IN_PROGRESS
-      - deploy_progress = toward PRODUCTION_READY
-
-      Convenience accessors distinguish by blocks_transition_to:
-      - subtasks = CompletableTarget + blocks COMPLETED (parent-child)
-      - dependencies = CompletableTarget + blocks IN_PROGRESS (siblings)
+      Moved from sprint 13-deferred to front of sprint 6.
+      Key insight: JSON may be better for programmatic access while
+      YAML is better for human/AI readability. Consider hybrid approach:
+      - JSON for tables with many rows (tasks, audit_trail)
+      - YAML for config-like entities (roadmap, quality_gates)

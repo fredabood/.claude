@@ -4,365 +4,245 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement Completable, Criterion, and Target Types
+  title: Implement Layer 3 - TaskTicket (Ultimate Child)
   description: |
-    Create the core completion model: Completable base class, Criterion,
-    and all CriterionTarget types. This is the heart of the unified
-    completion system.
+    Create the TaskTicket class - the atomic work unit (leaf node).
+    Task is ALWAYS an ultimate child (is_ultimate_child=True).
 
-    DESIGN PRINCIPLE: Everything that can be completed shares the same
-    abstraction. Completion is determined by criteria, and criteria have
-    polymorphic targets.
+    DESIGN PRINCIPLE: L3 contains ONLY semantic-specific fields.
+    All common fields and behaviors inherited from L1/L2.
 
-    CORE CLASSES:
+    HIERARCHY CONSTRAINTS:
+    - is_ultimate_child: True (always - no children/CompletableTarget allowed)
+    - is_child: True (always has Sprint parent via parent_ref)
+    - is_parent: False (never - leaf node, no CompletableTarget criteria)
+    - is_ultimate_parent: False
+    - is_intermediate: False
 
-    1. Completable (abstract base)
-       """Anything that can be marked complete."""
+    These constraints are ENFORCED by validators.
 
-       Fields:
-       - id: str (unique identifier)
-       - name: str (human-readable name)
-       - description: Optional[str]
-       - criteria: List[Criterion] (THE source of truth)
+    INHERITED FROM L1 (Ticket extends Completable):
+    - From Completable: id, name, description, criteria (THE source of truth)
+    - From Completable: is_complete, progress, blocking_reasons (computed)
+    - From Completable: children = [] (always empty for tasks)
+    - Ticket-specific: status, lifecycle timestamps
+    - Ticket-specific: assigned_agents, priority, commits, dependencies
+    - Ticket-specific: requirements_local (but rarely used - tasks inherit)
+    - Ticket-specific: parent_ref (denormalized for fast lookup)
 
-       Computed Properties:
-       - is_complete: bool (computed via can_transition_to(COMPLETED))
-       - progress: Progress (for COMPLETED transition by default)
-       - blocking_reasons: List[str] (for current transition)
-       - children: List[str] = [c.target.completable_id for CompletableTargets]
+    INHERITED FROM L2 (HierarchicalTicket):
+    - Smart accessors: commits (local for tasks - no children to aggregate)
+    - Smart accessors: requirements_effective (full inheritance chain)
+    - Smart accessors: all_criteria (explicit + instantiated from requirements)
+    - Hierarchy traversal: parent, ancestors (no children/descendants)
+    - Convenience accessors: deliverables, tests, thresholds, manual_checks
 
-       Methods:
-       - can_transition_to(status: TicketStatus) -> tuple[bool, List[str]]
-         THE unified interface for checking if a transition is allowed
-       - progress_for_transition(status: TicketStatus) -> Progress
-         Progress toward a specific transition
-       - get_criterion(id: str) -> Optional[Criterion]
-       - add_criterion(criterion: Criterion) -> None
-       - remove_criterion(id: str) -> bool
+    SMART ACCESSOR BEHAVIOR FOR TASKS:
+    Because is_ultimate_child=True:
+    - commits → returns commits (local only, no aggregation)
+    - requirements_effective → full inheritance from sprint + track + roadmap
+    - all_criteria → explicit criteria + instantiated from requirements
+    - is_complete → all(c.is_met() for c in all_criteria)
+    - progress → met_criteria / total_criteria (same formula as parents)
 
-       Convenience methods:
-       - can_start() -> tuple[bool, List[str]]
-         = can_transition_to(IN_PROGRESS)
-       - can_complete() -> tuple[bool, List[str]]
-         = can_transition_to(COMPLETED)
-       - can_deploy() -> tuple[bool, List[str]]
-         = can_transition_to(PRODUCTION_READY)
+    TASK-SPECIFIC FIELDS (L3 only):
 
-    2. Criterion
-       """A requirement that blocks a state transition."""
+    1. Type Discriminator:
+       - ticket_type: Literal["task"] = "task"
 
-       Fields:
-       - id: str (unique within parent Completable)
-       - description: str (what must be true)
-       - target: CriterionTarget (polymorphic - determines how to check)
-       - required: bool = True (if False, doesn't block transition)
-       - blocks_transition_to: TicketStatus = COMPLETED
-         (which state transition this criterion guards)
+    2. Parent References:
+       - sprint_id: str (required, must match parent_id)
+       - track_id: str (required, grandparent reference)
+       - roadmap_id: str (required, root reference)
 
-       The blocks_transition_to field enables UNIFIED blocking:
-       - IN_PROGRESS: Must be met before work can start (dependency)
-       - COMPLETED: Must be met before marking complete (success criteria)
-       - PRODUCTION_READY: Must be met before deployment (production gate)
+    3. Task Classification:
+       - task_type_detail: TaskType enum (development, completion_gate,
+         production_gate, documentation, testing, research, review)
+       - title: str (short task title - alias for name)
 
-       This REPLACES the separate Dependency class. A "dependency" is now
-       just a Criterion with blocks_transition_to=IN_PROGRESS.
+    4. Assignment:
+       - assigned_agent: Optional[str] (single agent for task)
+       - priority: Priority enum
+       - phase_label: Optional[str]
 
-       Computed Properties:
-       - is_met: bool = target.is_satisfied() or not required
+    5. Estimation:
+       - estimated_tokens: int (required, > 0)
+       - actual_tokens: Optional[int]
+       - complexity: Complexity enum (low, medium, high)
 
-       Methods:
-       - refresh() -> None (update target state)
+    6. Gate-Specific (for gate tasks only):
+       - gate_info: Optional[GateInfo]
+       - audit_results: Optional[AuditResults]
 
-    3. CriterionTarget (abstract base)
-       """Base for all criterion target types."""
+    7. PARENT TYPE CONSTRAINT:
+       - parent_ref must reference a SprintTicket ID
+       - get_sprint() -> SprintTicket
 
-       Abstract Methods:
-       - is_satisfied() -> bool
-       - get_status_description() -> str
-       - refresh() -> None
+    8. NO CHILDREN (enforced):
+       - Cannot have CompletableTarget criteria (leaf node)
+       - children property always returns []
+       - Validation error if CompletableTarget criterion added
 
-    TARGET TYPES:
+    Note: Tasks have criteria like FileExistsTarget, TestPassesTarget,
+    ThresholdTarget, ManualTarget - but NOT CompletableTarget.
 
-    4. CompletableTarget
-       """Criterion met when another Completable is complete."""
+    Example task criteria:
 
-       Fields:
-       - completable_id: str (ID of target Completable)
-       - required_status: TicketStatus = COMPLETED
+    criteria:
+      - id: "deliverable-api"
+        description: "API module exists"
+        target:
+          type: "file_exists"
+          paths: ["src/api.py"]
 
-       Cached State:
-       - current_status: Optional[TicketStatus]
-       - last_checked: Optional[datetime]
+      - id: "test-coverage"
+        description: "Test coverage ≥85%"
+        target:
+          type: "threshold"
+          metric_name: "coverage"
+          threshold: 85.0
+          comparison: "gte"
 
-       Methods:
-       - is_satisfied() -> bool:
-           return current_status >= required_status
+      - id: "tests-pass"
+        description: "Unit tests pass"
+        target:
+          type: "test_passes"
+          test_command: "pytest tests/test_api.py"
+          pass_threshold: 100.0
 
-       NOTE: This target type creates parent-child relationships.
-       The parent is the Completable containing this criterion.
-       The child is the Completable referenced by completable_id.
+    SUPPORTING CLASSES (task-specific):
+    - GateInfo:
+      - blocks_status: str (what status this gate blocks)
+      - threshold: float (pass threshold 0-100)
+      - is_blocking: bool
+      - score: Optional[float]
+      - evaluated_at: Optional[datetime]
+      - has_passed() -> bool
 
-    5. FileExistsTarget
-       """Criterion met when file(s) exist."""
+    - AuditResults:
+      - issues_found: int
+      - issues_fixed: int
+      - recommendations: list[str]
+      - audit_type: str
+      - audited_at: datetime
 
-       Fields:
-       - paths: List[str] (file paths or glob patterns)
-       - all_required: bool = True (all must exist vs any)
+    VALIDATORS:
+    - Cannot have CompletableTarget criteria (ultimate child constraint)
+    - Task ID must start with sprint_id + "-task-"
+    - estimated_tokens must be > 0
+    - Development tasks cannot have gate_info
+    - Gate tasks must have gate_info
+    - If gate_info.is_blocking, gate must pass before sprint completes
 
-       Cached State:
-       - existing_paths: List[str]
-       - missing_paths: List[str]
-       - last_checked: Optional[datetime]
+    COMPUTED PROPERTIES (via Completable base):
+    - is_complete: all(c.is_met() for c in all_criteria)
+    - progress: met_criteria / total_criteria
+    - blocking_reasons: [c.description for c if not c.is_met()]
+    - children: [] (always empty for tasks)
 
-       Methods:
-       - is_satisfied() -> bool:
-           if all_required:
-               return len(missing_paths) == 0
-           return len(existing_paths) > 0
+    Task-specific computed:
+    - token_efficiency: Optional[float] (actual / estimated)
+    - size_category: SizeCategory (computed from estimated_tokens)
 
-       - refresh() -> None:
-           # Check file system, update existing/missing
-
-    6. TestPassesTarget
-       """Criterion met when test passes with optional thresholds."""
-
-       Fields:
-       - test_command: str (e.g., "pytest tests/test_foo.py")
-       - pass_threshold: float = 100.0 (% tests must pass)
-       - coverage_threshold: Optional[float] (optional coverage %)
-
-       Cached State:
-       - last_result: Optional[TestResult]
-
-       Methods:
-       - is_satisfied() -> bool:
-           if last_result is None:
-               return False
-           if last_result.pass_rate < pass_threshold:
-               return False
-           if coverage_threshold and last_result.coverage < coverage_threshold:
-               return False
-           return True
-
-       - run() -> TestResult:
-           # Execute test command, capture result
-
-    7. TestResult (support class for TestPassesTarget)
-       """Result of a test execution."""
-
-       Fields:
-       - run_at: datetime
-       - passed: bool
-       - pass_rate: float (0-100)
-       - total_tests: int
-       - passed_tests: int
-       - failed_tests: int
-       - skipped_tests: int
-       - coverage_percent: Optional[float]
-       - duration_seconds: float
-       - output: Optional[str] (truncated)
-       - commit_sha: Optional[str]
-
-    8. ThresholdTarget
-       """Criterion met when a metric meets a threshold."""
-
-       Fields:
-       - metric_name: str (e.g., "coverage", "lint_score")
-       - threshold: float
-       - comparison: ThresholdComparison = GTE
-
-       Cached State:
-       - current_value: Optional[float]
-       - last_checked: Optional[datetime]
-
-       Methods:
-       - is_satisfied() -> bool:
-           if current_value is None:
-               return False
-           return compare(current_value, threshold, comparison)
-
-    9. ManualTarget
-       """Criterion met when manually assessed."""
-
-       Fields:
-       - assessor: Optional[str] (who should assess)
-       - instructions: Optional[str] (how to assess)
-
-       State:
-       - assessed: bool = False
-       - met: Optional[bool] = None
-       - assessed_at: Optional[datetime]
-       - assessed_by: Optional[str]
-       - evidence: Optional[str] (notes, links)
-
-       Methods:
-       - is_satisfied() -> bool:
-           return assessed and met == True
-
-       - assess(met: bool, by: str, evidence: str) -> None:
-           self.assessed = True
-           self.met = met
-           self.assessed_by = by
-           self.evidence = evidence
-           self.assessed_at = now()
-
-    10. ExternalTarget
-        """Criterion met when external system reports success."""
-
-        Fields:
-        - system_name: str (e.g., "CI", "Security Scanner")
-        - endpoint: Optional[str] (API to check)
-        - expected_status: str = "success"
-
-        Cached State:
-        - current_status: Optional[str]
-        - last_checked: Optional[datetime]
-        - response_data: Optional[Dict]
-
-        Methods:
-        - is_satisfied() -> bool:
-            return current_status == expected_status
-
-    ADDITIONAL SUPPORT CLASSES:
-
-    11. Progress
-        """Progress tracking toward a transition."""
-
-        Fields:
-        - total: int
-        - completed: int
-        - in_progress: int = 0
-        - blocked: int = 0
-
-        Computed:
-        - completion_percent: float = completed / total * 100
-
-    NOTE: The Dependency class has been ELIMINATED.
-
-    Dependencies are now represented as Criterion with:
-    - target: CompletableTarget (referencing the blocker ticket)
-    - blocks_transition_to: IN_PROGRESS (or other status)
-
-    Example - Task 003 depends on Task 002:
-
-    OLD (separate Dependency class):
-      dependencies:
-        - target_id: task-002
-          required_status: completed
-          blocks_transition_to: in_progress
-
-    NEW (unified Criterion):
-      criteria:
-        - id: dep-task-002
-          description: "Task 002 must complete before starting"
-          target:
-            type: completable
-            completable_id: task-002
-            required_status: completed
-          blocks_transition_to: in_progress
-
-    This consolidation means:
-    - ONE system for all blocking relationships
-    - Same Criterion used for dependencies, completion, and deployment gates
-    - Same progress tracking for all transition types
-    - Simpler mental model and implementation
+    METHODS:
+    - get_sprint() -> SprintTicket
+    - get_track() -> TrackTicket (via sprint)
+    - get_roadmap() -> RoadmapTicket (via track)
+    - is_development_task() -> bool
+    - is_quality_gate() -> bool
+    - has_passed_gate() -> bool
 
     IMPLEMENTATION:
 
-    1. Create vibey/roadmap/models/ticket/completable.py:
-       - Completable base class with can_transition_to()
-       - Criterion class with blocks_transition_to field
-
-    2. Create vibey/roadmap/models/ticket/targets.py:
-       - CriterionTarget base
-       - All 6 target types
-       - TestResult support class
-
-    3. Create vibey/roadmap/models/ticket/support.py:
-       - Progress class
-       - (NO Dependency class - consolidated into Criterion)
-
-    4. Use Pydantic v2 BaseModel for all classes
-    5. Use computed_field for derived properties
-    6. Implement refresh() methods for cached state
-    7. Full test coverage
-
-    FILE STRUCTURE:
-    vibey/roadmap/models/ticket/
-      __init__.py
-      enums.py         <- Task 010
-      completable.py   <- Completable, Criterion (with blocks_transition_to)
-      targets.py       <- All target types
-      support.py       <- Progress (NO Dependency - eliminated)
+    1. Add TaskTicket to vibey/roadmap/models/ticket/domain.py
+    2. Inherit from HierarchicalTicket
+    3. Add validator: cannot have children
+    4. Add GateInfo and AuditResults classes
+    5. Implement task-specific methods
 
     SUCCESS CRITERIA:
-    - Completable base class with unified can_transition_to()
-    - Criterion has blocks_transition_to field
-    - All 6 target types implemented
-    - Progress computed per transition type
-    - Children derived from CompletableTarget criteria
-    - Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)
-    - Full test coverage
-    - JSON/YAML serialization works
+    - TaskTicket cannot have CompletableTarget criteria (validation error)
+    - is_ultimate_child always returns True
+    - is_complete = all criteria met (FileExists, TestPasses, etc.)
+    - Progress computed from task's own criteria
+    - Requirements inherited from sprint + track + roadmap
+    - Instantiated criteria generated from effective requirements
+    - Gate tasks require gate_info, dev tasks reject it
+    - Token estimation and efficiency tracking works
+    - Smart accessors work correctly (local commits, no aggregation)
+    - 100% test coverage
   status: not_started
   blocked: false
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: critical
-  phase_label: foundation
-  estimated_tokens: 4500
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 1800
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-011
-  blocked_by:
-  - sqlite-backend-6-task-010
+  - sqlite-backend-6-task-007
   depends_on:
-  - blocker_id: sqlite-backend-6-task-010
+  - blocker_id: sqlite-backend-6-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
+  - blocker_id: sqlite-backend-6-task-002
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
+  - sqlite-backend-6-task-007
+  blocked_by:
   - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-011
+  - sqlite-backend-6-task-002
   deliverables:
-  - vibey/roadmap/models/ticket/completable.py
-  - vibey/roadmap/models/ticket/targets.py
-  - vibey/roadmap/models/ticket/support.py
-  - tests/roadmap/models/ticket/test_completable.py
-  - tests/roadmap/models/ticket/test_targets.py
+  - TaskTicket class in vibey/roadmap/models/ticket/domain.py
+  - GateInfo class
+  - AuditResults class
+  - tests/roadmap/models/ticket/test_task.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T17:00:00+00:00'
+    last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      CRITICAL TASK - Core of the unified completion model.
+      THINNER L3: Most fields now inherited from L1/L2.
 
-      KEY CONSOLIDATION: Criterion.blocks_transition_to unifies:
-      - Dependencies (blocks_transition_to: IN_PROGRESS)
-      - Success criteria (blocks_transition_to: COMPLETED)
-      - Production gates (blocks_transition_to: PRODUCTION_READY)
+      TaskTicket is unique because it's ALWAYS an ultimate child.
+      This means:
+      - Cannot have CompletableTarget criteria (leaf node)
+      - commits = local only (no aggregation)
+      - requirements_effective = full inheritance chain
+      - is_complete = all(c.is_met() for c in all_criteria)
 
-      This ELIMINATES the separate Dependency class. All blocking
-      relationships are now expressed as Criterion with appropriate
-      blocks_transition_to value.
+      KEY CHANGE: Task completion is now deterministic:
+      - criteria field holds FileExistsTarget, TestPassesTarget, etc.
+      - instantiated_criteria generated from effective requirements
+      - all_criteria = explicit + instantiated
+      - is_complete = all criteria met
 
-      Key insight: CompletableTarget criteria create parent-child
-      relationships implicitly. The Completable containing the
-      criterion is the parent; the referenced Completable is the child.
+      This is THE deterministic interface that prevents AI manipulation.
+      The AI cannot mark a task complete unless all criteria are met.
 
-      Progress formula is universal per transition:
-        progress = met_criteria / total_criteria
-        (filtered by blocks_transition_to)
+      Example criteria for a development task:
+        criteria:
+          - target: {type: file_exists, paths: ["src/api.py"]}
+          - target: {type: test_passes, test_command: "pytest", pass_threshold: 100}
+          - target: {type: threshold, metric_name: "coverage", threshold: 85}
 
-      can_transition_to(status) is THE unified interface for checking
-      if any state transition is allowed.
+      Task-specific concerns:
+      - Gate vs development task distinction
+      - Token estimation and efficiency
+      - Gate blocking semantics
+
+      Can run in parallel with tasks 003, 004, 005.

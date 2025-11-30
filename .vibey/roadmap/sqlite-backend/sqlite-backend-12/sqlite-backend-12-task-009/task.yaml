@@ -1,13 +1,13 @@
 task:
-  id: sqlite-backend-13-deferred-task-006
-  sprint_id: sqlite-backend-13-deferred
+  id: sqlite-backend-12-task-009
+  sprint_id: sqlite-backend-12
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update CLI and tooling for new directory structure
   description: |
     Update all CLI commands and tooling to work with the new table-based
-    directory structure.
+    directory structure as part of production cutover.
 
     CLI COMMANDS TO UPDATE:
 
@@ -57,7 +57,7 @@ task:
     - Performance benchmark
   status: not_started
   blocked: false
-  created: '2025-11-28T19:30:00+00:00'
+  created: '2025-11-30T20:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
@@ -71,8 +71,8 @@ task:
   dependencies: []
   blocks: []
   blocked_by:
-  - sqlite-backend-13-deferred-task-004
-  - sqlite-backend-13-deferred-task-005
+  - sqlite-backend-12-task-008
+  - sqlite-backend-8-task-011
   deliverables:
   - Updated CLI commands for new structure
   - Updated operations code
@@ -80,9 +80,10 @@ task:
   - Performance benchmark
   commits: []
   metadata:
-    last_updated: '2025-11-28T19:30:00+00:00'
+    last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      This task finalizes the sprint by ensuring all tooling
+      Consolidated from sprint 13-deferred task 006.
+      This task finalizes the production cutover by ensuring all tooling
       works with the new directory structure.

@@ -1,13 +1,13 @@
 task:
-  id: sqlite-backend-13-deferred-task-004
-  sprint_id: sqlite-backend-13-deferred
+  id: sqlite-backend-8-task-011
+  sprint_id: sqlite-backend-8
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement new directory structure and file format
+  title: Implement new directory structure and file format in serialization
   description: |
     Implement the chosen directory structure and file format based on
-    analysis from tasks 001 and 002.
+    analysis from sprint 6 tasks 001-003.
 
     IMPLEMENTATION STEPS:
 
@@ -45,7 +45,7 @@ task:
 
     TESTING:
     - Round-trip test: YAML -> SQLite -> YAML
-    - Verify all 892 tasks preserved
+    - Verify all tasks preserved
     - Verify all relationships maintained
     - Performance comparison (old vs new)
 
@@ -56,7 +56,7 @@ task:
     - Performance benchmark results
   status: not_started
   blocked: false
-  created: '2025-11-28T19:30:00+00:00'
+  created: '2025-11-30T20:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
@@ -68,12 +68,11 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-13-deferred-task-005
-  - sqlite-backend-13-deferred-task-006
+  blocks: []
   blocked_by:
-  - sqlite-backend-13-deferred-task-001
-  - sqlite-backend-13-deferred-task-002
+  - sqlite-backend-6-task-001
+  - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-003
   deliverables:
   - Updated yaml_dumper.py
   - Updated yaml_loader.py
@@ -83,9 +82,11 @@ task:
   - Round-trip test results
   commits: []
   metadata:
-    last_updated: '2025-11-28T19:30:00+00:00'
+    last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
+      Consolidated from sprint 13-deferred task 004.
       This is the core implementation task. Success here enables
       simpler dump/init operations and bounded directory growth.
+      Depends on design decisions from sprint 6 tasks 001-003.

@@ -1,0 +1,142 @@
+task:
+  id: sqlite-backend-6-task-017
+  sprint_id: sqlite-backend-6
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add DeliverableType and computed_tokens to Model Layer
+  description: |
+    Implement DeliverableType classification on FileExistsTarget and
+    computed_tokens aggregation on HierarchicalTicket.
+
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Parts 11.4 and 11.7
+
+    PART 1: DeliverableType on FileExistsTarget
+
+    Add DeliverableType enum:
+        class DeliverableType(str, Enum):
+            CODE = "code"
+            TEST = "test"
+            DOCUMENTATION = "documentation"
+            CONFIG = "config"
+            OTHER = "other"
+
+    Update FileExistsTarget:
+        class FileExistsTarget(CriterionTarget):
+            paths: List[str]
+            all_required: bool = True
+            deliverable_type: DeliverableType = DeliverableType.OTHER  # NEW
+
+    This enables:
+    - Querying by deliverable type ("show all CODE deliverables")
+    - Reporting ("Sprint has 5 code, 3 test deliverables")
+    - Requirements can target specific types
+
+    PART 2: computed_tokens on HierarchicalTicket
+
+    TaskTicket already has estimated_tokens. Add computed aggregation:
+
+        class HierarchicalTicket(Ticket):
+            @computed_field
+            def computed_tokens(self) -> int:
+                """
+                Token estimate for this ticket.
+                - Ultimate children (tasks): return estimated_tokens
+                - Parents: aggregate from children's computed_tokens
+                """
+                if self.is_ultimate_child:
+                    return getattr(self, 'estimated_tokens', 0)
+
+                # Aggregate from children
+                return sum(
+                    child.computed_tokens
+                    for child in self._load_children()
+                )
+
+    Update start() method signature:
+        def start(self, platform_context_window: Optional[int] = None) -> tuple[bool, List[str]]:
+            can, reasons = self.can_transition_to(TicketStatus.IN_PROGRESS)
+
+            # Platform fit check (warning, not blocker)
+            if platform_context_window and self.computed_tokens > platform_context_window:
+                warning = (
+                    f"Ticket requires ~{self.computed_tokens} tokens but platform "
+                    f"context window is {platform_context_window}. Consider splitting."
+                )
+                reasons.append(warning)
+                logger.warning(warning)
+
+            if can:
+                self.status = TicketStatus.IN_PROGRESS
+                self.started_at = datetime.now(timezone.utc)
+
+            return (can, reasons)
+
+    FILE CHANGES:
+    - vibey/roadmap/models/ticket/enums.py (add DeliverableType)
+    - vibey/roadmap/models/ticket/targets.py (add deliverable_type field)
+    - vibey/roadmap/models/ticket/hierarchical.py (add computed_tokens)
+    - vibey/roadmap/models/ticket/ticket.py (update start() signature)
+    - tests/roadmap/models/ticket/test_tokens.py (new test file)
+
+    SUCCESS CRITERIA:
+    - DeliverableType enum with 5 values
+    - FileExistsTarget has deliverable_type field with default OTHER
+    - computed_tokens returns estimated_tokens for tasks
+    - computed_tokens aggregates from children for sprints/tracks
+    - start() accepts optional platform_context_window parameter
+    - Context window warning is logged but doesn't block
+    - Full test coverage for aggregation
+  status: not_started
+  blocked: false
+  created: '2025-11-30T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: gap-remediation
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-009
+  depends_on:
+  - blocker_id: sqlite-backend-6-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  - blocker_id: sqlite-backend-6-task-009
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  depended_on_by: []
+  deliverables:
+  - vibey/roadmap/models/ticket/enums.py
+  - vibey/roadmap/models/ticket/targets.py
+  - vibey/roadmap/models/ticket/hierarchical.py
+  - tests/roadmap/models/ticket/test_tokens.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-30T10:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GAP REMEDIATION: DeliverableType + Token Aggregation
+
+      Two related features:
+      1. DeliverableType classifies file-based criteria for querying
+      2. computed_tokens aggregates task estimates up the hierarchy
+
+      Both enable better tooling:
+      - "Show me all CODE deliverables for this sprint"
+      - "This sprint requires ~45K tokens total"
+      - "Warning: Task won't fit in 32K context window"

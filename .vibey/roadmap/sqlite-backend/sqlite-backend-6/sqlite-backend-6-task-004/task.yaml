@@ -4,166 +4,311 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement Layer 3 - TrackTicket (Intermediate)
+  title: Implement Layer 1 - Ticket Base Class
   description: |
-    Create the TrackTicket class - the parallelization boundary.
-    Track is ALWAYS intermediate (is_intermediate=True).
+    Create the Ticket class that extends Completable with work-specific
+    semantics. This is Layer 1 of the three-layer architecture.
 
-    DESIGN PRINCIPLE: L3 contains ONLY semantic-specific fields.
-    All common fields and behaviors inherited from L1/L2.
+    DESIGN PRINCIPLE: Ticket IS a Completable with additional work
+    tracking (lifecycle, assignment, commits, dependencies).
 
-    HIERARCHY CONSTRAINTS:
-    - is_intermediate: True (always - has both parent and children)
-    - is_parent: True (always has Sprint children via CompletableTarget criteria)
-    - is_child: True (always has Roadmap parent via parent_ref)
-    - is_ultimate_parent: False (never - always has parent)
-    - is_ultimate_child: False (never - always has children)
+    Completion is determined by criteria (inherited from Completable).
+    Ticket adds work semantics on top.
 
-    These constraints are ENFORCED by validators.
+    LAYER 1 FIELDS:
 
-    INHERITED FROM L1 (Ticket extends Completable):
-    - From Completable: id, name, description, criteria (THE source of truth)
-    - From Completable: is_complete, progress, blocking_reasons, children (computed)
-    - Ticket-specific: status, lifecycle timestamps
-    - Ticket-specific: assigned_agents, priority, commits, dependencies
-    - Ticket-specific: requirements_local (templates for children)
-    - Ticket-specific: parent_ref (denormalized for fast lookup)
+    1. From Completable (inherited):
+       - id: str
+       - name: str
+       - description: Optional[str]
+       - criteria: List[Criterion]
 
-    INHERITED FROM L2 (HierarchicalTicket):
-    - Smart accessors: commits (aggregated from sprints/tasks)
-    - Smart accessors: requirements_effective (merged from roadmap + local)
-    - Hierarchy traversal: parent, children_tickets, ancestors, descendants
-    - Convenience accessors: deliverables, tests, subtasks, manual_checks
+       Computed (inherited):
+       - is_complete: bool
+       - progress: Progress
+       - blocking_reasons: List[str]
+       - children: List[str]
 
-    TRACK-SPECIFIC FIELDS (L3 only):
+    2. Identity Extension:
+       - parent_ref: Optional[str]
+         (denormalized for fast parent lookup)
 
-    1. Type Discriminator:
-       - ticket_type: Literal["track"] = "track"
+       Note: parent_ref is set when this ticket is referenced by a
+       CompletableTarget criterion in another ticket. It's denormalized
+       for O(1) lookup, but the source of truth is the criterion.
 
-    2. Parent Reference:
-       - roadmap_id: str (required, must match parent_id)
+    3. Lifecycle (Ticket-specific):
+       - status: TicketStatus
+         (not_started, in_progress, paused, completed, cancelled)
 
-    3. Priority:
-       - priority: Priority enum (critical, high, medium, low)
+       - created_at: datetime
+       - started_at: Optional[datetime]
+       - completed_at: Optional[datetime]
+       - updated_at: datetime
 
-    4. Strategic Context:
-       - strategic_value: list[str] (why this track matters)
+       Lifecycle rules:
+       - IN_PROGRESS requires started_at
+       - COMPLETED requires completed_at AND is_complete == True
+       - Cannot complete if is_complete == False (criteria not met)
 
-    5. PARENT TYPE CONSTRAINT:
-       - parent_ref must reference a RoadmapTicket ID
-       - get_roadmap() -> RoadmapTicket (typed accessor)
+    4. Work Assignment:
+       - assigned_agents: List[str]
+       - priority: Priority
 
-    6. CHILD TYPE CONSTRAINT:
-       - Children derived from CompletableTarget criteria
-       - Must reference SprintTicket IDs in CompletableTarget criteria
-       - get_sprints() -> list[SprintTicket] (typed accessor, filters criteria)
+    5. Work Evidence:
+       - commits: List[GitCommit]
+         (git commits associated with this work)
 
-    Note on children: Track's children (sprints) are determined by
-    CompletableTarget criteria. Example:
+    6. Sibling Dependencies (NOW UNIFIED INTO CRITERIA):
+       Dependencies are NO LONGER a separate field. They are expressed
+       as Criterion with blocks_transition_to=IN_PROGRESS.
 
-    criteria:
-      - id: "sprint-1"
-        description: "Sprint 1 complete"
-        target:
-          type: "completable"
-          completable_id: "sqlite-backend-1"
-          required_status: "completed"
+       Example - Task 003 depends on Task 002:
+       criteria:
+         - id: dep-task-002
+           description: "Task 002 must complete before starting"
+           target:
+             type: completable
+             completable_id: task-002
+             required_status: completed
+           blocks_transition_to: in_progress  # <-- Makes it a dependency
 
-    VALIDATORS:
-    - parent_ref must be set (intermediate constraint)
-    - parent_ref must equal roadmap_id
-    - Parent must be RoadmapTicket type (loaded and checked)
-    - All CompletableTarget criteria must reference SprintTicket IDs
-    - Track ID format: simple slug (no "/" or leading "-")
+       Note: Parent-child is ALSO via criteria (CompletableTarget), but
+       with blocks_transition_to=COMPLETED (the default).
 
-    COMPUTED PROPERTIES (via Completable base):
-    - is_complete: all criteria met
-    - progress: met_criteria / total_criteria
-    - children: list of completable_ids from CompletableTarget criteria
-    - sprints_total: len(subtasks)
-    - sprints_completed: count where target.is_satisfied()
-    - tasks_total: sum of sprint.progress.total for all sprints
-    - tasks_completed: sum of sprint.progress.completed for all sprints
+       Computed:
+       - is_blocked: bool = not can_start()[0]
+         (can_start checks criteria where blocks_transition_to=IN_PROGRESS)
 
-    METHODS:
-    - get_roadmap() -> RoadmapTicket
-    - get_sprints() -> list[SprintTicket]
+    7. Requirement Templates:
+       - requirements_local: List[Requirement]
+         (requirement templates defined on this ticket)
+
+       Note: These cascade to children. Actual criteria are generated
+       by RequirementInstantiator when the ticket is created/updated.
+
+    8. Estimation:
+       - estimated_duration: Optional[str]
+
+    9. Metadata:
+       - metadata: Dict[str, Any]
+
+    HIERARCHY ATTRIBUTES (computed from Completable):
+
+    - is_parent: bool
+      Computed: len(children) > 0
+      True if this ticket has child tickets (via CompletableTarget criteria)
+
+    - is_child: bool
+      Computed: parent_ref is not None
+      True if this ticket is referenced by another ticket's criterion
+
+    - is_ultimate_parent: bool
+      Computed: is_parent and not is_child
+      True for root tickets (Roadmap)
+
+    - is_ultimate_child: bool
+      Computed: is_child and not is_parent
+      True for leaf tickets (Task)
+
+    - is_intermediate: bool
+      Computed: is_parent and is_child
+      True for middle tickets (Track, Sprint)
+
+    KEY METHODS:
+
+    1. Lifecycle Transitions (inherited from Completable, extended):
+       - can_transition_to(status: TicketStatus) -> tuple[bool, List[str]]
+         THE unified interface for ALL transition checks
+       - can_start() -> tuple[bool, List[str]]
+         = can_transition_to(IN_PROGRESS)
+       - can_complete() -> tuple[bool, List[str]]
+         = can_transition_to(COMPLETED)
+       - can_deploy() -> tuple[bool, List[str]]
+         = can_transition_to(PRODUCTION_READY)
+
+       - start() -> Ticket (checks can_start first)
+       - complete() -> Ticket (checks can_complete first)
+       - pause() -> Ticket
+       - cancel() -> Ticket
+
+       Note: All transitions use can_transition_to() which checks
+       criteria filtered by blocks_transition_to. This is THE
+       deterministic interface.
+
+    2. Criterion Management (inherited from Completable):
+       - get_criterion(id: str) -> Optional[Criterion]
+       - add_criterion(criterion: Criterion) -> None
+       - remove_criterion(id: str) -> bool
+       - refresh_criteria() -> None
+
+    3. Progress Per Transition:
+       - progress_for_transition(status: TicketStatus) -> Progress
+       - start_progress: Progress (toward IN_PROGRESS)
+       - completion_progress: Progress (toward COMPLETED)
+       - deploy_progress: Progress (toward PRODUCTION_READY)
+
+    4. Convenience Accessors (filter criteria by target type):
+       - deliverables: List[Criterion]
+         (criteria with FileExistsTarget)
+
+       - tests: List[Criterion]
+         (criteria with TestPassesTarget)
+
+       - subtasks: List[Criterion]
+         (criteria with CompletableTarget, blocks_transition_to=COMPLETED)
+
+       - dependencies: List[Criterion]
+         (criteria with CompletableTarget, blocks_transition_to=IN_PROGRESS)
+
+       - manual_checks: List[Criterion]
+         (criteria with ManualTarget)
+
+       - production_gates: List[Criterion]
+         (criteria with blocks_transition_to=PRODUCTION_READY)
+
+    VALIDATION RULES:
+
+    1. Status consistency:
+       - IN_PROGRESS requires started_at to be set
+       - COMPLETED requires completed_at AND can_complete() == True
+       - PRODUCTION_READY requires can_deploy() == True
+       - PAUSED is always allowed
+
+    2. Unified Blocking (via can_transition_to):
+       - Cannot transition to IN_PROGRESS if can_start() fails
+       - Cannot transition to COMPLETED if can_complete() fails
+       - Cannot transition to PRODUCTION_READY if can_deploy() fails
+
+       All checks use the same mechanism: filter criteria by
+       blocks_transition_to, check if all are met.
+
+    3. Timestamps:
+       - started_at >= created_at
+       - completed_at >= started_at
+
+    4. Parent consistency:
+       - If parent_ref is set, that parent must have a CompletableTarget
+         criterion referencing this ticket's id
 
     IMPLEMENTATION:
 
-    1. Add TrackTicket to vibey/roadmap/models/ticket/domain.py
-    2. Inherit from HierarchicalTicket
-    3. Add validator: parent_id must be set and match roadmap_id
-    4. Implement typed parent/child accessors
+    1. Create vibey/roadmap/models/ticket/ticket.py:
+       - Ticket class extending Completable
+       - All lifecycle methods
+       - Convenience accessors
+       - Validation
+
+    2. Use Pydantic v2 features:
+       - Field() with descriptions
+       - field_validator for field-level validation
+       - model_validator for cross-field validation
+       - computed_field for derived properties
+       - model_copy() for immutable updates
+
+    FILE STRUCTURE:
+    vibey/roadmap/models/ticket/
+      __init__.py
+      enums.py          <- Task 010
+      completable.py    <- Task 009
+      targets.py        <- Task 009
+      support.py        <- Task 009
+      requirements.py   <- Task 011
+      ticket.py         <- This task (Layer 1)
+      hierarchical.py   <- Task 002 (Layer 2)
+      domain.py         <- Tasks 003-006 (Layer 3)
 
     SUCCESS CRITERIA:
-    - TrackTicket must have parent_ref set (validation error if None)
-    - is_intermediate always returns True
-    - Children derived from CompletableTarget criteria
-    - is_complete = all sprint criteria satisfied
-    - Progress = sprints_completed / sprints_total
-    - Requirements from track + roadmap cascade to sprints/tasks
-    - Smart accessors work correctly (inheritance + aggregation)
-    - 100% test coverage
+    - Ticket extends Completable correctly
+    - Lifecycle transitions use unified can_transition_to()
+    - Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)
+    - No separate dependencies field - all in criteria
+    - start() checks can_start(), complete() checks can_complete()
+    - Hierarchy attributes computed correctly
+    - Convenience accessors filter by target type AND blocks_transition_to
+    - Progress tracked per transition type
+    - Full test coverage
   status: not_started
   blocked: false
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: medium
+  priority: critical
   phase_label: implementation
-  estimated_tokens: 1500
+  estimated_tokens: 4000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-007
+  - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-003
+  - sqlite-backend-6-task-004
+  - sqlite-backend-6-task-005
+  - sqlite-backend-6-task-006
+  blocked_by:
+  - sqlite-backend-6-task-009
+  - sqlite-backend-6-task-010
+  - sqlite-backend-6-task-011
   depends_on:
-  - blocker_id: sqlite-backend-6-task-001
+  - blocker_id: sqlite-backend-6-task-009
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-002
+  - blocker_id: sqlite-backend-6-task-010
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
+  - blocker_id: sqlite-backend-6-task-011
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
-  - sqlite-backend-6-task-007
-  blocked_by:
-  - sqlite-backend-6-task-001
   - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-003
+  - sqlite-backend-6-task-004
+  - sqlite-backend-6-task-005
+  - sqlite-backend-6-task-006
   deliverables:
-  - TrackTicket class in vibey/roadmap/models/ticket/domain.py
-  - tests/roadmap/models/ticket/test_track.py
+  - vibey/roadmap/models/ticket/ticket.py
+  - vibey/roadmap/models/ticket/__init__.py
+  - tests/roadmap/models/ticket/test_ticket.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T16:00:00+00:00'
+    last_updated: '2025-11-29T17:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      THINNER L3: Most fields now inherited from L1/L2.
+      CORE LAYER 1 TASK
 
-      TrackTicket is an INTERMEDIATE node - it inherits from ancestors
-      AND aggregates from descendants. Smart accessors handle both:
-      - requirements_effective = merged (from roadmap + local)
-      - commits = aggregated (from all sprints/tasks)
-      - progress = computed from criteria (sprints as CompletableTarget)
+      Key design decisions:
 
-      KEY CHANGE: Children are now implicit via CompletableTarget criteria.
-      Track doesn't store `sprints` list - instead it has criteria like:
-        criteria:
-          - target: {type: completable, completable_id: "sqlite-backend-1"}
+      1. Ticket IS-A Completable
+         - Inherits criteria-based completion
+         - Inherits can_transition_to() unified interface
+         - Adds work semantics (lifecycle, assignment, etc.)
 
-      The `children` property derives sprint IDs from these criteria.
+      2. Parent-child via criteria
+         - CompletableTarget with blocks_transition_to=COMPLETED
+         - parent_ref is denormalized for fast lookup
+         - children computed from criteria
 
-      Track is the parallelization boundary - sibling tracks can
-      run independently without dependencies.
+      3. Dependencies UNIFIED into criteria
+         - NO separate dependencies field
+         - Dependencies = criteria with blocks_transition_to=IN_PROGRESS
+         - Same Criterion class, different blocks_transition_to value
 
-      Can run in parallel with tasks 003, 005, 006.
+      4. ALL transitions are deterministic
+         - can_transition_to(status) is THE unified interface
+         - start() checks can_start() (IN_PROGRESS criteria)
+         - complete() checks can_complete() (COMPLETED criteria)
+         - deploy() checks can_deploy() (PRODUCTION_READY criteria)
+         - THE guardrail for AI manipulation applies to ALL states

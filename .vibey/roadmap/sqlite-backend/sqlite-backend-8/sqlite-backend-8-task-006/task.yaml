@@ -3,7 +3,7 @@ task:
   sprint_id: sqlite-backend-8
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: testing
+  task_type: development
   title: Round-trip integrity testing
   description: |
     Comprehensive testing to ensure data integrity through all

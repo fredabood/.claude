@@ -4,112 +4,245 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Define Enum Types for Unified Completion Model
+  title: Create SQLAlchemy ORM for Unified Completion Model
   description: |
-    Create all enum types needed by the unified completion model.
-    This is the foundation - everything else imports from here.
+    Create SQLAlchemy ORM models that map to the unified completion model.
+    Key change: criteria are stored in a separate table with polymorphic targets.
 
-    DESIGN PRINCIPLE: Single source of truth for all type values.
-    All enums defined here, imported everywhere else.
+    DESIGN REQUIREMENTS:
 
-    ENUM DEFINITIONS:
+    1. ORM Strategy: Single-Table Inheritance for Tickets
+       - One `tickets` table with discriminator column
+       - All ticket types share common columns
+       - Type-specific columns nullable
 
-    1. TicketStatus (lifecycle states)
-       Values:
-       - NOT_STARTED = "not_started"
-       - IN_PROGRESS = "in_progress"
-       - PAUSED = "paused"
-       - COMPLETED = "completed"
-       - CANCELLED = "cancelled"
+    2. Separate Criteria Table (polymorphic targets)
+       The criteria table holds all completion criteria with polymorphic
+       target types stored as JSON.
 
-    2. TicketType (hierarchy discriminator)
-       Values:
-       - ROADMAP = "roadmap"
-       - TRACK = "track"
-       - SPRINT = "sprint"
-       - TASK = "task"
+    SCHEMA:
 
-    3. TaskType (semantic task classification)
-       Values:
-       - DEVELOPMENT = "development"
-       - DOCUMENTATION = "documentation"
-       - TESTING = "testing"
-       - RESEARCH = "research"
-       - REVIEW = "review"
-       - INFRASTRUCTURE = "infrastructure"
+    1. tickets table:
+       CREATE TABLE tickets (
+           id TEXT PRIMARY KEY,
+           name TEXT NOT NULL,
+           description TEXT,
+           ticket_type TEXT NOT NULL,  -- discriminator
 
-    4. CriterionTargetType (polymorphic target discriminator)
-       Values:
-       - COMPLETABLE = "completable"      # Another ticket must be complete
-       - FILE_EXISTS = "file_exists"      # File(s) must exist
-       - TEST_PASSES = "test_passes"      # Test must pass
-       - THRESHOLD = "threshold"          # Metric meets threshold
-       - MANUAL = "manual"                # Human assessment
-       - EXTERNAL = "external"            # External system check
+           -- Hierarchy
+           parent_ref TEXT REFERENCES tickets(id),
 
-    5. ThresholdComparison (how to compare values)
-       Values:
-       - GTE = "gte"   # >= (at least)
-       - GT = "gt"     # > (more than)
-       - EQ = "eq"     # == (exactly)
-       - LTE = "lte"   # <= (at most)
-       - LT = "lt"     # < (less than)
+           -- Lifecycle
+           status TEXT NOT NULL,
+           created_at TEXT NOT NULL,
+           started_at TEXT,
+           completed_at TEXT,
+           updated_at TEXT NOT NULL,
 
-    6. Priority (ticket priority levels)
-       Values:
-       - CRITICAL = "critical"
-       - HIGH = "high"
-       - MEDIUM = "medium"
-       - LOW = "low"
+           -- Work (Ticket-specific)
+           assigned_agents_json TEXT,  -- JSON array
+           priority TEXT,
+           estimated_duration TEXT,
+           commits_json TEXT,  -- JSON array of GitCommit
+           -- NOTE: NO dependencies_json - dependencies are now criteria
+           -- with blocks_transition_to = 'in_progress'
 
-    7. Complexity (work complexity estimate)
-       Values:
-       - LOW = "low"
-       - MEDIUM = "medium"
-       - HIGH = "high"
+           -- Requirements (templates for children)
+           requirements_local_json TEXT,  -- JSON array of Requirement
 
-    8. InheritMode (requirement inheritance behavior)
-       Values:
-       - INHERIT = "inherit"    # Use stricter of local vs ancestor
-       - OVERRIDE = "override"  # Replace ancestor entirely
-       - SKIP = "skip"          # Explicitly not applicable
+           -- Metadata
+           metadata_json TEXT,
 
-    9. EnforcementMode (how strictly requirement applies)
-       Values:
-       - BLOCKING = "blocking"      # Prevents completion
-       - WARNING = "warning"        # Shows warning, allows completion
-       - AUDIT = "audit"            # Logs only
+           -- Type-specific columns (nullable)
+           -- Roadmap
+           version TEXT,
+           version_strategy_json TEXT,
+           activity_log_json TEXT,
 
-    10. RequirementType (what kind of requirement)
-        Values:
-        - TEST_COVERAGE = "test_coverage"
-        - CODE_STYLE = "code_style"
-        - DOCUMENTATION = "documentation"
-        - SECURITY = "security"
-        - PERFORMANCE = "performance"
-        - REVIEW = "review"
-        - CUSTOM = "custom"
+           -- Track
+           strategic_value_json TEXT,
 
-    11. DependencyType (sibling relationship type)
-        Values:
-        - BLOCKS = "blocks"           # This blocks that
-        - DEPENDS_ON = "depends_on"   # This depends on that
-        - RELATED = "related"         # Informational link
+           -- Sprint
+           plan_file TEXT,
+           goal TEXT,
+           success_criteria_json TEXT,
+           development_gates_json TEXT,
+
+           -- Task
+           task_type_detail TEXT,
+           estimated_tokens INTEGER,
+           actual_tokens INTEGER,
+           complexity TEXT,
+           gate_info_json TEXT,
+           audit_results_json TEXT
+       );
+
+    2. criteria table:
+       CREATE TABLE criteria (
+           id TEXT PRIMARY KEY,
+           ticket_id TEXT NOT NULL REFERENCES tickets(id),
+           description TEXT NOT NULL,
+           required INTEGER DEFAULT 1,  -- boolean
+
+           -- UNIFIED BLOCKING: which transition does this block?
+           blocks_transition_to TEXT NOT NULL DEFAULT 'completed',
+           -- Values: 'in_progress', 'completed', 'production_ready'
+
+           -- Target (polymorphic via target_type)
+           target_type TEXT NOT NULL,  -- discriminator
+           target_json TEXT NOT NULL,  -- type-specific target data
+
+           -- Cached state
+           is_met INTEGER,  -- boolean, cached
+           last_checked TEXT,
+
+           FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE
+       );
+
+       -- Index for finding children (CompletableTarget blocking COMPLETED)
+       CREATE INDEX idx_criteria_completable_target
+       ON criteria(json_extract(target_json, '$.completable_id'))
+       WHERE target_type = 'completable' AND blocks_transition_to = 'completed';
+
+       -- Index for finding dependencies (CompletableTarget blocking IN_PROGRESS)
+       CREATE INDEX idx_criteria_dependencies
+       ON criteria(json_extract(target_json, '$.completable_id'))
+       WHERE target_type = 'completable' AND blocks_transition_to = 'in_progress';
+
+       -- Index for finding criteria by transition type
+       CREATE INDEX idx_criteria_blocks_transition
+       ON criteria(ticket_id, blocks_transition_to);
+
+    3. ORM Models:
+
+       class TicketORM(Base):
+           __tablename__ = 'tickets'
+
+           id = Column(String, primary_key=True)
+           name = Column(String, nullable=False)
+           ticket_type = Column(String, nullable=False)
+           parent_ref = Column(String, ForeignKey('tickets.id'))
+           status = Column(String, nullable=False)
+           # ... etc
+
+           # Relationships
+           criteria = relationship("CriterionORM", back_populates="ticket",
+                                   cascade="all, delete-orphan")
+           parent = relationship("TicketORM", remote_side=[id])
+
+           __mapper_args__ = {
+               'polymorphic_on': ticket_type,
+               'polymorphic_identity': 'ticket'
+           }
+
+       class CriterionORM(Base):
+           __tablename__ = 'criteria'
+
+           id = Column(String, primary_key=True)
+           ticket_id = Column(String, ForeignKey('tickets.id'), nullable=False)
+           description = Column(String, nullable=False)
+           required = Column(Boolean, default=True)
+           blocks_transition_to = Column(String, nullable=False, default='completed')
+           target_type = Column(String, nullable=False)
+           target_json = Column(JSON, nullable=False)
+           is_met = Column(Boolean)
+           last_checked = Column(DateTime)
+
+           # Relationships
+           ticket = relationship("TicketORM", back_populates="criteria")
+
+    4. Target Serialization:
+
+       Each target type serializes to JSON:
+
+       CompletableTarget:
+         {"completable_id": "task-001", "required_status": "completed",
+          "current_status": "in_progress", "last_checked": "2025-11-29T..."}
+
+       FileExistsTarget:
+         {"paths": ["src/api.py"], "all_required": true,
+          "existing_paths": ["src/api.py"], "missing_paths": [],
+          "last_checked": "2025-11-29T..."}
+
+       TestPassesTarget:
+         {"test_command": "pytest tests/", "pass_threshold": 100.0,
+          "coverage_threshold": 85.0, "last_result": {...}}
+
+       ThresholdTarget:
+         {"metric_name": "coverage", "threshold": 85.0, "comparison": "gte",
+          "current_value": 92.0, "last_checked": "..."}
+
+       ManualTarget:
+         {"assessor": "senior-eng", "instructions": "Review code",
+          "assessed": true, "met": true, "assessed_by": "john",
+          "evidence": "LGTM in PR #123", "assessed_at": "..."}
+
+    5. Pydantic <-> ORM Conversion:
+
+       class CriterionORM:
+           @classmethod
+           def from_pydantic(cls, criterion: Criterion) -> CriterionORM:
+               return cls(
+                   id=criterion.id,
+                   description=criterion.description,
+                   required=criterion.required,
+                   blocks_transition_to=criterion.blocks_transition_to.value,
+                   target_type=criterion.target.type,
+                   target_json=criterion.target.model_dump(),
+                   is_met=criterion.is_met(),
+                   last_checked=datetime.now()
+               )
+
+           def to_pydantic(self) -> Criterion:
+               target = deserialize_target(self.target_type, self.target_json)
+               return Criterion(
+                   id=self.id,
+                   description=self.description,
+                   required=self.required,
+                   blocks_transition_to=TicketStatus(self.blocks_transition_to),
+                   target=target
+               )
+
+    6. Repository Pattern:
+
+       class TicketRepository:
+           def get(self, ticket_id: str) -> Optional[Ticket]
+           def get_with_criteria(self, ticket_id: str) -> Ticket
+           def save(self, ticket: Ticket) -> None
+           def save_criterion(self, ticket_id: str, criterion: Criterion) -> None
+           def delete_criterion(self, criterion_id: str) -> None
+           def find_children(self, parent_id: str) -> List[Ticket]
+           def find_dependencies(self, ticket_id: str) -> List[Criterion]
+           def find_by_status(self, status: TicketStatus) -> List[Ticket]
+           def find_blocked(self) -> List[Ticket]  # can_start() fails
+           def find_incomplete(self) -> List[Ticket]  # can_complete() fails
+           def find_criteria_by_transition(
+               self, ticket_id: str, blocks: TicketStatus
+           ) -> List[Criterion]
 
     IMPLEMENTATION:
 
-    1. Create vibey/roadmap/models/ticket/enums.py
-    2. Use Python StrEnum pattern for JSON/YAML serialization:
-       class TicketStatus(str, Enum):
-           NOT_STARTED = "not_started"
+    1. Create vibey/roadmap/models/ticket/orm.py:
+       - TicketORM base and subclasses
+       - CriterionORM
+       - Target serialization/deserialization
 
-    3. Add docstrings for each enum and value
-    4. Export all enums from __init__.py
+    2. Create vibey/roadmap/models/ticket/repository.py:
+       - TicketRepository class
+       - CriterionRepository class
+
+    3. Update database schema (migration script if needed)
 
     SUCCESS CRITERIA:
-    - All 11 enum types defined
-    - StrEnum pattern for serialization
-    - Comprehensive docstrings
+    - Single-table inheritance for tickets works
+    - Criteria stored separately with polymorphic targets
+    - blocks_transition_to column in criteria table
+    - NO dependencies_json in tickets table (consolidated into criteria)
+    - Round-trip Pydantic -> ORM -> Pydantic without data loss
+    - Repository provides queries for criteria by transition type
+    - find_children uses criteria WHERE blocks_transition_to='completed'
+    - find_dependencies uses criteria WHERE blocks_transition_to='in_progress'
+    - Computed fields (can_transition_to, progress_for_transition) work correctly
     - 100% test coverage
   status: not_started
   blocked: false
@@ -118,32 +251,58 @@ task:
   completed: null
   assigned_agent: backend-engineer
   priority: high
-  phase_label: foundation
-  estimated_tokens: 1500
+  phase_label: implementation
+  estimated_tokens: 4500
   actual_tokens: null
-  complexity: low
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-6-task-009
-  - sqlite-backend-6-task-001
-  blocked_by: []
-  depends_on: []
+  - sqlite-backend-6-task-008
+  blocked_by:
+  - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-003
+  - sqlite-backend-6-task-004
+  - sqlite-backend-6-task-005
+  - sqlite-backend-6-task-006
+  depends_on:
+  - blocker_id: sqlite-backend-6-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
-  - sqlite-backend-6-task-009
+  - sqlite-backend-6-task-008
   deliverables:
-  - vibey/roadmap/models/ticket/enums.py
-  - tests/roadmap/models/ticket/test_enums.py
+  - vibey/roadmap/models/ticket/orm.py
+  - vibey/roadmap/models/ticket/repository.py
+  - Database schema for criteria table
+  - tests/roadmap/models/ticket/test_orm.py
+  - tests/roadmap/models/ticket/test_repository.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T16:00:00+00:00'
+    last_updated: '2025-11-29T17:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      FIRST TASK - No dependencies.
+      KEY CHANGE: Criteria are stored in separate table with
+      blocks_transition_to column for UNIFIED BLOCKING.
 
-      Key addition: CriterionTargetType enum for polymorphic
-      target discrimination in the unified completion model.
+      The criteria table now handles:
+      - Parent-child relationships (blocks_transition_to='completed')
+      - Sibling dependencies (blocks_transition_to='in_progress')
+      - Production gates (blocks_transition_to='production_ready')
 
-      All enums use StrEnum pattern for JSON/YAML compatibility.
+      This ELIMINATES the need for dependencies_json in tickets table.
+      All blocking relationships are criteria with different
+      blocks_transition_to values.
+
+      Indexes are created for efficient queries:
+      - Find children: CompletableTarget + blocks='completed'
+      - Find dependencies: CompletableTarget + blocks='in_progress'
+      - Find criteria by transition type
+
+      The target_json column stores the target-specific data,
+      with target_type as the discriminator for deserialization.

@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 10
+    tasks_total: 11
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []

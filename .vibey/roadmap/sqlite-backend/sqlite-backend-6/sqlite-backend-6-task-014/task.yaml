@@ -4,139 +4,276 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Add DeliverableType and computed_tokens to Model Layer
+  title: Implement Requirement System (Criterion Templates)
   description: |
-    Implement DeliverableType classification on FileExistsTarget and
-    computed_tokens aggregation on HierarchicalTicket.
+    Create the requirement system that generates criteria from templates.
+    Requirements cascade down the hierarchy and instantiate as criteria
+    when applicable.
 
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Parts 11.4 and 11.7
+    DESIGN PRINCIPLE: Requirements are reusable criterion templates.
+    They define WHAT criteria should exist, not the criteria themselves.
+    When applied to a ticket, they generate actual Criterion instances.
 
-    PART 1: DeliverableType on FileExistsTarget
+    CORE CLASSES:
 
-    Add DeliverableType enum:
-        class DeliverableType(str, Enum):
-            CODE = "code"
-            TEST = "test"
-            DOCUMENTATION = "documentation"
-            CONFIG = "config"
-            OTHER = "other"
+    1. Requirement
+       """A criterion template that cascades down the hierarchy."""
 
-    Update FileExistsTarget:
-        class FileExistsTarget(CriterionTarget):
-            paths: List[str]
-            all_required: bool = True
-            deliverable_type: DeliverableType = DeliverableType.OTHER  # NEW
+       Fields:
+       - id: str (unique identifier, e.g., "test-coverage")
+       - name: str (human-readable name)
+       - description: str (what this requirement enforces)
 
-    This enables:
-    - Querying by deliverable type ("show all CODE deliverables")
-    - Reporting ("Sprint has 5 code, 3 test deliverables")
-    - Requirements can target specific types
+       Template:
+       - criterion_template: CriterionTemplate (how to generate criterion)
 
-    PART 2: computed_tokens on HierarchicalTicket
+       Applicability:
+       - applicability: ApplicabilityRules (when does this apply)
 
-    TaskTicket already has estimated_tokens. Add computed aggregation:
+       Inheritance:
+       - inherit_mode: InheritMode (inherit, override, skip)
 
-        class HierarchicalTicket(Ticket):
-            @computed_field
-            def computed_tokens(self) -> int:
-                """
-                Token estimate for this ticket.
-                - Ultimate children (tasks): return estimated_tokens
-                - Parents: aggregate from children's computed_tokens
-                """
-                if self.is_ultimate_child:
-                    return getattr(self, 'estimated_tokens', 0)
+       Enforcement:
+       - enforcement: EnforcementMode (blocking, warning, audit)
 
-                # Aggregate from children
-                return sum(
-                    child.computed_tokens
-                    for child in self._load_children()
-                )
+       Methods:
+       - is_applicable(ticket: Ticket) -> bool
+       - instantiate(ticket: Ticket) -> Criterion
+       - compare_strictness(other: Requirement) -> int
 
-    Update start() method signature:
-        def start(self, platform_context_window: Optional[int] = None) -> tuple[bool, List[str]]:
-            can, reasons = self.can_transition_to(TicketStatus.IN_PROGRESS)
+    2. CriterionTemplate
+       """Template for generating a criterion."""
 
-            # Platform fit check (warning, not blocker)
-            if platform_context_window and self.computed_tokens > platform_context_window:
-                warning = (
-                    f"Ticket requires ~{self.computed_tokens} tokens but platform "
-                    f"context window is {platform_context_window}. Consider splitting."
-                )
-                reasons.append(warning)
-                logger.warning(warning)
+       Fields:
+       - target_type: CriterionTargetType (what kind of target)
+       - target_config: Dict[str, Any] (type-specific configuration)
+       - description_template: str (template for criterion description)
 
-            if can:
-                self.status = TicketStatus.IN_PROGRESS
-                self.started_at = datetime.now(timezone.utc)
+       Methods:
+       - instantiate(ticket: Ticket) -> Criterion:
+           target = create_target(self.target_type, self.target_config)
+           description = self.description_template.format(ticket=ticket)
+           return Criterion(
+               id=f"{self.id}-{ticket.id}",
+               description=description,
+               target=target
+           )
 
-            return (can, reasons)
+    3. ApplicabilityRules
+       """Rules for when a requirement applies."""
 
-    FILE CHANGES:
-    - vibey/roadmap/models/ticket/enums.py (add DeliverableType)
-    - vibey/roadmap/models/ticket/targets.py (add deliverable_type field)
-    - vibey/roadmap/models/ticket/hierarchical.py (add computed_tokens)
-    - vibey/roadmap/models/ticket/ticket.py (update start() signature)
-    - tests/roadmap/models/ticket/test_tokens.py (new test file)
+       Fields:
+       - ticket_types: Optional[List[TicketType]]
+         (only apply to these ticket types)
+
+       - task_types: Optional[List[TaskType]]
+         (only apply to these task types)
+
+       - has_criterion_types: Optional[List[CriterionTargetType]]
+         (only apply if ticket has criteria of these types)
+
+       - has_file_patterns: Optional[List[str]]
+         (only apply if ticket has file criteria matching patterns)
+
+       - expression: Optional[str]
+         (custom expression for complex rules)
+
+       Methods:
+       - matches(ticket: Ticket) -> bool:
+           # Check all rules, return True if all match
+
+       Examples:
+       - "Test coverage only if has code files":
+         ApplicabilityRules(
+             has_file_patterns=["*.py", "*.ts", "*.js"]
+         )
+
+       - "Documentation review for doc tasks":
+         ApplicabilityRules(
+             task_types=[TaskType.DOCUMENTATION]
+         )
+
+       - "Security review for all sprint-level":
+         ApplicabilityRules(
+             ticket_types=[TicketType.SPRINT]
+         )
+
+    4. RequirementResolver
+       """Resolves effective requirements for a ticket."""
+
+       Methods:
+       - resolve(ticket: Ticket) -> List[Requirement]:
+           """
+           Get effective requirements for a ticket.
+
+           Algorithm:
+           1. Collect requirements from ancestors (roadmap → track → sprint)
+           2. Collect local requirements
+           3. For each local requirement:
+              - INHERIT: use stricter of local vs ancestor
+              - OVERRIDE: replace ancestor with local
+              - SKIP: exclude this requirement type
+           4. Filter to applicable requirements
+           5. Return final list
+           """
+
+       - collect_ancestor_requirements(ticket: Ticket) -> List[Requirement]
+       - resolve_inheritance(local: Requirement, inherited: Requirement) -> Requirement
+       - filter_applicable(requirements: List[Requirement], ticket: Ticket) -> List[Requirement]
+
+    5. RequirementInstantiator
+       """Instantiates requirements as criteria on a ticket."""
+
+       Methods:
+       - instantiate_requirements(ticket: Ticket) -> List[Criterion]:
+           """
+           Convert applicable requirements to criteria.
+
+           Called when:
+           - Ticket is created
+           - Ticket criteria are modified (may affect applicability)
+           - Requirements are updated on ancestors
+           """
+           resolver = RequirementResolver()
+           requirements = resolver.resolve(ticket)
+           criteria = []
+           for req in requirements:
+               if req.is_applicable(ticket):
+                   criterion = req.instantiate(ticket)
+                   criteria.append(criterion)
+           return criteria
+
+    STRICTNESS COMPARISON:
+
+    For requirements with thresholds (test coverage, etc.):
+    - INHERIT mode uses the stricter of local vs ancestor
+    - "Stricter" depends on comparison type:
+      - GTE/GT: higher threshold is stricter (≥95% vs ≥85%)
+      - LTE/LT: lower threshold is stricter (≤5 errors vs ≤10 errors)
+
+    Example:
+    - Sprint has test coverage ≥85%
+    - Task has test coverage ≥95% (INHERIT mode)
+    - Result: ≥95% is used (stricter)
+
+    - Sprint has test coverage ≥85%
+    - Task has no test coverage requirement
+    - Result: ≥85% inherited from sprint
+
+    - Sprint has test coverage ≥85%
+    - Task is documentation-only (no code files)
+    - Result: Requirement not applicable (filtered out)
+
+    EXAMPLE REQUIREMENTS:
+
+    1. Test Coverage Requirement:
+       Requirement(
+           id="test-coverage",
+           name="Test Coverage",
+           description="Code must have test coverage",
+           criterion_template=CriterionTemplate(
+               target_type=CriterionTargetType.THRESHOLD,
+               target_config={
+                   "metric_name": "coverage",
+                   "threshold": 85.0,
+                   "comparison": "gte"
+               },
+               description_template="Test coverage ≥{threshold}%"
+           ),
+           applicability=ApplicabilityRules(
+               has_file_patterns=["*.py"]
+           ),
+           inherit_mode=InheritMode.INHERIT,
+           enforcement=EnforcementMode.BLOCKING
+       )
+
+    2. Code Review Requirement:
+       Requirement(
+           id="code-review",
+           name="Code Review",
+           description="Code must be reviewed",
+           criterion_template=CriterionTemplate(
+               target_type=CriterionTargetType.MANUAL,
+               target_config={
+                   "assessor": "senior-engineer",
+                   "instructions": "Review code for quality and correctness"
+               },
+               description_template="Code review by {assessor}"
+           ),
+           applicability=ApplicabilityRules(
+               task_types=[TaskType.DEVELOPMENT]
+           ),
+           inherit_mode=InheritMode.INHERIT,
+           enforcement=EnforcementMode.BLOCKING
+       )
+
+    IMPLEMENTATION:
+
+    1. Create vibey/roadmap/models/ticket/requirements.py:
+       - Requirement class
+       - CriterionTemplate class
+       - ApplicabilityRules class
+       - RequirementResolver class
+       - RequirementInstantiator class
+
+    2. Use Pydantic v2 BaseModel
+    3. Implement strictness comparison for thresholds
+    4. Full test coverage for resolution algorithm
 
     SUCCESS CRITERIA:
-    - DeliverableType enum with 5 values
-    - FileExistsTarget has deliverable_type field with default OTHER
-    - computed_tokens returns estimated_tokens for tasks
-    - computed_tokens aggregates from children for sprints/tracks
-    - start() accepts optional platform_context_window parameter
-    - Context window warning is logged but doesn't block
-    - Full test coverage for aggregation
+    - Requirement class with all fields
+    - CriterionTemplate generates correct criteria
+    - ApplicabilityRules filters correctly
+    - RequirementResolver handles inheritance modes
+    - Strictness comparison works for thresholds
+    - Full test coverage
   status: not_started
   blocked: false
-  created: '2025-11-30T10:00:00+00:00'
+  created: '2025-11-29T16:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: medium
-  phase_label: gap-remediation
-  estimated_tokens: 2000
+  priority: high
+  phase_label: foundation
+  estimated_tokens: 3500
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
+  blocks:
+  - sqlite-backend-6-task-001
   blocked_by:
-  - sqlite-backend-6-task-002
   - sqlite-backend-6-task-009
   depends_on:
-  - blocker_id: sqlite-backend-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
   - blocker_id: sqlite-backend-6-task-009
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
-  depended_on_by: []
+    last_checked: '2025-11-29T16:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-6-task-001
   deliverables:
-  - vibey/roadmap/models/ticket/enums.py
-  - vibey/roadmap/models/ticket/targets.py
-  - vibey/roadmap/models/ticket/hierarchical.py
-  - tests/roadmap/models/ticket/test_tokens.py
+  - vibey/roadmap/models/ticket/requirements.py
+  - tests/roadmap/models/ticket/test_requirements.py
   commits: []
   metadata:
-    last_updated: '2025-11-30T10:00:00+00:00'
+    last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      GAP REMEDIATION: DeliverableType + Token Aggregation
+      Requirements are criterion TEMPLATES, not criteria themselves.
 
-      Two related features:
-      1. DeliverableType classifies file-based criteria for querying
-      2. computed_tokens aggregates task estimates up the hierarchy
+      Key distinction:
+      - Requirement: "All dev tasks need 85% test coverage"
+      - Criterion: "task-001 has 85% test coverage" (instantiated)
 
-      Both enable better tooling:
-      - "Show me all CODE deliverables for this sprint"
-      - "This sprint requires ~45K tokens total"
-      - "Warning: Task won't fit in 32K context window"
+      The RequirementResolver handles the hybrid inheritance:
+      - INHERIT: stricter wins
+      - OVERRIDE: local replaces ancestor
+      - SKIP: explicitly not applicable
+
+      ApplicabilityRules filter out requirements that don't apply:
+      - Test coverage doesn't apply to documentation tasks
+      - Security review only applies to sprint-level

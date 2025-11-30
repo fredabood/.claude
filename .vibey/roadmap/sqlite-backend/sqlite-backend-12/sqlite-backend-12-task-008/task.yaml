@@ -1,13 +1,13 @@
 task:
-  id: sqlite-backend-13-deferred-task-005
-  sprint_id: sqlite-backend-13-deferred
+  id: sqlite-backend-12-task-008
+  sprint_id: sqlite-backend-12
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Create migration script for existing roadmaps
+  title: Create migration script for existing roadmaps to new directory structure
   description: |
     Build a migration script to convert existing .vibey directory structure
-    to the new table-based structure.
+    to the new table-based structure as part of production cutover.
 
     MIGRATION REQUIREMENTS:
 
@@ -65,7 +65,7 @@ task:
     - Migration documentation
   status: not_started
   blocked: false
-  created: '2025-11-28T19:30:00+00:00'
+  created: '2025-11-30T20:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
@@ -78,10 +78,10 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-13-deferred-task-006
+  - sqlite-backend-12-task-009
   blocked_by:
-  - sqlite-backend-13-deferred-task-003
-  - sqlite-backend-13-deferred-task-004
+  - sqlite-backend-8-task-011
+  - sqlite-backend-6-task-003
   deliverables:
   - Migration script
   - CLI command for migration
@@ -89,9 +89,11 @@ task:
   - Migration documentation
   commits: []
   metadata:
-    last_updated: '2025-11-28T19:30:00+00:00'
+    last_updated: '2025-11-30T20:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
+      Consolidated from sprint 13-deferred task 005.
       Critical: This script will be run on production data.
       Must be thoroughly tested and have rollback capability.
+      Part of the production cutover process.

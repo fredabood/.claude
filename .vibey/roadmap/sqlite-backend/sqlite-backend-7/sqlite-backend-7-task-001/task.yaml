@@ -4,115 +4,106 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update yaml_loader.py to construct new Pydantic models
+  title: Define Artifact System Enums
   description: |
-    Refactor yaml_loader.py to construct the new unified ticket models
-    (RoadmapTicket, TrackTicket, SprintTicket, TaskTicket) instead of
-    the existing dataclass models.
+    Create enum types for the artifact system: ArtifactType, ProvenanceType,
+    ArtifactVerification, and subtype enums.
 
-    CURRENT STATE:
-    - yaml_loader.py is 1191 lines
-    - Constructs Roadmap, Track, Sprint, Task dataclasses
-    - Uses __post_init__ for validation
-    - Field names: commits, deliverables, standards (no _local suffix)
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.5, 13.6, Appendix E
 
-    CHANGES REQUIRED:
+    ENUMS TO IMPLEMENT:
 
-    1. FORMAT DETECTION:
-       def detect_yaml_format(data: dict) -> str:
-           """Detect if YAML uses old or new format"""
-           # Check for _local suffix fields
-           if 'commits_local' in data or 'deliverables_local' in data:
-               return 'v2'  # New format
-           return 'v1'  # Old format
+    1. ArtifactType (primary classification):
+       - CODE: Source code (.py, .js, .ts, etc.)
+       - TEST: Test files
+       - CONFIG: Configuration files (.yaml, .json, .toml)
+       - DOCUMENTATION: Project docs (describes current state)
+       - CONTEXT: Ticket context (planning, notes, retros)
+       - AGENT: Vibey agent definition
+       - WORKFLOW: Vibey workflow definition
+       - TEMPLATE: Handoff or rendering template
+       - DATA: Data files, fixtures, samples
+       - ASSET: Images, diagrams, media
+       - SCHEMA: API schemas, database schemas
+       - OTHER: Catch-all
 
-    2. FIELD MAPPING (v1 → v2):
-       Old Field          → New Field
-       commits            → commits_local
-       deliverables       → deliverables_local
-       standards          → standards_local
-       quality_gates      → quality_gates_local
-       assigned_agents    → assigned_agents_local
-       blocked_by         → depends_on (with DependencyRef conversion)
+       Properties:
+       - is_documentation_type: bool (DOCUMENTATION, CONTEXT)
+       - is_code_type: bool (CODE, TEST, CONFIG)
+       - is_framework_type: bool (AGENT, WORKFLOW, TEMPLATE)
 
-    3. LOADER FUNCTIONS:
-       Update all load_* functions to:
-       - Accept both v1 and v2 formats
-       - Return new Pydantic models
-       - Set hierarchy attributes correctly
+    2. ProvenanceType (how artifact came to exist):
+       - TICKET_CREATED: Created by a ticket's work
+       - PRE_EXISTING: Existed before roadmap system
+       - GENERATED: Auto-generated from other artifacts
+       - EXTERNAL: From external source (vendored, fetched)
+       - FRAMEWORK: Vibey framework component
 
-       def load_task(data: dict, format_version: str) -> TaskTicket:
-           if format_version == 'v1':
-               data = migrate_task_fields(data)
-           return TaskTicket(**data)
+    3. ArtifactVerification (how to verify criterion is satisfied):
+       - EXISTS: Files exist (default)
+       - NOT_STALE: Exists AND not stale (for documentation)
+       - HASH_UNCHANGED: Content hasn't changed since criterion created
 
-    4. HIERARCHY ATTRIBUTE COMPUTATION:
-       After loading all entities:
-       - Set parent_id references
-       - Compute is_parent, is_child, etc.
-       - Build children lists
+    4. ContextArtifactSubtype (subtypes for CONTEXT artifacts):
+       - PLANNING_DOC: Pre-work planning (design doc, RFC)
+       - IMPLEMENTATION_NOTES: During-work notes
+       - DECISION_RECORD: ADR, design decisions
+       - AUDIT_REPORT: Validation/audit results
+       - RETROSPECTIVE: Post-work reflection
 
-    5. VALIDATION:
-       - Use Pydantic validators (automatic)
-       - Remove manual __post_init__ style checks
-       - Add custom validators for hierarchy constraints
+    5. DocumentationSubtype (subtypes for DOCUMENTATION artifacts):
+       - README: README files
+       - API_REFERENCE: API documentation
+       - USER_GUIDE: How-to guides
+       - ARCHITECTURE: Architecture documentation
+       - CHANGELOG: Version history
+       - TUTORIAL: Step-by-step tutorials
 
-    IMPLEMENTATION STEPS:
+    6. DocumentationHealth (aggregate documentation status):
+       - HEALTHY: All docs current
+       - DEGRADED: Some docs stale (non-blocking)
+       - CRITICAL: Stale docs blocking completion
 
-    1. Create format detection function
-    2. Create field migration functions (v1 → v2)
-    3. Update load_task() → returns TaskTicket
-    4. Update load_sprint() → returns SprintTicket
-    5. Update load_track() → returns TrackTicket
-    6. Update load_roadmap() → returns RoadmapTicket
-    7. Add hierarchy computation post-load
-    8. Update all callers to expect new types
-
-    BACKWARD COMPATIBILITY:
-    - Must load ALL existing YAML files without modification
-    - Log warning when loading v1 format (suggest migration)
-    - No data loss during format conversion
+    FILE LOCATION:
+    vibey/roadmap/models/ticket/artifact_enums.py
 
     SUCCESS CRITERIA:
-    - All existing YAML files load successfully
-    - Returns new Pydantic model types
-    - Hierarchy attributes computed correctly
-    - Validation errors have clear messages
-    - Performance: No regression in load time
+    - All 6 enums implemented with correct values
+    - Property methods on ArtifactType work correctly
+    - JSON/YAML serialization works
+    - Full test coverage
   status: not_started
   blocked: false
-  created: '2025-11-29T14:00:00+00:00'
+  created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: critical
-  phase_label: implementation
-  estimated_tokens: 5000
+  priority: high
+  phase_label: foundation
+  estimated_tokens: 1500
   actual_tokens: null
-  complexity: high
+  complexity: low
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-005
-  - sqlite-backend-7-task-006
+  - sqlite-backend-7-task-002
+  - sqlite-backend-7-task-003
   blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - sqlite-backend-7-task-002
+  - sqlite-backend-7-task-003
   deliverables:
-  - Updated vibey/roadmap/serialization/yaml_loader.py
-  - Format detection function
-  - Field migration functions (v1 → v2)
-  - tests/roadmap/serialization/test_yaml_loader_v2.py
+  - vibey/roadmap/models/ticket/artifact_enums.py
+  - tests/roadmap/models/ticket/test_artifact_enums.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      CRITICAL PATH: This is the most complex serialization task.
+      Foundation task for artifact system - defines all enum types.
 
-      The yaml_loader is 1191 lines and touches every model type.
-      Consider incremental approach:
-      1. First pass: Add format detection, keep old code path
-      2. Second pass: Add new code path for each model
-      3. Third pass: Test with real YAML files
-      4. Fourth pass: Remove old code path
+      Must be completed before Artifact entity and ArtifactProvenance
+      can be implemented since they depend on these types.

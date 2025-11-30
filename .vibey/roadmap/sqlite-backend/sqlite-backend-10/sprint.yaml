@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-10
-  name: Data Validation & Integrity Audit
+  name: Interface Migration
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 8
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -26,74 +26,52 @@ sprint:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-29T18:00:00+00:00'
-  # NOTE: Changed from sqlite-backend-6 to sqlite-backend-6d.
-  # Sprint 7 (validation) requires the unified ticket model to be fully
-  # implemented (6a), serialized (6b), operations updated (6c), and
-  # interfaces updated (6d) before it can validate data properly.
+    last_checked: '2025-11-30T18:00:00+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Computed DB builder (aggregations from task statuses)
-  - Declared DB builder (YAML counters as-is)
-  - Database comparison engine with severity classification
-  - vibey roadmap validate command (schema/references/computed/full levels)
-  - Integrity audit report generator
-  - YAML auto-remediation tooling
-  - Validated Vibey roadmap state (zero discrepancies)
-  - Confidence metrics and lessons learned documentation
+  - Updated CLI commands for inheritance display
+  - Updated MCP tools for aggregation
+  - Migration guide for users
+  - Updated documentation
+  - End-to-end testing
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-27T21:45:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: '2025-11-29T14:00:00+00:00'
+    estimated_duration: 1 week
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    source_of_truth_backup: /tmp/yaml_original/roadmap
-    backup_created: '2025-11-27T21:13:59+00:00'
-    backup_file_count: 1097
-    remediation_performed: '2025-11-27T21:45:00+00:00'
-    remediation_notes: |
-      Merged git HEAD (content fields) with backup (status fields).
-      - 862 task files merged
-      - 172 sprint files merged
-      - 36 track files merged
-      Initial audit found 98% data loss during SQLite db dump:
-      - 615 tasks lost 'started' timestamp
-      - 288 tasks lost 'description'
-      - 269 tasks lost 'completed' precision
-      - 224 tasks lost 'complexity'
-      - 222 tasks lost 'assigned_agent'
-      - 114 tasks lost 'commits'
-      - 108 tasks lost 'deliverables'
-      Code fix applied: Changed Status enum from "won't_do" to "wont_do"
-    notes: 'Validation sprint to verify database approach and fix roadmap integrity
-      issues.
+    notes: |
+      Sprint 10: Interface Migration
 
+      GOAL: Update CLI and MCP interfaces to properly display
+      and interact with the new unified ticket architecture.
 
-      PROCESS:
+      DEPENDS ON: Sprint 9 (operations migration)
 
-      1. Build "Computed DB" - read task files, compute aggregations via views
+      KEY USER-FACING CHANGES:
+      1. Standards show inheritance source
+      2. Commits show aggregation source
+      3. Progress computed in real-time
+      4. New hierarchy navigation commands
 
-      2. Build "Declared DB" - read YAML counters as-is (no computation)
+      CLI COMMANDS TO UPDATE:
+      - vibey roadmap show
+      - vibey roadmap status
+      - vibey roadmap find
+      - vibey roadmap add-standard
+      - vibey roadmap list
 
-      3. Compare databases - identify mismatches
+      MCP TOOLS TO UPDATE:
+      - task_tools.py
+      - sprint_tools.py
+      - query_tools.py
+      - roadmap_adapter.py
 
-      4. Generate audit report - prioritized list of discrepancies
-
-      5. Remediate YAML files - fix counters to match computed values
-
-      6. Iterate until zero discrepancies
-
-
-      SUCCESS CRITERIA:
-
-      - Computed DB == Declared DB (zero discrepancies)
-
-      - All YAML files pass validation
-
-      - High confidence in database approach before production use
-
-      '
+      DOCUMENTATION:
+      - Migration guide for existing users
+      - Updated command reference
+      - Architecture documentation

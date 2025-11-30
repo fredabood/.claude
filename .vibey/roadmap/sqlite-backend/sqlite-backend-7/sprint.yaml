@@ -1,11 +1,11 @@
 sprint:
   id: sqlite-backend-7
-  name: Serialization Migration
+  name: Artifact System Architecture
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
-  created: '2025-11-29T14:00:00+00:00'
+  created: '2025-11-30T18:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 7
+    tasks_total: 8
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -26,47 +26,87 @@ sprint:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-29T14:00:00+00:00'
+    last_checked: '2025-11-30T18:00:00+00:00'
+  # CRITICAL PATH: 6 → 7 → 8 → 9 → 10 → 11 → 12
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Updated yaml_loader.py using new Pydantic models
-  - Updated yaml_dumper.py with hierarchy serialization
-  - Updated sql_loader.py with SQLAlchemy ORM
-  - Updated sql_dumper.py with SQLAlchemy ORM
-  - Database schema migration script
-  - Backward compatibility for existing YAML files
-  - Migration CLI command (vibey roadmap migrate-format)
+  - Artifact entity class (Layer 0a)
+  - ArtifactProvenance with provenance types
+  - ArtifactType enum with subtypes
+  - ArtifactTarget criterion type
+  - ArtifactVerification enum (EXISTS, NOT_STALE, HASH_UNCHANGED)
+  - artifacts table in database schema
+  - v_orphan_artifacts and v_documentation_graph views
+  - ImpactAnalyzer for documentation staleness
+  - Comprehensive test suite for artifact system
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
-    estimated_duration: 2 weeks
+    last_updated: '2025-11-30T18:00:00+00:00'
+    estimated_duration: 1.5 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
     notes: |
-      Sprint 7: Serialization Migration
+      Sprint 7: Artifact System Architecture
 
-      GOAL: Update all serialization code to use new unified ticket models
-      while maintaining backward compatibility with existing YAML files.
+      DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13
+
+      GOAL: Implement Artifact as a first-class entity (Layer 0a) that exists
+      independently of tickets. This enables tracking of pre-existing files,
+      generated documentation, framework components, and comprehensive impact
+      analysis.
 
       DEPENDS ON: Sprint 6 (unified ticket architecture)
 
-      KEY CHALLENGES:
-      1. YAML files use old field names (commits vs commits_local)
-      2. Database schema needs new hierarchy columns
-      3. Must read old format, write new format
-      4. Round-trip integrity must be maintained
+      KEY ARCHITECTURAL CHANGE:
+      - Artifact exists independently of tickets
+      - Criteria reference artifacts via ArtifactTarget (by ID)
+      - Artifacts track provenance (how they came to exist)
+      - Documentation artifacts link to what they document
+      - Staleness detection via content hash comparison
 
-      BACKWARD COMPATIBILITY STRATEGY:
-      - yaml_loader: Detect format version, load appropriately
-      - yaml_dumper: Always write new format
-      - Migration command: Convert old files to new format
+      LAYER ARCHITECTURE UPDATE:
+      ┌─────────────────────────────────────────────┐
+      │ LAYER 0a: ARTIFACT (NEW)                    │
+      │ First-class entity for file-based artifacts │
+      ├─────────────────────────────────────────────┤
+      │ LAYER 0b: COMPLETABLE                       │
+      │ Base abstraction with criteria              │
+      ├─────────────────────────────────────────────┤
+      │ LAYER 1: TICKET                             │
+      │ Work semantics                              │
+      ├─────────────────────────────────────────────┤
+      │ LAYER 2: HIERARCHICAL TICKET                │
+      │ Smart accessors                             │
+      ├─────────────────────────────────────────────┤
+      │ LAYER 3: DOMAIN MODELS                      │
+      │ RoadmapTicket, TrackTicket, etc.            │
+      └─────────────────────────────────────────────┘
 
-      TESTING REQUIREMENTS:
-      - Load all existing YAML files successfully
-      - Round-trip: YAML → Pydantic → YAML produces valid output
-      - Round-trip: YAML → Pydantic → SQLite → Pydantic → YAML works
-      - No data loss during migration
+      ARTIFACT PROVENANCE TYPES:
+      - TICKET_CREATED: Created by ticket work
+      - PRE_EXISTING: Existed before roadmap system
+      - GENERATED: Auto-generated from other artifacts
+      - EXTERNAL: From external source
+      - FRAMEWORK: Vibey framework component
+
+      ARTIFACT TYPES:
+      - CODE, TEST, CONFIG
+      - DOCUMENTATION (project docs)
+      - CONTEXT (ticket planning/execution)
+      - AGENT, WORKFLOW, TEMPLATE (framework)
+      - DATA, ASSET, SCHEMA, OTHER
+
+      TASK EXECUTION ORDER:
+      1. Task 001 (Enums) - ArtifactType, ProvenanceType, ArtifactVerification
+      2. Task 002 (Artifact entity) - depends on 001
+      3. Task 003 (ArtifactProvenance) - depends on 001
+      4. Task 004 (ArtifactTarget) - depends on 002
+      5. Task 005 (Database schema) - depends on 002, 003, 004
+      6. Task 006 (ImpactAnalyzer) - depends on 005
+      7. Task 007 (Layer integration) - depends on 002, 004, 006
+      8. Task 008 (Test suite) - depends on all
+

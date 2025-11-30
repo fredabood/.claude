@@ -3,48 +3,144 @@ task:
   sprint_id: sqlite-backend-10
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Implement database comparison engine
-  description: "Create comparison logic in vibey/roadmap/database/validation/compare.py:\n\
-    \nComparison fields per level:\nSprint: tasks_total, tasks_completed, completion_percent,\n\
-    \        development_tasks_total, development_tasks_completed\nTrack: sprints_total,\
-    \ sprints_completed, tasks_total, tasks_completed,\n       completion_percent\n\
-    Roadmap: tracks_total, tracks_completed, sprints_total, sprints_completed,\n \
-    \        tasks_total, tasks_completed, completion_percent\n\nMismatch classification:\n\
-    - CRITICAL: tasks_completed wrong (affects blocking decisions)\n- HIGH: completion_percent\
-    \ > 5% off\n- MEDIUM: totals wrong (file count mismatch)\n- LOW: completion_percent\
-    \ < 5% off (rounding)\n\nOutput format (per mismatch):\n{\n  \"entity_type\":\
-    \ \"sprint\",\n  \"entity_id\": \"sqlite-backend-1\",\n  \"field\": \"tasks_completed\"\
-    ,\n  \"computed\": 5,\n  \"declared\": 3,\n  \"severity\": \"CRITICAL\",\n  \"\
-    suggestion\": \"Update .vibey/roadmap/sqlite-backend/sqlite-backend-1/sprint.yaml\"\
-    \n}\n\nCLI command: vibey roadmap validate --level=full\n- Runs comparison and\
-    \ reports all mismatches\n- Exit code 0 if no mismatches, 1 otherwise\n"
+  task_type: documentation
+  title: Create migration guide and documentation
+  description: |
+    Create comprehensive documentation for the unified ticket
+    architecture including migration guide for existing users.
+
+    DOCUMENTATION DELIVERABLES:
+
+    1. MIGRATION GUIDE (docs/roadmap/MIGRATION_GUIDE.md):
+
+       # Migrating to Unified Ticket Architecture
+
+       ## Overview
+       The unified ticket architecture introduces hierarchy
+       attributes and smart accessors that change how you
+       interact with roadmap data.
+
+       ## Breaking Changes
+       - Field names: commits → commits_local
+       - Progress: Now computed, not stored
+       - Standards: Now inherited from ancestors
+
+       ## Migration Steps
+       1. Run `vibey roadmap migrate-format --dry-run`
+       2. Review changes
+       3. Run `vibey roadmap migrate-format`
+       4. Commit migrated files
+
+       ## Backward Compatibility
+       - Old YAML format still readable
+       - Old field names mapped automatically
+       - Gradual migration supported
+
+    2. ARCHITECTURE DOCUMENTATION (docs/roadmap/ARCHITECTURE.md):
+
+       # Unified Ticket Architecture
+
+       ## Three-Layer Design
+       - Layer 1: Base Ticket (local fields, hierarchy attributes)
+       - Layer 2: HierarchicalTicket (smart accessors)
+       - Layer 3: Domain Models (semantic-specific fields)
+
+       ## Hierarchy Attributes
+       - is_parent: Has children
+       - is_child: Has parent
+       - is_ultimate_parent: Root node
+       - is_ultimate_child: Leaf node
+       - is_intermediate: Middle node
+
+       ## Smart Accessors
+       - ticket.commits → local if leaf, aggregated if parent
+       - ticket.standards → local if root, effective if child
+       - ticket.progress → None if leaf, computed if parent
+
+    3. CLI REFERENCE UPDATE (docs/reference/CLI_REFERENCE.md):
+
+       Update command documentation:
+       - New inheritance display format
+       - New aggregation indicators
+       - New hierarchy navigation options
+
+    4. MCP API REFERENCE (docs/reference/MCP_API.md):
+
+       Update tool documentation:
+       - New response format with inheritance source
+       - New hierarchy tools
+       - Version compatibility notes
+
+    5. CHANGELOG ENTRY:
+
+       ## [Unreleased]
+
+       ### Changed
+       - Unified ticket architecture with hierarchy attributes
+       - Smart accessors for aggregation/inheritance
+       - YAML format v2 with _local suffix fields
+
+       ### Added
+       - Hierarchy navigation in CLI
+       - Inheritance source in displays
+       - Migration command: vibey roadmap migrate-format
+
+       ### Migration Required
+       See docs/roadmap/MIGRATION_GUIDE.md
+
+    IMPLEMENTATION STEPS:
+
+    1. Write migration guide
+    2. Write architecture documentation
+    3. Update CLI reference
+    4. Update MCP API reference
+    5. Write changelog entry
+    6. Add inline code documentation
+    7. Review with team
+
+    SUCCESS CRITERIA:
+    - Migration guide covers all breaking changes
+    - Architecture clearly explained
+    - CLI commands documented with new behavior
+    - MCP API changes documented
+    - Examples provided for common scenarios
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: docs-writer
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: documentation
+  estimated_tokens: 3500
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-10-task-001
-  - sqlite-backend-10-task-002
+  dependencies: []
   blocks:
   - sqlite-backend-10-task-004
   blocked_by: []
   deliverables:
-  - vibey/roadmap/database/validation/compare.py
-  - Severity classification system
-  - CLI validate --level=full command
+  - docs/roadmap/MIGRATION_GUIDE.md
+  - docs/roadmap/ARCHITECTURE.md
+  - Updated docs/reference/CLI_REFERENCE.md
+  - Updated docs/reference/MCP_API.md
+  - CHANGELOG entry
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      DOCUMENTATION PRIORITY:
+
+      1. Migration guide - Users need this immediately
+      2. Architecture docs - Developers need this
+      3. CLI reference - Users reference frequently
+      4. MCP API - Integration developers need this
+
+      Include plenty of examples showing:
+      - Before/after comparisons
+      - Common migration scenarios
+      - Error resolution

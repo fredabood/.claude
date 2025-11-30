@@ -3,121 +3,109 @@ task:
   sprint_id: sqlite-backend-9
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: testing
-  title: End-to-end testing
+  task_type: development
+  title: Update remaining operations files
   description: |
-    Comprehensive end-to-end testing of the complete unified
-    ticket architecture from CLI through to database.
+    Update all remaining operations files to use new unified ticket
+    models and smart accessors.
 
-    TEST SCENARIOS:
+    FILES TO UPDATE (12 files):
 
-    1. FULL WORKFLOW - CREATE:
-       $ vibey roadmap init my-project
-       $ vibey roadmap add-track core-features
-       $ vibey roadmap add-sprint core-features sprint-1
-       $ vibey roadmap add-task core-features sprint-1 "Implement feature"
+    1. add_commit.py (HIGH priority):
+       - Use unified GitCommit type
+       - Add to commits_local field
+       - Remove manual sync to parent levels
 
-       Verify:
-       - All tickets created with correct hierarchy
-       - parent_id references correct
-       - Hierarchy attributes computed correctly
+    2. validate.py (HIGH priority):
+       - Use Pydantic validation
+       - Validate hierarchy constraints
+       - Check hierarchy attributes are consistent
 
-    2. FULL WORKFLOW - STANDARDS:
-       $ vibey roadmap add-standard my-project testing
-       $ vibey roadmap show my-project/core-features/sprint-1/task-001
+    3. summarize.py (HIGH priority):
+       - Use smart accessors for aggregated data
+       - Progress computed automatically
+       - Commits aggregated automatically
 
-       Verify:
-       - Standard inherited by track, sprint, task
-       - Display shows inheritance source
-       - Enforcement applies at all levels
+    4. context.py (HIGH priority):
+       - Generate context using smart accessors
+       - Include effective standards in context
+       - Include aggregated deliverables
 
-    3. FULL WORKFLOW - COMMITS:
-       $ vibey roadmap add-commit task-001 abc123 "feat: add feature"
-       $ vibey roadmap show sprint-1
+    5. commit_mapper.py (HIGH priority):
+       - Use unified GitCommit type
+       - Map commits to tasks via commits_local
+       - No aggregation needed (handled by accessors)
 
-       Verify:
-       - Commit added to task.commits_local
-       - Commit appears in sprint.commits (aggregated)
-       - Commit appears in track.commits (aggregated)
+    6. auto_repair.py (MEDIUM priority):
+       - Repair hierarchy inconsistencies
+       - Fix parent_id references
+       - Recompute hierarchy attributes
 
-    4. FULL WORKFLOW - PROGRESS:
-       $ vibey roadmap update task-001 --status completed
-       $ vibey roadmap status
+    7. audit_trail.py (MEDIUM priority):
+       - Track changes to new model types
+       - Include hierarchy changes in audit
+       - Log inheritance changes
 
-       Verify:
-       - Task marked completed
-       - Sprint progress updated (computed)
-       - Track progress updated (computed)
-       - Roadmap progress updated (computed)
+    8. checkpoint_verifier.py (MEDIUM priority):
+       - Verify using new model types
+       - Check hierarchy integrity
+       - Verify aggregation correctness
 
-    5. FULL WORKFLOW - DEPENDENCIES:
-       $ vibey roadmap add-dependency task-002 --depends-on task-001
-       $ vibey roadmap find --blocked
+    9. safe_yaml_editor.py (MEDIUM priority):
+       - Edit new YAML format
+       - Preserve hierarchy fields
+       - Validate after edit
 
-       Verify:
-       - Dependency created correctly
-       - task-002 shows as blocked
-       - Completing task-001 unblocks task-002
+    10. advanced_validator.py (MEDIUM priority):
+        - Advanced validation with new models
+        - Hierarchy constraint validation
+        - Cross-reference validation
 
-    6. MCP INTEGRATION:
-       - Start MCP server
-       - Call get_task via MCP
-       - Verify response includes inheritance info
-       - Call update_task via MCP
-       - Verify changes persisted
+    11. doc_tracking.py (LOW priority):
+        - Track documentation deliverables
+        - Use deliverables_local field
 
-    7. PERSISTENCE ROUND-TRIP:
-       - Create full roadmap via CLI
-       - Verify YAML files in v2 format
-       - Load database from YAML
-       - Verify database contains all data
-       - Dump database to YAML
-       - Compare with original
+    12. init.py (LOW priority):
+        - Initialize new model types
+        - Set hierarchy attributes
+        - Create with correct parent_id
 
-    8. MIGRATION SCENARIO:
-       - Start with v1 format YAML files
-       - Run migrate-format command
-       - Verify files converted to v2
-       - Verify all data preserved
-       - Run full workflow on migrated data
+    COMMON PATTERNS TO APPLY:
 
-    9. ERROR SCENARIOS:
-       - Invalid status transition
-       - Missing parent reference
-       - Circular dependency
-       - Invalid hierarchy constraint
+    1. Import Changes:
+       from vibey.roadmap.models.ticket import (
+           Ticket, TaskTicket, SprintTicket, TrackTicket, RoadmapTicket
+       )
 
-    10. PERFORMANCE SCENARIO:
-        - Large roadmap (100+ tasks)
-        - Measure CLI response time
-        - Measure MCP response time
-        - Verify within acceptable limits
+    2. Smart Accessor Usage:
+       # Use ticket.commits instead of ticket.commits_local
+       # for aggregated/effective access
 
-    IMPLEMENTATION:
+    3. Type Annotations:
+       def process_task(task: TaskTicket) -> TaskTicket:
+           # Use new types in signatures
 
-    1. Create E2E test framework
-    2. Implement test for each scenario
-    3. Use real CLI commands (subprocess)
-    4. Use real MCP calls
-    5. Verify file system state
-    6. Verify database state
-    7. Generate test report
+    4. Hierarchy Awareness:
+       if ticket.is_ultimate_child:
+           # Handle leaf nodes differently
+       if ticket.is_parent:
+           # Handle parent nodes
 
     SUCCESS CRITERIA:
-    - All E2E scenarios pass
-    - No data loss in any workflow
-    - Performance acceptable
-    - Error handling correct
-    - Migration path verified
+    - All 12 files updated
+    - New model types used throughout
+    - Smart accessors used appropriately
+    - All existing functionality preserved
+    - No regressions in behavior
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: test-engineer
-  priority: critical
-  phase_label: testing
-  estimated_tokens: 4500
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 5000
   actual_tokens: null
   complexity: high
   gate_info: null
@@ -130,21 +118,26 @@ task:
   - sqlite-backend-9-task-002
   - sqlite-backend-9-task-003
   deliverables:
-  - tests/e2e/test_unified_ticket_workflow.py
-  - E2E test framework
-  - Test report
+  - Updated 12 operations files
+  - Consistent model usage across operations
+  - tests/operations/roadmap/test_operations_v2.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      GATE TASK: This is the final quality gate.
+      This is a batch task covering multiple files.
+      Consider splitting if scope grows too large.
 
-      E2E tests verify the entire system works together:
-      - CLI → Operations → Serialization → Database
-      - MCP → Operations → Serialization → Database
-      - YAML ↔ Pydantic ↔ SQLite round-trips
+      PRIORITY ORDER:
+      1. add_commit.py, commit_mapper.py (commit handling)
+      2. validate.py, summarize.py (core operations)
+      3. context.py (user-facing)
+      4. auto_repair.py, audit_trail.py (maintenance)
+      5. Others (lower priority)
 
-      If E2E tests pass, the unified ticket architecture
-      is ready for production use.
+      Each file should be:
+      1. Updated for new imports
+      2. Tested individually
+      3. Integrated with others

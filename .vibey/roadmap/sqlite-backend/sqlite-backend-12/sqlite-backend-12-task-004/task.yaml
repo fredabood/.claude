@@ -1,0 +1,67 @@
+task:
+  id: sqlite-backend-12-task-004
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add DB rebuild to post-merge hook
+  description: |
+    Modify vibey/operations/git/hooks/post_merge.py to rebuild DB from YAML:
+
+    Current behavior:
+    - Shell script calls `python -m vibey.operations.git.hooks post-merge`
+    - Python module exists but may not rebuild DB
+
+    Required changes:
+    1. Detect if roadmap YAML files changed in merge
+    2. If changed, rebuild DB from YAML using sql_loader
+    3. Verify rebuild succeeded (count entities)
+    4. Log rebuild statistics
+
+    Flow:
+    ```
+    post-merge hook
+    ├── Check if .vibey/roadmap/ files changed
+    │   └── No: Exit early
+    ├── Rebuild DB from YAML
+    │   ├── Load all tracks, sprints, tasks via yaml_loader
+    │   └── Save to DB via sql_dumper
+    ├── Verify counts match
+    └── Log success/failure
+    ```
+
+    Also implement post-checkout with same logic for branch switches.
+
+    Edge cases:
+    - Merge conflicts in YAML: warn but don't block
+    - DB locked: retry with backoff
+    - Partial rebuild: log warning, continue
+  status: not_started
+  blocked: false
+  created: '2025-11-28T17:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: critical
+  phase_label: implementation
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-12-task-005
+  blocked_by:
+  - sqlite-backend-12-task-002
+  deliverables:
+  - Modified post_merge.py with DB rebuild logic
+  - Change detection for .vibey/roadmap/ files
+  - post-checkout hook with same behavior
+  - Integration tests for hook behavior
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T17:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

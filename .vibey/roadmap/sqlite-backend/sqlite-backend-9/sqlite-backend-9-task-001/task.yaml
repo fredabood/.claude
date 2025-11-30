@@ -4,144 +4,120 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update CLI commands for inheritance display
+  title: Update query.py with hierarchy-aware queries
   description: |
-    Update CLI commands to properly display inherited vs local
-    fields and aggregated vs direct values.
+    Refactor query.py operations to use new unified ticket models
+    with hierarchy-aware loading and smart accessor support.
 
-    CLI COMMANDS TO UPDATE:
+    CURRENT STATE:
+    - query.py uses old dataclass models
+    - Direct field access (task.commits, sprint.deliverables)
+    - No hierarchy awareness in queries
 
-    1. vibey roadmap show <entity>:
-       Display with inheritance indicators:
+    CHANGES REQUIRED:
 
-       $ vibey roadmap show sqlite-backend-6a-task-001
+    1. UPDATE IMPORTS:
+       # OLD
+       from vibey.roadmap.models.task import Task
+       from vibey.roadmap.models.sprint import Sprint
 
-       Task: sqlite-backend-6a-task-001
-       ────────────────────────────────
-       Status: not_started
-       Blocked: false
+       # NEW
+       from vibey.roadmap.models.ticket import (
+           TaskTicket, SprintTicket, TrackTicket, RoadmapTicket
+       )
 
-       Standards (3 effective):
-         ✓ code-style [inherited from: vibey-framework-v2]
-         ✓ testing [inherited from: sqlite-backend]
-         ✓ documentation [local]
+    2. USE SMART ACCESSORS:
+       Operations should use smart accessors which automatically
+       handle aggregation/inheritance:
 
-       Commits (0 local):
-         (no commits yet)
+       # OLD - direct field access
+       def get_sprint_commits(sprint_id):
+           sprint = load_sprint(sprint_id)
+           commits = []
+           for task in sprint.tasks:
+               commits.extend(task.commits)
+           return commits
 
-       Deliverables (4 local):
-         - vibey/roadmap/models/ticket/base.py
-         - ...
+       # NEW - smart accessor handles aggregation
+       def get_sprint_commits(sprint_id):
+           sprint = load_sprint_with_children(sprint_id)
+           return sprint.commits  # Smart accessor aggregates
 
-    2. vibey roadmap status:
-       Show aggregated progress correctly:
+    3. HIERARCHY-AWARE LOADING:
+       Use repository methods for hierarchy:
 
-       $ vibey roadmap status
+       def get_task_with_context(task_id):
+           repo = TicketRepository(session)
+           task = repo.get_with_ancestors(task_id)
+           # task.standards now includes inherited standards
+           return task
 
-       Roadmap: vibey-framework-v2
-       Progress: 45.2% (computed)
-       ├─ sqlite-backend: 53.7% (36/67 tasks)
-       │  ├─ sqlite-backend-6a: 0% (0/10 tasks)
-       │  └─ ...
-       └─ ...
+    4. QUERY FUNCTIONS TO UPDATE:
+       - get_roadmap() → returns RoadmapTicket
+       - get_track() → returns TrackTicket
+       - get_sprint() → returns SprintTicket
+       - get_task() → returns TaskTicket
+       - find_tasks_by_status()
+       - find_blocked_items()
+       - get_progress()
+       - get_commits_for_sprint()
+       - get_deliverables_for_track()
+       - get_standards_for_task()
 
-    3. vibey roadmap find --blocked:
-       Use computed blocked status:
-
-       $ vibey roadmap find --blocked
-
-       Blocked Items:
-       - sqlite-backend-6a-task-001 (blocked by: task-009, task-010)
-       - ...
-
-    4. vibey roadmap add-standard:
-       Show inheritance impact:
-
-       $ vibey roadmap add-standard --track sqlite-backend --standard testing
-
-       Adding standard 'testing' to track 'sqlite-backend'
-       This standard will apply to:
-         - 10 sprints
-         - 67 tasks
-       Continue? [y/n]
-
-    5. vibey roadmap list:
-       Include hierarchy info:
-
-       $ vibey roadmap list tasks --sprint sqlite-backend-6a
-
-       Tasks in sqlite-backend-6a:
-       ID                              Status        Blocked
-       sqlite-backend-6a-task-001     not_started   yes (deps)
-       sqlite-backend-6a-task-002     not_started   yes (deps)
-       ...
-
-    DISPLAY PATTERNS:
-
-    1. Inheritance Indicators:
-       [local] - defined on this ticket
-       [inherited from: <id>] - inherited from ancestor
-       [effective] - merged from local + inherited
-
-    2. Aggregation Indicators:
-       (X local) - count of items defined locally
-       (X total) - count including aggregated from children
-       (computed) - value calculated from children
-
-    3. Hierarchy Navigation:
-       Show parent path: roadmap > track > sprint > task
-       Show child count: "10 sprints, 67 tasks"
+    5. NEW QUERY FUNCTIONS:
+       - get_effective_standards(ticket_id) → inherited chain
+       - get_aggregated_commits(ticket_id) → from descendants
+       - get_hierarchy_path(ticket_id) → [roadmap, track, sprint, task]
 
     IMPLEMENTATION STEPS:
 
-    1. Update show.py for inheritance display
-    2. Update status.py for computed progress
-    3. Update find.py for computed blocked status
-    4. Update add_standard.py for impact preview
-    5. Update list_cmd.py for hierarchy info
-    6. Add formatter utilities for inheritance
-    7. Update CLI tests
+    1. Update imports to new model types
+    2. Update each query function signature
+    3. Replace direct field access with smart accessors
+    4. Add hierarchy-aware loading where needed
+    5. Add new query functions for inheritance/aggregation
+    6. Update all callers of query functions
+    7. Add/update tests
 
     SUCCESS CRITERIA:
-    - Inheritance source clearly indicated
-    - Aggregation source clearly indicated
-    - Computed values labeled appropriately
-    - User understands what's local vs inherited
+    - All query functions return new model types
+    - Smart accessors used for aggregated/effective fields
+    - Hierarchy loading works correctly
+    - All existing functionality preserved
+    - Performance acceptable
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
+  priority: critical
   phase_label: implementation
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
   - sqlite-backend-9-task-004
+  - sqlite-backend-9-task-005
   blocked_by: []
   deliverables:
-  - Updated CLI commands (show, status, find, add-standard, list)
-  - Inheritance display formatters
-  - tests/cli/test_inheritance_display.py
+  - Updated vibey/operations/roadmap/query.py
+  - New hierarchy query functions
+  - tests/operations/roadmap/test_query_v2.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      USER EXPERIENCE GOAL: Make inheritance/aggregation transparent.
+      CRITICAL PATH: Most other operations depend on query.py.
 
-      Users should understand:
-      - Where a standard came from (local or inherited)
-      - Where commits aggregate from (which tasks)
-      - How progress is computed (from children)
+      Key insight: Smart accessors eliminate manual aggregation.
+      Instead of iterating children to collect commits,
+      just access sprint.commits and get the right answer.
 
-      This transparency helps users:
-      - Know where to make changes
-      - Understand policy cascade
-      - Debug unexpected behavior
+      This simplifies code significantly while ensuring
+      consistent behavior across the codebase.

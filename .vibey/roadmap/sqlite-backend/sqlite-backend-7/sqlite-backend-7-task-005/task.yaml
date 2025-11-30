@@ -4,115 +4,185 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update sql_dumper.py with SQLAlchemy ORM
+  title: Add Artifacts Table to Database Schema
   description: |
-    Replace direct SQL inserts/updates in sql_dumper.py with SQLAlchemy
-    ORM operations using the new TicketORM models.
+    Add the artifacts table and related views to the SQLite database schema.
+    This enables persistence and querying of the artifact graph.
 
-    CURRENT STATE:
-    - sql_dumper.py uses raw SQL INSERT/UPDATE
-    - Accepts old dataclass models
-    - Manual JSON serialization
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.9
 
-    CHANGES REQUIRED:
+    ARTIFACTS TABLE:
 
-    1. USE REPOSITORY PATTERN:
-       Replace direct SQL with TicketRepository:
+    CREATE TABLE artifacts (
+        -- Identity
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        description TEXT,
 
-       # OLD
-       def save_task(db_path: str, task: Task) -> None:
-           conn = get_connection(db_path)
-           conn.execute(
-               "INSERT OR REPLACE INTO tasks (...) VALUES (...)",
-               task_to_row(task)
-           )
+        -- File Location
+        paths TEXT NOT NULL,  -- JSON array of file paths
+        content_hash TEXT,
+        last_verified TEXT,  -- ISO timestamp
 
-       # NEW
-       def save_task(db_path: str, task: TaskTicket) -> None:
-           repo = TicketRepository(get_session(db_path))
-           repo.save(task)  # ORM handles serialization
+        -- Classification
+        artifact_type TEXT NOT NULL,
+        artifact_subtype TEXT,
 
-    2. PYDANTIC → ORM CONVERSION:
-       Repository handles conversion via TicketORM.from_pydantic():
+        -- Provenance (JSON object)
+        provenance TEXT NOT NULL,
 
-       class TicketRepository:
-           def save(self, ticket: Ticket) -> None:
-               orm_obj = TicketORM.from_pydantic(ticket)
-               self.session.merge(orm_obj)
-               self.session.commit()
+        -- Relationships
+        documents_artifact_id TEXT,
+        depends_on_artifact_ids TEXT,  -- JSON array
 
-    3. JSON COLUMN SERIALIZATION:
-       ORM handles Python objects → JSON columns:
-       - list[GitCommit] → commits_local_json
-       - list[Standard] → standards_local_json
-       - list[DependencyRef] → depends_on_json
+        -- State
+        exists INTEGER NOT NULL DEFAULT 1,
+        is_stale INTEGER NOT NULL DEFAULT 0,
 
-    4. HIERARCHY PRESERVATION:
-       When saving a ticket:
-       - Save parent_id reference
-       - Do NOT save computed hierarchy attributes
-       - Children are saved separately (not cascaded)
+        -- Staleness tracking (for documentation)
+        documented_source_hash TEXT,
 
-    5. TRANSACTION SUPPORT:
-       def save_sprint_with_tasks(sprint: SprintTicket) -> None:
-           with session.begin():
-               repo.save(sprint)
-               for task in sprint.get_children():
-                   repo.save(task)
-           # All or nothing
+        -- Timestamps
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
 
-    IMPLEMENTATION STEPS:
+        -- Foreign keys
+        FOREIGN KEY (documents_artifact_id) REFERENCES artifacts(id)
+    );
 
-    1. Update save_task() to use TicketRepository
-    2. Update save_sprint() to use TicketRepository
-    3. Update save_track() to use TicketRepository
-    4. Update save_roadmap() to use TicketRepository
-    5. Add transaction support for batch saves
-    6. Handle upsert logic (insert or update)
-    7. Update all callers to pass new types
+    INDEXES:
+
+    CREATE INDEX idx_artifacts_type ON artifacts(artifact_type);
+    CREATE INDEX idx_artifacts_documents ON artifacts(documents_artifact_id);
+    CREATE INDEX idx_artifacts_stale ON artifacts(is_stale) WHERE is_stale = 1;
+
+    VIEWS:
+
+    1. v_orphan_artifacts - Artifacts not referenced by any criterion:
+
+    CREATE VIEW v_orphan_artifacts AS
+    SELECT a.*
+    FROM artifacts a
+    LEFT JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
+    WHERE c.id IS NULL AND a.exists = 1;
+
+    2. v_documentation_graph - Links between docs and their sources:
+
+    CREATE VIEW v_documentation_graph AS
+    SELECT
+        doc.id AS doc_id,
+        doc.name AS doc_name,
+        doc.artifact_type AS doc_type,
+        doc.is_stale,
+        src.id AS source_id,
+        src.name AS source_name,
+        src.artifact_type AS source_type,
+        src.content_hash AS source_hash,
+        doc.documented_source_hash AS documented_hash,
+        CASE
+            WHEN src.content_hash != doc.documented_source_hash THEN 1
+            ELSE 0
+        END AS needs_update
+    FROM artifacts doc
+    JOIN artifacts src ON doc.documents_artifact_id = src.id
+    WHERE doc.documents_artifact_id IS NOT NULL;
+
+    3. v_stale_documentation - Documentation that needs updating:
+
+    CREATE VIEW v_stale_documentation AS
+    SELECT * FROM v_documentation_graph WHERE needs_update = 1 OR is_stale = 1;
+
+    4. v_artifact_criteria - Which criteria reference each artifact:
+
+    CREATE VIEW v_artifact_criteria AS
+    SELECT
+        a.id AS artifact_id,
+        a.name AS artifact_name,
+        c.id AS criterion_id,
+        c.description AS criterion_description,
+        c.ticket_id,
+        c.blocks_transition_to
+    FROM artifacts a
+    JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
+    WHERE c.target_type = 'artifact';
+
+    UPDATE CRITERIA TABLE:
+
+    Ensure criteria table can store ArtifactTarget:
+    - target_type includes 'artifact'
+    - target_data JSON includes artifact_id field
+
+    FILE CHANGES:
+    - vibey/roadmap/database/schema.py (add artifacts table, views, indexes)
+    - vibey/roadmap/database/migrations/add_artifacts.py (migration script)
+    - tests/roadmap/database/test_artifacts_schema.py
 
     SUCCESS CRITERIA:
-    - All save functions accept new Pydantic models
-    - JSON columns serialize correctly
-    - Transactions work for batch operations
-    - Round-trip: save → load produces identical objects
-    - Performance: Acceptable vs raw SQL
+    - artifacts table created with all columns
+    - All 4 views work correctly
+    - Indexes created for common queries
+    - criteria table supports artifact target_type
+    - Foreign key constraint on documents_artifact_id
+    - Migration script works on existing databases
+    - Full test coverage
   status: not_started
   blocked: false
-  created: '2025-11-29T14:00:00+00:00'
+  created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
   priority: high
-  phase_label: implementation
+  phase_label: database
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
   - sqlite-backend-7-task-006
   blocked_by:
-  - sqlite-backend-7-task-001
   - sqlite-backend-7-task-002
   - sqlite-backend-7-task-003
   - sqlite-backend-7-task-004
+  depends_on:
+  - blocker_id: sqlite-backend-7-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  - blocker_id: sqlite-backend-7-task-003
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  - blocker_id: sqlite-backend-7-task-004
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-7-task-006
   deliverables:
-  - Updated vibey/roadmap/serialization/sql_dumper.py
-  - Transaction support for batch saves
-  - tests/roadmap/serialization/test_sql_dumper_orm.py
+  - vibey/roadmap/database/schema.py
+  - vibey/roadmap/database/migrations/add_artifacts.py
+  - tests/roadmap/database/test_artifacts_schema.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      This task completes the ORM integration for persistence.
+      Database schema is critical for artifact persistence and querying.
 
-      After this task, the full round-trip works:
-      YAML → Pydantic → SQLite → Pydantic → YAML
+      Key views:
+      - v_orphan_artifacts: Find artifacts without tickets
+      - v_documentation_graph: Visualize doc-source relationships
+      - v_stale_documentation: Prioritize doc updates
+      - v_artifact_criteria: Impact analysis
 
-      Key consideration: Performance of ORM vs raw SQL.
-      For bulk operations (rebuild entire database), may want
-      to keep raw SQL option available.
+      JSON storage for provenance and depends_on_artifact_ids allows
+      flexible provenance types without schema changes.

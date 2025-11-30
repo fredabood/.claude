@@ -1,0 +1,147 @@
+task:
+  id: sqlite-backend-6-task-013
+  sprint_id: sqlite-backend-6
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement auto_progress() Method on HierarchicalTicket
+  description: |
+    Implement the auto_progress() method that refreshes automatic criteria
+    and progresses ticket status when all criteria for a transition are met.
+
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5
+
+    AUTO_PROGRESS ALGORITHM:
+
+    def auto_progress(self, context: RefreshContext) -> List[str]:
+        """
+        Refresh automatic criteria and progress status if possible.
+        Returns list of transitions made.
+        """
+        transitions = []
+
+        # Step 1: Refresh all automatic criteria
+        for criterion in self.criteria:
+            if criterion.target.is_automatic:
+                criterion.target.refresh(context)
+
+        # Step 2: Check each possible transition in order
+        status_order = [
+            TicketStatus.IN_PROGRESS,
+            TicketStatus.COMPLETION_GATE_CHECK,
+            TicketStatus.COMPLETED,
+            TicketStatus.PRODUCTION_GATE_CHECK,
+            TicketStatus.PRODUCTION_READY,
+        ]
+
+        for target_status in status_order:
+            if self.status.precedes(target_status):
+                can, reasons = self.can_transition_to(target_status)
+                if can:
+                    old_status = self.status
+                    self._transition_to(target_status)
+                    transitions.append(f"{self.id}: {old_status} → {target_status}")
+
+                    # Log the auto-progression
+                    context.activity_log.append(ActivityLogEntry(
+                        timestamp=datetime.now(timezone.utc),
+                        type=ActivityType.AUTO_PROGRESSION,
+                        description=f"Auto-progressed from {old_status} to {target_status}",
+                        entity_type=self.ticket_type,
+                        entity_id=self.id,
+                        field="status",
+                        old_value=old_status.value,
+                        new_value=target_status.value
+                    ))
+
+        return transitions
+
+    HELPER METHOD:
+
+    def _transition_to(self, status: TicketStatus) -> None:
+        """Internal method to update status and timestamps."""
+        self.status = status
+        self.updated_at = datetime.now(timezone.utc)
+
+        if status == TicketStatus.IN_PROGRESS:
+            self.started_at = datetime.now(timezone.utc)
+        elif status == TicketStatus.COMPLETED:
+            self.completed_at = datetime.now(timezone.utc)
+        # ... other status-specific timestamp updates
+
+    STATUS ORDERING:
+
+    Add to TicketStatus enum:
+        def precedes(self, other: "TicketStatus") -> bool:
+            """Check if this status comes before other in progression."""
+            order = [NOT_STARTED, IN_PROGRESS, PAUSED, COMPLETION_GATE_CHECK,
+                     COMPLETED, PRODUCTION_GATE_CHECK, PRODUCTION_READY, DEPLOYED]
+            try:
+                return order.index(self) < order.index(other)
+            except ValueError:
+                return False  # Terminal states don't precede anything
+
+    FILE CHANGES:
+    - vibey/roadmap/models/ticket/hierarchical.py (add auto_progress)
+    - vibey/roadmap/models/ticket/enums.py (add precedes() method)
+    - tests/roadmap/models/ticket/test_hierarchical.py (test auto_progress)
+
+    SUCCESS CRITERIA:
+    - auto_progress() refreshes all automatic criteria
+    - Status progression follows correct order
+    - Each transition is logged to activity_log
+    - Non-automatic criteria (ManualTarget) are skipped during refresh
+    - Terminal states (WONT_DO, SUPERSEDED) stop progression
+    - Full test coverage including edge cases
+  status: not_started
+  blocked: false
+  created: '2025-11-30T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: gap-remediation
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-6-task-002
+  - sqlite-backend-6-task-012
+  depends_on:
+  - blocker_id: sqlite-backend-6-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  - blocker_id: sqlite-backend-6-task-012
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  depended_on_by: []
+  deliverables:
+  - vibey/roadmap/models/ticket/hierarchical.py
+  - vibey/roadmap/models/ticket/enums.py
+  - tests/roadmap/models/ticket/test_hierarchical.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-30T10:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GAP REMEDIATION: Auto-Progression Implementation
+
+      This is the core auto-progression logic. When a child ticket completes,
+      calling auto_progress() on the parent will:
+      1. Refresh all automatic criteria (checking child status)
+      2. Progress the parent's status if all criteria are met
+      3. Log each transition to the activity log
+
+      This replaces the scattered auto-progression logic in the current
+      update.py with a centralized, testable method on the model itself.

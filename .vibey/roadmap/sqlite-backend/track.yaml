@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: 15 weeks
   progress:
-    sprints_total: 13
+    sprints_total: 14
     sprints_completed: 6
-    tasks_total: 85
+    tasks_total: 103
     tasks_completed: 36
-    completion_percent: 42.4
+    completion_percent: 35.0
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -58,45 +58,51 @@ track:
     tasks_count: 3
     started: '2025-11-28T18:30:00+00:00'
     completed: '2025-11-28T19:30:00+00:00'
-  # CRITICAL PATH: 6 → 7 → 8 → 9 → 10 → 11
+  # CRITICAL PATH: 6 → 7 → 8 → 9 → 10 → 11 → 12
   - id: sqlite-backend-6
     name: Unified Ticket Architecture & Criteria-Based Completion
     status: not_started
     estimated_duration: 2 weeks
-    tasks_count: 11
+    tasks_count: 15
     started: null
   - id: sqlite-backend-7
+    name: Artifact System Architecture
+    status: not_started
+    estimated_duration: 1.5 weeks
+    tasks_count: 8
+    started: null
+  - id: sqlite-backend-8
     name: Serialization Migration
     status: not_started
     estimated_duration: 2 weeks
-    tasks_count: 7
+    tasks_count: 10
     started: null
-  - id: sqlite-backend-8
+  - id: sqlite-backend-9
     name: Operations Migration
     status: not_started
     estimated_duration: 1.5 weeks
-    tasks_count: 6
+    tasks_count: 8
     started: null
-  - id: sqlite-backend-9
+  - id: sqlite-backend-10
     name: Interface Migration
     status: not_started
     estimated_duration: 1 week
     tasks_count: 5
     started: null
-  - id: sqlite-backend-10
+  - id: sqlite-backend-11
     name: Data Validation & Integrity Audit
     status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 8
     started: null
-  - id: sqlite-backend-11
+  - id: sqlite-backend-12
     name: Production Cutover & Sync System
     status: not_started
     estimated_duration: 1.5 weeks
     tasks_count: 7
     started: null
-  # DEFERRED: Sprint 12 is optional optimization after production
-  - id: sqlite-backend-12
+  # DEFERRED: Sprint 13 is optional optimization after production
+  - id: sqlite-backend-13-deferred
     name: YAML Structure Migration & File Format Analysis (DEFERRED)
     status: not_started
     estimated_duration: 1 week

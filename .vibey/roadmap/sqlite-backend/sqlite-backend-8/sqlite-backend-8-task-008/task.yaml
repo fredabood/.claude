@@ -1,0 +1,141 @@
+task:
+  id: sqlite-backend-8-task-008
+  sprint_id: sqlite-backend-8
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement GitCommit Completion Tracking in Serialization
+  description: |
+    Update YAML and SQL serialization to handle GitCommit with completion
+    tracking, including parsing "Completes:" markers from git messages.
+
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.6
+
+    GITCOMMIT CLASS UPDATES:
+
+    The GitCommit class now includes:
+    - sha: str (full 40-char SHA)
+    - message: str
+    - date: datetime
+    - author: str
+    - platform: str (required)
+    - submitted_at: datetime
+    - completes_tickets: List[str] (parsed from message)
+
+    YAML SERIALIZATION:
+
+    yaml_loader.py:
+    - Parse commits_local array
+    - For each commit, extract completes_tickets from message
+    - Handle legacy commits without platform field (migrate to "unknown")
+
+    yaml_dumper.py:
+    - Serialize commits_local with all fields
+    - Include completes_tickets list
+
+    SQL SERIALIZATION:
+
+    sql_loader.py:
+    - Load commits from commits table
+    - Join with ticket_completions table for completes_tickets
+    - Reconstruct GitCommit objects
+
+    sql_dumper.py:
+    - Insert commits into commits table
+    - Insert completion relationships into ticket_completions
+
+    DATABASE SCHEMA ADDITION:
+
+    CREATE TABLE commits (
+        sha TEXT PRIMARY KEY,
+        message TEXT NOT NULL,
+        date TEXT NOT NULL,
+        author TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        submitted_at TEXT NOT NULL
+    );
+
+    CREATE TABLE ticket_completions (
+        commit_sha TEXT NOT NULL,
+        ticket_id TEXT NOT NULL,
+        PRIMARY KEY (commit_sha, ticket_id),
+        FOREIGN KEY (commit_sha) REFERENCES commits(sha),
+        FOREIGN KEY (ticket_id) REFERENCES tickets(id)
+    );
+
+    -- Index for "which commits completed this ticket?"
+    CREATE INDEX idx_ticket_completions_ticket ON ticket_completions(ticket_id);
+
+    MIGRATION:
+    - Existing commits without platform: set platform = "legacy"
+    - Parse existing messages for "Completes:" markers
+    - Populate ticket_completions table
+
+    FILE CHANGES:
+    - vibey/roadmap/serialization/yaml_loader.py
+    - vibey/roadmap/serialization/yaml_dumper.py
+    - vibey/roadmap/serialization/sql_loader.py
+    - vibey/roadmap/serialization/sql_dumper.py
+    - vibey/roadmap/database/schema.py (add commits, ticket_completions tables)
+    - tests/roadmap/serialization/test_commit_serialization.py
+
+    SUCCESS CRITERIA:
+    - GitCommit round-trips through YAML correctly
+    - GitCommit round-trips through SQL correctly
+    - completes_tickets extracted from commit messages
+    - Legacy commits migrated with platform="legacy"
+    - Completion relationships stored in ticket_completions table
+    - Full test coverage
+  status: not_started
+  blocked: false
+  created: '2025-11-30T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: gap-remediation
+  estimated_tokens: 3500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-8-task-001
+  - sqlite-backend-8-task-003
+  depends_on:
+  - blocker_id: sqlite-backend-8-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  - blocker_id: sqlite-backend-8-task-003
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  depended_on_by: []
+  deliverables:
+  - vibey/roadmap/serialization/yaml_loader.py
+  - vibey/roadmap/serialization/yaml_dumper.py
+  - vibey/roadmap/serialization/sql_loader.py
+  - vibey/roadmap/serialization/sql_dumper.py
+  - vibey/roadmap/database/schema.py
+  - tests/roadmap/serialization/test_commit_serialization.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-30T10:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GAP REMEDIATION: GitCommit Completion Tracking
+
+      The unified GitCommit class stores completion claims in the commit
+      itself (via message parsing). This task ensures serialization
+      handles the new fields correctly.
+
+      Key insight: Completion data lives in git history (auditable),
+      we just extract and cache it during serialization.

@@ -1,0 +1,118 @@
+task:
+  id: sqlite-backend-6-task-012
+  sprint_id: sqlite-backend-6
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add is_automatic Flag and refresh() to CriterionTarget
+  description: |
+    Implement the is_automatic property and refresh() method on all CriterionTarget
+    types to support auto-progression of parent tickets when children complete.
+
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5
+
+    CHANGES TO CriterionTarget BASE CLASS:
+
+    1. Add abstract property:
+       @property
+       @abstractmethod
+       def is_automatic(self) -> bool:
+           """Can this target auto-evaluate without human intervention?"""
+
+    2. Add optional refresh method:
+       def refresh(self, context: RefreshContext) -> None:
+           """Refresh cached state from external source."""
+           pass  # Default no-op, override in subclasses
+
+    3. Create RefreshContext dataclass:
+       @dataclass
+       class RefreshContext:
+           ticket_registry: TicketRegistry
+           test_runner: Optional[TestRunner] = None
+           metrics: Optional[MetricsSource] = None
+           http_client: Optional[HttpClient] = None
+           activity_log: List[ActivityLogEntry] = field(default_factory=list)
+
+    PER-TARGET IMPLEMENTATION:
+
+    CompletableTarget:
+      - is_automatic: True (can check ticket status)
+      - refresh(): Update current_status from ticket_registry
+
+    FileExistsTarget:
+      - is_automatic: True (can check filesystem)
+      - refresh(): Update existing_paths/missing_paths via Path.exists()
+
+    TestPassesTarget:
+      - is_automatic: True (can run test command)
+      - refresh(): Run test_command, update last_result
+
+    ThresholdTarget:
+      - is_automatic: True (can query metrics)
+      - refresh(): Get current_value from metrics source
+
+    ManualTarget:
+      - is_automatic: False (requires human)
+      - refresh(): No-op (must use assess() method)
+
+    ExternalTarget:
+      - is_automatic: True (can query endpoint)
+      - refresh(): HTTP GET to endpoint, update current_status
+
+    FILE CHANGES:
+    - vibey/roadmap/models/ticket/targets.py (update all target classes)
+    - vibey/roadmap/models/ticket/support.py (add RefreshContext)
+    - tests/roadmap/models/ticket/test_targets.py (add refresh tests)
+
+    SUCCESS CRITERIA:
+    - All CriterionTarget types implement is_automatic property
+    - Automatic targets implement refresh() method
+    - ManualTarget.is_automatic returns False
+    - RefreshContext provides access to external systems
+    - Full test coverage for refresh behavior
+  status: not_started
+  blocked: false
+  created: '2025-11-30T10:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: high
+  phase_label: gap-remediation
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-6-task-013
+  blocked_by:
+  - sqlite-backend-6-task-009
+  depends_on:
+  - blocker_id: sqlite-backend-6-task-009
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T10:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-6-task-013
+  deliverables:
+  - vibey/roadmap/models/ticket/targets.py
+  - vibey/roadmap/models/ticket/support.py
+  - tests/roadmap/models/ticket/test_targets.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-30T10:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GAP REMEDIATION: Auto-Progression Support
+
+      This task adds the infrastructure needed for automatic status
+      progression when criteria are met. The is_automatic flag tells
+      the system which criteria can be auto-evaluated vs which require
+      human intervention.
+
+      Key insight: ManualTarget is the ONLY non-automatic target.
+      All others can refresh their state from external sources.

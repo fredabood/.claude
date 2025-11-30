@@ -4,141 +4,213 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Create migration CLI command
+  title: Integrate Artifact System with Ticket Layers
   description: |
-    Create a CLI command to migrate existing YAML files from v1 format
-    to v2 format (with _local suffixes and hierarchy attributes).
+    Add artifact-aware methods and properties to Ticket, HierarchicalTicket,
+    and domain model layers.
 
-    COMMAND INTERFACE:
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.8
 
-    vibey roadmap migrate-format [OPTIONS]
+    LAYER 1: TICKET INTEGRATION
 
-    Options:
-      --dry-run         Show what would change without modifying files
-      --backup          Create .bak files before modifying (default: true)
-      --path PATH       Path to roadmap directory (default: .vibey/roadmap)
-      --force           Overwrite without confirmation
-      --verbose         Show detailed progress
+    Add to Ticket class:
 
-    MIGRATION PROCESS:
+    @property
+    def artifact_criteria(self) -> List[Criterion]:
+        """Criteria that reference artifacts."""
+        return [
+            c for c in self.criteria
+            if isinstance(c.target, ArtifactTarget)
+        ]
 
-    1. DISCOVERY:
-       - Find all YAML files in roadmap directory
-       - Detect format version of each file
-       - Report: "Found X files: Y v1, Z v2"
+    @property
+    def referenced_artifact_ids(self) -> List[str]:
+        """IDs of artifacts referenced by this ticket's criteria."""
+        return [
+            c.target.artifact_id
+            for c in self.artifact_criteria
+        ]
 
-    2. DRY RUN OUTPUT:
-       $ vibey roadmap migrate-format --dry-run
+    Update complete() method:
+        # Additional check: all documentation artifacts must be current
+        for criterion in self.artifact_criteria:
+            if criterion.target.verification == ArtifactVerification.NOT_STALE:
+                if criterion.target.artifact_is_stale:
+                    reasons.append(
+                        f"Documentation artifact is stale: {criterion.description}"
+                    )
+                    can = False
 
-       Migration Preview:
-       ─────────────────
-       Files to migrate: 45
-       Already v2: 12
-       Skipped: 0
+        if can:
+            # Capture artifact hashes for future impact analysis
+            self._capture_artifact_state()
 
-       Changes per file:
-       - sqlite-backend/track.yaml: 8 field renames
-       - sqlite-backend/sqlite-backend-0/sprint.yaml: 5 field renames
-       ...
+    LAYER 2: HIERARCHICAL TICKET INTEGRATION
 
-    3. ACTUAL MIGRATION:
-       $ vibey roadmap migrate-format
+    Add to HierarchicalTicket class:
 
-       Migrating roadmap files to v2 format...
-       [1/45] sqlite-backend/track.yaml ✓
-       [2/45] sqlite-backend/sqlite-backend-0/sprint.yaml ✓
-       ...
-       Migration complete: 45 files updated
+    @property
+    def all_referenced_artifacts(self) -> List[str]:
+        """All artifact IDs referenced by this ticket and descendants."""
+        if self.is_ultimate_child:
+            return self.referenced_artifact_ids
+        all_ids = list(self.referenced_artifact_ids)
+        for child in self._load_children():
+            all_ids.extend(child.all_referenced_artifacts)
+        return list(set(all_ids))
 
-    4. BACKUP HANDLING:
-       - Create .bak file before modifying
-       - Keep backups for 7 days (configurable)
-       - Provide restore command if needed
+    @property
+    def stale_documentation_artifacts(self) -> List[str]:
+        """Artifact IDs for stale documentation in this subtree."""
+        stale = []
+        for criterion in self.artifact_criteria:
+            if (criterion.target.verification == ArtifactVerification.NOT_STALE
+                and criterion.target.artifact_is_stale):
+                stale.append(criterion.target.artifact_id)
+        if not self.is_ultimate_child:
+            for child in self._load_children():
+                stale.extend(child.stale_documentation_artifacts)
+        return list(set(stale))
 
-    5. VALIDATION:
-       After migration:
-       - Load each migrated file
-       - Verify Pydantic validation passes
-       - Report any validation errors
+    @property
+    def has_stale_documentation(self) -> bool:
+        """True if any documentation in this subtree is stale."""
+        return len(self.stale_documentation_artifacts) > 0
 
-    FIELD TRANSFORMATIONS:
+    @property
+    def documentation_health(self) -> DocumentationHealth:
+        """Aggregate documentation health status."""
+        stale_count = len(self.stale_documentation_artifacts)
+        if stale_count == 0:
+            return DocumentationHealth.HEALTHY
+        # Check if any stale docs block completion
+        for criterion in self.artifact_criteria:
+            if (criterion.target.artifact_is_stale
+                and criterion.blocks_transition_to == TicketStatus.COMPLETED
+                and criterion.required):
+                return DocumentationHealth.CRITICAL
+        return DocumentationHealth.DEGRADED
 
-    v1 → v2 Mapping:
-    - commits → commits_local
-    - deliverables → deliverables_local
-    - standards → standards_local
-    - quality_gates → quality_gates_local
-    - assigned_agents → assigned_agents_local
-    - blocked_by → depends_on (with structure change)
+    LAYER 3: DOMAIN MODEL INTEGRATION
 
-    Structure Changes:
-    # v1 blocked_by
-    blocked_by:
-    - sqlite-backend-5
+    Add to RoadmapTicket:
 
-    # v2 depends_on
-    depends_on:
-    - target_id: sqlite-backend-5
-      dependency_type: blocks
-      status: satisfied
+    @property
+    def all_project_documentation(self) -> List[str]:
+        """All DOCUMENTATION type artifacts across the roadmap."""
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) == ArtifactType.DOCUMENTATION
+        ]
 
-    IMPLEMENTATION:
+    @property
+    def framework_components(self) -> List[str]:
+        """All AGENT, WORKFLOW, TEMPLATE artifacts."""
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) in {
+                ArtifactType.AGENT,
+                ArtifactType.WORKFLOW,
+                ArtifactType.TEMPLATE
+            }
+        ]
 
-    1. Add migrate_format command to CLI
-    2. Implement format detection
-    3. Implement field transformation
-    4. Implement backup/restore
-    5. Add dry-run support
-    6. Add progress reporting
-    7. Add post-migration validation
+    @property
+    def orphan_artifacts(self) -> List[str]:
+        """Artifacts that exist but aren't referenced by any ticket."""
+        return self._artifact_registry.get_orphans()
+
+    Add to SprintTicket:
+
+    @property
+    def sprint_context_artifacts(self) -> List[str]:
+        """CONTEXT type artifacts for this sprint (planning docs, etc.)."""
+        return [
+            c.target.artifact_id for c in self.artifact_criteria
+            if self._get_artifact_type(c.target.artifact_id) == ArtifactType.CONTEXT
+        ]
+
+    @property
+    def planning_artifacts(self) -> List[str]:
+        """Planning documents (PLANNING_DOC subtype)."""
+        return [
+            aid for aid in self.sprint_context_artifacts
+            if self._get_artifact_subtype(aid) == ContextArtifactSubtype.PLANNING_DOC
+        ]
+
+    FILE CHANGES:
+    - vibey/roadmap/models/ticket/ticket.py (Layer 1)
+    - vibey/roadmap/models/ticket/hierarchical_ticket.py (Layer 2)
+    - vibey/roadmap/models/ticket/domain_models.py (Layer 3)
+    - tests/roadmap/models/ticket/test_artifact_integration.py
 
     SUCCESS CRITERIA:
-    - Command migrates all v1 files to v2
-    - Backups created before modification
-    - Dry-run shows accurate preview
-    - Migrated files pass validation
-    - No data loss during migration
+    - artifact_criteria property works on Ticket
+    - complete() checks for stale documentation
+    - all_referenced_artifacts aggregates correctly
+    - stale_documentation_artifacts aggregates correctly
+    - documentation_health computed correctly
+    - Domain-specific accessors work
+    - Full test coverage
   status: not_started
   blocked: false
-  created: '2025-11-29T14:00:00+00:00'
+  created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: medium
-  phase_label: implementation
+  priority: high
+  phase_label: integration
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
+  blocks:
+  - sqlite-backend-7-task-008
   blocked_by:
+  - sqlite-backend-7-task-002
+  - sqlite-backend-7-task-004
   - sqlite-backend-7-task-006
+  depends_on:
+  - blocker_id: sqlite-backend-7-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  - blocker_id: sqlite-backend-7-task-004
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  - blocker_id: sqlite-backend-7-task-006
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-7-task-008
   deliverables:
-  - vibey roadmap migrate-format command
-  - Backup/restore functionality
-  - Migration progress reporting
-  - Post-migration validation
-  - tests/cli/test_migrate_format.py
+  - vibey/roadmap/models/ticket/ticket.py
+  - vibey/roadmap/models/ticket/hierarchical_ticket.py
+  - vibey/roadmap/models/ticket/domain_models.py
+  - tests/roadmap/models/ticket/test_artifact_integration.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      This command provides a safe way to migrate existing
-      roadmap files to the new format.
+      Layer integration ensures artifacts are first-class citizens
+      throughout the ticket hierarchy.
 
-      While the system can read v1 files automatically,
-      having an explicit migration command:
-      1. Makes the migration visible and intentional
-      2. Allows batch conversion with backup
-      3. Validates all files after conversion
-      4. Reduces ongoing format detection overhead
+      Key behaviors:
+      - Completion blocked by stale documentation (if required)
+      - Parents aggregate artifacts from children
+      - Domain models provide semantic accessors
 
-      RECOMMENDED WORKFLOW:
-      1. vibey roadmap migrate-format --dry-run
-      2. Review changes
-      3. vibey roadmap migrate-format --backup
-      4. Commit migrated files
+      DocumentationHealth provides a quick health check without
+      walking the entire subtree.

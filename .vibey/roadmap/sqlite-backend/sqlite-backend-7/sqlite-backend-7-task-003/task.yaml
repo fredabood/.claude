@@ -4,118 +4,110 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update sql_loader.py with SQLAlchemy ORM
+  title: Implement ArtifactProvenance
   description: |
-    Replace direct SQL queries in sql_loader.py with SQLAlchemy ORM
-    operations using the new TicketORM models from Sprint 6a Task 007.
+    Create the ArtifactProvenance class that tracks how an artifact came to exist.
+    Different provenance types have different metadata.
 
-    CURRENT STATE:
-    - sql_loader.py uses raw SQL queries
-    - Returns old dataclass models
-    - No ORM abstraction
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.4
 
-    CHANGES REQUIRED:
+    ARTIFACTPROVENANCE FIELDS:
 
-    1. USE REPOSITORY PATTERN:
-       Replace direct SQL with TicketRepository from Task 6a-007:
+    Core:
+    - provenance_type: ProvenanceType (TICKET_CREATED, PRE_EXISTING, etc.)
 
-       # OLD
-       def load_task(db_path: str, task_id: str) -> Task:
-           conn = get_connection(db_path)
-           cursor = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
-           row = cursor.fetchone()
-           return Task(**row_to_dict(row))
+    For TICKET_CREATED:
+    - created_by_ticket_id: Optional[str]
+    - created_by_criterion_id: Optional[str]
 
-       # NEW
-       def load_task(db_path: str, task_id: str) -> TaskTicket:
-           repo = TicketRepository(get_session(db_path))
-           return repo.get(task_id)  # Returns TaskTicket via ORM
+    For PRE_EXISTING:
+    - discovered_at: Optional[datetime]
+    - discovered_by: Optional[str] (user, scan process, "filesystem_scan")
 
-    2. HIERARCHY LOADING:
-       Use repository methods for hierarchy:
+    For GENERATED:
+    - generator_type: Optional[str] ("sphinx", "pdoc", "typedoc", "mkdocs")
+    - generator_config: Optional[Dict[str, Any]]
+    - source_artifact_ids: Optional[List[str]] (artifacts used to generate this)
 
-       def load_task_with_ancestors(task_id: str) -> TaskTicket:
-           repo = TicketRepository(session)
-           task = repo.get_with_ancestors(task_id)
-           # task.standards_effective now works (ancestors loaded)
-           return task
+    For EXTERNAL:
+    - external_source: Optional[str] (URL, package name, etc.)
+    - external_version: Optional[str]
 
-       def load_sprint_with_children(sprint_id: str) -> SprintTicket:
-           repo = TicketRepository(session)
-           sprint = repo.get_with_children(sprint_id)
-           # sprint.commits_aggregated now works (children loaded)
-           return sprint
+    For FRAMEWORK:
+    - framework_component_type: Optional[str] ("agent", "workflow", "template")
 
-    3. LAZY LOADING SUPPORT:
-       Configure SQLAlchemy for lazy loading of relationships:
-       - parent relationship: lazy loaded on access
-       - children relationship: lazy loaded on access
-       - Option for eager loading when needed
+    FACTORY METHODS:
 
-    4. JSON COLUMN DESERIALIZATION:
-       ORM handles JSON columns → Python objects:
-       - commits_local_json → list[GitCommit]
-       - standards_local_json → list[Standard]
-       - depends_on_json → list[DependencyRef]
+    @classmethod
+    def ticket_created(cls, ticket_id: str, criterion_id: Optional[str] = None):
+        Create provenance for ticket-created artifact.
 
-    5. SESSION MANAGEMENT:
-       Use existing connection.py infrastructure:
+    @classmethod
+    def pre_existing(cls, discovered_by: str = "filesystem_scan"):
+        Create provenance for pre-existing artifact.
 
-       def get_session(db_path: str) -> Session:
-           engine = get_engine(db_path)
-           return Session(engine)
+    @classmethod
+    def generated(cls, generator_type: str, source_artifact_ids: List[str]):
+        Create provenance for generated artifact.
 
-    IMPLEMENTATION STEPS:
+    @classmethod
+    def external(cls, source: str, version: Optional[str] = None):
+        Create provenance for external artifact.
 
-    1. Add SQLAlchemy session management to connection.py
-    2. Update load_task() to use TicketRepository
-    3. Update load_sprint() to use TicketRepository
-    4. Update load_track() to use TicketRepository
-    5. Update load_roadmap() to use TicketRepository
-    6. Add hierarchy loading functions
-    7. Configure lazy/eager loading options
-    8. Update all callers to expect new types
+    @classmethod
+    def framework(cls, component_type: str):
+        Create provenance for framework component.
+
+    FILE LOCATION:
+    vibey/roadmap/models/ticket/artifact_provenance.py
 
     SUCCESS CRITERIA:
-    - All load functions return new Pydantic models
-    - Hierarchy relationships load correctly
-    - JSON columns deserialize to proper types
-    - Lazy loading works for parent/children
-    - Performance: No regression vs raw SQL
+    - ArtifactProvenance with all fields implemented
+    - Factory methods for each provenance type work correctly
+    - Validation ensures type-specific fields match provenance_type
+    - JSON/YAML serialization works
+    - Full test coverage
   status: not_started
   blocked: false
-  created: '2025-11-29T14:00:00+00:00'
+  created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: critical
-  phase_label: implementation
-  estimated_tokens: 3500
+  priority: high
+  phase_label: foundation
+  estimated_tokens: 2000
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
   - sqlite-backend-7-task-005
-  - sqlite-backend-7-task-006
   blocked_by:
-  - sqlite-backend-7-task-004
+  - sqlite-backend-7-task-001
+  depends_on:
+  - blocker_id: sqlite-backend-7-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T18:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-7-task-005
   deliverables:
-  - Updated vibey/roadmap/serialization/sql_loader.py
-  - SQLAlchemy session management in connection.py
-  - tests/roadmap/serialization/test_sql_loader_orm.py
+  - vibey/roadmap/models/ticket/artifact_provenance.py
+  - tests/roadmap/models/ticket/test_artifact_provenance.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      DEPENDS ON: Sprint 6a Task 007 (ORM models)
+      Provenance tracks the origin of artifacts, enabling:
+      - Distinguishing ticket-created vs pre-existing files
+      - Tracking generated documentation sources
+      - Identifying framework components
+      - Understanding artifact lineage
 
-      This task replaces raw SQL with SQLAlchemy ORM.
-      The key benefit is automatic JSON deserialization
-      and relationship management.
-
-      Consider keeping raw SQL as fallback for performance-
-      critical queries where ORM overhead matters.
+      Factory methods make it easy to create provenance objects
+      with the correct fields populated for each type.

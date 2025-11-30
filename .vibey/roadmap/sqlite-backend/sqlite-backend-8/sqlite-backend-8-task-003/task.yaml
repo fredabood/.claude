@@ -4,100 +4,84 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update standards_enforcement.py with inheritance
+  title: Update sql_loader.py with SQLAlchemy ORM
   description: |
-    Refactor standards_enforcement.py to use the new inheritance
-    pattern where standards cascade from parent to child tickets.
+    Replace direct SQL queries in sql_loader.py with SQLAlchemy ORM
+    operations using the new TicketORM models from Sprint 6a Task 007.
 
     CURRENT STATE:
-    - Each level (roadmap, track, sprint) has independent standards
-    - Manual checking at each level
-    - No inheritance chain concept
+    - sql_loader.py uses raw SQL queries
+    - Returns old dataclass models
+    - No ORM abstraction
 
     CHANGES REQUIRED:
 
-    1. USE EFFECTIVE STANDARDS:
-       The smart accessor standards_effective returns the full
-       inheritance chain:
+    1. USE REPOSITORY PATTERN:
+       Replace direct SQL with TicketRepository from Task 6a-007:
 
-       # OLD - check each level separately
-       def check_standards(task_id):
-           task = load_task(task_id)
-           sprint = load_sprint(task.sprint_id)
-           track = load_track(sprint.track_id)
-           roadmap = load_roadmap(track.roadmap_id)
+       # OLD
+       def load_task(db_path: str, task_id: str) -> Task:
+           conn = get_connection(db_path)
+           cursor = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
+           row = cursor.fetchone()
+           return Task(**row_to_dict(row))
 
-           violations = []
-           violations.extend(check_against(task, roadmap.standards))
-           violations.extend(check_against(task, track.standards))
-           violations.extend(check_against(task, sprint.standards))
-           return violations
+       # NEW
+       def load_task(db_path: str, task_id: str) -> TaskTicket:
+           repo = TicketRepository(get_session(db_path))
+           return repo.get(task_id)  # Returns TaskTicket via ORM
 
-       # NEW - effective standards includes full chain
-       def check_standards(task_id):
-           task = load_task_with_ancestors(task_id)
-           return check_against(task, task.standards)
-           # task.standards = standards_effective (inherited)
+    2. HIERARCHY LOADING:
+       Use repository methods for hierarchy:
 
-    2. STANDARD OVERRIDE HANDLING:
-       Overrides at lower levels take precedence:
+       def load_task_with_ancestors(task_id: str) -> TaskTicket:
+           repo = TicketRepository(session)
+           task = repo.get_with_ancestors(task_id)
+           # task.standards_effective now works (ancestors loaded)
+           return task
 
-       def get_effective_standard(task_id, standard_id):
-           task = load_task_with_ancestors(task_id)
-           for standard in task.standards:
-               if standard.id == standard_id:
-                   return standard
-           return None  # Standard not applicable
+       def load_sprint_with_children(sprint_id: str) -> SprintTicket:
+           repo = TicketRepository(session)
+           sprint = repo.get_with_children(sprint_id)
+           # sprint.commits_aggregated now works (children loaded)
+           return sprint
 
-    3. BLOCKING STANDARD DETECTION:
-       def get_blocking_standards(ticket_id):
-           ticket = load_ticket_with_ancestors(ticket_id)
-           return [s for s in ticket.standards
-                   if s.is_blocking() and not s.is_satisfied(ticket)]
+    3. LAZY LOADING SUPPORT:
+       Configure SQLAlchemy for lazy loading of relationships:
+       - parent relationship: lazy loaded on access
+       - children relationship: lazy loaded on access
+       - Option for eager loading when needed
 
-    4. STANDARD ENFORCEMENT LEVELS:
-       - REQUIRED: Must pass before completion
-       - RECOMMENDED: Warning on completion
-       - OPTIONAL: Audit only, no blocking
+    4. JSON COLUMN DESERIALIZATION:
+       ORM handles JSON columns → Python objects:
+       - commits_local_json → list[GitCommit]
+       - standards_local_json → list[Standard]
+       - depends_on_json → list[DependencyRef]
 
-       def can_complete(ticket_id):
-           ticket = load_ticket_with_ancestors(ticket_id)
-           for standard in ticket.standards:
-               if standard.is_blocking() and not standard.is_satisfied(ticket):
-                   return False, f"Blocked by standard: {standard.name}"
-           return True, None
+    5. SESSION MANAGEMENT:
+       Use existing connection.py infrastructure:
 
-    5. FUNCTIONS TO UPDATE:
-       - check_standards()
-       - get_applicable_standards()
-       - get_blocking_standards()
-       - enforce_standards()
-       - validate_against_standard()
-       - get_standard_violations()
-
-    6. NEW FUNCTIONS:
-       - get_effective_standards(ticket_id)
-       - get_inherited_standards(ticket_id)
-       - get_local_standards(ticket_id)
-       - get_standard_override_chain(ticket_id, standard_id)
+       def get_session(db_path: str) -> Session:
+           engine = get_engine(db_path)
+           return Session(engine)
 
     IMPLEMENTATION STEPS:
 
-    1. Update imports to new model types
-    2. Replace manual hierarchy traversal with smart accessors
-    3. Update enforcement functions to use standards_effective
-    4. Add override handling for lower-level precedence
-    5. Update blocking detection
-    6. Add new helper functions
-    7. Update all callers
-    8. Add/update tests
+    1. Add SQLAlchemy session management to connection.py
+    2. Update load_task() to use TicketRepository
+    3. Update load_sprint() to use TicketRepository
+    4. Update load_track() to use TicketRepository
+    5. Update load_roadmap() to use TicketRepository
+    6. Add hierarchy loading functions
+    7. Configure lazy/eager loading options
+    8. Update all callers to expect new types
 
     SUCCESS CRITERIA:
-    - Standards inherit correctly from ancestors
-    - Lower-level overrides take precedence
-    - Blocking standards prevent completion
-    - No manual hierarchy traversal
-    - All existing functionality preserved
+    - All load functions return new Pydantic models
+    - Hierarchy relationships load correctly
+    - JSON columns deserialize to proper types
+    - Lazy loading works for parent/children
+    - Performance: No regression vs raw SQL
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
@@ -113,33 +97,25 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-8-task-004
   - sqlite-backend-8-task-005
-  blocked_by: []
+  - sqlite-backend-8-task-006
+  blocked_by:
+  - sqlite-backend-8-task-004
   deliverables:
-  - Updated vibey/operations/roadmap/standards_enforcement.py
-  - Inheritance chain handling
-  - Override precedence logic
-  - tests/operations/roadmap/test_standards_enforcement_v2.py
+  - Updated vibey/roadmap/serialization/sql_loader.py
+  - SQLAlchemy session management in connection.py
+  - tests/roadmap/serialization/test_sql_loader_orm.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      KEY BENEFIT: Simplified enforcement logic.
+      DEPENDS ON: Sprint 6a Task 007 (ORM models)
 
-      Currently standards_enforcement.py must manually walk
-      the hierarchy to collect applicable standards.
+      This task replaces raw SQL with SQLAlchemy ORM.
+      The key benefit is automatic JSON deserialization
+      and relationship management.
 
-      With smart accessors, ticket.standards returns the
-      full effective chain automatically. The enforcement
-      code just iterates one list.
-
-      INHERITANCE RULES (from Sprint 6a):
-      - merge: Local + all inherited, all values kept
-      - override: Local wins, else nearest ancestor
-      - default_only: Only inherit if local is empty
-
-      Standards use "merge" strategy - all standards from
-      all ancestors apply unless explicitly overridden.
+      Consider keeping raw SQL as fallback for performance-
+      critical queries where ORM overhead matters.

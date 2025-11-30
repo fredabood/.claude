@@ -4,68 +4,47 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: End-to-end sync system validation
-  description: |
-    Validate the complete sync system works end-to-end:
+  title: Iterate remediation until zero discrepancies
+  description: 'Execute remediation cycles until audit passes:
 
-    Test scenarios:
-    1. Fresh clone workflow:
-       - Clone repo (YAML files only, no .db)
-       - Run `vibey roadmap db init`
-       - Verify DB matches YAML
+    - Run fix-counters to remediate issues
 
-    2. Update workflow:
-       - Make change via CLI (`vibey roadmap update task ...`)
-       - Verify both YAML and DB updated
-       - Commit (pre-commit dumps if dirty)
-       - Verify YAML committed matches DB
+    - Re-run audit to verify fixes
 
-    3. Pull workflow:
-       - Simulate incoming YAML changes
-       - Run post-merge hook
-       - Verify DB rebuilt from YAML
+    - Document any edge cases or issues
 
-    4. Conflict scenario:
-       - Make local DB change
-       - Pull conflicting YAML change
-       - Verify YAML wins (source of truth)
+    - Repeat until Computed DB == Declared DB
 
-    5. Integrity verification:
-       - Run full integrity audit
-       - Verify zero discrepancies
-       - Verify all 864+ tasks load without validation errors
+    - Track iteration count and issues per cycle
 
-    Success criteria:
-    - All 5 scenarios pass
-    - `vibey roadmap db status` shows healthy
-    - Integrity audit shows 0 issues
-    - No data loss in any scenario
+    Success: Zero discrepancies across entire roadmap
+
+    '
   status: not_started
   blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-11-26T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: test-engineer
+  assigned_agent: backend-engineer
   priority: critical
-  phase_label: testing
+  phase_label: validation
   estimated_tokens: 3000
   actual_tokens: null
   complexity: high
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by:
-  - sqlite-backend-11-task-005
+  dependencies:
   - sqlite-backend-11-task-006
+  blocks:
+  - sqlite-backend-11-task-008
+  blocked_by: []
   deliverables:
-  - End-to-end test suite for sync system
-  - Test coverage for all 5 scenarios
-  - Documentation of sync behavior
-  - Verified zero integrity issues
+  - Zero-discrepancy audit report
+  - Remediation iteration log
+  - Edge case documentation
   commits: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: '2025-11-26T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: null

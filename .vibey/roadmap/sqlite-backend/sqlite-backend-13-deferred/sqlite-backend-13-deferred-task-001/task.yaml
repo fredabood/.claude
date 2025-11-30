@@ -1,0 +1,83 @@
+task:
+  id: sqlite-backend-13-deferred-task-001
+  sprint_id: sqlite-backend-13-deferred
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Analyze optimal directory structure mirroring SQLite schema
+  description: |
+    Design the new .vibey directory structure that mirrors SQLite database 1:1.
+
+    CURRENT STRUCTURE ANALYSIS:
+    - roadmap/ contains 36+ track folders
+    - Each track contains sprint folders (avg 3-5 per track)
+    - Each sprint contains task folders (avg 5-10 per sprint)
+    - Total: ~36 tracks * 4 sprints * 7 tasks = ~1000 directories
+    - Depth: 5 levels (.vibey/roadmap/track/sprint/task/)
+
+    PROPOSED STRUCTURE OPTIONS:
+
+    Option A: Table-based folders
+    .vibey/roadmap/
+      tables/
+        tracks/       # 36 files
+        sprints/      # 175 files
+        tasks/        # 892 files
+        audit_trail/  # 62 files
+      context/        # All context consolidated
+
+    Option B: Entity-type folders (flatter)
+    .vibey/roadmap/
+      tracks.d/       # 36 files
+      sprints.d/      # 175 files
+      tasks.d/        # 892 files
+      context.d/      # All context files
+
+    Option C: Single folder with prefixes
+    .vibey/roadmap/
+      entities/
+        track_<id>.yaml
+        sprint_<id>.yaml
+        task_<id>.yaml
+
+    EVALUATION CRITERIA:
+    1. Dump/init simplicity (1:1 with SQL)
+    2. File system navigation ease
+    3. Git diff readability
+    4. Tool compatibility (glob patterns)
+    5. Scalability (10K+ tasks)
+
+    DELIVERABLES:
+    - Comparison matrix of options
+    - Recommendation with rationale
+    - Sample directory tree for chosen approach
+    - File naming convention specification
+  status: not_started
+  blocked: false
+  created: '2025-11-28T19:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: architecture-agent
+  priority: high
+  phase_label: design
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - sqlite-backend-13-deferred-task-003
+  - sqlite-backend-13-deferred-task-004
+  blocked_by: []
+  deliverables:
+  - Directory structure comparison matrix
+  - Recommended structure with rationale
+  - File naming convention spec
+  - Sample directory tree
+  commits: []
+  metadata:
+    last_updated: '2025-11-28T19:30:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: null

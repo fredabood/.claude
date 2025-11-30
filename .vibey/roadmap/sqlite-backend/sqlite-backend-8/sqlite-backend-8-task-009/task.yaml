@@ -1,0 +1,216 @@
+task:
+  id: sqlite-backend-8-task-009
+  sprint_id: sqlite-backend-8
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate Metadata and Version Strategy to Markdown Deliverables
+  description: |
+    Migrate documentation-like fields from YAML to markdown files with
+    optional FileExistsTarget criteria for tracking.
+
+    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 12.3 (GAP-ML-002)
+
+    BACKGROUND:
+
+    Several YAML fields contain documentation content that is better suited
+    to markdown files:
+    - version_strategy (versioning policy)
+    - version_history (changelog entries)
+    - metadata.notes (implementation notes)
+    - metadata.purpose (high-level purpose)
+    - metadata.design_doc (already a path)
+    - metadata.implementation_plan (already a path)
+
+    Benefits of markdown:
+    1. Rich formatting (headings, tables, code blocks)
+    2. Git-diffable content
+    3. Searchable with grep/ripgrep
+    4. No schema bloat
+    5. Human readable without tooling
+
+    MIGRATION MAPPING:
+
+    | Current Field | Migrated To |
+    |---------------|-------------|
+    | version_strategy | VERSIONING_POLICY.md in roadmap root |
+    | version_history | CHANGELOG.md in repository root |
+    | metadata.notes | context/NOTES.md or {task-id}/NOTES.md |
+    | metadata.purpose | Ticket.description field |
+    | metadata.description | Ticket.description field |
+    | metadata.design_doc | Already a path → FileExistsTarget |
+    | metadata.implementation_plan | Already a path → FileExistsTarget |
+
+    IMPLEMENTATION:
+
+    1. CREATE MARKDOWN TEMPLATES:
+
+       VERSIONING_POLICY.md template:
+       ```markdown
+       # Versioning Policy
+
+       ## Semantic Versioning Rules
+
+       | Version Component | Trigger |
+       |-------------------|---------|
+       | **Major** | Roadmap milestone completion |
+       | **Minor** | Track completion |
+       | **Patch** | Sprint production ready |
+
+       ## Current Version: {version}
+
+       ## Automation
+       Version bumps are triggered by:
+       - `vibey roadmap version --bump major`
+       - Auto-bump on track completion (if enabled)
+       ```
+
+       context/NOTES.md template:
+       ```markdown
+       # Implementation Notes
+
+       ## Overview
+       {description}
+
+       ## Key Decisions
+       - ...
+
+       ## References
+       - ...
+       ```
+
+    2. UPDATE yaml_loader.py:
+
+       def migrate_version_strategy(legacy: dict, roadmap_dir: Path) -> None:
+           """Migrate version_strategy to VERSIONING_POLICY.md"""
+           vs = legacy.get('version_strategy')
+           if not vs:
+               return
+
+           policy_file = roadmap_dir / 'VERSIONING_POLICY.md'
+           if policy_file.exists():
+               return  # Already migrated
+
+           content = render_versioning_policy(vs)
+           policy_file.write_text(content)
+           logger.info(f"Migrated version_strategy to {policy_file}")
+
+       def migrate_metadata_notes(legacy: dict, entity_dir: Path) -> None:
+           """Migrate metadata.notes to NOTES.md"""
+           notes = legacy.get('metadata', {}).get('notes')
+           if not notes:
+               return
+
+           notes_file = entity_dir / 'NOTES.md'
+           if notes_file.exists():
+               return  # Already migrated
+
+           content = f"# Implementation Notes\n\n{notes}"
+           notes_file.write_text(content)
+           logger.info(f"Migrated metadata.notes to {notes_file}")
+
+    3. UPDATE yaml_dumper.py:
+
+       Do NOT serialize migrated fields back to YAML:
+       - version_strategy → Skip (now in VERSIONING_POLICY.md)
+       - version_history → Skip (now in CHANGELOG.md)
+       - metadata.notes → Skip (now in NOTES.md)
+
+    4. ADD OPTIONAL CRITERIA (for tracking):
+
+       When loading a ticket, add non-required FileExistsTarget criteria
+       for documentation files if they exist:
+
+       def add_documentation_criteria(ticket: Ticket, entity_dir: Path) -> None:
+           notes_file = entity_dir / 'NOTES.md'
+           if notes_file.exists():
+               ticket.criteria.append(Criterion(
+                   id=f"{ticket.id}-notes",
+                   description="Implementation notes documented",
+                   target=FileExistsTarget(
+                       paths=[str(notes_file)],
+                       deliverable_type=DeliverableType.DOCUMENTATION
+                   ),
+                   blocks_transition_to=TicketStatus.COMPLETED,
+                   required=False  # Documentation doesn't block
+               ))
+
+    5. MIGRATION CLI COMMAND:
+
+       vibey roadmap migrate-docs:
+       - Scan all YAML files for metadata.notes, version_strategy
+       - Create corresponding markdown files
+       - Report migration status
+
+    FILE CHANGES:
+    - vibey/roadmap/serialization/yaml_loader.py (add migration functions)
+    - vibey/roadmap/serialization/yaml_dumper.py (skip migrated fields)
+    - vibey/roadmap/serialization/markdown_migration.py (new module)
+    - vibey/cli/commands/roadmap.py (add migrate-docs command)
+    - templates/VERSIONING_POLICY.md.template (new template)
+    - templates/NOTES.md.template (new template)
+    - tests/roadmap/serialization/test_markdown_migration.py
+
+    SUCCESS CRITERIA:
+    - version_strategy migrates to VERSIONING_POLICY.md
+    - version_history migrates to CHANGELOG.md
+    - metadata.notes migrates to NOTES.md
+    - metadata.purpose/description merge into Ticket.description
+    - Migrated fields not serialized back to YAML
+    - Optional FileExistsTarget criteria added for doc tracking
+    - CLI migrate-docs command works
+    - Full test coverage
+  status: not_started
+  blocked: false
+  created: '2025-11-30T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: gap-remediation
+  estimated_tokens: 3000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - sqlite-backend-8-task-001
+  - sqlite-backend-8-task-002
+  depends_on:
+  - blocker_id: sqlite-backend-8-task-001
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T12:00:00+00:00'
+  - blocker_id: sqlite-backend-8-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-30T12:00:00+00:00'
+  depended_on_by: []
+  deliverables:
+  - vibey/roadmap/serialization/yaml_loader.py
+  - vibey/roadmap/serialization/yaml_dumper.py
+  - vibey/roadmap/serialization/markdown_migration.py
+  - vibey/cli/commands/roadmap.py
+  - templates/VERSIONING_POLICY.md.template
+  - templates/NOTES.md.template
+  - tests/roadmap/serialization/test_markdown_migration.py
+  commits: []
+  metadata:
+    last_updated: '2025-11-30T12:00:00+00:00'
+    token_efficiency: null
+    duration_hours: null
+    notes: |
+      GAP REMEDIATION: Metadata to Markdown (GAP-ML-002)
+
+      Moves documentation-like content from YAML fields to markdown files.
+      Key insight: markdown is better for rich content, git history, and
+      human readability. YAML stays clean with just structured data.
+
+      Pattern: Documentation becomes FileExistsTarget with required=false
+      so it's tracked but doesn't block completion.

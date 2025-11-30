@@ -3,121 +3,131 @@ task:
   sprint_id: sqlite-backend-8
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Performance benchmarks and optimization
+  task_type: testing
+  title: Round-trip integrity testing
   description: |
-    Benchmark performance of new operations implementation and
-    optimize any hotspots that exceed acceptable thresholds.
+    Comprehensive testing to ensure data integrity through all
+    serialization paths: YAML ↔ Pydantic ↔ SQLite
 
-    BENCHMARK SCENARIOS:
+    TEST SCENARIOS:
 
-    1. LOAD PERFORMANCE:
-       - Load single task: < 10ms
-       - Load task with ancestors: < 50ms
-       - Load sprint with children: < 100ms
-       - Load full roadmap: < 500ms
+    1. YAML V1 → PYDANTIC → YAML V2:
+       - Load existing v1 YAML files
+       - Convert to new Pydantic models
+       - Save as v2 YAML
+       - Verify no data loss
+       - Verify field mapping correct
 
-    2. AGGREGATION PERFORMANCE:
-       - sprint.commits (10 tasks): < 20ms
-       - track.commits (5 sprints, 50 tasks): < 100ms
-       - roadmap.commits (all): < 500ms
+    2. YAML V2 → PYDANTIC → YAML V2:
+       - Load v2 YAML files
+       - Convert to Pydantic models
+       - Save as v2 YAML
+       - Verify byte-for-byte identical (deterministic)
 
-    3. INHERITANCE PERFORMANCE:
-       - task.standards (4-level chain): < 10ms
-       - Multiple standards check: < 50ms
+    3. YAML → PYDANTIC → SQLITE → PYDANTIC → YAML:
+       - Load YAML into Pydantic
+       - Save to SQLite via ORM
+       - Load from SQLite into Pydantic
+       - Save to YAML
+       - Compare with original (accounting for format changes)
 
-    4. QUERY PERFORMANCE:
-       - Find blocked tasks: < 100ms
-       - Find tasks by status: < 100ms
-       - Get progress for roadmap: < 200ms
+    4. SQLITE → PYDANTIC → YAML → PYDANTIC → SQLITE:
+       - Load from SQLite
+       - Save to YAML
+       - Load from YAML
+       - Save to SQLite
+       - Compare database states
 
-    5. UPDATE PERFORMANCE:
-       - Update task status: < 50ms
-       - Add commit to task: < 50ms
-       - Complete sprint (cascade): < 200ms
+    5. HIERARCHY INTEGRITY:
+       - Create roadmap with tracks, sprints, tasks
+       - Save and reload
+       - Verify parent_id references correct
+       - Verify is_parent, is_child computed correctly
+       - Verify smart accessors return correct values
 
-    OPTIMIZATION TARGETS:
+    6. AGGREGATION INTEGRITY:
+       - Create task with commits_local
+       - Verify sprint.commits includes task commits
+       - Verify track.commits includes all sprint commits
+       - Verify roadmap.commits includes everything
 
-    1. LAZY LOADING:
-       - Don't load children until accessed
-       - Don't compute aggregation until accessed
-       - Cache computed values
+    7. INHERITANCE INTEGRITY:
+       - Define standards on roadmap
+       - Verify track.standards_effective includes roadmap standards
+       - Verify sprint.standards_effective includes track + roadmap
+       - Verify task.standards_effective includes full chain
 
-    2. EAGER LOADING OPTIONS:
-       For known access patterns, provide eager loading:
+    8. EDGE CASES:
+       - Empty collections (no commits, no standards)
+       - Unicode in text fields
+       - Very long descriptions
+       - Maximum nesting depth
+       - Circular dependency detection
 
-       # Load sprint with tasks for display
-       sprint = repo.get_with_children(sprint_id,
-           eager=['tasks', 'tasks.commits'])
+    TEST DATA:
 
-    3. CACHING:
-       - Cache aggregated values with invalidation
-       - Cache effective standards
-       - Invalidate on change
-
-    4. DATABASE OPTIMIZATION:
-       - Ensure indexes on parent_id
-       - Use SQL views for common aggregations
-       - Consider materialized views for large roadmaps
-
-    5. BATCH OPERATIONS:
-       - Load multiple tickets in one query
-       - Batch updates in transactions
+    Use real roadmap data from .vibey/roadmap/ directory:
+    - sqlite-backend track (10 sprints, 67+ tasks)
+    - Multiple completed sprints with commits
+    - Standards defined at various levels
 
     IMPLEMENTATION:
 
-    1. Create benchmark suite
-    2. Run benchmarks against current implementation
-    3. Identify hotspots (> 2x threshold)
-    4. Implement optimizations
-    5. Re-run benchmarks
-    6. Document optimization decisions
+    1. Create test fixtures from real data
+    2. Implement round-trip test framework
+    3. Add comparison utilities (diff models)
+    4. Create test for each scenario above
+    5. Add performance benchmarks
+    6. Generate test coverage report
 
     SUCCESS CRITERIA:
-    - All benchmarks within 2x of baseline
-    - No operation > 1 second
-    - Aggregation scales linearly
-    - Memory usage acceptable
+    - All round-trip tests pass
+    - No data loss in any path
+    - Hierarchy attributes computed correctly
+    - Aggregation returns correct values
+    - Inheritance chain works correctly
+    - Performance acceptable (< 2x current)
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
-  priority: medium
-  phase_label: optimization
-  estimated_tokens: 3000
+  assigned_agent: test-engineer
+  priority: high
+  phase_label: testing
+  estimated_tokens: 4000
   actual_tokens: null
-  complexity: medium
+  complexity: high
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
+  blocks:
+  - sqlite-backend-8-task-007
   blocked_by:
+  - sqlite-backend-8-task-001
+  - sqlite-backend-8-task-002
+  - sqlite-backend-8-task-003
   - sqlite-backend-8-task-005
   deliverables:
-  - Benchmark suite
-  - Performance baseline document
-  - Optimization implementations
-  - Performance comparison report
+  - tests/roadmap/serialization/test_roundtrip_integrity.py
+  - Test fixtures from real roadmap data
+  - Model comparison utilities
+  - Performance benchmark results
+  - Test coverage report
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
     notes: |
-      Performance is important because roadmap operations
-      run frequently during development sessions.
+      GATE TASK: This is the quality gate for Sprint 6b.
 
-      KEY INSIGHT: Smart accessors may add overhead.
-      The trade-off is:
-      - Simpler code (fewer bugs, easier maintenance)
-      - Potentially slower (more computation per access)
+      If round-trip tests fail, we cannot proceed with
+      operations migration (Sprint 6c).
 
-      Mitigation strategies:
-      1. Lazy evaluation (don't compute until needed)
-      2. Caching (compute once, reuse)
-      3. Eager loading (known patterns)
-      4. SQL optimization (push computation to DB)
-
-      Target: Operations should feel instant (< 200ms user-perceived).
+      Use real roadmap data for testing - the sqlite-backend
+      track itself is a great test case with:
+      - 10 sprints
+      - 67+ tasks
+      - Various completion states
+      - Dependencies between items

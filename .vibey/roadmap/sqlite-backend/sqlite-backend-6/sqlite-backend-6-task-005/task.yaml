@@ -4,108 +4,131 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement Layer 2 - HierarchicalTicket Smart Accessors
-  description: "Create HierarchicalTicket that extends Ticket with smart accessors\n\
-    for aggregation and inheritance. This is Layer 2 of the architecture.\n\nDESIGN\
-    \ PRINCIPLE: Smart accessors use hierarchy attributes to\ndetermine field behavior\
-    \ automatically. No L3 knowledge needed.\n\nLAYER 2 SMART ACCESSORS:\n\n1. commits\
-    \ (aggregation):\n   @property\n   def commits(self) -> List[GitCommit]:\n   \
-    \    \"\"\"\n       Commits: local if leaf, aggregated if parent.\n\n       -\
-    \ is_ultimate_child: return self._commits_local\n       - is_parent: aggregate\
-    \ from all children recursively\n       \"\"\"\n       if self.is_ultimate_child:\n\
-    \           return self._commits_local\n       return self._aggregate_commits()\n\
-    \n   def _aggregate_commits(self) -> List[GitCommit]:\n       \"\"\"Collect commits\
-    \ from all descendant tickets.\"\"\"\n       all_commits = list(self._commits_local)\n\
-    \       for child_id in self.children:\n           child = self._load_child(child_id)\n\
-    \           all_commits.extend(child.commits)  # Recursive\n       return sorted(all_commits,\
-    \ key=lambda c: c.timestamp)\n\n2. requirements_effective (inheritance):\n   @property\n\
-    \   def requirements_effective(self) -> List[Requirement]:\n       \"\"\"\n  \
-    \     Requirements: local if root, effective (inherited) if child.\n\n       Uses\
-    \ RequirementResolver to handle inheritance modes:\n       - INHERIT: stricter\
-    \ of local vs ancestor\n       - OVERRIDE: local replaces ancestor\n       - SKIP:\
-    \ explicitly excluded\n       \"\"\"\n       if self.is_ultimate_parent:\n   \
-    \        return self.requirements_local\n       return RequirementResolver().resolve(self)\n\
-    \n3. instantiated_criteria (from requirements):\n   @property\n   def instantiated_criteria(self)\
-    \ -> List[Criterion]:\n       \"\"\"\n       Criteria generated from applicable\
-    \ requirements.\n\n       These are ADDED to explicit criteria, not replacing\
-    \ them.\n       \"\"\"\n       return RequirementInstantiator().instantiate(self)\n\
-    \n   @property\n   def all_criteria(self) -> List[Criterion]:\n       \"\"\"Explicit\
-    \ criteria + instantiated from requirements.\"\"\"\n       return self.criteria\
-    \ + self.instantiated_criteria\n\n4. progress_for_transition (computed from criteria):\n\
-    \   def progress_for_transition(self, status: TicketStatus) -> Progress:\n   \
-    \    \"\"\"\n       Progress toward a specific transition.\n\n       Filters all_criteria\
-    \ by blocks_transition_to, then computes:\n       progress = met_criteria / total_criteria\n\
-    \       \"\"\"\n       relevant = [c for c in self.all_criteria\n            \
-    \       if c.blocks_transition_to == status]\n       total = len(relevant)\n \
-    \      met = sum(1 for c in relevant if c.is_met())\n       return Progress(total=total,\
-    \ completed=met)\n\n   @computed_field\n   def progress(self) -> Progress:\n \
-    \      \"\"\"Default progress (toward COMPLETED).\"\"\"\n       return self.progress_for_transition(TicketStatus.COMPLETED)\n\
-    \n   @computed_field\n   def start_progress(self) -> Progress:\n       \"\"\"\
-    Progress toward being able to start (IN_PROGRESS).\"\"\"\n       return self.progress_for_transition(TicketStatus.IN_PROGRESS)\n\
-    \n   @computed_field\n   def deploy_progress(self) -> Progress:\n       \"\"\"\
-    Progress toward production readiness.\"\"\"\n       return self.progress_for_transition(TicketStatus.PRODUCTION_READY)\n\
-    \nCONVENIENCE ACCESSORS:\n\nThese filter criteria by target type AND blocks_transition_to:\n\
-    \n@property\ndef deliverables(self) -> List[Criterion]:\n    \"\"\"File-based\
-    \ criteria (FileExistsTarget).\"\"\"\n    return [c for c in self.all_criteria\n\
-    \            if isinstance(c.target, FileExistsTarget)]\n\n@property\ndef tests(self)\
-    \ -> List[Criterion]:\n    \"\"\"Test-based criteria (TestPassesTarget).\"\"\"\
-    \n    return [c for c in self.all_criteria\n            if isinstance(c.target,\
-    \ TestPassesTarget)]\n\n@property\ndef subtasks(self) -> List[Criterion]:\n  \
-    \  \"\"\"Child ticket criteria (CompletableTarget blocking COMPLETED).\"\"\"\n\
-    \    return [c for c in self.all_criteria\n            if isinstance(c.target,\
-    \ CompletableTarget)\n            and c.blocks_transition_to == TicketStatus.COMPLETED]\n\
-    \n@property\ndef dependencies(self) -> List[Criterion]:\n    \"\"\"Sibling dependencies\
-    \ (CompletableTarget blocking IN_PROGRESS).\"\"\"\n    return [c for c in self.all_criteria\n\
-    \            if isinstance(c.target, CompletableTarget)\n            and c.blocks_transition_to\
-    \ == TicketStatus.IN_PROGRESS]\n\n@property\ndef thresholds(self) -> List[Criterion]:\n\
-    \    \"\"\"Threshold-based criteria (ThresholdTarget).\"\"\"\n    return [c for\
-    \ c in self.all_criteria\n            if isinstance(c.target, ThresholdTarget)]\n\
-    \n@property\ndef manual_checks(self) -> List[Criterion]:\n    \"\"\"Manual assessment\
-    \ criteria (ManualTarget).\"\"\"\n    return [c for c in self.all_criteria\n \
-    \           if isinstance(c.target, ManualTarget)]\n\n@property\ndef production_gates(self)\
-    \ -> List[Criterion]:\n    \"\"\"Production deployment gates (any target blocking\
-    \ PRODUCTION_READY).\"\"\"\n    return [c for c in self.all_criteria\n       \
-    \     if c.blocks_transition_to == TicketStatus.PRODUCTION_READY]\n\nHIERARCHY\
-    \ TRAVERSAL:\n\n@property\ndef parent(self) -> Optional[HierarchicalTicket]:\n\
-    \    \"\"\"Load parent ticket if exists.\"\"\"\n    if self.parent_ref is None:\n\
-    \        return None\n    return self._load_ticket(self.parent_ref)\n\n@property\n\
-    def children_tickets(self) -> List[HierarchicalTicket]:\n    \"\"\"Load all child\
-    \ tickets.\"\"\"\n    return [self._load_ticket(child_id) for child_id in self.children]\n\
-    \n@property\ndef ancestors(self) -> List[HierarchicalTicket]:\n    \"\"\"All ancestors\
-    \ from parent to root.\"\"\"\n    result = []\n    current = self.parent\n   \
-    \ while current is not None:\n        result.append(current)\n        current\
-    \ = current.parent\n    return result\n\n@property\ndef descendants(self) -> List[HierarchicalTicket]:\n\
-    \    \"\"\"All descendants (children, grandchildren, etc.).\"\"\"\n    result\
-    \ = []\n    for child in self.children_tickets:\n        result.append(child)\n\
-    \        result.extend(child.descendants)\n    return result\n\nLOADER ABSTRACTION:\n\
-    \nThe _load_ticket and _load_child methods use dependency injection:\n\nclass\
-    \ TicketLoader(Protocol):\n    def load(self, ticket_id: str) -> HierarchicalTicket:\
-    \ ...\n\nclass HierarchicalTicket(Ticket):\n    _loader: ClassVar[Optional[TicketLoader]]\
-    \ = None\n\n    @classmethod\n    def set_loader(cls, loader: TicketLoader) ->\
-    \ None:\n        cls._loader = loader\n\n    def _load_ticket(self, ticket_id:\
-    \ str) -> HierarchicalTicket:\n        if self._loader is None:\n            raise\
-    \ RuntimeError(\"No loader configured\")\n        return self._loader.load(ticket_id)\n\
-    \nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/hierarchical.py:\n\
-    \   - HierarchicalTicket class extending Ticket\n   - All smart accessors\n  \
-    \ - Hierarchy traversal methods\n   - Loader abstraction\n\n2. Integrate with\
-    \ RequirementResolver from Task 011\n3. Full test coverage with mock loader\n\n\
-    SUCCESS CRITERIA:\n- All smart accessors work correctly\n- Aggregation collects\
-    \ from all descendants\n- Inheritance resolves with correct modes\n- Instantiated\
-    \ criteria added to explicit criteria\n- progress_for_transition filters by blocks_transition_to\n\
-    - progress, start_progress, deploy_progress computed correctly\n- Convenience\
-    \ accessors filter by target type AND blocks_transition_to\n- dependencies accessor\
-    \ returns criteria blocking IN_PROGRESS\n- subtasks accessor returns criteria\
-    \ blocking COMPLETED\n- production_gates accessor returns criteria blocking PRODUCTION_READY\n\
-    - Full test coverage\n"
+  title: Implement Completable, Criterion, and Target Types
+  description: "Create the core completion model: Completable base class, Criterion,\n\
+    and all CriterionTarget types. This is the heart of the unified\ncompletion system.\n\
+    \nDESIGN PRINCIPLE: Everything that can be completed shares the same\nabstraction.\
+    \ Completion is determined by criteria, and criteria have\npolymorphic targets.\n\
+    \nCORE CLASSES:\n\n1. Completable (abstract base)\n   \"\"\"Anything that can\
+    \ be marked complete.\"\"\"\n\n   Fields:\n   - id: str (unique identifier)\n\
+    \   - name: str (human-readable name)\n   - description: Optional[str]\n   - criteria:\
+    \ List[Criterion] (THE source of truth)\n\n   Computed Properties:\n   - is_complete:\
+    \ bool (computed via can_transition_to(COMPLETED))\n   - progress: Progress (for\
+    \ COMPLETED transition by default)\n   - blocking_reasons: List[str] (for current\
+    \ transition)\n   - children: List[str] = [c.target.completable_id for CompletableTargets]\n\
+    \n   Methods:\n   - can_transition_to(status: TicketStatus) -> tuple[bool, List[str]]\n\
+    \     THE unified interface for checking if a transition is allowed\n   - progress_for_transition(status:\
+    \ TicketStatus) -> Progress\n     Progress toward a specific transition\n   -\
+    \ get_criterion(id: str) -> Optional[Criterion]\n   - add_criterion(criterion:\
+    \ Criterion) -> None\n   - remove_criterion(id: str) -> bool\n\n   Convenience\
+    \ methods:\n   - can_start() -> tuple[bool, List[str]]\n     = can_transition_to(IN_PROGRESS)\n\
+    \   - can_complete() -> tuple[bool, List[str]]\n     = can_transition_to(COMPLETED)\n\
+    \   - can_deploy() -> tuple[bool, List[str]]\n     = can_transition_to(PRODUCTION_READY)\n\
+    \n2. Criterion\n   \"\"\"A requirement that blocks a state transition.\"\"\"\n\
+    \n   Fields:\n   - id: str (unique within parent Completable)\n   - description:\
+    \ str (what must be true)\n   - target: CriterionTarget (polymorphic - determines\
+    \ how to check)\n   - required: bool = True (if False, doesn't block transition)\n\
+    \   - blocks_transition_to: TicketStatus = COMPLETED\n     (which state transition\
+    \ this criterion guards)\n\n   The blocks_transition_to field enables UNIFIED\
+    \ blocking:\n   - IN_PROGRESS: Must be met before work can start (dependency)\n\
+    \   - COMPLETED: Must be met before marking complete (success criteria)\n   -\
+    \ PRODUCTION_READY: Must be met before deployment (production gate)\n\n   This\
+    \ REPLACES the separate Dependency class. A \"dependency\" is now\n   just a Criterion\
+    \ with blocks_transition_to=IN_PROGRESS.\n\n   Computed Properties:\n   - is_met:\
+    \ bool = target.is_satisfied() or not required\n\n   Methods:\n   - refresh()\
+    \ -> None (update target state)\n\n3. CriterionTarget (abstract base)\n   \"\"\
+    \"Base for all criterion target types.\"\"\"\n\n   Abstract Methods:\n   - is_satisfied()\
+    \ -> bool\n   - get_status_description() -> str\n   - refresh() -> None\n\nTARGET\
+    \ TYPES:\n\n4. CompletableTarget\n   \"\"\"Criterion met when another Completable\
+    \ is complete.\"\"\"\n\n   Fields:\n   - completable_id: str (ID of target Completable)\n\
+    \   - required_status: TicketStatus = COMPLETED\n\n   Cached State:\n   - current_status:\
+    \ Optional[TicketStatus]\n   - last_checked: Optional[datetime]\n\n   Methods:\n\
+    \   - is_satisfied() -> bool:\n       return current_status >= required_status\n\
+    \n   NOTE: This target type creates parent-child relationships.\n   The parent\
+    \ is the Completable containing this criterion.\n   The child is the Completable\
+    \ referenced by completable_id.\n\n5. FileExistsTarget\n   \"\"\"Criterion met\
+    \ when file(s) exist.\"\"\"\n\n   Fields:\n   - paths: List[str] (file paths or\
+    \ glob patterns)\n   - all_required: bool = True (all must exist vs any)\n\n \
+    \  Cached State:\n   - existing_paths: List[str]\n   - missing_paths: List[str]\n\
+    \   - last_checked: Optional[datetime]\n\n   Methods:\n   - is_satisfied() ->\
+    \ bool:\n       if all_required:\n           return len(missing_paths) == 0\n\
+    \       return len(existing_paths) > 0\n\n   - refresh() -> None:\n       # Check\
+    \ file system, update existing/missing\n\n6. TestPassesTarget\n   \"\"\"Criterion\
+    \ met when test passes with optional thresholds.\"\"\"\n\n   Fields:\n   - test_command:\
+    \ str (e.g., \"pytest tests/test_foo.py\")\n   - pass_threshold: float = 100.0\
+    \ (% tests must pass)\n   - coverage_threshold: Optional[float] (optional coverage\
+    \ %)\n\n   Cached State:\n   - last_result: Optional[TestResult]\n\n   Methods:\n\
+    \   - is_satisfied() -> bool:\n       if last_result is None:\n           return\
+    \ False\n       if last_result.pass_rate < pass_threshold:\n           return\
+    \ False\n       if coverage_threshold and last_result.coverage < coverage_threshold:\n\
+    \           return False\n       return True\n\n   - run() -> TestResult:\n  \
+    \     # Execute test command, capture result\n\n7. TestResult (support class for\
+    \ TestPassesTarget)\n   \"\"\"Result of a test execution.\"\"\"\n\n   Fields:\n\
+    \   - run_at: datetime\n   - passed: bool\n   - pass_rate: float (0-100)\n   -\
+    \ total_tests: int\n   - passed_tests: int\n   - failed_tests: int\n   - skipped_tests:\
+    \ int\n   - coverage_percent: Optional[float]\n   - duration_seconds: float\n\
+    \   - output: Optional[str] (truncated)\n   - commit_sha: Optional[str]\n\n8.\
+    \ ThresholdTarget\n   \"\"\"Criterion met when a metric meets a threshold.\"\"\
+    \"\n\n   Fields:\n   - metric_name: str (e.g., \"coverage\", \"lint_score\")\n\
+    \   - threshold: float\n   - comparison: ThresholdComparison = GTE\n\n   Cached\
+    \ State:\n   - current_value: Optional[float]\n   - last_checked: Optional[datetime]\n\
+    \n   Methods:\n   - is_satisfied() -> bool:\n       if current_value is None:\n\
+    \           return False\n       return compare(current_value, threshold, comparison)\n\
+    \n9. ManualTarget\n   \"\"\"Criterion met when manually assessed.\"\"\"\n\n  \
+    \ Fields:\n   - assessor: Optional[str] (who should assess)\n   - instructions:\
+    \ Optional[str] (how to assess)\n\n   State:\n   - assessed: bool = False\n  \
+    \ - met: Optional[bool] = None\n   - assessed_at: Optional[datetime]\n   - assessed_by:\
+    \ Optional[str]\n   - evidence: Optional[str] (notes, links)\n\n   Methods:\n\
+    \   - is_satisfied() -> bool:\n       return assessed and met == True\n\n   -\
+    \ assess(met: bool, by: str, evidence: str) -> None:\n       self.assessed = True\n\
+    \       self.met = met\n       self.assessed_by = by\n       self.evidence = evidence\n\
+    \       self.assessed_at = now()\n\n10. ExternalTarget\n    \"\"\"Criterion met\
+    \ when external system reports success.\"\"\"\n\n    Fields:\n    - system_name:\
+    \ str (e.g., \"CI\", \"Security Scanner\")\n    - endpoint: Optional[str] (API\
+    \ to check)\n    - expected_status: str = \"success\"\n\n    Cached State:\n \
+    \   - current_status: Optional[str]\n    - last_checked: Optional[datetime]\n\
+    \    - response_data: Optional[Dict]\n\n    Methods:\n    - is_satisfied() ->\
+    \ bool:\n        return current_status == expected_status\n\nADDITIONAL SUPPORT\
+    \ CLASSES:\n\n11. Progress\n    \"\"\"Progress tracking toward a transition.\"\
+    \"\"\n\n    Fields:\n    - total: int\n    - completed: int\n    - in_progress:\
+    \ int = 0\n    - blocked: int = 0\n\n    Computed:\n    - completion_percent:\
+    \ float = completed / total * 100\n\nNOTE: The Dependency class has been ELIMINATED.\n\
+    \nDependencies are now represented as Criterion with:\n- target: CompletableTarget\
+    \ (referencing the blocker ticket)\n- blocks_transition_to: IN_PROGRESS (or other\
+    \ status)\n\nExample - Task 003 depends on Task 002:\n\nOLD (separate Dependency\
+    \ class):\n  dependencies:\n    - target_id: task-002\n      required_status:\
+    \ completed\n      blocks_transition_to: in_progress\n\nNEW (unified Criterion):\n\
+    \  criteria:\n    - id: dep-task-002\n      description: \"Task 002 must complete\
+    \ before starting\"\n      target:\n        type: completable\n        completable_id:\
+    \ task-002\n        required_status: completed\n      blocks_transition_to: in_progress\n\
+    \nThis consolidation means:\n- ONE system for all blocking relationships\n- Same\
+    \ Criterion used for dependencies, completion, and deployment gates\n- Same progress\
+    \ tracking for all transition types\n- Simpler mental model and implementation\n\
+    \nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/completable.py:\n \
+    \  - Completable base class with can_transition_to()\n   - Criterion class with\
+    \ blocks_transition_to field\n\n2. Create vibey/roadmap/models/ticket/targets.py:\n\
+    \   - CriterionTarget base\n   - All 6 target types\n   - TestResult support class\n\
+    \n3. Create vibey/roadmap/models/ticket/support.py:\n   - Progress class\n   -\
+    \ (NO Dependency class - consolidated into Criterion)\n\n4. Use Pydantic v2 BaseModel\
+    \ for all classes\n5. Use computed_field for derived properties\n6. Implement\
+    \ refresh() methods for cached state\n7. Full test coverage\n\nFILE STRUCTURE:\n\
+    vibey/roadmap/models/ticket/\n  __init__.py\n  enums.py         <- Task 010\n\
+    \  completable.py   <- Completable, Criterion (with blocks_transition_to)\n  targets.py\
+    \       <- All target types\n  support.py       <- Progress (NO Dependency - eliminated)\n\
+    \nSUCCESS CRITERIA:\n- Completable base class with unified can_transition_to()\n\
+    - Criterion has blocks_transition_to field\n- All 6 target types implemented\n\
+    - Progress computed per transition type\n- Children derived from CompletableTarget\
+    \ criteria\n- Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)\n\
+    - Full test coverage\n- JSON/YAML serialization works\n"
   status: not_started
   blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
-  phase_label: implementation
-  estimated_tokens: 3500
+  priority: critical
+  phase_label: foundation
+  estimated_tokens: 4500
   actual_tokens: null
   complexity: complex
   gate_info: null
@@ -113,52 +136,46 @@ task:
   dependencies: []
   blocks:
   - type: task
-    target_id: sqlite-backend-6-task-003
+    target_id: sqlite-backend-6-task-001
     at_status: not_started
     reason: Blocks task from starting
   - type: task
-    target_id: sqlite-backend-6-task-004
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-006
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-007
+    target_id: sqlite-backend-6-task-011
     at_status: not_started
     reason: Blocks task from starting
   blocked_by:
-  - dependency_id: sqlite-backend-6-task-001
+  - dependency_id: sqlite-backend-6-task-010
     dependency_type: task
     current_status: unknown
     required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495625+00:00'
+    blocking_since: '2025-11-30T20:10:50.495681+00:00'
     estimated_resolution: null
   depends_on:
-  - blocker_id: sqlite-backend-6-task-001
+  - blocker_id: sqlite-backend-6-task-010
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
   depended_on_by:
-  - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
-  - sqlite-backend-6-task-007
+  - sqlite-backend-6-task-001
+  - sqlite-backend-6-task-011
   deliverables:
   - type: code
     paths:
-    - vibey/roadmap/models/ticket/hierarchical.py
+    - vibey/roadmap/models/ticket/completable.py
   - type: code
     paths:
-    - tests/roadmap/models/ticket/test_hierarchical.py
+    - vibey/roadmap/models/ticket/targets.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/support.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_completable.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_targets.py
   commits: []
   metadata:
     last_updated: '2025-11-29T17:00:00+00:00'

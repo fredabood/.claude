@@ -4,185 +4,143 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Migrate existing dataclass models to unified Pydantic models
-  description: "Create migration adapters and update codebase to use the new unified\n\
-    ticket architecture with criteria-based completion model.\n\nKEY ARCHITECTURAL\
-    \ CHANGE:\nThe new model uses `criteria: List[Criterion]` as THE source of truth\n\
-    for completion. Parent-child relationships are implicit via\nCompletableTarget\
-    \ criteria, not explicit `tracks`/`sprints`/`tasks` lists.\n\nCURRENT STATE:\n\
-    \nExisting Models (dataclasses in vibey/roadmap/models/):\n- roadmap.py: Roadmap,\
-    \ Progress, TrackSummary, etc.\n- track.py: Track, TrackProgress, SprintSummary,\
-    \ etc.\n- sprint.py: Sprint, SprintProgress, TaskSummary, etc.\n- task.py: Task,\
-    \ TaskMetadata, GateInfo, etc.\n- common.py: Status, TaskStatus, Priority, TaskType,\
-    \ etc.\n\nThese are used by:\n- vibey/roadmap/serialization/yaml_loader.py\n-\
-    \ vibey/roadmap/serialization/yaml_dumper.py\n- vibey/roadmap/serialization/sql_loader.py\n\
-    - vibey/roadmap/serialization/sql_dumper.py\n- vibey/operations/roadmap/*.py\n\
-    - vibey/cli/commands.py\n\nMIGRATION STRATEGY:\n\n1. Phase 1: Adapter Layer (Non-Breaking)\n\
-    \   Create adapters that convert between old and new models:\n\n   class ModelAdapter:\n\
-    \       @staticmethod\n       def roadmap_to_ticket(old: Roadmap) -> RoadmapTicket:\n\
-    \           # Convert explicit tracks list to CompletableTarget criteria\n   \
-    \        criteria = [\n               Criterion(\n                   id=f\"track-{track_id}\"\
-    ,\n                   description=f\"Track {track_id} complete\",\n          \
-    \         target=CompletableTarget(\n                       completable_id=track_id,\n\
-    \                       required_status=TicketStatus.COMPLETED\n             \
-    \      )\n               )\n               for track_id in old.tracks\n      \
-    \     ]\n           return RoadmapTicket(criteria=criteria, ...)\n\n       @staticmethod\n\
-    \       def ticket_to_roadmap(new: RoadmapTicket) -> Roadmap:\n           # Extract\
-    \ track IDs from CompletableTarget criteria\n           tracks = [\n         \
-    \      c.target.completable_id\n               for c in new.criteria\n       \
-    \        if isinstance(c.target, CompletableTarget)\n           ]\n          \
-    \ return Roadmap(tracks=tracks, ...)\n\n   Similar adapters for Track -> TrackTicket,\
-    \ Sprint -> SprintTicket, etc.\n\n2. Phase 2: Update Serialization\n   - yaml_loader.py:\
-    \ Load YAML -> construct new Pydantic models\n     - Handle criteria field with\
-    \ polymorphic targets\n     - Generate criteria from legacy tracks/sprints/tasks\
-    \ lists\n   - yaml_dumper.py: Dump new Pydantic models -> YAML\n     - Serialize\
-    \ criteria with target type discriminator\n     - Optionally emit legacy format\
-    \ for backward compatibility\n   - sql_loader.py: Query DB -> construct via ORM\n\
-    \     - Load from tickets + criteria tables (separate)\n     - Deserialize polymorphic\
-    \ targets from JSON\n   - sql_dumper.py: Save via ORM\n     - Persist to tickets\
-    \ + criteria tables\n     - Serialize targets as JSON with type discriminator\n\
-    \n3. Phase 3: Update Operations\n   - Update vibey/operations/roadmap/*.py to\
-    \ use new models\n   - Use TicketRepository pattern instead of direct SQL\n  \
-    \ - Leverage smart accessors (is_complete, progress, children)\n   - Use Completable.can_complete()\
-    \ for deterministic completion\n\n4. Phase 4: Deprecation\n   - Mark old models\
-    \ as deprecated\n   - Update all imports to use new models\n   - Remove adapter\
-    \ layer once migration complete\n   - Remove legacy YAML format support (or keep\
-    \ as backward compat)\n\nFIELD MAPPING:\n\nOld Roadmap -> New RoadmapTicket:\n\
-    - id -> id\n- name -> name\n- version -> version\n- status -> status\n- created\
-    \ -> created_at\n- started -> started_at\n- completed -> completed_at\n- tracks\
-    \ -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)\n- progress\
-    \ -> (computed from criteria)\n- activity_log -> activity_log\n- metadata -> metadata\n\
-    - blocked_by -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
-    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
-    \nNOTE: The Dependency class has been ELIMINATED. Dependencies are now\nexpressed\
-    \ as Criterion with blocks_transition_to=IN_PROGRESS.\n\nOld Sprint -> New SprintTicket:\n\
-    - tasks -> criteria (as CompletableTarget, blocks_transition_to=COMPLETED)\n-\
-    \ deliverables -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)\n\
-    - success_criteria -> criteria.descriptions\n- depends_on -> criteria (as CompletableTarget,\
-    \ blocks_transition_to=IN_PROGRESS)\n- development_gates -> criteria (as various\
-    \ targets, blocks_transition_to=PRODUCTION_READY)\n\nOld Task -> New TaskTicket:\n\
-    - deliverables (strings) -> criteria (as FileExistsTarget, blocks_transition_to=COMPLETED)\n\
-    - depends_on -> criteria (as CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\
-    - (no subtasks - tasks are leaf nodes)\n- Add criteria for test coverage, code\
-    \ review, etc.\n\nBREAKING CHANGES TO HANDLE:\n\n1. Children lists -> CompletableTarget\
-    \ criteria (blocks_transition_to=COMPLETED)\n   - tracks: List[str] becomes criteria\
-    \ with CompletableTarget\n   - sprints: List[str] becomes criteria with CompletableTarget\n\
-    \   - tasks: List[str] becomes criteria with CompletableTarget\n\n2. Dependencies\
-    \ -> CompletableTarget criteria (blocks_transition_to=IN_PROGRESS)\n   - blocked_by:\
-    \ List[str] becomes criteria with CompletableTarget\n   - depends_on: List[Dependency]\
-    \ becomes criteria with CompletableTarget\n   - The Dependency class is ELIMINATED\n\
-    \n3. Production gates -> Criteria (blocks_transition_to=PRODUCTION_READY)\n  \
-    \ - development_gates become criteria blocking production readiness\n\n4. Progress\
-    \ is now computed from criteria PER TRANSITION\n   - progress = progress_for_transition(COMPLETED)\n\
-    \   - start_progress = progress_for_transition(IN_PROGRESS)\n   - deploy_progress\
-    \ = progress_for_transition(PRODUCTION_READY)\n\n5. can_transition_to(status)\
-    \ is THE unified interface\n   - can_start() = can_transition_to(IN_PROGRESS)\n\
-    \   - can_complete() = can_transition_to(COMPLETED)\n   - can_deploy() = can_transition_to(PRODUCTION_READY)\n\
-    \   - Cannot override - THE guardrail against AI manipulation\n\n6. Deliverables\
-    \ become FileExistsTarget criteria\n   - deliverables: [\"src/api.py\"] becomes:\n\
-    \     criteria: [{target: {type: file_exists, paths: [\"src/api.py\"]},\n    \
-    \            blocks_transition_to: completed}]\n\n7. Requirements cascade and\
-    \ instantiate as criteria\n   - Roadmap requirements become task criteria via\
-    \ instantiation\n\n8. Timestamp field names: created -> created_at\n\n9. Enum\
-    \ consolidation: Status/TaskStatus -> TicketStatus\n\nYAML FORMAT CHANGES:\n\n\
-    Old format (explicit children and dependencies):\n```yaml\nroadmap:\n  tracks:\n\
-    \    - core-framework\n    - goose-port\n  blocked_by:\n    - other-roadmap\n\
-    ```\n\nNew format (criteria-based with blocks_transition_to):\n```yaml\nroadmap:\n\
-    \  criteria:\n    # Children (block COMPLETED)\n    - id: track-core\n      description:\
-    \ Core framework track complete\n      target:\n        type: completable\n  \
-    \      completable_id: core-framework\n        required_status: completed\n  \
-    \    blocks_transition_to: completed  # Default, can omit\n\n    # Dependencies\
-    \ (block IN_PROGRESS)\n    - id: dep-other-roadmap\n      description: Other roadmap\
-    \ must complete before starting\n      target:\n        type: completable\n  \
-    \      completable_id: other-roadmap\n        required_status: completed\n   \
-    \   blocks_transition_to: in_progress  # Makes it a dependency\n\n    # Production\
-    \ gates (block PRODUCTION_READY)\n    - id: gate-security-audit\n      description:\
-    \ Security audit must pass\n      target:\n        type: manual\n        assessor:\
-    \ security-team\n      blocks_transition_to: production_ready\n```\n\nMIGRATION\
-    \ TOOL:\n\nCreate vibey/roadmap/migration/yaml_migrator.py:\n- migrate_roadmap_yaml(old_yaml)\
-    \ -> new_yaml\n- migrate_track_yaml(old_yaml) -> new_yaml\n- migrate_sprint_yaml(old_yaml)\
-    \ -> new_yaml\n- migrate_task_yaml(old_yaml) -> new_yaml\n\nEach function:\n1.\
-    \ Parses old YAML\n2. Converts to new Pydantic model via adapter\n3. Dumps to\
-    \ new YAML format\n\nDELIVERABLES:\n\n1. vibey/roadmap/models/ticket/adapters.py:\n\
-    \   - ModelAdapter class with conversion methods\n   - Legacy-to-criteria conversion\
-    \ utilities\n   - Criteria-to-legacy extraction utilities\n\n2. vibey/roadmap/migration/yaml_migrator.py:\n\
-    \   - YAML format migration functions\n   - Batch migration for entire roadmap\
-    \ directory\n\n3. Updated serialization modules:\n   - yaml_loader.py: Handle\
-    \ criteria with polymorphic targets\n   - yaml_dumper.py: Serialize criteria with\
-    \ target type\n   - sql_loader.py: Load from tickets + criteria tables via ORM\n\
-    \   - sql_dumper.py: Save to tickets + criteria tables via ORM\n\n4. Migration\
-    \ documentation:\n   - Criteria-based completion model explained\n   - Field mapping\
-    \ reference\n   - Breaking changes list\n   - Upgrade guide for any external code\n\
-    \nSUCCESS CRITERIA:\n- Existing YAML files load correctly into new models\n- Legacy\
-    \ children lists converted to CompletableTarget criteria\n- Round-trip YAML ->\
-    \ Pydantic -> YAML produces equivalent output\n- Round-trip YAML -> Pydantic ->\
-    \ SQLite -> Pydantic -> YAML works\n- All existing tests pass (with adapter layer)\n\
-    - Operations use new repository pattern\n- is_complete computed correctly from\
-    \ criteria\n- Progress computed correctly from criteria\n- No data loss during\
-    \ migration\n"
+  title: Implement Layer 3 - TaskTicket (Ultimate Child)
+  description: "Create the TaskTicket class - the atomic work unit (leaf node).\n\
+    Task is ALWAYS an ultimate child (is_ultimate_child=True).\n\nDESIGN PRINCIPLE:\
+    \ L3 contains ONLY semantic-specific fields.\nAll common fields and behaviors\
+    \ inherited from L1/L2.\n\nHIERARCHY CONSTRAINTS:\n- is_ultimate_child: True (always\
+    \ - no children/CompletableTarget allowed)\n- is_child: True (always has Sprint\
+    \ parent via parent_ref)\n- is_parent: False (never - leaf node, no CompletableTarget\
+    \ criteria)\n- is_ultimate_parent: False\n- is_intermediate: False\n\nThese constraints\
+    \ are ENFORCED by validators.\n\nINHERITED FROM L1 (Ticket extends Completable):\n\
+    - From Completable: id, name, description, criteria (THE source of truth)\n- From\
+    \ Completable: is_complete, progress, blocking_reasons (computed)\n- From Completable:\
+    \ children = [] (always empty for tasks)\n- Ticket-specific: status, lifecycle\
+    \ timestamps\n- Ticket-specific: assigned_agents, priority, commits, dependencies\n\
+    - Ticket-specific: requirements_local (but rarely used - tasks inherit)\n- Ticket-specific:\
+    \ parent_ref (denormalized for fast lookup)\n\nINHERITED FROM L2 (HierarchicalTicket):\n\
+    - Smart accessors: commits (local for tasks - no children to aggregate)\n- Smart\
+    \ accessors: requirements_effective (full inheritance chain)\n- Smart accessors:\
+    \ all_criteria (explicit + instantiated from requirements)\n- Hierarchy traversal:\
+    \ parent, ancestors (no children/descendants)\n- Convenience accessors: deliverables,\
+    \ tests, thresholds, manual_checks\n\nSMART ACCESSOR BEHAVIOR FOR TASKS:\nBecause\
+    \ is_ultimate_child=True:\n- commits → returns commits (local only, no aggregation)\n\
+    - requirements_effective → full inheritance from sprint + track + roadmap\n- all_criteria\
+    \ → explicit criteria + instantiated from requirements\n- is_complete → all(c.is_met()\
+    \ for c in all_criteria)\n- progress → met_criteria / total_criteria (same formula\
+    \ as parents)\n\nTASK-SPECIFIC FIELDS (L3 only):\n\n1. Type Discriminator:\n \
+    \  - ticket_type: Literal[\"task\"] = \"task\"\n\n2. Parent References:\n   -\
+    \ sprint_id: str (required, must match parent_id)\n   - track_id: str (required,\
+    \ grandparent reference)\n   - roadmap_id: str (required, root reference)\n\n\
+    3. Task Classification:\n   - task_type_detail: TaskType enum (development, completion_gate,\n\
+    \     production_gate, documentation, testing, research, review)\n   - title:\
+    \ str (short task title - alias for name)\n\n4. Assignment:\n   - assigned_agent:\
+    \ Optional[str] (single agent for task)\n   - priority: Priority enum\n   - phase_label:\
+    \ Optional[str]\n\n5. Estimation:\n   - estimated_tokens: int (required, > 0)\n\
+    \   - actual_tokens: Optional[int]\n   - complexity: Complexity enum (low, medium,\
+    \ high)\n\n6. Gate-Specific (for gate tasks only):\n   - gate_info: Optional[GateInfo]\n\
+    \   - audit_results: Optional[AuditResults]\n\n7. PARENT TYPE CONSTRAINT:\n  \
+    \ - parent_ref must reference a SprintTicket ID\n   - get_sprint() -> SprintTicket\n\
+    \n8. NO CHILDREN (enforced):\n   - Cannot have CompletableTarget criteria (leaf\
+    \ node)\n   - children property always returns []\n   - Validation error if CompletableTarget\
+    \ criterion added\n\nNote: Tasks have criteria like FileExistsTarget, TestPassesTarget,\n\
+    ThresholdTarget, ManualTarget - but NOT CompletableTarget.\n\nExample task criteria:\n\
+    \ncriteria:\n  - id: \"deliverable-api\"\n    description: \"API module exists\"\
+    \n    target:\n      type: \"file_exists\"\n      paths: [\"src/api.py\"]\n\n\
+    \  - id: \"test-coverage\"\n    description: \"Test coverage ≥85%\"\n    target:\n\
+    \      type: \"threshold\"\n      metric_name: \"coverage\"\n      threshold:\
+    \ 85.0\n      comparison: \"gte\"\n\n  - id: \"tests-pass\"\n    description:\
+    \ \"Unit tests pass\"\n    target:\n      type: \"test_passes\"\n      test_command:\
+    \ \"pytest tests/test_api.py\"\n      pass_threshold: 100.0\n\nSUPPORTING CLASSES\
+    \ (task-specific):\n- GateInfo:\n  - blocks_status: str (what status this gate\
+    \ blocks)\n  - threshold: float (pass threshold 0-100)\n  - is_blocking: bool\n\
+    \  - score: Optional[float]\n  - evaluated_at: Optional[datetime]\n  - has_passed()\
+    \ -> bool\n\n- AuditResults:\n  - issues_found: int\n  - issues_fixed: int\n \
+    \ - recommendations: list[str]\n  - audit_type: str\n  - audited_at: datetime\n\
+    \nVALIDATORS:\n- Cannot have CompletableTarget criteria (ultimate child constraint)\n\
+    - Task ID must start with sprint_id + \"-task-\"\n- estimated_tokens must be >\
+    \ 0\n- Development tasks cannot have gate_info\n- Gate tasks must have gate_info\n\
+    - If gate_info.is_blocking, gate must pass before sprint completes\n\nCOMPUTED\
+    \ PROPERTIES (via Completable base):\n- is_complete: all(c.is_met() for c in all_criteria)\n\
+    - progress: met_criteria / total_criteria\n- blocking_reasons: [c.description\
+    \ for c if not c.is_met()]\n- children: [] (always empty for tasks)\n\nTask-specific\
+    \ computed:\n- token_efficiency: Optional[float] (actual / estimated)\n- size_category:\
+    \ SizeCategory (computed from estimated_tokens)\n\nMETHODS:\n- get_sprint() ->\
+    \ SprintTicket\n- get_track() -> TrackTicket (via sprint)\n- get_roadmap() ->\
+    \ RoadmapTicket (via track)\n- is_development_task() -> bool\n- is_quality_gate()\
+    \ -> bool\n- has_passed_gate() -> bool\n\nIMPLEMENTATION:\n\n1. Add TaskTicket\
+    \ to vibey/roadmap/models/ticket/domain.py\n2. Inherit from HierarchicalTicket\n\
+    3. Add validator: cannot have children\n4. Add GateInfo and AuditResults classes\n\
+    5. Implement task-specific methods\n\nSUCCESS CRITERIA:\n- TaskTicket cannot have\
+    \ CompletableTarget criteria (validation error)\n- is_ultimate_child always returns\
+    \ True\n- is_complete = all criteria met (FileExists, TestPasses, etc.)\n- Progress\
+    \ computed from task's own criteria\n- Requirements inherited from sprint + track\
+    \ + roadmap\n- Instantiated criteria generated from effective requirements\n-\
+    \ Gate tasks require gate_info, dev tasks reject it\n- Token estimation and efficiency\
+    \ tracking works\n- Smart accessors work correctly (local commits, no aggregation)\n\
+    - 100% test coverage\n"
   status: not_started
   blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: high
+  priority: medium
   phase_label: implementation
-  estimated_tokens: 5000
+  estimated_tokens: 1800
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
+  blocks:
+  - type: task
+    target_id: sqlite-backend-6-task-007
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - dependency_id: sqlite-backend-6-task-007
+  - dependency_id: sqlite-backend-6-task-001
     dependency_type: task
     current_status: unknown
     required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495601+00:00'
+    blocking_since: '2025-11-30T20:10:50.495720+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-6-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-11-30T20:10:50.495720+00:00'
     estimated_resolution: null
   depends_on:
-  - blocker_id: sqlite-backend-6-task-007
+  - blocker_id: sqlite-backend-6-task-001
     blocker_type: task
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-29T16:00:00+00:00'
-  depended_on_by: []
+  - blocker_id: sqlite-backend-6-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: '2025-11-29T16:00:00+00:00'
+  depended_on_by:
+  - sqlite-backend-6-task-007
   deliverables:
   - type: code
     paths:
-    - vibey/roadmap/models/ticket/adapters.py
+    - TaskTicket class in vibey/roadmap/models/ticket/domain.py
   - type: code
     paths:
-    - vibey/roadmap/migration/yaml_migrator.py
+    - GateInfo class
   - type: code
     paths:
-    - Updated yaml_loader.py with criteria support
+    - AuditResults class
   - type: code
     paths:
-    - Updated yaml_dumper.py with criteria support
-  - type: code
-    paths:
-    - Updated sql_loader.py with ORM integration
-  - type: code
-    paths:
-    - Updated sql_dumper.py with ORM integration
-  - type: code
-    paths:
-    - Migration documentation (CRITERIA_MIGRATION.md)
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_adapters.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_migration.py
-  - type: code
-    paths:
-    - tests/roadmap/migration/test_yaml_migrator.py
+    - tests/roadmap/models/ticket/test_task.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T17:30:00+00:00'
+    last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null

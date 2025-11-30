@@ -4,188 +4,85 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Implement Layer 1 - Ticket Base Class
-  description: "Create the Ticket class that extends Completable with work-specific\n\
-    semantics. This is Layer 1 of the three-layer architecture.\n\nDESIGN PRINCIPLE:\
-    \ Ticket IS a Completable with additional work\ntracking (lifecycle, assignment,\
-    \ commits, dependencies).\n\nCompletion is determined by criteria (inherited from\
-    \ Completable).\nTicket adds work semantics on top.\n\nLAYER 1 FIELDS:\n\n1. From\
-    \ Completable (inherited):\n   - id: str\n   - name: str\n   - description: Optional[str]\n\
-    \   - criteria: List[Criterion]\n\n   Computed (inherited):\n   - is_complete:\
-    \ bool\n   - progress: Progress\n   - blocking_reasons: List[str]\n   - children:\
-    \ List[str]\n\n2. Identity Extension:\n   - parent_ref: Optional[str]\n     (denormalized\
-    \ for fast parent lookup)\n\n   Note: parent_ref is set when this ticket is referenced\
-    \ by a\n   CompletableTarget criterion in another ticket. It's denormalized\n\
-    \   for O(1) lookup, but the source of truth is the criterion.\n\n3. Lifecycle\
-    \ (Ticket-specific):\n   - status: TicketStatus\n     (not_started, in_progress,\
-    \ paused, completed, cancelled)\n\n   - created_at: datetime\n   - started_at:\
-    \ Optional[datetime]\n   - completed_at: Optional[datetime]\n   - updated_at:\
-    \ datetime\n\n   Lifecycle rules:\n   - IN_PROGRESS requires started_at\n   -\
-    \ COMPLETED requires completed_at AND is_complete == True\n   - Cannot complete\
-    \ if is_complete == False (criteria not met)\n\n4. Work Assignment:\n   - assigned_agents:\
-    \ List[str]\n   - priority: Priority\n\n5. Work Evidence:\n   - commits: List[GitCommit]\n\
-    \     (git commits associated with this work)\n\n6. Sibling Dependencies (NOW\
-    \ UNIFIED INTO CRITERIA):\n   Dependencies are NO LONGER a separate field. They\
-    \ are expressed\n   as Criterion with blocks_transition_to=IN_PROGRESS.\n\n  \
-    \ Example - Task 003 depends on Task 002:\n   criteria:\n     - id: dep-task-002\n\
-    \       description: \"Task 002 must complete before starting\"\n       target:\n\
-    \         type: completable\n         completable_id: task-002\n         required_status:\
-    \ completed\n       blocks_transition_to: in_progress  # <-- Makes it a dependency\n\
-    \n   Note: Parent-child is ALSO via criteria (CompletableTarget), but\n   with\
-    \ blocks_transition_to=COMPLETED (the default).\n\n   Computed:\n   - is_blocked:\
-    \ bool = not can_start()[0]\n     (can_start checks criteria where blocks_transition_to=IN_PROGRESS)\n\
-    \n7. Requirement Templates:\n   - requirements_local: List[Requirement]\n    \
-    \ (requirement templates defined on this ticket)\n\n   Note: These cascade to\
-    \ children. Actual criteria are generated\n   by RequirementInstantiator when\
-    \ the ticket is created/updated.\n\n8. Estimation:\n   - estimated_duration: Optional[str]\n\
-    \n9. Metadata:\n   - metadata: Dict[str, Any]\n\nHIERARCHY ATTRIBUTES (computed\
-    \ from Completable):\n\n- is_parent: bool\n  Computed: len(children) > 0\n  True\
-    \ if this ticket has child tickets (via CompletableTarget criteria)\n\n- is_child:\
-    \ bool\n  Computed: parent_ref is not None\n  True if this ticket is referenced\
-    \ by another ticket's criterion\n\n- is_ultimate_parent: bool\n  Computed: is_parent\
-    \ and not is_child\n  True for root tickets (Roadmap)\n\n- is_ultimate_child:\
-    \ bool\n  Computed: is_child and not is_parent\n  True for leaf tickets (Task)\n\
-    \n- is_intermediate: bool\n  Computed: is_parent and is_child\n  True for middle\
-    \ tickets (Track, Sprint)\n\nKEY METHODS:\n\n1. Lifecycle Transitions (inherited\
-    \ from Completable, extended):\n   - can_transition_to(status: TicketStatus) ->\
-    \ tuple[bool, List[str]]\n     THE unified interface for ALL transition checks\n\
-    \   - can_start() -> tuple[bool, List[str]]\n     = can_transition_to(IN_PROGRESS)\n\
-    \   - can_complete() -> tuple[bool, List[str]]\n     = can_transition_to(COMPLETED)\n\
-    \   - can_deploy() -> tuple[bool, List[str]]\n     = can_transition_to(PRODUCTION_READY)\n\
-    \n   - start() -> Ticket (checks can_start first)\n   - complete() -> Ticket (checks\
-    \ can_complete first)\n   - pause() -> Ticket\n   - cancel() -> Ticket\n\n   Note:\
-    \ All transitions use can_transition_to() which checks\n   criteria filtered by\
-    \ blocks_transition_to. This is THE\n   deterministic interface.\n\n2. Criterion\
-    \ Management (inherited from Completable):\n   - get_criterion(id: str) -> Optional[Criterion]\n\
-    \   - add_criterion(criterion: Criterion) -> None\n   - remove_criterion(id: str)\
-    \ -> bool\n   - refresh_criteria() -> None\n\n3. Progress Per Transition:\n  \
-    \ - progress_for_transition(status: TicketStatus) -> Progress\n   - start_progress:\
-    \ Progress (toward IN_PROGRESS)\n   - completion_progress: Progress (toward COMPLETED)\n\
-    \   - deploy_progress: Progress (toward PRODUCTION_READY)\n\n4. Convenience Accessors\
-    \ (filter criteria by target type):\n   - deliverables: List[Criterion]\n    \
-    \ (criteria with FileExistsTarget)\n\n   - tests: List[Criterion]\n     (criteria\
-    \ with TestPassesTarget)\n\n   - subtasks: List[Criterion]\n     (criteria with\
-    \ CompletableTarget, blocks_transition_to=COMPLETED)\n\n   - dependencies: List[Criterion]\n\
-    \     (criteria with CompletableTarget, blocks_transition_to=IN_PROGRESS)\n\n\
-    \   - manual_checks: List[Criterion]\n     (criteria with ManualTarget)\n\n  \
-    \ - production_gates: List[Criterion]\n     (criteria with blocks_transition_to=PRODUCTION_READY)\n\
-    \nVALIDATION RULES:\n\n1. Status consistency:\n   - IN_PROGRESS requires started_at\
-    \ to be set\n   - COMPLETED requires completed_at AND can_complete() == True\n\
-    \   - PRODUCTION_READY requires can_deploy() == True\n   - PAUSED is always allowed\n\
-    \n2. Unified Blocking (via can_transition_to):\n   - Cannot transition to IN_PROGRESS\
-    \ if can_start() fails\n   - Cannot transition to COMPLETED if can_complete()\
-    \ fails\n   - Cannot transition to PRODUCTION_READY if can_deploy() fails\n\n\
-    \   All checks use the same mechanism: filter criteria by\n   blocks_transition_to,\
-    \ check if all are met.\n\n3. Timestamps:\n   - started_at >= created_at\n   -\
-    \ completed_at >= started_at\n\n4. Parent consistency:\n   - If parent_ref is\
-    \ set, that parent must have a CompletableTarget\n     criterion referencing this\
-    \ ticket's id\n\nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/ticket.py:\n\
-    \   - Ticket class extending Completable\n   - All lifecycle methods\n   - Convenience\
-    \ accessors\n   - Validation\n\n2. Use Pydantic v2 features:\n   - Field() with\
-    \ descriptions\n   - field_validator for field-level validation\n   - model_validator\
-    \ for cross-field validation\n   - computed_field for derived properties\n   -\
-    \ model_copy() for immutable updates\n\nFILE STRUCTURE:\nvibey/roadmap/models/ticket/\n\
-    \  __init__.py\n  enums.py          <- Task 010\n  completable.py    <- Task 009\n\
-    \  targets.py        <- Task 009\n  support.py        <- Task 009\n  requirements.py\
-    \   <- Task 011\n  ticket.py         <- This task (Layer 1)\n  hierarchical.py\
-    \   <- Task 002 (Layer 2)\n  domain.py         <- Tasks 003-006 (Layer 3)\n\n\
-    SUCCESS CRITERIA:\n- Ticket extends Completable correctly\n- Lifecycle transitions\
-    \ use unified can_transition_to()\n- Dependencies expressed as criteria (blocks_transition_to:\
-    \ IN_PROGRESS)\n- No separate dependencies field - all in criteria\n- start()\
-    \ checks can_start(), complete() checks can_complete()\n- Hierarchy attributes\
-    \ computed correctly\n- Convenience accessors filter by target type AND blocks_transition_to\n\
-    - Progress tracked per transition type\n- Full test coverage\n"
+  title: Define Enum Types for Unified Completion Model
+  description: "Create all enum types needed by the unified completion model.\nThis\
+    \ is the foundation - everything else imports from here.\n\nDESIGN PRINCIPLE:\
+    \ Single source of truth for all type values.\nAll enums defined here, imported\
+    \ everywhere else.\n\nENUM DEFINITIONS:\n\n1. TicketStatus (lifecycle states)\n\
+    \   Values:\n   - NOT_STARTED = \"not_started\"\n   - IN_PROGRESS = \"in_progress\"\
+    \n   - PAUSED = \"paused\"\n   - COMPLETED = \"completed\"\n   - CANCELLED = \"\
+    cancelled\"\n\n2. TicketType (hierarchy discriminator)\n   Values:\n   - ROADMAP\
+    \ = \"roadmap\"\n   - TRACK = \"track\"\n   - SPRINT = \"sprint\"\n   - TASK =\
+    \ \"task\"\n\n3. TaskType (semantic task classification)\n   Values:\n   - DEVELOPMENT\
+    \ = \"development\"\n   - DOCUMENTATION = \"documentation\"\n   - TESTING = \"\
+    testing\"\n   - RESEARCH = \"research\"\n   - REVIEW = \"review\"\n   - INFRASTRUCTURE\
+    \ = \"infrastructure\"\n\n4. CriterionTargetType (polymorphic target discriminator)\n\
+    \   Values:\n   - COMPLETABLE = \"completable\"      # Another ticket must be\
+    \ complete\n   - FILE_EXISTS = \"file_exists\"      # File(s) must exist\n   -\
+    \ TEST_PASSES = \"test_passes\"      # Test must pass\n   - THRESHOLD = \"threshold\"\
+    \          # Metric meets threshold\n   - MANUAL = \"manual\"                #\
+    \ Human assessment\n   - EXTERNAL = \"external\"            # External system\
+    \ check\n\n5. ThresholdComparison (how to compare values)\n   Values:\n   - GTE\
+    \ = \"gte\"   # >= (at least)\n   - GT = \"gt\"     # > (more than)\n   - EQ =\
+    \ \"eq\"     # == (exactly)\n   - LTE = \"lte\"   # <= (at most)\n   - LT = \"\
+    lt\"     # < (less than)\n\n6. Priority (ticket priority levels)\n   Values:\n\
+    \   - CRITICAL = \"critical\"\n   - HIGH = \"high\"\n   - MEDIUM = \"medium\"\n\
+    \   - LOW = \"low\"\n\n7. Complexity (work complexity estimate)\n   Values:\n\
+    \   - LOW = \"low\"\n   - MEDIUM = \"medium\"\n   - HIGH = \"high\"\n\n8. InheritMode\
+    \ (requirement inheritance behavior)\n   Values:\n   - INHERIT = \"inherit\" \
+    \   # Use stricter of local vs ancestor\n   - OVERRIDE = \"override\"  # Replace\
+    \ ancestor entirely\n   - SKIP = \"skip\"          # Explicitly not applicable\n\
+    \n9. EnforcementMode (how strictly requirement applies)\n   Values:\n   - BLOCKING\
+    \ = \"blocking\"      # Prevents completion\n   - WARNING = \"warning\"      \
+    \  # Shows warning, allows completion\n   - AUDIT = \"audit\"            # Logs\
+    \ only\n\n10. RequirementType (what kind of requirement)\n    Values:\n    - TEST_COVERAGE\
+    \ = \"test_coverage\"\n    - CODE_STYLE = \"code_style\"\n    - DOCUMENTATION\
+    \ = \"documentation\"\n    - SECURITY = \"security\"\n    - PERFORMANCE = \"performance\"\
+    \n    - REVIEW = \"review\"\n    - CUSTOM = \"custom\"\n\n11. DependencyType (sibling\
+    \ relationship type)\n    Values:\n    - BLOCKS = \"blocks\"           # This\
+    \ blocks that\n    - DEPENDS_ON = \"depends_on\"   # This depends on that\n  \
+    \  - RELATED = \"related\"         # Informational link\n\nIMPLEMENTATION:\n\n\
+    1. Create vibey/roadmap/models/ticket/enums.py\n2. Use Python StrEnum pattern\
+    \ for JSON/YAML serialization:\n   class TicketStatus(str, Enum):\n       NOT_STARTED\
+    \ = \"not_started\"\n\n3. Add docstrings for each enum and value\n4. Export all\
+    \ enums from __init__.py\n\nSUCCESS CRITERIA:\n- All 11 enum types defined\n-\
+    \ StrEnum pattern for serialization\n- Comprehensive docstrings\n- 100% test coverage\n"
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null
   assigned_agent: backend-engineer
-  priority: critical
-  phase_label: implementation
-  estimated_tokens: 4000
+  priority: high
+  phase_label: foundation
+  estimated_tokens: 1500
   actual_tokens: null
-  complexity: complex
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
   - type: task
-    target_id: sqlite-backend-6-task-002
+    target_id: sqlite-backend-6-task-009
     at_status: not_started
     reason: Blocks task from starting
   - type: task
-    target_id: sqlite-backend-6-task-003
+    target_id: sqlite-backend-6-task-001
     at_status: not_started
     reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-004
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-006
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-009
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495647+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-6-task-010
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495648+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-6-task-011
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495648+00:00'
-    estimated_resolution: null
-  depends_on:
-  - blocker_id: sqlite-backend-6-task-009
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-010
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-011
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
+  blocked_by: []
+  depends_on: []
   depended_on_by:
-  - sqlite-backend-6-task-002
-  - sqlite-backend-6-task-003
-  - sqlite-backend-6-task-004
-  - sqlite-backend-6-task-005
-  - sqlite-backend-6-task-006
+  - sqlite-backend-6-task-009
   deliverables:
   - type: code
     paths:
-    - vibey/roadmap/models/ticket/ticket.py
+    - vibey/roadmap/models/ticket/enums.py
   - type: code
     paths:
-    - vibey/roadmap/models/ticket/__init__.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_ticket.py
+    - tests/roadmap/models/ticket/test_enums.py
   commits: []
   metadata:
-    last_updated: '2025-11-29T17:00:00+00:00'
+    last_updated: '2025-11-29T16:00:00+00:00'
     token_efficiency: null
     duration_hours: null

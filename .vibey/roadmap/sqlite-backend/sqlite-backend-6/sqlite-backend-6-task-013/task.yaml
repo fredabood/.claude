@@ -84,7 +84,7 @@ task:
     \            blocks_transition_to: completed}]\n\n7. Requirements cascade and\
     \ instantiate as criteria\n   - Roadmap requirements become task criteria via\
     \ instantiation\n\n8. Timestamp field names: created -> created_at\n\n9. Enum\
-    \ consolidation: Status/TaskStatus -> TicketStatus\n\nYAML FORMAT CHANGES:\n\n\
+    \ consolidation: Status/TaskStatus -> TicketStatus\n\n10. ULID Identity System (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n   - Slug-based IDs -> ULID format ({type}_{ulid})\n   - Add parent_id (ULID reference), sequence, slug fields\n   - Migration generates ULIDs for existing entities\n   - Creates .id validation files in directories\n\nYAML FORMAT CHANGES:\n\n\
     Old format (explicit children and dependencies):\n```yaml\nroadmap:\n  tracks:\n\
     \    - core-framework\n    - goose-port\n  blocked_by:\n    - other-roadmap\n\
     ```\n\nNew format (criteria-based with blocks_transition_to):\n```yaml\nroadmap:\n\

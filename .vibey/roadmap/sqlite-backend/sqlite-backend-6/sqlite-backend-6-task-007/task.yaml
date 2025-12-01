@@ -6,9 +6,37 @@ task:
   task_type: development
   title: Implement Layer 2 - HierarchicalTicket Smart Accessors
   description: "Create HierarchicalTicket that extends Ticket with smart accessors\n\
-    for aggregation and inheritance. This is Layer 2 of the architecture.\n\nDESIGN\
-    \ PRINCIPLE: Smart accessors use hierarchy attributes to\ndetermine field behavior\
-    \ automatically. No L3 knowledge needed.\n\nLAYER 2 SMART ACCESSORS:\n\n1. commits\
+    for aggregation, inheritance, and sibling ordering. This is Layer 2 of the architecture.\n\n\
+    DESIGN PRINCIPLE: Smart accessors use hierarchy attributes to\n\
+    determine field behavior automatically. No L3 knowledge needed.\n\n\
+    ULID IDENTITY & ORDERING (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n\n\
+    HierarchicalTicket adds fields for stable identity and ordering:\n\n\
+    1. parent_id: Optional[str]  # ULID reference to parent (not slug!)\n\
+    2. sequence: int = 0         # Explicit ordering among siblings (mutable)\n\
+    3. slug: str = ''            # Human-readable path segment (mutable)\n\n\
+    SIBLING NAVIGATION (based on sequence, not ID):\n\n\
+    @property\n\
+    def siblings(self) -> List['HierarchicalTicket']:\n\
+        '''Other children of same parent, sorted by sequence.'''\n\
+        if self.parent_id is None:\n\
+            return []\n\
+        return self._get_siblings_by_parent_id()\n\n\
+    @property\n\
+    def next_sibling(self) -> Optional['HierarchicalTicket']:\n\
+        '''Next sibling by sequence (not by ID!).'''\n\n\
+    @property\n\
+    def prev_sibling(self) -> Optional['HierarchicalTicket']:\n\
+        '''Previous sibling by sequence.'''\n\n\
+    def reorder(self, new_sequence: int) -> None:\n\
+        '''Change position without changing identity.'''\n\
+        self.sequence = new_sequence\n\
+        # Note: Does NOT change self.id - identity is immutable\n\n\
+    KEY BENEFITS:\n\
+    - Rename entity -> ID stable, references intact\n\
+    - Reorder siblings -> sequence changes, ID stable\n\
+    - Git history follows ULID across file moves\n\
+    - Priority explicit field, not inferred from task number\n\n\
+    LAYER 2 SMART ACCESSORS:\n\n1. commits\
     \ (aggregation):\n   @property\n   def commits(self) -> List[GitCommit]:\n   \
     \    \"\"\"\n       Commits: local if leaf, aggregated if parent.\n\n       -\
     \ is_ultimate_child: return self._commits_local\n       - is_parent: aggregate\

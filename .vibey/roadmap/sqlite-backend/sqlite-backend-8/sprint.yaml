@@ -3,16 +3,23 @@ sprint:
   name: Serialization Migration
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: not_started
-  blocked: false
+  status: in_progress
+  blocked: true
+  blocked_reason: null
   created: '2025-11-29T14:00:00+00:00'
-  started: null
+  started: '2025-12-04T22:51:44.537417+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 11
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 11
     tasks_completed: 0
     completion_percent: 0.0
@@ -34,12 +41,20 @@ sprint:
   - Updated yaml_dumper.py with semantic layer header and type_fields
   - Updated sql_loader.py using SQLAlchemy Core (from Sprint 7)
   - Updated sql_dumper.py using SQLAlchemy Core with dialect-aware JSON
-  - Database schema migration using SQLAlchemy (add semantic_layer, external_id, type_fields columns)
+  - Database schema migration using SQLAlchemy (add semantic_layer, external_id, type_fields
+    columns)
   - Backward compatibility for existing YAML files (auto-detect old format)
   - Migration CLI command (vibey roadmap migrate-format)
   - New directory structure migration (tracks/, sprints/, tasks/, artifacts/)
   - YAML format with meta header (semantic_layer, schema_version)
   - PostgreSQL compatibility verified via SQLAlchemy dialect abstraction
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -49,90 +64,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Sprint 8: Serialization Migration
-
-      DESIGN REFERENCE: sqlite-backend-6/context/architecture/06-SERIALIZATION.md
-
-      GOAL: Update all serialization code to use new unified ticket models
-      with pluggable semantic layer support while maintaining backward
-      compatibility with existing YAML files.
-
-      DEPENDS ON: Sprint 7 (artifact system architecture)
-
-      KEY CHANGES:
-
-      1. YAML FORMAT UPDATE:
-         All files get meta header:
-         ```yaml
-         meta:
-           semantic_layer: vibey          # or 'jira:PROJ'
-           schema_version: "2.0"
-
-         task:                            # or 'issue' for Jira
-           id: 01JD4EXAMPLE
-           external_id: null              # or 'PROJ-123' for Jira
-           ...
-         ```
-
-      2. DATABASE SCHEMA UPDATE:
-         New columns in completables table:
-         - semantic_layer TEXT DEFAULT 'vibey'
-         - external_id TEXT (nullable, for Jira issue keys)
-         - external_status TEXT (preserve original status for round-trip)
-         - type_fields TEXT (JSON for Layer 3 semantic-specific fields)
-
-      3. DIRECTORY STRUCTURE MIGRATION:
-         Old: .vibey/roadmap/<track>/<sprint>/<task>/task.yaml
-         New: .vibey/roadmap/tasks/<ulid>.yaml
-
-         Flat structure:
-         - tracks/<ulid>.yaml
-         - sprints/<ulid>.yaml
-         - tasks/<ulid>.yaml
-         - artifacts/<ulid>.yaml
-
-      4. TYPE_FIELDS JSON:
-         Layer 3 fields stored as JSON for extensibility:
-         - Vibey: {"task_type": "implementation", "complexity": "medium"}
-         - Jira: {"issue_key": "PROJ-123", "story_points": 5, "labels": [...]}
-
-      BACKWARD COMPATIBILITY STRATEGY:
-      - yaml_loader: Detect format version via meta header presence
-      - yaml_loader: Auto-migrate old field names (commits → commits_local)
-      - yaml_dumper: Always write new format with meta header
-      - Migration command: Convert old structure to new flat structure
-
-      SQLALCHEMY CORE INTEGRATION (from Sprint 7):
-      sql_loader.py and sql_dumper.py will use SQLAlchemy Core:
-      ```python
-      from vibey.roadmap.database import engine, completables, criteria
-
-      def load_ticket(conn, ticket_id: str) -> Ticket:
-          stmt = select(completables).where(completables.c.id == ticket_id)
-          row = conn.execute(stmt).mappings().first()
-          return Ticket(**row)
-
-      def save_ticket(conn, ticket: Ticket) -> None:
-          stmt = insert(completables).values(**ticket.model_dump())
-          conn.execute(stmt)
-      ```
-
-      JSON FIELD ACCESS (dialect-agnostic):
-      ```python
-      from vibey.roadmap.database import json_field
-
-      # Works on SQLite AND PostgreSQL
-      stmt = select(completables).where(
-          json_field(completables.c.type_fields, "story_points") > 5
-      )
-      ```
-
-      TESTING REQUIREMENTS:
-      - Load all existing YAML files successfully
-      - Round-trip: YAML → Pydantic → YAML produces valid output
-      - Round-trip: YAML → Pydantic → SQLite → Pydantic → YAML works
-      - Round-trip: YAML → Pydantic → PostgreSQL → Pydantic → YAML works
-      - No data loss during migration
-      - Semantic layer preserved through all transformations
-      - Identical results on SQLite and PostgreSQL backends

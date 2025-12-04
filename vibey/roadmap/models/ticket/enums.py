@@ -214,7 +214,7 @@ class CriterionTargetType(str, Enum):
     EXTERNAL = "external"  # External system check
 
     # Artifact types (Sprint 7)
-    # ARTIFACT = "artifact"  # Artifact entity must exist and be valid
+    ARTIFACT = "artifact"  # Artifact entity must exist and be valid
 
     # Code verification types (Sprint 10)
     # SYMBOL_EXISTS = "symbol_exists"  # Code symbol must exist

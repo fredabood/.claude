@@ -78,6 +78,7 @@ from vibey.roadmap.models.ticket.targets import (
     ThresholdTarget,
     ManualTarget,
     ExternalTarget,
+    ArtifactTarget,
     # Union type
     AnyTarget,
     # Factory function
@@ -225,6 +226,7 @@ __all__ = [
     "ThresholdTarget",
     "ManualTarget",
     "ExternalTarget",
+    "ArtifactTarget",
     "AnyTarget",
     "create_target",
     # Core classes

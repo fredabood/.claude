@@ -30,6 +30,7 @@ from vibey.roadmap.models.ticket.enums import (
     TicketStatus,
     ThresholdComparison,
 )
+from vibey.roadmap.models.ticket.artifact_enums import ArtifactVerification
 from vibey.roadmap.models.ticket.support import RefreshContext, TestResult
 
 
@@ -556,6 +557,146 @@ class ExternalTarget(CriterionTarget):
         return f"{self.system_name}: {self.current_status} (expected: {self.expected_status})"
 
 
+class ArtifactTarget(CriterionTarget):
+    """
+    Criterion met when an Artifact entity meets verification requirements.
+
+    This target type references first-class Artifact entities and supports
+    multiple verification modes:
+    - EXISTS: Files in artifact.paths[] exist
+    - NOT_STALE: Files exist AND documentation is not stale
+    - HASH_UNCHANGED: Content hasn't changed since criterion was created
+
+    Used for:
+    - Code deliverables
+    - Documentation that must track source changes
+    - Ensuring no unexpected file modifications
+    """
+
+    type: Literal[CriterionTargetType.ARTIFACT] = CriterionTargetType.ARTIFACT
+
+    artifact_id: str = Field(
+        description="ID of the referenced Artifact entity"
+    )
+    verification: ArtifactVerification = Field(
+        default=ArtifactVerification.EXISTS,
+        description="How to verify the artifact criterion is satisfied"
+    )
+
+    # Cached state (denormalized from Artifact for performance)
+    artifact_exists: bool = Field(
+        default=False,
+        description="Whether artifact files exist"
+    )
+    artifact_hash: Optional[str] = Field(
+        default=None,
+        description="Current content hash of artifact"
+    )
+    artifact_is_stale: bool = Field(
+        default=False,
+        description="Whether documentation artifact is stale"
+    )
+    last_checked: Optional[datetime] = Field(
+        default=None,
+        description="When artifact state was last verified"
+    )
+
+    # For HASH_UNCHANGED mode - stored hash at criterion creation
+    expected_hash: Optional[str] = Field(
+        default=None,
+        description="Expected hash for HASH_UNCHANGED verification"
+    )
+
+    @property
+    def is_automatic(self) -> bool:
+        """ArtifactTarget is automatic - can refresh from artifact registry."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """
+        Update cached state from artifact registry.
+
+        Requires context.artifact_registry to be set.
+        """
+        if context is None:
+            return
+
+        # Get artifact from registry
+        artifact_registry = getattr(context, 'artifact_registry', None)
+        if artifact_registry is None:
+            return
+
+        artifact = artifact_registry.get(self.artifact_id)
+        if artifact is None:
+            self.artifact_exists = False
+            self.artifact_hash = None
+            self.artifact_is_stale = False
+            self.last_checked = datetime.now(timezone.utc)
+            return
+
+        # Update cached state from artifact
+        self.artifact_exists = artifact.exists
+        self.artifact_hash = artifact.content_hash
+        self.artifact_is_stale = artifact.is_stale
+        self.last_checked = datetime.now(timezone.utc)
+
+    def is_satisfied(self) -> bool:
+        """
+        Check if artifact meets verification requirements.
+
+        Verification modes:
+        - EXISTS: Files exist
+        - NOT_STALE: Files exist AND not stale
+        - HASH_UNCHANGED: Files exist AND hash matches expected
+        """
+        if self.verification == ArtifactVerification.EXISTS:
+            return self.artifact_exists
+
+        elif self.verification == ArtifactVerification.NOT_STALE:
+            return self.artifact_exists and not self.artifact_is_stale
+
+        elif self.verification == ArtifactVerification.HASH_UNCHANGED:
+            if not self.artifact_exists:
+                return False
+            if self.expected_hash is None:
+                # No expected hash set - satisfied if exists
+                return True
+            return self.artifact_hash == self.expected_hash
+
+        return False
+
+    def get_status_description(self) -> str:
+        """Get human-readable status description."""
+        if not self.artifact_exists:
+            return f"Artifact {self.artifact_id} does not exist"
+
+        if self.verification == ArtifactVerification.EXISTS:
+            return f"Artifact {self.artifact_id} exists"
+
+        elif self.verification == ArtifactVerification.NOT_STALE:
+            if self.artifact_is_stale:
+                return f"Artifact {self.artifact_id} is stale"
+            return f"Artifact {self.artifact_id} exists and is current"
+
+        elif self.verification == ArtifactVerification.HASH_UNCHANGED:
+            if self.expected_hash is None:
+                return f"Artifact {self.artifact_id} exists (no hash check)"
+            if self.artifact_hash == self.expected_hash:
+                return f"Artifact {self.artifact_id} content unchanged"
+            return f"Artifact {self.artifact_id} content has changed"
+
+        return f"Artifact {self.artifact_id}: unknown verification mode"
+
+    def capture_expected_hash(self) -> None:
+        """
+        Capture current artifact hash as expected hash.
+
+        Call this when creating a HASH_UNCHANGED criterion to set
+        the baseline hash.
+        """
+        self.expected_hash = self.artifact_hash
+
+
 # Union type for all target types (for Pydantic discriminated union)
 AnyTarget = Annotated[
     Union[
@@ -566,6 +707,7 @@ AnyTarget = Annotated[
         ThresholdTarget,
         ManualTarget,
         ExternalTarget,
+        ArtifactTarget,
     ],
     Field(discriminator="type"),
 ]
@@ -598,6 +740,7 @@ def create_target(
         CriterionTargetType.THRESHOLD: ThresholdTarget,
         CriterionTargetType.MANUAL: ManualTarget,
         CriterionTargetType.EXTERNAL: ExternalTarget,
+        CriterionTargetType.ARTIFACT: ArtifactTarget,
     }
 
     target_class = target_classes.get(target_type)
@@ -619,6 +762,7 @@ __all__ = [
     "ThresholdTarget",
     "ManualTarget",
     "ExternalTarget",
+    "ArtifactTarget",
     # Union type
     "AnyTarget",
     # Factory function

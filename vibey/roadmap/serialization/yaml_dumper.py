@@ -816,3 +816,518 @@ def save_audit_trail(
 
     with open(file_path, 'w') as f:
         yaml.safe_dump(data, f, default_flow_style=False, sort_keys=False)
+
+
+# =============================================================================
+# V2 PYDANTIC MODEL DUMPERS
+# =============================================================================
+# These functions serialize the new Pydantic ticket models (TaskTicket, SprintTicket,
+# TrackTicket, RoadmapTicket) to YAML format.
+#
+# Key differences from v1 dumpers:
+# 1. Use _local suffix for local content fields (commits_local, not commits)
+# 2. Serialize criteria (unified blocking approach)
+# 3. Exclude computed/aggregated fields
+# 4. Always output v2 format (gradual migration)
+# =============================================================================
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..models.ticket.domain import (
+        RoadmapTicket,
+        TrackTicket,
+        SprintTicket,
+        TaskTicket,
+    )
+    from ..models.ticket.completable import Criterion
+    from ..models.ticket.ticket import GitCommit
+
+
+def _dump_git_commit(commit: "GitCommit") -> dict:
+    """
+    Serialize a GitCommit to dict for YAML output.
+
+    Args:
+        commit: GitCommit Pydantic model
+
+    Returns:
+        Dictionary suitable for YAML serialization
+    """
+    return {
+        'sha': commit.sha,
+        'message': commit.message,
+        'date': _format_datetime(commit.date),
+        'author': commit.author,
+        'platform': commit.platform,
+        'submitted_at': _format_datetime(commit.submitted_at),
+        'completes_tickets': sorted(commit.completes_tickets) if commit.completes_tickets else [],
+        'files_added': sorted(commit.files_added) if commit.files_added else [],
+        'files_modified': sorted(commit.files_modified) if commit.files_modified else [],
+        'files_deleted': sorted(commit.files_deleted) if commit.files_deleted else [],
+        'creates_artifacts': sorted(commit.creates_artifacts) if commit.creates_artifacts else [],
+        'modifies_artifacts': sorted(commit.modifies_artifacts) if commit.modifies_artifacts else [],
+        'deletes_artifacts': sorted(commit.deletes_artifacts) if commit.deletes_artifacts else [],
+    }
+
+
+def _dump_criterion(criterion: "Criterion") -> dict:
+    """
+    Serialize a Criterion to dict for YAML output.
+
+    Args:
+        criterion: Criterion Pydantic model
+
+    Returns:
+        Dictionary suitable for YAML serialization
+    """
+    target = criterion.target
+    target_data = {
+        'type': target.type.value,
+    }
+
+    # Serialize target-specific fields based on type
+    if hasattr(target, 'completable_id'):
+        # CompletableTarget
+        target_data['completable_id'] = target.completable_id
+        target_data['required_status'] = target.required_status.value
+    elif hasattr(target, 'paths'):
+        # FileExistsTarget
+        target_data['paths'] = sorted(target.paths)
+        target_data['all_required'] = target.all_required
+        target_data['deliverable_type'] = target.deliverable_type.value
+    elif hasattr(target, 'metric_name'):
+        # ThresholdTarget
+        target_data['metric_name'] = target.metric_name
+        target_data['threshold'] = target.threshold
+        target_data['comparison'] = target.comparison.value
+        if hasattr(target, 'current_value') and target.current_value is not None:
+            target_data['current_value'] = target.current_value
+    elif hasattr(target, 'verified_by'):
+        # ManualTarget
+        target_data['verified_by'] = target.verified_by
+        if hasattr(target, 'verified_at') and target.verified_at:
+            target_data['verified_at'] = _format_datetime(target.verified_at)
+
+    return {
+        'id': criterion.id,
+        'description': criterion.description,
+        'blocks_transition_to': criterion.blocks_transition_to.value,
+        'target': target_data,
+        'required': criterion.required,
+    }
+
+
+def dump_task_ticket(task: "TaskTicket") -> dict:
+    """
+    Serialize a TaskTicket to dict for YAML output (v2 format).
+
+    Args:
+        task: TaskTicket Pydantic model
+
+    Returns:
+        Dictionary with 'task' root key, suitable for YAML serialization
+    """
+    # Import here to avoid circular imports
+    from ..models.ticket.domain import TaskTicket
+
+    task_data = {
+        # Identity
+        'id': task.id,
+        'name': task.name,
+        'description': task.description,
+
+        # Format marker
+        'format_version': 'v2',
+        'ticket_type': 'task',
+
+        # Hierarchy
+        'parent_ref': task.parent_ref,
+
+        # Lifecycle
+        'status': task.status.value,
+        'created_at': _format_datetime(task.created_at),
+        'started_at': _format_datetime(task.started_at),
+        'completed_at': _format_datetime(task.completed_at),
+        'updated_at': _format_datetime(task.updated_at),
+
+        # Assignment
+        'assigned_agents': sorted(task.assigned_agents) if task.assigned_agents else [],
+        'priority': task.priority.value,
+
+        # Criteria (unified blocking)
+        'criteria': [_dump_criterion(c) for c in task.criteria],
+
+        # Local content (use _local suffix to be explicit)
+        'commits_local': [_dump_git_commit(c) for c in task.commits],
+        'requirements_local': [
+            {
+                'id': r.id,
+                'description': r.description,
+                'validation': r.validation,
+                'source_ticket_id': r.source_ticket_id,
+            }
+            for r in task.requirements_local
+        ],
+
+        # Estimation
+        'estimated_duration': task.estimated_duration,
+        'deferred': task.deferred,
+
+        # Task-specific fields
+        'task_type_detail': task.task_type_detail.value if task.task_type_detail else None,
+        'estimated_tokens': task.estimated_tokens,
+        'actual_tokens': task.actual_tokens,
+        'complexity': task.complexity.value if task.complexity else None,
+        'phase_label': task.phase_label,
+    }
+
+    # Add gate_info if present
+    if task.gate_info:
+        task_data['gate_info'] = {
+            'is_blocking': task.gate_info.is_blocking,
+            'threshold': task.gate_info.threshold,
+            'score': task.gate_info.score,
+            'blocks_status': task.gate_info.blocks_status.value if task.gate_info.blocks_status else None,
+        }
+    else:
+        task_data['gate_info'] = None
+
+    # Add audit_results if present
+    if task.audit_results:
+        task_data['audit_results'] = {
+            'issues_found': task.audit_results.issues_found,
+            'issues_fixed': task.audit_results.issues_fixed,
+            'recommendations': task.audit_results.recommendations,
+        }
+    else:
+        task_data['audit_results'] = None
+
+    # Metadata
+    task_data['metadata'] = task.metadata if task.metadata else {}
+
+    return {'task': task_data}
+
+
+def dump_sprint_ticket(sprint: "SprintTicket") -> dict:
+    """
+    Serialize a SprintTicket to dict for YAML output (v2 format).
+
+    Args:
+        sprint: SprintTicket Pydantic model
+
+    Returns:
+        Dictionary with 'sprint' root key, suitable for YAML serialization
+    """
+    from ..models.ticket.domain import SprintTicket
+
+    sprint_data = {
+        # Identity
+        'id': sprint.id,
+        'name': sprint.name,
+        'description': sprint.description,
+
+        # Format marker
+        'format_version': 'v2',
+        'ticket_type': 'sprint',
+
+        # Hierarchy
+        'parent_ref': sprint.parent_ref,
+
+        # Lifecycle
+        'status': sprint.status.value,
+        'created_at': _format_datetime(sprint.created_at),
+        'started_at': _format_datetime(sprint.started_at),
+        'completed_at': _format_datetime(sprint.completed_at),
+        'updated_at': _format_datetime(sprint.updated_at),
+
+        # Assignment
+        'assigned_agents': sorted(sprint.assigned_agents) if sprint.assigned_agents else [],
+        'priority': sprint.priority.value,
+
+        # Criteria (unified blocking)
+        'criteria': [_dump_criterion(c) for c in sprint.criteria],
+
+        # Local content
+        'commits_local': [_dump_git_commit(c) for c in sprint.commits],
+        'requirements_local': [
+            {
+                'id': r.id,
+                'description': r.description,
+                'validation': r.validation,
+                'source_ticket_id': r.source_ticket_id,
+            }
+            for r in sprint.requirements_local
+        ],
+
+        # Estimation
+        'estimated_duration': sprint.estimated_duration,
+        'deferred': sprint.deferred,
+
+        # Sprint-specific fields
+        'plan_file': sprint.plan_file,
+        'goal': sprint.goal,
+        'success_criteria': sprint.success_criteria_text if sprint.success_criteria_text else [],
+        'development_gates': [
+            {
+                'name': g.name,
+                'description': g.description,
+                'status': g.status.value,
+                'checked_at': _format_datetime(g.checked_at),
+            }
+            for g in sprint.development_gates
+        ] if sprint.development_gates else [],
+    }
+
+    # Metadata
+    sprint_data['metadata'] = sprint.metadata if sprint.metadata else {}
+
+    return {'sprint': sprint_data}
+
+
+def dump_track_ticket(track: "TrackTicket") -> dict:
+    """
+    Serialize a TrackTicket to dict for YAML output (v2 format).
+
+    Args:
+        track: TrackTicket Pydantic model
+
+    Returns:
+        Dictionary with 'track' root key, suitable for YAML serialization
+    """
+    from ..models.ticket.domain import TrackTicket
+
+    track_data = {
+        # Identity
+        'id': track.id,
+        'name': track.name,
+        'description': track.description,
+
+        # Format marker
+        'format_version': 'v2',
+        'ticket_type': 'track',
+
+        # Hierarchy
+        'parent_ref': track.parent_ref,
+
+        # Lifecycle
+        'status': track.status.value,
+        'created_at': _format_datetime(track.created_at),
+        'started_at': _format_datetime(track.started_at),
+        'completed_at': _format_datetime(track.completed_at),
+        'updated_at': _format_datetime(track.updated_at),
+
+        # Assignment
+        'assigned_agents': sorted(track.assigned_agents) if track.assigned_agents else [],
+        'priority': track.priority.value,
+
+        # Criteria (unified blocking)
+        'criteria': [_dump_criterion(c) for c in track.criteria],
+
+        # Local content
+        'commits_local': [_dump_git_commit(c) for c in track.commits],
+        'requirements_local': [
+            {
+                'id': r.id,
+                'description': r.description,
+                'validation': r.validation,
+                'source_ticket_id': r.source_ticket_id,
+            }
+            for r in track.requirements_local
+        ],
+
+        # Estimation
+        'estimated_duration': track.estimated_duration,
+        'deferred': track.deferred,
+
+        # Track-specific fields
+        'strategic_value': track.strategic_value if track.strategic_value else [],
+    }
+
+    # Metadata
+    track_data['metadata'] = track.metadata if track.metadata else {}
+
+    return {'track': track_data}
+
+
+def dump_roadmap_ticket(roadmap: "RoadmapTicket") -> dict:
+    """
+    Serialize a RoadmapTicket to dict for YAML output (v2 format).
+
+    Args:
+        roadmap: RoadmapTicket Pydantic model
+
+    Returns:
+        Dictionary with 'roadmap' root key, suitable for YAML serialization
+    """
+    from ..models.ticket.domain import RoadmapTicket
+
+    roadmap_data = {
+        # Identity
+        'id': roadmap.id,
+        'name': roadmap.name,
+        'description': roadmap.description,
+
+        # Format marker
+        'format_version': 'v2',
+        'ticket_type': 'roadmap',
+
+        # Hierarchy (roadmap has no parent)
+        'parent_ref': None,
+
+        # Lifecycle
+        'status': roadmap.status.value,
+        'created_at': _format_datetime(roadmap.created_at),
+        'started_at': _format_datetime(roadmap.started_at),
+        'completed_at': _format_datetime(roadmap.completed_at),
+        'updated_at': _format_datetime(roadmap.updated_at),
+
+        # Assignment
+        'assigned_agents': sorted(roadmap.assigned_agents) if roadmap.assigned_agents else [],
+        'priority': roadmap.priority.value,
+
+        # Criteria (unified blocking)
+        'criteria': [_dump_criterion(c) for c in roadmap.criteria],
+
+        # Local content
+        'commits_local': [_dump_git_commit(c) for c in roadmap.commits],
+        'requirements_local': [
+            {
+                'id': r.id,
+                'description': r.description,
+                'validation': r.validation,
+                'source_ticket_id': r.source_ticket_id,
+            }
+            for r in roadmap.requirements_local
+        ],
+
+        # Estimation
+        'estimated_duration': roadmap.estimated_duration,
+        'deferred': roadmap.deferred,
+
+        # Roadmap-specific fields
+        'version': roadmap.version,
+        'target_completion': _format_datetime(roadmap.target_completion),
+        'deployed_at': _format_datetime(roadmap.deployed_at),
+    }
+
+    # Version strategy
+    if roadmap.version_strategy:
+        roadmap_data['version_strategy'] = {
+            'scheme': roadmap.version_strategy.scheme,
+            'auto_bump': roadmap.version_strategy.auto_bump,
+            'major_triggers': roadmap.version_strategy.major_triggers,
+            'minor_triggers': roadmap.version_strategy.minor_triggers,
+            'patch_triggers': roadmap.version_strategy.patch_triggers,
+        }
+    else:
+        roadmap_data['version_strategy'] = None
+
+    # Version history
+    roadmap_data['version_history'] = [
+        {
+            'version': vh.version,
+            'released_at': _format_datetime(vh.released_at),
+            'milestone': vh.milestone,
+            'notes': vh.notes,
+        }
+        for vh in roadmap.version_history
+    ] if roadmap.version_history else []
+
+    # Deployed platforms
+    roadmap_data['deployed_platforms'] = [
+        {
+            'platform': p.platform,
+            'context_window': p.context_window,
+            'deployed_at': _format_datetime(p.deployed_at),
+            'primary': p.primary,
+            'version': p.version,
+        }
+        for p in roadmap.deployed_platforms
+    ] if roadmap.deployed_platforms else []
+
+    # Activity log
+    roadmap_data['activity_log'] = [
+        {
+            'timestamp': _format_datetime(a.timestamp),
+            'action': a.action.value,
+            'ticket_id': a.ticket_id,
+            'actor': a.actor,
+            'details': a.details,
+            'context': a.context,
+        }
+        for a in roadmap.activity_log
+    ] if roadmap.activity_log else []
+
+    # Metadata
+    roadmap_data['metadata'] = roadmap.metadata if roadmap.metadata else {}
+
+    return {'roadmap': roadmap_data}
+
+
+def save_task_ticket(task: "TaskTicket", file_path: Union[str, Path]):
+    """
+    Save a TaskTicket to YAML file (v2 format).
+
+    Args:
+        task: TaskTicket Pydantic model
+        file_path: Path to save task.yaml
+    """
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = dump_task_ticket(task)
+
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+def save_sprint_ticket(sprint: "SprintTicket", file_path: Union[str, Path]):
+    """
+    Save a SprintTicket to YAML file (v2 format).
+
+    Args:
+        sprint: SprintTicket Pydantic model
+        file_path: Path to save sprint.yaml
+    """
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = dump_sprint_ticket(sprint)
+
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+def save_track_ticket(track: "TrackTicket", file_path: Union[str, Path]):
+    """
+    Save a TrackTicket to YAML file (v2 format).
+
+    Args:
+        track: TrackTicket Pydantic model
+        file_path: Path to save track.yaml
+    """
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = dump_track_ticket(track)
+
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+def save_roadmap_ticket(roadmap: "RoadmapTicket", file_path: Union[str, Path]):
+    """
+    Save a RoadmapTicket to YAML file (v2 format).
+
+    Args:
+        roadmap: RoadmapTicket Pydantic model
+        file_path: Path to save roadmap.yaml
+    """
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = dump_roadmap_ticket(roadmap)
+
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)

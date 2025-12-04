@@ -1,15 +1,54 @@
 """
 YAML loader for roadmap objects.
 
-Loads YAML files and converts them to Python dataclass objects.
+Loads YAML files and converts them to:
+- Legacy dataclass objects (Roadmap, Track, Sprint, Task) for v1 format
+- Pydantic models (RoadmapTicket, TrackTicket, SprintTicket, TaskTicket) for v2 format
+
+Supports backward compatibility with v1 YAML format while migrating to v2.
 """
 
+import logging
 from datetime import datetime, timezone, date
 from pathlib import Path
-from typing import Union, Dict, Any, List
+from typing import Union, Dict, Any, List, Tuple, Optional
 
 import yaml
 
+# New Pydantic models (unified ticket architecture)
+from ..models.ticket.domain import (
+    RoadmapTicket,
+    TrackTicket,
+    SprintTicket,
+    TaskTicket,
+    GateInfo as PydanticGateInfo,
+    AuditResults as PydanticAuditResults,
+    DevelopmentGate as PydanticDevelopmentGate,
+    VersionStrategy as PydanticVersionStrategy,
+    VersionHistoryEntry as PydanticVersionHistoryEntry,
+    ActivityLogEntry as PydanticActivityLogEntry,
+    PlatformDeployment as PydanticPlatformDeployment,
+)
+from ..models.ticket.ticket import GitCommit, Ticket
+from ..models.ticket.completable import Criterion
+from ..models.ticket.enums import (
+    TicketStatus,
+    TicketType,
+    TaskType as PydanticTaskType,
+    Priority as PydanticPriority,
+    Complexity as PydanticComplexity,
+    DeliverableType as PydanticDeliverableType,
+    CriterionTargetType,
+    GateStatus as PydanticGateStatus,
+    ActivityType as PydanticActivityType,
+)
+from ..models.ticket.targets import (
+    CompletableTarget,
+    FileExistsTarget,
+    ThresholdTarget,
+)
+
+# Legacy dataclass models
 from ..models import (
     Roadmap,
     Track,
@@ -103,6 +142,348 @@ def _map_task_type(value: str) -> str:
         # 'development', 'completion_gate', 'production_gate' stay the same
     }
     return mapping.get(value, value)
+
+
+logger = logging.getLogger(__name__)
+
+
+# =============================================================================
+# FORMAT DETECTION & MIGRATION HELPERS
+# =============================================================================
+
+
+def detect_yaml_format(data: Dict[str, Any]) -> str:
+    """
+    Detect if YAML data uses v1 (dataclass) or v2 (Pydantic) format.
+
+    V2 format indicators:
+    - 'criteria' field present (unified criterion system)
+    - 'parent_ref' field present (explicit hierarchy)
+    - Fields with '_local' suffix (e.g., commits_local)
+    - 'ticket_type' field present
+
+    Args:
+        data: Parsed YAML data dictionary
+
+    Returns:
+        'v1' for legacy format, 'v2' for new Pydantic format
+    """
+    v2_indicators = [
+        'criteria',
+        'parent_ref',
+        'ticket_type',
+        'commits_local',
+        'requirements_local',
+        'assigned_agents',  # List in v2, assigned_agent (singular) in v1
+    ]
+
+    for indicator in v2_indicators:
+        if indicator in data:
+            return 'v2'
+
+    # Check for nested structures that indicate v1 format
+    if 'blocked_by' in data and isinstance(data.get('blocked_by'), list):
+        # v1 uses blocked_by as a list of blockers
+        # v2 converts these to criteria
+        return 'v1'
+
+    if 'depends_on' in data and isinstance(data.get('depends_on'), list):
+        # Check if depends_on uses old DependencyStatus format
+        deps = data.get('depends_on', [])
+        if deps and isinstance(deps[0], dict) and 'blocker_id' in deps[0]:
+            return 'v1'
+
+    # Default to v1 for backward compatibility
+    return 'v1'
+
+
+def _convert_status_to_ticket_status(status_str: str) -> TicketStatus:
+    """Convert legacy status string to TicketStatus enum."""
+    if not status_str:
+        return TicketStatus.NOT_STARTED
+    status_mapping = {
+        'not_started': TicketStatus.NOT_STARTED,
+        'in_progress': TicketStatus.IN_PROGRESS,
+        'completed': TicketStatus.COMPLETED,
+        'blocked': TicketStatus.PAUSED,  # 'blocked' maps to PAUSED in v2
+        'paused': TicketStatus.PAUSED,
+        'wont_do': TicketStatus.WONT_DO,
+        'cancelled': TicketStatus.WONT_DO,
+        'superseded': TicketStatus.SUPERSEDED,
+        'completion_gate_check': TicketStatus.COMPLETION_GATE_CHECK,
+        'production_gate_check': TicketStatus.PRODUCTION_GATE_CHECK,
+        'production_ready': TicketStatus.PRODUCTION_READY,
+        'deployed': TicketStatus.DEPLOYED,
+        'unknown': TicketStatus.NOT_STARTED,  # Map unknown to NOT_STARTED
+    }
+    return status_mapping.get(status_str, TicketStatus.NOT_STARTED)
+
+
+def _convert_priority(priority_str: str) -> PydanticPriority:
+    """Convert legacy priority string to Priority enum."""
+    if not priority_str:
+        return PydanticPriority.MEDIUM
+    priority_mapping = {
+        'low': PydanticPriority.LOW,
+        'medium': PydanticPriority.MEDIUM,
+        'high': PydanticPriority.HIGH,
+        'critical': PydanticPriority.CRITICAL,
+    }
+    return priority_mapping.get(priority_str.lower(), PydanticPriority.MEDIUM)
+
+
+def _convert_complexity(complexity_str: str) -> PydanticComplexity:
+    """Convert legacy complexity string to Complexity enum."""
+    if not complexity_str:
+        return PydanticComplexity.MEDIUM
+    # PydanticComplexity enum has: LOW, MEDIUM, HIGH, CRITICAL
+    complexity_mapping = {
+        'simple': PydanticComplexity.LOW,
+        'low': PydanticComplexity.LOW,
+        'medium': PydanticComplexity.MEDIUM,
+        'complex': PydanticComplexity.HIGH,
+        'high': PydanticComplexity.HIGH,
+        'very_high': PydanticComplexity.CRITICAL,
+        'critical': PydanticComplexity.CRITICAL,
+    }
+    return complexity_mapping.get(complexity_str.lower(), PydanticComplexity.MEDIUM)
+
+
+def _convert_task_type(task_type_str: str) -> PydanticTaskType:
+    """Convert legacy task_type string to TaskType enum."""
+    if not task_type_str:
+        return PydanticTaskType.DEVELOPMENT
+    # PydanticTaskType enum has: DEVELOPMENT, DOCUMENTATION, TESTING, RESEARCH, REVIEW, INFRASTRUCTURE, GATE
+    type_mapping = {
+        'development': PydanticTaskType.DEVELOPMENT,
+        'completion_gate': PydanticTaskType.GATE,
+        'production_gate': PydanticTaskType.GATE,
+        'quality_gate': PydanticTaskType.GATE,
+        'gate': PydanticTaskType.GATE,
+        'documentation': PydanticTaskType.DOCUMENTATION,
+        'testing': PydanticTaskType.TESTING,
+        'research': PydanticTaskType.RESEARCH,
+        'review': PydanticTaskType.REVIEW,
+        'refactor': PydanticTaskType.DEVELOPMENT,  # Map refactor to development
+        'refactoring': PydanticTaskType.DEVELOPMENT,  # Map refactoring to development
+        'infrastructure': PydanticTaskType.INFRASTRUCTURE,
+    }
+    return type_mapping.get(task_type_str.lower(), PydanticTaskType.DEVELOPMENT)
+
+
+# =============================================================================
+# CRITERION CREATION HELPERS
+# =============================================================================
+
+
+def _create_dependency_criterion(
+    dep_data: Dict[str, Any],
+    index: int,
+    description_prefix: str = "Dependency"
+) -> Criterion:
+    """
+    Create a Criterion from legacy depends_on or blocked_by data.
+
+    Legacy format:
+        depends_on:
+          - blocker_id: task-001
+            blocker_type: task
+            required_status: completed
+            blocks_transition_to: in_progress
+
+    New format (Criterion with CompletableTarget):
+        criteria:
+          - id: dep-task-001
+            description: "Depends on task-001 completing"
+            blocks_transition_to: in_progress
+            target:
+              type: completable
+              completable_id: task-001
+              required_status: completed
+    """
+    blocker_id = dep_data.get('blocker_id', dep_data.get('dependency_id', f'unknown-{index}'))
+    blocker_type = dep_data.get('blocker_type', dep_data.get('dependency_type', 'task'))
+    required_status_str = dep_data.get('required_status', 'completed')
+    blocks_to_str = dep_data.get('blocks_transition_to', 'in_progress')
+
+    # Convert strings to enums
+    required_status = _convert_status_to_ticket_status(required_status_str)
+    blocks_to = _convert_status_to_ticket_status(blocks_to_str)
+
+    # Get cached current status if available
+    current_status_str = dep_data.get('current_status')
+    current_status = _convert_status_to_ticket_status(current_status_str) if current_status_str else None
+
+    target = CompletableTarget(
+        completable_id=blocker_id,
+        required_status=required_status,
+        current_status=current_status,
+        last_checked=_parse_datetime(dep_data.get('last_checked')),
+    )
+
+    return Criterion(
+        id=f"dep-{blocker_id}",
+        description=f"{description_prefix}: {blocker_type} {blocker_id} must be {required_status.value}",
+        blocks_transition_to=blocks_to,
+        target=target,
+        required=True,
+    )
+
+
+def _create_subtask_criterion(
+    task_id: str,
+    current_status: Optional[TicketStatus] = None
+) -> Criterion:
+    """
+    Create a Criterion for a subtask (child that blocks completion).
+
+    In the v2 model, the parent-child hierarchy is established via
+    CompletableTarget criteria that block COMPLETED status.
+    """
+    target = CompletableTarget(
+        completable_id=task_id,
+        required_status=TicketStatus.COMPLETED,
+        current_status=current_status,
+    )
+
+    return Criterion(
+        id=f"subtask-{task_id}",
+        description=f"Subtask {task_id} must complete",
+        blocks_transition_to=TicketStatus.COMPLETED,
+        target=target,
+        required=True,
+    )
+
+
+def _create_deliverable_criterion(
+    deliverable_data: Union[str, Dict[str, Any]],
+    index: int
+) -> Criterion:
+    """
+    Create a Criterion from legacy deliverable data.
+
+    Legacy format:
+        deliverables:
+          - type: code
+            paths:
+              - vibey/roadmap/models/ticket.py
+
+    New format (Criterion with FileExistsTarget):
+        criteria:
+          - id: deliverable-0
+            description: "Code deliverable must exist"
+            blocks_transition_to: completed
+            target:
+              type: file_exists
+              paths: ["vibey/roadmap/models/ticket.py"]
+              all_required: true
+    """
+    if isinstance(deliverable_data, str):
+        # Old string format - just a path
+        paths = [deliverable_data]
+        deliverable_type = PydanticDeliverableType.OTHER
+    else:
+        paths = deliverable_data.get('paths', [])
+        type_str = deliverable_data.get('type', 'other')
+
+        # Map deliverable type (PydanticDeliverableType has: CODE, TEST, DOCUMENTATION, CONFIG, DESIGN, OTHER)
+        type_mapping = {
+            'code': PydanticDeliverableType.CODE,
+            'test': PydanticDeliverableType.TEST,
+            'documentation': PydanticDeliverableType.DOCUMENTATION,
+            'config': PydanticDeliverableType.CONFIG,
+            'configuration': PydanticDeliverableType.CONFIG,
+            'database': PydanticDeliverableType.OTHER,  # No DATABASE type, map to OTHER
+            'design': PydanticDeliverableType.DESIGN,
+            'other': PydanticDeliverableType.OTHER,
+        }
+        deliverable_type = type_mapping.get(type_str.lower(), PydanticDeliverableType.OTHER)
+
+    target = FileExistsTarget(
+        paths=paths,
+        all_required=True,
+        deliverable_type=deliverable_type,
+    )
+
+    return Criterion(
+        id=f"deliverable-{index}",
+        description=f"Deliverable: {', '.join(paths[:2])}{'...' if len(paths) > 2 else ''}",
+        blocks_transition_to=TicketStatus.COMPLETED,
+        target=target,
+        required=True,
+    )
+
+
+def _create_quality_gate_criterion(
+    gate_data: Dict[str, Any],
+    index: int
+) -> Criterion:
+    """
+    Create a Criterion from legacy quality gate data.
+
+    Legacy format:
+        quality_gates:
+          - name: Code Coverage
+            threshold: 80
+            blocking: true
+            score: 85
+
+    New format (Criterion with ThresholdTarget):
+        criteria:
+          - id: gate-code-coverage
+            description: "Code Coverage must meet threshold"
+            blocks_transition_to: completed
+            target:
+              type: threshold
+              metric_name: Code Coverage
+              threshold: 80
+              current_value: 85
+    """
+    name = gate_data.get('name', f'Gate {index}')
+    threshold = gate_data.get('threshold', 100)
+    is_blocking = gate_data.get('blocking', True)
+    current_value = gate_data.get('score')
+
+    target = ThresholdTarget(
+        metric_name=name,
+        threshold=float(threshold),
+        current_value=float(current_value) if current_value is not None else None,
+    )
+
+    # Determine which transition this blocks
+    gate_status_str = gate_data.get('status', 'not_run')
+    if gate_status_str in ('production_gate', 'production_gate_check'):
+        blocks_to = TicketStatus.PRODUCTION_READY
+    else:
+        blocks_to = TicketStatus.COMPLETED
+
+    return Criterion(
+        id=f"gate-{name.lower().replace(' ', '-').replace('_', '-')}",
+        description=f"Quality gate: {name} >= {threshold}",
+        blocks_transition_to=blocks_to,
+        target=target,
+        required=is_blocking,
+    )
+
+
+def _convert_legacy_commits(commits_data: List[Dict[str, Any]]) -> List[GitCommit]:
+    """Convert legacy commit data to GitCommit objects."""
+    commits = []
+    for c in commits_data:
+        # Skip commits without required fields
+        if 'sha' not in c or 'message' not in c:
+            continue
+
+        commit = GitCommit(
+            sha=c['sha'],
+            message=c['message'],
+            date=_parse_datetime(c.get('date')) or datetime.now(timezone.utc),
+            author=c.get('author', 'unknown'),
+            platform=c.get('platform'),
+            submitted_at=_parse_datetime(c.get('submitted_at')),
+        )
+        commits.append(commit)
+    return commits
 
 
 def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
@@ -1188,3 +1569,853 @@ def load_audit_trail_metadata(roadmap_dir: Union[str, Path]) -> dict:
         data = yaml.safe_load(f) or {}
 
     return data.get('metadata', {})
+
+
+# =============================================================================
+# V2 PYDANTIC MODEL LOADERS (Unified Ticket Architecture)
+# =============================================================================
+
+
+def load_task_ticket(file_path: Union[str, Path]) -> TaskTicket:
+    """
+    Load a task from YAML file and return as TaskTicket (Pydantic model).
+
+    This is the v2 loader that returns the new unified ticket architecture model.
+    It supports both v1 (legacy) and v2 YAML formats.
+
+    Args:
+        file_path: Path to task.yaml file
+
+    Returns:
+        TaskTicket object (Pydantic model)
+
+    Raises:
+        FileNotFoundError: If file doesn't exist
+        yaml.YAMLError: If YAML is invalid
+        ValueError: If data is invalid
+    """
+    file_path = Path(file_path)
+
+    with open(file_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if 'task' not in data:
+        raise ValueError("Missing 'task' root key")
+
+    task_data = data['task']
+    format_version = detect_yaml_format(task_data)
+
+    if format_version == 'v2':
+        # Direct v2 format - use as-is
+        return _load_task_ticket_v2(task_data)
+    else:
+        # v1 format - migrate to v2
+        logger.debug(f"Loading v1 format task {task_data.get('id')}, migrating to v2")
+        return _migrate_task_to_ticket(task_data)
+
+
+def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
+    """Load TaskTicket from v2 format YAML data."""
+    # Parse criteria (v2 native format)
+    criteria = []
+    for c in task_data.get('criteria', []):
+        target_type = CriterionTargetType(c['target']['type'])
+        target_config = {k: v for k, v in c['target'].items() if k != 'type'}
+
+        from ..models.ticket.targets import create_target
+        target = create_target(target_type, target_config)
+
+        criterion = Criterion(
+            id=c['id'],
+            description=c['description'],
+            blocks_transition_to=_convert_status_to_ticket_status(c.get('blocks_transition_to', 'completed')),
+            target=target,
+            required=c.get('required', True),
+        )
+        criteria.append(criterion)
+
+    # Parse commits
+    commits = _convert_legacy_commits(task_data.get('commits', []))
+
+    # Parse gate_info if present
+    gate_info_v2 = None
+    if 'gate_info' in task_data and task_data['gate_info']:
+        gi = task_data['gate_info']
+        gate_info_v2 = GateInfo(
+            blocks_status=_convert_status_to_ticket_status(gi.get('blocks_status', 'completed')),
+            threshold=gi.get('threshold', 100),
+            is_blocking=gi.get('is_blocking', True),
+            score=gi.get('score'),
+            evaluated_at=_parse_datetime(gi.get('evaluated_at')),
+        )
+
+    # Parse audit_results if present
+    audit_results_v2 = None
+    if 'audit_results' in task_data and task_data['audit_results']:
+        ar = task_data['audit_results']
+        audit_results_v2 = AuditResults(
+            issues_found=ar.get('issues_found', 0),
+            issues_fixed=ar.get('issues_fixed', 0),
+            recommendations=ar.get('recommendations', []),
+            audit_type=ar.get('audit_type', 'general'),
+            audited_at=_parse_datetime(ar.get('audited_at')) or datetime.now(timezone.utc),
+        )
+
+    return TaskTicket(
+        id=task_data['id'],
+        name=task_data.get('name', task_data.get('title', 'Untitled')),
+        description=task_data.get('description'),
+        criteria=criteria,
+        parent_ref=task_data['parent_ref'],
+        status=_convert_status_to_ticket_status(task_data.get('status', 'not_started')),
+        created_at=_parse_datetime(task_data.get('created_at')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(task_data.get('started_at')),
+        completed_at=_parse_datetime(task_data.get('completed_at')),
+        updated_at=_parse_datetime(task_data.get('updated_at')) or datetime.now(timezone.utc),
+        assigned_agents=task_data.get('assigned_agents', []),
+        priority=_convert_priority(task_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=task_data.get('estimated_duration'),
+        metadata=task_data.get('metadata', {}),
+        sequence=task_data.get('sequence', 0),
+        slug=task_data.get('slug', ''),
+        sprint_id=task_data['sprint_id'],
+        track_id=task_data['track_id'],
+        roadmap_id=task_data['roadmap_id'],
+        task_type_detail=_convert_task_type(task_data.get('task_type_detail', 'development')),
+        title=task_data.get('title', task_data.get('name', 'Untitled')),
+        phase_label=task_data.get('phase_label'),
+        assigned_agent=task_data.get('assigned_agent'),
+        estimated_tokens=task_data.get('estimated_tokens', 1),
+        actual_tokens=task_data.get('actual_tokens'),
+        complexity=_convert_complexity(task_data.get('complexity', 'medium')),
+        gate_info=gate_info_v2,
+        audit_results=audit_results_v2,
+    )
+
+
+def _migrate_task_to_ticket(task_data: Dict[str, Any]) -> TaskTicket:
+    """
+    Migrate v1 task data to TaskTicket (v2 model).
+
+    Converts legacy fields to unified ticket architecture:
+    - depends_on/blocked_by → stored in metadata (tasks are leaf nodes, no CompletableTarget)
+    - deliverables → criteria with FileExistsTarget
+    - assigned_agent → assigned_agents list
+    - status → TicketStatus enum
+    - created/started/completed → _at suffix timestamps
+    """
+    criteria = []
+
+    # NOTE: TaskTicket is a leaf node and CANNOT have CompletableTarget criteria.
+    # depends_on and blocked_by are preserved in metadata for reference but not
+    # converted to criteria. The blocking logic is handled at the Sprint level.
+
+    # Convert deliverables to file exists criteria
+    for i, deliverable in enumerate(task_data.get('deliverables', [])):
+        criterion = _create_deliverable_criterion(deliverable, i)
+        criteria.append(criterion)
+
+    # Parse commits
+    commits = _convert_legacy_commits(task_data.get('commits', []))
+
+    # Parse gate_info
+    gate_info_v2 = None
+    if 'gate_info' in task_data and task_data['gate_info']:
+        gi = task_data['gate_info']
+        blocks_status_str = gi.get('blocks_status', 'completed')
+        gate_info_v2 = PydanticGateInfo(
+            blocks_status=_convert_status_to_ticket_status(blocks_status_str),
+            threshold=gi.get('threshold', 100),
+            is_blocking=gi.get('is_blocking', gi.get('blocking', True)),
+            score=gi.get('score'),
+        )
+
+    # Parse audit_results
+    audit_results_v2 = None
+    if 'audit_results' in task_data and task_data['audit_results']:
+        ar = task_data['audit_results']
+        audit_results_v2 = PydanticAuditResults(
+            issues_found=ar.get('issues_found', 0),
+            issues_fixed=ar.get('issues_fixed', 0),
+            recommendations=ar.get('recommendations', []),
+            audit_type=ar.get('audit_type', 'general'),
+        )
+
+    # Build assigned_agents list from singular assigned_agent
+    assigned_agents = []
+    if task_data.get('assigned_agent'):
+        assigned_agents = [task_data['assigned_agent']]
+
+    # Get parent references
+    sprint_id = task_data.get('sprint_id', '')
+    track_id = task_data.get('track_id', '')
+    roadmap_id = task_data.get('roadmap_id', 'vibey-framework-v2')
+
+    return TaskTicket(
+        id=task_data['id'],
+        name=task_data.get('title', task_data.get('name', 'Untitled')),
+        description=task_data.get('description'),
+        criteria=criteria,
+        parent_ref=sprint_id,  # Task's parent is the sprint
+        status=_convert_status_to_ticket_status(task_data.get('status', 'not_started')),
+        created_at=_parse_datetime(task_data.get('created')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(task_data.get('started')),
+        completed_at=_parse_datetime(task_data.get('completed')),
+        updated_at=_parse_datetime(task_data.get('metadata', {}).get('last_updated')) or datetime.now(timezone.utc),
+        assigned_agents=assigned_agents,
+        priority=_convert_priority(task_data.get('priority', 'medium')),
+        commits=commits,
+        metadata=task_data.get('metadata', {}),
+        sequence=0,  # Will be set by hierarchy computation
+        slug='',
+        sprint_id=sprint_id,
+        track_id=track_id,
+        roadmap_id=roadmap_id,
+        task_type_detail=_convert_task_type(task_data.get('task_type', 'development')),
+        title=task_data.get('title', task_data.get('name', 'Untitled')),
+        phase_label=task_data.get('phase_label'),
+        assigned_agent=task_data.get('assigned_agent'),
+        estimated_tokens=task_data.get('estimated_tokens', 1) or 1,
+        actual_tokens=task_data.get('actual_tokens'),
+        complexity=_convert_complexity(task_data.get('complexity', 'medium')),
+        gate_info=gate_info_v2,
+        audit_results=audit_results_v2,
+    )
+
+
+def load_sprint_ticket(file_path: Union[str, Path]) -> SprintTicket:
+    """
+    Load a sprint from YAML file and return as SprintTicket (Pydantic model).
+
+    This is the v2 loader that returns the new unified ticket architecture model.
+    It supports both v1 (legacy) and v2 YAML formats.
+
+    Args:
+        file_path: Path to sprint.yaml file
+
+    Returns:
+        SprintTicket object (Pydantic model)
+    """
+    file_path = Path(file_path)
+
+    with open(file_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if 'sprint' not in data:
+        raise ValueError("Missing 'sprint' root key")
+
+    sprint_data = data['sprint']
+    format_version = detect_yaml_format(sprint_data)
+
+    if format_version == 'v2':
+        return _load_sprint_ticket_v2(sprint_data)
+    else:
+        logger.debug(f"Loading v1 format sprint {sprint_data.get('id')}, migrating to v2")
+        return _migrate_sprint_to_ticket(sprint_data)
+
+
+def _load_sprint_ticket_v2(sprint_data: Dict[str, Any]) -> SprintTicket:
+    """Load SprintTicket from v2 format YAML data."""
+    # Parse criteria
+    criteria = []
+    for c in sprint_data.get('criteria', []):
+        target_type = CriterionTargetType(c['target']['type'])
+        target_config = {k: v for k, v in c['target'].items() if k != 'type'}
+
+        from ..models.ticket.targets import create_target
+        target = create_target(target_type, target_config)
+
+        criterion = Criterion(
+            id=c['id'],
+            description=c['description'],
+            blocks_transition_to=_convert_status_to_ticket_status(c.get('blocks_transition_to', 'completed')),
+            target=target,
+            required=c.get('required', True),
+        )
+        criteria.append(criterion)
+
+    # Parse development gates
+    dev_gates = []
+    for dg in sprint_data.get('development_gates', []):
+        dev_gates.append(DevelopmentGate(
+            name=dg['name'],
+            description=dg.get('description'),
+            status=GateStatus(dg.get('status', 'not_started')),
+            resolved_at=_parse_datetime(dg.get('resolved_at')),
+            blocking=dg.get('blocking', True),
+            resolver=dg.get('resolver'),
+        ))
+
+    # Parse commits
+    commits = _convert_legacy_commits(sprint_data.get('commits', []))
+
+    return SprintTicket(
+        id=sprint_data['id'],
+        name=sprint_data['name'],
+        description=sprint_data.get('description'),
+        criteria=criteria,
+        parent_ref=sprint_data['parent_ref'],
+        status=_convert_status_to_ticket_status(sprint_data.get('status', 'not_started')),
+        created_at=_parse_datetime(sprint_data.get('created_at')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(sprint_data.get('started_at')),
+        completed_at=_parse_datetime(sprint_data.get('completed_at')),
+        updated_at=_parse_datetime(sprint_data.get('updated_at')) or datetime.now(timezone.utc),
+        assigned_agents=sprint_data.get('assigned_agents', []),
+        priority=_convert_priority(sprint_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=sprint_data.get('estimated_duration'),
+        metadata=sprint_data.get('metadata', {}),
+        sequence=sprint_data.get('sequence', 0),
+        slug=sprint_data.get('slug', ''),
+        track_id=sprint_data['track_id'],
+        roadmap_id=sprint_data['roadmap_id'],
+        completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
+        production_gate_check_at=_parse_datetime(sprint_data.get('production_gate_check_at')),
+        production_ready_at=_parse_datetime(sprint_data.get('production_ready_at')),
+        deployed_at=_parse_datetime(sprint_data.get('deployed_at')),
+        plan_file=sprint_data.get('plan_file'),
+        goal=sprint_data.get('goal'),
+        success_criteria_text=sprint_data.get('success_criteria_text', []),
+        risks=sprint_data.get('risks', []),
+        estimated_tokens=sprint_data.get('estimated_tokens'),
+        actual_tokens=sprint_data.get('actual_tokens'),
+        development_gates=dev_gates,
+    )
+
+
+def _migrate_sprint_to_ticket(sprint_data: Dict[str, Any]) -> SprintTicket:
+    """
+    Migrate v1 sprint data to SprintTicket (v2 model).
+
+    Converts legacy fields:
+    - tasks → criteria with CompletableTarget
+    - depends_on → criteria (dependency)
+    - quality_gates → criteria with ThresholdTarget
+    """
+    criteria = []
+
+    # Convert depends_on to dependency criteria
+    for i, dep in enumerate(sprint_data.get('depends_on', [])):
+        if isinstance(dep, dict):
+            criterion = _create_dependency_criterion(dep, i)
+            criteria.append(criterion)
+        elif isinstance(dep, str):
+            target = CompletableTarget(
+                completable_id=dep,
+                required_status=TicketStatus.COMPLETED,
+            )
+            criteria.append(Criterion(
+                id=f"dep-{dep}",
+                description=f"Depends on {dep} completing",
+                blocks_transition_to=TicketStatus.IN_PROGRESS,
+                target=target,
+                required=True,
+            ))
+
+    # Convert tasks to subtask criteria
+    # In v1, tasks is a list of task summaries or IDs
+    for task in sprint_data.get('tasks', []):
+        if isinstance(task, dict):
+            task_id = task.get('id', '')
+            task_status_str = task.get('status', 'not_started')
+            task_status = _convert_status_to_ticket_status(task_status_str)
+        elif isinstance(task, str):
+            task_id = task
+            task_status = None
+        else:
+            continue
+
+        if task_id:
+            criterion = _create_subtask_criterion(task_id, task_status)
+            criteria.append(criterion)
+
+    # Convert quality_gates to threshold criteria
+    for i, qg in enumerate(sprint_data.get('quality_gates', [])):
+        if isinstance(qg, dict):
+            criterion = _create_quality_gate_criterion(qg, i)
+            criteria.append(criterion)
+
+    # Convert deliverables to file exists criteria
+    for i, deliverable in enumerate(sprint_data.get('deliverables', [])):
+        if isinstance(deliverable, str):
+            target = FileExistsTarget(paths=[deliverable], all_required=True)
+            criteria.append(Criterion(
+                id=f"deliverable-{i}",
+                description=f"Deliverable: {deliverable}",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
+
+    # Parse development gates
+    dev_gates = []
+    for dg in sprint_data.get('development_gates', []):
+        if isinstance(dg, dict):
+            dev_gates.append(DevelopmentGate(
+                name=dg.get('name', f'Gate'),
+                description=dg.get('description'),
+                status=GateStatus(dg.get('status', 'not_started')),
+                blocking=dg.get('blocking', True),
+            ))
+
+    # Parse commits
+    commits = _convert_legacy_commits(sprint_data.get('commits', []))
+
+    # Get parent references
+    track_id = sprint_data.get('track_id', '')
+    roadmap_id = sprint_data.get('roadmap_id', 'vibey-framework-v2')
+
+    return SprintTicket(
+        id=sprint_data['id'],
+        name=sprint_data['name'],
+        description=sprint_data.get('description'),
+        criteria=criteria,
+        parent_ref=track_id,  # Sprint's parent is the track
+        status=_convert_status_to_ticket_status(sprint_data.get('status', 'not_started')),
+        created_at=_parse_datetime(sprint_data.get('created')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(sprint_data.get('started')),
+        completed_at=_parse_datetime(sprint_data.get('completed')),
+        updated_at=_parse_datetime(sprint_data.get('metadata', {}).get('last_updated')) or datetime.now(timezone.utc),
+        assigned_agents=sprint_data.get('assigned_agents', []),
+        priority=_convert_priority(sprint_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=sprint_data.get('metadata', {}).get('estimated_duration'),
+        metadata=sprint_data.get('metadata', {}),
+        sequence=0,
+        slug='',
+        track_id=track_id,
+        roadmap_id=roadmap_id,
+        completion_gate_check_at=_parse_datetime(sprint_data.get('completion_gate_check_at')),
+        production_gate_check_at=_parse_datetime(sprint_data.get('production_gate_check_at')),
+        production_ready_at=_parse_datetime(sprint_data.get('production_ready_at')),
+        deployed_at=_parse_datetime(sprint_data.get('deployed_at')),
+        plan_file=sprint_data.get('plan_file'),
+        goal=sprint_data.get('goal'),
+        success_criteria_text=sprint_data.get('success_criteria', []),
+        risks=sprint_data.get('risks', []),
+        estimated_tokens=sprint_data.get('metadata', {}).get('estimated_tokens'),
+        actual_tokens=sprint_data.get('metadata', {}).get('actual_tokens'),
+        development_gates=dev_gates,
+    )
+
+
+def load_track_ticket(file_path: Union[str, Path]) -> TrackTicket:
+    """
+    Load a track from YAML file and return as TrackTicket (Pydantic model).
+
+    Args:
+        file_path: Path to track.yaml file
+
+    Returns:
+        TrackTicket object (Pydantic model)
+    """
+    file_path = Path(file_path)
+
+    with open(file_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if 'track' not in data:
+        raise ValueError("Missing 'track' root key")
+
+    track_data = data['track']
+    format_version = detect_yaml_format(track_data)
+
+    if format_version == 'v2':
+        return _load_track_ticket_v2(track_data)
+    else:
+        logger.debug(f"Loading v1 format track {track_data.get('id')}, migrating to v2")
+        return _migrate_track_to_ticket(track_data)
+
+
+def _load_track_ticket_v2(track_data: Dict[str, Any]) -> TrackTicket:
+    """Load TrackTicket from v2 format YAML data."""
+    # Parse criteria
+    criteria = []
+    for c in track_data.get('criteria', []):
+        target_type = CriterionTargetType(c['target']['type'])
+        target_config = {k: v for k, v in c['target'].items() if k != 'type'}
+
+        from ..models.ticket.targets import create_target
+        target = create_target(target_type, target_config)
+
+        criterion = Criterion(
+            id=c['id'],
+            description=c['description'],
+            blocks_transition_to=_convert_status_to_ticket_status(c.get('blocks_transition_to', 'completed')),
+            target=target,
+            required=c.get('required', True),
+        )
+        criteria.append(criterion)
+
+    # Parse commits
+    commits = _convert_legacy_commits(track_data.get('commits', []))
+
+    return TrackTicket(
+        id=track_data['id'],
+        name=track_data['name'],
+        description=track_data.get('description'),
+        criteria=criteria,
+        parent_ref=track_data['parent_ref'],
+        status=_convert_status_to_ticket_status(track_data.get('status', 'not_started')),
+        created_at=_parse_datetime(track_data.get('created_at')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(track_data.get('started_at')),
+        completed_at=_parse_datetime(track_data.get('completed_at')),
+        updated_at=_parse_datetime(track_data.get('updated_at')) or datetime.now(timezone.utc),
+        assigned_agents=track_data.get('assigned_agents', []),
+        priority=_convert_priority(track_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=track_data.get('estimated_duration'),
+        metadata=track_data.get('metadata', {}),
+        sequence=track_data.get('sequence', 0),
+        slug=track_data.get('slug', ''),
+        roadmap_id=track_data['roadmap_id'],
+        strategic_value=track_data.get('strategic_value', []),
+    )
+
+
+def _migrate_track_to_ticket(track_data: Dict[str, Any]) -> TrackTicket:
+    """
+    Migrate v1 track data to TrackTicket (v2 model).
+
+    Converts legacy fields:
+    - sprints → criteria with CompletableTarget
+    - depends_on → criteria (dependency)
+    - quality_gates → criteria with ThresholdTarget
+    """
+    criteria = []
+
+    # Convert depends_on to dependency criteria
+    for i, dep in enumerate(track_data.get('depends_on', [])):
+        if isinstance(dep, dict):
+            criterion = _create_dependency_criterion(dep, i)
+            criteria.append(criterion)
+        elif isinstance(dep, str):
+            target = CompletableTarget(
+                completable_id=dep,
+                required_status=TicketStatus.COMPLETED,
+            )
+            criteria.append(Criterion(
+                id=f"dep-{dep}",
+                description=f"Depends on {dep} completing",
+                blocks_transition_to=TicketStatus.IN_PROGRESS,
+                target=target,
+                required=True,
+            ))
+
+    # Convert sprints to subtask criteria
+    for sprint in track_data.get('sprints', []):
+        if isinstance(sprint, dict):
+            sprint_id = sprint.get('id', '')
+            sprint_status_str = sprint.get('status', 'not_started')
+            sprint_status = _convert_status_to_ticket_status(sprint_status_str)
+        elif isinstance(sprint, str):
+            sprint_id = sprint
+            sprint_status = None
+        else:
+            continue
+
+        if sprint_id:
+            target = CompletableTarget(
+                completable_id=sprint_id,
+                required_status=TicketStatus.COMPLETED,
+                current_status=sprint_status,
+            )
+            criteria.append(Criterion(
+                id=f"sprint-{sprint_id}",
+                description=f"Sprint {sprint_id} must complete",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
+
+    # Convert quality_gates to threshold criteria
+    for i, qg in enumerate(track_data.get('quality_gates', [])):
+        if isinstance(qg, dict):
+            criterion = _create_quality_gate_criterion(qg, i)
+            criteria.append(criterion)
+
+    # Parse commits
+    commits = _convert_legacy_commits(track_data.get('commits', []))
+
+    # Get parent reference
+    roadmap_id = track_data.get('roadmap_id', 'vibey-framework-v2')
+
+    return TrackTicket(
+        id=track_data['id'],
+        name=track_data['name'],
+        description=track_data.get('metadata', {}).get('notes'),
+        criteria=criteria,
+        parent_ref=roadmap_id,  # Track's parent is the roadmap
+        status=_convert_status_to_ticket_status(track_data.get('status', 'not_started')),
+        created_at=_parse_datetime(track_data.get('created')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(track_data.get('started')),
+        completed_at=_parse_datetime(track_data.get('completed')),
+        updated_at=_parse_datetime(track_data.get('metadata', {}).get('last_updated')) or datetime.now(timezone.utc),
+        assigned_agents=track_data.get('assigned_agents', []),
+        priority=_convert_priority(track_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=track_data.get('estimated_duration'),
+        metadata=track_data.get('metadata', {}),
+        sequence=0,
+        slug='',
+        roadmap_id=roadmap_id,
+        strategic_value=track_data.get('strategic_value', []),
+    )
+
+
+def load_roadmap_ticket(file_path: Union[str, Path]) -> RoadmapTicket:
+    """
+    Load a roadmap from YAML file and return as RoadmapTicket (Pydantic model).
+
+    Args:
+        file_path: Path to roadmap.yaml file
+
+    Returns:
+        RoadmapTicket object (Pydantic model)
+    """
+    file_path = Path(file_path)
+
+    with open(file_path, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if 'roadmap' not in data:
+        raise ValueError("Missing 'roadmap' root key")
+
+    roadmap_data = data['roadmap']
+    format_version = detect_yaml_format(roadmap_data)
+
+    if format_version == 'v2':
+        return _load_roadmap_ticket_v2(roadmap_data)
+    else:
+        logger.debug(f"Loading v1 format roadmap {roadmap_data.get('id')}, migrating to v2")
+        return _migrate_roadmap_to_ticket(roadmap_data)
+
+
+def _load_roadmap_ticket_v2(roadmap_data: Dict[str, Any]) -> RoadmapTicket:
+    """Load RoadmapTicket from v2 format YAML data."""
+    # Parse criteria
+    criteria = []
+    for c in roadmap_data.get('criteria', []):
+        target_type = CriterionTargetType(c['target']['type'])
+        target_config = {k: v for k, v in c['target'].items() if k != 'type'}
+
+        from ..models.ticket.targets import create_target
+        target = create_target(target_type, target_config)
+
+        criterion = Criterion(
+            id=c['id'],
+            description=c['description'],
+            blocks_transition_to=_convert_status_to_ticket_status(c.get('blocks_transition_to', 'completed')),
+            target=target,
+            required=c.get('required', True),
+        )
+        criteria.append(criterion)
+
+    # Parse version history
+    version_history = []
+    for vh in roadmap_data.get('version_history', []):
+        version_history.append(VersionHistoryEntry(
+            version=vh['version'],
+            released_at=_parse_datetime(vh['released_at']) or datetime.now(timezone.utc),
+            milestone=vh.get('milestone'),
+            git_tag=vh.get('git_tag'),
+            description=vh.get('description'),
+        ))
+
+    # Parse activity log
+    activity_log = []
+    for al in roadmap_data.get('activity_log', []):
+        activity_log.append(ActivityLogEntry(
+            timestamp=_parse_datetime(al['timestamp']) or datetime.now(timezone.utc),
+            action=PydanticActivityType(al['action']),
+            ticket_id=al.get('ticket_id'),
+            actor=al.get('actor'),
+            details=al.get('details'),
+            context=al.get('context'),
+        ))
+
+    # Parse deployed platforms
+    deployed_platforms = []
+    for p in roadmap_data.get('deployed_platforms', []):
+        deployed_platforms.append(PydanticPlatformDeployment(
+            platform=p['platform'],
+            context_window=p.get('context_window'),
+            deployed_at=_parse_datetime(p.get('deployed_at')),
+            primary=p.get('primary', False),
+            version=p.get('version'),
+        ))
+
+    # Parse version strategy
+    version_strategy = None
+    if 'version_strategy' in roadmap_data and roadmap_data['version_strategy']:
+        vs = roadmap_data['version_strategy']
+        version_strategy = PydanticVersionStrategy(
+            scheme=vs.get('scheme', 'semver'),
+            auto_bump=vs.get('auto_bump', False),
+            major_triggers=vs.get('major_triggers', []),
+            minor_triggers=vs.get('minor_triggers', []),
+            patch_triggers=vs.get('patch_triggers', []),
+        )
+
+    # Parse commits
+    commits = _convert_legacy_commits(roadmap_data.get('commits', []))
+
+    return RoadmapTicket(
+        id=roadmap_data['id'],
+        name=roadmap_data['name'],
+        description=roadmap_data.get('description'),
+        criteria=criteria,
+        parent_ref=None,  # Roadmap has no parent
+        status=_convert_status_to_ticket_status(roadmap_data.get('status', 'not_started')),
+        created_at=_parse_datetime(roadmap_data.get('created_at')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(roadmap_data.get('started_at')),
+        completed_at=_parse_datetime(roadmap_data.get('completed_at')),
+        updated_at=_parse_datetime(roadmap_data.get('updated_at')) or datetime.now(timezone.utc),
+        assigned_agents=roadmap_data.get('assigned_agents', []),
+        priority=_convert_priority(roadmap_data.get('priority', 'medium')),
+        commits=commits,
+        estimated_duration=roadmap_data.get('estimated_duration'),
+        metadata=roadmap_data.get('metadata', {}),
+        sequence=0,
+        slug='',
+        version=roadmap_data.get('version', '0.1.0'),
+        version_strategy=version_strategy,
+        version_history=version_history,
+        target_completion=_parse_datetime(roadmap_data.get('target_completion')),
+        deployed_at=_parse_datetime(roadmap_data.get('deployed_at')),
+        deployed_platforms=deployed_platforms,
+        activity_log=activity_log,
+    )
+
+
+def _migrate_roadmap_to_ticket(roadmap_data: Dict[str, Any]) -> RoadmapTicket:
+    """
+    Migrate v1 roadmap data to RoadmapTicket (v2 model).
+
+    Converts legacy fields:
+    - tracks → criteria with CompletableTarget
+    - dependencies → criteria
+    - version_strategy (old format) → new VersionStrategy
+    """
+    criteria = []
+
+    # Convert dependencies to dependency criteria
+    for i, dep in enumerate(roadmap_data.get('dependencies', [])):
+        if isinstance(dep, dict):
+            target = CompletableTarget(
+                completable_id=dep.get('name', f'dep-{i}'),
+                required_status=TicketStatus.COMPLETED,
+            )
+            criteria.append(Criterion(
+                id=f"dep-{i}",
+                description=f"Dependency: {dep.get('name', 'unknown')}",
+                blocks_transition_to=TicketStatus.IN_PROGRESS,
+                target=target,
+                required=True,
+            ))
+
+    # Convert tracks to subtask criteria
+    for track in roadmap_data.get('tracks', []):
+        if isinstance(track, dict):
+            track_id = track.get('id', '')
+            track_status_str = track.get('status', 'not_started')
+            track_status = _convert_status_to_ticket_status(track_status_str)
+        elif isinstance(track, str):
+            track_id = track
+            track_status = None
+        else:
+            continue
+
+        if track_id:
+            target = CompletableTarget(
+                completable_id=track_id,
+                required_status=TicketStatus.COMPLETED,
+                current_status=track_status,
+            )
+            criteria.append(Criterion(
+                id=f"track-{track_id}",
+                description=f"Track {track_id} must complete",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
+
+    # Parse version history
+    version_history = []
+    for vh in roadmap_data.get('version_history', []):
+        version_history.append(VersionHistoryEntry(
+            version=vh.get('version', '0.0.0'),
+            released_at=_parse_datetime(vh.get('date')) or datetime.now(timezone.utc),
+            milestone=vh.get('milestone'),
+            git_tag=vh.get('git_tag'),
+            description=vh.get('description'),
+        ))
+
+    # Parse activity log
+    activity_log = []
+    for al in roadmap_data.get('activity_log', []):
+        # Map old activity type to new
+        activity_type_str = al.get('type', 'system')
+        try:
+            activity_type = PydanticActivityType(activity_type_str)
+        except ValueError:
+            activity_type = PydanticActivityType.SYSTEM
+
+        activity_log.append(ActivityLogEntry(
+            timestamp=_parse_datetime(al.get('timestamp')) or datetime.now(timezone.utc),
+            action=activity_type,
+            details=al.get('description'),
+            context=al.get('context'),
+        ))
+
+    # Parse deployed platforms
+    deployed_platforms = []
+    for p in roadmap_data.get('deployed_platforms', []):
+        deployed_platforms.append(PydanticPlatformDeployment(
+            platform=p.get('platform', 'unknown'),
+            context_window=p.get('context_window'),
+            deployed_at=datetime.fromtimestamp(p['deployed_at'], tz=timezone.utc) if isinstance(p.get('deployed_at'), int) else _parse_datetime(p.get('deployed_at')),
+            primary=p.get('primary', False),
+        ))
+
+    # Parse version strategy (old format)
+    version_strategy = None
+    if 'version_strategy' in roadmap_data and roadmap_data['version_strategy']:
+        vs = roadmap_data['version_strategy']
+        version_strategy = PydanticVersionStrategy(
+            scheme='semver',
+            auto_bump=False,
+            major_triggers=[vs.get('major_on', 'roadmap_milestone')],
+            minor_triggers=[vs.get('minor_on', 'track_completion')],
+            patch_triggers=[vs.get('patch_on', 'sprint_production_ready')],
+        )
+
+    # Parse commits
+    commits = _convert_legacy_commits(roadmap_data.get('commits', []))
+
+    return RoadmapTicket(
+        id=roadmap_data['id'],
+        name=roadmap_data['name'],
+        description=roadmap_data.get('metadata', {}).get('description'),
+        criteria=criteria,
+        parent_ref=None,  # Roadmap has no parent
+        status=_convert_status_to_ticket_status(roadmap_data.get('status', 'not_started')),
+        created_at=_parse_datetime(roadmap_data.get('created')) or datetime.now(timezone.utc),
+        started_at=_parse_datetime(roadmap_data.get('started')),
+        completed_at=_parse_datetime(roadmap_data.get('completed')),
+        updated_at=_parse_datetime(roadmap_data.get('metadata', {}).get('last_updated')) or datetime.now(timezone.utc),
+        assigned_agents=[],
+        priority=Priority.HIGH,
+        commits=commits,
+        metadata=roadmap_data.get('metadata', {}),
+        sequence=0,
+        slug='',
+        version=roadmap_data.get('version', '0.1.0'),
+        version_strategy=version_strategy,
+        version_history=version_history,
+        target_completion=_parse_datetime(roadmap_data.get('target_completion')),
+        deployed_at=_parse_datetime(roadmap_data.get('deployed')),
+        deployed_platforms=deployed_platforms,
+        activity_log=activity_log,
+    )

@@ -89,6 +89,7 @@ from vibey.roadmap.models.ticket.domain import (
     VersionStrategy,
     # Domain models
     RoadmapTicket,
+    TrackTicket,
 )
 
 __all__ = [
@@ -147,6 +148,7 @@ __all__ = [
     "ActivityLogEntry",
     "PlatformDeployment",
     "VersionStrategy",
-    # Layer 3: Domain Models - RoadmapTicket
+    # Layer 3: Domain Models
     "RoadmapTicket",
+    "TrackTicket",
 ]

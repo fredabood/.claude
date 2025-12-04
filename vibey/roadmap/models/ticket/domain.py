@@ -522,6 +522,201 @@ class RoadmapTicket(HierarchicalTicket):
 
 
 # =============================================================================
+# TRACK TICKET (INTERMEDIATE - Has Parent and Children)
+# =============================================================================
+
+
+class TrackTicket(HierarchicalTicket):
+    """
+    Layer 3: TrackTicket - Intermediate level in the ticket hierarchy.
+
+    Track is ALWAYS intermediate (is_intermediate=True).
+    It must have a parent (Roadmap) and children (Sprints).
+
+    Hierarchy Constraints:
+    - is_intermediate: True (always - has both parent and children)
+    - is_parent: True (always has Sprint children via CompletableTarget criteria)
+    - is_child: True (always has Roadmap parent via parent_ref)
+    - is_ultimate_parent: False (never - always has parent)
+    - is_ultimate_child: False (never - always has children)
+
+    Track-Specific Fields (L3 only):
+    - ticket_type: Literal["track"] = "track"
+    - roadmap_id: str (required, must match parent_ref)
+    - strategic_value: List[str] (why this track matters)
+
+    Children are determined by CompletableTarget criteria referencing SprintTicket IDs.
+    """
+
+    # =========================================================================
+    # TYPE DISCRIMINATOR
+    # =========================================================================
+
+    ticket_type: Literal[TicketType.TRACK] = Field(
+        default=TicketType.TRACK,
+        description="Type discriminator for track tickets"
+    )
+
+    # =========================================================================
+    # PARENT REFERENCE
+    # =========================================================================
+
+    roadmap_id: str = Field(
+        description="ID of the parent roadmap (must match parent_ref)"
+    )
+
+    # =========================================================================
+    # STRATEGIC CONTEXT
+    # =========================================================================
+
+    strategic_value: List[str] = Field(
+        default_factory=list,
+        description="Strategic value propositions for this track"
+    )
+
+    # =========================================================================
+    # VALIDATORS
+    # =========================================================================
+
+    @model_validator(mode="after")
+    def validate_intermediate(self) -> "TrackTicket":
+        """Ensure TrackTicket is always intermediate (has parent)."""
+        if self.parent_ref is None:
+            raise ValueError(
+                "TrackTicket must have a parent_ref. "
+                "Track is always intermediate in the hierarchy (has a Roadmap parent)."
+            )
+        if self.parent_ref != self.roadmap_id:
+            raise ValueError(
+                f"parent_ref ({self.parent_ref}) must match roadmap_id ({self.roadmap_id})"
+            )
+        return self
+
+    # =========================================================================
+    # COMPUTED PROPERTIES (Intermediate Semantics)
+    # =========================================================================
+
+    @property
+    def is_ultimate_parent(self) -> bool:
+        """Track is never the ultimate parent (always has roadmap above)."""
+        return False
+
+    @property
+    def is_child(self) -> bool:
+        """Track is always a child (of roadmap)."""
+        return True
+
+    @property
+    def is_ultimate_child(self) -> bool:
+        """Track is never an ultimate child (always has sprints below)."""
+        return False
+
+    @property
+    def is_intermediate(self) -> bool:
+        """Track is always intermediate (has both parent and children)."""
+        return True
+
+    # =========================================================================
+    # TYPED CHILD ACCESSOR
+    # =========================================================================
+
+    @property
+    def sprint_criteria(self) -> List[Criterion]:
+        """
+        Get criteria that reference sprint children.
+
+        Returns CompletableTarget criteria that block COMPLETED status,
+        which represent the track's sprint children.
+        """
+        return [
+            c for c in self.all_criteria
+            if isinstance(c.target, CompletableTarget)
+            and c.blocks_transition_to == TicketStatus.COMPLETED
+        ]
+
+    @property
+    def sprints_total(self) -> int:
+        """Total number of sprint children."""
+        return len(self.sprint_criteria)
+
+    @property
+    def sprints_completed(self) -> int:
+        """Number of completed sprint children."""
+        return sum(1 for c in self.sprint_criteria if c.is_met)
+
+    def get_sprint_ids(self) -> List[str]:
+        """
+        Get IDs of sprint children.
+
+        Returns list of completable_id values from sprint criteria.
+        """
+        return [
+            c.target.completable_id
+            for c in self.sprint_criteria
+            if isinstance(c.target, CompletableTarget)
+        ]
+
+    # =========================================================================
+    # AGGREGATE PROGRESS
+    # =========================================================================
+
+    @property
+    def tasks_total(self) -> int:
+        """
+        Total tasks across all sprints.
+
+        Note: Requires sprints to be loaded via the configured loader.
+        Returns 0 if loader not configured.
+        """
+        if self._loader is None:
+            return 0
+        total = 0
+        for sprint_id in self.get_sprint_ids():
+            try:
+                sprint = self._loader.load(sprint_id)
+                if hasattr(sprint, 'tasks_total'):
+                    total += sprint.tasks_total
+                else:
+                    # If sprint doesn't have tasks_total, count its CompletableTarget children
+                    total += len([
+                        c for c in sprint.all_criteria
+                        if isinstance(c.target, CompletableTarget)
+                        and c.blocks_transition_to == TicketStatus.COMPLETED
+                    ])
+            except Exception:
+                pass
+        return total
+
+    @property
+    def tasks_completed(self) -> int:
+        """
+        Completed tasks across all sprints.
+
+        Note: Requires sprints to be loaded via the configured loader.
+        Returns 0 if loader not configured.
+        """
+        if self._loader is None:
+            return 0
+        completed = 0
+        for sprint_id in self.get_sprint_ids():
+            try:
+                sprint = self._loader.load(sprint_id)
+                if hasattr(sprint, 'tasks_completed'):
+                    completed += sprint.tasks_completed
+                else:
+                    # If sprint doesn't have tasks_completed, count met criteria
+                    completed += sum(
+                        1 for c in sprint.all_criteria
+                        if isinstance(c.target, CompletableTarget)
+                        and c.blocks_transition_to == TicketStatus.COMPLETED
+                        and c.is_met
+                    )
+            except Exception:
+                pass
+        return completed
+
+
+# =============================================================================
 # EXPORTS
 # =============================================================================
 
@@ -533,8 +728,8 @@ __all__ = [
     "VersionStrategy",
     # Domain models
     "RoadmapTicket",
-    # Future exports (Tasks 009-011):
-    # "TrackTicket",
+    "TrackTicket",
+    # Future exports (Tasks 010-011):
     # "SprintTicket",
     # "TaskTicket",
 ]

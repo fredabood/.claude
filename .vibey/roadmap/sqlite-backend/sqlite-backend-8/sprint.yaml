@@ -4,10 +4,10 @@ sprint:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: in_progress
-  blocked: true
+  blocked: false
   blocked_reason: null
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-04T22:51:44.537417+00:00'
+  started: '2025-12-04T00:00:00+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
@@ -15,39 +15,77 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 11
-    development_tasks_completed: 0
+    development_tasks_completed: 1
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 11
-    tasks_completed: 0
-    completion_percent: 0.0
-  tasks: []
+    tasks_completed: 1
+    completion_percent: 9
+  tasks:
+  - id: sqlite-backend-8-task-001
+    title: Update yaml_loader.py to construct new Pydantic models
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-002
+    title: Update yaml_dumper.py for hierarchy serialization
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-003
+    title: Update sql_loader.py with SQLAlchemy ORM
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-004
+    title: Database schema migration for hierarchy columns
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-005
+    title: Update sql_dumper.py with SQLAlchemy ORM
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-006
+    title: Round-trip integrity testing
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-007
+    title: Create migration CLI command
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-008
+    title: Implement GitCommit Completion Tracking in Serialization
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-009
+    title: Migrate Metadata and Version Strategy to Markdown Deliverables
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-010
+    title: Migrate Audit Fields to ThresholdTarget Criteria and Markdown Reports
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-8-task-011
+    title: Implement new directory structure and file format in serialization
+    status: not_started
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: sqlite-backend-7
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Updated yaml_loader.py with semantic layer header parsing
-  - Updated yaml_dumper.py with semantic layer header and type_fields
-  - Updated sql_loader.py using SQLAlchemy Core (from Sprint 7)
-  - Updated sql_dumper.py using SQLAlchemy Core with dialect-aware JSON
-  - Database schema migration using SQLAlchemy (add semantic_layer, external_id, type_fields
-    columns)
-  - Backward compatibility for existing YAML files (auto-detect old format)
-  - Migration CLI command (vibey roadmap migrate-format)
-  - New directory structure migration (tracks/, sprints/, tasks/, artifacts/)
-  - YAML format with meta header (semantic_layer, schema_version)
-  - PostgreSQL compatibility verified via SQLAlchemy dialect abstraction
+  deliverables: []
   description: null
   goal: null
   success_criteria: []
@@ -58,8 +96,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

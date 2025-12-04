@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from vibey.roadmap.models.ticket.completable import Criterion
-from vibey.roadmap.models.ticket.enums import ActivityType, TicketStatus, TicketType
+from vibey.roadmap.models.ticket.enums import ActivityType, GateStatus, TicketStatus, TicketType
 from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
 from vibey.roadmap.models.ticket.targets import CompletableTarget
 
@@ -717,6 +717,486 @@ class TrackTicket(HierarchicalTicket):
 
 
 # =============================================================================
+# SPRINT-SPECIFIC SUPPORT CLASSES
+# =============================================================================
+
+
+class DevelopmentGate(BaseModel):
+    """
+    Sprint-specific blocking condition.
+
+    Development gates are used to track sprint-level quality checkpoints
+    that must be passed before the sprint can complete.
+    """
+
+    name: str = Field(description="Gate name (e.g., 'code_review', 'security_audit')")
+    description: Optional[str] = Field(
+        default=None,
+        description="Human-readable description of the gate"
+    )
+    status: GateStatus = Field(
+        default=GateStatus.NOT_STARTED,
+        description="Current gate status"
+    )
+    resolved_at: Optional[datetime] = Field(
+        default=None,
+        description="When the gate was resolved (passed or failed)"
+    )
+    blocking: bool = Field(
+        default=True,
+        description="Whether this gate blocks sprint completion"
+    )
+    resolver: Optional[str] = Field(
+        default=None,
+        description="Who/what resolved the gate"
+    )
+
+    @model_validator(mode="after")
+    def validate_resolved_timestamp(self) -> "DevelopmentGate":
+        """Ensure resolved_at is set when status is resolved."""
+        if self.status.is_resolved() and self.resolved_at is None:
+            # Auto-set resolved_at if status is resolved but timestamp missing
+            object.__setattr__(self, "resolved_at", datetime.now(timezone.utc))
+        return self
+
+    def pass_gate(self, resolver: Optional[str] = None) -> "DevelopmentGate":
+        """Mark gate as passed."""
+        return self.model_copy(update={
+            "status": GateStatus.PASSED,
+            "resolved_at": datetime.now(timezone.utc),
+            "resolver": resolver,
+        })
+
+    def fail_gate(self, resolver: Optional[str] = None) -> "DevelopmentGate":
+        """Mark gate as failed."""
+        return self.model_copy(update={
+            "status": GateStatus.FAILED,
+            "resolved_at": datetime.now(timezone.utc),
+            "resolver": resolver,
+        })
+
+
+# =============================================================================
+# SPRINT TICKET (INTERMEDIATE - Has Parent and Children)
+# =============================================================================
+
+
+class SprintTicket(HierarchicalTicket):
+    """
+    Layer 3: SprintTicket - Intermediate level in the ticket hierarchy.
+
+    Sprint is ALWAYS intermediate (is_intermediate=True).
+    It must have a parent (Track) and children (Tasks).
+
+    Hierarchy Constraints:
+    - is_intermediate: True (always - has both parent and children)
+    - is_parent: True (always has Task children via CompletableTarget criteria)
+    - is_child: True (always has Track parent via parent_ref)
+    - is_ultimate_parent: False (never - always has parent)
+    - is_ultimate_child: False (never - always has children)
+
+    Sprint-Specific Fields (L3 only):
+    - ticket_type: Literal["sprint"] = "sprint"
+    - track_id: str (required, must match parent_ref)
+    - roadmap_id: str (required, grandparent reference)
+    - Extended lifecycle timestamps (completion_gate_check_at, production_gate_check_at, etc.)
+    - Planning fields (plan_file, goal, success_criteria_text, risks)
+    - Estimation fields (estimated_tokens, actual_tokens)
+    - development_gates: List[DevelopmentGate] (sprint-specific blocking)
+
+    Children are determined by CompletableTarget criteria referencing TaskTicket IDs.
+    """
+
+    # =========================================================================
+    # TYPE DISCRIMINATOR
+    # =========================================================================
+
+    ticket_type: Literal[TicketType.SPRINT] = Field(
+        default=TicketType.SPRINT,
+        description="Type discriminator for sprint tickets"
+    )
+
+    # =========================================================================
+    # PARENT REFERENCES
+    # =========================================================================
+
+    track_id: str = Field(
+        description="ID of the parent track (must match parent_ref)"
+    )
+    roadmap_id: str = Field(
+        description="ID of the grandparent roadmap"
+    )
+
+    # =========================================================================
+    # EXTENDED LIFECYCLE TIMESTAMPS
+    # =========================================================================
+
+    completion_gate_check_at: Optional[datetime] = Field(
+        default=None,
+        description="When completion gate check started"
+    )
+    production_gate_check_at: Optional[datetime] = Field(
+        default=None,
+        description="When production gate check started"
+    )
+    production_ready_at: Optional[datetime] = Field(
+        default=None,
+        description="When sprint became production ready"
+    )
+    deployed_at: Optional[datetime] = Field(
+        default=None,
+        description="When sprint was deployed"
+    )
+
+    # =========================================================================
+    # PLANNING FIELDS
+    # =========================================================================
+
+    plan_file: Optional[str] = Field(
+        default=None,
+        description="Path to sprint plan document"
+    )
+    goal: Optional[str] = Field(
+        default=None,
+        description="Sprint objective/goal"
+    )
+    success_criteria_text: List[str] = Field(
+        default_factory=list,
+        description="Human-readable success criteria (legacy, use criteria field instead)"
+    )
+    risks: List[str] = Field(
+        default_factory=list,
+        description="Identified risks for this sprint"
+    )
+
+    # =========================================================================
+    # ESTIMATION FIELDS
+    # =========================================================================
+
+    estimated_tokens: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Estimated token budget for sprint"
+    )
+    actual_tokens: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Actual tokens used"
+    )
+
+    # =========================================================================
+    # DEVELOPMENT GATES
+    # =========================================================================
+
+    development_gates: List[DevelopmentGate] = Field(
+        default_factory=list,
+        description="Sprint-level quality gates"
+    )
+
+    # =========================================================================
+    # VALIDATORS
+    # =========================================================================
+
+    @model_validator(mode="after")
+    def validate_intermediate(self) -> "SprintTicket":
+        """Ensure SprintTicket is always intermediate (has parent)."""
+        if self.parent_ref is None:
+            raise ValueError(
+                "SprintTicket must have a parent_ref. "
+                "Sprint is always intermediate in the hierarchy (has a Track parent)."
+            )
+        if self.parent_ref != self.track_id:
+            raise ValueError(
+                f"parent_ref ({self.parent_ref}) must match track_id ({self.track_id})"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def validate_extended_lifecycle_order(self) -> "SprintTicket":
+        """Validate extended lifecycle timestamps are in order."""
+        # The order should be: started -> completed -> completion_gate_check ->
+        # production_gate_check -> production_ready -> deployed
+        timestamps = [
+            ("started_at", self.started_at),
+            ("completed_at", self.completed_at),
+            ("completion_gate_check_at", self.completion_gate_check_at),
+            ("production_gate_check_at", self.production_gate_check_at),
+            ("production_ready_at", self.production_ready_at),
+            ("deployed_at", self.deployed_at),
+        ]
+
+        prev_name = None
+        prev_ts = None
+        for name, ts in timestamps:
+            if ts is not None:
+                if prev_ts is not None and ts < prev_ts:
+                    raise ValueError(
+                        f"{name} cannot be before {prev_name}"
+                    )
+                prev_name = name
+                prev_ts = ts
+        return self
+
+    @field_validator("track_id", "roadmap_id")
+    @classmethod
+    def validate_not_empty(cls, v: str) -> str:
+        """Validate required IDs are not empty."""
+        if not v or not v.strip():
+            raise ValueError("ID cannot be empty")
+        return v
+
+    # =========================================================================
+    # COMPUTED PROPERTIES (Intermediate Semantics)
+    # =========================================================================
+
+    @property
+    def is_ultimate_parent(self) -> bool:
+        """Sprint is never the ultimate parent (always has track above)."""
+        return False
+
+    @property
+    def is_child(self) -> bool:
+        """Sprint is always a child (of track)."""
+        return True
+
+    @property
+    def is_ultimate_child(self) -> bool:
+        """Sprint is never an ultimate child (always has tasks below)."""
+        return False
+
+    @property
+    def is_intermediate(self) -> bool:
+        """Sprint is always intermediate (has both parent and children)."""
+        return True
+
+    # =========================================================================
+    # TYPED CHILD ACCESSOR
+    # =========================================================================
+
+    @property
+    def task_criteria(self) -> List[Criterion]:
+        """
+        Get criteria that reference task children.
+
+        Returns CompletableTarget criteria that block COMPLETED status,
+        which represent the sprint's task children.
+        """
+        return [
+            c for c in self.all_criteria
+            if isinstance(c.target, CompletableTarget)
+            and c.blocks_transition_to == TicketStatus.COMPLETED
+        ]
+
+    @property
+    def tasks_total(self) -> int:
+        """Total number of task children."""
+        return len(self.task_criteria)
+
+    @property
+    def tasks_completed(self) -> int:
+        """Number of completed task children."""
+        return sum(1 for c in self.task_criteria if c.is_met)
+
+    def get_task_ids(self) -> List[str]:
+        """
+        Get IDs of task children.
+
+        Returns list of completable_id values from task criteria.
+        """
+        return [
+            c.target.completable_id
+            for c in self.task_criteria
+            if isinstance(c.target, CompletableTarget)
+        ]
+
+    # =========================================================================
+    # DEVELOPMENT GATE METHODS
+    # =========================================================================
+
+    @property
+    def blocking_gates(self) -> List[DevelopmentGate]:
+        """Get gates that are currently blocking."""
+        return [g for g in self.development_gates if g.blocking and g.status.is_blocking()]
+
+    @property
+    def all_gates_passed(self) -> bool:
+        """Check if all blocking gates have passed."""
+        return all(
+            not g.blocking or g.status == GateStatus.PASSED
+            for g in self.development_gates
+        )
+
+    def add_gate(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        blocking: bool = True,
+    ) -> "SprintTicket":
+        """Add a new development gate."""
+        gate = DevelopmentGate(
+            name=name,
+            description=description,
+            blocking=blocking,
+        )
+        return self.model_copy(update={
+            "development_gates": self.development_gates + [gate],
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+    def resolve_gate(
+        self,
+        gate_name: str,
+        passed: bool,
+        resolver: Optional[str] = None,
+    ) -> "SprintTicket":
+        """Resolve a development gate by name."""
+        new_gates = []
+        found = False
+        for gate in self.development_gates:
+            if gate.name == gate_name:
+                found = True
+                if passed:
+                    new_gates.append(gate.pass_gate(resolver))
+                else:
+                    new_gates.append(gate.fail_gate(resolver))
+            else:
+                new_gates.append(gate)
+
+        if not found:
+            raise ValueError(f"Gate '{gate_name}' not found")
+
+        return self.model_copy(update={
+            "development_gates": new_gates,
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+    # =========================================================================
+    # LIFECYCLE TRANSITION CHECKS
+    # =========================================================================
+
+    def can_enter_completion_gate_check(self) -> bool:
+        """
+        Check if sprint can enter completion gate check.
+
+        Requires all development tasks to be complete.
+        """
+        return self.tasks_total > 0 and self.tasks_completed == self.tasks_total
+
+    def can_complete(self) -> tuple[bool, list[str]]:
+        """
+        Check if sprint can be marked complete.
+
+        Requires all tasks done AND all development gates passed.
+
+        Returns:
+            Tuple of (can_complete, list of blocking reasons)
+        """
+        # First check base class criteria
+        base_can, base_reasons = super().can_complete()
+
+        # Add sprint-specific checks
+        reasons = list(base_reasons)
+
+        if not self.can_enter_completion_gate_check():
+            reasons.append(
+                f"Not all tasks completed: {self.tasks_completed}/{self.tasks_total}"
+            )
+
+        if not self.all_gates_passed:
+            blocking_gate_names = [g.name for g in self.blocking_gates]
+            reasons.append(
+                f"Blocking gates not passed: {', '.join(blocking_gate_names)}"
+            )
+
+        return len(reasons) == 0, reasons
+
+    def can_be_production_ready(self) -> bool:
+        """
+        Check if sprint can be marked production ready.
+
+        Requires completion and all gates passed.
+        """
+        return self.can_complete()
+
+    # =========================================================================
+    # EXTENDED LIFECYCLE METHODS
+    # =========================================================================
+
+    def enter_completion_gate_check(self) -> "SprintTicket":
+        """
+        Transition to completion gate check status.
+
+        Raises ValueError if dev tasks not complete.
+        """
+        if not self.can_enter_completion_gate_check():
+            raise ValueError(
+                f"Cannot enter completion gate check: "
+                f"{self.tasks_completed}/{self.tasks_total} tasks completed"
+            )
+
+        now = datetime.now(timezone.utc)
+        return self.model_copy(update={
+            "status": TicketStatus.COMPLETION_GATE_CHECK,
+            "completion_gate_check_at": now,
+            "updated_at": now,
+        })
+
+    def enter_production_gate_check(self) -> "SprintTicket":
+        """
+        Transition to production gate check status.
+
+        Raises ValueError if completion gate not passed.
+        """
+        if self.status != TicketStatus.COMPLETED:
+            raise ValueError(
+                "Cannot enter production gate check: sprint must be completed first"
+            )
+
+        now = datetime.now(timezone.utc)
+        return self.model_copy(update={
+            "status": TicketStatus.PRODUCTION_GATE_CHECK,
+            "production_gate_check_at": now,
+            "updated_at": now,
+        })
+
+    def mark_production_ready(self) -> "SprintTicket":
+        """
+        Mark sprint as production ready.
+
+        Raises ValueError if not in production gate check.
+        """
+        if self.status != TicketStatus.PRODUCTION_GATE_CHECK:
+            raise ValueError(
+                "Cannot mark production ready: must be in production gate check status"
+            )
+
+        now = datetime.now(timezone.utc)
+        return self.model_copy(update={
+            "status": TicketStatus.PRODUCTION_READY,
+            "production_ready_at": now,
+            "updated_at": now,
+        })
+
+    def deploy(self) -> "SprintTicket":
+        """
+        Mark sprint as deployed.
+
+        Raises ValueError if not production ready.
+        """
+        if self.status != TicketStatus.PRODUCTION_READY:
+            raise ValueError(
+                "Cannot deploy: must be production ready first"
+            )
+
+        now = datetime.now(timezone.utc)
+        return self.model_copy(update={
+            "status": TicketStatus.DEPLOYED,
+            "deployed_at": now,
+            "updated_at": now,
+        })
+
+
+# =============================================================================
 # EXPORTS
 # =============================================================================
 
@@ -726,10 +1206,11 @@ __all__ = [
     "ActivityLogEntry",
     "PlatformDeployment",
     "VersionStrategy",
+    "DevelopmentGate",
     # Domain models
     "RoadmapTicket",
     "TrackTicket",
-    # Future exports (Tasks 010-011):
-    # "SprintTicket",
+    "SprintTicket",
+    # Future exports (Task 011):
     # "TaskTicket",
 ]

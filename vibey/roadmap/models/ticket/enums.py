@@ -287,6 +287,33 @@ class RequirementType(str, Enum):
 
 
 # =============================================================================
+# GATE STATUS ENUMS
+# =============================================================================
+
+
+class GateStatus(str, Enum):
+    """
+    Status of development gates (sprint-specific blocking conditions).
+
+    Gates are used to track sprint-level quality checkpoints.
+    """
+
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
+    PASSED = "passed"
+    FAILED = "failed"
+    BLOCKED = "blocked"
+
+    def is_resolved(self) -> bool:
+        """Check if this gate is resolved (passed or failed)."""
+        return self in (self.PASSED, self.FAILED)
+
+    def is_blocking(self) -> bool:
+        """Check if this gate status is blocking."""
+        return self in (self.NOT_STARTED, self.IN_PROGRESS, self.BLOCKED, self.FAILED)
+
+
+# =============================================================================
 # DEPENDENCY ENUMS
 # =============================================================================
 
@@ -393,6 +420,8 @@ __all__ = [
     "InheritMode",
     "EnforcementMode",
     "RequirementType",
+    # Gate status
+    "GateStatus",
     # Dependencies
     "DependencyRelation",
     # Deliverables

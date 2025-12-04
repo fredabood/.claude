@@ -27,6 +27,8 @@ from vibey.roadmap.models.ticket.enums import (
     InheritMode,
     EnforcementMode,
     RequirementType,
+    # Gate status
+    GateStatus,
     # Dependencies
     DependencyRelation,
     # Deliverables
@@ -87,9 +89,11 @@ from vibey.roadmap.models.ticket.domain import (
     ActivityLogEntry,
     PlatformDeployment,
     VersionStrategy,
+    DevelopmentGate,
     # Domain models
     RoadmapTicket,
     TrackTicket,
+    SprintTicket,
 )
 
 __all__ = [
@@ -107,6 +111,8 @@ __all__ = [
     "InheritMode",
     "EnforcementMode",
     "RequirementType",
+    # Enums - Gate status
+    "GateStatus",
     # Enums - Dependencies
     "DependencyRelation",
     # Enums - Deliverables
@@ -148,7 +154,9 @@ __all__ = [
     "ActivityLogEntry",
     "PlatformDeployment",
     "VersionStrategy",
+    "DevelopmentGate",
     # Layer 3: Domain Models
     "RoadmapTicket",
     "TrackTicket",
+    "SprintTicket",
 ]

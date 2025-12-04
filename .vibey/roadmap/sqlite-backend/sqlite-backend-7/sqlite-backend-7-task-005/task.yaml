@@ -90,9 +90,9 @@ task:
   - blocker_id: sqlite-backend-7-task-002
     blocker_type: task
     required_status: completed
-    current_status: not_started
+    current_status: in_progress
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+    last_checked: '2025-12-04T22:09:03.037352+00:00'
   - blocker_id: sqlite-backend-7-task-003
     blocker_type: task
     required_status: completed

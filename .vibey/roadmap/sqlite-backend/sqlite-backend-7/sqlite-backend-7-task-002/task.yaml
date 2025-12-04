@@ -31,10 +31,10 @@ task:
     \nSUCCESS CRITERIA:\n- Artifact entity with all fields implemented\n- Staleness\
     \ detection works correctly\n- Content hash computation works\n- File existence\
     \ verification works\n- JSON/YAML serialization works\n- Full test coverage\n"
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
-  started: null
+  started: '2025-12-04T22:09:02.926362+00:00'
   completed: null
   assigned_agent: backend-engineer
   priority: critical

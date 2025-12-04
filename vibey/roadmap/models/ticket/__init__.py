@@ -49,6 +49,14 @@ from vibey.roadmap.models.ticket.artifact_enums import (
     DocumentationHealth,
 )
 
+from vibey.roadmap.models.ticket.artifact import (
+    # Protocol
+    ArtifactRegistry,
+    # Artifact classes
+    ArtifactProvenance,
+    Artifact,
+)
+
 from vibey.roadmap.models.ticket.support import (
     Progress,
     TestResult,
@@ -196,6 +204,10 @@ __all__ = [
     "ContextArtifactSubtype",
     "DocumentationSubtype",
     "DocumentationHealth",
+    # Artifact system
+    "ArtifactRegistry",
+    "ArtifactProvenance",
+    "Artifact",
     # Support classes
     "Progress",
     "TestResult",

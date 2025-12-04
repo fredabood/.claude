@@ -5,9 +5,9 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: true
-  blocked_reason: Waiting for SQLite backend implementation. Sprint 5 tasks will be
-    revised to use DB as source of truth instead of separate manifest system. This
-    simplifies architecture and avoids throwaway work.
+  blocked_reason: Waiting for SQLite backend completion (specifically sqlite-backend-9
+    which implements process_commit() and verify_completion_claims()). This sprint
+    integrates git hooks with the unified ticket architecture from sqlite-backend-6.
   created: '2025-11-26T01:21:21.766611+00:00'
   started: null
   completion_gate_check_at: null
@@ -29,21 +29,126 @@ sprint:
     required_status: completed
     blocking_since: '2025-11-26T00:00:00+00:00'
   depends_on:
-  - blocker_id: sqlite-backend-1
+  - blocker_id: sqlite-backend-9
     blocker_type: sprint
     required_status: completed
-    current_status: in_progress
+    current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: '2025-11-27T00:00:00+00:00'
+    last_checked: '2025-12-04T00:00:00+00:00'
   depended_on_by: []
   plan_file: /Users/fredabood/Repositories/vibey/.vibey/roadmap/git-integration/git-integration-5-plan.md
-  deliverables: []
+  deliverables:
+  # Pre-commit Hook Integration
+  - Pre-commit hook using verify_completion_claims()
+  - Commit message parsing for "Completes:" lines
+  - Criteria validation before completion claims allowed
+  - Blocking enforcement for unmet criteria
+  # Post-commit Hook Integration
+  - Post-commit hook using process_commit()
+  - GitCommit.from_git() integration with file tracking
+  - Artifact linking (file paths → artifact IDs)
+  - Content hash updates for modified artifacts
+  - Documentation staleness detection
+  # Validation Integration
+  - CommitArtifactValidator integration
+  - Warning generation for incidental artifact changes
+  - Provenance tracking for all artifact modifications
+  # CLI Commands
+  - vibey git hooks install (updated for new architecture)
+  - vibey git validate-commit <sha>
+  - vibey git show-provenance <artifact-id>
+  - vibey git check-staleness
+  # Documentation
+  - Updated git integration documentation
+  - Commit message convention guide with "Completes:" format
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-26T01:21:21.766611+00:00'
-    estimated_duration: 2 weeks
+    last_updated: '2025-12-04T00:00:00+00:00'
+    estimated_duration: 2.5 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
+    notes: |
+      Sprint 5: Roadmap Integrity Protection (SQLite-Based)
+
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+      CODE REFERENCE: sqlite-backend-6/context/sample_code/models/
+
+      GOAL: Integrate git hooks with the unified ticket architecture to provide
+      commit-level integrity protection for the roadmap system.
+
+      DEPENDS ON: sqlite-backend-9 (Operations Migration) which implements
+      process_commit() and verify_completion_claims()
+
+      ARCHITECTURE INTEGRATION:
+
+      1. PRE-COMMIT HOOK (verify_completion_claims):
+         ```
+         ┌────────────────────────────────────────────────────────────┐
+         │ git commit -m "feat: Add auth module                       │
+         │                                                            │
+         │ Completes: sqlite-backend-6-task-009"                      │
+         └────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+         ┌────────────────────────────────────────────────────────────┐
+         │ verify_completion_claims(message)                          │
+         │   1. Parse "Completes:" lines → ticket IDs                 │
+         │   2. For each ticket: can_transition_to(COMPLETED)?        │
+         │   3. If any criteria not met → BLOCK commit                │
+         │   4. If all criteria met → ALLOW commit                    │
+         └────────────────────────────────────────────────────────────┘
+         ```
+
+      2. POST-COMMIT HOOK (process_commit):
+         ```
+         ┌────────────────────────────────────────────────────────────┐
+         │ process_commit(sha)                                        │
+         │   1. GitCommit.from_git(sha) → parse file changes          │
+         │   2. commit.link_to_artifacts(registry) → match files      │
+         │   3. Update artifact states:                               │
+         │      - created_by_commit                                   │
+         │      - last_modified_by_commit                             │
+         │      - content_hash                                        │
+         │   4. Detect stale documentation                            │
+         │   5. Link commit to tickets (commits_local)                │
+         │   6. Run CommitArtifactValidator → generate warnings       │
+         └────────────────────────────────────────────────────────────┘
+         ```
+
+      3. VALIDATION PHILOSOPHY (from architecture):
+         - Criterion is source of truth for what task REQUIRES
+         - Commit is record of what HAPPENED
+         - Allow divergence, make it visible via warnings
+         - Only BLOCK on completion claim with unmet criteria
+
+      4. COMMIT MESSAGE CONVENTION:
+         ```
+         feat(component): Description of changes
+
+         - Bullet point 1
+         - Bullet point 2
+
+         Completes: sqlite-backend-6-task-009
+         Completes: sqlite-backend-6-task-010
+
+         🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+         Co-Authored-By: Claude <noreply@anthropic.com>
+         ```
+
+      KEY FILES FROM ARCHITECTURE:
+      - sample_code/models/git_commit.py
+      - sample_code/models/func_process_commit.py
+      - sample_code/models/func_verify_completion_claims.py
+      - sample_code/models/commit_artifact_validator.py
+
+      TASK BREAKDOWN (suggested):
+      1. Pre-commit hook implementation
+      2. Post-commit hook implementation
+      3. CommitArtifactValidator integration
+      4. CLI commands (validate-commit, show-provenance, check-staleness)
+      5. Hook installation/uninstallation updates
+      6. Documentation and testing

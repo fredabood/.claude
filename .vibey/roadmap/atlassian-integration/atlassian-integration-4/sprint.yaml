@@ -189,29 +189,63 @@ sprint:
   - E2E test suite
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 4 polishes the integration and adds advanced features.
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: |
+      Sprint 4: Unified Atlassian Experience & SemanticLayerRegistry
 
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+
+      KEY ARCHITECTURAL DELIVERABLES:
+
+      1. SEMANTIC LAYER CONFIGURATION:
+         ```yaml
+         # .vibey/config/semantic.yaml
+         semantic_layer:
+           provider: jira
+
+           jira:
+             site: company.atlassian.net
+             project_key: PROJ
+
+             type_mapping:
+               project: roadmap
+               epic: tracks
+               sprint: sprints
+               issue: tasks
+               subtask: tasks
+
+             status_map:
+               "To Do": not_started
+               "In Progress": in_progress
+               "Done": completed
+               "Released": deployed
+
+             field_map:
+               story_points: estimated_tokens
+         ```
+
+      2. SEMANTIC LAYER REGISTRY INTEGRATION:
+         ```python
+         # On startup with Jira config
+         jira_layer = JiraSemanticLayer(JiraProjectConfig(...))
+         SemanticLayerRegistry.register(jira_layer)
+         SemanticLayerRegistry.set_default("jira:PROJ")
+         ```
+
+      3. MIXED SEMANTIC LAYERS (future):
+         Support for multiple semantic layers in same roadmap:
+         - Local Vibey tracks for internal work
+         - Synced Jira tracks for external collaboration
+         - Coexisting with different semantic_layer values
 
       Focus areas:
-
       1. User experience - smooth CLI, good errors
-
       2. Cross-product integration - Jira + Confluence together
-
       3. Enterprise features - bulk ops, notifications
-
       4. Documentation - make it easy to adopt
 
-
       After this sprint, teams can:
-
       - Manage Vibey roadmap from Jira
-
       - Keep Confluence docs in sync with repo
-
       - Get full audit trail in Atlassian
-
       - Collaborate with non-technical stakeholders
-
-      '

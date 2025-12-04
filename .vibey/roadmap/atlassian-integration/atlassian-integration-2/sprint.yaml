@@ -172,26 +172,49 @@ sprint:
   - Comprehensive sync tests
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 2 adds write operations and bidirectional sync.
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: |
+      Sprint 2: Jira Bidirectional Sync using Semantic Layer
 
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 
-      Key challenge: Conflict resolution when both sides change.
+      KEY INTEGRATION POINTS:
 
+      1. STATUS MAPPING VIA SEMANTIC LAYER:
+         On pull from Jira:
+         ```python
+         jira_status = issue['fields']['status']['name']  # "In Review"
+         canonical = jira_layer.map_status_to_canonical("issue", jira_status)
+         # → TicketStatus.IN_PROGRESS
+         ```
 
-      Sync modes:
+         On push to Jira:
+         ```python
+         canonical = ticket.status  # TicketStatus.COMPLETED
+         jira_status = jira_layer.map_status_from_canonical("issue", canonical)
+         # → "Done"
+         ```
 
+      2. EXTERNAL_STATUS FOR ROUND-TRIP:
+         - Preserve original Jira status in external_status field
+         - If status unchanged locally, use external_status on push back
+         - If status changed locally, map from canonical
+
+      3. SYNC STATE TRACKING:
+         - Use content hash for change detection
+         - External timestamps from Jira API
+         - Internal timestamps from Ticket fields
+
+      4. CONFLICT DETECTION:
+         - Compare last_sync timestamp with both sides' modification times
+         - If both modified since sync → conflict
+         - Conflict resolution strategies: Jira-wins, Vibey-wins, manual
+
+      SYNC MODES:
       1. PULL-ONLY: Jira is source of truth, Vibey is read-only
-
       2. PUSH-ONLY: Vibey is source of truth, Jira reflects
-
       3. BIDIRECTIONAL: Both sides can change, conflicts resolved
 
-
       For teams using Jira, PULL-ONLY is recommended.
-
       For solo devs wanting Jira visibility, PUSH-ONLY works.
-
       BIDIRECTIONAL is complex but powerful.
-
-      '

@@ -1,0 +1,13 @@
+class ArtifactType(str, Enum):
+    CODE = "code"
+    TEST = "test"
+    CONFIG = "config"
+    DOCUMENTATION = "documentation"
+    CONTEXT = "context"
+    AGENT = "agent"
+    WORKFLOW = "workflow"
+    TEMPLATE = "template"
+    DATA = "data"
+    ASSET = "asset"
+    SCHEMA = "schema"
+    OTHER = "other"

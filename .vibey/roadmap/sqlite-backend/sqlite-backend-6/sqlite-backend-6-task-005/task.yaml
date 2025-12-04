@@ -120,11 +120,11 @@ task:
     - Progress computed per transition type\n- Children derived from CompletableTarget\
     \ criteria\n- Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)\n\
     - Full test coverage\n- JSON/YAML serialization works\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-11-29T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-04T00:00:00+00:00'
+  completed: '2025-12-04T00:00:00+00:00'
   assigned_agent: backend-engineer
   priority: critical
   phase_label: foundation

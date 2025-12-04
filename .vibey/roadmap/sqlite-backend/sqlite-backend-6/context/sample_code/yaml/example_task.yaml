@@ -1,0 +1,62 @@
+task:
+  id: sqlite-backend-6-task-001
+  name: Implement Layer 1 Base Ticket
+  status: not_started
+
+  # Unified criteria section
+  criteria:
+    # Dependency (blocks starting)
+    - id: depends-on-enums
+      description: Enum definitions must be complete
+      blocks_transition_to: in_progress
+      target:
+        type: completable
+        completable_id: sqlite-backend-6-task-010
+        required_status: completed
+
+    # Deliverable (blocks completing)
+    - id: code-deliverable
+      description: Base ticket implementation
+      blocks_transition_to: completed
+      target:
+        type: file_exists
+        paths:
+          - vibey/roadmap/models/ticket/base.py
+
+    # Tests pass (blocks completing)
+    - id: tests-pass
+      description: All unit tests pass
+      blocks_transition_to: completed
+      target:
+        type: test_passes
+        test_command: pytest tests/roadmap/models/ticket/test_base.py
+        pass_threshold: 100.0
+
+    # Test coverage (blocks completing)
+    - id: test-coverage
+      description: Minimum 80% line coverage
+      blocks_transition_to: completed
+      target:
+        type: test_coverage
+        source_command: pytest --cov=vibey/roadmap/models/ticket --cov-report=json
+        coverage_type: line
+        overall_threshold: 80.0
+        exclude_patterns:
+          - "*/tests/*"
+
+    # Manual assessment (blocks completing)
+    - id: code-review
+      description: Code review completed
+      blocks_transition_to: completed
+      target:
+        type: manual
+        assessor: senior-engineer
+
+  # Work tracking
+  commits_local: []
+  assigned_agents_local: [backend-engineer]
+
+  # Task-specific
+  task_type: development
+  estimated_tokens: 2000
+  complexity: medium

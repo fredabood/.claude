@@ -1,0 +1,66 @@
+# Example: Task with artifact-based criteria
+task:
+  id: sqlite-backend-6-task-001
+  name: Implement Layer 1 Base Ticket
+  status: not_started
+
+  criteria:
+    # Context artifact (must exist before starting)
+    - id: design-doc
+      description: Design document for ticket implementation
+      blocks_transition_to: in_progress
+      target:
+        type: artifact
+        artifact_id: art-sqlite-backend-6-design
+        verification: exists
+
+    # Code artifact (must exist to complete)
+    - id: code-impl
+      description: Base ticket implementation
+      blocks_transition_to: completed
+      target:
+        type: artifact
+        artifact_id: art-ticket-base-py
+        verification: exists
+
+    # Documentation artifact (must exist and not be stale to complete)
+    - id: api-docs
+      description: API documentation for Ticket model
+      blocks_transition_to: completed
+      target:
+        type: artifact
+        artifact_id: art-ticket-api-docs
+        verification: not_stale
+
+# Artifact definitions (separate file or inline)
+artifacts:
+  - id: art-sqlite-backend-6-design
+    name: Sprint 6 Design Document
+    paths:
+      - .vibey/roadmap/sqlite-backend/sqlite-backend-6/context/UNIFIED_TICKET_ARCHITECTURE.md
+    artifact_type: context
+    artifact_subtype: planning_doc
+    provenance:
+      provenance_type: ticket_created
+      created_by_ticket_id: sqlite-backend-6
+
+  - id: art-ticket-base-py
+    name: Ticket Base Implementation
+    paths:
+      - vibey/roadmap/models/ticket/base.py
+      - vibey/roadmap/models/ticket/__init__.py
+    artifact_type: code
+    provenance:
+      provenance_type: ticket_created
+      created_by_ticket_id: sqlite-backend-6-task-001
+
+  - id: art-ticket-api-docs
+    name: Ticket Model API Reference
+    paths:
+      - docs/reference/api/ticket-model.md
+    artifact_type: documentation
+    artifact_subtype: api_reference
+    documents_artifact_id: art-ticket-base-py  # Links to code artifact
+    provenance:
+      provenance_type: ticket_created
+      created_by_ticket_id: sqlite-backend-6-task-001

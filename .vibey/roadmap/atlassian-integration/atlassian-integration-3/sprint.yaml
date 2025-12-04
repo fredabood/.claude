@@ -169,26 +169,45 @@ sprint:
   - Confluence integration tests
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 3 adds Confluence integration for documentation.
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: |
+      Sprint 3: Confluence Documentation as Artifacts
 
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/03-ARTIFACT-SYSTEM.md
+
+      ARCHITECTURAL INTEGRATION:
+
+      1. CONFLUENCE PAGES AS ARTIFACTS:
+         Confluence pages can be tracked as Artifact entities:
+         ```yaml
+         artifact:
+           id: 01JD4CONFLUENCE
+           artifact_type: DOCUMENTATION
+           paths: ["docs/api-guide.md"]
+           provenance:
+             type: EXTERNAL
+             source: "confluence:SPACE/page-id"
+           documents_artifact_id: 01JD4API_MODULE  # What it documents
+         ```
+
+      2. STALENESS DETECTION:
+         If source artifact (e.g., API code) changes:
+         - documented_source_hash will differ from current hash
+         - is_stale property returns true
+         - Confluence page flagged for update
+
+      3. BIDIRECTIONAL SYNC CONSIDERATIONS:
+         - Confluence page content hash tracked
+         - Local markdown modifications detected
+         - Sync respects same conflict resolution as Jira
 
       Key challenge: Confluence storage format is complex XHTML.
-
       Need high-fidelity conversion to/from Markdown.
 
-
       Confluence API Reference:
-
       - REST API: https://developer.atlassian.com/cloud/confluence/rest/v2/
 
-
       Conversion considerations:
-
       - Confluence macros have no Markdown equivalent
-
       - Some formatting will be lossy
-
       - Round-trip conversion should preserve meaning
-
-      '

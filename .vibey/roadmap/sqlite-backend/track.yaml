@@ -12,9 +12,9 @@ track:
   progress:
     sprints_total: 13
     sprints_completed: 6
-    tasks_total: 101
+    tasks_total: 104
     tasks_completed: 39
-    completion_percent: 38
+    completion_percent: 37
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -59,10 +59,10 @@ track:
     tasks_count: 18
     started: '2025-11-30T20:10:46.077503+00:00'
   - id: sqlite-backend-7
-    name: Artifact System Architecture
+    name: Artifact System Architecture & Database Abstraction
     status: not_started
-    estimated_duration: 1.5 weeks
-    tasks_count: 8
+    estimated_duration: 2 weeks
+    tasks_count: 11
     started: null
   - id: sqlite-backend-8
     name: Serialization Migration
@@ -146,7 +146,8 @@ track:
   - Migration guide for existing repositories
   - Comprehensive test suite
   - Unified Ticket architecture with three-layer design
-  - SQLAlchemy ORM with single-table inheritance
+  - SQLAlchemy Core (not ORM) for dialect-agnostic database access
+  - PostgreSQL compatibility via SQLAlchemy dialect abstraction
   - Pydantic validation replacing dataclass __post_init__
   strategic_value:
   - 'Consistency: Eliminate manual counter updates and state drift'
@@ -157,7 +158,8 @@ track:
   - 'Queries: Enable complex roadmap queries (blocked tasks, velocity, etc.)'
   - 'Unified Model: Single Ticket hierarchy with explicit aggregation/inheritance'
   - 'Type Safety: Pydantic validation with IDE support'
-  - 'ORM: SQLAlchemy for clean database abstraction'
+  - 'Abstraction: SQLAlchemy Core for dialect-agnostic database access'
+  - 'Portability: Same codebase works on SQLite (local) and PostgreSQL (team/cloud)'
   commits: []
   standards: []
   metadata:

@@ -1,0 +1,11 @@
+class TicketStatus(str, Enum):
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
+    PAUSED = "paused"
+    COMPLETION_GATE_CHECK = "completion_gate_check"
+    COMPLETED = "completed"
+    PRODUCTION_GATE_CHECK = "production_gate_check"
+    PRODUCTION_READY = "production_ready"
+    DEPLOYED = "deployed"
+    WONT_DO = "wont_do"
+    SUPERSEDED = "superseded"

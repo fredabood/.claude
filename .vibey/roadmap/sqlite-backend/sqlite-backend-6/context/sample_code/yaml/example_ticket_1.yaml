@@ -1,0 +1,8 @@
+ticket:
+  id: sqlite-backend-6-task-001
+  criteria:
+    - id: crit-001
+      description: Analysis document created
+      target:
+        type: artifact
+        artifact_id: 01JDK9A2B3...

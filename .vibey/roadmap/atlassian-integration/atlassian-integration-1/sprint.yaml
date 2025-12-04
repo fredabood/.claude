@@ -14,30 +14,47 @@ sprint:
     completion_percent: 0.0
   tasks:
   - id: atlassian-integration-1-task-001
-    name: Design Jira to Vibey data model mapping
+    name: Implement JiraSemanticLayer class
     status: not_started
     priority: critical
-    estimated_hours: 8
+    estimated_hours: 16
     assigned_agent: architecture-agent
-    description: 'Define mappings between Jira and Vibey concepts:
+    description: |
+      Implement JiraSemanticLayer per unified ticket architecture.
 
-      - Jira Project → Track (1:1 or 1:many)
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+      CODE REFERENCE: sqlite-backend-6/context/sample_code/models/semantic_layer.py
 
-      - Jira Sprint → Sprint (direct mapping)
+      DELIVERABLES:
 
-      - Jira Epic → Sprint (alternative hierarchy)
+      1. JiraSemanticLayer class (extends SemanticLayer ABC):
+         - name: "jira:{project_key}"
+         - ticket_types: ["project", "epic", "sprint", "issue", "subtask"]
+         - hierarchy: {"issue": "sprint" or "epic", "subtask": "issue", ...}
+         - get_ticket_class(type) → JiraProject, JiraEpic, etc.
+         - get_type_fields(type) → Jira-specific field definitions
+         - map_status_to_canonical(type, jira_status) → TicketStatus
+         - map_status_from_canonical(type, status) → Jira status string
 
-      - Jira Issue → Task (Story, Task, Bug, Sub-task)
+      2. JiraProjectConfig class:
+         - project_key, project_name
+         - has_epics, has_sprints (board configuration)
+         - status_map: Dict[str, str] (Jira status → canonical)
+         - custom_fields: Dict[str, FieldConfig]
 
-      - Jira Status → Task Status (configurable)
+      3. Jira ticket classes (all extend HierarchicalTicket):
+         - JiraProject: project_key, project_type, lead
+         - JiraEpic: epic_key, epic_color
+         - JiraSprint: sprint_id, board_id, start_date, end_date, goal
+         - JiraIssue: issue_key, issue_type, story_points, components[], labels[], custom_fields
+         - JiraSubtask: issue_key, parent_issue_key
 
-      - Jira Priority → Task Priority
+      4. JiraIssueType enum:
+         - STORY, BUG, TASK, EPIC, SUBTASK, SPIKE, FEATURE, IMPROVEMENT
 
-      - Jira Assignee → assigned_agent
-
-      - Custom field mappings
-
-      '
+      5. Registration:
+         - SemanticLayerRegistry.register(jira_layer)
+         - Configuration to set as default
   - id: atlassian-integration-1-task-002
     name: Implement Atlassian OAuth 2.0 authentication
     status: not_started
@@ -168,32 +185,57 @@ sprint:
     blocking: true
     status: not_run
   deliverables:
-  - Jira to Vibey data mapping specification
+  - JiraSemanticLayer class implementing SemanticLayer interface
+  - Jira ticket classes (JiraProject, JiraEpic, JiraSprint, JiraIssue, JiraSubtask)
+  - JiraProjectConfig for loading project settings
+  - JiraIssueType enum
   - OAuth 2.0 authentication implementation
   - Jira REST API client library
-  - Project import command
-  - Sprint import command
-  - Issue import command
+  - Project import command (creates JiraProject in roadmap.yaml)
+  - Sprint import command (creates JiraSprint entries)
+  - Issue import command (creates JiraIssue entries with external_id)
   - Integration test suite
   metadata:
     created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 1 establishes the foundation for Jira integration:
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: |
+      Sprint 1: Jira Core Integration & JiraSemanticLayer
 
-      - Authentication with Atlassian Cloud and Server
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+      CODE REFERENCE: sqlite-backend-6/context/sample_code/models/semantic_layer.py
 
-      - API client for all Jira operations
+      GOAL: Implement JiraSemanticLayer per the pluggable semantic layer architecture.
+      This replaces ad-hoc Jira mapping with a proper semantic layer that integrates
+      with Layers 0-2 (Completable, Ticket, HierarchicalTicket).
 
-      - One-way import from Jira to Vibey
+      KEY ARCHITECTURAL POINTS:
 
+      1. JiraSemanticLayer extends SemanticLayer ABC
+         - Defines Jira-specific ticket types and hierarchy
+         - Maps Jira statuses to canonical TicketStatus
+         - Provides type-specific field definitions
 
-      Focus is on reading from Jira - writing comes in Sprint 2.
+      2. Jira tickets extend HierarchicalTicket (Layer 2)
+         - Share all Layer 0-2 functionality
+         - Add Jira-specific fields (issue_key, story_points, etc.)
+         - Store in completables table with semantic_layer='jira:PROJ'
 
+      3. External ID tracking
+         - external_id stores Jira issue key (PROJ-123)
+         - Internal ULID remains primary key
+         - Enables bidirectional sync
+
+      4. Import writes YAML with semantic layer header:
+         ```yaml
+         meta:
+           semantic_layer: jira:PROJ
+           schema_version: "2.0"
+         issue:
+           id: 01JD4EXAMPLE
+           external_id: PROJ-123
+           ...
+         ```
 
       Jira API Reference:
-
       - REST API v3: https://developer.atlassian.com/cloud/jira/platform/rest/v3/
-
       - Agile API: https://developer.atlassian.com/cloud/jira/software/rest/
-
-      '

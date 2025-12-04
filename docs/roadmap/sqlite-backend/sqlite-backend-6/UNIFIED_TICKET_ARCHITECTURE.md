@@ -70,11 +70,9 @@ This means:
 class Completable(BaseModel):
     """Base class for anything that can be completed."""
 
-    # ═══════════════════════════════════════════════════════════════
-    # IDENTITY (ULID-based, immutable)
-    # ═══════════════════════════════════════════════════════════════
-    id: str  # ULID format: {type}_{ulid} e.g., "task_01JB3QVE5NTSK2BPFQR8LVXABC"
-    name: str  # Display name (mutable, not used for references)
+    # Identity
+    id: str
+    name: str
     description: Optional[str] = None
 
     # THE source of truth for ALL blocking
@@ -335,45 +333,6 @@ class Ticket(Completable):
 ```python
 class HierarchicalTicket(Ticket):
     """Layer 2: Ticket with hierarchy-aware accessors."""
-
-    # ═══════════════════════════════════════════════════════════════
-    # HIERARCHY & ORDERING (See Part 14 for rationale)
-    # ═══════════════════════════════════════════════════════════════
-    parent_id: Optional[str] = None  # ULID reference to parent (not slug!)
-    sequence: int = 0                 # Explicit ordering among siblings (mutable)
-    slug: str = ""                    # Human-readable path segment (mutable)
-
-    # === SIBLING NAVIGATION ===
-    @property
-    def siblings(self) -> List['HierarchicalTicket']:
-        """Other children of same parent, sorted by sequence."""
-        if self.parent_id is None:
-            return []
-        # Implementation: Query by parent_id, order by sequence
-        return self._get_siblings_by_parent_id()
-
-    @property
-    def next_sibling(self) -> Optional['HierarchicalTicket']:
-        """Next sibling by sequence (not by ID!)."""
-        siblings = self.siblings
-        for i, sib in enumerate(siblings):
-            if sib.id == self.id and i + 1 < len(siblings):
-                return siblings[i + 1]
-        return None
-
-    @property
-    def prev_sibling(self) -> Optional['HierarchicalTicket']:
-        """Previous sibling by sequence."""
-        siblings = self.siblings
-        for i, sib in enumerate(siblings):
-            if sib.id == self.id and i > 0:
-                return siblings[i - 1]
-        return None
-
-    def reorder(self, new_sequence: int) -> None:
-        """Change position without changing identity."""
-        self.sequence = new_sequence
-        # Note: Does NOT change self.id - identity is immutable
 
     # === SMART ACCESSORS ===
     @property
@@ -3035,221 +2994,6 @@ Sprint 11: Data Validation
 
 ---
 
-## Part 14: ULID Identity & Ordering System
-
-### 14.1 Design Rationale
-
-The current ID scheme (`sqlite-backend-6-task-004`) conflates **identity**, **hierarchy**, and **ordering** into a single mutable string. This causes:
-
-| Problem | Current Behavior | Impact |
-|---------|------------------|--------|
-| **Renaming breaks references** | Track rename = new ID | All sprint/task references break |
-| **Reordering requires renaming** | Task 004 becomes 005 | ID changes, git history lost |
-| **Git history fragmented** | File path changes on rename | `git log --follow` required |
-| **Order inferred from name** | "task-004" implies 4th | Can't reorder without renaming |
-| **Priority conflated with order** | Higher number = later | Can't have high-priority task-015 |
-
-### 14.2 ULID-Based Identity
-
-**Solution:** Use ULID (Universally Unique Lexicographically Sortable Identifier) for immutable identity.
-
-**Format:** `{type}_{ulid}` (32-33 characters)
-
-```
-track_01JB3QVDZ8TRK9XN1FJFHGWPRM
-      └─────────────────────────┘
-              26-char ULID
-```
-
-**ULID Properties:**
-- **Unique:** 128-bit collision-free
-- **Sortable:** Lexicographically by creation time
-- **Immutable:** Never changes after creation
-- **Reversible:** Can extract creation timestamp
-
-**Examples:**
-```yaml
-# Track
-id: track_01JB3QVDZ8TRK9XN1FJFHGWPRM
-name: SQLite Backend
-
-# Sprint
-id: sprint_01JB3QVE2CSPRT7KDHM4JQWXYZ
-parent_id: track_01JB3QVDZ8TRK9XN1FJFHGWPRM  # Reference by ULID
-
-# Task
-id: task_01JB3QVE5NTSK2BPFQR8LVXABC
-parent_id: sprint_01JB3QVE2CSPRT7KDHM4JQWXYZ  # Reference by ULID
-```
-
-### 14.3 Decoupling Identity, Ordering, and Display
-
-| Concept | Field | Layer | Mutable | Purpose |
-|---------|-------|-------|---------|---------|
-| **Identity** | `id` | Completable | ❌ No | Stable reference, git history |
-| **Display Name** | `name` | Completable | ✅ Yes | Human-readable label |
-| **Parent Reference** | `parent_id` | HierarchicalTicket | ❌ No | Hierarchy navigation |
-| **Ordering** | `sequence` | HierarchicalTicket | ✅ Yes | Sibling sort order |
-| **Path Segment** | `slug` | HierarchicalTicket | ✅ Yes | Directory/URL path |
-
-### 14.4 Ordering Semantics
-
-**`sequence: int`** - Explicit ordering among siblings
-
-```yaml
-# Reordering WITHOUT renaming
-# Before:
-- id: task_01JB3QVE5NTSK2B...
-  sequence: 1
-  name: Define Enum Types
-
-- id: task_01JB3QVE5NTSK2C...
-  sequence: 2
-  name: Implement Completable
-
-# After reorder (swap positions):
-- id: task_01JB3QVE5NTSK2C...  # Same ID!
-  sequence: 1                   # New sequence
-  name: Implement Completable
-
-- id: task_01JB3QVE5NTSK2B...  # Same ID!
-  sequence: 2                   # New sequence
-  name: Define Enum Types
-```
-
-**Key Benefits:**
-1. **No ID change** - Git history follows the task
-2. **No reference updates** - Other tickets still reference same ULID
-3. **Explicit ordering** - Not inferred from naming convention
-
-### 14.5 Directory Structure with Slugs
-
-**Hybrid approach:** ULID for identity, slugs for paths
-
-```
-.vibey/roadmap/
-├── sqlite-backend/                    # slug (mutable)
-│   ├── .id                            # Contains: track_01JB3QVDZ8...
-│   ├── track.yaml                     # id: track_01JB3QVDZ8...
-│   └── unified-ticket-architecture/   # slug (mutable)
-│       ├── .id                        # Contains: sprint_01JB3QVE2C...
-│       ├── sprint.yaml                # id: sprint_01JB3QVE2C...
-│       └── define-enum-types/         # slug (mutable)
-│           ├── .id                    # Contains: task_01JB3QVE5N...
-│           └── task.yaml              # id: task_01JB3QVE5N...
-```
-
-**Validation:** `.id` file ensures directory ↔ ULID mapping
-
-```python
-def validate_directory(dir_path: str, expected_id: str) -> bool:
-    """Ensure directory .id file matches expected ULID."""
-    id_file = os.path.join(dir_path, ".id")
-    if not os.path.exists(id_file):
-        return False
-    with open(id_file) as f:
-        return f.read().strip() == expected_id
-```
-
-### 14.6 Reference Resolution
-
-**All references use ULID, not slug:**
-
-```yaml
-# Criterion referencing another ticket
-criteria:
-  - id: crit_01JB3QVE5NTSK2D...
-    description: Sprint 5 must complete before starting
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: sprint_01JB3QVE2C...  # ULID, not "sqlite-backend-5"
-      required_status: completed
-```
-
-**Benefits:**
-- Rename sprint → references still valid
-- Move sprint between tracks → references still valid
-- Git history tracks by ULID across renames
-
-### 14.7 Migration Strategy
-
-**Phase 1: Add ULID generation (Sprint 6)**
-- Use existing `id_generator.py` module
-- Add `ulid` to project dependencies
-
-**Phase 2: Add fields to models (Sprint 6)**
-- Add `parent_id`, `sequence`, `slug` to HierarchicalTicket
-- Keep old ID format for backward compatibility
-
-**Phase 3: Update YAML loader (Sprint 8)**
-- Load old slug-based IDs
-- Generate ULID if not present
-- Preserve slug for directory paths
-
-**Phase 4: Full migration (Sprint 12)**
-- Generate ULIDs for all existing entities
-- Update all references to use ULIDs
-- Create `.id` files in directories
-- Validate no broken references
-
-### 14.8 ID Generator Integration
-
-The ULID system is already implemented in `vibey/roadmap/id_generator.py`:
-
-```python
-from vibey.roadmap.id_generator import (
-    generate_track_id,    # → "track_01JB3QVDZ8..."
-    generate_sprint_id,   # → "sprint_01JB3QVE2C..."
-    generate_task_id,     # → "task_01JB3QVE5N..."
-    extract_timestamp,    # → datetime from ULID
-    is_ulid_format,       # → True for new format
-)
-```
-
-**Dependency:** Add to `pyproject.toml`:
-```toml
-dependencies = [
-    # ... existing deps
-    "python-ulid>=2.2.0",
-]
-```
-
-### 14.9 Database Schema Updates
-
-```sql
--- Add ordering fields to tickets table
-ALTER TABLE tickets ADD COLUMN parent_id TEXT REFERENCES tickets(id);
-ALTER TABLE tickets ADD COLUMN sequence INTEGER DEFAULT 0;
-ALTER TABLE tickets ADD COLUMN slug TEXT;
-
--- Index for sibling queries
-CREATE INDEX idx_tickets_parent_sequence ON tickets(parent_id, sequence);
-
--- View for sibling navigation
-CREATE VIEW v_ticket_siblings AS
-SELECT
-    t1.id,
-    t1.parent_id,
-    t1.sequence,
-    LAG(t1.id) OVER (PARTITION BY t1.parent_id ORDER BY t1.sequence) as prev_sibling_id,
-    LEAD(t1.id) OVER (PARTITION BY t1.parent_id ORDER BY t1.sequence) as next_sibling_id
-FROM tickets t1;
-```
-
-### 14.10 Benefits Summary
-
-| Capability | Before (Slug-based ID) | After (ULID + Sequence) |
-|------------|------------------------|-------------------------|
-| **Rename entity** | ID changes, references break | Name/slug change, ID stable |
-| **Reorder siblings** | IDs change, git history lost | Sequence changes, ID stable |
-| **Git history** | Fragments on rename | Follows ULID across renames |
-| **Priority** | Inferred from task number | Explicit `priority` field |
-| **Directory browsing** | Uses ID directly | Uses human-readable slug |
-| **Reference stability** | Breaks on any rename | Stable across all renames |
-
----
-
 ## Appendix E: Updated Enum Definitions (Part 13)
 
 ```python
@@ -3313,12 +3057,11 @@ class DocumentationHealth(str, Enum):
 
 ---
 
-**Document Version:** 2.3
+**Document Version:** 2.2
 **Last Updated:** 2025-11-30
-**Author:** Claude Code
+**Author:** Claude Code (Artifact System Integration)
 
 **Revision History:**
-- v2.3: Added Part 14 - ULID Identity & Ordering System (decouples identity from ordering, enables rename/reorder without breaking references)
 - v2.2: Added Part 13 - Artifact System Architecture (first-class artifacts, documentation links, impact analysis)
 - v2.1: Added Part 12 - Complete YAML Migration Strategy (consolidated from YAML_MIGRATION_GAP_ANALYSIS.md)
 - v2.0: Added Part 11 - Gap Analysis Decisions

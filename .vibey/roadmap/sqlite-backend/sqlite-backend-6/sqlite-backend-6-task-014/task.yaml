@@ -92,11 +92,11 @@ task:
     \ class with all fields\n- CriterionTemplate generates correct criteria\n- ApplicabilityRules\
     \ filters correctly\n- RequirementResolver handles inheritance modes\n- Strictness\
     \ comparison works for thresholds\n- Full test coverage\n"
-  status: not_started
-  blocked: true
+  status: completed
+  blocked: false
   created: '2025-11-29T16:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-04T00:00:00+00:00'
+  completed: '2025-12-04T00:00:00+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: foundation
@@ -108,23 +108,17 @@ task:
   dependencies: []
   blocks:
   - type: task
-    target_id: sqlite-backend-6-task-001
+    target_id: sqlite-backend-6-task-006
     at_status: not_started
     reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-009
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495662+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-009
+  - blocker_id: sqlite-backend-6-task-005
     blocker_type: task
     required_status: completed
-    current_status: not_started
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
+    last_checked: '2025-12-04T00:00:00+00:00'
   depended_on_by:
   - sqlite-backend-6-task-001
   deliverables:

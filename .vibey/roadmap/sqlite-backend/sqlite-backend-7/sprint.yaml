@@ -1,6 +1,6 @@
 sprint:
   id: sqlite-backend-7
-  name: Artifact System Architecture
+  name: Artifact System Architecture & Database Abstraction
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 8
+    tasks_total: 11
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -31,20 +31,29 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Artifact entity class (Layer 0a)
-  - ArtifactProvenance with provenance types
-  - ArtifactType enum with subtypes
-  - ArtifactTarget criterion type
-  - ArtifactVerification enum (EXISTS, NOT_STALE, HASH_UNCHANGED)
-  - artifacts table in database schema
+  # DATABASE ABSTRACTION (SQLAlchemy Core)
+  - SQLAlchemy Core integration (dialect-agnostic database layer)
+  - Table definitions using SQLAlchemy Table objects (not ORM models)
+  - Connection management with engine/connection abstraction
+  - Dialect-aware JSON helpers (sqlite json_extract vs postgres jsonb operators)
+  - Database backend configuration (DATABASE_URL environment variable)
+  # ARTIFACT SYSTEM
+  - Artifact entity class (extends Completable at Layer 0)
+  - ArtifactProvenance with provenance types (TICKET_CREATED, PRE_EXISTING, GENERATED, EXTERNAL, FRAMEWORK)
+  - ArtifactType enum with subtypes (CODE, TEST, CONFIG, DOCUMENTATION, CONTEXT, etc.)
+  - CompletableTarget works for both Tickets AND Artifacts (no separate ArtifactTarget)
+  - Implicit FileExistsTarget criterion on all Artifacts
+  - Artifact rows in completables table (single-table inheritance via completable_type='artifact')
+  - Artifact commit tracking fields (created_by_commit, last_modified_by_commit, commit_history)
   - v_orphan_artifacts and v_documentation_graph views
-  - ImpactAnalyzer for documentation staleness
-  - Comprehensive test suite for artifact system
+  - v_stale_documentation view for staleness detection
+  - ImpactAnalyzer for documentation staleness via documented_source_hash
+  - Comprehensive test suite for artifact system and database abstraction
   commits: []
   standards: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
-    estimated_duration: 1.5 weeks
+    estimated_duration: 2 weeks
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
@@ -52,39 +61,44 @@ sprint:
     notes: |
       Sprint 7: Artifact System Architecture
 
-      DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/03-ARTIFACT-SYSTEM.md
 
-      GOAL: Implement Artifact as a first-class entity (Layer 0a) that exists
+      GOAL: Implement Artifact as a Completable sibling (not child) that exists
       independently of tickets. This enables tracking of pre-existing files,
       generated documentation, framework components, and comprehensive impact
       analysis.
 
       DEPENDS ON: Sprint 6 (unified ticket architecture)
 
-      KEY ARCHITECTURAL CHANGE:
-      - Artifact exists independently of tickets
-      - Criteria reference artifacts via ArtifactTarget (by ID)
-      - Artifacts track provenance (how they came to exist)
-      - Documentation artifacts link to what they document
-      - Staleness detection via content hash comparison
+      KEY ARCHITECTURAL INSIGHT:
+      - Artifact EXTENDS Completable (sibling to Ticket, not child)
+      - Both Artifact and Ticket share criteria-based completion
+      - Use CompletableTarget for BOTH (ArtifactTarget is REMOVED)
+      - Artifacts have implicit FileExistsTarget (file must exist)
+      - Documentation staleness via documented_source_hash comparison
 
-      LAYER ARCHITECTURE UPDATE:
-      ┌─────────────────────────────────────────────┐
-      │ LAYER 0a: ARTIFACT (NEW)                    │
-      │ First-class entity for file-based artifacts │
-      ├─────────────────────────────────────────────┤
-      │ LAYER 0b: COMPLETABLE                       │
-      │ Base abstraction with criteria              │
-      ├─────────────────────────────────────────────┤
-      │ LAYER 1: TICKET                             │
-      │ Work semantics                              │
-      ├─────────────────────────────────────────────┤
-      │ LAYER 2: HIERARCHICAL TICKET                │
-      │ Smart accessors                             │
-      ├─────────────────────────────────────────────┤
-      │ LAYER 3: DOMAIN MODELS                      │
-      │ RoadmapTicket, TrackTicket, etc.            │
-      └─────────────────────────────────────────────┘
+      LAYER ARCHITECTURE (from sqlite-backend-6):
+      ┌─────────────────────────────────────────────────────────────┐
+      │ LAYER 0: COMPLETABLE                                         │
+      │                    ┌──────────────────────────────┐          │
+      │                    │       Completable            │          │
+      │                    │  id, name, status, criteria  │          │
+      │                    └──────────────┬───────────────┘          │
+      │                                   │                          │
+      │                    ┌──────────────┴──────────────┐           │
+      │                    ▼                             ▼           │
+      │              ┌──────────┐               ┌────────────────┐   │
+      │              │  Ticket  │               │    Artifact    │   │
+      │              │ (work)   │               │ (file entity)  │   │
+      │              └────┬─────┘               └────────────────┘   │
+      │                   ↓                                          │
+      │         HierarchicalTicket → Domain Models                   │
+      └─────────────────────────────────────────────────────────────┘
+
+      ARTIFACT STATUS PROGRESSION:
+      - NOT_STARTED: File doesn't exist (FileExistsTarget not met)
+      - IN_PROGRESS: File exists, but other criteria not met
+      - COMPLETED: File exists AND all criteria pass
 
       ARTIFACT PROVENANCE TYPES:
       - TICKET_CREATED: Created by ticket work
@@ -100,13 +114,61 @@ sprint:
       - AGENT, WORKFLOW, TEMPLATE (framework)
       - DATA, ASSET, SCHEMA, OTHER
 
+      COMMIT TRACKING ON ARTIFACTS:
+      - created_by_commit: SHA of commit that created the file
+      - last_modified_by_commit: SHA of most recent modifying commit
+      - deleted_by_commit: SHA if file was deleted
+      - commit_history: List of all SHAs that touched this artifact
+
       TASK EXECUTION ORDER:
-      1. Task 001 (Enums) - ArtifactType, ProvenanceType, ArtifactVerification
-      2. Task 002 (Artifact entity) - depends on 001
-      3. Task 003 (ArtifactProvenance) - depends on 001
-      4. Task 004 (ArtifactTarget) - depends on 002
-      5. Task 005 (Database schema) - depends on 002, 003, 004
-      6. Task 006 (ImpactAnalyzer) - depends on 005
-      7. Task 007 (Layer integration) - depends on 002, 004, 006
-      8. Task 008 (Test suite) - depends on all
+      1. Task 001 (SQLAlchemy Core Setup) - Engine, metadata, connection management
+      2. Task 002 (Table Definitions) - Define all tables using SQLAlchemy Table()
+      3. Task 003 (JSON Dialect Helpers) - Abstract json_extract vs jsonb operators
+      4. Task 004 (Enums) - ArtifactType, ProvenanceType
+      5. Task 005 (Artifact entity) - extends Completable, depends on 004
+      6. Task 006 (ArtifactProvenance) - depends on 004
+      7. Task 007 (CompletableTarget update) - ensure works for Artifacts
+      8. Task 008 (Database schema migration) - artifact columns via SQLAlchemy
+      9. Task 009 (ImpactAnalyzer) - staleness detection
+      10. Task 010 (Layer integration) - link with GitCommit
+      11. Task 011 (Test suite) - comprehensive tests for both systems
+
+      SQLALCHEMY CORE RATIONALE:
+      - SQLAlchemy Core (not ORM) for transparent SQL generation
+      - Keeps existing Pydantic models as domain layer (no model duplication)
+      - Automatic dialect handling: SQLite json_extract() vs PostgreSQL ->>
+      - Single Table() definition works for both databases
+      - Easy to debug: print(stmt) shows exact SQL
+      - Minimal learning curve vs full ORM
+
+      DATABASE CONFIGURATION:
+      ```python
+      # Default: SQLite (local development, single-user)
+      DATABASE_URL = "sqlite:///.vibey/roadmap.db"
+
+      # Alternative: PostgreSQL (team, cloud deployment)
+      DATABASE_URL = "postgresql://user:pass@host/vibey"
+      ```
+
+      CONNECTION MANAGEMENT:
+      ```python
+      from sqlalchemy import create_engine, MetaData
+
+      engine = create_engine(os.environ.get("DATABASE_URL", "sqlite:///.vibey/roadmap.db"))
+      metadata = MetaData()
+
+      # Tables defined once, work on both backends
+      completables = Table("completables", metadata, ...)
+      criteria = Table("criteria", metadata, ...)
+      ```
+
+      JSON DIALECT ABSTRACTION:
+      ```python
+      def json_field(column, path: str):
+          """Dialect-aware JSON field extraction."""
+          if engine.dialect.name == "sqlite":
+              return func.json_extract(column, f"$.{path}")
+          else:  # PostgreSQL
+              return column[path].astext
+      ```
 

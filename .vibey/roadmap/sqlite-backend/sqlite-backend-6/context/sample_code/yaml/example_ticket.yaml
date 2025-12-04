@@ -1,0 +1,35 @@
+# tasks/sqlite-backend-6-task-001.yaml
+ticket:
+  id: sqlite-backend-6-task-001
+  ticket_type: task
+  name: Analyze optimal directory structure
+  description: |
+    Design the new .vibey directory structure that mirrors SQLite database.
+  status: completed
+  parent_ref: sqlite-backend-6  # Links to sprint
+
+  # Criteria are EMBEDDED, not separate files
+  criteria:
+    - id: crit-001
+      description: Directory structure comparison matrix created
+      blocks_transition_to: completed
+      required: true
+      target:
+        type: artifact
+        artifact_id: 01JDK9A2B3C4D5E6F7G8H9J0
+        verification: file_exists
+
+    - id: crit-002
+      description: Recommendation document with rationale
+      blocks_transition_to: completed
+      required: true
+      target:
+        type: artifact
+        artifact_id: 01JDK9A2B3C4D5E6F7G8H9J1
+
+  # Task-specific semantic fields
+  semantic_fields:
+    task_type: development
+    estimated_tokens: 2000
+    complexity: medium
+    phase_label: design

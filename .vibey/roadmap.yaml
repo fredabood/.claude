@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 180
     sprints_completed: 88
     tasks_total: 945
-    tasks_completed: 678
+    tasks_completed: 679
     completion_percent: 71
   tracks:
   - id: core-framework
@@ -2331,11 +2331,23 @@ roadmap:
     context:
       task_id: sqlite-backend-7-task-004
       sprint_id: sqlite-backend-7
+  - timestamp: '2025-12-04T22:19:28.206667+00:00'
+    type: task_started
+    description: Task 'Add Artifacts Table to Database Schema' started
+    context:
+      task_id: sqlite-backend-7-task-005
+      sprint_id: sqlite-backend-7
+  - timestamp: '2025-12-04T22:27:38.718723+00:00'
+    type: task_completed
+    description: Task 'Add Artifacts Table to Database Schema' completed
+    context:
+      task_id: sqlite-backend-7-task-005
+      sprint_id: sqlite-backend-7
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-12-04T22:18:24.663657+00:00'
+    last_updated: '2025-12-04T22:27:38.718727+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

@@ -26,6 +26,7 @@ from pydantic import BaseModel, Field
 
 from vibey.roadmap.models.ticket.enums import (
     CriterionTargetType,
+    DeliverableType,
     TicketStatus,
     ThresholdComparison,
 )
@@ -169,6 +170,10 @@ class FileExistsTarget(CriterionTarget):
     all_required: bool = Field(
         default=True,
         description="If True, all paths must exist. If False, any one is sufficient."
+    )
+    deliverable_type: DeliverableType = Field(
+        default=DeliverableType.OTHER,
+        description="Classification of the deliverable (code, test, documentation, etc.)"
     )
 
     # Cached state

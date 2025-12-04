@@ -13,10 +13,13 @@ determine field behavior automatically. No L3 knowledge needed.
 Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 """
 
+import logging
 from datetime import datetime, timezone
-from typing import Any, Callable, ClassVar, List, Optional, Protocol, TYPE_CHECKING
+from typing import Any, Callable, ClassVar, List, Optional, Protocol, TYPE_CHECKING, Tuple
 
 from pydantic import Field, computed_field
+
+logger = logging.getLogger(__name__)
 
 from vibey.roadmap.models.ticket.completable import Criterion
 from vibey.roadmap.models.ticket.enums import TicketStatus
@@ -446,6 +449,31 @@ class HierarchicalTicket(Ticket):
         """Depth in the hierarchy (0 for root)."""
         return len(self.ancestors)
 
+    # =========================================================================
+    # TOKEN ESTIMATION
+    # =========================================================================
+
+    @computed_field
+    @property
+    def computed_tokens(self) -> int:
+        """
+        Token estimate for this ticket.
+
+        - Ultimate children (tasks): return estimated_tokens field value
+        - Parents: aggregate from children's computed_tokens
+
+        Used for platform context window fitting and capacity planning.
+        """
+        if self.is_ultimate_child:
+            # Tasks have estimated_tokens field
+            return getattr(self, 'estimated_tokens', 0)
+
+        # Parents aggregate from children
+        return sum(
+            child.computed_tokens
+            for child in self.children_tickets
+        )
+
     def _load_ticket(self, ticket_id: str) -> "HierarchicalTicket":
         """Load a ticket by ID using the configured loader."""
         if self._loader is None:
@@ -467,6 +495,50 @@ class HierarchicalTicket(Ticket):
         parts = [a.slug or a.id for a in reversed(self.ancestors)]
         parts.append(self.slug or self.id)
         return "/".join(parts)
+
+    # =========================================================================
+    # LIFECYCLE METHODS (Override with platform awareness)
+    # =========================================================================
+
+    def start_with_context_check(
+        self,
+        platform_context_window: Optional[int] = None
+    ) -> Tuple["HierarchicalTicket", List[str]]:
+        """
+        Transition ticket to IN_PROGRESS with optional context window check.
+
+        This extends the base start() method to add a warning if the ticket's
+        computed_tokens exceeds the platform's context window size.
+
+        Args:
+            platform_context_window: Optional max tokens for the platform.
+                If provided and computed_tokens exceeds this, a warning is added.
+
+        Returns:
+            Tuple of (started ticket, list of warnings).
+            Warnings include context window issues.
+
+        Raises:
+            ValueError: If cannot start (dependencies not met)
+        """
+        warnings: List[str] = []
+
+        # Check platform fit (warning, not blocker)
+        if platform_context_window is not None:
+            tokens = self.computed_tokens
+            if tokens > platform_context_window:
+                warning = (
+                    f"Ticket requires ~{tokens} tokens but platform "
+                    f"context window is {platform_context_window}. Consider splitting."
+                )
+                warnings.append(warning)
+                logger.warning(warning)
+
+        # Use base start() which validates and transitions
+        started = self.start()
+
+        # Return as HierarchicalTicket
+        return started, warnings
 
 
 # =============================================================================

@@ -32,11 +32,11 @@ task:
     \ modes work correctly\n- refresh() updates cached state from artifact registry\n\
     - is_automatic returns True\n- CriterionTargetType enum updated with ARTIFACT\n\
     - JSON/YAML serialization works\n- Full test coverage\n"
-  status: in_progress
+  status: completed
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
   started: '2025-12-04T22:14:38.735837+00:00'
-  completed: null
+  completed: '2025-12-04T22:18:24.173238+00:00'
   assigned_agent: backend-engineer
   priority: critical
   phase_label: foundation

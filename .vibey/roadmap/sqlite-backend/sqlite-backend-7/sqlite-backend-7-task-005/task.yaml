@@ -49,7 +49,7 @@ task:
     - Foreign key constraint on documents_artifact_id\n- Migration script works on\
     \ existing databases\n- Full test coverage\n"
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -102,9 +102,9 @@ task:
   - blocker_id: sqlite-backend-7-task-004
     blocker_type: task
     required_status: completed
-    current_status: in_progress
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:14:38.811907+00:00'
+    last_checked: '2025-12-04T22:18:24.251274+00:00'
   depended_on_by:
   - sqlite-backend-7-task-006
   deliverables:

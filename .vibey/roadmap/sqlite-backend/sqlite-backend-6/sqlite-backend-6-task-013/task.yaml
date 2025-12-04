@@ -124,7 +124,7 @@ task:
     \ criteria\n- Progress computed correctly from criteria\n- No data loss during\
     \ migration\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-29T12:00:00+00:00'
   started: null
   completed: null

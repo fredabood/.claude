@@ -105,6 +105,37 @@ from vibey.roadmap.models.ticket.domain import (
     TaskTicket,
 )
 
+from vibey.roadmap.models.ticket.orm import (
+    # Base
+    Base,
+    # ORM Models
+    TicketORM,
+    RoadmapTicketORM,
+    TrackTicketORM,
+    SprintTicketORM,
+    TaskTicketORM,
+    CriterionORM,
+    # Serialization
+    deserialize_target,
+    serialize_target,
+    # Schema
+    get_unified_schema_ddl,
+    create_unified_schema,
+    # Factory
+    get_ticket_orm_class,
+)
+
+from vibey.roadmap.models.ticket.repository import (
+    # Connection
+    get_engine,
+    get_session_factory,
+    # Repositories
+    TicketRepository,
+    CriterionRepository,
+    # Factory
+    RepositoryFactory,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -177,4 +208,29 @@ __all__ = [
     "TrackTicket",
     "SprintTicket",
     "TaskTicket",
+    # ORM - Base
+    "Base",
+    # ORM - Models
+    "TicketORM",
+    "RoadmapTicketORM",
+    "TrackTicketORM",
+    "SprintTicketORM",
+    "TaskTicketORM",
+    "CriterionORM",
+    # ORM - Serialization
+    "deserialize_target",
+    "serialize_target",
+    # ORM - Schema
+    "get_unified_schema_ddl",
+    "create_unified_schema",
+    # ORM - Factory
+    "get_ticket_orm_class",
+    # Repository - Connection
+    "get_engine",
+    "get_session_factory",
+    # Repository - Classes
+    "TicketRepository",
+    "CriterionRepository",
+    # Repository - Factory
+    "RepositoryFactory",
 ]

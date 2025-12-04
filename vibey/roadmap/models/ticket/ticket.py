@@ -24,12 +24,14 @@ from vibey.roadmap.models.ticket.enums import Priority, TicketStatus
 from vibey.roadmap.models.ticket.requirements import Requirement
 from vibey.roadmap.models.ticket.support import Progress
 from vibey.roadmap.models.ticket.targets import (
+    ArtifactTarget,
     CompletableTarget,
     CriterionTarget,
     FileExistsTarget,
     ManualTarget,
     TestPassesTarget,
 )
+from vibey.roadmap.models.ticket.artifact_enums import ArtifactVerification
 
 
 class GitCommit(BaseModel):
@@ -362,6 +364,47 @@ class Ticket(Completable):
             c for c in self.criteria
             if c.blocks_transition_to == TicketStatus.PRODUCTION_READY
         ]
+
+    @property
+    def artifact_criteria(self) -> List[Criterion]:
+        """
+        Get criteria that reference artifacts.
+
+        Returns criteria with ArtifactTarget.
+        """
+        return [
+            c for c in self.criteria
+            if isinstance(c.target, ArtifactTarget)
+        ]
+
+    @property
+    def referenced_artifact_ids(self) -> List[str]:
+        """
+        Get IDs of artifacts referenced by this ticket's criteria.
+
+        Returns list of artifact IDs from all ArtifactTarget criteria.
+        """
+        return [
+            c.target.artifact_id
+            for c in self.artifact_criteria
+        ]
+
+    @property
+    def stale_artifact_criteria(self) -> List[Criterion]:
+        """
+        Get artifact criteria where the artifact is stale.
+
+        Returns criteria with ArtifactTarget where artifact_is_stale=True.
+        """
+        return [
+            c for c in self.artifact_criteria
+            if c.target.artifact_is_stale
+        ]
+
+    @property
+    def has_stale_artifacts(self) -> bool:
+        """Check if any referenced artifacts are stale."""
+        return len(self.stale_artifact_criteria) > 0
 
     # =========================================================================
     # LIFECYCLE METHODS

@@ -29,6 +29,7 @@ from vibey.roadmap.models.ticket.requirements import (
 )
 from vibey.roadmap.models.ticket.support import Progress, RefreshContext
 from vibey.roadmap.models.ticket.targets import (
+    ArtifactTarget,
     CompletableTarget,
     FileExistsTarget,
     ManualTarget,
@@ -36,6 +37,10 @@ from vibey.roadmap.models.ticket.targets import (
     ThresholdTarget,
 )
 from vibey.roadmap.models.ticket.ticket import GitCommit, Ticket
+from vibey.roadmap.models.ticket.artifact_enums import (
+    ArtifactVerification,
+    DocumentationHealth,
+)
 
 if TYPE_CHECKING:
     from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
@@ -413,6 +418,102 @@ class HierarchicalTicket(Ticket):
             c for c in self.all_criteria
             if c.blocks_transition_to == TicketStatus.PRODUCTION_READY
         ]
+
+    # =========================================================================
+    # ARTIFACT ACCESSORS (Aggregation)
+    # =========================================================================
+
+    @property
+    def artifact_criteria(self) -> List[Criterion]:
+        """
+        Get criteria that reference artifacts.
+
+        Returns criteria with ArtifactTarget from all_criteria.
+        Overrides Ticket.artifact_criteria to use all_criteria instead of criteria.
+        """
+        return [
+            c for c in self.all_criteria
+            if isinstance(c.target, ArtifactTarget)
+        ]
+
+    @property
+    def all_referenced_artifacts(self) -> List[str]:
+        """
+        All artifact IDs referenced by this ticket and descendants.
+
+        - is_ultimate_child: return local referenced_artifact_ids only
+        - is_parent: aggregate from all children recursively
+
+        Returns deduplicated list of artifact IDs.
+        """
+        if self.is_ultimate_child:
+            return self.referenced_artifact_ids
+
+        all_ids = list(self.referenced_artifact_ids)
+        for child in self.children_tickets:
+            if hasattr(child, 'all_referenced_artifacts'):
+                all_ids.extend(child.all_referenced_artifacts)
+            else:
+                all_ids.extend(child.referenced_artifact_ids)
+        return list(set(all_ids))
+
+    @property
+    def stale_documentation_artifacts(self) -> List[str]:
+        """
+        Artifact IDs for stale documentation in this subtree.
+
+        Finds all artifacts where:
+        - verification == ArtifactVerification.NOT_STALE
+        - artifact_is_stale == True
+
+        Returns deduplicated list of stale artifact IDs.
+        """
+        stale: List[str] = []
+
+        # Check local artifact criteria
+        for criterion in self.artifact_criteria:
+            if isinstance(criterion.target, ArtifactTarget):
+                if (criterion.target.verification == ArtifactVerification.NOT_STALE
+                        and criterion.target.artifact_is_stale):
+                    stale.append(criterion.target.artifact_id)
+
+        # Aggregate from children if not a leaf
+        if not self.is_ultimate_child:
+            for child in self.children_tickets:
+                if hasattr(child, 'stale_documentation_artifacts'):
+                    stale.extend(child.stale_documentation_artifacts)
+
+        return list(set(stale))
+
+    @property
+    def has_stale_documentation(self) -> bool:
+        """True if any documentation in this subtree is stale."""
+        return len(self.stale_documentation_artifacts) > 0
+
+    @property
+    def documentation_health(self) -> DocumentationHealth:
+        """
+        Aggregate documentation health status.
+
+        Returns:
+            - HEALTHY: No stale documentation
+            - CRITICAL: Stale docs that block completion (required criteria)
+            - DEGRADED: Stale docs exist but don't block completion
+        """
+        stale_count = len(self.stale_documentation_artifacts)
+        if stale_count == 0:
+            return DocumentationHealth.HEALTHY
+
+        # Check if any stale docs block completion
+        for criterion in self.artifact_criteria:
+            if not isinstance(criterion.target, ArtifactTarget):
+                continue
+            if (criterion.target.artifact_is_stale
+                    and criterion.blocks_transition_to == TicketStatus.COMPLETED
+                    and criterion.required):
+                return DocumentationHealth.CRITICAL
+
+        return DocumentationHealth.DEGRADED
 
     # =========================================================================
     # DEFERRED CHILDREN SUPPORT

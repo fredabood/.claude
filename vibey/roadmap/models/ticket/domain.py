@@ -16,7 +16,7 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 import re
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING
+from typing import Any, ClassVar, Dict, List, Literal, Optional, Protocol, TYPE_CHECKING
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -30,10 +30,47 @@ from vibey.roadmap.models.ticket.enums import (
     TicketType,
 )
 from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
-from vibey.roadmap.models.ticket.targets import CompletableTarget
+from vibey.roadmap.models.ticket.targets import ArtifactTarget, CompletableTarget
+from vibey.roadmap.models.ticket.artifact_enums import (
+    ArtifactType,
+    ContextArtifactSubtype,
+)
 
 if TYPE_CHECKING:
     pass  # Forward references for TrackTicket when implemented
+
+
+# =============================================================================
+# ARTIFACT LOADER PROTOCOL
+# =============================================================================
+
+
+class ArtifactInfo(BaseModel):
+    """
+    Minimal artifact information needed for domain model filtering.
+
+    This is a lightweight representation used by domain models to filter
+    artifacts by type without needing the full Artifact entity.
+    """
+
+    id: str = Field(description="Artifact ID")
+    artifact_type: ArtifactType = Field(description="Primary artifact classification")
+    artifact_subtype: Optional[str] = Field(
+        default=None,
+        description="Subtype (e.g., ContextArtifactSubtype value)"
+    )
+
+
+class ArtifactLoader(Protocol):
+    """Protocol for loading artifact information."""
+
+    def get_artifact_info(self, artifact_id: str) -> Optional[ArtifactInfo]:
+        """Get artifact info by ID."""
+        ...
+
+    def get_orphan_artifact_ids(self) -> List[str]:
+        """Get IDs of artifacts not referenced by any ticket."""
+        ...
 
 
 # =============================================================================
@@ -191,6 +228,22 @@ class RoadmapTicket(HierarchicalTicket):
 
     Children are determined by CompletableTarget criteria referencing TrackTicket IDs.
     """
+
+    # =========================================================================
+    # CLASS-LEVEL ARTIFACT LOADER (Dependency Injection)
+    # =========================================================================
+
+    _artifact_loader: ClassVar[Optional[ArtifactLoader]] = None
+
+    @classmethod
+    def set_artifact_loader(cls, loader: ArtifactLoader) -> None:
+        """Set the artifact loader for artifact type lookups."""
+        cls._artifact_loader = loader
+
+    @classmethod
+    def clear_artifact_loader(cls) -> None:
+        """Clear the artifact loader (useful for testing)."""
+        cls._artifact_loader = None
 
     # =========================================================================
     # TYPE DISCRIMINATOR
@@ -507,6 +560,113 @@ class RoadmapTicket(HierarchicalTicket):
             if p.primary:
                 return p
         return None
+
+    # =========================================================================
+    # ARTIFACT ACCESSORS (Domain-Specific)
+    # =========================================================================
+
+    def _get_artifact_type(self, artifact_id: str) -> Optional[ArtifactType]:
+        """
+        Get the artifact type for an artifact ID.
+
+        Requires artifact loader to be configured.
+
+        Args:
+            artifact_id: The ID of the artifact
+
+        Returns:
+            ArtifactType if found, None otherwise
+        """
+        if self._artifact_loader is None:
+            return None
+        info = self._artifact_loader.get_artifact_info(artifact_id)
+        if info is None:
+            return None
+        return info.artifact_type
+
+    @property
+    def all_project_documentation(self) -> List[str]:
+        """
+        All DOCUMENTATION type artifacts across the roadmap.
+
+        Returns artifact IDs where artifact_type == ArtifactType.DOCUMENTATION.
+        Aggregates from this ticket and all descendants.
+
+        Note: Requires artifact loader to be configured for type filtering.
+        Without loader, returns all referenced artifact IDs.
+        """
+        if self._artifact_loader is None:
+            # Return all artifacts if no loader configured
+            return self.all_referenced_artifacts
+
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) == ArtifactType.DOCUMENTATION
+        ]
+
+    @property
+    def framework_components(self) -> List[str]:
+        """
+        All AGENT, WORKFLOW, TEMPLATE artifacts.
+
+        Returns artifact IDs for Vibey framework components.
+        Aggregates from this ticket and all descendants.
+
+        Note: Requires artifact loader to be configured for type filtering.
+        Without loader, returns empty list.
+        """
+        if self._artifact_loader is None:
+            return []
+
+        framework_types = {ArtifactType.AGENT, ArtifactType.WORKFLOW, ArtifactType.TEMPLATE}
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) in framework_types
+        ]
+
+    @property
+    def orphan_artifacts(self) -> List[str]:
+        """
+        Artifacts that exist but aren't referenced by any ticket.
+
+        Returns artifact IDs that have no ticket criteria referencing them.
+
+        Note: Requires artifact loader to be configured.
+        Without loader, returns empty list.
+        """
+        if self._artifact_loader is None:
+            return []
+        return self._artifact_loader.get_orphan_artifact_ids()
+
+    @property
+    def code_artifacts(self) -> List[str]:
+        """
+        All CODE type artifacts across the roadmap.
+
+        Returns artifact IDs where artifact_type == ArtifactType.CODE.
+        """
+        if self._artifact_loader is None:
+            return []
+
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) == ArtifactType.CODE
+        ]
+
+    @property
+    def test_artifacts(self) -> List[str]:
+        """
+        All TEST type artifacts across the roadmap.
+
+        Returns artifact IDs where artifact_type == ArtifactType.TEST.
+        """
+        if self._artifact_loader is None:
+            return []
+
+        return [
+            aid for aid in self.all_referenced_artifacts
+            if self._get_artifact_type(aid) == ArtifactType.TEST
+        ]
 
     # =========================================================================
     # LIFECYCLE OVERRIDES
@@ -1127,6 +1287,98 @@ class SprintTicket(HierarchicalTicket):
         return self.can_complete()
 
     # =========================================================================
+    # ARTIFACT ACCESSORS (Domain-Specific)
+    # =========================================================================
+
+    def _get_artifact_info(self, artifact_id: str) -> Optional[ArtifactInfo]:
+        """
+        Get artifact info for an artifact ID.
+
+        Uses the artifact loader from RoadmapTicket if configured.
+        """
+        # Access the class-level artifact loader from RoadmapTicket
+        if RoadmapTicket._artifact_loader is None:
+            return None
+        return RoadmapTicket._artifact_loader.get_artifact_info(artifact_id)
+
+    def _get_artifact_type(self, artifact_id: str) -> Optional[ArtifactType]:
+        """Get the artifact type for an artifact ID."""
+        info = self._get_artifact_info(artifact_id)
+        if info is None:
+            return None
+        return info.artifact_type
+
+    def _get_artifact_subtype(self, artifact_id: str) -> Optional[str]:
+        """Get the artifact subtype for an artifact ID."""
+        info = self._get_artifact_info(artifact_id)
+        if info is None:
+            return None
+        return info.artifact_subtype
+
+    @property
+    def sprint_context_artifacts(self) -> List[str]:
+        """
+        CONTEXT type artifacts for this sprint (planning docs, etc.).
+
+        Returns artifact IDs where artifact_type == ArtifactType.CONTEXT.
+        Only includes artifacts directly referenced by this sprint's criteria.
+        """
+        if RoadmapTicket._artifact_loader is None:
+            return []
+
+        return [
+            c.target.artifact_id
+            for c in self.artifact_criteria
+            if isinstance(c.target, ArtifactTarget)
+            and self._get_artifact_type(c.target.artifact_id) == ArtifactType.CONTEXT
+        ]
+
+    @property
+    def planning_artifacts(self) -> List[str]:
+        """
+        Planning documents (PLANNING_DOC subtype).
+
+        Returns artifact IDs that are CONTEXT type with PLANNING_DOC subtype.
+        """
+        if RoadmapTicket._artifact_loader is None:
+            return []
+
+        return [
+            aid for aid in self.sprint_context_artifacts
+            if self._get_artifact_subtype(aid) == ContextArtifactSubtype.PLANNING_DOC.value
+        ]
+
+    @property
+    def implementation_notes_artifacts(self) -> List[str]:
+        """
+        Implementation notes artifacts (IMPL_NOTES subtype).
+
+        Returns artifact IDs that are CONTEXT type with IMPL_NOTES subtype.
+        """
+        if RoadmapTicket._artifact_loader is None:
+            return []
+
+        return [
+            aid for aid in self.sprint_context_artifacts
+            if self._get_artifact_subtype(aid) == ContextArtifactSubtype.IMPLEMENTATION_NOTES.value
+        ]
+
+    @property
+    def decision_record_artifacts(self) -> List[str]:
+        """
+        Decision record artifacts (DECISION_RECORD subtype).
+
+        Returns artifact IDs that are CONTEXT type with DECISION_RECORD subtype.
+        """
+        if RoadmapTicket._artifact_loader is None:
+            return []
+
+        return [
+            aid for aid in self.sprint_context_artifacts
+            if self._get_artifact_subtype(aid) == ContextArtifactSubtype.DECISION_RECORD.value
+        ]
+
+    # =========================================================================
     # EXTENDED LIFECYCLE METHODS
     # =========================================================================
 
@@ -1657,6 +1909,9 @@ class TaskTicket(HierarchicalTicket):
 # =============================================================================
 
 __all__ = [
+    # Artifact support
+    "ArtifactInfo",
+    "ArtifactLoader",
     # Support classes
     "VersionHistoryEntry",
     "ActivityLogEntry",

@@ -75,6 +75,12 @@ from vibey.roadmap.models.ticket.ticket import (
     Ticket,
 )
 
+from vibey.roadmap.models.ticket.hierarchical import (
+    HierarchicalTicket,
+    TicketLoader,
+    SiblingLoader,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -122,4 +128,8 @@ __all__ = [
     # Layer 1: Ticket
     "GitCommit",
     "Ticket",
+    # Layer 2: HierarchicalTicket
+    "HierarchicalTicket",
+    "TicketLoader",
+    "SiblingLoader",
 ]

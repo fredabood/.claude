@@ -1164,3 +1164,356 @@ def validate_schema(
     }
 
     return result
+
+
+# =============================================================================
+# UNIFIED SCHEMA (v2.0)
+# =============================================================================
+
+
+def get_unified_schema_ddl() -> str:
+    """
+    Get DDL for the unified ticket schema.
+
+    This creates the `tickets` and `criteria` tables for the unified model.
+    Part of schema version 2.0.0.
+
+    Returns:
+        SQL DDL string
+    """
+    return """
+-- =============================================================================
+-- UNIFIED TICKET SCHEMA
+-- =============================================================================
+
+-- Tickets table (single-table inheritance)
+CREATE TABLE IF NOT EXISTS tickets (
+    -- Identity
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    ticket_type TEXT NOT NULL CHECK (ticket_type IN ('roadmap', 'track', 'sprint', 'task')),
+
+    -- Hierarchy & Ordering (ULID system)
+    parent_id TEXT REFERENCES tickets(id),
+    sequence INTEGER DEFAULT 0,
+    slug TEXT,
+
+    -- Lifecycle
+    status TEXT NOT NULL DEFAULT 'not_started' CHECK (status IN (
+        'not_started', 'in_progress', 'paused',
+        'completion_gate_check', 'completed',
+        'production_gate_check', 'production_ready', 'deployed', 'wont_do', 'superseded'
+    )),
+    created_at TEXT NOT NULL,
+    started_at TEXT,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL,
+
+    -- Work Assignment (JSON)
+    assigned_agents_json TEXT,
+    priority TEXT CHECK (priority IN ('critical', 'high', 'medium', 'low')),
+    estimated_duration TEXT,
+
+    -- Work Evidence (JSON)
+    commits_json TEXT,
+
+    -- Requirements (JSON)
+    requirements_local_json TEXT,
+
+    -- Deferral Flag
+    deferred INTEGER DEFAULT 0,
+
+    -- Metadata (JSON)
+    metadata_json TEXT,
+
+    -- Roadmap-specific
+    version TEXT,
+    version_strategy_json TEXT,
+    activity_log_json TEXT,
+
+    -- Track-specific
+    strategic_value_json TEXT,
+
+    -- Sprint-specific
+    plan_file TEXT,
+    goal TEXT,
+    success_criteria_json TEXT,
+    development_gates_json TEXT,
+    blocked_reason TEXT,
+    completion_gate_check_at TEXT,
+    production_gate_check_at TEXT,
+    production_ready_at TEXT,
+    deployed_at TEXT,
+
+    -- Task-specific
+    task_type_detail TEXT CHECK (task_type_detail IN ('development', 'completion_gate', 'production_gate')),
+    estimated_tokens INTEGER,
+    actual_tokens INTEGER,
+    complexity TEXT CHECK (complexity IN ('simple', 'medium', 'complex', 'high')),
+    gate_info_json TEXT,
+    audit_results_json TEXT,
+    phase_label TEXT,
+
+    -- Legacy reference columns (for migration tracking)
+    legacy_sprint_id TEXT,
+    legacy_track_id TEXT,
+    legacy_roadmap_id TEXT
+);
+
+-- Criteria table (polymorphic targets)
+CREATE TABLE IF NOT EXISTS criteria (
+    id TEXT PRIMARY KEY,
+    ticket_id TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+    description TEXT NOT NULL,
+    required INTEGER DEFAULT 1,
+
+    -- UNIFIED BLOCKING: which transition does this block?
+    blocks_transition_to TEXT NOT NULL DEFAULT 'completed' CHECK (
+        blocks_transition_to IN ('in_progress', 'completed', 'production_ready')
+    ),
+
+    -- Target (polymorphic via target_type)
+    target_type TEXT NOT NULL CHECK (target_type IN (
+        'completable', 'file_exists', 'test_passes',
+        'test_coverage', 'threshold', 'manual', 'external'
+    )),
+    target_json TEXT NOT NULL,
+
+    -- Cached state
+    is_met INTEGER,
+    last_checked TEXT
+);
+
+-- =============================================================================
+-- UNIFIED INDEXES
+-- =============================================================================
+
+-- Ticket lookups
+CREATE INDEX IF NOT EXISTS idx_tickets_parent ON tickets(parent_id);
+CREATE INDEX IF NOT EXISTS idx_tickets_type ON tickets(ticket_type);
+CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status);
+CREATE INDEX IF NOT EXISTS idx_tickets_sequence ON tickets(parent_id, sequence);
+
+-- Legacy ID lookups (for migration)
+CREATE INDEX IF NOT EXISTS idx_tickets_legacy_sprint ON tickets(legacy_sprint_id);
+CREATE INDEX IF NOT EXISTS idx_tickets_legacy_track ON tickets(legacy_track_id);
+CREATE INDEX IF NOT EXISTS idx_tickets_legacy_roadmap ON tickets(legacy_roadmap_id);
+
+-- Criteria lookups
+CREATE INDEX IF NOT EXISTS idx_criteria_ticket ON criteria(ticket_id);
+CREATE INDEX IF NOT EXISTS idx_criteria_blocks_transition ON criteria(ticket_id, blocks_transition_to);
+CREATE INDEX IF NOT EXISTS idx_criteria_target_type ON criteria(target_type);
+"""
+
+
+def get_unified_views_ddl() -> str:
+    """
+    Get DDL for unified schema aggregation views.
+
+    Returns:
+        SQL DDL string
+    """
+    return """
+-- =============================================================================
+-- UNIFIED AGGREGATION VIEWS
+-- =============================================================================
+
+-- View for child completion status
+CREATE VIEW IF NOT EXISTS v_ticket_children AS
+SELECT
+    t.id as parent_id,
+    t.ticket_type as parent_type,
+    c.id as child_id,
+    c.ticket_type as child_type,
+    c.status as child_status,
+    c.deferred as child_deferred
+FROM tickets t
+JOIN tickets c ON c.parent_id = t.id;
+
+-- View for aggregated commits (from children)
+CREATE VIEW IF NOT EXISTS v_ticket_commits_aggregated AS
+WITH RECURSIVE descendants AS (
+    SELECT id, id as root_id, commits_json
+    FROM tickets
+    UNION ALL
+    SELECT t.id, d.root_id, t.commits_json
+    FROM tickets t
+    JOIN descendants d ON t.parent_id = d.id
+)
+SELECT
+    root_id as ticket_id,
+    json_group_array(json(c.value)) as commits_aggregated_json
+FROM descendants d
+CROSS JOIN json_each(COALESCE(d.commits_json, '[]')) c
+WHERE d.commits_json IS NOT NULL AND d.commits_json != '[]'
+GROUP BY root_id;
+
+-- View for unified roadmap progress
+CREATE VIEW IF NOT EXISTS v_unified_roadmap_progress AS
+SELECT
+    r.id as roadmap_id,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'track' THEN t.id END) as tracks_total,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'track' AND t.status = 'completed' THEN t.id END) as tracks_completed,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'sprint' THEN t.id END) as sprints_total,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'sprint' AND t.status = 'completed' THEN t.id END) as sprints_completed,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'task' THEN t.id END) as tasks_total,
+    COUNT(DISTINCT CASE WHEN t.ticket_type = 'task' AND t.status = 'completed' THEN t.id END) as tasks_completed,
+    CASE
+        WHEN COUNT(DISTINCT CASE WHEN t.ticket_type = 'task' THEN t.id END) > 0
+        THEN ROUND(100.0 * COUNT(DISTINCT CASE WHEN t.ticket_type = 'task' AND t.status = 'completed' THEN t.id END)
+             / COUNT(DISTINCT CASE WHEN t.ticket_type = 'task' THEN t.id END), 0)
+        ELSE 0
+    END as completion_percent
+FROM tickets r
+LEFT JOIN tickets t ON t.legacy_roadmap_id = r.id OR t.parent_id = r.id
+WHERE r.ticket_type = 'roadmap'
+GROUP BY r.id;
+
+-- View for unified track progress
+CREATE VIEW IF NOT EXISTS v_unified_track_progress AS
+SELECT
+    t.id as track_id,
+    COUNT(DISTINCT CASE WHEN c.ticket_type = 'sprint' THEN c.id END) as sprints_total,
+    COUNT(DISTINCT CASE WHEN c.ticket_type = 'sprint' AND c.status = 'completed' THEN c.id END) as sprints_completed,
+    COUNT(DISTINCT CASE WHEN c.ticket_type = 'task' THEN c.id END) as tasks_total,
+    COUNT(DISTINCT CASE WHEN c.ticket_type = 'task' AND c.status = 'completed' THEN c.id END) as tasks_completed,
+    CASE
+        WHEN COUNT(DISTINCT CASE WHEN c.ticket_type = 'task' THEN c.id END) > 0
+        THEN ROUND(100.0 * COUNT(DISTINCT CASE WHEN c.ticket_type = 'task' AND c.status = 'completed' THEN c.id END)
+             / COUNT(DISTINCT CASE WHEN c.ticket_type = 'task' THEN c.id END), 0)
+        ELSE 0
+    END as completion_percent
+FROM tickets t
+LEFT JOIN tickets sprint ON sprint.parent_id = t.id AND sprint.ticket_type = 'sprint'
+LEFT JOIN tickets c ON (c.parent_id = t.id OR c.parent_id = sprint.id)
+WHERE t.ticket_type = 'track'
+GROUP BY t.id;
+
+-- View for unified sprint progress
+CREATE VIEW IF NOT EXISTS v_unified_sprint_progress AS
+SELECT
+    s.id as sprint_id,
+    COUNT(CASE WHEN t.task_type_detail = 'development' THEN 1 END) as development_tasks_total,
+    COUNT(CASE WHEN t.task_type_detail = 'development' AND t.status = 'completed' THEN 1 END) as development_tasks_completed,
+    COUNT(CASE WHEN t.task_type_detail = 'completion_gate' THEN 1 END) as completion_gate_tasks_total,
+    COUNT(CASE WHEN t.task_type_detail = 'completion_gate' AND t.status = 'completed' THEN 1 END) as completion_gate_tasks_completed,
+    COUNT(CASE WHEN t.task_type_detail = 'production_gate' THEN 1 END) as production_gate_tasks_total,
+    COUNT(CASE WHEN t.task_type_detail = 'production_gate' AND t.status = 'completed' THEN 1 END) as production_gate_tasks_completed,
+    COUNT(*) as tasks_total,
+    COUNT(CASE WHEN t.status = 'completed' THEN 1 END) as tasks_completed,
+    CASE
+        WHEN COUNT(*) > 0
+        THEN ROUND(100.0 * COUNT(CASE WHEN t.status = 'completed' THEN 1 END) / COUNT(*), 0)
+        ELSE 0
+    END as completion_percent
+FROM tickets s
+LEFT JOIN tickets t ON t.parent_id = s.id AND t.ticket_type = 'task'
+WHERE s.ticket_type = 'sprint'
+GROUP BY s.id;
+
+-- View for required children (for CompletableTarget blocking)
+CREATE VIEW IF NOT EXISTS v_ticket_required_children AS
+SELECT
+    c.ticket_id as parent_id,
+    json_extract(c.target_json, '$.completable_id') as child_id,
+    c.blocks_transition_to,
+    t.deferred as child_deferred,
+    t.status as child_status,
+    json_extract(c.target_json, '$.required_status') as required_status
+FROM criteria c
+JOIN tickets t ON json_extract(c.target_json, '$.completable_id') = t.id
+WHERE c.target_type = 'completable';
+"""
+
+
+def create_unified_schema(
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+    include_views: bool = True,
+) -> None:
+    """
+    Create the unified ticket schema.
+
+    Args:
+        conn: Existing connection to use.
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+        include_views: Whether to create aggregation views.
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path, base_dir=base_dir)
+
+    conn.executescript(get_unified_schema_ddl())
+    if include_views:
+        conn.executescript(get_unified_views_ddl())
+
+
+def run_migration(
+    migration_name: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> bool:
+    """
+    Run a specific migration by name.
+
+    Args:
+        migration_name: Name of migration file (e.g., "006_unified_ticket_schema.sql")
+        conn: Existing connection to use.
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+
+    Returns:
+        True if migration succeeded
+
+    Raises:
+        FileNotFoundError: If migration file doesn't exist
+        sqlite3.Error: If migration fails
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path, base_dir=base_dir)
+
+    # Find migration file
+    migrations_dir = Path(__file__).parent / "migrations"
+    migration_path = migrations_dir / migration_name
+
+    if not migration_path.exists():
+        raise FileNotFoundError(f"Migration not found: {migration_path}")
+
+    # Read and execute migration
+    migration_sql = migration_path.read_text()
+    conn.executescript(migration_sql)
+
+    return True
+
+
+def has_unified_schema(
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> bool:
+    """
+    Check if the unified ticket schema exists.
+
+    Args:
+        conn: Existing connection to use.
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+
+    Returns:
+        True if tickets and criteria tables exist
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path, base_dir=base_dir)
+
+    tables = set(get_table_names(conn))
+    return "tickets" in tables and "criteria" in tables
+
+
+# Expected tables for unified schema validation
+EXPECTED_UNIFIED_TABLES = [
+    "tickets",
+    "criteria",
+]

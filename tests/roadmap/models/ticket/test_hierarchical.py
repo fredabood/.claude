@@ -29,6 +29,8 @@ from vibey.roadmap.models.ticket import (
     CriterionTemplate,
     CriterionTargetType,
     Progress,
+    RefreshContext,
+    ActivityType,
 )
 
 
@@ -855,3 +857,257 @@ class TestTicketInheritance:
         assert parent.is_child is False
         assert child.is_parent is False
         assert child.is_child is True
+
+
+# =============================================================================
+# AUTO-PROGRESSION TESTS
+# =============================================================================
+
+
+class TestAutoProgress:
+    """Tests for auto_progress() method."""
+
+    def test_auto_progress_with_no_criteria(self):
+        """Test auto_progress on ticket with no criteria progresses through statuses."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+        )
+        context = RefreshContext()
+
+        transitions = ticket.auto_progress(context)
+
+        # With no criteria, ticket can progress through all statuses
+        assert len(transitions) >= 1
+        # First transition should be to IN_PROGRESS
+        assert "NOT_STARTED" in transitions[0] or "not_started" in transitions[0]
+
+    def test_auto_progress_blocked_by_unmet_criteria(self):
+        """Test auto_progress stops when criteria are not met."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            criteria=[
+                Criterion(
+                    id="dep-1",
+                    description="Dependency not met",
+                    target=CompletableTarget(
+                        completable_id="other-task",
+                        required_status=TicketStatus.COMPLETED,
+                        current_status=TicketStatus.NOT_STARTED,  # Not met
+                    ),
+                    blocks_transition_to=TicketStatus.IN_PROGRESS,
+                ),
+            ],
+        )
+        context = RefreshContext()
+
+        transitions = ticket.auto_progress(context)
+
+        # Should not progress because dependency blocks IN_PROGRESS
+        assert len(transitions) == 0
+        assert ticket.status == TicketStatus.NOT_STARTED
+
+    def test_auto_progress_advances_when_criteria_met(self):
+        """Test auto_progress advances when all criteria are met."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            criteria=[
+                Criterion(
+                    id="dep-1",
+                    description="Dependency met",
+                    target=CompletableTarget(
+                        completable_id="other-task",
+                        required_status=TicketStatus.COMPLETED,
+                        current_status=TicketStatus.COMPLETED,  # Met
+                    ),
+                    blocks_transition_to=TicketStatus.IN_PROGRESS,
+                ),
+            ],
+        )
+        context = RefreshContext()
+
+        transitions = ticket.auto_progress(context)
+
+        # Should progress to IN_PROGRESS (and potentially further)
+        assert len(transitions) >= 1
+        assert "in_progress" in transitions[0].lower()
+
+    def test_auto_progress_logs_to_activity_log(self):
+        """Test auto_progress logs transitions to activity log."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+        )
+        context = RefreshContext()
+
+        ticket.auto_progress(context)
+
+        # Should have at least one log entry
+        assert len(context.activity_log) >= 1
+        log_entry = context.activity_log[0]
+        assert log_entry["type"] == ActivityType.AUTO_PROGRESSION.value
+        assert log_entry["entity_id"] == "task-001"
+
+    def test_auto_progress_terminal_state_no_progression(self):
+        """Test auto_progress does nothing for terminal states."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.WONT_DO,  # Terminal state
+        )
+        context = RefreshContext()
+
+        transitions = ticket.auto_progress(context)
+
+        assert len(transitions) == 0
+        assert ticket.status == TicketStatus.WONT_DO
+
+    def test_auto_progress_updates_started_at(self):
+        """Test auto_progress sets started_at when transitioning to IN_PROGRESS."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            started_at=None,
+        )
+        context = RefreshContext()
+
+        ticket.auto_progress(context)
+
+        # After progressing, started_at should be set
+        assert ticket.started_at is not None
+
+    def test_auto_progress_skips_manual_criteria_refresh(self):
+        """Test auto_progress skips refresh for manual (non-automatic) criteria."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            criteria=[
+                Criterion(
+                    id="manual-1",
+                    description="Manual approval",
+                    target=ManualTarget(assessor="human"),
+                    blocks_transition_to=TicketStatus.COMPLETED,
+                ),
+            ],
+        )
+        context = RefreshContext()
+
+        # Should not raise error - manual targets don't have refresh()
+        transitions = ticket.auto_progress(context)
+
+        # ManualTarget has is_automatic=False, so refresh won't be called
+        # Ticket can still progress to IN_PROGRESS
+        assert len(transitions) >= 1
+
+
+class TestTransitionTo:
+    """Tests for _transition_to() method."""
+
+    def test_transition_to_updates_status(self):
+        """Test _transition_to updates status."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+        )
+
+        ticket._transition_to(TicketStatus.IN_PROGRESS)
+
+        assert ticket.status == TicketStatus.IN_PROGRESS
+
+    def test_transition_to_updates_updated_at(self):
+        """Test _transition_to updates updated_at timestamp."""
+        old_updated = datetime.now(timezone.utc) - timedelta(hours=1)
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            updated_at=old_updated,
+        )
+
+        ticket._transition_to(TicketStatus.IN_PROGRESS)
+
+        assert ticket.updated_at > old_updated
+
+    def test_transition_to_in_progress_sets_started_at(self):
+        """Test _transition_to IN_PROGRESS sets started_at."""
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.NOT_STARTED,
+            started_at=None,
+        )
+
+        ticket._transition_to(TicketStatus.IN_PROGRESS)
+
+        assert ticket.started_at is not None
+
+    def test_transition_to_completed_sets_completed_at(self):
+        """Test _transition_to COMPLETED sets completed_at."""
+        now = datetime.now(timezone.utc)
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.IN_PROGRESS,
+            created_at=now - timedelta(hours=1),  # created_at must be before started_at
+            started_at=now,  # Required for IN_PROGRESS status
+            completed_at=None,
+        )
+
+        ticket._transition_to(TicketStatus.COMPLETED)
+
+        assert ticket.completed_at is not None
+
+    def test_transition_to_preserves_existing_started_at(self):
+        """Test _transition_to preserves existing started_at."""
+        original_created = datetime.now(timezone.utc) - timedelta(hours=3)
+        original_started = datetime.now(timezone.utc) - timedelta(hours=2)
+        ticket = HierarchicalTicket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.IN_PROGRESS,
+            created_at=original_created,  # Must be before started_at
+            started_at=original_started,
+        )
+
+        ticket._transition_to(TicketStatus.COMPLETED)
+
+        # started_at should not change
+        assert ticket.started_at == original_started
+
+
+class TestStatusPrecedes:
+    """Tests for TicketStatus.precedes() method."""
+
+    def test_not_started_precedes_in_progress(self):
+        """Test NOT_STARTED precedes IN_PROGRESS."""
+        assert TicketStatus.NOT_STARTED.precedes(TicketStatus.IN_PROGRESS)
+
+    def test_in_progress_precedes_completed(self):
+        """Test IN_PROGRESS precedes COMPLETED."""
+        assert TicketStatus.IN_PROGRESS.precedes(TicketStatus.COMPLETED)
+
+    def test_completed_precedes_production_ready(self):
+        """Test COMPLETED precedes PRODUCTION_READY."""
+        assert TicketStatus.COMPLETED.precedes(TicketStatus.PRODUCTION_READY)
+
+    def test_completed_does_not_precede_not_started(self):
+        """Test COMPLETED does not precede NOT_STARTED."""
+        assert not TicketStatus.COMPLETED.precedes(TicketStatus.NOT_STARTED)
+
+    def test_same_status_does_not_precede(self):
+        """Test same status does not precede itself."""
+        assert not TicketStatus.IN_PROGRESS.precedes(TicketStatus.IN_PROGRESS)
+
+    def test_terminal_status_does_not_precede(self):
+        """Test terminal status does not precede anything."""
+        assert not TicketStatus.WONT_DO.precedes(TicketStatus.COMPLETED)
+        assert not TicketStatus.SUPERSEDED.precedes(TicketStatus.IN_PROGRESS)

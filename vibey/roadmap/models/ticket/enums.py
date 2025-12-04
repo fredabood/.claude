@@ -71,6 +71,24 @@ class TicketStatus(str, Enum):
         except ValueError:
             return False
 
+    def precedes(self, other: "TicketStatus") -> bool:
+        """
+        Check if this status comes before another in progression order.
+
+        Used by auto_progress() to determine which transitions to attempt.
+
+        Args:
+            other: The status to compare against
+
+        Returns:
+            True if this status comes before other in the progression order
+        """
+        order = self.progression_order()
+        try:
+            return order.index(self) < order.index(other)
+        except ValueError:
+            return False  # Terminal states don't precede anything
+
 
 class TicketType(str, Enum):
     """
@@ -388,6 +406,9 @@ class ActivityType(str, Enum):
     QUALITY_GATE = "quality_gate"
     CRITERION_MET = "criterion_met"
     CRITERION_FAILED = "criterion_failed"
+
+    # Auto-progression events
+    AUTO_PROGRESSION = "auto_progression"
 
     # Blocking events
     BLOCKER_ADDED = "blocker_added"

@@ -22,12 +22,12 @@ from pydantic import Field, computed_field
 logger = logging.getLogger(__name__)
 
 from vibey.roadmap.models.ticket.completable import Criterion
-from vibey.roadmap.models.ticket.enums import TicketStatus
+from vibey.roadmap.models.ticket.enums import ActivityType, TicketStatus, TicketType
 from vibey.roadmap.models.ticket.requirements import (
     RequirementInstantiator,
     RequirementResolver,
 )
-from vibey.roadmap.models.ticket.support import Progress
+from vibey.roadmap.models.ticket.support import Progress, RefreshContext
 from vibey.roadmap.models.ticket.targets import (
     CompletableTarget,
     FileExistsTarget,
@@ -594,6 +594,99 @@ class HierarchicalTicket(Ticket):
         parts = [a.slug or a.id for a in reversed(self.ancestors)]
         parts.append(self.slug or self.id)
         return "/".join(parts)
+
+    # =========================================================================
+    # AUTO-PROGRESSION
+    # =========================================================================
+
+    def auto_progress(self, context: RefreshContext) -> List[str]:
+        """
+        Refresh automatic criteria and progress status if possible.
+
+        This method:
+        1. Refreshes all automatic criteria (those with is_automatic=True)
+        2. Checks each possible status transition in order
+        3. Transitions when all criteria for that status are met
+        4. Logs each transition to the context's activity log
+
+        Design Reference: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5
+
+        Args:
+            context: RefreshContext with external system access and activity log
+
+        Returns:
+            List of transition descriptions (e.g., ["ticket-1: NOT_STARTED → IN_PROGRESS"])
+        """
+        transitions: List[str] = []
+
+        # Step 1: Refresh all automatic criteria
+        for criterion in self.all_criteria:
+            if hasattr(criterion.target, 'is_automatic') and criterion.target.is_automatic:
+                if hasattr(criterion.target, 'refresh'):
+                    criterion.target.refresh(context)
+
+        # Step 2: Check each possible transition in order
+        status_order = [
+            TicketStatus.IN_PROGRESS,
+            TicketStatus.COMPLETION_GATE_CHECK,
+            TicketStatus.COMPLETED,
+            TicketStatus.PRODUCTION_GATE_CHECK,
+            TicketStatus.PRODUCTION_READY,
+        ]
+
+        # Terminal states cannot progress
+        if self.status.is_terminal():
+            return transitions
+
+        for target_status in status_order:
+            if self.status.precedes(target_status):
+                can, reasons = self.can_transition_to(target_status)
+                if can:
+                    old_status = self.status
+                    self._transition_to(target_status)
+                    transitions.append(f"{self.id}: {old_status.value} → {target_status.value}")
+
+                    # Log the auto-progression
+                    context.activity_log.append({
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "type": ActivityType.AUTO_PROGRESSION.value,
+                        "description": f"Auto-progressed from {old_status.value} to {target_status.value}",
+                        "entity_type": getattr(self, 'ticket_type', TicketType.TASK).value,
+                        "entity_id": self.id,
+                        "field": "status",
+                        "old_value": old_status.value,
+                        "new_value": target_status.value,
+                    })
+                else:
+                    # Can't transition to this status - stop trying later statuses
+                    # (you can't skip ahead in the progression order)
+                    break
+
+        return transitions
+
+    def _transition_to(self, status: TicketStatus) -> None:
+        """
+        Internal method to update status and timestamps.
+
+        This is a mutable operation that updates the ticket in place.
+        For immutable operations, use the start()/complete() methods
+        that return new ticket instances.
+
+        Args:
+            status: The target status to transition to
+        """
+        # Update status
+        object.__setattr__(self, 'status', status)
+        object.__setattr__(self, 'updated_at', datetime.now(timezone.utc))
+
+        # Update status-specific timestamps
+        if status == TicketStatus.IN_PROGRESS:
+            if self.started_at is None:
+                object.__setattr__(self, 'started_at', datetime.now(timezone.utc))
+        elif status == TicketStatus.COMPLETED:
+            if self.completed_at is None:
+                object.__setattr__(self, 'completed_at', datetime.now(timezone.utc))
+        # Note: Other status-specific timestamps can be added as needed
 
     # =========================================================================
     # LIFECYCLE METHODS (Override with platform awareness)

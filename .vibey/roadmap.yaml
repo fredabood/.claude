@@ -19,8 +19,8 @@ roadmap:
     sprints_total: 180
     sprints_completed: 87
     tasks_total: 946
-    tasks_completed: 671
-    completion_percent: 70
+    tasks_completed: 672
+    completion_percent: 71
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -2234,11 +2234,23 @@ roadmap:
     context:
       task_id: sqlite-backend-6-task-018
       sprint_id: sqlite-backend-6
+  - timestamp: '2025-12-04T21:24:17.982283+00:00'
+    type: task_started
+    description: Task 'Create SQLAlchemy ORM for Unified Completion Model' started
+    context:
+      task_id: sqlite-backend-6-task-012
+      sprint_id: sqlite-backend-6
+  - timestamp: '2025-12-04T21:42:52.501884+00:00'
+    type: task_completed
+    description: Task 'Create SQLAlchemy ORM for Unified Completion Model' completed
+    context:
+      task_id: sqlite-backend-6-task-012
+      sprint_id: sqlite-backend-6
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-12-04T21:19:45.144281+00:00'
+    last_updated: '2025-12-04T21:42:52.501887+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

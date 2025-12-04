@@ -70,6 +70,11 @@ from vibey.roadmap.models.ticket.requirements import (
     RequirementInstantiator,
 )
 
+from vibey.roadmap.models.ticket.ticket import (
+    GitCommit,
+    Ticket,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -114,4 +119,7 @@ __all__ = [
     "Requirement",
     "RequirementResolver",
     "RequirementInstantiator",
+    # Layer 1: Ticket
+    "GitCommit",
+    "Ticket",
 ]

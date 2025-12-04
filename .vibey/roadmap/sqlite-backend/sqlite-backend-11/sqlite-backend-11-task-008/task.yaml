@@ -4,47 +4,64 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Document confidence metrics and lessons learned
-  description: 'Final documentation for validation sprint:
+  title: Fix CLI task completion reformatting sibling task files
+  description: |
+    BUG: When running `vibey roadmap complete <task-id>`, the CLI rewrites
+    sibling task YAML files in the same sprint, truncating detailed descriptions.
 
-    - Confidence metrics for database approach
+    OBSERVED BEHAVIOR:
+    - Task descriptions of 80+ lines were reduced to 40 lines
+    - Implementation steps, examples, and code snippets are lost
+    - All task YAML files in the sprint directory are affected
 
-    - Total discrepancies found and fixed
+    EXPECTED BEHAVIOR:
+    - CLI should only modify the target task file when completing a task
+    - Sibling task files should not be touched
+    - Full YAML content should be preserved
 
-    - Root cause analysis of drift patterns
+    ROOT CAUSE (suspected):
+    The CLI may be loading and re-saving all task files using a simplified
+    serialization that doesn't preserve the full YAML content. This likely
+    happens in the complete command or the sync operations.
 
-    - Recommendations for preventing future drift
+    INVESTIGATION STEPS:
+    1. Trace the code path in `vibey roadmap complete`
+    2. Identify where sibling files are being loaded and saved
+    3. Check if yaml_dumper is truncating descriptions
+    4. Check if the CLI is using a different serialization path
 
-    - Comparison of manual validation vs DB approach
+    FIX OPTIONS:
+    1. Only modify the target task file (preferred)
+    2. Use round-trip YAML parsing (ruamel.yaml) to preserve formatting
+    3. Add flag to skip sync of unchanged files
 
-    - Sign-off that database approach is production-ready
+    WORKAROUND:
+    Discard unwanted changes with `git checkout -- <files>` after CLI operations.
 
-    '
   status: not_started
   blocked: false
-  created: '2025-11-26T14:00:00+00:00'
+  created: '2025-12-04T23:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: docs-writer
-  priority: high
-  phase_label: documentation
-  estimated_tokens: 2000
+  assigned_agent: backend-engineer
+  priority: medium
+  phase_label: bugfix
+  estimated_tokens: 1500
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-11-task-007
+  dependencies: []
   blocks: []
   blocked_by: []
   deliverables:
-  - Validation report
-  - Confidence metrics
-  - Lessons learned document
-  - Production readiness sign-off
+  - Fix for CLI task completion reformatting
+  - Test case for the bug scenario
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: '2025-12-04T23:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: null
+    notes: |
+      Discovered during Sprint 8 task completion.
+      Data loss risk but recoverable via git.

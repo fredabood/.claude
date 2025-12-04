@@ -136,6 +136,24 @@ from vibey.roadmap.models.ticket.repository import (
     RepositoryFactory,
 )
 
+from vibey.roadmap.models.ticket.adapters import (
+    # Status mapping
+    map_status_to_ticket_status,
+    map_ticket_status_to_status,
+    map_priority,
+    map_task_type,
+    # Criterion generation
+    children_to_criteria,
+    dependencies_to_criteria,
+    deliverables_to_criteria,
+    # Criterion extraction
+    extract_child_ids,
+    extract_dependency_ids,
+    extract_deliverable_paths,
+    # Main adapter
+    ModelAdapter,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -233,4 +251,19 @@ __all__ = [
     "CriterionRepository",
     # Repository - Factory
     "RepositoryFactory",
+    # Adapters - Status mapping
+    "map_status_to_ticket_status",
+    "map_ticket_status_to_status",
+    "map_priority",
+    "map_task_type",
+    # Adapters - Criterion generation
+    "children_to_criteria",
+    "dependencies_to_criteria",
+    "deliverables_to_criteria",
+    # Adapters - Criterion extraction
+    "extract_child_ids",
+    "extract_dependency_ids",
+    "extract_deliverable_paths",
+    # Adapters - Main class
+    "ModelAdapter",
 ]

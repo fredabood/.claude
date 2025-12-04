@@ -13,7 +13,7 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    tasks_total: 7
+    tasks_total: 9
     tasks_completed: 0
     completion_percent: 0.0
   tasks: []
@@ -46,26 +46,45 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Final sprint to enable SQLite as source of truth for roadmap operations.
+    notes: 'Final sprint to enable SQLite as source of truth for roadmap operations.
+
 
       PROBLEM:
+
       - Database exists but not initialized (no database_state table)
+
       - Update operations write to YAML only, not SQLite
-      - Git hooks don't sync DB <-> YAML
+
+      - Git hooks don''t sync DB <-> YAML
+
       - 15 tasks have invalid dates (started < created)
+
       - Stale embedded sprint summaries in track.yaml
 
+
       SOLUTION:
+
       - Initialize production DB with schema
+
       - Modify update.py to write to both backends
+
       - Add DB dump to pre-commit hook
+
       - Add DB rebuild to post-merge hook
+
       - Fix data integrity issues
+
       - Add embedded summary validation
 
+
       SUCCESS CRITERIA:
+
       - `vibey roadmap db status` shows healthy database
+
       - All updates persist to both YAML and SQLite
+
       - Git operations maintain sync automatically
+
       - Zero integrity issues in audit report
+
+      '

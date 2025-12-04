@@ -47,7 +47,7 @@ task:
     \ criteria (ManualTarget) are skipped during refresh\n- Terminal states (WONT_DO,\
     \ SUPERSEDED) stop progression\n- Full test coverage including edge cases\n"
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-11-30T10:00:00+00:00'
   started: null
   completed: null

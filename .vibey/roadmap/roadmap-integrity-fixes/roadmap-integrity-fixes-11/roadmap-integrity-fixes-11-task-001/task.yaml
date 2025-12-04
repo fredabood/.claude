@@ -16,8 +16,7 @@ task:
   assigned_to: null
   dependencies: []
   blocked_by: []
-  depended_on_by:
-  - roadmap-integrity-fixes-11-task-002
+  depended_on_by: []
   description: 'PHASE 1: DATA PRESERVATION
 
 

@@ -81,6 +81,16 @@ from vibey.roadmap.models.ticket.hierarchical import (
     SiblingLoader,
 )
 
+from vibey.roadmap.models.ticket.domain import (
+    # Support classes
+    VersionHistoryEntry,
+    ActivityLogEntry,
+    PlatformDeployment,
+    VersionStrategy,
+    # Domain models
+    RoadmapTicket,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -132,4 +142,11 @@ __all__ = [
     "HierarchicalTicket",
     "TicketLoader",
     "SiblingLoader",
+    # Layer 3: Domain Models - Support classes
+    "VersionHistoryEntry",
+    "ActivityLogEntry",
+    "PlatformDeployment",
+    "VersionStrategy",
+    # Layer 3: Domain Models - RoadmapTicket
+    "RoadmapTicket",
 ]

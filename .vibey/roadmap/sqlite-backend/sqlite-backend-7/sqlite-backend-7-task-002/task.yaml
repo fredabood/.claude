@@ -5,79 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Artifact Entity (Layer 0a)
-  description: |
-    Create the Artifact entity as a first-class entity independent of tickets.
-    This is the core of the artifact system.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.3
-
-    ARTIFACT ENTITY FIELDS:
-
-    Identity:
-    - id: str (ULID)
-    - name: str
-    - description: Optional[str]
-
-    File Location:
-    - paths: List[str] (one artifact may span multiple files)
-    - content_hash: Optional[str] (SHA256 of concatenated file contents)
-    - last_verified: Optional[datetime] (when files were last checked)
-
-    Classification:
-    - artifact_type: ArtifactType
-    - artifact_subtype: Optional[str] (more specific classification)
-
-    Provenance:
-    - provenance: ArtifactProvenance (how artifact came to exist)
-
-    Relationships:
-    - documents_artifact_id: Optional[str] (what does this artifact document?)
-    - depends_on_artifact_ids: List[str] (artifact dependencies)
-
-    State:
-    - exists: bool (False if files were deleted)
-    - is_stale: bool (for docs: source artifact changed since last update)
-
-    Timestamps:
-    - created_at: datetime
-    - updated_at: datetime
-
-    COMPUTED PROPERTIES:
-
-    - is_orphan: bool (no criteria reference this artifact)
-    - referencing_criteria: List[str] (criterion IDs that reference this)
-    - is_documentation: bool (documents_artifact_id is set)
-
-    METHODS:
-
-    - check_staleness(artifact_registry) -> bool:
-        Check if this documentation artifact is stale by comparing
-        documented artifact's current hash to stored hash.
-
-    - mark_updated(artifact_registry) -> None:
-        Mark documentation as updated (capture source hash, clear stale flag).
-
-    - compute_content_hash() -> str:
-        Compute SHA256 hash of all files in paths[].
-
-    - verify_exists() -> bool:
-        Check if all files in paths[] exist on filesystem.
-
-    PRIVATE FIELDS (for staleness tracking):
-    - _documented_source_hash: Optional[str] (hash of source when doc was updated)
-
-    FILE LOCATION:
-    vibey/roadmap/models/ticket/artifact.py
-
-    SUCCESS CRITERIA:
-    - Artifact entity with all fields implemented
-    - Staleness detection works correctly
-    - Content hash computation works
-    - File existence verification works
-    - JSON/YAML serialization works
-    - Full test coverage
+  description: "Create the Artifact entity as a first-class entity independent of\
+    \ tickets.\nThis is the core of the artifact system.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
+    \ Part 13.3\n\nARTIFACT ENTITY FIELDS:\n\nIdentity:\n- id: str (ULID)\n- name:\
+    \ str\n- description: Optional[str]\n\nFile Location:\n- paths: List[str] (one\
+    \ artifact may span multiple files)\n- content_hash: Optional[str] (SHA256 of\
+    \ concatenated file contents)\n- last_verified: Optional[datetime] (when files\
+    \ were last checked)\n\nClassification:\n- artifact_type: ArtifactType\n- artifact_subtype:\
+    \ Optional[str] (more specific classification)\n\nProvenance:\n- provenance: ArtifactProvenance\
+    \ (how artifact came to exist)\n\nRelationships:\n- documents_artifact_id: Optional[str]\
+    \ (what does this artifact document?)\n- depends_on_artifact_ids: List[str] (artifact\
+    \ dependencies)\n\nState:\n- exists: bool (False if files were deleted)\n- is_stale:\
+    \ bool (for docs: source artifact changed since last update)\n\nTimestamps:\n\
+    - created_at: datetime\n- updated_at: datetime\n\nCOMPUTED PROPERTIES:\n\n- is_orphan:\
+    \ bool (no criteria reference this artifact)\n- referencing_criteria: List[str]\
+    \ (criterion IDs that reference this)\n- is_documentation: bool (documents_artifact_id\
+    \ is set)\n\nMETHODS:\n\n- check_staleness(artifact_registry) -> bool:\n    Check\
+    \ if this documentation artifact is stale by comparing\n    documented artifact's\
+    \ current hash to stored hash.\n\n- mark_updated(artifact_registry) -> None:\n\
+    \    Mark documentation as updated (capture source hash, clear stale flag).\n\n\
+    - compute_content_hash() -> str:\n    Compute SHA256 hash of all files in paths[].\n\
+    \n- verify_exists() -> bool:\n    Check if all files in paths[] exist on filesystem.\n\
+    \nPRIVATE FIELDS (for staleness tracking):\n- _documented_source_hash: Optional[str]\
+    \ (hash of source when doc was updated)\n\nFILE LOCATION:\nvibey/roadmap/models/ticket/artifact.py\n\
+    \nSUCCESS CRITERIA:\n- Artifact entity with all fields implemented\n- Staleness\
+    \ detection works correctly\n- Content hash computation works\n- File existence\
+    \ verification works\n- JSON/YAML serialization works\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -86,40 +41,45 @@ task:
   phase_label: foundation
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-004
-  - sqlite-backend-7-task-005
+  - type: task
+    target_id: sqlite-backend-7-task-004
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-7-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-7-task-001
+  - dependency_id: sqlite-backend-7-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012565+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-001
     blocker_type: task
     required_status: completed
-    current_status: not_started
+    current_status: in_progress
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+    last_checked: '2025-12-04T22:04:30.089329+00:00'
   depended_on_by:
   - sqlite-backend-7-task-004
   - sqlite-backend-7-task-005
   deliverables:
-  - vibey/roadmap/models/ticket/artifact.py
-  - tests/roadmap/models/ticket/test_artifact.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/artifact.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      CRITICAL TASK - Core of the artifact system.
-
-      Key insight: Artifact is Layer 0a, existing independently of tickets.
-      This enables tracking pre-existing files, generated docs, and
-      framework components that don't belong to any specific ticket.
-
-      Staleness detection is critical for maintaining documentation
-      accuracy. When source code changes, documentation becomes stale
-      until updated.

@@ -5,93 +5,44 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Comprehensive Test Suite for Artifact System
-  description: |
-    Create comprehensive test coverage for all artifact system components.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13
-
-    TEST MODULES:
-
-    1. tests/roadmap/models/ticket/test_artifact_enums.py
-       - Test all enum values exist
-       - Test ArtifactType properties (is_documentation_type, etc.)
-       - Test enum serialization/deserialization
-
-    2. tests/roadmap/models/ticket/test_artifact.py
-       - Test Artifact creation with all fields
-       - Test content_hash computation
-       - Test verify_exists() with real files
-       - Test staleness detection
-       - Test mark_updated() updates hash
-       - Test is_orphan computed correctly
-       - Test JSON/YAML serialization round-trip
-
-    3. tests/roadmap/models/ticket/test_artifact_provenance.py
-       - Test factory methods for each provenance type
-       - Test validation (type-specific fields match type)
-       - Test serialization
-
-    4. tests/roadmap/models/ticket/test_artifact_target.py
-       - Test is_satisfied() for each verification mode
-       - Test refresh() updates cached state
-       - Test is_automatic returns True
-       - Test serialization with CriterionTargetType.ARTIFACT
-
-    5. tests/roadmap/database/test_artifacts_schema.py
-       - Test table creation
-       - Test all indexes exist
-       - Test all views return expected results
-       - Test foreign key constraint
-       - Test JSON fields serialize/deserialize correctly
-
-    6. tests/roadmap/operations/test_impact_analyzer.py
-       - Test analyze_file_changes finds correct artifacts
-       - Test documentation staleness cascade
-       - Test affected tickets identified
-       - Test mark_documentation_stale works
-       - Test ImpactReport generation
-
-    7. tests/roadmap/models/ticket/test_artifact_integration.py
-       - Test Ticket.artifact_criteria
-       - Test Ticket.complete() with stale documentation
-       - Test HierarchicalTicket.all_referenced_artifacts aggregation
-       - Test HierarchicalTicket.stale_documentation_artifacts aggregation
-       - Test HierarchicalTicket.documentation_health
-       - Test RoadmapTicket.all_project_documentation
-       - Test SprintTicket.sprint_context_artifacts
-
-    INTEGRATION TESTS:
-
-    8. tests/roadmap/integration/test_artifact_workflow.py
-       - End-to-end: Create artifact, reference in criterion, complete ticket
-       - End-to-end: Modify source, detect stale docs, block completion
-       - End-to-end: Update docs, clear stale flag, complete ticket
-
-    TEST FIXTURES:
-
-    Create fixtures for:
-    - Sample artifacts of each type
-    - Sample provenance objects
-    - Sample ArtifactTarget criteria
-    - Sample file trees for existence testing
-    - Sample ticket hierarchies with artifact criteria
-
-    COVERAGE REQUIREMENTS:
-    - Minimum 90% line coverage for all artifact modules
-    - All edge cases covered (empty lists, missing files, etc.)
-    - Error paths tested
-
-    FILE LOCATION:
-    tests/roadmap/ (various subdirectories as listed above)
-
-    SUCCESS CRITERIA:
-    - All test modules created
-    - All tests pass
-    - 90%+ code coverage on artifact modules
-    - Integration tests verify end-to-end workflows
-    - CI runs all tests successfully
+  description: "Create comprehensive test coverage for all artifact system components.\n\
+    \nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13\n\nTEST MODULES:\n\n\
+    1. tests/roadmap/models/ticket/test_artifact_enums.py\n   - Test all enum values\
+    \ exist\n   - Test ArtifactType properties (is_documentation_type, etc.)\n   -\
+    \ Test enum serialization/deserialization\n\n2. tests/roadmap/models/ticket/test_artifact.py\n\
+    \   - Test Artifact creation with all fields\n   - Test content_hash computation\n\
+    \   - Test verify_exists() with real files\n   - Test staleness detection\n  \
+    \ - Test mark_updated() updates hash\n   - Test is_orphan computed correctly\n\
+    \   - Test JSON/YAML serialization round-trip\n\n3. tests/roadmap/models/ticket/test_artifact_provenance.py\n\
+    \   - Test factory methods for each provenance type\n   - Test validation (type-specific\
+    \ fields match type)\n   - Test serialization\n\n4. tests/roadmap/models/ticket/test_artifact_target.py\n\
+    \   - Test is_satisfied() for each verification mode\n   - Test refresh() updates\
+    \ cached state\n   - Test is_automatic returns True\n   - Test serialization with\
+    \ CriterionTargetType.ARTIFACT\n\n5. tests/roadmap/database/test_artifacts_schema.py\n\
+    \   - Test table creation\n   - Test all indexes exist\n   - Test all views return\
+    \ expected results\n   - Test foreign key constraint\n   - Test JSON fields serialize/deserialize\
+    \ correctly\n\n6. tests/roadmap/operations/test_impact_analyzer.py\n   - Test\
+    \ analyze_file_changes finds correct artifacts\n   - Test documentation staleness\
+    \ cascade\n   - Test affected tickets identified\n   - Test mark_documentation_stale\
+    \ works\n   - Test ImpactReport generation\n\n7. tests/roadmap/models/ticket/test_artifact_integration.py\n\
+    \   - Test Ticket.artifact_criteria\n   - Test Ticket.complete() with stale documentation\n\
+    \   - Test HierarchicalTicket.all_referenced_artifacts aggregation\n   - Test\
+    \ HierarchicalTicket.stale_documentation_artifacts aggregation\n   - Test HierarchicalTicket.documentation_health\n\
+    \   - Test RoadmapTicket.all_project_documentation\n   - Test SprintTicket.sprint_context_artifacts\n\
+    \nINTEGRATION TESTS:\n\n8. tests/roadmap/integration/test_artifact_workflow.py\n\
+    \   - End-to-end: Create artifact, reference in criterion, complete ticket\n \
+    \  - End-to-end: Modify source, detect stale docs, block completion\n   - End-to-end:\
+    \ Update docs, clear stale flag, complete ticket\n\nTEST FIXTURES:\n\nCreate fixtures\
+    \ for:\n- Sample artifacts of each type\n- Sample provenance objects\n- Sample\
+    \ ArtifactTarget criteria\n- Sample file trees for existence testing\n- Sample\
+    \ ticket hierarchies with artifact criteria\n\nCOVERAGE REQUIREMENTS:\n- Minimum\
+    \ 90% line coverage for all artifact modules\n- All edge cases covered (empty\
+    \ lists, missing files, etc.)\n- Error paths tested\n\nFILE LOCATION:\ntests/roadmap/\
+    \ (various subdirectories as listed above)\n\nSUCCESS CRITERIA:\n- All test modules\
+    \ created\n- All tests pass\n- 90%+ code coverage on artifact modules\n- Integration\
+    \ tests verify end-to-end workflows\n- CI runs all tests successfully\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -100,13 +51,18 @@ task:
   phase_label: testing
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by:
-  - sqlite-backend-7-task-007
+  - dependency_id: sqlite-backend-7-task-007
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012596+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-007
     blocker_type: task
@@ -116,27 +72,32 @@ task:
     last_checked: '2025-11-30T18:00:00+00:00'
   depended_on_by: []
   deliverables:
-  - tests/roadmap/models/ticket/test_artifact_enums.py
-  - tests/roadmap/models/ticket/test_artifact.py
-  - tests/roadmap/models/ticket/test_artifact_provenance.py
-  - tests/roadmap/models/ticket/test_artifact_target.py
-  - tests/roadmap/database/test_artifacts_schema.py
-  - tests/roadmap/operations/test_impact_analyzer.py
-  - tests/roadmap/models/ticket/test_artifact_integration.py
-  - tests/roadmap/integration/test_artifact_workflow.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_enums.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_provenance.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_target.py
+  - type: code
+    paths:
+    - tests/roadmap/database/test_artifacts_schema.py
+  - type: code
+    paths:
+    - tests/roadmap/operations/test_impact_analyzer.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_integration.py
+  - type: code
+    paths:
+    - tests/roadmap/integration/test_artifact_workflow.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Comprehensive testing is critical for the artifact system since
-      it's foundational to documentation accuracy and impact analysis.
-
-      Integration tests are especially important to verify:
-      - File changes trigger staleness detection
-      - Stale documentation blocks completion (when required)
-      - Impact analysis provides actionable recommendations
-
-      Test fixtures should cover realistic scenarios from the Vibey
-      roadmap itself (eating our own dog food).

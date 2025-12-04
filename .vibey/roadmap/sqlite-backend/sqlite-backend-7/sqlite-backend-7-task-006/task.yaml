@@ -5,143 +5,61 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ImpactAnalyzer for Documentation Staleness
-  description: |
-    Create the ImpactAnalyzer class that detects when code changes affect
-    documentation and identifies cascading updates needed.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.10
-
-    IMPACTANALYZER CLASS:
-
-    class ImpactAnalyzer:
-        """Analyzes impact of file changes on artifacts and documentation."""
-
-        def __init__(self, artifact_registry: ArtifactRegistry, db: Database):
-            self._registry = artifact_registry
-            self._db = db
-
-        def analyze_file_changes(self, changed_files: List[str]) -> ImpactReport:
-            """
-            Analyze impact of file changes.
-
-            Args:
-                changed_files: List of file paths that changed
-
-            Returns:
-                ImpactReport with affected artifacts and required updates
-            """
-            # 1. Find artifacts containing changed files
-            directly_impacted = self._find_artifacts_by_files(changed_files)
-
-            # 2. Find documentation that documents impacted artifacts
-            stale_documentation = []
-            for artifact in directly_impacted:
-                docs = self._find_documenting_artifacts(artifact.id)
-                stale_documentation.extend(docs)
-
-            # 3. Find tickets with criteria referencing stale documentation
-            affected_tickets = self._find_affected_tickets(stale_documentation)
-
-            return ImpactReport(
-                changed_files=changed_files,
-                directly_impacted_artifacts=directly_impacted,
-                stale_documentation=stale_documentation,
-                affected_tickets=affected_tickets,
-                recommended_actions=self._generate_recommendations(...)
-            )
-
-        def mark_documentation_stale(self, artifact_ids: List[str]) -> int:
-            """Mark documentation artifacts as stale. Returns count updated."""
-
-        def refresh_artifact_hashes(self, artifact_ids: List[str]) -> int:
-            """Recompute content hashes for artifacts. Returns count updated."""
-
-        def _find_artifacts_by_files(self, files: List[str]) -> List[Artifact]:
-            """Find artifacts whose paths contain any of the given files."""
-
-        def _find_documenting_artifacts(self, artifact_id: str) -> List[Artifact]:
-            """Find artifacts that document the given artifact."""
-
-        def _find_affected_tickets(self, artifacts: List[Artifact]) -> List[str]:
-            """Find tickets with criteria referencing these artifacts."""
-
-    IMPACTREPORT CLASS:
-
-    class ImpactReport(BaseModel):
-        """Report of impact from file changes."""
-
-        # Input
-        changed_files: List[str]
-        analyzed_at: datetime
-
-        # Direct impacts
-        directly_impacted_artifacts: List[ArtifactSummary]
-
-        # Documentation impacts
-        stale_documentation: List[ArtifactSummary]
-
-        # Ticket impacts
-        affected_tickets: List[TicketImpact]
-
-        # Recommendations
-        recommended_actions: List[RecommendedAction]
-
-        # Summary statistics
-        @property
-        def total_artifacts_affected(self) -> int
-        @property
-        def total_tickets_affected(self) -> int
-        @property
-        def has_blocking_impacts(self) -> bool
-
-    SUPPORTING CLASSES:
-
-    class ArtifactSummary(BaseModel):
-        id: str
-        name: str
-        artifact_type: ArtifactType
-        paths: List[str]
-
-    class TicketImpact(BaseModel):
-        ticket_id: str
-        ticket_name: str
-        impact_type: str  # "stale_doc_blocks_completion", "stale_doc_warning"
-        criterion_id: str
-        artifact_id: str
-
-    class RecommendedAction(BaseModel):
-        action_type: str  # "update_documentation", "refresh_hash", "review"
-        target_artifact_id: str
-        description: str
-        priority: str  # "high", "medium", "low"
-
-    GIT HOOK INTEGRATION:
-
-    The ImpactAnalyzer should be usable from git hooks:
-
-    # In pre-commit hook:
-    changed_files = get_staged_files()
-    analyzer = ImpactAnalyzer(registry, db)
-    report = analyzer.analyze_file_changes(changed_files)
-
-    if report.has_blocking_impacts:
-        print("WARNING: Documentation may be stale")
-        for action in report.recommended_actions:
-            print(f"  - {action.description}")
-
-    FILE LOCATION:
-    vibey/roadmap/operations/impact_analyzer.py
-
-    SUCCESS CRITERIA:
-    - ImpactAnalyzer finds affected artifacts from file changes
-    - Documentation staleness cascade detected correctly
-    - Affected tickets identified
-    - ImpactReport provides actionable recommendations
-    - mark_documentation_stale() works correctly
-    - Integration with git hooks possible
-    - Full test coverage
+  description: "Create the ImpactAnalyzer class that detects when code changes affect\n\
+    documentation and identifies cascading updates needed.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
+    \ Part 13.10\n\nIMPACTANALYZER CLASS:\n\nclass ImpactAnalyzer:\n    \"\"\"Analyzes\
+    \ impact of file changes on artifacts and documentation.\"\"\"\n\n    def __init__(self,\
+    \ artifact_registry: ArtifactRegistry, db: Database):\n        self._registry\
+    \ = artifact_registry\n        self._db = db\n\n    def analyze_file_changes(self,\
+    \ changed_files: List[str]) -> ImpactReport:\n        \"\"\"\n        Analyze\
+    \ impact of file changes.\n\n        Args:\n            changed_files: List of\
+    \ file paths that changed\n\n        Returns:\n            ImpactReport with affected\
+    \ artifacts and required updates\n        \"\"\"\n        # 1. Find artifacts\
+    \ containing changed files\n        directly_impacted = self._find_artifacts_by_files(changed_files)\n\
+    \n        # 2. Find documentation that documents impacted artifacts\n        stale_documentation\
+    \ = []\n        for artifact in directly_impacted:\n            docs = self._find_documenting_artifacts(artifact.id)\n\
+    \            stale_documentation.extend(docs)\n\n        # 3. Find tickets with\
+    \ criteria referencing stale documentation\n        affected_tickets = self._find_affected_tickets(stale_documentation)\n\
+    \n        return ImpactReport(\n            changed_files=changed_files,\n   \
+    \         directly_impacted_artifacts=directly_impacted,\n            stale_documentation=stale_documentation,\n\
+    \            affected_tickets=affected_tickets,\n            recommended_actions=self._generate_recommendations(...)\n\
+    \        )\n\n    def mark_documentation_stale(self, artifact_ids: List[str])\
+    \ -> int:\n        \"\"\"Mark documentation artifacts as stale. Returns count\
+    \ updated.\"\"\"\n\n    def refresh_artifact_hashes(self, artifact_ids: List[str])\
+    \ -> int:\n        \"\"\"Recompute content hashes for artifacts. Returns count\
+    \ updated.\"\"\"\n\n    def _find_artifacts_by_files(self, files: List[str]) ->\
+    \ List[Artifact]:\n        \"\"\"Find artifacts whose paths contain any of the\
+    \ given files.\"\"\"\n\n    def _find_documenting_artifacts(self, artifact_id:\
+    \ str) -> List[Artifact]:\n        \"\"\"Find artifacts that document the given\
+    \ artifact.\"\"\"\n\n    def _find_affected_tickets(self, artifacts: List[Artifact])\
+    \ -> List[str]:\n        \"\"\"Find tickets with criteria referencing these artifacts.\"\
+    \"\"\n\nIMPACTREPORT CLASS:\n\nclass ImpactReport(BaseModel):\n    \"\"\"Report\
+    \ of impact from file changes.\"\"\"\n\n    # Input\n    changed_files: List[str]\n\
+    \    analyzed_at: datetime\n\n    # Direct impacts\n    directly_impacted_artifacts:\
+    \ List[ArtifactSummary]\n\n    # Documentation impacts\n    stale_documentation:\
+    \ List[ArtifactSummary]\n\n    # Ticket impacts\n    affected_tickets: List[TicketImpact]\n\
+    \n    # Recommendations\n    recommended_actions: List[RecommendedAction]\n\n\
+    \    # Summary statistics\n    @property\n    def total_artifacts_affected(self)\
+    \ -> int\n    @property\n    def total_tickets_affected(self) -> int\n    @property\n\
+    \    def has_blocking_impacts(self) -> bool\n\nSUPPORTING CLASSES:\n\nclass ArtifactSummary(BaseModel):\n\
+    \    id: str\n    name: str\n    artifact_type: ArtifactType\n    paths: List[str]\n\
+    \nclass TicketImpact(BaseModel):\n    ticket_id: str\n    ticket_name: str\n \
+    \   impact_type: str  # \"stale_doc_blocks_completion\", \"stale_doc_warning\"\
+    \n    criterion_id: str\n    artifact_id: str\n\nclass RecommendedAction(BaseModel):\n\
+    \    action_type: str  # \"update_documentation\", \"refresh_hash\", \"review\"\
+    \n    target_artifact_id: str\n    description: str\n    priority: str  # \"high\"\
+    , \"medium\", \"low\"\n\nGIT HOOK INTEGRATION:\n\nThe ImpactAnalyzer should be\
+    \ usable from git hooks:\n\n# In pre-commit hook:\nchanged_files = get_staged_files()\n\
+    analyzer = ImpactAnalyzer(registry, db)\nreport = analyzer.analyze_file_changes(changed_files)\n\
+    \nif report.has_blocking_impacts:\n    print(\"WARNING: Documentation may be stale\"\
+    )\n    for action in report.recommended_actions:\n        print(f\"  - {action.description}\"\
+    )\n\nFILE LOCATION:\nvibey/roadmap/operations/impact_analyzer.py\n\nSUCCESS CRITERIA:\n\
+    - ImpactAnalyzer finds affected artifacts from file changes\n- Documentation staleness\
+    \ cascade detected correctly\n- Affected tickets identified\n- ImpactReport provides\
+    \ actionable recommendations\n- mark_documentation_stale() works correctly\n-\
+    \ Integration with git hooks possible\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -150,14 +68,22 @@ task:
   phase_label: operations
   estimated_tokens: 3500
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-007
+  - type: task
+    target_id: sqlite-backend-7-task-007
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-7-task-005
+  - dependency_id: sqlite-backend-7-task-005
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012610+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-005
     blocker_type: task
@@ -168,23 +94,14 @@ task:
   depended_on_by:
   - sqlite-backend-7-task-007
   deliverables:
-  - vibey/roadmap/operations/impact_analyzer.py
-  - tests/roadmap/operations/test_impact_analyzer.py
+  - type: code
+    paths:
+    - vibey/roadmap/operations/impact_analyzer.py
+  - type: code
+    paths:
+    - tests/roadmap/operations/test_impact_analyzer.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      ImpactAnalyzer is the key component for maintaining documentation
-      accuracy as code evolves.
-
-      Use case: Developer changes src/api/users.py. ImpactAnalyzer:
-      1. Finds artifact for users.py
-      2. Finds API documentation that documents users.py
-      3. Marks documentation as stale
-      4. Finds tickets blocked by stale documentation
-      5. Recommends updating documentation
-
-      This enables proactive documentation maintenance rather than
-      discovering stale docs during ticket completion.

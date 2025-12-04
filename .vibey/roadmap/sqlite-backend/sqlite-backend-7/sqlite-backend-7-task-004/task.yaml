@@ -5,78 +5,35 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ArtifactTarget CriterionTarget
-  description: |
-    Create the ArtifactTarget criterion target type that references first-class
-    Artifact entities. This replaces/extends FileExistsTarget for artifact-based
-    criteria.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.6
-
-    ARTIFACTTARGET FIELDS:
-
-    Core:
-    - artifact_id: str (references Artifact.id)
-    - verification: ArtifactVerification = EXISTS
-
-    Cached State (denormalized from Artifact for performance):
-    - artifact_exists: bool = False
-    - artifact_hash: Optional[str] = None
-    - artifact_is_stale: bool = False
-    - last_checked: Optional[datetime] = None
-
-    PROPERTIES:
-
-    - is_automatic: bool = True (can refresh from artifact registry)
-
-    METHODS:
-
-    - is_satisfied() -> bool:
-        Based on verification mode:
-        - EXISTS: return artifact_exists
-        - NOT_STALE: return artifact_exists and not artifact_is_stale
-        - HASH_UNCHANGED: return artifact_exists and hash matches stored hash
-
-    - refresh(context: RefreshContext) -> None:
-        Get artifact from registry, update cached state:
-        - artifact_exists = artifact.exists
-        - artifact_hash = artifact.content_hash
-        - artifact_is_stale = artifact.is_stale
-        - last_checked = now()
-
-    VERIFICATION MODES:
-
-    1. EXISTS (default):
-       - Files in artifact.paths[] exist
-       - Used for: code deliverables, any file-based criterion
-
-    2. NOT_STALE:
-       - Files exist AND documentation is not stale
-       - Used for: documentation that must track source changes
-       - Example: API docs must be current with API code
-
-    3. HASH_UNCHANGED:
-       - Content hasn't changed since criterion was created
-       - Used for: ensuring no unexpected modifications
-       - Captures artifact_hash at criterion creation time
-
-    UPDATE CriterionTargetType ENUM:
-
-    Add to existing enum in enums.py:
-    - ARTIFACT = "artifact"
-
-    FILE LOCATION:
-    vibey/roadmap/models/ticket/targets.py (add to existing file)
-
-    SUCCESS CRITERIA:
-    - ArtifactTarget extends CriterionTarget
-    - All three verification modes work correctly
-    - refresh() updates cached state from artifact registry
-    - is_automatic returns True
-    - CriterionTargetType enum updated with ARTIFACT
-    - JSON/YAML serialization works
-    - Full test coverage
+  description: "Create the ArtifactTarget criterion target type that references first-class\n\
+    Artifact entities. This replaces/extends FileExistsTarget for artifact-based\n\
+    criteria.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.6\n\nARTIFACTTARGET\
+    \ FIELDS:\n\nCore:\n- artifact_id: str (references Artifact.id)\n- verification:\
+    \ ArtifactVerification = EXISTS\n\nCached State (denormalized from Artifact for\
+    \ performance):\n- artifact_exists: bool = False\n- artifact_hash: Optional[str]\
+    \ = None\n- artifact_is_stale: bool = False\n- last_checked: Optional[datetime]\
+    \ = None\n\nPROPERTIES:\n\n- is_automatic: bool = True (can refresh from artifact\
+    \ registry)\n\nMETHODS:\n\n- is_satisfied() -> bool:\n    Based on verification\
+    \ mode:\n    - EXISTS: return artifact_exists\n    - NOT_STALE: return artifact_exists\
+    \ and not artifact_is_stale\n    - HASH_UNCHANGED: return artifact_exists and\
+    \ hash matches stored hash\n\n- refresh(context: RefreshContext) -> None:\n  \
+    \  Get artifact from registry, update cached state:\n    - artifact_exists = artifact.exists\n\
+    \    - artifact_hash = artifact.content_hash\n    - artifact_is_stale = artifact.is_stale\n\
+    \    - last_checked = now()\n\nVERIFICATION MODES:\n\n1. EXISTS (default):\n \
+    \  - Files in artifact.paths[] exist\n   - Used for: code deliverables, any file-based\
+    \ criterion\n\n2. NOT_STALE:\n   - Files exist AND documentation is not stale\n\
+    \   - Used for: documentation that must track source changes\n   - Example: API\
+    \ docs must be current with API code\n\n3. HASH_UNCHANGED:\n   - Content hasn't\
+    \ changed since criterion was created\n   - Used for: ensuring no unexpected modifications\n\
+    \   - Captures artifact_hash at criterion creation time\n\nUPDATE CriterionTargetType\
+    \ ENUM:\n\nAdd to existing enum in enums.py:\n- ARTIFACT = \"artifact\"\n\nFILE\
+    \ LOCATION:\nvibey/roadmap/models/ticket/targets.py (add to existing file)\n\n\
+    SUCCESS CRITERIA:\n- ArtifactTarget extends CriterionTarget\n- All three verification\
+    \ modes work correctly\n- refresh() updates cached state from artifact registry\n\
+    - is_automatic returns True\n- CriterionTargetType enum updated with ARTIFACT\n\
+    - JSON/YAML serialization works\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -90,10 +47,21 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-005
-  - sqlite-backend-7-task-007
+  - type: task
+    target_id: sqlite-backend-7-task-005
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-7-task-007
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-7-task-002
+  - dependency_id: sqlite-backend-7-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012590+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-002
     blocker_type: task
@@ -105,23 +73,14 @@ task:
   - sqlite-backend-7-task-005
   - sqlite-backend-7-task-007
   deliverables:
-  - vibey/roadmap/models/ticket/targets.py
-  - tests/roadmap/models/ticket/test_artifact_target.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/targets.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_target.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      ArtifactTarget is the bridge between the artifact system and
-      the criterion system.
-
-      Key insight: ArtifactTarget references artifacts by ID rather
-      than embedding file paths. This enables:
-      - Artifact reuse across multiple criteria
-      - Staleness tracking via artifact's is_stale flag
-      - Impact analysis via artifact relationships
-
-      FileExistsTarget is retained for cases where you want to check
-      file existence without creating an Artifact entity (simple
-      one-off checks).

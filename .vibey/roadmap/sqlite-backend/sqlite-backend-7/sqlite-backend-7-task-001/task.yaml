@@ -5,105 +5,74 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Define Artifact System Enums
-  description: |
-    Create enum types for the artifact system: ArtifactType, ProvenanceType,
-    ArtifactVerification, and subtype enums.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.5, 13.6, Appendix E
-
-    ENUMS TO IMPLEMENT:
-
-    1. ArtifactType (primary classification):
-       - CODE: Source code (.py, .js, .ts, etc.)
-       - TEST: Test files
-       - CONFIG: Configuration files (.yaml, .json, .toml)
-       - DOCUMENTATION: Project docs (describes current state)
-       - CONTEXT: Ticket context (planning, notes, retros)
-       - AGENT: Vibey agent definition
-       - WORKFLOW: Vibey workflow definition
-       - TEMPLATE: Handoff or rendering template
-       - DATA: Data files, fixtures, samples
-       - ASSET: Images, diagrams, media
-       - SCHEMA: API schemas, database schemas
-       - OTHER: Catch-all
-
-       Properties:
-       - is_documentation_type: bool (DOCUMENTATION, CONTEXT)
-       - is_code_type: bool (CODE, TEST, CONFIG)
-       - is_framework_type: bool (AGENT, WORKFLOW, TEMPLATE)
-
-    2. ProvenanceType (how artifact came to exist):
-       - TICKET_CREATED: Created by a ticket's work
-       - PRE_EXISTING: Existed before roadmap system
-       - GENERATED: Auto-generated from other artifacts
-       - EXTERNAL: From external source (vendored, fetched)
-       - FRAMEWORK: Vibey framework component
-
-    3. ArtifactVerification (how to verify criterion is satisfied):
-       - EXISTS: Files exist (default)
-       - NOT_STALE: Exists AND not stale (for documentation)
-       - HASH_UNCHANGED: Content hasn't changed since criterion created
-
-    4. ContextArtifactSubtype (subtypes for CONTEXT artifacts):
-       - PLANNING_DOC: Pre-work planning (design doc, RFC)
-       - IMPLEMENTATION_NOTES: During-work notes
-       - DECISION_RECORD: ADR, design decisions
-       - AUDIT_REPORT: Validation/audit results
-       - RETROSPECTIVE: Post-work reflection
-
-    5. DocumentationSubtype (subtypes for DOCUMENTATION artifacts):
-       - README: README files
-       - API_REFERENCE: API documentation
-       - USER_GUIDE: How-to guides
-       - ARCHITECTURE: Architecture documentation
-       - CHANGELOG: Version history
-       - TUTORIAL: Step-by-step tutorials
-
-    6. DocumentationHealth (aggregate documentation status):
-       - HEALTHY: All docs current
-       - DEGRADED: Some docs stale (non-blocking)
-       - CRITICAL: Stale docs blocking completion
-
-    FILE LOCATION:
-    vibey/roadmap/models/ticket/artifact_enums.py
-
-    SUCCESS CRITERIA:
-    - All 6 enums implemented with correct values
-    - Property methods on ArtifactType work correctly
-    - JSON/YAML serialization works
-    - Full test coverage
-  status: not_started
+  description: "Create enum types for the artifact system: ArtifactType, ProvenanceType,\n\
+    ArtifactVerification, and subtype enums.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
+    \ Part 13.5, 13.6, Appendix E\n\nENUMS TO IMPLEMENT:\n\n1. ArtifactType (primary\
+    \ classification):\n   - CODE: Source code (.py, .js, .ts, etc.)\n   - TEST: Test\
+    \ files\n   - CONFIG: Configuration files (.yaml, .json, .toml)\n   - DOCUMENTATION:\
+    \ Project docs (describes current state)\n   - CONTEXT: Ticket context (planning,\
+    \ notes, retros)\n   - AGENT: Vibey agent definition\n   - WORKFLOW: Vibey workflow\
+    \ definition\n   - TEMPLATE: Handoff or rendering template\n   - DATA: Data files,\
+    \ fixtures, samples\n   - ASSET: Images, diagrams, media\n   - SCHEMA: API schemas,\
+    \ database schemas\n   - OTHER: Catch-all\n\n   Properties:\n   - is_documentation_type:\
+    \ bool (DOCUMENTATION, CONTEXT)\n   - is_code_type: bool (CODE, TEST, CONFIG)\n\
+    \   - is_framework_type: bool (AGENT, WORKFLOW, TEMPLATE)\n\n2. ProvenanceType\
+    \ (how artifact came to exist):\n   - TICKET_CREATED: Created by a ticket's work\n\
+    \   - PRE_EXISTING: Existed before roadmap system\n   - GENERATED: Auto-generated\
+    \ from other artifacts\n   - EXTERNAL: From external source (vendored, fetched)\n\
+    \   - FRAMEWORK: Vibey framework component\n\n3. ArtifactVerification (how to\
+    \ verify criterion is satisfied):\n   - EXISTS: Files exist (default)\n   - NOT_STALE:\
+    \ Exists AND not stale (for documentation)\n   - HASH_UNCHANGED: Content hasn't\
+    \ changed since criterion created\n\n4. ContextArtifactSubtype (subtypes for CONTEXT\
+    \ artifacts):\n   - PLANNING_DOC: Pre-work planning (design doc, RFC)\n   - IMPLEMENTATION_NOTES:\
+    \ During-work notes\n   - DECISION_RECORD: ADR, design decisions\n   - AUDIT_REPORT:\
+    \ Validation/audit results\n   - RETROSPECTIVE: Post-work reflection\n\n5. DocumentationSubtype\
+    \ (subtypes for DOCUMENTATION artifacts):\n   - README: README files\n   - API_REFERENCE:\
+    \ API documentation\n   - USER_GUIDE: How-to guides\n   - ARCHITECTURE: Architecture\
+    \ documentation\n   - CHANGELOG: Version history\n   - TUTORIAL: Step-by-step\
+    \ tutorials\n\n6. DocumentationHealth (aggregate documentation status):\n   -\
+    \ HEALTHY: All docs current\n   - DEGRADED: Some docs stale (non-blocking)\n \
+    \  - CRITICAL: Stale docs blocking completion\n\nFILE LOCATION:\nvibey/roadmap/models/ticket/artifact_enums.py\n\
+    \nSUCCESS CRITERIA:\n- All 6 enums implemented with correct values\n- Property\
+    \ methods on ArtifactType work correctly\n- JSON/YAML serialization works\n- Full\
+    \ test coverage\n"
+  status: in_progress
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
-  started: null
+  started: '2025-12-04T22:04:30.012635+00:00'
   completed: null
   assigned_agent: backend-engineer
   priority: high
   phase_label: foundation
   estimated_tokens: 1500
   actual_tokens: null
-  complexity: low
+  complexity: simple
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-002
-  - sqlite-backend-7-task-003
+  - type: task
+    target_id: sqlite-backend-7-task-002
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-7-task-003
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
   depends_on: []
   depended_on_by:
   - sqlite-backend-7-task-002
   - sqlite-backend-7-task-003
   deliverables:
-  - vibey/roadmap/models/ticket/artifact_enums.py
-  - tests/roadmap/models/ticket/test_artifact_enums.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/artifact_enums.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_enums.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Foundation task for artifact system - defines all enum types.
-
-      Must be completed before Artifact entity and ArtifactProvenance
-      can be implemented since they depend on these types.

@@ -37,6 +37,18 @@ from vibey.roadmap.models.ticket.enums import (
     ActivityType,
 )
 
+from vibey.roadmap.models.ticket.artifact_enums import (
+    # Artifact classification
+    ArtifactType,
+    ProvenanceType,
+    ArtifactVerification,
+    # Artifact subtypes
+    ContextArtifactSubtype,
+    DocumentationSubtype,
+    # Documentation health
+    DocumentationHealth,
+)
+
 from vibey.roadmap.models.ticket.support import (
     Progress,
     TestResult,
@@ -177,6 +189,13 @@ __all__ = [
     "DeliverableType",
     # Enums - Activity log
     "ActivityType",
+    # Enums - Artifact system
+    "ArtifactType",
+    "ProvenanceType",
+    "ArtifactVerification",
+    "ContextArtifactSubtype",
+    "DocumentationSubtype",
+    "DocumentationHealth",
     # Support classes
     "Progress",
     "TestResult",

@@ -3,19 +3,26 @@ sprint:
   name: Artifact System Architecture & Database Abstraction
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
+  blocked_reason: null
   created: '2025-11-30T18:00:00+00:00'
-  started: null
+  started: '2025-12-04T22:04:25.122069+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks: []
   development_gates: []
   blocks: []
@@ -47,6 +54,13 @@ sprint:
   - v_stale_documentation view for staleness detection
   - ImpactAnalyzer for documentation staleness via documented_source_hash
   - Comprehensive test suite for artifact system and database abstraction
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -56,85 +70,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: "Sprint 7: Artifact System Architecture\n\nDESIGN REFERENCE: sqlite-backend-6/context/architecture/03-ARTIFACT-SYSTEM.md\n\
-      \nGOAL: Implement Artifact as a Completable sibling (not child) that exists\n\
-      independently of tickets. This enables tracking of pre-existing files,\ngenerated\
-      \ documentation, framework components, and comprehensive impact\nanalysis.\n\
-      \nDEPENDS ON: Sprint 6 (unified ticket architecture)\n\nKEY ARCHITECTURAL INSIGHT:\n\
-      - Artifact EXTENDS Completable (sibling to Ticket, not child)\n- Both Artifact\
-      \ and Ticket share criteria-based completion\n- Use CompletableTarget for BOTH\
-      \ (ArtifactTarget is REMOVED)\n- Artifacts have implicit FileExistsTarget (file\
-      \ must exist)\n- Documentation staleness via documented_source_hash comparison\n\
-      \nLAYER ARCHITECTURE (from sqlite-backend-6):\n\u250C\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 LAYER 0: COMPLETABLE          \
-      \                               \u2502\n\u2502                    \u250C\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2510          \u2502\n\u2502                    \u2502 \
-      \      Completable            \u2502          \u2502\n\u2502               \
-      \     \u2502  id, name, status, criteria  \u2502          \u2502\n\u2502   \
-      \                 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u252C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518          \u2502\n\u2502\
-      \                                   \u2502                          \u2502\n\
-      \u2502                    \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510           \u2502\n\u2502\
-      \                    \u25BC                             \u25BC           \u2502\
-      \n\u2502              \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2510               \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510   \u2502\n\u2502\
-      \              \u2502  Ticket  \u2502               \u2502    Artifact    \u2502\
-      \   \u2502\n\u2502              \u2502 (work)   \u2502               \u2502\
-      \ (file entity)  \u2502   \u2502\n\u2502              \u2514\u2500\u2500\u2500\
-      \u2500\u252C\u2500\u2500\u2500\u2500\u2500\u2518               \u2514\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2518   \u2502\n\u2502                   \u2193                     \
-      \                     \u2502\n\u2502         HierarchicalTicket \u2192 Domain\
-      \ Models                   \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-      \u2500\u2500\u2500\u2518\n\nARTIFACT STATUS PROGRESSION:\n- NOT_STARTED: File\
-      \ doesn't exist (FileExistsTarget not met)\n- IN_PROGRESS: File exists, but\
-      \ other criteria not met\n- COMPLETED: File exists AND all criteria pass\n\n\
-      ARTIFACT PROVENANCE TYPES:\n- TICKET_CREATED: Created by ticket work\n- PRE_EXISTING:\
-      \ Existed before roadmap system\n- GENERATED: Auto-generated from other artifacts\n\
-      - EXTERNAL: From external source\n- FRAMEWORK: Vibey framework component\n\n\
-      ARTIFACT TYPES:\n- CODE, TEST, CONFIG\n- DOCUMENTATION (project docs)\n- CONTEXT\
-      \ (ticket planning/execution)\n- AGENT, WORKFLOW, TEMPLATE (framework)\n- DATA,\
-      \ ASSET, SCHEMA, OTHER\n\nCOMMIT TRACKING ON ARTIFACTS:\n- created_by_commit:\
-      \ SHA of commit that created the file\n- last_modified_by_commit: SHA of most\
-      \ recent modifying commit\n- deleted_by_commit: SHA if file was deleted\n- commit_history:\
-      \ List of all SHAs that touched this artifact\n\nTASK EXECUTION ORDER:\n1. Task\
-      \ 001 (SQLAlchemy Core Setup) - Engine, metadata, connection management\n2.\
-      \ Task 002 (Table Definitions) - Define all tables using SQLAlchemy Table()\n\
-      3. Task 003 (JSON Dialect Helpers) - Abstract json_extract vs jsonb operators\n\
-      4. Task 004 (Enums) - ArtifactType, ProvenanceType\n5. Task 005 (Artifact entity)\
-      \ - extends Completable, depends on 004\n6. Task 006 (ArtifactProvenance) -\
-      \ depends on 004\n7. Task 007 (CompletableTarget update) - ensure works for\
-      \ Artifacts\n8. Task 008 (Database schema migration) - artifact columns via\
-      \ SQLAlchemy\n9. Task 009 (ImpactAnalyzer) - staleness detection\n10. Task 010\
-      \ (Layer integration) - link with GitCommit\n11. Task 011 (Test suite) - comprehensive\
-      \ tests for both systems\n\nSQLALCHEMY CORE RATIONALE:\n- SQLAlchemy Core (not\
-      \ ORM) for transparent SQL generation\n- Keeps existing Pydantic models as domain\
-      \ layer (no model duplication)\n- Automatic dialect handling: SQLite json_extract()\
-      \ vs PostgreSQL ->>\n- Single Table() definition works for both databases\n\
-      - Easy to debug: print(stmt) shows exact SQL\n- Minimal learning curve vs full\
-      \ ORM\n\nDATABASE CONFIGURATION:\n```python\n# Default: SQLite (local development,\
-      \ single-user)\nDATABASE_URL = \"sqlite:///.vibey/roadmap.db\"\n\n# Alternative:\
-      \ PostgreSQL (team, cloud deployment)\nDATABASE_URL = \"postgresql://user:pass@host/vibey\"\
-      \n```\n\nCONNECTION MANAGEMENT:\n```python\nfrom sqlalchemy import create_engine,\
-      \ MetaData\n\nengine = create_engine(os.environ.get(\"DATABASE_URL\", \"sqlite:///.vibey/roadmap.db\"\
-      ))\nmetadata = MetaData()\n\n# Tables defined once, work on both backends\n\
-      completables = Table(\"completables\", metadata, ...)\ncriteria = Table(\"criteria\"\
-      , metadata, ...)\n```\n\nJSON DIALECT ABSTRACTION:\n```python\ndef json_field(column,\
-      \ path: str):\n    \"\"\"Dialect-aware JSON field extraction.\"\"\"\n    if\
-      \ engine.dialect.name == \"sqlite\":\n        return func.json_extract(column,\
-      \ f\"$.{path}\")\n    else:  # PostgreSQL\n        return column[path].astext\n\
-      ```\n"

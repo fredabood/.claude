@@ -5,128 +5,51 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add Artifacts Table to Database Schema
-  description: |
-    Add the artifacts table and related views to the SQLite database schema.
-    This enables persistence and querying of the artifact graph.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.9
-
-    ARTIFACTS TABLE:
-
-    CREATE TABLE artifacts (
-        -- Identity
-        id TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
-        description TEXT,
-
-        -- File Location
-        paths TEXT NOT NULL,  -- JSON array of file paths
-        content_hash TEXT,
-        last_verified TEXT,  -- ISO timestamp
-
-        -- Classification
-        artifact_type TEXT NOT NULL,
-        artifact_subtype TEXT,
-
-        -- Provenance (JSON object)
-        provenance TEXT NOT NULL,
-
-        -- Relationships
-        documents_artifact_id TEXT,
-        depends_on_artifact_ids TEXT,  -- JSON array
-
-        -- State
-        exists INTEGER NOT NULL DEFAULT 1,
-        is_stale INTEGER NOT NULL DEFAULT 0,
-
-        -- Staleness tracking (for documentation)
-        documented_source_hash TEXT,
-
-        -- Timestamps
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-
-        -- Foreign keys
-        FOREIGN KEY (documents_artifact_id) REFERENCES artifacts(id)
-    );
-
-    INDEXES:
-
-    CREATE INDEX idx_artifacts_type ON artifacts(artifact_type);
-    CREATE INDEX idx_artifacts_documents ON artifacts(documents_artifact_id);
-    CREATE INDEX idx_artifacts_stale ON artifacts(is_stale) WHERE is_stale = 1;
-
-    VIEWS:
-
-    1. v_orphan_artifacts - Artifacts not referenced by any criterion:
-
-    CREATE VIEW v_orphan_artifacts AS
-    SELECT a.*
-    FROM artifacts a
-    LEFT JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
-    WHERE c.id IS NULL AND a.exists = 1;
-
-    2. v_documentation_graph - Links between docs and their sources:
-
-    CREATE VIEW v_documentation_graph AS
-    SELECT
-        doc.id AS doc_id,
-        doc.name AS doc_name,
-        doc.artifact_type AS doc_type,
-        doc.is_stale,
-        src.id AS source_id,
-        src.name AS source_name,
-        src.artifact_type AS source_type,
-        src.content_hash AS source_hash,
-        doc.documented_source_hash AS documented_hash,
-        CASE
-            WHEN src.content_hash != doc.documented_source_hash THEN 1
-            ELSE 0
-        END AS needs_update
-    FROM artifacts doc
-    JOIN artifacts src ON doc.documents_artifact_id = src.id
-    WHERE doc.documents_artifact_id IS NOT NULL;
-
-    3. v_stale_documentation - Documentation that needs updating:
-
-    CREATE VIEW v_stale_documentation AS
-    SELECT * FROM v_documentation_graph WHERE needs_update = 1 OR is_stale = 1;
-
-    4. v_artifact_criteria - Which criteria reference each artifact:
-
-    CREATE VIEW v_artifact_criteria AS
-    SELECT
-        a.id AS artifact_id,
-        a.name AS artifact_name,
-        c.id AS criterion_id,
-        c.description AS criterion_description,
-        c.ticket_id,
-        c.blocks_transition_to
-    FROM artifacts a
-    JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
-    WHERE c.target_type = 'artifact';
-
-    UPDATE CRITERIA TABLE:
-
-    Ensure criteria table can store ArtifactTarget:
-    - target_type includes 'artifact'
-    - target_data JSON includes artifact_id field
-
-    FILE CHANGES:
-    - vibey/roadmap/database/schema.py (add artifacts table, views, indexes)
-    - vibey/roadmap/database/migrations/add_artifacts.py (migration script)
-    - tests/roadmap/database/test_artifacts_schema.py
-
-    SUCCESS CRITERIA:
-    - artifacts table created with all columns
-    - All 4 views work correctly
-    - Indexes created for common queries
-    - criteria table supports artifact target_type
-    - Foreign key constraint on documents_artifact_id
-    - Migration script works on existing databases
-    - Full test coverage
+  description: "Add the artifacts table and related views to the SQLite database schema.\n\
+    This enables persistence and querying of the artifact graph.\n\nDESIGN REFERENCE:\
+    \ UNIFIED_TICKET_ARCHITECTURE.md Part 13.9\n\nARTIFACTS TABLE:\n\nCREATE TABLE\
+    \ artifacts (\n    -- Identity\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n\
+    \    description TEXT,\n\n    -- File Location\n    paths TEXT NOT NULL,  -- JSON\
+    \ array of file paths\n    content_hash TEXT,\n    last_verified TEXT,  -- ISO\
+    \ timestamp\n\n    -- Classification\n    artifact_type TEXT NOT NULL,\n    artifact_subtype\
+    \ TEXT,\n\n    -- Provenance (JSON object)\n    provenance TEXT NOT NULL,\n\n\
+    \    -- Relationships\n    documents_artifact_id TEXT,\n    depends_on_artifact_ids\
+    \ TEXT,  -- JSON array\n\n    -- State\n    exists INTEGER NOT NULL DEFAULT 1,\n\
+    \    is_stale INTEGER NOT NULL DEFAULT 0,\n\n    -- Staleness tracking (for documentation)\n\
+    \    documented_source_hash TEXT,\n\n    -- Timestamps\n    created_at TEXT NOT\
+    \ NULL,\n    updated_at TEXT NOT NULL,\n\n    -- Foreign keys\n    FOREIGN KEY\
+    \ (documents_artifact_id) REFERENCES artifacts(id)\n);\n\nINDEXES:\n\nCREATE INDEX\
+    \ idx_artifacts_type ON artifacts(artifact_type);\nCREATE INDEX idx_artifacts_documents\
+    \ ON artifacts(documents_artifact_id);\nCREATE INDEX idx_artifacts_stale ON artifacts(is_stale)\
+    \ WHERE is_stale = 1;\n\nVIEWS:\n\n1. v_orphan_artifacts - Artifacts not referenced\
+    \ by any criterion:\n\nCREATE VIEW v_orphan_artifacts AS\nSELECT a.*\nFROM artifacts\
+    \ a\nLEFT JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id\n\
+    WHERE c.id IS NULL AND a.exists = 1;\n\n2. v_documentation_graph - Links between\
+    \ docs and their sources:\n\nCREATE VIEW v_documentation_graph AS\nSELECT\n  \
+    \  doc.id AS doc_id,\n    doc.name AS doc_name,\n    doc.artifact_type AS doc_type,\n\
+    \    doc.is_stale,\n    src.id AS source_id,\n    src.name AS source_name,\n \
+    \   src.artifact_type AS source_type,\n    src.content_hash AS source_hash,\n\
+    \    doc.documented_source_hash AS documented_hash,\n    CASE\n        WHEN src.content_hash\
+    \ != doc.documented_source_hash THEN 1\n        ELSE 0\n    END AS needs_update\n\
+    FROM artifacts doc\nJOIN artifacts src ON doc.documents_artifact_id = src.id\n\
+    WHERE doc.documents_artifact_id IS NOT NULL;\n\n3. v_stale_documentation - Documentation\
+    \ that needs updating:\n\nCREATE VIEW v_stale_documentation AS\nSELECT * FROM\
+    \ v_documentation_graph WHERE needs_update = 1 OR is_stale = 1;\n\n4. v_artifact_criteria\
+    \ - Which criteria reference each artifact:\n\nCREATE VIEW v_artifact_criteria\
+    \ AS\nSELECT\n    a.id AS artifact_id,\n    a.name AS artifact_name,\n    c.id\
+    \ AS criterion_id,\n    c.description AS criterion_description,\n    c.ticket_id,\n\
+    \    c.blocks_transition_to\nFROM artifacts a\nJOIN criteria c ON json_extract(c.target_data,\
+    \ '$.artifact_id') = a.id\nWHERE c.target_type = 'artifact';\n\nUPDATE CRITERIA\
+    \ TABLE:\n\nEnsure criteria table can store ArtifactTarget:\n- target_type includes\
+    \ 'artifact'\n- target_data JSON includes artifact_id field\n\nFILE CHANGES:\n\
+    - vibey/roadmap/database/schema.py (add artifacts table, views, indexes)\n- vibey/roadmap/database/migrations/add_artifacts.py\
+    \ (migration script)\n- tests/roadmap/database/test_artifacts_schema.py\n\nSUCCESS\
+    \ CRITERIA:\n- artifacts table created with all columns\n- All 4 views work correctly\n\
+    - Indexes created for common queries\n- criteria table supports artifact target_type\n\
+    - Foreign key constraint on documents_artifact_id\n- Migration script works on\
+    \ existing databases\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -135,16 +58,34 @@ task:
   phase_label: database
   estimated_tokens: 3000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-006
+  - type: task
+    target_id: sqlite-backend-7-task-006
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-7-task-002
-  - sqlite-backend-7-task-003
-  - sqlite-backend-7-task-004
+  - dependency_id: sqlite-backend-7-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012386+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-7-task-003
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012526+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-7-task-004
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012527+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-002
     blocker_type: task
@@ -167,22 +108,17 @@ task:
   depended_on_by:
   - sqlite-backend-7-task-006
   deliverables:
-  - vibey/roadmap/database/schema.py
-  - vibey/roadmap/database/migrations/add_artifacts.py
-  - tests/roadmap/database/test_artifacts_schema.py
+  - type: code
+    paths:
+    - vibey/roadmap/database/schema.py
+  - type: code
+    paths:
+    - vibey/roadmap/database/migrations/add_artifacts.py
+  - type: code
+    paths:
+    - tests/roadmap/database/test_artifacts_schema.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Database schema is critical for artifact persistence and querying.
-
-      Key views:
-      - v_orphan_artifacts: Find artifacts without tickets
-      - v_documentation_graph: Visualize doc-source relationships
-      - v_stale_documentation: Prioritize doc updates
-      - v_artifact_criteria: Impact analysis
-
-      JSON storage for provenance and depends_on_artifact_ids allows
-      flexible provenance types without schema changes.

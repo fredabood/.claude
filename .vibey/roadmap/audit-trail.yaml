@@ -899,6 +899,26 @@ audit_log:
   reason: Sprint completed via CLI by system
   commit: 7cf581f
   source: cli
+- timestamp: '2025-12-04T22:04:25.122082+00:00'
+  object_type: sprint
+  object_id: sqlite-backend-7
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Sprint started via CLI by system
+  commit: 742a44a
+  source: cli
+- timestamp: '2025-12-04T22:04:30.012654+00:00'
+  object_type: task
+  object_id: sqlite-backend-7-task-001
+  field: status
+  old_value: not_started
+  new_value: in_progress
+  changed_by: system
+  reason: Task started via CLI by system
+  commit: 742a44a
+  source: cli
 metadata:
-  last_updated: '2025-12-04T22:03:44.066324+00:00'
-  total_entries: 90
+  last_updated: '2025-12-04T22:04:30.037844+00:00'
+  total_entries: 92

@@ -5,70 +5,32 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ArtifactProvenance
-  description: |
-    Create the ArtifactProvenance class that tracks how an artifact came to exist.
-    Different provenance types have different metadata.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13.4
-
-    ARTIFACTPROVENANCE FIELDS:
-
-    Core:
-    - provenance_type: ProvenanceType (TICKET_CREATED, PRE_EXISTING, etc.)
-
-    For TICKET_CREATED:
-    - created_by_ticket_id: Optional[str]
-    - created_by_criterion_id: Optional[str]
-
-    For PRE_EXISTING:
-    - discovered_at: Optional[datetime]
-    - discovered_by: Optional[str] (user, scan process, "filesystem_scan")
-
-    For GENERATED:
-    - generator_type: Optional[str] ("sphinx", "pdoc", "typedoc", "mkdocs")
-    - generator_config: Optional[Dict[str, Any]]
-    - source_artifact_ids: Optional[List[str]] (artifacts used to generate this)
-
-    For EXTERNAL:
-    - external_source: Optional[str] (URL, package name, etc.)
-    - external_version: Optional[str]
-
-    For FRAMEWORK:
-    - framework_component_type: Optional[str] ("agent", "workflow", "template")
-
-    FACTORY METHODS:
-
-    @classmethod
-    def ticket_created(cls, ticket_id: str, criterion_id: Optional[str] = None):
-        Create provenance for ticket-created artifact.
-
-    @classmethod
-    def pre_existing(cls, discovered_by: str = "filesystem_scan"):
-        Create provenance for pre-existing artifact.
-
-    @classmethod
-    def generated(cls, generator_type: str, source_artifact_ids: List[str]):
-        Create provenance for generated artifact.
-
-    @classmethod
-    def external(cls, source: str, version: Optional[str] = None):
-        Create provenance for external artifact.
-
-    @classmethod
-    def framework(cls, component_type: str):
-        Create provenance for framework component.
-
-    FILE LOCATION:
-    vibey/roadmap/models/ticket/artifact_provenance.py
-
-    SUCCESS CRITERIA:
-    - ArtifactProvenance with all fields implemented
-    - Factory methods for each provenance type work correctly
-    - Validation ensures type-specific fields match provenance_type
-    - JSON/YAML serialization works
-    - Full test coverage
+  description: "Create the ArtifactProvenance class that tracks how an artifact came\
+    \ to exist.\nDifferent provenance types have different metadata.\n\nDESIGN REFERENCE:\
+    \ UNIFIED_TICKET_ARCHITECTURE.md Part 13.4\n\nARTIFACTPROVENANCE FIELDS:\n\nCore:\n\
+    - provenance_type: ProvenanceType (TICKET_CREATED, PRE_EXISTING, etc.)\n\nFor\
+    \ TICKET_CREATED:\n- created_by_ticket_id: Optional[str]\n- created_by_criterion_id:\
+    \ Optional[str]\n\nFor PRE_EXISTING:\n- discovered_at: Optional[datetime]\n- discovered_by:\
+    \ Optional[str] (user, scan process, \"filesystem_scan\")\n\nFor GENERATED:\n\
+    - generator_type: Optional[str] (\"sphinx\", \"pdoc\", \"typedoc\", \"mkdocs\"\
+    )\n- generator_config: Optional[Dict[str, Any]]\n- source_artifact_ids: Optional[List[str]]\
+    \ (artifacts used to generate this)\n\nFor EXTERNAL:\n- external_source: Optional[str]\
+    \ (URL, package name, etc.)\n- external_version: Optional[str]\n\nFor FRAMEWORK:\n\
+    - framework_component_type: Optional[str] (\"agent\", \"workflow\", \"template\"\
+    )\n\nFACTORY METHODS:\n\n@classmethod\ndef ticket_created(cls, ticket_id: str,\
+    \ criterion_id: Optional[str] = None):\n    Create provenance for ticket-created\
+    \ artifact.\n\n@classmethod\ndef pre_existing(cls, discovered_by: str = \"filesystem_scan\"\
+    ):\n    Create provenance for pre-existing artifact.\n\n@classmethod\ndef generated(cls,\
+    \ generator_type: str, source_artifact_ids: List[str]):\n    Create provenance\
+    \ for generated artifact.\n\n@classmethod\ndef external(cls, source: str, version:\
+    \ Optional[str] = None):\n    Create provenance for external artifact.\n\n@classmethod\n\
+    def framework(cls, component_type: str):\n    Create provenance for framework\
+    \ component.\n\nFILE LOCATION:\nvibey/roadmap/models/ticket/artifact_provenance.py\n\
+    \nSUCCESS CRITERIA:\n- ArtifactProvenance with all fields implemented\n- Factory\
+    \ methods for each provenance type work correctly\n- Validation ensures type-specific\
+    \ fields match provenance_type\n- JSON/YAML serialization works\n- Full test coverage\n"
   status: not_started
-  blocked: false
+  blocked: true
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -82,32 +44,35 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-7-task-005
+  - type: task
+    target_id: sqlite-backend-7-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-7-task-001
+  - dependency_id: sqlite-backend-7-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T22:04:30.012580+00:00'
+    estimated_resolution: null
   depends_on:
   - blocker_id: sqlite-backend-7-task-001
     blocker_type: task
     required_status: completed
-    current_status: not_started
+    current_status: in_progress
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+    last_checked: '2025-12-04T22:04:30.123918+00:00'
   depended_on_by:
   - sqlite-backend-7-task-005
   deliverables:
-  - vibey/roadmap/models/ticket/artifact_provenance.py
-  - tests/roadmap/models/ticket/test_artifact_provenance.py
+  - type: code
+    paths:
+    - vibey/roadmap/models/ticket/artifact_provenance.py
+  - type: code
+    paths:
+    - tests/roadmap/models/ticket/test_artifact_provenance.py
   commits: []
   metadata:
     last_updated: '2025-11-30T18:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Provenance tracks the origin of artifacts, enabling:
-      - Distinguishing ticket-created vs pre-existing files
-      - Tracking generated documentation sources
-      - Identifying framework components
-      - Understanding artifact lineage
-
-      Factory methods make it easy to create provenance objects
-      with the correct fields populated for each type.

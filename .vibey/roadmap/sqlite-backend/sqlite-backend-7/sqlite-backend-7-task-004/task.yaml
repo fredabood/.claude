@@ -33,7 +33,7 @@ task:
     - is_automatic returns True\n- CriterionTargetType enum updated with ARTIFACT\n\
     - JSON/YAML serialization works\n- Full test coverage\n"
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-11-30T18:00:00+00:00'
   started: null
   completed: null
@@ -66,9 +66,9 @@ task:
   - blocker_id: sqlite-backend-7-task-002
     blocker_type: task
     required_status: completed
-    current_status: in_progress
+    current_status: completed
     blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:09:03.002446+00:00'
+    last_checked: '2025-12-04T22:13:18.614282+00:00'
   depended_on_by:
   - sqlite-backend-7-task-005
   - sqlite-backend-7-task-007

@@ -13,8 +13,8 @@ track:
     sprints_total: 13
     sprints_completed: 8
     tasks_total: 103
-    tasks_completed: 62
-    completion_percent: 60
+    tasks_completed: 64
+    completion_percent: 62
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
@@ -66,10 +66,10 @@ track:
     started: '2025-12-04T22:04:25.122069+00:00'
   - id: sqlite-backend-8
     name: Serialization Migration
-    status: not_started
+    status: in_progress
     estimated_duration: 2.5 weeks
     tasks_count: 11
-    started: null
+    started: '2025-12-04T00:00:00+00:00'
   - id: sqlite-backend-9
     name: Operations Migration
     status: not_started

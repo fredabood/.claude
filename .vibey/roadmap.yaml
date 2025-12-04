@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 180
     sprints_completed: 89
     tasks_total: 945
-    tasks_completed: 682
+    tasks_completed: 684
     completion_percent: 72
   tracks:
   - id: core-framework
@@ -2389,11 +2389,17 @@ roadmap:
     description: Sprint 'Serialization Migration' started
     context:
       sprint_id: sqlite-backend-8
+  - timestamp: '2025-12-04T23:31:08.490412+00:00'
+    type: task_completed
+    description: Task 'Update yaml_dumper.py for hierarchy serialization' completed
+    context:
+      task_id: sqlite-backend-8-task-002
+      sprint_id: sqlite-backend-8
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-12-04T22:51:44.704573+00:00'
+    last_updated: '2025-12-04T23:31:08.490414+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

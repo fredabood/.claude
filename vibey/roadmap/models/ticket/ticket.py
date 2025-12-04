@@ -156,6 +156,12 @@ class Ticket(Completable):
         description="Estimated duration (e.g., '2 weeks', '3 days')"
     )
 
+    # Deferral flag - marks ticket as optional for production
+    deferred: bool = Field(
+        default=False,
+        description="If True, parent can complete without this ticket completing"
+    )
+
     # Metadata
     metadata: Dict[str, Any] = Field(
         default_factory=dict,

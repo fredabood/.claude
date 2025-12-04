@@ -294,15 +294,28 @@ class HierarchicalTicket(Ticket):
 
     def progress_for_transition(self, status: TicketStatus) -> Progress:
         """
-        Progress toward a specific transition.
+        Progress toward a specific transition, excluding deferred children.
 
-        Filters all_criteria by blocks_transition_to, then computes:
+        Filters all_criteria by blocks_transition_to, excludes deferred children
+        for COMPLETED/PRODUCTION_READY transitions, then computes:
         progress = met_criteria / total_criteria
 
-        Overrides Completable.progress_for_transition to use all_criteria.
+        Overrides Completable.progress_for_transition to use all_criteria
+        and exclude deferred children.
         """
-        relevant = [c for c in self.all_criteria
-                    if c.blocks_transition_to == status]
+        relevant = []
+        for c in self.all_criteria:
+            if c.blocks_transition_to != status:
+                continue
+
+            # Exclude deferred children from progress calculation
+            if isinstance(c.target, CompletableTarget):
+                if status in (TicketStatus.COMPLETED, TicketStatus.PRODUCTION_READY):
+                    if self._is_child_deferred(c.target.completable_id):
+                        continue
+
+            relevant.append(c)
+
         total = len(relevant)
         if total == 0:
             return Progress(total=0, completed=0)
@@ -400,6 +413,92 @@ class HierarchicalTicket(Ticket):
             c for c in self.all_criteria
             if c.blocks_transition_to == TicketStatus.PRODUCTION_READY
         ]
+
+    # =========================================================================
+    # DEFERRED CHILDREN SUPPORT
+    # =========================================================================
+
+    def _is_child_deferred(self, child_id: str) -> bool:
+        """
+        Check if a child ticket is deferred.
+
+        Args:
+            child_id: ID of the child ticket to check
+
+        Returns:
+            True if child exists and has deferred=True, False otherwise
+        """
+        if self._loader is None:
+            return False
+        try:
+            child = self._loader.load(child_id)
+            return child.deferred if hasattr(child, 'deferred') else False
+        except Exception:
+            return False
+
+    @property
+    def required_children(self) -> List[str]:
+        """
+        Children that are required (not deferred).
+
+        Returns IDs of children that must complete for this ticket to complete.
+        """
+        return [
+            c.target.completable_id
+            for c in self.all_criteria
+            if isinstance(c.target, CompletableTarget)
+            and not self._is_child_deferred(c.target.completable_id)
+        ]
+
+    @property
+    def deferred_children(self) -> List[str]:
+        """
+        Children that are deferred (optional for production).
+
+        Returns IDs of children that don't block this ticket's completion.
+        """
+        return [
+            c.target.completable_id
+            for c in self.all_criteria
+            if isinstance(c.target, CompletableTarget)
+            and self._is_child_deferred(c.target.completable_id)
+        ]
+
+    # =========================================================================
+    # TRANSITION CHECKS (Override to exclude deferred children)
+    # =========================================================================
+
+    def can_transition_to(self, status: TicketStatus) -> Tuple[bool, List[str]]:
+        """
+        Check if transition is allowed, excluding deferred children.
+
+        Deferred children are skipped for COMPLETED and PRODUCTION_READY checks.
+        This allows a parent to complete even if deferred children are incomplete.
+
+        Args:
+            status: The target status to transition to
+
+        Returns:
+            Tuple of (can_transition: bool, blocking_reasons: List[str])
+        """
+        blocking_reasons = []
+
+        for c in self.all_criteria:
+            if c.blocks_transition_to != status:
+                continue
+            if not c.required:
+                continue
+
+            # Skip deferred children for completion-related transitions
+            if isinstance(c.target, CompletableTarget):
+                if status in (TicketStatus.COMPLETED, TicketStatus.PRODUCTION_READY):
+                    if self._is_child_deferred(c.target.completable_id):
+                        continue  # Deferred child doesn't block
+
+            if not c.is_met:
+                blocking_reasons.append(c.description)
+
+        return (len(blocking_reasons) == 0, blocking_reasons)
 
     # =========================================================================
     # HIERARCHY TRAVERSAL

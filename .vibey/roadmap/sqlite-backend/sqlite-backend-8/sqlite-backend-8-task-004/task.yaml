@@ -5,150 +5,93 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Database schema migration for hierarchy columns
-  description: |
-    Create database schema migration that adds hierarchy columns to all
-    entity tables and creates new aggregation views.
-
-    CURRENT SCHEMA:
-    - 26 tables defined in schema.py
-    - Entity tables: roadmaps, tracks, sprints, tasks
-    - No hierarchy columns (parent_id, is_parent, etc.)
-    - Separate commit tables per level
-
-    SCHEMA CHANGES REQUIRED:
-
-    1. ADD HIERARCHY COLUMNS TO ALL ENTITIES:
-       ALTER TABLE tasks ADD COLUMN parent_id TEXT REFERENCES tickets(id);
-       ALTER TABLE tasks ADD COLUMN ticket_type TEXT DEFAULT 'task';
-       -- Note: is_parent, is_child, etc. are COMPUTED, not stored
-
-    2. RENAME CONTENT COLUMNS:
-       -- Option A: Rename in place (breaking)
-       ALTER TABLE tasks RENAME COLUMN commits_json TO commits_local_json;
-
-       -- Option B: Add new column, copy data (non-breaking)
-       ALTER TABLE tasks ADD COLUMN commits_local_json TEXT;
-       UPDATE tasks SET commits_local_json = commits_json;
-
-    3. UNIFIED TICKETS TABLE (for single-table inheritance):
-       CREATE TABLE tickets (
-           id TEXT PRIMARY KEY,
-           ticket_type TEXT NOT NULL,  -- discriminator
-           name TEXT NOT NULL,
-           parent_id TEXT REFERENCES tickets(id),
-           status TEXT NOT NULL,
-           -- ... common fields
-           -- Type-specific fields (nullable)
-           version TEXT,  -- roadmap only
-           priority TEXT,  -- track/task only
-           estimated_tokens INTEGER,  -- task only
-           -- JSON columns for complex data
-           commits_local_json TEXT,
-           deliverables_local_json TEXT,
-           standards_local_json TEXT,
-           depends_on_json TEXT
-       );
-
-    4. AGGREGATION VIEWS:
-       CREATE VIEW task_commits_aggregated AS
-       SELECT
-           t.id as ticket_id,
-           json_group_array(c.value) as commits_json
-       FROM tickets t
-       JOIN tickets child ON child.parent_id = t.id
-       JOIN json_each(child.commits_local_json) c
-       WHERE t.ticket_type IN ('roadmap', 'track', 'sprint')
-       GROUP BY t.id;
-
-    5. EFFECTIVE STANDARDS VIEW:
-       CREATE VIEW ticket_standards_effective AS
-       WITH RECURSIVE ancestors AS (
-           SELECT id, parent_id, standards_local_json, 0 as depth
-           FROM tickets
-           UNION ALL
-           SELECT a.id, t.parent_id, t.standards_local_json, a.depth + 1
-           FROM ancestors a
-           JOIN tickets t ON a.parent_id = t.id
-       )
-       SELECT
-           id as ticket_id,
-           json_group_array(json(s.value)) as standards_json
-       FROM ancestors
-       JOIN json_each(standards_local_json) s
-       GROUP BY id;
-
-    MIGRATION STRATEGY:
-
-    1. Create migration script: migrations/006_unified_ticket_schema.sql
-    2. Backup existing database before migration
-    3. Create new tables alongside old tables
-    4. Copy data with field transformations
-    5. Validate data integrity
-    6. Drop old tables (or rename as backup)
-
-    IMPLEMENTATION STEPS:
-
-    1. Write schema migration SQL
-    2. Write data migration SQL (copy + transform)
-    3. Create aggregation views
-    4. Create effective standards view
-    5. Update schema.py with new DDL
-    6. Create migration CLI command
-    7. Add rollback capability
-    8. Test with real database
-
-    SUCCESS CRITERIA:
-    - Migration completes without data loss
-    - All existing data preserved
-    - New columns populated correctly
-    - Views return correct aggregations
-    - Rollback works if needed
-  status: not_started
+  description: "Create database schema migration that adds hierarchy columns to all\n\
+    entity tables and creates new aggregation views.\n\nCURRENT SCHEMA:\n- 26 tables\
+    \ defined in schema.py\n- Entity tables: roadmaps, tracks, sprints, tasks\n- No\
+    \ hierarchy columns (parent_id, is_parent, etc.)\n- Separate commit tables per\
+    \ level\n\nSCHEMA CHANGES REQUIRED:\n\n1. ADD HIERARCHY COLUMNS TO ALL ENTITIES:\n\
+    \   ALTER TABLE tasks ADD COLUMN parent_id TEXT REFERENCES tickets(id);\n   ALTER\
+    \ TABLE tasks ADD COLUMN ticket_type TEXT DEFAULT 'task';\n   -- Note: is_parent,\
+    \ is_child, etc. are COMPUTED, not stored\n\n2. RENAME CONTENT COLUMNS:\n   --\
+    \ Option A: Rename in place (breaking)\n   ALTER TABLE tasks RENAME COLUMN commits_json\
+    \ TO commits_local_json;\n\n   -- Option B: Add new column, copy data (non-breaking)\n\
+    \   ALTER TABLE tasks ADD COLUMN commits_local_json TEXT;\n   UPDATE tasks SET\
+    \ commits_local_json = commits_json;\n\n3. UNIFIED TICKETS TABLE (for single-table\
+    \ inheritance):\n   CREATE TABLE tickets (\n       id TEXT PRIMARY KEY,\n    \
+    \   ticket_type TEXT NOT NULL,  -- discriminator\n       name TEXT NOT NULL,\n\
+    \       parent_id TEXT REFERENCES tickets(id),\n       status TEXT NOT NULL,\n\
+    \       -- ... common fields\n       -- Type-specific fields (nullable)\n    \
+    \   version TEXT,  -- roadmap only\n       priority TEXT,  -- track/task only\n\
+    \       estimated_tokens INTEGER,  -- task only\n       -- JSON columns for complex\
+    \ data\n       commits_local_json TEXT,\n       deliverables_local_json TEXT,\n\
+    \       standards_local_json TEXT,\n       depends_on_json TEXT\n   );\n\n4. AGGREGATION\
+    \ VIEWS:\n   CREATE VIEW task_commits_aggregated AS\n   SELECT\n       t.id as\
+    \ ticket_id,\n       json_group_array(c.value) as commits_json\n   FROM tickets\
+    \ t\n   JOIN tickets child ON child.parent_id = t.id\n   JOIN json_each(child.commits_local_json)\
+    \ c\n   WHERE t.ticket_type IN ('roadmap', 'track', 'sprint')\n   GROUP BY t.id;\n\
+    \n5. EFFECTIVE STANDARDS VIEW:\n   CREATE VIEW ticket_standards_effective AS\n\
+    \   WITH RECURSIVE ancestors AS (\n       SELECT id, parent_id, standards_local_json,\
+    \ 0 as depth\n       FROM tickets\n       UNION ALL\n       SELECT a.id, t.parent_id,\
+    \ t.standards_local_json, a.depth + 1\n       FROM ancestors a\n       JOIN tickets\
+    \ t ON a.parent_id = t.id\n   )\n   SELECT\n       id as ticket_id,\n       json_group_array(json(s.value))\
+    \ as standards_json\n   FROM ancestors\n   JOIN json_each(standards_local_json)\
+    \ s\n   GROUP BY id;\n\nMIGRATION STRATEGY:\n\n1. Create migration script: migrations/006_unified_ticket_schema.sql\n\
+    2. Backup existing database before migration\n3. Create new tables alongside old\
+    \ tables\n4. Copy data with field transformations\n5. Validate data integrity\n\
+    6. Drop old tables (or rename as backup)\n\nIMPLEMENTATION STEPS:\n\n1. Write\
+    \ schema migration SQL\n2. Write data migration SQL (copy + transform)\n3. Create\
+    \ aggregation views\n4. Create effective standards view\n5. Update schema.py with\
+    \ new DDL\n6. Create migration CLI command\n7. Add rollback capability\n8. Test\
+    \ with real database\n\nSUCCESS CRITERIA:\n- Migration completes without data\
+    \ loss\n- All existing data preserved\n- New columns populated correctly\n- Views\
+    \ return correct aggregations\n- Rollback works if needed\n"
+  status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-04T23:37:27.165963+00:00'
   assigned_agent: backend-engineer
   priority: critical
   phase_label: implementation
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-8-task-003
-  - sqlite-backend-8-task-005
+  - type: task
+    target_id: sqlite-backend-8-task-003
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-8-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - migrations/006_unified_ticket_schema.sql
-  - Updated vibey/roadmap/database/schema.py
-  - Aggregation views in vibey/roadmap/database/views.py
-  - Migration CLI command
-  - Rollback script
-  - tests/roadmap/database/test_migration_006.py
+  - type: code
+    paths:
+    - migrations/006_unified_ticket_schema.sql
+  - type: code
+    paths:
+    - Updated vibey/roadmap/database/schema.py
+  - type: code
+    paths:
+    - Aggregation views in vibey/roadmap/database/views.py
+  - type: code
+    paths:
+    - Migration CLI command
+  - type: code
+    paths:
+    - Rollback script
+  - type: code
+    paths:
+    - tests/roadmap/database/test_migration_006.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      CRITICAL: Must not lose any existing data.
-
-      Consider whether to use single-table inheritance (one tickets
-      table) or keep separate tables (roadmaps, tracks, sprints, tasks)
-      with shared columns.
-
-      Single-table pros:
-      - Simpler ORM mapping
-      - Easier hierarchy queries
-      - One place for common columns
-
-      Single-table cons:
-      - Many nullable columns
-      - Larger table size
-      - Type-specific constraints harder
-
-      RECOMMENDATION: Use single-table inheritance as specified
-      in Sprint 6a Task 007 (ORM design).

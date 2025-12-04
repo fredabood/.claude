@@ -6,70 +6,58 @@ task:
   task_type: development
   title: Implement Layer 2 - HierarchicalTicket Smart Accessors
   description: "Create HierarchicalTicket that extends Ticket with smart accessors\n\
-    for aggregation, inheritance, and sibling ordering. This is Layer 2 of the architecture.\n\n\
-    DESIGN PRINCIPLE: Smart accessors use hierarchy attributes to\n\
-    determine field behavior automatically. No L3 knowledge needed.\n\n\
-    ULID IDENTITY & ORDERING (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n\n\
-    HierarchicalTicket adds fields for stable identity and ordering:\n\n\
-    1. parent_id: Optional[str]  # ULID reference to parent (not slug!)\n\
-    2. sequence: int = 0         # Explicit ordering among siblings (mutable)\n\
-    3. slug: str = ''            # Human-readable path segment (mutable)\n\n\
-    SIBLING NAVIGATION (based on sequence, not ID):\n\n\
-    @property\n\
-    def siblings(self) -> List['HierarchicalTicket']:\n\
-        '''Other children of same parent, sorted by sequence.'''\n\
-        if self.parent_id is None:\n\
-            return []\n\
-        return self._get_siblings_by_parent_id()\n\n\
-    @property\n\
-    def next_sibling(self) -> Optional['HierarchicalTicket']:\n\
-        '''Next sibling by sequence (not by ID!).'''\n\n\
-    @property\n\
-    def prev_sibling(self) -> Optional['HierarchicalTicket']:\n\
-        '''Previous sibling by sequence.'''\n\n\
-    def reorder(self, new_sequence: int) -> None:\n\
-        '''Change position without changing identity.'''\n\
-        self.sequence = new_sequence\n\
-        # Note: Does NOT change self.id - identity is immutable\n\n\
-    KEY BENEFITS:\n\
-    - Rename entity -> ID stable, references intact\n\
-    - Reorder siblings -> sequence changes, ID stable\n\
-    - Git history follows ULID across file moves\n\
-    - Priority explicit field, not inferred from task number\n\n\
-    LAYER 2 SMART ACCESSORS:\n\n1. commits\
-    \ (aggregation):\n   @property\n   def commits(self) -> List[GitCommit]:\n   \
-    \    \"\"\"\n       Commits: local if leaf, aggregated if parent.\n\n       -\
-    \ is_ultimate_child: return self._commits_local\n       - is_parent: aggregate\
-    \ from all children recursively\n       \"\"\"\n       if self.is_ultimate_child:\n\
-    \           return self._commits_local\n       return self._aggregate_commits()\n\
-    \n   def _aggregate_commits(self) -> List[GitCommit]:\n       \"\"\"Collect commits\
-    \ from all descendant tickets.\"\"\"\n       all_commits = list(self._commits_local)\n\
-    \       for child_id in self.children:\n           child = self._load_child(child_id)\n\
-    \           all_commits.extend(child.commits)  # Recursive\n       return sorted(all_commits,\
-    \ key=lambda c: c.timestamp)\n\n2. requirements_effective (inheritance):\n   @property\n\
-    \   def requirements_effective(self) -> List[Requirement]:\n       \"\"\"\n  \
-    \     Requirements: local if root, effective (inherited) if child.\n\n       Uses\
-    \ RequirementResolver to handle inheritance modes:\n       - INHERIT: stricter\
-    \ of local vs ancestor\n       - OVERRIDE: local replaces ancestor\n       - SKIP:\
-    \ explicitly excluded\n       \"\"\"\n       if self.is_ultimate_parent:\n   \
-    \        return self.requirements_local\n       return RequirementResolver().resolve(self)\n\
-    \n3. instantiated_criteria (from requirements):\n   @property\n   def instantiated_criteria(self)\
-    \ -> List[Criterion]:\n       \"\"\"\n       Criteria generated from applicable\
-    \ requirements.\n\n       These are ADDED to explicit criteria, not replacing\
-    \ them.\n       \"\"\"\n       return RequirementInstantiator().instantiate(self)\n\
-    \n   @property\n   def all_criteria(self) -> List[Criterion]:\n       \"\"\"Explicit\
-    \ criteria + instantiated from requirements.\"\"\"\n       return self.criteria\
-    \ + self.instantiated_criteria\n\n4. progress_for_transition (computed from criteria):\n\
-    \   def progress_for_transition(self, status: TicketStatus) -> Progress:\n   \
-    \    \"\"\"\n       Progress toward a specific transition.\n\n       Filters all_criteria\
-    \ by blocks_transition_to, then computes:\n       progress = met_criteria / total_criteria\n\
-    \       \"\"\"\n       relevant = [c for c in self.all_criteria\n            \
-    \       if c.blocks_transition_to == status]\n       total = len(relevant)\n \
-    \      met = sum(1 for c in relevant if c.is_met())\n       return Progress(total=total,\
-    \ completed=met)\n\n   @computed_field\n   def progress(self) -> Progress:\n \
-    \      \"\"\"Default progress (toward COMPLETED).\"\"\"\n       return self.progress_for_transition(TicketStatus.COMPLETED)\n\
-    \n   @computed_field\n   def start_progress(self) -> Progress:\n       \"\"\"\
-    Progress toward being able to start (IN_PROGRESS).\"\"\"\n       return self.progress_for_transition(TicketStatus.IN_PROGRESS)\n\
+    for aggregation, inheritance, and sibling ordering. This is Layer 2 of the architecture.\n\
+    \nDESIGN PRINCIPLE: Smart accessors use hierarchy attributes to\ndetermine field\
+    \ behavior automatically. No L3 knowledge needed.\n\nULID IDENTITY & ORDERING\
+    \ (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n\nHierarchicalTicket adds fields\
+    \ for stable identity and ordering:\n\n1. parent_id: Optional[str]  # ULID reference\
+    \ to parent (not slug!)\n2. sequence: int = 0         # Explicit ordering among\
+    \ siblings (mutable)\n3. slug: str = ''            # Human-readable path segment\
+    \ (mutable)\n\nSIBLING NAVIGATION (based on sequence, not ID):\n\n@property\n\
+    def siblings(self) -> List['HierarchicalTicket']:\n'''Other children of same parent,\
+    \ sorted by sequence.'''\nif self.parent_id is None:\nreturn []\nreturn self._get_siblings_by_parent_id()\n\
+    \n@property\ndef next_sibling(self) -> Optional['HierarchicalTicket']:\n'''Next\
+    \ sibling by sequence (not by ID!).'''\n\n@property\ndef prev_sibling(self) ->\
+    \ Optional['HierarchicalTicket']:\n'''Previous sibling by sequence.'''\n\ndef\
+    \ reorder(self, new_sequence: int) -> None:\n'''Change position without changing\
+    \ identity.'''\nself.sequence = new_sequence\n# Note: Does NOT change self.id\
+    \ - identity is immutable\n\nKEY BENEFITS:\n- Rename entity -> ID stable, references\
+    \ intact\n- Reorder siblings -> sequence changes, ID stable\n- Git history follows\
+    \ ULID across file moves\n- Priority explicit field, not inferred from task number\n\
+    \nLAYER 2 SMART ACCESSORS:\n\n1. commits (aggregation):\n   @property\n   def\
+    \ commits(self) -> List[GitCommit]:\n       \"\"\"\n       Commits: local if leaf,\
+    \ aggregated if parent.\n\n       - is_ultimate_child: return self._commits_local\n\
+    \       - is_parent: aggregate from all children recursively\n       \"\"\"\n\
+    \       if self.is_ultimate_child:\n           return self._commits_local\n  \
+    \     return self._aggregate_commits()\n\n   def _aggregate_commits(self) -> List[GitCommit]:\n\
+    \       \"\"\"Collect commits from all descendant tickets.\"\"\"\n       all_commits\
+    \ = list(self._commits_local)\n       for child_id in self.children:\n       \
+    \    child = self._load_child(child_id)\n           all_commits.extend(child.commits)\
+    \  # Recursive\n       return sorted(all_commits, key=lambda c: c.timestamp)\n\
+    \n2. requirements_effective (inheritance):\n   @property\n   def requirements_effective(self)\
+    \ -> List[Requirement]:\n       \"\"\"\n       Requirements: local if root, effective\
+    \ (inherited) if child.\n\n       Uses RequirementResolver to handle inheritance\
+    \ modes:\n       - INHERIT: stricter of local vs ancestor\n       - OVERRIDE:\
+    \ local replaces ancestor\n       - SKIP: explicitly excluded\n       \"\"\"\n\
+    \       if self.is_ultimate_parent:\n           return self.requirements_local\n\
+    \       return RequirementResolver().resolve(self)\n\n3. instantiated_criteria\
+    \ (from requirements):\n   @property\n   def instantiated_criteria(self) -> List[Criterion]:\n\
+    \       \"\"\"\n       Criteria generated from applicable requirements.\n\n  \
+    \     These are ADDED to explicit criteria, not replacing them.\n       \"\"\"\
+    \n       return RequirementInstantiator().instantiate(self)\n\n   @property\n\
+    \   def all_criteria(self) -> List[Criterion]:\n       \"\"\"Explicit criteria\
+    \ + instantiated from requirements.\"\"\"\n       return self.criteria + self.instantiated_criteria\n\
+    \n4. progress_for_transition (computed from criteria):\n   def progress_for_transition(self,\
+    \ status: TicketStatus) -> Progress:\n       \"\"\"\n       Progress toward a\
+    \ specific transition.\n\n       Filters all_criteria by blocks_transition_to,\
+    \ then computes:\n       progress = met_criteria / total_criteria\n       \"\"\
+    \"\n       relevant = [c for c in self.all_criteria\n                   if c.blocks_transition_to\
+    \ == status]\n       total = len(relevant)\n       met = sum(1 for c in relevant\
+    \ if c.is_met())\n       return Progress(total=total, completed=met)\n\n   @computed_field\n\
+    \   def progress(self) -> Progress:\n       \"\"\"Default progress (toward COMPLETED).\"\
+    \"\"\n       return self.progress_for_transition(TicketStatus.COMPLETED)\n\n \
+    \  @computed_field\n   def start_progress(self) -> Progress:\n       \"\"\"Progress\
+    \ toward being able to start (IN_PROGRESS).\"\"\"\n       return self.progress_for_transition(TicketStatus.IN_PROGRESS)\n\
     \n   @computed_field\n   def deploy_progress(self) -> Progress:\n       \"\"\"\
     Progress toward production readiness.\"\"\"\n       return self.progress_for_transition(TicketStatus.PRODUCTION_READY)\n\
     \nCONVENIENCE ACCESSORS:\n\nThese filter criteria by target type AND blocks_transition_to:\n\

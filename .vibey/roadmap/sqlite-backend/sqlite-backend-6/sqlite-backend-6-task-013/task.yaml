@@ -84,26 +84,29 @@ task:
     \            blocks_transition_to: completed}]\n\n7. Requirements cascade and\
     \ instantiate as criteria\n   - Roadmap requirements become task criteria via\
     \ instantiation\n\n8. Timestamp field names: created -> created_at\n\n9. Enum\
-    \ consolidation: Status/TaskStatus -> TicketStatus\n\n10. ULID Identity System (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n   - Slug-based IDs -> ULID format ({type}_{ulid})\n   - Add parent_id (ULID reference), sequence, slug fields\n   - Migration generates ULIDs for existing entities\n   - Creates .id validation files in directories\n\nYAML FORMAT CHANGES:\n\n\
-    Old format (explicit children and dependencies):\n```yaml\nroadmap:\n  tracks:\n\
-    \    - core-framework\n    - goose-port\n  blocked_by:\n    - other-roadmap\n\
-    ```\n\nNew format (criteria-based with blocks_transition_to):\n```yaml\nroadmap:\n\
-    \  criteria:\n    # Children (block COMPLETED)\n    - id: track-core\n      description:\
-    \ Core framework track complete\n      target:\n        type: completable\n  \
-    \      completable_id: core-framework\n        required_status: completed\n  \
-    \    blocks_transition_to: completed  # Default, can omit\n\n    # Dependencies\
-    \ (block IN_PROGRESS)\n    - id: dep-other-roadmap\n      description: Other roadmap\
-    \ must complete before starting\n      target:\n        type: completable\n  \
-    \      completable_id: other-roadmap\n        required_status: completed\n   \
-    \   blocks_transition_to: in_progress  # Makes it a dependency\n\n    # Production\
-    \ gates (block PRODUCTION_READY)\n    - id: gate-security-audit\n      description:\
-    \ Security audit must pass\n      target:\n        type: manual\n        assessor:\
-    \ security-team\n      blocks_transition_to: production_ready\n```\n\nMIGRATION\
-    \ TOOL:\n\nCreate vibey/roadmap/migration/yaml_migrator.py:\n- migrate_roadmap_yaml(old_yaml)\
-    \ -> new_yaml\n- migrate_track_yaml(old_yaml) -> new_yaml\n- migrate_sprint_yaml(old_yaml)\
-    \ -> new_yaml\n- migrate_task_yaml(old_yaml) -> new_yaml\n\nEach function:\n1.\
-    \ Parses old YAML\n2. Converts to new Pydantic model via adapter\n3. Dumps to\
-    \ new YAML format\n\nDELIVERABLES:\n\n1. vibey/roadmap/models/ticket/adapters.py:\n\
+    \ consolidation: Status/TaskStatus -> TicketStatus\n\n10. ULID Identity System\
+    \ (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md):\n   - Slug-based IDs -> ULID format\
+    \ ({type}_{ulid})\n   - Add parent_id (ULID reference), sequence, slug fields\n\
+    \   - Migration generates ULIDs for existing entities\n   - Creates .id validation\
+    \ files in directories\n\nYAML FORMAT CHANGES:\n\nOld format (explicit children\
+    \ and dependencies):\n```yaml\nroadmap:\n  tracks:\n    - core-framework\n   \
+    \ - goose-port\n  blocked_by:\n    - other-roadmap\n```\n\nNew format (criteria-based\
+    \ with blocks_transition_to):\n```yaml\nroadmap:\n  criteria:\n    # Children\
+    \ (block COMPLETED)\n    - id: track-core\n      description: Core framework track\
+    \ complete\n      target:\n        type: completable\n        completable_id:\
+    \ core-framework\n        required_status: completed\n      blocks_transition_to:\
+    \ completed  # Default, can omit\n\n    # Dependencies (block IN_PROGRESS)\n \
+    \   - id: dep-other-roadmap\n      description: Other roadmap must complete before\
+    \ starting\n      target:\n        type: completable\n        completable_id:\
+    \ other-roadmap\n        required_status: completed\n      blocks_transition_to:\
+    \ in_progress  # Makes it a dependency\n\n    # Production gates (block PRODUCTION_READY)\n\
+    \    - id: gate-security-audit\n      description: Security audit must pass\n\
+    \      target:\n        type: manual\n        assessor: security-team\n      blocks_transition_to:\
+    \ production_ready\n```\n\nMIGRATION TOOL:\n\nCreate vibey/roadmap/migration/yaml_migrator.py:\n\
+    - migrate_roadmap_yaml(old_yaml) -> new_yaml\n- migrate_track_yaml(old_yaml) ->\
+    \ new_yaml\n- migrate_sprint_yaml(old_yaml) -> new_yaml\n- migrate_task_yaml(old_yaml)\
+    \ -> new_yaml\n\nEach function:\n1. Parses old YAML\n2. Converts to new Pydantic\
+    \ model via adapter\n3. Dumps to new YAML format\n\nDELIVERABLES:\n\n1. vibey/roadmap/models/ticket/adapters.py:\n\
     \   - ModelAdapter class with conversion methods\n   - Legacy-to-criteria conversion\
     \ utilities\n   - Criteria-to-legacy extraction utilities\n\n2. vibey/roadmap/migration/yaml_migrator.py:\n\
     \   - YAML format migration functions\n   - Batch migration for entire roadmap\

@@ -14,14 +14,17 @@ task:
     \ with polymorphic\n   target types stored as JSON.\n\nSCHEMA:\n\n1. tickets table:\n\
     \   CREATE TABLE tickets (\n       id TEXT PRIMARY KEY,\n       name TEXT NOT\
     \ NULL,\n       description TEXT,\n       ticket_type TEXT NOT NULL,  -- discriminator\n\
-    \n       -- Hierarchy & Ordering (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md)\n       parent_id TEXT REFERENCES tickets(id),  -- ULID reference to parent\n       sequence INTEGER DEFAULT 0,  -- Sibling ordering (mutable)\n       slug TEXT,  -- Human-readable path segment (mutable)\n\n    \
-    \   -- Lifecycle\n       status TEXT NOT NULL,\n       created_at TEXT NOT NULL,\n\
-    \       started_at TEXT,\n       completed_at TEXT,\n       updated_at TEXT NOT\
-    \ NULL,\n\n       -- Work (Ticket-specific)\n       assigned_agents_json TEXT,\
-    \  -- JSON array\n       priority TEXT,\n       estimated_duration TEXT,\n   \
-    \    commits_json TEXT,  -- JSON array of GitCommit\n       -- NOTE: NO dependencies_json\
-    \ - dependencies are now criteria\n       -- with blocks_transition_to = 'in_progress'\n\
-    \n       -- Requirements (templates for children)\n       requirements_local_json\
+    \n       -- Hierarchy & Ordering (Part 14 of UNIFIED_TICKET_ARCHITECTURE.md)\n\
+    \       parent_id TEXT REFERENCES tickets(id),  -- ULID reference to parent\n\
+    \       sequence INTEGER DEFAULT 0,  -- Sibling ordering (mutable)\n       slug\
+    \ TEXT,  -- Human-readable path segment (mutable)\n\n       -- Lifecycle\n   \
+    \    status TEXT NOT NULL,\n       created_at TEXT NOT NULL,\n       started_at\
+    \ TEXT,\n       completed_at TEXT,\n       updated_at TEXT NOT NULL,\n\n     \
+    \  -- Work (Ticket-specific)\n       assigned_agents_json TEXT,  -- JSON array\n\
+    \       priority TEXT,\n       estimated_duration TEXT,\n       commits_json TEXT,\
+    \  -- JSON array of GitCommit\n       -- NOTE: NO dependencies_json - dependencies\
+    \ are now criteria\n       -- with blocks_transition_to = 'in_progress'\n\n  \
+    \     -- Requirements (templates for children)\n       requirements_local_json\
     \ TEXT,  -- JSON array of Requirement\n\n       -- Metadata\n       metadata_json\
     \ TEXT,\n\n       -- Type-specific columns (nullable)\n       -- Roadmap\n   \
     \    version TEXT,\n       version_strategy_json TEXT,\n       activity_log_json\
@@ -50,12 +53,14 @@ task:
     \   ON criteria(ticket_id, blocks_transition_to);\n\n3. ORM Models:\n\n   class\
     \ TicketORM(Base):\n       __tablename__ = 'tickets'\n\n       id = Column(String,\
     \ primary_key=True)\n       name = Column(String, nullable=False)\n       ticket_type\
-    \ = Column(String, nullable=False)\n       parent_id = Column(String, ForeignKey('tickets.id'))  # ULID ref\n       sequence = Column(Integer, default=0)  # Sibling ordering\n       slug = Column(String)  # Human-readable path segment\n\
-    \       status = Column(String, nullable=False)\n       # ... etc\n\n       #\
-    \ Relationships\n       criteria = relationship(\"CriterionORM\", back_populates=\"\
-    ticket\",\n                               cascade=\"all, delete-orphan\")\n  \
-    \     parent = relationship(\"TicketORM\", remote_side=[id])\n\n       __mapper_args__\
-    \ = {\n           'polymorphic_on': ticket_type,\n           'polymorphic_identity':\
+    \ = Column(String, nullable=False)\n       parent_id = Column(String, ForeignKey('tickets.id'))\
+    \  # ULID ref\n       sequence = Column(Integer, default=0)  # Sibling ordering\n\
+    \       slug = Column(String)  # Human-readable path segment\n       status =\
+    \ Column(String, nullable=False)\n       # ... etc\n\n       # Relationships\n\
+    \       criteria = relationship(\"CriterionORM\", back_populates=\"ticket\",\n\
+    \                               cascade=\"all, delete-orphan\")\n       parent\
+    \ = relationship(\"TicketORM\", remote_side=[id])\n\n       __mapper_args__ =\
+    \ {\n           'polymorphic_on': ticket_type,\n           'polymorphic_identity':\
     \ 'ticket'\n       }\n\n   class CriterionORM(Base):\n       __tablename__ = 'criteria'\n\
     \n       id = Column(String, primary_key=True)\n       ticket_id = Column(String,\
     \ ForeignKey('tickets.id'), nullable=False)\n       description = Column(String,\
@@ -104,12 +109,13 @@ task:
     \ class\n   - CriterionRepository class\n\n3. Update database schema (migration\
     \ script if needed)\n\nSUCCESS CRITERIA:\n- Single-table inheritance for tickets\
     \ works\n- Criteria stored separately with polymorphic targets\n- blocks_transition_to\
-    \ column in criteria table\n- ULID ordering columns: parent_id, sequence, slug in tickets table\n- NO dependencies_json in tickets table (consolidated\
-    \ into criteria)\n- Round-trip Pydantic -> ORM -> Pydantic without data loss\n\
-    - Repository provides queries for criteria by transition type\n- find_children\
-    \ uses criteria WHERE blocks_transition_to='completed'\n- find_dependencies uses\
-    \ criteria WHERE blocks_transition_to='in_progress'\n- Computed fields (can_transition_to,\
-    \ progress_for_transition) work correctly\n- 100% test coverage\n"
+    \ column in criteria table\n- ULID ordering columns: parent_id, sequence, slug\
+    \ in tickets table\n- NO dependencies_json in tickets table (consolidated into\
+    \ criteria)\n- Round-trip Pydantic -> ORM -> Pydantic without data loss\n- Repository\
+    \ provides queries for criteria by transition type\n- find_children uses criteria\
+    \ WHERE blocks_transition_to='completed'\n- find_dependencies uses criteria WHERE\
+    \ blocks_transition_to='in_progress'\n- Computed fields (can_transition_to, progress_for_transition)\
+    \ work correctly\n- 100% test coverage\n"
   status: not_started
   blocked: true
   created: '2025-11-29T12:00:00+00:00'

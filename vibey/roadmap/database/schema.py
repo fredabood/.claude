@@ -4,7 +4,7 @@ SQLite schema definitions for roadmap database.
 This module contains the DDL for creating the database schema.
 Schema is populated in task-002.
 
-Tables (26 total):
+Tables (27 total):
 - Core Entities (4): roadmaps, tracks, sprints, tasks
 - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
 - Quality & Gates (2): quality_gates, development_gates
@@ -14,6 +14,7 @@ Tables (26 total):
 - Summaries (3): track_summaries, sprint_summaries, task_summaries
 - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
 - Audit Trail (1): audit_trail
+- Artifact System (1): artifacts
 """
 
 import sqlite3
@@ -34,7 +35,7 @@ def get_schema_ddl() -> str:
     Returns:
         SQL string with CREATE TABLE statements
 
-    Tables (26 total):
+    Tables (27 total):
     - Core Entities (4): roadmaps, tracks, sprints, tasks
     - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
     - Quality & Gates (2): quality_gates, development_gates
@@ -44,6 +45,7 @@ def get_schema_ddl() -> str:
     - Summaries (3): track_summaries, sprint_summaries, task_summaries
     - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
     - Audit Trail (1): audit_trail
+    - Artifact System (1): artifacts
     """
     return """
 -- =============================================================================
@@ -612,6 +614,53 @@ CREATE TABLE IF NOT EXISTS audit_trail (
     commit_sha TEXT,  -- Git commit SHA (short form)
     source TEXT NOT NULL CHECK (source IN ('cli', 'mcp', 'manual', 'automated', 'system'))
 );
+
+-- =============================================================================
+-- ARTIFACT SYSTEM TABLES (1)
+-- =============================================================================
+
+-- 27. artifacts
+-- First-class artifact entities for tracking code, docs, configs, etc.
+-- Design reference: UNIFIED_TICKET_ARCHITECTURE.md Part 13.9
+CREATE TABLE IF NOT EXISTS artifacts (
+    -- Identity
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+
+    -- File Location
+    paths TEXT NOT NULL,  -- JSON array of file paths
+    content_hash TEXT,
+    last_verified TEXT,  -- ISO timestamp
+
+    -- Classification
+    artifact_type TEXT NOT NULL CHECK (artifact_type IN (
+        'code', 'test', 'config', 'documentation', 'context',
+        'agent', 'workflow', 'template', 'data', 'asset', 'schema', 'other'
+    )),
+    artifact_subtype TEXT,
+
+    -- Provenance (JSON object with provenance_type and related fields)
+    provenance TEXT NOT NULL,
+
+    -- Relationships
+    documents_artifact_id TEXT,  -- FK to artifact this documents
+    depends_on_artifact_ids TEXT,  -- JSON array of artifact IDs
+
+    -- State
+    file_exists INTEGER NOT NULL DEFAULT 1,
+    is_stale INTEGER NOT NULL DEFAULT 0,
+
+    -- Staleness tracking (for documentation artifacts)
+    documented_source_hash TEXT,
+
+    -- Timestamps
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+
+    -- Foreign keys
+    FOREIGN KEY (documents_artifact_id) REFERENCES artifacts(id)
+);
 """
 
 
@@ -745,6 +794,109 @@ CREATE INDEX IF NOT EXISTS idx_audit_trail_time ON audit_trail(timestamp);
 
 -- Audit trail by field (for field-specific history)
 CREATE INDEX IF NOT EXISTS idx_audit_trail_field ON audit_trail(object_id, field);
+
+-- =============================================================================
+-- ARTIFACT SYSTEM INDEXES
+-- =============================================================================
+
+-- Artifact type for filtering by category
+CREATE INDEX IF NOT EXISTS idx_artifacts_type ON artifacts(artifact_type);
+
+-- Documentation relationships (documents_artifact_id)
+CREATE INDEX IF NOT EXISTS idx_artifacts_documents ON artifacts(documents_artifact_id);
+
+-- Stale artifacts (partial index for efficient staleness queries)
+CREATE INDEX IF NOT EXISTS idx_artifacts_stale ON artifacts(is_stale) WHERE is_stale = 1;
+
+-- Artifact existence (for filtering existing vs deleted)
+CREATE INDEX IF NOT EXISTS idx_artifacts_exists ON artifacts(file_exists) WHERE file_exists = 1;
+"""
+
+
+def get_views_ddl() -> str:
+    """
+    Get the DDL for creating artifact-related views.
+
+    Returns:
+        SQL string with CREATE VIEW statements
+
+    Views:
+    1. v_orphan_artifacts - Artifacts not referenced by any criterion
+    2. v_documentation_graph - Links between docs and their sources
+    3. v_stale_documentation - Documentation that needs updating
+    4. v_artifact_criteria - Which criteria reference each artifact
+
+    Note: Views referencing the criteria table require the unified ticket
+    schema to be present. Views are created with IF NOT EXISTS to be
+    idempotent.
+    """
+    return """
+-- =============================================================================
+-- ARTIFACT SYSTEM VIEWS
+-- =============================================================================
+
+-- 1. v_orphan_artifacts
+-- Artifacts that exist but are not referenced by any criterion
+-- Note: Requires criteria table from unified ticket schema
+-- If criteria table doesn't exist, this view will show all existing artifacts
+CREATE VIEW IF NOT EXISTS v_orphan_artifacts AS
+SELECT a.*
+FROM artifacts a
+WHERE a.file_exists = 1
+  AND NOT EXISTS (
+    SELECT 1 FROM criteria c
+    WHERE c.target_type = 'artifact'
+      AND json_extract(c.target_data, '$.artifact_id') = a.id
+  );
+
+-- 2. v_documentation_graph
+-- Links between documentation artifacts and their source artifacts
+-- Shows the relationship between docs and what they document
+CREATE VIEW IF NOT EXISTS v_documentation_graph AS
+SELECT
+    doc.id AS doc_id,
+    doc.name AS doc_name,
+    doc.artifact_type AS doc_type,
+    doc.is_stale,
+    src.id AS source_id,
+    src.name AS source_name,
+    src.artifact_type AS source_type,
+    src.content_hash AS source_hash,
+    doc.documented_source_hash AS documented_hash,
+    CASE
+        WHEN src.content_hash IS NOT NULL
+             AND doc.documented_source_hash IS NOT NULL
+             AND src.content_hash != doc.documented_source_hash THEN 1
+        ELSE 0
+    END AS needs_update
+FROM artifacts doc
+JOIN artifacts src ON doc.documents_artifact_id = src.id
+WHERE doc.documents_artifact_id IS NOT NULL;
+
+-- 3. v_stale_documentation
+-- Documentation artifacts that need updating
+-- Either explicitly marked stale or source hash has changed
+CREATE VIEW IF NOT EXISTS v_stale_documentation AS
+SELECT * FROM v_documentation_graph
+WHERE needs_update = 1 OR is_stale = 1;
+
+-- 4. v_artifact_criteria
+-- Which criteria reference each artifact
+-- Useful for understanding what completion criteria depend on artifacts
+-- Note: Requires criteria table from unified ticket schema
+CREATE VIEW IF NOT EXISTS v_artifact_criteria AS
+SELECT
+    a.id AS artifact_id,
+    a.name AS artifact_name,
+    a.artifact_type,
+    c.id AS criterion_id,
+    c.description AS criterion_description,
+    c.ticket_id,
+    c.blocks_transition_to
+FROM artifacts a
+JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
+WHERE c.target_type = 'artifact'
+  AND a.file_exists = 1;
 """
 
 
@@ -752,6 +904,7 @@ def create_schema(
     conn: Optional[sqlite3.Connection] = None,
     db_path: Optional[Path] = None,
     base_dir: Optional[Path] = None,
+    include_views: bool = False,
 ) -> None:
     """
     Create the database schema.
@@ -760,6 +913,9 @@ def create_schema(
         conn: Existing connection to use.
         db_path: Direct path to database file.
         base_dir: Base directory containing .vibey folder.
+        include_views: Whether to create artifact views. Views that reference
+            the criteria table require the unified ticket schema to be present.
+            Default False to avoid errors when criteria table doesn't exist.
 
     Raises:
         sqlite3.Error: If schema creation fails
@@ -775,6 +931,10 @@ def create_schema(
     # Use IF NOT EXISTS for idempotency
     conn.executescript(get_schema_ddl())
     conn.executescript(get_index_ddl())
+
+    # Views are optional - some require criteria table from unified ticket schema
+    if include_views:
+        conn.executescript(get_views_ddl())
 
 
 def schema_exists(
@@ -906,6 +1066,8 @@ EXPECTED_TABLES = [
     "sync_conflicts",
     # Audit Trail (1)
     "audit_trail",
+    # Artifact System (1)
+    "artifacts",
 ]
 
 

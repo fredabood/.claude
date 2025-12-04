@@ -3,9 +3,11 @@ Tests for criterion target types.
 """
 
 import pytest
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from typing import Optional
+from dataclasses import dataclass
 
 from vibey.roadmap.models.ticket.targets import (
     CompletableTarget,
@@ -16,7 +18,14 @@ from vibey.roadmap.models.ticket.targets import (
     ManualTarget,
     ExternalTarget,
 )
-from vibey.roadmap.models.ticket.support import TestResult
+from vibey.roadmap.models.ticket.support import (
+    TestResult,
+    RefreshContext,
+    TicketRegistry,
+    TestRunner,
+    MetricsSource,
+    HttpClient,
+)
 from vibey.roadmap.models.ticket.enums import (
     TicketStatus,
     ThresholdComparison,
@@ -482,3 +491,338 @@ class TestTargetSerialization:
         assert data["metric_name"] == "coverage"
         assert data["threshold"] == 80.0
         assert data["comparison"] == "gte"
+
+
+# --- Mock implementations for testing refresh() ---
+
+class MockTicketRegistry:
+    """Mock implementation of TicketRegistry for testing."""
+
+    def __init__(self):
+        self.tickets = {}
+
+    def set_status(self, ticket_id: str, status: str):
+        """Set the status for a ticket."""
+        self.tickets[ticket_id] = status
+
+    def get_ticket(self, ticket_id: str) -> Optional[dict]:
+        """Get ticket by ID."""
+        if ticket_id in self.tickets:
+            return {"id": ticket_id, "status": self.tickets[ticket_id]}
+        return None
+
+    def get_ticket_status(self, ticket_id: str) -> Optional[str]:
+        """Get ticket status by ID."""
+        return self.tickets.get(ticket_id)
+
+
+class MockTestRunner:
+    """Mock implementation of TestRunner for testing."""
+
+    def __init__(self, results: dict = None):
+        self.results = results or {}
+        self.calls = []
+
+    def run(self, command: str) -> TestResult:
+        """Run a test command and return results."""
+        self.calls.append(command)
+        if command in self.results:
+            return self.results[command]
+        # Default: all tests pass
+        return TestResult(
+            run_at=datetime.now(timezone.utc),
+            duration_seconds=1.0,
+            passed=True,
+            total_tests=10,
+            passed_tests=10,
+            failed_tests=0,
+            coverage_percent=100.0,
+        )
+
+
+class MockMetricsSource:
+    """Mock implementation of MetricsSource for testing."""
+
+    def __init__(self, metrics: dict = None):
+        self.metrics = metrics or {}
+
+    def get_metric(self, metric_name: str) -> Optional[float]:
+        """Get metric value."""
+        return self.metrics.get(metric_name)
+
+
+class MockHttpClient:
+    """Mock implementation of HttpClient for testing."""
+
+    def __init__(self, responses: dict = None):
+        self.responses = responses or {}
+        self.calls = []
+
+    def get(self, url: str) -> dict:
+        """GET request."""
+        self.calls.append(url)
+        if url in self.responses:
+            return self.responses[url]
+        return {"status": "unknown"}
+
+
+class TestIsAutomatic:
+    """Tests for is_automatic property on all target types."""
+
+    def test_completable_target_is_automatic(self):
+        """CompletableTarget should be automatic."""
+        target = CompletableTarget(completable_id="task-001")
+        assert target.is_automatic is True
+
+    def test_file_exists_target_is_automatic(self):
+        """FileExistsTarget should be automatic."""
+        target = FileExistsTarget(paths=["README.md"])
+        assert target.is_automatic is True
+
+    def test_test_passes_target_is_automatic(self):
+        """TestPassesTarget should be automatic."""
+        target = TestPassesTarget(test_command="pytest")
+        assert target.is_automatic is True
+
+    def test_test_coverage_target_is_automatic(self):
+        """TestCoverageTarget should be automatic."""
+        target = TestCoverageTarget(coverage_threshold=80.0)
+        assert target.is_automatic is True
+
+    def test_threshold_target_is_automatic(self):
+        """ThresholdTarget should be automatic."""
+        target = ThresholdTarget(metric_name="score", threshold=80.0)
+        assert target.is_automatic is True
+
+    def test_manual_target_is_not_automatic(self):
+        """ManualTarget should NOT be automatic."""
+        target = ManualTarget()
+        assert target.is_automatic is False
+
+    def test_external_target_is_automatic(self):
+        """ExternalTarget should be automatic."""
+        target = ExternalTarget(system_name="CI")
+        assert target.is_automatic is True
+
+
+class TestRefreshContext:
+    """Tests for RefreshContext creation and usage."""
+
+    def test_create_empty_context(self):
+        """Can create RefreshContext with no arguments."""
+        context = RefreshContext()
+        assert context.ticket_registry is None
+        assert context.test_runner is None
+        assert context.metrics is None
+        assert context.http_client is None
+        assert context.activity_log == []
+
+    def test_create_context_with_mocks(self):
+        """Can create RefreshContext with mock implementations."""
+        registry = MockTicketRegistry()
+        runner = MockTestRunner()
+        metrics = MockMetricsSource()
+        http = MockHttpClient()
+
+        context = RefreshContext(
+            ticket_registry=registry,
+            test_runner=runner,
+            metrics=metrics,
+            http_client=http,
+        )
+
+        assert context.ticket_registry is registry
+        assert context.test_runner is runner
+        assert context.metrics is metrics
+        assert context.http_client is http
+
+
+class TestCompletableTargetRefresh:
+    """Tests for CompletableTarget.refresh()."""
+
+    def test_refresh_with_no_context(self):
+        """Refresh with no context should be a no-op."""
+        target = CompletableTarget(completable_id="task-001")
+        target.refresh()  # Should not raise
+        assert target.current_status is None
+
+    def test_refresh_with_empty_context(self):
+        """Refresh with empty context should be a no-op."""
+        target = CompletableTarget(completable_id="task-001")
+        context = RefreshContext()
+        target.refresh(context)
+        assert target.current_status is None
+
+    def test_refresh_updates_status(self):
+        """Refresh should update current_status from registry."""
+        registry = MockTicketRegistry()
+        registry.set_status("task-001", "completed")
+        context = RefreshContext(ticket_registry=registry)
+
+        target = CompletableTarget(completable_id="task-001")
+        target.refresh(context)
+
+        assert target.current_status == TicketStatus.COMPLETED
+        assert target.last_checked is not None
+
+    def test_refresh_with_unknown_ticket(self):
+        """Refresh with unknown ticket should leave status as None."""
+        registry = MockTicketRegistry()
+        context = RefreshContext(ticket_registry=registry)
+
+        target = CompletableTarget(completable_id="unknown-task")
+        target.refresh(context)
+
+        assert target.current_status is None
+
+
+class TestFileExistsTargetRefresh:
+    """Tests for FileExistsTarget.refresh()."""
+
+    def test_refresh_updates_paths(self):
+        """Refresh should update existing/missing paths."""
+        with TemporaryDirectory() as tmpdir:
+            test_file = Path(tmpdir) / "exists.txt"
+            test_file.write_text("test")
+
+            target = FileExistsTarget(
+                paths=[str(test_file), str(Path(tmpdir) / "missing.txt")]
+            )
+
+            # Context is optional for FileExistsTarget (uses filesystem directly)
+            target.refresh()
+
+            assert str(test_file) in target.existing_paths
+            assert str(Path(tmpdir) / "missing.txt") in target.missing_paths
+            assert target.last_checked is not None
+
+
+class TestTestPassesTargetRefresh:
+    """Tests for TestPassesTarget.refresh()."""
+
+    def test_refresh_with_no_context(self):
+        """Refresh with no context should be a no-op."""
+        target = TestPassesTarget(test_command="pytest")
+        target.refresh()
+        assert target.last_result is None
+
+    def test_refresh_runs_tests(self):
+        """Refresh should run test command via test runner."""
+        runner = MockTestRunner()
+        context = RefreshContext(test_runner=runner)
+
+        target = TestPassesTarget(test_command="pytest tests/")
+        target.refresh(context)
+
+        assert "pytest tests/" in runner.calls
+        assert target.last_result is not None
+        assert target.last_result.passed
+
+
+class TestTestCoverageTargetRefresh:
+    """Tests for TestCoverageTarget.refresh()."""
+
+    def test_refresh_updates_coverage(self):
+        """Refresh should update coverage from test result."""
+        result = TestResult(
+            run_at=datetime.now(timezone.utc),
+            duration_seconds=1.0,
+            passed=True,
+            total_tests=10,
+            passed_tests=10,
+            failed_tests=0,
+            coverage_percent=85.5,
+        )
+        runner = MockTestRunner(results={"pytest --cov": result})
+        context = RefreshContext(test_runner=runner)
+
+        target = TestCoverageTarget(
+            coverage_threshold=80.0,
+            test_command="pytest --cov"
+        )
+        target.refresh(context)
+
+        assert target.current_coverage == 85.5
+        assert target.is_satisfied()
+
+
+class TestThresholdTargetRefresh:
+    """Tests for ThresholdTarget.refresh()."""
+
+    def test_refresh_with_no_context(self):
+        """Refresh with no context should be a no-op."""
+        target = ThresholdTarget(metric_name="score", threshold=80.0)
+        target.refresh()
+        assert target.current_value is None
+
+    def test_refresh_updates_value(self):
+        """Refresh should update value from metrics source."""
+        metrics = MockMetricsSource(metrics={"coverage": 92.5})
+        context = RefreshContext(metrics=metrics)
+
+        target = ThresholdTarget(metric_name="coverage", threshold=80.0)
+        target.refresh(context)
+
+        assert target.current_value == 92.5
+        assert target.last_checked is not None
+        assert target.is_satisfied()
+
+
+class TestManualTargetRefresh:
+    """Tests for ManualTarget.refresh()."""
+
+    def test_refresh_is_noop(self):
+        """Refresh on ManualTarget should be a no-op."""
+        target = ManualTarget(assessor="reviewer")
+        context = RefreshContext()
+
+        # Should not raise or change state
+        target.refresh(context)
+
+        assert not target.assessed
+        assert target.met is None
+
+
+class TestExternalTargetRefresh:
+    """Tests for ExternalTarget.refresh()."""
+
+    def test_refresh_with_no_context(self):
+        """Refresh with no context should be a no-op."""
+        target = ExternalTarget(system_name="CI", endpoint="http://ci/status")
+        target.refresh()
+        assert target.current_status is None
+
+    def test_refresh_updates_status(self):
+        """Refresh should update status from HTTP response."""
+        http = MockHttpClient(responses={
+            "http://ci/status": {"status": "success"}
+        })
+        context = RefreshContext(http_client=http)
+
+        target = ExternalTarget(
+            system_name="CI",
+            endpoint="http://ci/status"
+        )
+        target.refresh(context)
+
+        assert target.current_status == "success"
+        assert target.last_checked is not None
+        assert target.is_satisfied()
+
+    def test_refresh_with_custom_status_field(self):
+        """Refresh should use custom status_field."""
+        http = MockHttpClient(responses={
+            "http://scanner/result": {"result": "clean", "details": {}}
+        })
+        context = RefreshContext(http_client=http)
+
+        target = ExternalTarget(
+            system_name="Scanner",
+            endpoint="http://scanner/result",
+            expected_status="clean",
+            status_field="result"
+        )
+        target.refresh(context)
+
+        assert target.current_status == "clean"
+        assert target.is_satisfied()

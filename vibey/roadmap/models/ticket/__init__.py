@@ -40,6 +40,11 @@ from vibey.roadmap.models.ticket.enums import (
 from vibey.roadmap.models.ticket.support import (
     Progress,
     TestResult,
+    RefreshContext,
+    TicketRegistry,
+    TestRunner,
+    MetricsSource,
+    HttpClient,
 )
 
 from vibey.roadmap.models.ticket.targets import (
@@ -126,6 +131,11 @@ __all__ = [
     # Support classes
     "Progress",
     "TestResult",
+    "RefreshContext",
+    "TicketRegistry",
+    "TestRunner",
+    "MetricsSource",
+    "HttpClient",
     # Target types
     "CriterionTarget",
     "CompletableTarget",

@@ -18,9 +18,9 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 """
 
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Annotated, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -29,7 +29,7 @@ from vibey.roadmap.models.ticket.enums import (
     TicketStatus,
     ThresholdComparison,
 )
-from vibey.roadmap.models.ticket.support import TestResult
+from vibey.roadmap.models.ticket.support import RefreshContext, TestResult
 
 
 class CriterionTarget(BaseModel, ABC):
@@ -39,6 +39,17 @@ class CriterionTarget(BaseModel, ABC):
     Each target type defines how to check if a criterion is satisfied.
     Target types are polymorphic - stored with a type discriminator.
     """
+
+    @property
+    @abstractmethod
+    def is_automatic(self) -> bool:
+        """
+        Can this target auto-evaluate without human intervention?
+
+        Automatic targets can refresh their state from external sources.
+        Non-automatic targets (ManualTarget) require explicit human action.
+        """
+        ...
 
     @abstractmethod
     def is_satisfied(self) -> bool:
@@ -50,12 +61,16 @@ class CriterionTarget(BaseModel, ABC):
         """Get human-readable description of current status."""
         ...
 
-    def refresh(self) -> None:
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
         """
         Update cached state from external sources.
 
         Override in subclasses that cache state (e.g., file existence,
         test results, external system status).
+
+        Args:
+            context: Optional context providing access to external systems
+                    (ticket registry, test runner, metrics source, HTTP client)
         """
         pass
 
@@ -91,6 +106,24 @@ class CompletableTarget(CriterionTarget):
         default=None,
         description="When status was last verified"
     )
+
+    @property
+    def is_automatic(self) -> bool:
+        """CompletableTarget is automatic - can check ticket status."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Update current_status from ticket registry."""
+        if context is None or context.ticket_registry is None:
+            return
+
+        status_str = context.ticket_registry.get_ticket_status(self.completable_id)
+        if status_str is not None:
+            try:
+                self.current_status = TicketStatus(status_str)
+            except ValueError:
+                pass  # Keep existing status if invalid
+        self.last_checked = datetime.now(timezone.utc)
 
     def is_satisfied(self) -> bool:
         """Check if target has reached required status."""
@@ -152,6 +185,11 @@ class FileExistsTarget(CriterionTarget):
         description="When paths were last checked"
     )
 
+    @property
+    def is_automatic(self) -> bool:
+        """FileExistsTarget is automatic - can check filesystem."""
+        return True
+
     def is_satisfied(self) -> bool:
         """Check if required files exist."""
         if self.all_required:
@@ -166,7 +204,7 @@ class FileExistsTarget(CriterionTarget):
             return f"Missing files: {', '.join(self.missing_paths[:3])}{'...' if len(self.missing_paths) > 3 else ''}"
         return "Files not yet checked"
 
-    def refresh(self) -> None:
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
         """Check filesystem for file existence."""
         self.existing_paths = []
         self.missing_paths = []
@@ -186,7 +224,7 @@ class FileExistsTarget(CriterionTarget):
                 else:
                     self.missing_paths.append(str(path))
 
-        self.last_checked = datetime.now()
+        self.last_checked = datetime.now(timezone.utc)
 
 
 class TestPassesTarget(CriterionTarget):
@@ -214,6 +252,18 @@ class TestPassesTarget(CriterionTarget):
         default=None,
         description="Result of last test execution"
     )
+
+    @property
+    def is_automatic(self) -> bool:
+        """TestPassesTarget is automatic - can run test command."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Run test command and update last_result."""
+        if context is None or context.test_runner is None:
+            return
+
+        self.last_result = context.test_runner.run(self.test_command)
 
     def is_satisfied(self) -> bool:
         """Check if tests pass at required threshold."""
@@ -262,6 +312,20 @@ class TestCoverageTarget(CriterionTarget):
         description="Result of last test execution with coverage"
     )
 
+    @property
+    def is_automatic(self) -> bool:
+        """TestCoverageTarget is automatic - can run coverage command."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Run test command with coverage and update current_coverage."""
+        if context is None or context.test_runner is None or self.test_command is None:
+            return
+
+        self.last_result = context.test_runner.run(self.test_command)
+        if self.last_result and self.last_result.coverage_percent is not None:
+            self.current_coverage = self.last_result.coverage_percent
+
     def is_satisfied(self) -> bool:
         """Check if coverage meets threshold."""
         if self.current_coverage is None:
@@ -307,6 +371,21 @@ class ThresholdTarget(CriterionTarget):
         default=None,
         description="When metric was last measured"
     )
+
+    @property
+    def is_automatic(self) -> bool:
+        """ThresholdTarget is automatic - can query metrics source."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Query metrics source and update current_value."""
+        if context is None or context.metrics is None:
+            return
+
+        value = context.metrics.get_metric(self.metric_name)
+        if value is not None:
+            self.current_value = value
+            self.last_checked = datetime.now(timezone.utc)
 
     def is_satisfied(self) -> bool:
         """Check if metric meets threshold."""
@@ -364,6 +443,15 @@ class ManualTarget(CriterionTarget):
         description="Notes, links, or evidence for assessment"
     )
 
+    @property
+    def is_automatic(self) -> bool:
+        """ManualTarget is NOT automatic - requires human assessment."""
+        return False
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """No-op for manual targets - must use assess() method."""
+        pass  # Manual targets cannot auto-refresh
+
     def is_satisfied(self) -> bool:
         """Check if manual assessment passed."""
         return self.assessed and self.met is True
@@ -411,6 +499,10 @@ class ExternalTarget(CriterionTarget):
         default="success",
         description="Status value that indicates success"
     )
+    status_field: str = Field(
+        default="status",
+        description="Field name in response containing status"
+    )
 
     # Cached state
     current_status: Optional[str] = Field(
@@ -425,6 +517,26 @@ class ExternalTarget(CriterionTarget):
         default=None,
         description="Raw response data from external system"
     )
+
+    @property
+    def is_automatic(self) -> bool:
+        """ExternalTarget is automatic - can query external endpoint."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Query external endpoint and update current_status."""
+        if context is None or context.http_client is None or self.endpoint is None:
+            return
+
+        try:
+            response = context.http_client.get(self.endpoint)
+            self.response_data = response
+            if self.status_field in response:
+                self.current_status = str(response[self.status_field])
+            self.last_checked = datetime.now(timezone.utc)
+        except Exception:
+            # Leave current_status unchanged on error
+            pass
 
     def is_satisfied(self) -> bool:
         """Check if external system reports expected status."""

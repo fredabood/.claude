@@ -4,14 +4,53 @@ Support classes for the unified ticket architecture.
 This module contains utility classes used by the core completion model:
 - Progress: Tracks progress toward state transitions
 - TestResult: Captures test execution results
+- RefreshContext: Context for automatic criterion refresh operations
 
 Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 """
 
+from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
+from typing import TYPE_CHECKING, Any, Callable, List, Optional, Protocol
 
 from pydantic import BaseModel, Field, computed_field
+
+
+# Protocol for ticket registry lookup (avoids circular imports)
+class TicketRegistry(Protocol):
+    """Protocol for looking up tickets by ID."""
+
+    def get_ticket(self, ticket_id: str) -> Optional[Any]:
+        """Get a ticket by ID, returns None if not found."""
+        ...
+
+    def get_ticket_status(self, ticket_id: str) -> Optional[str]:
+        """Get the status of a ticket by ID."""
+        ...
+
+
+class TestRunner(Protocol):
+    """Protocol for running test commands."""
+
+    def run(self, command: str) -> "TestResult":
+        """Run a test command and return results."""
+        ...
+
+
+class MetricsSource(Protocol):
+    """Protocol for querying metrics values."""
+
+    def get_metric(self, metric_name: str) -> Optional[float]:
+        """Get current value of a metric."""
+        ...
+
+
+class HttpClient(Protocol):
+    """Protocol for HTTP requests to external systems."""
+
+    def get(self, url: str) -> dict:
+        """GET request, returns JSON response."""
+        ...
 
 
 class Progress(BaseModel):
@@ -140,8 +179,40 @@ class TestResult(BaseModel):
         return result
 
 
+@dataclass
+class RefreshContext:
+    """
+    Context for automatic criterion refresh operations.
+
+    Provides access to external systems needed to evaluate
+    automatic criterion targets:
+    - ticket_registry: Look up ticket status for CompletableTarget
+    - test_runner: Run test commands for TestPassesTarget
+    - metrics: Query metrics for ThresholdTarget
+    - http_client: Make HTTP requests for ExternalTarget
+    """
+
+    ticket_registry: Optional[TicketRegistry] = None
+    test_runner: Optional[TestRunner] = None
+    metrics: Optional[MetricsSource] = None
+    http_client: Optional[HttpClient] = None
+
+    # Activity log entries generated during refresh
+    activity_log: List[Any] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Ensure activity_log is initialized."""
+        if self.activity_log is None:
+            self.activity_log = []
+
+
 # Export all classes
 __all__ = [
     "Progress",
     "TestResult",
+    "RefreshContext",
+    "TicketRegistry",
+    "TestRunner",
+    "MetricsSource",
+    "HttpClient",
 ]

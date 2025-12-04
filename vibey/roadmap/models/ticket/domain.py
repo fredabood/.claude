@@ -15,12 +15,20 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 
 import re
 from datetime import datetime, timezone
+from enum import Enum
 from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from vibey.roadmap.models.ticket.completable import Criterion
-from vibey.roadmap.models.ticket.enums import ActivityType, GateStatus, TicketStatus, TicketType
+from vibey.roadmap.models.ticket.enums import (
+    ActivityType,
+    Complexity,
+    GateStatus,
+    TaskType,
+    TicketStatus,
+    TicketType,
+)
 from vibey.roadmap.models.ticket.hierarchical import HierarchicalTicket
 from vibey.roadmap.models.ticket.targets import CompletableTarget
 
@@ -1197,6 +1205,454 @@ class SprintTicket(HierarchicalTicket):
 
 
 # =============================================================================
+# TASK-SPECIFIC SUPPORT CLASSES
+# =============================================================================
+
+
+class GateInfo(BaseModel):
+    """
+    Information about a quality gate task.
+
+    Gate tasks are special tasks that validate quality criteria
+    before a sprint can progress to the next status.
+    """
+
+    blocks_status: TicketStatus = Field(
+        description="The status transition this gate blocks"
+    )
+    threshold: float = Field(
+        default=100.0,
+        ge=0.0,
+        le=100.0,
+        description="Pass threshold (0-100)"
+    )
+    is_blocking: bool = Field(
+        default=True,
+        description="Whether this gate blocks sprint progress"
+    )
+    score: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=100.0,
+        description="Current score (0-100)"
+    )
+    evaluated_at: Optional[datetime] = Field(
+        default=None,
+        description="When the gate was last evaluated"
+    )
+
+    def has_passed(self) -> bool:
+        """Check if the gate has passed based on score and threshold."""
+        if self.score is None:
+            return False
+        return self.score >= self.threshold
+
+    def evaluate(self, score: float) -> "GateInfo":
+        """Record an evaluation with a score."""
+        return self.model_copy(update={
+            "score": score,
+            "evaluated_at": datetime.now(timezone.utc),
+        })
+
+
+class AuditResults(BaseModel):
+    """
+    Results from a quality audit task.
+
+    Audit tasks examine code, documentation, or other artifacts
+    for issues that need to be addressed.
+    """
+
+    issues_found: int = Field(
+        default=0,
+        ge=0,
+        description="Number of issues found during audit"
+    )
+    issues_fixed: int = Field(
+        default=0,
+        ge=0,
+        description="Number of issues that have been fixed"
+    )
+    recommendations: List[str] = Field(
+        default_factory=list,
+        description="Recommendations from the audit"
+    )
+    audit_type: str = Field(
+        description="Type of audit (e.g., 'security', 'code_quality', 'documentation')"
+    )
+    audited_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        description="When the audit was performed"
+    )
+
+    @property
+    def issues_remaining(self) -> int:
+        """Number of issues that still need to be fixed."""
+        return max(0, self.issues_found - self.issues_fixed)
+
+    @property
+    def is_resolved(self) -> bool:
+        """Check if all issues have been resolved."""
+        return self.issues_remaining == 0
+
+
+# =============================================================================
+# SIZE CATEGORY (computed from token estimate)
+# =============================================================================
+
+
+class SizeCategory(str, Enum):
+    """
+    Size category computed from estimated tokens.
+
+    Used to categorize tasks by their estimated effort.
+    """
+
+    TINY = "tiny"  # < 500 tokens
+    SMALL = "small"  # 500-1000 tokens
+    MEDIUM = "medium"  # 1000-2500 tokens
+    LARGE = "large"  # 2500-5000 tokens
+    HUGE = "huge"  # > 5000 tokens
+
+    @classmethod
+    def from_tokens(cls, tokens: int) -> "SizeCategory":
+        """Compute size category from token estimate."""
+        if tokens < 500:
+            return cls.TINY
+        elif tokens < 1000:
+            return cls.SMALL
+        elif tokens < 2500:
+            return cls.MEDIUM
+        elif tokens < 5000:
+            return cls.LARGE
+        else:
+            return cls.HUGE
+
+
+# =============================================================================
+# TASK TICKET (ULTIMATE CHILD - Leaf Node)
+# =============================================================================
+
+
+class TaskTicket(HierarchicalTicket):
+    """
+    Layer 3: TaskTicket - Ultimate child in the ticket hierarchy.
+
+    Task is ALWAYS an ultimate child (is_ultimate_child=True).
+    It cannot have children (no CompletableTarget criteria allowed).
+
+    Hierarchy Constraints:
+    - is_ultimate_child: True (always - leaf node)
+    - is_child: True (always has Sprint parent via parent_ref)
+    - is_parent: False (never - cannot have children)
+    - is_ultimate_parent: False (never - always has parent)
+    - is_intermediate: False (never - leaf node)
+
+    Task-Specific Fields (L3 only):
+    - ticket_type: Literal["task"] = "task"
+    - sprint_id: str (required, must match parent_ref)
+    - track_id: str (required, grandparent reference)
+    - roadmap_id: str (required, root reference)
+    - task_type_detail: TaskType enum
+    - title: str (alias for name, short task title)
+    - assigned_agent: Optional[str]
+    - estimated_tokens: int (required, > 0)
+    - actual_tokens: Optional[int]
+    - complexity: Complexity enum
+    - gate_info: Optional[GateInfo] (for gate tasks)
+    - audit_results: Optional[AuditResults] (for audit tasks)
+    - phase_label: Optional[str]
+
+    Children are NOT allowed (leaf node). Validation ensures no CompletableTarget criteria.
+    """
+
+    # =========================================================================
+    # TYPE DISCRIMINATOR
+    # =========================================================================
+
+    ticket_type: Literal[TicketType.TASK] = Field(
+        default=TicketType.TASK,
+        description="Type discriminator for task tickets"
+    )
+
+    # =========================================================================
+    # PARENT REFERENCES
+    # =========================================================================
+
+    sprint_id: str = Field(
+        description="ID of the parent sprint (must match parent_ref)"
+    )
+    track_id: str = Field(
+        description="ID of the grandparent track"
+    )
+    roadmap_id: str = Field(
+        description="ID of the root roadmap"
+    )
+
+    # =========================================================================
+    # TASK CLASSIFICATION
+    # =========================================================================
+
+    task_type_detail: TaskType = Field(
+        default=TaskType.DEVELOPMENT,
+        description="Classification of task work type"
+    )
+    title: str = Field(
+        default="",
+        description="Short task title (alias for name)"
+    )
+    phase_label: Optional[str] = Field(
+        default=None,
+        description="Phase or category label for grouping"
+    )
+
+    # =========================================================================
+    # ASSIGNMENT
+    # =========================================================================
+
+    assigned_agent: Optional[str] = Field(
+        default=None,
+        description="Single agent assigned to this task"
+    )
+
+    # =========================================================================
+    # ESTIMATION
+    # =========================================================================
+
+    estimated_tokens: int = Field(
+        gt=0,
+        description="Estimated token budget for task"
+    )
+    actual_tokens: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Actual tokens used"
+    )
+    complexity: Complexity = Field(
+        default=Complexity.MEDIUM,
+        description="Task complexity level"
+    )
+
+    # =========================================================================
+    # GATE-SPECIFIC FIELDS
+    # =========================================================================
+
+    gate_info: Optional[GateInfo] = Field(
+        default=None,
+        description="Gate information (for gate tasks only)"
+    )
+    audit_results: Optional[AuditResults] = Field(
+        default=None,
+        description="Audit results (for audit tasks)"
+    )
+
+    # =========================================================================
+    # VALIDATORS
+    # =========================================================================
+
+    @model_validator(mode="after")
+    def validate_ultimate_child(self) -> "TaskTicket":
+        """Ensure TaskTicket is always an ultimate child (has parent, no children)."""
+        if self.parent_ref is None:
+            raise ValueError(
+                "TaskTicket must have a parent_ref. "
+                "Task is always an ultimate child (has a Sprint parent)."
+            )
+        if self.parent_ref != self.sprint_id:
+            raise ValueError(
+                f"parent_ref ({self.parent_ref}) must match sprint_id ({self.sprint_id})"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def validate_no_completable_children(self) -> "TaskTicket":
+        """Ensure TaskTicket has no CompletableTarget criteria (leaf node)."""
+        for criterion in self.criteria:
+            if isinstance(criterion.target, CompletableTarget):
+                raise ValueError(
+                    f"TaskTicket cannot have CompletableTarget criteria. "
+                    f"Found criterion '{criterion.id}' with CompletableTarget. "
+                    f"Tasks are leaf nodes and cannot have child tickets."
+                )
+        return self
+
+    @model_validator(mode="after")
+    def validate_gate_info_consistency(self) -> "TaskTicket":
+        """Ensure gate_info matches task_type_detail."""
+        if self.task_type_detail == TaskType.GATE:
+            if self.gate_info is None:
+                raise ValueError(
+                    "Gate tasks must have gate_info set"
+                )
+        else:
+            if self.gate_info is not None:
+                raise ValueError(
+                    f"Non-gate tasks ({self.task_type_detail}) cannot have gate_info"
+                )
+        return self
+
+    @field_validator("sprint_id", "track_id", "roadmap_id")
+    @classmethod
+    def validate_not_empty(cls, v: str) -> str:
+        """Validate required IDs are not empty."""
+        if not v or not v.strip():
+            raise ValueError("ID cannot be empty")
+        return v
+
+    # =========================================================================
+    # COMPUTED PROPERTIES (Ultimate Child Semantics)
+    # =========================================================================
+
+    @property
+    def is_ultimate_parent(self) -> bool:
+        """Task is never the ultimate parent."""
+        return False
+
+    @property
+    def is_child(self) -> bool:
+        """Task is always a child (of sprint)."""
+        return True
+
+    @property
+    def is_ultimate_child(self) -> bool:
+        """Task is always the ultimate child (leaf node)."""
+        return True
+
+    @property
+    def is_intermediate(self) -> bool:
+        """Task is never intermediate (leaf node)."""
+        return False
+
+    @property
+    def is_parent(self) -> bool:
+        """Task is never a parent (leaf node)."""
+        return False
+
+    # Override children to always return empty list
+    @property
+    def children(self) -> List[str]:
+        """Tasks have no children (leaf node)."""
+        return []
+
+    # =========================================================================
+    # TASK-SPECIFIC COMPUTED PROPERTIES
+    # =========================================================================
+
+    @property
+    def token_efficiency(self) -> Optional[float]:
+        """
+        Compute token efficiency (actual / estimated).
+
+        Returns None if actual_tokens not set.
+        < 1.0 means under budget, > 1.0 means over budget.
+        """
+        if self.actual_tokens is None:
+            return None
+        return self.actual_tokens / self.estimated_tokens
+
+    @property
+    def size_category(self) -> SizeCategory:
+        """Compute size category from estimated tokens."""
+        return SizeCategory.from_tokens(self.estimated_tokens)
+
+    # =========================================================================
+    # TASK TYPE HELPERS
+    # =========================================================================
+
+    def is_development_task(self) -> bool:
+        """Check if this is a development task."""
+        return self.task_type_detail == TaskType.DEVELOPMENT
+
+    def is_quality_gate(self) -> bool:
+        """Check if this is a quality gate task."""
+        return self.task_type_detail == TaskType.GATE
+
+    def is_documentation_task(self) -> bool:
+        """Check if this is a documentation task."""
+        return self.task_type_detail == TaskType.DOCUMENTATION
+
+    def is_testing_task(self) -> bool:
+        """Check if this is a testing task."""
+        return self.task_type_detail == TaskType.TESTING
+
+    def has_passed_gate(self) -> bool:
+        """
+        Check if gate has passed (for gate tasks).
+
+        Returns False for non-gate tasks.
+        """
+        if not self.is_quality_gate() or self.gate_info is None:
+            return False
+        return self.gate_info.has_passed()
+
+    # =========================================================================
+    # GATE MANAGEMENT
+    # =========================================================================
+
+    def evaluate_gate(self, score: float) -> "TaskTicket":
+        """
+        Evaluate the gate with a score.
+
+        Raises ValueError if not a gate task.
+        """
+        if not self.is_quality_gate():
+            raise ValueError(
+                f"Cannot evaluate gate: task '{self.id}' is not a gate task"
+            )
+
+        return self.model_copy(update={
+            "gate_info": self.gate_info.evaluate(score),
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+    # =========================================================================
+    # AUDIT MANAGEMENT
+    # =========================================================================
+
+    def record_audit(
+        self,
+        audit_type: str,
+        issues_found: int = 0,
+        recommendations: Optional[List[str]] = None,
+    ) -> "TaskTicket":
+        """Record audit results for this task."""
+        audit = AuditResults(
+            audit_type=audit_type,
+            issues_found=issues_found,
+            recommendations=recommendations or [],
+        )
+        return self.model_copy(update={
+            "audit_results": audit,
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+    def fix_audit_issue(self) -> "TaskTicket":
+        """Record that an audit issue has been fixed."""
+        if self.audit_results is None:
+            raise ValueError(
+                f"Cannot fix audit issue: task '{self.id}' has no audit results"
+            )
+
+        return self.model_copy(update={
+            "audit_results": self.audit_results.model_copy(update={
+                "issues_fixed": self.audit_results.issues_fixed + 1,
+            }),
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+    # =========================================================================
+    # TOKEN TRACKING
+    # =========================================================================
+
+    def record_tokens(self, tokens: int) -> "TaskTicket":
+        """Record actual tokens used."""
+        return self.model_copy(update={
+            "actual_tokens": tokens,
+            "updated_at": datetime.now(timezone.utc),
+        })
+
+
+# =============================================================================
 # EXPORTS
 # =============================================================================
 
@@ -1207,10 +1663,12 @@ __all__ = [
     "PlatformDeployment",
     "VersionStrategy",
     "DevelopmentGate",
+    "GateInfo",
+    "AuditResults",
+    "SizeCategory",
     # Domain models
     "RoadmapTicket",
     "TrackTicket",
     "SprintTicket",
-    # Future exports (Task 011):
-    # "TaskTicket",
+    "TaskTicket",
 ]

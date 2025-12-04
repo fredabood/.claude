@@ -6,6 +6,7 @@ Provides connection management with:
 - Transaction context managers
 - Busy timeout configuration
 - Connection pooling (single connection per process)
+- SQLAlchemy session management for ORM operations
 
 The database file is stored at .vibey/roadmap.db
 """
@@ -15,6 +16,10 @@ import threading
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional, Generator, Any, Union
+
+from sqlalchemy import create_engine, event
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session, sessionmaker
 
 # Thread-local storage for connections
 _local = threading.local()
@@ -355,3 +360,153 @@ def get_database_info(
         info["schema_version"] = None
 
     return info
+
+
+# =============================================================================
+# SQLALCHEMY ENGINE AND SESSION MANAGEMENT
+# =============================================================================
+
+# Thread-local storage for SQLAlchemy engines
+_sa_local = threading.local()
+
+
+@event.listens_for(Engine, "connect")
+def _set_sqlite_pragma(dbapi_connection, connection_record):
+    """Configure SQLite pragmas for SQLAlchemy connections."""
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+    cursor.execute("PRAGMA journal_mode = WAL")
+    cursor.execute(f"PRAGMA busy_timeout = {DEFAULT_BUSY_TIMEOUT_MS}")
+    cursor.execute(f"PRAGMA cache_size = -{DEFAULT_CACHE_SIZE_KB}")
+    cursor.execute("PRAGMA synchronous = NORMAL")
+    cursor.execute("PRAGMA temp_store = MEMORY")
+    cursor.close()
+
+
+def get_engine(
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> Engine:
+    """
+    Get a SQLAlchemy engine for the database.
+
+    Uses thread-local storage to maintain one engine per thread.
+
+    Args:
+        db_path: Direct path to database file. If provided, base_dir is ignored.
+        base_dir: Base directory containing .vibey folder.
+
+    Returns:
+        SQLAlchemy Engine instance
+    """
+    if db_path is None:
+        db_path = get_db_path(base_dir)
+
+    engine_key = str(db_path)
+    if not hasattr(_sa_local, 'engines'):
+        _sa_local.engines = {}
+
+    if engine_key not in _sa_local.engines:
+        # Create engine with SQLite URL
+        url = f"sqlite:///{db_path}"
+        engine = create_engine(
+            url,
+            echo=False,  # Set to True for SQL debugging
+            pool_pre_ping=True,  # Verify connections before use
+        )
+        _sa_local.engines[engine_key] = engine
+
+    return _sa_local.engines[engine_key]
+
+
+def get_session(
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> Session:
+    """
+    Get a SQLAlchemy session for ORM operations.
+
+    Creates a new session bound to the engine for the given database.
+    The session should be closed when done.
+
+    Args:
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+
+    Returns:
+        SQLAlchemy Session instance
+
+    Example:
+        session = get_session()
+        try:
+            ticket = session.query(TicketORM).get("task-001")
+            # ... do work
+            session.commit()
+        finally:
+            session.close()
+    """
+    engine = get_engine(db_path=db_path, base_dir=base_dir)
+    return Session(engine)
+
+
+@contextmanager
+def session_scope(
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> Generator[Session, None, None]:
+    """
+    Context manager for SQLAlchemy sessions.
+
+    Automatically commits on success, rolls back on exception,
+    and closes the session when done.
+
+    Args:
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+
+    Yields:
+        SQLAlchemy Session instance
+
+    Example:
+        with session_scope() as session:
+            ticket = session.query(TicketORM).get("task-001")
+            ticket.status = "completed"
+            # Commits automatically on exit
+    """
+    session = get_session(db_path=db_path, base_dir=base_dir)
+    try:
+        yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+def close_engine(
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> None:
+    """
+    Close the SQLAlchemy engine for the given database.
+
+    Args:
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+    """
+    if db_path is None:
+        db_path = get_db_path(base_dir)
+
+    engine_key = str(db_path)
+    if hasattr(_sa_local, 'engines') and engine_key in _sa_local.engines:
+        _sa_local.engines[engine_key].dispose()
+        del _sa_local.engines[engine_key]
+
+
+def close_all_engines() -> None:
+    """Close all SQLAlchemy engines for the current thread."""
+    if hasattr(_sa_local, 'engines'):
+        for engine in _sa_local.engines.values():
+            engine.dispose()
+        _sa_local.engines.clear()

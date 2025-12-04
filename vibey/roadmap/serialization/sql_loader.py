@@ -1190,3 +1190,244 @@ def load_audit_trail_field_history(object_id: str, field: str) -> List[dict]:
         })
 
     return entries
+
+
+# =============================================================================
+# V2 TICKET LOADERS (Unified Schema)
+# =============================================================================
+# These functions load from the unified 'tickets' table and return
+# Pydantic ticket models (TaskTicket, SprintTicket, TrackTicket, RoadmapTicket).
+
+from ..database.connection import get_session, session_scope
+from ..models.ticket.orm import (
+    TicketORM,
+    RoadmapTicketORM,
+    TrackTicketORM,
+    SprintTicketORM,
+    TaskTicketORM,
+    CriterionORM,
+)
+from ..models.ticket.domain import (
+    TaskTicket,
+    SprintTicket,
+    TrackTicket,
+    RoadmapTicket,
+)
+from ..database.schema import has_unified_schema
+
+
+def load_task_ticket(task_id: str) -> Optional[TaskTicket]:
+    """
+    Load a task from the unified tickets table.
+
+    Args:
+        task_id: ID of the task to load
+
+    Returns:
+        TaskTicket Pydantic model, or None if not found
+
+    Raises:
+        RuntimeError: If unified schema is not present
+    """
+    with session_scope() as session:
+        orm_task = session.query(TaskTicketORM).get(task_id)
+        if orm_task is None:
+            return None
+        return orm_task.to_pydantic()
+
+
+def load_sprint_ticket(sprint_id: str) -> Optional[SprintTicket]:
+    """
+    Load a sprint from the unified tickets table.
+
+    Args:
+        sprint_id: ID of the sprint to load
+
+    Returns:
+        SprintTicket Pydantic model, or None if not found
+    """
+    with session_scope() as session:
+        orm_sprint = session.query(SprintTicketORM).get(sprint_id)
+        if orm_sprint is None:
+            return None
+        return orm_sprint.to_pydantic()
+
+
+def load_track_ticket(track_id: str) -> Optional[TrackTicket]:
+    """
+    Load a track from the unified tickets table.
+
+    Args:
+        track_id: ID of the track to load
+
+    Returns:
+        TrackTicket Pydantic model, or None if not found
+    """
+    with session_scope() as session:
+        orm_track = session.query(TrackTicketORM).get(track_id)
+        if orm_track is None:
+            return None
+        return orm_track.to_pydantic()
+
+
+def load_roadmap_ticket(roadmap_id: str = "vibey-framework-v2") -> Optional[RoadmapTicket]:
+    """
+    Load a roadmap from the unified tickets table.
+
+    Args:
+        roadmap_id: ID of the roadmap to load
+
+    Returns:
+        RoadmapTicket Pydantic model, or None if not found
+    """
+    with session_scope() as session:
+        orm_roadmap = session.query(RoadmapTicketORM).get(roadmap_id)
+        if orm_roadmap is None:
+            return None
+        return orm_roadmap.to_pydantic()
+
+
+def load_task_ticket_with_ancestors(task_id: str) -> Optional[TaskTicket]:
+    """
+    Load a task with its ancestor chain (sprint, track, roadmap).
+
+    This eagerly loads the parent hierarchy so that inherited properties
+    like standards_effective work correctly.
+
+    Args:
+        task_id: ID of the task to load
+
+    Returns:
+        TaskTicket with ancestors loaded, or None if not found
+    """
+    with session_scope() as session:
+        # Query with eager loading of parent relationships
+        orm_task = session.query(TaskTicketORM).get(task_id)
+        if orm_task is None:
+            return None
+
+        # Walk up the hierarchy to trigger lazy loading within session
+        current = orm_task
+        while current.parent is not None:
+            current = current.parent
+
+        return orm_task.to_pydantic()
+
+
+def load_sprint_ticket_with_children(sprint_id: str) -> Optional[SprintTicket]:
+    """
+    Load a sprint with all its child tasks.
+
+    This eagerly loads children so that aggregated properties
+    like commits_aggregated work correctly.
+
+    Args:
+        sprint_id: ID of the sprint to load
+
+    Returns:
+        SprintTicket with children loaded, or None if not found
+    """
+    with session_scope() as session:
+        orm_sprint = session.query(SprintTicketORM).get(sprint_id)
+        if orm_sprint is None:
+            return None
+
+        # Access children to trigger lazy loading within session
+        _ = list(orm_sprint.children)
+
+        return orm_sprint.to_pydantic()
+
+
+def load_tickets_by_type(ticket_type: str) -> List:
+    """
+    Load all tickets of a specific type.
+
+    Args:
+        ticket_type: Type of tickets to load ('roadmap', 'track', 'sprint', 'task')
+
+    Returns:
+        List of Pydantic ticket models
+    """
+    type_map = {
+        'roadmap': RoadmapTicketORM,
+        'track': TrackTicketORM,
+        'sprint': SprintTicketORM,
+        'task': TaskTicketORM,
+    }
+
+    if ticket_type not in type_map:
+        raise ValueError(f"Unknown ticket type: {ticket_type}")
+
+    orm_class = type_map[ticket_type]
+
+    with session_scope() as session:
+        orm_tickets = session.query(orm_class).all()
+        return [t.to_pydantic() for t in orm_tickets]
+
+
+def load_tickets_by_parent(parent_id: str) -> List:
+    """
+    Load all child tickets for a parent.
+
+    Args:
+        parent_id: ID of the parent ticket
+
+    Returns:
+        List of Pydantic ticket models (children)
+    """
+    with session_scope() as session:
+        orm_children = session.query(TicketORM).filter(
+            TicketORM.parent_id == parent_id
+        ).all()
+        return [c.to_pydantic() for c in orm_children]
+
+
+def load_tasks_by_sprint_ticket(sprint_id: str) -> List[TaskTicket]:
+    """
+    Load all task tickets for a sprint.
+
+    Args:
+        sprint_id: ID of the sprint
+
+    Returns:
+        List of TaskTicket models
+    """
+    with session_scope() as session:
+        orm_tasks = session.query(TaskTicketORM).filter(
+            TaskTicketORM.parent_id == sprint_id
+        ).order_by(TaskTicketORM.sequence).all()
+        return [t.to_pydantic() for t in orm_tasks]
+
+
+def load_sprints_by_track_ticket(track_id: str) -> List[SprintTicket]:
+    """
+    Load all sprint tickets for a track.
+
+    Args:
+        track_id: ID of the track
+
+    Returns:
+        List of SprintTicket models
+    """
+    with session_scope() as session:
+        orm_sprints = session.query(SprintTicketORM).filter(
+            SprintTicketORM.parent_id == track_id
+        ).order_by(SprintTicketORM.sequence).all()
+        return [s.to_pydantic() for s in orm_sprints]
+
+
+def load_tracks_by_roadmap_ticket(roadmap_id: str = "vibey-framework-v2") -> List[TrackTicket]:
+    """
+    Load all track tickets for a roadmap.
+
+    Args:
+        roadmap_id: ID of the roadmap
+
+    Returns:
+        List of TrackTicket models
+    """
+    with session_scope() as session:
+        orm_tracks = session.query(TrackTicketORM).filter(
+            TrackTicketORM.parent_id == roadmap_id
+        ).order_by(TrackTicketORM.sequence).all()
+        return [t.to_pydantic() for t in orm_tracks]

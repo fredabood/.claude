@@ -5,117 +5,83 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update sql_loader.py with SQLAlchemy ORM
-  description: |
-    Replace direct SQL queries in sql_loader.py with SQLAlchemy ORM
-    operations using the new TicketORM models from Sprint 6a Task 007.
-
-    CURRENT STATE:
-    - sql_loader.py uses raw SQL queries
-    - Returns old dataclass models
-    - No ORM abstraction
-
-    CHANGES REQUIRED:
-
-    1. USE REPOSITORY PATTERN:
-       Replace direct SQL with TicketRepository from Task 6a-007:
-
-       # OLD
-       def load_task(db_path: str, task_id: str) -> Task:
-           conn = get_connection(db_path)
-           cursor = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
-           row = cursor.fetchone()
-           return Task(**row_to_dict(row))
-
-       # NEW
-       def load_task(db_path: str, task_id: str) -> TaskTicket:
-           repo = TicketRepository(get_session(db_path))
-           return repo.get(task_id)  # Returns TaskTicket via ORM
-
-    2. HIERARCHY LOADING:
-       Use repository methods for hierarchy:
-
-       def load_task_with_ancestors(task_id: str) -> TaskTicket:
-           repo = TicketRepository(session)
-           task = repo.get_with_ancestors(task_id)
-           # task.standards_effective now works (ancestors loaded)
-           return task
-
-       def load_sprint_with_children(sprint_id: str) -> SprintTicket:
-           repo = TicketRepository(session)
-           sprint = repo.get_with_children(sprint_id)
-           # sprint.commits_aggregated now works (children loaded)
-           return sprint
-
-    3. LAZY LOADING SUPPORT:
-       Configure SQLAlchemy for lazy loading of relationships:
-       - parent relationship: lazy loaded on access
-       - children relationship: lazy loaded on access
-       - Option for eager loading when needed
-
-    4. JSON COLUMN DESERIALIZATION:
-       ORM handles JSON columns → Python objects:
-       - commits_local_json → list[GitCommit]
-       - standards_local_json → list[Standard]
-       - depends_on_json → list[DependencyRef]
-
-    5. SESSION MANAGEMENT:
-       Use existing connection.py infrastructure:
-
-       def get_session(db_path: str) -> Session:
-           engine = get_engine(db_path)
-           return Session(engine)
-
-    IMPLEMENTATION STEPS:
-
-    1. Add SQLAlchemy session management to connection.py
-    2. Update load_task() to use TicketRepository
-    3. Update load_sprint() to use TicketRepository
-    4. Update load_track() to use TicketRepository
-    5. Update load_roadmap() to use TicketRepository
-    6. Add hierarchy loading functions
-    7. Configure lazy/eager loading options
-    8. Update all callers to expect new types
-
-    SUCCESS CRITERIA:
-    - All load functions return new Pydantic models
-    - Hierarchy relationships load correctly
-    - JSON columns deserialize to proper types
-    - Lazy loading works for parent/children
-    - Performance: No regression vs raw SQL
-  status: not_started
+  description: "Replace direct SQL queries in sql_loader.py with SQLAlchemy ORM\n\
+    operations using the new TicketORM models from Sprint 6a Task 007.\n\nCURRENT\
+    \ STATE:\n- sql_loader.py uses raw SQL queries\n- Returns old dataclass models\n\
+    - No ORM abstraction\n\nCHANGES REQUIRED:\n\n1. USE REPOSITORY PATTERN:\n   Replace\
+    \ direct SQL with TicketRepository from Task 6a-007:\n\n   # OLD\n   def load_task(db_path:\
+    \ str, task_id: str) -> Task:\n       conn = get_connection(db_path)\n       cursor\
+    \ = conn.execute(\"SELECT * FROM tasks WHERE id = ?\", (task_id,))\n       row\
+    \ = cursor.fetchone()\n       return Task(**row_to_dict(row))\n\n   # NEW\n  \
+    \ def load_task(db_path: str, task_id: str) -> TaskTicket:\n       repo = TicketRepository(get_session(db_path))\n\
+    \       return repo.get(task_id)  # Returns TaskTicket via ORM\n\n2. HIERARCHY\
+    \ LOADING:\n   Use repository methods for hierarchy:\n\n   def load_task_with_ancestors(task_id:\
+    \ str) -> TaskTicket:\n       repo = TicketRepository(session)\n       task =\
+    \ repo.get_with_ancestors(task_id)\n       # task.standards_effective now works\
+    \ (ancestors loaded)\n       return task\n\n   def load_sprint_with_children(sprint_id:\
+    \ str) -> SprintTicket:\n       repo = TicketRepository(session)\n       sprint\
+    \ = repo.get_with_children(sprint_id)\n       # sprint.commits_aggregated now\
+    \ works (children loaded)\n       return sprint\n\n3. LAZY LOADING SUPPORT:\n\
+    \   Configure SQLAlchemy for lazy loading of relationships:\n   - parent relationship:\
+    \ lazy loaded on access\n   - children relationship: lazy loaded on access\n \
+    \  - Option for eager loading when needed\n\n4. JSON COLUMN DESERIALIZATION:\n\
+    \   ORM handles JSON columns → Python objects:\n   - commits_local_json → list[GitCommit]\n\
+    \   - standards_local_json → list[Standard]\n   - depends_on_json → list[DependencyRef]\n\
+    \n5. SESSION MANAGEMENT:\n   Use existing connection.py infrastructure:\n\n  \
+    \ def get_session(db_path: str) -> Session:\n       engine = get_engine(db_path)\n\
+    \       return Session(engine)\n\nIMPLEMENTATION STEPS:\n\n1. Add SQLAlchemy session\
+    \ management to connection.py\n2. Update load_task() to use TicketRepository\n\
+    3. Update load_sprint() to use TicketRepository\n4. Update load_track() to use\
+    \ TicketRepository\n5. Update load_roadmap() to use TicketRepository\n6. Add hierarchy\
+    \ loading functions\n7. Configure lazy/eager loading options\n8. Update all callers\
+    \ to expect new types\n\nSUCCESS CRITERIA:\n- All load functions return new Pydantic\
+    \ models\n- Hierarchy relationships load correctly\n- JSON columns deserialize\
+    \ to proper types\n- Lazy loading works for parent/children\n- Performance: No\
+    \ regression vs raw SQL\n"
+  status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-04T23:46:51.551963+00:00'
   assigned_agent: backend-engineer
   priority: critical
   phase_label: implementation
   estimated_tokens: 3500
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-8-task-005
-  - sqlite-backend-8-task-006
+  - type: task
+    target_id: sqlite-backend-8-task-005
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-8-task-006
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-8-task-004
+  - dependency_id: sqlite-backend-8-task-004
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T23:46:51.469525+00:00'
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Updated vibey/roadmap/serialization/sql_loader.py
-  - SQLAlchemy session management in connection.py
-  - tests/roadmap/serialization/test_sql_loader_orm.py
+  - type: code
+    paths:
+    - Updated vibey/roadmap/serialization/sql_loader.py
+  - type: code
+    paths:
+    - SQLAlchemy session management in connection.py
+  - type: code
+    paths:
+    - tests/roadmap/serialization/test_sql_loader_orm.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      DEPENDS ON: Sprint 6a Task 007 (ORM models)
-
-      This task replaces raw SQL with SQLAlchemy ORM.
-      The key benefit is automatic JSON deserialization
-      and relationship management.
-
-      Consider keeping raw SQL as fallback for performance-
-      critical queries where ORM overhead matters.

@@ -5,83 +5,40 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update sql_dumper.py with SQLAlchemy ORM
-  description: |
-    Replace direct SQL inserts/updates in sql_dumper.py with SQLAlchemy
-    ORM operations using the new TicketORM models.
-
-    CURRENT STATE:
-    - sql_dumper.py uses raw SQL INSERT/UPDATE
-    - Accepts old dataclass models
-    - Manual JSON serialization
-
-    CHANGES REQUIRED:
-
-    1. USE REPOSITORY PATTERN:
-       Replace direct SQL with TicketRepository:
-
-       # OLD
-       def save_task(db_path: str, task: Task) -> None:
-           conn = get_connection(db_path)
-           conn.execute(
-               "INSERT OR REPLACE INTO tasks (...) VALUES (...)",
-               task_to_row(task)
-           )
-
-       # NEW
-       def save_task(db_path: str, task: TaskTicket) -> None:
-           repo = TicketRepository(get_session(db_path))
-           repo.save(task)  # ORM handles serialization
-
-    2. PYDANTIC → ORM CONVERSION:
-       Repository handles conversion via TicketORM.from_pydantic():
-
-       class TicketRepository:
-           def save(self, ticket: Ticket) -> None:
-               orm_obj = TicketORM.from_pydantic(ticket)
-               self.session.merge(orm_obj)
-               self.session.commit()
-
-    3. JSON COLUMN SERIALIZATION:
-       ORM handles Python objects → JSON columns:
-       - list[GitCommit] → commits_local_json
-       - list[Standard] → standards_local_json
-       - list[DependencyRef] → depends_on_json
-
-    4. HIERARCHY PRESERVATION:
-       When saving a ticket:
-       - Save parent_id reference
-       - Do NOT save computed hierarchy attributes
-       - Children are saved separately (not cascaded)
-
-    5. TRANSACTION SUPPORT:
-       def save_sprint_with_tasks(sprint: SprintTicket) -> None:
-           with session.begin():
-               repo.save(sprint)
-               for task in sprint.get_children():
-                   repo.save(task)
-           # All or nothing
-
-    IMPLEMENTATION STEPS:
-
-    1. Update save_task() to use TicketRepository
-    2. Update save_sprint() to use TicketRepository
-    3. Update save_track() to use TicketRepository
-    4. Update save_roadmap() to use TicketRepository
-    5. Add transaction support for batch saves
-    6. Handle upsert logic (insert or update)
-    7. Update all callers to pass new types
-
-    SUCCESS CRITERIA:
-    - All save functions accept new Pydantic models
-    - JSON columns serialize correctly
-    - Transactions work for batch operations
-    - Round-trip: save → load produces identical objects
-    - Performance: Acceptable vs raw SQL
-  status: not_started
+  description: "Replace direct SQL inserts/updates in sql_dumper.py with SQLAlchemy\n\
+    ORM operations using the new TicketORM models.\n\nCURRENT STATE:\n- sql_dumper.py\
+    \ uses raw SQL INSERT/UPDATE\n- Accepts old dataclass models\n- Manual JSON serialization\n\
+    \nCHANGES REQUIRED:\n\n1. USE REPOSITORY PATTERN:\n   Replace direct SQL with\
+    \ TicketRepository:\n\n   # OLD\n   def save_task(db_path: str, task: Task) ->\
+    \ None:\n       conn = get_connection(db_path)\n       conn.execute(\n       \
+    \    \"INSERT OR REPLACE INTO tasks (...) VALUES (...)\",\n           task_to_row(task)\n\
+    \       )\n\n   # NEW\n   def save_task(db_path: str, task: TaskTicket) -> None:\n\
+    \       repo = TicketRepository(get_session(db_path))\n       repo.save(task)\
+    \  # ORM handles serialization\n\n2. PYDANTIC → ORM CONVERSION:\n   Repository\
+    \ handles conversion via TicketORM.from_pydantic():\n\n   class TicketRepository:\n\
+    \       def save(self, ticket: Ticket) -> None:\n           orm_obj = TicketORM.from_pydantic(ticket)\n\
+    \           self.session.merge(orm_obj)\n           self.session.commit()\n\n\
+    3. JSON COLUMN SERIALIZATION:\n   ORM handles Python objects → JSON columns:\n\
+    \   - list[GitCommit] → commits_local_json\n   - list[Standard] → standards_local_json\n\
+    \   - list[DependencyRef] → depends_on_json\n\n4. HIERARCHY PRESERVATION:\n  \
+    \ When saving a ticket:\n   - Save parent_id reference\n   - Do NOT save computed\
+    \ hierarchy attributes\n   - Children are saved separately (not cascaded)\n\n\
+    5. TRANSACTION SUPPORT:\n   def save_sprint_with_tasks(sprint: SprintTicket) ->\
+    \ None:\n       with session.begin():\n           repo.save(sprint)\n        \
+    \   for task in sprint.get_children():\n               repo.save(task)\n     \
+    \  # All or nothing\n\nIMPLEMENTATION STEPS:\n\n1. Update save_task() to use TicketRepository\n\
+    2. Update save_sprint() to use TicketRepository\n3. Update save_track() to use\
+    \ TicketRepository\n4. Update save_roadmap() to use TicketRepository\n5. Add transaction\
+    \ support for batch saves\n6. Handle upsert logic (insert or update)\n7. Update\
+    \ all callers to pass new types\n\nSUCCESS CRITERIA:\n- All save functions accept\
+    \ new Pydantic models\n- JSON columns serialize correctly\n- Transactions work\
+    \ for batch operations\n- Round-trip: save → load produces identical objects\n\
+    - Performance: Acceptable vs raw SQL\n"
+  status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-04T00:00:00+00:00'
+  completed: '2025-12-04T23:54:57.947391+00:00'
   assigned_agent: backend-engineer
   priority: high
   phase_label: implementation
@@ -92,27 +49,49 @@ task:
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-8-task-006
+  - type: task
+    target_id: sqlite-backend-8-task-006
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-8-task-001
-  - sqlite-backend-8-task-002
-  - sqlite-backend-8-task-003
-  - sqlite-backend-8-task-004
+  - dependency_id: sqlite-backend-8-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T23:54:57.864942+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-8-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T23:54:57.864943+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-8-task-003
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T23:54:57.864943+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-8-task-004
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-04T23:54:57.864943+00:00'
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Updated vibey/roadmap/serialization/sql_dumper.py
-  - Transaction support for batch saves
-  - tests/roadmap/serialization/test_sql_dumper_orm.py
+  - type: code
+    paths:
+    - Updated vibey/roadmap/serialization/sql_dumper.py
+  - type: code
+    paths:
+    - Transaction support for batch saves
+  - type: code
+    paths:
+    - tests/roadmap/serialization/test_sql_dumper_orm.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      This task completes the ORM integration for persistence.
-
-      After this task, the full round-trip works:
-      YAML → Pydantic → SQLite → Pydantic → YAML
-
-      Key consideration: Performance of ORM vs raw SQL.
-      For bulk operations (rebuild entire database), may want
-      to keep raw SQL option available.

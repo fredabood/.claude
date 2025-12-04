@@ -437,8 +437,8 @@ class SprintTicketORM(TicketORM):
         orm_instance.ticket_type = "sprint"
         orm_instance.plan_file = ticket.plan_file
         orm_instance.goal = ticket.goal
-        if ticket.success_criteria:
-            orm_instance.success_criteria_json = json.dumps(ticket.success_criteria)
+        if ticket.success_criteria_text:
+            orm_instance.success_criteria_json = json.dumps(ticket.success_criteria_text)
         if ticket.development_gates:
             orm_instance.development_gates_json = json.dumps([
                 g.model_dump(mode='json') for g in ticket.development_gates
@@ -466,7 +466,7 @@ class SprintTicketORM(TicketORM):
             ticket_type=TicketType.SPRINT,
             plan_file=self.plan_file,
             goal=self.goal,
-            success_criteria=success_criteria,
+            success_criteria_text=success_criteria,
             development_gates=development_gates,
             criteria=[c.to_pydantic() for c in self.criteria],
         )

@@ -633,3 +633,251 @@ def save_audit_trail(
                 entry.get('commit'),
                 entry['source'],
             ))
+
+
+# =============================================================================
+# V2 TICKET DUMPERS (Unified Schema)
+# =============================================================================
+# These functions save Pydantic ticket models to the unified 'tickets' table
+# using SQLAlchemy ORM.
+
+from pathlib import Path
+from typing import Union
+
+from ..database.connection import session_scope, get_session
+from ..models.ticket.orm import (
+    TicketORM,
+    RoadmapTicketORM,
+    TrackTicketORM,
+    SprintTicketORM,
+    TaskTicketORM,
+    CriterionORM,
+)
+from ..models.ticket.domain import (
+    TaskTicket,
+    SprintTicket,
+    TrackTicket,
+    RoadmapTicket,
+)
+from ..models.ticket.ticket import Ticket
+
+
+def save_task_ticket(
+    task: TaskTicket,
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a TaskTicket to the unified tickets table.
+
+    Args:
+        task: TaskTicket Pydantic model to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        orm_task = TaskTicketORM.from_pydantic(task)
+        session.merge(orm_task)
+
+
+def save_sprint_ticket(
+    sprint: SprintTicket,
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a SprintTicket to the unified tickets table.
+
+    Args:
+        sprint: SprintTicket Pydantic model to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        orm_sprint = SprintTicketORM.from_pydantic(sprint)
+        session.merge(orm_sprint)
+
+
+def save_track_ticket(
+    track: TrackTicket,
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a TrackTicket to the unified tickets table.
+
+    Args:
+        track: TrackTicket Pydantic model to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        orm_track = TrackTicketORM.from_pydantic(track)
+        session.merge(orm_track)
+
+
+def save_roadmap_ticket(
+    roadmap: RoadmapTicket,
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a RoadmapTicket to the unified tickets table.
+
+    Args:
+        roadmap: RoadmapTicket Pydantic model to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        orm_roadmap = RoadmapTicketORM.from_pydantic(roadmap)
+        session.merge(orm_roadmap)
+
+
+def save_ticket(
+    ticket: Union[TaskTicket, SprintTicket, TrackTicket, RoadmapTicket],
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save any ticket type to the unified tickets table.
+
+    Dispatches to the appropriate save function based on ticket type.
+
+    Args:
+        ticket: Any Pydantic ticket model to save
+        db_path: Optional path to database file
+    """
+    if isinstance(ticket, TaskTicket):
+        save_task_ticket(ticket, db_path=db_path)
+    elif isinstance(ticket, SprintTicket):
+        save_sprint_ticket(ticket, db_path=db_path)
+    elif isinstance(ticket, TrackTicket):
+        save_track_ticket(ticket, db_path=db_path)
+    elif isinstance(ticket, RoadmapTicket):
+        save_roadmap_ticket(ticket, db_path=db_path)
+    else:
+        raise TypeError(f"Unknown ticket type: {type(ticket)}")
+
+
+def save_sprint_with_tasks(
+    sprint: SprintTicket,
+    tasks: List[TaskTicket],
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a sprint and its tasks in a single transaction.
+
+    All saves are atomic - either all succeed or all fail.
+
+    Args:
+        sprint: SprintTicket to save
+        tasks: List of TaskTickets to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        # Save sprint
+        orm_sprint = SprintTicketORM.from_pydantic(sprint)
+        session.merge(orm_sprint)
+
+        # Save all tasks
+        for task in tasks:
+            orm_task = TaskTicketORM.from_pydantic(task)
+            session.merge(orm_task)
+
+
+def save_track_with_sprints(
+    track: TrackTicket,
+    sprints: List[SprintTicket],
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a track and its sprints in a single transaction.
+
+    All saves are atomic - either all succeed or all fail.
+
+    Args:
+        track: TrackTicket to save
+        sprints: List of SprintTickets to save
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        # Save track
+        orm_track = TrackTicketORM.from_pydantic(track)
+        session.merge(orm_track)
+
+        # Save all sprints
+        for sprint in sprints:
+            orm_sprint = SprintTicketORM.from_pydantic(sprint)
+            session.merge(orm_sprint)
+
+
+def save_full_roadmap_tickets(
+    roadmap: RoadmapTicket,
+    tracks: List[TrackTicket],
+    sprints: List[SprintTicket],
+    tasks: List[TaskTicket],
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Save a complete roadmap hierarchy to the unified tickets table.
+
+    All saves are atomic - either all succeed or all fail.
+
+    Args:
+        roadmap: RoadmapTicket to save
+        tracks: List of all TrackTickets
+        sprints: List of all SprintTickets
+        tasks: List of all TaskTickets
+        db_path: Optional path to database file
+    """
+    with session_scope(db_path=db_path) as session:
+        # Save in order: roadmap -> tracks -> sprints -> tasks
+        orm_roadmap = RoadmapTicketORM.from_pydantic(roadmap)
+        session.merge(orm_roadmap)
+
+        for track in tracks:
+            orm_track = TrackTicketORM.from_pydantic(track)
+            session.merge(orm_track)
+
+        for sprint in sprints:
+            orm_sprint = SprintTicketORM.from_pydantic(sprint)
+            session.merge(orm_sprint)
+
+        for task in tasks:
+            orm_task = TaskTicketORM.from_pydantic(task)
+            session.merge(orm_task)
+
+
+def delete_ticket(
+    ticket_id: str,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a ticket from the unified tickets table.
+
+    Args:
+        ticket_id: ID of the ticket to delete
+        db_path: Optional path to database file
+
+    Returns:
+        True if ticket was deleted, False if not found
+    """
+    with session_scope(db_path=db_path) as session:
+        orm_ticket = session.get(TicketORM, ticket_id)
+        if orm_ticket is None:
+            return False
+        session.delete(orm_ticket)
+        return True
+
+
+def delete_tickets_by_parent(
+    parent_id: str,
+    db_path: Optional[Path] = None,
+) -> int:
+    """
+    Delete all child tickets of a parent.
+
+    Args:
+        parent_id: ID of the parent ticket
+        db_path: Optional path to database file
+
+    Returns:
+        Number of tickets deleted
+    """
+    with session_scope(db_path=db_path) as session:
+        result = session.query(TicketORM).filter(
+            TicketORM.parent_id == parent_id
+        ).delete()
+        return result

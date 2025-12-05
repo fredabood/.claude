@@ -3112,3 +3112,75 @@ def _migrate_entity_to_v2(entity_type: str, data: dict) -> dict:
             ]
 
     return result
+
+
+# ============================================================================
+# Documentation Migration Commands
+# ============================================================================
+
+def migrate_docs_cmd(
+    dry_run: bool = False,
+    path: Optional[str] = None,
+    verbose: bool = False,
+) -> int:
+    """
+    Migrate documentation fields from YAML to markdown files.
+
+    Migrates:
+    - version_strategy → VERSIONING_POLICY.md (in roadmap dir)
+    - version_history → CHANGELOG.md (in repo root)
+    - metadata.notes → NOTES.md (per entity directory)
+
+    Benefits of markdown:
+    - Rich formatting (headings, tables, code blocks)
+    - Git-diffable content
+    - Searchable with grep/ripgrep
+    - Human readable without tooling
+    """
+    from vibey.roadmap.serialization.markdown_migration import (
+        migrate_roadmap_docs,
+        format_migration_report,
+    )
+
+    root_dir = Path.cwd()
+    roadmap_dir = Path(path) if path else root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_dir.exists():
+        print(f"❌ Roadmap directory not found: {roadmap_dir}")
+        return 1
+
+    print("📝 Migrating documentation fields to markdown files...")
+    print(f"   Roadmap directory: {roadmap_dir}")
+    print(f"   Repository root:   {root_dir}")
+    if dry_run:
+        print("   Mode:              DRY RUN (no files will be created)")
+    print()
+
+    # Run migration
+    result = migrate_roadmap_docs(
+        roadmap_dir=roadmap_dir,
+        repo_root=root_dir,
+        dry_run=dry_run,
+        verbose=verbose,
+    )
+
+    # Print report
+    report = format_migration_report(result, verbose=verbose)
+    print(report)
+
+    if result.total_errors > 0:
+        print("\n❌ Migration completed with errors")
+        return 1
+    elif result.total_migrated > 0:
+        if dry_run:
+            print("\n✅ Dry run complete. Run without --dry-run to apply changes.")
+        else:
+            print("\n✅ Migration complete!")
+            print("\nNext steps:")
+            print("  1. Review the created markdown files")
+            print("  2. git add the new .md files")
+            print("  3. Commit with: git commit -m 'docs: Migrate YAML docs to markdown'")
+        return 0
+    else:
+        print("\n✅ Nothing to migrate (files already exist or no source data)")
+        return 0

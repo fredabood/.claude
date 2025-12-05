@@ -2937,6 +2937,48 @@ def migrate_format(ctx, dry_run: bool, backup: bool, path: Optional[str], force:
     sys.exit(exit_code)
 
 
+@roadmap.command('migrate-docs')
+@click.option('--dry-run', is_flag=True, help='Show what would be created without making changes')
+@click.option('--path', '-p', type=click.Path(exists=True), help='Path to roadmap directory')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed progress')
+@click.pass_context
+def migrate_docs(ctx, dry_run: bool, path: Optional[str], verbose: bool):
+    """Migrate documentation fields from YAML to markdown files.
+
+    This command migrates documentation-like fields from YAML to markdown:
+
+    \b
+    - version_strategy → VERSIONING_POLICY.md (roadmap directory)
+    - version_history → CHANGELOG.md (repository root)
+    - metadata.notes → NOTES.md (per-entity directories)
+
+    Benefits of markdown:
+    - Rich formatting (headings, tables, code blocks)
+    - Git-diffable content
+    - Searchable with grep/ripgrep
+    - Human readable without tooling
+
+    Examples:
+
+      # Preview changes
+      vibey roadmap migrate-docs --dry-run
+
+      # Run migration
+      vibey roadmap migrate-docs
+
+      # Verbose output
+      vibey roadmap migrate-docs --verbose
+    """
+    from vibey.cli.commands import migrate_docs_cmd
+
+    exit_code = migrate_docs_cmd(
+        dry_run=dry_run,
+        path=path,
+        verbose=verbose,
+    )
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

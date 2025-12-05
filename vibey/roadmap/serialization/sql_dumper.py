@@ -399,24 +399,30 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                 'duration_hours': task.metadata.duration_hours,
             })
 
-            # Encode gate_info if present
+            # Encode gate_info if present (handle both dict and object)
             gate_info_json = None
             if task.gate_info:
-                gate_info_json = json.dumps({
-                    'blocks_status': task.gate_info.blocks_status,
-                    'threshold': task.gate_info.threshold,
-                    'is_blocking': task.gate_info.is_blocking,
-                    'score': task.gate_info.score,
-                })
+                if isinstance(task.gate_info, dict):
+                    gate_info_json = json.dumps(task.gate_info)
+                else:
+                    gate_info_json = json.dumps({
+                        'blocks_status': task.gate_info.blocks_status,
+                        'threshold': task.gate_info.threshold,
+                        'is_blocking': task.gate_info.is_blocking,
+                        'score': getattr(task.gate_info, 'score', None),
+                    })
 
-            # Encode audit_results if present
+            # Encode audit_results if present (handle both dict and object)
             audit_results_json = None
             if task.audit_results:
-                audit_results_json = json.dumps({
-                    'issues_found': task.audit_results.issues_found,
-                    'issues_fixed': task.audit_results.issues_fixed,
-                    'recommendations': task.audit_results.recommendations,
-                })
+                if isinstance(task.audit_results, dict):
+                    audit_results_json = json.dumps(task.audit_results)
+                else:
+                    audit_results_json = json.dumps({
+                        'issues_found': task.audit_results.issues_found,
+                        'issues_fixed': task.audit_results.issues_fixed,
+                        'recommendations': task.audit_results.recommendations,
+                    })
 
             # Serialize authored data (source of truth - aggregates up to sprints/tracks)
             commits_json = _serialize_commits(task.commits)

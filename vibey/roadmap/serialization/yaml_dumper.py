@@ -72,14 +72,17 @@ def _save_task_hierarchical(task: Task, sprint_dir: Path):
         'complexity': task.complexity.value,
     }
 
-    # Add gate_info if present
+    # Add gate_info if present (handle both dict and object)
     if task.gate_info:
-        task_data['gate_info'] = {
-            'blocks_status': task.gate_info.blocks_status,
-            'threshold': task.gate_info.threshold,
-            'is_blocking': task.gate_info.is_blocking,
-            'score': task.gate_info.score,
-        }
+        if isinstance(task.gate_info, dict):
+            task_data['gate_info'] = task.gate_info
+        else:
+            task_data['gate_info'] = {
+                'blocks_status': task.gate_info.blocks_status,
+                'threshold': task.gate_info.threshold,
+                'is_blocking': task.gate_info.is_blocking,
+                'score': getattr(task.gate_info, 'score', None),
+            }
     else:
         task_data['gate_info'] = None
 
@@ -498,12 +501,12 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                     'title': t.title,
                     'status': t.status.value,
                     'task_type': t.task_type.value,
-                    'gate_info': {
+                    'gate_info': t.gate_info if isinstance(t.gate_info, dict) else ({
                         'blocks_status': t.gate_info.blocks_status,
                         'threshold': t.gate_info.threshold,
                         'is_blocking': t.gate_info.is_blocking,
-                        'score': t.gate_info.score,
-                    } if t.gate_info else None,
+                        'score': getattr(t.gate_info, 'score', None),
+                    } if t.gate_info else None),
                 }
                 for t in sprint.tasks
             ],
@@ -659,14 +662,17 @@ def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
             'complexity': task.complexity.value,
         }
 
-        # Add gate_info if present
+        # Add gate_info if present (handle both dict and object)
         if task.gate_info:
-            task_data['gate_info'] = {
-                'blocks_status': task.gate_info.blocks_status,
-                'threshold': task.gate_info.threshold,
-                'is_blocking': task.gate_info.is_blocking,
-                'score': task.gate_info.score,
-            }
+            if isinstance(task.gate_info, dict):
+                task_data['gate_info'] = task.gate_info
+            else:
+                task_data['gate_info'] = {
+                    'blocks_status': task.gate_info.blocks_status,
+                    'threshold': task.gate_info.threshold,
+                    'is_blocking': task.gate_info.is_blocking,
+                    'score': getattr(task.gate_info, 'score', None),
+                }
         else:
             task_data['gate_info'] = None
 
@@ -982,24 +988,31 @@ def dump_task_ticket(task: "TaskTicket") -> dict:
         'phase_label': task.phase_label,
     }
 
-    # Add gate_info if present
+    # Add gate_info if present (handle both dict and object)
     if task.gate_info:
-        task_data['gate_info'] = {
-            'is_blocking': task.gate_info.is_blocking,
-            'threshold': task.gate_info.threshold,
-            'score': task.gate_info.score,
-            'blocks_status': task.gate_info.blocks_status.value if task.gate_info.blocks_status else None,
-        }
+        if isinstance(task.gate_info, dict):
+            task_data['gate_info'] = task.gate_info
+        else:
+            blocks_status = task.gate_info.blocks_status
+            task_data['gate_info'] = {
+                'is_blocking': task.gate_info.is_blocking,
+                'threshold': task.gate_info.threshold,
+                'score': getattr(task.gate_info, 'score', None),
+                'blocks_status': blocks_status.value if hasattr(blocks_status, 'value') else blocks_status,
+            }
     else:
         task_data['gate_info'] = None
 
     # Add audit_results if present
     if task.audit_results:
-        task_data['audit_results'] = {
-            'issues_found': task.audit_results.issues_found,
-            'issues_fixed': task.audit_results.issues_fixed,
-            'recommendations': task.audit_results.recommendations,
-        }
+        if isinstance(task.audit_results, dict):
+            task_data['audit_results'] = task.audit_results
+        else:
+            task_data['audit_results'] = {
+                'issues_found': task.audit_results.issues_found,
+                'issues_fixed': task.audit_results.issues_fixed,
+                'recommendations': task.audit_results.recommendations,
+            }
     else:
         task_data['audit_results'] = None
 

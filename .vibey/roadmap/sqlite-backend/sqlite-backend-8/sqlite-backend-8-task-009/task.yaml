@@ -160,11 +160,11 @@ task:
     - Optional FileExistsTarget criteria added for doc tracking
     - CLI migrate-docs command works
     - Full test coverage
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-11-30T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-04T00:00:00+00:00'
+  completed: '2025-12-04T23:59:00+00:00'
   assigned_agent: backend-engineer
   priority: medium
   phase_label: gap-remediation

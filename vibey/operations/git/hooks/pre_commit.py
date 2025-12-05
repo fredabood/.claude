@@ -47,6 +47,7 @@ class HookConfig:
     yaml_integrity: Dict = None
     task_status: Dict = None
     cli_usage: Dict = None
+    completion_verification: Dict = None
 
     def __post_init__(self):
         """Set defaults for rule configs."""
@@ -56,6 +57,8 @@ class HookConfig:
             self.task_status = {"enabled": True, "mode": None}
         if self.cli_usage is None:
             self.cli_usage = {"enabled": False, "mode": None}
+        if self.completion_verification is None:
+            self.completion_verification = {"enabled": True, "mode": "blocking"}
 
 
 class PreCommitHook:
@@ -292,6 +295,94 @@ class PreCommitHook:
                         suggestion=f"Consider using CLI: vibey roadmap update {item_type} {item_id} ...",
                     ))
 
+    def _check_completion_verification(self) -> None:
+        """
+        Verify that items being marked as completed meet all completion criteria.
+
+        Uses the unified ticket model's can_transition_to() validation to ensure
+        that tasks, sprints, and tracks meet their completion requirements before
+        allowing the commit.
+        """
+        if not self.config.completion_verification.get("enabled", True):
+            return
+
+        try:
+            from vibey.operations.roadmap.query import (
+                load_task_ticket,
+                load_sprint_ticket,
+                load_track_ticket,
+            )
+            from vibey.roadmap.models.ticket import TicketStatus
+        except ImportError:
+            # Ticket models not available, skip verification
+            return
+
+        staged_files = self._get_staged_files()
+
+        for file in staged_files:
+            if not file.startswith(".vibey/roadmap/") or not file.endswith(".yaml"):
+                continue
+
+            # Check if this file contains a status change to "completed"
+            result = self._run_git("diff", "--cached", file)
+            if result.returncode != 0:
+                continue
+
+            diff = result.stdout
+
+            # Look for status being changed to completed
+            if "+  status: completed" not in diff and "+status: completed" not in diff:
+                continue
+
+            # Determine item type and ID
+            if file.endswith("/task.yaml"):
+                item_type = "task"
+                item_id = file.split("/")[-2]
+            elif file.endswith("/sprint.yaml"):
+                item_type = "sprint"
+                item_id = file.split("/")[-2]
+            elif file.endswith("/track.yaml"):
+                item_type = "track"
+                item_id = file.split("/")[-2]
+            else:
+                continue
+
+            # Load the ticket and check if it can be completed
+            try:
+                if item_type == "task":
+                    ticket = load_task_ticket(self.repo_path, item_id)
+                elif item_type == "sprint":
+                    ticket = load_sprint_ticket(self.repo_path, item_id)
+                elif item_type == "track":
+                    ticket = load_track_ticket(self.repo_path, item_id)
+                else:
+                    continue
+
+                # Check if can transition to completed
+                can_complete, blockers = ticket.can_transition_to(TicketStatus.COMPLETED)
+
+                if not can_complete and blockers:
+                    # Determine severity based on mode
+                    mode = self._get_rule_mode("completion_verification")
+                    severity = "error" if mode == "blocking" else "warning"
+
+                    self.issues.append(ValidationIssue(
+                        severity=severity,
+                        rule="completion_verification",
+                        message=f"Cannot complete {item_type} '{item_id}': {', '.join(blockers[:3])}",
+                        file=file,
+                        suggestion=f"Resolve blockers before marking as completed",
+                    ))
+
+            except Exception as e:
+                # If we can't load the ticket, add a warning but don't block
+                self.issues.append(ValidationIssue(
+                    severity="warning",
+                    rule="completion_verification",
+                    message=f"Could not verify completion criteria for {item_id}: {str(e)[:50]}",
+                    file=file,
+                ))
+
     def _get_rule_mode(self, rule_name: str) -> str:
         """
         Get effective enforcement mode for a rule.
@@ -472,6 +563,7 @@ class PreCommitHook:
         # Run validations
         self._validate_roadmap_files()
         self._check_cli_usage()
+        self._check_completion_verification()
 
         # Determine outcome
         should_block = self._should_block(self.issues)

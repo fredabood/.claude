@@ -5,12 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build Computed DB from task files
-  description: null
-  status: not_started
+  description: |
+    Created vibey/roadmap/database/integrity_audit.py with:
+    - count_files_in_directory(): Walks filesystem counting actual task.yaml files
+    - extract_declared_progress(): Extracts declared counters from YAML files
+    - audit_discrepancies(): Compares computed vs declared values
+    - build_computed_database(): Creates SQLite DB with computed values
+    - run_full_audit(): Orchestrates full integrity audit
+    Initial audit found 2 discrepancies in sqlite-backend track.
+  status: completed
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-05T07:25:00.000000+00:00'
+  completed: '2025-12-05T07:45:00.000000+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

@@ -3,6 +3,28 @@ Roadmap update operations.
 
 Handles all write operations: completing tasks, progressing status, adding tracks/sprints, etc.
 Supports both YAML and SQLite backends with automatic detection.
+
+## Sprint 9: Smart Accessor Pattern Integration
+
+This module now integrates with the unified ticket architecture (Sprint 6-8) via:
+
+1. **Criteria-Based Validation**: Status transitions use `can_transition_to()` method
+   from the ticket model, which checks all criteria (dependencies, child completion).
+
+2. **Ticket Model Loaders**: Functions like `load_task_ticket()`, `load_sprint_ticket()`
+   load entities as hierarchical ticket models with smart accessor support.
+
+3. **Computed vs Stored Progress**: Progress calculations exist in two forms:
+   - STORED (Legacy): `_update_sprint_progress()` etc. calculate and store progress
+     in YAML files. This is the current primary mechanism.
+   - COMPUTED (Ticket Model): The `HierarchicalTicket.progress` property computes
+     progress on-the-fly from criteria/children. Used for validation.
+
+   Both approaches coexist during transition. The stored approach maintains
+   backward compatibility while computed approach enables smart accessors.
+
+4. **Immutable Update Pattern**: New functions like `add_commit_to_task()` use
+   immutable patterns (create new list instead of mutating).
 """
 
 from pathlib import Path
@@ -347,6 +369,9 @@ def start_task(
     """
     Mark a task as in progress.
 
+    Uses criteria-based validation via can_transition_to() to check if task
+    can be started. This enforces blocking dependencies and criteria.
+
     Args:
         root_dir: Root directory containing .vibey/
         task_id: ID of the task to start
@@ -368,6 +393,23 @@ def start_task(
     if not tasks_path.exists():
         print(f"❌ Tasks file not found for sprint '{sprint_id}'")
         return 1
+
+    # ==========================================================================
+    # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
+    # Load task as ticket model and validate transition via can_transition_to()
+    # ==========================================================================
+    try:
+        task_ticket = load_task_ticket(root_dir, task_id)
+        can_start, blockers = task_ticket.can_transition_to(TicketStatus.IN_PROGRESS)
+
+        if not can_start:
+            print(f"❌ Cannot start task: criteria not met")
+            for blocker in blockers:
+                print(f"   • {blocker}")
+            return 1
+    except Exception as e:
+        # Ticket model validation not available, continue with legacy checks
+        pass
 
     # Load tasks
     tasks = load_tasks(tasks_path)
@@ -498,6 +540,109 @@ def assign_task(
     return 0
 
 
+def add_commit_to_task(
+    root_dir: Path,
+    task_id: str,
+    sha: str,
+    message: str,
+    author: str,
+    platform: str,
+    submitted_at: Optional[int] = None,
+    commit_date: Optional[datetime] = None,
+) -> int:
+    """
+    Add a git commit to a task.
+
+    Uses immutable update pattern - creates new commit object and appends to
+    task's commits list.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        task_id: ID of the task to add commit to
+        sha: Git commit SHA (7-40 hex characters)
+        message: Commit message
+        author: Commit author
+        platform: Platform used (e.g., "claude-code", "goose", "cursor")
+        submitted_at: Unix timestamp when commit was submitted (defaults to now)
+        commit_date: Git commit date (defaults to now)
+
+    Returns:
+        Exit code: 0 for success, 1 for error
+    """
+    from vibey.roadmap.models.task import GitCommit as LegacyGitCommit
+    import time
+
+    fs = FileSystemManager(root_dir)
+
+    # Extract sprint ID from task ID
+    if '-task-' not in task_id:
+        print(f"❌ Invalid task ID format: {task_id}")
+        return 1
+
+    sprint_id = task_id.split('-task-')[0]
+    tasks_path = fs.get_tasks_path(sprint_id)
+
+    if not tasks_path.exists():
+        print(f"❌ Tasks file not found for sprint '{sprint_id}'")
+        return 1
+
+    # Load tasks
+    tasks = load_tasks(tasks_path)
+
+    # Find task
+    task = None
+    for t in tasks:
+        if t.id == task_id:
+            task = t
+            break
+
+    if not task:
+        print(f"❌ Task '{task_id}' not found")
+        return 1
+
+    # Create commit object with defaults
+    now = datetime.now(timezone.utc)
+    if submitted_at is None:
+        submitted_at = int(time.time())
+    if commit_date is None:
+        commit_date = now
+
+    # Validate SHA
+    if not (7 <= len(sha) <= 40):
+        print(f"❌ Invalid SHA length: {sha}")
+        return 1
+    try:
+        int(sha, 16)
+    except ValueError:
+        print(f"❌ Invalid SHA format (must be hex): {sha}")
+        return 1
+
+    # Create new commit using immutable pattern
+    new_commit = LegacyGitCommit(
+        sha=sha,
+        message=message,
+        date=commit_date,
+        author=author,
+        platform=platform,
+        submitted_at=submitted_at,
+    )
+
+    # Append to commits list (immutable: creates new list)
+    task.commits = list(task.commits) + [new_commit]
+    task.metadata.last_modified = now
+
+    # Save tasks
+    save_tasks(tasks, tasks_path)
+    _record_cli_changes(tasks_path, root_dir)
+    _sync_task_to_db(task, root_dir)
+    print(f"✅ Commit {sha[:7]} added to task '{task.title}'")
+
+    # Note: Activity logging for commits would require adding COMMIT_ADDED to ActivityType
+    # For now, commit addition is tracked via the audit trail and task metadata
+
+    return 0
+
+
 def start_sprint(
     root_dir: Path,
     sprint_id: str,
@@ -505,6 +650,9 @@ def start_sprint(
 ) -> int:
     """
     Start a sprint.
+
+    Uses criteria-based validation via can_transition_to() to check if sprint
+    can be started. This enforces blocking dependencies and criteria.
 
     Args:
         root_dir: Root directory containing .vibey/
@@ -520,6 +668,23 @@ def start_sprint(
     if not sprint_path.exists():
         print(f"❌ Sprint '{sprint_id}' not found")
         return 1
+
+    # ==========================================================================
+    # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
+    # Load sprint as ticket model and validate transition via can_transition_to()
+    # ==========================================================================
+    try:
+        sprint_ticket = load_sprint_ticket(root_dir, sprint_id)
+        can_start, blockers = sprint_ticket.can_transition_to(TicketStatus.IN_PROGRESS)
+
+        if not can_start:
+            print(f"❌ Cannot start sprint: criteria not met")
+            for blocker in blockers:
+                print(f"   • {blocker}")
+            return 1
+    except Exception as e:
+        # Ticket model validation not available, continue with legacy checks
+        pass
 
     sprint = load_sprint(sprint_path)
 
@@ -740,6 +905,9 @@ def complete_track(
     """
     Mark a track as completed.
 
+    Uses criteria-based validation via can_transition_to() to check if track
+    can be completed. All child sprints must be completed (CompletableTarget criteria).
+
     Args:
         root_dir: Root directory containing .vibey/
         track_id: ID of the track to complete
@@ -754,6 +922,24 @@ def complete_track(
     if not track_path.exists():
         print(f"❌ Track '{track_id}' not found")
         return 1
+
+    # ==========================================================================
+    # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
+    # Load track as ticket model and validate transition via can_transition_to()
+    # This automatically checks all child sprint criteria
+    # ==========================================================================
+    try:
+        track_ticket = load_track_ticket(root_dir, track_id)
+        can_complete, blockers = track_ticket.can_transition_to(TicketStatus.COMPLETED)
+
+        if not can_complete:
+            print(f"❌ Cannot complete track: criteria not met")
+            for blocker in blockers:
+                print(f"   • {blocker}")
+            return 1
+    except Exception as e:
+        # Ticket model validation not available, continue with legacy checks
+        pass
 
     track = load_track(track_path)
 

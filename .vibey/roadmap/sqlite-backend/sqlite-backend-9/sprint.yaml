@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 8
-    development_tasks_completed: 3
+    development_tasks_completed: 4
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 8
-    tasks_completed: 3
-    completion_percent: 38.0
+    tasks_completed: 4
+    completion_percent: 50
   tasks:
   - id: sqlite-backend-9-task-001
     title: Update query.py with hierarchy-aware queries

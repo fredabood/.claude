@@ -3,32 +3,30 @@ task:
   sprint_id: git-integration-1
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Implement state reconstruction queries
+  task_type: development
+  title: Implement state reconstruction queries
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.412776+00:00'
-  completed: '2025-11-27T11:04:09.412776+00:00'
-  description: "Implement commands for reconstructing roadmap state from Git history:\n\
-    \nCOMMANDS (from Sprint 0 design):\n1. vibey git state-at <ref>\n   Show roadmap\
-    \ state at specific commit/tag/date\n\n2. vibey git diff <ref1> <ref2>\n   Compare\
-    \ roadmap states between two refs\n\n3. vibey git history <task-id>\n   Show complete\
-    \ change history for a task\n\n4. vibey git progress <sprint-id>\n   Show sprint\
-    \ progress over time (for burndown charts)\n\n5. vibey git rollback <ref>\n  \
-    \ Restore roadmap YAML files to state at ref\n\nIMPLEMENTATION (from 006-state-reconstruction.md):\n\
-    - Use git show/checkout to read YAML at specific commits\n- Parse YAML changes\
-    \ to derive history\n- Support date-based queries (convert date to commit)\n-\
-    \ Cache frequently accessed states for performance\n- Provide both summary and\
-    \ detailed output formats\n\nFEATURES:\n- Point-in-time state queries\n- Attribution\
-    \ (who changed what, when)\n- Progress history for sprint burndown\n- Safe rollback\
-    \ with dry-run mode\n"
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

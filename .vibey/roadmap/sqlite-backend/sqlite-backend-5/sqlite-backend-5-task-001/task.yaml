@@ -5,65 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add JSON columns for human-provided data
-  description: |
-    Add JSON columns to tasks, sprints, and tracks tables for human-provided data
-    that cannot be computed.
-
-    CURRENT STATE:
-    - 16 columns identified as truly missing (not computable)
-    - Data exists in YAML but not preserved in computed database
-    - Key data loss: deliverables (356 tasks), commits (277), dependencies (203)
-
-    COLUMNS TO ADD:
-
-    1. TASKS TABLE (6 columns):
-       - commits TEXT (JSON array of commit SHAs)
-       - deliverables TEXT (JSON array of deliverable descriptions)
-       - dependencies TEXT (JSON array of external dependency descriptions)
-       - estimated_duration TEXT (human-provided estimate)
-       - blocks TEXT (JSON array - for consistency, though entity_blocks exists)
-       - blocked_by TEXT (JSON array - for consistency)
-
-    2. SPRINTS TABLE (6 columns):
-       - commits TEXT (JSON array)
-       - deliverables TEXT (JSON array)
-       - standards TEXT (JSON array)
-       - development_gates TEXT (JSON array of gate definitions)
-       - tasks TEXT (JSON array of task summaries - for embedded data)
-       - blocks TEXT, blocked_by TEXT, depends_on TEXT, depended_on_by TEXT
-
-    3. TRACKS TABLE (7 columns):
-       - commits TEXT (JSON array)
-       - deliverables TEXT (JSON array)
-       - standards TEXT (JSON array)
-       - strategic_value TEXT (JSON array)
-       - assigned_agents TEXT (JSON array)
-       - dependencies TEXT (JSON array)
-       - blocks TEXT, blocked_by TEXT, depends_on TEXT, depended_on_by TEXT
-
-    IMPLEMENTATION:
-    1. Add ALTER TABLE statements to schema.sql (or migration script)
-    2. Update sql_dumper.py to save these JSON fields:
-       - save_task(): Add commits, deliverables, dependencies, estimated_duration
-       - save_sprint(): Add commits, deliverables, standards, development_gates
-       - save_track(): Add commits, deliverables, standards, strategic_value, assigned_agents
-    3. Update sql_loader.py to load these fields back into models
-    4. Regenerate computed database and verify data preserved
-
-    SUCCESS CRITERIA:
-    - All 277 tasks with commits have data preserved
-    - All 356 tasks with deliverables have data preserved
-    - All 203 tasks with dependencies have data preserved
-    - All 88 tasks with estimated_duration have data preserved
+  description: null
   status: completed
   blocked: false
   created: '2025-11-28T18:30:00+00:00'
-  started: '2025-11-28T18:30:00+00:00'
-  completed: '2025-11-28T18:45:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-28T18:30:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 1500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -71,19 +22,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - Schema migration adding JSON columns
-  - Updated sql_dumper.py with JSON field serialization
-  - Updated sql_loader.py with JSON field deserialization
-  - Regenerated computed.db with all human-provided data
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-28T18:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      JSON columns are the right choice here because:
-      1. Data is authored, not computed
-      2. Rarely queried individually (no need for normalization)
-      3. Preserves exact YAML structure
-      4. Simple to serialize/deserialize

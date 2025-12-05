@@ -5,12 +5,12 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update /vibey code Dashboard
-  description: Modify the sprint execution dashboard to show roadmap-based progress
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348407+00:00'
-  started: '2025-11-27T11:04:09.659216+00:00'
-  completed: '2025-11-27T11:04:09.659216+00:00'
+  started: null
+  completed: '2025-11-08T18:34:27.348407+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -25,28 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: 48017fc
-    message: 'feat: Update /vibey code dashboard with roadmap integration'
-    date: '2025-11-08T13:36:20-05:00'
-  - hash: 70158ec
-    message: 'feat: Update /vibey code dashboard to use roadmap (Task 1.3 WIP)'
-    date: '2025-11-08T18:19:50+00:00'
-  - hash: 5c0ed5c
-    message: 'feat: Complete /vibey code roadmap integration (Task 1.3)'
-    date: '2025-11-08T18:20:00+00:00'
-  - hash: b180949
-    message: 'feat: Update /vibey code to track hierarchical roadmap progress'
-    date: '2025-11-10T19:30:00+00:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Dashboard functionality migrated to vibey CLI
+  commits: []
   metadata:
-    superseded_by: vibey roadmap status and vibey roadmap show commands
-    architectural_note: 'Dashboard replaced by: vibey roadmap status (text) and vibey
-      roadmap show --json (programmatic)'
-    last_updated: '2025-11-08T13:35:02.322398+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

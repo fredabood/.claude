@@ -5,38 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Review and document enforcement mode options
-  description: 'Review the four enforcement modes (off, advisory, blocking, audit)
-    and
-
-    document recommendations for the Vibey repository specifically.
-
-
-    GOALS:
-
-    - Understand tradeoffs for each mode
-
-    - Recommend mode for Vibey dogfooding
-
-    - Document configuration examples
-
-    - Define adoption timeline
-
-
-    DELIVERABLES:
-
-    - Enforcement mode comparison for Vibey repo
-
-    - Recommended configuration
-
-    - Adoption strategy document
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.384274+00:00'
-  completed: '2025-11-27T11:04:09.384274+00:00'
-  assigned_agent: architecture-agent
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -52,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:27:34.365351+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

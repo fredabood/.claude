@@ -1,32 +1,32 @@
 task:
   id: amazonq-port-1-task-005
-  roadmap_id: vibey-framework-v2
-  track_id: amazonq-port
   sprint_id: amazonq-port-1
-  name: Handle AWS authentication integration
+  track_id: amazonq-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Handle AWS authentication integration
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: infrastructure-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.263284+00:00'
-  completed: '2025-11-27T11:04:09.263284+00:00'
-  description: 'Implement AWS IAM/SSO authentication integration for MCP server to
-    work
-
-    securely with Amazon Q Developer in enterprise environments.
-
-    '
-  acceptance_criteria:
-  - AWS credential detection and validation
-  - Support for AWS IAM and SSO authentication
-  - Environment variable configuration for AWS auth
-  - Documentation of authentication setup process
-  dependencies:
-  - amazonq-port-1-task-003
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

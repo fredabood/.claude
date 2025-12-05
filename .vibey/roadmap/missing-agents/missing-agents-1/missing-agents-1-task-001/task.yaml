@@ -1,91 +1,32 @@
 task:
   id: missing-agents-1-task-001
-  title: Implement test-engineer agent
   sprint_id: missing-agents-1
   track_id: missing-agents
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Implement test-engineer agent
+  description: null
   status: completed
   blocked: false
-  description: 'Create framework/agents/quality/test-engineer.md (NEW agent)
-
-    PRIORITY: CRITICAL - referenced in 67 files
-
-
-    Responsibilities:
-
-    - Write unit tests (pytest, jest, etc.)
-
-    - Write integration tests
-
-    - Write E2E tests
-
-    - Calculate test coverage
-
-    - Identify untested code paths
-
-    - Create test fixtures and mocks
-
-    - Review test quality
-
-
-    Trigger Patterns:
-
-    - "Write tests for..."
-
-    - "Increase test coverage"
-
-    - "Add unit tests"
-
-    - "Create integration tests"
-
-
-    Inputs:
-
-    - Code to test
-
-    - Test framework (pytest, jest, mocha, etc.)
-
-    - Coverage target
-
-
-    Outputs:
-
-    - Test files with assertions
-
-    - Test fixtures
-
-    - Coverage report
-
-    - Handoff to code reviewer
-
-
-    Quality Criteria:
-
-    - Tests pass
-
-    - Coverage meets threshold
-
-    - Tests are maintainable
-
-    - Edge cases covered
-
-
-    Template: Based on existing quality agents (security-reviewer, performance-engineer)
-
-    '
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-11T05:30:00+00:00'
-  completed: '2025-11-11T17:33:23+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  complexity: high
-  estimated_tokens: 20000
-  actual_tokens: 19500
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  commits:
-  - hash: bced93d0b99aeb8699135524eab31377ce03e009
-    date: '2025-11-11T17:33:23+00:00'
-    message: 'feat: Implement missing agents - close 38% agent gap (6 new + 2 enhanced)'
-  deliverables:
-  - framework/agents/quality/test-engineer.md (677 lines, 17KB)
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

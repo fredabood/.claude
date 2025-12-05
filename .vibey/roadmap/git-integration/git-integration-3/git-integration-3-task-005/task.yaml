@@ -5,22 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement quality gate CI integration
-  description: "Connect quality gates to CI/CD checks:\n\nQUALITY GATE → CI CHECK\
-    \ MAPPING:\n- Test Coverage gate → coverage CI job\n- Test Pass Rate gate → test\
-    \ CI job\n- Documentation gate → docs CI job\n- Custom gates → configurable job\
-    \ mapping\n\nIMPLEMENTATION:\n- vibey git ci-status command\n  Report quality\
-    \ gate status for CI\n\n- GitHub Actions integration\n  Output gate status as\
-    \ check annotations\n\n- GitLab CI integration\n  Output gate status in job results\n\
-    \nFEATURES:\n- Block merge until gates pass (configurable)\n- Auto-update gate\
-    \ scores from CI results\n- Gate status in PR description\n\nCONFIGURATION:\n\
-    - Map gate names to CI job names\n- Threshold overrides per branch\n- Required\
-    \ vs optional gates\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.390784+00:00'
-  completed: '2025-11-27T11:04:09.390784+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -36,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:04:47.373889+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

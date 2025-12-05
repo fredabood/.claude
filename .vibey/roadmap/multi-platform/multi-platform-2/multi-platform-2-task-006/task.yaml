@@ -5,19 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Test Goose adapter
-  description: Validate Goose adapter with real config, verify .goosehints generation
-    and recipes conversion
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.282614+00:00'
-  completed: '2025-11-27T11:04:09.282614+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T20:30:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: 'Sprint 2: Design Adapter Pattern & Interface'
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
@@ -25,18 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Goose adapter deployment tests
-  - .goosehints validation
-  - Recipes conversion verification
-  - Warnings for unsupported features
-  commits:
-  - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
-    date: '2025-11-10T20:48:19-05:00'
-    message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
-    note: Shared deliverable with directory-migration-3 Task 006
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-15T16:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    cross_reference: directory-migration-3-task-006

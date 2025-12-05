@@ -5,29 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix quality gate scores
-  description: Update gates from not_run to passed with actual scores
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
   completed: null
-  assigned_agent: coordinator
+  assigned_agent: null
   priority: high
-  phase_label: remediation
-  estimated_tokens: 500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T20:51:06.889497+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: 'VERIFIED 2025-11-26: Quality gates in claude-port track.yaml show status
-      ''passed'' with actual scores (100, 97, 75, 85). Gates are properly updated,
-      not ''not_run''. Keeping not_started - may need to verify if scores are accurate.'

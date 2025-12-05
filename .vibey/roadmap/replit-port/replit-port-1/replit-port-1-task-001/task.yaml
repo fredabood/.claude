@@ -1,61 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-1
   id: replit-port-1-task-001
-  name: Validate MCP server in Replit environment
+  sprint_id: replit-port-1
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Validate MCP server in Replit environment
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.640302+00:00'
-  completed: '2025-11-27T11:04:09.640302+00:00'
-  description: 'Validate that Vibey''s MCP server runs successfully in the Replit
-
-    browser-based Python environment.
-
-
-    VALIDATION STEPS:
-
-    - Deploy MCP server to Replit workspace
-
-    - Test tool discovery mechanism
-
-    - Verify all 46 tools are accessible
-
-    - Test basic tool invocation
-
-    - Document any environment-specific issues
-
-
-    CONSIDERATIONS:
-
-    - Browser Python vs local Python differences
-
-    - Network access and permissions
-
-    - File system access patterns
-
-    - Memory and performance constraints
-
-
-    DELIVERABLES:
-
-    - MCP server running in Replit
-
-    - Tool discovery test results
-
-    - Environment validation report
-
-    - Initial troubleshooting guide
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

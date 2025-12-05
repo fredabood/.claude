@@ -5,24 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Set up advisory mode with selective blocking
-  description: "Configure Vibey repository with advisory mode for most rules,\nbut\
-    \ block critical violations like invalid YAML.\n\nRECOMMENDED CONFIGURATION:\n\
-    ```yaml\n# .vibey/config/git.yaml\ngit:\n  enforcement:\n    mode: advisory  #\
-    \ Default: warn but don't block\n\n    rules:\n      # BLOCKING: Prevent corruption\n\
-    \      yaml_integrity:\n        enabled: true\n        mode: blocking\n\n    \
-    \  # ADVISORY: Encourage best practices\n      task_reference:\n        enabled:\
-    \ true\n        mode: advisory\n\n      cli_usage:\n        enabled: true\n  \
-    \      mode: advisory\n        suggest_cli_commands: true\n\n      commit_evidence:\n\
-    \        enabled: true\n        mode: advisory\n        require_commits: false\
-    \  # Start advisory\n```\n\nDELIVERABLES:\n- Git integration configuration for\
-    \ Vibey repo\n- Pre-commit and commit-msg hooks installed\n- Advisory warnings\
-    \ configured and tested\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.385527+00:00'
-  completed: '2025-11-27T11:04:09.385527+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -38,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:41:15.362687+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

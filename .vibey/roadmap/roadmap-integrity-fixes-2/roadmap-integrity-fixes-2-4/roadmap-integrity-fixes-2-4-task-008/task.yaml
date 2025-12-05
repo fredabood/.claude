@@ -1,24 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-008
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-4
-  name: Fix mcp-server sprints_completed counter
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix mcp-server sprints_completed counter
+  description: null
   status: not_started
-  priority: low
-  estimated_hours: 0.1
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: "Fix the sprints_completed counter in mcp-server track.yaml.\n\nISSUE:\n\
-    - Current: sprints_completed: 0\n- Expected: sprints_completed: 2 (Sprint 1 and\
-    \ 2 are production_ready)\n\nEDIT .vibey/roadmap/mcp-server/track.yaml:\nChange\
-    \ line ~14 from:\n  sprints_completed: 0\nTo:\n  sprints_completed: 2\n\nThis\
-    \ is a cosmetic fix - does not affect actual completion state.\n"
-  acceptance_criteria:
-  - sprints_completed shows 2
-  - Matches actual sprint statuses
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: low
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

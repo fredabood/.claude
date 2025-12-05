@@ -5,23 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create integration tests for deployment and planning
-  description: 'Write comprehensive integration tests that validate:
-
-    1. New project deployment initializes roadmap
-
-    2. Sprint planning creates roadmap entries
-
-    3. Task extraction works correctly
-
-    4. All files created with correct structure
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T13:18:26.791657+00:00'
-  started: '2025-11-27T11:04:09.665653+00:00'
-  completed: '2025-11-27T11:04:09.665653+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-08T13:18:26.791657+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -29,31 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integration-1-task-003
-    target_status: completed
-    reason: Tests validate implemented features
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: a373878
-    message: 'feat: Complete roadmap-integration Sprint 1 - Foundation & Sprint Planning'
-    date: '2025-11-08T19:00:00+00:00'
-  - hash: 1d10a6d
-    message: 'test: Add comprehensive roadmap CLI tests'
-    date: '2025-11-10T20:00:00+00:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Slash command tests superseded by CLI test suite
+  commits: []
   metadata:
-    superseded_by: tests/cli/test_roadmap_cli_comprehensive.py
-    architectural_note: Integration tests migrated to pytest-based CLI test suite
-    last_updated: '2025-11-15T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

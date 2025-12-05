@@ -6,9 +6,9 @@ track:
   blocked: false
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T15:18:35+00:00'
-  estimated_duration: 2-3 weeks
+  started: null
+  completed: '2025-11-23T00:00:00+00:00'
+  estimated_duration: null
   progress:
     sprints_total: 5
     sprints_completed: 5
@@ -17,75 +17,49 @@ track:
     completion_percent: 100.0
   sprints:
   - id: directory-consolidation-1
-    name: Low-Risk Cleanup
+    name: Low-Risk Cleanup & Preparation
     status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
   - id: directory-consolidation-2
-    name: Code Migration
+    name: Move Unique Code & Update Imports
     status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
   - id: directory-consolidation-3
     name: Content Audit
     status: completed
+    estimated_duration: null
+    tasks_count: 4
+    started: null
   - id: directory-consolidation-4
     name: Content Remediation
     status: completed
+    estimated_duration: null
+    tasks_count: 4
+    started: null
   - id: directory-consolidation-5
     name: .vibey Directory Cleanup
     status: completed
-  dependencies:
-  - type: track
-    target_id: multi-platform
-    target_status: in_progress
-    reason: Should not disrupt active platform port work
-    optional: true
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: All Tests Pass
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All existing tests must pass after migration
-    score: null
-  - name: No Broken Imports
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All import statements resolve correctly
-    score: null
-  - name: CLI Functional
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All vibey CLI commands work after migration
-    score: null
-  assigned_agents:
-  - backend-engineer
-  - architecture-agent
-  deliverables:
-  - Consolidated vibey/ package with all Python code
-  - Clean framework/ with only content files (agents, workflows, templates)
-  - Updated import paths across entire codebase
-  - Migration documentation
-  strategic_value:
-  - 'Code Organization: Clear separation of package code vs content'
-  - 'Maintainability: Single location for each type of file'
-  - 'Developer Experience: Intuitive directory structure'
-  - 'Reduced Confusion: No duplicate directories'
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-23T00:00:00+00:00'
-    notes: "DIRECTORY CONSOLIDATION TRACK\n\nCURRENT STATE:\n- vibey/ = Python package\
-      \ (CLI, operations, adapters, config)\n- framework/ = Mixed content + legacy\
-      \ code\n\nPROBLEM:\n- Duplicate directories: adapters/, roadmap/\n- Confusing\
-      \ imports: vibey imports from framework\n- Legacy code in framework/scripts/\
-      \ (42 files)\n- Unclear separation of concerns\n\nTARGET STATE:\n- vibey/ =\
-      \ ALL Python code (package)\n- framework/ = ONLY content files:\n  - agents/*.md\n\
-      \  - workflows/*.md\n  - templates/*.md\n  - (maybe) config examples\n\nMIGRATION\
-      \ RISKS:\n- Breaking imports across 31+ files\n- Test failures\n- Platform adapter\
-      \ breakage\n- MCP server disruption\n\nAPPROACH:\n1. Map all dependencies first\n\
-      2. Create compatibility shims if needed\n3. Migrate in phases with tests\n4.\
-      \ Update imports incrementally\n5. Remove legacy code last\n"
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

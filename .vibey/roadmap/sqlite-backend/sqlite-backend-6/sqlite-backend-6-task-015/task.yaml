@@ -5,80 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add is_automatic Flag and refresh() to CriterionTarget
-  description: "Implement the is_automatic property and refresh() method on all CriterionTarget\n\
-    types to support auto-progression of parent tickets when children complete.\n\n\
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5\n\nCHANGES TO CriterionTarget\
-    \ BASE CLASS:\n\n1. Add abstract property:\n   @property\n   @abstractmethod\n\
-    \   def is_automatic(self) -> bool:\n       \"\"\"Can this target auto-evaluate\
-    \ without human intervention?\"\"\"\n\n2. Add optional refresh method:\n   def\
-    \ refresh(self, context: RefreshContext) -> None:\n       \"\"\"Refresh cached\
-    \ state from external source.\"\"\"\n       pass  # Default no-op, override in\
-    \ subclasses\n\n3. Create RefreshContext dataclass:\n   @dataclass\n   class RefreshContext:\n\
-    \       ticket_registry: TicketRegistry\n       test_runner: Optional[TestRunner]\
-    \ = None\n       metrics: Optional[MetricsSource] = None\n       http_client:\
-    \ Optional[HttpClient] = None\n       activity_log: List[ActivityLogEntry] = field(default_factory=list)\n\
-    \nPER-TARGET IMPLEMENTATION:\n\nCompletableTarget:\n  - is_automatic: True (can\
-    \ check ticket status)\n  - refresh(): Update current_status from ticket_registry\n\
-    \nFileExistsTarget:\n  - is_automatic: True (can check filesystem)\n  - refresh():\
-    \ Update existing_paths/missing_paths via Path.exists()\n\nTestPassesTarget:\n\
-    \  - is_automatic: True (can run test command)\n  - refresh(): Run test_command,\
-    \ update last_result\n\nThresholdTarget:\n  - is_automatic: True (can query metrics)\n\
-    \  - refresh(): Get current_value from metrics source\n\nManualTarget:\n  - is_automatic:\
-    \ False (requires human)\n  - refresh(): No-op (must use assess() method)\n\n\
-    ExternalTarget:\n  - is_automatic: True (can query endpoint)\n  - refresh(): HTTP\
-    \ GET to endpoint, update current_status\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/targets.py\
-    \ (update all target classes)\n- vibey/roadmap/models/ticket/support.py (add RefreshContext)\n\
-    - tests/roadmap/models/ticket/test_targets.py (add refresh tests)\n\nSUCCESS CRITERIA:\n\
-    - All CriterionTarget types implement is_automatic property\n- Automatic targets\
-    \ implement refresh() method\n- ManualTarget.is_automatic returns False\n- RefreshContext\
-    \ provides access to external systems\n- Full test coverage for refresh behavior\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-30T10:00:00+00:00'
-  started: '2025-12-04T20:59:58.346343+00:00'
-  completed: '2025-12-04T21:06:08.866188+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T10:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: gap-remediation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-6-task-013
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-009
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495672+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-009
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
-  depended_on_by:
-  - sqlite-backend-6-task-013
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/targets.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/support.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_targets.py
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T21:06:05.251316+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

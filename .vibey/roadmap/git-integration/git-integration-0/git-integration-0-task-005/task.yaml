@@ -3,57 +3,30 @@ task:
   sprint_id: git-integration-0
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Define enforcement philosophy
+  task_type: development
+  title: Define enforcement philosophy
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: architecture-agent
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.405918+00:00'
-  completed: '2025-11-27T11:04:09.405918+00:00'
-  description: 'Establish the philosophy for how strictly Vibey enforces Git integration:
-
-
-    ENFORCEMENT MODES:
-
-    - Off: No enforcement (legacy/gradual adoption)
-
-    - Advisory: Warn but allow (soft guidance)
-
-    - Blocking: Prevent invalid operations (strict)
-
-    - Audit: Log everything, don''t block (compliance)
-
-
-    ENFORCEMENT POINTS:
-
-    - Pre-commit: Validate roadmap YAML integrity
-
-    - Commit-msg: Validate task references
-
-    - Pre-push: Validate before remote push
-
-    - PR/MR: Check for status conflicts
-
-    - CI: Quality gate validation
-
-
-    DELIVERABLES:
-
-    - Enforcement policy specification
-
-    - Configuration schema for modes
-
-    - Override/bypass procedures
-
-    - Error message guidelines
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

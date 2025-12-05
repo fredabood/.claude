@@ -5,179 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Completable, Criterion, and Target Types
-  description: "Create the core completion model: Completable base class, Criterion,\n\
-    and all CriterionTarget types. This is the heart of the unified\ncompletion system.\n\
-    \nDESIGN PRINCIPLE: Everything that can be completed shares the same\nabstraction.\
-    \ Completion is determined by criteria, and criteria have\npolymorphic targets.\n\
-    \nCORE CLASSES:\n\n1. Completable (abstract base)\n   \"\"\"Anything that can\
-    \ be marked complete.\"\"\"\n\n   Fields:\n   - id: str (unique identifier)\n\
-    \   - name: str (human-readable name)\n   - description: Optional[str]\n   - criteria:\
-    \ List[Criterion] (THE source of truth)\n\n   Computed Properties:\n   - is_complete:\
-    \ bool (computed via can_transition_to(COMPLETED))\n   - progress: Progress (for\
-    \ COMPLETED transition by default)\n   - blocking_reasons: List[str] (for current\
-    \ transition)\n   - children: List[str] = [c.target.completable_id for CompletableTargets]\n\
-    \n   Methods:\n   - can_transition_to(status: TicketStatus) -> tuple[bool, List[str]]\n\
-    \     THE unified interface for checking if a transition is allowed\n   - progress_for_transition(status:\
-    \ TicketStatus) -> Progress\n     Progress toward a specific transition\n   -\
-    \ get_criterion(id: str) -> Optional[Criterion]\n   - add_criterion(criterion:\
-    \ Criterion) -> None\n   - remove_criterion(id: str) -> bool\n\n   Convenience\
-    \ methods:\n   - can_start() -> tuple[bool, List[str]]\n     = can_transition_to(IN_PROGRESS)\n\
-    \   - can_complete() -> tuple[bool, List[str]]\n     = can_transition_to(COMPLETED)\n\
-    \   - can_deploy() -> tuple[bool, List[str]]\n     = can_transition_to(PRODUCTION_READY)\n\
-    \n2. Criterion\n   \"\"\"A requirement that blocks a state transition.\"\"\"\n\
-    \n   Fields:\n   - id: str (unique within parent Completable)\n   - description:\
-    \ str (what must be true)\n   - target: CriterionTarget (polymorphic - determines\
-    \ how to check)\n   - required: bool = True (if False, doesn't block transition)\n\
-    \   - blocks_transition_to: TicketStatus = COMPLETED\n     (which state transition\
-    \ this criterion guards)\n\n   The blocks_transition_to field enables UNIFIED\
-    \ blocking:\n   - IN_PROGRESS: Must be met before work can start (dependency)\n\
-    \   - COMPLETED: Must be met before marking complete (success criteria)\n   -\
-    \ PRODUCTION_READY: Must be met before deployment (production gate)\n\n   This\
-    \ REPLACES the separate Dependency class. A \"dependency\" is now\n   just a Criterion\
-    \ with blocks_transition_to=IN_PROGRESS.\n\n   Computed Properties:\n   - is_met:\
-    \ bool = target.is_satisfied() or not required\n\n   Methods:\n   - refresh()\
-    \ -> None (update target state)\n\n3. CriterionTarget (abstract base)\n   \"\"\
-    \"Base for all criterion target types.\"\"\"\n\n   Abstract Methods:\n   - is_satisfied()\
-    \ -> bool\n   - get_status_description() -> str\n   - refresh() -> None\n\nTARGET\
-    \ TYPES:\n\n4. CompletableTarget\n   \"\"\"Criterion met when another Completable\
-    \ is complete.\"\"\"\n\n   Fields:\n   - completable_id: str (ID of target Completable)\n\
-    \   - required_status: TicketStatus = COMPLETED\n\n   Cached State:\n   - current_status:\
-    \ Optional[TicketStatus]\n   - last_checked: Optional[datetime]\n\n   Methods:\n\
-    \   - is_satisfied() -> bool:\n       return current_status >= required_status\n\
-    \n   NOTE: This target type creates parent-child relationships.\n   The parent\
-    \ is the Completable containing this criterion.\n   The child is the Completable\
-    \ referenced by completable_id.\n\n5. FileExistsTarget\n   \"\"\"Criterion met\
-    \ when file(s) exist.\"\"\"\n\n   Fields:\n   - paths: List[str] (file paths or\
-    \ glob patterns)\n   - all_required: bool = True (all must exist vs any)\n\n \
-    \  Cached State:\n   - existing_paths: List[str]\n   - missing_paths: List[str]\n\
-    \   - last_checked: Optional[datetime]\n\n   Methods:\n   - is_satisfied() ->\
-    \ bool:\n       if all_required:\n           return len(missing_paths) == 0\n\
-    \       return len(existing_paths) > 0\n\n   - refresh() -> None:\n       # Check\
-    \ file system, update existing/missing\n\n6. TestPassesTarget\n   \"\"\"Criterion\
-    \ met when test passes with optional thresholds.\"\"\"\n\n   Fields:\n   - test_command:\
-    \ str (e.g., \"pytest tests/test_foo.py\")\n   - pass_threshold: float = 100.0\
-    \ (% tests must pass)\n   - coverage_threshold: Optional[float] (optional coverage\
-    \ %)\n\n   Cached State:\n   - last_result: Optional[TestResult]\n\n   Methods:\n\
-    \   - is_satisfied() -> bool:\n       if last_result is None:\n           return\
-    \ False\n       if last_result.pass_rate < pass_threshold:\n           return\
-    \ False\n       if coverage_threshold and last_result.coverage < coverage_threshold:\n\
-    \           return False\n       return True\n\n   - run() -> TestResult:\n  \
-    \     # Execute test command, capture result\n\n7. TestResult (support class for\
-    \ TestPassesTarget)\n   \"\"\"Result of a test execution.\"\"\"\n\n   Fields:\n\
-    \   - run_at: datetime\n   - passed: bool\n   - pass_rate: float (0-100)\n   -\
-    \ total_tests: int\n   - passed_tests: int\n   - failed_tests: int\n   - skipped_tests:\
-    \ int\n   - coverage_percent: Optional[float]\n   - duration_seconds: float\n\
-    \   - output: Optional[str] (truncated)\n   - commit_sha: Optional[str]\n\n8.\
-    \ ThresholdTarget\n   \"\"\"Criterion met when a metric meets a threshold.\"\"\
-    \"\n\n   Fields:\n   - metric_name: str (e.g., \"coverage\", \"lint_score\")\n\
-    \   - threshold: float\n   - comparison: ThresholdComparison = GTE\n\n   Cached\
-    \ State:\n   - current_value: Optional[float]\n   - last_checked: Optional[datetime]\n\
-    \n   Methods:\n   - is_satisfied() -> bool:\n       if current_value is None:\n\
-    \           return False\n       return compare(current_value, threshold, comparison)\n\
-    \n9. ManualTarget\n   \"\"\"Criterion met when manually assessed.\"\"\"\n\n  \
-    \ Fields:\n   - assessor: Optional[str] (who should assess)\n   - instructions:\
-    \ Optional[str] (how to assess)\n\n   State:\n   - assessed: bool = False\n  \
-    \ - met: Optional[bool] = None\n   - assessed_at: Optional[datetime]\n   - assessed_by:\
-    \ Optional[str]\n   - evidence: Optional[str] (notes, links)\n\n   Methods:\n\
-    \   - is_satisfied() -> bool:\n       return assessed and met == True\n\n   -\
-    \ assess(met: bool, by: str, evidence: str) -> None:\n       self.assessed = True\n\
-    \       self.met = met\n       self.assessed_by = by\n       self.evidence = evidence\n\
-    \       self.assessed_at = now()\n\n10. ExternalTarget\n    \"\"\"Criterion met\
-    \ when external system reports success.\"\"\"\n\n    Fields:\n    - system_name:\
-    \ str (e.g., \"CI\", \"Security Scanner\")\n    - endpoint: Optional[str] (API\
-    \ to check)\n    - expected_status: str = \"success\"\n\n    Cached State:\n \
-    \   - current_status: Optional[str]\n    - last_checked: Optional[datetime]\n\
-    \    - response_data: Optional[Dict]\n\n    Methods:\n    - is_satisfied() ->\
-    \ bool:\n        return current_status == expected_status\n\nADDITIONAL SUPPORT\
-    \ CLASSES:\n\n11. Progress\n    \"\"\"Progress tracking toward a transition.\"\
-    \"\"\n\n    Fields:\n    - total: int\n    - completed: int\n    - in_progress:\
-    \ int = 0\n    - blocked: int = 0\n\n    Computed:\n    - completion_percent:\
-    \ float = completed / total * 100\n\nNOTE: The Dependency class has been ELIMINATED.\n\
-    \nDependencies are now represented as Criterion with:\n- target: CompletableTarget\
-    \ (referencing the blocker ticket)\n- blocks_transition_to: IN_PROGRESS (or other\
-    \ status)\n\nExample - Task 003 depends on Task 002:\n\nOLD (separate Dependency\
-    \ class):\n  dependencies:\n    - target_id: task-002\n      required_status:\
-    \ completed\n      blocks_transition_to: in_progress\n\nNEW (unified Criterion):\n\
-    \  criteria:\n    - id: dep-task-002\n      description: \"Task 002 must complete\
-    \ before starting\"\n      target:\n        type: completable\n        completable_id:\
-    \ task-002\n        required_status: completed\n      blocks_transition_to: in_progress\n\
-    \nThis consolidation means:\n- ONE system for all blocking relationships\n- Same\
-    \ Criterion used for dependencies, completion, and deployment gates\n- Same progress\
-    \ tracking for all transition types\n- Simpler mental model and implementation\n\
-    \nIMPLEMENTATION:\n\n1. Create vibey/roadmap/models/ticket/completable.py:\n \
-    \  - Completable base class with can_transition_to()\n   - Criterion class with\
-    \ blocks_transition_to field\n\n2. Create vibey/roadmap/models/ticket/targets.py:\n\
-    \   - CriterionTarget base\n   - All 6 target types\n   - TestResult support class\n\
-    \n3. Create vibey/roadmap/models/ticket/support.py:\n   - Progress class\n   -\
-    \ (NO Dependency class - consolidated into Criterion)\n\n4. Use Pydantic v2 BaseModel\
-    \ for all classes\n5. Use computed_field for derived properties\n6. Implement\
-    \ refresh() methods for cached state\n7. Full test coverage\n\nFILE STRUCTURE:\n\
-    vibey/roadmap/models/ticket/\n  __init__.py\n  enums.py         <- Task 010\n\
-    \  completable.py   <- Completable, Criterion (with blocks_transition_to)\n  targets.py\
-    \       <- All target types\n  support.py       <- Progress (NO Dependency - eliminated)\n\
-    \nSUCCESS CRITERIA:\n- Completable base class with unified can_transition_to()\n\
-    - Criterion has blocks_transition_to field\n- All 6 target types implemented\n\
-    - Progress computed per transition type\n- Children derived from CompletableTarget\
-    \ criteria\n- Dependencies expressed as criteria (blocks_transition_to: IN_PROGRESS)\n\
-    - Full test coverage\n- JSON/YAML serialization works\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-29T12:00:00+00:00'
-  started: '2025-12-04T00:00:00+00:00'
-  completed: '2025-12-04T00:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-29T12:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: foundation
-  estimated_tokens: 4500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-6-task-001
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-6-task-011
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-010
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495681+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-010
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-29T16:00:00+00:00'
-  depended_on_by:
-  - sqlite-backend-6-task-001
-  - sqlite-backend-6-task-011
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/completable.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/targets.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/support.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_completable.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_targets.py
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T17:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

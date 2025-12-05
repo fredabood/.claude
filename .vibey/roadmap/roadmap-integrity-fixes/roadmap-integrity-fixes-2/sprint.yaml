@@ -5,43 +5,110 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-12T19:45:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-21T00:27:18.960799+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-12T19:45:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 13
+    development_tasks_completed: 13
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 13
     tasks_completed: 13
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: roadmap-integrity-fixes-2-task-001
+    title: Forensic audit of standards-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-002
+    title: Forensic audit of testing-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-003
+    title: Forensic audit of documentation-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-004
+    title: Forensic audit of missing-agents track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-005
+    title: Forensic audit of claude-port track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-006
+    title: Forensic audit of roadmap-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-007
+    title: Forensic audit of interface-unification track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-008
+    title: Forensic audit of platform-context-management track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-009
+    title: Forensic audit of infrastructure-fixes track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-010
+    title: Forensic audit of directory-migration track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-011
+    title: Cross-track analysis and pattern identification
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-012
+    title: Comprehensive forensic audit summary report
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-task-013
+    title: Comprehensive standards and modernization audit
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Git history analysis for all 10 flagged tracks
-  - Commit-to-task mappings for all identified commits
-  - Task.yaml files updated with backfilled commits (git tracking integration)
-  - Codebase audit report (actual implemented features)
-  - Documentation audit report (what docs exist)
-  - Test suite audit report (what tests exist)
-  - Cross-reference report (YAML claims vs actual evidence)
-  - Standards compliance audit report (legacy systems review)
-  - Legacy structures inventory and modernization recommendations
-  - Accurate status determination for each track
-  - Evidence-based completion percentages
-  - Forensic audit summary document
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-12T21:30:00+00:00'
-    estimated_duration: 7 days
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 117000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

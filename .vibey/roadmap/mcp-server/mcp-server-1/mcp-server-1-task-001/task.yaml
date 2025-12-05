@@ -1,27 +1,32 @@
 task:
   id: mcp-server-1-task-001
-  title: MCP Python SDK setup & project structure
   sprint_id: mcp-server-1
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: MCP Python SDK setup & project structure
+  description: null
   status: completed
   blocked: false
-  description: Set up project structure and install MCP Python SDK dependencies
   created: '2025-11-10T12:00:00+00:00'
-  started: '2025-11-27T11:04:09.337798+00:00'
-  completed: '2025-11-27T11:04:09.337798+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: low
-  estimated_tokens: 2000
-  actual_tokens: 1800
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - framework/mcp/__init__.py (15 lines - package initialization)
-  - framework/mcp/README.md (310 lines - MCP server documentation)
-  - docs/development/MCP_DEVELOPMENT_SETUP.md (development setup guide)
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

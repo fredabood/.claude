@@ -5,61 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add monitoring and alerting for data integrity
-  description: 'Implement monitoring and alerting for roadmap data integrity.
-
-
-    Monitoring metrics to track:
-
-    1. YAML parse success rate (% of files that parse cleanly)
-
-    2. Python serialization occurrences (count of PYTHON_SERIALIZATION_PATTERN patterns)
-
-    3. Dependency status staleness (age since last_checked)
-
-    4. Track loadability rate (% of tracks that load successfully)
-
-    5. Test pass rate for validation tests
-
-    6. Git hook success rate
-
-
-    Alerting options:
-
-    - Daily email report with integrity metrics
-
-    - Slack notifications on degradation
-
-    - GitHub issue creation on failures
-
-    - Dashboard visualization (optional)
-
-
-    Minimum viable implementation:
-
-    - CLI command: vibey roadmap health-check
-
-    - Reports all metrics above
-
-    - Exit code 0 if healthy, 1 if issues found
-
-    - Can be run in cron job or CI/CD
-
-
-    Advanced (optional):
-
-    - Grafana dashboard
-
-    - Prometheus metrics export
-
-    - PagerDuty integration
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.462836+00:00'
-  completed: '2025-11-27T11:04:09.462836+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-16T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -67,37 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-004
-    target_status: completed
-    reason: Leverage validation tests for metrics
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-006
-    target_status: completed
-    reason: Dependency staleness metric
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - vibey roadmap health-check command
-  - type: documentation
-    paths:
-    - Metrics collection logic
-  - type: documentation
-    paths:
-    - Alert integration (email/Slack/GitHub)
-  - type: documentation
-    paths:
-    - Health check documentation
-  - type: config
-    paths:
-    - 'Optional: dashboard configuration'
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:07:09.442557+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

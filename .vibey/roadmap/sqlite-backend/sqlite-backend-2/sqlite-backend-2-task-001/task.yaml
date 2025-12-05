@@ -5,77 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add vibey roadmap db subcommand group
-  description: 'Create new CLI command group in vibey/cli/roadmap_commands/db.py:
-
-
-    vibey roadmap db init:
-
-    - Create .vibey/roadmap.db with schema
-
-    - Load all YAML files into database
-
-    - Compute checksums and store in yaml_checksums table
-
-    - Set database_state.is_dirty = 0
-
-
-    vibey roadmap db rebuild [--force]:
-
-    - Check if database is dirty (uncommitted changes)
-
-    - If dirty and no --force: error with instructions
-
-    - Drop and recreate all tables
-
-    - Reload from YAML files
-
-
-    vibey roadmap db status:
-
-    - Show database exists/missing
-
-    - Show is_dirty flag and last sync time
-
-    - Show file count vs table row counts
-
-    - Show any checksum mismatches
-
-
-    vibey roadmap db backup:
-
-    - Copy .vibey/roadmap.db to .vibey/roadmap.db.backup
-
-    - Include timestamp in backup name
-
-
-    Register in main.py as subcommand group.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T14:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-2-task-002
-  - sqlite-backend-2-task-005
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/cli/roadmap_commands/db.py
-  - db init, rebuild, status, backup commands
-  - Integration with database module from Sprint 1
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

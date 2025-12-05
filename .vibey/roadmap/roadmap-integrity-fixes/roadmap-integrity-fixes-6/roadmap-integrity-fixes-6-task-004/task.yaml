@@ -5,62 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add task data model validation
-  description: "Implement validation logic to enforce task data model standards.\n\
-    \nValidation Rules:\n\n1. Task Storage Pattern:\n   - REJECT: tasks_summary without\
-    \ actual task objects (fraud prevention)\n   - ACCEPT: Hierarchical task directories\
-    \ with task.yaml files\n   - ACCEPT: Embedded tasks in sprint.yaml (warn to migrate)\n\
-    \   - REJECT: Empty tasks: [] list if tasks_total > 0\n\n2. Required Fields:\n\
-    \   - All task.yaml files MUST have required fields:\n     * id, sprint_id, track_id,\
-    \ roadmap_id\n     * task_type, title, description, status\n     * created timestamp\n\
-    \   - Optional but recommended: deliverables, commits\n\n3. Field Types:\n   -\
-    \ status: enum (not_started, in_progress, completed)\n   - priority: enum (low,\
-    \ medium, high, critical)\n   - complexity: enum (low, medium, high, very_high)\n\
-    \   - Timestamps: ISO 8601 format\n   - Lists and dicts: proper YAML structure\n\
-    \n4. Task Completion Requirements:\n   - IF status == completed:\n     * completed\
-    \ timestamp MUST exist\n     * All deliverables SHOULD be documented\n     * commits\
-    \ list SHOULD have at least 1 commit\n   - IF status == in_progress:\n     * started\
-    \ timestamp MUST exist\n\n5. Pattern Validation:\n   - Hierarchical pattern: tasks\
-    \ live in {sprint-id}/{task-id}/task.yaml\n   - Embedded pattern: tasks list in\
-    \ sprint.yaml\n   - REJECT: tasks_summary text without task objects\n\nImplementation:\n\
-    - Create task data model validation functions\n- Add pattern detection logic\n\
-    - Enforce data quality standards\n- Comprehensive test coverage\n\nDeliverables:\n\
-    - Task data model validation logic\n- Test suite\n- Documentation of validation\
-    \ rules\n- Pattern detection documentation\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.445388+00:00'
-  completed: '2025-11-27T11:04:09.445388+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: roadmap-integrity-fixes-6-task-001
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - roadmap-integrity-fixes-6-task-001
-  deliverables:
-  - type: code
-    paths:
-    - Task data model validation logic
-  - type: code
-    paths:
-    - Test suite
-  - type: code
-    paths:
-    - Validation rules documentation
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,19 +1,32 @@
 task:
   id: gemini-port-1-task-001
-  name: Gemini API Documentation Study
   sprint_id: gemini-port-1
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Gemini API Documentation Study
+  description: null
   status: completed
   blocked: false
-  priority: critical
-  complexity: medium
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T14:57:03+00:00'
-  description: Review Gemini API specifications, document message format differences
-    from Claude, identify function calling syntax, map safety settings options
-  assigned_agent: researcher
+  started: null
+  completed: '2025-11-23T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

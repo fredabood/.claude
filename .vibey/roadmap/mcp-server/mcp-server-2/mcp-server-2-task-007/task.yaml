@@ -1,31 +1,32 @@
 task:
   id: mcp-server-2-task-007
-  title: Testing documentation
   sprint_id: mcp-server-2
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Testing documentation
+  description: null
   status: completed
   blocked: false
-  description: Create comprehensive testing guide (README.md) and testing summary
   created: '2025-11-10T20:15:00+00:00'
-  started: '2025-11-27T11:04:09.334593+00:00'
-  completed: '2025-11-27T11:04:09.334593+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T20:15:00+00:00'
+  assigned_agent: null
   priority: medium
-  complexity: low
-  estimated_tokens: 4000
-  actual_tokens: 3800
-  dependencies:
-  - type: task
-    target_id: mcp-server-2-task-006
-    target_status: completed
-    reason: Need working tests to document
-    optional: false
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - docs/development/MCP_TESTING_COMPLETE.md (testing summary)
-  - Enhanced framework/mcp/tests/README.md (666 lines - comprehensive test guide)
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

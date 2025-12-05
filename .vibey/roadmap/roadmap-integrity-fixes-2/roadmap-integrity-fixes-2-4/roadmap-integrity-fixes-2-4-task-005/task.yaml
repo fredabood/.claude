@@ -1,28 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-005
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-4
-  name: Create task hierarchy for replit-port
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create task hierarchy for replit-port
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 0.4
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Create proper sprint/task structure for replit-port.
-
-    Same process as amazonq-port.
-
-    Adapter exists: vibey/adapters/replit.py
-
-    '
-  acceptance_criteria:
-  - Sprint directory created
-  - 6+ task.yaml files created
-  - All tasks status: not_started
-  - Progress shows 0%
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

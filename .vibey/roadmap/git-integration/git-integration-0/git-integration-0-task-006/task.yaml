@@ -3,57 +3,30 @@ task:
   sprint_id: git-integration-0
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Design state reconstruction model
+  task_type: development
+  title: Design state reconstruction model
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 6
-  assigned_agent: architecture-agent
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.406348+00:00'
-  completed: '2025-11-27T11:04:09.406348+00:00'
-  description: 'Define whether and how roadmap state can be reconstructed from Git:
-
-
-    RECONSTRUCTION SCENARIOS:
-
-    1. Point-in-time: What was roadmap state at commit X?
-
-    2. Attribution: Who marked task X complete, and when?
-
-    3. Progress history: How did completion % change over time?
-
-    4. Audit trail: What changes were made to sprint Y?
-
-    5. Rollback: Restore roadmap to previous state
-
-
-    QUESTIONS TO ANSWER:
-
-    - Is full reconstruction required or nice-to-have?
-
-    - What metadata must be preserved in commits?
-
-    - How to handle squash merges that lose history?
-
-    - Performance implications of reconstruction?
-
-
-    DELIVERABLES:
-
-    - Reconstruction algorithm specification
-
-    - Required commit metadata schema
-
-    - Audit trail query interface design
-
-    - Performance analysis
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

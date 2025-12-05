@@ -5,44 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix enum serialization bug in dependency update code
-  description: 'Find and fix the root cause of Python object serialization in YAML:
-
-    enum values not being converted to strings before YAML dump.
-
-
-    Steps:
-
-    1. Find all code that writes dependency status to YAML
-
-    2. Ensure Status enums use .value before assignment
-
-    3. Add validation to catch this pattern in code review
-
-    4. Test by updating a dependency and checking YAML output
-
-
-    Files likely affected:
-
-    - vibey/operations/roadmap/update.py
-
-    - vibey/operations/roadmap/init.py
-
-    - Any code that modifies track dependencies
-
-
-    Pattern to fix:
-
-    BAD:  dep[''current_status''] = Status.COMPLETED
-
-    GOOD: dep[''current_status''] = Status.COMPLETED.value
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.461077+00:00'
-  completed: '2025-11-27T11:04:09.461077+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-16T00:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
   estimated_tokens: 1
@@ -50,30 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-001
-    target_status: completed
-    reason: Need clean baseline to test against
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - Fixed vibey/operations/roadmap/*.py files
-  - type: documentation
-    paths:
-    - Test demonstrating clean YAML output
-  - type: documentation
-    paths:
-    - Code review checklist item
-  - type: documentation
-    paths:
-    - Audit report of all enum serialization locations
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:07:09.405486+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

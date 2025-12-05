@@ -5,43 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Final integration testing and documentation
-  description: 'Final integration and documentation:
-
-    - End-to-end workflow testing
-
-    - Update main documentation with database mode
-
-    - Update CLAUDE.md with database information
-
-    - Performance comparison documentation
-
-    - Release notes
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T18:00:00+00:00'
-  completed: '2025-11-26T22:00:00+00:00'
-  assigned_agent: docs-writer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-3-task-006
+  dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - Updated documentation
-  - Release notes
-  - Performance comparison
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

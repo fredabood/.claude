@@ -1,26 +1,32 @@
 task:
   id: copilot-port-1-task-003
-  title: Implement custom agent profile generator from frontmatter
   sprint_id: copilot-port-1
   track_id: copilot-port
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Implement custom agent profile generator from frontmatter
+  description: null
   status: completed
   blocked: false
-  description: Generate .github/agents/*.md files from Vibey agent frontmatter. Ensure
-    zero-drift architecture where custom agent profiles are generated from .vibey/
-    source.
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.670183+00:00'
-  completed: '2025-11-27T11:04:09.670183+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: medium
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  dependencies:
-  - copilot-port-1-task-002
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/adapters/copilot/agent_generator.py
-  - .github/agents/ template generation logic
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

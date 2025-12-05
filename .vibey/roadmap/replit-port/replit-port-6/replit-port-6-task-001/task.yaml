@@ -1,38 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-6
   id: replit-port-6-task-001
-  name: Create vibey-replit-template
+  sprint_id: replit-port-6
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create vibey-replit-template
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 10
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create forkable Replit template with pre-configured Vibey framework.\n\
-    \nTEMPLATE STRUCTURE:\n```\nvibey-replit-template/\n├── .replit              \
-    \      # Pre-configured run settings\n├── replit.nix                 # Dependencies\n\
-    ├── .vibey/                    # Framework directory\n│   ├── config/        \
-    \        # Configuration files\n│   ├── roadmap/               # Sample roadmap\n\
-    │   └── checksums.yaml         # Zero-drift checksums\n├── vibey/            \
-    \         # Framework code\n├── extensions/                # Vibey Extension\n\
-    ├── README.md                  # Quick start guide\n└── GETTING_STARTED.md   \
-    \      # Detailed guide\n```\n\nTEMPLATE FEATURES:\n1. Pre-configured .replit\
-    \ and replit.nix\n2. MCP server ready to run\n3. Extension pre-installed\n4. Sample\
-    \ project with roadmap\n5. Quick start documentation\n6. Troubleshooting guide\n\
-    \nSAMPLE PROJECT:\n- Simple web application\n- 2-3 tracks with sprints\n- Example\
-    \ tasks\n- Agent definitions\n- Workflow examples\n\nTEMPLATE METADATA:\n```json\n\
-    {\n  \"name\": \"vibey-replit-template\",\n  \"description\": \"Vibey Agent Framework\
-    \ for Replit\",\n  \"tags\": [\"agents\", \"ai\", \"workflow\", \"mcp\"],\n  \"\
-    category\": \"Tools\",\n  \"language\": \"python\"\n}\n```\n\nDELIVERABLES:\n\
-    - Complete template repository\n- Sample project\n- Configuration files\n- Documentation\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

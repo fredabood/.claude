@@ -5,20 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Error messages and user guidance
-  description: '- Suggest correct CLI commands
-
-    - Link to documentation'
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-26T01:21:21.767692+00:00'
   started: null
   completed: null
-  assigned_agent: web-developer
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 4000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
@@ -29,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T01:21:21.767692+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

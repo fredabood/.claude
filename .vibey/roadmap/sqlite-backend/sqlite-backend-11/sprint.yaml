@@ -4,7 +4,8 @@ sprint:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
+  blocked_reason: null
   created: '2025-11-26T14:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,86 +14,82 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
+  tasks:
+  - id: sqlite-backend-11-task-001
+    title: Build Computed DB from task files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-002
+    title: Build Declared DB from YAML counters
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-003
+    title: Implement database comparison engine
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-004
+    title: Create integrity audit report generator
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-005
+    title: Implement YAML remediation tooling
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-006
+    title: Run initial audit on Vibey roadmap
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-007
+    title: Iterate remediation until zero discrepancies
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-11-task-008
+    title: Fix CLI task completion reformatting sibling task files
+    status: not_started
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-10
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
-  # NOTE: Sprint 11 (validation) requires the unified ticket model to be fully
-  # implemented (6), artifacts (7), serialized (8), operations updated (9), and
-  # interfaces updated (10) before it can validate data properly.
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Computed DB builder (aggregations from task statuses)
-  - Declared DB builder (YAML counters as-is)
-  - Database comparison engine with severity classification
-  - vibey roadmap validate command (schema/references/computed/full levels)
-  - Integrity audit report generator
-  - YAML auto-remediation tooling
-  - Validated Vibey roadmap state (zero discrepancies)
-  - Confidence metrics and lessons learned documentation
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-27T21:45:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    source_of_truth_backup: /tmp/yaml_original/roadmap
-    backup_created: '2025-11-27T21:13:59+00:00'
-    backup_file_count: 1097
-    remediation_performed: '2025-11-27T21:45:00+00:00'
-    remediation_notes: |
-      Merged git HEAD (content fields) with backup (status fields).
-      - 862 task files merged
-      - 172 sprint files merged
-      - 36 track files merged
-      Initial audit found 98% data loss during SQLite db dump:
-      - 615 tasks lost 'started' timestamp
-      - 288 tasks lost 'description'
-      - 269 tasks lost 'completed' precision
-      - 224 tasks lost 'complexity'
-      - 222 tasks lost 'assigned_agent'
-      - 114 tasks lost 'commits'
-      - 108 tasks lost 'deliverables'
-      Code fix applied: Changed Status enum from "won't_do" to "wont_do"
-    notes: 'Validation sprint to verify database approach and fix roadmap integrity
-      issues.
-
-
-      PROCESS:
-
-      1. Build "Computed DB" - read task files, compute aggregations via views
-
-      2. Build "Declared DB" - read YAML counters as-is (no computation)
-
-      3. Compare databases - identify mismatches
-
-      4. Generate audit report - prioritized list of discrepancies
-
-      5. Remediate YAML files - fix counters to match computed values
-
-      6. Iterate until zero discrepancies
-
-
-      SUCCESS CRITERIA:
-
-      - Computed DB == Declared DB (zero discrepancies)
-
-      - All YAML files pass validation
-
-      - High confidence in database approach before production use
-
-      '

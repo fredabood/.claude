@@ -5,6 +5,7 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-15T19:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,50 +14,87 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 3
+    development_tasks_completed: 3
+    completion_gate_tasks_total: 4
+    completion_gate_tasks_completed: 4
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: infrastructure-fixes-2-task-001
+    title: Integrate roadmap initialization into CLI deployment
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: infrastructure-fixes-2-task-002
+    title: Create vibey plan command with roadmap integration
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: infrastructure-fixes-2-task-003
+    title: Add automatic roadmap progress tracking
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: infrastructure-fixes-2-task-004
+    title: Execute Roadmap CLI Functionality quality gate
+    status: completed
+    task_type: completion_gate
+    gate_info:
+      blocks_status: completed
+      threshold: 0
+      is_blocking: true
+      score: null
+  - id: infrastructure-fixes-2-task-005
+    title: Execute CLI Integration quality gate
+    status: completed
+    task_type: completion_gate
+    gate_info:
+      blocks_status: completed
+      threshold: 0
+      is_blocking: true
+      score: null
+  - id: infrastructure-fixes-2-task-006
+    title: Execute Status Accuracy quality gate
+    status: completed
+    task_type: completion_gate
+    gate_info:
+      blocks_status: completed
+      threshold: 0
+      is_blocking: true
+      score: null
+  - id: infrastructure-fixes-2-task-007
+    title: Execute Backward Compatibility quality gate
+    status: completed
+    task_type: completion_gate
+    gate_info:
+      blocks_status: completed
+      threshold: 0
+      is_blocking: true
+      score: null
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: infrastructure-fixes-1
-    blocker_type: sprint
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-15T19:00:00+00:00'
+  depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Deployment integration in CLI (vibey deploy → roadmap init)
-  - Plan integration in CLI (vibey plan command)
-  - Progress tracking automation
-  - Quality gate validation (4 gates)
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-15T19:00:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 45000
+    estimated_tokens: null
     actual_tokens: null
-    agents_used: []
-    notes: 'This sprint restores the integration functionality that was lost during
-
-      the architecture transition from slash commands to CLI/MCP on Nov 12, 2025.
-
-
-      Sprint 1 delivered the foundation (CLI wrapper, migration tools, status fixes).
-
-      Sprint 2 completes the integration layer that wasn''t migrated to the new architecture.
-
-
-      Tasks breakdown:
-
-      - Tasks 001-003: Integration work (restore deleted functionality in new architecture)
-
-      - Tasks 004-007: Quality gate execution (validate all work)
-
-      '
+    agents_used: null

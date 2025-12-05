@@ -5,63 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update documentation with caching and performance info
-  description: 'Update all documentation to reflect caching layer and performance.
-
-
-    Updates:
-
-    - ROADMAP_QUICK_REFERENCE.md (mention caching)
-
-    - ROADMAP_USER_GUIDE.md (performance section)
-
-    - CLI.md (--no-cache flag, performance targets)
-
-    - ROADMAP_EXAMPLES.md (performance notes)
-
-    - ARCHITECTURE_DECISION_TEXT_VS_DATABASE.md (validation results)
-
-
-    New Documentation:
-
-    - PERFORMANCE_BENCHMARKS.md (benchmark results)
-
-    - CACHING_LAYER.md (cache design, usage, troubleshooting)
-
-
-    Performance Guidance:
-
-    - When to expect fast responses
-
-    - How caching works
-
-    - Troubleshooting slow queries
-
-    - Cache invalidation behavior
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486586+00:00'
-  started: '2025-11-27T11:04:09.426763+00:00'
-  completed: '2025-11-27T11:04:09.426763+00:00'
-  assigned_agent: docs-writer
+  started: null
+  completed: '2025-11-08T10:10:00.486586+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: core-framework-3-task-004
-    target_status: completed
-    reason: Need benchmark results
+  dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-08T10:10:00.486585+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

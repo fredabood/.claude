@@ -1,30 +1,32 @@
 task:
   id: directory-consolidation-4-task-003
-  roadmap_id: vibey-framework-v2
-  track_id: directory-consolidation
-  name: Archive obsolete .vibey/roadmap/*/context/ files
   sprint_id: directory-consolidation-4
+  track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Archive obsolete .vibey/roadmap/*/context/ files
+  description: null
   status: completed
-  completed: '2025-11-23T00:00:00+00:00'
+  blocked: false
+  created: '2025-12-04T21:36:36.841439+00:00'
+  started: null
+  completed: '2025-12-04T21:36:36.841439+00:00'
+  assigned_agent: null
   priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
-  estimated_hours: 1
-  description: 'Clean up redundant/obsolete files in .vibey/roadmap/*/context/ directories.
-
-    '
-  cleanup_actions:
-  - Archive older audit reports (keep only latest per track)
-  - Archive completed track context (move to archived/ subdir)
-  - Remove duplicate remediation reports
-  - Consolidate similar files where appropriate
-  archival_strategy:
-  - Create .vibey/roadmap/archived/ directory
-  - Move obsolete files with date prefixes
-  - Maintain audit trail of what was archived
-  verification:
-  - No important context lost
-  - Clear organization in remaining files
-  - Archive accessible if needed
-  blocked_by:
-  - directory-consolidation-3-task-004
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

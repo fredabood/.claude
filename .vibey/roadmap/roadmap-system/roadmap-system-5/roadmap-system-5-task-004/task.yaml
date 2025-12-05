@@ -1,27 +1,32 @@
 task:
   id: roadmap-system-5-task-004
-  title: Integrate with sprint planning workflow
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Integrate with sprint planning workflow
+  description: null
   status: completed
-  priority: critical
+  blocked: false
   created: '2025-11-07T03:00:00+00:00'
   started: null
-  completed: '2025-11-22T19:22:08.346032+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_lib/agents.py - enhance_sprint_with_agent_recommendations()
-  - vibey/cli/roadmap_lib/agents.py - plan_sprint_agents()
-  - Sprint planning workflow integration documentation
-  commits: []
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
-  blocked_by: []
   blocks: []
-  metadata: {}
-  task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

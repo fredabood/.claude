@@ -5,95 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create migration script for existing roadmaps to new directory structure
-  description: |
-    Build a migration script to convert existing .vibey directory structure
-    to the new table-based structure as part of production cutover.
-
-    MIGRATION REQUIREMENTS:
-
-    1. Pre-migration validation:
-       - Count all files in current structure
-       - Validate YAML syntax of all files
-       - Create backup of .vibey/roadmap/
-
-    2. Entity extraction:
-       - Extract all track.yaml -> tracks/<id>.yaml
-       - Extract all sprint.yaml -> sprints/<id>.yaml
-       - Extract all task.yaml -> tasks/<id>.yaml
-       - Extract roadmap.yaml -> roadmaps/<id>.yaml
-
-    3. Context consolidation:
-       - Find all */context/ directories
-       - Move files with new naming convention
-       - Preserve file timestamps
-
-    4. Relationship preservation:
-       - Ensure all foreign keys valid
-       - Verify no orphan entities
-       - Check blocked_by/blocks references
-
-    5. Post-migration validation:
-       - Count files in new structure
-       - Verify counts match
-       - Load into SQLite and compare
-
-    SCRIPT INTERFACE:
-    ```bash
-    vibey roadmap migrate-structure [--dry-run] [--backup-dir PATH]
-
-    Options:
-      --dry-run      Show what would be done without changing files
-      --backup-dir   Where to store backup (default: .vibey-backup-<timestamp>)
-      --force        Skip confirmation prompts
-    ```
-
-    ROLLBACK SUPPORT:
-    - Keep backup until explicitly deleted
-    - Provide rollback command: vibey roadmap migrate-structure --rollback
-
-    EDGE CASES:
-    - Partially migrated state (idempotent re-run)
-    - Files with special characters in names
-    - Symlinks in .vibey directory
-    - Git submodules
-
-    DELIVERABLES:
-    - Migration script (Python)
-    - CLI command integration
-    - Dry-run mode
-    - Rollback capability
-    - Migration documentation
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-30T20:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-12-task-009
-  blocked_by:
-  - sqlite-backend-8-task-011
-  - sqlite-backend-6-task-003
-  deliverables:
-  - Migration script
-  - CLI command for migration
-  - Dry-run and rollback modes
-  - Migration documentation
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-30T20:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Consolidated from sprint 13-deferred task 005.
-      Critical: This script will be run on production data.
-      Must be thoroughly tested and have rollback capability.
-      Part of the production cutover process.

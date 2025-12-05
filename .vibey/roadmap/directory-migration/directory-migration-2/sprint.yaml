@@ -5,43 +5,120 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-10T23:00:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-11T04:41:59.258253+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-10T23:00:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 15
+    development_tasks_completed: 15
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 15
     tasks_completed: 15
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: directory-migration-2-task-001
+    title: Design modular config schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-002
+    title: Create config models (Pydantic/dataclasses)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-003
+    title: Implement config loader with fallback
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-004
+    title: 'Create migration tool: vibey migrate config'
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-005
+    title: Parse old .claude/project-config.yaml
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-006
+    title: Split into modular configs
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-007
+    title: Validate migrated configs
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-008
+    title: Create backup before migration
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-009
+    title: Update all config references in codebase
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-010
+    title: Add deprecation warnings for old location
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-011
+    title: Test auto-migration on first command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-012
+    title: Document config structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-013
+    title: Create config validation command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-014
+    title: Handle edge cases (custom configs, missing fields)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-2-task-015
+    title: Add rollback mechanism
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: directory-migration-1
-    blocker_type: sprint
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-10T23:00:00+00:00'
+  depends_on: []
   depended_on_by: []
-  plan_file: docs/development/DIRECTORY_MIGRATION_PLAN.md
-  deliverables:
-  - Modular config system in .vibey/config/
-  - Migration tool for existing projects
-  - Backward compatibility during transition
-  - Auto-migration on first vibey command
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-10T23:00:00+00:00'
-    estimated_duration: 3 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 60000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  commits:
-  - hash: 27b127f4e873aac24997e3882ce9c8c597f45ca1
-    date: '2025-11-10T20:28:30-05:00'
-    message: 'feat: Complete Sprint 2 - Modular Config System with Auto-Migration'

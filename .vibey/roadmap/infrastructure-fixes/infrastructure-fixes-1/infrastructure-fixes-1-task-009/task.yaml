@@ -5,49 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create roadmap management examples
-  description: 'Add example interactions to Vibey Manager docs
-
-    - Document all roadmap commands
-
-    - Create troubleshooting guide
-
-    - Add FAQ section
-
-    - Provide 10+ example interactions
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.297758+00:00'
-  completed: '2025-11-27T11:04:09.297758+00:00'
-  assigned_agent: docs-writer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 4000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-008
-    target_status: completed
-    reason: Needs commands implemented first
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 150265565ef9132ecc68917ddf076ecb4b58673a
-    message: 'docs: Add comprehensive roadmap management examples and FAQ'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T13:02:17-05:00'
-    files_changed:
-    - framework/agents/core/vibey-manager.md
-    note: PRESERVED - documentation complete
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183809+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

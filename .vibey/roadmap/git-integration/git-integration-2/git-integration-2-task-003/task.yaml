@@ -3,27 +3,30 @@ task:
   sprint_id: git-integration-2
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Add git hooks install/uninstall commands
+  task_type: development
+  title: Add git hooks install/uninstall commands
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.396841+00:00'
-  completed: '2025-11-27T11:04:09.396841+00:00'
-  description: "Add CLI commands for managing git hooks:\n\nCOMMANDS:\n- vibey git\
-    \ hooks install\n  Install all Vibey git hooks to .git/hooks/\n  Options: --force\
-    \ (overwrite existing), --backup\n\n- vibey git hooks uninstall\n  Remove Vibey\
-    \ git hooks\n  Options: --restore (restore backups)\n\n- vibey git hooks status\n\
-    \  Show which hooks are installed and their versions\n\n- vibey git hooks update\n\
-    \  Update hooks to latest version\n\nFEATURES:\n- Detect existing hooks and offer\
-    \ to chain\n- Support for hook directories (Git 2.9+)\n- Cross-platform compatibility\
-    \ (bash/python)\n"
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,59 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add status/progress mismatch detection
-  description: "Implement validation logic to detect status/progress mismatches.\n\
-    \nValidation Rules:\n\n1. Track Level:\n   - IF status == completed: progress.completion_percent\
-    \ MUST be 100\n   - IF status == in_progress: completion_percent MUST be 1-99\n\
-    \   - IF status == not_started: completion_percent MUST be 0\n   - tasks_completed\
-    \ MUST be <= tasks_total\n   - sprints_completed MUST be <= sprints_total\n\n\
-    2. Sprint Level:\n   - IF status == completed: completion_percent MUST be 100\n\
-    \   - IF status == production_ready: completion_percent MUST be 100\n   - IF status\
-    \ == in_progress: completion_percent MUST be 1-99\n   - IF status == not_started:\
-    \ completion_percent MUST be 0\n   - tasks_completed MUST be <= tasks_total\n\n\
-    3. Task Level:\n   - IF status == completed: completed timestamp MUST exist\n\
-    \   - IF status == in_progress: started timestamp MUST exist\n   - IF status ==\
-    \ not_started: both timestamps MUST be null\n\n4. Progress Calculation Validation:\n\
-    \   - Calculate expected completion_percent from actual task data\n   - Compare\
-    \ to declared completion_percent\n   - Flag if difference > 5%\n\nImplementation:\n\
-    - Create validation functions in vibey/operations/roadmap/validation.py\n- Add\
-    \ comprehensive test cases\n- Return structured validation results\n- Include\
-    \ severity levels (error, warning)\n\nDeliverables:\n- Status/progress validation\
-    \ logic\n- Test suite\n- Documentation of validation rules\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.444516+00:00'
-  completed: '2025-11-27T11:04:09.444516+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: roadmap-integrity-fixes-6-task-001
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - roadmap-integrity-fixes-6-task-001
-  deliverables:
-  - type: code
-    paths:
-    - Status/progress validation logic
-  - type: code
-    paths:
-    - Test suite
-  - type: code
-    paths:
-    - Validation rules documentation
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

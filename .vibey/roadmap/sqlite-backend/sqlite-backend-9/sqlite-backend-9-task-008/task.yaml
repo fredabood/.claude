@@ -5,93 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Pre-Commit Hook for Completion Verification
-  description: "Create a pre-commit hook that verifies criteria are met when a commit\n\
-    claims to complete tickets via \"Completes:\" markers in the message.\n\nDESIGN\
-    \ REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.6\n\nPRE-COMMIT HOOK BEHAVIOR:\n\
-    \nWhen a commit message contains \"Completes: <ticket-id>\":\n1. Parse all \"\
-    Completes:\" lines from commit message\n2. For each claimed ticket:\n   a. Load\
-    \ ticket from YAML/database\n   b. Call ticket.can_transition_to(COMPLETED)\n\
-    \   c. If can=False, collect blocking reasons\n3. If any tickets can't complete,\
-    \ abort commit with error message\n\nHOOK IMPLEMENTATION:\n\nFile: .vibey/hooks/pre-commit-completion-check\n\
-    \n#!/usr/bin/env python3\nimport sys\nfrom pathlib import Path\nfrom vibey.roadmap.hooks\
-    \ import verify_completion_claims\n\ndef main():\n    # Read commit message from\
-    \ file passed as argument\n    commit_msg_file = sys.argv[1]\n    commit_message\
-    \ = Path(commit_msg_file).read_text()\n\n    # Verify completion claims\n    root_dir\
-    \ = Path.cwd()\n    errors = verify_completion_claims(commit_message, root_dir)\n\
-    \n    if errors:\n        print(\"❌ Pre-commit hook failed:\\n\")\n        for\
-    \ error in errors:\n            print(error)\n            print()\n        print(\"\
-    Commit aborted. Fix criteria or remove 'Completes:' line.\")\n        sys.exit(1)\n\
-    \n    sys.exit(0)\n\nVERIFICATION FUNCTION:\n\ndef verify_completion_claims(commit_message:\
-    \ str, root_dir: Path) -> List[str]:\n    errors = []\n\n    # Extract \"Completes:\
-    \ ticket-id\" lines\n    claimed = []\n    for line in commit_message.split('\\\
-    n'):\n        if line.strip().startswith('Completes:'):\n            ticket_id\
-    \ = line.replace('Completes:', '').strip()\n            claimed.append(ticket_id)\n\
-    \n    for ticket_id in claimed:\n        ticket = load_ticket(ticket_id, root_dir)\n\
-    \        if not ticket:\n            errors.append(f\"Unknown ticket: {ticket_id}\"\
-    )\n            continue\n\n        can, reasons = ticket.can_transition_to(TicketStatus.COMPLETED)\n\
-    \n        if not can:\n            errors.append(\n                f\"Cannot complete\
-    \ {ticket_id} - criteria not met:\\n\" +\n                \"\\n\".join(f\"  -\
-    \ {r}\" for r in reasons)\n            )\n\n    return errors\n\nHOOK INSTALLATION:\n\
-    \nUpdate vibey roadmap install-hooks to:\n1. Copy pre-commit-completion-check\
-    \ to .git/hooks/\n2. Make it executable\n3. Chain with existing pre-commit hooks\n\
-    \nCLI COMMAND UPDATE:\n\nvibey roadmap install-hooks:\n- Add --completion-check\
-    \ flag (default: enabled)\n- Add --skip-completion-check to disable\n\nvibey roadmap\
-    \ check-hooks:\n- Show status of completion check hook\n\nFILE CHANGES:\n- vibey/roadmap/hooks/__init__.py\
-    \ (new module)\n- vibey/roadmap/hooks/completion_check.py (verify_completion_claims)\n\
-    - vibey/roadmap/hooks/pre-commit-completion-check (hook script)\n- vibey/cli/commands/roadmap.py\
-    \ (update install-hooks)\n- tests/roadmap/hooks/test_completion_check.py\n\nSUCCESS\
-    \ CRITERIA:\n- Hook parses \"Completes:\" markers correctly\n- Hook loads tickets\
-    \ and checks can_transition_to(COMPLETED)\n- Hook aborts commit if criteria not\
-    \ met\n- Hook shows clear error messages with blocking reasons\n- vibey roadmap\
-    \ install-hooks installs the hook\n- Full test coverage\n"
+  description: null
   status: not_started
   blocked: true
   created: '2025-11-30T10:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: gap-remediation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-9-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410443+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-9-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/hooks/__init__.py
-  - type: code
-    paths:
-    - vibey/roadmap/hooks/completion_check.py
-  - type: code
-    paths:
-    - vibey/roadmap/hooks/pre-commit-completion-check
-  - type: code
-    paths:
-    - vibey/cli/commands/roadmap.py
-  - type: code
-    paths:
-    - tests/roadmap/hooks/test_completion_check.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-30T10:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

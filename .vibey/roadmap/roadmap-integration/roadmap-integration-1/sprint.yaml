@@ -5,35 +5,70 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-07T10:00:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-08T18:18:26.800696+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-07T10:00:00+00:00'
-  production_gate_check_at: '2025-11-08T18:18:52.603848+00:00'
-  production_ready_at: '2025-11-08T18:19:00.868893+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 5
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: roadmap-integration-1-task-001
+    title: Update vibey.md deployment to initialize roadmap
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integration-1-task-002
+    title: Update vibey-plan.md to create roadmap sprint entries
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integration-1-task-003
+    title: Implement task extraction from sprint plans
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integration-1-task-004
+    title: Create integration tests for deployment and planning
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integration-1-task-005
+    title: Update deployment and planning documentation
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
-  blocks:
-  - type: sprint
-    target_id: roadmap-integration-2
-    at_status: not_started
-    reason: Progress tracking requires foundation from Sprint 1
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
   deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-15T00:00:00+00:00'
-    estimated_duration: 2 weeks
-    actual_duration: 6 hours
-    estimated_tokens: 5
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
     actual_tokens: null
-    agents_used: web-developer
+    agents_used: null

@@ -1,35 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-3
   id: replit-port-3-task-005
-  name: Implement drift detection with checksums
+  sprint_id: replit-port-3
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement drift detection with checksums
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement zero-drift validation using checksums to detect manual edits.\n\
-    \nCHECKSUM SYSTEM:\n- Calculate SHA256 checksums for generated files\n- Store\
-    \ checksums in .vibey/checksums.yaml\n- Validate checksums on CI runs\n- Fail\
-    \ CI if checksums mismatch\n\nCHECKSUM FILE STRUCTURE:\n```yaml\nchecksums:\n\
-    \  generated_at: \"2025-11-24T12:00:00Z\"\n  files:\n    .replit:\n      checksum:\
-    \ \"abc123...\"\n      generated_from: \".vibey/config/project.yaml\"\n    replit.nix:\n\
-    \      checksum: \"def456...\"\n      generated_from: \"pyproject.toml\"\n   \
-    \ .vibey/config/mcp.yaml:\n      checksum: \"ghi789...\"\n      generated_from:\
-    \ \".vibey/config/project.yaml\"\n```\n\nVALIDATION PROCESS:\n1. Read .vibey/checksums.yaml\n\
-    2. Calculate current checksums\n3. Compare against stored checksums\n4. Report\
-    \ mismatches\n5. Suggest regeneration command\n\nCI INTEGRATION:\n- Add checksum\
-    \ validation to CI pipeline\n- Fail on drift detection\n- Provide clear error\
-    \ messages\n- Suggest fix commands\n\nDELIVERABLES:\n- Checksum calculation logic\n\
-    - Validation method\n- CI integration script\n- Error reporting\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

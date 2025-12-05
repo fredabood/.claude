@@ -5,62 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Layer 3 - TrackTicket (Intermediate)
-  description: "Create the TrackTicket class - the parallelization boundary.\nTrack\
-    \ is ALWAYS intermediate (is_intermediate=True).\n\nDESIGN PRINCIPLE: L3 contains\
-    \ ONLY semantic-specific fields.\nAll common fields and behaviors inherited from\
-    \ L1/L2.\n\nHIERARCHY CONSTRAINTS:\n- is_intermediate: True (always - has both\
-    \ parent and children)\n- is_parent: True (always has Sprint children via CompletableTarget\
-    \ criteria)\n- is_child: True (always has Roadmap parent via parent_ref)\n- is_ultimate_parent:\
-    \ False (never - always has parent)\n- is_ultimate_child: False (never - always\
-    \ has children)\n\nThese constraints are ENFORCED by validators.\n\nINHERITED\
-    \ FROM L1 (Ticket extends Completable):\n- From Completable: id, name, description,\
-    \ criteria (THE source of truth)\n- From Completable: is_complete, progress, blocking_reasons,\
-    \ children (computed)\n- Ticket-specific: status, lifecycle timestamps\n- Ticket-specific:\
-    \ assigned_agents, priority, commits, dependencies\n- Ticket-specific: requirements_local\
-    \ (templates for children)\n- Ticket-specific: parent_ref (denormalized for fast\
-    \ lookup)\n\nINHERITED FROM L2 (HierarchicalTicket):\n- Smart accessors: commits\
-    \ (aggregated from sprints/tasks)\n- Smart accessors: requirements_effective (merged\
-    \ from roadmap + local)\n- Hierarchy traversal: parent, children_tickets, ancestors,\
-    \ descendants\n- Convenience accessors: deliverables, tests, subtasks, manual_checks\n\
-    \nTRACK-SPECIFIC FIELDS (L3 only):\n\n1. Type Discriminator:\n   - ticket_type:\
-    \ Literal[\"track\"] = \"track\"\n\n2. Parent Reference:\n   - roadmap_id: str\
-    \ (required, must match parent_id)\n\n3. Priority:\n   - priority: Priority enum\
-    \ (critical, high, medium, low)\n\n4. Strategic Context:\n   - strategic_value:\
-    \ list[str] (why this track matters)\n\n5. PARENT TYPE CONSTRAINT:\n   - parent_ref\
-    \ must reference a RoadmapTicket ID\n   - get_roadmap() -> RoadmapTicket (typed\
-    \ accessor)\n\n6. CHILD TYPE CONSTRAINT:\n   - Children derived from CompletableTarget\
-    \ criteria\n   - Must reference SprintTicket IDs in CompletableTarget criteria\n\
-    \   - get_sprints() -> list[SprintTicket] (typed accessor, filters criteria)\n\
-    \nNote on children: Track's children (sprints) are determined by\nCompletableTarget\
-    \ criteria. Example:\n\ncriteria:\n  - id: \"sprint-1\"\n    description: \"Sprint\
-    \ 1 complete\"\n    target:\n      type: \"completable\"\n      completable_id:\
-    \ \"sqlite-backend-1\"\n      required_status: \"completed\"\n\nVALIDATORS:\n\
-    - parent_ref must be set (intermediate constraint)\n- parent_ref must equal roadmap_id\n\
-    - Parent must be RoadmapTicket type (loaded and checked)\n- All CompletableTarget\
-    \ criteria must reference SprintTicket IDs\n- Track ID format: simple slug (no\
-    \ \"/\" or leading \"-\")\n\nCOMPUTED PROPERTIES (via Completable base):\n- is_complete:\
-    \ all criteria met\n- progress: met_criteria / total_criteria\n- children: list\
-    \ of completable_ids from CompletableTarget criteria\n- sprints_total: len(subtasks)\n\
-    - sprints_completed: count where target.is_satisfied()\n- tasks_total: sum of\
-    \ sprint.progress.total for all sprints\n- tasks_completed: sum of sprint.progress.completed\
-    \ for all sprints\n\nMETHODS:\n- get_roadmap() -> RoadmapTicket\n- get_sprints()\
-    \ -> list[SprintTicket]\n\nIMPLEMENTATION:\n\n1. Add TrackTicket to vibey/roadmap/models/ticket/domain.py\n\
-    2. Inherit from HierarchicalTicket\n3. Add validator: parent_id must be set and\
-    \ match roadmap_id\n4. Implement typed parent/child accessors\n\nSUCCESS CRITERIA:\n\
-    - TrackTicket must have parent_ref set (validation error if None)\n- is_intermediate\
-    \ always returns True\n- Children derived from CompletableTarget criteria\n- is_complete\
-    \ = all sprint criteria satisfied\n- Progress = sprints_completed / sprints_total\n\
-    - Requirements from track + roadmap cascade to sprints/tasks\n- Smart accessors\
-    \ work correctly (inheritance + aggregation)\n- 100% test coverage\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T12:00:00+00:00'
-  started: '2025-12-04T20:29:56.723850+00:00'
-  completed: '2025-12-04T20:34:11.211319+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-29T12:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 1500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -68,35 +22,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: sqlite-backend-6-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T00:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T00:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-008
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T00:00:00+00:00'
+  depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - TrackTicket class in vibey/roadmap/models/ticket/domain.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_track.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T20:34:10.918933+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

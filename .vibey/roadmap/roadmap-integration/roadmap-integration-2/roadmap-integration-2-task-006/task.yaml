@@ -5,12 +5,12 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update Documentation
-  description: Document progress tracking and roadmap management workflows
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348419+00:00'
-  started: '2025-11-27T11:04:09.661357+00:00'
-  completed: '2025-11-27T11:04:09.661357+00:00'
+  started: null
+  completed: '2025-11-08T18:34:27.348419+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -25,27 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: bdf87e0
-    message: 'docs: Add Sprint 2 completion summary for roadmap-integration track'
-    date: '2025-11-08T14:10:00-05:00'
-  - hash: c945257
-    message: 'docs: Update documentation to use roadmap CLI (Task 2.4)'
-    date: '2025-11-08T18:30:00+00:00'
-  - hash: c6b566d
-    message: 'docs: Complete documentation updates (Task 2.4 complete)'
-    date: '2025-11-08T18:35:00+00:00'
-  - hash: 1502655
-    message: 'docs: Add comprehensive roadmap management examples and FAQ'
-    date: '2025-11-10T19:50:00+00:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Slash command documentation deleted, replaced by CLI/MCP documentation
+  commits: []
   metadata:
-    superseded_by: vibey/cli/CLI.md and vibey/cli/ROADMAP_CLI.md
-    architectural_note: Documentation updated to reflect CLI/MCP architecture transition
-    last_updated: '2025-11-15T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,43 +1,32 @@
 task:
   id: roadmap-system-5-task-001
-  title: Design agent recommendation algorithm
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:47:00+00:00'
-  completed: '2025-11-10T18:47:49+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_lib/agents.py - AgentRouter class with recommendation algorithm
-  - AGENT_CAPABILITIES dictionary mapping agents to keywords/task_types/specialties
-  - recommend_agent_for_task() method with confidence scoring
-  - Keyword matching algorithm with weighted scores
-  - Task type matching for specialized agents (dev, quality gates, etc)
-  - Returns sorted list of (agent, confidence) tuples
-  commits:
-  - sha: 2d0f313
-    message: 'feat: Move framework modules to vibey package (Task 002)'
-    date: '2025-11-10T18:47:49-05:00'
-  - sha: 90d061f
-    message: 'feat: Update all imports to vibey package structure (Task 005)'
-    date: '2025-11-10T19:04:11-05:00'
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  metadata:
-    implementation_notes: 'Complete AgentRouter class (349 lines) with intelligent
-      recommendation algorithm. Uses AGENT_CAPABILITIES dictionary with 8 agents (web-developer,
-      ml-engineer, security-auditor, test-engineer, docs-writer, performance-optimizer,
-      devops-engineer, observability-engineer). Scoring: 0.5 for task type match +
-      up to 0.5 for keyword matches. Returns sorted recommendations by confidence.'
-    verification: Code verified in vibey/cli/roadmap_lib/agents.py lines 21-119 -
-      recommend_agent_for_task() method with keyword and task type matching
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Design agent recommendation algorithm
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

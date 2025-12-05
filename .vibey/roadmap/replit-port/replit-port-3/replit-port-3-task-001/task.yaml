@@ -1,72 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-3
   id: replit-port-3-task-001
-  name: Create ReplitConfigGenerator class
+  sprint_id: replit-port-3
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create ReplitConfigGenerator class
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 10
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: 'Create ReplitConfigGenerator class for generating Replit configuration
-
-    files from Vibey frontmatter (zero-drift architecture).
-
-
-    GENERATOR RESPONSIBILITIES:
-
-    - Parse frontmatter from project configuration
-
-    - Generate .replit TOML file
-
-    - Generate replit.nix file
-
-    - Generate MCP server configuration
-
-    - Calculate checksums for drift detection
-
-
-    ZERO-DRIFT DESIGN:
-
-    - All configs generated from frontmatter
-
-    - Checksums stored in .vibey/checksums.yaml
-
-    - CI fails on manual edits
-
-    - Regeneration required for changes
-
-
-    CONFIG SOURCES:
-
-    - .vibey/config/project.yaml
-
-    - agents/*.md frontmatter
-
-    - workflows/*.md frontmatter
-
-    - Platform-specific overrides
-
-
-    DELIVERABLES:
-
-    - ReplitConfigGenerator class
-
-    - Checksum calculation logic
-
-    - Config validation
-
-    - Generator documentation
-
-    '
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

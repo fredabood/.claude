@@ -8,168 +8,40 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: null
-  estimated_duration: 3 weeks
+  estimated_duration: null
   progress:
     sprints_total: 2
     sprints_completed: 0
     tasks_total: 12
     tasks_completed: 5
-    completion_percent: 41.7
+    completion_percent: 42.0
   sprints:
   - id: amazonq-port-1
     name: Core Adapter & MCP Configuration
-    status: not_started
-    estimated_duration: 1.5 weeks
+    status: in_progress
+    estimated_duration: null
     tasks_count: 7
     started: null
-    completed: null
-    description: 'Create AmazonQAdapter extending BaseAdapter.
-
-      Generate .amazonq/mcp.json configuration.
-
-      Integrate with Amazon Q MCP support (GA April 2025).
-
-
-      KEY INSIGHT: Amazon Q has FULL MCP SUPPORT.
-
-      - CLI: GA April 2025
-
-      - IDE plugins (VS Code, JetBrains): GA June 2025
-
-      - Admin controls: August 2025
-
-
-      TASKS:
-
-      - amazonq-port-1-task-001: Create AmazonQAdapter base class
-
-      - amazonq-port-1-task-002: Implement AmazonQContextGenerator
-
-      - amazonq-port-1-task-003: Implement AmazonQSettingsGenerator
-
-      - amazonq-port-1-task-004: Add vibey deploy --platform amazonq CLI
-
-      - amazonq-port-1-task-005: Handle AWS authentication integration
-
-      - amazonq-port-1-task-006: Write unit tests for adapter
-
-      - amazonq-port-1-task-007: Write unit tests for generators
-
-      '
   - id: amazonq-port-2
     name: Testing & Documentation
     status: not_started
-    estimated_duration: 1.5 weeks
+    estimated_duration: null
     tasks_count: 5
     started: null
-    description: 'Integration testing with Amazon Q CLI and IDE.
-
-      Enterprise IAM and admin control validation.
-
-      Complete integration documentation.
-
-
-      TASKS:
-
-      - amazonq-port-2-task-001: Integration tests with Q CLI
-
-      - amazonq-port-2-task-002: E2E tests with Q IDE plugins
-
-      - amazonq-port-2-task-003: Enterprise admin control testing
-
-      - amazonq-port-2-task-004: Write Amazon Q integration guide
-
-      - amazonq-port-2-task-005: Quality gate validation
-
-      '
-  dependencies:
-  - type: track
-    target_id: multi-platform
-    target_status: completed
-    reason: Requires adapter pattern from multi-platform architecture
-    optional: false
+  dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: multi-platform
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-23T00:00:00+00:00'
+  depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Zero-Drift Validation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All Amazon Q artifacts generated from frontmatter, CI fails on manual
-      edits
-    score: null
-  - name: MCP Tool Parity
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 46 MCP tools accessible from Amazon Q via mcp.json
-    score: null
-  - name: AWS Authentication
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: MCP server integrates with AWS IAM/SSO
-    score: null
-  - name: Documentation
-    threshold: 90
-    blocking: false
-    status: not_run
-    description: Integration guide complete for AWS developers
-    score: null
-  assigned_agents:
-  - backend-engineer
-  - test-engineer
-  - infrastructure-engineer
-  deliverables:
-  - AmazonQAdapter class (vibey/adapters/amazonq/adapter.py)
-  - AmazonQContextGenerator (vibey/adapters/amazonq/context_generator.py)
-  - AmazonQSettingsGenerator (vibey/adapters/amazonq/settings_generator.py)
-  - vibey deploy --platform amazonq CLI command
-  - .amazonq/mcp.json MCP configuration
-  - ~/.aws/amazonq/mcp.json global config template
-  - Integration guide (docs/guides/AMAZONQ_INTEGRATION.md)
-  - E2E test suite
-  strategic_value:
-  - 'Zero Drift: Generated artifacts always match source definitions'
-  - 'MCP Reuse: Leverages existing 46-tool MCP server'
-  - 'Full MCP: CLI, VS Code, JetBrains support (GA 2025)'
-  - 'AWS Ecosystem: Deep integration with AWS services'
-  - 'Enterprise: Admin controls for MCP server governance'
-  - 'Multi-IDE: Works in VS Code and JetBrains via Q plugins'
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    design_doc: docs/FRAMEWORK_ROADMAP.md
-    implementation_plan: .vibey/roadmap/amazonq-port/context/IMPLEMENTATION_PLAN.md
-    notes: "AMAZON Q DEVELOPER PORT - MEDIUM PRIORITY (Nov 2025 Research)\n\nCRITICAL\
-      \ UPDATE: Amazon Q has FULL MCP SUPPORT.\n- CLI: GA April 29, 2025\n- IDE plugins\
-      \ (VS Code, JetBrains): GA June 2025\n- Admin controls: August 2025\n\nMCP SUPPORT\
-      \ (CONFIRMED):\n- Local MCP servers (stdio)\n- Remote MCP servers (HTTP with\
-      \ OAuth)\n- Project config: .amazonq/mcp.json\n- Global config: ~/.aws/amazonq/mcp.json\n\
-      - Enterprise admin controls for MCP governance\n\nCONFIG FORMAT (.amazonq/mcp.json):\n\
-      {\n  \"mcpServers\": {\n    \"vibey\": {\n      \"command\": \"python\",\n \
-      \     \"args\": [\"-m\", \"framework.mcp.server\"],\n      \"env\": {}\n   \
-      \ }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n┌──────────────────────────────────────────────────┐\n\
-      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
-      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
-      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
-      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │AMAZONQ  │ │mcp.json\
-      \ │\n│(reuse)  │ │.md Gen  │ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
-      \nUNIQUE AWS CONSIDERATIONS:\n- AWS IAM integration for authentication\n- Enterprise\
-      \ admin controls for MCP governance\n- Multi-IDE support (VS Code + JetBrains)\n\
-      \nCOMPATIBILITY: 85-90% (MCP-based, minimal adapter)\nESTIMATED EFFORT: 3 weeks\n\
-      \nSOURCES:\n- https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-cli-model-context-protocol/\n\
-      - https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.html\n-\
-      \ https://aws.amazon.com/blogs/devops/use-model-context-protocol-with-amazon-q-developer-for-context-aware-ide-workflows/\n\
-      \nTimeline: Q4 2025 (3 weeks, medium priority)\n"
-    estimated_tokens: 0
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

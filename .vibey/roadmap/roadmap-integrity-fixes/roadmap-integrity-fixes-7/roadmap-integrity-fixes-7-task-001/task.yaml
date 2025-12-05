@@ -5,40 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix active YAML Python serialization corruption
-  description: 'Fix 3 YAML files that currently contain Python object serialization:
-
-    - .vibey/roadmap/aider-port/track.yaml (line 53)
-
-    - .vibey/roadmap/multi-platform/track.yaml (line 96)
-
-    - .vibey/roadmap/mcp-server/track.yaml (line 51)
-
-
-    Pattern to fix:
-
-    current_status: PYTHON_SERIALIZATION_PATTERN/object/apply:vibey.roadmap.models.common.Status
-
-    - in_progress
-
-
-    Should be:
-
-    current_status: in_progress
-
-
-    Verification:
-
-    grep -r "PYTHON_SERIALIZATION_PATTERN" .vibey/roadmap/
-
-    (should return no results)
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.460201+00:00'
-  completed: '2025-11-27T11:04:09.460201+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-16T00:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
   estimated_tokens: 1
@@ -51,18 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - Fixed aider-port/track.yaml
-  - type: documentation
-    paths:
-    - Fixed multi-platform/track.yaml
-  - type: documentation
-    paths:
-    - Fixed mcp-server/track.yaml
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:07:09.392796+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,16 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Define DeploymentResult dataclass
-  description: Create DeploymentResult dataclass with metadata support and hooks
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.573060+00:00'
-  completed: '2025-11-27T11:04:09.573060+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: 'Sprint 3: Platform Adapter Implementation'
-  estimated_tokens: 5000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -24,14 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Abstract adapter methods
-  - Hook system for platform customization
-  commits:
-  - hash: 0a680f2097836afa4640a470b8019058e112ce16
-    date: '2025-11-10T20:34:21-05:00'
-    message: 'feat: Sprint 3 Tasks 001-004 - Platform Adapter Foundation'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-10T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

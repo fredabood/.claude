@@ -2,57 +2,31 @@ task:
   id: claude-port-1-task-005
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-10T23:57:00-05:00'
-  started: '2025-11-27T11:04:09.565729+00:00'
-  completed: '2025-11-27T11:04:09.565729+00:00'
-  estimated_duration: 4 hours
-  actual_duration: 9 minutes
-  priority: critical
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  description: 'Prioritize and fix all critical bugs discovered during testing phase.
-
-    Focus on bugs that block core functionality or cause test failures.
-
-    '
-  acceptance_criteria:
-  - All critical bugs fixed
-  - Bug fixes verified with tests
-  - No regressions introduced
-  - Pass rate improved
-  deliverables:
-  - 4 bug fixes committed
-  - Test pass rate maintained at 68%
-  - Comprehensive bug fix documentation
-  commits:
-  - 90550bb2402b5a8ec2733921e8ffe95d9d857e1f
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed with exceptional efficiency - 9 minutes for 4 bug fixes!
-
-
-      Bugs Fixed:
-
-      1. YAML Schema Bug - Made version_strategy optional (32 tests)
-
-      2. ID Validation Bug - Relaxed sprint ID validation (6 tests)
-
-      3. Import Path Bug - Fixed roadmap-init.py import
-
-      4. Test File Naming - Renamed files to remove dots (3 collection errors)
-
-
-      Total Impact: 43 tests fixed, 0 regressions
-
-
-      See commit 90550bb for detailed bug fix documentation.
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Fix bugs discovered in testing
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-10T23:57:00-05:00'
+  started: null
+  completed: '2025-11-10T23:57:00-05:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

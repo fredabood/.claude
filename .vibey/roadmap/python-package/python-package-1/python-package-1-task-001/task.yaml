@@ -1,34 +1,32 @@
 task:
   id: python-package-1-task-001
-  roadmap_id: vibey-framework-v2
-  track_id: python-package
   sprint_id: python-package-1
-  name: Move framework/ into vibey/content/
+  track_id: python-package
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Move framework/ into vibey/content/
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 2
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.356431+00:00'
-  completed: '2025-11-27T11:04:09.356431+00:00'
-  description: 'Relocate framework directory inside the vibey package with rename:
-
-    - Move framework/ to vibey/content/
-
-    - Rename reflects that this is content (agents, workflows, templates)
-
-    - Preserve directory structure (agents/, workflows/, templates/, etc.)
-
-    - Update any hardcoded paths in codebase
-
-    - Add vibey/content/__init__.py for package recognition
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

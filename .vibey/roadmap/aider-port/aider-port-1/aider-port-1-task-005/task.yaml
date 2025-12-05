@@ -5,21 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Git hook integration
-  description: 'Pre-commit hooks for quality gate validation, post-commit hooks for
-    handoff metadata tracking
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-23T04:54:00.177636+00:00'
-  started: '2025-11-27T11:04:09.710148+00:00'
-  completed: '2025-11-27T11:04:09.710148+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T04:54:00.177636+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 5000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
@@ -30,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T04:54:00.177636+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

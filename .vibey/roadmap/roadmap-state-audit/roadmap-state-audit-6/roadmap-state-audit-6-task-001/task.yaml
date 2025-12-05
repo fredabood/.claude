@@ -5,28 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create sprint.yaml files
-  description: Add proper sprint directory structure
+  description: null
   status: completed
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
-  completed: '2025-11-26T00:00:00+00:00'
-  assigned_agent: coordinator
+  completed: '2025-11-23T20:51:06.889497+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: remediation
-  estimated_tokens: 500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T20:51:06.889497+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: 'VERIFIED 2025-11-26: Sprint.yaml files exist. Found copilot-port-1/sprint.yaml
-      and copilot-port-2/sprint.yaml. Issue already fixed.'

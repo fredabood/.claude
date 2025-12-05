@@ -3,31 +3,30 @@ task:
   sprint_id: git-integration-2
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Create test suite for git hooks
+  task_type: development
+  title: Create test suite for git hooks
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 6
-  assigned_agent: test-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.398559+00:00'
-  completed: '2025-11-27T11:04:09.398559+00:00'
-  description: "Comprehensive tests for git hooks functionality:\n\nTEST CATEGORIES:\n\
-    1. Pre-commit hook tests\n   - Valid roadmap passes\n   - Invalid YAML fails (blocking\
-    \ mode)\n   - Invalid YAML warns (advisory mode)\n   - Missing tasks detected\n\
-    \n2. Commit-msg hook tests\n   - Valid formats accepted\n   - Invalid formats\
-    \ rejected/warned\n   - Task ID extraction accurate\n   - Multi-task parsing works\n\
-    \n3. Install/uninstall tests\n   - Fresh install works\n   - Upgrade preserves\
-    \ config\n   - Uninstall cleans up\n   - Backup/restore works\n\n4. Status update\
-    \ tests\n   - Correct status transitions\n   - Commit SHA recorded\n   - Dry-run\
-    \ doesn't modify\n\n5. Branch linking tests\n   - Name parsing accurate\n   -\
-    \ Lifecycle tracking works\n\nTEST INFRASTRUCTURE:\n- Isolated git repos for testing\n\
-    - Mock roadmap fixtures\n- Cross-platform testing\n"
-  acceptance_criteria: []
-  dependencies: []
-  blocked_by: []
-  depended_on_by: []
-  commits:
-  - jkl3456
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

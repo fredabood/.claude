@@ -1,37 +1,32 @@
 task:
   id: roadmap-system-1-task-007
-  title: Implement serialization/deserialization
   sprint_id: roadmap-system-1
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:00:00+00:00'
-  completed: '2025-11-12T17:00:00+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/roadmap/serialization/ - YAML loader and dumper
-  commits:
-  - sha: 2d0f313
-    message: 'feat: Move framework modules to vibey package (Task 002)'
-    date: '2025-11-10T18:47:49-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762818469
-  - sha: 205c877
-    message: 'fix: Begin addressing test failures in comprehensive CLI test suite'
-    date: '2025-11-12T16:22:27-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762982547
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  metadata: {}
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Implement serialization/deserialization
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

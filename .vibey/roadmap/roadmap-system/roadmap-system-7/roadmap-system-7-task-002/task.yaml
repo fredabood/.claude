@@ -2,145 +2,31 @@ task:
   id: roadmap-system-7-task-002
   sprint_id: roadmap-system-7
   track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update data models for token-based estimates
+  description: null
   status: completed
-  priority: critical
+  blocked: false
   created: '2025-11-20T00:38:19.704283+00:00'
-  started: '2025-11-27T11:04:09.548530+00:00'
-  completed: '2025-11-27T11:04:09.548530+00:00'
-  estimated_duration: 3 hours
-  actual_duration: null
-  description: 'Add token-based fields to Task, Sprint, and Track models.
-
-
-    TASK MODEL UPDATES (vibey/roadmap/models/task.py):
-
-    ```python
-
-    # Keep existing time fields for backward compatibility
-
-    estimated_duration: Optional[str] = None
-
-    actual_duration: Optional[float] = None
-
-
-    # NEW: Token-based sizing
-
-    estimated_tokens: Optional[int] = None  # Planned token usage
-
-    actual_tokens: Optional[int] = None  # Measured token usage
-
-    token_efficiency: Optional[float] = None  # actual/estimated ratio
-
-    size_category: Optional[str] = None  # S/M/L/XL/XXL
-
-    ```
-
-
-    SPRINT MODEL UPDATES (vibey/roadmap/models/sprint.py):
-
-    ```python
-
-    # NEW: Aggregated token metrics
-
-    estimated_tokens: Optional[int] = None  # Sum of task estimates
-
-    actual_tokens: Optional[int] = None  # Sum of actual usage
-
-    token_budget: Optional[int] = None  # Max tokens allocated
-
-    token_burn_rate: Optional[float] = None  # Tokens consumed per day
-
-    tokens_remaining: Optional[int] = None  # budget - actual
-
-    ```
-
-
-    TRACK MODEL UPDATES (vibey/roadmap/models/track.py):
-
-    ```python
-
-    # NEW: Track-level token tracking
-
-    estimated_tokens: Optional[int] = None  # Total across all sprints
-
-    actual_tokens: Optional[int] = None  # Cumulative actual usage
-
-    token_budget: Optional[int] = None  # Total budget for track
-
-    ```
-
-
-    IMPLEMENTATION STEPS:
-
-    1. Update Task dataclass
-
-    2. Update Sprint dataclass
-
-    3. Update Track dataclass
-
-    4. Update YAML dumper to serialize new fields
-
-    5. Update YAML loader to deserialize new fields
-
-    6. Maintain backward compatibility (old files without token fields)
-
-    7. Update schema validation
-
-    8. Add field documentation
-
-
-    TESTING:
-
-    - Load/save tasks with token fields
-
-    - Load old tasks without token fields
-
-    - Validate token field types and ranges
-
-    - Test aggregation (sprint tokens = sum of task tokens)
-
-    '
-  acceptance_criteria:
-  - All three models updated with token fields
-  - YAML serialization/deserialization works
-  - Backward compatibility maintained
-  - Schema validation updated
-  - All tests pass
-  - Fields documented in model docstrings
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/task.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/sprint.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/track.py
-  - type: code
-    paths:
-    - vibey/roadmap/serialization/yaml_dumper.py
-  - type: code
-    paths:
-    - vibey/roadmap/serialization/yaml_loader.py
-  - type: test
-    paths:
-    - tests/test_token_fields.py
-  dependencies:
-  - type: task
-    target_id: roadmap-system-7-task-001
-    target_status: completed
-    reason: Need size categories defined first
-  blocked_by: []
+  started: null
+  completed: '2025-11-20T00:38:19.704283+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
-  assigned_agent: web-developer
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T00:38:19.704306+00:00'
-  title: Update data models for token-based estimates
-  task_type: development
-  estimated_tokens: 30000
-  size_category: L
-  original_estimated_duration: 3 hours
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

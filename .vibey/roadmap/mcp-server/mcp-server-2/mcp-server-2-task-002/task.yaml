@@ -1,31 +1,32 @@
 task:
   id: mcp-server-2-task-002
-  title: Query tools (4 tools)
   sprint_id: mcp-server-2
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Query tools (4 tools)
+  description: null
   status: completed
   blocked: false
-  description: Implement vibey_query_track, vibey_list_blockers, vibey_list_dependencies,
-    vibey_roadmap_status
   created: '2025-11-10T18:00:00+00:00'
-  started: '2025-11-27T11:04:09.332537+00:00'
-  completed: '2025-11-27T11:04:09.332537+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T18:00:00+00:00'
+  assigned_agent: null
   priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
-  estimated_tokens: 6000
-  actual_tokens: 6200
-  dependencies:
-  - type: task
-    target_id: mcp-server-2-task-001
-    target_status: completed
-    reason: Query tools follow similar patterns
-    optional: true
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - framework/mcp/tools/query_tools.py (415 lines - 4 query/analysis tools)
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,46 +1,32 @@
 task:
   id: roadmap-system-5-task-002
-  title: Implement `vibey task next` with routing
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:47:00+00:00'
-  completed: '2025-11-10T18:47:49+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_commands/recommend.py - Complete CLI command implementation
-  - vibey/cli/roadmap - CLI integration (lines 162-166, 368-370)
-  - Implemented 'roadmap recommend' for task recommendations
-  - Implemented 'roadmap recommend --task <id>' for agent recommendations
-  - Implemented 'roadmap recommend --agent <name>' for agent-specific task recommendations
-  - Supports --limit flag for max recommendations (default 5)
-  - Integrated with AgentRouter.recommend_next_task()
-  - Pretty-printed output with priority scores and recommended agents
-  commits:
-  - sha: 2d0f313
-    message: 'feat: Move framework modules to vibey package (Task 002)'
-    date: '2025-11-10T18:47:49-05:00'
-  dependencies:
-  - roadmap-system-5-task-001
-  blocked_by: []
-  blocks: []
-  metadata:
-    implementation_notes: 'Complete CLI command (150 lines) wired into main roadmap
-      CLI. Supports two modes: (1) Get task recommendations (optionally filtered by
-      agent), (2) Get agent recommendations for specific task. Uses AgentRouter.recommend_next_task()
-      which filters by sprint status (in_progress), task status (not_started), blocks
-      quality gates, and calculates priority scores. Pretty-printed output with visual
-      progress bars and actionable next steps.'
-    verification: Code verified in vibey/cli/roadmap_commands/recommend.py (complete)
-      and vibey/cli/roadmap (wired lines 162-166, 368-370). Command is fully functional
-      and accessible via "roadmap recommend"
-    cli_status: FULLY WIRED - accessible via "roadmap recommend" command
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Implement `vibey task next` with routing
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,35 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-4
   id: replit-port-4-task-001
-  name: Initialize Extension project structure
+  sprint_id: replit-port-4
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Initialize Extension project structure
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 6
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Initialize Replit Extension project with React and TypeScript.\n\n\
-    PROJECT STRUCTURE:\n```\nvibey-replit-extension/\n├── src/\n│   ├── components/\
-    \       # React components\n│   ├── hooks/            # Custom hooks\n│   ├──\
-    \ lib/              # Utilities\n│   ├── types/            # TypeScript types\n\
-    │   └── index.tsx         # Entry point\n├── public/\n│   └── manifest.json  \
-    \   # Extension manifest\n├── package.json\n├── tsconfig.json\n└── vite.config.ts\n\
-    ```\n\nDEPENDENCIES:\n- React 18+\n- TypeScript 5+\n- Vite (build tool)\n- @replit/extensions\
-    \ (Replit Extensions API)\n- MCP client library\n\nCONFIGURATION:\n- TypeScript\
-    \ strict mode\n- ESLint + Prettier\n- Vite for fast builds\n- Extension manifest\n\
-    \nMANIFEST.JSON:\n```json\n{\n  \"name\": \"vibey\",\n  \"version\": \"1.0.0\"\
-    ,\n  \"description\": \"Vibey Agent Framework for Replit\",\n  \"permissions\"\
-    : [\n    \"read:files\",\n    \"write:files\",\n    \"execute:commands\"\n  ]\n\
-    }\n```\n\nDELIVERABLES:\n- Extension project structure\n- Build configuration\n\
-    - Development environment\n- Basic entry point\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

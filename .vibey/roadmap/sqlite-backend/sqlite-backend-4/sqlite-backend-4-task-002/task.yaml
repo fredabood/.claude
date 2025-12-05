@@ -5,75 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add description and score fields to quality_gates table
-  description: |
-    Fix sql_dumper.py to preserve description and score fields when saving quality gates.
-
-    CURRENT STATE:
-    - quality_gates table exists with 140 rows (correct count)
-    - Schema has description and score columns
-    - sql_dumper.py line 179 only saves: owner_type, owner_id, name, threshold, status, blocking
-    - description field is empty in computed DB but has data in declared DB
-    - score field exists but may not be populated
-
-    IMPLEMENTATION:
-    1. Update sql_dumper.py save_track() function:
-       - Line 178-181: Add description and score to INSERT statement
-       - Change from:
-         INSERT INTO quality_gates (owner_type, owner_id, name, threshold, status, blocking)
-         VALUES ('track', ?, ?, ?, ?, ?)
-       - To:
-         INSERT INTO quality_gates (owner_type, owner_id, name, description, threshold, status, blocking, score)
-         VALUES ('track', ?, ?, ?, ?, ?, ?, ?)
-
-    2. Verify QualityGate model has description and score attributes
-
-    3. Update compare_databases.py to:
-       - Compare quality_gates table (computed) vs track_quality_gates table (declared)
-       - Account for schema differences (polymorphic vs direct track_id)
-       - Report any missing descriptions
-
-    4. Regenerate computed database and verify all 140 gates have descriptions
-
-    SUCCESS CRITERIA:
-    - All 140 quality gates have description field populated
-    - Comparison shows 0 data gaps for quality gates
-    - Schema matches: computed quality_gates ≡ declared track_quality_gates
+  description: null
   status: completed
   blocked: false
   created: '2025-11-28T15:00:00+00:00'
-  started: '2025-11-28T16:15:00+00:00'
-  completed: '2025-11-28T16:25:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-28T15:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Updated sql_dumper.py with description/score fields
-  - type: code
-    paths:
-    - Updated compare_databases.py with quality_gates comparison
-  - type: code
-    paths:
-    - Regenerated computed.db with complete quality gate data
-  - type: documentation
-    paths:
-    - Comparison report showing 0 quality gate gaps
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-28T18:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Simple fix - the schema already supports these fields, just need to
-      populate them in the dumper. The comparison script flagged this as
-      a "missing table" because it used different table names, but the
-      data structure is equivalent.

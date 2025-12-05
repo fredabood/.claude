@@ -2,61 +2,78 @@ sprint:
   id: vscode-port-1
   name: Core Adapter & MCP Configuration
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
   status: in_progress
   blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1 week
-  description: 'Create VSCodeAdapter extending BaseAdapter.
-
-    Generate .vscode/mcp.json configuration.
-
-    Integrate with VS Code native MCP support (GA July 2025).
-
-
-    KEY INSIGHT: VS Code has FULL MCP SUPPORT (GA in v1.102).
-
-    No extension needed - just mcp.json config file.
-
-    Full spec: Tools, Resources, Prompts, Sampling, Auth.
-
-    '
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 4
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 4
-    completion_percent: 66.7
-  tasks: []
-  quality_gates:
-  - name: Unit Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: All adapter and generator code covered by unit tests
-    score: null
-  - name: Code Quality
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Type hints, docstrings, and linting standards met
-    score: null
-  deliverables:
-  - VSCodeAdapter class (vibey/adapters/vscode/adapter.py)
-  - VSCodeContextGenerator (vibey/adapters/vscode/context_generator.py)
-  - VSCodeSettingsGenerator (vibey/adapters/vscode/settings_generator.py)
-  - vibey deploy --platform vscode CLI command
-  - Unit test suite for adapter and generators
-  assigned_agents:
-  - web-developer
-  - test-engineer
+    completion_percent: 67.0
+  tasks:
+  - id: vscode-port-1-task-001
+    title: Create VSCodeAdapter base class
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: vscode-port-1-task-002
+    title: Implement VSCodeContextGenerator
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: vscode-port-1-task-003
+    title: Implement VSCodeSettingsGenerator (.vscode/mcp.json)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: vscode-port-1-task-004
+    title: Add vibey deploy --platform vscode CLI
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: vscode-port-1-task-005
+    title: Write unit tests for adapter
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-port-1-task-006
+    title: Write unit tests for generators
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 1 focuses on core adapter implementation and MCP configuration
-      generation.
-
-      All artifacts are generated from frontmatter (zero-drift architecture).
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

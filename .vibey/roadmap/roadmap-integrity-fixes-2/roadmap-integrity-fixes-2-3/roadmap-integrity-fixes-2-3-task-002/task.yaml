@@ -1,25 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-002
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-3
-  name: Extract python-package-2 tasks to task.yaml files
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extract python-package-2 tasks to task.yaml files
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 0.3
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Extract 6 embedded tasks from python-package-2/sprint.yaml.
-
-    All tasks should be marked completed.
-
-    '
-  acceptance_criteria:
-  - 6 task directories created
-  - 6 task.yaml files with status: completed
-  - sprint.yaml updated with tasks:[]
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,20 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement task extraction from sprint plans
-  description: 'Add functionality to extract tasks from markdown sprint plans and
-    create
-
-    corresponding entries in .vibey/tasks/{sprint-id}-tasks.yaml. Should
-
-    parse task descriptions, dependencies, and agents from plan structure.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T13:18:26.791651+00:00'
-  started: '2025-11-27T11:04:09.665202+00:00'
-  completed: '2025-11-27T11:04:09.665202+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-08T13:18:26.791651+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -26,32 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integration-1-task-002
-    target_status: completed
-    reason: Sprint creation must work before task extraction
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: fd7a44e
-    message: 'feat: Complete sprint plan parser integration (Task 1.2 DONE)'
-    date: '2025-11-08T18:19:41+00:00'
-  - hash: 1362d2d
-    message: 'feat: Add sprint-from-plan parser and integrate with /vibey plan'
-    date: '2025-11-10T19:10:00+00:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Task extraction logic migrated to vibey roadmap CLI
+  commits: []
   metadata:
-    superseded_by: vibey/operations/roadmap/plan_parser.py
-    architectural_note: Task extraction now handled by Python library, called by CLI
-      and MCP
-    last_updated: '2025-11-08T13:18:26.791649+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

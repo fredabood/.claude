@@ -5,46 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement deterministic DB to YAML dump
-  description: "Implement dump logic in vibey/roadmap/database/sync/dump.py:\n\nvibey\
-    \ roadmap dump command:\n- Query all entities from database\n- Write to hierarchical\
-    \ YAML structure:\n  - .vibey/roadmap.yaml (roadmap root)\n  - .vibey/roadmap/{track}/track.yaml\n\
-    \  - .vibey/roadmap/{track}/{sprint}/sprint.yaml\n  - .vibey/roadmap/{track}/{sprint}/{task}/task.yaml\n\
-    \nDeterministic output requirements (from 005-yaml-sync-strategy.md):\n- Fixed\
-    \ key ordering per entity type (defined in code)\n- Arrays sorted by ID or natural\
-    \ key\n- ISO 8601 timestamps with Z suffix\n- Explicit null for optional fields\
-    \ (no omission)\n- 2-space indentation, no flow style\n\nPre-dump safety check:\n\
-    - Compute current checksums of YAML files\n- Compare with yaml_checksums table\
-    \ (stored at load time)\n- If mismatch: YAML was edited manually since load\n\
-    - Error with instructions: \"YAML modified outside CLI, run rebuild first\"\n\
-    - --force flag to overwrite anyway\n\nPost-dump:\n- Update yaml_checksums with\
-    \ new checksums\n- Set database_state.is_dirty = 0\n- Record last_yaml_dump timestamp\n\
-    \nTest: Run dump twice, compare byte-for-byte (must be identical)\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T18:00:00+00:00'
-  completed: '2025-11-26T22:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-3-task-003
-  - sqlite-backend-3-task-005
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/roadmap/database/sync/dump.py
-  - Deterministic YAML serialization
-  - Pre-dump checksum safety check
-  - Byte-for-byte determinism tests
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

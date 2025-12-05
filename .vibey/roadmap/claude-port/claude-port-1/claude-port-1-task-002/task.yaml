@@ -2,58 +2,31 @@ task:
   id: claude-port-1-task-002
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-10T23:48:00-05:00'
-  started: '2025-11-27T11:04:09.564507+00:00'
-  completed: '2025-11-27T11:04:09.564507+00:00'
-  estimated_duration: 3 hours
-  actual_duration: 15 minutes
-  priority: high
-  assigned_agents:
-  - test-engineer
-  description: 'Execute all 142 integration tests covering 7 user journeys to validate
-
-    end-to-end workflows and user experience on Claude Code platform.
-
-    '
-  acceptance_criteria:
-  - All integration tests executed
-  - Journey pass rates documented
-  - End-to-end workflows validated
-  - User experience issues identified
-  deliverables:
-  - Integration test results (142 tests, 80% pass rate)
-  - Journey-specific pass rates
-  - Workflow validation results
-  commits:
-  - f88b59599fde2b929990e04cd6b13e6bf358cd1f
-  - dfbd7fe02b9a22284ba01eb776df83310bc95d35
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed as part of initial validation run.
-
-
-      Results:
-
-      - 142 integration tests executed
-
-      - Journey 1: 100% pass rate (19/19)
-
-      - Journey 6: 100% pass rate (11/11)
-
-      - Journey 8: 98% pass rate (40/41)
-
-      - Other journeys: 62% pass rate (44/71)
-
-      - Overall: 80% integration test pass rate
-
-
-      Excellent results for core user journeys (1, 6, 8).
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Run integration tests for all 7 journeys
-  estimated_tokens: 30000
-  size_category: L
-  original_estimated_duration: 3 hours
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-10T23:48:00-05:00'
+  started: null
+  completed: '2025-11-10T23:48:00-05:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

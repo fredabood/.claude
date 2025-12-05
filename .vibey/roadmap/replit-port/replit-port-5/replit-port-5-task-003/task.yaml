@@ -1,39 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-5
   id: replit-port-5-task-003
-  name: Create TaskList component
+  sprint_id: replit-port-5
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create TaskList component
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 10
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create TaskList component for interactive task management.\n\nCOMPONENT\
-    \ FEATURES:\n1. Task Table/List\n   - Task name and ID\n   - Status badge\n  \
-    \ - Priority indicator\n   - Assigned agent\n   - Estimated hours\n\n2. Status\
-    \ Management\n   - Click to change status\n   - Status dropdown\n   - Keyboard\
-    \ shortcuts\n   - Bulk status update\n\n3. Task Details Panel\n   - Full description\n\
-    \   - Acceptance criteria\n   - Dependencies\n   - Commits\n   - Comments\n\n\
-    4. Filtering & Sorting\n   - Filter by status\n   - Filter by agent\n   - Filter\
-    \ by priority\n   - Sort by various fields\n   - Search by name\n\nCOMPONENT STRUCTURE:\n\
-    ```typescript\ninterface TaskListProps {\n  tasks: Task[];\n  sprintId: string;\n\
-    \  onTaskUpdate: (taskId: string, updates: Partial<Task>) => Promise<void>;\n\
-    }\n\nexport function TaskList({ tasks, sprintId, onTaskUpdate }: TaskListProps)\
-    \ {\n  const { updateTaskStatus } = useVibey();\n  const [selectedTask, setSelectedTask]\
-    \ = useState<Task | null>(null);\n  // Implementation\n}\n```\n\nINTERACTIONS:\n\
-    - Click task to view details\n- Click status to change\n- Hover for quick info\n\
-    - Drag to reorder (optional)\n\nSTATUS WORKFLOW:\nnot_started → in_progress →\
-    \ completed\n- Visual feedback on changes\n- Optimistic updates\n- Error handling\n\
-    \nDELIVERABLES:\n- TaskList component\n- TaskRow sub-component\n- TaskDetails\
-    \ panel\n- Status controls\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

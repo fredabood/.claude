@@ -1,26 +1,32 @@
 task:
   id: copilot-port-2-task-004
-  title: Enterprise deployment documentation
   sprint_id: copilot-port-2
   track_id: copilot-port
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Enterprise deployment documentation
+  description: null
   status: not_started
   blocked: false
-  description: Comprehensive enterprise deployment guide for Vibey + GitHub Copilot.
-    Cover security, compliance, GitHub Enterprise integration, and corporate policies.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: docs-writer
+  assigned_agent: null
   priority: medium
-  complexity: medium
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  dependencies:
-  - copilot-port-2-task-003
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - docs/platforms/copilot/ENTERPRISE_DEPLOYMENT.md
-  - Security and compliance guide
-  - GitHub Enterprise integration patterns
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

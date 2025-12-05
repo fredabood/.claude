@@ -1,26 +1,32 @@
 task:
   id: python-package-1-task-002
-  roadmap_id: vibey-framework-v2
-  track_id: python-package
   sprint_id: python-package-1
-  name: Fix pyproject.toml package discovery
+  track_id: python-package
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix pyproject.toml package discovery
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 2
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.357024+00:00'
-  completed: '2025-11-27T11:04:09.357024+00:00'
-  description: "Update pyproject.toml to include all subpackages:\n- Replace manual\
-    \ package list with find_packages()\n- Ensure all vibey.* subpackages discovered:\n\
-    \  - vibey.cli\n  - vibey.operations\n  - vibey.mcp\n  - vibey.adapters\n  - vibey.common\n\
-    \  - vibey.config\n  - vibey.platform\n  - vibey.roadmap\n  - vibey.content\n\
-    - Verify nested packages included (e.g., vibey.roadmap.models)\n"
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

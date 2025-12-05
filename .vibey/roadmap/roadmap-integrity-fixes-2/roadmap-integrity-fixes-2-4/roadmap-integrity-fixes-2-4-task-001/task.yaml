@@ -1,64 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-4-task-001
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-4
-  name: Create task hierarchy for amazonq-port
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create task hierarchy for amazonq-port
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 0.4
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Create proper sprint/task structure for amazonq-port.
-
-
-    CURRENT STATE:
-
-    - Track exists with 0 sprints, 0 tasks
-
-    - Claims 33-75% progress (phantom)
-
-    - Adapter exists: vibey/adapters/amazonq.py
-
-
-    ACTIONS:
-
-    1. Create sprint directory amazonq-port-1/
-
-    2. Extract task descriptions from track.yaml or create based on adapter pattern
-
-    3. Create task.yaml files (all status: not_started)
-
-    4. Update progress counters to 0%
-
-
-    EXPECTED TASKS (based on adapter pattern):
-
-    - task-001: Implement adapter configuration
-
-    - task-002: Implement prompt generation
-
-    - task-003: Implement response parsing
-
-    - task-004: Add platform-specific features
-
-    - task-005: Create test suite
-
-    - task-006: Write documentation
-
-    '
-  acceptance_criteria:
-  - Sprint directory created
-  - 6+ task.yaml files created
-  - All tasks status: not_started
-  - Progress shows 0%
-  metadata:
-    last_updated: '2025-11-25T04:50:23.454626+00:00'
-  commits:
-  - sha: 2e7aa41958191e5598903242134c1041359ed704
-    message: 'feat: Create hierarchical structure for 6 platform port tracks'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-24T23:39:44-05:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

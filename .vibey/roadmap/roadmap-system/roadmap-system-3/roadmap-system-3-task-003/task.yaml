@@ -1,37 +1,32 @@
 task:
   id: roadmap-system-3-task-003
-  title: Implement `vibey track list/status`
   sprint_id: roadmap-system-3
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:00:00+00:00'
-  completed: '2025-11-12T17:00:00+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_commands/list_cmd.py
-  commits:
-  - sha: 082b952
-    message: 'feat: Wire CLI commands to script functionality (Task 004)'
-    date: '2025-11-10T19:03:27-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762819407
-  - sha: c5c575e
-    message: 'feat: Verify and fix roadmap CLI commands (Tasks 006-007)'
-    date: '2025-11-10T19:07:12-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762819632
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  metadata: {}
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Implement `vibey track list/status`
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

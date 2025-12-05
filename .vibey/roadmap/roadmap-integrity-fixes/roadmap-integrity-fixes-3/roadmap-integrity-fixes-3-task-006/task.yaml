@@ -5,53 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Reset testing-system phantom progress
-  description: 'Reset all progress counters in testing-system sprints to 0% as the
-
-    track has no actual task objects, only text summaries.
-
-
-    Current State:
-
-    - 3 sprints claiming 100% completion
-
-    - 30 tasks claimed complete (tasks_completed: 30)
-
-    - 0 actual task objects exist
-
-    - Uses tasks_summary (text) instead of task objects
-
-
-    Required Changes:
-
-    For each sprint (testing-system-1 through -3):
-
-    - Set tasks_completed: 0
-
-    - Set completion_percent: 0
-
-    - Set status: not_started
-
-    - Document that tasks_summary is not trackable data
-
-
-    Acceptance Criteria:
-
-    - All 3 sprints show 0% progress
-
-    - All sprints status = not_started
-
-    - Track progress reflects 0/30 tasks completed
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T19:30:00+00:00'
-  started: '2025-11-27T11:04:09.497651+00:00'
-  completed: '2025-11-27T11:04:09.497651+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T19:30:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 1500
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -61,15 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - 3 sprint.yaml files with reset progress counters
-  - type: code
-    paths:
-    - testing-system/track.yaml with updated progress
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T19:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

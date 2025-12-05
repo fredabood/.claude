@@ -2,76 +2,31 @@ task:
   id: roadmap-system-7-task-005
   sprint_id: roadmap-system-7
   track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update documentation and validation
+  description: null
   status: completed
-  priority: medium
+  blocked: false
   created: '2025-11-20T00:38:19.730804+00:00'
-  started: '2025-11-27T11:04:09.549766+00:00'
-  completed: '2025-11-27T11:04:09.549766+00:00'
-  estimated_duration: 2 hours
-  actual_duration: null
-  description: "Update documentation and validation for token-based sizing.\n\nDOCUMENTATION\
-    \ UPDATES:\n\n1. Update existing docs:\n   - docs/reference/ROADMAP_OBJECT_HIERARCHY.md\n\
-    \     * Add token fields to model documentation\n     * Explain token-based sizing\n\
-    \     * Update examples\n\n2. Create new guides:\n   - docs/guides/EFFORT_ESTIMATION.md\n\
-    \     * How to estimate tasks using tokens\n     * Size categories and when to\
-    \ use them\n     * Examples for each category\n     \n   - docs/guides/TOKEN_BUDGETING.md\n\
-    \     * How to budget token usage for sprints\n     * Track-level token allocation\n\
-    \     * Warning signs (budget overruns)\n     * Optimization strategies\n\n3.\
-    \ Update CLI documentation:\n   - Add token-related command examples\n   - Document\
-    \ token metrics output\n   - Usage examples\n\nVALIDATION UPDATES:\n\n1. Schema\
-    \ validators:\n   - scripts/validate-roadmap-schema.py\n     * Validate token\
-    \ field types (int, optional)\n     * Validate token ranges (> 0)\n     * Validate\
-    \ size categories (S/M/L/XL/XXL)\n     * Warn if estimated >> actual (inefficiency)\n\
-    \     * Warn if actual >> estimated (underestimated)\n\n2. Health dashboard:\n\
-    \   - scripts/roadmap-health-dashboard.py\n     * Add \"TOKEN METRICS\" section\n\
-    \     * Show aggregate token usage\n     * Show token budget status\n     * Token\
-    \ efficiency trends\n     * Outlier detection\n\n3. Test suite:\n   - tests/test_token_validation.py\n\
-    \     * Test all token field validations\n     * Test estimation accuracy\n  \
-    \   * Test budget calculations\n     * Test size categorization\n\nTESTING:\n\
-    - All documentation examples executable\n- All validators catch expected errors\n\
-    - Health dashboard displays token metrics\n- Test coverage >90% for token code\n"
-  acceptance_criteria:
-  - All documentation updated and complete
-  - New guides created with examples
-  - Schema validation updated for token fields
-  - Health dashboard shows token metrics
-  - Test suite comprehensive
-  - All tests passing
-  - Examples in docs verified working
-  deliverables:
-  - type: documentation
-    paths:
-    - docs/reference/ROADMAP_OBJECT_HIERARCHY.md
-  - type: documentation
-    paths:
-    - docs/guides/EFFORT_ESTIMATION.md
-  - type: documentation
-    paths:
-    - docs/guides/TOKEN_BUDGETING.md
-  - type: code
-    paths:
-    - scripts/validate-roadmap-schema.py
-  - type: code
-    paths:
-    - scripts/roadmap-health-dashboard.py
-  - type: test
-    paths:
-    - tests/test_token_validation.py
-  dependencies:
-  - type: task
-    target_id: roadmap-system-7-task-004
-    target_status: completed
-    reason: Need migration complete for examples
-  blocked_by: []
+  started: null
+  completed: '2025-11-20T00:38:19.730804+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
-  assigned_agent: web-developer
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T00:38:19.730821+00:00'
-  title: Update documentation and validation
-  task_type: development
-  estimated_tokens: 20000
-  size_category: M
-  original_estimated_duration: 2 hours
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

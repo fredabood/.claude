@@ -2,64 +2,31 @@ task:
   id: claude-port-1-task-007
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-11T09:59:00-05:00'
-  started: '2025-11-27T11:04:09.566610+00:00'
-  completed: '2025-11-27T11:04:09.566610+00:00'
-  estimated_duration: 1 hour
-  actual_duration: 3 hours 19 minutes
-  priority: high
-  assigned_agents:
-  - test-engineer
-  description: 'Re-run complete test suite after bug fixes to verify all fixes work
-
-    correctly and measure final pass rate. Ensure no regressions introduced.
-
-    '
-  acceptance_criteria:
-  - Full test suite executed
-  - All fixes verified working
-  - Final pass rate measured
-  - Coverage report generated
-  deliverables:
-  - Final test results (81.7% pass rate)
-  - Regression verification (0 regressions)
-  - Coverage report
-  - Platform validation confirmation
-  commits:
-  - 08a5dfda890344feec10dec26c41cb03cf1d2261
-  - 5787ef9fda37364658d9536b5cfaff5d23ea0026
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed with excellent results.
-
-
-      Test Pass Rate Evolution:
-
-      - Initial (Nov 10 23:48): 68% pass rate
-
-      - After fixes (Nov 10 23:57): 68% pass rate (maintained)
-
-      - Platform validated (Nov 11 00:03): 73% pass rate
-
-      - Status correction (Nov 11 09:59): Re-marked in_progress for final validation
-
-      - Final validation (Nov 11 13:18): 81.7% pass rate baseline ✅
-
-
-      Subsequent improvements (post-sprint):
-
-      - Nov 14: 97.9% pass rate (test suite modernization)
-
-      - Nov 15: 100% pass rate (platform-specific tests)
-
-
-      Platform validated as production-ready reference implementation.
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Re-run full test suite
-  estimated_tokens: 10000
-  size_category: M
-  original_estimated_duration: 1 hour
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-11T09:59:00-05:00'
+  started: null
+  completed: '2025-11-11T09:59:00-05:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,39 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-6
   id: replit-port-6-task-003
-  name: Write extension installation guide
+  sprint_id: replit-port-6
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write extension installation guide
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 6
-  assigned_agent: docs-writer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Write detailed extension installation and configuration guide.\n\n\
-    GUIDE SECTIONS:\n1. Extension Installation\n   - Installing from template (pre-installed)\n\
-    \   - Installing manually\n   - Installing from source\n   - Troubleshooting installation\n\
-    \n2. Extension Configuration\n   - Extension settings\n   - MCP server connection\n\
-    \   - File handler settings\n   - CLUI command shortcuts\n\n3. Extension Features\n\
-    \   - Dashboard panel\n   - Roadmap view\n   - Sprint management\n   - Task management\n\
-    \   - File handlers\n   - CLUI commands\n\n4. Usage Examples\n   - Common workflows\n\
-    \   - Keyboard shortcuts\n   - Tips and tricks\n   - Best practices\n\n5. Troubleshooting\n\
-    \   - Extension not loading\n   - MCP connection issues\n   - Data not displaying\n\
-    \   - Performance issues\n\n6. Advanced Topics\n   - Customizing the extension\n\
-    \   - Adding custom commands\n   - Extending functionality\n   - Contributing\
-    \ improvements\n\nINSTALLATION METHODS:\n```bash\n# Method 1: Fork template (recommended)\n\
-    # Extension is pre-installed\n\n# Method 2: Manual installation\n# Open Extensions\
-    \ panel\n# Search for \"vibey\"\n# Click Install\n\n# Method 3: From source\n\
-    git clone https://github.com/vibey/vibey-replit-extension\ncd vibey-replit-extension\n\
-    npm install\nnpm run build\n# Install extension from local build\n```\n\nDELIVERABLES:\n\
-    - EXTENSION_GUIDE.md\n- Installation screenshots\n- Configuration examples\n-\
-    \ Troubleshooting flowchart\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

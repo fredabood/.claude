@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 35
-    tracks_completed: 20
-    sprints_total: 100
-    sprints_completed: 45
-    tasks_total: 482
-    tasks_completed: 338
-    completion_percent: 70.0
+    tracks_total: 36
+    tracks_completed: 18
+    sprints_total: 180
+    sprints_completed: 90
+    tasks_total: 945
+    tasks_completed: 697
+    completion_percent: 74.0
   tracks:
   - id: aider-port
     name: Aider Platform Port
@@ -28,7 +28,7 @@ roadmap:
     priority: high
   - id: amazonq-port
     name: Amazon Q Developer Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: atlassian-integration
     name: Atlassian Integration (Jira & Confluence)
@@ -52,7 +52,7 @@ roadmap:
     priority: high
   - id: copilot-port
     name: GitHub Copilot Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: core-framework
     name: Core Framework Enhancements
@@ -60,7 +60,7 @@ roadmap:
     priority: high
   - id: cursor-port
     name: Cursor Platform Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: directory-consolidation
     name: Directory Structure Consolidation
@@ -76,7 +76,7 @@ roadmap:
     priority: high
   - id: gemini-port
     name: Gemini Platform Port
-    status: completed
+    status: in_progress
     priority: high
   - id: git-integration
     name: Enhanced Git Integration
@@ -120,7 +120,7 @@ roadmap:
     priority: critical
   - id: replit-port
     name: Replit Agent Platform Port
-    status: not_started
+    status: in_progress
     priority: medium
   - id: roadmap-integration
     name: Roadmap Integration into /vibey Commands
@@ -128,7 +128,7 @@ roadmap:
     priority: high
   - id: roadmap-integrity-fixes
     name: Roadmap Data Integrity & Validation System
-    status: completed
+    status: in_progress
     priority: critical
   - id: roadmap-integrity-fixes-2
     name: Roadmap Data Integrity Remediation (Phase 2)
@@ -136,12 +136,16 @@ roadmap:
     priority: critical
   - id: roadmap-state-audit
     name: Roadmap State Integrity Audit
-    status: in_progress
+    status: wont_do
     priority: critical
   - id: roadmap-system
     name: Roadmap Object Hierarchy Implementation
     status: completed
     priority: critical
+  - id: sqlite-backend
+    name: SQLite Database Backend
+    status: in_progress
+    priority: high
   - id: standards-system
     name: Roadmap Standards System
     status: completed
@@ -156,7 +160,7 @@ roadmap:
     priority: high
   - id: vscode-port
     name: VS Code Native MCP Port
-    status: not_started
+    status: in_progress
     priority: high
   - id: windsurf-port
     name: Windsurf/Codeium Platform Port

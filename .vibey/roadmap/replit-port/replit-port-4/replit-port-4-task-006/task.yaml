@@ -1,39 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-4
   id: replit-port-4-task-006
-  name: Configure extension manifest
+  sprint_id: replit-port-4
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Configure extension manifest
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 4
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Configure extension manifest with permissions, commands, and metadata.\n\
-    \nMANIFEST CONFIGURATION:\n```json\n{\n  \"name\": \"vibey\",\n  \"version\":\
-    \ \"1.0.0\",\n  \"description\": \"Vibey Agent Framework for Replit\",\n  \"author\"\
-    : \"Vibey Framework Team\",\n  \"icon\": \"icon.svg\",\n\n  \"permissions\": [\n\
-    \    \"read:files\",\n    \"write:files\",\n    \"execute:commands\",\n    \"\
-    read:git\",\n    \"workspace:read\"\n  ],\n\n  \"commands\": [\n    {\n      \"\
-    id\": \"vibey:roadmap\",\n      \"label\": \"Show Roadmap\",\n      \"icon\":\
-    \ \"map\"\n    },\n    {\n      \"id\": \"vibey:sprint\",\n      \"label\": \"\
-    Show Sprint\",\n      \"icon\": \"sprint\"\n    }\n  ],\n\n  \"views\": {\n  \
-    \  \"sidebar\": {\n      \"id\": \"vibey-sidebar\",\n      \"title\": \"Vibey\"\
-    ,\n      \"icon\": \"icon.svg\"\n    }\n  },\n\n  \"fileHandlers\": [\n    {\n\
-    \      \"pattern\": \"**/.vibey/**/*.yaml\",\n      \"handler\": \"vibeyFileHandler\"\
-    \n    }\n  ]\n}\n```\n\nPERMISSIONS:\n- File system access for .vibey/ directory\n\
-    - Git access for sync operations\n- Command execution for CLUI\n- Workspace metadata\
-    \ access\n\nVIEWS:\n- Sidebar panel for Dashboard\n- Status bar items\n- Context\
-    \ menu items\n\nFILE HANDLERS:\n- .vibey/**/*.yaml files\n- Syntax highlighting\n\
-    - Preview support\n\nDELIVERABLES:\n- Complete manifest.json\n- Icon assets\n\
-    - Permission documentation\n- Installation guide\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

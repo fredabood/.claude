@@ -1,34 +1,32 @@
 task:
   id: python-package-1-task-003
-  roadmap_id: vibey-framework-v2
-  track_id: python-package
   sprint_id: python-package-1
-  name: Configure package_data for content files
+  track_id: python-package
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Configure package_data for content files
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 2
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.357476+00:00'
-  completed: '2025-11-27T11:04:09.357476+00:00'
-  description: 'Add package_data to include non-Python files:
-
-    - content/**/*.md (agents, workflows, templates)
-
-    - content/**/*.yaml (config, schemas, examples)
-
-    - content/**/*.yml
-
-    - content/**/*.j2 (Jinja2 templates if any)
-
-    - Verify MANIFEST.in not needed with modern setuptools
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

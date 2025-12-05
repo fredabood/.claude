@@ -5,21 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement error handling and recovery
-  description: "Robust error handling for git integration:\n\nERROR SCENARIOS:\n-\
-    \ Git operation fails mid-update\n- Roadmap YAML becomes corrupted\n- Hook crashes\
-    \ during commit\n- Network failure during remote ops\n\nRECOVERY PROCEDURES:\n\
-    - Automatic rollback of partial updates\n- Manual recovery commands\n- State validation\
-    \ and repair\n\nIMPLEMENTATION:\n- Transaction-like updates (backup → modify →\
-    \ commit)\n- vibey git repair command\n- Corruption detection and reporting\n\n\
-    CLI COMMANDS:\n- vibey git repair\n  Detect and fix roadmap inconsistencies\n\n\
-    - vibey git validate\n  Check roadmap-git state consistency\n\n- vibey git rollback\
-    \ <commit>\n  Restore roadmap state from commit\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.388968+00:00'
-  completed: '2025-11-27T11:04:09.388968+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -35,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T00:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

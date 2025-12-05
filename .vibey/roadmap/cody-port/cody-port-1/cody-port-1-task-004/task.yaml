@@ -5,40 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add vibey deploy --platform cody CLI
-  description: Add CLI command to deploy Vibey framework to Cody environment
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.613199+00:00'
-  completed: '2025-11-27T11:04:09.613199+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 1000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: cody-port-1-task-002
-    target_status: completed
-    reason: Requires CodyContextGenerator
-    optional: false
-  - type: task
-    target_id: cody-port-1-task-003
-    target_status: completed
-    reason: Requires CodySettingsGenerator
-    optional: false
+  dependencies: []
   blocks: []
-  blocked_by:
-  - cody-port-1-task-002
-  - cody-port-1-task-003
-  deliverables:
-  - Updated vibey/cli/main.py with cody platform support
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Follows existing deploy command pattern

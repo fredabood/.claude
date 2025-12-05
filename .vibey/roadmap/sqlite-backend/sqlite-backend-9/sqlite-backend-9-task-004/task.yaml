@@ -9,9 +9,9 @@ task:
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-05T02:34:01.534018+00:00'
-  completed: '2025-12-05T02:36:06.135749+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -27,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-05T02:36:06.053210+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,40 +1,32 @@
 task:
   id: platform-context-management-1-task-002
-  name: Context window detection system
   sprint_id: platform-context-management-1
   track_id: platform-context-management
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Context window detection system
+  description: null
   status: completed
   blocked: false
   created: '2025-11-22T00:00:00+00:00'
-  started: '2025-11-22T20:29:59.660662+00:00'
-  completed: '2025-11-22T20:29:59.660662+00:00'
-  estimated_tokens: 12000
-  description: 'Implement context window detection for known platforms. Each platform
-    has
-
-    a known context window size that affects how tasks should be sized.
-
-
-    Deliverables:
-
-    - vibey/platform/context.py - Context window detection
-
-    - Platform context window database (hardcoded + configurable)
-
-    - Get context window for detected or specified platform
-
-    '
-  success_criteria:
-  - Returns context window size for known platforms
-  - Supports user override via config
-  - Handles unknown platforms gracefully
-  - Context window database includes all major platforms
-  - Unit tests for context detection
-  dependencies:
-  - platform-context-management-1-task-001
+  started: null
+  completed: '2025-11-22T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  assigned_agent: web-developer
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    estimated_duration: 2 hours
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

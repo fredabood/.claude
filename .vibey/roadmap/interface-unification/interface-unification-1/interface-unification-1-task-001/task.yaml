@@ -5,17 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Delete all slash commands (framework/commands/)
-  description: ''
+  description: null
   status: completed
   blocked: false
   created: '2025-11-27T11:04:09.530736+00:00'
-  started: '2025-11-27T11:04:09.530736+00:00'
+  started: null
   completed: '2025-11-27T11:04:09.530736+00:00'
   assigned_agent: null
   priority: medium
+  phase_label: null
   estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
   gate_info: null
+  audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
@@ -23,4 +26,7 @@ task:
   depended_on_by: []
   deliverables: []
   commits: []
-  metadata: {}
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

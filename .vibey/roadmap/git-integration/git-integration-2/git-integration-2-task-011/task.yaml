@@ -3,32 +3,30 @@ task:
   sprint_id: git-integration-2
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Implement mode detection and strategy enforcement
+  task_type: development
+  title: Implement mode detection and strategy enforcement
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 6
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.400230+00:00'
-  completed: '2025-11-27T11:04:09.400230+00:00'
-  description: "Add source-of-truth mode detection and strategy validation:\n\nMODE\
-    \ DETECTION (from Sprint 0 addendum):\n1. Check if Git repo exists → yaml-only\
-    \ if not\n2. Check strategy.enforce → hybrid if false\n3. Check allow_git_primary\
-    \ + requirements → git if all true\n4. Default: hybrid\n\nCLI COMMANDS:\n- vibey\
-    \ git mode\n  Show current mode and why it was chosen\n\n- vibey git validate\
-    \ --mode\n  Check if mode requirements are satisfied\n\nSTRATEGY ENFORCEMENT:\n\
-    - Load strategy requirements from config\n- Validate branch naming conventions\n\
-    - Check required branches exist\n- Verify required tags present\n- Enforce merge\
-    \ target rules (hierarchical)\n\nCONFIGURATION LOADING:\n- Read .vibey/config/git.yaml\n\
-    - Apply strategy preset if configured\n- Merge with custom requirements\n- Validate\
-    \ config schema\n\nINTEGRATION:\n- Hooks respect current mode\n- Commands behave\
-    \ differently per mode\n- Warnings if mode requirements not met\n"
-  acceptance_criteria: []
-  dependencies: []
-  blocked_by: []
-  depended_on_by: []
-  commits:
-  - stu6789
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

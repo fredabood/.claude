@@ -3,28 +3,30 @@ task:
   sprint_id: git-integration-2
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Create branch-to-task linking system
+  task_type: development
+  title: Create branch-to-task linking system
+  description: null
   status: completed
-  priority: medium
-  estimated_hours: 6
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.397741+00:00'
-  completed: '2025-11-27T11:04:09.397741+00:00'
-  description: "Link Git branches to roadmap tasks/sprints:\n\nBRANCH NAMING CONVENTIONS\
-    \ (from Sprint 0):\n- task/git-integration-2-task-001\n- sprint/python-package-3\n\
-    - track/user-journey-audit\n\nFEATURES:\n- Auto-detect task from branch name\n\
-    - Record branch in task metadata\n- Track branch lifecycle (created, merged, deleted)\n\
-    - Query: \"Which branch is working on task X?\"\n\nCLI COMMANDS:\n- vibey git\
-    \ branch create <task-id>\n  Create branch with proper naming\n\n- vibey git branch\
-    \ link <branch> <task-id>\n  Link existing branch to task\n\n- vibey git branch\
-    \ status\n  Show task-branch mappings\n"
-  acceptance_criteria: []
-  dependencies: []
-  blocked_by: []
-  depended_on_by: []
-  commits:
-  - def5678
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

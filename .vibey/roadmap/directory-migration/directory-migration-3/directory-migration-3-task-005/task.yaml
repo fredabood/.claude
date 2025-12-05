@@ -5,16 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Goose adapter (basic)
-  description: GooseAdapter implementation with .goosehints generation
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.574218+00:00'
-  completed: '2025-11-27T11:04:09.574218+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: 'Sprint 3: Platform Adapter Implementation'
-  estimated_tokens: 5000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -24,14 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - vibey/adapters/goose.py (330+ lines) - Goose adapter
-  - Basic implementation
-  commits:
-  - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
-    date: '2025-11-10T20:48:19-05:00'
-    message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-10T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

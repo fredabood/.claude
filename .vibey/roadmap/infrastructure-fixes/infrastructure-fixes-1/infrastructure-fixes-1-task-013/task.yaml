@@ -5,51 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update roadmap-system track status
-  description: 'Update .vibey/tracks/roadmap-system.yaml
-
-    - Keep status as completed
-
-    - Add fix history notes documenting CLI fix and integration
-
-    - Document that system is now fully functional and accessible
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.299288+00:00'
-  completed: '2025-11-27T11:04:09.299288+00:00'
-  assigned_agent: coordinator
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 2000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-008
-    target_status: completed
-    reason: Can only update once integration complete
-  - type: task
-    target_id: infrastructure-fixes-1-task-010
-    target_status: completed
-    reason: Needs audit complete
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 1c219a4ca824c17e531218b5f448bf5de9c3a209
-    message: 'feat: Complete infrastructure-fixes sprint - All 13 tasks done'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T13:40:20-05:00'
-    files_changed:
-    - .vibey/roadmap/roadmap-system/track.yaml
-    note: Track updates preserved
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183813+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

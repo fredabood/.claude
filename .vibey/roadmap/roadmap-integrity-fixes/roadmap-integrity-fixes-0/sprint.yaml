@@ -5,75 +5,75 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-12T20:45:00+00:00'
-  started: '2025-11-20T20:25:00+00:00'
-  completion_gate_check_at: '2025-11-21T01:13:43.600018+00:00'
-  completed: '2025-11-21T01:13:49.252825+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-12T20:45:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100.0
   tasks:
   - id: roadmap-integrity-fixes-0-task-001
     title: Backup archive integrity verification
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-0-task-002
     title: Create checkpoint backup of current state
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-0-task-003
     title: Establish stakeholder approval process
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-0-task-004
     title: Define evidence conflict resolution framework
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-0-task-005
     title: Document rollback procedures
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-0-task-006
     title: Extend forensic audit timeline
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   development_gates: []
-  blocks:
-  - type: sprint
-    target_id: roadmap-integrity-fixes-1
-    at_status: not_started
-    reason: Blocks sprint from starting
-  - type: sprint
-    target_id: roadmap-integrity-fixes-2
-    at_status: not_started
-    reason: Blocks sprint from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Backup integrity verification report
-  - Checkpoint backup archive (pre-audit state)
-  - Stakeholder approval process documentation
-  - Evidence conflict resolution framework
-  - Rollback procedures guide
-  - Updated timeline with realistic estimates
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-12T20:45:00+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 19500
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

@@ -1,47 +1,32 @@
 task:
   id: cursor-port-2-task-003
-  name: Write Cursor integration guide
   sprint_id: cursor-port-2
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write Cursor integration guide
+  description: null
   status: not_started
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 6 hours
-  description: 'Write comprehensive Cursor integration guide.
-
-
-    Content:
-
-    - Introduction to Vibey + Cursor
-
-    - Prerequisites and setup
-
-    - Deployment steps (vibey deploy --platform cursor)
-
-    - MCP server configuration
-
-    - Using MCP tools in Cursor Composer
-
-    - Agent/workflow reference
-
-    - Troubleshooting common issues
-
-    - Best practices
-
-
-    File: docs/guides/CURSOR_INTEGRATION.md
-
-    '
-  deliverables:
-  - docs/guides/CURSOR_INTEGRATION.md
-  - Example screenshots (if applicable)
-  assigned_agents:
-  - documentation-engineer
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: high
-    complexity: medium
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

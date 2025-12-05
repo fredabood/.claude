@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement resolve_standards_for_track()
-  description: 'Implement resolve_standards_for_track()
-
-
-    Migrated from tasks_summary field during Phase 1B task migration.'
+  description: null
   status: completed
   blocked: false
   created: '2025-11-11T00:00:00+00:00'
-  started: '2025-11-12T00:00:00+00:00'
-  completed: '2025-11-12T12:00:00+00:00'
+  started: null
+  completed: '2025-11-11T00:00:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 20000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -28,12 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - 205c877b616c64df0c5c97d1872a037f2e135337
+  commits: []
   metadata:
-    last_updated: '2025-11-15T18:18:12.745052+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    migration_note: Migrated from tasks_summary field by task_migration_script.py
-      on 2025-11-13
-  size_category: M

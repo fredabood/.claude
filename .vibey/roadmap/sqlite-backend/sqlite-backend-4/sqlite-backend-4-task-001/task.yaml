@@ -5,79 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add track_sprint_summaries computed view
-  description: |
-    Add a computed view to the SQLite schema that generates track_sprint_summaries
-    from existing sprints and tasks tables, eliminating redundant embedded data.
-
-    CURRENT STATE:
-    - track.yaml files contain embedded sprint summaries that drift from actual sprint.yaml
-    - 25 mismatches detected between embedded summaries and actual sprints
-    - Declared database has separate track_sprint_summaries table (173 rows)
-
-    IMPLEMENTATION:
-    1. Add view to schema.sql:
-       CREATE VIEW track_sprint_summaries AS
-       SELECT
-           s.track_id,
-           s.id AS sprint_id,
-           s.name,
-           s.status,
-           (SELECT SUM(CASE WHEN estimated_duration IS NOT NULL THEN 1 ELSE 0 END)
-            FROM tasks WHERE sprint_id = s.id) AS estimated_duration,
-           (SELECT COUNT(*) FROM tasks WHERE sprint_id = s.id) AS tasks_count,
-           s.started,
-           s.completed
-       FROM sprints s;
-
-    2. Update compare_databases.py to:
-       - Recognize track_sprint_summaries as a view in computed DB
-       - Compare view output against declared table
-       - Report any data discrepancies
-
-    3. Update integrity_audit.py to:
-       - Include track_sprint_summaries comparison in report
-       - Flag embedded summary drift as integrity issue
-       - Recommend using computed view as source of truth
-
-    SUCCESS CRITERIA:
-    - View returns 173 rows matching sprint count
-    - Comparison shows view data matches actual sprint data
-    - Drift from embedded summaries clearly identified in report
+  description: null
   status: completed
   blocked: false
   created: '2025-11-28T15:00:00+00:00'
-  started: '2025-11-28T16:00:00+00:00'
-  completed: '2025-11-28T16:15:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-28T15:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 800
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - type: code
-    paths:
-    - track_sprint_summaries view in schema.sql
-  - type: code
-    paths:
-    - Updated compare_databases.py with view comparison
-  - type: code
-    paths:
-    - Updated integrity_audit.py with drift detection
-  - type: documentation
-    paths:
-    - Findings documented in data integrity report
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-28T18:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      This view eliminates the need for embedded sprint summaries in track.yaml.
-      The 25 mismatches between embedded and actual data prove that redundant
-      data storage leads to drift. Computing on-the-fly is the correct approach.

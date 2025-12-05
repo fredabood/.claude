@@ -1,24 +1,32 @@
 task:
   id: mcp-server-4-task-015
-  title: Implementation - Platform Adapters Integration
   sprint_id: mcp-server-4
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Implementation - Platform Adapters Integration
+  description: null
   status: not_started
   blocked: false
-  description: Integrate MCP auto-setup with existing platform adapters. Update deploy
-    commands to optionally auto-configure MCP. Update BaseAdapter with auto-setup
-    hook, implement auto-setup for high-priority platforms, and add --auto-mcp flag
-    to deploy commands.
   created: '2025-11-25T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  complexity: medium
-  estimated_tokens: 12000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

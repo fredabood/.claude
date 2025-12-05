@@ -5,47 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate with post-merge and post-checkout hooks
-  description: "Create vibey/operations/git/hooks/post_merge.py:\n\nPost-merge flow:\n\
-    1. Check if database mode is active\n2. Check if any .vibey/roadmap/**/*.yaml\
-    \ files changed in merge\n3. If YAML files changed:\n   a. Check database_state.is_dirty\
-    \ (uncommitted local changes)\n   b. If dirty: warn user about potential conflict\n\
-    \      \"Warning: Local DB changes exist. Merge may have updated YAML.\n     \
-    \  Run: vibey roadmap db status (to check sync state)\"\n   c. If not dirty: run\
-    \ rebuild automatically\n4. Report status: \"Database rebuilt from merged YAML\
-    \ files\"\n\nPost-checkout flow:\n- Same as post-merge (branch switch may have\
-    \ different YAML)\n- Only trigger if .vibey/roadmap/ files differ between branches\n\
-    \nUpdate hooks/installer.py:\n- Install post-merge hook\n- Install post-checkout\
-    \ hook\n- Both hooks call same rebuild logic\n\nHandle merge conflicts in YAML\
-    \ files:\n- Detect conflict markers (<<<<<<, ======, >>>>>>)\n- Block rebuild\
-    \ until conflicts resolved\n- Clear error message with file list\n\nIntegration\
-    \ with database_state:\n- After successful rebuild, update source_commit to merged\
-    \ HEAD\n- Update source_branch if branch changed\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T18:00:00+00:00'
-  completed: '2025-11-26T22:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-3-task-002
-  blocks:
-  - sqlite-backend-3-task-005
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/operations/git/hooks/post_merge.py
-  - Post-checkout hook support
-  - Merge conflict detection
-  - Updated hook installer
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

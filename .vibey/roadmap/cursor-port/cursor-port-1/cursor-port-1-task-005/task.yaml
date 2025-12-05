@@ -1,44 +1,32 @@
 task:
   id: cursor-port-1-task-005
-  name: Generate .cursorrules from frontmatter
   sprint_id: cursor-port-1
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Generate .cursorrules from frontmatter
+  description: null
   status: completed
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.317552+00:00'
-  completed: '2025-11-27T11:04:09.317552+00:00'
-  estimated_duration: 6 hours
-  description: 'Generate .cursorrules file from agent/workflow frontmatter.
-
-
-    .cursorrules provides project-level instructions to Cursor.
-
-    Similar to CURSOR.md but in a different format expected by Cursor.
-
-
-    Responsibilities:
-
-    - Extract frontmatter from agents/*.md and workflows/*.md
-
-    - Format as Cursor rules/guidelines
-
-    - Include agent trigger patterns
-
-    - Include workflow selection guidance
-
-
-    File: vibey/adapters/cursor/rules_generator.py
-
-    '
-  deliverables:
-  - vibey/adapters/cursor/rules_generator.py
-  - .cursorrules template
-  assigned_agents:
-  - web-developer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: medium
-    complexity: medium
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

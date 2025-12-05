@@ -5,84 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement triggers (40 triggers from design)
-  description: 'Implement SQLite triggers from 004-triggers-design.md:
-
-
-    Timestamp triggers (9):
-
-    - Auto-set created_at, started_at, completed_at, updated_at
-
-    - For tasks, sprints, tracks, roadmaps
-
-
-    Blocked flag triggers (6):
-
-    - Keep blocked column in sync with entity_blocked_by entries
-
-    - Update when blockers added/removed/completed
-
-
-    Auto-completion triggers (5):
-
-    - Clear blockers when entities complete
-
-    - Auto-start parent when first child starts
-
-    - Auto-complete parent when all children complete
-
-
-    Summary table triggers (11):
-
-    - Keep denormalized summaries in sync
-
-    - Update track_summaries, sprint_summaries, task_summaries
-
-
-    Activity log triggers (6):
-
-    - Log significant events to activity_log table
-
-    - Track status changes, completion, blocking
-
-
-    Validation triggers (3):
-
-    - Prevent completing blocked tasks
-
-    - Prevent invalid status transitions
-
-    - Enforce referential integrity
-
-
-    Create in vibey/roadmap/database/triggers.py
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T12:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-1-task-005
-  blocks:
-  - sqlite-backend-1-task-007
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/roadmap/database/triggers.py with 40 trigger definitions
-  - Trigger creation function
-  - Trigger behavior tests
-  - Documentation of trigger effects and cascades
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

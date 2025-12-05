@@ -1,33 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-2
   id: replit-port-2-task-006
-  name: Create integration tests
+  sprint_id: replit-port-2
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create integration tests
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 10
-  assigned_agent: test-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create integration tests for ReplitAdapter in actual Replit environment.\n\
-    \nINTEGRATION TEST SCENARIOS:\n1. Full Deployment Flow\n   - Initialize new Replit\
-    \ project\n   - Deploy Vibey framework\n   - Validate deployment\n   - Verify\
-    \ functionality\n\n2. MCP Server Integration\n   - Start MCP server\n   - Test\
-    \ tool discovery\n   - Invoke tools\n   - Handle errors\n\n3. Extension Integration\n\
-    \   - Load extension\n   - Connect to MCP server\n   - Test UI components\n  \
-    \ - Verify data flow\n\n4. Context Generation\n   - Parse frontmatter\n   - Generate\
-    \ REPLIT.md\n   - Validate output\n   - Test with Replit Agent\n\nTESTING ENVIRONMENT:\n\
-    - Real Replit workspace\n- Live MCP server\n- Actual Extension\n- Production-like\
-    \ data\n\nCI/CD INTEGRATION:\n- Automated test runs\n- Replit API integration\n\
-    - Test report generation\n- Failure notifications\n\nDELIVERABLES:\n- Integration\
-    \ test suite\n- Test environment setup\n- CI/CD configuration\n- Test documentation\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

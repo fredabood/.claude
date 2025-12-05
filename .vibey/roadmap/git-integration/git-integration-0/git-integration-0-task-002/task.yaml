@@ -3,53 +3,30 @@ task:
   sprint_id: git-integration-0
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Establish source of truth model
+  task_type: development
+  title: Establish source of truth model
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 6
-  assigned_agent: architecture-agent
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.404510+00:00'
-  completed: '2025-11-27T11:04:09.404510+00:00'
-  description: 'Define which system is authoritative for roadmap state:
-
-
-    OPTIONS TO EVALUATE:
-
-    1. YAML-primary: YAML files are authoritative, Git tracks changes
-
-    2. Git-primary: Git history is authoritative, YAML derived
-
-    3. Hybrid: YAML for current state, Git for audit trail
-
-
-    QUESTIONS TO ANSWER:
-
-    - Can roadmap state at commit X be reconstructed from Git alone?
-
-    - What happens when YAML and Git history disagree?
-
-    - How do merges affect roadmap state?
-
-    - Is the roadmap a "document" (YAML) or a "log" (Git)?
-
-    - How to handle rebases that rewrite history?
-
-
-    DELIVERABLES:
-
-    - Source of truth policy document
-
-    - Conflict resolution procedures
-
-    - State reconciliation algorithm
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

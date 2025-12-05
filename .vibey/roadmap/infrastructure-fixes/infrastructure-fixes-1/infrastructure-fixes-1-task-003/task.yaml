@@ -5,48 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add roadmap CLI tests
-  description: 'Create tests/cli/test_roadmap_cli.py
-
-    - Test each CLI command
-
-    - Test error handling
-
-    - Test with real roadmap data
-
-    - Ensure all commands work correctly
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.295324+00:00'
-  completed: '2025-11-27T11:04:09.295324+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-001
-    target_status: completed
-    reason: Needs working CLI to test
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 1d10a6d5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5
-    message: 'test: Add comprehensive roadmap CLI tests'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T10:45:32-05:00'
-    files_changed:
-    - tests/cli/test_roadmap_cli.py
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183774+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -4,7 +4,8 @@ sprint:
   track_id: aider-port
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
+  blocked: true
+  blocked_reason: null
   created: '2025-11-22T00:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,37 +14,82 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 8
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: aider-port-1-task-001
+    title: Create AiderAdapter class
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-002
+    title: Generate aider.conf.yml template
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-003
+    title: Agent prompt template system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-004
+    title: Workflow script generation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-005
+    title: Git hook integration
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-006
+    title: Handoff metadata in commits
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-007
+    title: Integration testing
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: aider-port-1-task-008
+    title: Documentation
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: goose-port
-    blocker_type: track
-    required_status: completed
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
-  plan_file: docs/development/AIDER_PORT_IMPLEMENTATION.md
-  deliverables:
-  - AiderAdapter class
-  - aider.conf.yml template
-  - Agent prompt templates
-  - Workflow script generation
-  - Git hook integration
-  - Integration tests
-  - Documentation
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-22T00:00:00+00:00'
-    estimated_duration: 2-3 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 60000
+    estimated_tokens: null
     actual_tokens: null
-    agents_used:
-    - web-developer
-    - test-engineer
-    - docs-writer
+    agents_used: null

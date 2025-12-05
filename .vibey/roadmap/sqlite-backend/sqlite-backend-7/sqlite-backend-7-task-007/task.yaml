@@ -5,140 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate Artifact System with Ticket Layers
-  description: "Add artifact-aware methods and properties to Ticket, HierarchicalTicket,\n\
-    and domain model layers.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part\
-    \ 13.8\n\nLAYER 1: TICKET INTEGRATION\n\nAdd to Ticket class:\n\n@property\ndef\
-    \ artifact_criteria(self) -> List[Criterion]:\n    \"\"\"Criteria that reference\
-    \ artifacts.\"\"\"\n    return [\n        c for c in self.criteria\n        if\
-    \ isinstance(c.target, ArtifactTarget)\n    ]\n\n@property\ndef referenced_artifact_ids(self)\
-    \ -> List[str]:\n    \"\"\"IDs of artifacts referenced by this ticket's criteria.\"\
-    \"\"\n    return [\n        c.target.artifact_id\n        for c in self.artifact_criteria\n\
-    \    ]\n\nUpdate complete() method:\n    # Additional check: all documentation\
-    \ artifacts must be current\n    for criterion in self.artifact_criteria:\n  \
-    \      if criterion.target.verification == ArtifactVerification.NOT_STALE:\n \
-    \           if criterion.target.artifact_is_stale:\n                reasons.append(\n\
-    \                    f\"Documentation artifact is stale: {criterion.description}\"\
-    \n                )\n                can = False\n\n    if can:\n        # Capture\
-    \ artifact hashes for future impact analysis\n        self._capture_artifact_state()\n\
-    \nLAYER 2: HIERARCHICAL TICKET INTEGRATION\n\nAdd to HierarchicalTicket class:\n\
-    \n@property\ndef all_referenced_artifacts(self) -> List[str]:\n    \"\"\"All artifact\
-    \ IDs referenced by this ticket and descendants.\"\"\"\n    if self.is_ultimate_child:\n\
-    \        return self.referenced_artifact_ids\n    all_ids = list(self.referenced_artifact_ids)\n\
-    \    for child in self._load_children():\n        all_ids.extend(child.all_referenced_artifacts)\n\
-    \    return list(set(all_ids))\n\n@property\ndef stale_documentation_artifacts(self)\
-    \ -> List[str]:\n    \"\"\"Artifact IDs for stale documentation in this subtree.\"\
-    \"\"\n    stale = []\n    for criterion in self.artifact_criteria:\n        if\
-    \ (criterion.target.verification == ArtifactVerification.NOT_STALE\n         \
-    \   and criterion.target.artifact_is_stale):\n            stale.append(criterion.target.artifact_id)\n\
-    \    if not self.is_ultimate_child:\n        for child in self._load_children():\n\
-    \            stale.extend(child.stale_documentation_artifacts)\n    return list(set(stale))\n\
-    \n@property\ndef has_stale_documentation(self) -> bool:\n    \"\"\"True if any\
-    \ documentation in this subtree is stale.\"\"\"\n    return len(self.stale_documentation_artifacts)\
-    \ > 0\n\n@property\ndef documentation_health(self) -> DocumentationHealth:\n \
-    \   \"\"\"Aggregate documentation health status.\"\"\"\n    stale_count = len(self.stale_documentation_artifacts)\n\
-    \    if stale_count == 0:\n        return DocumentationHealth.HEALTHY\n    # Check\
-    \ if any stale docs block completion\n    for criterion in self.artifact_criteria:\n\
-    \        if (criterion.target.artifact_is_stale\n            and criterion.blocks_transition_to\
-    \ == TicketStatus.COMPLETED\n            and criterion.required):\n          \
-    \  return DocumentationHealth.CRITICAL\n    return DocumentationHealth.DEGRADED\n\
-    \nLAYER 3: DOMAIN MODEL INTEGRATION\n\nAdd to RoadmapTicket:\n\n@property\ndef\
-    \ all_project_documentation(self) -> List[str]:\n    \"\"\"All DOCUMENTATION type\
-    \ artifacts across the roadmap.\"\"\"\n    return [\n        aid for aid in self.all_referenced_artifacts\n\
-    \        if self._get_artifact_type(aid) == ArtifactType.DOCUMENTATION\n    ]\n\
-    \n@property\ndef framework_components(self) -> List[str]:\n    \"\"\"All AGENT,\
-    \ WORKFLOW, TEMPLATE artifacts.\"\"\"\n    return [\n        aid for aid in self.all_referenced_artifacts\n\
-    \        if self._get_artifact_type(aid) in {\n            ArtifactType.AGENT,\n\
-    \            ArtifactType.WORKFLOW,\n            ArtifactType.TEMPLATE\n     \
-    \   }\n    ]\n\n@property\ndef orphan_artifacts(self) -> List[str]:\n    \"\"\"\
-    Artifacts that exist but aren't referenced by any ticket.\"\"\"\n    return self._artifact_registry.get_orphans()\n\
-    \nAdd to SprintTicket:\n\n@property\ndef sprint_context_artifacts(self) -> List[str]:\n\
-    \    \"\"\"CONTEXT type artifacts for this sprint (planning docs, etc.).\"\"\"\
-    \n    return [\n        c.target.artifact_id for c in self.artifact_criteria\n\
-    \        if self._get_artifact_type(c.target.artifact_id) == ArtifactType.CONTEXT\n\
-    \    ]\n\n@property\ndef planning_artifacts(self) -> List[str]:\n    \"\"\"Planning\
-    \ documents (PLANNING_DOC subtype).\"\"\"\n    return [\n        aid for aid in\
-    \ self.sprint_context_artifacts\n        if self._get_artifact_subtype(aid) ==\
-    \ ContextArtifactSubtype.PLANNING_DOC\n    ]\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/ticket.py\
-    \ (Layer 1)\n- vibey/roadmap/models/ticket/hierarchical_ticket.py (Layer 2)\n\
-    - vibey/roadmap/models/ticket/domain_models.py (Layer 3)\n- tests/roadmap/models/ticket/test_artifact_integration.py\n\
-    \nSUCCESS CRITERIA:\n- artifact_criteria property works on Ticket\n- complete()\
-    \ checks for stale documentation\n- all_referenced_artifacts aggregates correctly\n\
-    - stale_documentation_artifacts aggregates correctly\n- documentation_health computed\
-    \ correctly\n- Domain-specific accessors work\n- Full test coverage\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-30T18:00:00+00:00'
-  started: '2025-12-04T22:33:55.919588+00:00'
-  completed: '2025-12-04T22:43:17.443952+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T18:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: integration
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-7-task-008
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-7-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012619+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-7-task-004
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012619+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-7-task-006
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012619+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-7-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
-  - blocker_id: sqlite-backend-7-task-004
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:18:24.285395+00:00'
-  - blocker_id: sqlite-backend-7-task-006
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:31:41.377227+00:00'
-  depended_on_by:
-  - sqlite-backend-7-task-008
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/ticket.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/hierarchical_ticket.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/domain_models.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_integration.py
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T22:43:13.124030+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

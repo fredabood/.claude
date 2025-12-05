@@ -1,33 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-3
   id: replit-port-3-task-003
-  name: Implement replit.nix generation
+  sprint_id: replit-port-3
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement replit.nix generation
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement replit.nix generation for dependency management via Nix.\n\
-    \nNIX FILE STRUCTURE:\n```nix\n{ pkgs }: {\n  deps = [\n    pkgs.python311\n \
-    \   pkgs.python311Packages.pip\n    pkgs.python311Packages.pyyaml\n    pkgs.python311Packages.click\n\
-    \    pkgs.python311Packages.jinja2\n  ];\n}\n```\n\nDEPENDENCY DETECTION:\n- Parse\
-    \ pyproject.toml\n- Extract dependencies\n- Map Python packages to Nix packages\n\
-    - Include Vibey framework dependencies\n- Add platform-specific packages\n\nPACKAGE\
-    \ MAPPING:\n- pyyaml → pkgs.python311Packages.pyyaml\n- click → pkgs.python311Packages.click\n\
-    - jinja2 → pkgs.python311Packages.jinja2\n- Custom packages → pkgs.python311Packages.pip\n\
-    \nGENERATION LOGIC:\n- Read dependencies from pyproject.toml\n- Map to Nix package\
-    \ names\n- Generate Nix expression\n- Validate Nix syntax\n- Write to replit.nix\n\
-    \nDELIVERABLES:\n- replit.nix generation method\n- Package mapping table\n- Validation\
-    \ logic\n- Unit tests\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

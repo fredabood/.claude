@@ -5,77 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update yaml_dumper.py for hierarchy serialization
-  description: "Refactor yaml_dumper.py to serialize the new unified ticket models\n\
-    with hierarchy attributes and _local field naming.\n\nCURRENT STATE:\n- yaml_dumper.py\
-    \ handles Roadmap, Track, Sprint, Task\n- Outputs old field names (commits, deliverables,\
-    \ standards)\n- No hierarchy attribute serialization\n\nCHANGES REQUIRED:\n\n\
-    1. OUTPUT FORMAT (always v2):\n   - Use _local suffix for local content fields\n\
-    \   - Include hierarchy attributes in output\n   - Exclude computed/aggregated\
-    \ fields (they're recomputed on load)\n\n2. FIELD SERIALIZATION:\n   # Fields\
-    \ to serialize (stored)\n   commits_local → commits_local\n   deliverables_local\
-    \ → deliverables_local\n   standards_local → standards_local\n   quality_gates_local\
-    \ → quality_gates_local\n   assigned_agents_local → assigned_agents_local\n  \
-    \ depends_on → depends_on (DependencyRef format)\n\n   # Fields to EXCLUDE (computed)\n\
-    \   commits (smart accessor) → DO NOT serialize\n   standards (smart accessor)\
-    \ → DO NOT serialize\n   is_parent, is_child, etc. → DO NOT serialize (computed\
-    \ on load)\n   commits_aggregated → DO NOT serialize\n   standards_effective →\
-    \ DO NOT serialize\n\n3. DUMPER FUNCTIONS:\n   def dump_task(task: TaskTicket)\
-    \ -> dict:\n       return {\n           'task': {\n               'id': task.id,\n\
-    \               'name': task.name,\n               'commits_local': [dump_commit(c)\
-    \ for c in task.commits_local],\n               'deliverables_local': [dump_deliverable(d)\
-    \ for d in task.deliverables_local],\n               # ... other stored fields\n\
-    \               # NOTE: Do NOT include task.commits (smart accessor)\n       \
-    \    }\n       }\n\n4. HIERARCHY REFERENCE HANDLING:\n   - Serialize parent_id\
-    \ (stored reference)\n   - Do NOT serialize children (derived from parent_id)\n\
-    \   - Do NOT serialize hierarchy attributes (computed)\n\n5. DETERMINISTIC OUTPUT:\n\
-    \   - Sort keys consistently\n   - Sort list items where order doesn't matter\n\
-    \   - Ensure identical input produces identical output\n\nIMPLEMENTATION STEPS:\n\
-    \n1. Update dump_task() for TaskTicket\n2. Update dump_sprint() for SprintTicket\n\
-    3. Update dump_track() for TrackTicket\n4. Update dump_roadmap() for RoadmapTicket\n\
-    5. Update dump_commit() for unified GitCommit\n6. Add dump_dependency_ref() for\
-    \ DependencyRef\n7. Ensure deterministic output ordering\n8. Add format version\
-    \ marker to output\n\nSUCCESS CRITERIA:\n- Output uses v2 format (with _local\
-    \ suffixes)\n- Computed fields not serialized\n- Round-trip: load → dump → load\
-    \ produces identical objects\n- Deterministic output (same input = same output)\n\
-    - All existing tests pass with format adaptation\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
-  completed: '2025-12-04T23:31:08.058634+00:00'
-  assigned_agent: backend-engineer
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-8-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-8-task-006
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Updated vibey/roadmap/serialization/yaml_dumper.py
-  - type: code
-    paths:
-    - Deterministic output ordering
-  - type: code
-    paths:
-    - tests/roadmap/serialization/test_yaml_dumper_v2.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,75 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update query.py with hierarchy-aware queries
-  description: "Refactor query.py operations to use new unified ticket models\nwith\
-    \ hierarchy-aware loading and smart accessor support.\n\nCURRENT STATE:\n- query.py\
-    \ uses old dataclass models\n- Direct field access (task.commits, sprint.deliverables)\n\
-    - No hierarchy awareness in queries\n\nCHANGES REQUIRED:\n\n1. UPDATE IMPORTS:\n\
-    \   # OLD\n   from vibey.roadmap.models.task import Task\n   from vibey.roadmap.models.sprint\
-    \ import Sprint\n\n   # NEW\n   from vibey.roadmap.models.ticket import (\n  \
-    \     TaskTicket, SprintTicket, TrackTicket, RoadmapTicket\n   )\n\n2. USE SMART\
-    \ ACCESSORS:\n   Operations should use smart accessors which automatically\n \
-    \  handle aggregation/inheritance:\n\n   # OLD - direct field access\n   def get_sprint_commits(sprint_id):\n\
-    \       sprint = load_sprint(sprint_id)\n       commits = []\n       for task\
-    \ in sprint.tasks:\n           commits.extend(task.commits)\n       return commits\n\
-    \n   # NEW - smart accessor handles aggregation\n   def get_sprint_commits(sprint_id):\n\
-    \       sprint = load_sprint_with_children(sprint_id)\n       return sprint.commits\
-    \  # Smart accessor aggregates\n\n3. HIERARCHY-AWARE LOADING:\n   Use repository\
-    \ methods for hierarchy:\n\n   def get_task_with_context(task_id):\n       repo\
-    \ = TicketRepository(session)\n       task = repo.get_with_ancestors(task_id)\n\
-    \       # task.standards now includes inherited standards\n       return task\n\
-    \n4. QUERY FUNCTIONS TO UPDATE:\n   - get_roadmap() → returns RoadmapTicket\n\
-    \   - get_track() → returns TrackTicket\n   - get_sprint() → returns SprintTicket\n\
-    \   - get_task() → returns TaskTicket\n   - find_tasks_by_status()\n   - find_blocked_items()\n\
-    \   - get_progress()\n   - get_commits_for_sprint()\n   - get_deliverables_for_track()\n\
-    \   - get_standards_for_task()\n\n5. NEW QUERY FUNCTIONS:\n   - get_effective_standards(ticket_id)\
-    \ → inherited chain\n   - get_aggregated_commits(ticket_id) → from descendants\n\
-    \   - get_hierarchy_path(ticket_id) → [roadmap, track, sprint, task]\n\nIMPLEMENTATION\
-    \ STEPS:\n\n1. Update imports to new model types\n2. Update each query function\
-    \ signature\n3. Replace direct field access with smart accessors\n4. Add hierarchy-aware\
-    \ loading where needed\n5. Add new query functions for inheritance/aggregation\n\
-    6. Update all callers of query functions\n7. Add/update tests\n\nSUCCESS CRITERIA:\n\
-    - All query functions return new model types\n- Smart accessors used for aggregated/effective\
-    \ fields\n- Hierarchy loading works correctly\n- All existing functionality preserved\n\
-    - Performance acceptable\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-04T16:00:00+00:00'
-  completed: '2025-12-05T02:07:34.493397+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: implementation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-9-task-004
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-9-task-005
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Updated vibey/operations/roadmap/query.py
-  - type: code
-    paths:
-    - New hierarchy query functions
-  - type: code
-    paths:
-    - tests/operations/roadmap/test_query_v2.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,242 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Migrate Audit Fields to ThresholdTarget Criteria and Markdown Reports
-  description: |
-    Migrate audit-specific fields from YAML to ThresholdTarget criteria
-    and markdown report deliverables.
-
-    DESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 12.3 (GAP-ML-006)
-
-    BACKGROUND:
-
-    Several audit-specific fields exist in the current YAML schema:
-    - integrity_score (0-100 score from validation)
-    - audit_results (findings/issues)
-    - audit_completed (timestamp)
-    - average_integrity_score (aggregate)
-    - tracks_above_90 / tracks_below_90 (counts)
-    - critical_issues (count)
-
-    These should be migrated to:
-    1. ThresholdTarget criteria (for scores)
-    2. Markdown report files (for detailed findings)
-    3. Computed queries (for aggregates)
-
-    MIGRATION MAPPING:
-
-    | Current Field | Migrated To |
-    |---------------|-------------|
-    | integrity_score: 92 | ThresholdTarget criterion with current_value: 92 |
-    | audit_results | FileExistsTarget pointing to audit report markdown |
-    | audit_completed | Ticket.completed_at (standard timestamp) |
-    | average_integrity_score | Computed: AVG of children's ThresholdTarget values |
-    | tracks_above_90 | Computed: COUNT where current_value >= 90 |
-    | critical_issues | Computed: COUNT where priority = critical AND unmet |
-
-    IMPLEMENTATION:
-
-    1. MIGRATE INTEGRITY SCORE TO CRITERION:
-
-       Before (YAML field):
-       ```yaml
-       sprint:
-         id: audit-sprint-1
-         integrity_score: 92
-       ```
-
-       After (ThresholdTarget criterion):
-       ```yaml
-       sprint:
-         id: audit-sprint-1
-         criteria:
-           - id: integrity-check
-             description: "Track integrity score >= 90%"
-             target:
-               type: threshold
-               metric_name: integrity_score
-               threshold: 90
-               current_value: 92
-             blocks_transition_to: completed
-       ```
-
-    2. MIGRATE AUDIT RESULTS TO MARKDOWN:
-
-       Before (embedded or null):
-       ```yaml
-       task:
-         id: audit-task-1
-         audit_results: null  # or embedded data
-       ```
-
-       After (FileExistsTarget + markdown file):
-       ```yaml
-       task:
-         id: audit-task-1
-         criteria:
-           - id: audit-report
-             description: "Audit report generated"
-             target:
-               type: file_exists
-               paths:
-                 - context/audits/{entity-id}-audit.md
-               deliverable_type: documentation
-             blocks_transition_to: completed
-       ```
-
-       Audit report template:
-       ```markdown
-       # Audit Report: {entity_id}
-
-       **Date:** {date}
-       **Integrity Score:** {score}/100
-
-       ## Findings
-       - Task status alignment: {alignment_percent}%
-       - Quality gates run: {gates_run}/{gates_total}
-       - Path references valid: {paths_valid_percent}%
-
-       ## Issues
-       1. [SEVERITY] Description
-
-       ## Recommendations
-       ...
-       ```
-
-    3. UPDATE yaml_loader.py:
-
-       def migrate_integrity_score(legacy: dict, ticket: Ticket) -> None:
-           """Migrate integrity_score to ThresholdTarget criterion."""
-           score = legacy.get('integrity_score')
-           if score is None:
-               return
-
-           ticket.criteria.append(Criterion(
-               id=f"{ticket.id}-integrity",
-               description="Integrity score meets threshold",
-               target=ThresholdTarget(
-                   metric_name="integrity_score",
-                   threshold=90,
-                   current_value=float(score),
-                   comparison=ThresholdComparison.GTE
-               ),
-               blocks_transition_to=TicketStatus.COMPLETED,
-               required=True
-           ))
-
-       def migrate_audit_results(legacy: dict, ticket: Ticket, entity_dir: Path) -> None:
-           """Migrate audit_results to markdown file + FileExistsTarget."""
-           results = legacy.get('audit_results')
-           if results is None:
-               return
-
-           # Create audit report markdown
-           report_dir = entity_dir / 'context' / 'audits'
-           report_dir.mkdir(parents=True, exist_ok=True)
-           report_file = report_dir / f"{ticket.id}-audit.md"
-
-           if isinstance(results, dict):
-               content = render_audit_report(ticket.id, results)
-               report_file.write_text(content)
-
-           # Add FileExistsTarget criterion
-           ticket.criteria.append(Criterion(
-               id=f"{ticket.id}-audit-report",
-               description="Audit report generated",
-               target=FileExistsTarget(
-                   paths=[str(report_file)],
-                   deliverable_type=DeliverableType.DOCUMENTATION
-               ),
-               blocks_transition_to=TicketStatus.COMPLETED,
-               required=True
-           ))
-
-    4. COMPUTED AGGREGATES (SQL VIEWS):
-
-       -- Average integrity score for track
-       CREATE VIEW v_track_integrity AS
-       SELECT
-           t.parent_ref AS track_id,
-           AVG(json_extract(c.target_data, '$.current_value')) AS avg_score,
-           COUNT(CASE WHEN json_extract(c.target_data, '$.current_value') >= 90 THEN 1 END) AS above_90,
-           COUNT(CASE WHEN json_extract(c.target_data, '$.current_value') < 90 THEN 1 END) AS below_90
-       FROM tickets t
-       JOIN criteria c ON c.ticket_id = t.id
-       WHERE json_extract(c.target_data, '$.metric_name') = 'integrity_score'
-       GROUP BY t.parent_ref;
-
-    5. UPDATE yaml_dumper.py:
-
-       Do NOT serialize migrated audit fields back to YAML:
-       - integrity_score → Skip (now in ThresholdTarget)
-       - audit_results → Skip (now in markdown)
-       - audit_completed → Skip (use completed_at)
-
-    FILE CHANGES:
-    - vibey/roadmap/serialization/yaml_loader.py (add audit migration)
-    - vibey/roadmap/serialization/yaml_dumper.py (skip audit fields)
-    - vibey/roadmap/serialization/audit_migration.py (new module)
-    - vibey/roadmap/database/views.py (add v_track_integrity view)
-    - templates/AUDIT_REPORT.md.template (new template)
-    - tests/roadmap/serialization/test_audit_migration.py
-
-    SUCCESS CRITERIA:
-    - integrity_score migrates to ThresholdTarget criterion
-    - audit_results migrates to markdown + FileExistsTarget
-    - audit_completed uses standard completed_at timestamp
-    - Aggregate scores computed via SQL views
-    - Migrated fields not serialized back to YAML
-    - Full test coverage
+  description: null
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-11-30T12:00:00+00:00'
-  started: '2025-12-04T00:00:00+00:00'
-  completed: '2025-12-04T23:59:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T12:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: gap-remediation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - sqlite-backend-8-task-001
-  - sqlite-backend-8-task-003
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-8-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T12:00:00+00:00'
-  - blocker_id: sqlite-backend-8-task-003
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T12:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - vibey/roadmap/serialization/yaml_loader.py
-  - vibey/roadmap/serialization/yaml_dumper.py
-  - vibey/roadmap/serialization/audit_migration.py
-  - vibey/roadmap/database/views.py
-  - templates/AUDIT_REPORT.md.template
-  - tests/roadmap/serialization/test_audit_migration.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-30T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      GAP REMEDIATION: Audit Fields Migration (GAP-ML-006)
-
-      Moves audit-specific data to the unified criteria system:
-      - Scores become ThresholdTarget with current_value
-      - Reports become markdown files with FileExistsTarget
-      - Aggregates become SQL views (computed, not stored)
-
-      Pattern: Audit data fits naturally into the criteria model
-      since it's essentially "does this ticket meet quality thresholds?"

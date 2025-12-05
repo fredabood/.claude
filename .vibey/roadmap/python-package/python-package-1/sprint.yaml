@@ -2,63 +2,88 @@ sprint:
   id: python-package-1
   name: Package Structure & Configuration
   track_id: python-package
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 1 week
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 8
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100.0
-  tasks: []
-  dependencies: []
+  tasks:
+  - id: python-package-1-task-001
+    title: Move framework/ into vibey/content/
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-002
+    title: Fix pyproject.toml package discovery
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-003
+    title: Configure package_data for content files
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-004
+    title: Create content accessor module
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-005
+    title: Update MCP discovery to use content accessor
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-006
+    title: Update adapters to use content accessor
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-007
+    title: Update CLI deploy command to use content accessor
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-1-task-008
+    title: Add missing __init__.py files
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - python-package-2
-  quality_gates:
-  - name: All Packages Discoverable
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: find_packages() discovers all vibey.* packages
-  - name: Content Files Accessible
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Content accessor returns valid paths to content
-  deliverables:
-  - framework/ moved and renamed to vibey/content/
-  - Updated pyproject.toml with find_packages()
-  - package_data configuration for non-Python files
-  - Content accessor module (vibey/content/__init__.py)
-  - Updated MCP discovery, adapters, and CLI
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 1 focuses on restructuring the package so that
-
-      pip install vibey includes all necessary code AND content.
-
-
-      KEY CHANGE: Renaming framework/ → content/
-
-      The name "content" better reflects what the directory contains:
-
-      agents, workflows, templates, schemas, and examples.
-
-
-      Key principle: Use importlib.resources (or importlib_resources
-
-      backport) for accessing package data, not __file__ relative paths.
-
-      This ensures it works for:
-
-      - Regular pip install
-
-      - Editable install (pip install -e .)
-
-      - Zipimport (rare but possible)
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

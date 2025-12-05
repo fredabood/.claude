@@ -5,70 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Performance benchmarks and optimization
-  description: "Benchmark performance of new operations implementation and\noptimize\
-    \ any hotspots that exceed acceptable thresholds.\n\nBENCHMARK SCENARIOS:\n\n\
-    1. LOAD PERFORMANCE:\n   - Load single task: < 10ms\n   - Load task with ancestors:\
-    \ < 50ms\n   - Load sprint with children: < 100ms\n   - Load full roadmap: < 500ms\n\
-    \n2. AGGREGATION PERFORMANCE:\n   - sprint.commits (10 tasks): < 20ms\n   - track.commits\
-    \ (5 sprints, 50 tasks): < 100ms\n   - roadmap.commits (all): < 500ms\n\n3. INHERITANCE\
-    \ PERFORMANCE:\n   - task.standards (4-level chain): < 10ms\n   - Multiple standards\
-    \ check: < 50ms\n\n4. QUERY PERFORMANCE:\n   - Find blocked tasks: < 100ms\n \
-    \  - Find tasks by status: < 100ms\n   - Get progress for roadmap: < 200ms\n\n\
-    5. UPDATE PERFORMANCE:\n   - Update task status: < 50ms\n   - Add commit to task:\
-    \ < 50ms\n   - Complete sprint (cascade): < 200ms\n\nOPTIMIZATION TARGETS:\n\n\
-    1. LAZY LOADING:\n   - Don't load children until accessed\n   - Don't compute\
-    \ aggregation until accessed\n   - Cache computed values\n\n2. EAGER LOADING OPTIONS:\n\
-    \   For known access patterns, provide eager loading:\n\n   # Load sprint with\
-    \ tasks for display\n   sprint = repo.get_with_children(sprint_id,\n       eager=['tasks',\
-    \ 'tasks.commits'])\n\n3. CACHING:\n   - Cache aggregated values with invalidation\n\
-    \   - Cache effective standards\n   - Invalidate on change\n\n4. DATABASE OPTIMIZATION:\n\
-    \   - Ensure indexes on parent_id\n   - Use SQL views for common aggregations\n\
-    \   - Consider materialized views for large roadmaps\n\n5. BATCH OPERATIONS:\n\
-    \   - Load multiple tickets in one query\n   - Batch updates in transactions\n\
-    \nIMPLEMENTATION:\n\n1. Create benchmark suite\n2. Run benchmarks against current\
-    \ implementation\n3. Identify hotspots (> 2x threshold)\n4. Implement optimizations\n\
-    5. Re-run benchmarks\n6. Document optimization decisions\n\nSUCCESS CRITERIA:\n\
-    - All benchmarks within 2x of baseline\n- No operation > 1 second\n- Aggregation\
-    \ scales linearly\n- Memory usage acceptable\n"
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: medium
-  phase_label: optimization
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-9-task-005
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410427+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Benchmark suite
-  - type: code
-    paths:
-    - Performance baseline document
-  - type: code
-    paths:
-    - Optimization implementations
-  - type: code
-    paths:
-    - Performance comparison report
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

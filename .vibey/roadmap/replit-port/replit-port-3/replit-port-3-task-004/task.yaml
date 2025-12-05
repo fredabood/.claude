@@ -1,34 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-3
   id: replit-port-3-task-004
-  name: Generate MCP server configuration
+  sprint_id: replit-port-3
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Generate MCP server configuration
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 6
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Generate MCP server configuration for Replit environment.\n\nCONFIGURATION\
-    \ REQUIREMENTS:\n- Server startup parameters\n- Tool registration settings\n-\
-    \ Environment-specific overrides\n- Extension integration settings\n\nMCP CONFIG\
-    \ STRUCTURE:\n```yaml\nmcp:\n  server:\n    host: \"0.0.0.0\"\n    port: 3000\n\
-    \    environment: \"replit\"\n\n  tools:\n    discovery_path: \"vibey/mcp/tools\"\
-    \n    auto_register: true\n    enabled_tools: []  # Empty = all tools\n\n  replit:\n\
-    \    extension_enabled: true\n    agent_integration: true\n    file_handlers:\
-    \ true\n```\n\nGENERATION LOGIC:\n- Read base MCP configuration\n- Apply Replit-specific\
-    \ overrides\n- Configure tool discovery\n- Set extension integration\n- Write\
-    \ to .vibey/config/mcp.yaml\n\nREPLIT-SPECIFIC SETTINGS:\n- Browser-compatible\
-    \ server settings\n- Web socket configuration\n- CORS settings for extension\n\
-    - Performance optimizations\n\nDELIVERABLES:\n- MCP config generation method\n\
-    - Configuration template\n- Validation logic\n- Unit tests\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

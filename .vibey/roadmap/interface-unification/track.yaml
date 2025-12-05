@@ -6,9 +6,9 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-12T00:00:00+00:00'
-  started: '2025-11-12T10:00:00+00:00'
-  completed: '2025-11-13T02:00:00+00:00'
-  estimated_duration: 3 weeks
+  started: null
+  completed: '2025-11-12T00:00:00+00:00'
+  estimated_duration: null
   progress:
     sprints_total: 3
     sprints_completed: 3
@@ -19,257 +19,35 @@ track:
   - id: interface-unification-1
     name: Delete Legacy Interfaces & Consolidate
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 6
-    started: '2025-11-12T10:00:00+00:00'
+    started: null
   - id: interface-unification-2
     name: Unify CLI + MCP Integration
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 5
-    started: '2025-11-12T15:00:00+00:00'
+    started: null
   - id: interface-unification-3
     name: Documentation & Testing
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 6
-    started: '2025-11-12T22:00:00+00:00'
+    started: null
   dependencies: []
-  blocks:
-  - type: track
-    target_id: platform-context-management
-    at_status: not_started
-    reason: Requires clean CLI/MCP foundation before implementing context management
-  - type: track
-    target_id: standards-system
-    at_status: not_started
-    reason: Standards enforcement depends on unified interface architecture
-  - type: track
-    target_id: claude-port
-    at_status: not_started
-    reason: Claude integration requires completed interface unification to avoid legacy
-      patterns
-  - type: track
-    target_id: goose-port
-    at_status: not_started
-    reason: Goose port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: aider-port
-    at_status: not_started
-    reason: Aider port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: continue-port
-    at_status: not_started
-    reason: Continue port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Multi-platform strategy requires unified interface foundation
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - type: track
-    target_id: platform-context-management
-    at_status: not_started
-    reason: Requires clean CLI/MCP foundation before implementing context management
-  - type: track
-    target_id: standards-system
-    at_status: not_started
-    reason: Standards enforcement depends on unified interface architecture
-  - type: track
-    target_id: claude-port
-    at_status: not_started
-    reason: Claude integration requires completed interface unification to avoid legacy
-      patterns
-  - type: track
-    target_id: goose-port
-    at_status: not_started
-    reason: Goose port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: aider-port
-    at_status: not_started
-    reason: Aider port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: continue-port
-    at_status: not_started
-    reason: Continue port depends on clean CLI/MCP foundation
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Multi-platform strategy requires unified interface foundation
-  quality_gates:
-  - name: Clean Slate
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All legacy interfaces deleted, no backward compatibility code
-    score: null
-  - name: CLI Feature Complete
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: CLI has all necessary features for framework management
-    score: null
-  - name: MCP Integration
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: MCP server cleanly wraps CLI/core library
-    score: null
-  - name: Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: '>90% code coverage for CLI and MCP'
-    score: null
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - Deleted legacy interfaces (slash commands, standalone scripts)
-  - Consolidated CLI with complete feature set
-  - Unified error handling library (vibey/common/errors.py)
-  - Clean MCP adapter (wraps CLI/core)
-  - Complete CLI reference documentation
-  - MCP integration guide
-  - Getting started guide (CLI-first)
-  - Comprehensive test suite (>90% coverage)
-  strategic_value:
-  - 'Clean Slate: No legacy code, no technical debt'
-  - 'Two Interfaces Only: CLI (standalone) + MCP (protocol wrapper)'
-  - 'Platform Agnostic: Both CLI and MCP work anywhere'
-  - 'Single Source of Truth: CLI/core library is canonical'
-  - 'Future-Proof: Platform-specific integrations built later (claude-port, etc.)'
-  - 'Maintainability: One implementation to maintain, test, and debug'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-12T00:00:00+00:00'
-    design_doc: docs/development/INTERFACE_AUDIT_2025-11-12.md
+    created_by: unknown
+    last_updated: null
+    design_doc: null
     implementation_plan: null
-    notes: "INTERFACE UNIFICATION & SIMPLIFICATION\n\nCRITICAL ARCHITECTURAL PRIORITY\n\
-      \nCONTEXT:\nVibey currently has 4 user-facing interfaces:\n1. Slash commands\
-      \ (/vibey) - 6 commands, 4,389 lines, Claude-only\n2. Python CLI (vibey command)\
-      \ - Full-featured, platform-agnostic\n3. MCP Server - 11 tools, platform-agnostic\n\
-      4. 31 standalone Python scripts - Duplicate CLI functionality\n\nPROBLEM:\n\
-      - No users exist on the legacy system (slash commands + scripts)\n- Legacy interfaces\
-      \ were built before mature CLI existed\n- Slash commands lock us into Claude-specific\
-      \ architecture\n- Standalone scripts duplicate CLI functionality\n- 4 interfaces\
-      \ = 4x implementation effort for new features\n\nCRITICAL DECISION:\nNO MIGRATION,\
-      \ NO DEPRECATION - JUST DELETE\n\nSince there are no users:\n- No backward compatibility\
-      \ needed\n- No deprecation timeline needed\n- No migration guides needed\n-\
-      \ Just delete legacy code and move forward\n\nSOLUTION:\nBuild TWO clean interfaces:\n\
-      1. CLI (vibey command) - Standalone, works everywhere\n2. MCP Server - Protocol\
-      \ wrapper over CLI/core\n\nThen build platform-specific integrations later:\n\
-      - claude-port: Assess best Claude integration (MCP? CLI? Both?)\n- goose-port:\
-      \ Goose-specific integration\n- etc.\n\nARCHITECTURE:\n\nSprint 1: Delete Legacy\
-      \ & Consolidate (1 week)\n-----------------------------------------------\n\
-      Clean slate approach: delete everything legacy.\n\nDELETE:\n1. All slash commands\
-      \ (framework/commands/*.md)\n   - vibey.md (1,454 lines)\n   - vibey-plan.md\
-      \ (336 lines)\n   - vibey-code.md (1,095 lines)\n   - vibey-think.md (765 lines)\n\
-      \   - vibey-manage.md (617 lines)\n   - vibey-audit.md (122 lines)\n   Total:\
-      \ 4,389 lines deleted\n\n2. All standalone scripts (vibey/cli/*.py)\n   - analyze-project-roadmap.py\n\
-      \   - check-version.py\n   - config_migrate.py\n   - deploy.py\n   - docs.py\n\
-      \   - generate-agent.py\n   - generate-config.py\n   - generate-roadmap-docs.py\n\
-      \   - manage-project-context.py\n   - migrate-* scripts (4 files)\n   - render-template.py\n\
-      \   - roadmap-*.py scripts (8 files)\n   - rollback-framework.py\n   - test_*_adapter.py\
-      \ (2 files)\n   - update-config.py\n   - validate-*.py scripts (3 files)\n \
-      \  Total: 31 files deleted\n\nKEEP:\n- vibey/cli/main.py (unified CLI entry\
-      \ point)\n- vibey/cli/commands.py (CLI command implementations)\n- vibey/cli/__init__.py\
-      \ (package init)\n- vibey/cli/roadmap_commands/ (CLI command modules)\n- vibey/cli/tests/\
-      \ (test suite)\n\nCONSOLIDATE:\nReview deleted files for unique functionality:\n\
-      - If standalone script has feature not in CLI → Add to CLI\n- If CLI missing\
-      \ feature → Implement in CLI\n- Ensure CLI has 100% feature coverage\n\nTasks:\n\
-      1. Delete framework/commands/ directory entirely\n2. Delete 31 standalone scripts\
-      \ from vibey/cli/\n3. Audit deleted scripts for unique features\n4. Implement\
-      \ missing features in CLI (if any)\n5. Clean up imports and references\n6. Update\
-      \ project structure documentation\n\nDeliverables:\n- ~6,000 lines of code deleted\n\
-      - Clean CLI as only interface\n- No legacy code\n- Feature audit complete\n\n\
-      Sprint 2: Unify CLI + MCP Integration (1 week)\n-----------------------------------------------\n\
-      Ensure MCP server cleanly wraps CLI/core library.\n\nGoals:\n- Single source\
-      \ of truth: CLI/core library\n- MCP as thin protocol wrapper\n- Unified error\
-      \ handling (CLI + MCP)\n- Consistent behavior across interfaces\n\nMCP Integration\
-      \ Pattern:\n```python\n# framework/mcp/adapters/roadmap_adapter.py\n# MCP adapter\
-      \ wraps CLI commands or core library directly\n\nclass RoadmapAdapter:\n   \
-      \ \"\"\"Adapter that wraps Vibey core library for MCP.\"\"\"\n\n    def start_task(self,\
-      \ task_id: str) -> dict:\n        \"\"\"Start a task.\"\"\"\n        # Call\
-      \ core library (same code CLI uses)\n        from vibey.roadmap import load_roadmap,\
-      \ start_task\n        roadmap = load_roadmap()\n        task = start_task(roadmap,\
-      \ task_id)\n        return task.to_dict()\n\n# MCP tools call adapter (thin\
-      \ wrappers)\nasync def handle_start_task(arguments: dict, adapter: RoadmapAdapter):\n\
-      \    \"\"\"Handle vibey_start_task MCP tool call.\"\"\"\n    try:\n        result\
-      \ = adapter.start_task(arguments['task_id'])\n        return {\"content\": [{\"\
-      type\": \"text\", \"text\": json.dumps(result)}]}\n    except VibeyError as\
-      \ e:\n        return render_mcp_error(e)\n```\n\nUnified Error Handling:\n```python\n\
-      # vibey/common/errors.py\nclass VibeyError(Exception):\n    \"\"\"Base error\
-      \ for all Vibey operations.\"\"\"\n    error_code: str\n    message: str\n \
-      \   fix_suggestions: List[str]\n\n# vibey/common/error_renderers.py\ndef render_for_cli(error:\
-      \ VibeyError) -> str:\n    \"\"\"Render error for CLI output.\"\"\"\n    return\
-      \ f\"Error: {error.message}\\nSuggestions:\\n\" + \\\n           \"\\n\".join(f\"\
-      \  - {s}\" for s in error.fix_suggestions)\n\ndef render_for_mcp(error: VibeyError)\
-      \ -> dict:\n    \"\"\"Render error for MCP response.\"\"\"\n    return {\n \
-      \       \"content\": [{\n            \"type\": \"text\",\n            \"text\"\
-      : f\"Error: {error.message}\"\n        }],\n        \"isError\": True\n    }\n\
-      ```\n\nTasks:\n1. Create unified error handling library\n2. Update CLI to use\
-      \ error library\n3. Update MCP to use error library\n4. Verify MCP adapter uses\
-      \ core library (not duplicate logic)\n5. Integration tests (CLI + MCP consistency)\n\
-      \nDeliverables:\n- vibey/common/errors.py (error library)\n- vibey/common/error_renderers.py\
-      \ (interface adapters)\n- MCP adapter verified (wraps core, no duplication)\n\
-      - Integration tests passing\n\nSprint 3: Documentation & Testing (1 week)\n\
-      -------------------------------------------\nComplete documentation and comprehensive\
-      \ testing.\n\nDocumentation:\n1. CLI Reference (docs/reference/CLI_REFERENCE.md)\n\
-      \   - Complete command documentation\n   - All options and flags\n   - Examples\
-      \ for every command\n   - Common workflows\n\n2. MCP Integration Guide (docs/guides/MCP_INTEGRATION.md)\n\
-      \   - MCP server setup\n   - Tool reference\n   - Client configuration (Claude\
-      \ Desktop, etc.)\n   - Examples\n\n3. Getting Started Guide (docs/guides/GETTING_STARTED.md)\n\
-      \   - CLI-first onboarding\n   - Installation\n   - First project setup\n  \
-      \ - Common workflows\n\n4. Developer Guide (docs/development/CONTRIBUTING.md)\n\
-      \   - Project structure\n   - Adding new CLI commands\n   - Adding new MCP tools\n\
-      \   - Testing guidelines\n\n5. Architecture Documentation (docs/development/ARCHITECTURE.md)\n\
-      \   - Clean two-interface design\n   - Core library structure\n   - How CLI\
-      \ and MCP share code\n   - Future platform integrations\n\nTesting:\n1. CLI\
-      \ command tests\n   - All commands tested\n   - All options tested\n   - Error\
-      \ handling tested\n\n2. MCP tool tests\n   - All tools tested\n   - Request/response\
-      \ validation\n   - Error handling tested\n\n3. Integration tests\n   - CLI +\
-      \ MCP consistency\n   - End-to-end workflows\n   - Error propagation\n\n4. Core\
-      \ library tests\n   - Roadmap operations\n   - State management\n   - Validation\
-      \ logic\n\nCleanup:\n1. Remove dead code references\n2. Update README.md (reflect\
-      \ new architecture)\n3. Update CLAUDE.md (remove slash command references)\n\
-      4. Archive old documentation\n5. Update repository structure docs\n\nTasks:\n\
-      1. Write CLI Reference documentation\n2. Write MCP Integration Guide\n3. Write\
-      \ Getting Started Guide\n4. Write Developer/Contributor Guide\n5. Write Architecture\
-      \ Documentation\n6. Comprehensive test suite (>90% coverage)\n7. Code cleanup\
-      \ and dead reference removal\n\nDeliverables:\n- 5 comprehensive documentation\
-      \ guides\n- >90% test coverage\n- Clean codebase (no dead code)\n- Updated README\
-      \ and project docs\n\nVALIDATION CRITERIA:\n\n1. Clean Slate (100%)\n   - All\
-      \ slash commands deleted\n   - All standalone scripts deleted\n   - No backward\
-      \ compatibility code\n   - No deprecation notices\n   - Clean git history (files\
-      \ removed)\n\n2. CLI Feature Complete (100%)\n   - All necessary features present\n\
-      \   - No missing functionality from deleted code\n   - Command structure logical\
-      \ and complete\n   - Help text comprehensive\n\n3. MCP Integration (100%)\n\
-      \   - MCP wraps core library (no duplication)\n   - All tools functional\n \
-      \  - Error handling consistent\n   - Integration tests pass\n\n4. Test Coverage\
-      \ (90%)\n   - >90% code coverage\n   - All CLI commands tested\n   - All MCP\
-      \ tools tested\n   - Integration tests complete\n\nSTRATEGIC IMPACT:\n\nBefore\
-      \ Unification:\n- 4 interfaces (slash, CLI, MCP, standalone)\n- 4x implementation\
-      \ for new features\n- Slash commands lock into Claude-specific design\n- Platform-agnostic\
-      \ expansion difficult\n\nAfter Unification:\n- 2 interfaces (CLI, MCP)\n- 1x\
-      \ implementation for new features\n- Platform-agnostic core\n- Platform-specific\
-      \ integrations as clean layers\n\nExample Impact on Next Track (platform-context-management):\n\
-      - WITHOUT unification: Implement in all 4 interfaces = 5 weeks\n- WITH unification:\
-      \ Implement in CLI/core = 5 weeks\n- Savings: 0 weeks (but prevents future drift)\n\
-      \nExample Impact on Claude Integration:\n- WITHOUT unification: Refactor 4,389\
-      \ lines of slash commands\n- WITH unification: Design claude-port from scratch\
-      \ with mature CLI\n- Benefit: Choose BEST integration, not retrofit FIRST integration\n\
-      \nROI:\n- 3 weeks investment NOW\n- Clean architecture foundation\n- Platform-agnostic\
-      \ core\n- Flexible platform integrations later\n- Zero technical debt from legacy\
-      \ code\n\nNEXT STEPS AFTER COMPLETION:\n\n1. platform-context-management (5\
-      \ weeks)\n   - Implement once in CLI/core\n   - MCP gets it automatically\n\
-      \   - No duplicate implementations\n\n2. claude-port track (reopen, redesign)\n\
-      \   - Assess: MCP vs CLI vs hybrid?\n   - Design from scratch with mature interfaces\n\
-      \   - Choose best approach for Claude integration\n\n3. goose-port, aider-port,\
-      \ etc.\n   - Build on clean CLI + MCP foundation\n   - Platform-specific wrappers\n\
-      \   - Consistent experience\n\nIMPLEMENTATION PRIORITY: START IMMEDIATELY\n\
-      This track must complete before any new feature development.\nPrevents exponential\
-      \ technical debt as framework grows.\n"
-    estimated_tokens: 0
+    notes: null

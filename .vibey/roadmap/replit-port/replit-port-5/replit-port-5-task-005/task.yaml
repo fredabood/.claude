@@ -1,38 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-5
   id: replit-port-5-task-005
-  name: Create end-to-end testing
+  sprint_id: replit-port-5
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create end-to-end testing
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 12
-  assigned_agent: test-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create end-to-end test suite for Extension features and workflows.\n\
-    \nE2E TEST SCENARIOS:\n1. Extension Initialization\n   - Extension loads successfully\n\
-    \   - MCP connection established\n   - Dashboard displays data\n\n2. Roadmap Visualization\n\
-    \   - View roadmap\n   - Expand/collapse tracks\n   - Click track to view sprints\n\
-    \   - Navigate to tasks\n\n3. Sprint Management\n   - View sprint details\n  \
-    \ - See task list\n   - Update sprint status\n   - View progress charts\n\n4.\
-    \ Task Management\n   - View task list\n   - Update task status\n   - View task\
-    \ details\n   - Filter and sort tasks\n\n5. File Handlers\n   - Open .vibey/*.yaml\
-    \ files\n   - Preview renders correctly\n   - Quick actions work\n   - Validation\
-    \ works\n\n6. CLUI Commands\n   - vibey:roadmap command\n   - vibey:sprint command\n\
-    \   - vibey:task command\n   - vibey:sync command\n\nTESTING FRAMEWORK:\n- Playwright\
-    \ for E2E tests\n- Replit Extensions test harness\n- Mock MCP server\n- Test fixtures\n\
-    \nTEST SETUP:\n```typescript\ndescribe('Extension E2E Tests', () => {\n  beforeEach(async\
-    \ () => {\n    // Initialize extension\n    // Connect to mock MCP server\n  \
-    \  // Load test data\n  });\n\n  test('displays roadmap on load', async () =>\
-    \ {\n    // Test implementation\n  });\n});\n```\n\nDELIVERABLES:\n- E2E test\
-    \ suite\n- Test fixtures\n- CI integration\n- Test documentation\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

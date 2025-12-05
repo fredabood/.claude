@@ -1,56 +1,38 @@
 task:
   id: vscode-port-1-task-004
-  name: Add vibey deploy --platform vscode CLI
   sprint_id: vscode-port-1
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add vibey deploy --platform vscode CLI
+  description: null
   status: completed
-  blocked: false
-  priority: high
+  blocked: true
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.604828+00:00'
-  completed: '2025-11-27T11:04:09.604828+00:00'
-  estimated_duration: 4 hours
-  actual_duration: null
-  description: 'Add VS Code deployment support to vibey CLI.
-
-
-    Responsibilities:
-
-    - Add ''vscode'' option to deploy command
-
-    - Wire up VSCodeAdapter
-
-    - Generate .vscode/mcp.json
-
-    - Generate VSCODE.md context file
-
-    - Validate deployment
-
-
-    Files to modify:
-
-    - vibey/cli/main.py (add vscode option)
-
-    - vibey/cli/commands.py (wire up adapter)
-
-    '
-  acceptance_criteria:
-  - vibey deploy --platform vscode works end-to-end
-  - Generates .vscode/mcp.json and VSCODE.md
-  - Validates configuration
-  - Clear success/error messages
-  - Manual testing with user project
-  assigned_agents:
-  - web-developer
-  depends_on:
-  - vscode-port-1-task-001
-  - vscode-port-1-task-002
-  - vscode-port-1-task-003
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    effort_estimate: 4 hours
-    complexity: low
-    notes: CLI integration for VS Code deployment
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,21 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement dependency-aware merge ordering
-  description: "Suggest/enforce merge order based on roadmap dependencies:\n\nSCENARIOS:\n\
-    - Sprint B depends on Sprint A\n  → Warn if merging B's branch before A's\n\n\
-    - Task 2 depends on Task 1\n  → Suggest merging Task 1's PR first\n\n- Track X\
-    \ blocks Track Y\n  → Prevent Y's branch merge until X complete\n\nIMPLEMENTATION:\n\
-    - Analyze dependency graph\n- Compare with branch/PR state\n- Generate merge order\
-    \ recommendation\n\nCLI COMMANDS:\n- vibey git merge-order\n  Show recommended\
-    \ merge sequence\n\n- vibey git dependency-check <branch>\n  Check if branch dependencies\
-    \ are satisfied\n\nFEATURES:\n- Configurable enforcement (suggest vs block)\n\
-    - Dependency visualization\n- Override capability for exceptions\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.391193+00:00'
-  completed: '2025-11-27T11:04:09.391193+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -35,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:09:34.377931+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

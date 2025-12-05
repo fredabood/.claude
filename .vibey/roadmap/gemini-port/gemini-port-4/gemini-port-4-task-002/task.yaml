@@ -1,19 +1,32 @@
 task:
   id: gemini-port-4-task-002
-  name: Extended Context Strategy
   sprint_id: gemini-port-4
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extended Context Strategy
+  description: null
   status: completed
   blocked: false
-  priority: high
-  complexity: medium
   created: '2025-11-23T05:11:27.058014+00:00'
-  started: '2025-11-27T11:04:09.717356+00:00'
-  completed: '2025-11-27T11:04:09.717356+00:00'
-  description: Design context loading for 1M tokens, implement incremental context,
-    handle context overflow gracefully
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T05:11:27.058014+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

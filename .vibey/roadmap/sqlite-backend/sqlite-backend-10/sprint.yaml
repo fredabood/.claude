@@ -4,7 +4,8 @@ sprint:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
+  blocked_reason: null
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,65 +14,71 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 1
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
+  tasks:
+  - id: sqlite-backend-10-task-001
+    title: Update CLI commands for inheritance display
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-10-task-002
+    title: Update MCP tools for aggregation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-10-task-003
+    title: Create migration guide and documentation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-10-task-004
+    title: End-to-end testing
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-10-task-005
+    title: Sprint 6d Completion Gate - Full Architecture Review
+    status: not_started
+    task_type: completion_gate
+    gate_info:
+      blocks_status: completed
+      threshold: 0
+      is_blocking: true
+      score: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-9
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Updated CLI commands for inheritance display
-  - Updated MCP tools for aggregation
-  - Migration guide for users
-  - Updated documentation
-  - End-to-end testing
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
-    estimated_duration: 1 week
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Sprint 10: Interface Migration
-
-      GOAL: Update CLI and MCP interfaces to properly display
-      and interact with the new unified ticket architecture.
-
-      DEPENDS ON: Sprint 9 (operations migration)
-
-      KEY USER-FACING CHANGES:
-      1. Standards show inheritance source
-      2. Commits show aggregation source
-      3. Progress computed in real-time
-      4. New hierarchy navigation commands
-
-      CLI COMMANDS TO UPDATE:
-      - vibey roadmap show
-      - vibey roadmap status
-      - vibey roadmap find
-      - vibey roadmap add-standard
-      - vibey roadmap list
-
-      MCP TOOLS TO UPDATE:
-      - task_tools.py
-      - sprint_tools.py
-      - query_tools.py
-      - roadmap_adapter.py
-
-      DOCUMENTATION:
-      - Migration guide for existing users
-      - Updated command reference
-      - Architecture documentation

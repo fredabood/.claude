@@ -5,17 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Finalize Roadmap System Documentation
-  description: Create comprehensive reference documentation for the complete roadmap
-    system
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T20:00:00+00:00'
-  started: '2025-11-27T11:04:09.654303+00:00'
-  completed: '2025-11-27T11:04:09.654303+00:00'
-  assigned_agent: docs-writer
+  started: null
+  completed: '2025-11-08T20:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 4
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -26,22 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: a8a3925
-    message: 'feat: Sprint 3 pivot - Documentation finalization and comprehensive
-      testing'
-    date: '2025-11-08T14:20:00-05:00'
-  - hash: 1502655
-    message: 'docs: Add comprehensive roadmap management examples and FAQ'
-    date: '2025-11-10T19:50:00+00:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Slash command documentation deleted, replaced by CLI/MCP documentation
+  commits: []
   metadata:
-    superseded_by: vibey/cli/CLI.md and vibey/cli/ROADMAP_CLI.md
-    architectural_note: Roadmap system documentation updated for CLI/MCP architecture
-    last_updated: '2025-11-15T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,83 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update query operations to use database backend
-  description: 'Update vibey/operations/roadmap/query.py to use SQLite when available:
-
-
-    query_roadmap_summary():
-
-    - Use v_roadmap_progress view instead of loading all YAML files
-
-    - Expected speedup: 10x+ for large roadmaps
-
-
-    query_track_details():
-
-    - Use v_track_progress view
-
-    - Single query vs loading all sprint files
-
-
-    query_sprint_details():
-
-    - Use v_sprint_progress view
-
-    - Single query vs loading all task files
-
-
-    query_blockers():
-
-    - Use v_blocked_entities view
-
-    - Recursive CTE for transitive blockers
-
-
-    query_dependencies():
-
-    - Use v_dependency_chain view
-
-    - Replace BFS traversal with SQL
-
-
-    Implementation approach:
-
-    - Import backend abstraction from serialization
-
-    - Check backend mode (SQLite vs YAML)
-
-    - Call appropriate functions based on mode
-
-    - Return identical data structures (no CLI changes needed)
-
-
-    CLI commands (status, show) automatically benefit.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T14:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-2-task-001
-  blocks:
-  - sqlite-backend-2-task-004
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Updated vibey/operations/roadmap/query.py
-  - Performance benchmarks (YAML vs SQLite)
-  - No changes to CLI commands (transparent)
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

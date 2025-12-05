@@ -5,50 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Design and implement RoadmapCache class
-  description: 'Implement in-memory caching layer for fast roadmap queries.
-
-
-    Requirements:
-
-    - Lazy-loaded indexes (task_index, sprint_index, track_index)
-
-    - Pre-computed dependency graphs (adjacency list, reverse edges)
-
-    - File modification tracking (mtimes)
-
-    - Cache statistics (hits, misses, hit rate)
-
-    - Invalidation on file changes
-
-    - O(1) lookups after first query
-
-
-    Design:
-
-    - In-memory dictionaries for indexes
-
-    - Build indexes on first access
-
-    - Track file mtimes for invalidation
-
-    - Partial and full invalidation support
-
-
-    Target Performance:
-
-    - Task lookup: < 5ms (vs 100ms without cache)
-
-    - Load all tasks: < 10ms (vs 150ms without cache)
-
-    - Dependency graph: < 20ms (vs 300ms without cache)
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486540+00:00'
-  started: '2025-11-27T11:04:09.424187+00:00'
-  completed: '2025-11-27T11:04:09.424187+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-08T10:10:00.486540+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -59,14 +22,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
-  commits:
-  - hash: 910bd443d3e63af8de3a3c83e14cd86e4f7703fc
-    date: '2025-11-07T20:38:54-05:00'
-    message: 'feat: Implement RoadmapCache with lazy loading and O(1) lookups'
-    impact: Created cache.py (700 lines), test_roadmap_cache.py (450 lines), benchmark_cache.py
-      (180 lines). Achieved O(1) lookups with 77.6% performance improvement.
+  commits: []
   metadata:
-    last_updated: '2025-11-08T10:10:00.486529+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

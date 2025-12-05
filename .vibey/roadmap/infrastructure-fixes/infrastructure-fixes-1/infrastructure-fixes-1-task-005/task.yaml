@@ -5,55 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update /vibey plan to create roadmap sprint entries
-  description: 'Update framework/commands/vibey-plan.md (lines 202-225)
-
-    - Add roadmap sprint creation after sprint plan generated
-
-    - Parse sprint plan markdown for tasks, features, gates
-
-    - Create .vibey/sprints/sprint-N.yaml state file
-
-    - Create .vibey/tasks/sprint-N-tasks.yaml task definitions
-
-    - Update track YAML to reference sprint
-
-    - Keep legacy system for backward compatibility
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.296152+00:00'
-  completed: '2025-11-27T11:04:09.296152+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 12000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-004
-    target_status: completed
-    reason: Needs roadmap initialized first
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 1362d2d38dac17325ab906a393e8858d1700e08c
-    message: 'feat: Add sprint-from-plan parser and integrate with /vibey plan'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T12:27:13-05:00'
-    files_changed:
-    - framework/commands/vibey-plan.md
-    - framework/scripts/roadmap-create-from-plan.py
-    note: Integration in vibey-plan.md DELETED Nov 12 in commit 205c877, but script
-      preserved at framework/scripts/ and copied to vibey/cli/
+  commits: []
   metadata:
-    last_updated: '2025-11-11T21:50:49.867741+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

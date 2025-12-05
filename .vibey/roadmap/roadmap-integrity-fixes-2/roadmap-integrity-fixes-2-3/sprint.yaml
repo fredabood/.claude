@@ -2,59 +2,78 @@ sprint:
   id: roadmap-integrity-fixes-2-3
   name: Schema Migration (python-package)
   track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 1.5 hours
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  dependencies:
-  - roadmap-integrity-fixes-2-1
-  blocked_by:
-  - roadmap-integrity-fixes-2-1
-  depended_on_by:
-  - roadmap-integrity-fixes-2-5
-  quality_gates:
-  - name: Task Files Created
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 24 tasks have individual task.yaml files
-  - name: Quality Gates Run
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All python-package quality gates executed
-  deliverables:
-  - 24 task.yaml files across 3 sprint directories
-  - Quality gate results documented
-  - Track completion verified
+  tasks:
+  - id: roadmap-integrity-fixes-2-3-task-001
+    title: Extract python-package-1 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-3-task-002
+    title: Extract python-package-2 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-3-task-003
+    title: Extract python-package-3 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-3-task-004
+    title: Run python-package quality gates
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-3-task-005
+    title: Verify python-package deliverables
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-3-task-006
+    title: Commit python-package schema migration
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: parallel-track-audit
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Migrate python-package from embedded task schema to hierarchical.
-
-
-      CURRENT STATE:
-
-      - 3 sprints with embedded tasks
-
-      - Sprint 1: 8 tasks (package structure)
-
-      - Sprint 2: 6 tasks (testing & distribution)
-
-      - Sprint 3: 10 tasks (content management)
-
-      - Total: 24 embedded tasks
-
-      - All marked completed
-
-
-      Also run quality gates since track claims completion.
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

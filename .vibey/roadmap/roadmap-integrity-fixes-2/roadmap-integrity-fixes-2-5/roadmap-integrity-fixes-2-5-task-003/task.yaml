@@ -1,50 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-5-task-003
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-5
-  name: Update audit report
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update audit report
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 0.2
-  assigned_agent: docs-writer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Update the comprehensive audit report with remediation results.
-
-
-    CREATE: .vibey/roadmap/context/AUDIT_REMEDIATION_REPORT_2025-11-24.md
-
-
-    CONTENT:
-
-    1. Original Issues Found (from parallel audit)
-
-    2. Remediation Actions Taken
-
-    3. Verification Results
-
-    4. Remaining Known Issues (if any)
-
-    5. Recommendations for Future
-
-
-    Include metrics:
-
-    - Tracks fixed
-
-    - Tasks migrated
-
-    - Status syncs applied
-
-    - Git tracking restored
-
-    '
-  acceptance_criteria:
-  - Report created in context/
-  - All remediation documented
-  - Metrics included
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

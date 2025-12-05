@@ -2,61 +2,31 @@ task:
   id: claude-port-1-task-006
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-11T00:03:00-05:00'
-  started: '2025-11-27T11:04:09.566160+00:00'
-  completed: '2025-11-27T11:04:09.566160+00:00'
-  estimated_duration: 2 hours
-  actual_duration: 30 minutes
-  priority: medium
-  assigned_agents:
-  - docs-writer
-  description: 'Update user journey documentation and examples to match actual behavior
-
-    observed during testing. Fix any discrepancies between documentation
-
-    and implementation.
-
-    '
-  acceptance_criteria:
-  - Documentation matches actual behavior
-  - Examples tested and working
-  - No behavior discrepancies
-  - Comprehensive test report created
-  deliverables:
-  - CLAUDE_PORT_SPRINT1_COMPLETE.md (434 lines)
-  - Updated user journey documentation
-  - Accurate examples
-  commits:
-  - dfbd7fe02b9a22284ba01eb776df83310bc95d35
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed with comprehensive documentation.
-
-
-      Created CLAUDE_PORT_SPRINT1_COMPLETE.md with:
-
-      - Test results (73% pass rate at this point)
-
-      - Bug fixes summary
-
-      - Validation findings
-
-      - Platform baseline metrics
-
-      - Success metrics
-
-      - Lessons learned
-
-      - Next steps
-
-
-      Total: 434 lines of high-quality documentation.
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Update documentation for accuracy
-  estimated_tokens: 20000
-  size_category: M
-  original_estimated_duration: 2 hours
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-11T00:03:00-05:00'
+  started: null
+  completed: '2025-11-11T00:03:00-05:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

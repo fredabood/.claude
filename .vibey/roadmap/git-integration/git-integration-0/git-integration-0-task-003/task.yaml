@@ -3,57 +3,30 @@ task:
   sprint_id: git-integration-0
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Design commit message conventions
+  task_type: development
+  title: Design commit message conventions
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: architecture-agent
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.405053+00:00'
-  completed: '2025-11-27T11:04:09.405053+00:00'
-  description: 'Define standard commit message format for Vibey integration:
-
-
-    FORMATS TO SUPPORT:
-
-    - Conventional commits: feat(task-id): description
-
-    - Footer references: Task: task-id, Status: completed
-
-    - Bracket notation: [task-id] description
-
-    - Multiple tasks in single commit
-
-
-    QUESTIONS TO ANSWER:
-
-    - Required vs optional task references?
-
-    - How to reference sprint/track completion?
-
-    - How to indicate status changes in commits?
-
-    - Multi-task commits - how to attribute?
-
-    - Merge commits - special handling?
-
-
-    DELIVERABLES:
-
-    - Commit message specification
-
-    - Parsing rules and regex patterns
-
-    - Examples for common scenarios
-
-    - Linting rules for validation
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

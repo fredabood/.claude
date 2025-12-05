@@ -1,37 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-5
   id: replit-port-5-task-004
-  name: Implement file handlers for .vibey/ files
+  sprint_id: replit-port-5
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement file handlers for .vibey/ files
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 8
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement custom file handlers for .vibey/ directory files in Replit.\n\
-    \nFILE HANDLER FEATURES:\n1. YAML Syntax Highlighting\n   - Custom syntax highlighting\
-    \ for .vibey/**/*.yaml\n   - Frontmatter highlighting in markdown\n   - Schema-aware\
-    \ highlighting\n\n2. File Previews\n   - roadmap.yaml preview\n   - track.yaml\
-    \ preview\n   - sprint.yaml preview\n   - task.yaml preview\n\n3. Quick Actions\n\
-    \   - Open in roadmap view\n   - Update status\n   - Generate context\n   - Validate\
-    \ schema\n\n4. Inline Editing\n   - Edit status inline\n   - Update metadata\n\
-    \   - Validation on save\n   - Auto-formatting\n\nFILE HANDLER REGISTRATION:\n\
-    ```typescript\nimport { registerFileHandler } from '@replit/extensions';\n\nregisterFileHandler({\n\
-    \  pattern: '**/.vibey/**/*.yaml',\n  handler: async (file) => {\n    const content\
-    \ = await file.read();\n    const parsed = YAML.parse(content);\n    // Render\
-    \ custom preview\n  }\n});\n```\n\nPREVIEW RENDERING:\n- Parse YAML content\n\
-    - Render structured view\n- Show key fields prominently\n- Link to full view in\
-    \ extension\n\nERROR HANDLING:\n- Invalid YAML syntax\n- Schema validation errors\n\
-    - File access errors\n- Clear error messages\n\nDELIVERABLES:\n- File handler\
-    \ implementations\n- Preview components\n- Syntax highlighting\n- Validation logic\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

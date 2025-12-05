@@ -1,90 +1,32 @@
 task:
   id: missing-agents-1-task-011
-  title: Add agent validation tests
   sprint_id: missing-agents-1
   track_id: missing-agents
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Add agent validation tests
+  description: null
   status: completed
   blocked: false
-  notes: 'Agent validation tests created at tests/agents/test_agent_validation.py.
-
-
-    Test Coverage (26 tests):
-
-    - All agent files exist (10 tests)
-
-    - Required sections present (2 tests)
-
-    - Trigger patterns validation (2 tests)
-
-    - Quality criteria defined (2 tests)
-
-    - Handoff templates referenced (1 test)
-
-    - README synchronization (2 tests)
-
-    - Agent metadata completeness (2 tests)
-
-    - Content quality checks (2 tests)
-
-    - Quick validation tests (2 tests)
-
-
-    Results: 24/26 tests pass, 2 failures reveal legitimate documentation gaps in
-    existing agents.
-
-    '
-  description: 'Create tests/agents/test_agent_validation.py
-
-
-    Test Coverage:
-
-    - Trigger pattern matching
-
-    - Agent file validation (all required sections present)
-
-    - Quality criteria defined
-
-    - Handoff templates referenced
-
-    - Agent metadata complete
-
-    - No duplicate trigger patterns
-
-    - All agents in README match files
-
-
-    Validation Checks:
-
-    - All agent files exist
-
-    - All required sections present (Role, Trigger Patterns, Inputs, Outputs, Quality
-    Criteria)
-
-    - Trigger patterns are unique (no conflicts)
-
-    - Quality criteria are measurable
-
-    - Handoff templates exist
-
-    '
   created: '2025-11-10T10:00:00+00:00'
   started: null
-  completed: '2025-11-22T17:35:32.750749+00:00'
-  assigned_agent: test-engineer
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  complexity: medium
-  estimated_tokens: 12000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  dependencies:
-  - type: task
-    target_id: missing-agents-1-task-009
-    target_status: completed
-    reason: Need all agents complete
-    optional: false
-  - type: task
-    target_id: missing-agents-1-task-010
-    target_status: completed
-    reason: Need README for validation
-    optional: false
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

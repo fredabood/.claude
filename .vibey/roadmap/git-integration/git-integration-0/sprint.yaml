@@ -2,68 +2,83 @@ sprint:
   id: git-integration-0
   name: Integration Architecture & Design
   track_id: git-integration
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 7
+    development_tasks_completed: 7
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100.0
-  tasks: []
-  dependencies: []
+  tasks:
+  - id: git-integration-0-task-001
+    title: Define Vibey-Git primitive mapping
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-002
+    title: Establish source of truth model
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-003
+    title: Design commit message conventions
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-004
+    title: Design branching strategy
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-005
+    title: Define enforcement philosophy
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-006
+    title: Design state reconstruction model
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-0-task-007
+    title: Produce integration architecture document
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - git-integration-1
-  - git-integration-2
-  - git-integration-3
-  quality_gates:
-  - name: Architecture Review
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Architecture document reviewed and approved
-  - name: Design Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All design questions answered with clear decisions
-  deliverables:
-  - Vibey-Git primitive mapping specification
-  - Source of truth policy document
-  - Commit message convention specification
-  - Branching strategy specification
-  - Enforcement philosophy specification
-  - State reconstruction design
-  - Comprehensive architecture document
-  - Quick reference card
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 0 establishes the "true north" for Vibey-Git integration.
-
-
-      All subsequent sprints implement features aligned with these design
-
-      decisions. No implementation should proceed without clarity on:
-
-      1. How Vibey primitives map to Git primitives
-
-      2. Which system is the source of truth
-
-      3. What commit conventions to use
-
-      4. How branches relate to roadmap structure
-
-      5. How strictly to enforce integration rules
-
-      6. Whether state can be reconstructed from Git
-
-
-      This sprint is BLOCKING for all other git-integration sprints.
-
-      The architecture document produced here guides all implementation.
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

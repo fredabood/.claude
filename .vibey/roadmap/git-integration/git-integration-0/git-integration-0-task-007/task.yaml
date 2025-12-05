@@ -3,60 +3,30 @@ task:
   sprint_id: git-integration-0
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Produce integration architecture document
+  task_type: development
+  title: Produce integration architecture document
+  description: null
   status: completed
-  priority: critical
-  estimated_hours: 6
-  assigned_agent: architecture-agent
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.406768+00:00'
-  completed: '2025-11-27T11:04:09.406768+00:00'
-  description: 'Compile all design decisions into comprehensive architecture document:
-
-
-    DOCUMENT STRUCTURE:
-
-    1. Executive Summary
-
-    2. Design Principles
-
-    3. Primitive Mapping (from task 1)
-
-    4. Source of Truth Model (from task 2)
-
-    5. Commit Conventions (from task 3)
-
-    6. Branching Strategy (from task 4)
-
-    7. Enforcement Philosophy (from task 5)
-
-    8. State Reconstruction (from task 6)
-
-    9. Implementation Roadmap
-
-    10. Migration Guide (existing projects)
-
-    11. FAQ
-
-    12. Glossary
-
-
-    DELIVERABLES:
-
-    - Comprehensive architecture document (markdown)
-
-    - Quick reference card (1-2 pages)
-
-    - Decision log
-
-    - Architecture diagrams
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

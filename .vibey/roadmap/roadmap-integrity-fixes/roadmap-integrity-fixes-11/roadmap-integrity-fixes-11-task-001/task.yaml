@@ -1,90 +1,32 @@
 task:
   id: roadmap-integrity-fixes-11-task-001
-  name: Create backup of python-package track
   sprint_id: roadmap-integrity-fixes-11
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create backup of python-package track
+  description: null
   status: not_started
   blocked: false
-  priority: critical
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_hours: 0.25
-  actual_hours: null
-  assigned_agent: backend-engineer
-  assigned_to: null
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
-  description: 'PHASE 1: DATA PRESERVATION
-
-
-    Create comprehensive backup of python-package track before any modifications.
-
-
-    Tasks:
-
-    1. Copy entire .vibey/roadmap/python-package/ directory to backup location
-
-    2. Create snapshot in .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
-
-    3. Document current file structure (tree output)
-
-    4. Document current git status
-
-    5. Verify backup complete and readable
-
-
-    Backup Location:
-
-    .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
-
-
-    Files to backup:
-
-    - track.yaml
-
-    - python-package-1/sprint.yaml (8 embedded tasks)
-
-    - python-package-2/sprint.yaml (6 embedded tasks)
-
-    - python-package-3/sprint.yaml (10 embedded tasks)
-
-
-    Success Criteria:
-
-    - Backup directory exists with all 4 files
-
-    - File structure documented
-
-    - Git status documented
-
-    - Backup verified readable
-
-    '
-  acceptance_criteria:
-  - Backup directory created at .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
-  - All 4 YAML files copied to backup
-  - File structure documented in backup/STRUCTURE.md
-  - Git status documented in backup/GIT_STATUS.md
-  - Backup verified by reading all files
-  deliverables:
-  - type: backup
-    path: .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/
-    description: Complete backup of python-package track
-  - type: documentation
-    path: .vibey/roadmap/roadmap-integrity-fixes/backups/python-package-pre-migration/STRUCTURE.md
-    description: File structure documentation
+  deliverables: []
   commits: []
-  tags: []
-  standards: []
   metadata:
-    created_by: roadmap-integrity-fixes-track
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Critical first step - protect existing data before modifications.
-
-
-      This backup serves as rollback point if migration encounters issues.
-
-      '
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

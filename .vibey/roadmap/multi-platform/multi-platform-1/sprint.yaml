@@ -5,40 +5,55 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-10T20:30:00+00:00'
-  started: '2025-11-10T20:30:00+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-11-22T18:57:16.567880+00:00'
+  completed: '2025-11-10T20:30:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 2
+    development_tasks_completed: 2
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 2
     tasks_completed: 2
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: multi-platform-1-task-001
+    title: Create platform registry system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-1-task-002
+    title: Build platform-agnostic deployment models
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  plan_file: docs/FRAMEWORK_ROADMAP.md#multi-platform-framework
-  deliverables:
-  - Platform-agnostic deployment models (partial in vibey/operations/deployment.py)
-  - Platform registry system
-  - Platform detection logic
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-15T16:00:00+00:00'
-    estimated_duration: 3 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 40000
+    estimated_tokens: null
     actual_tokens: null
-    agents_used:
-    - web-developer
-    notes: Partial completion - deployment.py contains platform-agnostic logic. Shared
-      deliverable with directory-migration-3 Sprint 3.
-  commits:
-  - hash: 1767e2f1501c6b5c078ded8f2602da51d0d87a9a
-    date: '2025-11-10T20:48:19-05:00'
-    message: 'feat: Sprint 3 Tasks 005-013 - Multi-Platform Deployment System'
-    note: Shared deliverable with directory-migration-3
+    agents_used: null

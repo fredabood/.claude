@@ -5,63 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Evaluate dogfooding experience and iterate
-  description: 'Use the git integration features for real Vibey development,
-
-    collect feedback, and iterate on configuration.
-
-
-    EVALUATION CRITERIA:
-
-    - Friction points in daily workflow
-
-    - Effectiveness of advisory warnings
-
-    - Accuracy of CLI suggestions
-
-    - Value of commit tracking
-
-    - Quality of error messages
-
-
-    METRICS TO TRACK:
-
-    - Commit compliance rate (% with task refs)
-
-    - Manual YAML edits vs CLI usage
-
-    - Advisory warnings triggered
-
-    - Overrides used
-
-
-    ITERATION AREAS:
-
-    - Tune warning thresholds
-
-    - Improve suggestion quality
-
-    - Adjust enforcement modes
-
-    - Refine configuration
-
-
-    DELIVERABLES:
-
-    - Dogfooding evaluation report
-
-    - Configuration adjustments
-
-    - UX improvement recommendations
-
-    - Lessons learned document
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.385943+00:00'
-  completed: '2025-11-27T11:04:09.385943+00:00'
-  assigned_agent: architecture-agent
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -77,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:46:54.526465+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -8,7 +8,7 @@ track:
   created: '2025-11-10T03:00:00+00:00'
   started: null
   completed: '2025-11-10T03:00:00+00:00'
-  estimated_duration: 6 weeks
+  estimated_duration: null
   progress:
     sprints_total: 3
     sprints_completed: 3
@@ -19,220 +19,35 @@ track:
   - id: testing-system-1
     name: Test Framework & Unit Tests
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 10
-    started: '2025-11-10T03:16:22.501566+00:00'
+    started: null
   - id: testing-system-2
     name: Journey Integration Tests
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 10
-    started: '2025-11-10T05:00:00+00:00'
+    started: null
   - id: testing-system-3
     name: E2E Tests & Platform Tests
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 10
-    started: '2025-11-10T07:30:00+00:00'
+    started: null
   dependencies: []
-  blocks:
-  - type: track
-    target_id: claude-port
-    at_status: not_started
-    reason: Need test framework to validate Claude Code implementation
-  - type: track
-    target_id: goose-port
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
-  - type: track
-    target_id: aider-port
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
-  - type: track
-    target_id: continue-port
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
-  - type: track
-    target_id: windsurf-port
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
-  - type: track
-    target_id: jetbrains-port
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Must pass comprehensive testing before platform expansion
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - claude-port
-  - goose-port
-  - aider-port
-  - continue-port
-  - windsurf-port
-  - jetbrains-port
-  - multi-platform
-  quality_gates:
-  - name: Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Code coverage >90% for all Vibey framework code
-    score: null
-  - name: Journey Test Pass Rate
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 7 user journey integration tests pass
-    score: null
-  - name: Platform Parity
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: Platform-specific tests achieve >95% parity score
-    score: null
-  - name: CI/CD Automation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: GitHub Actions workflow functional with automated testing
-    score: null
-  assigned_agents:
-  - test-engineer
-  - web-developer
-  - docs-writer
-  deliverables:
-  - pytest test framework (tests/ directory)
-  - Test utilities (RepoBuilder, StateValidator, GitValidator, MetricsCollector)
-  - 120 unit tests (60% of coverage)
-  - 60 integration tests (30% of coverage)
-  - 20 E2E tests (10% of coverage)
-  - Platform-specific test suites
-  - Mock repository fixtures (web-app, API, ML templates)
-  - Expected state definitions (YAML)
-  - CI/CD pipeline (GitHub Actions)
-  - Pre-commit hooks for testing
-  - Coverage reporting dashboard
-  - Success metrics tracking
-  - Platform parity validation
-  - Comprehensive testing documentation
-  strategic_value:
-  - 'Quality Assurance: Comprehensive testing before multi-platform expansion'
-  - 'Regression Prevention: Automated test suite catches breaking changes'
-  - 'Platform Confidence: >95% parity ensures consistent behavior'
-  - 'CI/CD Integration: Automated testing in development workflow'
-  - 'Success Metrics: Quantifiable validation of all user journeys'
-  - 'Future-Proof: Testing infrastructure scales with platform additions'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-10T03:00:00+00:00'
-    design_doc: docs/VIBEY_TESTING_PLAN.md
+    created_by: unknown
+    last_updated: null
+    design_doc: null
     implementation_plan: null
-    notes: "CRITICAL QUALITY TRACK - MUST COMPLETE BEFORE PLATFORM EXPANSION\n\nThis\
-      \ track implements comprehensive testing for the Vibey framework,\nensuring\
-      \ consistent behavior across all user journeys before expanding\nto multiple\
-      \ platforms. Without this, platform ports risk introducing\nregressions and\
-      \ inconsistencies.\n\nPROBLEM:\nVibey has undergone very little testing so far.\
-      \ Before expanding to\nmultiple platforms (Goose, Aider, Continue, Windsurf,\
-      \ JetBrains), we\nneed comprehensive automated testing to ensure:\n1. All user\
-      \ journeys work correctly\n2. Platform ports maintain behavioral parity\n3.\
-      \ Changes don't introduce regressions\n4. Quality gates function properly\n\n\
-      SOLUTION:\nBuild comprehensive test suite covering 200+ scenarios across all\
-      \ 7\nuser journeys, with automated CI/CD integration and platform parity\nvalidation.\n\
-      \nTEST FRAMEWORK ARCHITECTURE:\n\n1. Test Utilities (framework/tests/utils/)\n\
-      \   - RepoBuilder: Create mock repositories for testing\n   - StateValidator:\
-      \ Verify directory structure, YAML, git state\n   - GitValidator: Validate commit\
-      \ messages and history\n   - MetricsCollector: Track success metrics\n\n2. Test\
-      \ Structure (framework/tests/)\n   tests/\n   ├── unit/ (60% - 120 tests)\n\
-      \   │   ├── test_config.py\n   │   ├── test_roadmap.py\n   │   ├── test_sprint_state.py\n\
-      \   │   └── test_utils.py\n   ├── integration/ (30% - 60 tests)\n   │   ├──\
-      \ test_journey1_first_time_setup.py\n   │   ├── test_journey2_sprint_planning.py\n\
-      \   │   ├── test_journey3_feature_development.py\n   │   ├── test_journey4_quality_assurance.py\n\
-      \   │   ├── test_journey5_framework_management.py\n   │   ├── test_journey6_multi_platform.py\n\
-      \   │   └── test_journey7_roadmap_driven.py\n   ├── e2e/ (10% - 20 tests)\n\
-      \   │   ├── test_complete_sprint.py\n   │   ├── test_quality_gates.py\n   │\
-      \   └── test_multi_agent.py\n   ├── platform/\n   │   ├── test_claude_code.py\n\
-      \   │   ├── test_goose.py\n   │   └── test_platform_parity.py\n   └── fixtures/\n\
-      \       ├── mock-repos/\n       ├── expected-states/\n       └── git-histories/\n\
-      \n3. Mock Repositories\n   - web-app: React + Node.js + PostgreSQL\n   - api-service:\
-      \ FastAPI + MongoDB\n   - ml-project: Python + Jupyter + TensorFlow\n\n4. Success\
-      \ Metrics per Journey\n   Journey 1 (First-Time Setup):\n   - setup_completion_rate:\
-      \ 100%\n   - avg_setup_time: <15 minutes\n   - configuration_accuracy: 100%\n\
-      \   - deployment_success_rate: 100%\n   \n   Journey 2 (Sprint Planning):\n\
-      \   - sprint_completion_rate: 100%\n   - quality_gate_pass_rate: 100%\n   -\
-      \ task_estimation_accuracy: >85%\n   - sprint_creation_time: <10 minutes\n \
-      \  \n   Journey 3-7: Similar metrics for each journey\n\n5. CI/CD Integration\n\
-      \   .github/workflows/test.yml:\n   - Triggers: PR, push to main, daily\n  \
-      \ - Matrix: Python 3.8, 3.9, 3.10, 3.11\n   - Coverage: pytest-cov with >90%\
-      \ threshold\n   - Platform tests: All fixtures\n   - Artifact: Coverage report\n\
-      \nIMPLEMENTATION STRATEGY:\n\nSprint 1: Test Framework & Unit Tests (2 weeks)\n\
-      - Set up pytest infrastructure\n- Create test utilities (RepoBuilder, StateValidator,\
-      \ GitValidator, MetricsCollector)\n- Create mock repository fixtures\n- Write\
-      \ 120 unit tests for core functionality:\n  * Config validation (20 tests)\n\
-      \  * Roadmap state management (30 tests)\n  * Sprint state tracking (30 tests)\n\
-      \  * Template rendering (20 tests)\n  * Utils and helpers (20 tests)\n- Set\
-      \ up coverage reporting\n- Achieve >90% code coverage for core modules\n\nSprint\
-      \ 2: Journey Integration Tests (2 weeks)\n- Write 60 integration tests covering\
-      \ all 7 journeys:\n  * Journey 1: First-Time Setup (10 tests)\n  * Journey 2:\
-      \ Sprint Planning (10 tests)\n  * Journey 3: Feature Development (10 tests)\n\
-      \  * Journey 4: Quality Assurance (8 tests)\n  * Journey 5: Framework Management\
-      \ (7 tests)\n  * Journey 6: Multi-Platform (8 tests)\n  * Journey 7: Roadmap-Driven\
-      \ (7 tests)\n- Validate repository state transitions\n- Validate git history\
-      \ patterns\n- Track success metrics\n- Test quality gates\n\nSprint 3: E2E Tests\
-      \ & Platform Tests (2 weeks)\n- Write 20 E2E tests for complete workflows:\n\
-      \  * Complete sprint (initialization → planning → execution → review)\n  * Multi-agent\
-      \ orchestration\n  * Quality gate enforcement\n  * Error recovery\n- Create\
-      \ platform-specific test suites\n- Implement platform parity validation (>95%\
-      \ threshold)\n- Set up CI/CD pipeline (GitHub Actions)\n- Configure pre-commit\
-      \ hooks\n- Create testing documentation\n- Final validation and coverage report\n\
-      \nKEY FEATURES:\n\n1. Automated Testing\n   - pytest framework with fixtures\n\
-      \   - Mocking for file system operations\n   - Subprocess testing for CLI commands\n\
-      \   - Coverage tracking (>90% target)\n\n2. Repository State Validation\n  \
-      \ - Directory structure verification\n   - YAML schema validation\n   - Git\
-      \ history validation\n   - File content verification\n\n3. Success Metrics Tracking\n\
-      \   - Completion rates\n   - Time measurements\n   - Accuracy scores\n   - Platform\
-      \ parity scores\n\n4. Platform Parity Validation\n   - Compare behavior across\
-      \ platforms\n   - Identify discrepancies\n   - Require >95% parity score\n \
-      \  - Block platform ports until achieved\n\n5. CI/CD Integration\n   - GitHub\
-      \ Actions workflow\n   - Automated on PR and push\n   - Coverage reporting\n\
-      \   - Pre-commit hooks\n\nQUALITY GATE FOR PLATFORM PORTS:\n\nAll platform port\
-      \ tracks (goose-port, aider-port, continue-port,\nwindsurf-port, jetbrains-port,\
-      \ multi-platform) MUST:\n\n1. Pass comprehensive_testing quality gate:\n   -\
-      \ All journey tests pass (100%)\n   - Platform deployment tests pass (100%)\n\
-      \   - Platform parity score >95%\n   - All quality gates functional\n\n2. Required\
-      \ test coverage:\n   - Platform-specific unit tests\n   - Platform-specific\
-      \ integration tests\n   - Platform parity validation\n\n3. Success metrics:\n\
-      \   - deployment_success_rate: 100%\n   - agent_equivalence: 100%\n   - workflow_equivalence:\
-      \ 100%\n   - quality_gate_equivalence: 100%\n\nBLOCKS ALL PLATFORM PORTS:\n\n\
-      This track MUST complete before any platform port can proceed.\nThis ensures\
-      \ quality-first approach and prevents shipping\nuntested implementations.\n\n\
-      Blocked tracks:\n- goose-port\n- aider-port\n- continue-port\n- windsurf-port\n\
-      - jetbrains-port\n- multi-platform\n\nVALIDATION CRITERIA:\n\n1. Test Coverage\
-      \ (90%)\n   - >90% code coverage for framework code\n   - All critical paths\
-      \ tested\n   - Edge cases covered\n\n2. Journey Test Pass Rate (100%)\n   -\
-      \ All 7 user journeys tested\n   - All 61 steps validated\n   - All state transitions\
-      \ verified\n\n3. Platform Parity (95%)\n   - Behavioral consistency across platforms\n\
-      \   - Platform-specific tests pass\n   - Parity validation automated\n\n4. CI/CD\
-      \ Automation (100%)\n   - GitHub Actions workflow functional\n   - Pre-commit\
-      \ hooks working\n   - Coverage reporting automated\n   - All tests run on PR/push\n\
-      \nRISKS & MITIGATION:\n\nRisk: Test development takes longer than 6 weeks\n\
-      → Prioritize critical path tests first\n→ Parallel development where possible\n\
-      → Focus on journey tests (highest ROI)\n\nRisk: Achieving 90% coverage is challenging\n\
-      → Focus on core framework modules\n→ Exclude generated code if necessary\n→\
-      \ Prioritize critical functionality\n\nRisk: Platform parity validation complex\n\
-      → Start with simple equivalence checks\n→ Iterate based on findings\n→ Document\
-      \ known platform differences\n\nSUCCESS METRICS:\n\n- 200+ automated tests implemented\n\
-      - >90% code coverage achieved\n- 100% of user journeys tested\n- CI/CD pipeline\
-      \ functional\n- Platform parity validation automated\n- All quality gates enforced\n\
-      - Zero regressions in subsequent development\n\nTIMELINE & DEPENDENCIES:\n\n\
-      Timeline: Q1 2025 (6 weeks, 3 sprints)\nPriority: CRITICAL (blocks all platform\
-      \ ports)\nDependencies: None (can start immediately)\nBlocks: All platform port\
-      \ tracks\n\nThis is a FOUNDATIONAL track for quality assurance. Without it,\n\
-      platform expansion risks introducing regressions and inconsistencies\nthat would\
-      \ be difficult to debug and fix later.\n\nRecommend: START IMMEDIATELY, COMPLETE\
-      \ BEFORE PLATFORM EXPANSION\n"
-    estimated_tokens: 600000
+    notes: null

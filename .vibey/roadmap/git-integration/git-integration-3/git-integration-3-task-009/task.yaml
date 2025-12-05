@@ -5,22 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Complete git integration documentation
-  description: "Comprehensive documentation for all git integration:\n\nCONTENT:\n\
-    1. Architecture Overview\n   - From Sprint 0 architecture doc\n   - Diagrams and\
-    \ flow charts\n\n2. Setup Guide\n   - Installation\n   - Configuration\n   - Team\
-    \ rollout\n\n3. Feature Reference\n   - All git commands\n   - All hooks\n   -\
-    \ All CI integrations\n\n4. Workflow Guides\n   - Solo developer workflow\n  \
-    \ - Team workflow\n   - Enterprise workflow\n\n5. Troubleshooting\n   - Common\
-    \ issues\n   - Error messages\n   - Recovery procedures\n\n6. Migration Guide\n\
-    \   - Adding to existing project\n   - Migrating from other tools\n\nFORMAT:\n\
-    - Main docs in docs/guides/\n- Reference in docs/reference/\n- Inline help in\
-    \ CLI\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.392530+00:00'
-  completed: '2025-11-27T11:04:09.392530+00:00'
-  assigned_agent: docs-writer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -34,12 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: de13927a56d15206675f6e881cbb89a91d579399
-    message: 'docs: Complete git integration documentation (Task git-integration-3-task-009)'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-25T00:16:45-05:00'
+  commits: []
   metadata:
-    last_updated: '2025-11-25T05:16:51.248062+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

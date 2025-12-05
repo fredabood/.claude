@@ -5,35 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Sourcegraph Enterprise module
-  description: Create enterprise module for Sourcegraph code graph and cross-repository
-    context features
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: sprint
-    target_id: cody-port-1
-    target_status: completed
-    reason: Requires core adapter infrastructure
-    optional: false
+  dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/adapters/cody/enterprise.py
-  - Code graph integration examples
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Enterprise-only features for post-July 2025 Cody

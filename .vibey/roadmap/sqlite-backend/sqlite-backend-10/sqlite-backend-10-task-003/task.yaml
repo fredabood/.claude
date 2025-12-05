@@ -5,142 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create migration guide and documentation
-  description: |
-    Create comprehensive documentation for the unified ticket
-    architecture including migration guide for existing users.
-
-    DOCUMENTATION DELIVERABLES:
-
-    1. MIGRATION GUIDE (docs/roadmap/MIGRATION_GUIDE.md):
-
-       # Migrating to Unified Ticket Architecture
-
-       ## Overview
-       The unified ticket architecture introduces hierarchy
-       attributes and smart accessors that change how you
-       interact with roadmap data.
-
-       ## Breaking Changes
-       - Field names: commits → commits_local
-       - Progress: Now computed, not stored
-       - Standards: Now inherited from ancestors
-
-       ## Migration Steps
-       1. Run `vibey roadmap migrate-format --dry-run`
-       2. Review changes
-       3. Run `vibey roadmap migrate-format`
-       4. Commit migrated files
-
-       ## Backward Compatibility
-       - Old YAML format still readable
-       - Old field names mapped automatically
-       - Gradual migration supported
-
-    2. ARCHITECTURE DOCUMENTATION (docs/roadmap/ARCHITECTURE.md):
-
-       # Unified Ticket Architecture
-
-       ## Three-Layer Design
-       - Layer 1: Base Ticket (local fields, hierarchy attributes)
-       - Layer 2: HierarchicalTicket (smart accessors)
-       - Layer 3: Domain Models (semantic-specific fields)
-
-       ## Hierarchy Attributes
-       - is_parent: Has children
-       - is_child: Has parent
-       - is_ultimate_parent: Root node
-       - is_ultimate_child: Leaf node
-       - is_intermediate: Middle node
-
-       ## Smart Accessors
-       - ticket.commits → local if leaf, aggregated if parent
-       - ticket.standards → local if root, effective if child
-       - ticket.progress → None if leaf, computed if parent
-
-    3. CLI REFERENCE UPDATE (docs/reference/CLI_REFERENCE.md):
-
-       Update command documentation:
-       - New inheritance display format
-       - New aggregation indicators
-       - New hierarchy navigation options
-
-    4. MCP API REFERENCE (docs/reference/MCP_API.md):
-
-       Update tool documentation:
-       - New response format with inheritance source
-       - New hierarchy tools
-       - Version compatibility notes
-
-    5. CHANGELOG ENTRY:
-
-       ## [Unreleased]
-
-       ### Changed
-       - Unified ticket architecture with hierarchy attributes
-       - Smart accessors for aggregation/inheritance
-       - YAML format v2 with _local suffix fields
-
-       ### Added
-       - Hierarchy navigation in CLI
-       - Inheritance source in displays
-       - Migration command: vibey roadmap migrate-format
-
-       ### Migration Required
-       See docs/roadmap/MIGRATION_GUIDE.md
-
-    IMPLEMENTATION STEPS:
-
-    1. Write migration guide
-    2. Write architecture documentation
-    3. Update CLI reference
-    4. Update MCP API reference
-    5. Write changelog entry
-    6. Add inline code documentation
-    7. Review with team
-
-    SUCCESS CRITERIA:
-    - Migration guide covers all breaking changes
-    - Architecture clearly explained
-    - CLI commands documented with new behavior
-    - MCP API changes documented
-    - Examples provided for common scenarios
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: docs-writer
+  assigned_agent: null
   priority: high
-  phase_label: documentation
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-10-task-004
+  blocks: []
   blocked_by: []
-  deliverables:
-  - docs/roadmap/MIGRATION_GUIDE.md
-  - docs/roadmap/ARCHITECTURE.md
-  - Updated docs/reference/CLI_REFERENCE.md
-  - Updated docs/reference/MCP_API.md
-  - CHANGELOG entry
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      DOCUMENTATION PRIORITY:
-
-      1. Migration guide - Users need this immediately
-      2. Architecture docs - Developers need this
-      3. CLI reference - Users reference frequently
-      4. MCP API - Integration developers need this
-
-      Include plenty of examples showing:
-      - Before/after comparisons
-      - Common migration scenarios
-      - Error resolution

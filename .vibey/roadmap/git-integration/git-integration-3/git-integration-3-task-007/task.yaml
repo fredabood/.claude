@@ -5,26 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement strategy preset adoption
-  description: "Add commands for adopting Git strategy presets:\n\nPRESETS (from Sprint\
-    \ 0 addendum):\n1. trunk-based: No branches, commits on main\n2. feature-branch:\
-    \ Branch per task, PR-based\n3. gitflow: Track branches, sprint branches optional\n\
-    4. hierarchical: Full track/sprint/task hierarchy\n\nCLI COMMANDS:\n- vibey git\
-    \ strategy list\n  Show available presets with descriptions\n\n- vibey git strategy\
-    \ adopt <preset>\n  Adopt a preset strategy\n  Updates .vibey/config/git.yaml\
-    \ with requirements\n\n- vibey git strategy show\n  Show current strategy configuration\n\
-    \n- vibey git strategy validate\n  Check if current Git state meets strategy requirements\n\
-    \nADOPTION WORKFLOW:\n1. User runs: vibey git strategy adopt gitflow\n2. Shows\
-    \ what will be configured\n3. Asks for confirmation\n4. Updates config file\n\
-    5. Validates current state\n6. Suggests fixes for violations\n\nCUSTOMIZATION:\n\
-    - vibey git strategy adopt gitflow --customize\n  Interactive prompts to modify\
-    \ preset\n\nPRESET DEFINITIONS:\n- Load from vibey/config/strategy_presets.yaml\n\
-    - Include requirements, enforcement mode, examples\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.391610+00:00'
-  completed: '2025-11-27T11:04:09.391610+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -40,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:13:23.409784+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

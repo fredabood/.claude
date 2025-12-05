@@ -5,58 +5,75 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-12T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-12T00:00:00+00:00'
-  estimated_duration: 1 week
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100.0
   tasks:
   - id: platform-context-management-5-task-001
-    status: completed
     title: Multi-platform scenario tests
+    status: completed
+    task_type: development
+    gate_info: null
   - id: platform-context-management-5-task-002
-    status: completed
     title: Dependency re-mapping tests
+    status: completed
+    task_type: development
+    gate_info: null
   - id: platform-context-management-5-task-003
-    status: completed
     title: Success criteria validation tests
+    status: completed
+    task_type: development
+    gate_info: null
   - id: platform-context-management-5-task-004
+    title: User documentation
     status: completed
-    title: User documentation (guides/PLATFORM_CONTEXT_MANAGEMENT.md)
+    task_type: development
+    gate_info: null
   - id: platform-context-management-5-task-005
+    title: Developer documentation
     status: completed
-    title: Developer documentation (development/RECALCULATION_ALGORITHM.md)
+    task_type: development
+    gate_info: null
   - id: platform-context-management-5-task-006
-    status: completed
     title: Example workflows and best practices
-  dependencies:
-  - platform-context-management-4
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  quality_gates:
-  - name: Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: '>90% code coverage for platform context system'
-    score: null
-  - name: Documentation Complete
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: User and developer docs complete with examples
-    score: null
-  assigned_agents:
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - Comprehensive test suite
-  - User documentation
-  - Developer documentation
-  - Example workflows
-  - Best practices guide
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    estimated_tokens: 0
-    last_updated: '2025-11-22T22:20:00+00:00'
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

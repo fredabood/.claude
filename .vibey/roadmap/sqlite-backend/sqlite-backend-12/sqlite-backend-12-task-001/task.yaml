@@ -5,48 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Initialize production database with schema
-  description: |
-    Initialize the production database at .vibey/roadmap.db:
-
-    1. Run `vibey roadmap db init` or equivalent programmatic call
-    2. Verify database_state table exists with schema_version
-    3. Populate from current YAML files using existing loaders
-    4. Verify all 36 tracks, 172 sprints, 864+ tasks loaded
-
-    Current state:
-    - Database file exists (4KB) but has no tables
-    - `_use_sqlite_backend()` returns False because database_state missing
-    - All operations fall back to YAML
-
-    After this task:
-    - `_use_sqlite_backend()` returns True
-    - CLI can query from SQLite
-    - Foundation ready for dual-write operations
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: critical
-  phase_label: implementation
-  estimated_tokens: 1000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-12-task-002
-  - sqlite-backend-12-task-003
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Initialized .vibey/roadmap.db with full schema
-  - database_state table with schema_version='1.0.0'
-  - All roadmap data populated from YAML
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

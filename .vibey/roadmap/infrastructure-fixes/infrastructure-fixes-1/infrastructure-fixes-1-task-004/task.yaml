@@ -5,51 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update /vibey deployment to initialize roadmap
-  description: 'Update framework/commands/vibey.md (lines 1133-1162)
-
-    - Fix python3 .claude/scripts/roadmap init call
-
-    - Add error handling if roadmap-init fails
-
-    - Validate .vibey/roadmap.yaml created correctly
-
-    - Add success messages
-
-    - Test on new project deployment
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.295722+00:00'
-  completed: '2025-11-27T11:04:09.295722+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 8000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-001
-    target_status: completed
-    reason: Needs working roadmap CLI
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 4bf24479f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9
-    message: 'fix: Update /vibey deployment to properly initialize roadmap'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T11:27:45-05:00'
-    files_changed:
-    - framework/commands/vibey.md
-    note: DELETED Nov 12 in commit 205c877 - work not migrated to new CLI
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183780+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

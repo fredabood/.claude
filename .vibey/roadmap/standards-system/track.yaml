@@ -6,9 +6,9 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-11T00:00:00+00:00'
-  started: '2025-11-11T00:00:00+00:00'
-  completed: '2025-11-22T13:19:54+00:00'
-  estimated_duration: 6 weeks
+  started: null
+  completed: '2025-11-11T00:00:00+00:00'
+  estimated_duration: null
   progress:
     sprints_total: 6
     sprints_completed: 6
@@ -19,205 +19,53 @@ track:
   - id: standards-system-1
     name: Core Data Model & YAML Schema
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 8
-    started: '2025-11-11T00:00:00+00:00'
-    completed: '2025-11-12T00:00:00+00:00'
+    started: null
   - id: standards-system-2
     name: Standards Resolution Engine
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 7
-    started: '2025-11-12T00:00:00+00:00'
-    completed: '2025-11-12T12:00:00+00:00'
+    started: null
   - id: standards-system-3
     name: Standard Validators
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-12T12:00:00+00:00'
-    completed: '2025-11-12T18:00:00+00:00'
+    started: null
   - id: standards-system-4
     name: CLI Integration
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 10
-    started: '2025-11-12T18:00:00+00:00'
-    completed: '2025-11-12T23:59:59+00:00'
+    started: null
   - id: standards-system-5
     name: Standard Templates Library
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 8
-    started: '2025-11-12T23:59:59+00:00'
-    completed: '2025-11-13T04:00:00+00:00'
+    started: null
   - id: standards-system-6
     name: UI/UX Enhancements & Documentation
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-12T15:00:00+00:00'
-    completed: '2025-11-13T12:00:00+00:00'
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Test Coverage
-    threshold: 90
-    blocking: true
-    status: passed
-    description: '>90% code coverage for standards system'
-    score: 100
-  - name: Integration Tests
-    threshold: 100
-    blocking: true
-    status: passed
-    description: All standards integration tests pass (47/47 tests passing)
-    score: 100
-  - name: Backward Compatibility
-    threshold: 100
-    blocking: true
-    status: passed
-    description: Existing roadmaps work without modification
-    score: 100
-  - name: Documentation Complete
-    threshold: 100
-    blocking: true
-    status: passed
-    description: User and developer documentation complete (3 docs, 70KB total)
-    score: 100
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - Standard dataclass (vibey/roadmap/models/standard.py)
-  - Standards resolution engine (vibey/roadmap/standards/resolver.py)
-  - 4 built-in validators (commit, file, test, custom)
-  - Updated CLI commands (complete, check-standards, override-standard, add-standard)
-  - 5 standard templates (commit-required, doc-review, test-coverage, multi-platform-testing,
-    security-review)
-  - Enhanced status/show command output with standards display
-  - User documentation (docs/guides/ROADMAP_STANDARDS.md)
-  - Developer documentation (docs/development/STANDARDS_IMPLEMENTATION.md)
-  - Comprehensive test suite (>90% coverage)
-  - Backward compatible with existing roadmaps
-  strategic_value:
-  - 'Quality Enforcement: Mandatory standards ensure consistent quality across roadmap'
-  - 'Policy Automation: Organizational policies enforced automatically'
-  - 'Hierarchical Control: Standards cascade from roadmap → track → sprint → task'
-  - 'Flexibility: Warning/blocking/audit modes for different enforcement levels'
-  - 'Template Library: Pre-built standards for common use cases'
-  - 'Vibey Dogfooding: Use standards to manage Vibey development itself'
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T18:20:00+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
-    implementation_plan: docs/development/STANDARDS_IMPLEMENTATION_PLAN.md
-    cli_registration_gap: "STATUS: CLI registration COMPLETE (100%)\n\nCOMPLETED:\n\
-      - All 51 tasks implemented and delivered (commit 205c877, Nov 12, 2025)\n- 4,185\
-      \ lines of Python code across 26 files\n- 640 lines of YAML templates (5 standards)\n\
-      - 1,045 lines of test code (25 tests, all passing)\n- Complete documentation\
-      \ (2,993 lines across 4 docs)\n- Standards enforcement integrated into operations\
-      \ layer\n- CLI commands wired to Click CLI in main.py (Nov 22, 2025):\n  * vibey\
-      \ roadmap check-standards\n  * vibey roadmap add-standard\n  * vibey roadmap\
-      \ override-standard\n"
-    notes: "ROADMAP STANDARDS SYSTEM - QUALITY POLICY ENFORCEMENT\n\nPROGRESS UPDATE\
-      \ (2025-11-15 - DATA INTEGRITY REMEDIATION):\nAll 51 tasks updated with git\
-      \ commit links (205c877b616c64df0c5c97d1872a037f2e135337).\nTrack status updated\
-      \ from 'completed' to 'completion_gate_check' to reflect\nCLI registration gap.\
-      \ Implementation is 95% complete.\n\nPROGRESS UPDATE (2025-11-12):\nSprints\
-      \ 1-4 have been completed and retroactively marked as complete.\nThese sprints\
-      \ were implemented before the roadmap system was fully\nintegrated, so completion\
-      \ was tracked manually rather than through\nthe CLI. Going forward, Sprints\
-      \ 5-6 will use the proper roadmap\nworkflow for tracking.\n\nCompleted Sprints:\n\
-      - Sprint 1: Core Data Model & YAML Schema ✅\n- Sprint 2: Standards Resolution\
-      \ Engine ✅\n- Sprint 3: Standard Validators ✅\n- Sprint 4: CLI Integration ✅\n\
-      - Sprint 5: Standard Templates Library ✅\n\nRemaining Sprints:\n- Sprint 6:\
-      \ UI/UX Enhancements & Documentation (pending)\n\nThis track implements a mandatory\
-      \ standards system that enforces\norganizational policies and quality requirements\
-      \ across the roadmap\nhierarchy. Standards cascade down from roadmap to tracks\
-      \ to sprints\nto tasks, ensuring consistent quality enforcement.\n\nPROBLEM:\n\
-      Currently, quality gates are sprint-specific and optional. There's no\nway to\
-      \ enforce organization-wide policies like:\n- All tasks must have git commits\n\
-      - All features must have documentation\n- All code must pass multi-platform\
-      \ tests\n- All changes must meet coverage thresholds\n\nSOLUTION:\nImplement\
-      \ a hierarchical standards system where:\n1. Standards can be defined at roadmap/track/sprint\
-      \ level\n2. Standards cascade down to all children\n3. Standards are enforced\
-      \ during completion\n4. Standards can be blocking, warning, or audit-only\n\
-      5. Override mechanism exists with reason tracking\n\nARCHITECTURE:\n\n1. Data\
-      \ Model (Sprint 1)\n   - Standard dataclass with validation rules\n   - Standards\
-      \ field added to Roadmap/Track/Sprint\n   - YAML serialization/deserialization\n\
-      \   - Backward compatible (standards: [] default)\n\n2. Resolution Engine (Sprint\
-      \ 2)\n   - Resolve effective standards for any item\n   - Implement hierarchical\
-      \ inheritance\n   - Handle deduplication\n   - Support override mechanism\n\n\
-      3. Validators (Sprint 3)\n   - CommitCheckValidator: Ensures tasks have commits\n\
-      \   - FileCheckValidator: Ensures specific files modified\n   - TestRunValidator:\
-      \ Runs tests and checks results\n   - CustomScriptValidator: Runs custom validation\n\
-      \   - Validator registry and result types\n\n4. CLI Integration (Sprint 4)\n\
-      \   - Update 'complete' command with standards enforcement\n   - New 'check-standards'\
-      \ command\n   - New 'override-standard' command\n   - New 'add-standard' command\n\
-      \   - Enhanced status/show output\n\n5. Templates (Sprint 5)\n   - commit-required.yaml\n\
-      \   - doc-review-required.yaml\n   - test-coverage-required.yaml\n   - multi-platform-testing.yaml\n\
-      \   - security-review.yaml\n\n6. UI/UX & Docs (Sprint 6)\n   - Enhanced status\
-      \ display\n   - Color coding (green/yellow/red)\n   - Progress indicators\n\
-      \   - User documentation\n   - Developer documentation\n\nUSE CASES FOR VIBEY:\n\
-      \n1. Multi-Platform Testing Standard (Roadmap-level)\n   All platforms with\
-      \ completed ports must pass test suite:\n   - claude-code: 100% pass rate (required)\n\
-      \   - goose: 100% pass rate (if ported)\n   - cursor: 100% pass rate (if ported)\n\
-      \   - Blocking enforcement\n\n2. Commit Required Standard (Roadmap-level)\n\
-      \   All task completions must have at least one git commit:\n   - Enforces code\
-      \ traceability\n   - Blocking enforcement\n   - Error: \"Task must have commit.\
-      \ Use: vibey roadmap add-commit <task-id> --auto\"\n\n3. Documentation Review\
-      \ Standard (Track-level for core-framework)\n   All tasks must update documentation:\n\
-      \   - Checks for modified *.md files\n   - Warning enforcement (not blocking)\n\
-      \   - Encourages but doesn't require\n\n4. Test Coverage Standard (Roadmap-level)\n\
-      \   All code changes must include tests:\n   - Min 1 test file modified\n  \
-      \ - Coverage threshold: 80%\n   - Blocking enforcement\n\nHIERARCHICAL EXAMPLE:\n\
-      \nRoadmap standards (apply to ALL):\n  - commit-required (blocking)\n  - multi-platform-testing\
-      \ (blocking)\n\nTrack: core-framework standards (apply to core-framework only):\n\
-      \  - doc-review-required (warning)\n  - test-coverage-required (blocking)\n\n\
-      Sprint: auth-sprint-1 standards (apply to auth-sprint-1 only):\n  - security-review-required\
-      \ (blocking)\n\nEffective standards for task auth-sprint-1-task-001:\n  1. commit-required\
-      \ (from roadmap)\n  2. multi-platform-testing (from roadmap)\n  3. doc-review-required\
-      \ (from track)\n  4. test-coverage-required (from track)\n  5. security-review-required\
-      \ (from sprint)\n\nIMPLEMENTATION STRATEGY:\n\nWeek 1 (Sprint 1): Core Data\
-      \ Model\n- Define Standard dataclass\n- Add standards fields to models\n- YAML\
-      \ serialization\n- Unit tests\n- Backward compatibility verified\n\nWeek 2 (Sprint\
-      \ 2): Resolution Engine\n- Build standards resolver\n- Hierarchical inheritance\n\
-      - Deduplication logic\n- Override handling\n- Integration tests\n\nWeek 3 (Sprint\
-      \ 3): Validators\n- Implement 4 validators\n- Validator framework\n- Result\
-      \ types\n- Validator tests\n- Registry system\n\nWeek 4 (Sprint 4): CLI Integration\n\
-      - Update complete command\n- Add check-standards command\n- Add override-standard\
-      \ command\n- Add add-standard command\n- CLI tests\n\nWeek 5 (Sprint 5): Templates\n\
-      - Create 5 standard templates\n- Template CLI commands\n- Template documentation\n\
-      - Template tests\n- Examples\n\nWeek 6 (Sprint 6): UI/UX & Docs\n- Enhanced\
-      \ status output\n- Enhanced show output\n- Color coding\n- User documentation\n\
-      - Developer documentation\n- Final integration testing\n\nVALIDATION CRITERIA:\n\
-      \n1. Test Coverage (90%)\n   - >90% coverage for standards system\n   - All\
-      \ critical paths tested\n   - Integration tests complete\n\n2. Integration Tests\
-      \ (100%)\n   - All standards integration tests pass\n   - Hierarchical inheritance\
-      \ works\n   - Enforcement works correctly\n   - Override mechanism works\n\n\
-      3. Backward Compatibility (100%)\n   - Existing roadmaps load without errors\n\
-      \   - Empty standards field works\n   - Completion without standards works\n\
-      \   - No breaking changes\n\n4. Documentation Complete (100%)\n   - User guide\
-      \ complete\n   - Developer guide complete\n   - API documentation complete\n\
-      \   - Examples provided\n\nRISKS & MITIGATION:\n\nRisk: Over-enforcement frustrates\
-      \ developers\n→ Start with warning mode, upgrade to blocking after feedback\n\
-      → Provide clear override mechanism\n→ Document why each standard exists\n\n\
-      Risk: Performance impact on completion\n→ Cache validation results\n→ Run validators\
-      \ in parallel\n→ Optimize validator implementations\n\nRisk: Complex configuration\n\
-      → Provide standard templates\n→ Clear error messages\n→ Comprehensive examples\n\
-      \nSUCCESS METRICS:\n\n- Standards system implemented and tested\n- >90% code\
-      \ coverage achieved\n- Backward compatibility maintained (100%)\n- Documentation\
-      \ complete\n- Vibey project using standards\n- 90%+ task compliance with commit-required\
-      \ standard\n- 100% sprint compliance with multi-platform-testing\n- Zero production\
-      \ releases with failing standards\n\nTIMELINE & DEPENDENCIES:\n\nTimeline: 6\
-      \ weeks (Q1 2025)\nPriority: CRITICAL (enables quality policy enforcement)\n\
-      Dependencies: None (can start immediately)\nBlocks: None (enhancement to existing\
-      \ system)\n\nThis track enables Vibey to enforce organizational quality policies\n\
-      automatically, ensuring consistent quality across all development.\n\nRecommend:\
-      \ START AFTER CORE DOCUMENTATION UPDATES\n"
-    estimated_tokens: 1020000
+    implementation_plan: null
+    notes: null

@@ -5,31 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create CodyAdapter base class
-  description: Create CodyAdapter extending BaseAdapter with platform-specific configuration
-    for Sourcegraph Cody
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.611843+00:00'
-  completed: '2025-11-27T11:04:09.611843+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - cody-port-1-task-002
-  - cody-port-1-task-003
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/adapters/cody/adapter.py
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Extends BaseAdapter pattern established in multi-platform track

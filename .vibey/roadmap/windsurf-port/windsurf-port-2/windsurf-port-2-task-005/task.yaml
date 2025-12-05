@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Documentation
-  description: 'Windsurf adapter guide, workflow best practices for Cascade, migration
-    guide (VS Code to Windsurf)
-
-    '
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-23T04:54:00.179939+00:00'
   started: null
   completed: null
-  assigned_agent: docs-writer
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 5000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -30,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T04:54:00.179939+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

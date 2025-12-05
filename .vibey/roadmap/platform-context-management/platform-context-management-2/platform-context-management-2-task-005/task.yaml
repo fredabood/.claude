@@ -1,27 +1,32 @@
 task:
   id: platform-context-management-2-task-005
-  name: Warning messages and UX design
   sprint_id: platform-context-management-2
   track_id: platform-context-management
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Warning messages and UX design
+  description: null
   status: completed
   blocked: false
   created: '2025-11-22T00:00:00+00:00'
-  started: '2025-11-22T21:31:23.316128+00:00'
-  completed: '2025-11-22T21:31:23.316128+00:00'
-  estimated_tokens: 5000
-  description: Implement format_compatibility_result() with clear, actionable output
-    including icons, summaries, and recommendations.
-  success_criteria:
-  - Clear visual indicators (icons) for status
-  - Summary section with counts
-  - Detailed problem task listing
-  - Actionable recommendations
-  - Guidance for next steps
-  dependencies:
-  - platform-context-management-2-task-004
+  started: null
+  completed: '2025-11-22T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  assigned_agent: web-developer
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    estimated_duration: 2 hours
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

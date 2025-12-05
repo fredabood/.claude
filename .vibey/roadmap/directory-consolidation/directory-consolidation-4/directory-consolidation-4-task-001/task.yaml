@@ -1,28 +1,32 @@
 task:
   id: directory-consolidation-4-task-001
-  roadmap_id: vibey-framework-v2
-  track_id: directory-consolidation
-  name: Merge framework/docs/ into docs/
   sprint_id: directory-consolidation-4
+  track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Merge framework/docs/ into docs/
+  description: null
   status: completed
-  completed: '2025-11-23T00:00:00+00:00'
+  blocked: false
+  created: '2025-12-04T21:36:36.842064+00:00'
+  started: null
+  completed: '2025-12-04T21:36:36.842064+00:00'
+  assigned_agent: null
   priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
-  estimated_hours: 1
-  description: 'Consolidate framework/docs/ content into docs/ directory.
-
-    Delete duplicate files, merge unique content.
-
-    '
-  actions:
-  - Delete exact duplicates (keep docs/ version)
-  - Move unique framework/docs/ files to appropriate docs/ subdirs
-  - Update any references to framework/docs/
-  - Delete empty framework/docs/ directory
-  verification:
-  - No content lost
-  - All references updated
-  - Directory structure clean
-  blocked_by:
-  - directory-consolidation-3-task-004
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

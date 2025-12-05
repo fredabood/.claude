@@ -5,53 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update /vibey code to track roadmap progress
-  description: 'Update framework/commands/vibey-code.md
-
-    - Add roadmap progress updates when tasks completed
-
-    - Show roadmap status in sprint dashboard
-
-    - Update task status in .vibey/tasks/ files
-
-    - Update sprint progress in .vibey/sprints/ files
-
-    - Calculate completion percentages
-
-    - Keep legacy system for backward compatibility
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.296556+00:00'
-  completed: '2025-11-27T11:04:09.296556+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 12000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-005
-    target_status: completed
-    reason: Needs sprint creation working
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: b180949b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b
-    message: 'feat: Update /vibey code to track hierarchical roadmap progress'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T12:35:48-05:00'
-    files_changed:
-    - framework/commands/vibey-code.md
-    note: DELETED Nov 12 in commit 205c877 - work not migrated to new CLI
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183801+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

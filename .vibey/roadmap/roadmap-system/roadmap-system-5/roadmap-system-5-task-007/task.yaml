@@ -1,27 +1,32 @@
 task:
   id: roadmap-system-5-task-007
-  title: Implement parallel task detection
   sprint_id: roadmap-system-5
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement parallel task detection
+  description: null
   status: completed
-  priority: critical
+  blocked: false
   created: '2025-11-07T03:00:00+00:00'
   started: null
-  completed: '2025-11-22T19:22:08.346032+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_lib/agents.py - detect_parallel_tasks()
-  - vibey/cli/roadmap_lib/agents.py - get_task_execution_order()
-  - Parallel task detection with dependency graph analysis
-  commits: []
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
-  blocked_by: []
   blocks: []
-  metadata: {}
-  task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

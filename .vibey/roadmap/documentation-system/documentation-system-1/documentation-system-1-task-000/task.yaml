@@ -5,35 +5,17 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ULID-based ID generation system
-  description: "Build deterministic, collision-free ID generation system using ULIDs\n\
-    with human-readable directory slugs for best of both worlds.\n\nImplementation:\n\
-    - Add python-ulid dependency to requirements.txt\n- Create framework/roadmap/id_generator.py\n\
-    - Implement generate_track_id() → track_{ulid}\n- Implement generate_sprint_id()\
-    \ → sprint_{ulid}\n- Implement generate_task_id() → task_{ulid}\n- Implement extract_timestamp(id)\
-    \ → datetime\n- Support hybrid approach: ULID IDs + human-readable directory slugs\n\
-    \nHybrid Design:\n- IDs: track_01JB3QVDZ8TRK9XN1FJFHGWPRM (immutable, collision-free)\n\
-    - Directories: documentation-system/ (human-readable, mutable slug)\n- Validation:\
-    \ .id files in directories ensure slug ↔ ID mapping\n- Benefits: Stable references\
-    \ + browseable structure\n\nExample Structure:\n.vibey/roadmap/\n└── documentation-system/\
-    \               # Human-readable slug\n    ├── .id → track_01JB3QVDZ8...     \
-    \  # Immutable ID reference\n    ├── track.yaml                      # id: track_01JB3QVDZ8...\n\
-    \    └── hierarchical-structure/         # Sprint slug\n        ├── .id → sprint_01JB3QVE2C...\
-    \  # Sprint ID\n        └── sprint.yaml                 # id: sprint_01JB3QVE2C...\n\
-    \nAcceptance Criteria:\n- ULID library integrated (python-ulid)\n- ID generators\
-    \ work for all levels (track/sprint/task)\n- IDs are unique (no collisions in\
-    \ 10,000 generations)\n- IDs are sortable (lexicographically by creation time)\n\
-    - Timestamp extraction works correctly\n- Directory validation via .id files implemented\n\
-    - Unit tests pass (uniqueness, sortability, extraction)\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-09T14:29:00+00:00'
-  started: '2025-11-27T11:04:09.416311+00:00'
-  completed: '2025-11-27T11:04:09.416311+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-09T14:29:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 2000
-  actual_tokens: 20100
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
@@ -42,15 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - framework/roadmap/id_generator.py (340 lines - ULID generation system)
-  - framework/roadmap/test_id_generator.py (324 lines - 29 unit tests, 100% pass rate)
-  - framework/requirements.txt (added python-ulid>=2.2.0)
-  commits:
-  - hash: fcdd86b5e0e37f021ea9e6f228df5da7f50487b9
-    date: '2025-11-09T14:56:14+00:00'
-    message: 'feat: Implement ULID-based ID generation system (Task 000)'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-09T21:29:34.189441+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

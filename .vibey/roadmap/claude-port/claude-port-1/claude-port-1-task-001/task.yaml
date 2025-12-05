@@ -2,52 +2,31 @@ task:
   id: claude-port-1-task-001
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-10T23:48:00-05:00'
-  started: '2025-11-27T11:04:09.563931+00:00'
-  completed: '2025-11-27T11:04:09.563931+00:00'
-  estimated_duration: 2 hours
-  actual_duration: 15 minutes
-  priority: high
-  assigned_agents:
-  - test-engineer
-  description: 'Execute all 109 unit tests against Claude Code implementation to verify
-
-    core functionality and identify any bugs or issues.
-
-    '
-  acceptance_criteria:
-  - All unit tests executed
-  - Pass rate documented
-  - Failures categorized (bugs vs test issues vs doc issues)
-  - Issues logged for fixing
-  deliverables:
-  - Unit test results (109 tests, 53% initial pass rate)
-  - Bug categorization
-  - Initial baseline metrics
-  commits:
-  - f88b59599fde2b929990e04cd6b13e6bf358cd1f
-  - dfbd7fe02b9a22284ba01eb776df83310bc95d35
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed as part of initial validation run.
-
-
-      Results:
-
-      - 109 unit tests executed
-
-      - 58/109 passing (53% pass rate initially)
-
-      - 51 failures identified and categorized
-
-
-      Key findings documented in f88b595 commit.
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Run unit tests against Claude Code implementation
-  estimated_tokens: 20000
-  size_category: M
-  original_estimated_duration: 2 hours
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-10T23:48:00-05:00'
+  started: null
+  completed: '2025-11-10T23:48:00-05:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

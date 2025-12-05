@@ -5,22 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix deliverables schema backward compatibility
-  description: "Fix yaml_loader.py to handle both legacy and new deliverables formats.\n\
-    \nCurrent behavior:\n- Expects: {type: \"documentation\", paths: [\"file.txt\"\
-    ]}\n- Fails on: [\"Fixed aider-port/track.yaml\"]\n- Error: KeyError: 'type'\n\
-    \nRequired fix:\nAdd backward-compatible parsing in yaml_loader.py:815-821\n\n\
-    if isinstance(d, str):\n    # Legacy format: plain string\n    deliverables.append(Deliverable(\n\
-    \        type=DeliverableType.OTHER,\n        paths=[d]\n    ))\nelif isinstance(d,\
-    \ dict):\n    # New format: dict with type and paths\n    deliverables.append(Deliverable(\n\
-    \        type=DeliverableType(d['type']),\n        paths=d['paths']\n    ))\n\n\
-    Verification:\n- Load tasks with legacy string deliverables\n- Load tasks with\
-    \ new dict deliverables\n- Both should work without errors\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-20T00:13:23.090826+00:00'
   started: null
-  completed: '2025-11-27T11:10:31.396362+00:00'
-  assigned_agent: web-developer
+  completed: '2025-11-20T00:13:23.090826+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
   estimated_tokens: 1
@@ -33,15 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/serialization/yaml_loader.py
-  - type: test
-    paths:
-    - tests/test_yaml_loader_deliverables.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:13:23.090844+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,58 +5,105 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-10T22:00:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-11T00:12:23.555882+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-10T22:00:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 12
+    development_tasks_completed: 12
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 12
     tasks_completed: 12
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: directory-migration-1-task-001
+    title: Create Python package structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-002
+    title: Move framework/scripts/ to vibey/cli/
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-003
+    title: Create entry point vibey/__main__.py
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-004
+    title: Register CLI commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-005
+    title: 'Update imports: framework.roadmap → vibey.roadmap'
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-006
+    title: 'Test: pip install and vibey --version'
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-007
+    title: Verify roadmap commands work without .claude/ prefix
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-008
+    title: Create tests for CLI commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-009
+    title: Document CLI usage
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-010
+    title: Package for PyPI distribution
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-011
+    title: Verify installation on clean system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-migration-1-task-012
+    title: Update PATH dependencies
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  plan_file: docs/development/DIRECTORY_MIGRATION_PLAN.md
-  deliverables:
-  - vibey command installed globally
-  - All roadmap commands work via vibey roadmap ...
-  - No dependencies on .claude/scripts/
-  - Python package structure complete
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-10T22:00:00+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 45000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  commits:
-  - hash: 286ae4df5d35f819eba771ab57d3c1ccb273b66f
-    date: '2025-11-10T18:45:10-05:00'
-    message: 'feat: Create Python package structure for vibey CLI (Task 001)'
-  - hash: 2d0f3134d56bcb17df3fdcca30d688254a58a511
-    date: '2025-11-10T18:47:49-05:00'
-    message: 'feat: Move framework modules to vibey package (Task 002)'
-  - hash: 3aee108b3c27e7426b2339d1be22bc38d6c0ad46
-    date: '2025-11-10T18:52:02-05:00'
-    message: 'feat: Create CLI entry point with Click framework (Task 003)'
-  - hash: 082b95213ec4f8f9f5c3dfa3345cecfe66c3377e
-    date: '2025-11-10T19:03:27-05:00'
-    message: 'feat: Wire CLI commands to script functionality (Task 004)'
-  - hash: 90d061f3d1680b7ed9027cb36d4c7012e6924c92
-    date: '2025-11-10T19:04:11-05:00'
-    message: 'feat: Update all imports to vibey package structure (Task 005)'
-  - hash: c5c575e86aab1b69d410a30431340a7910d29939
-    date: '2025-11-10T19:07:12-05:00'
-    message: 'feat: Verify and fix roadmap CLI commands (Tasks 006-007)'
-  - hash: d9a801d20557b8905ffa19fe62cb8df281d3246c
-    date: '2025-11-10T19:10:58-05:00'
-    message: 'feat: Add CLI test suite (Task 008)'
-  - hash: f19c2b19c43306c592ede49f7e2fd670059718db
-    date: '2025-11-10T19:12:56-05:00'
-    message: 'feat: Complete Sprint 1 - Unified CLI Tool (Tasks 009-012)'

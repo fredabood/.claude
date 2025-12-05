@@ -1,34 +1,32 @@
 task:
   id: python-package-3-task-004
-  roadmap_id: vibey-framework-v2
-  track_id: python-package
   sprint_id: python-package-3
-  name: Implement content show operation
+  track_id: python-package
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement content show operation
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 3
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.345780+00:00'
-  completed: '2025-11-27T11:04:09.345780+00:00'
-  description: 'Create get_content() function:
-
-    - Load content by ID or path
-
-    - Parse frontmatter into structured metadata
-
-    - Return full content with body text
-
-    - Include validation status
-
-    - Show related content (handoffs, dependencies)
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

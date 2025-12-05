@@ -2,48 +2,73 @@ sprint:
   id: roadmap-integrity-fixes-2-1
   name: Critical Git & Status Fixes
   track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 30 minutes
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  dependencies: []
+  tasks:
+  - id: roadmap-integrity-fixes-2-1-task-001
+    title: Add brew-package track to git
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-1-task-002
+    title: Add python-package track to git
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-1-task-003
+    title: Sync git-integration and python-package status in roadmap.yaml
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-1-task-004
+    title: Sync jetbrains-port status in roadmap.yaml
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-1-task-005
+    title: Commit all Sprint 1 fixes
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - roadmap-integrity-fixes-2-2
-  - roadmap-integrity-fixes-2-3
-  - roadmap-integrity-fixes-2-4
-  quality_gates:
-  - name: All Files Tracked
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: git ls-files confirms all track files tracked
-  deliverables:
-  - brew-package track committed to git
-  - python-package track committed to git
-  - git-integration status synced
-  - python-package status synced
-  - jetbrains-port status synced
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: parallel-track-audit
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'CRITICAL priority sprint - must complete first.
-
-
-      Fixes:
-
-      1. Data loss risk from untracked files
-
-      2. Status mismatches causing incorrect roadmap progress
-
-
-      All tasks are quick fixes (5-10 minutes each).
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

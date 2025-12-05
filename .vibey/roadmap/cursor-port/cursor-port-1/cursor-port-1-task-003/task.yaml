@@ -1,27 +1,32 @@
 task:
   id: cursor-port-1-task-003
-  name: Implement CursorSettingsGenerator (.cursor/mcp.json)
   sprint_id: cursor-port-1
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CursorSettingsGenerator (.cursor/mcp.json)
+  description: null
   status: completed
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.316821+00:00'
-  completed: '2025-11-27T11:04:09.316821+00:00'
-  estimated_duration: 6 hours
-  description: "Implement CursorSettingsGenerator for .cursor/mcp.json generation.\n\
-    \nConfig format:\n{\n  \"mcpServers\": {\n    \"vibey\": {\n      \"command\"\
-    : \"python\",\n      \"args\": [\"-m\", \"vibey.mcp.server\"],\n      \"env\"\
-    : {}\n    }\n  }\n}\n\nResponsibilities:\n- Generate .cursor/mcp.json from config\n\
-    - Support stdio transport (primary)\n- Add checksum validation\n\nFile: vibey/adapters/cursor/settings_generator.py\n"
-  deliverables:
-  - vibey/adapters/cursor/settings_generator.py
-  - .cursor/mcp.json template
-  assigned_agents:
-  - web-developer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: critical
-    complexity: low
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

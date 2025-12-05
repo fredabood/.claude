@@ -1,44 +1,32 @@
 task:
   id: roadmap-system-6-task-008
-  title: Bug fixes and refinements
   sprint_id: roadmap-system-6
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:00:00+00:00'
-  completed: '2025-11-12T17:00:00+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - Multiple bug fixes improving test pass rate from 70% to 97.7%
-  commits:
-  - sha: 228015a
-    message: 'fix: Resolve data structure mismatches in context and cache systems
-      - 13 tests fixed'
-    date: '2025-11-12T16:50:26-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762984226
-  - sha: feb614b
-    message: 'fix: Improve error handling and defensive coding for track queries'
-    date: '2025-11-12T16:57:23-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762984643
-  - sha: '9517859'
-    message: 'fix: Implement idempotent start behavior - 2 tests fixed'
-    date: '2025-11-12T16:59:29-05:00'
-    author: Fred Abood
-    platform: claude-code
-    submitted_at: 1762984769
-  dependencies: []
-  blocked_by: []
-  blocks: []
-  metadata: {}
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Bug fixes and refinements
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

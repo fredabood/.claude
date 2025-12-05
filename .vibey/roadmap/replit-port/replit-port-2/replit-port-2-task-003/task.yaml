@@ -1,33 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-2
   id: replit-port-2-task-003
-  name: Implement deploy methods
+  sprint_id: replit-port-2
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement deploy methods
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 10
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement deployment methods for ReplitAdapter to handle framework\n\
-    deployment in Replit environment.\n\nDEPLOYMENT METHODS:\n1. deploy()\n   - Copy\
-    \ framework files to Replit workspace\n   - Generate configuration files\n   -\
-    \ Set up MCP server\n   - Initialize extension\n\n2. deploy_agents()\n   - Deploy\
-    \ agent definitions\n   - Generate REPLIT.md files\n   - Register with Replit\
-    \ Agent\n\n3. deploy_workflows()\n   - Deploy workflow definitions\n   - Update\
-    \ documentation\n   - Configure workflow routing\n\n4. deploy_config()\n   - Generate\
-    \ .replit TOML\n   - Generate replit.nix\n   - Set environment variables\n\nWEB\
-    \ ENVIRONMENT CONSIDERATIONS:\n- File system limitations\n- Permission constraints\n\
-    - Network access patterns\n- Resource limitations\n\nDELIVERABLES:\n- deploy()\
-    \ implementation\n- Deployment helper methods\n- Rollback capability\n- Deployment\
-    \ tests\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Write Journey 3 integration tests (Feature Development)
-  description: 'Write Journey 3 integration tests (Feature Development)
-
-
-    Migrated from tasks_summary field during Phase 1B task migration.'
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T04:30:00+00:00'
-  started: '2025-11-27T11:04:09.371146+00:00'
-  completed: '2025-11-27T11:04:09.371146+00:00'
+  started: null
+  completed: '2025-11-10T04:30:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 20000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -27,16 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - tests/integration/test_journey3_feature_development.py (20,185 lines) - 10 tests
-  commits:
-  - hash: 583ed9f22a59a41d51ed89f0bdfb58e122b4971f
-    date: '2025-11-09T22:42:00-05:00'
-    message: 'feat: Complete testing-system Sprint 2 - Journey Integration Tests ✅'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-13T21:29:59.798005+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    migration_note: Migrated from tasks_summary field by task_migration_script.py
-      on 2025-11-13
-  size_category: M

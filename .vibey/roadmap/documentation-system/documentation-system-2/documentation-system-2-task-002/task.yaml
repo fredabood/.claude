@@ -5,67 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement sync manifest tracking system
-  description: 'Create sync manifest (.vibey/roadmap/.sync-manifest.json) to track
-
-    what files have been synchronized and when.
-
-
-    Implementation:
-
-    - Design sync manifest JSON schema
-
-    - Track synchronized files with checksums
-
-    - Record sync timestamps
-
-    - Store source → target mappings
-
-    - Enable incremental sync (only changed files)
-
-    - Provide sync history
-
-
-    Acceptance Criteria:
-
-    - Manifest tracks all synchronized files
-
-    - Checksums enable change detection
-
-    - Incremental sync works correctly
-
-    - Sync history queryable
-
-    - Manifest updated atomically
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-09T19:59:00+00:00'
-  started: '2025-11-09T20:00:00+00:00'
-  completed: '2025-11-09T22:19:40+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-09T19:59:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 3000
-  actual_tokens: 10000
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: documentation-system-2-task-001
-    target_status: completed
-    reason: Required prerequisite
+  dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - framework/docs/sync_manifest.py (333 lines - manifest tracking)
-  - .vibey/roadmap/.sync-manifest.json (sync manifest file)
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-09T21:29:48.423967+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,21 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add CI/CD validation job for roadmap YAML files
-  description: "Create GitHub Actions workflow for automated roadmap validation.\n\
-    \nCreate .github/workflows/roadmap-validation.yml with jobs:\n1. YAML Syntax Validation\n\
-    \   - Use yamllint to check all .vibey/roadmap/**/*.yaml\n   - Fail on syntax\
-    \ errors\n\n2. Python Serialization Detection\n   - Grep for PYTHON_SERIALIZATION_PATTERN\
-    \ patterns\n   - Fail if found\n\n3. Dependency Status Validation\n   - Verify\
-    \ all dependency statuses are strings\n   - Fail if enum objects found\n\n4. Track\
-    \ Loadability Test\n   - Attempt to load all tracks with Python loader\n   - Fail\
-    \ if any track fails to load\n\nTrigger: On push to main, on pull requests\n\n\
-    Report: Create artifact with validation results\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-16T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.461877+00:00'
-  completed: '2025-11-27T11:04:09.461877+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-16T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -27,27 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-7-task-004
-    target_status: completed
-    reason: Leverage validation tests in CI
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - .github/workflows/roadmap-validation.yml
-  - type: documentation
-    paths:
-    - Workflow documentation
-  - type: documentation
-    paths:
-    - Example run showing successful validation
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:07:09.423268+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

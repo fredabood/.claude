@@ -5,25 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement PR merge checkpoint for task conflicts
-  description: "Detect and handle task completion conflicts during PR merges:\n\n\
-    CONFLICT CONDITION:\n- A task is NEWLY marked complete in PR (changed incomplete\
-    \ → complete)\n- AND that SAME task is ALREADY complete in target branch\n\nNOT\
-    \ A CONFLICT:\n- Tasks complete in target but untouched in PR\n- Tasks complete\
-    \ in both (agreement)\n- Tasks incomplete in target, complete in PR (normal flow)\n\
-    \nIMPLEMENTATION:\n- Pre-merge hook or CI check\n- Diff PR branch against target\
-    \ for task status changes\n- For each newly completed task, check target status\n\
-    - Block merge if conflict detected\n\nERROR MESSAGE:\n\"Task X is marked complete\
-    \ in this PR, but was already\n completed in <target> at commit <sha>. Reconciliation\
-    \ required.\"\n\nRESOLUTION OPTIONS:\n- Keep target's completion (discard PR claim)\n\
-    - Keep PR's completion (override target)\n- Merge completions (both contributed)\n\
-    \nFEATURES:\n- Audit log for all conflict resolutions\n- GitHub/GitLab PR check\
-    \ integration\n- vibey git check-merge command for CI\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.389819+00:00'
-  completed: '2025-11-27T11:04:09.389819+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -39,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T01:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,28 +1,32 @@
 task:
   id: cursor-port-2-task-004
-  name: Migration guide (Claude Code to Cursor)
   sprint_id: cursor-port-2
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migration guide (Claude Code to Cursor)
+  description: null
   status: not_started
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 4 hours
-  description: "Write migration guide for existing Claude Code users.\n\nContent:\n\
-    - Claude Code vs. Cursor comparison\n- Feature parity matrix (what's supported,\
-    \ what's different)\n- Migration steps:\n  1. Backup existing .claude directory\n\
-    \  2. Deploy to Cursor (vibey deploy --platform cursor)\n  3. Configure MCP server\
-    \ in Cursor\n  4. Verify agent/workflow availability\n- Workflow differences (slash\
-    \ commands vs. MCP tools)\n- Troubleshooting migration issues\n\nFile: docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md\n"
-  deliverables:
-  - docs/guides/MIGRATION_CLAUDE_TO_CURSOR.md
-  - Feature comparison table
-  assigned_agents:
-  - documentation-engineer
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: medium
-    complexity: low
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

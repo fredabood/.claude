@@ -5,44 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement YAML remediation tooling
-  description: 'Create tools to fix YAML files based on audit findings:
-
-    - vibey roadmap fix-counters: Update progress fields to match computed values
-
-    - vibey roadmap fix-counters --dry-run: Preview changes without writing
-
-    - vibey roadmap fix-counters --file <path>: Fix specific file
-
-    - Preserve YAML formatting and comments where possible
-
-    - Generate fix report showing what was changed
-
-    '
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-11-task-004
-  blocks:
-  - sqlite-backend-11-task-006
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey roadmap fix-counters command
-  - Dry-run mode
-  - Fix report generation
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

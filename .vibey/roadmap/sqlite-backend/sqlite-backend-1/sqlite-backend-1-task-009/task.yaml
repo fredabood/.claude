@@ -5,61 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix quality_gates schema/model/CLI consistency
-  description: 'Currently quality_gates has inconsistent support across the codebase:
-
-
-    | Level  | Schema | Model | YAML Files | CLI |
-
-    |--------|--------|-------|------------|-----|
-
-    | Track  | ✅     | ✅    | ✅         | ❌  |
-
-    | Sprint | ❌     | ❌    | ✅         | ✅  |
-
-
-    This task fixes the gap by:
-
-    1. Adding quality_gates to sprint.schema.yaml
-
-    2. Adding quality_gates to sprint.py model (Sprint class)
-
-    3. Adding --track-id support to CLI gate command
-
-
-    This ensures the SQLite database schema matches a consistent Vibey implementation.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T12:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-1-task-004
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Updated sprint.schema.yaml with quality_gates field
-  - Updated sprint.py model with QualityGate support
-  - Updated CLI gate command to support --track-id
-  - Tests for quality gate operations on both tracks and sprints
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T19:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: 'Discovered during SQLite design review - quality_gates are used in sprint
-
-      YAML files and CLI but not defined in sprint schema/model. Track-level
-
-      gates are in schema/model but CLI only supports sprints.
-
-      '

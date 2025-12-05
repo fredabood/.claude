@@ -3,78 +3,34 @@ task:
   sprint_id: infrastructure-fixes-2
   track_id: infrastructure-fixes
   roadmap_id: vibey-framework-v2
-  task_type: quality_gate
+  task_type: completion_gate
   title: Execute Roadmap CLI Functionality quality gate
-  description: 'Run and validate the "Roadmap CLI Functionality" quality gate.
-
-
-    Gate Requirements:
-
-    - All 15+ roadmap CLI commands work without errors
-
-    - Threshold: 100% (blocking)
-
-
-    Test Coverage:
-
-    - vibey roadmap init
-
-    - vibey roadmap create
-
-    - vibey roadmap show/status
-
-    - vibey roadmap start/complete/block
-
-    - vibey roadmap context
-
-    - vibey roadmap validate
-
-    - vibey roadmap migrate
-
-    - All other roadmap commands
-
-
-    Acceptance Criteria:
-
-    - All commands execute without errors
-
-    - Output is correct and formatted properly
-
-    - Help text accurate
-
-    - Gate score: 100/100
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-15T19:00:00+00:00'
-  started: '2025-11-27T11:04:09.289264+00:00'
-  completed: '2025-11-27T11:04:09.289264+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-15T19:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: validation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info:
-    gate_name: Roadmap CLI Functionality
-    threshold: 100
-    blocking: true
+    blocks_status: completed
+    threshold: 0
+    is_blocking: true
+    score: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-2-task-003
-    target_status: completed
-    reason: All integration work must be complete before testing
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Quality gate execution report
-  - Test results documentation
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-15T19:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

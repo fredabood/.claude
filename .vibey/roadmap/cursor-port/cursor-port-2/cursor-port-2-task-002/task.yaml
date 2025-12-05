@@ -1,53 +1,32 @@
 task:
   id: cursor-port-2-task-002
-  name: E2E tests with Composer agent
   sprint_id: cursor-port-2
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: E2E tests with Composer agent
+  description: null
   status: not_started
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 12 hours
-  description: 'Create end-to-end tests for all 46 MCP tools via Cursor Composer.
-
-
-    Test coverage:
-
-    - All roadmap tools (query, update, context)
-
-    - All workflow tools (list, get, execute)
-
-    - All agent tools (list, get)
-
-    - All validation tools (frontmatter, quality gates)
-
-    - Tool error handling and edge cases
-
-
-    Method:
-
-    - Use Cursor Composer to invoke each tool
-
-    - Verify tool responses match expected format
-
-    - Test tool chaining and workflows
-
-    - Verify MCP protocol compliance
-
-
-    Environment: Requires Cursor IDE with MCP enabled
-
-    '
-  deliverables:
-  - tests/e2e/cursor/test_mcp_tools.py
-  - Tool invocation scripts
-  - Test result documentation
-  assigned_agents:
-  - test-engineer
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: critical
-    complexity: high
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

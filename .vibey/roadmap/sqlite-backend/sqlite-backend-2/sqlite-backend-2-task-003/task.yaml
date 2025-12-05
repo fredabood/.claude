@@ -5,83 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update update operations to use database backend
-  description: 'Update vibey/operations/roadmap/update.py to use SQLite when available:
-
-
-    complete_task():
-
-    - UPDATE tasks SET status = ''completed'', completed = NOW()
-
-    - Triggers handle: progress update, blocker clearing, activity log
-
-    - Set database_state.is_dirty = 1
-
-    - Expected speedup: 20x (1 UPDATE vs 4+ file writes)
-
-
-    start_task():
-
-    - UPDATE tasks SET status = ''in_progress'', started = NOW()
-
-    - Set database_state.is_dirty = 1
-
-
-    complete_sprint(), start_sprint():
-
-    - Similar pattern, triggers handle cascades
-
-
-    complete_track():
-
-    - Similar pattern
-
-
-    Key change: NO YAML writes on mutation!
-
-    - All writes go to SQLite
-
-    - database_state.is_dirty tracks uncommitted changes
-
-    - YAML sync happens in pre-commit hook (Sprint 3)
-
-
-    Verify triggers fire correctly:
-
-    - Timestamps auto-updated
-
-    - Progress counters auto-updated
-
-    - Blocked flags auto-updated
-
-    - Activity log auto-populated
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T14:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-2-task-001
-  blocks:
-  - sqlite-backend-2-task-004
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Updated vibey/operations/roadmap/update.py
-  - Dirty flag management
-  - Trigger verification tests
-  - Performance benchmarks
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

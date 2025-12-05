@@ -1,59 +1,38 @@
 task:
   id: vscode-port-2-task-003
-  name: Write VS Code integration guide
   sprint_id: vscode-port-2
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write VS Code integration guide
+  description: null
   status: not_started
-  blocked: false
-  priority: medium
+  blocked: true
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 6 hours
-  actual_duration: null
-  description: 'Write comprehensive VS Code integration guide.
-
-
-    Documentation sections:
-
-    - Prerequisites (VS Code version, MCP support)
-
-    - Installation and setup
-
-    - Deployment (vibey deploy --platform vscode)
-
-    - Configuration (.vscode/mcp.json)
-
-    - Agent Mode usage
-
-    - Tool discovery and invocation
-
-    - Troubleshooting
-
-    - Example workflows
-
-
-    Files to create:
-
-    - docs/guides/VSCODE_INTEGRATION.md
-
-    '
-  acceptance_criteria:
-  - Clear step-by-step instructions
-  - Screenshots/examples included
-  - Troubleshooting section complete
-  - User-tested for clarity
-  - Linked from main README
-  assigned_agents:
-  - docs-writer
-  depends_on:
-  - vscode-port-2-task-001
-  - vscode-port-2-task-002
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    effort_estimate: 6 hours
-    complexity: low
-    notes: Critical for user adoption
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

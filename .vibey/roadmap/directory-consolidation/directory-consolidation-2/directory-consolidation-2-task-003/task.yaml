@@ -1,29 +1,32 @@
 task:
   id: directory-consolidation-2-task-003
-  roadmap_id: vibey-framework-v2
-  track_id: directory-consolidation
-  name: Move framework/docs/ to vibey/operations/docs/
   sprint_id: directory-consolidation-2
+  track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Move framework/docs/ to vibey/operations/docs/
+  description: null
   status: completed
+  blocked: false
+  created: '2025-11-28T00:00:00+00:00'
+  started: null
+  completed: '2025-11-28T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
-  estimated_hours: 1
-  description: 'Move documentation sync engine from framework/docs/ to vibey/operations/docs/.
-
-    '
-  files_to_move:
-  - framework/docs/generator.py -> vibey/operations/docs/generator.py
-  - framework/docs/sync_engine.py -> vibey/operations/docs/sync_engine.py
-  - framework/docs/sync_hooks.py -> vibey/operations/docs/sync_hooks.py
-  - framework/docs/sync_manifest.py -> vibey/operations/docs/sync_manifest.py
-  import_updates:
-  - from framework.docs -> from vibey.operations.docs
-  - import framework.docs -> import vibey.operations.docs
-  verification:
-  - Doc sync commands work
-  - Doc generation works
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  created: '2025-11-28T00:00:00.000000+00:00'
-  started: '2025-11-28T00:10:21.406912+00:00'
-  completed: '2025-11-28T00:10:21.406912+00:00'
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

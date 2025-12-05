@@ -8,7 +8,7 @@ track:
   created: '2025-11-05T00:00:00+00:00'
   started: null
   completed: '2025-11-05T00:00:00+00:00'
-  estimated_duration: 3 months
+  estimated_duration: null
   progress:
     sprints_total: 2
     sprints_completed: 0
@@ -16,99 +16,32 @@ track:
     tasks_completed: 20
     completion_percent: 100.0
   sprints:
-  - id: core-framework-3
-    name: Framework Polish & Refinements
-    status: production_ready
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: '2025-11-08T15:06:21.452508+00:00'
   - id: core-framework-2
     name: Config-to-Docs Architecture
     status: production_ready
-    estimated_duration: 4 weeks
+    estimated_duration: null
     tasks_count: 13
-    started: '2025-11-09T00:00:00+00:00'
+    started: null
+  - id: core-framework-3
+    name: Framework Polish & Refinements
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 7
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Backward Compatibility Testing
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: null
-    score: null
-  - name: Documentation Review
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: null
-    score: null
-  assigned_agents:
-  - web-developer
-  - docs-writer
-  - coordinator
-  deliverables:
-  - Auto-generated CLAUDE.md from configs
-  - Permanent .vibey/ directory structure
-  - Config-to-docs generation system
-  - Platform deployment as build artifacts
-  - Foundation for adapter pattern
-  - Modular config system (project, framework, agents, quality-gates)
-  - Context loading strategy implementation (prevent context explosion)
-  - Auto-generated dependency summaries and task summaries
-  - vibey deploy --platform <name> command
-  - vibey docs generate command
-  - roadmap summarize and roadmap context commands
-  strategic_value:
-  - 'Foundation for Multi-Platform: .vibey/ as platform-agnostic core'
-  - 'Clean Separation: Source (.vibey/) vs Deployment (.claude/, .goose/)'
-  - 'Config-Driven Docs: Generate documentation from source of truth'
-  - 'Roadmap State Permanence: .vibey/ never deleted, always available'
-  - 'Adapter Pattern Ready: Enables Track 3 (Goose) and Track 4 (Multi-Platform)'
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T20:00:00+00:00'
-    design_doc: docs/development/PLATFORM_AGNOSTIC_ARCHITECTURE.md
-    implementation_plan: docs/sprints/core-framework-2-plan.md
-    notes: "Core framework improvements that set foundation for multi-platform architecture.\n\
-      \n**ATTRIBUTION CLARIFICATION (2025-11-15 Data Integrity Audit):**\n\nThis track\
-      \ delivered DESIGN & FRAMEWORK LAYER (Nov 8-9, 2025):\n- Sprint 3: RoadmapCache,\
-      \ CLI formatting, Vibey Manager enhancements (Nov 7-8) ✅ COMPLETE\n- Sprint\
-      \ 2: Config architecture, documentation, framework layer (Nov 9) ✅ DESIGN COMPLETE\n\
-      - Sprint 1: PHANTOM - Never implemented, absorbed into Sprint 2 ❌ REMOVED\n\n\
-      IMPLEMENTATION completed in directory-migration track (Nov 10-11, 2025):\n-\
-      \ Python package structure (vibey/)\n- Config loader & models (vibey/config/loader.py,\
-      \ vibey/config/models.py)\n- CLI tool (vibey/cli/main.py, vibey/cli/commands.py)\n\
-      - Platform adapters (vibey/adapters/)\n- Operations library (vibey/operations/)\n\
-      \n**Work Division:**\n- core-framework: Architectural design, framework foundation,\
-      \ documentation\n- directory-migration: Python implementation, CLI, package\
-      \ structure\n\n**Timeline:**\n- Nov 7-8: Sprint 3 (RoadmapCache, polish) - core-framework\
-      \ ✅\n- Nov 9: Sprint 2 (design docs, framework) - core-framework ✅\n- Nov 10-11:\
-      \ Implementation (vibey package, CLI) - directory-migration ✅\n\nAll deliverables\
-      \ exist and work. Attribution corrected for historical accuracy.\n\n**Key Insight:**\
-      \ Keep .vibey/ as permanent platform-agnostic home with two systems:\n\n1. YAML\
-      \ (Roadmap System) - State tracking\n   - Sprint status, progress, dependencies\n\
-      \   - Updated by roadmap CLI\n   - Machine-readable\n   - .vibey/roadmap/*.yaml\n\
-      \n2. Markdown (Sprint Docs) - Rich context\n   - What to build, architecture\
-      \ decisions, learnings\n   - Iterated during development (NEVER regenerated)\n\
-      \   - Human and AI readable\n   - .vibey/sprint_docs/*/\n\n3. Platform Deployments\
-      \ - Generated artifacts\n   - .claude/, .goose/, .cursor/ (gitignored)\n   -\
-      \ Generated from .vibey/config/\n   - Tool-specific\n\nCritical distinction:\n\
-      - YAML tracks deterministic state (status, dependencies)\n- Markdown provides\
-      \ accumulated context (never lost!)\n- YAML links to Markdown (documentation.files.plan)\n\
-      - Both committed to git, non-overlapping purposes\n\nSprint 2 (Config-to-Docs\
-      \ Architecture) builds:\n- Permanent .vibey/ structure\n- Sprint docs linking\
-      \ system (YAML references Markdown via documentation field)\n- Context loading\
-      \ strategy (see CONTEXT_LOADING_STRATEGY.md)\n  * Dependency summaries (auto-generated)\n\
-      \  * Task summaries (task-level context)\n  * Context modes (minimal/summary/full)\n\
-      \  * Hierarchical loading (distance-based)\n  * 80-90% reduction in context\
-      \ size for complex dependencies\n- Platform deployment generation\n- Foundation\
-      \ for adapter pattern (Track 3 & 4)\n\nDocumentation:\n- PLATFORM_AGNOSTIC_ARCHITECTURE.md\
-      \ - Overall architecture\n- YAML_MARKDOWN_SEPARATION.md - Design principle\n\
-      - CONTEXT_LOADING_STRATEGY.md - Context explosion mitigation\n"
-    estimated_tokens: 26007
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

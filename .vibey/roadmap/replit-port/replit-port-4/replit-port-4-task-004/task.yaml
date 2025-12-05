@@ -1,36 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-4
   id: replit-port-4-task-004
-  name: Create Dashboard component
+  sprint_id: replit-port-4
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create Dashboard component
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 8
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create Dashboard component showing roadmap summary and quick stats.\n\
-    \nDASHBOARD FEATURES:\n1. Roadmap Overview\n   - Total tracks\n   - Active tracks\n\
-    \   - Track progress bars\n   - Track status indicators\n\n2. Sprint Summary\n\
-    \   - Current sprint\n   - Sprint progress\n   - Tasks in progress\n   - Upcoming\
-    \ sprints\n\n3. Quick Stats\n   - Total tasks\n   - Completed tasks\n   - Completion\
-    \ percentage\n   - Velocity metrics\n\n4. Recent Activity\n   - Recent commits\n\
-    \   - Task updates\n   - Status changes\n   - Blockers\n\nCOMPONENT STRUCTURE:\n\
-    ```typescript\ninterface DashboardProps {\n  roadmap: Roadmap;\n  tracks: Track[];\n\
-    \  currentSprint?: Sprint;\n}\n\nexport function Dashboard({ roadmap, tracks,\
-    \ currentSprint }: DashboardProps) {\n  const { getRoadmap, getTracks } = useVibey();\n\
-    \  // Implementation\n}\n```\n\nUI ELEMENTS:\n- Progress bars\n- Status badges\n\
-    - Cards for sections\n- Charts/graphs (optional)\n\nINTERACTIVITY:\n- Click track\
-    \ to view details\n- Click sprint to view tasks\n- Refresh data\n- Filter by status\n\
-    \nDELIVERABLES:\n- Dashboard component\n- Sub-components (stats cards, progress\
-    \ bars)\n- Responsive design\n- Loading states\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

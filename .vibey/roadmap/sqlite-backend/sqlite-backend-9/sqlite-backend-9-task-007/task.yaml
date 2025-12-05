@@ -5,85 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Unified Activity Log in Operations
-  description: "Update all operations to use the unified ActivityLogEntry for both\n\
-    high-level events and field-level audit tracking.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
-    \ Part 11.3\n\nUNIFIED ACTIVITY LOG:\n\nThe ActivityLogEntry class now handles\
-    \ both:\n1. High-level events (SPRINT_COMPLETED, TASK_STARTED, etc.)\n2. Field-level\
-    \ audit (FIELD_CHANGED with old_value/new_value)\n\nThis replaces the separate\
-    \ audit_trail.py system.\n\nOPERATIONS TO UPDATE:\n\nupdate.py:\n- complete_task():\
-    \ Log STATUS_CHANGED with old/new status\n- start_task(): Log TASK_STARTED\n-\
-    \ start_sprint(): Log SPRINT_STARTED\n- complete_sprint(): Log SPRINT_COMPLETED\n\
-    - All field updates: Log FIELD_CHANGED with entity info\n\nquery.py:\n- Add query_activity_log(filters)\
-    \ function\n- Support filtering by entity_type, entity_id, type, date range\n\n\
-    validate.py:\n- Log VALIDATION_WARNING for non-blocking issues\n\nauto_repair.py:\n\
-    - Log FIELD_CHANGED for each repair with changed_by=\"auto_repair\"\n\nREMOVE/DEPRECATE:\n\
-    \naudit_trail.py:\n- Mark as deprecated\n- Add migration function to convert old\
-    \ AuditEntry → ActivityLogEntry\n- Keep AuditTrailManager.detect_suspicious_changes()\
-    \ but query activity_log\n\nACTIVITY LOG STORAGE:\n\nAll activity entries stored\
-    \ in RoadmapTicket.activity_log and\nsynced to activity_log database table.\n\n\
-    Add helper function:\n    def log_activity(\n        roadmap: RoadmapTicket,\n\
-    \        type: ActivityType,\n        description: str,\n        entity_type:\
-    \ Optional[str] = None,\n        entity_id: Optional[str] = None,\n        field:\
-    \ Optional[str] = None,\n        old_value: Any = None,\n        new_value: Any\
-    \ = None,\n        changed_by: Optional[str] = None,\n        commit_sha: Optional[str]\
-    \ = None,\n        context: Optional[Dict] = None\n    ) -> None:\n        roadmap.activity_log.append(ActivityLogEntry(...))\n\
-    \nFILE CHANGES:\n- vibey/operations/roadmap/update.py (use log_activity)\n- vibey/operations/roadmap/query.py\
-    \ (add query_activity_log)\n- vibey/operations/roadmap/validate.py (log warnings)\n\
-    - vibey/operations/roadmap/auto_repair.py (log repairs)\n- vibey/operations/roadmap/audit_trail.py\
-    \ (deprecate, add migration)\n- vibey/operations/roadmap/activity.py (new: log_activity\
-    \ helper)\n- tests/operations/roadmap/test_activity_log.py\n\nSUCCESS CRITERIA:\n\
-    - All status changes logged with old/new values\n- All field changes logged with\
-    \ entity info\n- query_activity_log supports filtering\n- audit_trail.py marked\
-    \ deprecated\n- Migration converts old audit entries\n- detect_suspicious_changes()\
-    \ still works\n- Full test coverage\n"
+  description: null
   status: not_started
   blocked: true
   created: '2025-11-30T10:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: gap-remediation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-9-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410456+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-9-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/operations/roadmap/update.py
-  - type: code
-    paths:
-    - vibey/operations/roadmap/query.py
-  - type: code
-    paths:
-    - vibey/operations/roadmap/activity.py
-  - type: code
-    paths:
-    - vibey/operations/roadmap/audit_trail.py
-  - type: code
-    paths:
-    - tests/operations/roadmap/test_activity_log.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-30T10:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,50 +1,38 @@
 task:
   id: vscode-port-1-task-002
-  name: Implement VSCodeContextGenerator
   sprint_id: vscode-port-1
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement VSCodeContextGenerator
+  description: null
   status: completed
-  blocked: false
-  priority: high
+  blocked: true
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.604081+00:00'
-  completed: '2025-11-27T11:04:09.604081+00:00'
-  estimated_duration: 6 hours
-  actual_duration: null
-  description: 'Implement VSCodeContextGenerator to generate VSCODE.md context file.
-
-
-    Responsibilities:
-
-    - Parse agent and workflow frontmatter
-
-    - Generate VS Code-specific context markdown
-
-    - Include MCP tool descriptions
-
-    - Format for VS Code native chat
-
-
-    Files to create:
-
-    - vibey/adapters/vscode/context_generator.py
-
-    '
-  acceptance_criteria:
-  - Generates VSCODE.md from frontmatter (zero-drift)
-  - Includes all agents and workflows
-  - Includes MCP tool descriptions
-  - Type hints and docstrings complete
-  - Manual testing with sample project
-  assigned_agents:
-  - web-developer
-  depends_on:
-  - vscode-port-1-task-001
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    effort_estimate: 6 hours
-    complexity: medium
-    notes: Zero-drift architecture - generated from frontmatter
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

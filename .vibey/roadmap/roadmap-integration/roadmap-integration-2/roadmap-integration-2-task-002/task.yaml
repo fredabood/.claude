@@ -5,12 +5,12 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Task Status Updates
-  description: Enable task status updates through `/vibey code` interface
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T18:34:27.348412+00:00'
-  started: '2025-11-27T11:04:09.659667+00:00'
-  completed: '2025-11-27T11:04:09.659667+00:00'
+  started: null
+  completed: '2025-11-08T18:34:27.348412+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -25,19 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - hash: b45ebd3
-    message: 'feat: Implement conversational task status updates in /vibey code'
-    date: '2025-11-08T13:40:00-05:00'
-  - hash: 205c877
-    message: 'DELETION: fix: Begin addressing test failures in comprehensive CLI test
-      suite'
-    date: '2025-11-12T16:22:27-05:00'
-    note: Task status updates migrated to vibey CLI
+  commits: []
   metadata:
-    superseded_by: vibey roadmap start/complete/block/unblock commands
-    architectural_note: 'Conversational updates replaced by: vibey roadmap start <task-id>,
-      vibey roadmap complete <task-id>'
-    last_updated: '2025-11-08T13:35:02.322438+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

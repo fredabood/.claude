@@ -5,28 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Debug and fix roadmap CLI import error
-  description: 'Fix ImportError in framework/scripts/roadmap-lib/cache.py:23
-
-    - Analyze import structure in roadmap-lib/
-
-    - Convert relative imports to absolute imports or fix package structure
-
-    - Test all CLI commands (roadmap status, show, list, etc.)
-
-    - Ensure all 15+ documented commands work
-
-    - Add error handling for missing dependencies
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.294150+00:00'
-  completed: '2025-11-27T11:04:09.294150+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 8000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -37,15 +25,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 40c5be4b6c0e7e3b1f9b8e3e3e3e3e3e3e3e3e3e
-    message: 'feat: Add roadmap CLI wrapper script for easy command access'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T09:56:21-05:00'
-    files_changed:
-    - framework/scripts/roadmap-cli.sh
-    note: Task involved debugging imports - wrapper script was the solution
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183797+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

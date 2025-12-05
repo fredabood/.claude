@@ -5,25 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement tag repair automation
-  description: "Automate repair of dangling tags after rebase/squash:\n\nPROBLEM (from\
-    \ Sprint 0 addendum):\n- After rebase/squash, tags point to old (non-existent)\
-    \ SHAs\n- Sprint and task tags become invalid\n- Need to re-create tags on new\
-    \ commits\n\nCLI COMMANDS:\n- vibey git validate-tags\n  Detect dangling tags\
-    \ (tags pointing to missing commits)\n\n- vibey git repair-tags\n  Automatically\
-    \ repair tags by finding new commits\n\n- vibey git tag-move <tag> <new-sha>\n\
-    \  Manually move a tag to different commit\n\nREPAIR ALGORITHM:\n1. Find all dangling\
-    \ tags\n2. For each tag:\n   - Parse tag name to get task/sprint ID\n   - Get\
-    \ original commit message\n   - Search new commits for matching message + task\
-    \ ref\n   - Delete old tag, recreate on new commit\n3. Report repaired/unfixable\
-    \ tags\n\nAUTOMATIC HOOKS:\n- post-rebase hook: detect and repair tags\n- post-merge\
-    \ hook: repair after squash merge\n\nCONFIGURATION:\n- git.tags.repair.auto: true/false\n\
-    - git.tags.repair.strategy: message_match|manual|skip\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.389395+00:00'
-  completed: '2025-11-27T11:04:09.389395+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -39,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T01:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

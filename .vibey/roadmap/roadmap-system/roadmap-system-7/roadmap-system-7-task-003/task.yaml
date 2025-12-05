@@ -2,84 +2,31 @@ task:
   id: roadmap-system-7-task-003
   sprint_id: roadmap-system-7
   track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add token estimation utilities
+  description: null
   status: completed
-  priority: high
+  blocked: false
   created: '2025-11-20T00:38:19.713636+00:00'
-  started: '2025-11-27T11:04:09.548912+00:00'
-  completed: '2025-11-27T11:04:09.548912+00:00'
-  estimated_duration: 4 hours
-  actual_duration: null
-  description: "Create utilities for estimating and tracking token usage.\n\nCREATE:\
-    \ vibey/roadmap/utils/token_estimation.py\n\nTokenEstimator class:\n```python\n\
-    class TokenEstimator:\n    \"\"\"Estimate token usage for tasks.\"\"\"\n    \n\
-    \    def estimate_from_complexity(self, complexity: Complexity) -> int:\n    \
-    \    \"\"\"Map complexity enum to token range.\"\"\"\n        # LOW: 5K-15K tokens\n\
-    \        # MEDIUM: 15K-40K tokens\n        # HIGH: 40K-100K tokens\n        \n\
-    \    def estimate_from_description(self, description: str) -> int:\n        \"\
-    \"\"Analyze description to estimate tokens.\"\"\"\n        # Factor in: length,\
-    \ technical terms, complexity indicators\n        \n    def estimate_from_historical(self,\
-    \ task_type: TaskType) -> int:\n        \"\"\"Use historical averages for task\
-    \ type.\"\"\"\n        # development: avg X tokens\n        # testing: avg Y tokens\n\
-    \        # documentation: avg Z tokens\n        \n    def categorize_size(self,\
-    \ tokens: int) -> str:\n        \"\"\"Return S/M/L/XL/XXL based on token count.\"\
-    \"\"\n        \n    def estimate_task(self, task: Task) -> int:\n        \"\"\"\
-    Comprehensive estimation using all factors.\"\"\"\n        # Combine: complexity\
-    \ + description + historical + type\n```\n\nTokenTracker class:\n```python\nclass\
-    \ TokenTracker:\n    \"\"\"Track actual token usage during execution.\"\"\"\n\
-    \    \n    def record_usage(self, task_id: str, tokens: int):\n        \"\"\"\
-    Record token usage for a task.\"\"\"\n        \n    def calculate_efficiency(self,\
-    \ task_id: str) -> float:\n        \"\"\"Calculate actual vs estimated efficiency.\"\
-    \"\"\n        \n    def update_metrics(self, task_id: str):\n        \"\"\"Update\
-    \ task YAML with actual token usage.\"\"\"\n        \n    def get_remaining_budget(self,\
-    \ sprint_id: str) -> int:\n        \"\"\"Calculate remaining token budget for\
-    \ sprint.\"\"\"\n```\n\nHistoricalAnalyzer class:\n```python\nclass HistoricalAnalyzer:\n\
-    \    \"\"\"Analyze historical token usage patterns.\"\"\"\n    \n    def analyze_completed_tasks(self)\
-    \ -> Dict:\n        \"\"\"Get token stats for completed tasks.\"\"\"\n       \
-    \ \n    def get_average_by_type(self, task_type: TaskType) -> int:\n        \"\
-    \"\"Average tokens for task type.\"\"\"\n        \n    def get_percentile(self,\
-    \ percentile: int) -> int:\n        \"\"\"Get Nth percentile token usage.\"\"\"\
-    \n```\n\nIMPLEMENTATION:\n- Use data from Task 001 research\n- Implement all estimation\
-    \ methods\n- Add comprehensive unit tests\n- Handle edge cases (missing data,\
-    \ outliers)\n- CLI tool for manual estimation\n"
-  acceptance_criteria:
-  - TokenEstimator class implemented
-  - TokenTracker class implemented
-  - HistoricalAnalyzer class implemented
-  - All methods tested with unit tests
-  - CLI tool for estimation
-  - Documentation with usage examples
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/utils/token_estimation.py
-  - type: test
-    paths:
-    - tests/test_token_estimation.py
-  - type: code
-    paths:
-    - scripts/estimate-tokens.py
-  - type: documentation
-    paths:
-    - docs/guides/TOKEN_ESTIMATION.md
-  dependencies:
-  - type: task
-    target_id: roadmap-system-7-task-001
-    target_status: completed
-    reason: Need methodology defined
-  - type: task
-    target_id: roadmap-system-7-task-002
-    target_status: completed
-    reason: Need token fields in models
-  blocked_by: []
+  started: null
+  completed: '2025-11-20T00:38:19.713636+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
-  assigned_agent: web-developer
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T00:38:19.713657+00:00'
-  title: Add token estimation utilities
-  task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

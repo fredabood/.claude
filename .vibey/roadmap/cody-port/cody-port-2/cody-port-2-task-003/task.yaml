@@ -5,36 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Write E2E tests with Cody extension
-  description: Create end-to-end tests validating Vibey integration with Cody VS Code
-    extension
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: test-engineer
+  assigned_agent: null
   priority: high
-  phase_label: testing
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: cody-port-2-task-001
-    target_status: completed
-    reason: Tests require enterprise module
-    optional: false
+  dependencies: []
   blocks: []
-  blocked_by:
-  - cody-port-2-task-001
-  deliverables:
-  - tests/e2e/test_cody_integration.py
-  - E2E test documentation
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Validate MCP tool access and context generation

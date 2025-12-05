@@ -5,143 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update CLI commands for inheritance display
-  description: |
-    Update CLI commands to properly display inherited vs local
-    fields and aggregated vs direct values.
-
-    CLI COMMANDS TO UPDATE:
-
-    1. vibey roadmap show <entity>:
-       Display with inheritance indicators:
-
-       $ vibey roadmap show sqlite-backend-6a-task-001
-
-       Task: sqlite-backend-6a-task-001
-       ────────────────────────────────
-       Status: not_started
-       Blocked: false
-
-       Standards (3 effective):
-         ✓ code-style [inherited from: vibey-framework-v2]
-         ✓ testing [inherited from: sqlite-backend]
-         ✓ documentation [local]
-
-       Commits (0 local):
-         (no commits yet)
-
-       Deliverables (4 local):
-         - vibey/roadmap/models/ticket/base.py
-         - ...
-
-    2. vibey roadmap status:
-       Show aggregated progress correctly:
-
-       $ vibey roadmap status
-
-       Roadmap: vibey-framework-v2
-       Progress: 45.2% (computed)
-       ├─ sqlite-backend: 53.7% (36/67 tasks)
-       │  ├─ sqlite-backend-6a: 0% (0/10 tasks)
-       │  └─ ...
-       └─ ...
-
-    3. vibey roadmap find --blocked:
-       Use computed blocked status:
-
-       $ vibey roadmap find --blocked
-
-       Blocked Items:
-       - sqlite-backend-6a-task-001 (blocked by: task-009, task-010)
-       - ...
-
-    4. vibey roadmap add-standard:
-       Show inheritance impact:
-
-       $ vibey roadmap add-standard --track sqlite-backend --standard testing
-
-       Adding standard 'testing' to track 'sqlite-backend'
-       This standard will apply to:
-         - 10 sprints
-         - 67 tasks
-       Continue? [y/n]
-
-    5. vibey roadmap list:
-       Include hierarchy info:
-
-       $ vibey roadmap list tasks --sprint sqlite-backend-6a
-
-       Tasks in sqlite-backend-6a:
-       ID                              Status        Blocked
-       sqlite-backend-6a-task-001     not_started   yes (deps)
-       sqlite-backend-6a-task-002     not_started   yes (deps)
-       ...
-
-    DISPLAY PATTERNS:
-
-    1. Inheritance Indicators:
-       [local] - defined on this ticket
-       [inherited from: <id>] - inherited from ancestor
-       [effective] - merged from local + inherited
-
-    2. Aggregation Indicators:
-       (X local) - count of items defined locally
-       (X total) - count including aggregated from children
-       (computed) - value calculated from children
-
-    3. Hierarchy Navigation:
-       Show parent path: roadmap > track > sprint > task
-       Show child count: "10 sprints, 67 tasks"
-
-    IMPLEMENTATION STEPS:
-
-    1. Update show.py for inheritance display
-    2. Update status.py for computed progress
-    3. Update find.py for computed blocked status
-    4. Update add_standard.py for impact preview
-    5. Update list_cmd.py for hierarchy info
-    6. Add formatter utilities for inheritance
-    7. Update CLI tests
-
-    SUCCESS CRITERIA:
-    - Inheritance source clearly indicated
-    - Aggregation source clearly indicated
-    - Computed values labeled appropriately
-    - User understands what's local vs inherited
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-10-task-004
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Updated CLI commands (show, status, find, add-standard, list)
-  - Inheritance display formatters
-  - tests/cli/test_inheritance_display.py
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      USER EXPERIENCE GOAL: Make inheritance/aggregation transparent.
-
-      Users should understand:
-      - Where a standard came from (local or inherited)
-      - Where commits aggregate from (which tasks)
-      - How progress is computed (from children)
-
-      This transparency helps users:
-      - Know where to make changes
-      - Understand policy cascade
-      - Debug unexpected behavior

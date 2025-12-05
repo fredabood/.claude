@@ -1,36 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-6
   id: replit-port-6-task-002
-  name: Write quick start guide
+  sprint_id: replit-port-6
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write quick start guide
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 8
-  assigned_agent: docs-writer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Write comprehensive quick start guide for Replit users.\n\nGUIDE STRUCTURE:\n\
-    1. Introduction\n   - What is Vibey?\n   - Why use Vibey on Replit?\n   - Prerequisites\n\
-    \   - Expected outcomes\n\n2. Getting Started (5 minutes)\n   - Fork the template\n\
-    \   - Run the MCP server\n   - Open the Extension\n   - View sample roadmap\n\n\
-    3. Your First Project (10 minutes)\n   - Create roadmap\n   - Define tracks and\
-    \ sprints\n   - Add tasks\n   - Assign agents\n\n4. Using the Extension\n   -\
-    \ Dashboard overview\n   - Viewing roadmap\n   - Managing sprints\n   - Updating\
-    \ tasks\n\n5. MCP Integration\n   - What is MCP?\n   - How Vibey uses MCP\n  \
-    \ - Available tools\n   - Tool invocation\n\n6. Next Steps\n   - Advanced features\n\
-    \   - Customization options\n   - Additional resources\n   - Community support\n\
-    \nGUIDE FEATURES:\n- Step-by-step instructions\n- Screenshots for each step\n\
-    - Code examples\n- Common pitfalls\n- Troubleshooting tips\n\nTARGET AUDIENCE:\n\
-    - New to Vibey\n- Familiar with Replit\n- Basic Python knowledge\n- AI-assisted\
-    \ development interest\n\nDELIVERABLES:\n- QUICK_START.md guide\n- Screenshots\n\
-    - Example code snippets\n- Video walkthrough (optional)\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

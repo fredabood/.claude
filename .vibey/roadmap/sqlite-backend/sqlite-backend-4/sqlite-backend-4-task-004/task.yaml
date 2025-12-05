@@ -5,146 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement transactional activity log writes
-  description: |
-    Refactor all entity mutation operations to use atomic transactions that write
-    to both activity_log and entity tables, preventing drift between audit trail
-    and current state.
-
-    PROBLEM:
-    Current architecture uses triggers to write activity_log entries after entity
-    updates. This creates risk of drift if:
-    - Trigger fails but entity update succeeds
-    - Activity log schema changes break triggers
-    - Bulk operations disable triggers for performance
-
-    SOLUTION (Hybrid Architecture):
-    All mutations flow through a transaction layer that atomically:
-    1. INSERT into activity_log (the event)
-    2. UPDATE/INSERT entity tables (the state change)
-    3. Let existing triggers handle cascading updates (summaries, blocked flags)
-    4. COMMIT or ROLLBACK as a unit
-
-    IMPLEMENTATION:
-
-    1. Create transaction helper module (vibey/roadmap/database/transactions.py):
-       ```python
-       @contextmanager
-       def atomic_mutation(conn):
-           """Context manager for atomic activity_log + entity writes."""
-           cursor = conn.cursor()
-           try:
-               cursor.execute("BEGIN TRANSACTION")
-               yield cursor
-               conn.commit()
-           except Exception:
-               conn.rollback()
-               raise
-       ```
-
-    2. Create mutation functions that use atomic_mutation:
-       - complete_task(conn, task_id, actor) -> logs event + updates task
-       - start_task(conn, task_id, actor) -> logs event + updates task
-       - create_task(conn, task_data, actor) -> logs event + inserts task
-       - update_task_status(conn, task_id, new_status, actor) -> logs + updates
-       - Similar functions for sprints and tracks
-
-    3. Update activity_log schema to capture before/after state:
-       ```sql
-       ALTER TABLE activity_log ADD COLUMN old_state TEXT;  -- JSON snapshot
-       ALTER TABLE activity_log ADD COLUMN new_state TEXT;  -- JSON snapshot
-       ```
-
-    4. Refactor CLI commands to use new mutation functions:
-       - vibey roadmap update-task -> calls update_task_status()
-       - vibey roadmap add-task -> calls create_task()
-       - All commands use atomic_mutation context
-
-    5. Remove redundant activity_log triggers (optional):
-       - trg_activity_task_status -> now handled by mutation function
-       - trg_activity_sprint_status -> now handled by mutation function
-       - trg_activity_track_status -> now handled by mutation function
-       - Keep entity creation triggers OR move to mutation functions
-
-    6. Add validation tests:
-       - Test: failed entity update rolls back activity_log entry
-       - Test: failed activity_log insert rolls back entity update
-       - Test: concurrent mutations maintain consistency
-       - Test: before/after snapshots accurately capture state
-
-    ARCHITECTURE DIAGRAM:
-    ```
-    ┌─────────────────────────────────────────────────────────────┐
-    │                    CLI Command                               │
-    │                        │                                     │
-    │                        ▼                                     │
-    │              ┌─────────────────┐                            │
-    │              │ Mutation Layer  │                            │
-    │              │ (transactions.py)│                            │
-    │              └────────┬────────┘                            │
-    │                       │                                      │
-    │         BEGIN TRANSACTION                                    │
-    │                       │                                      │
-    │    ┌──────────────────┼──────────────────┐                  │
-    │    ▼                  ▼                  ▼                   │
-    │ ┌────────┐     ┌────────────┐     ┌──────────┐             │
-    │ │activity│     │  entity    │     │ triggers │             │
-    │ │  _log  │     │  tables    │     │(cascades)│             │
-    │ └────────┘     └────────────┘     └──────────┘             │
-    │                       │                                      │
-    │         COMMIT (or ROLLBACK on any failure)                 │
-    └─────────────────────────────────────────────────────────────┘
-    ```
-
-    SUCCESS CRITERIA:
-    - All entity mutations go through atomic_mutation context
-    - activity_log and entity tables always consistent (no drift)
-    - Failed operations leave no partial state
-    - Before/after snapshots enable state reconstruction
-    - Existing trigger-based cascades still work within transaction
+  description: null
   status: completed
   blocked: false
   created: '2025-11-28T16:00:00+00:00'
-  started: '2025-11-28T16:45:00+00:00'
-  completed: '2025-11-28T17:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-28T16:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-4-task-003
+  dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/roadmap/database/transactions.py with atomic_mutation context manager
-  - Mutation functions for task, sprint, track status changes
-  - Extended activity_log schema with old_state/new_state columns
-  - Refactored CLI commands using mutation layer
-  - Unit tests verifying atomic rollback behavior
-  - Integration tests verifying no drift under failure conditions
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-28T16:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      This task implements the "hybrid architecture" discussed in design review.
-
-      KEY INSIGHT: SQLite fully supports multi-statement transactions with ACID
-      guarantees. By wrapping activity_log + entity writes in a single transaction,
-      we get the audit trail benefits of event sourcing without the complexity of
-      making activity_log the sole entry point.
-
-      TRADE-OFF DECISION:
-      - Rejected: Pure event sourcing (activity_log as single entry point)
-        - Pros: Complete audit by design, time-travel
-        - Cons: Query performance, trigger complexity, SQLite limitations
-      - Accepted: Hybrid transactional writes
-        - Pros: Fast queries, simple triggers, guaranteed consistency
-        - Cons: Must discipline all writes through mutation layer
-
-      The hybrid approach preserves the current architecture while eliminating
-      the drift risk between audit trail and entity state.

@@ -1,32 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-2
   id: replit-port-2-task-007
-  name: Write adapter documentation
+  sprint_id: replit-port-2
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write adapter documentation
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 6
-  assigned_agent: docs-writer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Write comprehensive documentation for ReplitAdapter.\n\nDOCUMENTATION\
-    \ SECTIONS:\n1. Architecture Overview\n   - Component diagram\n   - Data flow\n\
-    \   - Integration points\n   - Extension architecture\n\n2. API Reference\n  \
-    \ - ReplitAdapter class\n   - ReplitContextGenerator class\n   - Public methods\n\
-    \   - Configuration options\n\n3. Usage Guide\n   - Deployment steps\n   - Configuration\
-    \ guide\n   - Extension setup\n   - Troubleshooting\n\n4. Developer Guide\n  \
-    \ - Extending the adapter\n   - Adding new features\n   - Testing approach\n \
-    \  - Contributing guidelines\n\n5. Examples\n   - Basic deployment\n   - Custom\
-    \ configuration\n   - Extension customization\n   - Advanced scenarios\n\nDELIVERABLES:\n\
-    - REPLIT_ADAPTER.md documentation\n- API reference\n- Usage examples\n- Architecture\
-    \ diagrams\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

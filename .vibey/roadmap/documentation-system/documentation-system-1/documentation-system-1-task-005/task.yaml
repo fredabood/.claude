@@ -5,85 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update roadmap state management scripts
-  description: 'Update all Python scripts to use new hierarchical structure instead
-
-    of flat directory layout.
-
-
-    Implementation:
-
-    - Update framework/roadmap/state_manager.py
-
-    - Update framework/scripts/roadmap.py
-
-    - Change paths from .vibey/tracks/ to .vibey/roadmap/[track-id]/
-
-    - Change paths from .vibey/sprints/ to .vibey/roadmap/[track-id]/[sprint-id]/
-
-    - Change paths from .vibey/tasks/ to .vibey/roadmap/[track-id]/[sprint-id]/[task-id]/
-
-    - Use path helper functions consistently
-
-    - Update all YAML loading/saving
-
-
-    Acceptance Criteria:
-
-    - All scripts use new hierarchical paths
-
-    - Backward compatibility maintained temporarily
-
-    - Path helper functions used consistently
-
-    - YAML loading/saving works correctly
-
-    - No broken references
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-09T15:59:00+00:00'
-  started: '2025-11-27T11:04:09.418549+00:00'
-  completed: '2025-11-27T11:04:09.418549+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-09T15:59:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 4000
-  actual_tokens: 12000
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: documentation-system-1-task-001
-    target_status: completed
-    reason: Required prerequisite
-  - type: task
-    target_id: documentation-system-1-task-002
-    target_status: completed
-    reason: Required prerequisite
-  - type: task
-    target_id: documentation-system-1-task-003
-    target_status: completed
-    reason: Required prerequisite
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Updated FileSystemManager to use hierarchical paths
-  - Migrated all roadmap scripts to new structure
-  - ID-to-slug resolution with caching
-  - Backward compatibility for legacy IDs
-  commits:
-  - hash: 1c506e7ce6ad21c44c0cdb6e4e69d61afbae8e36
-    date: '2025-11-09T16:45:00+00:00'
-    message: 'feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)'
-  - hash: a051d841dada164172d013c4ae4b007ad1c1aa27
-    date: '2025-11-09T17:27:53+00:00'
-    message: 'feat: Complete Task 005 - Update roadmap state management scripts for
-      hierarchical structure'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-09T21:29:34.189460+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

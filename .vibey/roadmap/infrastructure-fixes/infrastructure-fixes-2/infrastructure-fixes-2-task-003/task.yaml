@@ -5,75 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add automatic roadmap progress tracking
-  description: 'Implement automatic roadmap progress tracking that updates when tasks
-    complete.
-
-
-    Original work (Task 006 in Sprint 1) was completed in slash commands but deleted
-
-    during architecture transition. This task re-implements the functionality in the
-
-    new CLI architecture.
-
-
-    Implementation:
-
-    - Add progress tracking to vibey roadmap complete command
-
-    - Update task status in task.yaml files when marked complete
-
-    - Update sprint progress in sprint.yaml files
-
-    - Calculate completion percentages automatically
-
-    - Update track progress in track.yaml
-
-    - Add hooks for automatic updates
-
-    - Ensure thread-safety for concurrent updates
-
-
-    Acceptance Criteria:
-
-    - `vibey roadmap complete <task-id>` updates all progress metrics
-
-    - Sprint and track percentages calculated correctly
-
-    - YAML files remain valid after updates
-
-    - Tests pass for progress calculation
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-15T19:00:00+00:00'
-  started: '2025-11-27T11:04:09.288813+00:00'
-  completed: '2025-11-27T11:04:09.288813+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-15T19:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: integration
-  estimated_tokens: 12000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-2-task-002
-    target_status: completed
-    reason: Should have plan and deploy integration working first
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Automatic progress tracking in roadmap operations
-  - Progress calculation utilities
-  - Integration tests for progress updates
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-15T19:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    replaces_deleted_work: infrastructure-fixes-1-task-006
-    notes: Re-implements Task 006 work that was deleted on Nov 12, 2025

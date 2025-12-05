@@ -5,41 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Write unit tests for generators
-  description: Create comprehensive unit tests for CodyContextGenerator and CodySettingsGenerator
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.614030+00:00'
-  completed: '2025-11-27T11:04:09.614030+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: testing
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: cody-port-1-task-002
-    target_status: completed
-    reason: Tests require CodyContextGenerator
-    optional: false
-  - type: task
-    target_id: cody-port-1-task-003
-    target_status: completed
-    reason: Tests require CodySettingsGenerator
-    optional: false
+  dependencies: []
   blocks: []
-  blocked_by:
-  - cody-port-1-task-002
-  - cody-port-1-task-003
-  deliverables:
-  - tests/adapters/test_cody_context_generator.py
-  - tests/adapters/test_cody_settings_generator.py
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Validate zero-drift generation from frontmatter

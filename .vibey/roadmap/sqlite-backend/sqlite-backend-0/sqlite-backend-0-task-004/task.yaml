@@ -5,46 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Design triggers for automatic updates
-  description: 'Design SQLite triggers for automatic state management:
-
-    - Auto-update sprint status when all tasks complete
-
-    - Auto-update track status when all sprints complete
-
-    - Dependency validation on task status change
-
-    - Blocker enforcement (prevent completing blocked tasks)
-
-    - Timestamp auto-updates on modification
-
-    - Audit logging trigger for change tracking
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T10:00:00+00:00'
-  started: '2025-11-26T10:00:00+00:00'
-  completed: '2025-11-26T12:00:00+00:00'
-  assigned_agent: architecture-agent
+  started: null
+  completed: '2025-11-26T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: design
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-0-task-002
-  blocks:
-  - sqlite-backend-0-task-005
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Trigger definitions (SQL)
-  - Trigger behavior documentation
-  - Edge case analysis
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

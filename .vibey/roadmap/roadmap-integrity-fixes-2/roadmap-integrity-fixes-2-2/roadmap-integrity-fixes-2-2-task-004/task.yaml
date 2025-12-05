@@ -1,46 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-2-task-004
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-2
-  name: Extract git-integration-3 tasks to task.yaml files
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extract git-integration-3 tasks to task.yaml files
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 0.5
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: 'Extract 9 embedded tasks from git-integration-3/sprint.yaml to individual
-    task.yaml files.
-
-
-    SOURCE: .vibey/roadmap/git-integration/git-integration-3/sprint.yaml
-
-    TASKS TO EXTRACT: 9 (advanced integration tasks)
-
-
-    NOTE: This sprint is IN PROGRESS
-
-    - Tasks 001-003: completed
-
-    - Tasks 004-009: not_started
-
-
-    Preserve accurate status for each task.
-
-    '
-  acceptance_criteria:
-  - 9 task directories created
-  - 9 task.yaml files with correct content
-  - Tasks 001-003 show status: completed
-  - Tasks 004-009 show status: not_started
-  - sprint.yaml updated with tasks:[]
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - roadmap-integrity-fixes-2-2-task-006
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

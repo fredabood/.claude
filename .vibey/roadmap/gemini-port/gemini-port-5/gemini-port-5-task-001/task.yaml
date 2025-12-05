@@ -1,19 +1,32 @@
 task:
   id: gemini-port-5-task-001
-  name: AI Studio Integration Guide
   sprint_id: gemini-port-5
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: AI Studio Integration Guide
+  description: null
   status: not_started
-  blocked: true
-  priority: high
-  complexity: medium
+  blocked: false
   created: '2025-11-23T05:11:27.060620+00:00'
   started: null
   completed: null
-  description: Document prompt testing workflow, create example prompts, debugging
-    best practices
-  assigned_agent: documentation-engineer
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

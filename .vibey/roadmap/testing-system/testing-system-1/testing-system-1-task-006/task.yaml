@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create web-app mock repository fixture
-  description: 'Create web-app mock repository fixture
-
-
-    Migrated from tasks_summary field during Phase 1B task migration.'
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T03:00:00+00:00'
-  started: '2025-11-27T11:04:09.379847+00:00'
-  completed: '2025-11-27T11:04:09.379847+00:00'
+  started: null
+  completed: '2025-11-10T03:00:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 20000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -27,17 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - tests/fixtures/mock-repos/ - Mock repository fixtures
-  - 3 repository templates (web-app, API, ML)
-  commits:
-  - hash: 836166f7c6f61907477826a65927a4a4b4200dd3
-    date: '2025-11-09T22:24:34-05:00'
-    message: 'feat: Complete testing framework core components (Sprint 1 - Tasks 6-8)'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-13T21:29:59.701312+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    migration_note: Migrated from tasks_summary field by task_migration_script.py
-      on 2025-11-13
-  size_category: M

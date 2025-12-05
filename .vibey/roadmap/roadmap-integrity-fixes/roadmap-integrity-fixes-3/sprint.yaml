@@ -4,51 +4,87 @@ sprint:
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
+  blocked: true
+  blocked_reason: null
   created: '2025-11-12T19:30:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-21T01:36:50.676727+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-12T19:30:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 7
+    development_tasks_completed: 7
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: roadmap-integrity-fixes-3-task-001
+    title: Fix documentation-system track status
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-002
+    title: Fix claude-port track status
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-003
+    title: Fix missing-agents track status
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-004
+    title: Fix roadmap-system track status
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-005
+    title: Reset standards-system phantom progress
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-006
+    title: Reset testing-system phantom progress
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-3-task-007
+    title: Recalculate all roadmap progress
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: roadmap-integrity-fixes-2
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-12T21:30:00+00:00'
-  - blocker_id: roadmap-integrity-fixes-0-task-003
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-12T21:30:00+00:00'
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - documentation-system status corrected (completed → in_progress)
-  - claude-port status corrected (completed → not_started)
-  - missing-agents status corrected (completed → not_started)
-  - roadmap-system status corrected (completed → not_started)
-  - standards-system phantom progress reset (81 tasks → 0)
-  - testing-system phantom progress reset (30 tasks → 0)
-  - All progress recalculated via vibey roadmap recalculate-all
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-12T19:30:00+00:00'
-    estimated_duration: 2 days
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 15000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

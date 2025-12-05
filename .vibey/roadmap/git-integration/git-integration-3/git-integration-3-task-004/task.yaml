@@ -5,51 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement blocker enforcement in git workflow
-  description: 'Enforce roadmap blockers in git operations:
-
-
-    ENFORCEMENT SCENARIOS:
-
-    - PR references blocked task → warn/block merge
-
-    - Commit claims to complete blocked task → reject
-
-    - Branch created for blocked sprint → warn
-
-
-    IMPLEMENTATION:
-
-    - Check blocker status in pre-commit hook
-
-    - Check blocker status in PR merge check
-
-    - vibey git blocker-status command
-
-
-    ENFORCEMENT MODES:
-
-    - Advisory: Show blocker warnings
-
-    - Blocking: Prevent operations on blocked items
-
-    - Audit: Log attempts, don''t block
-
-
-    BLOCKER VISUALIZATION:
-
-    - Show blockers in PR description
-
-    - Annotate blocked commits
-
-    - Dashboard of blocked work
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.390384+00:00'
-  completed: '2025-11-27T11:04:09.390384+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -65,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T04:59:22.093865+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,47 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate with pre-commit hook
-  description: "Update vibey/operations/git/hooks/pre_commit.py for SQLite integration:\n\
-    \nPre-commit flow (when database mode active):\n1. Check if database exists and\
-    \ is valid\n2. Check database_state.is_dirty\n3. If dirty:\n   a. Run pre-dump\
-    \ safety check (detect manual YAML edits)\n   b. If manual edits detected:\n \
-    \     - Log conflict to sync_conflicts table\n      - Block commit with message\
-    \ explaining conflict\n      - Suggest resolution: rebuild --force or dump --force\n\
-    \   c. If no conflicts: run dump\n   d. Stage generated YAML files (git add .vibey/roadmap/)\n\
-    4. Continue with existing YAML validation\n\nNew validation rule (yaml_db_sync):\n\
-    - Compare YAML file checksums with yaml_checksums table\n- Block if YAML modified\
-    \ manually when DB is source of truth\n- Enforcement mode: blocking (default),\
-    \ advisory, audit\n\nUpdate hooks/installer.py:\n- Install SQLite-aware pre-commit\
-    \ hook\n- Keep backward compatibility (YAML-only mode still works)\n\nError messages\
-    \ should be clear:\n- \"Database has uncommitted changes - running dump...\"\n\
-    - \"YAML files modified manually - sync conflict detected\"\n- \"Suggestion: vibey\
-    \ roadmap db rebuild --force\"\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T18:00:00+00:00'
-  completed: '2025-11-26T22:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-3-task-001
-  blocks:
-  - sqlite-backend-3-task-005
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Updated pre_commit.py with SQLite support
-  - yaml_db_sync validation rule
-  - Conflict detection and resolution guidance
-  - Updated hook installer
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

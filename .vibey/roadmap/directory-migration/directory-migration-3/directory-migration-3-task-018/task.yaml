@@ -5,16 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create migration rollback tool
-  description: Rollback mechanism (already in Sprint 2)
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.579797+00:00'
-  completed: '2025-11-27T11:04:09.579797+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: 'Sprint 3: Platform Adapter Implementation'
-  estimated_tokens: 5000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -24,13 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Track completion marker
-  commits:
-  - hash: 884b2efa68d4159d330c12f6715f5f8761ee09f3
-    date: '2025-11-10T23:43:45-05:00'
-    message: 'feat: Complete directory-migration track - All 3 sprints, 45 tasks'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-10T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

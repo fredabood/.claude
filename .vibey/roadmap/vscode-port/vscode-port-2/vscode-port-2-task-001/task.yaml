@@ -1,54 +1,38 @@
 task:
   id: vscode-port-2-task-001
-  name: Integration tests with VS Code
   sprint_id: vscode-port-2
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Integration tests with VS Code
+  description: null
   status: not_started
-  blocked: false
-  priority: high
+  blocked: true
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 8 hours
-  actual_duration: null
-  description: 'Write integration tests for VS Code adapter deployment.
-
-
-    Test coverage:
-
-    - End-to-end deployment (vibey deploy --platform vscode)
-
-    - .vscode/mcp.json generation and validation
-
-    - VSCODE.md generation and validation
-
-    - MCP server connectivity
-
-    - Tool discovery and invocation
-
-
-    Files to create:
-
-    - tests/integration/test_vscode_deployment.py
-
-    - tests/integration/test_vscode_mcp_integration.py
-
-    '
-  acceptance_criteria:
-  - 90%+ integration test coverage
-  - Tests run in CI/CD
-  - All MCP tools accessible
-  - Clear test reports
-  - Automated setup/teardown
-  assigned_agents:
-  - test-engineer
-  depends_on:
-  - vscode-port-1-task-004
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    effort_estimate: 8 hours
-    complexity: high
-    notes: Critical for quality gate validation
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Unit tests
-  description: 'Test adapter deployment logic, validate config generation, verify
-    slash command syntax
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-23T04:54:00.178302+00:00'
-  started: '2025-11-27T11:04:09.556584+00:00'
-  completed: '2025-11-27T11:04:09.556584+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-23T04:54:00.178302+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 5000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -30,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T04:54:00.178302+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

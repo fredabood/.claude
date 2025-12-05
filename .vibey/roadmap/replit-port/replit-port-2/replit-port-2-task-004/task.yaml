@@ -1,33 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-2
   id: replit-port-2-task-004
-  name: Implement validate_deployment method
+  sprint_id: replit-port-2
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement validate_deployment method
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement validate_deployment method to verify successful deployment\n\
-    in Replit environment.\n\nVALIDATION CHECKS:\n1. File Structure\n   - All required\
-    \ files present\n   - Correct directory structure\n   - Proper permissions\n\n\
-    2. Configuration\n   - .replit TOML valid\n   - replit.nix valid\n   - Environment\
-    \ variables set\n\n3. MCP Server\n   - Server starts successfully\n   - All tools\
-    \ registered\n   - Tools accessible\n\n4. Extension\n   - Extension installed\n\
-    \   - Extension loads correctly\n   - MCP connectivity works\n\n5. Context Files\n\
-    \   - REPLIT.md generated\n   - Frontmatter parsed correctly\n   - Agent instructions\
-    \ valid\n\nVALIDATION LEVELS:\n- Critical: Must pass for deployment\n- Warning:\
-    \ Should pass but non-blocking\n- Info: Informational only\n\nDELIVERABLES:\n\
-    - validate_deployment() method\n- Validation report format\n- Fix suggestions\n\
-    - Validation tests\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

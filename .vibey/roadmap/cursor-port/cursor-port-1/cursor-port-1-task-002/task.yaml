@@ -1,39 +1,32 @@
 task:
   id: cursor-port-1-task-002
-  name: Implement CursorContextGenerator
   sprint_id: cursor-port-1
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CursorContextGenerator
+  description: null
   status: completed
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.316455+00:00'
-  completed: '2025-11-27T11:04:09.316455+00:00'
-  estimated_duration: 8 hours
-  description: 'Implement CursorContextGenerator for CURSOR.md generation.
-
-
-    Responsibilities:
-
-    - Extract frontmatter from agents/*.md and workflows/*.md
-
-    - Generate CURSOR.md with agent/workflow documentation
-
-    - Include MCP tool reference
-
-    - Support zero-drift validation (checksums)
-
-
-    File: vibey/adapters/cursor/context_generator.py
-
-    '
-  deliverables:
-  - vibey/adapters/cursor/context_generator.py
-  - Generated CURSOR.md template
-  assigned_agents:
-  - web-developer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: critical
-    complexity: medium
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

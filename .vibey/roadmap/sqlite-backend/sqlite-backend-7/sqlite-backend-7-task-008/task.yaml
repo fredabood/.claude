@@ -5,99 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Comprehensive Test Suite for Artifact System
-  description: "Create comprehensive test coverage for all artifact system components.\n\
-    \nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 13\n\nTEST MODULES:\n\n\
-    1. tests/roadmap/models/ticket/test_artifact_enums.py\n   - Test all enum values\
-    \ exist\n   - Test ArtifactType properties (is_documentation_type, etc.)\n   -\
-    \ Test enum serialization/deserialization\n\n2. tests/roadmap/models/ticket/test_artifact.py\n\
-    \   - Test Artifact creation with all fields\n   - Test content_hash computation\n\
-    \   - Test verify_exists() with real files\n   - Test staleness detection\n  \
-    \ - Test mark_updated() updates hash\n   - Test is_orphan computed correctly\n\
-    \   - Test JSON/YAML serialization round-trip\n\n3. tests/roadmap/models/ticket/test_artifact_provenance.py\n\
-    \   - Test factory methods for each provenance type\n   - Test validation (type-specific\
-    \ fields match type)\n   - Test serialization\n\n4. tests/roadmap/models/ticket/test_artifact_target.py\n\
-    \   - Test is_satisfied() for each verification mode\n   - Test refresh() updates\
-    \ cached state\n   - Test is_automatic returns True\n   - Test serialization with\
-    \ CriterionTargetType.ARTIFACT\n\n5. tests/roadmap/database/test_artifacts_schema.py\n\
-    \   - Test table creation\n   - Test all indexes exist\n   - Test all views return\
-    \ expected results\n   - Test foreign key constraint\n   - Test JSON fields serialize/deserialize\
-    \ correctly\n\n6. tests/roadmap/operations/test_impact_analyzer.py\n   - Test\
-    \ analyze_file_changes finds correct artifacts\n   - Test documentation staleness\
-    \ cascade\n   - Test affected tickets identified\n   - Test mark_documentation_stale\
-    \ works\n   - Test ImpactReport generation\n\n7. tests/roadmap/models/ticket/test_artifact_integration.py\n\
-    \   - Test Ticket.artifact_criteria\n   - Test Ticket.complete() with stale documentation\n\
-    \   - Test HierarchicalTicket.all_referenced_artifacts aggregation\n   - Test\
-    \ HierarchicalTicket.stale_documentation_artifacts aggregation\n   - Test HierarchicalTicket.documentation_health\n\
-    \   - Test RoadmapTicket.all_project_documentation\n   - Test SprintTicket.sprint_context_artifacts\n\
-    \nINTEGRATION TESTS:\n\n8. tests/roadmap/integration/test_artifact_workflow.py\n\
-    \   - End-to-end: Create artifact, reference in criterion, complete ticket\n \
-    \  - End-to-end: Modify source, detect stale docs, block completion\n   - End-to-end:\
-    \ Update docs, clear stale flag, complete ticket\n\nTEST FIXTURES:\n\nCreate fixtures\
-    \ for:\n- Sample artifacts of each type\n- Sample provenance objects\n- Sample\
-    \ ArtifactTarget criteria\n- Sample file trees for existence testing\n- Sample\
-    \ ticket hierarchies with artifact criteria\n\nCOVERAGE REQUIREMENTS:\n- Minimum\
-    \ 90% line coverage for all artifact modules\n- All edge cases covered (empty\
-    \ lists, missing files, etc.)\n- Error paths tested\n\nFILE LOCATION:\ntests/roadmap/\
-    \ (various subdirectories as listed above)\n\nSUCCESS CRITERIA:\n- All test modules\
-    \ created\n- All tests pass\n- 90%+ code coverage on artifact modules\n- Integration\
-    \ tests verify end-to-end workflows\n- CI runs all tests successfully\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
-  started: '2025-12-04T22:45:00.051112+00:00'
-  completed: '2025-12-04T22:50:05.393708+00:00'
-  assigned_agent: qa-engineer
+  started: null
+  completed: '2025-11-30T18:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: testing
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-7-task-007
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012596+00:00'
-    estimated_resolution: null
-  depends_on:
-  - blocker_id: sqlite-backend-7-task-007
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:43:17.522855+00:00'
+  blocked_by: []
+  depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_enums.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_provenance.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_target.py
-  - type: code
-    paths:
-    - tests/roadmap/database/test_artifacts_schema.py
-  - type: code
-    paths:
-    - tests/roadmap/operations/test_impact_analyzer.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_integration.py
-  - type: code
-    paths:
-    - tests/roadmap/integration/test_artifact_workflow.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T22:50:05.081272+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

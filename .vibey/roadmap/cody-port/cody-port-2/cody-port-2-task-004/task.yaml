@@ -5,48 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Write Cody integration guide
-  description: Create comprehensive integration guide for using Vibey with Sourcegraph
-    Cody Enterprise
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: docs-writer
+  assigned_agent: null
   priority: high
-  phase_label: documentation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: sprint
-    target_id: cody-port-1
-    target_status: completed
-    reason: Document requires complete implementation
-    optional: false
-  - type: task
-    target_id: cody-port-2-task-001
-    target_status: completed
-    reason: Document enterprise features
-    optional: false
-  - type: task
-    target_id: cody-port-2-task-002
-    target_status: completed
-    reason: Document Prompt Library setup
-    optional: false
+  dependencies: []
   blocks: []
-  blocked_by:
-  - cody-port-2-task-001
-  - cody-port-2-task-002
-  deliverables:
-  - docs/guides/CODY_INTEGRATION.md
-  - Quick start examples
-  - Enterprise setup guide
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Include OpenCtx configuration and MCP setup

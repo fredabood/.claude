@@ -5,101 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement auto_progress() Method on HierarchicalTicket
-  description: "Implement the auto_progress() method that refreshes automatic criteria\n\
-    and progresses ticket status when all criteria for a transition are met.\n\nDESIGN\
-    \ REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 11.5\n\nAUTO_PROGRESS ALGORITHM:\n\
-    \ndef auto_progress(self, context: RefreshContext) -> List[str]:\n    \"\"\"\n\
-    \    Refresh automatic criteria and progress status if possible.\n    Returns\
-    \ list of transitions made.\n    \"\"\"\n    transitions = []\n\n    # Step 1:\
-    \ Refresh all automatic criteria\n    for criterion in self.criteria:\n      \
-    \  if criterion.target.is_automatic:\n            criterion.target.refresh(context)\n\
-    \n    # Step 2: Check each possible transition in order\n    status_order = [\n\
-    \        TicketStatus.IN_PROGRESS,\n        TicketStatus.COMPLETION_GATE_CHECK,\n\
-    \        TicketStatus.COMPLETED,\n        TicketStatus.PRODUCTION_GATE_CHECK,\n\
-    \        TicketStatus.PRODUCTION_READY,\n    ]\n\n    for target_status in status_order:\n\
-    \        if self.status.precedes(target_status):\n            can, reasons = self.can_transition_to(target_status)\n\
-    \            if can:\n                old_status = self.status\n             \
-    \   self._transition_to(target_status)\n                transitions.append(f\"\
-    {self.id}: {old_status} → {target_status}\")\n\n                # Log the auto-progression\n\
-    \                context.activity_log.append(ActivityLogEntry(\n             \
-    \       timestamp=datetime.now(timezone.utc),\n                    type=ActivityType.AUTO_PROGRESSION,\n\
-    \                    description=f\"Auto-progressed from {old_status} to {target_status}\"\
-    ,\n                    entity_type=self.ticket_type,\n                    entity_id=self.id,\n\
-    \                    field=\"status\",\n                    old_value=old_status.value,\n\
-    \                    new_value=target_status.value\n                ))\n\n   \
-    \ return transitions\n\nHELPER METHOD:\n\ndef _transition_to(self, status: TicketStatus)\
-    \ -> None:\n    \"\"\"Internal method to update status and timestamps.\"\"\"\n\
-    \    self.status = status\n    self.updated_at = datetime.now(timezone.utc)\n\n\
-    \    if status == TicketStatus.IN_PROGRESS:\n        self.started_at = datetime.now(timezone.utc)\n\
-    \    elif status == TicketStatus.COMPLETED:\n        self.completed_at = datetime.now(timezone.utc)\n\
-    \    # ... other status-specific timestamp updates\n\nSTATUS ORDERING:\n\nAdd\
-    \ to TicketStatus enum:\n    def precedes(self, other: \"TicketStatus\") -> bool:\n\
-    \        \"\"\"Check if this status comes before other in progression.\"\"\"\n\
-    \        order = [NOT_STARTED, IN_PROGRESS, PAUSED, COMPLETION_GATE_CHECK,\n \
-    \                COMPLETED, PRODUCTION_GATE_CHECK, PRODUCTION_READY, DEPLOYED]\n\
-    \        try:\n            return order.index(self) < order.index(other)\n   \
-    \     except ValueError:\n            return False  # Terminal states don't precede\
-    \ anything\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/hierarchical.py (add\
-    \ auto_progress)\n- vibey/roadmap/models/ticket/enums.py (add precedes() method)\n\
-    - tests/roadmap/models/ticket/test_hierarchical.py (test auto_progress)\n\nSUCCESS\
-    \ CRITERIA:\n- auto_progress() refreshes all automatic criteria\n- Status progression\
-    \ follows correct order\n- Each transition is logged to activity_log\n- Non-automatic\
-    \ criteria (ManualTarget) are skipped during refresh\n- Terminal states (WONT_DO,\
-    \ SUPERSEDED) stop progression\n- Full test coverage including edge cases\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-30T10:00:00+00:00'
-  started: '2025-12-04T21:48:22.289567+00:00'
-  completed: '2025-12-04T21:53:49.411485+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T10:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: gap-remediation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495613+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-6-task-012
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495613+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-012
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/hierarchical.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/enums.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_hierarchical.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T21:53:45.901309+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

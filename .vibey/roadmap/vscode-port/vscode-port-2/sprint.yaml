@@ -2,59 +2,68 @@ sprint:
   id: vscode-port-2
   name: Testing & Documentation
   track_id: vscode-port
+  roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1 week
-  description: 'Integration testing with VS Code Agent Mode.
-
-    E2E tests with Copilot and native chat.
-
-    Complete integration documentation.
-
-    '
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  quality_gates:
-  - name: Integration Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: All VS Code integration paths covered by tests
-    score: null
-  - name: Agent Mode Compatibility
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: VS Code Agent Mode can invoke all Vibey tools
-    score: null
-  - name: Documentation Quality
-    threshold: 90
-    blocking: false
-    status: not_run
-    description: Integration guide complete and user-tested
-    score: null
-  deliverables:
-  - Integration test suite
-  - E2E test suite with VS Code Agent Mode
-  - VS Code integration guide (docs/guides/VSCODE_INTEGRATION.md)
-  - Quality gate validation reports
-  assigned_agents:
-  - test-engineer
-  - docs-writer
+  tasks:
+  - id: vscode-port-2-task-001
+    title: Integration tests with VS Code
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-port-2-task-002
+    title: E2E tests with Agent Mode
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-port-2-task-003
+    title: Write VS Code integration guide
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-port-2-task-004
+    title: Quality gate validation
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 2 focuses on testing and documentation to ensure VS Code integration
-      is production-ready.
-
-      Validates zero-drift architecture and full MCP tool parity.
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

@@ -5,49 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate roadmap initialization into CLI deployment
-  description: 'Restore the deployment → roadmap init integration in the new CLI architecture.
-
-
-    Original work (Task 004 in Sprint 1) was completed in slash commands but deleted
-
-    during architecture transition. This task re-implements the functionality in the
-
-    new vibey CLI.
-
-
-    Implementation:
-
-    - Update vibey/cli/commands.py deploy command
-
-    - Add roadmap init call after deployment completes
-
-    - Add error handling if roadmap init fails
-
-    - Validate .vibey/roadmap.yaml created correctly
-
-    - Add success messages
-
-    - Test on new project deployment
-
-
-    Acceptance Criteria:
-
-    - `vibey deploy` automatically initializes roadmap
-
-    - Error handling works correctly
-
-    - Tests pass for deployment flow
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-15T19:00:00+00:00'
-  started: '2025-11-22T19:45:57.207153+00:00'
-  completed: '2025-11-22T19:45:57.207153+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-15T19:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: integration
-  estimated_tokens: 8000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -57,13 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - Updated vibey/cli/commands.py with roadmap init integration
-  - Integration tests
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-15T19:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    replaces_deleted_work: infrastructure-fixes-1-task-004
-    notes: Re-implements Task 004 work that was deleted on Nov 12, 2025

@@ -5,40 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integration testing for all operations
-  description: "Comprehensive integration testing to verify all operations\nwork correctly\
-    \ with new unified ticket models.\n\nTEST SCENARIOS:\n\n1. TASK LIFECYCLE:\n \
-    \  - Create task with TaskTicket\n   - Start task (status transition)\n   - Add\
-    \ commits to task\n   - Complete task\n   - Verify commits appear in sprint.commits\
-    \ (aggregation)\n\n2. SPRINT LIFECYCLE:\n   - Create sprint with SprintTicket\n\
-    \   - Add tasks to sprint\n   - Complete all development tasks\n   - Pass completion\
-    \ gates\n   - Complete sprint\n   - Verify progress computed correctly\n\n3. TRACK\
-    \ LIFECYCLE:\n   - Create track with TrackTicket\n   - Add sprints to track\n\
-    \   - Complete sprints\n   - Verify track.commits includes all sprint commits\n\
-    \   - Verify track.progress computed from sprints\n\n4. STANDARDS INHERITANCE:\n\
-    \   - Define standard on roadmap\n   - Verify track.standards includes roadmap\
-    \ standard\n   - Verify sprint.standards includes track + roadmap\n   - Verify\
-    \ task.standards includes full chain\n   - Override standard at track level\n\
-    \   - Verify override takes precedence\n\n5. QUALITY GATES CASCADE:\n   - Define\
-    \ quality gate on track\n   - Verify gate applies to sprints\n   - Verify blocking\
-    \ gate prevents sprint completion\n\n6. HIERARCHY NAVIGATION:\n   - Create full\
-    \ hierarchy (roadmap → track → sprint → task)\n   - Navigate up: task.get_sprint().get_track().get_roadmap()\n\
-    \   - Navigate down: roadmap.get_tracks()[0].get_sprints()\n   - Verify hierarchy\
-    \ attributes correct at each level\n\n7. AGGREGATION CORRECTNESS:\n   - Add commit\
-    \ to task\n   - Verify sprint.commits_aggregated includes it\n   - Verify track.commits_aggregated\
-    \ includes it\n   - Verify roadmap.commits_aggregated includes it\n\n8. DEPENDENCY\
-    \ HANDLING:\n   - Create task with depends_on\n   - Verify is_blocked computed\
-    \ correctly\n   - Complete dependency\n   - Verify task unblocked\n\n9. ERROR\
-    \ CASES:\n   - Invalid status transition\n   - Missing required fields\n   - Invalid\
-    \ hierarchy (task without sprint)\n   - Circular dependency detection\n\n10. PERFORMANCE:\n\
-    \    - Load large roadmap (100+ tasks)\n    - Measure aggregation time\n    -\
-    \ Measure hierarchy traversal time\n    - Compare with baseline\n\nTEST DATA:\n\
-    \nUse real sqlite-backend track as test fixture:\n- 10+ sprints\n- 67+ tasks\n\
-    - Mix of completed/in-progress/not-started\n- Standards defined at multiple levels\n\
-    \nIMPLEMENTATION:\n\n1. Create integration test framework\n2. Create test fixtures\
-    \ from real data\n3. Implement test for each scenario\n4. Add performance benchmarks\n\
-    5. Generate coverage report\n\nSUCCESS CRITERIA:\n- All integration tests pass\n\
-    - 90%+ code coverage for operations\n- Performance within 2x of baseline\n- No\
-    \ regressions from previous behavior\n"
+  description: null
   status: in_progress
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
@@ -46,60 +13,20 @@ task:
   completed: null
   assigned_agent: test-engineer
   priority: high
-  phase_label: testing
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-9-task-006
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-9-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410465+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-9-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410466+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-9-task-003
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410466+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-9-task-004
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410467+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - tests/operations/roadmap/test_integration.py
-  - type: code
-    paths:
-    - Test fixtures from real data
-  - type: code
-    paths:
-    - Performance benchmark results
-  - type: code
-    paths:
-    - Coverage report
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

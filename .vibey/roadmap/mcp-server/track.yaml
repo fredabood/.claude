@@ -8,143 +8,52 @@ track:
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-09T00:00:00+00:00'
   completed: null
-  estimated_duration: 4 weeks
+  estimated_duration: null
   progress:
     sprints_total: 4
     sprints_completed: 0
     tasks_total: 31
     tasks_completed: 16
-    completion_percent: 51.6
+    completion_percent: 52.0
   sprints:
   - id: mcp-server-1
     name: MCP Server Foundation
     status: production_ready
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 8
-    started: '2025-11-10T12:00:00+00:00'
+    started: null
   - id: mcp-server-2
     name: Sprint & Query Tools
     status: production_ready
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 8
-    started: '2025-11-10T18:00:00+00:00'
+    started: null
   - id: mcp-server-3
     name: MCP Resources, Prompts & Handoff Discovery
     status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
+    estimated_duration: null
+    tasks_count: 0
     started: null
   - id: mcp-server-4
     name: MCP Setup Automation for Platform Deployments
     status: not_started
-    estimated_duration: 4 weeks
+    estimated_duration: null
     tasks_count: 15
     started: null
-  dependencies:
-  - type: track
-    target_id: documentation-system
-    target_status: completed
-    reason: Will be first track to use new hierarchical documentation structure
-    optional: false
-  - type: sprint
-    target_id: user-journey-audit-2
-    target_status: completed
-    reason: CLI Reference Guide informs MCP Resources/Prompts design for Sprint 3
-    optional: false
-  blocks:
-  - type: track
-    target_id: jetbrains-port
-    at_status: not_started
-    reason: JetBrains AI requires MCP server to be functional
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Multi-platform architecture benefits from MCP foundation
+  dependencies: []
+  blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: documentation-system
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-15T02:16:50.436741+00:00'
-  depended_on_by:
-  - jetbrains-port
-  - multi-platform
-  quality_gates:
-  - name: MCP Protocol Compliance
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Full compliance with MCP spec 2025-06-18
-    score: null
-  - name: Multi-Platform Testing
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: Works with Claude Code, JetBrains AI, VS Code, GitHub Copilot
-    score: null
-  - name: Performance
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Response time <500ms for all operations
-    score: null
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - MCP server with dynamic tool discovery (framework/mcp/server.py)
-  - Frontmatter parser for agents/workflows (framework/mcp/discovery/parser.py)
-  - Agent discovery module (framework/mcp/discovery/agents.py)
-  - Workflow discovery module (framework/mcp/discovery/workflows.py)
-  - Dynamic tool generator (framework/mcp/discovery/generator.py)
-  - 46 MCP tools (19 agents + 16 workflows + 11 roadmap)
-  - Caching system with file-change detection
-  - Claude Code integration via .mcp.json
-  - Goose integration via ~/.config/goose/config.yaml
-  - MCP server run script (scripts/run-mcp-server.py)
-  strategic_value:
-  - 'Platform Multiplier: 1 server → 4+ platforms supported'
-  - 'Time Savings: 8-10 weeks saved vs building individual adapters'
-  - 'Future-Proof: MCP is industry standard (Anthropic, OpenAI, Google)'
-  - 'Maintenance Efficiency: Update 1 server vs 4 adapters'
-  - 'Extensibility: New MCP platforms = free support'
-  - 'Standards Alignment: Protocol-based, not custom integrations'
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-09T00:00:00+00:00'
-    design_doc: docs/development/MCP_VS_ADAPTER_STRATEGY.md
+    created_by: unknown
+    last_updated: null
+    design_doc: null
     implementation_plan: null
-    notes: "MCP SERVER - COMPLETED IMPLEMENTATION (Nov 2025)\n\nACTUAL ARCHITECTURE\
-      \ (as built):\n\nframework/mcp/\n├── server.py              # FastMCP-based\
-      \ server (VibeyMCPServer)\n├── discovery/             # Dynamic tool discovery\n\
-      │   ├── parser.py          # YAML frontmatter extraction\n│   ├── agents.py\
-      \          # Agent discovery (19 agents)\n│   ├── workflows.py       # Workflow\
-      \ discovery (16 workflows)\n│   ├── generator.py       # Frontmatter → MCP tool\
-      \ schema\n│   └── discovery.py       # Main orchestrator with caching\n├── adapters/\n\
-      │   └── roadmap_adapter.py # Roadmap operations (11 tools)\n└── tools/\n   \
-      \ └── query_tools.py     # Query tool implementations\n\nframework/adapters/\
-      \        # Platform adapter architecture\n├── base.py               # BaseAdapter\
-      \ + CompositeAdapter\n├── registry.py           # AdapterRegistry\n├── mcp/adapter.py\
-      \        # MCPAdapter (BaseAdapter)\n└── goose/adapter.py      # GooseAdapter\
-      \ (CompositeAdapter)\n\nKEY DECISIONS:\n\n1. Dynamic Discovery (not manual mapping)\n\
-      \   - All agents/workflows have YAML frontmatter\n   - MCP server scans frontmatter\
-      \ and generates tools\n   - Zero drift: tools always match source definitions\n\
-      \n2. Tools Only (Resources/Prompts deferred)\n   - Implemented: 46 MCP tools\n\
-      \   - Deferred: Resources and Prompts (future enhancement)\n   - Rationale:\
-      \ Tools cover 95% of use cases\n\n3. Adapter Pattern\n   - BaseAdapter: Direct\
-      \ translation (MCP, Cursor, Aider)\n   - CompositeAdapter: Builds on others\
-      \ (Goose uses MCP)\n   - Prevents code duplication across platforms\n\n4. Caching\
-      \ with File-Change Detection\n   - MD5 hash of source file modification times\n\
-      \   - 60-second TTL\n   - Automatic invalidation on file changes\n\nTOOL BREAKDOWN:\n\
-      - 19 agent tools (vibey_web_developer, vibey_test_engineer, etc.)\n- 16 workflow\
-      \ tools (vibey_workflow_feature_development, etc.)\n- 11 roadmap tools (vibey_roadmap_status,\
-      \ vibey_roadmap_show, etc.)\n\nPLATFORM SUPPORT:\n✅ Claude Code (via .mcp.json)\n\
-      ✅ Goose (via ~/.config/goose/config.yaml)\n\U0001F52C JetBrains AI (untested\
-      \ but MCP-compatible)\n\U0001F52C VS Code (untested but MCP-compatible)\n\n\
-      FUTURE ENHANCEMENTS:\n- MCP Resources for workflow/handoff content\n- MCP Prompts\
-      \ for quality gates\n- Handoff discovery and tool generation\n"
+    notes: null

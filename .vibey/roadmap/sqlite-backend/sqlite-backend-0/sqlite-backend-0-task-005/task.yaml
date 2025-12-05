@@ -5,47 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Design YAML synchronization strategy
-  description: 'Design the bidirectional sync between SQLite and YAML:
-
-    - DB to YAML dump: Deterministic output (sorted keys, consistent formatting)
-
-    - YAML to DB rebuild: Parse all YAML files into DB
-
-    - Conflict detection: Identify YAML changes not in DB
-
-    - Merge strategy: How to handle external YAML edits
-
-    - Hook integration points: When to dump/rebuild
-
-    - Partial sync: Only sync changed entities
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T10:00:00+00:00'
-  started: '2025-11-26T10:00:00+00:00'
-  completed: '2025-11-26T12:00:00+00:00'
-  assigned_agent: architecture-agent
+  started: null
+  completed: '2025-11-26T10:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: design
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-0-task-003
-  - sqlite-backend-0-task-004
-  blocks:
-  - sqlite-backend-0-task-006
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Sync strategy document
-  - Hook integration design
-  - Conflict resolution policy
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

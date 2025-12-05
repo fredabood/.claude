@@ -5,46 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Performance benchmarking and validation
-  description: "Validate caching layer meets performance targets.\n\nBenchmark Suite:\n\
-    1. Small roadmap (Vibey: 53 tasks)\n   - roadmap status < 100ms\n   - roadmap\
-    \ list tasks < 100ms\n   - roadmap deps --all < 200ms\n   - roadmap context task-X\
-    \ < 300ms\n\n2. Medium roadmap (200 tasks)\n   - roadmap status < 150ms\n   -\
-    \ roadmap list tasks < 150ms\n   - roadmap deps --all < 300ms\n   - roadmap context\
-    \ task-X < 400ms\n\n3. Large roadmap (500 tasks)\n   - roadmap status < 200ms\n\
-    \   - roadmap list tasks < 200ms\n   - roadmap deps --all < 500ms\n   - roadmap\
-    \ context task-X < 600ms\n\nCreate:\n- scripts/benchmark-roadmap.py (test suite)\n\
-    - scripts/generate-test-roadmap.py (synthetic data)\n- docs/development/PERFORMANCE_BENCHMARKS.md\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486575+00:00'
-  started: '2025-11-27T11:04:09.425657+00:00'
-  completed: '2025-11-27T11:04:09.425657+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-08T10:10:00.486575+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: core-framework-3-task-002
-    target_status: completed
-    reason: Need cache integration in CLI
-  - type: task
-    target_id: core-framework-3-task-003
-    target_status: completed
-    reason: Need persistent cache for benchmarking
+  dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
-  commits:
-  - hash: ffbcba1b6bf80b5e70a4d3f1e3f8e2ecef95ac7e
-    date: '2025-11-07T21:12:50-05:00'
-    message: 'feat: add comprehensive performance benchmarking suite (Task 004)'
-    impact: Created benchmark suite validating cache performance targets
+  commits: []
   metadata:
-    last_updated: '2025-11-08T10:10:00.486573+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

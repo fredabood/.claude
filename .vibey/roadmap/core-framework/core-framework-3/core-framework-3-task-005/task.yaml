@@ -5,61 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Improve CLI output formatting and colors
-  description: 'Enhance CLI output with better formatting and colors.
-
-
-    Enhancements:
-
-    - Colored status indicators (✅ 🔵 ⚪ ❌)
-
-    - Progress bars for completion percentages
-
-    - Table formatting for list commands
-
-    - Tree view for dependency graphs
-
-    - Syntax highlighting for YAML output
-
-    - --plain flag for machine-readable output
-
-
-    Libraries:
-
-    - rich (terminal formatting)
-
-    - colorama (cross-platform colors)
-
-
-    Example:
-
-    Before: "status: completed"
-
-    After:  "✅ completed" (green)
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486579+00:00'
-  started: '2025-11-27T11:04:09.426021+00:00'
-  completed: '2025-11-27T11:04:09.426021+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-08T10:10:00.486579+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
-  commits:
-  - hash: 112fc1906f73c4f08f1ac1e75f7b34dd52a109fd
-    date: '2025-11-07T21:45:33-05:00'
-    message: 'feat: Add beautiful CLI formatting with ANSI colors and tables'
-    impact: Enhanced CLI with rich formatting, colors, progress bars, and tree views
+  commits: []
   metadata:
-    last_updated: '2025-11-08T10:10:00.486577+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

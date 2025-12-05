@@ -5,69 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement context directory management
-  description: 'Create CLI commands and helper functions for managing context
-
-    directories at track, sprint, and task levels.
-
-
-    Implementation:
-
-    - Add vibey roadmap add-context command
-
-    - Support --track, --sprint, --task flags
-
-    - Auto-create context directories if missing
-
-    - Copy/move files to appropriate context directory
-
-    - Update TOC to reference context files
-
-    - Validate context files exist
-
-
-    Acceptance Criteria:
-
-    - CLI command works for all three levels
-
-    - Context directories created automatically
-
-    - Files copied/moved correctly
-
-    - TOC updated to show context files
-
-    - Error handling for invalid paths
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-09T11:59:00+00:00'
-  started: '2025-11-27T11:04:09.418125+00:00'
-  completed: '2025-11-27T11:04:09.418125+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-09T11:59:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 3000
-  actual_tokens: 4500
+  estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: documentation-system-1-task-002
-    target_status: completed
-    reason: Required prerequisite
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - framework/roadmap/context_loader.py (context management system)
-  - Context directories created at all levels
-  commits:
-  - hash: 03028e814cfb4901b3fcb4edf3a70562cfb27a13
-    date: '2025-11-09T22:19:40+00:00'
-    message: 'feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-09T21:29:34.189458+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,26 +1,32 @@
 task:
   id: copilot-port-2-task-002
-  title: E2E tests with VS Code Copilot
   sprint_id: copilot-port-2
   track_id: copilot-port
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: E2E tests with VS Code Copilot
+  description: null
   status: not_started
   blocked: false
-  description: End-to-end test suite for critical user journeys in VS Code Copilot.
-    Test custom agent profiles, multi-step workflows, and real-world scenarios.
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: test-engineer
+  assigned_agent: null
   priority: high
-  complexity: high
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  dependencies:
-  - copilot-port-2-task-001
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - tests/e2e/test_copilot_workflows.py
-  - E2E test suite for critical user journeys
-  - Test documentation and reports
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

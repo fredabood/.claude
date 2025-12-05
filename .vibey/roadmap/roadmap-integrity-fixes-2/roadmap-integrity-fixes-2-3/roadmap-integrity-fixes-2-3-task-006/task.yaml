@@ -1,67 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-006
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-3
-  name: Commit python-package schema migration
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Commit python-package schema migration
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 0.2
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Validate and commit python-package schema migration.
-
-
-    VALIDATION:
-
-    - 24 task.yaml files exist
-
-    - sprint.yaml files have empty tasks array
-
-    - Quality gates documented
-
-
-    COMMIT:
-
-    ```bash
-
-    git add .vibey/roadmap/python-package/
-
-    git commit -m "refactor: Migrate python-package to hierarchical task schema
-
-
-    - Extract 24 embedded tasks to individual task.yaml files
-
-    - Sprint 1: 8 tasks (package structure)
-
-    - Sprint 2: 6 tasks (testing & distribution)
-
-    - Sprint 3: 10 tasks (content management)
-
-    - Run and document quality gate results
-
-    - Verify all deliverables exist
-
-
-    Part of roadmap-integrity-fixes-2 remediation.
-
-
-    Generated with Claude Code"
-
-    ```
-
-    '
-  acceptance_criteria:
-  - All changes committed
-  - Commit message documents migration
-  dependencies:
-  - roadmap-integrity-fixes-2-3-task-001
-  - roadmap-integrity-fixes-2-3-task-002
-  - roadmap-integrity-fixes-2-3-task-003
-  - roadmap-integrity-fixes-2-3-task-004
-  - roadmap-integrity-fixes-2-3-task-005
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

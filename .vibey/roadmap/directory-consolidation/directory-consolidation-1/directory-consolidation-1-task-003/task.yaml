@@ -1,31 +1,32 @@
 task:
   id: directory-consolidation-1-task-003
-  roadmap_id: vibey-framework-v2
-  track_id: directory-consolidation
-  name: Delete framework/roadmap/ (fully redundant)
   sprint_id: directory-consolidation-1
+  track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Delete framework/roadmap/ (fully redundant)
+  description: null
   status: completed
+  blocked: false
+  created: '2025-11-28T00:00:00+00:00'
+  started: null
+  completed: '2025-11-28T00:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: low
-  estimated_hours: 0.5
-  description: 'Delete entire framework/roadmap/ directory (20 files).
-
-    Every file has an exact duplicate in vibey/roadmap/.
-
-    '
-  directories_to_delete:
-  - framework/roadmap/models/
-  - framework/roadmap/serialization/
-  - framework/roadmap/validation/
-  - framework/roadmap/schema/
-  - framework/roadmap/examples/
-  - framework/roadmap/*.py (all files)
-  verification:
-  - Verify vibey/roadmap/ has all models
-  - Check no imports reference framework.roadmap
-  - Run tests to verify nothing breaks
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  created: '2025-11-28T00:00:00.000000+00:00'
-  started: '2025-11-28T00:10:21.406912+00:00'
-  completed: '2025-11-28T00:10:21.406912+00:00'
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

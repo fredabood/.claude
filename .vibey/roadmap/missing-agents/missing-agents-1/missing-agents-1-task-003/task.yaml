@@ -1,49 +1,32 @@
 task:
   id: missing-agents-1-task-003
-  title: Implement security-auditor agent (alias/rename)
   sprint_id: missing-agents-1
   track_id: missing-agents
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Implement security-auditor agent (alias/rename)
+  description: null
   status: completed
   blocked: false
-  description: 'Rename or alias existing security-reviewer.md → security-auditor.md
-
-    PRIORITY: HIGH - referenced in 24 files
-
-
-    Current: security-reviewer (exists)
-
-    References: security-auditor (24 times)
-
-
-    Decision: Standardize on one name, create alias for the other
-
-
-    Recommended Approach:
-
-    - Choose primary name (recommend: security-reviewer)
-
-    - Add alias in header: "Security Reviewer (alias: security-auditor)"
-
-    - Update references in workflows/tracks to use consistent naming
-
-    - Or rename file if security-auditor is preferred term
-
-    '
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-11T05:30:00+00:00'
-  completed: '2025-11-11T17:33:23+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: low
-  estimated_tokens: 16000
-  actual_tokens: 1400
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  commits:
-  - hash: bced93d0b99aeb8699135524eab31377ce03e009
-    date: '2025-11-11T17:33:23+00:00'
-    message: 'feat: Implement missing agents - close 38% agent gap (6 new + 2 enhanced)'
-  deliverables:
-  - framework/agents/quality/security-reviewer.md (enhanced with security-auditor
-    alias)
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,93 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Database schema migration for hierarchy columns
-  description: "Create database schema migration that adds hierarchy columns to all\n\
-    entity tables and creates new aggregation views.\n\nCURRENT SCHEMA:\n- 26 tables\
-    \ defined in schema.py\n- Entity tables: roadmaps, tracks, sprints, tasks\n- No\
-    \ hierarchy columns (parent_id, is_parent, etc.)\n- Separate commit tables per\
-    \ level\n\nSCHEMA CHANGES REQUIRED:\n\n1. ADD HIERARCHY COLUMNS TO ALL ENTITIES:\n\
-    \   ALTER TABLE tasks ADD COLUMN parent_id TEXT REFERENCES tickets(id);\n   ALTER\
-    \ TABLE tasks ADD COLUMN ticket_type TEXT DEFAULT 'task';\n   -- Note: is_parent,\
-    \ is_child, etc. are COMPUTED, not stored\n\n2. RENAME CONTENT COLUMNS:\n   --\
-    \ Option A: Rename in place (breaking)\n   ALTER TABLE tasks RENAME COLUMN commits_json\
-    \ TO commits_local_json;\n\n   -- Option B: Add new column, copy data (non-breaking)\n\
-    \   ALTER TABLE tasks ADD COLUMN commits_local_json TEXT;\n   UPDATE tasks SET\
-    \ commits_local_json = commits_json;\n\n3. UNIFIED TICKETS TABLE (for single-table\
-    \ inheritance):\n   CREATE TABLE tickets (\n       id TEXT PRIMARY KEY,\n    \
-    \   ticket_type TEXT NOT NULL,  -- discriminator\n       name TEXT NOT NULL,\n\
-    \       parent_id TEXT REFERENCES tickets(id),\n       status TEXT NOT NULL,\n\
-    \       -- ... common fields\n       -- Type-specific fields (nullable)\n    \
-    \   version TEXT,  -- roadmap only\n       priority TEXT,  -- track/task only\n\
-    \       estimated_tokens INTEGER,  -- task only\n       -- JSON columns for complex\
-    \ data\n       commits_local_json TEXT,\n       deliverables_local_json TEXT,\n\
-    \       standards_local_json TEXT,\n       depends_on_json TEXT\n   );\n\n4. AGGREGATION\
-    \ VIEWS:\n   CREATE VIEW task_commits_aggregated AS\n   SELECT\n       t.id as\
-    \ ticket_id,\n       json_group_array(c.value) as commits_json\n   FROM tickets\
-    \ t\n   JOIN tickets child ON child.parent_id = t.id\n   JOIN json_each(child.commits_local_json)\
-    \ c\n   WHERE t.ticket_type IN ('roadmap', 'track', 'sprint')\n   GROUP BY t.id;\n\
-    \n5. EFFECTIVE STANDARDS VIEW:\n   CREATE VIEW ticket_standards_effective AS\n\
-    \   WITH RECURSIVE ancestors AS (\n       SELECT id, parent_id, standards_local_json,\
-    \ 0 as depth\n       FROM tickets\n       UNION ALL\n       SELECT a.id, t.parent_id,\
-    \ t.standards_local_json, a.depth + 1\n       FROM ancestors a\n       JOIN tickets\
-    \ t ON a.parent_id = t.id\n   )\n   SELECT\n       id as ticket_id,\n       json_group_array(json(s.value))\
-    \ as standards_json\n   FROM ancestors\n   JOIN json_each(standards_local_json)\
-    \ s\n   GROUP BY id;\n\nMIGRATION STRATEGY:\n\n1. Create migration script: migrations/006_unified_ticket_schema.sql\n\
-    2. Backup existing database before migration\n3. Create new tables alongside old\
-    \ tables\n4. Copy data with field transformations\n5. Validate data integrity\n\
-    6. Drop old tables (or rename as backup)\n\nIMPLEMENTATION STEPS:\n\n1. Write\
-    \ schema migration SQL\n2. Write data migration SQL (copy + transform)\n3. Create\
-    \ aggregation views\n4. Create effective standards view\n5. Update schema.py with\
-    \ new DDL\n6. Create migration CLI command\n7. Add rollback capability\n8. Test\
-    \ with real database\n\nSUCCESS CRITERIA:\n- Migration completes without data\
-    \ loss\n- All existing data preserved\n- New columns populated correctly\n- Views\
-    \ return correct aggregations\n- Rollback works if needed\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
-  completed: '2025-12-04T23:37:27.165963+00:00'
-  assigned_agent: backend-engineer
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: implementation
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-8-task-003
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-8-task-005
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - migrations/006_unified_ticket_schema.sql
-  - type: code
-    paths:
-    - Updated vibey/roadmap/database/schema.py
-  - type: code
-    paths:
-    - Aggregation views in vibey/roadmap/database/views.py
-  - type: code
-    paths:
-    - Migration CLI command
-  - type: code
-    paths:
-    - Rollback script
-  - type: code
-    paths:
-    - tests/roadmap/database/test_migration_006.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,37 +5,85 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-12T19:30:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-21T04:03:34.457727+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-12T19:30:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 8
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: roadmap-integrity-fixes-6-task-001
+    title: Implement vibey roadmap validate command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-002
+    title: Add status/progress mismatch detection
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-003
+    title: Add referential integrity checks
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-004
+    title: Add task data model validation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-005
+    title: Create pre-commit validation hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-006
+    title: Add CI/CD validation pipeline
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-007
+    title: Implement audit trail for status changes
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-6-task-008
+    title: Document validation standards and best practices
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - vibey roadmap validate command
-  - Pre-commit validation hooks
-  - CI/CD validation pipeline
-  - Audit trail system for status changes
-  - Validation documentation
-  - Prevention best practices guide
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-12T19:30:00+00:00'
-    estimated_duration: 4 days
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 50000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

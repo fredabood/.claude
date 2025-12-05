@@ -5,66 +5,70 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-12T20:50:00+00:00'
-  started: '2025-11-21T01:55:02.195227+00:00'
-  completion_gate_check_at: '2025-11-21T02:41:04.924479+00:00'
-  completed: '2025-11-21T02:41:10.838887+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-12T20:50:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 5
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100.0
   tasks:
   - id: roadmap-integrity-fixes-1-task-001
     title: Design commit-to-task mapping algorithm
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-1-task-002
     title: Implement backup/rollback automation
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-1-task-003
     title: Create YAML editing safeguards
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-1-task-004
     title: Optimize validation performance
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-1-task-005
     title: Enhance error handling framework
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   development_gates: []
-  blocks:
-  - type: sprint
-    target_id: roadmap-integrity-fixes-2
-    at_status: not_started
-    reason: Blocks sprint from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Commit-to-task mapping algorithm (Python)
-  - Backup/rollback automation scripts (Bash + Python)
-  - YAML editing library with safeguards (Python)
-  - Optimized validation engine (Python)
-  - Error handling framework documentation
-  - Tool testing and validation results
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-12T20:50:00+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 25007
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

@@ -2,59 +2,78 @@ sprint:
   id: replit-port-3
   name: Configuration Generation
   track_id: replit-port
+  roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1 week
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  dependencies:
-  - type: sprint
-    target_id: replit-port-2
-    target_status: completed
-    reason: Adapter foundation required before configuration generation
-    optional: false
+  tasks:
+  - id: replit-port-3-task-001
+    title: Create ReplitConfigGenerator class
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-3-task-002
+    title: Implement .replit TOML generation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-3-task-003
+    title: Implement replit.nix generation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-3-task-004
+    title: Generate MCP server configuration
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-3-task-005
+    title: Implement drift detection with checksums
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-3-task-006
+    title: Create configuration validation
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - replit-port-4
-  quality_gates:
-  - name: Zero-Drift Validation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All Replit artifacts generated from frontmatter with checksums
-  - name: Configuration Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Generated configs cover all Replit requirements
-  deliverables:
-  - ReplitConfigGenerator class
-  - .replit TOML generation from project.yaml
-  - replit.nix generation for dependencies
-  - MCP server configuration
-  - Drift detection with checksums
-  - Configuration validation
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 3 implements zero-drift configuration generation for Replit.
-
-
-      Generated artifacts:
-
-      1. .replit (TOML) - Run command, language, environment
-
-      2. replit.nix - Dependencies via Nix package manager
-
-      3. MCP server config - Tool discovery and registration
-
-
-      Checksum system prevents manual edits (CI fails on drift).
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

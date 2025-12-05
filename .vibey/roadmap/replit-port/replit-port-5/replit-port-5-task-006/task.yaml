@@ -1,36 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-5
   id: replit-port-5-task-006
-  name: UI polish and refinements
+  sprint_id: replit-port-5
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: UI polish and refinements
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 8
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Polish UI and refine user experience across all Extension features.\n\
-    \nPOLISH AREAS:\n1. Visual Design\n   - Consistent spacing and padding\n   - Proper\
-    \ color usage\n   - Icon consistency\n   - Typography hierarchy\n\n2. Animations\
-    \ & Transitions\n   - Smooth transitions\n   - Loading animations\n   - Hover\
-    \ effects\n   - State change animations\n\n3. Responsive Design\n   - Small screen\
-    \ support\n   - Large screen optimization\n   - Flexible layouts\n   - Proper\
-    \ breakpoints\n\n4. Accessibility\n   - Keyboard navigation\n   - Screen reader\
-    \ support\n   - ARIA labels\n   - Focus indicators\n\n5. Performance\n   - Optimize\
-    \ re-renders\n   - Lazy loading\n   - Code splitting\n   - Bundle optimization\n\
-    \n6. Error Handling UX\n   - User-friendly errors\n   - Recovery suggestions\n\
-    \   - Retry mechanisms\n   - Clear messaging\n\nREPLIT DESIGN SYSTEM:\n- Use Replit\
-    \ colors\n- Use Replit icons\n- Match Replit patterns\n- Consistent with Replit\
-    \ UX\n\nFEEDBACK MECHANISMS:\n- Loading states\n- Success messages\n- Error messages\n\
-    - Progress indicators\n\nDELIVERABLES:\n- Polished UI components\n- Animation\
-    \ implementations\n- Accessibility improvements\n- Performance optimizations\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,76 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement serialization bridge (sql_loader/sql_dumper)
-  description: 'Create SQL-based serialization in vibey/roadmap/serialization/:
-
-
-    sql_loader.py (parallel to yaml_loader.py):
-
-    - load_roadmap_sql() -> Roadmap
-
-    - load_track_sql() -> Track
-
-    - load_sprint_sql() -> Sprint
-
-    - load_task_sql() -> Task
-
-    - load_tasks_sql() -> List[Task]
-
-
-    sql_dumper.py (parallel to yaml_dumper.py):
-
-    - save_roadmap_sql(roadmap: Roadmap)
-
-    - save_track_sql(track: Track)
-
-    - save_sprint_sql(sprint: Sprint)
-
-    - save_task_sql(task: Task)
-
-
-    backend.py (abstraction layer):
-
-    - RoadmapBackend protocol
-
-    - YAMLBackend implementation (wraps existing)
-
-    - SQLiteBackend implementation (uses new functions)
-
-    - get_backend() factory function
-
-
-    Key requirement: Return IDENTICAL model objects as yaml_loader.
-
-    This enables transparent switching between backends.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T12:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-1-task-005
-  - sqlite-backend-1-task-006
-  blocks:
-  - sqlite-backend-1-task-008
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/roadmap/serialization/sql_loader.py
-  - vibey/roadmap/serialization/sql_dumper.py
-  - vibey/roadmap/serialization/backend.py
-  - Unit tests comparing SQL vs YAML output
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

@@ -6,9 +6,9 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
-  started: '2025-11-07T02:00:00+00:00'
-  completed: '2025-11-22T14:33:44+00:00'
-  estimated_duration: 11 weeks
+  started: null
+  completed: '2025-11-07T02:00:00+00:00'
+  estimated_duration: null
   progress:
     sprints_total: 7
     sprints_completed: 7
@@ -19,154 +19,59 @@ track:
   - id: roadmap-system-1
     name: Core Data Model & YAML Schema
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-07T03:00:00+00:00'
+    started: null
   - id: roadmap-system-2
     name: State Management Scripts
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-10T18:00:00+00:00'
+    started: null
   - id: roadmap-system-3
     name: 'CLI Commands (Part 1: Query)'
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-10T18:00:00+00:00'
+    started: null
   - id: roadmap-system-4
     name: 'CLI Commands (Part 2: Update & Version)'
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-12T16:00:00+00:00'
+    started: null
   - id: roadmap-system-5
     name: Agent Integration & Auto-routing
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-12T16:00:00+00:00'
+    started: null
   - id: roadmap-system-6
     name: Documentation & Polish
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 8
-    started: '2025-11-09T18:00:00+00:00'
+    started: null
   - id: roadmap-system-7
     name: Token-Based Effort Estimation
     status: completed
-    estimated_duration: 1-2 weeks
+    estimated_duration: null
     tasks_count: 5
-    started: '2025-11-22T19:23:02.514023+00:00'
+    started: null
   dependencies: []
-  blocks:
-  - type: track
-    target_id: goose-port
-    at_status: completed
-    reason: Goose port should use roadmap system for project management
-  - type: track
-    target_id: multi-platform
-    at_status: completed
-    reason: Multi-platform architecture needs roadmap system to be portable
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - goose-port
-  - multi-platform
-  quality_gates:
-  - name: End-to-End Integration Testing
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Full workflow tests with real Vibey roadmap
-    score: null
-  - name: Documentation Completeness
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: All user and developer docs complete
-    score: null
-  - name: Performance Benchmarking
-    threshold: 85
-    blocking: false
-    status: not_run
-    description: CLI performance meets targets (<500ms response)
-    score: null
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  - security-auditor
-  - coordinator
-  deliverables:
-  - Complete roadmap system implementation
-  - Python data models and YAML schemas
-  - State management scripts (init, query, update)
-  - Full CLI with all commands
-  - Agent integration and routing
-  - Comprehensive documentation
-  - 3+ example projects
-  - Vibey's own roadmap (dogfooding)
-  strategic_value:
-  - 'Dogfooding: Validate design through real usage'
-  - 'Foundation: Enable structured project management for all Vibey projects'
-  - 'Goose Port: Use roadmap system to manage the port itself'
-  - 'Platform Validation: Prove portability before multi-platform work'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T12:00:00+00:00'
-    design_doc: docs/development/ROADMAP_OBJECT_HIERARCHY.md
-    implementation_plan: docs/development/ROADMAP_IMPLEMENTATION_PLAN.md
-    notes: 'Roadmap Object Hierarchy system implementation - COMPLETED (100%)
-
-
-      This track implements the complete Roadmap Object Hierarchy system for Vibey
-      framework development management.
-
-
-      TRACK COMPLETED: 2025-11-22
-
-      - All 7 sprints completed
-
-      - All 58 tasks completed
-
-      - Full roadmap system with token-based effort estimation
-
-
-      COMPLETED SPRINTS:
-
-      - Sprint 1: Core data model, YAML schemas, validation, serialization (9/9 tasks)
-
-      - Sprint 2: State management scripts (init, query, update) (9/9 tasks)
-
-      - Sprint 3: Unified CLI with query commands (status, show, list, find, deps)
-      (9/9 tasks)
-
-      - Sprint 4: Advanced CLI - update/version commands (9/9 tasks)
-
-      - Sprint 5: Agent integration & auto-routing (9/9 tasks)
-
-      - Sprint 6: Documentation & polish - user guide, CLI reference, tutorials (8/8
-      tasks)
-
-      - Sprint 7: Token-based effort estimation (5/5 tasks)
-
-
-      DELIVERABLES:
-
-      - Python data models for Roadmap, Track, Sprint, Task
-
-      - YAML schema validation and serialization
-
-      - Full CLI with roadmap commands
-
-      - Agent routing with recommendations and workload analysis
-
-      - Token-based effort estimation with size categories (S/M/L/XL/XXL)
-
-      - Migration script for time-to-token conversion
-
-      - Comprehensive documentation'
-    estimated_tokens: 2310000
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

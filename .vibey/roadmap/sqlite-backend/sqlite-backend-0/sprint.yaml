@@ -5,37 +5,74 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-26T10:00:00+00:00'
-  started: '2025-11-26T10:00:00+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-11-26T12:00:00+00:00'
+  completed: '2025-11-26T10:00:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: sqlite-backend-0-task-001
+    title: Analyze current YAML schema and data model
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-0-task-002
+    title: Design SQLite database schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-0-task-003
+    title: Design computed views for aggregations
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-0-task-004
+    title: Design triggers for automatic updates
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-0-task-005
+    title: Design YAML synchronization strategy
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-0-task-006
+    title: Create design document and get review
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - sqlite-backend-1
-  - sqlite-backend-2
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Database schema design document
-  - Entity-relationship diagram
-  - Computed views specification
-  - Migration strategy document
-  - Performance requirements
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
-    estimated_duration: 1 week
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

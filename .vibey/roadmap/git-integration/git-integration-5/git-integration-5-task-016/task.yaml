@@ -5,18 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate signing into CLI manifest writes
-  description: '- Signature covers: timestamp, operation, file, content_hash
-
-    - Uses user''s private key from ~/.vibey/'
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-26T01:21:21.767687+00:00'
   started: null
   completed: null
-  assigned_agent: web-developer
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -29,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T01:21:21.767687+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

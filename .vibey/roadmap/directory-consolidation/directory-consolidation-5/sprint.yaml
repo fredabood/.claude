@@ -2,46 +2,68 @@ sprint:
   id: directory-consolidation-5
   name: .vibey Directory Cleanup
   track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
   status: completed
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
   completed: '2025-11-23T00:00:00+00:00'
-  estimated_duration: 1-2 hours
-  tasks:
-  - directory-consolidation-5-task-001
-  - directory-consolidation-5-task-002
-  - directory-consolidation-5-task-003
-  - directory-consolidation-5-task-004
-  description: 'Clean up legacy directories within .vibey/ that contain documentation
-
-    and backups that should be consolidated into roadmap track contexts.
-
-
-    DIRECTORIES TO CLEAN:
-
-    - sprint_docs/ (9 files) → move to track contexts
-
-    - sprint_summaries/ (19 files) → move to track contexts
-
-    - track_summaries/ (1 file) → move to track context
-
-    - backups/ (3 dirs) → consolidate useful content, delete
-
-    - migration-backups/ (1 dir) → consolidate useful content, delete
-
-    - hierarchical-migration-backups/ (2 dirs) → consolidate useful content, delete
-
-
-    KEY OUTPUTS:
-
-    - All documentation in appropriate track context directories
-
-    - Backup directories deleted (content preserved in context)
-
-    - Clean .vibey/ with only: config/, roadmap/, templates/, .cache/
-
-    '
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 4
+    development_tasks_completed: 4
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100.0
+  tasks:
+  - id: directory-consolidation-5-task-001
+    title: Move sprint_docs/ and sprint_summaries/ to track contexts
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-consolidation-5-task-002
+    title: Move track_summaries/ to track context
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-consolidation-5-task-003
+    title: Consolidate and delete backup directories
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: directory-consolidation-5-task-004
+    title: Final .vibey cleanup and verification
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

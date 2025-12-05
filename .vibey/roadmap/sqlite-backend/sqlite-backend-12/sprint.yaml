@@ -4,7 +4,8 @@ sprint:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
+  blocked_reason: null
   created: '2025-11-28T17:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,78 +14,87 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 9
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 9
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
+  tasks:
+  - id: sqlite-backend-12-task-001
+    title: Initialize production database with schema
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-002
+    title: Modify update operations to write to both backends
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-003
+    title: Add DB dump to pre-commit hook
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-004
+    title: Add DB rebuild to post-merge hook
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-005
+    title: Fix data integrity issues in roadmap YAML
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-006
+    title: Add embedded sprint summary validation to integrity audit
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-007
+    title: End-to-end sync system validation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-008
+    title: Create migration script for existing roadmaps to new directory structure
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-009
+    title: Update CLI and tooling for new directory structure
+    status: not_started
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-11
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T18:00:00+00:00'
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Initialized production database (.vibey/roadmap.db)
-  - Update operations write to both YAML and SQLite
-  - Pre-commit hook dumps DB to YAML when dirty
-  - Post-merge hook rebuilds DB from YAML
-  - Fixed data integrity issues (15 invalid tasks, stale counters)
-  - Embedded sprint summary validation in track.yaml
-  - Working end-to-end sync system
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-28T17:00:00+00:00'
-    estimated_duration: 1.5 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: 'Final sprint to enable SQLite as source of truth for roadmap operations.
-
-
-      PROBLEM:
-
-      - Database exists but not initialized (no database_state table)
-
-      - Update operations write to YAML only, not SQLite
-
-      - Git hooks don''t sync DB <-> YAML
-
-      - 15 tasks have invalid dates (started < created)
-
-      - Stale embedded sprint summaries in track.yaml
-
-
-      SOLUTION:
-
-      - Initialize production DB with schema
-
-      - Modify update.py to write to both backends
-
-      - Add DB dump to pre-commit hook
-
-      - Add DB rebuild to post-merge hook
-
-      - Fix data integrity issues
-
-      - Add embedded summary validation
-
-
-      SUCCESS CRITERIA:
-
-      - `vibey roadmap db status` shows healthy database
-
-      - All updates persist to both YAML and SQLite
-
-      - Git operations maintain sync automatically
-
-      - Zero integrity issues in audit report
-
-      '

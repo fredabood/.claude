@@ -2,69 +2,31 @@ task:
   id: roadmap-system-7-task-004
   sprint_id: roadmap-system-7
   track_id: roadmap-system
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate existing time estimates to token estimates
+  description: null
   status: completed
-  priority: high
+  blocked: false
   created: '2025-11-20T00:38:19.723353+00:00'
-  started: '2025-11-27T11:04:09.549389+00:00'
-  completed: '2025-11-27T11:04:09.549389+00:00'
-  estimated_duration: 6 hours
-  actual_duration: null
-  description: "Migrate all 435 existing YAML files to include token-based estimates.\n\
-    \nCREATE: scripts/migrate-to-token-estimates.py\n\nMIGRATION STRATEGY:\n\nFor\
-    \ completed tasks:\n1. Analyze completion context if available\n2. Calculate actual\
-    \ tokens from session logs\n3. Set estimated_tokens = actual_tokens (retroactive)\n\
-    4. Calculate token_efficiency = 1.0\n5. Assign size_category based on actual tokens\n\
-    \nFor pending tasks:\n1. Estimate based on:\n   - Description length and complexity\n\
-    \   - Task type historical averages\n   - Complexity field if present\n   - Dependencies\
-    \ and blockers\n2. Assign size_category\n3. Set estimated_tokens\n4. Leave actual_tokens\
-    \ empty\n\nFor all tasks:\n1. Keep existing time fields (backward compatibility)\n\
-    2. Add new token fields\n3. Validate updated YAML\n4. Create migration report\n\
-    \nMIGRATION PROCESS:\n```python\ndef migrate_task(task_path: Path) -> bool:\n\
-    \    task = load_task(task_path)\n    \n    if task.status == 'completed':\n \
-    \       # Retroactive calculation\n        task.actual_tokens = analyze_completion(task)\n\
-    \        task.estimated_tokens = task.actual_tokens\n        task.token_efficiency\
-    \ = 1.0\n    else:\n        # Estimate for pending\n        estimator = TokenEstimator()\n\
-    \        task.estimated_tokens = estimator.estimate_task(task)\n    \n    task.size_category\
-    \ = categorize_size(task.estimated_tokens)\n    save_task(task, task_path)\n \
-    \   return True\n```\n\nSCOPE:\n- 435 YAML files total\n- 20 tracks\n- 51 sprints\n\
-    - 364 tasks\n\nDRY-RUN MODE:\n- Test migration without writing files\n- Generate\
-    \ preview report\n- Validate all estimates reasonable\n- Check for outliers\n\n\
-    VALIDATION:\n- All files load successfully\n- Token estimates within reasonable\
-    \ ranges\n- Size categories distributed properly\n- No data loss (all existing\
-    \ fields preserved)\n"
-  acceptance_criteria:
-  - Migration script complete with dry-run mode
-  - All 435 files migrated successfully
-  - All files validate with schema
-  - Migration report generated
-  - Backward compatibility verified
-  - Token estimates reasonable (no outliers)
-  - Rollback capability documented
-  deliverables:
-  - type: code
-    paths:
-    - scripts/migrate-to-token-estimates.py
-  - type: documentation
-    paths:
-    - MIGRATION_REPORT_TOKEN_ESTIMATES.md
-  - type: code
-    paths:
-    - Migrated YAML files (435 files)
-  dependencies:
-  - type: task
-    target_id: roadmap-system-7-task-003
-    target_status: completed
-    reason: Need estimation utilities
-  blocked_by: []
+  started: null
+  completed: '2025-11-20T00:38:19.723353+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
-  assigned_agent: web-developer
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-20T00:38:19.723374+00:00'
-  title: Migrate existing time estimates to token estimates
-  task_type: development
-  estimated_tokens: 60000
-  size_category: L
-  original_estimated_duration: 6 hours
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

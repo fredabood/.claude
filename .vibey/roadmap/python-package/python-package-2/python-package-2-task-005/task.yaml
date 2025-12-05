@@ -1,32 +1,32 @@
 task:
   id: python-package-2-task-005
-  roadmap_id: vibey-framework-v2
-  track_id: python-package
   sprint_id: python-package-2
-  name: Create distribution documentation
+  track_id: python-package
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create distribution documentation
+  description: null
   status: completed
-  priority: medium
-  estimated_hours: 2
-  assigned_agent: docs-writer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.353073+00:00'
-  completed: '2025-11-27T11:04:09.353073+00:00'
-  description: 'Document package installation and distribution:
-
-    - Update README.md with pip install instructions
-
-    - Document development setup (editable install)
-
-    - Document how to access framework content programmatically
-
-    - Add troubleshooting section for common install issues
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,25 +1,32 @@
 task:
   id: copilot-port-1-task-004
-  title: Create repository MCP configuration generator
   sprint_id: copilot-port-1
   track_id: copilot-port
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Create repository MCP configuration generator
+  description: null
   status: completed
   blocked: false
-  description: Generate repository-level MCP configuration that connects GitHub Copilot
-    to Vibey MCP server. Handle stdio transport, tool allowlists, and server lifecycle.
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.670596+00:00'
-  completed: '2025-11-27T11:04:09.670596+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: medium
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  dependencies:
-  - copilot-port-1-task-002
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Repository MCP configuration generator
-  - Server lifecycle management logic
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

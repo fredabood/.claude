@@ -5,116 +5,32 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: completion_gate
   title: Sprint 6d Completion Gate - Full Architecture Review
-  description: |
-    Final review and sign-off for the unified ticket architecture
-    migration across all sprints (6a, 6b, 6c, 6d).
-
-    REVIEW CHECKLIST:
-
-    1. MODEL ARCHITECTURE (Sprint 6a):
-       [ ] Layer 1 (Ticket) implemented correctly
-       [ ] Layer 2 (HierarchicalTicket) smart accessors work
-       [ ] Layer 3 domain models are thin
-       [ ] Hierarchy attributes computed correctly
-       [ ] All tests passing
-
-    2. SERIALIZATION (Sprint 6b):
-       [ ] YAML v1 format readable
-       [ ] YAML v2 format output
-       [ ] SQLite schema migrated
-       [ ] ORM mapping works
-       [ ] Round-trip integrity verified
-
-    3. OPERATIONS (Sprint 6c):
-       [ ] Query operations use smart accessors
-       [ ] Update operations use smart accessors
-       [ ] Standards inheritance works
-       [ ] All operations migrated
-       [ ] Integration tests passing
-
-    4. INTERFACES (Sprint 6d):
-       [ ] CLI shows inheritance source
-       [ ] MCP returns aggregation info
-       [ ] Documentation complete
-       [ ] E2E tests passing
-
-    5. PERFORMANCE:
-       [ ] Load time acceptable
-       [ ] Aggregation time acceptable
-       [ ] No memory leaks
-       [ ] Scales to 100+ tasks
-
-    6. BACKWARD COMPATIBILITY:
-       [ ] Old YAML files load
-       [ ] Migration command works
-       [ ] No data loss
-       [ ] Graceful degradation
-
-    7. DOCUMENTATION:
-       [ ] Migration guide complete
-       [ ] Architecture documented
-       [ ] CLI reference updated
-       [ ] MCP API documented
-
-    SIGN-OFF REQUIREMENTS:
-
-    - All checklist items verified
-    - Test coverage > 90%
-    - Performance benchmarks pass
-    - Documentation reviewed
-    - No critical bugs open
-
-    ROLLBACK PLAN:
-
-    If issues discovered after release:
-    1. Keep v1 YAML support indefinitely
-    2. Database migration reversible
-    3. Old model imports still work
-    4. Feature flag for smart accessors
-
-    SUCCESS CRITERIA:
-    - All checklist items checked
-    - Sign-off from architecture review
-    - Ready for production use
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: architecture-agent
+  assigned_agent: null
   priority: critical
-  phase_label: completion_gate
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info:
     blocks_status: completed
-    threshold: 100
+    threshold: 0
     is_blocking: true
     score: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - sqlite-backend-10-task-004
-  deliverables:
-  - Completion checklist (all items verified)
-  - Architecture sign-off document
-  - Rollback plan document
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      FINAL GATE: This task marks the completion of the
-      unified ticket architecture migration.
-
-      After this gate passes:
-      - Old dataclass models deprecated
-      - v2 YAML format is default
-      - Smart accessors are standard API
-      - Documentation reflects new architecture
-
-      The migration has been incremental across 4 sprints
-      to minimize risk and allow course correction.

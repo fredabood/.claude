@@ -3,29 +3,30 @@ task:
   sprint_id: git-integration-1
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Add sprint and task tag parsing
+  task_type: development
+  title: Add sprint and task tag parsing
+  description: null
   status: completed
-  priority: medium
-  estimated_hours: 3
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.413201+00:00'
-  completed: '2025-11-27T11:04:09.413201+00:00'
-  description: "Add support for parsing Git tags as explicit state markers:\n\nTAG\
-    \ FORMATS (from Sprint 0 addendum):\n- Sprint tags: sprint/<sprint-id>/start,\
-    \ sprint/<sprint-id>/end\n- Task tags: <track>/<sprint>/<task>/<marker>\n\nFEATURES:\n\
-    - Detect sprint boundaries from tags\n- Use tags for commit range queries\n- Parse\
-    \ task tags for explicit milestones\n- Query commits between tags efficiently\n\
-    \nINTEGRATION:\n- Enhance commit correlation engine to use tags\n- Speed up analysis\
-    \ by using tag refs instead of full log scan\n- Support both message-based and\
-    \ tag-based task linking\n\nCLI ADDITIONS:\n- vibey git tags --task <task-id>\n\
-    \  List all tags for a task\n\n- vibey git tag-range <task-id>\n  Get commit range\
-    \ between task start/end tags\n"
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

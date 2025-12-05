@@ -1,43 +1,32 @@
 task:
   id: roadmap-system-4-task-006
-  title: Implement `vibey version bump/history`
   sprint_id: roadmap-system-4
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
-  status: completed
-  priority: critical
-  created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-10T18:47:00+00:00'
-  completed: '2025-11-10T18:47:49+00:00'
-  estimated_duration: 4 hours
-  assigned_agents:
-  - web-developer
-  deliverables:
-  - vibey/cli/roadmap_commands/version.py - Complete CLI command implementation
-  - vibey/cli/roadmap - CLI integration (lines 176-183, 376-378)
-  - Implemented 'roadmap version --show' to display current version and strategy
-  - Implemented 'roadmap version --bump' with optional --type and --message flags
-  - Integrated --tag flag for git tag creation on bump
-  - Full error handling and user feedback
-  commits:
-  - sha: 2d0f313
-    message: 'feat: Move framework modules to vibey package (Task 002)'
-    date: '2025-11-10T18:47:49-05:00'
-  dependencies:
-  - roadmap-system-4-task-004
-  - roadmap-system-4-task-005
-  blocked_by: []
-  blocks: []
-  metadata:
-    implementation_notes: Complete CLI command wired into main roadmap CLI. Supports
-      --show (display current version/strategy) and --bump (with optional --type,
-      --message, --tag). Uses VersionManager from roadmap_lib/versioning.py. Full
-      79-line implementation with error handling.
-    verification: Code verified in vibey/cli/roadmap_commands/version.py (complete)
-      and vibey/cli/roadmap (wired lines 176-183, 376-378). Command is fully functional
-      and accessible via "roadmap version"
-    cli_status: FULLY WIRED - accessible via "roadmap version" command
   task_type: development
-  estimated_tokens: 40000
-  size_category: L
-  original_estimated_duration: 4 hours
+  title: Implement `vibey version bump/history`
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

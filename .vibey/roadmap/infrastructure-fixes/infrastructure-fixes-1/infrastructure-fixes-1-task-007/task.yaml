@@ -5,53 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add migration tool for existing projects
-  description: 'Create framework/scripts/migrate-to-roadmap.py
-
-    - Detect existing docs/sprints/ state files
-
-    - Parse sprint plans and extract tasks
-
-    - Create .vibey/roadmap/ structure
-
-    - Migrate state to roadmap YAML files
-
-    - Preserve existing data
-
-    - Create backup before migration
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.296955+00:00'
-  completed: '2025-11-27T11:04:09.296955+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 8000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-005
-    target_status: completed
-    reason: Needs to understand roadmap structure
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: a68109a68109a68109a68109a68109a68109a681
-    message: 'feat: Add migration tool for legacy sprint state files'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T12:40:12-05:00'
-    files_changed:
-    - framework/scripts/migrate-to-roadmap.py
-    note: PRESERVED and migrated to vibey/operations/migrations/to_roadmap.py
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183805+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

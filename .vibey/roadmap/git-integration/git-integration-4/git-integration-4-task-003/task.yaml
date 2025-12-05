@@ -5,20 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement CLI usage validation and suggestions
-  description: "Detect manual YAML edits and suggest appropriate CLI commands instead.\n\
-    \nDETECTION:\n- Pre-commit hook detects YAML changes\n- Analyze what changed (task\
-    \ status, sprint progress, etc.)\n- Generate appropriate CLI command suggestion\n\
-    \nEXAMPLE OUTPUT:\n  [vibey] Advisory:\n    ⚠ Manual YAML edit detected: sprint.yaml\n\
-    \      Modified: tasks_completed, completion_percent\n      Suggestion: vibey\
-    \ roadmap update sprint git-integration-1 --status completed\n\n  Proceeding with\
-    \ commit... ✓\n\nDELIVERABLES:\n- YAML change detection logic\n- CLI command suggestion\
-    \ generator\n- Integration with pre-commit hook\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.385103+00:00'
-  completed: '2025-11-27T11:04:09.385103+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -34,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:38:37.569692+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

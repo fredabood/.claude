@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Agent to Slash Command conversion
-  description: 'Convert all 12 agents to slash commands, create prompt templates with
-    Jinja2, handle agent parameters
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-23T04:54:00.178013+00:00'
-  started: '2025-11-27T11:04:09.555300+00:00'
-  completed: '2025-11-27T11:04:09.555300+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T04:54:00.178013+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 5000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -30,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T04:54:00.178013+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

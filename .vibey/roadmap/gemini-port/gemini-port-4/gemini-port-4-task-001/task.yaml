@@ -1,19 +1,32 @@
 task:
   id: gemini-port-4-task-001
-  name: Workflow Prompt Chain Generator
   sprint_id: gemini-port-4
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Workflow Prompt Chain Generator
+  description: null
   status: completed
   blocked: false
-  priority: critical
-  complexity: high
   created: '2025-11-23T05:11:27.057561+00:00'
-  started: '2025-11-27T11:04:09.716950+00:00'
-  completed: '2025-11-27T11:04:09.716950+00:00'
-  description: Convert workflows to prompt sequences, handle step dependencies, implement
-    workflow composition
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T05:11:27.057561+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

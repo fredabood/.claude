@@ -5,21 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create integration test suite
-  description: "End-to-end tests with real git workflows:\n\nTEST SCENARIOS:\n1. Full\
-    \ PR workflow\n   - Create branch, make commits, open PR\n   - Verify task status\
-    \ updates\n   - Verify merge conflict detection\n   - Test merge completion\n\n\
-    2. Multi-developer simulation\n   - Concurrent task completion\n   - Merge conflict\
-    \ resolution\n   - Dependency ordering\n\n3. CI/CD integration\n   - Quality gate\
-    \ reporting\n   - Blocker enforcement\n   - Status checks\n\n4. Edge cases\n \
-    \  - Squash merges\n   - Rebases\n   - Force pushes\n   - Detached HEAD\n\nTEST\
-    \ INFRASTRUCTURE:\n- Docker-based isolated environments\n- Mock GitHub/GitLab\
-    \ APIs\n- Automated PR creation/merge\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.392146+00:00'
-  completed: '2025-11-27T11:04:09.392146+00:00'
-  assigned_agent: test-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -35,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:15:16.340745+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

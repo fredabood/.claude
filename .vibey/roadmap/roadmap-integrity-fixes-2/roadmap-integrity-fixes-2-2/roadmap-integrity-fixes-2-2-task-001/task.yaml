@@ -1,46 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-2-task-001
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-2
-  name: Extract git-integration-0 tasks to task.yaml files
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extract git-integration-0 tasks to task.yaml files
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 0.5
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Extract 7 embedded tasks from git-integration-0/sprint.yaml to individual\
-    \ task.yaml files.\n\nSOURCE: .vibey/roadmap/git-integration/git-integration-0/sprint.yaml\n\
-    TASKS TO EXTRACT: 7 (architecture & design tasks)\n\nFOR EACH TASK:\n1. Create\
-    \ directory: git-integration-0-task-00N/\n2. Create task.yaml with proper schema\n\
-    3. Preserve all fields (id, name, status, priority, description, etc.)\n\nEXAMPLE\
-    \ STRUCTURE:\n```\ngit-integration-0/\n├── sprint.yaml (update to tasks: [])\n\
-    ├── git-integration-0-task-001/\n│   └── task.yaml\n├── git-integration-0-task-002/\n\
-    │   └── task.yaml\n... (7 total)\n```\n\nTASK.YAML TEMPLATE:\n```yaml\ntask:\n\
-    \  id: git-integration-0-task-001\n  name: [from embedded]\n  status: [from embedded]\n\
-    \  priority: [from embedded]\n  estimated_hours: [from embedded]\n  assigned_agent:\
-    \ [from embedded]\n  created: '2025-11-24T00:00:00+00:00'\n  started: [from embedded\
-    \ or null]\n  completed: [from embedded or null]\n  description: |\n    [from\
-    \ embedded]\n  acceptance_criteria: []\n  dependencies: []\n  blocked_by: []\n\
-    \  depended_on_by: []\n  commits: [from embedded or []]\n  metadata:\n    last_updated:\
-    \ '2025-11-24T00:00:00+00:00'\n```\n\nAfter extraction, update sprint.yaml:\n\
-    - Set tasks: []\n- Keep progress counters accurate\n"
-  acceptance_criteria:
-  - 7 task directories created
-  - 7 task.yaml files with correct content
-  - sprint.yaml updated with tasks:[]
-  - Progress counters still accurate
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - roadmap-integrity-fixes-2-2-task-006
-  commits:
-  - sha: e895f582220c0500627e258aa0e677115b10cabd
-    message: 'feat: Schema migration for git-integration track (41 tasks)'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-24T23:24:25-05:00'
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-25T04:50:23.007701+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,31 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-1
   id: replit-port-1-task-005
-  name: Conduct platform testing and validation
+  sprint_id: replit-port-1
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Conduct platform testing and validation
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 6
-  assigned_agent: test-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Conduct comprehensive platform testing to validate Replit environment\n\
-    compatibility with Vibey framework.\n\nTESTING AREAS:\n1. Environment Validation\n\
-    \   - Python version and libraries\n   - File system operations\n   - Network\
-    \ connectivity\n   - Process management\n\n2. MCP Server Testing\n   - Server\
-    \ startup and shutdown\n   - Tool registration\n   - Tool invocation\n   - Error\
-    \ handling\n\n3. Integration Testing\n   - Config loading\n   - Roadmap operations\n\
-    \   - Context generation\n   - File operations\n\n4. Performance Testing\n   -\
-    \ Startup time\n   - Tool response time\n   - Memory usage\n   - Concurrent operations\n\
-    \nDELIVERABLES:\n- Platform testing report\n- Performance benchmarks\n- Compatibility\
-    \ matrix\n- Issue tracking document\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

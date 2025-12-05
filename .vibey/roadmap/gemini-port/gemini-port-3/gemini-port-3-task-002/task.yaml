@@ -1,19 +1,32 @@
 task:
   id: gemini-port-3-task-002
-  name: Agent Prompt Converter
   sprint_id: gemini-port-3
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Agent Prompt Converter
+  description: null
   status: completed
   blocked: false
-  priority: critical
-  complexity: high
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T18:30:00+00:00'
-  description: Adapt agent prompts for Gemini format, handle instruction differences,
-    optimize for function calling
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

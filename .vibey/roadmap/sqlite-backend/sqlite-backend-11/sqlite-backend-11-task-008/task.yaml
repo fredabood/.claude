@@ -5,48 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix CLI task completion reformatting sibling task files
-  description: |
-    BUG: When running `vibey roadmap complete <task-id>`, the CLI rewrites
-    sibling task YAML files in the same sprint, truncating detailed descriptions.
-
-    OBSERVED BEHAVIOR:
-    - Task descriptions of 80+ lines were reduced to 40 lines
-    - Implementation steps, examples, and code snippets are lost
-    - All task YAML files in the sprint directory are affected
-
-    EXPECTED BEHAVIOR:
-    - CLI should only modify the target task file when completing a task
-    - Sibling task files should not be touched
-    - Full YAML content should be preserved
-
-    ROOT CAUSE (suspected):
-    The CLI may be loading and re-saving all task files using a simplified
-    serialization that doesn't preserve the full YAML content. This likely
-    happens in the complete command or the sync operations.
-
-    INVESTIGATION STEPS:
-    1. Trace the code path in `vibey roadmap complete`
-    2. Identify where sibling files are being loaded and saved
-    3. Check if yaml_dumper is truncating descriptions
-    4. Check if the CLI is using a different serialization path
-
-    FIX OPTIONS:
-    1. Only modify the target task file (preferred)
-    2. Use round-trip YAML parsing (ruamel.yaml) to preserve formatting
-    3. Add flag to skip sync of unchanged files
-
-    WORKAROUND:
-    Discard unwanted changes with `git checkout -- <files>` after CLI operations.
-
+  description: null
   status: not_started
   blocked: false
   created: '2025-12-04T23:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: medium
-  phase_label: bugfix
-  estimated_tokens: 1500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -54,14 +22,11 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  deliverables:
-  - Fix for CLI task completion reformatting
-  - Test case for the bug scenario
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T23:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Discovered during Sprint 8 task completion.
-      Data loss risk but recoverable via git.

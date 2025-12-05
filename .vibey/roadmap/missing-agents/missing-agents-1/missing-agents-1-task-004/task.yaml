@@ -1,84 +1,32 @@
 task:
   id: missing-agents-1-task-004
-  title: Implement architecture-agent
   sprint_id: missing-agents-1
   track_id: missing-agents
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Implement architecture-agent
+  description: null
   status: completed
   blocked: false
-  description: 'Create framework/agents/architecture/architecture-agent.md (NEW agent,
-    complex)
-
-    Create new directory: framework/agents/architecture/
-
-
-    Responsibilities:
-
-    - Review system architecture
-
-    - Design high-level solutions
-
-    - Create architecture decision records (ADRs)
-
-    - Identify architectural patterns
-
-    - Evaluate tradeoffs
-
-    - Create system diagrams
-
-    - Review technical debt
-
-
-    Trigger Patterns:
-
-    - "How should we architect..."
-
-    - "Design the system for..."
-
-    - "What''s the best architecture for..."
-
-    - "Create ADR for..."
-
-
-    Inputs:
-
-    - Requirements
-
-    - Constraints
-
-    - Existing codebase
-
-
-    Outputs:
-
-    - Architecture diagrams
-
-    - ADR documents
-
-    - Design recommendations
-
-    - Handoff to implementation team
-
-
-    Template: NEW (complex agent, needs careful design)
-
-    Reference: Similar to sprint-planning agent but for architecture
-
-    '
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-11T05:30:00+00:00'
-  completed: '2025-11-11T17:33:23+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: high
-  complexity: high
-  estimated_tokens: 24000
-  actual_tokens: 21800
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  commits:
-  - hash: bced93d0b99aeb8699135524eab31377ce03e009
-    date: '2025-11-11T17:33:23+00:00'
-    message: 'feat: Implement missing agents - close 38% agent gap (6 new + 2 enhanced)'
-  deliverables:
-  - framework/agents/architecture/architecture-agent.md (719 lines, 19KB - largest
-    agent file)
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

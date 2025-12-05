@@ -5,56 +5,88 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-25T05:16:36.348821+00:00'
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 9
+    development_tasks_completed: 9
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: git-integration-3-task-001
+    title: Implement error handling and recovery
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-002
+    title: Implement tag repair automation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-003
+    title: Implement PR merge checkpoint for task conflicts
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-004
+    title: Implement blocker enforcement in git workflow
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-005
+    title: Implement quality gate CI integration
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-006
+    title: Implement dependency-aware merge ordering
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-007
+    title: Implement strategy preset adoption
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-008
+    title: Create integration test suite
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-3-task-009
+    title: Complete git integration documentation
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: git-integration-0
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: git-integration-1
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: git-integration-2
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Error handling and recovery system
-  - Tag repair automation (validate-tags, repair-tags)
-  - PR merge checkpoint for task conflicts
-  - Blocker enforcement system
-  - Quality gate CI integration
-  - Dependency-aware merge ordering
-  - Strategy preset adoption commands (list, adopt, validate)
-  - Comprehensive integration test suite
-  - Complete git integration documentation
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-25T00:00:00+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

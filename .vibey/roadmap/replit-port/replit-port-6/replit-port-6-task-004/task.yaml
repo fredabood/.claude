@@ -1,40 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-6
   id: replit-port-6-task-004
-  name: Publish to Replit Templates
+  sprint_id: replit-port-6
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Publish to Replit Templates
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 6
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Publish vibey-replit-template to Replit Templates marketplace.\n\n\
-    PUBLISHING PROCESS:\n1. Template Preparation\n   - Verify all files present\n\
-    \   - Test template thoroughly\n   - Update documentation\n   - Add metadata\n\
-    \n2. Template Submission\n   - Submit to Replit Templates\n   - Provide description\n\
-    \   - Add tags and category\n   - Upload screenshots\n\n3. Review Process\n  \
-    \ - Address Replit review feedback\n   - Make necessary changes\n   - Resubmit\
-    \ if required\n   - Final approval\n\n4. Post-Publication\n   - Announce on social\
-    \ media\n   - Add to Vibey website\n   - Update documentation\n   - Monitor usage\
-    \ analytics\n\nTEMPLATE METADATA:\n```json\n{\n  \"name\": \"Vibey Agent Framework\"\
-    ,\n  \"shortDescription\": \"AI-powered agent orchestration for development workflows\"\
-    ,\n  \"longDescription\": \"...\",\n  \"tags\": [\"ai\", \"agents\", \"mcp\",\
-    \ \"workflow\", \"python\"],\n  \"category\": \"Tools\",\n  \"author\": \"Vibey\
-    \ Framework Team\",\n  \"website\": \"https://vibey.dev\",\n  \"repository\":\
-    \ \"https://github.com/vibey/vibey-replit-template\"\n}\n```\n\nQUALITY CHECKLIST:\n\
-    - [ ] All dependencies installed correctly\n- [ ] MCP server starts successfully\n\
-    - [ ] Extension loads without errors\n- [ ] Sample project works\n- [ ] Documentation\
-    \ is clear\n- [ ] Screenshots are current\n- [ ] Template forks successfully\n\
-    \nDELIVERABLES:\n- Published template on Replit\n- Template listing page\n- Analytics\
-    \ setup\n- Announcement posts\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

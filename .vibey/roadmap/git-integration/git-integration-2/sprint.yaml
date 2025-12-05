@@ -2,68 +2,103 @@ sprint:
   id: git-integration-2
   name: Git Hooks Core
   track_id: git-integration
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 3 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 11
+    development_tasks_completed: 11
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 11
     tasks_completed: 11
     completion_percent: 100.0
-  tasks: []
-  dependencies:
-  - git-integration-0
-  - git-integration-1
-  blocked_by:
-  - git-integration-0
-  - git-integration-1
-  depended_on_by:
-  - git-integration-3
-  quality_gates:
-  - name: Hook Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: 90%+ test coverage for hook code
-  - name: Cross-Platform Compatibility
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Hooks work on macOS, Linux, Windows
-  deliverables:
-  - Pre-commit hook implementation
-  - Commit-msg hook implementation
-  - vibey git hooks install/uninstall/status commands
-  - Automatic task status update system
-  - Branch-to-task linking system
-  - PR description generator
-  - Sprint tagging system (sprint start/end tags)
-  - Git-primary sync command (vibey git sync)
-  - Source-of-truth mode detection
-  - Strategy enforcement validation
-  - Comprehensive test suite
-  - Git hooks documentation
+  tasks:
+  - id: git-integration-2-task-001
+    title: Implement pre-commit hook architecture
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-002
+    title: Implement commit-msg hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-003
+    title: Add git hooks install/uninstall commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-004
+    title: Implement automatic task status updates
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-005
+    title: Create branch-to-task linking system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-006
+    title: Build PR description generator
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-007
+    title: Create test suite for git hooks
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-008
+    title: Document git hooks setup and usage
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-009
+    title: Implement sprint tagging system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-010
+    title: Implement Git-primary sync command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-011
+    title: Implement mode detection and strategy enforcement
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 2 implements core git hooks based on Sprint 0 design.
-
-
-      All implementation follows the architecture decisions from Sprint 0:
-
-      - Commit conventions from Task 0-003
-
-      - Branching strategy from Task 0-004
-
-      - Enforcement philosophy from Task 0-005
-
-
-      This sprint focuses on the core hook infrastructure. Advanced
-
-      features (PR merge conflicts, quality gate integration) are
-
-      in Sprint 3.
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

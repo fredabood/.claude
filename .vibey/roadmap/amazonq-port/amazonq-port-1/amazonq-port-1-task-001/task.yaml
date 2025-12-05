@@ -1,34 +1,32 @@
 task:
   id: amazonq-port-1-task-001
-  roadmap_id: vibey-framework-v2
-  track_id: amazonq-port
   sprint_id: amazonq-port-1
-  name: Create AmazonQAdapter base class
+  track_id: amazonq-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create AmazonQAdapter base class
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.260906+00:00'
-  completed: '2025-11-27T11:04:09.260906+00:00'
-  description: 'Create AmazonQAdapter class extending BaseAdapter to provide Amazon
-    Q specific
-
-    platform integration following the adapter pattern established in multi-platform
-    track.
-
-    '
-  acceptance_criteria:
-  - AmazonQAdapter class created in vibey/adapters/amazonq/adapter.py
-  - Extends BaseAdapter with required abstract methods implemented
-  - Handles Amazon Q specific configuration requirements
-  - Integrates with AWS authentication mechanisms
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - amazonq-port-1-task-002
-  - amazonq-port-1-task-003
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

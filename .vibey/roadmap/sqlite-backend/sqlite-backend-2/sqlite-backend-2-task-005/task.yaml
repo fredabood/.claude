@@ -5,44 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement backend mode detection and configuration
-  description: "Implement automatic backend selection in vibey/roadmap/serialization/backend.py:\n\
-    \nMode detection logic:\n1. Check config: .vibey/config/roadmap.yaml → backend:\
-    \ \"auto\"|\"sqlite\"|\"yaml\"\n2. If \"auto\" (default):\n   - If .vibey/roadmap.db\
-    \ exists and is valid: use sqlite\n   - Otherwise: use yaml\n3. If \"sqlite\"\
-    : require database, error if missing\n4. If \"yaml\": always use YAML (ignore\
-    \ database)\n\nDatabase validation:\n- Check file exists\n- Check schema version\
-    \ matches expected\n- Check tables exist\n- Quick integrity check (PRAGMA integrity_check)\n\
-    \nGraceful degradation:\n- If database corrupted: warn and fall back to YAML\n\
-    - If schema version mismatch: warn and offer rebuild\n\nAdd CLI flags:\n- --backend=sqlite|yaml\
-    \ (override for single command)\n\nIntegration points:\n- get_backend() called\
-    \ by operations layer\n- Returns YAMLBackend or SQLiteBackend\n- Operations don't\
-    \ know which backend is active\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T14:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-2-task-001
-  blocks:
-  - sqlite-backend-2-task-006
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - Backend detection in serialization/backend.py
-  - Config option in .vibey/config/roadmap.yaml
-  - CLI --backend flag
-  - Graceful fallback with warnings
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

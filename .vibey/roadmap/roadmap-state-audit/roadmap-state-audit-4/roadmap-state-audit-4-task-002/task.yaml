@@ -5,28 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Adjust completion percent
-  description: Update from 60% to ~40%
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
   completed: null
-  assigned_agent: coordinator
+  assigned_agent: null
   priority: high
-  phase_label: remediation
-  estimated_tokens: 500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T20:51:06.889497+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: 'VERIFIED 2025-11-26: Track shows completion_percent: 0 which matches 0
-      tasks completed. No adjustment needed - track hasn''t started work yet.'

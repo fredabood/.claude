@@ -1,34 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-4
   id: replit-port-4-task-002
-  name: Create React scaffolding
+  sprint_id: replit-port-4
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create React scaffolding
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 8
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create React scaffolding with base components and routing.\n\nCOMPONENT\
-    \ STRUCTURE:\n```\nsrc/components/\n├── App.tsx              # Root component\n\
-    ├── Layout.tsx           # Main layout\n├── Header.tsx           # Header with\
-    \ navigation\n├── Sidebar.tsx          # Sidebar navigation\n├── ErrorBoundary.tsx\
-    \   # Error handling\n└── Loading.tsx          # Loading states\n```\n\nBASE COMPONENTS:\n\
-    1. App.tsx\n   - Main application component\n   - Replit Extensions API initialization\n\
-    \   - Global state provider\n   - Error boundary wrapper\n\n2. Layout.tsx\n  \
-    \ - Header, sidebar, main content\n   - Responsive design\n   - Theme support\n\
-    \n3. Navigation\n   - Roadmap view\n   - Sprint view\n   - Task view\n   - Settings\n\
-    \nSTYLING:\n- Replit design system\n- Tailwind CSS\n- Dark mode support\n- Responsive\
-    \ layouts\n\nSTATE MANAGEMENT:\n- React Context for global state\n- useState for\
-    \ local state\n- Custom hooks for reusability\n\nDELIVERABLES:\n- Base React components\n\
-    - Layout structure\n- Navigation system\n- Styling setup\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

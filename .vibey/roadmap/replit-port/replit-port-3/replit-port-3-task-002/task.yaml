@@ -1,104 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-3
   id: replit-port-3-task-002
-  name: Implement .replit TOML generation
+  sprint_id: replit-port-3
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement .replit TOML generation
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 8
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: 'Implement .replit TOML generation from Vibey project configuration.
-
-
-    TOML STRUCTURE:
-
-    ```toml
-
-    run = "python -m vibey.mcp.server"
-
-    language = "python3"
-
-    entrypoint = "main.py"
-
-
-    [env]
-
-    VIBEY_MODE = "replit"
-
-    VIBEY_CONFIG_PATH = ".vibey/config"
-
-
-    [nix]
-
-    channel = "stable-23_11"
-
-
-    [gitHubImport]
-
-    requiredFiles = [".replit", "replit.nix"]
-
-
-    [languages.python3]
-
-    pattern = "**/*.py"
-
-
-    [unitTest]
-
-    language = "python3"
-
-
-    [deployment]
-
-    run = ["sh", "-c", "python -m vibey.mcp.server"]
-
-    ```
-
-
-    GENERATION LOGIC:
-
-    - Read project.yaml configuration
-
-    - Extract Replit-specific settings
-
-    - Generate TOML structure
-
-    - Validate TOML syntax
-
-    - Write to .replit file
-
-
-    CONFIGURATION MAPPING:
-
-    - project.platform.replit.run_command → run
-
-    - project.platform.replit.language → language
-
-    - project.platform.replit.env → [env]
-
-    - project.platform.replit.nix_channel → [nix].channel
-
-
-    DELIVERABLES:
-
-    - .replit generation method
-
-    - TOML template
-
-    - Validation logic
-
-    - Unit tests
-
-    '
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

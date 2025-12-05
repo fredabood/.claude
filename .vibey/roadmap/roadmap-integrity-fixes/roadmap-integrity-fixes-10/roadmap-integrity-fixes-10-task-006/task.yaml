@@ -5,64 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update documentation contribution guidelines
-  description: "Update contributing guidelines to document new documentation organization\
-    \ conventions.\n\nGOAL: Help contributors understand where documentation belongs\n\
-    \nDELIVERABLES:\n\n1. Update docs/development/CONTRIBUTING.md (or create if needed)\n\
-    2. Add \"Documentation Organization\" section\n3. Provide decision flowchart\n\
-    4. Include examples\n\nCONTENT TO ADD:\n\n```markdown\n## Documentation Organization\n\
-    \n### Overview\n\nWe maintain two types of documentation:\n\n1. **Context Documentation**\
-    \ - Informs development process\n2. **Project Documentation** - Describes project\
-    \ state\n\nUnderstanding this distinction helps you place documentation correctly.\n\
-    \n### Context Documentation\n\n**Purpose:** Support development of specific tracks/sprints/tasks\n\
-    \n**Location:** `.vibey/roadmap/[track]/[sprint]/[task]/context/`\n\n**Examples:**\n\
-    - Analysis reports (schema audits, performance benchmarks)\n- Fix strategies and\
-    \ design decisions\n- QA reports and test results\n- Research findings\n- Sprint\
-    \ retrospectives\n- Task rationale and context notes\n\n**Lifecycle:** Created\
-    \ during development, archived when task completes\n\n**When to create:**\n- You're\
-    \ analyzing a problem (audit, investigation)\n- You're documenting a decision\
-    \ (design choice, strategy)\n- You're reporting results (QA, testing, benchmarks)\n\
-    - You need to explain task context\n\n### Project Documentation\n\n**Purpose:**\
-    \ Help users understand and use the framework\n\n**Location:** `docs/`\n\n**Structure:**\n\
-    - `docs/getting-started/` - Installation, quick start, user journey\n- `docs/guides/`\
-    \ - How-to guides, best practices\n- `docs/reference/` - API reference, specifications\n\
-    - `docs/development/` - Framework development docs\n\n**Examples:**\n- User guides\
-    \ and tutorials\n- API reference and architecture docs\n- Contributing guidelines\n\
-    - Framework roadmap\n- Agent and workflow definitions\n\n**Lifecycle:** Maintained\
-    \ as long as feature exists\n\n**When to update:**\n- You're adding a feature\
-    \ (document usage)\n- You're changing behavior (update guides)\n- You're fixing\
-    \ documentation bugs\n- You're improving clarity\n\n### Decision Flowchart\n\n\
-    ```\nIs this documentation?\n├─ No → Not a .md file? → Put where it belongs\n\
-    └─ Yes → Is it informing a specific task/sprint?\n    ├─ Yes → Context Documentation\n\
-    \    │   └─ Put in: .vibey/roadmap/[track]/[sprint]/[task]/context/\n    └─ No\
-    \ → Is it describing project functionality?\n        ├─ Yes → Project Documentation\n\
-    \        │   └─ Put in: docs/[category]/\n        └─ Not sure? → Ask in PR review\n\
-    ```\n\n### Common Scenarios\n\n**Scenario 1: Schema Audit Report**\n- Type: Context\
-    \ (informs Sprint 8 schema remediation)\n- Location: `.vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-8/context/SCHEMA_AUDIT_REPORT.md`\n\
-    \n**Scenario 2: User Quick Start Guide**\n- Type: Project (helps users get started)\n\
-    - Location: `docs/getting-started/QUICK_START.md`\n\n**Scenario 3: Token Sizing\
-    \ Methodology**\n- Type: Context if research phase (informs Sprint 7 design)\n\
-    - Location: `.vibey/roadmap/roadmap-system/roadmap-system-7/context/TOKEN_SIZING_METHODOLOGY.md`\n\
-    - Later: Becomes project doc after implementation\n- Final location: `docs/guides/EFFORT_ESTIMATION.md`\n\
-    \n**Scenario 4: Architecture Decision Record**\n- Type: Depends on scope\n- If\
-    \ task-specific: `.vibey/roadmap/[track]/[sprint]/[task]/context/ADR_XXX.md`\n\
-    - If framework-wide: `docs/development/architecture/ADR_XXX.md`\n\n### Migration\
-    \ Guidelines\n\nIf you need to move documentation:\n\n1. Use `git mv` to preserve\
-    \ history:\n   ```bash\n   git mv old/path/file.md new/path/file.md\n   ```\n\n\
-    2. Update all references:\n   ```bash\n   # Find references\n   grep -r \"old/path/file.md\"\
-    \ .\n\n   # Update each reference\n   ```\n\n3. Verify no broken links:\n   ```bash\n\
-    \   python3 scripts/validate-documentation-organization.py\n   ```\n\n### Validation\n\
-    \nBefore committing, validate documentation organization:\n\n```bash\npython3\
-    \ scripts/validate-documentation-organization.py\n```\n\nThis checks:\n- ✅ All\
-    \ context docs in context/ directories\n- ✅ All project docs in docs/ directory\n\
-    - ✅ No broken documentation links\n- ✅ No misplaced files\n\n### Reference\n\n\
-    For complete standards, see:\n- [Documentation Organization Standards](./DOCUMENTATION_ORGANIZATION_STANDARDS.md)\n\
-    ```\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-20T01:00:00+00:00'
-  started: '2025-11-27T11:04:09.473924+00:00'
-  completed: '2025-11-27T11:04:09.473924+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-20T01:00:00+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -70,25 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-10-task-002
-    target_status: completed
-    reason: Need standards defined first
-  - type: task
-    target_id: roadmap-integrity-fixes-10-task-005
-    target_status: completed
-    reason: Need validation script to reference
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - docs/development/CONTRIBUTING.md
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T01:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

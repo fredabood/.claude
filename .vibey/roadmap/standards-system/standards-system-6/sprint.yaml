@@ -5,71 +5,90 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-11T00:00:00+00:00'
-  started: '2025-11-12T15:00:00+00:00'
-  completed: '2025-11-13T12:00:00+00:00'
-  estimated_duration: 1 week
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-11T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 9
+    development_tasks_completed: 9
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 9
     tasks_completed: 9
-    completion_percent: 100
-  goal: 'Enhance user experience with improved status displays, color coding,
-
-    and comprehensive documentation for both users and developers.
-
-    '
-  tasks_summary:
-  - Update 'vibey roadmap status' with standards display
-  - Update 'vibey roadmap show' with standards information
-  - Add color coding (green/yellow/red)
-  - Add progress indicators for standards
-  - Create user documentation (ROADMAP_STANDARDS.md)
-  - Create developer documentation (STANDARDS_IMPLEMENTATION.md)
-  - Create API documentation
-  - Update user journeys with standards examples
-  - Final integration testing
-  deliverables:
-  - Enhanced status command output
-  - Enhanced show command output
-  - Color-coded standards display
-  - docs/guides/ROADMAP_STANDARDS.md
-  - docs/development/STANDARDS_IMPLEMENTATION.md
-  - docs/development/STANDARD_VALIDATOR_API.md
-  - Updated docs/VIBEY_USER_JOURNEYS.md
-  - Final integration tests
-  quality_gates:
-  - name: Documentation Review
-    threshold: 100
-    blocking: true
-    status: passed
-    description: All documentation reviewed and approved
-  - name: Integration Tests
-    threshold: 100
-    blocking: true
-    status: passed
-    description: All integration tests pass (47/47 tests passing)
-  - name: User Testing
-    threshold: 100
-    blocking: true
-    status: passed
-    description: Manual user testing complete
-  success_criteria:
-  - Status display clearly shows standards compliance
-  - Color coding makes issues immediately visible
-  - User documentation is clear and comprehensive
-  - Developer documentation enables extension
-  - All integration tests pass
-  - Standards system ready for production use
-  dependencies:
-  - standards-system-5
-  notes: 'SPRINT 6: UI/UX ENHANCEMENTS & DOCUMENTATION
-
-
-    Polish the user experience and create comprehensive documentation
-
-    to enable widespread adoption of the standards system.
-
-    '
+    completion_percent: 100.0
+  tasks:
+  - id: standards-system-6-task-001
+    title: Update 'vibey roadmap status' with standards display
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-002
+    title: Update 'vibey roadmap show' with standards information
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-003
+    title: Add color coding (green/yellow/red)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-004
+    title: Add progress indicators for standards
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-005
+    title: Create user documentation (ROADMAP_STANDARDS.md)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-006
+    title: Create developer documentation (STANDARDS_IMPLEMENTATION.md)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-007
+    title: Create API documentation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-008
+    title: Update user journeys with standards examples
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-6-task-009
+    title: Final integration testing
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-11T00:00:00+00:00'
-    estimated_tokens: 180000
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

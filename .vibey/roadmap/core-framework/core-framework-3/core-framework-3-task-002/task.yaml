@@ -5,43 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate cache into roadmap CLI commands
-  description: 'Update all roadmap CLI commands to use caching layer.
-
-
-    Commands to update:
-
-    - roadmap status (uses task index)
-
-    - roadmap show (uses all indexes)
-
-    - roadmap list (uses type-specific indexes)
-
-    - roadmap find (uses indexes + search)
-
-    - roadmap deps (uses dependency graphs)
-
-    - roadmap context (uses dependency graphs)
-
-    - roadmap recommend (uses task index + assignments)
-
-
-    Integration:
-
-    - Initialize cache once on CLI startup
-
-    - Invalidate cache after state-changing commands
-
-    - Track cache hit rate for monitoring
-
-    - Add --no-cache flag for debugging
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-08T10:10:00.486558+00:00'
-  started: '2025-11-27T11:04:09.424738+00:00'
-  completed: '2025-11-27T11:04:09.424738+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-08T10:10:00.486558+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
   estimated_tokens: 1
@@ -49,20 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: core-framework-3-task-001
-    target_status: completed
-    reason: Need RoadmapCache implementation
+  dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
-  commits:
-  - hash: bb4520cb13379e3c6b92bb4e0b3e99f36f81fdcb
-    date: '2025-11-07T20:52:18-05:00'
-    message: 'feat: integrate RoadmapCache into CLI commands (Task 002)'
-    impact: Integrated cache across all roadmap CLI commands for 5x performance improvement
+  commits: []
   metadata:
-    last_updated: '2025-11-08T10:10:00.486555+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

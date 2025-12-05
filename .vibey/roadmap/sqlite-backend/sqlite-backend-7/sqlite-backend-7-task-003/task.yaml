@@ -5,74 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ArtifactProvenance
-  description: "Create the ArtifactProvenance class that tracks how an artifact came\
-    \ to exist.\nDifferent provenance types have different metadata.\n\nDESIGN REFERENCE:\
-    \ UNIFIED_TICKET_ARCHITECTURE.md Part 13.4\n\nARTIFACTPROVENANCE FIELDS:\n\nCore:\n\
-    - provenance_type: ProvenanceType (TICKET_CREATED, PRE_EXISTING, etc.)\n\nFor\
-    \ TICKET_CREATED:\n- created_by_ticket_id: Optional[str]\n- created_by_criterion_id:\
-    \ Optional[str]\n\nFor PRE_EXISTING:\n- discovered_at: Optional[datetime]\n- discovered_by:\
-    \ Optional[str] (user, scan process, \"filesystem_scan\")\n\nFor GENERATED:\n\
-    - generator_type: Optional[str] (\"sphinx\", \"pdoc\", \"typedoc\", \"mkdocs\"\
-    )\n- generator_config: Optional[Dict[str, Any]]\n- source_artifact_ids: Optional[List[str]]\
-    \ (artifacts used to generate this)\n\nFor EXTERNAL:\n- external_source: Optional[str]\
-    \ (URL, package name, etc.)\n- external_version: Optional[str]\n\nFor FRAMEWORK:\n\
-    - framework_component_type: Optional[str] (\"agent\", \"workflow\", \"template\"\
-    )\n\nFACTORY METHODS:\n\n@classmethod\ndef ticket_created(cls, ticket_id: str,\
-    \ criterion_id: Optional[str] = None):\n    Create provenance for ticket-created\
-    \ artifact.\n\n@classmethod\ndef pre_existing(cls, discovered_by: str = \"filesystem_scan\"\
-    ):\n    Create provenance for pre-existing artifact.\n\n@classmethod\ndef generated(cls,\
-    \ generator_type: str, source_artifact_ids: List[str]):\n    Create provenance\
-    \ for generated artifact.\n\n@classmethod\ndef external(cls, source: str, version:\
-    \ Optional[str] = None):\n    Create provenance for external artifact.\n\n@classmethod\n\
-    def framework(cls, component_type: str):\n    Create provenance for framework\
-    \ component.\n\nFILE LOCATION:\nvibey/roadmap/models/ticket/artifact_provenance.py\n\
-    \nSUCCESS CRITERIA:\n- ArtifactProvenance with all fields implemented\n- Factory\
-    \ methods for each provenance type work correctly\n- Validation ensures type-specific\
-    \ fields match provenance_type\n- JSON/YAML serialization works\n- Full test coverage\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
-  started: '2025-12-04T22:13:54.987052+00:00'
-  completed: '2025-12-04T22:14:18.415063+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T18:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: foundation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-7-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-7-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012580+00:00'
-    estimated_resolution: null
-  depends_on:
-  - blocker_id: sqlite-backend-7-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:08:22.784399+00:00'
-  depended_on_by:
-  - sqlite-backend-7-task-005
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/artifact_provenance.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_artifact_provenance.py
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T22:14:14.773105+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

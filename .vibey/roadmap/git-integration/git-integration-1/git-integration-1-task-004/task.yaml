@@ -3,23 +3,30 @@ task:
   sprint_id: git-integration-1
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Build sprint velocity calculator from git history
+  task_type: development
+  title: Build sprint velocity calculator from git history
+  description: null
   status: completed
-  priority: medium
-  estimated_hours: 6
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.411066+00:00'
-  completed: '2025-11-27T11:04:09.411066+00:00'
-  description: 'Build sprint velocity calculator from git history for measuring team
-    productivity.
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

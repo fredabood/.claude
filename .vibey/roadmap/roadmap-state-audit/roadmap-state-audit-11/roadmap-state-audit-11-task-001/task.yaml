@@ -5,27 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Verify Sprint 2-3 task completion
-  description: Add commit references or reset status for 7 unverified tasks
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
   completed: null
-  assigned_agent: coordinator
+  assigned_agent: null
   priority: high
-  phase_label: remediation
-  estimated_tokens: 500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-23T20:51:06.889497+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: Remediation task generated from data integrity audit

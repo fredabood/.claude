@@ -2,77 +2,31 @@ task:
   id: claude-port-1-task-008
   sprint_id: claude-port-1
   track_id: claude-port
-  status: completed
-  created: '2025-11-11T00:03:00-05:00'
-  started: '2025-11-27T11:04:09.567046+00:00'
-  completed: '2025-11-27T11:04:09.567046+00:00'
-  estimated_duration: 1 hour
-  actual_duration: 13 hours 15 minutes (intermittent)
-  priority: medium
-  assigned_agents:
-  - docs-writer
-  - test-engineer
-  description: 'Document comprehensive baseline metrics for Claude Code platform including
-
-    performance benchmarks, success metrics for each journey, and establish
-
-    platform parity baseline (100% by definition).
-
-    '
-  acceptance_criteria:
-  - Performance benchmarks documented
-  - Success metrics for each journey documented
-  - Platform parity baseline established (100%)
-  - Metrics ready for comparison with other platforms
-  deliverables:
-  - Performance benchmarks (<100ms startup, <2s test execution)
-  - Journey success metrics (detailed breakdown)
-  - Platform parity baseline (Claude Code = 100%)
-  - Comprehensive metrics documentation
-  commits:
-  - dfbd7fe02b9a22284ba01eb776df83310bc95d35
-  - 5787ef9fda37364658d9536b5cfaff5d23ea0026
-  metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T00:00:00-05:00'
-    notes: 'Task completed across multiple commits and documentation files.
-
-
-      Documented Metrics:
-
-      - Overall test pass rate: 68% → 73% → 81.7% → 97.9% → 100%
-
-      - Journey-specific pass rates
-
-      - Component-specific pass rates
-
-      - Performance benchmarks
-
-      - Bug fix success rate (100%)
-
-      - Time to fix bugs (3 hours for 4 bugs)
-
-
-      Platform Baseline Established:
-
-      - Claude Code = 100% parity (reference implementation)
-
-      - All other platforms will be scored relative to this
-
-      - Baseline metrics ready for multi-platform comparison
-
-
-      Documentation split across:
-
-      - CLAUDE_PORT_TEST_REPORT.md (321 lines)
-
-      - CLAUDE_PORT_SPRINT1_COMPLETE.md (434 lines)
-
-      - Total: 755 lines of comprehensive documentation
-
-      '
+  roadmap_id: vibey-framework-v2
+  task_type: development
   title: Document baseline metrics
-  estimated_tokens: 10000
-  size_category: M
-  original_estimated_duration: 1 hour
+  description: null
+  status: completed
   blocked: false
+  created: '2025-11-11T00:03:00-05:00'
+  started: null
+  completed: '2025-11-11T00:03:00-05:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,31 +1,32 @@
 task:
   id: cursor-port-2-task-005
-  name: Quality gate validation
   sprint_id: cursor-port-2
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Quality gate validation
+  description: null
   status: not_started
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 4 hours
-  description: "Validate all track-level quality gates.\n\nQuality Gates:\n1. Zero-Drift\
-    \ Validation (100%, blocking)\n   - All Cursor artifacts generated from frontmatter\n\
-    \   - CI fails on manual edits\n   - Checksum validation working\n\n2. MCP Tool\
-    \ Parity (100%, blocking)\n   - All 46 MCP tools accessible from Cursor\n   -\
-    \ .cursor/mcp.json correctly configured\n   - Tools respond correctly\n\n3. Context\
-    \ Generation (100%, blocking)\n   - CURSOR.md documents all agents and workflows\n\
-    \   - .cursorrules generated correctly\n   - All frontmatter extracted\n\n4. Documentation\
-    \ (90%, non-blocking)\n   - Integration guide complete\n   - Migration guide complete\n\
-    \   - Examples provided\n\nDeliverable: Quality gate validation report\n"
-  deliverables:
-  - Quality gate validation report
-  - Test results and screenshots
-  assigned_agents:
-  - test-engineer
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: critical
-    complexity: medium
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

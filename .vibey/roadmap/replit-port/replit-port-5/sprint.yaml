@@ -2,69 +2,78 @@ sprint:
   id: replit-port-5
   name: Extension Features
   track_id: replit-port
+  roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1.5 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  dependencies:
-  - type: sprint
-    target_id: replit-port-4
-    target_status: completed
-    reason: Extension scaffolding must complete before feature implementation
-    optional: false
+  tasks:
+  - id: replit-port-5-task-001
+    title: Create RoadmapView component
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-5-task-002
+    title: Create SprintProgress component
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-5-task-003
+    title: Create TaskList component
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-5-task-004
+    title: Implement file handlers for .vibey/ files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-5-task-005
+    title: Create end-to-end testing
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: replit-port-5-task-006
+    title: UI polish and refinements
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
-  depended_on_by:
-  - replit-port-6
-  quality_gates:
-  - name: Feature Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All roadmap visualization features working
-  - name: E2E Test Coverage
-    threshold: 80
-    blocking: true
-    status: not_run
-    description: End-to-end tests cover user workflows
-  deliverables:
-  - RoadmapView component
-  - SprintProgress component
-  - TaskList component
-  - File handler for .vibey/ files
-  - End-to-end testing
-  - UI polish and refinements
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 5 implements full extension features for roadmap visualization.
-
-
-      Components:
-
-      - RoadmapView: Track hierarchy, progress bars, status indicators
-
-      - SprintProgress: Current sprint details, task lists, completions
-
-      - TaskList: Interactive task management, status updates
-
-      - File handlers: Syntax highlighting, previews for .vibey/ files
-
-
-      User workflows:
-
-      - View roadmap structure
-
-      - Monitor sprint progress
-
-      - Update task status
-
-      - Browse .vibey/ files
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

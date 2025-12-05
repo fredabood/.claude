@@ -5,53 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add roadmap status commands to Vibey Manager
-  description: 'Update framework/agents/core/vibey-manager.md
-
-    - Add new section: "Roadmap Management"
-
-    - Add commands for viewing roadmap status
-
-    - Add commands for track management
-
-    - Add commands for dependency visualization
-
-    - Add commands for agent workload
-
-    - Enable natural language queries
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.297348+00:00'
-  completed: '2025-11-27T11:04:09.297348+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 10000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-006
-    target_status: completed
-    reason: Needs roadmap integration complete
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 899de719de28874b66e50b447f967cf4fb270acf
-    message: 'feat: Update Vibey Manager with hierarchical roadmap commands'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T12:48:33-05:00'
-    files_changed:
-    - framework/agents/core/vibey-manager.md
-    note: PRESERVED - agent documentation maintained
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183794+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -5,6 +5,7 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-20T01:00:00+00:00'
   started: null
   completion_gate_check_at: null
@@ -13,6 +14,12 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 7
+    development_tasks_completed: 7
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100.0
@@ -33,7 +40,7 @@ sprint:
     task_type: development
     gate_info: null
   - id: roadmap-integrity-fixes-10-task-004
-    title: Migrate analysis/report files to context/ dirs
+    title: Migrate analysis/report files to context/ directories
     status: completed
     task_type: development
     gate_info: null
@@ -58,21 +65,20 @@ sprint:
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Documentation audit report categorizing all files
-  - Documentation organization standards document
-  - context/ directories created in all roadmap locations
-  - All analysis/report files migrated to context/
-  - Updated validation scripts enforcing structure
-  - Updated .gitignore for context/ directories
-  - Updated CONTRIBUTING.md with doc conventions
-  - 100% documentation compliance validation
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-20T01:00:00+00:00'
-    estimated_duration: 1-2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
-    estimated_tokens: 7
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

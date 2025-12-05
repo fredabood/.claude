@@ -5,81 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement vibey roadmap validate command
-  description: "Create comprehensive validation command to check roadmap data integrity.\n\
-    \nImplementation:\n1. Create vibey/cli/commands/roadmap_validate.py\n2. Implement\
-    \ validation checks (see task 002-004 for specific checks)\n3. Add Click command\
-    \ interface\n4. Support verbose and JSON output modes\n5. Return exit code 0 (success)\
-    \ or 1 (failures found)\n\nCommand Interface:\n```bash\nvibey roadmap validate\
-    \ [OPTIONS]\n\nOptions:\n  --track TEXT          Validate specific track only\n\
-    \  --verbose            Show detailed validation output\n  --json            \
-    \   Output results as JSON\n  --fix                Attempt to fix issues automatically\
-    \ (future)\n```\n\nValidation Categories:\n- Status/progress consistency (task\
-    \ 002)\n- Referential integrity (task 003)\n- Task data model validation (task\
-    \ 004)\n- Dependency cache accuracy\n- Blocked status correctness\n\nOutput Format:\n\
-    - Summary: tracks checked, issues found, severity\n- Detailed: per-track validation\
-    \ results\n- Recommendations: how to fix issues\n- Exit code: 0 (pass) or 1 (fail)\n\
-    \nIntegration:\n- Call from pre-commit hook (task 005)\n- Call from CI/CD pipeline\
-    \ (task 006)\n- Use in interactive CLI workflows\n\nDeliverables:\n- vibey roadmap\
-    \ validate command implemented\n- All validation checks integrated\n- Documentation\
-    \ for command usage\n- Unit tests for validation logic\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.444069+00:00'
-  completed: '2025-11-27T11:04:09.444069+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T20:30:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 8000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: roadmap-integrity-fixes-6-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: roadmap-integrity-fixes-6-task-006
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: roadmap-integrity-fixes-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-21T00:28:08.963662+00:00'
-  - blocker_id: roadmap-integrity-fixes-6-task-003
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-21T00:28:09.602802+00:00'
-  - blocker_id: roadmap-integrity-fixes-6-task-004
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-21T00:28:10.259050+00:00'
-  depended_on_by:
-  - roadmap-integrity-fixes-6-task-005
-  - roadmap-integrity-fixes-6-task-006
-  deliverables:
-  - type: code
-    paths:
-    - vibey roadmap validate command
-  - type: code
-    paths:
-    - Documentation
-  - type: code
-    paths:
-    - Unit tests
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

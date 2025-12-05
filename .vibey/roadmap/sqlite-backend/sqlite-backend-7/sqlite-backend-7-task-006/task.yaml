@@ -5,103 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement ImpactAnalyzer for Documentation Staleness
-  description: "Create the ImpactAnalyzer class that detects when code changes affect\n\
-    documentation and identifies cascading updates needed.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
-    \ Part 13.10\n\nIMPACTANALYZER CLASS:\n\nclass ImpactAnalyzer:\n    \"\"\"Analyzes\
-    \ impact of file changes on artifacts and documentation.\"\"\"\n\n    def __init__(self,\
-    \ artifact_registry: ArtifactRegistry, db: Database):\n        self._registry\
-    \ = artifact_registry\n        self._db = db\n\n    def analyze_file_changes(self,\
-    \ changed_files: List[str]) -> ImpactReport:\n        \"\"\"\n        Analyze\
-    \ impact of file changes.\n\n        Args:\n            changed_files: List of\
-    \ file paths that changed\n\n        Returns:\n            ImpactReport with affected\
-    \ artifacts and required updates\n        \"\"\"\n        # 1. Find artifacts\
-    \ containing changed files\n        directly_impacted = self._find_artifacts_by_files(changed_files)\n\
-    \n        # 2. Find documentation that documents impacted artifacts\n        stale_documentation\
-    \ = []\n        for artifact in directly_impacted:\n            docs = self._find_documenting_artifacts(artifact.id)\n\
-    \            stale_documentation.extend(docs)\n\n        # 3. Find tickets with\
-    \ criteria referencing stale documentation\n        affected_tickets = self._find_affected_tickets(stale_documentation)\n\
-    \n        return ImpactReport(\n            changed_files=changed_files,\n   \
-    \         directly_impacted_artifacts=directly_impacted,\n            stale_documentation=stale_documentation,\n\
-    \            affected_tickets=affected_tickets,\n            recommended_actions=self._generate_recommendations(...)\n\
-    \        )\n\n    def mark_documentation_stale(self, artifact_ids: List[str])\
-    \ -> int:\n        \"\"\"Mark documentation artifacts as stale. Returns count\
-    \ updated.\"\"\"\n\n    def refresh_artifact_hashes(self, artifact_ids: List[str])\
-    \ -> int:\n        \"\"\"Recompute content hashes for artifacts. Returns count\
-    \ updated.\"\"\"\n\n    def _find_artifacts_by_files(self, files: List[str]) ->\
-    \ List[Artifact]:\n        \"\"\"Find artifacts whose paths contain any of the\
-    \ given files.\"\"\"\n\n    def _find_documenting_artifacts(self, artifact_id:\
-    \ str) -> List[Artifact]:\n        \"\"\"Find artifacts that document the given\
-    \ artifact.\"\"\"\n\n    def _find_affected_tickets(self, artifacts: List[Artifact])\
-    \ -> List[str]:\n        \"\"\"Find tickets with criteria referencing these artifacts.\"\
-    \"\"\n\nIMPACTREPORT CLASS:\n\nclass ImpactReport(BaseModel):\n    \"\"\"Report\
-    \ of impact from file changes.\"\"\"\n\n    # Input\n    changed_files: List[str]\n\
-    \    analyzed_at: datetime\n\n    # Direct impacts\n    directly_impacted_artifacts:\
-    \ List[ArtifactSummary]\n\n    # Documentation impacts\n    stale_documentation:\
-    \ List[ArtifactSummary]\n\n    # Ticket impacts\n    affected_tickets: List[TicketImpact]\n\
-    \n    # Recommendations\n    recommended_actions: List[RecommendedAction]\n\n\
-    \    # Summary statistics\n    @property\n    def total_artifacts_affected(self)\
-    \ -> int\n    @property\n    def total_tickets_affected(self) -> int\n    @property\n\
-    \    def has_blocking_impacts(self) -> bool\n\nSUPPORTING CLASSES:\n\nclass ArtifactSummary(BaseModel):\n\
-    \    id: str\n    name: str\n    artifact_type: ArtifactType\n    paths: List[str]\n\
-    \nclass TicketImpact(BaseModel):\n    ticket_id: str\n    ticket_name: str\n \
-    \   impact_type: str  # \"stale_doc_blocks_completion\", \"stale_doc_warning\"\
-    \n    criterion_id: str\n    artifact_id: str\n\nclass RecommendedAction(BaseModel):\n\
-    \    action_type: str  # \"update_documentation\", \"refresh_hash\", \"review\"\
-    \n    target_artifact_id: str\n    description: str\n    priority: str  # \"high\"\
-    , \"medium\", \"low\"\n\nGIT HOOK INTEGRATION:\n\nThe ImpactAnalyzer should be\
-    \ usable from git hooks:\n\n# In pre-commit hook:\nchanged_files = get_staged_files()\n\
-    analyzer = ImpactAnalyzer(registry, db)\nreport = analyzer.analyze_file_changes(changed_files)\n\
-    \nif report.has_blocking_impacts:\n    print(\"WARNING: Documentation may be stale\"\
-    )\n    for action in report.recommended_actions:\n        print(f\"  - {action.description}\"\
-    )\n\nFILE LOCATION:\nvibey/roadmap/operations/impact_analyzer.py\n\nSUCCESS CRITERIA:\n\
-    - ImpactAnalyzer finds affected artifacts from file changes\n- Documentation staleness\
-    \ cascade detected correctly\n- Affected tickets identified\n- ImpactReport provides\
-    \ actionable recommendations\n- mark_documentation_stale() works correctly\n-\
-    \ Integration with git hooks possible\n- Full test coverage\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-30T18:00:00+00:00'
-  started: '2025-12-04T22:28:23.732463+00:00'
-  completed: '2025-12-04T22:31:41.297746+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T18:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: operations
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-7-task-007
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-7-task-005
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-04T22:04:30.012610+00:00'
-    estimated_resolution: null
-  depends_on:
-  - blocker_id: sqlite-backend-7-task-005
-    blocker_type: task
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-04T22:27:38.348405+00:00'
-  depended_on_by:
-  - sqlite-backend-7-task-007
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/operations/impact_analyzer.py
-  - type: code
-    paths:
-    - tests/roadmap/operations/test_impact_analyzer.py
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T22:31:41.035800+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

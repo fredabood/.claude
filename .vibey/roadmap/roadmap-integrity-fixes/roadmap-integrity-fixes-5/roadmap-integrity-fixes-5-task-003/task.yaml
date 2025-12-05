@@ -5,33 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Clean up missing sprint declarations
-  description: "Fix discrepancies where tracks declare sprints that don't exist on\
-    \ disk.\n\nAudit found: 30 declared sprints missing from disk across 9 tracks\n\
-    \nProcess:\n1. Identify all tracks with missing sprint declarations\n2. For each\
-    \ missing sprint, determine:\n   - Was sprint deleted/moved?\n   - Was declaration\
-    \ added but sprint never created?\n   - Is sprint planned but not yet started?\n\
-    \n3. Decision tree per missing sprint:\n   - IF sprint was deleted: Remove declaration\
-    \ from track.yaml\n   - IF sprint never created: Remove declaration OR create\
-    \ directory\n   - IF sprint planned: Create sprint directory with not_started\
-    \ status\n\n4. For each decision:\n   - Update track.yaml sprint list\n   - Update\
-    \ sprints_total counter\n   - Document reason for change\n   - Preserve audit\
-    \ trail\n\n5. Tracks to check (from audit):\n   - Check all 19 tracks for sprint\
-    \ declaration mismatches\n   - Focus on tracks with highest discrepancies\n\n\
-    6. Validation:\n   - Verify all declared sprints exist on disk\n   - Verify no\
-    \ orphaned sprint directories\n   - Check referential integrity\n\nDeliverables:\n\
-    - Cleaned sprint declarations across all tracks\n- Updated track.yaml files\n\
-    - Documentation of changes\n- Validation results showing no missing sprints\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T20:30:00+00:00'
-  started: '2025-11-27T11:04:09.487154+00:00'
-  completed: '2025-11-27T11:04:09.487154+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T20:30:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
-  estimated_tokens: 6000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
@@ -39,18 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Cleaned sprint declarations
-  - type: code
-    paths:
-    - Updated track.yaml files
-  - type: code
-    paths:
-    - Documentation of changes
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T20:30:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

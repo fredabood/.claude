@@ -1,23 +1,32 @@
 task:
   id: mcp-server-4-task-009
-  title: Research - Amazon Q MCP Automation
   sprint_id: mcp-server-4
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   task_type: development
+  title: Research - Amazon Q MCP Automation
+  description: null
   status: not_started
   blocked: false
-  description: Research options to automate MCP setup when Vibey deploys for Amazon
-    Q Developer platform. Investigate configuration system and determine feasibility
-    of auto-configuration.
   created: '2025-11-25T00:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: medium
-  complexity: medium
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

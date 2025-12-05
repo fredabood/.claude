@@ -5,44 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add database-powered query commands
-  description: 'Add new query commands leveraging SQL power:
-
-    - vibey roadmap query blocked: List all blocked tasks with blocker info
-
-    - vibey roadmap query overdue: Tasks past estimated completion
-
-    - vibey roadmap query velocity: Sprint completion velocity
-
-    - vibey roadmap query deps <task-id>: Full dependency chain
-
-    These queries would be expensive with YAML parsing.
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-26T12:00:00+00:00'
-  started: '2025-11-26T14:00:00+00:00'
-  completed: '2025-11-26T18:00:00+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-26T12:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - sqlite-backend-2-task-002
-  - sqlite-backend-2-task-003
-  blocks:
-  - sqlite-backend-2-task-006
+  dependencies: []
+  blocks: []
   blocked_by: []
-  deliverables:
-  - New query commands
-  - Query documentation
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T12:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

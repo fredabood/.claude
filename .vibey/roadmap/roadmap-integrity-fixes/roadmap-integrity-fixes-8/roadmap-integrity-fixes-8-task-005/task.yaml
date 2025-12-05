@@ -5,20 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Validate all 435 YAML files pass schema
-  description: "Run comprehensive validation confirming 100% pass rate.\n\nValidation\
-    \ steps:\n1. Run schema validator:\n   python scripts/validate-roadmap-schema.py\
-    \ --strict --verbose\n\n2. Verify metrics:\n   - Files validated: 435\n   - Passed:\
-    \ 435 (100%)\n   - Failed: 0\n   - Critical: 0\n   - High: 0\n   - Medium: acceptable\n\
-    \   - Low: acceptable\n\n3. Run health dashboard:\n   python scripts/roadmap-health-dashboard.py\n\
-    \n4. Verify health score:\n   - Schema Compliance: 100% (435/435)\n   - Overall\
-    \ Health: 98+/100\n\n5. Document any acceptable warnings\n\n6. Create validation\
-    \ report\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-20T00:17:11.815014+00:00'
-  started: '2025-11-27T11:04:09.440275+00:00'
-  completed: '2025-11-27T11:04:09.440275+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-20T00:17:11.815014+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
   estimated_tokens: 1
@@ -26,28 +19,14 @@ task:
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: roadmap-integrity-fixes-8-task-002
-    target_status: completed
-    reason: Need critical fixes
-  - type: task
-    target_id: roadmap-integrity-fixes-8-task-003
-    target_status: completed
-    reason: Need high severity fixes
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: documentation
-    paths:
-    - SCHEMA_VALIDATION_REPORT_2025-11-20.md
-  - type: documentation
-    paths:
-    - HEALTH_DASHBOARD_FINAL.md
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-20T00:17:11.815028+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

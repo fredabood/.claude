@@ -5,87 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update standards_enforcement.py with inheritance
-  description: "Refactor standards_enforcement.py to use the new inheritance\npattern\
-    \ where standards cascade from parent to child tickets.\n\nCURRENT STATE:\n- Each\
-    \ level (roadmap, track, sprint) has independent standards\n- Manual checking\
-    \ at each level\n- No inheritance chain concept\n\nCHANGES REQUIRED:\n\n1. USE\
-    \ EFFECTIVE STANDARDS:\n   The smart accessor standards_effective returns the\
-    \ full\n   inheritance chain:\n\n   # OLD - check each level separately\n   def\
-    \ check_standards(task_id):\n       task = load_task(task_id)\n       sprint =\
-    \ load_sprint(task.sprint_id)\n       track = load_track(sprint.track_id)\n  \
-    \     roadmap = load_roadmap(track.roadmap_id)\n\n       violations = []\n   \
-    \    violations.extend(check_against(task, roadmap.standards))\n       violations.extend(check_against(task,\
-    \ track.standards))\n       violations.extend(check_against(task, sprint.standards))\n\
-    \       return violations\n\n   # NEW - effective standards includes full chain\n\
-    \   def check_standards(task_id):\n       task = load_task_with_ancestors(task_id)\n\
-    \       return check_against(task, task.standards)\n       # task.standards =\
-    \ standards_effective (inherited)\n\n2. STANDARD OVERRIDE HANDLING:\n   Overrides\
-    \ at lower levels take precedence:\n\n   def get_effective_standard(task_id, standard_id):\n\
-    \       task = load_task_with_ancestors(task_id)\n       for standard in task.standards:\n\
-    \           if standard.id == standard_id:\n               return standard\n \
-    \      return None  # Standard not applicable\n\n3. BLOCKING STANDARD DETECTION:\n\
-    \   def get_blocking_standards(ticket_id):\n       ticket = load_ticket_with_ancestors(ticket_id)\n\
-    \       return [s for s in ticket.standards\n               if s.is_blocking()\
-    \ and not s.is_satisfied(ticket)]\n\n4. STANDARD ENFORCEMENT LEVELS:\n   - REQUIRED:\
-    \ Must pass before completion\n   - RECOMMENDED: Warning on completion\n   - OPTIONAL:\
-    \ Audit only, no blocking\n\n   def can_complete(ticket_id):\n       ticket =\
-    \ load_ticket_with_ancestors(ticket_id)\n       for standard in ticket.standards:\n\
-    \           if standard.is_blocking() and not standard.is_satisfied(ticket):\n\
-    \               return False, f\"Blocked by standard: {standard.name}\"\n    \
-    \   return True, None\n\n5. FUNCTIONS TO UPDATE:\n   - check_standards()\n   -\
-    \ get_applicable_standards()\n   - get_blocking_standards()\n   - enforce_standards()\n\
-    \   - validate_against_standard()\n   - get_standard_violations()\n\n6. NEW FUNCTIONS:\n\
-    \   - get_effective_standards(ticket_id)\n   - get_inherited_standards(ticket_id)\n\
-    \   - get_local_standards(ticket_id)\n   - get_standard_override_chain(ticket_id,\
-    \ standard_id)\n\nIMPLEMENTATION STEPS:\n\n1. Update imports to new model types\n\
-    2. Replace manual hierarchy traversal with smart accessors\n3. Update enforcement\
-    \ functions to use standards_effective\n4. Add override handling for lower-level\
-    \ precedence\n5. Update blocking detection\n6. Add new helper functions\n7. Update\
-    \ all callers\n8. Add/update tests\n\nSUCCESS CRITERIA:\n- Standards inherit correctly\
-    \ from ancestors\n- Lower-level overrides take precedence\n- Blocking standards\
-    \ prevent completion\n- No manual hierarchy traversal\n- All existing functionality\
-    \ preserved\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-05T02:27:13.651580+00:00'
-  completed: '2025-12-05T02:31:00.079678+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: critical
-  phase_label: implementation
-  estimated_tokens: 3500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-9-task-004
-    at_status: not_started
-    reason: Blocks task from starting
-  - type: task
-    target_id: sqlite-backend-9-task-005
-    at_status: not_started
-    reason: Blocks task from starting
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Updated vibey/operations/roadmap/standards_enforcement.py
-  - type: code
-    paths:
-    - Inheritance chain handling
-  - type: code
-    paths:
-    - Override precedence logic
-  - type: code
-    paths:
-    - tests/operations/roadmap/test_standards_enforcement_v2.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

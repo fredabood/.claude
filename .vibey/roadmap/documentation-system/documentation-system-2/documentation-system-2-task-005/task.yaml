@@ -5,64 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement automatic sync triggers
-  description: 'Add automatic synchronization triggers on roadmap state changes
-
-    (task completion, sprint completion, etc.).
-
-
-    Implementation:
-
-    - Hook into state change events
-
-    - Trigger sync on task completion
-
-    - Trigger sync on sprint completion
-
-    - Trigger sync on track completion
-
-    - Trigger sync on context add
-
-    - Respect sync configuration (triggers enabled/disabled)
-
-    - Log sync operations
-
-
-    Acceptance Criteria:
-
-    - Sync triggered automatically on configured events
-
-    - Configuration controls which triggers are active
-
-    - Sync operations logged
-
-    - No performance degradation from hooks
-
-    - Errors don''t block state changes
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-09T21:29:48.423978+00:00'
-  started: '2025-11-22T20:03:49.451613+00:00'
-  completed: '2025-11-22T20:03:49.451613+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-09T21:29:48.423978+00:00'
+  assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 3000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: documentation-system-2-task-004
-    target_status: completed
-    reason: Required prerequisite
+  dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-09T21:29:48.423979+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

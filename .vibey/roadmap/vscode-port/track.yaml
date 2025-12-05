@@ -8,7 +8,7 @@ track:
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
   completed: null
-  estimated_duration: 2 weeks
+  estimated_duration: null
   progress:
     sprints_total: 2
     sprints_completed: 0
@@ -18,156 +18,30 @@ track:
   sprints:
   - id: vscode-port-1
     name: Core Adapter & MCP Configuration
-    status: not_started
-    estimated_duration: 1 week
+    status: in_progress
+    estimated_duration: null
     tasks_count: 6
     started: null
-    completed: null
-    description: 'Create VSCodeAdapter extending BaseAdapter.
-
-      Generate .vscode/mcp.json configuration.
-
-      Integrate with VS Code native MCP support (GA July 2025).
-
-
-      KEY INSIGHT: VS Code has FULL MCP SUPPORT (GA in v1.102).
-
-      No extension needed - just mcp.json config file.
-
-      Full spec: Tools, Resources, Prompts, Sampling, Auth.
-
-
-      TASKS:
-
-      - vscode-port-1-task-001: Create VSCodeAdapter base class
-
-      - vscode-port-1-task-002: Implement VSCodeContextGenerator
-
-      - vscode-port-1-task-003: Implement VSCodeSettingsGenerator (.vscode/mcp.json)
-
-      - vscode-port-1-task-004: Add vibey deploy --platform vscode CLI
-
-      - vscode-port-1-task-005: Write unit tests for adapter
-
-      - vscode-port-1-task-006: Write unit tests for generators
-
-      '
   - id: vscode-port-2
     name: Testing & Documentation
     status: not_started
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 4
     started: null
-    description: 'Integration testing with VS Code Agent Mode.
-
-      E2E tests with Copilot and native chat.
-
-      Complete integration documentation.
-
-
-      TASKS:
-
-      - vscode-port-2-task-001: Integration tests with VS Code
-
-      - vscode-port-2-task-002: E2E tests with Agent Mode
-
-      - vscode-port-2-task-003: Write VS Code integration guide
-
-      - vscode-port-2-task-004: Quality gate validation
-
-      '
-  dependencies:
-  - type: track
-    target_id: mcp-server
-    target_status: completed
-    reason: Requires MCP server for VS Code integration
-    optional: false
-  - type: track
-    target_id: continue-port
-    target_status: completed
-    reason: Similar VS Code extension patterns
-    optional: true
+  dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: mcp-server
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-23T00:00:00+00:00'
+  depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Zero-Drift Validation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All VS Code artifacts generated from frontmatter, CI fails on manual
-      edits
-    score: null
-  - name: MCP Tool Parity
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 46 MCP tools accessible from VS Code via .vscode/mcp.json
-    score: null
-  - name: Agent Mode Integration
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: VS Code Agent Mode can invoke all Vibey tools
-    score: null
-  - name: Documentation
-    threshold: 90
-    blocking: false
-    status: not_run
-    description: Integration guide complete
-    score: null
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - VSCodeAdapter class (vibey/adapters/vscode/adapter.py)
-  - VSCodeContextGenerator (vibey/adapters/vscode/context_generator.py)
-  - VSCodeSettingsGenerator (vibey/adapters/vscode/settings_generator.py)
-  - vibey deploy --platform vscode-port CLI command
-  - .vscode/mcp.json MCP configuration
-  - Integration guide (docs/guides/VSCODE_INTEGRATION.md)
-  - E2E test suite
-  strategic_value:
-  - 'Zero Drift: Generated artifacts always match source definitions'
-  - 'MCP Reuse: Leverages existing 46-tool MCP server'
-  - 'Full MCP Spec: Tools, Resources, Prompts, Sampling, Auth'
-  - 'Market Share: 75% of developers use VS Code'
-  - 'No Extension Required: Native MCP support (GA July 2025)'
-  - 'Agent Mode: Full multi-step workflow support'
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
-    design_doc: docs/guides/MCP_INTEGRATION.md
-    implementation_plan: .vibey/roadmap/vscode-port/context/IMPLEMENTATION_PLAN.md
-    notes: "VS CODE NATIVE MCP PORT - HIGH PRIORITY (Nov 2025 Research)\n\nCRITICAL\
-      \ UPDATE: VS Code has FULL MCP SUPPORT (GA July 2025).\nNo extension needed\
-      \ - just .vscode/mcp.json config file.\n\nMCP SUPPORT (CONFIRMED):\n- GA in\
-      \ VS Code 1.102 (July 14, 2025)\n- Full spec: Tools, Resources, Prompts, Sampling,\
-      \ Auth\n- Full spec: Roots, Elicitation, Server Instructions\n- Transports:\
-      \ stdio, HTTP, SSE, Unix sockets, pipes\n- 128 tools max per request\n\nCONFIG\
-      \ FORMAT (.vscode/mcp.json):\n{\n  \"servers\": {\n    \"vibey\": {\n      \"\
-      command\": \"python\",\n      \"args\": [\"-m\", \"framework.mcp.server\"],\n\
-      \      \"env\": {}\n    }\n  }\n}\n\nARCHITECTURE (Zero-Drift):\n┌──────────────────────────────────────────────────┐\n\
-      │         SINGLE SOURCE OF TRUTH                   │\n│  agents/*.md, workflows/*.md\
-      \ (frontmatter)       │\n└──────────────────────────────────────────────────┘\n\
-      \                  │\n     ┌───────────┼───────────┐\n     ▼           ▼   \
-      \        ▼\n┌─────────┐ ┌─────────┐ ┌─────────┐\n│MCP Srv  │ │VSCODE.md│ │mcp.json\
-      \ │\n│(reuse)  │ │Generator│ │Generator│\n└─────────┘ └─────────┘ └─────────┘\n\
-      \nWHY SEPARATE FROM COPILOT-PORT:\n- Copilot is GitHub's AI assistant (separate\
-      \ track)\n- This track targets VS Code's native MCP capabilities\n- Works with\
-      \ Agent Mode (autonomous pair programmer)\n- Works with ANY AI assistant (not\
-      \ just Copilot)\n\nCOMPATIBILITY: 90-95% (MCP-based, minimal adapter)\nESTIMATED\
-      \ EFFORT: 2 weeks\n\nSOURCES:\n- https://code.visualstudio.com/docs/copilot/chat/mcp-servers\n\
-      - https://code.visualstudio.com/blogs/2025/06/12/full-mcp-spec-support\n- https://github.blog/changelog/2025-07-14-model-context-protocol-mcp-support-in-vs-code-is-generally-available/\n\
-      \nTimeline: Q4 2025 (2 weeks, high priority)\n"
-    estimated_tokens: 0
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

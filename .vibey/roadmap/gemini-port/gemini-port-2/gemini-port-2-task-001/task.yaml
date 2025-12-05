@@ -1,19 +1,32 @@
 task:
   id: gemini-port-2-task-001
-  name: Create GeminiAdapter Class
   sprint_id: gemini-port-2
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create GeminiAdapter Class
+  description: null
   status: completed
   blocked: false
-  priority: critical
-  complexity: high
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
-  completed: '2025-11-23T18:03:00+00:00'
-  description: Extend BaseAdapter base class, implement platform-specific methods,
-    handle deployment target configuration (api, ai_studio, vertex_ai)
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-23T00:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  notes: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

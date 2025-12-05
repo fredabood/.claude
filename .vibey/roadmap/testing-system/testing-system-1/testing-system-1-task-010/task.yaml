@@ -5,19 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Set up coverage reporting configuration
-  description: 'Set up coverage reporting configuration
-
-
-    Migrated from tasks_summary field during Phase 1B task migration.'
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T03:00:00+00:00'
-  started: '2025-11-27T11:04:09.381578+00:00'
-  completed: '2025-11-27T11:04:09.381578+00:00'
+  started: null
+  completed: '2025-11-10T03:00:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 20000
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -27,16 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - tests/README.md (255 lines) - comprehensive testing documentation
-  commits:
-  - hash: 5d77949369f289d1501ae696400faa63befdd84f
-    date: '2025-11-09T22:28:23-05:00'
-    message: 'feat: Complete testing-system Sprint 1 - Test Framework Complete ✅'
+  deliverables: []
+  commits: []
   metadata:
-    last_updated: '2025-11-13T21:29:59.754233+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    migration_note: Migrated from tasks_summary field by task_migration_script.py
-      on 2025-11-13
-  size_category: M

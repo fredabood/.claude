@@ -1,32 +1,32 @@
 task:
   id: amazonq-port-1-task-006
-  roadmap_id: vibey-framework-v2
-  track_id: amazonq-port
   sprint_id: amazonq-port-1
-  name: Write unit tests for adapter
+  track_id: amazonq-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write unit tests for adapter
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 4
-  assigned_agent: test-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: 'Write comprehensive unit tests for AmazonQAdapter class to ensure
-    correct
-
-    implementation of adapter pattern and Amazon Q integration.
-
-    '
-  acceptance_criteria:
-  - Unit tests for AmazonQAdapter class
-  - Test coverage of all adapter methods
-  - Test AWS authentication handling
-  - Tests pass with >90% code coverage
-  dependencies:
-  - amazonq-port-1-task-001
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

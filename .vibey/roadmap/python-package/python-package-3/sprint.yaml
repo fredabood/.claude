@@ -2,90 +2,98 @@ sprint:
   id: python-package-3
   name: Content Management Interface
   track_id: python-package
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 10
+    development_tasks_completed: 10
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100.0
-  tasks: []
-  dependencies:
-  - python-package-1
-  - python-package-2
-  blocked_by:
-  - python-package-1
-  - python-package-2
+  tasks:
+  - id: python-package-3-task-001
+    title: Design content operations API
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-002
+    title: Create content operations library
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-003
+    title: Implement content list operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-004
+    title: Implement content show operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-005
+    title: Implement content create operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-006
+    title: Implement content edit operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-007
+    title: Implement content delete operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-008
+    title: Add CLI content commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-009
+    title: Add MCP content tools
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: python-package-3-task-010
+    title: Create content management tests
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: CLI Content Commands
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All content CLI commands work correctly
-  - name: MCP Content Tools
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All content MCP tools work correctly
-  - name: Content Test Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: 90%+ test coverage for content operations
-  deliverables:
-  - Content operations library (vibey/operations/content/)
-  - CLI content command group (list, show, create, edit, delete, validate, search)
-  - MCP content tools (7 tools)
-  - Content management test suite
-  - Content type templates for creating new content
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 3 adds CRUD/DDL operations for content (agents, workflows,
-
-      templates, handoffs) to both CLI and MCP interfaces.
-
-
-      MOTIVATION:
-
-      - Users currently must manually edit YAML frontmatter
-
-      - No validation until MCP server tries to load content
-
-      - No backup/rollback for accidental changes
-
-      - AI assistants have no way to create/modify content programmatically
-
-
-      DESIGN PRINCIPLES:
-
-      - Safe by default: backups before any modification
-
-      - Validation before write: catch errors early
-
-      - Interactive mode: prompt for required fields
-
-      - Soft delete: move to trash, not hard delete
-
-      - Atomic writes: prevent partial/corrupted files
-
-
-      CONTENT TYPES SUPPORTED:
-
-      - agent: Specialized AI agent definitions
-
-      - workflow: Multi-step process definitions
-
-      - template: Handoff template definitions
-
-      - handoff: Rendered handoff documents
-
-      - schema: YAML schemas for validation
-
-      - example: Example configurations
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

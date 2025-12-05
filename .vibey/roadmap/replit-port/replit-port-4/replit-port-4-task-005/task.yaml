@@ -1,35 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-4
   id: replit-port-4-task-005
-  name: Implement CLUI commands
+  sprint_id: replit-port-4
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement CLUI commands
+  description: null
   status: not_started
-  priority: medium
-  estimated_hours: 6
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Implement CLUI (Command-Line User Interface) commands for common Vibey\n\
-    operations in Replit.\n\nCLUI COMMANDS:\n1. vibey:roadmap\n   - Show roadmap overview\n\
-    \   - Display in Extension panel\n\n2. vibey:sprint\n   - Show current sprint\
-    \ details\n   - List tasks\n\n3. vibey:task <task-id>\n   - Show task details\n\
-    \   - Update task status\n\n4. vibey:sync\n   - Sync roadmap with Git\n   - Refresh\
-    \ MCP data\n\n5. vibey:context\n   - Generate context file\n   - Show in editor\n\
-    \nCOMMAND REGISTRATION:\n```typescript\nimport { registerCommand } from '@replit/extensions';\n\
-    \nregisterCommand({\n  id: 'vibey:roadmap',\n  label: 'Vibey: Show Roadmap',\n\
-    \  handler: async () => {\n    // Open extension panel with roadmap\n  }\n});\n\
-    ```\n\nCOMMAND FEATURES:\n- Auto-completion\n- Parameter validation\n- Error handling\n\
-    - Progress indicators\n\nINTEGRATION:\n- Extension panel opens on command\n- Data\
-    \ loaded via useVibey hook\n- Results displayed in UI\n\nDELIVERABLES:\n- CLUI\
-    \ command implementations\n- Command registration\n- Help documentation\n- Error\
-    \ handling\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

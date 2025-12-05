@@ -5,44 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Configure commit tracking and evidence requirements
-  description: 'Implement and configure the require_commits setting and commit tracking
-
-    for the Vibey repository.
-
-
-    CONFIGURATION DECISIONS:
-
-    - record_commits: true/false - Store commit SHAs in YAML
-
-    - require_commits: true/false - Require commits for task completion
-
-    - Override policies for non-code tasks
-
-
-    FEATURES:
-
-    - Bidirectional traceability (commits → tasks, tasks → commits)
-
-    - Reconciliation algorithm implementation
-
-    - CLI commands: validate, repair, link-commits, sync-commits
-
-
-    DELIVERABLES:
-
-    - Commit tracking configuration
-
-    - Validation and repair tools
-
-    - Documentation for commit evidence requirements
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.384689+00:00'
-  completed: '2025-11-27T11:04:09.384689+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
   priority: high
   phase_label: null
   estimated_tokens: 1
@@ -58,6 +27,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-25T05:33:33.283480+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

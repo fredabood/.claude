@@ -5,51 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Correct roadmap-integration track status
-  description: 'Update .vibey/tracks/roadmap-integration.yaml
-
-    - Change status from production_ready to accurately reflect completion
-
-    - Update notes to reflect integration completion
-
-    - Document fix history
-
-    '
+  description: null
   status: completed
   blocked: false
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-27T11:04:09.298528+00:00'
-  completed: '2025-11-27T11:04:09.298528+00:00'
-  assigned_agent: coordinator
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 2000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: simple
+  complexity: medium
   gate_info: null
   audit_results: null
-  dependencies:
-  - type: task
-    target_id: infrastructure-fixes-1-task-008
-    target_status: completed
-    reason: Can only mark complete once integration done
-  - type: task
-    target_id: infrastructure-fixes-1-task-010
-    target_status: completed
-    reason: Needs audit complete
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: 706b8becbb7511a2d3258a2e5846368f861db921
-    message: 'fix: Correct 5 track status mismatches in roadmap'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-11-10T13:35:12-05:00'
-    files_changed:
-    - .vibey/roadmap/roadmap-integration/track.yaml
-    note: PRESERVED - track status corrections maintained
+  commits: []
   metadata:
-    last_updated: '2025-11-10T09:18:14.183790+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

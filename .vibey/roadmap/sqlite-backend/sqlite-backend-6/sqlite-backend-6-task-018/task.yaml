@@ -5,127 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Deferred Flag on Ticket with Completion Exclusion
-  description: "Add the `deferred` boolean flag to the Ticket base class and update\n\
-    completion logic to exclude deferred children from blocking checks.\n\nDESIGN\
-    \ REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md Part 12.3 (GAP-ML-005)\n\nBACKGROUND:\n\
-    \nThe `deferred` flag marks tickets as optional for production. A parent\nticket\
-    \ can complete even if deferred children are not complete.\n\nExample use case:\n\
-    - Track has 12 sprints\n- Sprint 12 is marked `deferred: true` (optional optimization\
-    \ work)\n- Track can complete when sprints 1-11 are done\n- Sprint 12 doesn't\
-    \ block track completion\n\nIMPLEMENTATION:\n\n1. ADD FIELD TO TICKET (Layer 1):\n\
-    \n   class Ticket(Completable):\n       \"\"\"Layer 1: Base ticket with work semantics.\"\
-    \"\"\n\n       # ... existing fields ...\n\n       # Deferral flag - marks ticket\
-    \ as optional for production\n       deferred: bool = False\n\n2. ADD HELPER METHOD\
-    \ TO HIERARCHICALTICKET (Layer 2):\n\n   class HierarchicalTicket(Ticket):\n \
-    \      \"\"\"Layer 2: Ticket with hierarchy-aware accessors.\"\"\"\n\n       def\
-    \ _is_child_deferred(self, child_id: str) -> bool:\n           \"\"\"Check if\
-    \ a child ticket is deferred.\"\"\"\n           child = self._load_child(child_id)\n\
-    \           return child.deferred if child else False\n\n       @property\n  \
-    \     def required_children(self) -> List[str]:\n           \"\"\"Children that\
-    \ are required (not deferred).\"\"\"\n           return [\n               c.target.completable_id\n\
-    \               for c in self.criteria\n               if isinstance(c.target,\
-    \ CompletableTarget)\n               and not self._is_child_deferred(c.target.completable_id)\n\
-    \           ]\n\n       @property\n       def deferred_children(self) -> List[str]:\n\
-    \           \"\"\"Children that are deferred (optional for production).\"\"\"\n\
-    \           return [\n               c.target.completable_id\n               for\
-    \ c in self.criteria\n               if isinstance(c.target, CompletableTarget)\n\
-    \               and self._is_child_deferred(c.target.completable_id)\n       \
-    \    ]\n\n3. UPDATE can_transition_to() IN COMPLETABLE:\n\n   def can_transition_to(self,\
-    \ status: TicketStatus) -> tuple[bool, List[str]]:\n       \"\"\"\n       Check\
-    \ if transition is allowed.\n\n       Deferred children are excluded from blocking\
-    \ checks.\n       \"\"\"\n       blocking = []\n       for criterion in self.criteria:\n\
-    \           if criterion.blocks_transition_to != status:\n               continue\n\
-    \           if not criterion.required:\n               continue\n\n          \
-    \ # Skip deferred children for COMPLETED/PRODUCTION_READY checks\n           if\
-    \ isinstance(criterion.target, CompletableTarget):\n               if self._is_child_deferred(criterion.target.completable_id):\n\
-    \                   continue  # Deferred child doesn't block\n\n           if\
-    \ not criterion.is_met:\n               blocking.append(criterion.description)\n\
-    \n       return (len(blocking) == 0, blocking)\n\n4. UPDATE PROGRESS CALCULATION:\n\
-    \n   def progress_for_transition(self, status: TicketStatus) -> Progress:\n  \
-    \     \"\"\"Progress computed per transition type, excluding deferred.\"\"\"\n\
-    \       relevant = []\n       for c in self.criteria:\n           if c.blocks_transition_to\
-    \ != status:\n               continue\n           # Exclude deferred children\
-    \ from progress calculation\n           if isinstance(c.target, CompletableTarget):\n\
-    \               if self._is_child_deferred(c.target.completable_id):\n       \
-    \            continue\n           relevant.append(c)\n\n       total = len(relevant)\n\
-    \       met = sum(1 for c in relevant if c.is_met)\n       return Progress(\n\
-    \           total=total,\n           completed=met,\n           completion_percent=(met\
-    \ / total * 100) if total > 0 else 100.0\n       )\n\n5. DATABASE SCHEMA:\n\n\
-    \   -- Add to tickets table\n   ALTER TABLE tickets ADD COLUMN deferred INTEGER\
-    \ DEFAULT 0;\n\n   -- View for required vs deferred children\n   CREATE VIEW v_required_children\
-    \ AS\n   SELECT\n       parent.id AS parent_id,\n       child.id AS child_id,\n\
-    \       child.deferred\n   FROM tickets parent\n   JOIN criteria c ON c.ticket_id\
-    \ = parent.id\n   JOIN tickets child ON json_extract(c.target_data, '$.completable_id')\
-    \ = child.id\n   WHERE c.target_type = 'completable';\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/ticket.py\
-    \ (add deferred field)\n- vibey/roadmap/models/ticket/hierarchical.py (add helpers,\
-    \ update can_transition_to)\n- vibey/roadmap/models/ticket/completable.py (update\
-    \ progress calculation)\n- vibey/roadmap/database/schema.py (add deferred column)\n\
-    - tests/roadmap/models/ticket/test_deferred.py (new test file)\n\nSUCCESS CRITERIA:\n\
-    - deferred: bool field exists on Ticket with default False\n- _is_child_deferred()\
-    \ helper works correctly\n- required_children excludes deferred children\n- deferred_children\
-    \ returns only deferred children\n- can_transition_to() skips deferred children\n\
-    - progress_for_transition() excludes deferred children\n- Parent can complete\
-    \ with incomplete deferred children\n- Full test coverage\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-30T12:00:00+00:00'
-  started: '2025-12-04T21:12:53.046883+00:00'
-  completed: '2025-12-04T21:19:44.663223+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T12:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: gap-remediation
-  estimated_tokens: 2500
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495587+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-6-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.495588+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-001
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T12:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T12:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/ticket.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/hierarchical.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/completable.py
-  - type: code
-    paths:
-    - vibey/roadmap/database/schema.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_deferred.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T21:19:41.155814+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

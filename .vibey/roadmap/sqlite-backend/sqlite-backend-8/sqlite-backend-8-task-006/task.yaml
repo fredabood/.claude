@@ -5,102 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Round-trip integrity testing
-  description: "Comprehensive testing to ensure data integrity through all\nserialization\
-    \ paths: YAML ↔ Pydantic ↔ SQLite\n\nTEST SCENARIOS:\n\n1. YAML V1 → PYDANTIC\
-    \ → YAML V2:\n   - Load existing v1 YAML files\n   - Convert to new Pydantic models\n\
-    \   - Save as v2 YAML\n   - Verify no data loss\n   - Verify field mapping correct\n\
-    \n2. YAML V2 → PYDANTIC → YAML V2:\n   - Load v2 YAML files\n   - Convert to Pydantic\
-    \ models\n   - Save as v2 YAML\n   - Verify byte-for-byte identical (deterministic)\n\
-    \n3. YAML → PYDANTIC → SQLITE → PYDANTIC → YAML:\n   - Load YAML into Pydantic\n\
-    \   - Save to SQLite via ORM\n   - Load from SQLite into Pydantic\n   - Save to\
-    \ YAML\n   - Compare with original (accounting for format changes)\n\n4. SQLITE\
-    \ → PYDANTIC → YAML → PYDANTIC → SQLITE:\n   - Load from SQLite\n   - Save to\
-    \ YAML\n   - Load from YAML\n   - Save to SQLite\n   - Compare database states\n\
-    \n5. HIERARCHY INTEGRITY:\n   - Create roadmap with tracks, sprints, tasks\n \
-    \  - Save and reload\n   - Verify parent_id references correct\n   - Verify is_parent,\
-    \ is_child computed correctly\n   - Verify smart accessors return correct values\n\
-    \n6. AGGREGATION INTEGRITY:\n   - Create task with commits_local\n   - Verify\
-    \ sprint.commits includes task commits\n   - Verify track.commits includes all\
-    \ sprint commits\n   - Verify roadmap.commits includes everything\n\n7. INHERITANCE\
-    \ INTEGRITY:\n   - Define standards on roadmap\n   - Verify track.standards_effective\
-    \ includes roadmap standards\n   - Verify sprint.standards_effective includes\
-    \ track + roadmap\n   - Verify task.standards_effective includes full chain\n\n\
-    8. EDGE CASES:\n   - Empty collections (no commits, no standards)\n   - Unicode\
-    \ in text fields\n   - Very long descriptions\n   - Maximum nesting depth\n  \
-    \ - Circular dependency detection\n\nTEST DATA:\n\nUse real roadmap data from\
-    \ .vibey/roadmap/ directory:\n- sqlite-backend track (10 sprints, 67+ tasks)\n\
-    - Multiple completed sprints with commits\n- Standards defined at various levels\n\
-    \nIMPLEMENTATION:\n\n1. Create test fixtures from real data\n2. Implement round-trip\
-    \ test framework\n3. Add comparison utilities (diff models)\n4. Create test for\
-    \ each scenario above\n5. Add performance benchmarks\n6. Generate test coverage\
-    \ report\n\nSUCCESS CRITERIA:\n- All round-trip tests pass\n- No data loss in\
-    \ any path\n- Hierarchy attributes computed correctly\n- Aggregation returns correct\
-    \ values\n- Inheritance chain works correctly\n- Performance acceptable (< 2x\
-    \ current)\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: null
-  completed: '2025-12-05T00:04:03.810236+00:00'
-  assigned_agent: test-engineer
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
   priority: high
-  phase_label: testing
-  estimated_tokens: 4000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-8-task-007
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-8-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T00:04:03.718330+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-8-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T00:04:03.718333+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-8-task-003
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T00:04:03.718334+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-8-task-005
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T00:04:03.718335+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - tests/roadmap/serialization/test_roundtrip_integrity.py
-  - type: code
-    paths:
-    - Test fixtures from real roadmap data
-  - type: code
-    paths:
-    - Model comparison utilities
-  - type: code
-    paths:
-    - Performance benchmark results
-  - type: code
-    paths:
-    - Test coverage report
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

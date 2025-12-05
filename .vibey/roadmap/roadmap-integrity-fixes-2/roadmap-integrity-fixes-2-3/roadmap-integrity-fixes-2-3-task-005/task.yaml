@@ -1,40 +1,32 @@
 task:
   id: roadmap-integrity-fixes-2-3-task-005
-  roadmap_id: vibey-framework-v2
-  track_id: roadmap-integrity-fixes-2
   sprint_id: roadmap-integrity-fixes-2-3
-  name: Verify python-package deliverables
+  track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Verify python-package deliverables
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 0.3
-  assigned_agent: backend-engineer
-  created: '2025-11-24T00:00:00+00:00'
-  description: 'Verify all claimed deliverables exist in codebase.
-
-
-    DELIVERABLES TO VERIFY:
-
-    1. vibey/content/ directory with __init__.py
-
-    2. pyproject.toml with find_packages() and package_data
-
-    3. Content accessor functions in vibey/content/__init__.py
-
-    4. vibey/operations/content/ library
-
-    5. Content CLI commands
-
-    6. Content MCP tools
-
-
-    Document any missing deliverables.
-
-    '
-  acceptance_criteria:
-  - All deliverables verified or gaps identified
-  - Documentation updated with evidence
-  metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
   blocked: false
+  created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

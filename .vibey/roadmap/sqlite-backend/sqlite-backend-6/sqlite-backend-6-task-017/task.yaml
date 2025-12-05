@@ -5,100 +5,34 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add DeliverableType and computed_tokens to Model Layer
-  description: "Implement DeliverableType classification on FileExistsTarget and\n\
-    computed_tokens aggregation on HierarchicalTicket.\n\nDESIGN REFERENCE: UNIFIED_TICKET_ARCHITECTURE.md\
-    \ Parts 11.4 and 11.7\n\nPART 1: DeliverableType on FileExistsTarget\n\nAdd DeliverableType\
-    \ enum:\n    class DeliverableType(str, Enum):\n        CODE = \"code\"\n    \
-    \    TEST = \"test\"\n        DOCUMENTATION = \"documentation\"\n        CONFIG\
-    \ = \"config\"\n        OTHER = \"other\"\n\nUpdate FileExistsTarget:\n    class\
-    \ FileExistsTarget(CriterionTarget):\n        paths: List[str]\n        all_required:\
-    \ bool = True\n        deliverable_type: DeliverableType = DeliverableType.OTHER\
-    \  # NEW\n\nThis enables:\n- Querying by deliverable type (\"show all CODE deliverables\"\
-    )\n- Reporting (\"Sprint has 5 code, 3 test deliverables\")\n- Requirements can\
-    \ target specific types\n\nPART 2: computed_tokens on HierarchicalTicket\n\nTaskTicket\
-    \ already has estimated_tokens. Add computed aggregation:\n\n    class HierarchicalTicket(Ticket):\n\
-    \        @computed_field\n        def computed_tokens(self) -> int:\n        \
-    \    \"\"\"\n            Token estimate for this ticket.\n            - Ultimate\
-    \ children (tasks): return estimated_tokens\n            - Parents: aggregate\
-    \ from children's computed_tokens\n            \"\"\"\n            if self.is_ultimate_child:\n\
-    \                return getattr(self, 'estimated_tokens', 0)\n\n            #\
-    \ Aggregate from children\n            return sum(\n                child.computed_tokens\n\
-    \                for child in self._load_children()\n            )\n\nUpdate start()\
-    \ method signature:\n    def start(self, platform_context_window: Optional[int]\
-    \ = None) -> tuple[bool, List[str]]:\n        can, reasons = self.can_transition_to(TicketStatus.IN_PROGRESS)\n\
-    \n        # Platform fit check (warning, not blocker)\n        if platform_context_window\
-    \ and self.computed_tokens > platform_context_window:\n            warning = (\n\
-    \                f\"Ticket requires ~{self.computed_tokens} tokens but platform\
-    \ \"\n                f\"context window is {platform_context_window}. Consider\
-    \ splitting.\"\n            )\n            reasons.append(warning)\n         \
-    \   logger.warning(warning)\n\n        if can:\n            self.status = TicketStatus.IN_PROGRESS\n\
-    \            self.started_at = datetime.now(timezone.utc)\n\n        return (can,\
-    \ reasons)\n\nFILE CHANGES:\n- vibey/roadmap/models/ticket/enums.py (add DeliverableType)\n\
-    - vibey/roadmap/models/ticket/targets.py (add deliverable_type field)\n- vibey/roadmap/models/ticket/hierarchical.py\
-    \ (add computed_tokens)\n- vibey/roadmap/models/ticket/ticket.py (update start()\
-    \ signature)\n- tests/roadmap/models/ticket/test_tokens.py (new test file)\n\n\
-    SUCCESS CRITERIA:\n- DeliverableType enum with 5 values\n- FileExistsTarget has\
-    \ deliverable_type field with default OTHER\n- computed_tokens returns estimated_tokens\
-    \ for tasks\n- computed_tokens aggregates from children for sprints/tracks\n-\
-    \ start() accepts optional platform_context_window parameter\n- Context window\
-    \ warning is logged but doesn't block\n- Full test coverage for aggregation\n"
+  description: null
   status: completed
   blocked: true
   created: '2025-11-30T10:00:00+00:00'
-  started: '2025-12-04T21:07:06.623749+00:00'
-  completed: '2025-12-04T21:10:47.422798+00:00'
-  assigned_agent: backend-engineer
+  started: null
+  completed: '2025-11-30T10:00:00+00:00'
+  assigned_agent: null
   priority: medium
-  phase_label: gap-remediation
-  estimated_tokens: 2000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: sqlite-backend-6-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.494341+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-6-task-009
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-11-30T20:10:50.494714+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-6-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
-  - blocker_id: sqlite-backend-6-task-009
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-30T10:00:00+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/enums.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/targets.py
-  - type: code
-    paths:
-    - vibey/roadmap/models/ticket/hierarchical.py
-  - type: code
-    paths:
-    - tests/roadmap/models/ticket/test_tokens.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-04T21:10:47.128628+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

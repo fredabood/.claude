@@ -5,68 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Forensic audit of testing-system track
-  description: "Perform comprehensive forensic audit of testing-system track to determine\n\
-    actual completion status vs YAML claims.\n\nYAML Claims:\n- 3 sprints, 30 tasks\
-    \ total\n- All tasks marked complete (100%)\n- Uses tasks_summary (text) instead\
-    \ of task objects\n- Track status: completed\n\nInvestigation Steps:\n\n1. Backup\
-    \ Archive Analysis (PRIORITY 1)\n   - Check .vibey/hierarchical-migration-backups/backup_20251109_171311/\n\
-    \   - Look for testing-system files in old flat structure\n   - Check tracks/testing-system.yaml\
-    \ if exists\n   - Check sprints/testing-system-*.yaml if exists\n   - Check tasks/testing-system-*-tasks.yaml\
-    \ if exists\n   - Extract task completion records from old format\n   - Compare\
-    \ old backup data vs current YAML claims\n   - Verify migration preserved all\
-    \ completion data\n\n2. Git History Analysis\n   - Search for commits with keywords:\
-    \ \"test\", \"testing-system\", \"pytest\"\n   - Find commits modifying test files\n\
-    \   - Find commits adding test infrastructure\n   - Extract commit SHAs, messages,\
-    \ dates, file changes\n   - Count lines added/modified related to testing\n  \
-    \ - Cross-reference commits with backup timestamps\n   - Map commits to specific\
-    \ tasks they implement\n\n3. Codebase Audit\n   - Count actual test files in tests/\
-    \ directory\n   - Check test coverage configuration\n   - Verify pytest setup\
-    \ exists\n   - Check test infrastructure (fixtures, helpers)\n   - Count actual\
-    \ lines of test code\n   - Identify test frameworks used\n\n4. Documentation Audit\n\
-    \   - Search for testing system documentation\n   - Check for test strategy docs\n\
-    \   - Find references to testing in docs/\n   - Verify deliverable documentation\
-    \ exists\n\n5. Test Suite Audit\n   - Run full test suite and capture results\n\
-    \   - Count total test cases\n   - Identify test categories (unit, integration,\
-    \ etc.)\n   - Verify tests are passing\n   - Check test coverage percentage\n\n\
-    6. Migration Verification\n   - Compare backup data vs current hierarchical structure\n\
-    \   - Verify all completed tasks from old format were preserved\n   - Check if\
-    \ any task completion records were lost during migration\n   - Verify progress\
-    \ counters accurately migrated\n   - Identify any data loss or corruption during\
-    \ migration\n\n7. Cross-Reference Analysis\n   - Compare git commits to claimed\
-    \ tasks (30)\n   - Map test files to claimed deliverables\n   - Determine if 30\
-    \ tasks is accurate count\n   - Calculate real completion percentage based on\
-    \ ALL evidence\n   - Verify quality gates actually passed\n   - Reconcile backup\
-    \ data vs current data vs git history\n\n8. Commit Backfilling (Git Tracking System\
-    \ Integration)\n   - For each identified commit related to testing-system work:\n\
-    \     * Determine which task it implements\n     * Add commit SHA to that task's\
-    \ commits: [] field in task.yaml\n     * Update task metadata with commit backfill\
-    \ timestamp\n   - Create audit trail of commit-to-task mappings\n   - Verify all\
-    \ commits accounted for in task files\n   - Update task completion dates based\
-    \ on commit timestamps if needed\n   - Document any commits that cannot be mapped\
-    \ to specific tasks\n\nAcceptance Criteria:\n- All 8 investigation steps completed\n\
-    - Backup archive evidence reviewed and documented\n- Git history documented (commits,\
-    \ dates, changes)\n- All identified commits mapped to specific tasks\n- Commits\
-    \ backfilled into task.yaml files (commits: [] field)\n- Codebase evidence cataloged\
-    \ (files, lines, features)\n- Documentation evidence cataloged\n- Test evidence\
-    \ cataloged\n- Cross-reference analysis shows claimed vs actual\n- Accurate completion\
-    \ percentage calculated\n- Recommended status determined (completed/in_progress/not_started)\n\
-    - Evidence-based assessment documented\n- Git tracking system populated with commit\
-    \ evidence\n\nDeliverables:\n- Forensic audit report for testing-system (markdown,\
-    \ 1000+ lines)\n- Git history analysis section\n- Commit-to-task mapping document\n\
-    - Updated task.yaml files with commits backfilled\n- Codebase evidence section\n\
-    - Documentation evidence section\n- Test evidence section\n- Cross-reference analysis\n\
-    - Accurate status recommendation\n- Git tracking system integration verification\n"
+  description: null
   status: completed
   blocked: false
   created: '2025-11-12T20:20:00+00:00'
-  started: '2025-11-27T11:04:09.478516+00:00'
-  completed: '2025-11-27T11:04:09.478516+00:00'
-  assigned_agent: web-developer
+  started: null
+  completed: '2025-11-12T20:20:00+00:00'
+  assigned_agent: null
   priority: critical
   phase_label: null
-  estimated_tokens: 8000
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
@@ -74,21 +24,9 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - 'Forensic audit report: testing-system'
-  - type: code
-    paths:
-    - Git history analysis
-  - type: code
-    paths:
-    - Codebase evidence inventory
-  - type: code
-    paths:
-    - Accurate completion determination
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-12T20:20:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

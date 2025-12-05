@@ -5,62 +5,80 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-11T00:00:00+00:00'
-  started: '2025-11-12T00:00:00+00:00'
-  completed: '2025-11-12T12:00:00+00:00'
-  estimated_duration: 1 week
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-11T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 7
+    development_tasks_completed: 7
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
-    completion_percent: 100
-  goal: 'Build the standards resolution engine that resolves effective standards
-
-    for any roadmap item by implementing hierarchical inheritance from
-
-    roadmap → track → sprint → task.
-
-    '
-  tasks_summary:
-  - Create standards resolver module
-  - Implement resolve_standards_for_task()
-  - Implement resolve_standards_for_sprint()
-  - Implement resolve_standards_for_track()
-  - Implement inheritance and deduplication logic
-  - Add override handling
-  - Write integration tests
-  deliverables:
-  - vibey/roadmap/standards/resolver.py (Resolution engine)
-  - vibey/roadmap/standards/__init__.py
-  - Integration tests (test_standards_resolution.py)
-  - Documentation for resolver API
-  quality_gates:
-  - name: Integration Tests
-    threshold: 100
-    blocking: true
-    status: passed
-    description: All integration tests pass
-    score: 100
-  - name: Code Coverage
-    threshold: 90
-    blocking: true
-    status: passed
-    description: '>90% coverage for resolver'
-    score: 95
-  success_criteria:
-  - Hierarchical inheritance working correctly
-  - Deduplication prevents duplicate standards
-  - Override mechanism functional
-  - All integration tests passing
-  dependencies:
-  - standards-system-1
-  notes: 'SPRINT 2: STANDARDS RESOLUTION ENGINE
-
-
-    Implement the engine that determines which standards apply to any
-
-    given roadmap item based on hierarchical inheritance.
-
-    '
+    completion_percent: 100.0
+  tasks:
+  - id: standards-system-2-task-001
+    title: Create standards resolver module
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-002
+    title: Implement resolve_standards_for_task()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-003
+    title: Implement resolve_standards_for_sprint()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-004
+    title: Implement resolve_standards_for_track()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-005
+    title: Implement inheritance and deduplication logic
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-006
+    title: Add override handling
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: standards-system-2-task-007
+    title: Write integration tests
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-11T00:00:00+00:00'
-    estimated_tokens: 140000
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

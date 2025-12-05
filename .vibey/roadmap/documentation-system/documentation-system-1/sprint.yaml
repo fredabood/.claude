@@ -5,39 +5,85 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false
+  blocked_reason: null
   created: '2025-11-09T00:00:00+00:00'
   started: null
-  completion_gate_check_at: '2025-11-09T22:01:41.288846+00:00'
+  completion_gate_check_at: null
   completed: null
-  production_gate_check_at: '2025-11-23T19:01:51.405968+00:00'
-  production_ready_at: '2025-11-23T19:01:52.132456+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-11-09T00:00:00+00:00'
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 8
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100.0
-  tasks: []
+  tasks:
+  - id: documentation-system-1-task-000
+    title: Implement ULID-based ID generation system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-001
+    title: Design and implement hierarchical directory structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-002
+    title: Build table_of_contents.json generation system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-003
+    title: Create markdown view generation from YAML
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-004
+    title: Implement context directory management
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-005
+    title: Update roadmap state management scripts
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-006
+    title: Create unit tests for generation systems
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: documentation-system-1-task-007
+    title: Document new hierarchical structure
+    status: completed
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - ULID-based ID generation system
-  - Hierarchical directory structure implementation
-  - Table of contents JSON generation system
-  - Markdown view generation from YAML
-  - Context directory management
-  - Updated roadmap state management scripts
-  - Unit tests for generation systems
-  - Documentation for new structure
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-09T21:30:52.026078+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
-    estimated_tokens: 24000
+    estimated_tokens: null
     actual_tokens: null
     agents_used: null

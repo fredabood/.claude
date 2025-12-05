@@ -1,37 +1,32 @@
 task:
-  roadmap_id: vibey-framework-v2
-  track_id: replit-port
-  sprint_id: replit-port-5
   id: replit-port-5-task-001
-  name: Create RoadmapView component
+  sprint_id: replit-port-5
+  track_id: replit-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create RoadmapView component
+  description: null
   status: not_started
-  priority: critical
-  estimated_hours: 10
-  assigned_agent: frontend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: "Create RoadmapView component for visualizing track hierarchy and progress.\n\
-    \nCOMPONENT FEATURES:\n1. Track List\n   - Track cards with status badges\n  \
-    \ - Progress bars showing completion\n   - Expandable/collapsible sections\n \
-    \  - Click to view sprints\n\n2. Track Details\n   - Track name and description\n\
-    \   - Sprint count and progress\n   - Assigned agents\n   - Dependencies and blockers\n\
-    \n3. Visual Hierarchy\n   - Tree view of tracks\n   - Indentation for sub-tracks\n\
-    \   - Connection lines\n   - Status color coding\n\n4. Filtering & Sorting\n \
-    \  - Filter by status (active, completed, blocked)\n   - Filter by priority\n\
-    \   - Sort by progress, name, date\n   - Search by name\n\nCOMPONENT STRUCTURE:\n\
-    ```typescript\ninterface RoadmapViewProps {\n  roadmap: Roadmap;\n  onTrackClick:\
-    \ (trackId: string) => void;\n}\n\nexport function RoadmapView({ roadmap, onTrackClick\
-    \ }: RoadmapViewProps) {\n  const { getTracks } = useVibey();\n  const [tracks,\
-    \ setTracks] = useState<Track[]>([]);\n  // Implementation\n}\n```\n\nINTERACTIONS:\n\
-    - Click track to expand sprints\n- Hover to show tooltip\n- Drag to reorder (optional)\n\
-    - Context menu for actions\n\nDELIVERABLES:\n- RoadmapView component\n- TrackCard\
-    \ sub-component\n- Filtering controls\n- Responsive design\n"
-  acceptance_criteria: []
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

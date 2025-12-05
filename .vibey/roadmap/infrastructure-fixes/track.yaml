@@ -6,9 +6,9 @@ track:
   blocked: false
   priority: critical
   created: '2025-11-10T10:00:00+00:00'
-  started: '2025-11-10T10:00:00+00:00'
-  completed: '2025-11-15T00:00:00+00:00'
-  estimated_duration: 3.5 weeks
+  started: null
+  completed: '2025-11-10T10:00:00+00:00'
+  estimated_duration: null
   progress:
     sprints_total: 2
     sprints_completed: 1
@@ -17,169 +17,31 @@ track:
     completion_percent: 100.0
   sprints:
   - id: infrastructure-fixes-1
-    name: Critical Infrastructure Fixes - Foundation
+    name: Critical Infrastructure Fixes
     status: production_ready
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 13
-    started: '2025-11-10T15:00:00+00:00'
+    started: null
   - id: infrastructure-fixes-2
     name: CLI/MCP Integration & Quality Gates
     status: completed
-    estimated_duration: 1.5 weeks
+    estimated_duration: null
     tasks_count: 7
-    started: '2025-11-22T19:44:34.862625+00:00'
+    started: null
   dependencies: []
-  blocks:
-  - type: track
-    target_id: directory-migration
-    at_status: not_started
-    reason: Must fix roadmap integration before migrating directories
-  - type: track
-    target_id: mcp-server
-    at_status: not_started
-    reason: Need working roadmap system before building MCP server
-  - type: track
-    target_id: goose-port
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: aider-port
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: continue-port
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: windsurf-port
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: jetbrains-port
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Platform-agnostic foundation depends on functional infrastructure
-  - type: track
-    target_id: missing-agents
-    at_status: not_started
-    reason: Can run in parallel but foundation should be solid first
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - directory-migration
-  - mcp-server
-  - goose-port
-  - aider-port
-  - continue-port
-  - windsurf-port
-  - jetbrains-port
-  - multi-platform
-  - missing-agents
-  quality_gates:
-  - name: Roadmap CLI Functionality
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 15+ roadmap CLI commands work without errors
-    score: null
-  - name: /vibey Integration
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All /vibey commands properly integrate with roadmap system
-    score: null
-  - name: Status Accuracy
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All track statuses match actual implementation (0 discrepancies)
-    score: null
-  - name: Backward Compatibility
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Existing projects continue to work after fixes
-    score: null
-  assigned_agents:
-  - coordinator
-  - web-developer
-  - test-engineer
-  deliverables:
-  - Fixed roadmap CLI (no import errors) - ✅ Sprint 1
-  - Updated Vibey Manager with roadmap commands - ✅ Sprint 1
-  - Corrected track statuses (roadmap-integration, core-framework-2, roadmap-system)
-    - ✅ Sprint 1
-  - Migration tool for existing projects - ✅ Sprint 1
-  - Comprehensive tests for core operations - ✅ Sprint 1
-  - Updated documentation - ✅ Sprint 1
-  - Roadmap integrated into CLI deployment - ⏳ Sprint 2
-  - CLI plan command with roadmap integration - ⏳ Sprint 2
-  - Automatic progress tracking - ⏳ Sprint 2
-  - Quality gate validation (4 gates) - ⏳ Sprint 2
-  strategic_value:
-  - 'Unblocks Everything: This is the #1 blocker preventing users from accessing roadmap
-    system'
-  - 'Fixes Critical Gaps: Roadmap system built but broken, integration documented
-    but missing'
-  - 'Enables Foundation: Directory migration and platform expansion depend on this'
-  - 'Restores Trust: Status accuracy prevents documentation lies'
-  - 'Quick Win: 2 weeks to unlock months of planned work'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-15T19:00:00+00:00'
-    design_doc: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
-    implementation_plan: docs/development/GAP_CLOSURE_SPRINT_PLANS.md
-    notes: 'TRACK RESTRUCTURED (2025-11-15 19:00):
-
-
-      Track split into 2 sprints for proper work tracking:
-
-
-      SPRINT 1 - Foundation (COMPLETED):
-
-      - 13 tasks completed Nov 10, 2025
-
-      - Delivered: CLI wrapper, operations library, migration tools, status fixes
-
-      - 3,770+ lines of code
-
-      - All work committed and preserved
-
-
-      SPRINT 2 - Integration & Validation (NOT STARTED):
-
-      - 7 tasks planned (3 integration + 4 quality gates)
-
-      - Restores: Deployment integration, plan command, progress tracking
-
-      - Validates: All 4 quality gates
-
-      - Estimated: 1.5 weeks (~30 hours)
-
-
-      Current Status:
-
-      - Track: 65% complete (Sprint 1 done, Sprint 2 pending)
-
-      - Sprint 1: 100% (13/13 tasks)
-
-      - Sprint 2: 0% (0/7 tasks)
-
-
-      Architecture Context:
-
-      - Nov 10: Sprint 1 completed with slash command integration
-
-      - Nov 12: Architecture transition deleted slash commands (commit 205c877)
-
-      - Sprint 2: Re-implements integration in new CLI/MCP architecture
-
-
-      See TRACK_AUDIT_REPORT_2025-11-15.md for complete analysis.
-
-      '
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

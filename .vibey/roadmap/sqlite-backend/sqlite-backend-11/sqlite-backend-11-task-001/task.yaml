@@ -5,69 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build Computed DB from task files
-  description: 'Create validation tooling in vibey/roadmap/database/validation/:
-
-
-    computed_db.py - Build database from task files only:
-
-    - Read all task.yaml files into tasks table
-
-    - Read entity metadata (id, name, status) from sprint/track/roadmap YAML
-
-    - DO NOT read progress counters from YAML
-
-    - Use v_sprint_progress view to compute sprint progress
-
-    - Use v_track_progress view to compute track progress
-
-    - Use v_roadmap_progress view to compute roadmap progress
-
-
-    This represents "ground truth" - what counters SHOULD be based on
-
-    actual task statuses.
-
-
-    CLI command: vibey roadmap validate --level=computed
-
-    - Builds computed DB in memory (or temp file)
-
-    - Uses existing views from Sprint 1
-
-
-    Key insight from impact audit:
-
-    - Current codebase has ~24 computed fields that require manual sync
-
-    - These views replace ALL manual aggregations
-
-    - Comparison with declared values reveals state drift
-
-    '
+  description: null
   status: not_started
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
   started: null
   completed: null
-  assigned_agent: backend-engineer
+  assigned_agent: null
   priority: high
-  phase_label: implementation
-  estimated_tokens: 3000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: high
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - sqlite-backend-11-task-003
+  blocks: []
   blocked_by: []
-  deliverables:
-  - vibey/roadmap/database/validation/computed_db.py
-  - CLI validate --level=computed command
-  - Uses views from Sprint 1 for aggregation
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-26T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-    notes: null

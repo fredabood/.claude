@@ -1,44 +1,32 @@
 task:
   id: cursor-port-1-task-007
-  name: Write unit tests for generators
   sprint_id: cursor-port-1
   track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write unit tests for generators
+  description: null
   status: not_started
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 8 hours
-  description: 'Write comprehensive unit tests for all generators.
-
-
-    Test coverage:
-
-    - CursorContextGenerator (CURSOR.md generation)
-
-    - CursorSettingsGenerator (.cursor/mcp.json generation)
-
-    - CursorRulesGenerator (.cursorrules generation)
-
-    - Frontmatter extraction and parsing
-
-    - Template rendering
-
-    - Zero-drift validation (checksums)
-
-
-    Target: 85%+ coverage on generator modules
-
-    '
-  deliverables:
-  - tests/adapters/cursor/test_context_generator.py
-  - tests/adapters/cursor/test_settings_generator.py
-  - tests/adapters/cursor/test_rules_generator.py
-  assigned_agents:
-  - test-engineer
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
-    priority: high
-    complexity: medium
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

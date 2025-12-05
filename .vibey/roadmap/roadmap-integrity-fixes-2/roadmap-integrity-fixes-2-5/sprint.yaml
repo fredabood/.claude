@@ -2,40 +2,68 @@ sprint:
   id: roadmap-integrity-fixes-2-5
   name: Final Validation & Documentation
   track_id: roadmap-integrity-fixes-2
+  roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  estimated_duration: 1 hour
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0.0
-  tasks: []
-  dependencies:
-  - roadmap-integrity-fixes-2-2
-  - roadmap-integrity-fixes-2-3
-  - roadmap-integrity-fixes-2-4
-  blocked_by:
-  - roadmap-integrity-fixes-2-2
-  - roadmap-integrity-fixes-2-3
-  - roadmap-integrity-fixes-2-4
+  tasks:
+  - id: roadmap-integrity-fixes-2-5-task-001
+    title: Run full roadmap validation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-5-task-002
+    title: Document schema decisions
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-5-task-003
+    title: Update audit report
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-integrity-fixes-2-5-task-004
+    title: Mark track complete and commit
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
   depended_on_by: []
-  quality_gates:
-  - name: Full Validation Pass
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: vibey roadmap validate passes with no errors
-  deliverables:
-  - Full roadmap validation passing
-  - Updated audit documentation
-  - Schema decision documented
-  - Track marked complete
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: parallel-track-audit
-    last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Final validation sprint to confirm all fixes applied correctly.
-
-      '
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

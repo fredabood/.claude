@@ -1,32 +1,32 @@
 task:
   id: amazonq-port-2-task-002
-  roadmap_id: vibey-framework-v2
-  track_id: amazonq-port
   sprint_id: amazonq-port-2
-  name: E2E tests with Q IDE plugins
+  track_id: amazonq-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: E2E tests with Q IDE plugins
+  description: null
   status: not_started
-  priority: high
-  estimated_hours: 4
-  assigned_agent: test-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  description: 'Create end-to-end tests for Vibey integration with Amazon Q Developer
-    IDE
-
-    plugins (VS Code and JetBrains) to validate complete workflow execution.
-
-    '
-  acceptance_criteria:
-  - E2E test suite for Amazon Q IDE plugins
-  - Tests for VS Code plugin integration
-  - Tests for JetBrains plugin integration
-  - Tests for complete workflow execution
-  - Tests pass successfully
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

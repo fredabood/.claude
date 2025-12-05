@@ -4,31 +4,91 @@ sprint:
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
   status: completed
+  blocked: false
+  blocked_reason: null
   created: '2025-11-07T03:00:00+00:00'
-  started: '2025-11-12T16:00:00+00:00'
-  completed: '2025-11-22T18:57:16.567880+00:00'
-  estimated_duration: 2 weeks
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-07T03:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 9
+    development_tasks_completed: 9
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 9
     tasks_completed: 9
-    completion_percent: 100
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  deliverables:
-  - vibey/cli/roadmap_commands/start.py
-  - vibey/operations/roadmap/update.py
-  - vibey/cli/roadmap_commands/complete.py
-  - vibey/operations/roadmap/update.py - Sprint operations
-  - vibey/cli/roadmap_lib/versioning.py - VersionManager class
-  - vibey/cli/roadmap_commands/version.py - Git tag creation
-  - vibey/cli/roadmap_commands/version.py - Complete version CLI command
-  - vibey/cli/roadmap_commands/assign.py
-  - vibey/operations/roadmap/validate.py
-  - tests/cli/test_roadmap_*.py
-  commits: []
+    completion_percent: 100.0
+  tasks:
+  - id: roadmap-system-4-task-001
+    title: Implement `vibey task start <id>`
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-002
+    title: Implement `vibey task complete <id>`
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-003
+    title: Implement `vibey sprint start/complete`
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-004
+    title: Build automatic version bumping logic
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-005
+    title: Implement git tag creation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-006
+    title: Implement `vibey version bump/history`
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-007
+    title: Build task assignment commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-008
+    title: Add validation and safety checks
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: roadmap-system-4-task-009
+    title: Write tests for update operations
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
   quality_gates: []
-  dependencies: []
+  commits: []
+  standards: []
   metadata:
-    last_updated: '2025-11-07T03:00:00+00:00'
-    estimated_tokens: 360000
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

@@ -8,178 +8,106 @@ track:
   created: '2025-11-26T12:00:00+00:00'
   started: '2025-11-26T12:00:00+00:00'
   completed: null
-  estimated_duration: 15 weeks
+  estimated_duration: null
   progress:
     sprints_total: 13
     sprints_completed: 9
     tasks_total: 103
     tasks_completed: 77
-    completion_percent: 74
+    completion_percent: 75.0
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema
     status: completed
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 6
-    started: '2025-11-26T10:00:00+00:00'
+    started: null
   - id: sqlite-backend-1
     name: Core Implementation
     status: completed
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
-    started: '2025-11-26T12:00:00+00:00'
-  - id: sqlite-backend-2
-    name: CLI Integration
-    status: completed
-    estimated_duration: 1.5 weeks
-    tasks_count: 7
-    started: '2025-11-26T14:00:00+00:00'
-  - id: sqlite-backend-3
-    name: Sync System & Migration
-    status: completed
-    estimated_duration: 1.5 weeks
-    tasks_count: 7
-    started: '2025-11-26T18:00:00+00:00'
-  - id: sqlite-backend-4
-    name: Schema Completion & Data Integrity
-    status: completed
-    estimated_duration: 1 week
-    tasks_count: 4
-    started: '2025-11-28T16:00:00+00:00'
-  - id: sqlite-backend-5
-    name: Column Gap Remediation & Comparison Tooling
-    status: completed
-    estimated_duration: 0.5 weeks
-    tasks_count: 3
-    started: '2025-11-28T18:30:00+00:00'
-  - id: sqlite-backend-6
-    name: Unified Ticket Architecture & Criteria-Based Completion
-    status: completed
-    estimated_duration: 2.5 weeks
-    tasks_count: 18
-    started: '2025-11-30T20:10:46.077503+00:00'
-  - id: sqlite-backend-7
-    name: Artifact System Architecture & Database Abstraction
-    status: completed
-    estimated_duration: 2 weeks
-    tasks_count: 11
-    started: '2025-12-04T22:04:25.122069+00:00'
-  - id: sqlite-backend-8
-    name: Serialization Migration
-    status: completed
-    estimated_duration: 2.5 weeks
-    tasks_count: 11
-    started: '2025-12-04T00:00:00+00:00'
-  - id: sqlite-backend-9
-    name: Operations Migration
-    status: in_progress
-    estimated_duration: 1.5 weeks
-    tasks_count: 8
-    started: '2025-12-04T00:00:00+00:00'
+    started: null
   - id: sqlite-backend-10
     name: Interface Migration
     status: not_started
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 5
     started: null
   - id: sqlite-backend-11
     name: Data Validation & Integrity Audit
     status: not_started
-    estimated_duration: 1.5 weeks
+    estimated_duration: null
     tasks_count: 8
     started: null
   - id: sqlite-backend-12
-    name: Production Cutover & Directory Structure Migration
+    name: Production Cutover & Sync System
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 9
     started: null
+  - id: sqlite-backend-2
+    name: CLI Integration
+    status: completed
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: sqlite-backend-3
+    name: Sync System & Migration
+    status: completed
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: sqlite-backend-4
+    name: Schema Completion & Data Integrity
+    status: completed
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: sqlite-backend-5
+    name: Column Gap Remediation & Comparison Tooling
+    status: completed
+    estimated_duration: null
+    tasks_count: 3
+    started: null
+  - id: sqlite-backend-6
+    name: Unified Ticket Architecture & Criteria-Based Completion
+    status: completed
+    estimated_duration: null
+    tasks_count: 18
+    started: null
+  - id: sqlite-backend-7
+    name: Artifact System Architecture & Database Abstraction
+    status: completed
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: sqlite-backend-8
+    name: Serialization Migration
+    status: completed
+    estimated_duration: null
+    tasks_count: 11
+    started: null
+  - id: sqlite-backend-9
+    name: Operations Migration
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 8
+    started: '2025-12-04T00:00:00+00:00'
   dependencies: []
-  blocks:
-  - type: sprint
-    target_id: git-integration-5
-    at_status: not_started
-    reason: git-integration-5 depends on SQLite backend for DB-based integrity verification
+  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - git-integration-5
-  quality_gates:
-  - name: Schema Review
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Database schema reviewed and approved
-    score: null
-  - name: Data Integrity Tests
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All referential integrity constraints verified
-    score: null
-  - name: YAML Roundtrip Tests
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: DB dump to YAML and rebuild produces identical state
-    score: null
-  - name: Performance Benchmarks
-    threshold: 90
-    blocking: false
-    status: not_run
-    description: Query performance meets targets
-    score: null
-  assigned_agents:
-  - architecture-agent
-  - backend-engineer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - Database schema design document
-  - SQLite database module (vibey/roadmap/database/)
-  - Computed views for progress aggregations
-  - CRUD operations for all roadmap entities
-  - CLI commands updated to use database
-  - YAML to DB rebuild command
-  - DB to YAML dump command (deterministic output)
-  - Pre-commit hook integration
-  - Migration guide for existing repositories
-  - Comprehensive test suite
-  - Unified Ticket architecture with three-layer design
-  - SQLAlchemy Core (not ORM) for dialect-agnostic database access
-  - PostgreSQL compatibility via SQLAlchemy dialect abstraction
-  - Pydantic validation replacing dataclass __post_init__
-  strategic_value:
-  - 'Consistency: Eliminate manual counter updates and state drift'
-  - 'Integrity: Foreign keys prevent orphan tasks and invalid references'
-  - 'Performance: Fast queries vs parsing hundreds of YAML files'
-  - 'Atomicity: Single transaction for complex operations'
-  - 'Automation: Triggers for auto-completion and dependency enforcement'
-  - 'Queries: Enable complex roadmap queries (blocked tasks, velocity, etc.)'
-  - 'Unified Model: Single Ticket hierarchy with explicit aggregation/inheritance'
-  - 'Type Safety: Pydantic validation with IDE support'
-  - 'Abstraction: SQLAlchemy Core for dialect-agnostic database access'
-  - 'Portability: Same codebase works on SQLite (local) and PostgreSQL (team/cloud)'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-11-26T12:00:00+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: "SQLite backend to replace YAML as working state for roadmap operations.\n\
-      \nPROBLEM SOLVED:\nCurrent YAML-based system requires manual synchronization\
-      \ of:\n- Progress counters (tasks_completed, completion_percent)\n- Sprint aggregations\n\
-      - Track aggregations\n- Roadmap-level metrics\nThis leads to state drift and\
-      \ validation errors (262 fixed in recent session).\n\nSOLUTION:\n- SQLite database\
-      \ as single source of truth during work\n- Computed views for all aggregations\
-      \ (always accurate)\n- Foreign keys for referential integrity\n- YAML files\
-      \ remain for version control (human-readable diffs)\n- Deterministic DB → YAML\
-      \ dump on commit\n- YAML → DB rebuild on pull\n\nARCHITECTURE:\n```\nvibey CLI\
-      \ → SQLite DB (working state)\n                ↓\ngit commit → dump DB → YAML\
-      \ files (version control)\n                ↓\ngit pull → rebuild DB from YAML\n\
-      ```\n\nRELATIONSHIP TO GIT-INTEGRATION-5:\n- git-integration-5 focuses on INTEGRITY\
-      \ PROTECTION (preventing unauthorized changes)\n- sqlite-backend focuses on\
-      \ DATA CONSISTENCY (eliminating manual sync)\n- These are orthogonal concerns\
-      \ and can be implemented independently\n- SQLite can later integrate with signing\
-      \ system (checksums in DB)\n"
+    notes: null

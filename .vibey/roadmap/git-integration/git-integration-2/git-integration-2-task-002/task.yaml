@@ -3,47 +3,30 @@ task:
   sprint_id: git-integration-2
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  name: Implement commit-msg hook
+  task_type: development
+  title: Implement commit-msg hook
+  description: null
   status: completed
-  priority: high
-  estimated_hours: 4
-  assigned_agent: backend-engineer
+  blocked: false
   created: '2025-11-24T00:00:00+00:00'
-  started: '2025-11-27T11:04:09.396399+00:00'
-  completed: '2025-11-27T11:04:09.396399+00:00'
-  description: 'Build commit-msg hook to validate and parse task references:
-
-
-    VALIDATION:
-
-    - Check commit message format per Sprint 0 conventions
-
-    - Validate task IDs exist in roadmap
-
-    - Warn on missing task references (based on config)
-
-
-    PARSING:
-
-    - Extract task IDs from message
-
-    - Identify status change indicators
-
-    - Handle multi-task references
-
-
-    INTEGRATION:
-
-    - Uses commit parser from Sprint 1
-
-    - Respects enforcement mode configuration
-
-    '
-  acceptance_criteria: []
+  started: null
+  completed: '2025-11-24T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
+  depends_on: []
   depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-  blocked: false
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

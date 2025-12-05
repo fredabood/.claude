@@ -3,13 +3,28 @@ Roadmap query operations.
 
 Provides read operations for roadmap, tracks, sprints, and tasks.
 Supports both YAML and SQLite backends with automatic detection.
+
+Includes hierarchy-aware query functions that use smart accessors:
+- get_hierarchy_path(): Path from root to ticket
+- get_aggregated_commits(): Commits from ticket and descendants
+- get_effective_requirements(): Inherited requirements chain
 """
 
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, List, Optional, Union
 from datetime import datetime
 
 from vibey.roadmap.models import Roadmap, Track, Sprint, Task, Status
+# Import ticket models for hierarchy-aware queries
+from vibey.roadmap.models.ticket import (
+    HierarchicalTicket,
+    RoadmapTicket,
+    TrackTicket,
+    SprintTicket,
+    TaskTicket,
+    GitCommit as TicketGitCommit,
+    TicketLoader,
+)
 from vibey.roadmap.serialization import load_roadmap as yaml_load_roadmap
 from vibey.roadmap.serialization import load_track as yaml_load_track
 from vibey.roadmap.serialization import load_sprint as yaml_load_sprint
@@ -590,3 +605,459 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
                 },
             })
     return tracks_data
+
+
+# =============================================================================
+# HIERARCHY-AWARE QUERY FUNCTIONS
+# =============================================================================
+
+
+class QueryTicketLoader:
+    """
+    TicketLoader implementation for query operations.
+
+    Loads tickets by ID using the appropriate backend (YAML or SQLite).
+    Configures HierarchicalTicket with this loader for hierarchy traversal.
+    """
+
+    def __init__(self, root_dir: Path):
+        self.root_dir = root_dir
+        self.fs = FileSystemManager(root_dir)
+        self.use_sqlite = _use_sqlite_backend(root_dir)
+        self._cache: Dict[str, HierarchicalTicket] = {}
+
+    def load(self, ticket_id: str) -> HierarchicalTicket:
+        """Load a ticket by its ID."""
+        if ticket_id in self._cache:
+            return self._cache[ticket_id]
+
+        ticket = self._load_uncached(ticket_id)
+        self._cache[ticket_id] = ticket
+        return ticket
+
+    def _load_uncached(self, ticket_id: str) -> HierarchicalTicket:
+        """Load ticket without caching."""
+        # Determine ticket type from ID pattern
+        if '-task-' in ticket_id:
+            return self._load_task_as_ticket(ticket_id)
+        elif self._is_sprint_id(ticket_id):
+            return self._load_sprint_as_ticket(ticket_id)
+        elif self._is_track_id(ticket_id):
+            return self._load_track_as_ticket(ticket_id)
+        else:
+            return self._load_roadmap_as_ticket(ticket_id)
+
+    def _is_sprint_id(self, ticket_id: str) -> bool:
+        """Check if ID looks like a sprint ID."""
+        # Task IDs contain -task-, so exclude them
+        if '-task-' in ticket_id:
+            return False
+        # Sprint IDs: track-N where N is a number
+        parts = ticket_id.rsplit('-', 1)
+        if len(parts) == 2:
+            try:
+                int(parts[1])
+                return True
+            except ValueError:
+                pass
+        return False
+
+    def _is_track_id(self, ticket_id: str) -> bool:
+        """Check if ID looks like a track ID."""
+        # Track IDs don't have numbers at the end (unless it's a sprint)
+        if self._is_sprint_id(ticket_id):
+            return False
+        # Check if track directory exists
+        track_path = self.fs.get_track_path(ticket_id)
+        return track_path.exists()
+
+    def _load_task_as_ticket(self, task_id: str) -> TaskTicket:
+        """Load a task and convert to TaskTicket."""
+        # Extract sprint_id from task_id
+        task_idx = task_id.rfind('-task-')
+        sprint_id = task_id[:task_idx]
+
+        if self.use_sqlite:
+            from vibey.roadmap.serialization.sql_loader import load_task as sql_load_task
+            task = sql_load_task(task_id)
+        else:
+            tasks_path = self.fs.get_tasks_path(sprint_id)
+            all_tasks = yaml_load_tasks(tasks_path)
+            task = next((t for t in all_tasks if t.id == task_id), None)
+            if task is None:
+                raise ValueError(f"Task not found: {task_id}")
+
+        # Convert to TaskTicket
+        return self._task_to_ticket(task, sprint_id)
+
+    def _load_sprint_as_ticket(self, sprint_id: str) -> SprintTicket:
+        """Load a sprint and convert to SprintTicket."""
+        sprint_path = self.fs.get_sprint_path(sprint_id)
+
+        if self.use_sqlite:
+            sprint = load_sprint(sprint_id, root_dir=self.root_dir)
+        else:
+            sprint = yaml_load_sprint(sprint_path)
+
+        # Extract track_id from sprint_id
+        track_id = self._extract_track_from_sprint(sprint_id)
+
+        return self._sprint_to_ticket(sprint, track_id)
+
+    def _load_track_as_ticket(self, track_id: str) -> TrackTicket:
+        """Load a track and convert to TrackTicket."""
+        track_path = self.fs.get_track_path(track_id)
+
+        if self.use_sqlite:
+            track = load_track(track_id, root_dir=self.root_dir)
+        else:
+            track = yaml_load_track(track_path)
+
+        return self._track_to_ticket(track)
+
+    def _load_roadmap_as_ticket(self, roadmap_id: str) -> RoadmapTicket:
+        """Load roadmap and convert to RoadmapTicket."""
+        roadmap_path = self.fs.get_roadmap_path()
+        roadmap = load_roadmap(roadmap_path, root_dir=self.root_dir)
+        return self._roadmap_to_ticket(roadmap)
+
+    def _extract_track_from_sprint(self, sprint_id: str) -> str:
+        """Extract track ID from sprint ID."""
+        # Sprint IDs: track-N -> track
+        parts = sprint_id.rsplit('-', 1)
+        return parts[0] if len(parts) == 2 else sprint_id
+
+    def _task_to_ticket(self, task: Task, sprint_id: str) -> TaskTicket:
+        """Convert legacy Task to TaskTicket."""
+        from vibey.roadmap.models.ticket import TicketStatus, TaskType as TicketTaskType
+
+        # Map status
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,  # Blocked maps to NOT_STARTED
+        }
+        status = status_map.get(task.status.value, TicketStatus.NOT_STARTED)
+
+        # Convert commits
+        commits = []
+        for c in (task.commits or []):
+            commits.append(TicketGitCommit(
+                sha=c.sha,
+                message=c.message,
+                author=c.author,
+                date=c.date,
+            ))
+
+        # Extract track_id from sprint_id
+        track_id = self._extract_track_from_sprint(sprint_id)
+
+        # Get roadmap_id from task or use default
+        roadmap_id = getattr(task, 'roadmap_id', 'vibey-framework-v2')
+
+        return TaskTicket(
+            id=task.id,
+            name=task.title,
+            title=task.title,
+            status=status,
+            parent_ref=sprint_id,
+            sprint_id=sprint_id,
+            track_id=track_id,
+            roadmap_id=roadmap_id,
+            children=[],
+            commits=commits,
+            description=task.description or "",
+            blocked=task.blocked,
+            created_at=task.created,
+            started_at=task.started,
+            completed_at=task.completed,
+            estimated_tokens=task.estimated_tokens or 1000,
+        )
+
+    def _sprint_to_ticket(self, sprint: Sprint, track_id: str) -> SprintTicket:
+        """Convert legacy Sprint to SprintTicket."""
+        from vibey.roadmap.models.ticket import TicketStatus
+
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,
+        }
+        status = status_map.get(sprint.status.value, TicketStatus.NOT_STARTED)
+
+        # Get child task IDs
+        children = [t.id for t in (sprint.tasks or [])]
+
+        # Get roadmap_id from sprint or use default
+        roadmap_id = getattr(sprint, 'roadmap_id', 'vibey-framework-v2')
+
+        return SprintTicket(
+            id=sprint.id,
+            name=sprint.name,
+            status=status,
+            parent_ref=track_id,
+            track_id=track_id,
+            roadmap_id=roadmap_id,
+            children=children,
+            blocked=sprint.blocked,
+            created_at=sprint.created,
+            started_at=sprint.started,
+            completed_at=sprint.completed,
+        )
+
+    def _track_to_ticket(self, track: Track) -> TrackTicket:
+        """Convert legacy Track to TrackTicket."""
+        from vibey.roadmap.models.ticket import TicketStatus
+
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,
+        }
+        status = status_map.get(track.status.value, TicketStatus.NOT_STARTED)
+
+        # Get child sprint IDs
+        children = [s.id for s in (track.sprints or [])]
+
+        # Get roadmap_id from track
+        roadmap_id = track.roadmap_id or 'vibey-framework-v2'
+
+        return TrackTicket(
+            id=track.id,
+            name=track.name,
+            status=status,
+            parent_ref=roadmap_id,
+            roadmap_id=roadmap_id,
+            children=children,
+            blocked=track.blocked,
+            created_at=track.created,
+            started_at=track.started,
+            completed_at=track.completed,
+        )
+
+    def _roadmap_to_ticket(self, roadmap: Roadmap) -> RoadmapTicket:
+        """Convert legacy Roadmap to RoadmapTicket."""
+        from vibey.roadmap.models.ticket import TicketStatus
+
+        status_map = {
+            'not_started': TicketStatus.NOT_STARTED,
+            'in_progress': TicketStatus.IN_PROGRESS,
+            'completed': TicketStatus.COMPLETED,
+            'blocked': TicketStatus.NOT_STARTED,
+        }
+        status = status_map.get(roadmap.status.value, TicketStatus.NOT_STARTED)
+
+        # Get child track IDs
+        children = [t.id for t in (roadmap.tracks or [])]
+
+        return RoadmapTicket(
+            id=roadmap.id,
+            name=roadmap.name,
+            status=status,
+            parent_ref=None,
+            children=children,
+            blocked=roadmap.blocked,
+            created_at=roadmap.created,
+        )
+
+
+def get_hierarchy_path(root_dir: Path, ticket_id: str) -> List[Dict[str, Any]]:
+    """
+    Get the hierarchy path from root to ticket.
+
+    Returns a list of dictionaries from roadmap down to the specified ticket,
+    each containing id, name, type, and status.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        ticket_id: ID of the ticket to get path for
+
+    Returns:
+        List of dicts with id, name, type, status for each level
+
+    Example:
+        >>> get_hierarchy_path(root, "sqlite-backend-8-task-001")
+        [
+            {"id": "vibey-framework-v2", "name": "Vibey Framework", "type": "roadmap", "status": "in_progress"},
+            {"id": "sqlite-backend", "name": "SQLite Backend", "type": "track", "status": "in_progress"},
+            {"id": "sqlite-backend-8", "name": "Serialization Migration", "type": "sprint", "status": "completed"},
+            {"id": "sqlite-backend-8-task-001", "name": "Update yaml_loader.py", "type": "task", "status": "completed"},
+        ]
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        ticket = loader.load(ticket_id)
+        path_ids = ticket.get_path()
+
+        result = []
+        for tid in path_ids:
+            t = loader.load(tid)
+            ticket_type = _determine_ticket_type(tid)
+            result.append({
+                "id": t.id,
+                "name": t.name,
+                "type": ticket_type,
+                "status": t.status.value,
+            })
+
+        return result
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def get_aggregated_commits(root_dir: Path, ticket_id: str) -> List[Dict[str, Any]]:
+    """
+    Get commits aggregated from ticket and all descendants.
+
+    For parent tickets (roadmap, track, sprint), this aggregates commits
+    from all child tickets recursively. For tasks, returns local commits.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        ticket_id: ID of the ticket to get commits for
+
+    Returns:
+        List of commit dicts with sha, message, author, date
+
+    Example:
+        >>> get_aggregated_commits(root, "sqlite-backend-8")
+        [
+            {"sha": "abc123", "message": "feat: add loader", "author": "dev", "date": "2025-12-01T10:00:00"},
+            {"sha": "def456", "message": "feat: add dumper", "author": "dev", "date": "2025-12-02T14:00:00"},
+        ]
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        ticket = loader.load(ticket_id)
+        commits = ticket.commits_aggregated
+
+        return [
+            {
+                "sha": c.sha,
+                "message": c.message,
+                "author": c.author,
+                "date": c.date.isoformat() if c.date else None,
+            }
+            for c in commits
+        ]
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def get_effective_requirements(root_dir: Path, ticket_id: str) -> List[Dict[str, Any]]:
+    """
+    Get effective requirements for a ticket (inherited from ancestors).
+
+    Uses the requirements inheritance system to resolve which requirements
+    apply to this ticket based on inheritance modes (INHERIT, OVERRIDE, SKIP).
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        ticket_id: ID of the ticket to get requirements for
+
+    Returns:
+        List of requirement dicts with id, name, type, enforcement_mode
+
+    Example:
+        >>> get_effective_requirements(root, "sqlite-backend-8-task-001")
+        [
+            {"id": "code-review", "name": "Code Review Required", "type": "quality_gate", "enforcement_mode": "mandatory"},
+            {"id": "test-coverage", "name": "Test Coverage > 80%", "type": "threshold", "enforcement_mode": "recommended"},
+        ]
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        ticket = loader.load(ticket_id)
+        requirements = ticket.requirements_effective
+
+        return [
+            {
+                "id": getattr(r, 'id', str(i)),
+                "name": getattr(r, 'name', str(r)),
+                "type": getattr(r, 'type', 'unknown'),
+                "enforcement_mode": getattr(r, 'enforcement_mode', 'optional'),
+                "enforceable": getattr(r, 'enforceable', False),
+            }
+            for i, r in enumerate(requirements)
+        ]
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def query_ticket(root_dir: Path, ticket_id: str) -> Dict[str, Any]:
+    """
+    Query any ticket by ID with hierarchy-aware details.
+
+    This is a unified query function that works with any ticket type
+    (roadmap, track, sprint, task) and includes hierarchy information.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        ticket_id: ID of the ticket to query
+
+    Returns:
+        Dictionary with ticket details including hierarchy info
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        ticket = loader.load(ticket_id)
+        ticket_type = _determine_ticket_type(ticket_id)
+
+        result = {
+            "id": ticket.id,
+            "name": ticket.name,
+            "type": ticket_type,
+            "status": ticket.status.value,
+            "blocked": ticket.blocked,
+            "parent_ref": ticket.parent_ref,
+            "children": ticket.children,
+            "hierarchy": {
+                "depth": ticket.depth,
+                "is_root": ticket.is_ultimate_parent,
+                "is_leaf": ticket.is_ultimate_child,
+                "path": ticket.get_path(),
+            },
+            "aggregated": {
+                "commits_count": len(ticket.commits_aggregated),
+                "requirements_count": len(ticket.requirements_effective),
+            },
+        }
+
+        # Add timing info if available
+        if hasattr(ticket, 'started_at') and ticket.started_at:
+            result["started"] = _format_datetime(ticket.started_at)
+        if hasattr(ticket, 'completed_at') and ticket.completed_at:
+            result["completed"] = _format_datetime(ticket.completed_at)
+
+        return result
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def _determine_ticket_type(ticket_id: str) -> str:
+    """Determine ticket type from ID pattern."""
+    if '-task-' in ticket_id:
+        return 'task'
+    # Check for sprint pattern (ends with -N where N is number)
+    parts = ticket_id.rsplit('-', 1)
+    if len(parts) == 2:
+        try:
+            int(parts[1])
+            return 'sprint'
+        except ValueError:
+            pass
+    # Check common roadmap ID patterns
+    if 'framework' in ticket_id.lower() or 'roadmap' in ticket_id.lower():
+        return 'roadmap'
+    return 'track'

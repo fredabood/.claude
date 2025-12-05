@@ -104,7 +104,7 @@ def _sync_task_to_db(task: Task, root_dir: Path) -> None:
     try:
         from vibey.roadmap.database.crud import update_task
         update_task(
-            task_id=task.id,
+            task.id,  # First positional arg is 'id'
             status=task.status.value if hasattr(task.status, 'value') else str(task.status),
             started=task.started,
             completed=task.completed,
@@ -123,7 +123,7 @@ def _sync_sprint_to_db(sprint: Sprint, root_dir: Path) -> None:
     try:
         from vibey.roadmap.database.crud import update_sprint
         update_sprint(
-            sprint_id=sprint.id,
+            sprint.id,  # First positional arg is 'id'
             status=sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status),
             started=sprint.started,
             completed=sprint.completed,
@@ -143,7 +143,7 @@ def _sync_track_to_db(track: Track, root_dir: Path) -> None:
     try:
         from vibey.roadmap.database.crud import update_track
         update_track(
-            track_id=track.id,
+            track.id,  # First positional arg is 'id'
             status=track.status.value if hasattr(track.status, 'value') else str(track.status),
             started=track.started,
             completed=track.completed,
@@ -161,7 +161,7 @@ def _sync_roadmap_to_db(roadmap: Roadmap, root_dir: Path) -> None:
     try:
         from vibey.roadmap.database.crud import update_roadmap
         update_roadmap(
-            roadmap_id=roadmap.id,
+            roadmap.id,  # First positional arg is 'id'
             status=roadmap.status.value if hasattr(roadmap.status, 'value') else str(roadmap.status),
             started=roadmap.started,
             completed=roadmap.completed,

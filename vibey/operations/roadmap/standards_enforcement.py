@@ -3,6 +3,41 @@ Standards enforcement for roadmap operations.
 
 Provides functions for validating standards during roadmap lifecycle operations
 like task/sprint completion.
+
+## Sprint 9: Inheritance Pattern Integration
+
+Standards cascade through the hierarchy: roadmap → track → sprint → task
+Lower-level standards override higher-level ones (most specific wins).
+
+### Effective Standards Pattern
+
+The `StandardsResolver` handles the full inheritance chain:
+```python
+# OLD - manual traversal (avoided)
+def check_standards(task_id):
+    task = load_task(task_id)
+    sprint = load_sprint(task.sprint_id)
+    track = load_track(sprint.track_id)
+    roadmap = load_roadmap()
+    violations = []
+    violations.extend(check_against(task, roadmap.standards))
+    violations.extend(check_against(task, track.standards))
+    violations.extend(check_against(task, sprint.standards))
+    return violations
+
+# NEW - effective standards includes full chain
+def check_standards(task_id):
+    resolver = StandardsResolver(root_dir)
+    resolved = resolver.resolve_for_task(task_id)  # Inherited chain
+    return validate_all(resolved, task_id)
+```
+
+### Helper Functions
+
+- `get_effective_standards(item_id)`: All standards with inheritance resolved
+- `get_inherited_standards(item_id)`: Standards from ancestor levels only
+- `get_local_standards(item_id)`: Standards defined at this level only
+- `get_blocking_standards(item_id)`: Standards that block completion
 """
 
 from pathlib import Path
@@ -249,3 +284,144 @@ def get_failure_summary(result: EnforcementResult) -> str:
         return "All standards passed"
 
     return ", ".join(parts)
+
+
+# ===========================================================================
+# HELPER FUNCTIONS - Standards Inheritance (Sprint 9)
+# ===========================================================================
+
+
+def get_effective_standards(
+    item_id: str,
+    root_dir: Path,
+) -> List["ResolvedStandard"]:
+    """
+    Get all effective standards for an item with inheritance resolved.
+
+    Returns the full inheritance chain: roadmap → track → sprint standards,
+    with more specific standards overriding less specific ones.
+
+    Args:
+        item_id: ID of task/sprint/track
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of ResolvedStandard objects with inheritance applied
+    """
+    resolver = StandardsResolver(root_dir)
+
+    # Determine item type from ID format
+    if '-task-' in item_id:
+        return resolver.resolve_for_task(item_id)
+    elif item_id.count('-') >= 1 and not '-task-' in item_id:
+        return resolver.resolve_for_sprint(item_id)
+    else:
+        return resolver.resolve_for_track(item_id)
+
+
+def get_inherited_standards(
+    item_id: str,
+    root_dir: Path,
+) -> List["ResolvedStandard"]:
+    """
+    Get standards inherited from ancestor levels only.
+
+    Excludes standards defined at the item's own level.
+
+    Args:
+        item_id: ID of task/sprint/track
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of ResolvedStandard objects from ancestors only
+    """
+    all_standards = get_effective_standards(item_id, root_dir)
+
+    # Determine the item's level
+    if '-task-' in item_id:
+        item_level = "task"  # Tasks don't have standards, all are inherited
+        return all_standards  # All standards are inherited for tasks
+    elif item_id.count('-') >= 1 and not '-task-' in item_id:
+        item_level = "sprint"
+        # Filter out sprint-level standards
+        return [s for s in all_standards if s.source_level != "sprint"]
+    else:
+        item_level = "track"
+        # Filter out track-level standards
+        return [s for s in all_standards if s.source_level != "track"]
+
+
+def get_local_standards(
+    item_id: str,
+    root_dir: Path,
+) -> List["ResolvedStandard"]:
+    """
+    Get standards defined at this item's level only.
+
+    Excludes inherited standards from ancestor levels.
+
+    Args:
+        item_id: ID of sprint/track (tasks don't have local standards)
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of ResolvedStandard objects from this level only
+    """
+    all_standards = get_effective_standards(item_id, root_dir)
+
+    # Determine the item's level
+    if '-task-' in item_id:
+        return []  # Tasks don't have local standards
+    elif item_id.count('-') >= 1 and not '-task-' in item_id:
+        # Sprint-level standards only
+        return [s for s in all_standards if s.source_level == "sprint"]
+    else:
+        # Track-level standards only
+        return [s for s in all_standards if s.source_level == "track"]
+
+
+def get_blocking_standards(
+    item_id: str,
+    root_dir: Path,
+) -> List["ResolvedStandard"]:
+    """
+    Get all blocking standards that prevent completion.
+
+    Returns standards with BLOCKING enforcement mode that are not overridden.
+
+    Args:
+        item_id: ID of task/sprint/track
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of blocking ResolvedStandard objects
+    """
+    resolver = StandardsResolver(root_dir)
+    return resolver.get_blocking_standards(item_id)
+
+
+def is_blocked_by_standards(
+    item_id: str,
+    root_dir: Path,
+) -> Tuple[bool, List[str]]:
+    """
+    Check if item is blocked from completion by standards.
+
+    Args:
+        item_id: ID of task/sprint/track
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        Tuple of (is_blocked, list_of_blocking_standard_ids)
+    """
+    blocking = get_blocking_standards(item_id, root_dir)
+
+    if not blocking:
+        return False, []
+
+    blocking_ids = [s.standard.id for s in blocking]
+    return True, blocking_ids
+
+
+# Import for type hints
+from ...roadmap.standards import ResolvedStandard

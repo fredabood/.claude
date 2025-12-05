@@ -174,7 +174,7 @@ def query_sprint_details(fs: FileSystemManager, sprint_id: str) -> Dict[str, Any
                     "id": task.id,
                     "name": task.title,
                     "status": task.status.value,
-                    "gate_type": task.gate_info.gate_type if task.gate_info else None,
+                    "gate_type": getattr(task.gate_info, 'blocks_status', None) if task.gate_info else None,
                 }
                 for task in completion_gates
             ],
@@ -183,7 +183,7 @@ def query_sprint_details(fs: FileSystemManager, sprint_id: str) -> Dict[str, Any
                     "id": task.id,
                     "name": task.title,
                     "status": task.status.value,
-                    "gate_type": task.gate_info.gate_type if task.gate_info else None,
+                    "gate_type": getattr(task.gate_info, 'blocks_status', None) if task.gate_info else None,
                 }
                 for task in production_gates
             ],
@@ -236,9 +236,9 @@ def query_task_details(fs: FileSystemManager, task_id: str) -> Dict[str, Any]:
             for dep in task.dependencies
         ],
         "gate_info": {
-            "gate_type": task.gate_info.gate_type,
-            "criteria": task.gate_info.criteria,
-            "audit_script": task.gate_info.audit_script,
+            "gate_type": getattr(task.gate_info, 'blocks_status', None),
+            "threshold": getattr(task.gate_info, 'threshold', None),
+            "is_blocking": getattr(task.gate_info, 'is_blocking', None),
         } if task.gate_info else None,
     }
 

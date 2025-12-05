@@ -147,7 +147,7 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
                         "id": task.id,
                         "name": getattr(task, 'name', getattr(task, 'title', task.id)),
                         "status": task.status.value if hasattr(task.status, 'value') else str(task.status),
-                        "gate_type": task.gate_info.gate_type if hasattr(task, 'gate_info') and task.gate_info else None,
+                        "gate_type": getattr(task.gate_info, 'blocks_status', None) if hasattr(task, 'gate_info') and task.gate_info else None,
                     }
                     for task in completion_gates
                 ],
@@ -156,7 +156,7 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
                         "id": task.id,
                         "name": getattr(task, 'name', getattr(task, 'title', task.id)),
                         "status": task.status.value if hasattr(task.status, 'value') else str(task.status),
-                        "gate_type": task.gate_info.gate_type if hasattr(task, 'gate_info') and task.gate_info else None,
+                        "gate_type": getattr(task.gate_info, 'blocks_status', None) if hasattr(task, 'gate_info') and task.gate_info else None,
                     }
                     for task in production_gates
                 ],
@@ -195,9 +195,9 @@ def get_object_data(fs: FileSystemManager, object_id: str) -> Dict[str, Any]:
                         for dep in task.dependencies
                     ],
                     "gate_info": {
-                        "gate_type": task.gate_info.gate_type,
-                        "criteria": task.gate_info.criteria,
-                        "audit_script": task.gate_info.audit_script,
+                        "gate_type": getattr(task.gate_info, 'blocks_status', None),
+                        "threshold": getattr(task.gate_info, 'threshold', None),
+                        "is_blocking": getattr(task.gate_info, 'is_blocking', None),
                     } if task.gate_info else None,
                 }
 
@@ -331,11 +331,9 @@ def print_task(data: Dict[str, Any], root_dir: Path = None):
 
     if data['gate_info']:
         print(f"\n🚪 Gate Information:")
-        print(f"  Type:   {data['gate_info']['gate_type']}")
-        print(f"  Audit:  {data['gate_info']['audit_script'] or 'N/A'}")
-        print(f"  Criteria:")
-        for criterion in data['gate_info']['criteria']:
-            print(f"    - {criterion}")
+        print(f"  Blocks: {data['gate_info']['gate_type']}")
+        print(f"  Threshold: {data['gate_info']['threshold']}")
+        print(f"  Is Blocking: {data['gate_info']['is_blocking']}")
 
     print("="*80 + "\n")
 

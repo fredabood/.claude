@@ -4,7 +4,35 @@ Common types and enums used across all roadmap models.
 
 from enum import Enum
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
+from typing import Optional
+
+
+def safe_datetime_compare(dt1: Optional[datetime], dt2: Optional[datetime]) -> Optional[int]:
+    """
+    Safely compare two datetimes, handling mixed timezone-aware and naive datetimes.
+
+    Args:
+        dt1: First datetime (can be None, naive, or aware)
+        dt2: Second datetime (can be None, naive, or aware)
+
+    Returns:
+        -1 if dt1 < dt2, 0 if equal, 1 if dt1 > dt2, None if either is None
+    """
+    if dt1 is None or dt2 is None:
+        return None
+
+    # Normalize both to timezone-aware (assume UTC for naive datetimes)
+    if dt1.tzinfo is None:
+        dt1 = dt1.replace(tzinfo=timezone.utc)
+    if dt2.tzinfo is None:
+        dt2 = dt2.replace(tzinfo=timezone.utc)
+
+    if dt1 < dt2:
+        return -1
+    elif dt1 > dt2:
+        return 1
+    return 0
 
 
 class Status(str, Enum):

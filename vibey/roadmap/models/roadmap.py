@@ -159,11 +159,12 @@ class Roadmap:
 
     def __post_init__(self):
         """Validate roadmap data."""
-        # Validate dates
-        if self.started and self.started < self.created:
+        # Validate dates (use safe comparison for mixed timezone-aware/naive datetimes)
+        from vibey.roadmap.models.common import safe_datetime_compare
+        if safe_datetime_compare(self.started, self.created) == -1:
             raise ValueError("Start date must be after or equal to creation date")
 
-        if self.completed and self.started and self.completed < self.started:
+        if safe_datetime_compare(self.completed, self.started) == -1:
             raise ValueError("Completion date must be after or equal to start date")
 
         # Validate blocked status matches blocker list

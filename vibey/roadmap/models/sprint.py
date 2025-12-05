@@ -180,8 +180,9 @@ class Sprint:
         if not self.id.startswith(f"{self.track_id}-"):
             raise ValueError(f"Sprint ID {self.id} must start with track ID {self.track_id}")
 
-        # Validate dates
-        if self.started and self.started < self.created:
+        # Validate dates (use safe comparison for mixed timezone-aware/naive datetimes)
+        from vibey.roadmap.models.common import safe_datetime_compare
+        if safe_datetime_compare(self.started, self.created) == -1:
             raise ValueError("Start date must be after or equal to creation date")
 
         # Validate blocked status matches depends_on

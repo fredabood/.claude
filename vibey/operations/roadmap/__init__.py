@@ -50,6 +50,16 @@ from .standards_enforcement import (
     print_enforcement_results,
     get_failure_summary,
 )
+from .activity_log import (
+    UnifiedActivityLog,
+    get_activity_log,
+    log_task_started,
+    log_task_completed,
+    log_sprint_started,
+    log_sprint_completed,
+    log_track_started,
+    log_track_completed,
+)
 
 __all__ = [
     # Initialization
@@ -90,4 +100,13 @@ __all__ = [
     "enforce_standards",
     "print_enforcement_results",
     "get_failure_summary",
+    # Activity logging
+    "UnifiedActivityLog",
+    "get_activity_log",
+    "log_task_started",
+    "log_task_completed",
+    "log_sprint_started",
+    "log_sprint_completed",
+    "log_track_started",
+    "log_track_completed",
 ]

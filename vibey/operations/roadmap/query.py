@@ -24,7 +24,10 @@ from vibey.roadmap.models.ticket import (
     TaskTicket,
     GitCommit as TicketGitCommit,
     TicketLoader,
+    TicketStatus,
+    Criterion,
 )
+from vibey.roadmap.models.ticket.targets import CompletableTarget
 from vibey.roadmap.serialization import load_roadmap as yaml_load_roadmap
 from vibey.roadmap.serialization import load_track as yaml_load_track
 from vibey.roadmap.serialization import load_sprint as yaml_load_sprint
@@ -729,8 +732,6 @@ class QueryTicketLoader:
 
     def _task_to_ticket(self, task: Task, sprint_id: str) -> TaskTicket:
         """Convert legacy Task to TaskTicket."""
-        from vibey.roadmap.models.ticket import TicketStatus, TaskType as TicketTaskType
-
         # Map status
         status_map = {
             'not_started': TicketStatus.NOT_STARTED,
@@ -777,8 +778,6 @@ class QueryTicketLoader:
 
     def _sprint_to_ticket(self, sprint: Sprint, track_id: str) -> SprintTicket:
         """Convert legacy Sprint to SprintTicket."""
-        from vibey.roadmap.models.ticket import TicketStatus
-
         status_map = {
             'not_started': TicketStatus.NOT_STARTED,
             'in_progress': TicketStatus.IN_PROGRESS,
@@ -787,8 +786,25 @@ class QueryTicketLoader:
         }
         status = status_map.get(sprint.status.value, TicketStatus.NOT_STARTED)
 
-        # Get child task IDs
-        children = [t.id for t in (sprint.tasks or [])]
+        # Create criteria for each child task (establishes parent-child hierarchy)
+        criteria = []
+        for task_summary in (sprint.tasks or []):
+            task_id = task_summary.id if hasattr(task_summary, 'id') else str(task_summary)
+            task_status_str = task_summary.status.value if hasattr(task_summary, 'status') else 'not_started'
+            task_status = status_map.get(task_status_str, TicketStatus.NOT_STARTED)
+
+            target = CompletableTarget(
+                completable_id=task_id,
+                required_status=TicketStatus.COMPLETED,
+                current_status=task_status,
+            )
+            criteria.append(Criterion(
+                id=f"subtask-{task_id}",
+                description=f"Subtask {task_id} must complete",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
 
         # Get roadmap_id from sprint or use default
         roadmap_id = getattr(sprint, 'roadmap_id', 'vibey-framework-v2')
@@ -800,7 +816,7 @@ class QueryTicketLoader:
             parent_ref=track_id,
             track_id=track_id,
             roadmap_id=roadmap_id,
-            children=children,
+            criteria=criteria,
             blocked=sprint.blocked,
             created_at=sprint.created,
             started_at=sprint.started,
@@ -809,8 +825,6 @@ class QueryTicketLoader:
 
     def _track_to_ticket(self, track: Track) -> TrackTicket:
         """Convert legacy Track to TrackTicket."""
-        from vibey.roadmap.models.ticket import TicketStatus
-
         status_map = {
             'not_started': TicketStatus.NOT_STARTED,
             'in_progress': TicketStatus.IN_PROGRESS,
@@ -819,8 +833,25 @@ class QueryTicketLoader:
         }
         status = status_map.get(track.status.value, TicketStatus.NOT_STARTED)
 
-        # Get child sprint IDs
-        children = [s.id for s in (track.sprints or [])]
+        # Create criteria for each child sprint (establishes parent-child hierarchy)
+        criteria = []
+        for sprint_summary in (track.sprints or []):
+            sprint_id = sprint_summary.id if hasattr(sprint_summary, 'id') else str(sprint_summary)
+            sprint_status_str = sprint_summary.status.value if hasattr(sprint_summary, 'status') else 'not_started'
+            sprint_status = status_map.get(sprint_status_str, TicketStatus.NOT_STARTED)
+
+            target = CompletableTarget(
+                completable_id=sprint_id,
+                required_status=TicketStatus.COMPLETED,
+                current_status=sprint_status,
+            )
+            criteria.append(Criterion(
+                id=f"sprint-{sprint_id}",
+                description=f"Sprint {sprint_id} must complete",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
 
         # Get roadmap_id from track
         roadmap_id = track.roadmap_id or 'vibey-framework-v2'
@@ -831,7 +862,7 @@ class QueryTicketLoader:
             status=status,
             parent_ref=roadmap_id,
             roadmap_id=roadmap_id,
-            children=children,
+            criteria=criteria,
             blocked=track.blocked,
             created_at=track.created,
             started_at=track.started,
@@ -840,8 +871,6 @@ class QueryTicketLoader:
 
     def _roadmap_to_ticket(self, roadmap: Roadmap) -> RoadmapTicket:
         """Convert legacy Roadmap to RoadmapTicket."""
-        from vibey.roadmap.models.ticket import TicketStatus
-
         status_map = {
             'not_started': TicketStatus.NOT_STARTED,
             'in_progress': TicketStatus.IN_PROGRESS,
@@ -850,15 +879,32 @@ class QueryTicketLoader:
         }
         status = status_map.get(roadmap.status.value, TicketStatus.NOT_STARTED)
 
-        # Get child track IDs
-        children = [t.id for t in (roadmap.tracks or [])]
+        # Create criteria for each child track (establishes parent-child hierarchy)
+        criteria = []
+        for track_summary in (roadmap.tracks or []):
+            track_id = track_summary.id if hasattr(track_summary, 'id') else str(track_summary)
+            track_status_str = track_summary.status.value if hasattr(track_summary, 'status') else 'not_started'
+            track_status = status_map.get(track_status_str, TicketStatus.NOT_STARTED)
+
+            target = CompletableTarget(
+                completable_id=track_id,
+                required_status=TicketStatus.COMPLETED,
+                current_status=track_status,
+            )
+            criteria.append(Criterion(
+                id=f"track-{track_id}",
+                description=f"Track {track_id} must complete",
+                blocks_transition_to=TicketStatus.COMPLETED,
+                target=target,
+                required=True,
+            ))
 
         return RoadmapTicket(
             id=roadmap.id,
             name=roadmap.name,
             status=status,
             parent_ref=None,
-            children=children,
+            criteria=criteria,
             blocked=roadmap.blocked,
             created_at=roadmap.created,
         )
@@ -1061,3 +1107,153 @@ def _determine_ticket_type(ticket_id: str) -> str:
     if 'framework' in ticket_id.lower() or 'roadmap' in ticket_id.lower():
         return 'roadmap'
     return 'track'
+
+
+# =============================================================================
+# TICKET LOADER FUNCTIONS - For use by operations modules
+# =============================================================================
+
+
+def load_task_ticket(root_dir: Path, task_id: str) -> TaskTicket:
+    """
+    Load a task as a TaskTicket with smart accessor support.
+
+    This is the recommended way to load tasks for operations that need
+    to use smart accessors like can_complete(), commits_aggregated, etc.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        task_id: Task ID (e.g., "sqlite-backend-8-task-001")
+
+    Returns:
+        TaskTicket: Task with smart accessor support
+
+    Example:
+        >>> task = load_task_ticket(root_dir, "sqlite-backend-8-task-001")
+        >>> if task.can_complete():
+        ...     updated = task.complete()
+        >>> commits = task.commits_aggregated  # Always empty for tasks (leaf nodes)
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        return loader.load(task_id)
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def load_sprint_ticket(root_dir: Path, sprint_id: str) -> SprintTicket:
+    """
+    Load a sprint as a SprintTicket with smart accessor support.
+
+    This loads the sprint with its child task IDs. Use smart accessors
+    to get aggregated data from children (commits, requirements, etc.).
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        sprint_id: Sprint ID (e.g., "sqlite-backend-8")
+
+    Returns:
+        SprintTicket: Sprint with smart accessor support
+
+    Example:
+        >>> sprint = load_sprint_ticket(root_dir, "sqlite-backend-8")
+        >>> all_commits = sprint.commits_aggregated  # From all tasks
+        >>> progress = sprint.progress  # Computed from children
+        >>> requirements = sprint.requirements_effective  # Inherited + local
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        return loader.load(sprint_id)
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def load_track_ticket(root_dir: Path, track_id: str) -> TrackTicket:
+    """
+    Load a track as a TrackTicket with smart accessor support.
+
+    This loads the track with its child sprint IDs. Use smart accessors
+    to get aggregated data from all descendants (sprints and tasks).
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        track_id: Track ID (e.g., "sqlite-backend")
+
+    Returns:
+        TrackTicket: Track with smart accessor support
+
+    Example:
+        >>> track = load_track_ticket(root_dir, "sqlite-backend")
+        >>> all_commits = track.commits_aggregated  # From all sprints/tasks
+        >>> progress = track.progress  # Computed from all descendants
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        return loader.load(track_id)
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def load_roadmap_ticket(root_dir: Path) -> RoadmapTicket:
+    """
+    Load the roadmap as a RoadmapTicket with smart accessor support.
+
+    This loads the roadmap with its child track IDs. Use smart accessors
+    to get aggregated data from the entire hierarchy.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        RoadmapTicket: Roadmap with smart accessor support
+
+    Example:
+        >>> roadmap = load_roadmap_ticket(root_dir)
+        >>> all_commits = roadmap.commits_aggregated  # From entire roadmap
+        >>> progress = roadmap.progress  # Computed from all tracks
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        # Get roadmap ID from file
+        fs = FileSystemManager(root_dir)
+        roadmap_path = fs.get_roadmap_path()
+        roadmap_data = yaml_load_roadmap(roadmap_path)
+        return loader.load(roadmap_data.id)
+    finally:
+        HierarchicalTicket.clear_loaders()
+
+
+def load_ticket(root_dir: Path, ticket_id: str) -> HierarchicalTicket:
+    """
+    Load any ticket by ID with smart accessor support.
+
+    This is a generic loader that determines ticket type from the ID
+    pattern and returns the appropriate ticket type.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        ticket_id: Any ticket ID
+
+    Returns:
+        HierarchicalTicket: The loaded ticket (TaskTicket, SprintTicket, etc.)
+
+    Example:
+        >>> ticket = load_ticket(root_dir, "sqlite-backend-8-task-001")
+        >>> print(ticket.status)
+        >>> print(ticket.commits_aggregated)
+    """
+    loader = QueryTicketLoader(root_dir)
+    HierarchicalTicket.set_loader(loader)
+
+    try:
+        return loader.load(ticket_id)
+    finally:
+        HierarchicalTicket.clear_loaders()

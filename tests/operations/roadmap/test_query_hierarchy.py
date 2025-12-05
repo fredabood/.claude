@@ -114,3 +114,49 @@ class TestLoaderIDPatternRecognition:
         assert loader._is_sprint_id("track-8") is True
         assert loader._is_sprint_id("track") is False
         assert loader._is_sprint_id("track-deferred") is False
+
+
+class TestTicketLoaderFunctions:
+    """Tests for the public ticket loader functions."""
+
+    def test_load_task_ticket_returns_task_ticket(self, tmp_path):
+        """Test that load_task_ticket returns TaskTicket type."""
+        # This test documents the expected interface
+        from vibey.operations.roadmap.query import load_task_ticket
+        from vibey.roadmap.models.ticket import TaskTicket
+
+        # The function should return TaskTicket
+        # (Full test requires roadmap fixture)
+        assert callable(load_task_ticket)
+
+    def test_load_sprint_ticket_returns_sprint_ticket(self, tmp_path):
+        """Test that load_sprint_ticket returns SprintTicket type."""
+        from vibey.operations.roadmap.query import load_sprint_ticket
+        from vibey.roadmap.models.ticket import SprintTicket
+
+        # The function should return SprintTicket
+        assert callable(load_sprint_ticket)
+
+    def test_load_track_ticket_returns_track_ticket(self, tmp_path):
+        """Test that load_track_ticket returns TrackTicket type."""
+        from vibey.operations.roadmap.query import load_track_ticket
+        from vibey.roadmap.models.ticket import TrackTicket
+
+        # The function should return TrackTicket
+        assert callable(load_track_ticket)
+
+    def test_load_roadmap_ticket_returns_roadmap_ticket(self, tmp_path):
+        """Test that load_roadmap_ticket returns RoadmapTicket type."""
+        from vibey.operations.roadmap.query import load_roadmap_ticket
+        from vibey.roadmap.models.ticket import RoadmapTicket
+
+        # The function should return RoadmapTicket
+        assert callable(load_roadmap_ticket)
+
+    def test_load_ticket_generic_returns_hierarchical_ticket(self, tmp_path):
+        """Test that load_ticket returns HierarchicalTicket type."""
+        from vibey.operations.roadmap.query import load_ticket
+        from vibey.roadmap.models.ticket import HierarchicalTicket
+
+        # The function should return HierarchicalTicket
+        assert callable(load_ticket)

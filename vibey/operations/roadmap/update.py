@@ -25,6 +25,14 @@ from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
 from vibey.operations.roadmap.audit_trail import log_status_change
 
+# Import ticket models and loaders for criteria-based validation
+from vibey.roadmap.models.ticket import TicketStatus
+from vibey.operations.roadmap.query import (
+    load_task_ticket,
+    load_sprint_ticket,
+    load_track_ticket,
+)
+
 
 def _use_sqlite_backend(root_dir: Path) -> bool:
     """
@@ -186,6 +194,9 @@ def complete_task(
     """
     Mark a task as completed.
 
+    Uses criteria-based validation via can_transition_to() to check if task
+    can be completed. This enforces criteria and blocking dependencies.
+
     Args:
         root_dir: Root directory containing .vibey/
         task_id: ID of the task to complete (format: sprint-id-task-nnn)
@@ -208,6 +219,28 @@ def complete_task(
     if not tasks_path.exists():
         print(f"❌ Tasks file not found for sprint '{sprint_id}'")
         return 1
+
+    # ==========================================================================
+    # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
+    # Load task as ticket model and validate transition via can_transition_to()
+    # ==========================================================================
+    try:
+        task_ticket = load_task_ticket(root_dir, task_id)
+        can_complete, blockers = task_ticket.can_transition_to(TicketStatus.COMPLETED)
+
+        if not can_complete:
+            print(f"❌ Cannot complete task: criteria not met")
+            for blocker in blockers:
+                print(f"   • {blocker}")
+            return 1
+    except Exception as e:
+        # Ticket model validation not available, continue with legacy checks
+        pass
+
+    # ==========================================================================
+    # LEGACY VALIDATION (kept for backward compatibility)
+    # These checks will be consolidated into criteria in future sprints
+    # ==========================================================================
 
     # Load tasks
     tasks = load_tasks(tasks_path)
@@ -582,6 +615,9 @@ def complete_sprint(
     """
     Mark a sprint as completed.
 
+    Uses criteria-based validation via can_transition_to() to check if sprint
+    can be completed. All child tasks must be completed (CompletableTarget criteria).
+
     Args:
         root_dir: Root directory containing .vibey/
         sprint_id: ID of the sprint to complete
@@ -596,6 +632,28 @@ def complete_sprint(
     if not sprint_path.exists():
         print(f"❌ Sprint '{sprint_id}' not found")
         return 1
+
+    # ==========================================================================
+    # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
+    # Load sprint as ticket model and validate transition via can_transition_to()
+    # This automatically checks all child task criteria
+    # ==========================================================================
+    try:
+        sprint_ticket = load_sprint_ticket(root_dir, sprint_id)
+        can_complete, blockers = sprint_ticket.can_transition_to(TicketStatus.COMPLETED)
+
+        if not can_complete:
+            print(f"❌ Cannot complete sprint: criteria not met")
+            for blocker in blockers:
+                print(f"   • {blocker}")
+            return 1
+    except Exception as e:
+        # Ticket model validation not available, continue with legacy checks
+        pass
+
+    # ==========================================================================
+    # LEGACY VALIDATION (kept for backward compatibility)
+    # ==========================================================================
 
     sprint = load_sprint(sprint_path)
 

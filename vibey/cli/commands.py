@@ -1841,7 +1841,7 @@ def db_rebuild_cmd(force: bool = False) -> int:
     # Check for uncommitted changes
     if not force:
         try:
-            from vibey.roadmap.database.connection import get_connection
+            from vibey.roadmap.database.connection import get_connection, close_all_connections
 
             conn = get_connection(db_path=db_path)
             row = conn.execute("SELECT is_dirty FROM database_state WHERE id = 1").fetchone()
@@ -1853,6 +1853,14 @@ def db_rebuild_cmd(force: bool = False) -> int:
                 return 1
         except Exception:
             pass  # If we can't check, proceed with caution
+        finally:
+            # Close all connections before deleting the database file
+            # This ensures the new init gets a fresh connection
+            close_all_connections()
+    else:
+        # Even when forcing, close any existing connections
+        from vibey.roadmap.database.connection import close_all_connections
+        close_all_connections()
 
     print("🔄 Rebuilding database from YAML...")
 

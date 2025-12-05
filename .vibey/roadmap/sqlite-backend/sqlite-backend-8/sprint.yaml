@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 11
-    development_tasks_completed: 6
+    development_tasks_completed: 7
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 11
-    tasks_completed: 6
-    completion_percent: 54
+    tasks_completed: 7
+    completion_percent: 63
   tasks:
   - id: sqlite-backend-8-task-001
     title: Update yaml_loader.py to construct new Pydantic models
@@ -56,7 +56,7 @@ sprint:
     gate_info: null
   - id: sqlite-backend-8-task-007
     title: Create migration CLI command
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-8-task-008

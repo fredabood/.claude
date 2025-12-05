@@ -404,9 +404,13 @@ class TrackTicketORM(TicketORM):
         if self.strategic_value_json:
             strategic_value = json.loads(self.strategic_value_json)
 
+        # Derive roadmap_id from parent_id (Track's parent is Roadmap)
+        roadmap_id = self.parent_id
+
         return TrackTicket(
             **base.model_dump(exclude={'criteria'}),
             ticket_type=TicketType.TRACK,
+            roadmap_id=roadmap_id,
             strategic_value=strategic_value,
             criteria=[c.to_pydantic() for c in self.criteria],
         )
@@ -461,9 +465,16 @@ class SprintTicketORM(TicketORM):
             gates_data = json.loads(self.development_gates_json)
             development_gates = [DevelopmentGate.model_validate(g) for g in gates_data]
 
+        # Derive hierarchy IDs from parent chain
+        # Sprint's parent is Track, Track's parent is Roadmap
+        track_id = self.parent_id
+        roadmap_id = self.parent.parent_id if self.parent else None
+
         return SprintTicket(
             **base.model_dump(exclude={'criteria'}),
             ticket_type=TicketType.SPRINT,
+            track_id=track_id,
+            roadmap_id=roadmap_id,
             plan_file=self.plan_file,
             goal=self.goal,
             success_criteria_text=success_criteria,
@@ -523,12 +534,11 @@ class TaskTicketORM(TicketORM):
         if self.audit_results_json:
             audit_results = AuditResults.model_validate_json(self.audit_results_json)
 
-        # TaskTicket requires sprint_id, track_id, roadmap_id
-        # These are typically derived from the hierarchy but stored as parent_id
-        # For now, use the id pattern to derive them
-        sprint_id = self.parent_id or self.id.rsplit("-", 1)[0] if "-" in self.id else self.id
-        track_id = sprint_id.rsplit("-", 1)[0] if "-" in sprint_id else sprint_id
-        roadmap_id = track_id.rsplit("-", 1)[0] if "-" in track_id else track_id
+        # Derive hierarchy IDs from parent chain
+        # Task's parent is Sprint, Sprint's parent is Track, Track's parent is Roadmap
+        sprint_id = self.parent_id
+        track_id = self.parent.parent_id if self.parent else None
+        roadmap_id = self.parent.parent.parent_id if self.parent and self.parent.parent else None
 
         return TaskTicket(
             **base.model_dump(exclude={'criteria'}),

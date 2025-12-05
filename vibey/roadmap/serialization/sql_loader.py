@@ -1216,12 +1216,16 @@ from ..models.ticket.domain import (
 from ..database.schema import has_unified_schema
 
 
-def load_task_ticket(task_id: str) -> Optional[TaskTicket]:
+def load_task_ticket(
+    task_id: str,
+    db_path: Optional[Path] = None,
+) -> Optional[TaskTicket]:
     """
     Load a task from the unified tickets table.
 
     Args:
         task_id: ID of the task to load
+        db_path: Optional path to database file
 
     Returns:
         TaskTicket Pydantic model, or None if not found
@@ -1229,59 +1233,71 @@ def load_task_ticket(task_id: str) -> Optional[TaskTicket]:
     Raises:
         RuntimeError: If unified schema is not present
     """
-    with session_scope() as session:
-        orm_task = session.query(TaskTicketORM).get(task_id)
+    with session_scope(db_path=db_path) as session:
+        orm_task = session.get(TaskTicketORM, task_id)
         if orm_task is None:
             return None
         return orm_task.to_pydantic()
 
 
-def load_sprint_ticket(sprint_id: str) -> Optional[SprintTicket]:
+def load_sprint_ticket(
+    sprint_id: str,
+    db_path: Optional[Path] = None,
+) -> Optional[SprintTicket]:
     """
     Load a sprint from the unified tickets table.
 
     Args:
         sprint_id: ID of the sprint to load
+        db_path: Optional path to database file
 
     Returns:
         SprintTicket Pydantic model, or None if not found
     """
-    with session_scope() as session:
-        orm_sprint = session.query(SprintTicketORM).get(sprint_id)
+    with session_scope(db_path=db_path) as session:
+        orm_sprint = session.get(SprintTicketORM, sprint_id)
         if orm_sprint is None:
             return None
         return orm_sprint.to_pydantic()
 
 
-def load_track_ticket(track_id: str) -> Optional[TrackTicket]:
+def load_track_ticket(
+    track_id: str,
+    db_path: Optional[Path] = None,
+) -> Optional[TrackTicket]:
     """
     Load a track from the unified tickets table.
 
     Args:
         track_id: ID of the track to load
+        db_path: Optional path to database file
 
     Returns:
         TrackTicket Pydantic model, or None if not found
     """
-    with session_scope() as session:
-        orm_track = session.query(TrackTicketORM).get(track_id)
+    with session_scope(db_path=db_path) as session:
+        orm_track = session.get(TrackTicketORM, track_id)
         if orm_track is None:
             return None
         return orm_track.to_pydantic()
 
 
-def load_roadmap_ticket(roadmap_id: str = "vibey-framework-v2") -> Optional[RoadmapTicket]:
+def load_roadmap_ticket(
+    roadmap_id: str = "vibey-framework-v2",
+    db_path: Optional[Path] = None,
+) -> Optional[RoadmapTicket]:
     """
     Load a roadmap from the unified tickets table.
 
     Args:
         roadmap_id: ID of the roadmap to load
+        db_path: Optional path to database file
 
     Returns:
         RoadmapTicket Pydantic model, or None if not found
     """
-    with session_scope() as session:
-        orm_roadmap = session.query(RoadmapTicketORM).get(roadmap_id)
+    with session_scope(db_path=db_path) as session:
+        orm_roadmap = session.get(RoadmapTicketORM, roadmap_id)
         if orm_roadmap is None:
             return None
         return orm_roadmap.to_pydantic()

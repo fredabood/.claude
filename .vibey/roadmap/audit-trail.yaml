@@ -1149,6 +1149,16 @@ audit_log:
   reason: Task started via CLI by system
   commit: e0aa7d0
   source: cli
+- timestamp: '2025-12-05T02:26:28.994440+00:00'
+  object_type: task
+  object_id: sqlite-backend-9-task-002
+  field: status
+  old_value: in_progress
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: bc27921
+  source: cli
 metadata:
-  last_updated: '2025-12-05T02:09:15.263657+00:00'
-  total_entries: 115
+  last_updated: '2025-12-05T02:26:29.025153+00:00'
+  total_entries: 116

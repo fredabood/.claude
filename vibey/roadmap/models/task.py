@@ -166,7 +166,7 @@ class SprintCompletionCommit:
 class TaskMetadata:
     """Task metadata."""
 
-    last_updated: datetime
+    last_updated: Optional[datetime] = None
     token_efficiency: Optional[float] = None
     duration_hours: Optional[float] = None
 

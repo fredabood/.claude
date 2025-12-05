@@ -13,8 +13,8 @@ track:
     sprints_total: 13
     sprints_completed: 11
     tasks_total: 103
-    tasks_completed: 91
-    completion_percent: 88.3
+    tasks_completed: 93
+    completion_percent: 90.3
   sprints:
   - id: sqlite-backend-0
     name: Design & Schema

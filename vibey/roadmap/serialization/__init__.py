@@ -43,6 +43,7 @@ from .yaml_dumper import (
     save_roadmap,
     save_track,
     save_sprint,
+    save_task,
     save_tasks,
 )
 

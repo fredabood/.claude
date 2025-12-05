@@ -1381,11 +1381,21 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         audit_results = None
         if 'audit_results' in task_data and task_data['audit_results']:
             ar_data = task_data['audit_results']
-            audit_results = AuditResults(
-                issues_found=ar_data['issues_found'],
-                issues_fixed=ar_data['issues_fixed'],
-                recommendations=ar_data.get('recommendations', []),
-            )
+            # Handle standard format with issues_found/issues_fixed
+            if 'issues_found' in ar_data:
+                audit_results = AuditResults(
+                    issues_found=ar_data['issues_found'],
+                    issues_fixed=ar_data['issues_fixed'],
+                    recommendations=ar_data.get('recommendations', []),
+                )
+            else:
+                # Handle custom format (e.g., completion gate pass/fail checks)
+                # Store as generic audit results
+                audit_results = AuditResults(
+                    issues_found=0,
+                    issues_fixed=0,
+                    recommendations=[f"{k}: {v}" for k, v in ar_data.items()],
+                )
 
         # Parse dependencies (backward compatible with simple string format)
         dependencies = []
@@ -1546,14 +1556,14 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         if 'metadata' in task_data:
             meta_data = task_data['metadata']
             metadata = TaskMetadata(
-                last_updated=_parse_datetime(meta_data.get('last_updated')) if meta_data.get('last_updated') else datetime.now(timezone.utc),
+                last_updated=_parse_datetime(meta_data.get('last_updated')),  # Preserve null
                 token_efficiency=meta_data.get('token_efficiency'),
                 duration_hours=meta_data.get('duration_hours'),
             )
         else:
             # Old format: minimal metadata
             metadata = TaskMetadata(
-                last_updated=datetime.now(timezone.utc),
+                last_updated=None,  # Preserve null for round-trip fidelity
                 token_efficiency=None,
                 duration_hours=None,
             )

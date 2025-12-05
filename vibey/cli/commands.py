@@ -1801,6 +1801,31 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
 
                 try:
                     task_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
+                    # Build gate_info dict if present
+                    gate_info_dict = None
+                    if task.gate_info:
+                        gate_info_dict = {
+                            'blocks_status': task.gate_info.blocks_status,
+                            'threshold': task.gate_info.threshold,
+                            'is_blocking': task.gate_info.is_blocking,
+                            'score': getattr(task.gate_info, 'score', None),
+                        }
+                    # Build audit_results dict if present
+                    audit_results_dict = None
+                    if task.audit_results:
+                        audit_results_dict = {
+                            'issues_found': task.audit_results.issues_found,
+                            'issues_fixed': task.audit_results.issues_fixed,
+                            'recommendations': task.audit_results.recommendations,
+                        }
+                    # Build metadata dict
+                    metadata_dict = None
+                    if task.metadata:
+                        metadata_dict = {
+                            'last_updated': task.metadata.last_updated.isoformat() if hasattr(task.metadata, 'last_updated') and task.metadata.last_updated else None,
+                            'token_efficiency': task.metadata.token_efficiency if hasattr(task.metadata, 'token_efficiency') else None,
+                            'duration_hours': task.metadata.duration_hours if hasattr(task.metadata, 'duration_hours') else None,
+                        }
                     db_create_task(
                         id=task.id,
                         sprint_id=sprint.id,
@@ -1808,10 +1833,21 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
                         roadmap_id=roadmap.id,
                         task_type=task.task_type.value if hasattr(task.task_type, 'value') else str(task.task_type),
                         title=task.title,
+                        description=task.description,
                         status=_normalize_status(task_status),
                         blocked=task.blocked,
                         priority=task.priority.value if hasattr(task, 'priority') and task.priority else 'medium',
                         created=task.created or now,
+                        started=task.started,
+                        completed=task.completed,
+                        assigned_agent=task.assigned_agent,
+                        phase_label=task.phase_label,
+                        estimated_tokens=task.estimated_tokens,
+                        actual_tokens=task.actual_tokens,
+                        complexity=task.complexity.value if hasattr(task.complexity, 'value') else None,
+                        gate_info=gate_info_dict,
+                        audit_results=audit_results_dict,
+                        metadata=metadata_dict,
                         conn=conn,
                     )
                     loaded_tasks += 1

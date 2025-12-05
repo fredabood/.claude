@@ -608,6 +608,158 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
         yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
 
+def save_task(task: Task, file_path: Union[str, Path]):
+    """
+    Save a single task to YAML file.
+
+    This function only writes the specified task, avoiding reformatting
+    sibling task files when used with hierarchical directory structure.
+
+    Args:
+        task: Task object to save
+        file_path: Path to task.yaml file or parent sprint directory
+    """
+    file_path = Path(file_path)
+
+    # If path is a directory (sprint dir), save to task subdirectory
+    if file_path.is_dir():
+        _save_task_hierarchical(task, file_path)
+        return
+
+    # If path is a file, determine if it's a task.yaml in hierarchical structure
+    if file_path.name == 'task.yaml':
+        # Direct task.yaml path - save the single task
+        _save_single_task_file(task, file_path)
+    else:
+        # Legacy format - load all tasks, update this one, save all
+        # This maintains backward compatibility with flat task files
+        from .yaml_loader import load_tasks as _load_tasks
+        tasks = _load_tasks(file_path)
+        for i, t in enumerate(tasks):
+            if t.id == task.id:
+                tasks[i] = task
+                break
+        save_tasks(tasks, file_path)
+
+
+def _save_single_task_file(task: Task, file_path: Path):
+    """
+    Save a single task to a specific task.yaml file.
+
+    Args:
+        task: Task object to save
+        file_path: Path to task.yaml file
+    """
+    task_data = {
+        'id': task.id,
+        'sprint_id': task.sprint_id,
+        'track_id': task.track_id,
+        'roadmap_id': task.roadmap_id,
+        'task_type': task.task_type.value,
+        'title': task.title,
+        'description': task.description,
+        'status': task.status.value,
+        'blocked': task.blocked,
+        'created': _format_datetime(task.created),
+        'started': _format_datetime(task.started),
+        'completed': _format_datetime(task.completed),
+        'assigned_agent': task.assigned_agent,
+        'priority': task.priority.value,
+        'phase_label': task.phase_label,
+        'estimated_tokens': task.estimated_tokens,
+        'actual_tokens': task.actual_tokens,
+        'complexity': task.complexity.value,
+    }
+
+    # Add gate_info if present
+    if task.gate_info:
+        if isinstance(task.gate_info, dict):
+            task_data['gate_info'] = task.gate_info
+        else:
+            task_data['gate_info'] = {
+                'blocks_status': task.gate_info.blocks_status,
+                'threshold': task.gate_info.threshold,
+                'is_blocking': task.gate_info.is_blocking,
+                'score': getattr(task.gate_info, 'score', None),
+            }
+    else:
+        task_data['gate_info'] = None
+
+    # Add audit_results if present
+    if task.audit_results:
+        task_data['audit_results'] = {
+            'issues_found': task.audit_results.issues_found,
+            'issues_fixed': task.audit_results.issues_fixed,
+            'recommendations': task.audit_results.recommendations,
+        }
+    else:
+        task_data['audit_results'] = None
+
+    # Add dependencies
+    task_data['dependencies'] = [
+        {
+            'type': d.type.value,
+            'target_id': d.target_id,
+            'target_status': d.target_status,
+            'reason': d.reason,
+        }
+        for d in task.dependencies
+    ]
+
+    # Add blocks
+    task_data['blocks'] = [
+        {
+            'type': b.type.value,
+            'target_id': b.target_id,
+            'at_status': b.target_status,
+            'reason': b.reason,
+        }
+        for b in task.blocks
+    ]
+
+    # Add blocked_by
+    task_data['blocked_by'] = [
+        {
+            'type': bb.blocker_type.value,
+            'blocker_id': bb.blocker_id,
+            'required_status': bb.required_status.value,
+        }
+        for bb in task.blocked_by
+    ]
+
+    # Add depends_on
+    task_data['depends_on'] = [
+        {
+            'entity_type': d.entity_type.value,
+            'entity_id': d.entity_id,
+            'required_status': d.required_status.value,
+        }
+        for d in task.depends_on
+    ]
+
+    # Add depended_on_by (empty list stored for consistency)
+    task_data['depended_on_by'] = []
+
+    # Add deliverables
+    task_data['deliverables'] = []
+
+    # Add commits
+    task_data['commits'] = []
+
+    # Add metadata
+    task_data['metadata'] = {
+        'last_updated': _format_datetime(task.metadata.last_updated) if hasattr(task.metadata, 'last_updated') else None,
+        'token_efficiency': task.metadata.token_efficiency if hasattr(task.metadata, 'token_efficiency') else None,
+        'duration_hours': task.metadata.duration_hours if hasattr(task.metadata, 'duration_hours') else None,
+    }
+
+    data = {'task': task_data}
+
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(file_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
 def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
     """
     Save tasks to YAML file or hierarchical directory structure.

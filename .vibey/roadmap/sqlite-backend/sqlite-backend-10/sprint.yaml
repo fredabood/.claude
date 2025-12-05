@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 4
-    development_tasks_completed: 1
+    development_tasks_completed: 2
     completion_gate_tasks_total: 1
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 5
-    tasks_completed: 1
-    completion_percent: 20.0
+    tasks_completed: 2
+    completion_percent: 40.0
   tasks:
   - id: sqlite-backend-10-task-001
     title: Update CLI commands for inheritance display
@@ -31,7 +31,7 @@ sprint:
     gate_info: null
   - id: sqlite-backend-10-task-002
     title: Update MCP tools for aggregation
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-10-task-003

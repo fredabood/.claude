@@ -1,10 +1,13 @@
 """
 Query Tools.
 
-MCP tools for querying roadmap state (track, blockers, dependencies).
+MCP tools for querying roadmap state (track, blockers, dependencies, standards).
+
+Sprint 10: Added standards query tools with inheritance chain display.
 """
 
 from typing import List, Dict, Any
+from pathlib import Path
 
 from ..adapters.roadmap_adapter import RoadmapAdapter
 from ..utils.errors import VibeyMCPError
@@ -79,6 +82,26 @@ def get_query_tools() -> List[Dict[str, Any]]:
                 "properties": {},
                 "required": []
             }
+        },
+        {
+            "name": "vibey_query_standards",
+            "title": "Query Standards",
+            "description": "Get effective standards for a roadmap item with inheritance chain",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "item_id": {
+                        "type": "string",
+                        "description": "Item ID (track, sprint, or task)"
+                    },
+                    "show_inheritance": {
+                        "type": "boolean",
+                        "description": "Show inheritance source breakdown (default: true)",
+                        "default": True
+                    }
+                },
+                "required": ["item_id"]
+            }
         }
     ]
 
@@ -111,6 +134,8 @@ async def handle_query_tool(
         return await handle_list_dependencies(arguments, adapter)
     elif tool_name == "vibey_roadmap_status":
         return await handle_roadmap_status(arguments, adapter)
+    elif tool_name == "vibey_query_standards":
+        return await handle_query_standards(arguments, adapter)
     else:
         return {
             "content": [
@@ -407,6 +432,138 @@ async def handle_roadmap_status(
                 {
                     "type": "text",
                     "text": f"❌ Unexpected error getting roadmap status: {str(e)}"
+                }
+            ],
+            "isError": True
+        }
+
+
+async def handle_query_standards(
+    arguments: Dict[str, Any],
+    adapter: RoadmapAdapter
+) -> Dict[str, Any]:
+    """
+    Handle vibey_query_standards tool invocation.
+
+    Returns effective standards for an item with inheritance chain visualization.
+
+    Args:
+        arguments: Tool arguments with item_id and show_inheritance
+        adapter: Roadmap adapter
+
+    Returns:
+        MCP tool response with standards breakdown by source level
+    """
+    item_id = arguments["item_id"]
+    show_inheritance = arguments.get("show_inheritance", True)
+
+    try:
+        # Get standards via adapter (uses StandardsResolver internally)
+        standards_data = adapter.query_standards(item_id)
+
+        if not standards_data or not standards_data.get("standards"):
+            text = f"ℹ️  No standards found for '{item_id}'"
+        else:
+            total = standards_data.get("total", 0)
+            text = f"📋 Standards for '{item_id}' ({total} total)\n\n"
+
+            # Show enforcement breakdown
+            blocking = standards_data.get("blocking_count", 0)
+            warning = standards_data.get("warning_count", 0)
+            audit = standards_data.get("audit_count", 0)
+
+            text += "**Enforcement Breakdown:**\n"
+            if blocking > 0:
+                text += f"- 🔴 {blocking} Blocking\n"
+            if warning > 0:
+                text += f"- 🟡 {warning} Warning\n"
+            if audit > 0:
+                text += f"- 🟢 {audit} Audit\n"
+            text += "\n"
+
+            # Show inheritance breakdown if requested
+            if show_inheritance and standards_data.get("inheritance"):
+                inheritance = standards_data["inheritance"]
+                text += "**Inheritance Chain:**\n"
+                if inheritance.get("roadmap", 0) > 0:
+                    text += f"- 🗺️  {inheritance['roadmap']} from roadmap\n"
+                if inheritance.get("track", 0) > 0:
+                    text += f"- 🛤️  {inheritance['track']} from track\n"
+                if inheritance.get("sprint", 0) > 0:
+                    text += f"- 🏃 {inheritance['sprint']} from sprint\n"
+                if inheritance.get("overridden", 0) > 0:
+                    text += f"- ⚠️  {inheritance['overridden']} overridden\n"
+                text += "\n"
+
+            # List each standard with details
+            if show_inheritance:
+                # Group by source level
+                by_source = {"roadmap": [], "track": [], "sprint": []}
+                for std in standards_data.get("standards", []):
+                    source = std.get("source_level", "roadmap")
+                    by_source.setdefault(source, []).append(std)
+
+                for source in ["roadmap", "track", "sprint"]:
+                    source_standards = by_source.get(source, [])
+                    if not source_standards:
+                        continue
+
+                    source_emoji = {"roadmap": "🗺️", "track": "🛤️", "sprint": "🏃"}.get(source, "❓")
+                    text += f"**{source_emoji} From {source.title()}:**\n"
+
+                    for std in source_standards:
+                        enforcement_emoji = {
+                            "blocking": "🔴",
+                            "warning": "🟡",
+                            "audit": "🟢"
+                        }.get(std.get("enforcement"), "❓")
+
+                        text += f"- {std['id']}: {std['name']}\n"
+                        text += f"  Type: {std.get('type', 'N/A')} | {enforcement_emoji} {std.get('enforcement', 'N/A')}\n"
+                        text += f"  Source: {std.get('source_id', 'N/A')}\n"
+
+                        if std.get("is_overridden"):
+                            reason = std.get("override_reason", "no reason given")
+                            text += f"  ⚠️ OVERRIDDEN: {reason}\n"
+
+                    text += "\n"
+            else:
+                # Simple flat list
+                text += "**Standards:**\n"
+                for std in standards_data.get("standards", []):
+                    enforcement_emoji = {
+                        "blocking": "🔴",
+                        "warning": "🟡",
+                        "audit": "🟢"
+                    }.get(std.get("enforcement"), "❓")
+                    text += f"- {std['id']}: {std['name']} ({enforcement_emoji})\n"
+
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": text
+                }
+            ],
+            "isError": False
+        }
+
+    except VibeyMCPError as e:
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"❌ Error querying standards for '{item_id}': {e.message}"
+                }
+            ],
+            "isError": True
+        }
+    except Exception as e:
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"❌ Unexpected error querying standards: {str(e)}"
                 }
             ],
             "isError": True

@@ -33,6 +33,10 @@ from vibey.operations.roadmap import (
     refresh_progress as ops_refresh_progress,
     recalculate_all as ops_recalculate_all,
 )
+# Standards operations
+from vibey.operations.roadmap.standards_enforcement import get_effective_standards
+from vibey.roadmap.standards.resolver import ResolvedStandard
+from vibey.roadmap.models import EnforcementMode
 
 from ..utils.errors import (
     TaskNotFoundError,
@@ -404,3 +408,63 @@ class RoadmapAdapter:
             "success": exit_code == 0,
             "message": output.strip() if output else "Progress refreshed"
         }
+
+    # =========================================================================
+    # Standards Operations - Delegate to standards_enforcement
+    # =========================================================================
+
+    def query_standards(self, item_id: str) -> Dict[str, Any]:
+        """
+        Query effective standards for an item with inheritance information.
+
+        Delegates to: get_effective_standards()
+
+        Args:
+            item_id: Task, sprint, or track ID
+
+        Returns:
+            Dict with standards data including inheritance breakdown
+        """
+        try:
+            resolved_standards = get_effective_standards(item_id, self.root)
+
+            # Count by enforcement mode
+            blocking = sum(1 for s in resolved_standards if s.standard.enforcement == EnforcementMode.BLOCKING)
+            warning = sum(1 for s in resolved_standards if s.standard.enforcement == EnforcementMode.WARNING)
+            audit = sum(1 for s in resolved_standards if s.standard.enforcement == EnforcementMode.AUDIT)
+
+            # Count by source level (inheritance)
+            inheritance = {
+                "roadmap": 0,
+                "track": 0,
+                "sprint": 0,
+                "overridden": 0,
+            }
+            for s in resolved_standards:
+                inheritance[s.source_level] = inheritance.get(s.source_level, 0) + 1
+                if s.is_overridden:
+                    inheritance["overridden"] += 1
+
+            return {
+                "total": len(resolved_standards),
+                "blocking_count": blocking,
+                "warning_count": warning,
+                "audit_count": audit,
+                "inheritance": inheritance,
+                "standards": [
+                    {
+                        "id": s.standard.id,
+                        "name": s.standard.name,
+                        "type": s.standard.type.value,
+                        "enforcement": s.standard.enforcement.value,
+                        "has_overrides": s.standard.has_overrides(),
+                        "source_level": s.source_level,
+                        "source_id": s.source_id,
+                        "is_overridden": s.is_overridden,
+                        "override_reason": s.override_reason,
+                    }
+                    for s in resolved_standards
+                ],
+            }
+        except Exception as e:
+            raise VibeyMCPError(f"Failed to query standards: {str(e)}")

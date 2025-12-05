@@ -4,25 +4,46 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Add DB dump to pre-commit hook
-  description: null
+  title: Add criterion_targets table with polymorphic target types
+  description: "Add the criterion_targets table supporting polymorphic target types.\n\
+    \nTARGET TYPES (from 02-CLASS-MODEL.md):\n- CompletableTarget: references another\
+    \ ticket/artifact\n- FileExistsTarget: file must exist at path\n- TestPassesTarget:\
+    \ test command must pass\n- ThresholdTarget: metric must meet threshold\n- ManualTarget:\
+    \ human assessment required\n- ExternalTarget: external system check\n\nSCHEMA:\n\
+    ```sql\nCREATE TABLE criterion_targets (\n  criterion_id TEXT PRIMARY KEY,\n \
+    \ target_type TEXT NOT NULL,\n  -- CompletableTarget fields\n  completable_id\
+    \ TEXT,\n  required_status TEXT,\n  -- FileExistsTarget fields\n  paths_json TEXT,\n\
+    \  all_required INTEGER,\n  -- TestPassesTarget fields\n  test_command TEXT,\n\
+    \  pass_threshold REAL,\n  -- ThresholdTarget fields\n  metric_name TEXT,\n  threshold\
+    \ REAL,\n  comparison TEXT,\n  current_value REAL,\n  -- ManualTarget fields\n\
+    \  assessor TEXT,\n  instructions TEXT,\n  assessed INTEGER,\n  met INTEGER,\n\
+    \  -- ExternalTarget fields\n  system_name TEXT,\n  endpoint TEXT,\n  expected_status\
+    \ TEXT,\n  FOREIGN KEY (criterion_id) REFERENCES criteria(id) ON DELETE CASCADE\n\
+    );\n```\n\nREFERENCE:\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
+    \ (CriterionTarget Subtypes)\n- sqlite-backend-6/context/sample_code/models/criterion_target*.py\n"
   status: not_started
-  blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
   started: null
   completed: null
   assigned_agent: null
   priority: critical
-  phase_label: null
-  estimated_tokens: 1
+  phase_label: schema
+  estimated_tokens: 40000
   actual_tokens: null
-  complexity: medium
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   deliverables: []
   commits: []

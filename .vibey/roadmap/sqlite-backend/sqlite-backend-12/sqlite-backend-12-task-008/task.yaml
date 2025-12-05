@@ -4,17 +4,30 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Create migration script for existing roadmaps to new directory structure
-  description: null
+  title: Update sql_dumper to persist criteria to database
+  description: "Update sql_dumper.py to persist criteria to the criteria and criterion_targets\
+    \ tables.\n\nREQUIREMENTS:\n1. Insert criteria into criteria table\n2. Insert\
+    \ target data into criterion_targets table\n3. Handle all target types with appropriate\
+    \ column mapping\n4. Delete/recreate criteria on update (or implement diff)\n\
+    5. Maintain foreign key integrity\n\nIMPLEMENTATION:\n```python\ndef _persist_criteria(ticket_id:\
+    \ str, criteria: List[Criterion], conn):\n    # Delete existing criteria for this\
+    \ ticket\n    conn.execute(\"DELETE FROM criteria WHERE completable_id = ?\",\
+    \ (ticket_id,))\n\n    for c in criteria:\n        conn.execute('''\n        \
+    \    INSERT INTO criteria (id, completable_id, description,\n                \
+    \                 blocks_transition_to, required, target_type, target_id)\n  \
+    \          VALUES (?, ?, ?, ?, ?, ?, ?)\n        ''', (c.id, ticket_id, c.description,\n\
+    \              c.blocks_transition_to.value, c.required,\n              c.target.target_type,\
+    \ c.id))\n\n        _persist_target(c.id, c.target, conn)\n```\n\nREFERENCE:\n\
+    - vibey/roadmap/serialization/sql_dumper.py (current dumper)\n- sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md\n"
   status: not_started
-  blocked: false
-  created: '2025-11-30T20:00:00+00:00'
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
   started: null
   completed: null
   assigned_agent: null
   priority: high
-  phase_label: null
-  estimated_tokens: 1
+  phase_label: serialization
+  estimated_tokens: 30000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -22,7 +35,13 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   deliverables: []
   commits: []

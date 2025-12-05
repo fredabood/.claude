@@ -1,0 +1,53 @@
+task:
+  id: sqlite-backend-12-task-011
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement verify_completion_claims() in pre-commit hook
+  description: "Implement verification of completion claims in git commit messages.\n\
+    \nDESIGN (from sqlite-backend-6):\n- Parse commit message for \"Completes: task-XXX\"\
+    \ lines\n- For each claimed completion, verify all criteria are met\n- Block commit\
+    \ if any completion claim has unmet criteria\n\nIMPLEMENTATION:\n```python\ndef\
+    \ verify_completion_claims(commit_message: str) -> Tuple[bool, List[str]]:\n \
+    \   \"\"\"\n    Verify that all completion claims in the commit message are valid.\n\
+    \n    Returns (valid, errors) where valid=False blocks the commit.\n    \"\"\"\
+    \n    errors = []\n\n    # Parse \"Completes: task-XXX\" lines\n    completion_claims\
+    \ = parse_completion_claims(commit_message)\n\n    for task_id in completion_claims:\n\
+    \        task = load_task(task_id)\n        can_complete, blocking = task.can_transition_to(TicketStatus.COMPLETED)\n\
+    \n        if not can_complete:\n            errors.append(f\"Cannot complete {task_id}:\"\
+    )\n            for reason in blocking:\n                errors.append(f\"  - {reason}\"\
+    )\n\n    return (len(errors) == 0, errors)\n```\n\nPRE-COMMIT HOOK:\n```bash\n\
+    #!/bin/bash\npython -m vibey.operations.git.verify_completion \"$1\"\n```\n\n\
+    REFERENCE:\n- sqlite-backend-6/context/sample_code/models/func_verify_completion_claims.py\n\
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (Commit Processing Flow)\n"
+  status: not_started
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: critical
+  phase_label: integration
+  estimated_tokens: 35000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

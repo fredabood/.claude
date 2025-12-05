@@ -1,16 +1,6 @@
 {
   "files": [
-    ".vibey/roadmap.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sprint.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-001/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-002/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-003/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-004/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-005/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-006/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-007/task.yaml",
-    ".vibey/roadmap/sqlite-backend/sqlite-backend-9/sqlite-backend-9-task-008/task.yaml",
-    ".vibey/roadmap/sqlite-backend/track.yaml"
+    ".vibey/roadmap.yaml"
   ],
-  "last_updated": "2025-12-05T02:36:06.508013+00:00"
+  "last_updated": "2025-12-05T04:53:50.782571+00:00"
 }

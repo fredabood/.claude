@@ -4,25 +4,44 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Fix data integrity issues in roadmap YAML
-  description: null
+  title: Update yaml_loader to parse criteria from YAML
+  description: "Update yaml_loader.py to parse criteria sections from YAML files.\n\
+    \nREQUIREMENTS:\n1. Parse criteria list from task/sprint/track YAML\n2. Create\
+    \ Criterion objects with appropriate CriterionTarget\n3. Handle all target types\
+    \ (completable, file_exists, test_passes, etc.)\n4. Maintain backward compatibility\
+    \ (load old format without criteria)\n5. Validate criteria structure during loading\n\
+    \nIMPLEMENTATION:\n```python\ndef _parse_criteria(criteria_data: List[Dict]) ->\
+    \ List[Criterion]:\n    criteria = []\n    for c in criteria_data:\n        target\
+    \ = _parse_criterion_target(c.get('target', {}))\n        criteria.append(Criterion(\n\
+    \            id=c['id'],\n            description=c['description'],\n        \
+    \    blocks_transition_to=TicketStatus(c['blocks_transition_to']),\n         \
+    \   target=target,\n            required=c.get('required', True),\n        ))\n\
+    \    return criteria\n```\n\nREFERENCE:\n- vibey/roadmap/serialization/yaml_loader.py\
+    \ (current loader)\n- vibey/roadmap/models/ticket/completable.py (Criterion class)\n\
+    - vibey/roadmap/models/ticket/targets.py (CriterionTarget classes)\n"
   status: not_started
-  blocked: false
-  created: '2025-11-28T17:00:00+00:00'
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
   started: null
   completed: null
   assigned_agent: null
-  priority: high
-  phase_label: null
-  estimated_tokens: 1
+  priority: critical
+  phase_label: serialization
+  estimated_tokens: 40000
   actual_tokens: null
-  complexity: medium
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   deliverables: []
   commits: []

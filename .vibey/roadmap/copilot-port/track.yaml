@@ -21,7 +21,7 @@ track:
     status: in_progress
     estimated_duration: null
     tasks_count: 7
-    started: null
+    started: '2025-11-23T00:00:00+00:00'
   - id: copilot-port-2
     name: Testing, Enterprise & Documentation
     status: not_started

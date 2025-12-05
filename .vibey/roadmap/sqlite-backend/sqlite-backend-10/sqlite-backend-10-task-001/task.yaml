@@ -5,12 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update CLI commands for inheritance display
-  description: Updated standards_formatter.py to properly display inheritance chain. Functions now use ResolvedStandard objects with source_level and source_id information, showing which standards are inherited from roadmap/track/sprint levels and which are overridden.
+  description: Updated standards_formatter.py to properly display inheritance chain.
+    Functions now use ResolvedStandard objects with source_level and source_id information,
+    showing which standards are inherited from roadmap/track/sprint levels and which
+    are overridden.
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: '2025-12-05T03:01:28.757097+00:00'
-  completed: '2025-12-05T05:15:00.000000+00:00'
+  completed: '2025-12-05T05:15:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

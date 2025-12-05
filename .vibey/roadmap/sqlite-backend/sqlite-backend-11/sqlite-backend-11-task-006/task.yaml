@@ -5,19 +5,27 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Validation Step 1: Computed DB vs Declared DB comparison'
-  description: |
-    Per sqlite_validation.md Step 1:
+  description: 'Per sqlite_validation.md Step 1:
+
     - Created computed database using file counting (count_files_in_directory)
+
     - Extracted declared progress from YAML (extract_declared_progress)
+
     - Compared computed vs declared values (audit_discrepancies)
-    - Found 2 discrepancies in sqlite-backend track (stale counters after Sprint 10 completion)
+
+    - Found 2 discrepancies in sqlite-backend track (stale counters after Sprint 10
+    completion)
+
     - Applied remediation (remediate_all_discrepancies)
+
     - Verified all discrepancies fixed
+
+    '
   status: completed
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
-  started: '2025-12-05T08:15:00.000000+00:00'
-  completed: '2025-12-05T08:30:00.000000+00:00'
+  started: '2025-12-05T08:15:00+00:00'
+  completed: '2025-12-05T08:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

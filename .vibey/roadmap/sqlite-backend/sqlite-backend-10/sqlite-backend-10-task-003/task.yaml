@@ -5,12 +5,14 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create migration guide and documentation
-  description: Created INTERFACE_MIGRATION_GUIDE.md documenting Sprint 10 changes - standards inheritance display in CLI and MCP, new vibey_query_standards tool, ResolvedStandard data model, and migration steps.
+  description: Created INTERFACE_MIGRATION_GUIDE.md documenting Sprint 10 changes
+    - standards inheritance display in CLI and MCP, new vibey_query_standards tool,
+    ResolvedStandard data model, and migration steps.
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-05T06:15:00.000000+00:00'
-  completed: '2025-12-05T06:30:00.000000+00:00'
+  started: '2025-12-05T06:15:00+00:00'
+  completed: '2025-12-05T06:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

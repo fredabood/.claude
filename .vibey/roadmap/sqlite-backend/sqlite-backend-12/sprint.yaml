@@ -1,12 +1,12 @@
 sprint:
   id: sqlite-backend-12
-  name: Production Cutover & Sync System
+  name: Unified Ticket Architecture Implementation
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: true
   blocked_reason: null
-  created: '2025-11-28T17:00:00+00:00'
+  created: '2025-12-05T00:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -14,58 +14,73 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 9
+    development_tasks_total: 12
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 9
+    tasks_total: 12
     tasks_completed: 0
     completion_percent: 0.0
   tasks:
   - id: sqlite-backend-12-task-001
-    title: Initialize production database with schema
+    title: Audit Sprint 6 design vs current codebase implementation
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-002
-    title: Modify update operations to write to both backends
+    title: Add criteria table to database schema
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-003
-    title: Add DB dump to pre-commit hook
+    title: Add criterion_targets table with polymorphic target types
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-004
-    title: Add DB rebuild to post-merge hook
+    title: Update YAML format to include criteria sections
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-005
-    title: Fix data integrity issues in roadmap YAML
+    title: Update yaml_loader to parse criteria from YAML
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-006
-    title: Add embedded sprint summary validation to integrity audit
+    title: Update sql_loader to load criteria from database
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-007
-    title: End-to-end sync system validation
+    title: Update yaml_dumper to serialize criteria to YAML
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-008
-    title: Create migration script for existing roadmaps to new directory structure
+    title: Update sql_dumper to persist criteria to database
     status: not_started
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-009
-    title: Update CLI and tooling for new directory structure
+    title: Migrate dependencies/blocked_by to CompletableTarget criteria
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-010
+    title: Implement can_transition_to() checks in CLI status updates
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-011
+    title: Implement verify_completion_claims() in pre-commit hook
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-012
+    title: End-to-end validation of criteria-based completion system
     status: not_started
     task_type: development
     gate_info: null
@@ -81,12 +96,80 @@ sprint:
     last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables: []
-  description: null
-  goal: null
-  success_criteria: []
-  risks: []
-  notes: null
+  deliverables:
+  - Comprehensive audit report comparing Sprint 6 design to codebase
+  - criteria table in database schema
+  - criterion_targets table with polymorphic types
+  - YAML format with criteria sections
+  - Bidirectional criteria serialization (load/dump)
+  - Migration from legacy dependencies to criteria
+  - can_transition_to() integration in CLI
+  - verify_completion_claims() in pre-commit hook
+  - Full criteria-based completion enforcement
+  description: 'Sprint 6 designed a comprehensive unified ticket architecture with
+    criteria-based
+
+    completion. However, the actual integration was never completed. This sprint
+
+    implements the full design:
+
+
+    1. AUDIT: Compare Sprint 6 design documents against current codebase
+
+    2. SCHEMA: Add criteria and criterion_targets tables
+
+    3. SERIALIZATION: Update YAML/SQL loaders/dumpers for criteria
+
+    4. MIGRATION: Convert legacy dependencies to CompletableTarget criteria
+
+    5. ENFORCEMENT: Implement can_transition_to() checks throughout system
+
+    6. GIT HOOKS: Add verify_completion_claims() for commit validation
+
+
+    Reference: sqlite-backend-6/context/architecture/
+
+    '
+  goal: Fully implement the unified ticket architecture designed in Sprint 6
+  success_criteria:
+  - All criteria are stored in database, not JSON columns
+  - Dependencies use CompletableTarget with blocks_transition_to=IN_PROGRESS
+  - Status changes require can_transition_to() validation
+  - Pre-commit hook blocks completion claims if criteria not met
+  - Round-trip validation passes for criteria
+  risks:
+  - Breaking changes to existing YAML format
+  - Migration complexity for existing roadmaps
+  - Performance impact of criteria evaluation
+  notes: 'KEY ARCHITECTURE REFERENCES:
+
+    - sqlite-backend-6/context/architecture/01-DESIGN-PRINCIPLES.md
+
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+
+    - sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md
+
+    - sqlite-backend-6/context/architecture/06-SERIALIZATION.md
+
+
+    KEY SAMPLE CODE:
+
+    - sqlite-backend-6/context/sample_code/models/completable.py
+
+    - sqlite-backend-6/context/sample_code/models/criterion.py
+
+    - sqlite-backend-6/context/sample_code/models/func_verify_completion_claims.py
+
+
+    EXISTING IMPLEMENTATION (not integrated):
+
+    - vibey/roadmap/models/ticket/completable.py
+
+    - vibey/roadmap/models/ticket/targets.py
+
+    - vibey/roadmap/models/ticket/adapters.py
+
+    '
   assigned_agents: []
   quality_gates: []
   commits: []

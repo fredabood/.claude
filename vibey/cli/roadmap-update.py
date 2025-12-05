@@ -27,7 +27,7 @@ from vibey.roadmap.models import (
 )
 from vibey.roadmap.serialization import (
     load_roadmap, load_track, load_sprint, load_tasks,
-    save_roadmap, save_track, save_sprint, save_tasks,
+    save_roadmap, save_track, save_sprint, save_task, save_tasks,
 )
 from roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
 from roadmap_lib.activity import ActivityLogger
@@ -93,8 +93,8 @@ def update_dependent_cache(
         # Recompute blocked status
         task.blocked = task.compute_blocked_status()
 
-        # Save tasks
-        save_tasks(tasks, tasks_path)
+        # Save only the modified task (not all sibling tasks)
+        save_task(task, tasks_path)
         return True
 
     elif '-sprint-' in dependent_id:
@@ -213,8 +213,8 @@ def complete_task(
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = completed_by
 
-    # Save tasks
-    save_tasks(tasks, tasks_path)
+    # Save only the modified task (not all sibling tasks)
+    save_task(task, tasks_path)
     print(f"✅ Task '{task.title}' marked as completed")
 
     # Update dependency caches for all dependents (Phase 3: Dependency Tracking v2.0)
@@ -280,8 +280,8 @@ def start_task(
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = started_by
 
-    # Save tasks
-    save_tasks(tasks, tasks_path)
+    # Save only the modified task (not all sibling tasks)
+    save_task(task, tasks_path)
     print(f"✅ Task '{task.title}' marked as in progress")
 
     # Update dependency caches for all dependents (Phase 3: Dependency Tracking v2.0)
@@ -588,8 +588,8 @@ def assign_task(
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = assigned_by
 
-    # Save tasks
-    save_tasks(tasks, tasks_path)
+    # Save only the modified task (not all sibling tasks)
+    save_task(task, tasks_path)
     print(f"✅ Task '{task.title}' assigned to {agent}")
 
     # Log activity

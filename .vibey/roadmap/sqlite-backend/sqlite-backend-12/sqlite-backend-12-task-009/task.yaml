@@ -4,25 +4,45 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update CLI and tooling for new directory structure
-  description: null
+  title: Migrate dependencies/blocked_by to CompletableTarget criteria
+  description: "Migrate existing dependency relationships to the criteria-based system.\n\
+    \nCURRENT STATE:\n- depends_on: List[DependencyStatus] in YAML\n- blocked_by:\
+    \ List[str] in YAML\n- Stored in depends_on_json column in DB\n\nTARGET STATE:\n\
+    - criteria with CompletableTarget and blocks_transition_to=IN_PROGRESS\n- No more\
+    \ depends_on or blocked_by fields\n\nMIGRATION STRATEGY:\n1. For each depends_on\
+    \ entry:\n   - Create Criterion with id=f\"dep-{blocker_id}\"\n   - Create CompletableTarget\
+    \ with completable_id=blocker_id\n   - Set blocks_transition_to=IN_PROGRESS\n\
+    2. For each blocked_by entry:\n   - Same as depends_on (blocked_by is redundant)\n\
+    3. Remove legacy fields after migration\n\nEXAMPLE:\n```yaml\n# BEFORE\ndepends_on:\n\
+    \  - blocker_id: task-002\n    required_status: completed\n\n# AFTER\ncriteria:\n\
+    \  - id: dep-task-002\n    description: \"Depends on task-002 completing\"\n \
+    \   blocks_transition_to: in_progress\n    target:\n      type: completable\n\
+    \      completable_id: task-002\n      required_status: completed\n```\n\nREFERENCE:\n\
+    - sqlite-backend-6/context/architecture/01-DESIGN-PRINCIPLES.md (What This Eliminates)\n\
+    - vibey/roadmap/models/ticket/adapters.py (dependencies_to_criteria)\n"
   status: not_started
-  blocked: false
-  created: '2025-11-30T20:00:00+00:00'
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
   started: null
   completed: null
   assigned_agent: null
-  priority: high
-  phase_label: null
-  estimated_tokens: 1
+  priority: critical
+  phase_label: migration
+  estimated_tokens: 50000
   actual_tokens: null
-  complexity: medium
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   deliverables: []
   commits: []

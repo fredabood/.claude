@@ -58,6 +58,16 @@ def create_sprint(
     production_ready_at: Optional[datetime] = None,
     deployed_at: Optional[datetime] = None,
     plan_file: Optional[str] = None,
+    description: Optional[str] = None,
+    goal: Optional[str] = None,
+    estimated_duration: Optional[str] = None,
+    notes: Optional[str] = None,
+    success_criteria: Optional[List[str]] = None,
+    risks: Optional[List[str]] = None,
+    deliverables: Optional[List[Dict[str, Any]]] = None,
+    quality_gates: Optional[List[Dict[str, Any]]] = None,
+    progress: Optional[Dict[str, Any]] = None,
+    tasks: Optional[List[Dict[str, Any]]] = None,
     metadata: Optional[Dict[str, Any]] = None,
     conn: Optional[sqlite3.Connection] = None,
     db_path: Optional[Path] = None,
@@ -100,8 +110,10 @@ def create_sprint(
             id, track_id, roadmap_id, name, status, blocked, blocked_reason,
             created, started, completion_gate_check_at, completed,
             production_gate_check_at, production_ready_at, deployed_at,
-            plan_file, metadata
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            plan_file, description, goal, estimated_duration, notes,
+            success_criteria_json, risks_json, deliverables_json,
+            quality_gates_json, progress_json, tasks_json, metadata
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             id,
@@ -119,6 +131,16 @@ def create_sprint(
             _serialize_datetime(production_ready_at),
             _serialize_datetime(deployed_at),
             plan_file,
+            description,
+            goal,
+            estimated_duration,
+            notes,
+            _serialize_json(success_criteria),
+            _serialize_json(risks),
+            _serialize_json(deliverables),
+            _serialize_json(quality_gates),
+            _serialize_json(progress),
+            _serialize_json(tasks),
             _serialize_json(metadata),
         ),
     )

@@ -679,19 +679,12 @@ def load_sprint(sprint_id: str) -> Sprint:
             last_checked=None,
         ))
 
-    # Load sprint-level quality gates
-    qg_rows = conn.execute(
-        """SELECT * FROM quality_gates
-           WHERE owner_type = 'sprint' AND owner_id = ?
-           ORDER BY name""",
-        (sprint_id,)
-    ).fetchall()
-
+    # Load sprint-level quality gates from JSON column
     quality_gates = []
-    for qg in qg_rows:
-        qg_dict = _row_to_dict(qg)
+    qg_data = _parse_json(sprint_data.get('quality_gates_json')) or []
+    for qg_dict in qg_data:
         quality_gates.append(QualityGate(
-            name=qg_dict['name'],
+            name=qg_dict.get('name', ''),
             threshold=qg_dict.get('threshold') or 0,
             blocking=bool(qg_dict.get('blocking', True)),
             status=GateStatus(qg_dict['status']) if qg_dict.get('status') else GateStatus.PENDING,
@@ -745,6 +738,18 @@ def load_sprint(sprint_id: str) -> Sprint:
             last_checked=None,
         ))
 
+    # Parse JSON fields for authored content
+    success_criteria = _parse_json(sprint_data.get('success_criteria_json')) or []
+    risks = _parse_json(sprint_data.get('risks_json')) or []
+    deliverables_data = _parse_json(sprint_data.get('deliverables_json')) or []
+    # Convert deliverables from dicts back to strings
+    deliverables = []
+    for d in deliverables_data:
+        if isinstance(d, dict):
+            deliverables.append(d.get('name', str(d)))
+        else:
+            deliverables.append(str(d))
+
     # Create sprint
     sprint = Sprint(
         id=sprint_data['id'],
@@ -769,7 +774,12 @@ def load_sprint(sprint_id: str) -> Sprint:
         depends_on=depends_on,
         depended_on_by=[],
         plan_file=sprint_data.get('plan_file'),
-        deliverables=[],
+        deliverables=deliverables,
+        description=sprint_data.get('description'),
+        goal=sprint_data.get('goal'),
+        success_criteria=success_criteria,
+        risks=risks,
+        notes=sprint_data.get('notes'),
         commits=[],
         metadata=metadata,
         standards=[],

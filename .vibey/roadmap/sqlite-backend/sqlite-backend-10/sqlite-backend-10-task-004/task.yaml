@@ -5,12 +5,14 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: End-to-end testing
-  description: Created test_standards_inheritance_e2e.py with 11 tests covering CLI standards formatter, MCP query_standards tool, StandardsResolver integration, and inheritance chain visualization. All tests pass (9 passed, 2 skipped).
+  description: Created test_standards_inheritance_e2e.py with 11 tests covering CLI
+    standards formatter, MCP query_standards tool, StandardsResolver integration,
+    and inheritance chain visualization. All tests pass (9 passed, 2 skipped).
   status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: '2025-12-05T06:35:00.000000+00:00'
-  completed: '2025-12-05T06:50:00.000000+00:00'
+  started: '2025-12-05T06:35:00+00:00'
+  completed: '2025-12-05T06:50:00+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null

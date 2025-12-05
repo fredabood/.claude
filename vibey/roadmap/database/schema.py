@@ -145,12 +145,22 @@ CREATE TABLE IF NOT EXISTS sprints (
     -- References
     plan_file TEXT,
 
+    -- Content fields (for full YAML fidelity)
+    description TEXT,
+    goal TEXT,
+    estimated_duration TEXT,
+    notes TEXT,
+
     -- Authored data (JSON arrays) - these are NOT aggregated from children
     dependencies_json TEXT,  -- JSON array of external dependency descriptions
     standards_json TEXT,  -- JSON array of Standard objects (can inherit down)
     development_gates_json TEXT,  -- JSON array of DevelopmentGate objects
-
-    -- Note: commits, deliverables, assigned_agents, estimated_duration aggregate up from tasks via views
+    success_criteria_json TEXT,  -- JSON array of success criterion strings
+    risks_json TEXT,  -- JSON array of risk descriptions
+    deliverables_json TEXT,  -- JSON array of Deliverable objects
+    quality_gates_json TEXT,  -- JSON array of QualityGate objects
+    progress_json TEXT,  -- JSON object for progress (for round-trip fidelity)
+    tasks_json TEXT,  -- JSON array of task summaries (for round-trip fidelity)
 
     -- Metadata (JSON)
     metadata TEXT

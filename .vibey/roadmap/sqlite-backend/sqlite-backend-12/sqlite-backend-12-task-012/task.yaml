@@ -1,0 +1,52 @@
+task:
+  id: sqlite-backend-12-task-012
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: End-to-end validation of criteria-based completion system
+  description: "Comprehensive validation that the criteria-based completion system\
+    \ works end-to-end.\n\nVALIDATION SCENARIOS:\n1. YAML round-trip with criteria\n\
+    \   - Load YAML with criteria → Dump → Load again → Compare\n2. DB round-trip\
+    \ with criteria\n   - Load YAML → Save to DB → Load from DB → Dump to YAML → Compare\n\
+    3. Dependency enforcement\n   - Create task with dependency criterion\n   - Try\
+    \ to start (should block)\n   - Complete dependency\n   - Start (should succeed)\n\
+    4. Completion enforcement\n   - Create task with success criteria\n   - Try to\
+    \ complete (should block)\n   - Meet criteria\n   - Complete (should succeed)\n\
+    5. CLI integration\n   - Use CLI to update status\n   - Verify can_transition_to()\
+    \ blocks/allows correctly\n6. Pre-commit hook\n   - Create commit with \"Completes:\
+    \ task-XXX\"\n   - Verify hook blocks if criteria unmet\n   - Verify hook passes\
+    \ if criteria met\n\nSUCCESS CRITERIA:\n- All round-trip tests pass\n- All enforcement\
+    \ tests pass\n- No regression in existing functionality\n- Performance acceptable\
+    \ (< 100ms for criteria evaluation)\n\nREFERENCE:\n- sqlite-backend-6/context/architecture/\
+    \ (full design)\n- Sprint 11 validation scripts (extend for criteria)\n"
+  status: not_started
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: critical
+  phase_label: validation
+  estimated_tokens: 60000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

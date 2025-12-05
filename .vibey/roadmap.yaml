@@ -16,10 +16,10 @@ roadmap:
   progress:
     tracks_total: 36
     tracks_completed: 18
-    sprints_total: 180
-    sprints_completed: 91
-    tasks_total: 945
-    tasks_completed: 701
+    sprints_total: 181
+    sprints_completed: 92
+    tasks_total: 957
+    tasks_completed: 713
     completion_percent: 74
   tracks:
   - id: core-framework

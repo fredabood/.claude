@@ -1772,6 +1772,38 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
                 continue
 
             sprint_status = sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status)
+
+            # Build metadata dict for sprint
+            sprint_metadata = None
+            if sprint.metadata:
+                sprint_metadata = {
+                    'last_updated': sprint.metadata.last_updated.isoformat() if sprint.metadata.last_updated else None,
+                    'estimated_duration': sprint.metadata.estimated_duration,
+                    'actual_duration': sprint.metadata.actual_duration,
+                    'estimated_tokens': sprint.metadata.estimated_tokens,
+                    'actual_tokens': sprint.metadata.actual_tokens,
+                }
+
+            # Convert deliverables to list of dicts if they're strings
+            deliverables_list = None
+            if sprint.deliverables:
+                deliverables_list = [{'name': d} if isinstance(d, str) else d for d in sprint.deliverables]
+
+            # Convert quality gates to dicts
+            quality_gates_list = None
+            if sprint.quality_gates:
+                quality_gates_list = []
+                for qg in sprint.quality_gates:
+                    if hasattr(qg, '__dict__'):
+                        quality_gates_list.append({
+                            'name': getattr(qg, 'name', ''),
+                            'threshold': getattr(qg, 'threshold', 0),
+                            'blocking': getattr(qg, 'blocking', True),
+                            'status': str(getattr(qg, 'status', 'pending')),
+                        })
+                    elif isinstance(qg, dict):
+                        quality_gates_list.append(qg)
+
             db_create_sprint(
                 id=sprint.id,
                 track_id=track.id,
@@ -1780,6 +1812,18 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
                 status=_normalize_status(sprint_status),
                 blocked=sprint.blocked,
                 created=sprint.created or now,
+                started=sprint.started,
+                completed=sprint.completed,
+                plan_file=sprint.plan_file,
+                description=sprint.description,
+                goal=sprint.goal,
+                estimated_duration=sprint.metadata.estimated_duration if sprint.metadata else None,
+                notes=sprint.notes,
+                success_criteria=sprint.success_criteria if sprint.success_criteria else None,
+                risks=sprint.risks if sprint.risks else None,
+                deliverables=deliverables_list,
+                quality_gates=quality_gates_list,
+                metadata=sprint_metadata,
                 conn=conn,
             )
             loaded_sprints += 1

@@ -5,79 +5,31 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Performance benchmarks and optimization
-  description: |
-    Benchmark performance of new operations implementation and
-    optimize any hotspots that exceed acceptable thresholds.
-
-    BENCHMARK SCENARIOS:
-
-    1. LOAD PERFORMANCE:
-       - Load single task: < 10ms
-       - Load task with ancestors: < 50ms
-       - Load sprint with children: < 100ms
-       - Load full roadmap: < 500ms
-
-    2. AGGREGATION PERFORMANCE:
-       - sprint.commits (10 tasks): < 20ms
-       - track.commits (5 sprints, 50 tasks): < 100ms
-       - roadmap.commits (all): < 500ms
-
-    3. INHERITANCE PERFORMANCE:
-       - task.standards (4-level chain): < 10ms
-       - Multiple standards check: < 50ms
-
-    4. QUERY PERFORMANCE:
-       - Find blocked tasks: < 100ms
-       - Find tasks by status: < 100ms
-       - Get progress for roadmap: < 200ms
-
-    5. UPDATE PERFORMANCE:
-       - Update task status: < 50ms
-       - Add commit to task: < 50ms
-       - Complete sprint (cascade): < 200ms
-
-    OPTIMIZATION TARGETS:
-
-    1. LAZY LOADING:
-       - Don't load children until accessed
-       - Don't compute aggregation until accessed
-       - Cache computed values
-
-    2. EAGER LOADING OPTIONS:
-       For known access patterns, provide eager loading:
-
-       # Load sprint with tasks for display
-       sprint = repo.get_with_children(sprint_id,
-           eager=['tasks', 'tasks.commits'])
-
-    3. CACHING:
-       - Cache aggregated values with invalidation
-       - Cache effective standards
-       - Invalidate on change
-
-    4. DATABASE OPTIMIZATION:
-       - Ensure indexes on parent_id
-       - Use SQL views for common aggregations
-       - Consider materialized views for large roadmaps
-
-    5. BATCH OPERATIONS:
-       - Load multiple tickets in one query
-       - Batch updates in transactions
-
-    IMPLEMENTATION:
-
-    1. Create benchmark suite
-    2. Run benchmarks against current implementation
-    3. Identify hotspots (> 2x threshold)
-    4. Implement optimizations
-    5. Re-run benchmarks
-    6. Document optimization decisions
-
-    SUCCESS CRITERIA:
-    - All benchmarks within 2x of baseline
-    - No operation > 1 second
-    - Aggregation scales linearly
-    - Memory usage acceptable
+  description: "Benchmark performance of new operations implementation and\noptimize\
+    \ any hotspots that exceed acceptable thresholds.\n\nBENCHMARK SCENARIOS:\n\n\
+    1. LOAD PERFORMANCE:\n   - Load single task: < 10ms\n   - Load task with ancestors:\
+    \ < 50ms\n   - Load sprint with children: < 100ms\n   - Load full roadmap: < 500ms\n\
+    \n2. AGGREGATION PERFORMANCE:\n   - sprint.commits (10 tasks): < 20ms\n   - track.commits\
+    \ (5 sprints, 50 tasks): < 100ms\n   - roadmap.commits (all): < 500ms\n\n3. INHERITANCE\
+    \ PERFORMANCE:\n   - task.standards (4-level chain): < 10ms\n   - Multiple standards\
+    \ check: < 50ms\n\n4. QUERY PERFORMANCE:\n   - Find blocked tasks: < 100ms\n \
+    \  - Find tasks by status: < 100ms\n   - Get progress for roadmap: < 200ms\n\n\
+    5. UPDATE PERFORMANCE:\n   - Update task status: < 50ms\n   - Add commit to task:\
+    \ < 50ms\n   - Complete sprint (cascade): < 200ms\n\nOPTIMIZATION TARGETS:\n\n\
+    1. LAZY LOADING:\n   - Don't load children until accessed\n   - Don't compute\
+    \ aggregation until accessed\n   - Cache computed values\n\n2. EAGER LOADING OPTIONS:\n\
+    \   For known access patterns, provide eager loading:\n\n   # Load sprint with\
+    \ tasks for display\n   sprint = repo.get_with_children(sprint_id,\n       eager=['tasks',\
+    \ 'tasks.commits'])\n\n3. CACHING:\n   - Cache aggregated values with invalidation\n\
+    \   - Cache effective standards\n   - Invalidate on change\n\n4. DATABASE OPTIMIZATION:\n\
+    \   - Ensure indexes on parent_id\n   - Use SQL views for common aggregations\n\
+    \   - Consider materialized views for large roadmaps\n\n5. BATCH OPERATIONS:\n\
+    \   - Load multiple tickets in one query\n   - Batch updates in transactions\n\
+    \nIMPLEMENTATION:\n\n1. Create benchmark suite\n2. Run benchmarks against current\
+    \ implementation\n3. Identify hotspots (> 2x threshold)\n4. Implement optimizations\n\
+    5. Re-run benchmarks\n6. Document optimization decisions\n\nSUCCESS CRITERIA:\n\
+    - All benchmarks within 2x of baseline\n- No operation > 1 second\n- Aggregation\
+    \ scales linearly\n- Memory usage acceptable\n"
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
@@ -94,30 +46,29 @@ task:
   dependencies: []
   blocks: []
   blocked_by:
-  - sqlite-backend-9-task-005
+  - dependency_id: sqlite-backend-9-task-005
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-05T02:07:34.410427+00:00'
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Benchmark suite
-  - Performance baseline document
-  - Optimization implementations
-  - Performance comparison report
+  - type: code
+    paths:
+    - Benchmark suite
+  - type: code
+    paths:
+    - Performance baseline document
+  - type: code
+    paths:
+    - Optimization implementations
+  - type: code
+    paths:
+    - Performance comparison report
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      Performance is important because roadmap operations
-      run frequently during development sessions.
-
-      KEY INSIGHT: Smart accessors may add overhead.
-      The trade-off is:
-      - Simpler code (fewer bugs, easier maintenance)
-      - Potentially slower (more computation per access)
-
-      Mitigation strategies:
-      1. Lazy evaluation (don't compute until needed)
-      2. Caching (compute once, reuse)
-      3. Eager loading (known patterns)
-      4. SQL optimization (push computation to DB)
-
-      Target: Operations should feel instant (< 200ms user-perceived).

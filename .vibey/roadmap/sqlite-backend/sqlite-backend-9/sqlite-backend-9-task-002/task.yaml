@@ -5,111 +5,46 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update update.py with smart accessor usage
-  description: |
-    Refactor update.py operations to use new unified ticket models
-    and leverage smart accessors for consistent updates.
-
-    CURRENT STATE:
-    - update.py handles status transitions, commit sync, etc.
-    - Uses old dataclass models
-    - Manual aggregation for progress updates
-
-    CHANGES REQUIRED:
-
-    1. UPDATE IMPORTS:
-       from vibey.roadmap.models.ticket import (
-           TaskTicket, SprintTicket, TrackTicket, RoadmapTicket,
-           TicketStatus, GitCommit
-       )
-
-    2. STATUS TRANSITION UPDATES:
-       Use Ticket methods for transitions:
-
-       # OLD
-       def complete_task(task_id):
-           task = load_task(task_id)
-           task.status = 'completed'
-           task.completed = datetime.now()
-           save_task(task)
-
-       # NEW
-       def complete_task(task_id):
-           task = load_task(task_id)
-           if not task.can_complete():
-               raise ValidationError(task.get_blocking_reason())
-           updated_task = task.complete()  # Returns new instance
-           save_task(updated_task)
-
-    3. COMMIT SYNC UPDATES:
-       Simplified with smart accessors:
-
-       # OLD - manual aggregation
-       def sync_commits_to_sprint(sprint_id):
-           sprint = load_sprint(sprint_id)
-           all_commits = []
-           for task in sprint.tasks:
-               all_commits.extend(task.commits)
-           sprint.commits = all_commits
-           save_sprint(sprint)
-
-       # NEW - smart accessor handles it
-       def get_sprint_commits(sprint_id):
-           sprint = load_sprint_with_children(sprint_id)
-           return sprint.commits  # Already aggregated
-       # No sync needed - aggregation is computed on access
-
-    4. PROGRESS UPDATES:
-       Progress is computed, not stored:
-
-       # OLD - manual calculation
-       def update_sprint_progress(sprint_id):
-           sprint = load_sprint(sprint_id)
-           completed = sum(1 for t in sprint.tasks if t.status == 'completed')
-           sprint.progress.completed = completed
-           save_sprint(sprint)
-
-       # NEW - computed automatically
-       def get_sprint_progress(sprint_id):
-           sprint = load_sprint_with_children(sprint_id)
-           return sprint.progress  # Computed from children
-
-    5. FUNCTIONS TO UPDATE:
-       - update_task_status()
-       - update_sprint_status()
-       - update_track_status()
-       - complete_task()
-       - complete_sprint()
-       - add_commit_to_task()
-       - sync_progress()
-       - cascade_block_status()
-
-    6. NEW PATTERN - IMMUTABLE UPDATES:
-       Use model_copy() for immutable state changes:
-
-       def add_commit(task_id, commit: GitCommit):
-           task = load_task(task_id)
-           updated_task = task.model_copy(update={
-               'commits_local': task.commits_local + [commit]
-           })
-           save_task(updated_task)
-
-    IMPLEMENTATION STEPS:
-
-    1. Update imports to new model types
-    2. Replace status updates with transition methods
-    3. Remove manual aggregation code (smart accessors handle it)
-    4. Remove manual progress calculation (computed)
-    5. Use model_copy() for immutable updates
-    6. Update all callers
-    7. Add/update tests
-
-    SUCCESS CRITERIA:
-    - All update functions use new models
-    - Transition methods enforce validation
-    - No manual aggregation code
-    - No manual progress calculation
-    - Immutable update pattern used
-    - All existing functionality preserved
+  description: "Refactor update.py operations to use new unified ticket models\nand\
+    \ leverage smart accessors for consistent updates.\n\nCURRENT STATE:\n- update.py\
+    \ handles status transitions, commit sync, etc.\n- Uses old dataclass models\n\
+    - Manual aggregation for progress updates\n\nCHANGES REQUIRED:\n\n1. UPDATE IMPORTS:\n\
+    \   from vibey.roadmap.models.ticket import (\n       TaskTicket, SprintTicket,\
+    \ TrackTicket, RoadmapTicket,\n       TicketStatus, GitCommit\n   )\n\n2. STATUS\
+    \ TRANSITION UPDATES:\n   Use Ticket methods for transitions:\n\n   # OLD\n  \
+    \ def complete_task(task_id):\n       task = load_task(task_id)\n       task.status\
+    \ = 'completed'\n       task.completed = datetime.now()\n       save_task(task)\n\
+    \n   # NEW\n   def complete_task(task_id):\n       task = load_task(task_id)\n\
+    \       if not task.can_complete():\n           raise ValidationError(task.get_blocking_reason())\n\
+    \       updated_task = task.complete()  # Returns new instance\n       save_task(updated_task)\n\
+    \n3. COMMIT SYNC UPDATES:\n   Simplified with smart accessors:\n\n   # OLD - manual\
+    \ aggregation\n   def sync_commits_to_sprint(sprint_id):\n       sprint = load_sprint(sprint_id)\n\
+    \       all_commits = []\n       for task in sprint.tasks:\n           all_commits.extend(task.commits)\n\
+    \       sprint.commits = all_commits\n       save_sprint(sprint)\n\n   # NEW -\
+    \ smart accessor handles it\n   def get_sprint_commits(sprint_id):\n       sprint\
+    \ = load_sprint_with_children(sprint_id)\n       return sprint.commits  # Already\
+    \ aggregated\n   # No sync needed - aggregation is computed on access\n\n4. PROGRESS\
+    \ UPDATES:\n   Progress is computed, not stored:\n\n   # OLD - manual calculation\n\
+    \   def update_sprint_progress(sprint_id):\n       sprint = load_sprint(sprint_id)\n\
+    \       completed = sum(1 for t in sprint.tasks if t.status == 'completed')\n\
+    \       sprint.progress.completed = completed\n       save_sprint(sprint)\n\n\
+    \   # NEW - computed automatically\n   def get_sprint_progress(sprint_id):\n \
+    \      sprint = load_sprint_with_children(sprint_id)\n       return sprint.progress\
+    \  # Computed from children\n\n5. FUNCTIONS TO UPDATE:\n   - update_task_status()\n\
+    \   - update_sprint_status()\n   - update_track_status()\n   - complete_task()\n\
+    \   - complete_sprint()\n   - add_commit_to_task()\n   - sync_progress()\n   -\
+    \ cascade_block_status()\n\n6. NEW PATTERN - IMMUTABLE UPDATES:\n   Use model_copy()\
+    \ for immutable state changes:\n\n   def add_commit(task_id, commit: GitCommit):\n\
+    \       task = load_task(task_id)\n       updated_task = task.model_copy(update={\n\
+    \           'commits_local': task.commits_local + [commit]\n       })\n      \
+    \ save_task(updated_task)\n\nIMPLEMENTATION STEPS:\n\n1. Update imports to new\
+    \ model types\n2. Replace status updates with transition methods\n3. Remove manual\
+    \ aggregation code (smart accessors handle it)\n4. Remove manual progress calculation\
+    \ (computed)\n5. Use model_copy() for immutable updates\n6. Update all callers\n\
+    7. Add/update tests\n\nSUCCESS CRITERIA:\n- All update functions use new models\n\
+    - Transition methods enforce validation\n- No manual aggregation code\n- No manual\
+    \ progress calculation\n- Immutable update pattern used\n- All existing functionality\
+    \ preserved\n"
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
@@ -120,35 +55,34 @@ task:
   phase_label: implementation
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-9-task-004
-  - sqlite-backend-9-task-005
+  - type: task
+    target_id: sqlite-backend-9-task-004
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-9-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Updated vibey/operations/roadmap/update.py
-  - Immutable update patterns
-  - tests/operations/roadmap/test_update_v2.py
+  - type: code
+    paths:
+    - Updated vibey/operations/roadmap/update.py
+  - type: code
+    paths:
+    - Immutable update patterns
+  - type: code
+    paths:
+    - tests/operations/roadmap/test_update_v2.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      KEY SIMPLIFICATION: Smart accessors eliminate sync code.
-
-      Currently update.py has complex logic to:
-      - Sync commits from tasks to sprints to tracks
-      - Calculate progress at each level
-      - Propagate blocked status
-
-      With smart accessors, most of this becomes unnecessary:
-      - commits are aggregated on access
-      - progress is computed on access
-      - blocked status computed from dependencies
-
-      This significantly reduces code complexity and
-      eliminates sync bugs.

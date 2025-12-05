@@ -5,6 +5,7 @@ sprint:
   roadmap_id: vibey-framework-v2
   status: in_progress
   blocked: false
+  blocked_reason: null
   created: '2025-11-29T14:00:00+00:00'
   started: '2025-12-04T00:00:00+00:00'
   completion_gate_check_at: null
@@ -13,9 +14,15 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
+    development_tasks_total: 8
+    development_tasks_completed: 1
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 8
-    tasks_completed: 0
-    completion_percent: 0.0
+    tasks_completed: 1
+    completion_percent: 12
   tasks:
   - id: sqlite-backend-9-task-001
     title: Update query.py with hierarchy-aware queries
@@ -72,7 +79,8 @@ sprint:
   deliverables:
   - Updated query.py with hierarchy-aware queries and criteria-based status
   - Updated update.py with can_transition_to() for status transitions
-  - Updated requirements.py (renamed from standards_enforcement.py) with enforceable flag
+  - Updated requirements.py (renamed from standards_enforcement.py) with enforceable
+    flag
   - Updated commit_mapper.py with GitCommit file tracking integration
   - process_commit() function for post-commit artifact linking
   - verify_completion_claims() function for pre-commit validation
@@ -80,6 +88,13 @@ sprint:
   - Updated remaining operations files for criteria-based completion
   - Integration tests for all operations
   - Performance benchmarks
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -89,65 +104,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-    notes: |
-      Sprint 9: Operations Migration
-
-      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
-
-      GOAL: Update all roadmap operations to use criteria-based completion
-      with Requirement inheritance (renamed from Standards).
-
-      DEPENDS ON: Sprint 8 (serialization migration)
-
-      KEY CHANGES:
-
-      1. CRITERIA-BASED STATUS TRANSITIONS:
-         All status changes must use can_transition_to():
-         ```python
-         can_complete, blockers = ticket.can_transition_to(TicketStatus.COMPLETED)
-         if not can_complete:
-             raise ValidationError(f"Cannot complete: {blockers}")
-         ```
-
-      2. REQUIREMENTS SYSTEM (renamed from Standards):
-         - standards_enforcement.py → requirements.py
-         - Standard → Requirement
-         - Supports `enforceable` flag for ancestor-controlled constraints
-         - InheritMode: INHERIT, OVERRIDE, SKIP (with justification)
-
-      3. GITCOMMIT INTEGRATION:
-         - process_commit(): Post-commit hook function
-           * Links commits to artifacts via file paths
-           * Updates artifact content hashes
-           * Detects documentation staleness
-         - verify_completion_claims(): Pre-commit validation
-           * Parses "Completes:" lines from commit message
-           * Validates all criteria met before allowing completion
-
-      4. COMMIT-ARTIFACT VALIDATION:
-         - CommitArtifactValidator for consistency checks
-         - Warning (not blocking) for incidental artifact changes
-         - Error (blocking) for completion claims with unmet criteria
-
-      OPERATIONS FILES (priority order):
-      - query.py (CRITICAL) - criteria-based status computation
-      - update.py (CRITICAL) - can_transition_to() enforcement
-      - requirements.py (CRITICAL) - renamed, enforceable flag
-      - commit_mapper.py (HIGH) - GitCommit with file tracking
-      - validate.py (HIGH) - criteria validation
-      - summarize.py (HIGH) - progress from criteria
-      - context.py (HIGH) - artifact references
-      - auto_repair.py (MEDIUM) - criteria-aware repairs
-      - audit_trail.py (MEDIUM) - activity log integration
-      - checkpoint_verifier.py (MEDIUM) - integrity checks
-      - safe_yaml_editor.py (MEDIUM) - semantic layer aware
-      - advanced_validator.py (MEDIUM) - cross-entity validation
-      - doc_tracking.py (LOW) - artifact staleness
-      - init.py (LOW) - initialization
-
-      SMART ACCESSOR USAGE:
-      Operations should use smart accessors:
-      - ticket.commits (aggregates from children)
-      - ticket.requirements_effective (inherits from ancestors)
-      - ticket.all_criteria (includes inherited requirements)
-      - ticket.can_transition_to(status) (criteria-based)

@@ -5,119 +5,75 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update query.py with hierarchy-aware queries
-  description: |
-    Refactor query.py operations to use new unified ticket models
-    with hierarchy-aware loading and smart accessor support.
-
-    CURRENT STATE:
-    - query.py uses old dataclass models
-    - Direct field access (task.commits, sprint.deliverables)
-    - No hierarchy awareness in queries
-
-    CHANGES REQUIRED:
-
-    1. UPDATE IMPORTS:
-       # OLD
-       from vibey.roadmap.models.task import Task
-       from vibey.roadmap.models.sprint import Sprint
-
-       # NEW
-       from vibey.roadmap.models.ticket import (
-           TaskTicket, SprintTicket, TrackTicket, RoadmapTicket
-       )
-
-    2. USE SMART ACCESSORS:
-       Operations should use smart accessors which automatically
-       handle aggregation/inheritance:
-
-       # OLD - direct field access
-       def get_sprint_commits(sprint_id):
-           sprint = load_sprint(sprint_id)
-           commits = []
-           for task in sprint.tasks:
-               commits.extend(task.commits)
-           return commits
-
-       # NEW - smart accessor handles aggregation
-       def get_sprint_commits(sprint_id):
-           sprint = load_sprint_with_children(sprint_id)
-           return sprint.commits  # Smart accessor aggregates
-
-    3. HIERARCHY-AWARE LOADING:
-       Use repository methods for hierarchy:
-
-       def get_task_with_context(task_id):
-           repo = TicketRepository(session)
-           task = repo.get_with_ancestors(task_id)
-           # task.standards now includes inherited standards
-           return task
-
-    4. QUERY FUNCTIONS TO UPDATE:
-       - get_roadmap() → returns RoadmapTicket
-       - get_track() → returns TrackTicket
-       - get_sprint() → returns SprintTicket
-       - get_task() → returns TaskTicket
-       - find_tasks_by_status()
-       - find_blocked_items()
-       - get_progress()
-       - get_commits_for_sprint()
-       - get_deliverables_for_track()
-       - get_standards_for_task()
-
-    5. NEW QUERY FUNCTIONS:
-       - get_effective_standards(ticket_id) → inherited chain
-       - get_aggregated_commits(ticket_id) → from descendants
-       - get_hierarchy_path(ticket_id) → [roadmap, track, sprint, task]
-
-    IMPLEMENTATION STEPS:
-
-    1. Update imports to new model types
-    2. Update each query function signature
-    3. Replace direct field access with smart accessors
-    4. Add hierarchy-aware loading where needed
-    5. Add new query functions for inheritance/aggregation
-    6. Update all callers of query functions
-    7. Add/update tests
-
-    SUCCESS CRITERIA:
-    - All query functions return new model types
-    - Smart accessors used for aggregated/effective fields
-    - Hierarchy loading works correctly
-    - All existing functionality preserved
-    - Performance acceptable
-  status: in_progress
+  description: "Refactor query.py operations to use new unified ticket models\nwith\
+    \ hierarchy-aware loading and smart accessor support.\n\nCURRENT STATE:\n- query.py\
+    \ uses old dataclass models\n- Direct field access (task.commits, sprint.deliverables)\n\
+    - No hierarchy awareness in queries\n\nCHANGES REQUIRED:\n\n1. UPDATE IMPORTS:\n\
+    \   # OLD\n   from vibey.roadmap.models.task import Task\n   from vibey.roadmap.models.sprint\
+    \ import Sprint\n\n   # NEW\n   from vibey.roadmap.models.ticket import (\n  \
+    \     TaskTicket, SprintTicket, TrackTicket, RoadmapTicket\n   )\n\n2. USE SMART\
+    \ ACCESSORS:\n   Operations should use smart accessors which automatically\n \
+    \  handle aggregation/inheritance:\n\n   # OLD - direct field access\n   def get_sprint_commits(sprint_id):\n\
+    \       sprint = load_sprint(sprint_id)\n       commits = []\n       for task\
+    \ in sprint.tasks:\n           commits.extend(task.commits)\n       return commits\n\
+    \n   # NEW - smart accessor handles aggregation\n   def get_sprint_commits(sprint_id):\n\
+    \       sprint = load_sprint_with_children(sprint_id)\n       return sprint.commits\
+    \  # Smart accessor aggregates\n\n3. HIERARCHY-AWARE LOADING:\n   Use repository\
+    \ methods for hierarchy:\n\n   def get_task_with_context(task_id):\n       repo\
+    \ = TicketRepository(session)\n       task = repo.get_with_ancestors(task_id)\n\
+    \       # task.standards now includes inherited standards\n       return task\n\
+    \n4. QUERY FUNCTIONS TO UPDATE:\n   - get_roadmap() → returns RoadmapTicket\n\
+    \   - get_track() → returns TrackTicket\n   - get_sprint() → returns SprintTicket\n\
+    \   - get_task() → returns TaskTicket\n   - find_tasks_by_status()\n   - find_blocked_items()\n\
+    \   - get_progress()\n   - get_commits_for_sprint()\n   - get_deliverables_for_track()\n\
+    \   - get_standards_for_task()\n\n5. NEW QUERY FUNCTIONS:\n   - get_effective_standards(ticket_id)\
+    \ → inherited chain\n   - get_aggregated_commits(ticket_id) → from descendants\n\
+    \   - get_hierarchy_path(ticket_id) → [roadmap, track, sprint, task]\n\nIMPLEMENTATION\
+    \ STEPS:\n\n1. Update imports to new model types\n2. Update each query function\
+    \ signature\n3. Replace direct field access with smart accessors\n4. Add hierarchy-aware\
+    \ loading where needed\n5. Add new query functions for inheritance/aggregation\n\
+    6. Update all callers of query functions\n7. Add/update tests\n\nSUCCESS CRITERIA:\n\
+    - All query functions return new model types\n- Smart accessors used for aggregated/effective\
+    \ fields\n- Hierarchy loading works correctly\n- All existing functionality preserved\n\
+    - Performance acceptable\n"
+  status: completed
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: '2025-12-04T16:00:00+00:00'
-  completed: null
+  completed: '2025-12-05T02:07:34.493397+00:00'
   assigned_agent: backend-engineer
   priority: critical
   phase_label: implementation
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-9-task-004
-  - sqlite-backend-9-task-005
+  - type: task
+    target_id: sqlite-backend-9-task-004
+    at_status: not_started
+    reason: Blocks task from starting
+  - type: task
+    target_id: sqlite-backend-9-task-005
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - Updated vibey/operations/roadmap/query.py
-  - New hierarchy query functions
-  - tests/operations/roadmap/test_query_v2.py
+  - type: code
+    paths:
+    - Updated vibey/operations/roadmap/query.py
+  - type: code
+    paths:
+    - New hierarchy query functions
+  - type: code
+    paths:
+    - tests/operations/roadmap/test_query_v2.py
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      CRITICAL PATH: Most other operations depend on query.py.
-
-      Key insight: Smart accessors eliminate manual aggregation.
-      Instead of iterating children to collect commits,
-      just access sprint.commits and get the right answer.
-
-      This simplifies code significantly while ensuring
-      consistent behavior across the codebase.

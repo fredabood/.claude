@@ -5,98 +5,40 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integration testing for all operations
-  description: |
-    Comprehensive integration testing to verify all operations
-    work correctly with new unified ticket models.
-
-    TEST SCENARIOS:
-
-    1. TASK LIFECYCLE:
-       - Create task with TaskTicket
-       - Start task (status transition)
-       - Add commits to task
-       - Complete task
-       - Verify commits appear in sprint.commits (aggregation)
-
-    2. SPRINT LIFECYCLE:
-       - Create sprint with SprintTicket
-       - Add tasks to sprint
-       - Complete all development tasks
-       - Pass completion gates
-       - Complete sprint
-       - Verify progress computed correctly
-
-    3. TRACK LIFECYCLE:
-       - Create track with TrackTicket
-       - Add sprints to track
-       - Complete sprints
-       - Verify track.commits includes all sprint commits
-       - Verify track.progress computed from sprints
-
-    4. STANDARDS INHERITANCE:
-       - Define standard on roadmap
-       - Verify track.standards includes roadmap standard
-       - Verify sprint.standards includes track + roadmap
-       - Verify task.standards includes full chain
-       - Override standard at track level
-       - Verify override takes precedence
-
-    5. QUALITY GATES CASCADE:
-       - Define quality gate on track
-       - Verify gate applies to sprints
-       - Verify blocking gate prevents sprint completion
-
-    6. HIERARCHY NAVIGATION:
-       - Create full hierarchy (roadmap → track → sprint → task)
-       - Navigate up: task.get_sprint().get_track().get_roadmap()
-       - Navigate down: roadmap.get_tracks()[0].get_sprints()
-       - Verify hierarchy attributes correct at each level
-
-    7. AGGREGATION CORRECTNESS:
-       - Add commit to task
-       - Verify sprint.commits_aggregated includes it
-       - Verify track.commits_aggregated includes it
-       - Verify roadmap.commits_aggregated includes it
-
-    8. DEPENDENCY HANDLING:
-       - Create task with depends_on
-       - Verify is_blocked computed correctly
-       - Complete dependency
-       - Verify task unblocked
-
-    9. ERROR CASES:
-       - Invalid status transition
-       - Missing required fields
-       - Invalid hierarchy (task without sprint)
-       - Circular dependency detection
-
-    10. PERFORMANCE:
-        - Load large roadmap (100+ tasks)
-        - Measure aggregation time
-        - Measure hierarchy traversal time
-        - Compare with baseline
-
-    TEST DATA:
-
-    Use real sqlite-backend track as test fixture:
-    - 10+ sprints
-    - 67+ tasks
-    - Mix of completed/in-progress/not-started
-    - Standards defined at multiple levels
-
-    IMPLEMENTATION:
-
-    1. Create integration test framework
-    2. Create test fixtures from real data
-    3. Implement test for each scenario
-    4. Add performance benchmarks
-    5. Generate coverage report
-
-    SUCCESS CRITERIA:
-    - All integration tests pass
-    - 90%+ code coverage for operations
-    - Performance within 2x of baseline
-    - No regressions from previous behavior
+  description: "Comprehensive integration testing to verify all operations\nwork correctly\
+    \ with new unified ticket models.\n\nTEST SCENARIOS:\n\n1. TASK LIFECYCLE:\n \
+    \  - Create task with TaskTicket\n   - Start task (status transition)\n   - Add\
+    \ commits to task\n   - Complete task\n   - Verify commits appear in sprint.commits\
+    \ (aggregation)\n\n2. SPRINT LIFECYCLE:\n   - Create sprint with SprintTicket\n\
+    \   - Add tasks to sprint\n   - Complete all development tasks\n   - Pass completion\
+    \ gates\n   - Complete sprint\n   - Verify progress computed correctly\n\n3. TRACK\
+    \ LIFECYCLE:\n   - Create track with TrackTicket\n   - Add sprints to track\n\
+    \   - Complete sprints\n   - Verify track.commits includes all sprint commits\n\
+    \   - Verify track.progress computed from sprints\n\n4. STANDARDS INHERITANCE:\n\
+    \   - Define standard on roadmap\n   - Verify track.standards includes roadmap\
+    \ standard\n   - Verify sprint.standards includes track + roadmap\n   - Verify\
+    \ task.standards includes full chain\n   - Override standard at track level\n\
+    \   - Verify override takes precedence\n\n5. QUALITY GATES CASCADE:\n   - Define\
+    \ quality gate on track\n   - Verify gate applies to sprints\n   - Verify blocking\
+    \ gate prevents sprint completion\n\n6. HIERARCHY NAVIGATION:\n   - Create full\
+    \ hierarchy (roadmap → track → sprint → task)\n   - Navigate up: task.get_sprint().get_track().get_roadmap()\n\
+    \   - Navigate down: roadmap.get_tracks()[0].get_sprints()\n   - Verify hierarchy\
+    \ attributes correct at each level\n\n7. AGGREGATION CORRECTNESS:\n   - Add commit\
+    \ to task\n   - Verify sprint.commits_aggregated includes it\n   - Verify track.commits_aggregated\
+    \ includes it\n   - Verify roadmap.commits_aggregated includes it\n\n8. DEPENDENCY\
+    \ HANDLING:\n   - Create task with depends_on\n   - Verify is_blocked computed\
+    \ correctly\n   - Complete dependency\n   - Verify task unblocked\n\n9. ERROR\
+    \ CASES:\n   - Invalid status transition\n   - Missing required fields\n   - Invalid\
+    \ hierarchy (task without sprint)\n   - Circular dependency detection\n\n10. PERFORMANCE:\n\
+    \    - Load large roadmap (100+ tasks)\n    - Measure aggregation time\n    -\
+    \ Measure hierarchy traversal time\n    - Compare with baseline\n\nTEST DATA:\n\
+    \nUse real sqlite-backend track as test fixture:\n- 10+ sprints\n- 67+ tasks\n\
+    - Mix of completed/in-progress/not-started\n- Standards defined at multiple levels\n\
+    \nIMPLEMENTATION:\n\n1. Create integration test framework\n2. Create test fixtures\
+    \ from real data\n3. Implement test for each scenario\n4. Add performance benchmarks\n\
+    5. Generate coverage report\n\nSUCCESS CRITERIA:\n- All integration tests pass\n\
+    - 90%+ code coverage for operations\n- Performance within 2x of baseline\n- No\
+    \ regressions from previous behavior\n"
   status: not_started
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
@@ -107,37 +49,57 @@ task:
   phase_label: testing
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
   blocks:
-  - sqlite-backend-9-task-006
+  - type: task
+    target_id: sqlite-backend-9-task-006
+    at_status: not_started
+    reason: Blocks task from starting
   blocked_by:
-  - sqlite-backend-9-task-001
-  - sqlite-backend-9-task-002
-  - sqlite-backend-9-task-003
-  - sqlite-backend-9-task-004
+  - dependency_id: sqlite-backend-9-task-001
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-05T02:07:34.410465+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-9-task-002
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-05T02:07:34.410466+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-9-task-003
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-05T02:07:34.410466+00:00'
+    estimated_resolution: null
+  - dependency_id: sqlite-backend-9-task-004
+    dependency_type: task
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-05T02:07:34.410467+00:00'
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
   deliverables:
-  - tests/operations/roadmap/test_integration.py
-  - Test fixtures from real data
-  - Performance benchmark results
-  - Coverage report
+  - type: code
+    paths:
+    - tests/operations/roadmap/test_integration.py
+  - type: code
+    paths:
+    - Test fixtures from real data
+  - type: code
+    paths:
+    - Performance benchmark results
+  - type: code
+    paths:
+    - Coverage report
   commits: []
   metadata:
     last_updated: '2025-11-29T14:00:00+00:00'
     token_efficiency: null
     duration_hours: null
-    notes: |
-      GATE TASK: This is the quality gate for Sprint 6c.
-
-      If integration tests fail, we cannot proceed with
-      interface migration (Sprint 6d).
-
-      Focus on end-to-end scenarios that exercise:
-      - Smart accessor aggregation
-      - Standards inheritance
-      - Hierarchy navigation
-      - Status transitions
-
-      Use real roadmap data for realistic testing.

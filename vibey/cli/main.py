@@ -2891,6 +2891,52 @@ def db_validate(ctx, level: str, compare: bool, verbose: bool):
     sys.exit(exit_code)
 
 
+@roadmap.command('migrate-format')
+@click.option('--dry-run', is_flag=True, help='Show what would change without modifying files')
+@click.option('--backup/--no-backup', default=True, help='Create .v1.bak backup files (default: yes)')
+@click.option('--path', '-p', type=click.Path(exists=True), help='Path to roadmap directory')
+@click.option('--force', '-f', is_flag=True, help='Skip confirmation prompt')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed progress')
+@click.pass_context
+def migrate_format(ctx, dry_run: bool, backup: bool, path: Optional[str], force: bool, verbose: bool):
+    """Migrate YAML files from v1 format to v2 format.
+
+    V1 format uses legacy field names (created, assigned_agent, title).
+    V2 format uses unified ticket architecture (created_at, assigned_agents, name).
+
+    This command:
+    - Scans all YAML files in the roadmap directory
+    - Detects which files are v1 format
+    - Transforms v1 fields to v2 format
+    - Creates backups before modification (unless --no-backup)
+    - Validates migrated files
+
+    Examples:
+
+      # Preview changes
+      vibey roadmap migrate-format --dry-run
+
+      # Migrate with backups (interactive)
+      vibey roadmap migrate-format
+
+      # Force migrate without confirmation
+      vibey roadmap migrate-format --force
+
+      # Verbose output
+      vibey roadmap migrate-format --verbose --dry-run
+    """
+    from vibey.cli.commands import migrate_format_cmd
+
+    exit_code = migrate_format_cmd(
+        dry_run=dry_run,
+        backup=backup,
+        path=path,
+        force=force,
+        verbose=verbose,
+    )
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

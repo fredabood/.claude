@@ -5,12 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build Declared DB from YAML counters
-  description: null
-  status: not_started
+  description: Implemented via extract_declared_progress() in integrity_audit.py -
+    extracts declared progress counters from YAML files for comparison.
+  status: completed
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-05T07:45:00.000000+00:00'
+  completed: '2025-12-05T07:50:00.000000+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

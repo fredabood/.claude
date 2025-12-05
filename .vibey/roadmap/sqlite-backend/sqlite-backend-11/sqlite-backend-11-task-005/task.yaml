@@ -5,12 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement YAML remediation tooling
-  description: null
-  status: not_started
+  description: "Created vibey/roadmap/database/yaml_remediation.py with:\n- remediate_track_counters():\
+    \ Fixes track-level progress counters\n- remediate_sprint_counters(): Fixes sprint-level\
+    \ progress counters  \n- remediate_all_discrepancies(): Finds and fixes all discrepancies\n\
+    - verify_remediation(): Runs audit after remediation to verify fixes\nSupports\
+    \ dry-run mode and per-entity remediation."
+  status: completed
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-05T08:00:00.000000+00:00'
+  completed: '2025-12-05T08:15:00.000000+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

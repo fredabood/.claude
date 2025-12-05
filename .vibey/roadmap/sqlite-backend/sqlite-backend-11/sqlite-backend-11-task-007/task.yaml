@@ -4,12 +4,16 @@ task:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Iterate remediation until zero discrepancies
-  description: null
-  status: not_started
+  title: 'Validation Steps 2-3: YAML round-trip verification'
+  description: |
+    Per sqlite_validation.md Steps 2-3:
+    - Step 2: Dump computed database to new YAML files and compare to original
+    - Step 3: Load generated YAML into new computed database and verify identical
+    This ensures the full YAML->SQLite->YAML round-trip preserves all data.
+  status: in_progress
   blocked: false
   created: '2025-11-26T14:00:00+00:00'
-  started: null
+  started: '2025-12-05T08:30:00.000000+00:00'
   completed: null
   assigned_agent: null
   priority: critical

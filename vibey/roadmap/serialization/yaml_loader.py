@@ -29,7 +29,7 @@ from ..models.ticket.domain import (
     ActivityLogEntry as PydanticActivityLogEntry,
     PlatformDeployment as PydanticPlatformDeployment,
 )
-from ..models.ticket.ticket import GitCommit, Ticket
+from ..models.ticket.ticket import GitCommit as PydanticGitCommit, Ticket
 from ..models.ticket.completable import Criterion
 from ..models.ticket.enums import (
     TicketStatus,
@@ -466,21 +466,108 @@ def _create_quality_gate_criterion(
     )
 
 
-def _convert_legacy_commits(commits_data: List[Dict[str, Any]]) -> List[GitCommit]:
-    """Convert legacy commit data to GitCommit objects."""
+def _parse_completes_from_message(message: str) -> List[str]:
+    """
+    Extract ticket IDs that this commit completes from the commit message.
+
+    Supports patterns:
+    - "Completes: task-id" or "Completes: task-id, task-id2"
+    - "Closes: task-id" or "Closes #task-id"
+    - "Fixes: task-id" or "Fixes #task-id"
+    - "chore(task-id): Mark task complete" (task reference in conventional commit)
+
+    Args:
+        message: Git commit message
+
+    Returns:
+        List of ticket IDs found in the message
+    """
+    import re
+
+    ticket_ids = set()
+
+    # Pattern 1: "Completes: id1, id2" or "Completes id1"
+    # Match task IDs which typically have format: track-sprint-task-number
+    completes_match = re.search(r'Completes:?\s*([\w\-,\s]+?)(?:\n|$)', message, re.IGNORECASE)
+    if completes_match:
+        # Extract hyphenated identifiers (e.g., sqlite-backend-8-task-007)
+        # Pattern matches 2-5 parts separated by hyphens
+        ids = re.findall(r'\b([\w]+-[\w]+(?:-[\w]+){0,3})\b', completes_match.group(1))
+        ticket_ids.update(ids)
+
+    # Pattern 2: "Closes: id" or "Closes #id"
+    closes_matches = re.findall(r'Closes:?\s*#?([\w\-]+(?:-[\w\-]+)*)', message, re.IGNORECASE)
+    ticket_ids.update(closes_matches)
+
+    # Pattern 3: "Fixes: id" or "Fixes #id"
+    fixes_matches = re.findall(r'Fixes:?\s*#?([\w\-]+(?:-[\w\-]+)*)', message, re.IGNORECASE)
+    ticket_ids.update(fixes_matches)
+
+    # Pattern 4: Conventional commit with task ID: "chore(task-id): ..."
+    # Look for task IDs in parentheses after common prefixes
+    conventional_match = re.search(r'^(?:feat|fix|chore|docs|refactor|test)\(([\w\-]+)\):', message)
+    if conventional_match:
+        task_ref = conventional_match.group(1)
+        # Only include if it looks like a task ID (has dashes)
+        if '-' in task_ref:
+            ticket_ids.add(task_ref)
+
+    # Filter out common false positives
+    filtered = [
+        tid for tid in ticket_ids
+        if len(tid) > 3  # Avoid short matches
+        and not tid.lower() in ('task', 'sprint', 'track', 'roadmap')  # Avoid generic words
+    ]
+
+    return sorted(filtered)
+
+
+def _convert_legacy_commits(commits_data: List[Dict[str, Any]]) -> List[PydanticGitCommit]:
+    """
+    Convert legacy commit data to GitCommit objects.
+
+    Handles both v1 format (simple fields) and v2 format (with completes_tickets).
+    Extracts completes_tickets from message if not explicitly provided.
+    Sets platform to "legacy" for commits without platform field.
+
+    Args:
+        commits_data: List of commit dictionaries from YAML
+
+    Returns:
+        List of GitCommit Pydantic models
+    """
     commits = []
     for c in commits_data:
         # Skip commits without required fields
         if 'sha' not in c or 'message' not in c:
             continue
 
-        commit = GitCommit(
+        # Get completes_tickets: from YAML if present, else parse from message
+        completes_tickets = c.get('completes_tickets', [])
+        if not completes_tickets:
+            completes_tickets = _parse_completes_from_message(c['message'])
+
+        # Platform defaults to "legacy" for old commits without platform
+        platform = c.get('platform')
+        if platform is None:
+            platform = "legacy"
+
+        commit = PydanticGitCommit(
             sha=c['sha'],
             message=c['message'],
             date=_parse_datetime(c.get('date')) or datetime.now(timezone.utc),
             author=c.get('author', 'unknown'),
-            platform=c.get('platform'),
+            platform=platform,
             submitted_at=_parse_datetime(c.get('submitted_at')),
+            completes_tickets=completes_tickets,
+            # File changes (v2 fields)
+            files_added=c.get('files_added', []),
+            files_modified=c.get('files_modified', []),
+            files_deleted=c.get('files_deleted', []),
+            # Artifact links (v2 fields)
+            creates_artifacts=c.get('creates_artifacts', []),
+            modifies_artifacts=c.get('modifies_artifacts', []),
+            deletes_artifacts=c.get('deletes_artifacts', []),
         )
         commits.append(commit)
     return commits

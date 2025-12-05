@@ -5,91 +5,28 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update remaining operations files
-  description: "Update all remaining operations files to use new unified ticket\n\
-    models and smart accessors.\n\nFILES TO UPDATE (12 files):\n\n1. add_commit.py\
-    \ (HIGH priority):\n   - Use unified GitCommit type\n   - Add to commits_local\
-    \ field\n   - Remove manual sync to parent levels\n\n2. validate.py (HIGH priority):\n\
-    \   - Use Pydantic validation\n   - Validate hierarchy constraints\n   - Check\
-    \ hierarchy attributes are consistent\n\n3. summarize.py (HIGH priority):\n  \
-    \ - Use smart accessors for aggregated data\n   - Progress computed automatically\n\
-    \   - Commits aggregated automatically\n\n4. context.py (HIGH priority):\n   -\
-    \ Generate context using smart accessors\n   - Include effective standards in\
-    \ context\n   - Include aggregated deliverables\n\n5. commit_mapper.py (HIGH priority):\n\
-    \   - Use unified GitCommit type\n   - Map commits to tasks via commits_local\n\
-    \   - No aggregation needed (handled by accessors)\n\n6. auto_repair.py (MEDIUM\
-    \ priority):\n   - Repair hierarchy inconsistencies\n   - Fix parent_id references\n\
-    \   - Recompute hierarchy attributes\n\n7. audit_trail.py (MEDIUM priority):\n\
-    \   - Track changes to new model types\n   - Include hierarchy changes in audit\n\
-    \   - Log inheritance changes\n\n8. checkpoint_verifier.py (MEDIUM priority):\n\
-    \   - Verify using new model types\n   - Check hierarchy integrity\n   - Verify\
-    \ aggregation correctness\n\n9. safe_yaml_editor.py (MEDIUM priority):\n   - Edit\
-    \ new YAML format\n   - Preserve hierarchy fields\n   - Validate after edit\n\n\
-    10. advanced_validator.py (MEDIUM priority):\n    - Advanced validation with new\
-    \ models\n    - Hierarchy constraint validation\n    - Cross-reference validation\n\
-    \n11. doc_tracking.py (LOW priority):\n    - Track documentation deliverables\n\
-    \    - Use deliverables_local field\n\n12. init.py (LOW priority):\n    - Initialize\
-    \ new model types\n    - Set hierarchy attributes\n    - Create with correct parent_id\n\
-    \nCOMMON PATTERNS TO APPLY:\n\n1. Import Changes:\n   from vibey.roadmap.models.ticket\
-    \ import (\n       Ticket, TaskTicket, SprintTicket, TrackTicket, RoadmapTicket\n\
-    \   )\n\n2. Smart Accessor Usage:\n   # Use ticket.commits instead of ticket.commits_local\n\
-    \   # for aggregated/effective access\n\n3. Type Annotations:\n   def process_task(task:\
-    \ TaskTicket) -> TaskTicket:\n       # Use new types in signatures\n\n4. Hierarchy\
-    \ Awareness:\n   if ticket.is_ultimate_child:\n       # Handle leaf nodes differently\n\
-    \   if ticket.is_parent:\n       # Handle parent nodes\n\nSUCCESS CRITERIA:\n\
-    - All 12 files updated\n- New model types used throughout\n- Smart accessors used\
-    \ appropriately\n- All existing functionality preserved\n- No regressions in behavior\n"
-  status: not_started
+  description: null
+  status: in_progress
   blocked: false
   created: '2025-11-29T14:00:00+00:00'
-  started: null
+  started: '2025-12-05T02:34:01.534018+00:00'
   completed: null
   assigned_agent: backend-engineer
   priority: high
-  phase_label: implementation
-  estimated_tokens: 5000
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - type: task
-    target_id: sqlite-backend-9-task-005
-    at_status: not_started
-    reason: Blocks task from starting
-  blocked_by:
-  - dependency_id: sqlite-backend-9-task-001
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410484+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-9-task-002
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410484+00:00'
-    estimated_resolution: null
-  - dependency_id: sqlite-backend-9-task-003
-    dependency_type: task
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-05T02:07:34.410484+00:00'
-    estimated_resolution: null
+  blocks: []
+  blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Updated 12 operations files
-  - type: code
-    paths:
-    - Consistent model usage across operations
-  - type: code
-    paths:
-    - tests/operations/roadmap/test_operations_v2.py
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-11-29T14:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

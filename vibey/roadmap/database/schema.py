@@ -1078,6 +1078,8 @@ EXPECTED_TABLES = [
     "audit_trail",
     # Artifact System (1)
     "artifacts",
+    # Criteria System (1) - Sprint 12
+    "criteria",
 ]
 
 
@@ -1272,9 +1274,16 @@ CREATE TABLE IF NOT EXISTS tickets (
 );
 
 -- Criteria table (polymorphic targets)
+-- Criteria can be attached to any completable entity (roadmap, track, sprint, task, artifact)
 CREATE TABLE IF NOT EXISTS criteria (
     id TEXT PRIMARY KEY,
-    ticket_id TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+
+    -- Polymorphic owner (any completable entity)
+    completable_type TEXT NOT NULL CHECK (completable_type IN (
+        'roadmap', 'track', 'sprint', 'task', 'artifact'
+    )),
+    completable_id TEXT NOT NULL,
+
     description TEXT NOT NULL,
     required INTEGER DEFAULT 1,
 
@@ -1283,16 +1292,27 @@ CREATE TABLE IF NOT EXISTS criteria (
         blocks_transition_to IN ('in_progress', 'completed', 'production_ready')
     ),
 
-    -- Target (polymorphic via target_type)
+    -- Target (polymorphic via target_type + target_json)
+    -- All 8 target types from Sprint 6 design
     target_type TEXT NOT NULL CHECK (target_type IN (
-        'completable', 'file_exists', 'test_passes',
-        'test_coverage', 'threshold', 'manual', 'external'
+        'completable',     -- Another completable must reach status
+        'file_exists',     -- File(s) must exist at path(s)
+        'test_passes',     -- Test command must pass
+        'test_coverage',   -- Test coverage must meet threshold
+        'threshold',       -- Generic metric threshold (e.g., quality gates)
+        'manual',          -- Human assessment required
+        'external',        -- External system check
+        'artifact'         -- Artifact entity must exist and be valid
     )),
-    target_json TEXT NOT NULL,
+    target_json TEXT NOT NULL,  -- JSON with target-specific fields
 
-    -- Cached state
+    -- Cached state (updated by refresh operations)
     is_met INTEGER,
-    last_checked TEXT
+    last_checked TEXT,
+
+    -- Audit
+    created_at TEXT NOT NULL,
+    updated_at TEXT
 );
 
 -- =============================================================================
@@ -1311,9 +1331,10 @@ CREATE INDEX IF NOT EXISTS idx_tickets_legacy_track ON tickets(legacy_track_id);
 CREATE INDEX IF NOT EXISTS idx_tickets_legacy_roadmap ON tickets(legacy_roadmap_id);
 
 -- Criteria lookups
-CREATE INDEX IF NOT EXISTS idx_criteria_ticket ON criteria(ticket_id);
-CREATE INDEX IF NOT EXISTS idx_criteria_blocks_transition ON criteria(ticket_id, blocks_transition_to);
+CREATE INDEX IF NOT EXISTS idx_criteria_completable ON criteria(completable_type, completable_id);
+CREATE INDEX IF NOT EXISTS idx_criteria_blocks_transition ON criteria(completable_type, completable_id, blocks_transition_to);
 CREATE INDEX IF NOT EXISTS idx_criteria_target_type ON criteria(target_type);
+CREATE INDEX IF NOT EXISTS idx_criteria_is_met ON criteria(is_met) WHERE is_met = 0;  -- Find unmet criteria
 """
 
 
@@ -1425,7 +1446,8 @@ GROUP BY s.id;
 -- View for required children (for CompletableTarget blocking)
 CREATE VIEW IF NOT EXISTS v_ticket_required_children AS
 SELECT
-    c.ticket_id as parent_id,
+    c.completable_type as parent_type,
+    c.completable_id as parent_id,
     json_extract(c.target_json, '$.completable_id') as child_id,
     c.blocks_transition_to,
     t.deferred as child_deferred,
@@ -1434,6 +1456,33 @@ SELECT
 FROM criteria c
 JOIN tickets t ON json_extract(c.target_json, '$.completable_id') = t.id
 WHERE c.target_type = 'completable';
+
+-- View for criteria evaluation status by completable
+CREATE VIEW IF NOT EXISTS v_criteria_status AS
+SELECT
+    c.completable_type,
+    c.completable_id,
+    c.blocks_transition_to,
+    COUNT(*) as total_criteria,
+    SUM(CASE WHEN c.is_met = 1 THEN 1 ELSE 0 END) as met_criteria,
+    SUM(CASE WHEN c.is_met = 0 OR c.is_met IS NULL THEN 1 ELSE 0 END) as unmet_criteria,
+    CASE
+        WHEN COUNT(*) = 0 THEN 100
+        ELSE ROUND(100.0 * SUM(CASE WHEN c.is_met = 1 THEN 1 ELSE 0 END) / COUNT(*), 1)
+    END as completion_percent
+FROM criteria c
+WHERE c.required = 1
+GROUP BY c.completable_type, c.completable_id, c.blocks_transition_to;
+
+-- View for blocking criteria (unmet required criteria)
+CREATE VIEW IF NOT EXISTS v_blocking_criteria AS
+SELECT
+    c.*,
+    json_extract(c.target_json, '$.completable_id') as target_completable_id,
+    json_extract(c.target_json, '$.required_status') as target_required_status
+FROM criteria c
+WHERE c.required = 1
+  AND (c.is_met = 0 OR c.is_met IS NULL);
 """
 
 
@@ -1527,3 +1576,196 @@ EXPECTED_UNIFIED_TABLES = [
     "tickets",
     "criteria",
 ]
+
+
+# =============================================================================
+# CRITERIA TABLE (can be added to existing schema without full migration)
+# =============================================================================
+
+
+def get_criteria_table_ddl() -> str:
+    """
+    Get DDL for just the criteria table.
+
+    This can be added to the existing legacy schema (roadmaps, tracks, sprints, tasks)
+    without requiring a full migration to the unified tickets table.
+
+    The criteria table uses polymorphic references (completable_type + completable_id)
+    to attach criteria to any entity type.
+
+    Returns:
+        SQL DDL string for criteria table and indexes
+    """
+    return """
+-- =============================================================================
+-- CRITERIA TABLE (Sprint 12 - Unified Ticket Architecture)
+-- =============================================================================
+
+-- Criteria can be attached to any completable entity (roadmap, track, sprint, task, artifact)
+-- This replaces the separate quality_gates, entity_blocked_by, deliverables tables
+-- with a unified criterion-based blocking system.
+CREATE TABLE IF NOT EXISTS criteria (
+    id TEXT PRIMARY KEY,
+
+    -- Polymorphic owner (any completable entity)
+    completable_type TEXT NOT NULL CHECK (completable_type IN (
+        'roadmap', 'track', 'sprint', 'task', 'artifact'
+    )),
+    completable_id TEXT NOT NULL,
+
+    description TEXT NOT NULL,
+    required INTEGER DEFAULT 1,
+
+    -- UNIFIED BLOCKING: which transition does this block?
+    -- IN_PROGRESS = dependency (must be met before starting)
+    -- COMPLETED = success criteria (must be met before completing)
+    -- PRODUCTION_READY = production gate (must be met before deploying)
+    blocks_transition_to TEXT NOT NULL DEFAULT 'completed' CHECK (
+        blocks_transition_to IN ('in_progress', 'completed', 'production_ready')
+    ),
+
+    -- Target (polymorphic via target_type + target_json)
+    -- All 8 target types from Sprint 6 design
+    target_type TEXT NOT NULL CHECK (target_type IN (
+        'completable',     -- Another completable must reach status
+        'file_exists',     -- File(s) must exist at path(s)
+        'test_passes',     -- Test command must pass
+        'test_coverage',   -- Test coverage must meet threshold
+        'threshold',       -- Generic metric threshold (e.g., quality gates)
+        'manual',          -- Human assessment required
+        'external',        -- External system check
+        'artifact'         -- Artifact entity must exist and be valid
+    )),
+    target_json TEXT NOT NULL,  -- JSON with target-specific fields
+
+    -- Cached state (updated by refresh operations)
+    is_met INTEGER,
+    last_checked TEXT,
+
+    -- Audit
+    created_at TEXT NOT NULL,
+    updated_at TEXT
+);
+
+-- =============================================================================
+-- CRITERIA INDEXES
+-- =============================================================================
+
+-- Primary lookup: find all criteria for a completable
+CREATE INDEX IF NOT EXISTS idx_criteria_completable ON criteria(completable_type, completable_id);
+
+-- Transition-specific lookup: find criteria blocking a specific transition
+CREATE INDEX IF NOT EXISTS idx_criteria_blocks_transition ON criteria(completable_type, completable_id, blocks_transition_to);
+
+-- Target type lookup: find all criteria of a specific type
+CREATE INDEX IF NOT EXISTS idx_criteria_target_type ON criteria(target_type);
+
+-- Unmet criteria lookup: find blocking criteria efficiently
+CREATE INDEX IF NOT EXISTS idx_criteria_is_met ON criteria(is_met) WHERE is_met = 0;
+
+-- =============================================================================
+-- CRITERIA VIEWS
+-- =============================================================================
+
+-- View for criteria evaluation status by completable
+CREATE VIEW IF NOT EXISTS v_criteria_status AS
+SELECT
+    c.completable_type,
+    c.completable_id,
+    c.blocks_transition_to,
+    COUNT(*) as total_criteria,
+    SUM(CASE WHEN c.is_met = 1 THEN 1 ELSE 0 END) as met_criteria,
+    SUM(CASE WHEN c.is_met = 0 OR c.is_met IS NULL THEN 1 ELSE 0 END) as unmet_criteria,
+    CASE
+        WHEN COUNT(*) = 0 THEN 100
+        ELSE ROUND(100.0 * SUM(CASE WHEN c.is_met = 1 THEN 1 ELSE 0 END) / COUNT(*), 1)
+    END as completion_percent
+FROM criteria c
+WHERE c.required = 1
+GROUP BY c.completable_type, c.completable_id, c.blocks_transition_to;
+
+-- View for blocking criteria (unmet required criteria)
+CREATE VIEW IF NOT EXISTS v_blocking_criteria AS
+SELECT
+    c.*,
+    json_extract(c.target_json, '$.completable_id') as target_completable_id,
+    json_extract(c.target_json, '$.required_status') as target_required_status
+FROM criteria c
+WHERE c.required = 1
+  AND (c.is_met = 0 OR c.is_met IS NULL);
+
+-- View for CompletableTarget dependencies (who depends on what)
+CREATE VIEW IF NOT EXISTS v_completable_dependencies AS
+SELECT
+    c.completable_type as dependent_type,
+    c.completable_id as dependent_id,
+    c.description,
+    c.blocks_transition_to,
+    json_extract(c.target_json, '$.completable_id') as dependency_id,
+    json_extract(c.target_json, '$.required_status') as required_status,
+    json_extract(c.target_json, '$.current_status') as current_status,
+    c.is_met
+FROM criteria c
+WHERE c.target_type = 'completable';
+
+-- View for reverse dependencies (who depends on this entity)
+CREATE VIEW IF NOT EXISTS v_reverse_dependencies AS
+SELECT
+    json_extract(c.target_json, '$.completable_id') as dependency_id,
+    c.completable_type as dependent_type,
+    c.completable_id as dependent_id,
+    c.description,
+    c.blocks_transition_to,
+    json_extract(c.target_json, '$.required_status') as required_status,
+    c.is_met
+FROM criteria c
+WHERE c.target_type = 'completable';
+"""
+
+
+def create_criteria_table(
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> None:
+    """
+    Create just the criteria table and related views.
+
+    This adds criteria support to the existing legacy schema without
+    requiring a full migration to the unified tickets table.
+
+    Args:
+        conn: Existing connection to use.
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path, base_dir=base_dir)
+
+    conn.executescript(get_criteria_table_ddl())
+
+
+def has_criteria_table(
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+    base_dir: Optional[Path] = None,
+) -> bool:
+    """
+    Check if the criteria table exists.
+
+    Args:
+        conn: Existing connection to use.
+        db_path: Direct path to database file.
+        base_dir: Base directory containing .vibey folder.
+
+    Returns:
+        True if criteria table exists
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path, base_dir=base_dir)
+
+    result = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='criteria'"
+    ).fetchone()
+
+    return result is not None

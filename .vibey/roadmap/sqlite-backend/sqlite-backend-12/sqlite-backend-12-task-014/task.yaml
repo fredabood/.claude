@@ -1,0 +1,106 @@
+task:
+  id: sqlite-backend-12-task-014
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement Requirements cascade for standards enforcement
+  description: |
+    Implement the Requirements system for standards enforcement via cascade.
+
+    GAP ADDRESSED: GAP-002 (Standards System)
+
+    CURRENT STATE:
+    - Standard class with: type, enforcement, validation, enabled, overrides
+    - StandardType enum: COMMIT_CHECK, FILE_CHECK, TEST_RUN, CUSTOM_SCRIPT
+    - EnforcementMode enum: BLOCKING, WARNING, AUDIT
+    - StandardOverride mechanism for exceptions
+
+    TARGET STATE:
+    - Requirements cascade from parent to child tickets
+    - Requirement contains CriterionTemplate that instantiates as Criterion
+    - InheritMode: INHERIT (use stricter), OVERRIDE (replace), SKIP (opt out)
+    - Enforceable flag prevents children from skipping
+    - StandardType mapped to CriterionTargetType:
+      - FILE_CHECK -> FileExistsTarget
+      - TEST_RUN -> TestPassesTarget
+      - CUSTOM_SCRIPT -> TestPassesTarget with custom command
+      - COMMIT_CHECK -> TestPassesTarget with git command
+    - EnforcementMode mapped to criterion.required:
+      - BLOCKING -> required=True
+      - WARNING -> required=False (tracked, shown in progress)
+      - AUDIT -> required=False (implementation note: could add visible_in_progress flag)
+
+    IMPLEMENTATION:
+    1. Implement Requirement model (already exists in sample code)
+    2. Implement RequirementResolver for cascade logic
+    3. Implement CriterionInstantiator to create Criterion from templates
+    4. Add requirements_local to Ticket model
+    5. Add requirements_effective computed property to HierarchicalTicket
+    6. Update YAML format for requirements section
+    7. Update serialization for requirements
+
+    EXAMPLE:
+    ```yaml
+    # Roadmap-level requirement (enforceable)
+    requirements:
+      - id: req-test-coverage
+        name: "All code requires 80% test coverage"
+        enforceable: true
+        applies_to_types: [sprint, task]
+        criterion_template:
+          description: "Test coverage >= 80%"
+          blocks_transition_to: completed
+          target:
+            type: test_coverage
+            coverage_threshold: 80.0
+
+    # Sprint-level override (if not enforceable)
+    requirements:
+      - id: req-test-coverage
+        inherit_mode: override
+        criterion_template:
+          target:
+            coverage_threshold: 70.0  # Lower threshold for this sprint
+    ```
+
+    REFERENCE:
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (Requirement System)
+    - sqlite-backend-6/context/sample_code/models/requirement.py
+    - sqlite-backend-6/context/sample_code/models/func_resolve_requirements.py
+  status: not_started
+  blocked: true
+  created: '2025-12-06T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 60000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend-12-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables:
+  - Requirement and CriterionTemplate models
+  - RequirementResolver for cascade logic
+  - CriterionInstantiator for template instantiation
+  - YAML format for requirements
+  - Bidirectional serialization for requirements
+  - Test suite for requirements cascade
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

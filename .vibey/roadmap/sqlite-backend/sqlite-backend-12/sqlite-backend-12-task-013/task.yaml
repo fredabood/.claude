@@ -1,0 +1,96 @@
+task:
+  id: sqlite-backend-12-task-013
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate quality_gates to criteria with ThresholdTarget
+  description: |
+    Migrate existing quality_gates to the criteria-based system using ThresholdTarget.
+
+    GAP ADDRESSED: GAP-001 (Quality Gates System)
+
+    CURRENT STATE:
+    - track.quality_gates: List[QualityGate] with name, threshold, blocking, status, score
+    - sprint.quality_gates: List[QualityGate]
+    - GateStatus enum: NOT_RUN, RUNNING, PASSED, FAILED, SUPERSEDED
+
+    TARGET STATE:
+    - Criteria with ThresholdTarget and blocks_transition_to=COMPLETED
+    - GateStatus lifecycle simplified: is_satisfied() returns True/False
+    - NOT_RUN state = target.last_checked is None
+    - blocking: true = criterion.required = True
+    - blocking: false = criterion.required = False (tracked but doesn't block)
+
+    MIGRATION STRATEGY:
+    1. For each quality_gate entry:
+       - Create Criterion with id=f"gate-{gate.name.slugify()}"
+       - Create ThresholdTarget with:
+         - metric_name = gate.name
+         - threshold = gate.threshold
+         - comparison = GTE (score must be >= threshold)
+         - current_value = gate.score
+       - Set required = gate.blocking
+       - Set blocks_transition_to = COMPLETED (or PRODUCTION_READY for deploy gates)
+    2. Remove legacy quality_gates field after migration
+
+    EXAMPLE:
+    ```yaml
+    # BEFORE
+    quality_gates:
+      - name: test_coverage
+        threshold: 80
+        blocking: true
+        status: passed
+        score: 85
+
+    # AFTER
+    criteria:
+      - id: gate-test-coverage
+        description: "Test coverage must be >= 80%"
+        blocks_transition_to: completed
+        required: true
+        target:
+          type: threshold
+          metric_name: test_coverage
+          threshold: 80.0
+          comparison: gte
+          current_value: 85.0
+    ```
+
+    REFERENCE:
+    - vibey/roadmap/models/ticket/targets.py (ThresholdTarget)
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (ThresholdTarget section)
+  status: not_started
+  blocked: true
+  created: '2025-12-06T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: migration
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend-12-task-002
+    blocker_type: task
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables:
+  - Migration script for quality_gates to ThresholdTarget criteria
+  - Updated yaml_loader/dumper with backward compatibility
+  - Test suite for quality gate migration
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

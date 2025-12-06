@@ -757,6 +757,9 @@ class QueryTicketLoader:
         # Get roadmap_id from task or use default
         roadmap_id = getattr(task, 'roadmap_id', 'vibey-framework-v2')
 
+        # Load criteria from database
+        criteria = self._load_criteria_for_task(task.id)
+
         return TaskTicket(
             id=task.id,
             name=task.title,
@@ -768,6 +771,7 @@ class QueryTicketLoader:
             roadmap_id=roadmap_id,
             children=[],
             commits=commits,
+            criteria=criteria,
             description=task.description or "",
             blocked=task.blocked,
             created_at=task.created,
@@ -775,6 +779,23 @@ class QueryTicketLoader:
             completed_at=task.completed,
             estimated_tokens=task.estimated_tokens or 1000,
         )
+
+    def _load_criteria_for_task(self, task_id: str) -> List[Criterion]:
+        """
+        Load criteria from the database for a task.
+
+        Args:
+            task_id: Task ID
+
+        Returns:
+            List of Criterion objects
+        """
+        try:
+            from vibey.roadmap.serialization.sql_loader import load_criteria_for_completable
+            return load_criteria_for_completable('task', task_id)
+        except Exception:
+            # If criteria loading fails, return empty list
+            return []
 
     def _sprint_to_ticket(self, sprint: Sprint, track_id: str) -> SprintTicket:
         """Convert legacy Sprint to SprintTicket."""

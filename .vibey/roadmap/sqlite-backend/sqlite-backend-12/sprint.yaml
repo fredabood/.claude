@@ -3,24 +3,24 @@ sprint:
   name: Unified Ticket Architecture Implementation
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: not_started
-  blocked: true
+  status: in_progress
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T00:00:00+00:00'
-  started: null
+  started: '2025-12-05T12:00:00+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 12
+    development_tasks_total: 15
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 12
+    tasks_total: 15
     tasks_completed: 0
     completion_percent: 0.0
   tasks:
@@ -84,6 +84,21 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  - id: sqlite-backend-12-task-013
+    title: Migrate quality_gates to criteria with ThresholdTarget
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-014
+    title: Implement Requirements cascade for standards enforcement
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-12-task-015
+    title: Implement computed progress from criteria
+    status: not_started
+    task_type: development
+    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []
@@ -106,6 +121,9 @@ sprint:
   - can_transition_to() integration in CLI
   - verify_completion_claims() in pre-commit hook
   - Full criteria-based completion enforcement
+  - Quality gates migrated to ThresholdTarget criteria
+  - Standards enforced via Requirements cascade system
+  - Computed progress from criteria (replaces manual counters)
   description: 'Sprint 6 designed a comprehensive unified ticket architecture with
     criteria-based
 
@@ -137,6 +155,9 @@ sprint:
   - Status changes require can_transition_to() validation
   - Pre-commit hook blocks completion claims if criteria not met
   - Round-trip validation passes for criteria
+  - Quality gates converted to ThresholdTarget criteria with score comparison
+  - Standards cascade via Requirements with inherit_mode (INHERIT/OVERRIDE/SKIP)
+  - Progress computed automatically from met/unmet criteria per transition type
   risks:
   - Breaking changes to existing YAML format
   - Migration complexity for existing roadmaps

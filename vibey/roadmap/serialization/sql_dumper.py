@@ -887,3 +887,235 @@ def delete_tickets_by_parent(
             TicketORM.parent_id == parent_id
         ).delete()
         return result
+
+
+# =============================================================================
+# CRITERIA DUMPERS (Legacy Schema)
+# =============================================================================
+# These functions persist criteria to the polymorphic criteria table
+# that references legacy entities (roadmaps, tracks, sprints, tasks, artifacts).
+
+from datetime import datetime, timezone
+from typing import List, Optional, Dict, Any
+from ..models.ticket.completable import Criterion
+from ..database import get_connection
+from pathlib import Path
+
+
+def dump_criterion(
+    criterion: Criterion,
+    completable_type: str,
+    completable_id: str,
+    db_path: Optional[Path] = None,
+) -> None:
+    """
+    Persist a single criterion to the database.
+
+    Args:
+        criterion: Criterion Pydantic model
+        completable_type: Type of owner entity ('roadmap', 'track', 'sprint', 'task', 'artifact')
+        completable_id: ID of owner entity
+        db_path: Optional path to database file
+    """
+    conn = get_connection(db_path=db_path)
+    now = datetime.now(timezone.utc).isoformat()
+
+    conn.execute(
+        """
+        INSERT OR REPLACE INTO criteria (
+            id, completable_type, completable_id, description, required,
+            blocks_transition_to, target_type, target_json,
+            is_met, last_checked, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            criterion.id,
+            completable_type,
+            completable_id,
+            criterion.description,
+            1 if criterion.required else 0,
+            criterion.blocks_transition_to.value,
+            criterion.target.type.value,
+            criterion.target.model_dump_json(),
+            1 if criterion.is_met else (0 if criterion.is_met is False else None),
+            criterion.target.last_checked.isoformat() if criterion.target.last_checked else None,
+            now,  # created_at
+            now,  # updated_at
+        )
+    )
+    conn.commit()
+
+
+def dump_criteria(
+    criteria: List[Criterion],
+    completable_type: str,
+    completable_id: str,
+    db_path: Optional[Path] = None,
+    replace_existing: bool = True,
+) -> int:
+    """
+    Persist multiple criteria for a completable entity.
+
+    Args:
+        criteria: List of Criterion Pydantic models
+        completable_type: Type of owner entity
+        completable_id: ID of owner entity
+        db_path: Optional path to database file
+        replace_existing: If True, delete existing criteria before inserting
+
+    Returns:
+        Number of criteria inserted
+    """
+    conn = get_connection(db_path=db_path)
+    now = datetime.now(timezone.utc).isoformat()
+
+    if replace_existing:
+        conn.execute(
+            "DELETE FROM criteria WHERE completable_type = ? AND completable_id = ?",
+            (completable_type, completable_id)
+        )
+
+    for criterion in criteria:
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO criteria (
+                id, completable_type, completable_id, description, required,
+                blocks_transition_to, target_type, target_json,
+                is_met, last_checked, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                criterion.id,
+                completable_type,
+                completable_id,
+                criterion.description,
+                1 if criterion.required else 0,
+                criterion.blocks_transition_to.value,
+                criterion.target.type.value,
+                criterion.target.model_dump_json(),
+                1 if criterion.is_met else (0 if criterion.is_met is False else None),
+                criterion.target.last_checked.isoformat() if criterion.target.last_checked else None,
+                now,
+                now,
+            )
+        )
+
+    conn.commit()
+    return len(criteria)
+
+
+def delete_criterion(
+    criterion_id: str,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a single criterion.
+
+    Args:
+        criterion_id: ID of criterion to delete
+        db_path: Optional path to database file
+
+    Returns:
+        True if deleted, False if not found
+    """
+    conn = get_connection(db_path=db_path)
+    cursor = conn.execute(
+        "DELETE FROM criteria WHERE id = ?",
+        (criterion_id,)
+    )
+    conn.commit()
+    return cursor.rowcount > 0
+
+
+def delete_criteria_for_completable(
+    completable_type: str,
+    completable_id: str,
+    db_path: Optional[Path] = None,
+) -> int:
+    """
+    Delete all criteria for a completable entity.
+
+    Args:
+        completable_type: Type of owner entity
+        completable_id: ID of owner entity
+        db_path: Optional path to database file
+
+    Returns:
+        Number of criteria deleted
+    """
+    conn = get_connection(db_path=db_path)
+    cursor = conn.execute(
+        "DELETE FROM criteria WHERE completable_type = ? AND completable_id = ?",
+        (completable_type, completable_id)
+    )
+    conn.commit()
+    return cursor.rowcount
+
+
+def update_criterion_met_status(
+    criterion_id: str,
+    is_met: bool,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Update the is_met cached status for a criterion.
+
+    Args:
+        criterion_id: ID of criterion
+        is_met: New met status
+        db_path: Optional path to database file
+
+    Returns:
+        True if updated, False if not found
+    """
+    conn = get_connection(db_path=db_path)
+    now = datetime.now(timezone.utc).isoformat()
+
+    cursor = conn.execute(
+        """
+        UPDATE criteria
+        SET is_met = ?, last_checked = ?, updated_at = ?
+        WHERE id = ?
+        """,
+        (1 if is_met else 0, now, now, criterion_id)
+    )
+    conn.commit()
+    return cursor.rowcount > 0
+
+
+def bulk_update_criteria_met_status(
+    updates: List[Dict[str, Any]],
+    db_path: Optional[Path] = None,
+) -> int:
+    """
+    Bulk update is_met status for multiple criteria.
+
+    Args:
+        updates: List of dicts with 'criterion_id' and 'is_met' keys
+        db_path: Optional path to database file
+
+    Returns:
+        Number of criteria updated
+    """
+    conn = get_connection(db_path=db_path)
+    now = datetime.now(timezone.utc).isoformat()
+    updated = 0
+
+    for update in updates:
+        cursor = conn.execute(
+            """
+            UPDATE criteria
+            SET is_met = ?, last_checked = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            (
+                1 if update['is_met'] else 0,
+                now,
+                now,
+                update['criterion_id']
+            )
+        )
+        updated += cursor.rowcount
+
+    conn.commit()
+    return updated

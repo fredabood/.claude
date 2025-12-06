@@ -1457,3 +1457,289 @@ def load_tracks_by_roadmap_ticket(roadmap_id: str = "vibey-framework-v2") -> Lis
             TrackTicketORM.parent_id == roadmap_id
         ).order_by(TrackTicketORM.sequence).all()
         return [t.to_pydantic() for t in orm_tracks]
+
+
+# =============================================================================
+# CRITERIA LOADERS (Legacy Schema)
+# =============================================================================
+# These functions load criteria from the polymorphic criteria table
+# that references legacy entities (roadmaps, tracks, sprints, tasks, artifacts).
+# Different from the unified schema CriterionORM which uses ticket_id FK.
+
+from ..models.ticket.completable import Criterion
+from ..models.ticket.targets import (
+    CompletableTarget,
+    FileExistsTarget,
+    TestPassesTarget,
+    TestCoverageTarget,
+    ThresholdTarget,
+    ManualTarget,
+    ExternalTarget,
+    ArtifactTarget,
+)
+from ..models.ticket.enums import CriterionTargetType, TicketStatus
+from pathlib import Path
+
+
+def _deserialize_criterion_target(target_type: str, target_json: str) -> Any:
+    """
+    Deserialize a criterion target from JSON.
+
+    Args:
+        target_type: Target type discriminator
+        target_json: JSON-encoded target data
+
+    Returns:
+        Appropriate CriterionTarget subclass instance
+
+    Raises:
+        ValueError: If target_type is unknown
+    """
+    target_classes = {
+        "completable": CompletableTarget,
+        "file_exists": FileExistsTarget,
+        "test_passes": TestPassesTarget,
+        "test_coverage": TestCoverageTarget,
+        "threshold": ThresholdTarget,
+        "manual": ManualTarget,
+        "external": ExternalTarget,
+        "artifact": ArtifactTarget,
+    }
+
+    if target_type not in target_classes:
+        raise ValueError(f"Unknown criterion target type: {target_type}")
+
+    return target_classes[target_type].model_validate_json(target_json)
+
+
+def _row_to_criterion(row: Dict[str, Any]) -> Criterion:
+    """
+    Convert a database row to a Criterion Pydantic model.
+
+    Args:
+        row: Database row as dict
+
+    Returns:
+        Criterion Pydantic model
+    """
+    target = _deserialize_criterion_target(
+        row['target_type'],
+        row['target_json']
+    )
+
+    return Criterion(
+        id=row['id'],
+        description=row['description'],
+        required=bool(row.get('required', 1)),
+        blocks_transition_to=TicketStatus(row['blocks_transition_to']),
+        target=target,
+    )
+
+
+def load_criteria_for_completable(
+    completable_type: str,
+    completable_id: str,
+    db_path: Optional[Path] = None,
+) -> List[Criterion]:
+    """
+    Load all criteria for a completable entity.
+
+    Args:
+        completable_type: Type of entity ('roadmap', 'track', 'sprint', 'task', 'artifact')
+        completable_id: ID of the entity
+        db_path: Optional path to database file
+
+    Returns:
+        List of Criterion Pydantic models
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, description, required, blocks_transition_to, target_type, target_json,
+               is_met, last_checked, created_at, updated_at
+        FROM criteria
+        WHERE completable_type = ? AND completable_id = ?
+        ORDER BY blocks_transition_to, id
+        """,
+        (completable_type, completable_id)
+    ).fetchall()
+
+    return [_row_to_criterion(_row_to_dict(row)) for row in rows]
+
+
+def load_criteria_blocking_transition(
+    completable_type: str,
+    completable_id: str,
+    blocks_transition_to: str,
+    db_path: Optional[Path] = None,
+) -> List[Criterion]:
+    """
+    Load criteria that block a specific transition.
+
+    Args:
+        completable_type: Type of entity
+        completable_id: ID of the entity
+        blocks_transition_to: Transition to filter ('in_progress', 'completed', 'production_ready')
+        db_path: Optional path to database file
+
+    Returns:
+        List of Criterion Pydantic models blocking that transition
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, description, required, blocks_transition_to, target_type, target_json,
+               is_met, last_checked, created_at, updated_at
+        FROM criteria
+        WHERE completable_type = ? AND completable_id = ? AND blocks_transition_to = ?
+        ORDER BY id
+        """,
+        (completable_type, completable_id, blocks_transition_to)
+    ).fetchall()
+
+    return [_row_to_criterion(_row_to_dict(row)) for row in rows]
+
+
+def load_unmet_criteria(
+    completable_type: str,
+    completable_id: str,
+    db_path: Optional[Path] = None,
+) -> List[Criterion]:
+    """
+    Load all unmet (blocking) criteria for a completable.
+
+    Args:
+        completable_type: Type of entity
+        completable_id: ID of the entity
+        db_path: Optional path to database file
+
+    Returns:
+        List of unmet Criterion Pydantic models
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, description, required, blocks_transition_to, target_type, target_json,
+               is_met, last_checked, created_at, updated_at
+        FROM criteria
+        WHERE completable_type = ? AND completable_id = ?
+          AND required = 1
+          AND (is_met = 0 OR is_met IS NULL)
+        ORDER BY blocks_transition_to, id
+        """,
+        (completable_type, completable_id)
+    ).fetchall()
+
+    return [_row_to_criterion(_row_to_dict(row)) for row in rows]
+
+
+def load_criteria_by_target_type(
+    target_type: str,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Load all criteria of a specific target type.
+
+    Args:
+        target_type: Target type to filter ('completable', 'threshold', etc.)
+        db_path: Optional path to database file
+
+    Returns:
+        List of dicts with criterion data and owner info
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT id, completable_type, completable_id, description, required,
+               blocks_transition_to, target_type, target_json, is_met, last_checked
+        FROM criteria
+        WHERE target_type = ?
+        ORDER BY completable_type, completable_id, id
+        """,
+        (target_type,)
+    ).fetchall()
+
+    return [_row_to_dict(row) for row in rows]
+
+
+def load_dependencies_from_criteria(
+    completable_id: str,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Load dependencies for a completable (CompletableTarget criteria blocking IN_PROGRESS).
+
+    This is the criteria-based replacement for entity_blocked_by/entity_depends_on.
+
+    Args:
+        completable_id: ID of the entity that has dependencies
+        db_path: Optional path to database file
+
+    Returns:
+        List of dicts with dependency info
+    """
+    conn = get_connection(db_path=db_path)
+
+    # Find CompletableTarget criteria that block starting (IN_PROGRESS)
+    rows = conn.execute(
+        """
+        SELECT
+            c.id AS criterion_id,
+            c.completable_type,
+            c.completable_id,
+            c.description,
+            c.is_met,
+            json_extract(c.target_json, '$.completable_id') AS dependency_id,
+            json_extract(c.target_json, '$.required_status') AS required_status,
+            json_extract(c.target_json, '$.current_status') AS current_status
+        FROM criteria c
+        WHERE c.completable_id = ?
+          AND c.target_type = 'completable'
+          AND c.blocks_transition_to = 'in_progress'
+        """,
+        (completable_id,)
+    ).fetchall()
+
+    return [_row_to_dict(row) for row in rows]
+
+
+def load_dependents_from_criteria(
+    dependency_id: str,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Load entities that depend on this completable.
+
+    Reverse lookup: find all criteria where this entity is the target.
+
+    Args:
+        dependency_id: ID of the entity that others depend on
+        db_path: Optional path to database file
+
+    Returns:
+        List of dicts with dependent info
+    """
+    conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT
+            c.id AS criterion_id,
+            c.completable_type AS dependent_type,
+            c.completable_id AS dependent_id,
+            c.description,
+            c.blocks_transition_to,
+            c.is_met,
+            json_extract(c.target_json, '$.required_status') AS required_status
+        FROM criteria c
+        WHERE c.target_type = 'completable'
+          AND json_extract(c.target_json, '$.completable_id') = ?
+        """,
+        (dependency_id,)
+    ).fetchall()
+
+    return [_row_to_dict(row) for row in rows]

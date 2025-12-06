@@ -5,51 +5,26 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add DB dump to pre-commit hook
-  description: |
-    Add pre-commit hook that dumps SQLite database to YAML before commit.
-
-    HOOK RESPONSIBILITIES:
-    1. Check if database has uncommitted changes (is_dirty flag)
-    2. If dirty, dump changed records to YAML files
-    3. Stage the updated YAML files
-    4. Clear dirty flag
-    5. Verify completion claims in commit message (from Sprint 12)
-
-    HOOK LOCATION: .vibey/hooks/pre-commit
-
-    IMPLEMENTATION:
-    ```bash
-    #!/bin/bash
-    set -e
-
-    # Check if database is dirty
-    if vibey roadmap db is-dirty; then
-        echo "Dumping database changes to YAML..."
-        vibey roadmap db dump --staged-only
-
-        # Stage updated YAML files
-        git add .vibey/roadmap/**/*.yaml
-    fi
-
-    # Verify completion claims (from Sprint 12)
-    COMMIT_MSG=$(cat "$1" 2>/dev/null || echo "")
-    vibey roadmap verify-completion-claims "$COMMIT_MSG"
-    ```
-
-    DUMP STRATEGY:
-    - Only dump records marked dirty (not full database)
-    - Maintain YAML file structure: track/sprint/task directories
-    - Update summary counters in parent files
-    - Preserve formatting and comments where possible
-
-    REFERENCE:
-    - sqlite-backend-6/context/005-yaml-sync-strategy.md
-    - vibey/roadmap/serialization/yaml_dumper.py
-  status: not_started
+  description: "Add pre-commit hook that dumps SQLite database to YAML before commit.\n\
+    \nHOOK RESPONSIBILITIES:\n1. Check if database has uncommitted changes (is_dirty\
+    \ flag)\n2. If dirty, dump changed records to YAML files\n3. Stage the updated\
+    \ YAML files\n4. Clear dirty flag\n5. Verify completion claims in commit message\
+    \ (from Sprint 12)\n\nHOOK LOCATION: .vibey/hooks/pre-commit\n\nIMPLEMENTATION:\n\
+    ```bash\n#!/bin/bash\nset -e\n\n# Check if database is dirty\nif vibey roadmap\
+    \ db is-dirty; then\n    echo \"Dumping database changes to YAML...\"\n    vibey\
+    \ roadmap db dump --staged-only\n\n    # Stage updated YAML files\n    git add\
+    \ .vibey/roadmap/**/*.yaml\nfi\n\n# Verify completion claims (from Sprint 12)\n\
+    COMMIT_MSG=$(cat \"$1\" 2>/dev/null || echo \"\")\nvibey roadmap verify-completion-claims\
+    \ \"$COMMIT_MSG\"\n```\n\nDUMP STRATEGY:\n- Only dump records marked dirty (not\
+    \ full database)\n- Maintain YAML file structure: track/sprint/task directories\n\
+    - Update summary counters in parent files\n- Preserve formatting and comments\
+    \ where possible\n\nREFERENCE:\n- sqlite-backend-6/context/005-yaml-sync-strategy.md\n\
+    - vibey/roadmap/serialization/yaml_dumper.py\n"
+  status: completed
   blocked: false
   created: '2025-11-28T17:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-06T15:39:47.848585+00:00'
+  completed: '2025-12-06T15:40:09.519310+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
@@ -66,6 +41,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:40:09.130808+00:00'
     token_efficiency: null
     duration_hours: null

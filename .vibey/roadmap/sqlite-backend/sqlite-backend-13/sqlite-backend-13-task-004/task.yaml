@@ -5,57 +5,27 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add DB rebuild to post-merge hook
-  description: |
-    Add post-merge hook that rebuilds SQLite database from YAML after git merge.
-
-    HOOK RESPONSIBILITIES:
-    1. Detect if YAML files changed in the merge
-    2. If changed, rebuild database from YAML
-    3. Validate integrity after rebuild
-    4. Log rebuild operation
-
-    HOOK LOCATION: .vibey/hooks/post-merge
-
-    IMPLEMENTATION:
-    ```bash
-    #!/bin/bash
-    set -e
-
-    # Check if roadmap YAML files changed
-    CHANGED=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD \
-              | grep -E '\.vibey/roadmap/.*\.yaml$' || true)
-
-    if [ -n "$CHANGED" ]; then
-        echo "Roadmap YAML files changed, rebuilding database..."
-        vibey roadmap db rebuild
-
-        echo "Validating integrity..."
-        vibey roadmap db validate
-
-        echo "Database rebuilt successfully."
-    fi
-    ```
-
-    REBUILD STRATEGY:
-    - Parse all YAML files in .vibey/roadmap/
-    - Clear existing database tables (cascade)
-    - Insert records from YAML
-    - Rebuild computed views
-    - Reset dirty flags
-
-    CONFLICT HANDLING:
-    - If YAML has merge conflicts, rebuild fails gracefully
-    - User must resolve conflicts in YAML first
-    - Database remains in pre-merge state until conflicts resolved
-
-    REFERENCE:
-    - sqlite-backend-6/context/005-yaml-sync-strategy.md
-    - vibey/roadmap/serialization/yaml_loader.py
-  status: not_started
+  description: "Add post-merge hook that rebuilds SQLite database from YAML after\
+    \ git merge.\n\nHOOK RESPONSIBILITIES:\n1. Detect if YAML files changed in the\
+    \ merge\n2. If changed, rebuild database from YAML\n3. Validate integrity after\
+    \ rebuild\n4. Log rebuild operation\n\nHOOK LOCATION: .vibey/hooks/post-merge\n\
+    \nIMPLEMENTATION:\n```bash\n#!/bin/bash\nset -e\n\n# Check if roadmap YAML files\
+    \ changed\nCHANGED=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD\
+    \ \\\n          | grep -E '\\.vibey/roadmap/.*\\.yaml$' || true)\n\nif [ -n \"\
+    $CHANGED\" ]; then\n    echo \"Roadmap YAML files changed, rebuilding database...\"\
+    \n    vibey roadmap db rebuild\n\n    echo \"Validating integrity...\"\n    vibey\
+    \ roadmap db validate\n\n    echo \"Database rebuilt successfully.\"\nfi\n```\n\
+    \nREBUILD STRATEGY:\n- Parse all YAML files in .vibey/roadmap/\n- Clear existing\
+    \ database tables (cascade)\n- Insert records from YAML\n- Rebuild computed views\n\
+    - Reset dirty flags\n\nCONFLICT HANDLING:\n- If YAML has merge conflicts, rebuild\
+    \ fails gracefully\n- User must resolve conflicts in YAML first\n- Database remains\
+    \ in pre-merge state until conflicts resolved\n\nREFERENCE:\n- sqlite-backend-6/context/005-yaml-sync-strategy.md\n\
+    - vibey/roadmap/serialization/yaml_loader.py\n"
+  status: completed
   blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-06T15:40:24.636614+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
@@ -72,6 +42,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:40:24.235470+00:00'
     token_efficiency: null
     duration_hours: null

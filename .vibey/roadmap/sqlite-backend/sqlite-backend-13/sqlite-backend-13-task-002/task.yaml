@@ -5,55 +5,26 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Modify update operations to write to both backends
-  description: |
-    Implement dual-write pattern for all update operations.
-
-    WRITE PATTERN:
-    1. Receive update command (CLI or MCP)
-    2. Write to SQLite database (primary)
-    3. Mark database as dirty (has uncommitted changes)
-    4. On pre-commit: dump dirty records to YAML
-    5. Clear dirty flag after successful dump
-
-    OPERATIONS TO UPDATE:
-    - start_task() / start_sprint() / start_track()
-    - complete_task() / complete_sprint() / complete_track()
-    - update_task_status() / update_sprint_status()
-    - add_commit_to_task()
-    - add_deliverable_to_task()
-    - update_progress()
-
-    IMPLEMENTATION:
-    ```python
-    def complete_task(task_id: str) -> None:
-        # 1. Load from DB
-        task = sql_load_task(task_id)
-
-        # 2. Validate transition
-        can_complete, blocking = task.can_transition_to(COMPLETED)
-        if not can_complete:
-            raise TransitionBlockedError(blocking)
-
-        # 3. Update DB
-        task.status = COMPLETED
-        task.completed_at = datetime.now(timezone.utc)
-        sql_save_task(task)
-
-        # 4. Mark dirty
-        mark_dirty(task_id)
-
-        # 5. Log activity
-        log_activity(TICKET_COMPLETED, task_id)
-    ```
-
-    REFERENCE:
-    - vibey/operations/roadmap/update.py
-    - vibey/roadmap/serialization/backend.py (SyncManager)
-  status: not_started
+  description: "Implement dual-write pattern for all update operations.\n\nWRITE PATTERN:\n\
+    1. Receive update command (CLI or MCP)\n2. Write to SQLite database (primary)\n\
+    3. Mark database as dirty (has uncommitted changes)\n4. On pre-commit: dump dirty\
+    \ records to YAML\n5. Clear dirty flag after successful dump\n\nOPERATIONS TO\
+    \ UPDATE:\n- start_task() / start_sprint() / start_track()\n- complete_task()\
+    \ / complete_sprint() / complete_track()\n- update_task_status() / update_sprint_status()\n\
+    - add_commit_to_task()\n- add_deliverable_to_task()\n- update_progress()\n\nIMPLEMENTATION:\n\
+    ```python\ndef complete_task(task_id: str) -> None:\n    # 1. Load from DB\n \
+    \   task = sql_load_task(task_id)\n\n    # 2. Validate transition\n    can_complete,\
+    \ blocking = task.can_transition_to(COMPLETED)\n    if not can_complete:\n   \
+    \     raise TransitionBlockedError(blocking)\n\n    # 3. Update DB\n    task.status\
+    \ = COMPLETED\n    task.completed_at = datetime.now(timezone.utc)\n    sql_save_task(task)\n\
+    \n    # 4. Mark dirty\n    mark_dirty(task_id)\n\n    # 5. Log activity\n    log_activity(TICKET_COMPLETED,\
+    \ task_id)\n```\n\nREFERENCE:\n- vibey/operations/roadmap/update.py\n- vibey/roadmap/serialization/backend.py\
+    \ (SyncManager)\n"
+  status: completed
   blocked: false
   created: '2025-11-28T17:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-06T15:39:09.102204+00:00'
+  completed: '2025-12-06T15:39:37.657077+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
@@ -70,6 +41,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:39:37.270178+00:00'
     token_efficiency: null
     duration_hours: null

@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 15
-    development_tasks_completed: 0
+    development_tasks_completed: 12
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 15
-    tasks_completed: 0
-    completion_percent: 0.0
+    tasks_completed: 12
+    completion_percent: 80
   tasks:
   - id: sqlite-backend-12-task-001
     title: Audit Sprint 6 design vs current codebase implementation

@@ -21,11 +21,11 @@ task:
     \ TEXT,\n  FOREIGN KEY (criterion_id) REFERENCES criteria(id) ON DELETE CASCADE\n\
     );\n```\n\nREFERENCE:\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
     \ (CriterionTarget Subtypes)\n- sqlite-backend-6/context/sample_code/models/criterion_target*.py\n"
-  status: not_started
+  status: completed
   blocked: true
   created: '2025-12-05T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-06T15:28:49.909560+00:00'
   assigned_agent: null
   priority: critical
   phase_label: schema
@@ -43,11 +43,11 @@ task:
     required_status: resolved
     current_status: pending
     blocks_transition_to: in_progress
-    last_checked: null
+    last_checked: '2025-12-06T15:28:49.823145+00:00'
   depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:28:28.525815+00:00'
     token_efficiency: null
     duration_hours: null

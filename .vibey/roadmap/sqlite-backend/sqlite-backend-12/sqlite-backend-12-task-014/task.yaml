@@ -5,74 +5,40 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement Requirements cascade for standards enforcement
-  description: |
-    Implement the Requirements system for standards enforcement via cascade.
-
-    GAP ADDRESSED: GAP-002 (Standards System)
-
-    CURRENT STATE:
-    - Standard class with: type, enforcement, validation, enabled, overrides
-    - StandardType enum: COMMIT_CHECK, FILE_CHECK, TEST_RUN, CUSTOM_SCRIPT
-    - EnforcementMode enum: BLOCKING, WARNING, AUDIT
-    - StandardOverride mechanism for exceptions
-
-    TARGET STATE:
-    - Requirements cascade from parent to child tickets
-    - Requirement contains CriterionTemplate that instantiates as Criterion
-    - InheritMode: INHERIT (use stricter), OVERRIDE (replace), SKIP (opt out)
-    - Enforceable flag prevents children from skipping
-    - StandardType mapped to CriterionTargetType:
-      - FILE_CHECK -> FileExistsTarget
-      - TEST_RUN -> TestPassesTarget
-      - CUSTOM_SCRIPT -> TestPassesTarget with custom command
-      - COMMIT_CHECK -> TestPassesTarget with git command
-    - EnforcementMode mapped to criterion.required:
-      - BLOCKING -> required=True
-      - WARNING -> required=False (tracked, shown in progress)
-      - AUDIT -> required=False (implementation note: could add visible_in_progress flag)
-
-    IMPLEMENTATION:
-    1. Implement Requirement model (already exists in sample code)
-    2. Implement RequirementResolver for cascade logic
-    3. Implement CriterionInstantiator to create Criterion from templates
-    4. Add requirements_local to Ticket model
-    5. Add requirements_effective computed property to HierarchicalTicket
-    6. Update YAML format for requirements section
-    7. Update serialization for requirements
-
-    EXAMPLE:
-    ```yaml
-    # Roadmap-level requirement (enforceable)
-    requirements:
-      - id: req-test-coverage
-        name: "All code requires 80% test coverage"
-        enforceable: true
-        applies_to_types: [sprint, task]
-        criterion_template:
-          description: "Test coverage >= 80%"
-          blocks_transition_to: completed
-          target:
-            type: test_coverage
-            coverage_threshold: 80.0
-
-    # Sprint-level override (if not enforceable)
-    requirements:
-      - id: req-test-coverage
-        inherit_mode: override
-        criterion_template:
-          target:
-            coverage_threshold: 70.0  # Lower threshold for this sprint
-    ```
-
-    REFERENCE:
-    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (Requirement System)
-    - sqlite-backend-6/context/sample_code/models/requirement.py
-    - sqlite-backend-6/context/sample_code/models/func_resolve_requirements.py
-  status: not_started
+  description: "Implement the Requirements system for standards enforcement via cascade.\n\
+    \nGAP ADDRESSED: GAP-002 (Standards System)\n\nCURRENT STATE:\n- Standard class\
+    \ with: type, enforcement, validation, enabled, overrides\n- StandardType enum:\
+    \ COMMIT_CHECK, FILE_CHECK, TEST_RUN, CUSTOM_SCRIPT\n- EnforcementMode enum: BLOCKING,\
+    \ WARNING, AUDIT\n- StandardOverride mechanism for exceptions\n\nTARGET STATE:\n\
+    - Requirements cascade from parent to child tickets\n- Requirement contains CriterionTemplate\
+    \ that instantiates as Criterion\n- InheritMode: INHERIT (use stricter), OVERRIDE\
+    \ (replace), SKIP (opt out)\n- Enforceable flag prevents children from skipping\n\
+    - StandardType mapped to CriterionTargetType:\n  - FILE_CHECK -> FileExistsTarget\n\
+    \  - TEST_RUN -> TestPassesTarget\n  - CUSTOM_SCRIPT -> TestPassesTarget with\
+    \ custom command\n  - COMMIT_CHECK -> TestPassesTarget with git command\n- EnforcementMode\
+    \ mapped to criterion.required:\n  - BLOCKING -> required=True\n  - WARNING ->\
+    \ required=False (tracked, shown in progress)\n  - AUDIT -> required=False (implementation\
+    \ note: could add visible_in_progress flag)\n\nIMPLEMENTATION:\n1. Implement Requirement\
+    \ model (already exists in sample code)\n2. Implement RequirementResolver for\
+    \ cascade logic\n3. Implement CriterionInstantiator to create Criterion from templates\n\
+    4. Add requirements_local to Ticket model\n5. Add requirements_effective computed\
+    \ property to HierarchicalTicket\n6. Update YAML format for requirements section\n\
+    7. Update serialization for requirements\n\nEXAMPLE:\n```yaml\n# Roadmap-level\
+    \ requirement (enforceable)\nrequirements:\n  - id: req-test-coverage\n    name:\
+    \ \"All code requires 80% test coverage\"\n    enforceable: true\n    applies_to_types:\
+    \ [sprint, task]\n    criterion_template:\n      description: \"Test coverage\
+    \ >= 80%\"\n      blocks_transition_to: completed\n      target:\n        type:\
+    \ test_coverage\n        coverage_threshold: 80.0\n\n# Sprint-level override (if\
+    \ not enforceable)\nrequirements:\n  - id: req-test-coverage\n    inherit_mode:\
+    \ override\n    criterion_template:\n      target:\n        coverage_threshold:\
+    \ 70.0  # Lower threshold for this sprint\n```\n\nREFERENCE:\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
+    \ (Requirement System)\n- sqlite-backend-6/context/sample_code/models/requirement.py\n\
+    - sqlite-backend-6/context/sample_code/models/func_resolve_requirements.py\n"
+  status: completed
   blocked: true
   created: '2025-12-06T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-06T15:32:40.977665+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation
@@ -90,17 +56,29 @@ task:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: null
+    last_checked: '2025-12-06T15:32:40.890369+00:00'
   depended_on_by: []
   deliverables:
-  - Requirement and CriterionTemplate models
-  - RequirementResolver for cascade logic
-  - CriterionInstantiator for template instantiation
-  - YAML format for requirements
-  - Bidirectional serialization for requirements
-  - Test suite for requirements cascade
+  - type: code
+    paths:
+    - Requirement and CriterionTemplate models
+  - type: code
+    paths:
+    - RequirementResolver for cascade logic
+  - type: code
+    paths:
+    - CriterionInstantiator for template instantiation
+  - type: code
+    paths:
+    - YAML format for requirements
+  - type: code
+    paths:
+    - Bidirectional serialization for requirements
+  - type: code
+    paths:
+    - Test suite for requirements cascade
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:32:40.574165+00:00'
     token_efficiency: null
     duration_hours: null

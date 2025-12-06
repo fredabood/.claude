@@ -5,74 +5,39 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement computed progress from criteria
-  description: |
-    Implement automatic progress computation from criteria satisfaction.
-
-    GAP ADDRESSED: GAP-006 (Progress Calculation)
-
-    CURRENT STATE:
-    - Manual progress counters in YAML:
-      - development_tasks_total/completed
-      - completion_gate_tasks_total/completed
-      - production_gate_tasks_total/completed
-      - tasks_total/completed
-      - completion_percent
-    - Progress tracked by task_type dimension
-    - Requires manual counter updates (error-prone)
-
-    TARGET STATE:
-    - Progress computed automatically from criteria:
-      - progress_for_transition(IN_PROGRESS) -> criteria blocking start
-      - progress_for_transition(COMPLETED) -> criteria blocking completion
-      - progress_for_transition(PRODUCTION_READY) -> criteria blocking deploy
-    - No manual counters needed
-    - Progress is always accurate and consistent
-
-    IMPLEMENTATION:
-    1. Completable.progress_for_transition() already exists in models
-    2. Add computed progress property that aggregates all transitions
-    3. Update CLI status display to show transition-based progress
-    4. Remove manual progress counters from YAML format
-    5. Add SQL view for computed progress (performance)
-    6. Update yaml_dumper to compute progress on export
-
-    PROGRESS DISPLAY CHANGE:
-    ```
-    # BEFORE (task type dimension)
-    Sprint: 5/8 dev tasks, 2/3 gate tasks (70%)
-
-    # AFTER (transition dimension)
-    Sprint:
-      Ready to start: 3/3 criteria met ✓
-      Ready to complete: 5/8 criteria met (62%)
-      Ready to deploy: 0/2 criteria met
-    ```
-
-    SQL VIEW:
-    ```sql
-    CREATE VIEW v_ticket_progress AS
-    SELECT
-      t.id,
-      t.status,
-      COUNT(CASE WHEN c.blocks_transition_to = 'in_progress' THEN 1 END) AS start_total,
-      COUNT(CASE WHEN c.blocks_transition_to = 'in_progress' AND c.is_met THEN 1 END) AS start_met,
-      COUNT(CASE WHEN c.blocks_transition_to = 'completed' THEN 1 END) AS complete_total,
-      COUNT(CASE WHEN c.blocks_transition_to = 'completed' AND c.is_met THEN 1 END) AS complete_met,
-      COUNT(CASE WHEN c.blocks_transition_to = 'production_ready' THEN 1 END) AS deploy_total,
-      COUNT(CASE WHEN c.blocks_transition_to = 'production_ready' AND c.is_met THEN 1 END) AS deploy_met
-    FROM tickets t
-    LEFT JOIN criteria c ON c.completable_id = t.id
-    GROUP BY t.id;
-    ```
-
-    REFERENCE:
-    - vibey/roadmap/models/ticket/completable.py (progress_for_transition)
-    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (Progress section)
-  status: not_started
+  description: "Implement automatic progress computation from criteria satisfaction.\n\
+    \nGAP ADDRESSED: GAP-006 (Progress Calculation)\n\nCURRENT STATE:\n- Manual progress\
+    \ counters in YAML:\n  - development_tasks_total/completed\n  - completion_gate_tasks_total/completed\n\
+    \  - production_gate_tasks_total/completed\n  - tasks_total/completed\n  - completion_percent\n\
+    - Progress tracked by task_type dimension\n- Requires manual counter updates (error-prone)\n\
+    \nTARGET STATE:\n- Progress computed automatically from criteria:\n  - progress_for_transition(IN_PROGRESS)\
+    \ -> criteria blocking start\n  - progress_for_transition(COMPLETED) -> criteria\
+    \ blocking completion\n  - progress_for_transition(PRODUCTION_READY) -> criteria\
+    \ blocking deploy\n- No manual counters needed\n- Progress is always accurate\
+    \ and consistent\n\nIMPLEMENTATION:\n1. Completable.progress_for_transition()\
+    \ already exists in models\n2. Add computed progress property that aggregates\
+    \ all transitions\n3. Update CLI status display to show transition-based progress\n\
+    4. Remove manual progress counters from YAML format\n5. Add SQL view for computed\
+    \ progress (performance)\n6. Update yaml_dumper to compute progress on export\n\
+    \nPROGRESS DISPLAY CHANGE:\n```\n# BEFORE (task type dimension)\nSprint: 5/8 dev\
+    \ tasks, 2/3 gate tasks (70%)\n\n# AFTER (transition dimension)\nSprint:\n  Ready\
+    \ to start: 3/3 criteria met ✓\n  Ready to complete: 5/8 criteria met (62%)\n\
+    \  Ready to deploy: 0/2 criteria met\n```\n\nSQL VIEW:\n```sql\nCREATE VIEW v_ticket_progress\
+    \ AS\nSELECT\n  t.id,\n  t.status,\n  COUNT(CASE WHEN c.blocks_transition_to =\
+    \ 'in_progress' THEN 1 END) AS start_total,\n  COUNT(CASE WHEN c.blocks_transition_to\
+    \ = 'in_progress' AND c.is_met THEN 1 END) AS start_met,\n  COUNT(CASE WHEN c.blocks_transition_to\
+    \ = 'completed' THEN 1 END) AS complete_total,\n  COUNT(CASE WHEN c.blocks_transition_to\
+    \ = 'completed' AND c.is_met THEN 1 END) AS complete_met,\n  COUNT(CASE WHEN c.blocks_transition_to\
+    \ = 'production_ready' THEN 1 END) AS deploy_total,\n  COUNT(CASE WHEN c.blocks_transition_to\
+    \ = 'production_ready' AND c.is_met THEN 1 END) AS deploy_met\nFROM tickets t\n\
+    LEFT JOIN criteria c ON c.completable_id = t.id\nGROUP BY t.id;\n```\n\nREFERENCE:\n\
+    - vibey/roadmap/models/ticket/completable.py (progress_for_transition)\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
+    \ (Progress section)\n"
+  status: completed
   blocked: true
   created: '2025-12-06T00:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-06T15:33:07.753655+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation
@@ -90,16 +55,26 @@ task:
     required_status: completed
     current_status: not_started
     blocks_transition_to: in_progress
-    last_checked: null
+    last_checked: '2025-12-06T15:33:07.658534+00:00'
   depended_on_by: []
   deliverables:
-  - Computed progress properties on Completable
-  - SQL view for efficient progress queries
-  - Updated CLI status display with transition-based progress
-  - Removed manual progress counters from YAML
-  - Test suite for progress computation
+  - type: code
+    paths:
+    - Computed progress properties on Completable
+  - type: code
+    paths:
+    - SQL view for efficient progress queries
+  - type: code
+    paths:
+    - Updated CLI status display with transition-based progress
+  - type: code
+    paths:
+    - Removed manual progress counters from YAML
+  - type: code
+    paths:
+    - Test suite for progress computation
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-06T15:33:07.318459+00:00'
     token_efficiency: null
     duration_hours: null

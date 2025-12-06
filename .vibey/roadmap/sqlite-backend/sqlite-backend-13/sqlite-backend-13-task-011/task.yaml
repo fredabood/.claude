@@ -1,0 +1,111 @@
+task:
+  id: sqlite-backend-13-task-011
+  sprint_id: sqlite-backend-13
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement optional auto-progression for status transitions
+  description: |
+    Implement optional automatic status progression when criteria are met.
+
+    GAP ADDRESSED: GAP-008 (Status Auto-Progression Logic)
+
+    DESIGN DECISION:
+    Auto-progression is OPTIONAL and config-driven. Users can choose between:
+    1. EXPLICIT mode: Status only changes via manual command
+    2. AUTO mode: Status advances automatically when criteria are met
+
+    This is a configuration choice, not a change to the domain model.
+
+    CURRENT STATE:
+    - can_transition_to() only CHECKS if transition is allowed
+    - Does not trigger the transition automatically
+    - Status changes require explicit CLI command
+
+    IMPLEMENTATION:
+    1. Add configuration option:
+       ```yaml
+       # .vibey/config/roadmap.yaml
+       roadmap:
+         auto_progression:
+           enabled: true  # or false for explicit mode
+           transitions:
+             - from: not_started
+               to: in_progress
+               when: all_start_criteria_met
+             - from: in_progress
+               to: completed
+               when: all_completion_criteria_met
+       ```
+
+    2. Implement StatusManager.check_and_advance():
+       ```python
+       def check_and_advance(ticket: Ticket) -> Optional[TicketStatus]:
+           """Check if ticket can auto-advance and do so if configured."""
+           if not config.auto_progression.enabled:
+               return None
+
+           for transition in config.auto_progression.transitions:
+               if ticket.status == transition.from_status:
+                   can_advance, _ = ticket.can_transition_to(transition.to_status)
+                   if can_advance:
+                       ticket.status = transition.to_status
+                       return transition.to_status
+           return None
+       ```
+
+    3. Hook auto-progression into:
+       - Post-update checks (after any ticket update)
+       - Post-commit hooks (after git commit changes)
+       - CLI status display (show pending auto-transitions)
+
+    4. Add CLI commands:
+       ```
+       $ vibey roadmap auto-progress --check  # Show what would advance
+       $ vibey roadmap auto-progress --apply  # Actually advance tickets
+       ```
+
+    PARENT CHAIN PROPAGATION:
+    When a child ticket completes, check if parent can now advance:
+    ```python
+    def propagate_completion(ticket: Ticket):
+        """Propagate completion up the hierarchy."""
+        if ticket.parent_ref:
+            parent = load_ticket(ticket.parent_ref)
+            advanced = check_and_advance(parent)
+            if advanced:
+                propagate_completion(parent)  # Recurse up
+    ```
+
+    REFERENCE:
+    - GAP_ANALYSIS.md (GAP-008)
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (can_transition_to)
+  status: not_started
+  blocked: false
+  created: '2025-12-06T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: low
+  phase_label: implementation
+  estimated_tokens: 25000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - Configuration schema for auto-progression
+  - StatusManager.check_and_advance() implementation
+  - Parent chain propagation logic
+  - CLI commands for auto-progress check/apply
+  - Test suite for auto-progression scenarios
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

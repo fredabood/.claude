@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 36
+    tracks_total: 37
     tracks_completed: 18
-    sprints_total: 181
-    sprints_completed: 92
-    tasks_total: 957
-    tasks_completed: 713
-    completion_percent: 74
+    sprints_total: 188
+    sprints_completed: 94
+    tasks_total: 1004
+    tasks_completed: 729
+    completion_percent: 72
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -166,6 +166,10 @@ roadmap:
     name: SQLite Database Backend
     status: in_progress
     priority: high
+  - id: vscode-roadmap-extension
+    name: VS Code Roadmap Visualization Extension
+    status: not_started
+    priority: medium
   dependencies: []
   blocked_by: []
   version_history:
@@ -2502,11 +2506,110 @@ roadmap:
     description: Sprint 'Operations Migration' completed
     context:
       sprint_id: sqlite-backend-9
+  - timestamp: '2025-12-06T15:28:48.445161+00:00'
+    type: task_completed
+    description: Task 'Audit Sprint 6 design vs current codebase implementation' completed
+    context:
+      task_id: sqlite-backend-12-task-001
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:28:49.367569+00:00'
+    type: task_completed
+    description: Task 'Add criteria table to database schema' completed
+    context:
+      task_id: sqlite-backend-12-task-002
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:28:50.281579+00:00'
+    type: task_completed
+    description: Task 'Add criterion_targets table with polymorphic target types'
+      completed
+    context:
+      task_id: sqlite-backend-12-task-003
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:28:51.209564+00:00'
+    type: task_completed
+    description: Task 'Update YAML format to include criteria sections' completed
+    context:
+      task_id: sqlite-backend-12-task-004
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:28:59.900120+00:00'
+    type: task_completed
+    description: Task 'Update yaml_loader to parse criteria from YAML' completed
+    context:
+      task_id: sqlite-backend-12-task-005
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:00.819377+00:00'
+    type: task_completed
+    description: Task 'Update sql_loader to load criteria from database' completed
+    context:
+      task_id: sqlite-backend-12-task-006
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:01.746797+00:00'
+    type: task_completed
+    description: Task 'Update yaml_dumper to serialize criteria to YAML' completed
+    context:
+      task_id: sqlite-backend-12-task-007
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:02.682473+00:00'
+    type: task_completed
+    description: Task 'Update sql_dumper to persist criteria to database' completed
+    context:
+      task_id: sqlite-backend-12-task-008
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:11.087574+00:00'
+    type: task_completed
+    description: Task 'Migrate dependencies/blocked_by to CompletableTarget criteria'
+      completed
+    context:
+      task_id: sqlite-backend-12-task-009
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:12.039636+00:00'
+    type: task_completed
+    description: Task 'Implement can_transition_to() checks in CLI status updates'
+      completed
+    context:
+      task_id: sqlite-backend-12-task-010
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:12.970067+00:00'
+    type: task_completed
+    description: Task 'Implement verify_completion_claims() in pre-commit hook' completed
+    context:
+      task_id: sqlite-backend-12-task-011
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:29:13.933628+00:00'
+    type: task_completed
+    description: Task 'End-to-end validation of criteria-based completion system'
+      completed
+    context:
+      task_id: sqlite-backend-12-task-012
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:30:50.594472+00:00'
+    type: task_completed
+    description: Task 'Migrate quality_gates to criteria with ThresholdTarget' completed
+    context:
+      task_id: sqlite-backend-12-task-013
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:32:41.365821+00:00'
+    type: task_completed
+    description: Task 'Implement Requirements cascade for standards enforcement' completed
+    context:
+      task_id: sqlite-backend-12-task-014
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:33:08.139662+00:00'
+    type: task_completed
+    description: Task 'Implement computed progress from criteria' completed
+    context:
+      task_id: sqlite-backend-12-task-015
+      sprint_id: sqlite-backend-12
+  - timestamp: '2025-12-06T15:35:51.861045+00:00'
+    type: sprint_completed
+    description: Sprint 'Unified Ticket Architecture Implementation' completed
+    context:
+      sprint_id: sqlite-backend-12
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-12-05T02:58:46.850159+00:00'
+    last_updated: '2025-12-06T15:35:51.861049+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

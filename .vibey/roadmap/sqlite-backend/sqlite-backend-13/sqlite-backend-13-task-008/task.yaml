@@ -5,7 +5,80 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create migration script for existing roadmaps to new directory structure
-  description: null
+  description: |
+    Create migration script to upgrade existing vibey roadmaps to new structure.
+
+    MIGRATION REQUIREMENTS:
+    1. Detect existing roadmap format version
+    2. Backup existing files before migration
+    3. Convert to new directory structure
+    4. Initialize SQLite database
+    5. Validate migration success
+    6. Provide rollback capability
+
+    DIRECTORY STRUCTURE CHANGES:
+    ```
+    # OLD STRUCTURE
+    .vibey/
+      roadmap.yaml          # Single file with all data
+      roadmap/
+        tracks/             # Flat track files
+
+    # NEW STRUCTURE
+    .vibey/
+      roadmap.yaml          # Summary only
+      roadmap.db            # SQLite database (NEW)
+      roadmap/
+        track-id/
+          track.yaml
+          sprint-id/
+            sprint.yaml
+            task-id/
+              task.yaml
+    ```
+
+    MIGRATION STEPS:
+    1. Detect format: `vibey roadmap migrate --detect`
+    2. Preview changes: `vibey roadmap migrate --dry-run`
+    3. Create backup: `vibey roadmap migrate --backup`
+    4. Execute migration: `vibey roadmap migrate --execute`
+    5. Validate: `vibey roadmap migrate --validate`
+    6. Rollback if needed: `vibey roadmap migrate --rollback`
+
+    IMPLEMENTATION:
+    ```python
+    def migrate_roadmap(root_dir: Path, dry_run: bool = True) -> MigrationResult:
+        # 1. Detect current format
+        format_version = detect_format_version(root_dir)
+
+        # 2. Create backup
+        backup_path = create_backup(root_dir)
+
+        # 3. Load from old format
+        roadmap = load_legacy_roadmap(root_dir)
+
+        # 4. Create new directory structure
+        create_directory_structure(root_dir, roadmap)
+
+        # 5. Write new YAML files
+        dump_to_new_structure(root_dir, roadmap)
+
+        # 6. Initialize database
+        init_database(root_dir)
+        rebuild_from_yaml(root_dir)
+
+        # 7. Validate
+        validate_migration(root_dir)
+
+        return MigrationResult(
+            backup_path=backup_path,
+            tracks_migrated=len(roadmap.tracks),
+            tasks_migrated=count_tasks(roadmap)
+        )
+    ```
+
+    REFERENCE:
+    - vibey/operations/roadmap/migration.py (to be created)
   status: not_started
   blocked: false
   created: '2025-11-30T20:00:00+00:00'

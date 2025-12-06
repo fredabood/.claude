@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_sync": "2025-12-05T02:58:46.927539+00:00",
+  "last_sync": "2025-12-06T15:35:51.944943+00:00",
   "files": {
     "aider-port/track.md": {
       "source_path": "roadmap/aider-port/track.md",
@@ -1097,9 +1097,9 @@
     "sqlite-backend/GAP_ANALYSIS.md": {
       "source_path": "roadmap/sqlite-backend/GAP_ANALYSIS.md",
       "target_path": "roadmap/sqlite-backend/GAP_ANALYSIS.md",
-      "checksum": "7a328e1d6a3c1705c9f2f0867767f13d3a7992407c477f6d80c748a30d8031eb",
-      "synced_at": "2025-11-30T20:12:47.245078+00:00",
-      "file_size": 20524
+      "checksum": "d40d8c73672df7c12f51beeabaf1d3b2b6d3b3a34835ac2ac7a670a374c5f5bd",
+      "synced_at": "2025-12-06T15:28:48.524988+00:00",
+      "file_size": 21763
     },
     "sqlite-backend/TRACK_ALIGNMENT_REVIEW.md": {
       "source_path": "roadmap/sqlite-backend/TRACK_ALIGNMENT_REVIEW.md",
@@ -1163,137 +1163,16 @@
       "checksum": "1c66665c8470b31cd36061f94cd1639d9bf03009be241ecf4627e256703f8791",
       "synced_at": "2025-11-30T20:12:47.247303+00:00",
       "file_size": 23241
+    },
+    "sqlite-backend/sqlite-backend-12/SPRINT_12_AUDIT_REPORT.md": {
+      "source_path": "roadmap/sqlite-backend/sqlite-backend-12/SPRINT_12_AUDIT_REPORT.md",
+      "target_path": "roadmap/sqlite-backend/sqlite-backend-12/SPRINT_12_AUDIT_REPORT.md",
+      "checksum": "d4d9a1c1ea7bdaa0cd4c67c5a3a19455c9a26f67f5e8557ddd36707de72e279e",
+      "synced_at": "2025-12-06T15:28:48.525591+00:00",
+      "file_size": 9986
     }
   },
   "sync_history": [
-    {
-      "timestamp": "2025-11-24T14:50:08.593392+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.027686,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-24T14:50:10.278868+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.027703,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-24T14:52:23.043985+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.028417,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-24T14:52:24.739570+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.027772,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-24T14:53:17.958648+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.028138,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-24T14:53:19.657982+00:00",
-      "files_copied": 0,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.027184,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:04:21.529980+00:00",
-      "files_copied": 3,
-      "files_skipped": 80,
-      "files_deleted": 0,
-      "duration_seconds": 0.031925,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:09:09.349327+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.030645,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:13:05.172438+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.036765,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:15:02.179253+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.032887,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:16:36.692321+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.032134,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:18:04.742898+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.031702,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:27:21.489175+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.031019,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:33:38.147262+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.026772,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:38:41.749184+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.026792,
-      "errors": 0
-    },
-    {
-      "timestamp": "2025-11-25T05:41:19.498381+00:00",
-      "files_copied": 0,
-      "files_skipped": 83,
-      "files_deleted": 0,
-      "duration_seconds": 0.026863,
-      "errors": 0
-    },
     {
       "timestamp": "2025-11-25T05:46:58.734492+00:00",
       "files_copied": 0,
@@ -1564,6 +1443,134 @@
       "files_skipped": 96,
       "files_deleted": 0,
       "duration_seconds": 0.036727,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:28:48.525924+00:00",
+      "files_copied": 2,
+      "files_skipped": 95,
+      "files_deleted": 0,
+      "duration_seconds": 0.040131,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:28:49.440373+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032414,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:28:50.354221+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032224,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:28:51.281996+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032431,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:28:59.973872+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032339,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:00.892636+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032284,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:01.820663+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.03256,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:02.754772+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.0318,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:11.168853+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.038691,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:12.114282+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032939,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:13.044504+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.033019,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:29:14.008839+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.032671,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:30:50.674175+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.038086,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:32:41.445883+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.039368,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:33:08.220315+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.03877,
+      "errors": 0
+    },
+    {
+      "timestamp": "2025-12-06T15:35:51.944943+00:00",
+      "files_copied": 0,
+      "files_skipped": 97,
+      "files_deleted": 0,
+      "duration_seconds": 0.040716,
       "errors": 0
     }
   ]

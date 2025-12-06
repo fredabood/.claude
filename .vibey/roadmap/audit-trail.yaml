@@ -1289,6 +1289,166 @@ audit_log:
   reason: Task started via CLI by system
   commit: e0ff24f
   source: cli
+- timestamp: '2025-12-06T15:28:48.070735+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-001
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:28:48.998370+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-002
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:28:49.909624+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-003
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:28:50.834942+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-004
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:28:59.528108+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-005
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:00.440998+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-006
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:01.360518+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-007
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:02.297944+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-008
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:10.706621+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-009
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:11.651136+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-010
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:12.585604+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-011
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:29:13.548383+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-012
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 5102b7e
+  source: cli
+- timestamp: '2025-12-06T15:30:50.212068+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-013
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 96b10ca
+  source: cli
+- timestamp: '2025-12-06T15:32:40.977712+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-014
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 4883f25
+  source: cli
+- timestamp: '2025-12-06T15:33:07.753722+00:00'
+  object_type: task
+  object_id: sqlite-backend-12-task-015
+  field: status
+  old_value: not_started
+  new_value: completed
+  changed_by: system
+  reason: Task completed via CLI by system
+  commit: 4883f25
+  source: cli
+- timestamp: '2025-12-06T15:35:51.502007+00:00'
+  object_type: sprint
+  object_id: sqlite-backend-12
+  field: status
+  old_value: completion_gate_check
+  new_value: completed
+  changed_by: system
+  reason: Sprint completed via CLI by system
+  commit: 42dd24c
+  source: cli
 metadata:
-  last_updated: '2025-12-05T03:01:28.789595+00:00'
-  total_entries: 129
+  last_updated: '2025-12-06T15:35:51.547182+00:00'
+  total_entries: 145

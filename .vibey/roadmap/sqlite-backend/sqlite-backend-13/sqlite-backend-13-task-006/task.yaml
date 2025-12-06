@@ -5,7 +5,51 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add embedded sprint summary validation to integrity audit
-  description: null
+  description: |
+    Extend integrity audit to validate embedded sprint summaries in track.yaml.
+
+    CURRENT STATE:
+    - track.yaml contains embedded sprint summaries for display
+    - These summaries can become stale if not updated
+    - Integrity audit doesn't check summary consistency
+
+    TARGET STATE:
+    - Audit compares embedded summaries to actual sprint data
+    - Discrepancies are flagged and optionally auto-fixed
+    - Summary format validated against schema
+
+    VALIDATION CHECKS:
+    1. Sprint count matches actual sprint directories
+    2. Sprint IDs in summary match sprint.yaml IDs
+    3. Task counts match computed values
+    4. Completion percentages are accurate
+    5. Status values are current
+
+    IMPLEMENTATION:
+    ```python
+    def validate_embedded_summaries(track_path: Path) -> List[Discrepancy]:
+        track = yaml_load_track(track_path / "track.yaml")
+        discrepancies = []
+
+        for summary in track.sprints:
+            sprint_path = track_path / summary.id / "sprint.yaml"
+            if not sprint_path.exists():
+                discrepancies.append(OrphanedSummary(summary.id))
+                continue
+
+            sprint = yaml_load_sprint(sprint_path)
+
+            if summary.tasks_total != sprint.progress.tasks_total:
+                discrepancies.append(CountMismatch(
+                    field="tasks_total",
+                    summary_value=summary.tasks_total,
+                    actual_value=sprint.progress.tasks_total
+                ))
+        return discrepancies
+    ```
+
+    REFERENCE:
+    - vibey/operations/roadmap/validation/integrity_audit.py
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'

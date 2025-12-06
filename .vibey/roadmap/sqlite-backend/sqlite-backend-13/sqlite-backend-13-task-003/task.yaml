@@ -5,7 +5,46 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add DB dump to pre-commit hook
-  description: null
+  description: |
+    Add pre-commit hook that dumps SQLite database to YAML before commit.
+
+    HOOK RESPONSIBILITIES:
+    1. Check if database has uncommitted changes (is_dirty flag)
+    2. If dirty, dump changed records to YAML files
+    3. Stage the updated YAML files
+    4. Clear dirty flag
+    5. Verify completion claims in commit message (from Sprint 12)
+
+    HOOK LOCATION: .vibey/hooks/pre-commit
+
+    IMPLEMENTATION:
+    ```bash
+    #!/bin/bash
+    set -e
+
+    # Check if database is dirty
+    if vibey roadmap db is-dirty; then
+        echo "Dumping database changes to YAML..."
+        vibey roadmap db dump --staged-only
+
+        # Stage updated YAML files
+        git add .vibey/roadmap/**/*.yaml
+    fi
+
+    # Verify completion claims (from Sprint 12)
+    COMMIT_MSG=$(cat "$1" 2>/dev/null || echo "")
+    vibey roadmap verify-completion-claims "$COMMIT_MSG"
+    ```
+
+    DUMP STRATEGY:
+    - Only dump records marked dirty (not full database)
+    - Maintain YAML file structure: track/sprint/task directories
+    - Update summary counters in parent files
+    - Preserve formatting and comments where possible
+
+    REFERENCE:
+    - sqlite-backend-6/context/005-yaml-sync-strategy.md
+    - vibey/roadmap/serialization/yaml_dumper.py
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'

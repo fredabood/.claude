@@ -5,7 +5,47 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix data integrity issues in roadmap YAML
-  description: null
+  description: |
+    Fix any remaining data integrity issues in roadmap YAML files before cutover.
+
+    KNOWN ISSUES (from Sprint 11 integrity audit):
+    - Status enum misalignments (wont_do vs won't_do)
+    - Missing 'started' timestamps on in_progress tasks
+    - Missing 'description' fields on some tasks
+    - Orphaned task references in depends_on
+    - Stale summary counters in track/sprint files
+
+    REMEDIATION STEPS:
+    1. Run integrity audit to identify all issues
+       ```
+       vibey roadmap db validate --report
+       ```
+
+    2. Auto-fix known issues where safe
+       ```
+       vibey roadmap db remediate --auto
+       ```
+
+    3. Manual review for ambiguous cases
+       - Tasks marked completed without completion date
+       - Circular dependencies
+       - Invalid status transitions
+
+    4. Verify all fixes
+       ```
+       vibey roadmap db validate
+       ```
+
+    VALIDATION CHECKS:
+    - All tasks have required fields (id, title, status)
+    - All dates are valid ISO format
+    - All references resolve to existing entities
+    - All summary counters match computed values
+    - No orphaned files in directory structure
+
+    REFERENCE:
+    - sqlite-backend-11/docs/INTEGRITY_AUDIT_REPORT.md
+    - vibey/operations/roadmap/validation/yaml_remediation.py
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'

@@ -5,7 +5,52 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add DB rebuild to post-merge hook
-  description: null
+  description: |
+    Add post-merge hook that rebuilds SQLite database from YAML after git merge.
+
+    HOOK RESPONSIBILITIES:
+    1. Detect if YAML files changed in the merge
+    2. If changed, rebuild database from YAML
+    3. Validate integrity after rebuild
+    4. Log rebuild operation
+
+    HOOK LOCATION: .vibey/hooks/post-merge
+
+    IMPLEMENTATION:
+    ```bash
+    #!/bin/bash
+    set -e
+
+    # Check if roadmap YAML files changed
+    CHANGED=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD \
+              | grep -E '\.vibey/roadmap/.*\.yaml$' || true)
+
+    if [ -n "$CHANGED" ]; then
+        echo "Roadmap YAML files changed, rebuilding database..."
+        vibey roadmap db rebuild
+
+        echo "Validating integrity..."
+        vibey roadmap db validate
+
+        echo "Database rebuilt successfully."
+    fi
+    ```
+
+    REBUILD STRATEGY:
+    - Parse all YAML files in .vibey/roadmap/
+    - Clear existing database tables (cascade)
+    - Insert records from YAML
+    - Rebuild computed views
+    - Reset dirty flags
+
+    CONFLICT HANDLING:
+    - If YAML has merge conflicts, rebuild fails gracefully
+    - User must resolve conflicts in YAML first
+    - Database remains in pre-merge state until conflicts resolved
+
+    REFERENCE:
+    - sqlite-backend-6/context/005-yaml-sync-strategy.md
+    - vibey/roadmap/serialization/yaml_loader.py
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'

@@ -1,0 +1,88 @@
+task:
+  id: sqlite-backend-13-task-010
+  sprint_id: sqlite-backend-13
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Integrate ActivityLog with unified ticket lifecycle
+  description: |
+    Integrate the unified ActivityLog with ticket lifecycle events.
+
+    GAP ADDRESSED: GAP-003 (Audit Trail Integration)
+
+    DESIGN DECISION:
+    The audit trail is kept as an operational concern, NOT integrated into the
+    domain model. ActivityLog at the RoadmapTicket level captures high-level events.
+    Per-field change tracking is handled by:
+    1. Git history for YAML files (comprehensive, immutable)
+    2. ActivityLogEntry for structured event queries
+    3. Optional detailed audit_trail table for compliance needs
+
+    IMPLEMENTATION:
+    1. Hook ActivityLog into Ticket lifecycle methods:
+       - start() -> log START event
+       - complete() -> log COMPLETE event
+       - transition to PRODUCTION_READY -> log DEPLOY_READY event
+    2. Log criteria evaluation results:
+       - can_transition_to() blocked -> log BLOCKED event with reasons
+       - criteria met -> log CRITERIA_MET event
+    3. Add event types to ActivityType enum:
+       - TICKET_STARTED
+       - TICKET_COMPLETED
+       - TICKET_BLOCKED
+       - CRITERIA_MET
+       - CRITERIA_FAILED
+       - STATUS_CHANGED
+    4. Update CLI to display recent activity
+
+    ACTIVITY LOG ENTRY STRUCTURE:
+    ```python
+    class ActivityLogEntry(BaseModel):
+        timestamp: datetime
+        event_type: ActivityType
+        ticket_id: str
+        ticket_type: str  # roadmap, track, sprint, task
+        actor: str  # claude-code, user, system, hook
+        details: Optional[Dict[str, Any]]
+        commit_sha: Optional[str]
+    ```
+
+    CLI DISPLAY:
+    ```
+    $ vibey roadmap activity --last 10
+    2025-12-06 14:30  TICKET_COMPLETED  task-123  claude-code
+    2025-12-06 14:29  CRITERIA_MET      task-123  Tests passed
+    2025-12-06 14:00  TICKET_STARTED    task-123  claude-code
+    ```
+
+    REFERENCE:
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md (ActivityLogEntry)
+    - vibey/roadmap/models/ticket/hierarchical.py (RoadmapTicket.activity_log)
+  status: not_started
+  blocked: false
+  created: '2025-12-06T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: implementation
+  estimated_tokens: 30000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - ActivityLog hooks in Ticket lifecycle methods
+  - New ActivityType enum values for lifecycle events
+  - CLI activity display command
+  - Test suite for activity logging
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

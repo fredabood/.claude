@@ -5,7 +5,62 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: End-to-end sync system validation
-  description: null
+  description: |
+    Comprehensive validation of the full sync system before production cutover.
+
+    VALIDATION SCENARIOS:
+
+    1. WRITE PATH (CLI → DB → YAML)
+       - Make status change via CLI
+       - Verify DB updated immediately
+       - Run pre-commit hook
+       - Verify YAML updated correctly
+       - Commit and verify clean state
+
+    2. READ PATH (Git Pull → DB Rebuild)
+       - Clone repo on second machine
+       - Modify YAML on first machine, commit, push
+       - Pull on second machine
+       - Verify post-merge hook fires
+       - Verify DB matches YAML
+
+    3. CONFLICT RESOLUTION
+       - Two users modify same task
+       - Create merge conflict in YAML
+       - Verify graceful failure of rebuild
+       - Resolve conflict manually
+       - Verify rebuild succeeds after resolution
+
+    4. ROUND-TRIP INTEGRITY
+       - Start with clean state
+       - Make 10 random changes via CLI
+       - Dump to YAML
+       - Delete DB
+       - Rebuild from YAML
+       - Compare state to original
+
+    5. PERFORMANCE
+       - Measure dump time for 1000 tasks
+       - Measure rebuild time for 1000 tasks
+       - Ensure acceptable latency (<5s for typical roadmap)
+
+    6. ERROR RECOVERY
+       - Simulate hook failure mid-dump
+       - Verify rollback occurs
+       - Verify no data corruption
+
+    TEST COMMANDS:
+    ```
+    vibey roadmap sync test --scenario write-path
+    vibey roadmap sync test --scenario read-path
+    vibey roadmap sync test --scenario conflict
+    vibey roadmap sync test --scenario round-trip
+    vibey roadmap sync test --scenario performance
+    vibey roadmap sync test --all
+    ```
+
+    REFERENCE:
+    - sqlite-backend-6/context/005-yaml-sync-strategy.md
   status: not_started
   blocked: false
   created: '2025-11-28T17:00:00+00:00'

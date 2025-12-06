@@ -5,7 +5,56 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update CLI and tooling for new directory structure
-  description: null
+  description: |
+    Update all CLI commands and tooling to work with new directory structure.
+
+    AFFECTED COMMANDS:
+    1. vibey roadmap status - Query from DB instead of YAML
+    2. vibey roadmap show <id> - Load from DB
+    3. vibey roadmap start/complete <id> - Update DB, mark dirty
+    4. vibey roadmap context <task> - Load context from DB with hierarchy
+    5. vibey roadmap validate - Check both DB and YAML
+    6. vibey roadmap db * - New database management commands
+
+    NEW DATABASE COMMANDS:
+    ```
+    vibey roadmap db status      # Show DB state (dirty, schema version)
+    vibey roadmap db dump        # Dump DB to YAML (for pre-commit)
+    vibey roadmap db rebuild     # Rebuild DB from YAML (for post-merge)
+    vibey roadmap db validate    # Compare DB to YAML
+    vibey roadmap db is-dirty    # Exit 0 if dirty, 1 if clean
+    ```
+
+    PATH RESOLUTION:
+    ```python
+    def resolve_task_path(task_id: str, root_dir: Path) -> Path:
+        # NEW: Use DB to get hierarchy
+        task = sql_load_task(task_id)
+        return (root_dir / ".vibey" / "roadmap" /
+                task.track_id / task.sprint_id / task.id / "task.yaml")
+
+    def resolve_sprint_path(sprint_id: str, root_dir: Path) -> Path:
+        sprint = sql_load_sprint(sprint_id)
+        return (root_dir / ".vibey" / "roadmap" /
+                sprint.track_id / sprint.id / "sprint.yaml")
+    ```
+
+    BACKWARD COMPATIBILITY:
+    - Detect old vs new structure on startup
+    - Suggest migration if old structure detected
+    - Error gracefully with helpful message
+
+    IMPLEMENTATION CHECKLIST:
+    - [ ] Update vibey/cli/commands.py for DB-first reads
+    - [ ] Update vibey/operations/roadmap/query.py
+    - [ ] Add vibey/cli/db_commands.py for db subcommands
+    - [ ] Update path resolution utilities
+    - [ ] Add structure detection logic
+    - [ ] Update documentation
+
+    REFERENCE:
+    - vibey/cli/commands.py
+    - vibey/operations/roadmap/query.py
   status: not_started
   blocked: false
   created: '2025-11-30T20:00:00+00:00'

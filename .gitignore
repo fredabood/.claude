@@ -80,3 +80,4 @@ Thumbs.db
 
 # Generated platform exports (test output)
 goose-export/
+.vibey/backups/

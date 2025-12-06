@@ -51,6 +51,13 @@ task:
     - [ ] Update path resolution utilities
     - [ ] Add structure detection logic
     - [ ] Update documentation
+    - [ ] Fix RuntimeWarning on module import (see sqlite-backend-12/context/CLI_ISSUES.md)
+
+    CLI BUG TO FIX:
+    RuntimeWarning: 'vibey.cli.main' found in sys.modules after import of package
+    'vibey.cli', but prior to execution of 'vibey.cli.main'
+    - Review import structure in vibey/cli/__init__.py and vibey/cli/main.py
+    - Ensure clean module loading when using python -m vibey.cli.main
 
     REFERENCE:
     - vibey/cli/commands.py

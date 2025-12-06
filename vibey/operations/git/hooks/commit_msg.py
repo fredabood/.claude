@@ -201,6 +201,91 @@ class CommitMsgHook:
                     suggestion=suggestion_text,
                 ))
 
+    def _verify_completion_claims(self, message: str) -> None:
+        """
+        Verify that claimed completions meet all criteria.
+
+        When a commit message includes "Completes: task-id" or similar,
+        this method verifies that the task meets all completion criteria
+        using the unified ticket model's can_transition_to() validation.
+
+        Args:
+            message: Commit message text
+
+        Reference: Sprint 6 design - func_verify_completion_claims.py
+        """
+        if not self.config.completion_verification.get("enabled", True):
+            return
+
+        # Parse task references
+        parsed = self.parser.parse(message)
+
+        if not parsed.has_task_reference:
+            return
+
+        # Import ticket loading and status types
+        try:
+            from vibey.operations.roadmap.query import load_task_ticket
+            from vibey.roadmap.models.ticket import TicketStatus
+            from vibey.operations.git.commit_parser_schema import TaskStatus
+        except ImportError:
+            # Ticket models not available, skip verification
+            return
+
+        # Find tasks claimed as completed
+        completion_claims = [
+            task_ref for task_ref in parsed.tasks
+            if task_ref.status == TaskStatus.COMPLETED
+        ]
+
+        if not completion_claims:
+            return
+
+        # Verify each completion claim
+        for task_ref in completion_claims:
+            task_id = task_ref.task_id
+
+            try:
+                # Load the task ticket
+                ticket = load_task_ticket(self.repo_path, task_id)
+
+                if ticket is None:
+                    self.issues.append(ValidationIssue(
+                        severity="warning",
+                        rule="completion_verification",
+                        message=f"Cannot verify completion for '{task_id}': task not found",
+                        suggestion="Ensure task ID is correct",
+                    ))
+                    continue
+
+                # Check if can transition to completed
+                can_complete, blockers = ticket.can_transition_to(TicketStatus.COMPLETED)
+
+                if not can_complete and blockers:
+                    # Determine severity based on mode
+                    mode = self._get_rule_mode("completion_verification")
+                    severity = "error" if mode == "blocking" else "warning"
+
+                    # Format blockers for display
+                    blocker_text = "; ".join(blockers[:3])
+                    if len(blockers) > 3:
+                        blocker_text += f" (+{len(blockers) - 3} more)"
+
+                    self.issues.append(ValidationIssue(
+                        severity=severity,
+                        rule="completion_verification",
+                        message=f"Cannot complete '{task_id}': {blocker_text}",
+                        suggestion="Resolve blocking criteria before claiming completion",
+                    ))
+
+            except Exception as e:
+                # If we can't load the ticket, add a warning but don't block
+                self.issues.append(ValidationIssue(
+                    severity="warning",
+                    rule="completion_verification",
+                    message=f"Could not verify completion for '{task_id}': {str(e)[:50]}",
+                ))
+
     def _find_similar_tasks(self, task_id: str, known_tasks: set) -> List[str]:
         """
         Find similar task IDs using simple string matching.
@@ -343,6 +428,7 @@ class CommitMsgHook:
         # Run validations
         self._validate_commit_format(message)
         self._validate_task_exists(message)
+        self._verify_completion_claims(message)
 
         # Determine outcome
         should_block = self._should_block(self.issues)

@@ -5,68 +5,39 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update CLI and tooling for new directory structure
-  description: |
-    Update all CLI commands and tooling to work with new directory structure.
-
-    AFFECTED COMMANDS:
-    1. vibey roadmap status - Query from DB instead of YAML
-    2. vibey roadmap show <id> - Load from DB
-    3. vibey roadmap start/complete <id> - Update DB, mark dirty
-    4. vibey roadmap context <task> - Load context from DB with hierarchy
-    5. vibey roadmap validate - Check both DB and YAML
-    6. vibey roadmap db * - New database management commands
-
-    NEW DATABASE COMMANDS:
-    ```
-    vibey roadmap db status      # Show DB state (dirty, schema version)
-    vibey roadmap db dump        # Dump DB to YAML (for pre-commit)
-    vibey roadmap db rebuild     # Rebuild DB from YAML (for post-merge)
-    vibey roadmap db validate    # Compare DB to YAML
-    vibey roadmap db is-dirty    # Exit 0 if dirty, 1 if clean
-    ```
-
-    PATH RESOLUTION:
-    ```python
-    def resolve_task_path(task_id: str, root_dir: Path) -> Path:
-        # NEW: Use DB to get hierarchy
-        task = sql_load_task(task_id)
-        return (root_dir / ".vibey" / "roadmap" /
-                task.track_id / task.sprint_id / task.id / "task.yaml")
-
-    def resolve_sprint_path(sprint_id: str, root_dir: Path) -> Path:
-        sprint = sql_load_sprint(sprint_id)
-        return (root_dir / ".vibey" / "roadmap" /
-                sprint.track_id / sprint.id / "sprint.yaml")
-    ```
-
-    BACKWARD COMPATIBILITY:
-    - Detect old vs new structure on startup
-    - Suggest migration if old structure detected
-    - Error gracefully with helpful message
-
-    IMPLEMENTATION CHECKLIST:
-    - [ ] Update vibey/cli/commands.py for DB-first reads
-    - [ ] Update vibey/operations/roadmap/query.py
-    - [ ] Add vibey/cli/db_commands.py for db subcommands
-    - [ ] Update path resolution utilities
-    - [ ] Add structure detection logic
-    - [ ] Update documentation
-    - [ ] Fix RuntimeWarning on module import (see sqlite-backend-12/context/CLI_ISSUES.md)
-
-    CLI BUG TO FIX:
-    RuntimeWarning: 'vibey.cli.main' found in sys.modules after import of package
-    'vibey.cli', but prior to execution of 'vibey.cli.main'
-    - Review import structure in vibey/cli/__init__.py and vibey/cli/main.py
-    - Ensure clean module loading when using python -m vibey.cli.main
-
-    REFERENCE:
-    - vibey/cli/commands.py
-    - vibey/operations/roadmap/query.py
-  status: not_started
+  description: "Update all CLI commands and tooling to work with new directory structure.\n\
+    \nAFFECTED COMMANDS:\n1. vibey roadmap status - Query from DB instead of YAML\n\
+    2. vibey roadmap show <id> - Load from DB\n3. vibey roadmap start/complete <id>\
+    \ - Update DB, mark dirty\n4. vibey roadmap context <task> - Load context from\
+    \ DB with hierarchy\n5. vibey roadmap validate - Check both DB and YAML\n6. vibey\
+    \ roadmap db * - New database management commands\n\nNEW DATABASE COMMANDS:\n\
+    ```\nvibey roadmap db status      # Show DB state (dirty, schema version)\nvibey\
+    \ roadmap db dump        # Dump DB to YAML (for pre-commit)\nvibey roadmap db\
+    \ rebuild     # Rebuild DB from YAML (for post-merge)\nvibey roadmap db validate\
+    \    # Compare DB to YAML\nvibey roadmap db is-dirty    # Exit 0 if dirty, 1 if\
+    \ clean\n```\n\nPATH RESOLUTION:\n```python\ndef resolve_task_path(task_id: str,\
+    \ root_dir: Path) -> Path:\n    # NEW: Use DB to get hierarchy\n    task = sql_load_task(task_id)\n\
+    \    return (root_dir / \".vibey\" / \"roadmap\" /\n            task.track_id\
+    \ / task.sprint_id / task.id / \"task.yaml\")\n\ndef resolve_sprint_path(sprint_id:\
+    \ str, root_dir: Path) -> Path:\n    sprint = sql_load_sprint(sprint_id)\n   \
+    \ return (root_dir / \".vibey\" / \"roadmap\" /\n            sprint.track_id /\
+    \ sprint.id / \"sprint.yaml\")\n```\n\nBACKWARD COMPATIBILITY:\n- Detect old vs\
+    \ new structure on startup\n- Suggest migration if old structure detected\n- Error\
+    \ gracefully with helpful message\n\nIMPLEMENTATION CHECKLIST:\n- [ ] Update vibey/cli/commands.py\
+    \ for DB-first reads\n- [ ] Update vibey/operations/roadmap/query.py\n- [ ] Add\
+    \ vibey/cli/db_commands.py for db subcommands\n- [ ] Update path resolution utilities\n\
+    - [ ] Add structure detection logic\n- [ ] Update documentation\n- [ ] Fix RuntimeWarning\
+    \ on module import (see sqlite-backend-12/context/CLI_ISSUES.md)\n\nCLI BUG TO\
+    \ FIX:\nRuntimeWarning: 'vibey.cli.main' found in sys.modules after import of\
+    \ package\n'vibey.cli', but prior to execution of 'vibey.cli.main'\n- Review import\
+    \ structure in vibey/cli/__init__.py and vibey/cli/main.py\n- Ensure clean module\
+    \ loading when using python -m vibey.cli.main\n\nREFERENCE:\n- vibey/cli/commands.py\n\
+    - vibey/operations/roadmap/query.py\n"
+  status: completed
   blocked: false
   created: '2025-11-30T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-07T14:20:33.801248+00:00'
+  completed: '2025-12-07T14:21:21.135911+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -83,6 +54,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-07T14:21:20.731794+00:00'
     token_efficiency: null
     duration_hours: null

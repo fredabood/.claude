@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 37
     tracks_completed: 18
-    sprints_total: 188
-    sprints_completed: 94
-    tasks_total: 1004
-    tasks_completed: 740
-    completion_percent: 73
+    sprints_total: 174
+    sprints_completed: 81
+    tasks_total: 884
+    tasks_completed: 620
+    completion_percent: 70
   tracks:
   - id: core-framework
     name: Core Framework Enhancements
@@ -2742,11 +2742,16 @@ roadmap:
     context:
       task_id: sqlite-backend-13-task-011
       sprint_id: sqlite-backend-13
+  - timestamp: '2025-12-07T14:35:42.746784+00:00'
+    type: sprint_completed
+    description: Sprint 'Production Cutover & Sync System' completed
+    context:
+      sprint_id: sqlite-backend-13
   metadata:
     created_by: vibey-framework-team
     framework_version: '2.0'
     schema_version: '2.1'
-    last_updated: '2025-12-07T14:34:25.471181+00:00'
+    last_updated: '2025-12-07T14:35:42.746788+00:00'
     purpose: 'Dogfooding: Vibey framework managing its own development'
     description: 'This roadmap manages the Vibey Agent Framework''s own development,
 

@@ -1669,6 +1669,16 @@ audit_log:
   reason: Task completed via CLI by system
   commit: e61e610
   source: cli
+- timestamp: '2025-12-07T14:35:42.385131+00:00'
+  object_type: sprint
+  object_id: sqlite-backend-13
+  field: status
+  old_value: completion_gate_check
+  new_value: completed
+  changed_by: system
+  reason: Sprint completed via CLI by system
+  commit: fedb152
+  source: cli
 metadata:
-  last_updated: '2025-12-07T14:34:25.127171+00:00'
-  total_entries: 167
+  last_updated: '2025-12-07T14:35:42.434839+00:00'
+  total_entries: 168

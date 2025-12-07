@@ -1,20 +1,17 @@
-# Roadmap system configuration
-# This file controls how the roadmap data is stored and accessed
-
-# Backend mode: auto | sqlite | yaml
-# - auto: Use SQLite if database exists and is valid, else YAML (default)
-# - sqlite: Always use SQLite, error if database unavailable
-# - yaml: Always use YAML files directly, ignore database
 backend: auto
-
-# Database configuration
 database:
-  # Path to SQLite database (relative to project root or absolute)
   path: .vibey/roadmap.db
-
-  # Validate database on load (checks schema version, tables, integrity)
   validate_on_load: true
-
-  # Fall back to YAML if database validation fails
-  # Only applies when backend is "sqlite" - auto mode always falls back
   fallback_to_yaml: true
+auto_progression:
+  enabled: false
+  mode: check
+  transitions:
+  - from: not_started
+    to: in_progress
+    when: all_start_criteria_met
+  - from: in_progress
+    to: completed
+    when: all_completion_criteria_met
+  propagate_up: true
+  log_to_audit: true

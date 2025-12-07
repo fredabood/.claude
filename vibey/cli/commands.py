@@ -1494,6 +1494,113 @@ def activity_cmd(
     return 0
 
 
+def auto_progress_cmd(
+    mode: str = "check",
+    ticket_id: Optional[str] = None,
+    enable: bool = False,
+    disable: bool = False
+) -> int:
+    """Check or apply automatic status progressions.
+
+    Args:
+        mode: 'check' for dry-run, 'apply' to actually change status
+        ticket_id: Optional specific ticket to check/apply
+        enable: Enable auto-progression in config
+        disable: Disable auto-progression in config
+
+    Returns:
+        Exit code (0 for success)
+    """
+    import yaml
+
+    config_path = Path.cwd() / ".vibey" / "config" / "roadmap.yaml"
+
+    # Handle enable/disable first
+    if enable or disable:
+        if not config_path.exists():
+            print("❌ Config file not found: .vibey/config/roadmap.yaml")
+            return 1
+
+        try:
+            with open(config_path) as f:
+                config = yaml.safe_load(f) or {}
+
+            if "auto_progression" not in config:
+                config["auto_progression"] = {}
+
+            config["auto_progression"]["enabled"] = enable
+
+            with open(config_path, 'w') as f:
+                yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+
+            status = "enabled" if enable else "disabled"
+            print(f"✅ Auto-progression {status} in .vibey/config/roadmap.yaml")
+            return 0
+        except Exception as e:
+            print(f"❌ Failed to update config: {e}")
+            return 1
+
+    # Import status manager
+    from vibey.operations.roadmap.status_manager import (
+        StatusManager,
+        check_auto_progressions,
+        apply_auto_progressions,
+    )
+
+    manager = StatusManager(Path.cwd())
+
+    if not manager.is_enabled():
+        print("⚠ Auto-progression is disabled.")
+        print("  Enable with: vibey roadmap auto-progress --enable")
+        print("  Or set auto_progression.enabled: true in .vibey/config/roadmap.yaml")
+        return 0
+
+    ticket_ids = [ticket_id] if ticket_id else None
+
+    if mode == "check":
+        print("\n🔍 Checking for eligible auto-progressions...")
+        results = check_auto_progressions(Path.cwd(), ticket_ids)
+
+        if not results:
+            print("No tickets eligible for auto-progression.")
+            return 0
+
+        print(f"\n📋 {len(results)} ticket(s) can be auto-progressed:\n")
+        print("-" * 70)
+
+        for r in results:
+            print(f"  {r.ticket_type.upper()}: {r.ticket_id}")
+            print(f"    {r.old_status} → {r.new_status}")
+            print(f"    Reason: {r.reason}")
+            print()
+
+        print("-" * 70)
+        print("Run with --apply to execute these progressions.")
+        return 0
+
+    elif mode == "apply":
+        print("\n🚀 Applying auto-progressions...")
+        results = apply_auto_progressions(Path.cwd(), ticket_ids)
+
+        if not results:
+            print("No progressions applied.")
+            return 0
+
+        print(f"\n✅ {len(results)} progression(s) applied:\n")
+        print("-" * 70)
+
+        for r in results:
+            print(f"  {r.ticket_type.upper()}: {r.ticket_id}")
+            print(f"    {r.old_status} → {r.new_status}")
+            print(f"    Reason: {r.reason}")
+            print()
+
+        print("-" * 70)
+        return 0
+
+    return 0
+
+
 # ============================================================================
 # Validation Commands
 # ============================================================================

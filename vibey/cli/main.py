@@ -1139,6 +1139,44 @@ def roadmap_activity(ctx, last: int, object_id: Optional[str], activity_type: Op
 
 
 # ============================================================================
+# Roadmap Auto-Progress Command
+# ============================================================================
+
+@roadmap.command('auto-progress')
+@click.option('--check', 'mode', flag_value='check', default=True,
+              help='Show what would advance (dry-run mode)')
+@click.option('--apply', 'mode', flag_value='apply',
+              help='Actually advance eligible tickets')
+@click.option('--ticket', '-t', 'ticket_id', default=None,
+              help='Check/apply to specific ticket only')
+@click.option('--enable', is_flag=True, help='Enable auto-progression in config')
+@click.option('--disable', is_flag=True, help='Disable auto-progression in config')
+@click.pass_context
+def roadmap_auto_progress(ctx, mode: str, ticket_id: Optional[str],
+                          enable: bool, disable: bool):
+    """Check or apply automatic status progressions.
+
+    Auto-progression advances ticket status when criteria are met.
+    This feature must be enabled in .vibey/config/roadmap.yaml.
+
+    Examples:
+      vibey roadmap auto-progress --check     # Show what would advance
+      vibey roadmap auto-progress --apply     # Actually advance tickets
+      vibey roadmap auto-progress --enable    # Enable auto-progression
+      vibey roadmap auto-progress --disable   # Disable auto-progression
+    """
+    from vibey.cli.commands import auto_progress_cmd
+
+    exit_code = auto_progress_cmd(
+        mode=mode,
+        ticket_id=ticket_id,
+        enable=enable,
+        disable=disable
+    )
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Roadmap Checkpoint Subgroup
 # ============================================================================
 

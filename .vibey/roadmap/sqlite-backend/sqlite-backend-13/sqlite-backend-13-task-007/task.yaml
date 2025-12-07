@@ -5,67 +5,31 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: End-to-end sync system validation
-  description: |
-    Comprehensive validation of the full sync system before production cutover.
-
-    VALIDATION SCENARIOS:
-
-    1. WRITE PATH (CLI → DB → YAML)
-       - Make status change via CLI
-       - Verify DB updated immediately
-       - Run pre-commit hook
-       - Verify YAML updated correctly
-       - Commit and verify clean state
-
-    2. READ PATH (Git Pull → DB Rebuild)
-       - Clone repo on second machine
-       - Modify YAML on first machine, commit, push
-       - Pull on second machine
-       - Verify post-merge hook fires
-       - Verify DB matches YAML
-
-    3. CONFLICT RESOLUTION
-       - Two users modify same task
-       - Create merge conflict in YAML
-       - Verify graceful failure of rebuild
-       - Resolve conflict manually
-       - Verify rebuild succeeds after resolution
-
-    4. ROUND-TRIP INTEGRITY
-       - Start with clean state
-       - Make 10 random changes via CLI
-       - Dump to YAML
-       - Delete DB
-       - Rebuild from YAML
-       - Compare state to original
-
-    5. PERFORMANCE
-       - Measure dump time for 1000 tasks
-       - Measure rebuild time for 1000 tasks
-       - Ensure acceptable latency (<5s for typical roadmap)
-
-    6. ERROR RECOVERY
-       - Simulate hook failure mid-dump
-       - Verify rollback occurs
-       - Verify no data corruption
-
-    TEST COMMANDS:
-    ```
-    vibey roadmap sync test --scenario write-path
-    vibey roadmap sync test --scenario read-path
-    vibey roadmap sync test --scenario conflict
-    vibey roadmap sync test --scenario round-trip
-    vibey roadmap sync test --scenario performance
-    vibey roadmap sync test --all
-    ```
-
-    REFERENCE:
-    - sqlite-backend-6/context/005-yaml-sync-strategy.md
-  status: not_started
+  description: "Comprehensive validation of the full sync system before production\
+    \ cutover.\n\nVALIDATION SCENARIOS:\n\n1. WRITE PATH (CLI → DB → YAML)\n   - Make\
+    \ status change via CLI\n   - Verify DB updated immediately\n   - Run pre-commit\
+    \ hook\n   - Verify YAML updated correctly\n   - Commit and verify clean state\n\
+    \n2. READ PATH (Git Pull → DB Rebuild)\n   - Clone repo on second machine\n  \
+    \ - Modify YAML on first machine, commit, push\n   - Pull on second machine\n\
+    \   - Verify post-merge hook fires\n   - Verify DB matches YAML\n\n3. CONFLICT\
+    \ RESOLUTION\n   - Two users modify same task\n   - Create merge conflict in YAML\n\
+    \   - Verify graceful failure of rebuild\n   - Resolve conflict manually\n   -\
+    \ Verify rebuild succeeds after resolution\n\n4. ROUND-TRIP INTEGRITY\n   - Start\
+    \ with clean state\n   - Make 10 random changes via CLI\n   - Dump to YAML\n \
+    \  - Delete DB\n   - Rebuild from YAML\n   - Compare state to original\n\n5. PERFORMANCE\n\
+    \   - Measure dump time for 1000 tasks\n   - Measure rebuild time for 1000 tasks\n\
+    \   - Ensure acceptable latency (<5s for typical roadmap)\n\n6. ERROR RECOVERY\n\
+    \   - Simulate hook failure mid-dump\n   - Verify rollback occurs\n   - Verify\
+    \ no data corruption\n\nTEST COMMANDS:\n```\nvibey roadmap sync test --scenario\
+    \ write-path\nvibey roadmap sync test --scenario read-path\nvibey roadmap sync\
+    \ test --scenario conflict\nvibey roadmap sync test --scenario round-trip\nvibey\
+    \ roadmap sync test --scenario performance\nvibey roadmap sync test --all\n```\n\
+    \nREFERENCE:\n- sqlite-backend-6/context/005-yaml-sync-strategy.md\n"
+  status: completed
   blocked: false
   created: '2025-11-28T17:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-07T14:14:13.861977+00:00'
+  completed: '2025-12-07T14:17:02.604202+00:00'
   assigned_agent: null
   priority: critical
   phase_label: null
@@ -82,6 +46,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-07T14:17:02.202318+00:00'
     token_efficiency: null
     duration_hours: null

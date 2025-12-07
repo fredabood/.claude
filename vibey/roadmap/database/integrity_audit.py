@@ -85,6 +85,46 @@ class Discrepancy:
 
 
 @dataclass
+class EmbeddedSummaryDiscrepancy:
+    """A discrepancy between embedded sprint summary and actual sprint data."""
+    track_id: str
+    sprint_id: str
+    field_name: str
+    embedded_value: Any
+    actual_value: Any
+    severity: str  # 'critical', 'warning', 'info'
+    message: str
+
+
+@dataclass
+class EmbeddedSummaryReport:
+    """Report for embedded sprint summary validation."""
+    track_id: str
+    discrepancies: List[EmbeddedSummaryDiscrepancy] = field(default_factory=list)
+    orphaned_summaries: List[str] = field(default_factory=list)  # Sprint IDs with no matching sprint.yaml
+    missing_summaries: List[str] = field(default_factory=list)   # Sprint directories with no embedded summary
+
+    @property
+    def has_issues(self) -> bool:
+        return bool(self.discrepancies or self.orphaned_summaries or self.missing_summaries)
+
+    def summary(self) -> str:
+        """Generate human-readable summary."""
+        lines = [f"Track: {self.track_id}"]
+        if not self.has_issues:
+            lines.append("  ✓ All embedded summaries match actual sprint data")
+            return "\n".join(lines)
+
+        if self.orphaned_summaries:
+            lines.append(f"  Orphaned summaries (no sprint.yaml): {', '.join(self.orphaned_summaries)}")
+        if self.missing_summaries:
+            lines.append(f"  Missing summaries (sprint exists but not in track.yaml): {', '.join(self.missing_summaries)}")
+        for d in self.discrepancies:
+            lines.append(f"  {d.sprint_id}.{d.field_name}: embedded={d.embedded_value}, actual={d.actual_value}")
+        return "\n".join(lines)
+
+
+@dataclass
 class AuditReport:
     """Full audit report with all discrepancies."""
     computed_counts: Dict[str, FileCount]
@@ -649,6 +689,179 @@ def run_full_audit(roadmap_root: Path) -> AuditReport:
     computed, task_statuses = count_files_in_directory(roadmap_root)
     declared = extract_declared_progress(roadmap_root)
     return audit_discrepancies(computed, declared)
+
+
+def validate_embedded_summaries(track_path: Path) -> EmbeddedSummaryReport:
+    """
+    Validate embedded sprint summaries in track.yaml against actual sprint data.
+
+    Sprint 13 Task 006: Extends integrity audit to validate that embedded
+    sprint summaries in track.yaml match the actual sprint.yaml files.
+
+    Args:
+        track_path: Path to track directory (containing track.yaml)
+
+    Returns:
+        EmbeddedSummaryReport with discrepancies
+
+    Validation checks:
+    1. Sprint count matches actual sprint directories
+    2. Sprint IDs in summary match sprint.yaml IDs
+    3. Task counts match computed values
+    4. Completion percentages are accurate
+    5. Status values are current
+    """
+    track_yaml = track_path / "track.yaml"
+    if not track_yaml.exists():
+        return EmbeddedSummaryReport(track_id=track_path.name)
+
+    track_data = _parse_yaml_safe(track_yaml)
+    if not track_data or 'track' not in track_data:
+        return EmbeddedSummaryReport(track_id=track_path.name)
+
+    track_info = track_data['track']
+    track_id = track_info.get('id', track_path.name)
+
+    report = EmbeddedSummaryReport(track_id=track_id)
+
+    # Get embedded sprint summaries from track.yaml
+    embedded_summaries = track_info.get('sprints', [])
+    embedded_by_id = {s.get('id', ''): s for s in embedded_summaries if isinstance(s, dict)}
+
+    # Find actual sprint directories
+    actual_sprint_ids = set()
+    for sprint_dir in track_path.iterdir():
+        if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+            continue
+        sprint_yaml = sprint_dir / "sprint.yaml"
+        if sprint_yaml.exists():
+            sprint_data = _parse_yaml_safe(sprint_yaml)
+            if sprint_data and 'sprint' in sprint_data:
+                actual_sprint_ids.add(sprint_data['sprint'].get('id', sprint_dir.name))
+
+    # Check for orphaned summaries (in track.yaml but no sprint directory)
+    for embedded_id in embedded_by_id:
+        if embedded_id and embedded_id not in actual_sprint_ids:
+            report.orphaned_summaries.append(embedded_id)
+
+    # Check for missing summaries (sprint exists but not in track.yaml)
+    for actual_id in actual_sprint_ids:
+        if actual_id not in embedded_by_id:
+            report.missing_summaries.append(actual_id)
+
+    # Compare embedded summaries to actual sprint data
+    for sprint_dir in track_path.iterdir():
+        if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+            continue
+
+        sprint_yaml = sprint_dir / "sprint.yaml"
+        if not sprint_yaml.exists():
+            continue
+
+        sprint_data = _parse_yaml_safe(sprint_yaml)
+        if not sprint_data or 'sprint' not in sprint_data:
+            continue
+
+        sprint_info = sprint_data['sprint']
+        sprint_id = sprint_info.get('id', sprint_dir.name)
+
+        # Get corresponding embedded summary
+        embedded = embedded_by_id.get(sprint_id)
+        if not embedded:
+            continue  # Already flagged as missing
+
+        # Compare status
+        actual_status = sprint_info.get('status')
+        embedded_status = embedded.get('status')
+        if actual_status and embedded_status and actual_status != embedded_status:
+            report.discrepancies.append(EmbeddedSummaryDiscrepancy(
+                track_id=track_id,
+                sprint_id=sprint_id,
+                field_name='status',
+                embedded_value=embedded_status,
+                actual_value=actual_status,
+                severity='warning',
+                message=f"Status mismatch: embedded={embedded_status}, actual={actual_status}",
+            ))
+
+        # Compare task counts from progress
+        actual_progress = sprint_info.get('progress', {})
+        actual_tasks_total = actual_progress.get('tasks_total')
+        actual_tasks_completed = actual_progress.get('tasks_completed')
+        actual_completion = actual_progress.get('completion_percent')
+
+        # Embedded summaries may have different field names
+        embedded_tasks_total = embedded.get('tasks_total')
+        embedded_tasks_completed = embedded.get('tasks_completed')
+        embedded_completion = embedded.get('completion_percent')
+
+        if actual_tasks_total is not None and embedded_tasks_total is not None:
+            if actual_tasks_total != embedded_tasks_total:
+                report.discrepancies.append(EmbeddedSummaryDiscrepancy(
+                    track_id=track_id,
+                    sprint_id=sprint_id,
+                    field_name='tasks_total',
+                    embedded_value=embedded_tasks_total,
+                    actual_value=actual_tasks_total,
+                    severity='critical',
+                    message=f"Task count mismatch",
+                ))
+
+        if actual_tasks_completed is not None and embedded_tasks_completed is not None:
+            if actual_tasks_completed != embedded_tasks_completed:
+                report.discrepancies.append(EmbeddedSummaryDiscrepancy(
+                    track_id=track_id,
+                    sprint_id=sprint_id,
+                    field_name='tasks_completed',
+                    embedded_value=embedded_tasks_completed,
+                    actual_value=actual_tasks_completed,
+                    severity='warning',
+                    message=f"Completed task count mismatch",
+                ))
+
+        if actual_completion is not None and embedded_completion is not None:
+            # Allow small floating point differences
+            if abs(actual_completion - embedded_completion) > 0.1:
+                report.discrepancies.append(EmbeddedSummaryDiscrepancy(
+                    track_id=track_id,
+                    sprint_id=sprint_id,
+                    field_name='completion_percent',
+                    embedded_value=embedded_completion,
+                    actual_value=actual_completion,
+                    severity='info',
+                    message=f"Completion percentage mismatch",
+                ))
+
+    return report
+
+
+def validate_all_embedded_summaries(roadmap_root: Path) -> List[EmbeddedSummaryReport]:
+    """
+    Validate embedded sprint summaries across all tracks.
+
+    Args:
+        roadmap_root: Path to .vibey/roadmap directory
+
+    Returns:
+        List of EmbeddedSummaryReport, one per track
+    """
+    reports = []
+
+    if not roadmap_root.exists():
+        return reports
+
+    for track_dir in roadmap_root.iterdir():
+        if not track_dir.is_dir() or track_dir.name.startswith('.'):
+            continue
+
+        track_yaml = track_dir / "track.yaml"
+        if not track_yaml.exists():
+            continue
+
+        report = validate_embedded_summaries(track_dir)
+        reports.append(report)
+
+    return reports
 
 
 if __name__ == "__main__":

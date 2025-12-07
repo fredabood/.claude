@@ -1,0 +1,85 @@
+sprint:
+  id: vscode-roadmap-extension-0
+  name: Foundation & Project Setup
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: vscode-roadmap-extension-0-task-001
+    title: Scaffold VS Code extension project with TypeScript
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-0-task-002
+    title: Implement roadmap file detection (.vibey/roadmap.yaml)
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-0-task-003
+    title: Create YAML parser for roadmap, track, sprint, task files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-0-task-004
+    title: Design data models for roadmap hierarchy in TypeScript
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-0-task-005
+    title: Implement extension activation and workspace detection
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Working VS Code extension skeleton
+  - Roadmap file parser
+  - TypeScript data models
+  description: 'Set up the VS Code extension project foundation including scaffolding,
+
+    roadmap file detection, YAML parsing, and TypeScript data models.
+
+    '
+  goal: Establish project foundation with working roadmap file parsing
+  success_criteria:
+  - Extension activates when .vibey/roadmap.yaml is present
+  - YAML files are parsed into TypeScript objects
+  - Data models match Vibey roadmap hierarchy
+  risks:
+  - YAML parsing complexity for nested structures
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

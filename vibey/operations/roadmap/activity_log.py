@@ -382,6 +382,129 @@ class UnifiedActivityLog:
         )
 
     # =========================================================================
+    # Criteria & Transition Activities
+    # =========================================================================
+
+    def log_criterion_met(
+        self,
+        object_type: str,
+        object_id: str,
+        criterion_name: str,
+        reason: str = "Criterion satisfied",
+    ) -> AuditEntry:
+        """
+        Log a criterion being met.
+
+        Args:
+            object_type: Type of object (task, sprint, track)
+            object_id: ID of the object
+            criterion_name: Name/description of the criterion
+            reason: Additional details
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type=object_type,
+            object_id=object_id,
+            field=f"criterion.{criterion_name}",
+            old_value="pending",
+            new_value="met",
+            reason=reason,
+            source="automated",
+        )
+
+    def log_criterion_failed(
+        self,
+        object_type: str,
+        object_id: str,
+        criterion_name: str,
+        failure_reason: str,
+    ) -> AuditEntry:
+        """
+        Log a criterion failure.
+
+        Args:
+            object_type: Type of object (task, sprint, track)
+            object_id: ID of the object
+            criterion_name: Name/description of the criterion
+            failure_reason: Why the criterion failed
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type=object_type,
+            object_id=object_id,
+            field=f"criterion.{criterion_name}",
+            old_value="pending",
+            new_value="failed",
+            reason=failure_reason,
+            source="automated",
+        )
+
+    def log_auto_progression(
+        self,
+        object_type: str,
+        object_id: str,
+        old_status: str,
+        new_status: str,
+        reason: str = "Auto-progressed based on criteria",
+    ) -> AuditEntry:
+        """
+        Log an automatic status progression.
+
+        Args:
+            object_type: Type of object (task, sprint, track)
+            object_id: ID of the object
+            old_status: Previous status
+            new_status: New status after progression
+            reason: Reason for the progression
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type=object_type,
+            object_id=object_id,
+            field="status",
+            old_value=old_status,
+            new_value=new_status,
+            reason=f"[AUTO] {reason}",
+            source="automated",
+        )
+
+    def log_transition_blocked(
+        self,
+        object_type: str,
+        object_id: str,
+        target_status: str,
+        blocking_reasons: list,
+    ) -> AuditEntry:
+        """
+        Log a blocked status transition attempt.
+
+        Args:
+            object_type: Type of object (task, sprint, track)
+            object_id: ID of the object
+            target_status: Status that was attempted
+            blocking_reasons: List of reasons blocking the transition
+
+        Returns:
+            Audit entry created
+        """
+        reasons_str = "; ".join(blocking_reasons) if blocking_reasons else "Unknown"
+        return self.audit_manager.log_change(
+            object_type=object_type,
+            object_id=object_id,
+            field="transition_blocked",
+            old_value=target_status,
+            new_value="blocked",
+            reason=f"Cannot transition to {target_status}: {reasons_str}",
+            source="automated",
+        )
+
+    # =========================================================================
     # Standard Activities
     # =========================================================================
 
@@ -556,3 +679,56 @@ def log_track_completed(
 ) -> AuditEntry:
     """Convenience function to log track completed."""
     return get_activity_log(root_dir).log_track_completed(track_id, old_status, reason)
+
+
+def log_criterion_met(
+    root_dir: Path,
+    object_type: str,
+    object_id: str,
+    criterion_name: str,
+    reason: str = "Criterion satisfied",
+) -> AuditEntry:
+    """Convenience function to log criterion met."""
+    return get_activity_log(root_dir).log_criterion_met(
+        object_type, object_id, criterion_name, reason
+    )
+
+
+def log_criterion_failed(
+    root_dir: Path,
+    object_type: str,
+    object_id: str,
+    criterion_name: str,
+    failure_reason: str,
+) -> AuditEntry:
+    """Convenience function to log criterion failed."""
+    return get_activity_log(root_dir).log_criterion_failed(
+        object_type, object_id, criterion_name, failure_reason
+    )
+
+
+def log_auto_progression(
+    root_dir: Path,
+    object_type: str,
+    object_id: str,
+    old_status: str,
+    new_status: str,
+    reason: str = "Auto-progressed based on criteria",
+) -> AuditEntry:
+    """Convenience function to log auto-progression."""
+    return get_activity_log(root_dir).log_auto_progression(
+        object_type, object_id, old_status, new_status, reason
+    )
+
+
+def log_transition_blocked(
+    root_dir: Path,
+    object_type: str,
+    object_id: str,
+    target_status: str,
+    blocking_reasons: list,
+) -> AuditEntry:
+    """Convenience function to log blocked transition."""
+    return get_activity_log(root_dir).log_transition_blocked(
+        object_type, object_id, target_status, blocking_reasons
+    )

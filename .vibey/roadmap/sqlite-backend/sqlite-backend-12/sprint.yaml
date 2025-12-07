@@ -8,7 +8,7 @@ sprint:
   blocked_reason: null
   created: '2025-12-05T00:00:00+00:00'
   started: '2025-12-05T12:00:00+00:00'
-  completion_gate_check_at: '2025-12-06T15:33:07.848890+00:00'
+  completion_gate_check_at: null
   completed: '2025-12-06T15:35:51.501954+00:00'
   production_gate_check_at: null
   production_ready_at: null
@@ -22,81 +22,81 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 15
     tasks_completed: 15
-    completion_percent: 100
+    completion_percent: 100.0
   tasks:
   - id: sqlite-backend-12-task-001
     title: Audit Sprint 6 design vs current codebase implementation
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-002
     title: Add criteria table to database schema
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-003
     title: Add criterion_targets table with polymorphic target types
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-004
     title: Update YAML format to include criteria sections
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-005
     title: Update yaml_loader to parse criteria from YAML
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-006
     title: Update sql_loader to load criteria from database
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-007
     title: Update yaml_dumper to serialize criteria to YAML
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-008
     title: Update sql_dumper to persist criteria to database
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-009
     title: Migrate dependencies/blocked_by to CompletableTarget criteria
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-010
     title: Implement can_transition_to() checks in CLI status updates
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-011
     title: Implement verify_completion_claims() in pre-commit hook
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-012
     title: End-to-end validation of criteria-based completion system
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-013
     title: Migrate quality_gates to criteria with ThresholdTarget
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-014
     title: Implement Requirements cascade for standards enforcement
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: sqlite-backend-12-task-015
     title: Implement computed progress from criteria
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   development_gates: []

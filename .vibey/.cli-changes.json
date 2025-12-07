@@ -1,6 +1,19 @@
 {
   "files": [
-    ".vibey/roadmap.yaml"
+    ".vibey/roadmap.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sprint.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-001/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-002/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-003/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-004/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-005/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-006/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-007/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-008/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-009/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-010/task.yaml",
+    ".vibey/roadmap/sqlite-backend/sqlite-backend-13/sqlite-backend-13-task-011/task.yaml",
+    ".vibey/roadmap/sqlite-backend/track.yaml"
   ],
-  "last_updated": "2025-12-05T04:53:50.782571+00:00"
+  "last_updated": "2025-12-07T14:27:43.331937+00:00"
 }

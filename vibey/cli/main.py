@@ -1113,6 +1113,32 @@ def audit_report(ctx, object_id: Optional[str], start: Optional[str], end: Optio
 
 
 # ============================================================================
+# Roadmap Activity Command (Convenience alias for audit log)
+# ============================================================================
+
+@roadmap.command('activity')
+@click.option('--last', '-n', default=10, help='Number of recent activities to show')
+@click.option('--object', '-o', 'object_id', default=None, help='Filter by object ID')
+@click.option('--type', '-t', 'activity_type', default=None, help='Filter by activity type')
+@click.pass_context
+def roadmap_activity(ctx, last: int, object_id: Optional[str], activity_type: Optional[str]):
+    """Show recent roadmap activity in a compact format.
+
+    Display recent status changes, completions, and lifecycle events.
+    This is a convenience command that wraps the audit log.
+
+    Examples:
+      vibey roadmap activity                   # Show last 10 activities
+      vibey roadmap activity --last 20         # Show last 20 activities
+      vibey roadmap activity -o sqlite-backend # Filter by object
+    """
+    from vibey.cli.commands import activity_cmd
+
+    exit_code = activity_cmd(limit=last, object_id=object_id, activity_type=activity_type)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Roadmap Checkpoint Subgroup
 # ============================================================================
 

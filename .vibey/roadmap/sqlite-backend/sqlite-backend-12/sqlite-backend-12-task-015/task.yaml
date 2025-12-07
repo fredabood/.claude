@@ -50,31 +50,16 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-12-task-006
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-12-06T15:33:07.658534+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Computed progress properties on Completable
-  - type: code
-    paths:
-    - SQL view for efficient progress queries
-  - type: code
-    paths:
-    - Updated CLI status display with transition-based progress
-  - type: code
-    paths:
-    - Removed manual progress counters from YAML
-  - type: code
-    paths:
-    - Test suite for progress computation
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-06T15:33:07.318459+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

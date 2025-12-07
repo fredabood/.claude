@@ -44,25 +44,16 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-12-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-12-06T15:30:50.113140+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Migration script for quality_gates to ThresholdTarget criteria
-  - type: code
-    paths:
-    - Updated yaml_loader/dumper with backward compatibility
-  - type: code
-    paths:
-    - Test suite for quality gate migration
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-06T15:30:45.319949+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

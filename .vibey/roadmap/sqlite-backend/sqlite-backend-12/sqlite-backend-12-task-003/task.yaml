@@ -43,11 +43,11 @@ task:
     required_status: resolved
     current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-12-06T15:28:49.823145+00:00'
+    last_checked: null
   depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-06T15:28:28.525815+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

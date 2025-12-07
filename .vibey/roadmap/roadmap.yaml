@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 36
+    tracks_total: 37
     tracks_completed: 18
-    sprints_total: 181
-    sprints_completed: 92
-    tasks_total: 957
-    tasks_completed: 714
-    completion_percent: 75.0
+    sprints_total: 188
+    sprints_completed: 94
+    tasks_total: 1004
+    tasks_completed: 739
+    completion_percent: 74.0
   tracks:
   - id: aider-port
     name: Aider Platform Port
@@ -162,6 +162,10 @@ roadmap:
     name: VS Code Native MCP Port
     status: in_progress
     priority: high
+  - id: vscode-roadmap-extension
+    name: VS Code Roadmap Visualization Extension
+    status: not_started
+    priority: medium
   - id: windsurf-port
     name: Windsurf/Codeium Platform Port
     status: in_progress

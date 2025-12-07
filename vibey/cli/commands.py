@@ -1419,6 +1419,81 @@ def audit_report_cmd(
     return 0
 
 
+def activity_cmd(
+    limit: int = 10,
+    object_id: Optional[str] = None,
+    activity_type: Optional[str] = None
+) -> int:
+    """Show recent activity in compact format.
+
+    This provides a user-friendly view of recent roadmap activities,
+    formatted as requested in the task description:
+    2025-12-06 14:30  TASK_COMPLETED   task-123  claude-code
+    2025-12-06 14:29  CRITERION_MET    task-123  Tests passed
+    """
+    from vibey.operations.roadmap.audit_trail import AuditTrailManager
+    from datetime import datetime
+
+    manager = AuditTrailManager(Path.cwd())
+
+    # Get entries, either for a specific object or all
+    if object_id:
+        entries = manager.get_object_history(object_id)
+        entries = entries[:limit] if limit else entries
+    else:
+        entries = manager.get_recent_changes(limit=limit)
+
+    # Filter by activity type if specified
+    if activity_type and entries:
+        activity_type_lower = activity_type.lower()
+        entries = [
+            e for e in entries
+            if activity_type_lower in e.field.lower()
+            or activity_type_lower in str(e.new_value).lower()
+        ]
+
+    if not entries:
+        print("No recent activity found.")
+        return 0
+
+    # Print header
+    print(f"\n📊 Recent Activity (last {len(entries)})")
+    print("-" * 70)
+
+    # Print entries in compact format
+    for entry in entries:
+        try:
+            timestamp = datetime.fromisoformat(entry.timestamp).strftime("%Y-%m-%d %H:%M")
+        except (ValueError, TypeError):
+            timestamp = str(entry.timestamp)[:16]
+
+        # Determine activity type from field or new_value
+        if entry.field == "status":
+            event = f"{entry.old_value} → {entry.new_value}".upper()
+        elif entry.field == "activity":
+            event = str(entry.new_value).upper()
+        elif entry.field.startswith("quality_gate."):
+            event = f"GATE_{entry.new_value}".upper()
+        elif entry.field.startswith("criterion."):
+            event = f"CRITERION_{entry.new_value}".upper()
+        elif entry.field == "transition_blocked":
+            event = "BLOCKED"
+        else:
+            event = entry.field.upper()
+
+        # Truncate event and ID for display
+        event = event[:20].ljust(20)
+        obj_id = entry.object_id[:25] if len(entry.object_id) > 25 else entry.object_id.ljust(25)
+
+        # Actor (from source or changed_by)
+        actor = entry.changed_by if entry.changed_by != "system" else entry.source
+
+        print(f"{timestamp}  {event}  {obj_id}  {actor}")
+
+    print("-" * 70)
+    return 0
+
+
 # ============================================================================
 # Validation Commands
 # ============================================================================

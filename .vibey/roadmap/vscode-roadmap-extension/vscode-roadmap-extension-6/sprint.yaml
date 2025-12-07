@@ -1,0 +1,108 @@
+sprint:
+  id: vscode-roadmap-extension-6
+  name: Testing & Marketplace Publishing
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 7
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: vscode-roadmap-extension-6-task-001
+    title: Write unit tests for YAML parsing and data models
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-002
+    title: Write integration tests for tree view operations
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-003
+    title: Write e2e tests for edit operations
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-004
+    title: Create extension icon and marketplace assets
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-005
+    title: Write README and documentation for extension
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-006
+    title: Configure CI/CD for extension publishing
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-6-task-007
+    title: Publish extension to VS Code Marketplace
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Comprehensive test suite
+  - Extension icon and branding
+  - Marketplace listing
+  - CI/CD pipeline
+  description: 'Complete testing, documentation, and publish the extension to
+
+    the VS Code Marketplace with proper branding and CI/CD.
+
+    '
+  goal: Production-ready extension available on Marketplace
+  success_criteria:
+  - Test coverage > 80%
+  - Extension passes VS Code marketplace review
+  - CI/CD automatically publishes new versions
+  - README provides clear usage instructions
+  risks:
+  - Marketplace review requirements
+  - Publisher account setup
+  notes: 'Marketplace requirements:
+
+    - Unique publisher ID
+
+    - Icon (128x128)
+
+    - LICENSE file
+
+    - CHANGELOG.md
+
+    '
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

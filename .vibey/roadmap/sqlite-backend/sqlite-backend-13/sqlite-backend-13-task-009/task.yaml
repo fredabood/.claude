@@ -26,13 +26,8 @@ task:
     \ gracefully with helpful message\n\nIMPLEMENTATION CHECKLIST:\n- [ ] Update vibey/cli/commands.py\
     \ for DB-first reads\n- [ ] Update vibey/operations/roadmap/query.py\n- [ ] Add\
     \ vibey/cli/db_commands.py for db subcommands\n- [ ] Update path resolution utilities\n\
-    - [ ] Add structure detection logic\n- [ ] Update documentation\n- [ ] Fix RuntimeWarning\
-    \ on module import (see sqlite-backend-12/context/CLI_ISSUES.md)\n\nCLI BUG TO\
-    \ FIX:\nRuntimeWarning: 'vibey.cli.main' found in sys.modules after import of\
-    \ package\n'vibey.cli', but prior to execution of 'vibey.cli.main'\n- Review import\
-    \ structure in vibey/cli/__init__.py and vibey/cli/main.py\n- Ensure clean module\
-    \ loading when using python -m vibey.cli.main\n\nREFERENCE:\n- vibey/cli/commands.py\n\
-    - vibey/operations/roadmap/query.py\n"
+    - [ ] Add structure detection logic\n- [ ] Update documentation\n\nREFERENCE:\n\
+    - vibey/cli/commands.py\n- vibey/operations/roadmap/query.py\n"
   status: completed
   blocked: false
   created: '2025-11-30T20:00:00+00:00'
@@ -54,6 +49,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-07T14:21:20.731794+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

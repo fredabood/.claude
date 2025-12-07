@@ -51,34 +51,16 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: sqlite-backend-12-task-002
-    blocker_type: task
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-12-06T15:32:40.890369+00:00'
+    last_checked: null
   depended_on_by: []
-  deliverables:
-  - type: code
-    paths:
-    - Requirement and CriterionTemplate models
-  - type: code
-    paths:
-    - RequirementResolver for cascade logic
-  - type: code
-    paths:
-    - CriterionInstantiator for template instantiation
-  - type: code
-    paths:
-    - YAML format for requirements
-  - type: code
-    paths:
-    - Bidirectional serialization for requirements
-  - type: code
-    paths:
-    - Test suite for requirements cascade
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-06T15:32:40.574165+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

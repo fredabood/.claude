@@ -167,26 +167,49 @@ class DeliverableType(str, Enum):
 
 
 class ActivityType(str, Enum):
-    """Types of activity log entries."""
+    """Types of activity log entries.
 
+    Synced with vibey/roadmap/models/ticket/enums.py ActivityType.
+    """
+
+    # Roadmap events
     ROADMAP_STARTED = "roadmap_started"
     ROADMAP_COMPLETED = "roadmap_completed"
     ROADMAP_DEPLOYED = "roadmap_deployed"
     ROADMAP_INITIALIZED = "roadmap_initialized"
+
+    # Track events
     TRACK_ADDED = "track_added"
     TRACK_STARTED = "track_started"
     TRACK_COMPLETED = "track_completed"
+
+    # Sprint events
     SPRINT_STARTED = "sprint_started"
     SPRINT_COMPLETED = "sprint_completed"
     SPRINT_PRODUCTION_READY = "sprint_production_ready"
+
+    # Task events
     TASK_STARTED = "task_started"
     TASK_COMPLETED = "task_completed"
+
+    # Quality events
     QUALITY_GATE = "quality_gate"
-    VERSION_BUMP = "version_bump"
+    CRITERION_MET = "criterion_met"
+    CRITERION_FAILED = "criterion_failed"
+
+    # Auto-progression events
+    AUTO_PROGRESSION = "auto_progression"
+
+    # Blocking events
     BLOCKER_ADDED = "blocker_added"
     BLOCKER_RESOLVED = "blocker_resolved"
+
+    # Planning events
     DESIGN_COMPLETED = "design_completed"
     PLANNING_COMPLETED = "planning_completed"
+
+    # Version events
+    VERSION_BUMP = "version_bump"
 
 
 class VersionBumpTrigger(str, Enum):

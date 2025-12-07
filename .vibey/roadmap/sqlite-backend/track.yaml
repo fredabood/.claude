@@ -13,7 +13,7 @@ track:
     sprints_total: 14
     sprints_completed: 13
     tasks_total: 120
-    tasks_completed: 114
+    tasks_completed: 115
     completion_percent: 95
   sprints:
   - id: sqlite-backend-0

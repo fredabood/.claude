@@ -16,31 +16,31 @@ track:
     tasks_completed: 6
     completion_percent: 21
   sprints:
-  - id: unified-arch-1
+  - id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
     name: Directory Structure Migration
     status: completed
     estimated_duration: null
     tasks_count: 6
     started: '2025-12-09T14:55:00+00:00'
-  - id: unified-arch-2
+  - id: 01KC2D0JKTE7Z4HCNHST8ZVW50
     name: Database Schema Migration
     status: not_started
     estimated_duration: null
     tasks_count: 7
     started: null
-  - id: unified-arch-3
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
     name: ULID Identity System
     status: not_started
     estimated_duration: null
     tasks_count: 5
     started: null
-  - id: unified-arch-4
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJD
     name: v2 YAML Format Migration
     status: not_started
     estimated_duration: null
     tasks_count: 5
     started: null
-  - id: unified-arch-5
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJK
     name: Operations Layer Migration
     status: not_started
     estimated_duration: null
@@ -53,8 +53,10 @@ track:
   - blocker_id: sqlite-backend
     blocker_type: track
     required_status: completed
+    current_status: completed
     description: Requires sqlite-backend model classes to be complete
     status: resolved
+    last_checked: null
   depended_on_by: []
   quality_gates: []
   assigned_agents: []

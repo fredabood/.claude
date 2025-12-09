@@ -216,7 +216,10 @@ def query_track_details(root_dir: Path, track_id: str) -> Dict[str, Any]:
         return {"error": f"Track '{track_id}' not found"}
 
     try:
-        track = load_track(track_path if not use_sqlite else track_id, root_dir=root_dir)
+        if use_sqlite:
+            track = load_track(track_id)
+        else:
+            track = load_track(track_path, root_dir=root_dir)
     except (ValueError, FileNotFoundError) as e:
         return {"error": f"Track '{track_id}' not found"}
 
@@ -299,14 +302,17 @@ def query_sprint_details(root_dir: Path, sprint_id: str) -> Dict[str, Any]:
         return {"error": f"Sprint '{sprint_id}' not found"}
 
     try:
-        sprint = load_sprint(sprint_path if not use_sqlite else sprint_id, root_dir=root_dir)
+        if use_sqlite:
+            sprint = load_sprint(sprint_id)
+        else:
+            sprint = load_sprint(sprint_path, root_dir=root_dir)
     except (ValueError, FileNotFoundError) as e:
         return {"error": f"Sprint '{sprint_id}' not found"}
 
     # Load tasks
     tasks_path = fs.get_tasks_path(sprint_id)
     if use_sqlite:
-        tasks = load_tasks(sprint_id, root_dir=root_dir)
+        tasks = load_tasks(sprint_id)
     else:
         tasks = load_tasks(tasks_path, root_dir=root_dir) if tasks_path.exists() else []
 
@@ -566,7 +572,10 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
         track_path = fs.get_track_path(track_summary.id)
         if use_sqlite or track_path.exists():
             try:
-                track = load_track(track_summary.id if use_sqlite else track_path, root_dir=root_dir)
+                if use_sqlite:
+                    track = load_track(track_summary.id)
+                else:
+                    track = load_track(track_path, root_dir=root_dir)
                 tracks_data.append({
                     "id": track.id,
                     "name": track.name,

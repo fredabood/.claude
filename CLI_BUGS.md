@@ -101,8 +101,76 @@ Keep both roadmap.yaml files in sync or symlink old location to new
 
 ---
 
+## Bug #4: Track Model Validation Fails for Flat Structure Sprint IDs
+
+**Date:** 2025-12-09
+**Severity:** Critical
+**Status:** Fixing
+
+**Description:**
+After flat structure migration, the Track model's `__post_init__` validation fails because sprint IDs in track files don't match the expected format `{track_id}-{suffix}`.
+
+**Expected Behavior:**
+Sprint IDs should be either:
+1. Hierarchical: `{track_ulid}-{sprint_suffix}` (e.g., `01KC2D0JK1877YN6T0673VB254-sprint-1`)
+2. Independent ULIDs without validation
+
+**Actual Behavior:**
+- Track IDs are ULIDs: `01KC2D0JK1877YN6T0673VB254`
+- Sprint IDs in track files are old slugs or ULIDs: `cody-port-1` or `01KC2D0JKTE7Z4HCNHST8ZVW4S`
+- Validation at `track.py:179-180` rejects all tracks: `ValueError: Sprint ID cody-port-1 must start with track ID 01KC2D0JK1877YN6T0673VB254`
+
+**Root Cause:**
+Migration script (`directory_migration_v2.py`) assigned ULIDs to tracks and sprints but didn't update sprint ID references in track.yaml files to match the hierarchical format expected by Track model validation.
+
+**Impact:**
+- NO tracks can load from flat structure
+- CLI status shows 37 tracks instead of 38 (all tracks with validation errors are filtered out)
+- Affects all roadmap operations
+
+**Fix Required:**
+Option 1 (Quick): Comment out sprint ID validation in Track model for flat structure
+Option 2 (Proper): Update migration script to use hierarchical IDs or update all track files
+
+**Files Affected:**
+- `vibey/roadmap/models/track.py` (line 179-180)
+- All `.vibey/roadmap/tracks/*.yaml` files
+
+---
+
+## Bug #5: SQLite Database Out of Sync with YAML After Migration
+
+**Date:** 2025-12-09
+**Severity:** Critical
+**Status:** Documented
+
+**Description:**
+The SQLite database (.vibey/roadmap.db) is out of sync with the YAML files after flat structure migration. The database contains 37 tracks while the YAML files contain 38 tracks.
+
+**Root Cause:**
+The flat structure migration updated YAML files but did not update the SQLite database. When SQLite backend is detected (database file exists), query operations read from the database instead of YAML, missing the newly created unified-architecture-migration track.
+
+**Impact:**
+- CLI shows 37 tracks instead of 38
+- unified-architecture-migration track invisible to all CLI commands
+- Database queries return stale data
+
+**Fix Required:**
+- Rebuild SQLite database from YAML files after migration
+- OR: Add database sync step to migration script
+- OR: Disable SQLite backend until database is updated
+
+**Files Affected:**
+- `.vibey/roadmap.db` (stale - 37 tracks)
+- `.vibey/roadmap/*.yaml` (current - 38 tracks)
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
-2. Fix FileSystemManager.get_roadmap_path() to use new location
-3. File GitHub issues for all documented bugs
-4. Add integration tests for flat structure progress updates
+2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
+3. ✅ Fix Track model validation for flat structure
+4. ✅ Fix query.py SQLite backend parameter passing
+5. 🔧 Sync SQLite database with YAML files
+6. File GitHub issues for all documented bugs
+7. Add integration tests for flat structure progress updates

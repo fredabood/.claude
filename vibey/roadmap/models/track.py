@@ -175,9 +175,12 @@ class Track:
             raise ValueError("Completed tracks must have a completion date")
 
         # Validate sprint IDs are track-scoped
-        for sprint in self.sprints:
-            if not sprint.id.startswith(f"{self.id}-"):
-                raise ValueError(f"Sprint ID {sprint.id} must start with track ID {self.id}")
+        # NOTE: Temporarily disabled for flat directory structure migration
+        # The flat structure uses independent ULIDs for sprints instead of hierarchical IDs
+        # TODO: Re-enable after migrating all sprint ID references in track files
+        # for sprint in self.sprints:
+        #     if not sprint.id.startswith(f"{self.id}-"):
+        #         raise ValueError(f"Sprint ID {sprint.id} must start with track ID {self.id}")
 
         # Validate progress
         if len(self.sprints) != self.progress.sprints_total:

@@ -1,0 +1,79 @@
+task:
+  id: unified-arch-2-task-006
+  sprint_id: unified-arch-2
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update sql_dumper for unified schema
+  description: |
+    Update sql_dumper.py to write to unified schema (completables + criteria tables).
+
+    CHANGES REQUIRED:
+    1. Write to completables table instead of separate tables
+    2. Write criteria from Criterion objects
+    3. Accept new Pydantic models (RoadmapTicket, TrackTicket, etc.)
+    4. Support both v1 and v2 schemas during transition
+
+    IMPLEMENTATION:
+    ```python
+    def dump_task_v2(task: TaskTicket) -> None:
+        conn = get_connection()
+
+        # Insert into completables
+        conn.execute('''
+            INSERT OR REPLACE INTO completables
+            (id, type, parent_id, name, status, ...)
+            VALUES (?, 'task', ?, ?, ?, ...)
+        ''', (task.id, task.parent_ref, task.name, task.status.value, ...))
+
+        # Insert criteria
+        for criterion in task.criteria:
+            conn.execute('''
+                INSERT OR REPLACE INTO criteria
+                (id, completable_id, description, blocks_transition_to, target_type, target_config)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (
+                criterion.id,
+                task.id,
+                criterion.description,
+                criterion.blocks_transition_to.value,
+                get_target_type(criterion.target),
+                json.dumps(get_target_config(criterion.target))
+            ))
+
+        conn.commit()
+    ```
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 35000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-2-task-007
+  blocked_by:
+  - unified-arch-2-task-004
+  depends_on:
+  - blocker_id: unified-arch-2-task-004
+    blocker_type: task
+    required_status: completed
+    description: Schema must be created first
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/serialization/sql_dumper.py
+    type: code
+    description: Updated SQL dumper with v2 schema support
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

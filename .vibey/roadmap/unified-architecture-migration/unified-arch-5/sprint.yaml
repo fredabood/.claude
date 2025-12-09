@@ -1,0 +1,75 @@
+sprint:
+  id: unified-arch-5
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  name: Operations Layer Migration
+  description: |
+    Migrate all operations to use new Pydantic models and criteria-based blocking.
+
+    CURRENT STATE:
+    - Operations use legacy dataclass models (Roadmap, Track, Sprint, Task)
+    - Blocking checks scattered across multiple functions
+    - Status transitions not centralized
+
+    TARGET STATE:
+    - Operations use new Pydantic models (RoadmapTicket, TrackTicket, etc.)
+    - All blocking via can_transition_to() on Completable
+    - All status transitions through Ticket.start()/complete()
+    - Criteria-based progress calculation
+
+    This sprint completes the unified architecture migration by making
+    the operations layer use all the infrastructure built in Sprints 1-4.
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  goal: Migrate operations to use unified ticket architecture
+  success_criteria:
+  - All operations use new Pydantic models
+  - All blocking checks use can_transition_to()
+  - All status transitions use start()/complete()
+  - All progress uses criteria-based calculation
+  - CLI commands work correctly
+  - MCP tools work correctly
+  - Artifact commands implemented
+  tasks:
+  - id: unified-arch-5-task-001
+    title: Migrate query operations to unified models
+    status: not_started
+  - id: unified-arch-5-task-002
+    title: Migrate update operations to unified models
+    status: not_started
+  - id: unified-arch-5-task-003
+    title: Migrate status transitions to use can_transition_to
+    status: not_started
+  - id: unified-arch-5-task-004
+    title: Implement artifact operations
+    status: not_started
+  - id: unified-arch-5-task-005
+    title: Update CLI commands for new models
+    status: not_started
+  - id: unified-arch-5-task-006
+    title: Final integration testing and documentation
+    status: not_started
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - unified-arch-4
+  depends_on:
+  - blocker_id: unified-arch-4
+    blocker_type: sprint
+    required_status: completed
+    description: v2 format migration must be complete
+    status: pending
+  depended_on_by: []
+  development_gates: []
+  deliverables:
+  - path: vibey/operations/roadmap/
+    type: code
+    description: Migrated operations layer
+  risks:
+  - Behavioral changes may break existing workflows
+  - Performance regression from Pydantic overhead
+  metadata:
+    design_reference: sqlite-backend-6/context/architecture/07-IMPLEMENTATION-PLAN.md

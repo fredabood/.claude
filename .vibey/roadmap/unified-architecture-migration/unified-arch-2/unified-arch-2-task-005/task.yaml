@@ -1,0 +1,76 @@
+task:
+  id: unified-arch-2-task-005
+  sprint_id: unified-arch-2
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update sql_loader for unified schema
+  description: |
+    Update sql_loader.py to load from unified schema (completables + criteria tables).
+
+    CHANGES REQUIRED:
+    1. Load from completables table instead of separate tables
+    2. Load criteria and construct Criterion objects
+    3. Return new Pydantic models (RoadmapTicket, TrackTicket, etc.)
+    4. Support both v1 and v2 schemas during transition
+
+    IMPLEMENTATION:
+    ```python
+    def load_task_v2(task_id: str) -> TaskTicket:
+        conn = get_connection()
+
+        # Load from completables
+        row = conn.execute(
+            "SELECT * FROM completables WHERE id = ? AND type = 'task'",
+            (task_id,)
+        ).fetchone()
+
+        # Load criteria
+        criteria_rows = conn.execute(
+            "SELECT * FROM criteria WHERE completable_id = ?",
+            (task_id,)
+        ).fetchall()
+
+        criteria = [row_to_criterion(row) for row in criteria_rows]
+
+        return TaskTicket(
+            id=row['id'],
+            name=row['name'],
+            criteria=criteria,
+            ...
+        )
+    ```
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-2-task-007
+  blocked_by:
+  - unified-arch-2-task-004
+  depends_on:
+  - blocker_id: unified-arch-2-task-004
+    blocker_type: task
+    required_status: completed
+    description: Schema must be created first
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/serialization/sql_loader.py
+    type: code
+    description: Updated SQL loader with v2 schema support
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,88 @@
+sprint:
+  id: unified-arch-2
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  name: Database Schema Migration
+  description: |
+    Migrate from separate tables (roadmaps, tracks, sprints, tasks) to unified schema
+    (completables, criteria) as designed in sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md.
+
+    CURRENT SCHEMA:
+    - roadmaps table
+    - tracks table
+    - sprints table
+    - tasks table
+    - Various JSON blobs for dependencies, blockers, etc.
+
+    TARGET SCHEMA:
+    - completables table (single table inheritance for all ticket types)
+    - criteria table (unified blocking with polymorphic targets)
+    - artifacts table (first-class artifact entities)
+    - Views for type-specific queries (v_tracks, v_sprints, v_tasks)
+
+    Benefits:
+    - Single table for all completable entities
+    - Unified criteria-based blocking (replaces blocked_by, depends_on, etc.)
+    - Polymorphic targets for different criterion types
+    - First-class artifact support
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  goal: Migrate database to unified completables + criteria schema
+  success_criteria:
+  - completables table created with all ticket types
+  - criteria table created with polymorphic targets
+  - artifacts table created
+  - Migration script converts legacy data
+  - All existing data preserved
+  - Round-trip validation passes
+  - SQL loader updated to use new schema
+  - SQL dumper updated to use new schema
+  tasks:
+  - id: unified-arch-2-task-001
+    title: Design unified completables table schema
+    status: not_started
+  - id: unified-arch-2-task-002
+    title: Design criteria table with polymorphic targets
+    status: not_started
+  - id: unified-arch-2-task-003
+    title: Design artifacts table schema
+    status: not_started
+  - id: unified-arch-2-task-004
+    title: Create schema migration script
+    status: not_started
+  - id: unified-arch-2-task-005
+    title: Update sql_loader for unified schema
+    status: not_started
+  - id: unified-arch-2-task-006
+    title: Update sql_dumper for unified schema
+    status: not_started
+  - id: unified-arch-2-task-007
+    title: Execute migration and validate
+    status: not_started
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - unified-arch-1
+  depends_on:
+  - blocker_id: unified-arch-1
+    blocker_type: sprint
+    required_status: completed
+    description: Directory migration should be complete first
+    status: pending
+  depended_on_by: []
+  development_gates: []
+  deliverables:
+  - path: vibey/roadmap/database/schema_v2.sql
+    type: code
+    description: New unified schema SQL
+  - path: vibey/roadmap/database/migrate_to_v2.py
+    type: code
+    description: Schema migration script
+  risks:
+  - Data loss if migration script has bugs
+  - Performance regression with single-table inheritance
+  metadata:
+    design_reference: sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md

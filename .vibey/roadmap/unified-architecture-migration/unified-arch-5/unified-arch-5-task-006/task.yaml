@@ -1,0 +1,75 @@
+task:
+  id: unified-arch-5-task-006
+  sprint_id: unified-arch-5
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Final integration testing and documentation
+  description: |
+    Comprehensive testing of the complete unified architecture migration.
+
+    TESTING SCOPE:
+    1. Round-trip validation (YAML → SQLite → YAML)
+    2. CLI command testing
+    3. Criteria evaluation testing
+    4. can_transition_to() validation
+    5. Artifact operations testing
+    6. Performance benchmarks
+
+    TEST CASES:
+    - Create new task with criteria
+    - Transition task through lifecycle
+    - Verify blocking when criteria not met
+    - Verify auto-progression when criteria met
+    - Adopt existing file as artifact
+    - Detect stale documentation
+    - Impact analysis for file changes
+
+    DOCUMENTATION UPDATES:
+    1. Update CLAUDE.md with new architecture
+    2. Update docs/reference/roadmap-system.md
+    3. Create migration guide for other projects
+    4. Document v2 YAML format
+    5. Document criteria system
+
+    SUCCESS CRITERIA:
+    - All tests pass
+    - Performance within 2x of legacy
+    - Documentation complete
+    - No data loss from migration
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: testing
+  estimated_tokens: 50000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - unified-arch-5-task-005
+  depends_on:
+  - blocker_id: unified-arch-5-task-005
+    blocker_type: task
+    required_status: completed
+    description: CLI must be updated first
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: tests/roadmap/test_unified_architecture.py
+    type: test
+    description: Integration tests
+  - path: docs/reference/unified-architecture.md
+    type: documentation
+    description: Architecture documentation
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

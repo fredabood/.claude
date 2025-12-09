@@ -1,0 +1,73 @@
+task:
+  id: unified-arch-2-task-001
+  sprint_id: unified-arch-2
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: design
+  title: Design unified completables table schema
+  description: |
+    Design the unified completables table that replaces separate roadmaps, tracks, sprints, tasks tables.
+
+    DESIGN (from 05-DATABASE-SCHEMA.md):
+    ```sql
+    CREATE TABLE completables (
+        -- Identity (ULID)
+        id TEXT PRIMARY KEY,
+        type TEXT NOT NULL CHECK (type IN ('roadmap', 'track', 'sprint', 'task', 'artifact')),
+
+        -- Hierarchy
+        parent_id TEXT REFERENCES completables(id),
+        sequence INTEGER DEFAULT 0,
+        slug TEXT NOT NULL,
+
+        -- Core fields
+        name TEXT NOT NULL,
+        description TEXT,
+        status TEXT NOT NULL,
+
+        -- Timestamps
+        created_at TEXT NOT NULL,
+        updated_at TEXT,
+        started_at TEXT,
+        completed_at TEXT,
+
+        -- Type-specific fields (JSON)
+        type_specific TEXT,  -- JSON blob for type-specific fields
+
+        -- Metadata
+        metadata TEXT
+    );
+    ```
+
+    DECISIONS NEEDED:
+    1. Which fields go in main table vs type_specific JSON?
+    2. Index strategy for common queries
+    3. View definitions for type-specific access
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: design
+  estimated_tokens: 25000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-2-task-004
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - path: .vibey/roadmap/unified-architecture-migration/unified-arch-2/context/COMPLETABLES_SCHEMA.md
+    type: documentation
+    description: Completables table design document
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

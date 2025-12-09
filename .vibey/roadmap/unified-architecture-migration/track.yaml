@@ -1,0 +1,75 @@
+track:
+  id: unified-architecture-migration
+  name: Unified Architecture Migration
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: critical
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 5
+    sprints_completed: 0
+    tasks_total: 29
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: unified-arch-1
+    name: Directory Structure Migration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: unified-arch-2
+    name: Database Schema Migration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: unified-arch-3
+    name: ULID Identity System
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: unified-arch-4
+    name: v2 YAML Format Migration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: unified-arch-5
+    name: Operations Layer Migration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: sqlite-backend
+    blocker_type: track
+    required_status: completed
+    description: Requires sqlite-backend model classes to be complete
+    status: resolved
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value:
+  - Complete the unified ticket architecture as designed
+  - Enable criteria-based completion enforcement
+  - Reduce directory bloat by 98% (1,300+ dirs to ~30)
+  - Enable ULID-based immutable identity
+  - Unblock future Jira/GitHub/Linear integrations
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: null
+    design_doc: .vibey/roadmap/sqlite-backend/sqlite-backend-6/context/architecture/
+    implementation_plan: .vibey/roadmap/sqlite-backend/IMPLEMENTATION_AUDIT_2025-12-07.md
+    notes: Created to complete architectural migration that sqlite-backend track designed but did not implement

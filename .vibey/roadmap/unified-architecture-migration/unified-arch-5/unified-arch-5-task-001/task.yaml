@@ -1,0 +1,69 @@
+task:
+  id: unified-arch-5-task-001
+  sprint_id: unified-arch-5
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate query operations to unified models
+  description: |
+    Update query.py to use new Pydantic models.
+
+    CURRENT:
+    - query_roadmap_summary() returns dict built from legacy models
+    - query_track_details() returns dict
+    - query_sprint_details() returns dict
+    - query_task_details() returns dict
+
+    TARGET:
+    - query_roadmap() returns RoadmapTicket
+    - query_track() returns TrackTicket
+    - query_sprint() returns SprintTicket
+    - query_task() returns TaskTicket
+    - Summary functions derive from model properties
+
+    IMPLEMENTATION:
+    ```python
+    def query_task(task_id: str, root_dir: Path) -> TaskTicket:
+        backend = get_backend(root_dir)
+        return backend.load_task(task_id)
+
+    def query_task_details(task_id: str, root_dir: Path) -> Dict[str, Any]:
+        task = query_task(task_id, root_dir)
+        return {
+            'id': task.id,
+            'name': task.name,
+            'status': task.status.value,
+            'progress': task.progress.completion_percent,
+            'blocking_reasons': task.blocking_reasons,
+            'criteria': [c.model_dump() for c in task.criteria],
+            ...
+        }
+    ```
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-5-task-005
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables:
+  - path: vibey/operations/roadmap/query.py
+    type: code
+    description: Migrated query operations
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

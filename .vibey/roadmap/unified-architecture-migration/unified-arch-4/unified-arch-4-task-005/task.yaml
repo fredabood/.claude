@@ -1,0 +1,78 @@
+task:
+  id: unified-arch-4-task-005
+  sprint_id: unified-arch-4
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Execute v2 format migration
+  description: |
+    Execute the v2 format migration on all YAML files.
+
+    EXECUTION STEPS:
+    1. Run conversion in dry-run mode
+    2. Review planned changes for a sample of files
+    3. Create backups
+    4. Execute conversion
+    5. Run validation tests
+    6. Verify round-trip integrity
+
+    VALIDATION CHECKS:
+    - All YAML files are valid v2 format
+    - All criteria are correctly formed
+    - All targets have valid type and config
+    - blocked_by conversions preserve semantics
+    - depends_on conversions preserve semantics
+    - deliverables conversions preserve semantics
+    - YAML loader returns correct objects
+    - YAML dumper produces valid output
+    - Round-trip: file → object → file matches
+
+    ROLLBACK PLAN:
+    1. Restore YAML backups
+    2. Revert yaml_loader/yaml_dumper changes
+    3. Document failure reason
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: execution
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - unified-arch-4-task-002
+  - unified-arch-4-task-003
+  - unified-arch-4-task-004
+  depends_on:
+  - blocker_id: unified-arch-4-task-002
+    blocker_type: task
+    required_status: completed
+    description: Conversion script must be ready
+    status: pending
+  - blocker_id: unified-arch-4-task-003
+    blocker_type: task
+    required_status: completed
+    description: YAML loader must support v2
+    status: pending
+  - blocker_id: unified-arch-4-task-004
+    blocker_type: task
+    required_status: completed
+    description: YAML dumper must support v2
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: .vibey/roadmap/
+    type: other
+    description: All YAML files in v2 format
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

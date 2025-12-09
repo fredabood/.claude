@@ -1,0 +1,87 @@
+task:
+  id: unified-arch-3-task-004
+  sprint_id: unified-arch-3
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create ULID migration script
+  description: |
+    Create a migration script to assign ULIDs to all existing entities.
+
+    MIGRATION STEPS:
+    1. Scan all existing entities
+    2. Generate ULID for each entity
+    3. Create .id files with slug → ULID mappings
+    4. Update all YAML files with new id, slug, sequence fields
+    5. Update database with ULIDs
+    6. Update cross-references to use ULIDs
+
+    IMPLEMENTATION:
+    ```python
+    def migrate_to_ulid(root_dir: Path, dry_run: bool = True) -> MigrationResult:
+        # 1. Scan existing entities
+        tracks = scan_tracks(root_dir)
+        sprints = scan_sprints(root_dir)
+        tasks = scan_tasks(root_dir)
+
+        # 2. Generate ULIDs (preserve creation order for sortability)
+        ulid_map = {}
+        for entity in sorted_by_created_at(tracks + sprints + tasks):
+            ulid_map[entity.id] = generate_ulid()
+
+        # 3. Create .id files
+        create_id_files(root_dir, ulid_map)
+
+        # 4. Update YAML files
+        for track in tracks:
+            update_yaml_with_ulid(track.path, ulid_map)
+        # ... sprints, tasks
+
+        # 5. Update database
+        update_db_with_ulids(ulid_map)
+
+        # 6. Update cross-references
+        update_references(root_dir, ulid_map)
+
+        return MigrationResult(...)
+    ```
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-3-task-005
+  blocked_by:
+  - unified-arch-3-task-001
+  - unified-arch-3-task-002
+  depends_on:
+  - blocker_id: unified-arch-3-task-001
+    blocker_type: task
+    required_status: completed
+    description: ULID generation must be available
+    status: pending
+  - blocker_id: unified-arch-3-task-002
+    blocker_type: task
+    required_status: completed
+    description: .id file handler must be ready
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/identity/migrate_to_ulid.py
+    type: code
+    description: ULID migration script
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

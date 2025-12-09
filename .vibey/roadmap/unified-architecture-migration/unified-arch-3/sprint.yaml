@@ -1,0 +1,78 @@
+sprint:
+  id: unified-arch-3
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  name: ULID Identity System
+  description: |
+    Implement ULID-based identity system as designed in sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md.
+
+    CURRENT STATE:
+    - Slug-based IDs: sqlite-backend-6-task-004
+    - ID encodes hierarchy: track-sprint-task
+    - Renaming requires updating all references
+
+    TARGET STATE:
+    - ULID identifiers: 01HXYZ123ABC456DEF
+    - Separate sequence field for ordering
+    - Separate slug field for human-readable paths
+    - .id files mapping slug ↔ ULID
+    - Renaming only updates slug, not ULID
+
+    Benefits:
+    - Immutable identity (ULID never changes)
+    - Rename without breaking references
+    - Reorder without ID changes
+    - Better conflict handling in distributed scenarios
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  goal: Implement ULID-based identity with sequence and slug fields
+  success_criteria:
+  - All entities have ULID identifiers
+  - sequence field controls sibling ordering
+  - slug field provides human-readable path
+  - .id files map slug to ULID
+  - All references updated to use ULIDs
+  - Backward compatibility with slug lookups
+  tasks:
+  - id: unified-arch-3-task-001
+    title: Add ULID generation and validation
+    status: not_started
+  - id: unified-arch-3-task-002
+    title: Create .id file format and parser
+    status: not_started
+  - id: unified-arch-3-task-003
+    title: Update YAML loader/dumper for ULID
+    status: not_started
+  - id: unified-arch-3-task-004
+    title: Create ULID migration script
+    status: not_started
+  - id: unified-arch-3-task-005
+    title: Execute ULID migration
+    status: not_started
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - unified-arch-2
+  depends_on:
+  - blocker_id: unified-arch-2
+    blocker_type: sprint
+    required_status: completed
+    description: Schema migration must be complete (completables.id field)
+    status: pending
+  depended_on_by: []
+  development_gates: []
+  deliverables:
+  - path: vibey/roadmap/identity/ulid.py
+    type: code
+    description: ULID generation and validation
+  - path: vibey/roadmap/identity/id_file.py
+    type: code
+    description: .id file format handler
+  risks:
+  - Breaking external references to old IDs
+  - Git history may show as delete+create for renamed files
+  metadata:
+    design_reference: sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md

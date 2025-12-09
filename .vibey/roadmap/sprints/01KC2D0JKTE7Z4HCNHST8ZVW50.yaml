@@ -65,7 +65,7 @@ sprint:
     status: completed
   - id: unified-arch-2-task-002
     title: Design criteria table with polymorphic targets
-    status: not_started
+    status: completed
   - id: unified-arch-2-task-003
     title: Design artifacts table schema
     status: not_started

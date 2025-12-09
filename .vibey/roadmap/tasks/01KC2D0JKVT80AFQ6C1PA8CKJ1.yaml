@@ -21,11 +21,11 @@ task:
     - file_exists: file must exist at path\n- threshold: numeric value must meet threshold\n\
     - test_passes: test command must pass\n- manual: requires manual verification\n\
     - artifact: references artifact entity\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-09T16:25:00+00:00'
+  completed: '2025-12-09T16:40:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: design

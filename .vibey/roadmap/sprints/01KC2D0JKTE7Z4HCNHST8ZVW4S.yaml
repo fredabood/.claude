@@ -92,7 +92,7 @@ sprint:
     status: completed
   - id: unified-arch-1-task-006
     title: Update CLI path resolution and documentation
-    status: not_started
+    status: completed
   dependencies: []
   blocks: []
   blocked_by: []

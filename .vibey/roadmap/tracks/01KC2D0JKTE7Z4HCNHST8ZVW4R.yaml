@@ -13,8 +13,8 @@ track:
     sprints_total: 5
     sprints_completed: 1
     tasks_total: 29
-    tasks_completed: 5
-    completion_percent: 17
+    tasks_completed: 6
+    completion_percent: 21
   sprints:
   - id: unified-arch-1
     name: Directory Structure Migration

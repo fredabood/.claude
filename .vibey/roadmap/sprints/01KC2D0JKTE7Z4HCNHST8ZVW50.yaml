@@ -77,7 +77,7 @@ sprint:
     status: completed
   - id: unified-arch-2-task-006
     title: Update sql_dumper for unified schema
-    status: not_started
+    status: completed
   - id: unified-arch-2-task-007
     title: Execute migration and validate
     status: not_started

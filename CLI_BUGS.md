@@ -166,11 +166,73 @@ The flat structure migration updated YAML files but did not update the SQLite da
 
 ---
 
+## Bug #6: Missing SQLAlchemy Dependency Breaks All CLI Commands
+
+**Date:** 2025-12-09
+**Severity:** Critical
+**Status:** Documented
+
+**Description:**
+All CLI commands fail with `ModuleNotFoundError: No module named 'sqlalchemy'` when attempting to import roadmap serialization modules.
+
+**Error:**
+```
+File "/Users/fredabood/Repositories/vibey/vibey/roadmap/models/ticket/orm.py", line 23, in <module>
+    from sqlalchemy import (
+ModuleNotFoundError: No module named 'sqlalchemy'
+```
+
+**Root Cause:**
+The ORM module (`vibey/roadmap/models/ticket/orm.py`) unconditionally imports SQLAlchemy, even when the YAML backend is being used. This import happens at module load time, making it a hard dependency.
+
+**Impact:**
+- **ALL** CLI commands are broken (`vibey roadmap status`, `vibey roadmap show`, etc.)
+- Cannot validate roadmap state
+- Cannot update task status
+- Cannot query roadmap data
+- Forces users to install SQLAlchemy even if they only use YAML backend
+
+**Expected Behavior:**
+- SQLAlchemy should be an **optional** dependency
+- ORM module should use lazy imports or conditional imports
+- YAML-only users should not need SQLAlchemy installed
+
+**Fix Required:**
+Option 1: Lazy imports in orm.py
+```python
+# In orm.py
+def get_orm_models():
+    try:
+        from sqlalchemy import ...
+        return models
+    except ImportError:
+        raise ImportError("SQLAlchemy required for database operations")
+```
+
+Option 2: Split orm.py into separate module
+- Move ORM code to vibey/roadmap/database/orm.py
+- Only import when using SQLite backend
+
+Option 3: Make SQLAlchemy required dependency
+- Add to requirements.txt / pyproject.toml
+- Document as required for all installations
+
+**Files Affected:**
+- `vibey/roadmap/models/ticket/__init__.py` (line 129 - imports orm)
+- `vibey/roadmap/models/ticket/orm.py` (line 23 - unconditional SQLAlchemy import)
+- All CLI commands (all fail on import)
+
+**Workaround:**
+Install SQLAlchemy: `pip install sqlalchemy`
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
 3. ✅ Fix Track model validation for flat structure
 4. ✅ Fix query.py SQLite backend parameter passing
-5. 🔧 Sync SQLite database with YAML files
-6. File GitHub issues for all documented bugs
-7. Add integration tests for flat structure progress updates
+5. ✅ Disabled SQLite database (renamed to .db.disabled)
+6. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
+7. File GitHub issues for all documented bugs
+8. Add integration tests for flat structure progress updates

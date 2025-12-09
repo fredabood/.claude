@@ -1,0 +1,196 @@
+sprint:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  name: Production Cutover & Sync System
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-28T17:00:00+00:00'
+  started: '2025-12-06T15:37:59.551220+00:00'
+  completion_gate_check_at: '2025-12-07T14:34:25.175106+00:00'
+  completed: '2025-12-07T14:35:42.385073+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 11
+    development_tasks_completed: 11
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 11
+    tasks_completed: 11
+    completion_percent: 100
+  tasks:
+  - id: sqlite-backend-13-task-001
+    title: Initialize production database with schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-002
+    title: Modify update operations to write to both backends
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-003
+    title: Add DB dump to pre-commit hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-004
+    title: Add DB rebuild to post-merge hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-005
+    title: Fix data integrity issues in roadmap YAML
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-006
+    title: Add embedded sprint summary validation to integrity audit
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-007
+    title: End-to-end sync system validation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-008
+    title: Create migration script for existing roadmaps to new directory structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-009
+    title: Update CLI and tooling for new directory structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-010
+    title: Integrate ActivityLog with unified ticket lifecycle
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: sqlite-backend-13-task-011
+    title: Implement optional auto-progression for status transitions
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Production database initialized with full schema (27 tables, 21 views)
+  - Dual-write pattern for all update operations
+  - Pre-commit hook that dumps DB to YAML
+  - Post-merge hook that rebuilds DB from YAML
+  - Data integrity fixes for existing roadmap YAML
+  - Sprint summary validation in integrity audit
+  - End-to-end sync system validation suite
+  - Migration script for existing roadmaps
+  - Updated CLI with new directory structure support
+  - ActivityLog integration with ticket lifecycle events
+  - Optional auto-progression for status transitions
+  description: 'Execute the production cutover where SQLite becomes the primary source
+    of truth
+
+    for roadmap operations, with YAML as a derived artifact kept in sync via git hooks.
+
+
+    SYNC ARCHITECTURE:
+
+    ```
+
+    ┌──────────────────────────────────────────────────────────────────┐
+
+    │                      WRITE PATH                                   │
+
+    │  CLI Command → Update SQLite → Pre-commit Hook → Dump to YAML    │
+
+    └──────────────────────────────────────────────────────────────────┘
+
+
+    ┌──────────────────────────────────────────────────────────────────┐
+
+    │                      READ PATH                                    │
+
+    │  Git Pull → Post-Merge Hook → Rebuild SQLite from YAML           │
+
+    └──────────────────────────────────────────────────────────────────┘
+
+    ```
+
+
+    POST-CUTOVER STATE:
+
+    - SQLite = Primary source of truth for writes
+
+    - YAML = Version-controlled artifacts (git-tracked)
+
+    - Automatic sync via git hooks
+
+    - Deterministic completion via criteria evaluation
+
+
+    REMAINING GAPS ADDRESSED:
+
+    - GAP-003: Audit trail → ActivityLog integration
+
+    - GAP-008: Auto-progression → Optional config-driven auto-status
+
+
+    Reference: sqlite-backend-6/context/005-yaml-sync-strategy.md
+
+    '
+  goal: Execute production cutover to SQLite with automatic YAML sync via git hooks
+  success_criteria:
+  - Production database created with full schema
+  - All update operations write to SQLite first
+  - Pre-commit hook exports DB to YAML before commit
+  - Post-merge hook rebuilds DB from YAML after merge
+  - No manual YAML editing required for status changes
+  - Round-trip integrity maintained (YAML → DB → YAML)
+  - ActivityLog captures all lifecycle events
+  - Migration script works on existing vibey roadmaps
+  risks:
+  - Data loss if hooks fail silently
+  - Merge conflicts in YAML after concurrent edits
+  - Performance impact of full DB dump on commit
+  - User confusion during transition period
+  notes: 'CRITICAL: This sprint is the final cutover. Once complete:
+
+    1. SQLite is the primary data store
+
+    2. YAML is a derived artifact for git
+
+    3. All tooling reads from SQLite
+
+    4. Git hooks maintain sync automatically
+
+
+    ROLLBACK PLAN:
+
+    - If issues arise, disable hooks and revert to YAML-primary mode
+
+    - DB can always be rebuilt from YAML via: vibey roadmap db rebuild
+
+    '
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: sqlite-backend-13
+  parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RMQ

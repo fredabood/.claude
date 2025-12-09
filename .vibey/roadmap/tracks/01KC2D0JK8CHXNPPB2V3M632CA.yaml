@@ -1,0 +1,54 @@
+track:
+  id: 01KC2D0JK8CHXNPPB2V3M632CA
+  name: Interface Unification & Simplification
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completed: '2025-11-12T00:00:00+00:00'
+  estimated_duration: null
+  progress:
+    sprints_total: 3
+    sprints_completed: 3
+    tasks_total: 17
+    tasks_completed: 17
+    completion_percent: 100.0
+  sprints:
+  - id: interface-unification-1
+    name: Delete Legacy Interfaces & Consolidate
+    status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: interface-unification-2
+    name: Unify CLI + MCP Integration
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: interface-unification-3
+    name: Documentation & Testing
+    status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null
+  slug: interface-unification

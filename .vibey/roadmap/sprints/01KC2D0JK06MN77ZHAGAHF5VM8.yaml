@@ -1,0 +1,215 @@
+sprint:
+  id: 01KC2D0JK06MN77ZHAGAHF5VM8
+  name: Unified Atlassian Experience & Polish
+  track_id: atlassian-integration
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: atlassian-integration-4-task-001
+    name: Create unified vibey atlassian CLI
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: 'Polish CLI experience:
+
+      - vibey atlassian connect (setup wizard)
+
+      - vibey atlassian status (connection health)
+
+      - vibey atlassian sync (unified sync)
+
+      - vibey atlassian import (smart import)
+
+      - vibey atlassian export (smart export)
+
+      - Progress indicators and logging
+
+      - Error messages with remediation hints
+
+      '
+  - id: atlassian-integration-4-task-002
+    name: Implement Jira-Confluence cross-linking
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: 'Link Jira issues and Confluence pages:
+
+      - Auto-link related docs to tasks
+
+      - Create Confluence pages from task descriptions
+
+      - Embed Jira issue status in docs
+
+      - Link roadmap docs to Confluence space
+
+      - Cross-reference resolution
+
+      '
+  - id: atlassian-integration-4-task-003
+    name: Add Atlassian notifications and alerts
+    status: not_started
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: 'Integration with Atlassian notifications:
+
+      - Post sync status to Jira comments
+
+      - Create Confluence page for sync reports
+
+      - Slack/Teams notifications via Atlassian
+
+      - Email notifications for sync failures
+
+      - Dashboard widget data
+
+      '
+  - id: atlassian-integration-4-task-004
+    name: Implement bulk operations and performance optimization
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: 'Handle large-scale operations:
+
+      - Batch API calls
+
+      - Parallel sync operations
+
+      - Incremental sync (only changes)
+
+      - Caching for read operations
+
+      - Rate limit handling
+
+      - Progress tracking for bulk ops
+
+      '
+  - id: atlassian-integration-4-task-005
+    name: Create Atlassian admin configuration
+    status: not_started
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+    description: 'Admin configuration options:
+
+      - Multiple Atlassian site support
+
+      - Per-track Atlassian mapping
+
+      - Team/user mapping configuration
+
+      - Custom field mappings
+
+      - Sync schedules (cron-based)
+
+      - .vibey/config/atlassian.yaml schema
+
+      '
+  - id: atlassian-integration-4-task-006
+    name: Write comprehensive documentation
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: 'Document Atlassian integration:
+
+      - Setup guide (OAuth, connection)
+
+      - Jira integration guide
+
+      - Confluence integration guide
+
+      - Sync configuration reference
+
+      - Troubleshooting guide
+
+      - Best practices for teams
+
+      - Migration guide from standalone Jira
+
+      '
+  - id: atlassian-integration-4-task-007
+    name: End-to-end integration testing
+    status: not_started
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: 'Full integration validation:
+
+      - Complete workflow tests
+
+      - Multi-project scenarios
+
+      - Team collaboration scenarios
+
+      - Error recovery tests
+
+      - Performance benchmarks
+
+      - Security audit
+
+      '
+  dependencies:
+  - atlassian-integration-2
+  - atlassian-integration-3
+  blocked_by:
+  - atlassian-integration-2
+  - atlassian-integration-3
+  quality_gates:
+  - name: E2E Test Coverage
+    threshold: 95
+    blocking: true
+    status: not_run
+  - name: Documentation Completeness
+    threshold: 90
+    blocking: true
+    status: not_run
+  - name: Performance Benchmarks
+    threshold: 90
+    blocking: false
+    status: not_run
+  deliverables:
+  - Polished vibey atlassian CLI
+  - Jira-Confluence cross-linking
+  - Notification integrations
+  - Bulk operations support
+  - Admin configuration system
+  - Comprehensive documentation
+  - E2E test suite
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: "Sprint 4: Unified Atlassian Experience & SemanticLayerRegistry\n\nDESIGN\
+      \ REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\n\nKEY\
+      \ ARCHITECTURAL DELIVERABLES:\n\n1. SEMANTIC LAYER CONFIGURATION:\n   ```yaml\n\
+      \   # .vibey/config/semantic.yaml\n   semantic_layer:\n     provider: jira\n\
+      \n     jira:\n       site: company.atlassian.net\n       project_key: PROJ\n\
+      \n       type_mapping:\n         project: roadmap\n         epic: tracks\n \
+      \        sprint: sprints\n         issue: tasks\n         subtask: tasks\n\n\
+      \       status_map:\n         \"To Do\": not_started\n         \"In Progress\"\
+      : in_progress\n         \"Done\": completed\n         \"Released\": deployed\n\
+      \n       field_map:\n         story_points: estimated_tokens\n   ```\n\n2. SEMANTIC\
+      \ LAYER REGISTRY INTEGRATION:\n   ```python\n   # On startup with Jira config\n\
+      \   jira_layer = JiraSemanticLayer(JiraProjectConfig(...))\n   SemanticLayerRegistry.register(jira_layer)\n\
+      \   SemanticLayerRegistry.set_default(\"jira:PROJ\")\n   ```\n\n3. MIXED SEMANTIC\
+      \ LAYERS (future):\n   Support for multiple semantic layers in same roadmap:\n\
+      \   - Local Vibey tracks for internal work\n   - Synced Jira tracks for external\
+      \ collaboration\n   - Coexisting with different semantic_layer values\n\nFocus\
+      \ areas:\n1. User experience - smooth CLI, good errors\n2. Cross-product integration\
+      \ - Jira + Confluence together\n3. Enterprise features - bulk ops, notifications\n\
+      4. Documentation - make it easy to adopt\n\nAfter this sprint, teams can:\n\
+      - Manage Vibey roadmap from Jira\n- Keep Confluence docs in sync with repo\n\
+      - Get full audit trail in Atlassian\n- Collaborate with non-technical stakeholders\n"
+  slug: atlassian-integration-4
+  parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4

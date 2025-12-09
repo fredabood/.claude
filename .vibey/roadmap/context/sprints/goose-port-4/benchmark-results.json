@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-11-22T22:08:37.460467",
+  "python_version": "3.14.0",
+  "summary": {
+    "total_benchmarks": 9,
+    "fastest_operation": "Server get_capabilities()",
+    "fastest_ms": 0.00020439038053154945,
+    "slowest_operation": "vibey_roadmap_status",
+    "slowest_ms": 42.17773750424385,
+    "total_tool_count": 46
+  },
+  "results": [
+    {
+      "name": "Frontmatter parsing",
+      "iterations": 10,
+      "min_ms": 0.23666699416935444,
+      "max_ms": 0.2615830162540078,
+      "mean_ms": 0.24698759661987424,
+      "median_ms": 0.24637498427182436,
+      "stddev_ms": 0.008145588987438508,
+      "p95_ms": 0.25905220536515117,
+      "p99_ms": 0.2610768540762365,
+      "total_seconds": 0.002472124993801117,
+      "ops_per_second": 4045.1029074480944
+    },
+    {
+      "name": "Tool Discovery (cold)",
+      "iterations": 10,
+      "min_ms": 37.35379106365144,
+      "max_ms": 38.31129102036357,
+      "mean_ms": 37.778170697856694,
+      "median_ms": 37.730937474407256,
+      "stddev_ms": 0.31967870890935074,
+      "p95_ms": 38.23006644961424,
+      "p99_ms": 38.295046106213704,
+      "total_seconds": 0.3777894579106942,
+      "ops_per_second": 26.469769842979325
+    },
+    {
+      "name": "Tool Discovery (cached)",
+      "iterations": 10,
+      "min_ms": 0.22262497805058956,
+      "max_ms": 0.2578749554231763,
+      "mean_ms": 0.2335042809136212,
+      "median_ms": 0.22641703253611922,
+      "stddev_ms": 0.012899439690492188,
+      "p95_ms": 0.2540126268286258,
+      "p99_ms": 0.2571024897042662,
+      "total_seconds": 0.0023361670318990946,
+      "ops_per_second": 4280.515846450798
+    },
+    {
+      "name": "Server get_tools()",
+      "iterations": 10,
+      "min_ms": 0.22570800501853228,
+      "max_ms": 0.3164589870721102,
+      "mean_ms": 0.2468417165800929,
+      "median_ms": 0.23387500550597906,
+      "stddev_ms": 0.030560538768516478,
+      "p95_ms": 0.30329604633152485,
+      "p99_ms": 0.3138263989239931,
+      "total_seconds": 0.002470583072863519,
+      "ops_per_second": 4047.62750536032
+    },
+    {
+      "name": "Server get_capabilities()",
+      "iterations": 10,
+      "min_ms": 0.00016693957149982452,
+      "max_ms": 0.000250060111284256,
+      "mean_ms": 0.00020439038053154945,
+      "median_ms": 0.00020844163373112679,
+      "stddev_ms": 3.635274586513942e-05,
+      "p95_ms": 0.000250060111284256,
+      "p99_ms": 0.000250060111284256,
+      "total_seconds": 3.2080570235848427e-06,
+      "ops_per_second": 3117151.5738287913
+    },
+    {
+      "name": "vibey_roadmap_status",
+      "iterations": 10,
+      "min_ms": 41.07904201373458,
+      "max_ms": 44.20500004198402,
+      "mean_ms": 42.17773750424385,
+      "median_ms": 41.94083350012079,
+      "stddev_ms": 0.8545597924260763,
+      "p95_ms": 43.53228735271841,
+      "p99_ms": 44.0704575041309,
+      "total_seconds": 0.4217870840802789,
+      "ops_per_second": 23.70864442614534
+    },
+    {
+      "name": "vibey_query_track",
+      "iterations": 10,
+      "min_ms": 3.8114999188110232,
+      "max_ms": 3.994916914962232,
+      "mean_ms": 3.9082000963389874,
+      "median_ms": 3.8963754777796566,
+      "stddev_ms": 0.06748547830179805,
+      "p95_ms": 3.991016815416515,
+      "p99_ms": 3.9941368950530887,
+      "total_seconds": 0.039084749994799495,
+      "ops_per_second": 255.85426544446545
+    },
+    {
+      "name": "Unknown tool (error path)",
+      "iterations": 10,
+      "min_ms": 0.005915993824601173,
+      "max_ms": 0.009125098586082458,
+      "mean_ms": 0.006970716640353203,
+      "median_ms": 0.006874499376863241,
+      "stddev_ms": 0.0008855645064012212,
+      "p95_ms": 0.008281302871182563,
+      "p99_ms": 0.008956339443102479,
+      "total_seconds": 7.104210089892149e-05,
+      "ops_per_second": 140761.60295749098
+    },
+    {
+      "name": "Agent tool (vibey_documentation_maintenance_engineer)",
+      "iterations": 10,
+      "min_ms": 17.007292015478015,
+      "max_ms": 20.049334038048983,
+      "mean_ms": 17.758625221904367,
+      "median_ms": 17.518042004667222,
+      "stddev_ms": 0.8855353261354827,
+      "p95_ms": 19.31060233619064,
+      "p99_ms": 19.901587697677314,
+      "total_seconds": 0.17759408301208168,
+      "ops_per_second": 56.30818229073377
+    }
+  ]
+}

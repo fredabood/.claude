@@ -1,0 +1,203 @@
+sprint:
+  id: 01KC2D0JK06MN77ZHAGAHF5VM5
+  name: Jira Core Integration & Data Mapping
+  track_id: atlassian-integration
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: atlassian-integration-1-task-001
+    name: Implement JiraSemanticLayer class
+    status: not_started
+    priority: critical
+    estimated_hours: 16
+    assigned_agent: architecture-agent
+    description: "Implement JiraSemanticLayer per unified ticket architecture.\n\n\
+      DESIGN REFERENCE: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\n\
+      CODE REFERENCE: sqlite-backend-6/context/sample_code/models/semantic_layer.py\n\
+      \nDELIVERABLES:\n\n1. JiraSemanticLayer class (extends SemanticLayer ABC):\n\
+      \   - name: \"jira:{project_key}\"\n   - ticket_types: [\"project\", \"epic\"\
+      , \"sprint\", \"issue\", \"subtask\"]\n   - hierarchy: {\"issue\": \"sprint\"\
+      \ or \"epic\", \"subtask\": \"issue\", ...}\n   - get_ticket_class(type) → JiraProject,\
+      \ JiraEpic, etc.\n   - get_type_fields(type) → Jira-specific field definitions\n\
+      \   - map_status_to_canonical(type, jira_status) → TicketStatus\n   - map_status_from_canonical(type,\
+      \ status) → Jira status string\n\n2. JiraProjectConfig class:\n   - project_key,\
+      \ project_name\n   - has_epics, has_sprints (board configuration)\n   - status_map:\
+      \ Dict[str, str] (Jira status → canonical)\n   - custom_fields: Dict[str, FieldConfig]\n\
+      \n3. Jira ticket classes (all extend HierarchicalTicket):\n   - JiraProject:\
+      \ project_key, project_type, lead\n   - JiraEpic: epic_key, epic_color\n   -\
+      \ JiraSprint: sprint_id, board_id, start_date, end_date, goal\n   - JiraIssue:\
+      \ issue_key, issue_type, story_points, components[], labels[], custom_fields\n\
+      \   - JiraSubtask: issue_key, parent_issue_key\n\n4. JiraIssueType enum:\n \
+      \  - STORY, BUG, TASK, EPIC, SUBTASK, SPIKE, FEATURE, IMPROVEMENT\n\n5. Registration:\n\
+      \   - SemanticLayerRegistry.register(jira_layer)\n   - Configuration to set\
+      \ as default\n"
+  - id: atlassian-integration-1-task-002
+    name: Implement Atlassian OAuth 2.0 authentication
+    status: not_started
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: 'Implement OAuth 2.0 (3LO) for Atlassian Cloud:
+
+      - Authorization URL generation
+
+      - Callback handler
+
+      - Token exchange
+
+      - Token refresh
+
+      - Secure token storage
+
+      - PAT support for Server/DC
+
+      '
+  - id: atlassian-integration-1-task-003
+    name: Create Jira REST API client
+    status: not_started
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: backend-engineer
+    description: 'Build comprehensive Jira API client:
+
+      - Project endpoints (list, get, create)
+
+      - Sprint endpoints (list, get, create, update)
+
+      - Issue endpoints (search, get, create, update, transition)
+
+      - Board endpoints (list, get sprints)
+
+      - User endpoints (search, get)
+
+      - Rate limiting and retry logic
+
+      - Pagination handling
+
+      '
+  - id: atlassian-integration-1-task-004
+    name: Implement Jira project to track import
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: 'Import Jira project as Vibey track:
+
+      - Fetch project metadata
+
+      - Create track.yaml from project
+
+      - Map project settings to track config
+
+      - Handle project categories/components
+
+      - vibey atlassian import project <key>
+
+      '
+  - id: atlassian-integration-1-task-005
+    name: Implement Jira sprint to sprint import
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: 'Import Jira sprints as Vibey sprints:
+
+      - Fetch sprints from board
+
+      - Create sprint.yaml from Jira sprint
+
+      - Map sprint dates and goals
+
+      - Handle active/future/closed states
+
+      - Link to parent track
+
+      '
+  - id: atlassian-integration-1-task-006
+    name: Implement Jira issue to task import
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: backend-engineer
+    description: 'Import Jira issues as Vibey tasks:
+
+      - JQL query support for filtering
+
+      - Create task entries from issues
+
+      - Map status, priority, assignee
+
+      - Handle subtasks and links
+
+      - Preserve Jira issue key reference
+
+      '
+  - id: atlassian-integration-1-task-007
+    name: Create integration tests for Jira import
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+    description: 'Test Jira import functionality:
+
+      - Mock Jira API responses
+
+      - Test project import scenarios
+
+      - Test sprint import scenarios
+
+      - Test issue import scenarios
+
+      - Test error handling
+
+      - Test pagination
+
+      '
+  dependencies: []
+  blocked_by: []
+  quality_gates:
+  - name: API Coverage
+    threshold: 90
+    blocking: true
+    status: not_run
+  deliverables:
+  - JiraSemanticLayer class implementing SemanticLayer interface
+  - Jira ticket classes (JiraProject, JiraEpic, JiraSprint, JiraIssue, JiraSubtask)
+  - JiraProjectConfig for loading project settings
+  - JiraIssueType enum
+  - OAuth 2.0 authentication implementation
+  - Jira REST API client library
+  - Project import command (creates JiraProject in roadmap.yaml)
+  - Sprint import command (creates JiraSprint entries)
+  - Issue import command (creates JiraIssue entries with external_id)
+  - Integration test suite
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-12-04T00:00:00+00:00'
+    notes: "Sprint 1: Jira Core Integration & JiraSemanticLayer\n\nDESIGN REFERENCE:\
+      \ sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\nCODE REFERENCE: sqlite-backend-6/context/sample_code/models/semantic_layer.py\n\
+      \nGOAL: Implement JiraSemanticLayer per the pluggable semantic layer architecture.\n\
+      This replaces ad-hoc Jira mapping with a proper semantic layer that integrates\n\
+      with Layers 0-2 (Completable, Ticket, HierarchicalTicket).\n\nKEY ARCHITECTURAL\
+      \ POINTS:\n\n1. JiraSemanticLayer extends SemanticLayer ABC\n   - Defines Jira-specific\
+      \ ticket types and hierarchy\n   - Maps Jira statuses to canonical TicketStatus\n\
+      \   - Provides type-specific field definitions\n\n2. Jira tickets extend HierarchicalTicket\
+      \ (Layer 2)\n   - Share all Layer 0-2 functionality\n   - Add Jira-specific\
+      \ fields (issue_key, story_points, etc.)\n   - Store in completables table with\
+      \ semantic_layer='jira:PROJ'\n\n3. External ID tracking\n   - external_id stores\
+      \ Jira issue key (PROJ-123)\n   - Internal ULID remains primary key\n   - Enables\
+      \ bidirectional sync\n\n4. Import writes YAML with semantic layer header:\n\
+      \   ```yaml\n   meta:\n     semantic_layer: jira:PROJ\n     schema_version:\
+      \ \"2.0\"\n   issue:\n     id: 01JD4EXAMPLE\n     external_id: PROJ-123\n  \
+      \   ...\n   ```\n\nJira API Reference:\n- REST API v3: https://developer.atlassian.com/cloud/jira/platform/rest/v3/\n\
+      - Agile API: https://developer.atlassian.com/cloud/jira/software/rest/\n"
+  slug: atlassian-integration-1
+  parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4

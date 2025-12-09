@@ -1,0 +1,781 @@
+{
+  "analysis_date": "2025-11-13T10:39:58.579857",
+  "summary": {
+    "total_commits": 43,
+    "tracks_analyzed": 9,
+    "pattern_distribution": {
+      "D_SUSPICIOUS_ONLY": 36,
+      "E_BULK_UPDATES": 6
+    }
+  },
+  "track_analyses": {
+    "claude-port": {
+      "track": "claude-port",
+      "roadmap_commits": 7,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "D_SUSPICIOUS_ONLY",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 4,
+        "E_BULK_UPDATES": 3
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "5787ef9f",
+          "date": "2025-11-11T13:18:04+00:00",
+          "message": "feat: Complete Claude Code platform validation - 81.7% pass rate baseline",
+          "stats": {
+            "files_changed": 3,
+            "insertions": 391,
+            "deletions": 3
+          }
+        },
+        {
+          "hash": "08a5dfda",
+          "date": "2025-11-11T09:59:34+00:00",
+          "message": "feat: Correct roadmap statuses - mark testing-system complete, claude-port in-progress",
+          "stats": {
+            "files_changed": 2,
+            "insertions": 26,
+            "deletions": 9
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "dfbd7fe0",
+          "date": "2025-11-11T00:03:41+00:00",
+          "message": "feat: Complete claude-port track - Platform validated (73% pass rate) \u2705",
+          "stats": {
+            "files_changed": 2,
+            "insertions": 439,
+            "deletions": 5
+          }
+        },
+        {
+          "hash": "f88b5959",
+          "date": "2025-11-10T23:48:19+00:00",
+          "message": "feat: Start claude-port track - Platform validation in progress (68% pass rate)",
+          "stats": {
+            "files_changed": 2,
+            "insertions": 302,
+            "deletions": 4
+          }
+        },
+        {
+          "hash": "0ee4b6c3",
+          "date": "2025-11-10T09:18:33+00:00",
+          "message": "feat: Migrate roadmap from flat to hierarchical structure",
+          "stats": {
+            "files_changed": 127,
+            "insertions": 3600,
+            "deletions": 111
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-10T09:18:33+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_ROADMAP_ONLY",
+      "confidence": 85
+    },
+    "missing-agents": {
+      "track": "missing-agents",
+      "roadmap_commits": 5,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "E_BULK_UPDATES",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 2,
+        "E_BULK_UPDATES": 3
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "b9dac98d",
+          "date": "2025-11-11T13:51:07+00:00",
+          "message": "feat: Comprehensive test suite and documentation update for .vibey/ migration",
+          "stats": {
+            "files_changed": 28,
+            "insertions": 378,
+            "deletions": 243
+          }
+        },
+        {
+          "hash": "d55922aa",
+          "date": "2025-11-11T13:28:15+00:00",
+          "message": "feat: Mark missing-agents track as completed - 100% agent coverage achieved",
+          "stats": {
+            "files_changed": 2,
+            "insertions": 60,
+            "deletions": 23
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "0ee4b6c3",
+          "date": "2025-11-10T09:18:33+00:00",
+          "message": "feat: Migrate roadmap from flat to hierarchical structure",
+          "stats": {
+            "files_changed": 127,
+            "insertions": 3600,
+            "deletions": 111
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-10T09:18:33+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_BULK_UPDATE",
+      "confidence": 75
+    },
+    "documentation-system": {
+      "track": "documentation-system",
+      "roadmap_commits": 10,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "E_BULK_UPDATES",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 4,
+        "E_BULK_UPDATES": 6
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "e5ece282",
+          "date": "2025-11-10T23:31:04+00:00",
+          "message": "fix: Resolve roadmap status inconsistencies and document root causes",
+          "stats": {
+            "files_changed": 5,
+            "insertions": 618,
+            "deletions": 110
+          }
+        },
+        {
+          "hash": "706b8bec",
+          "date": "2025-11-10T13:32:08+00:00",
+          "message": "fix: Correct 5 track status mismatches in roadmap",
+          "stats": {
+            "files_changed": 14,
+            "insertions": 328,
+            "deletions": 242
+          }
+        },
+        {
+          "hash": "0ee4b6c3",
+          "date": "2025-11-10T09:18:33+00:00",
+          "message": "feat: Migrate roadmap from flat to hierarchical structure",
+          "stats": {
+            "files_changed": 127,
+            "insertions": 3600,
+            "deletions": 111
+          }
+        },
+        {
+          "hash": "03028e81",
+          "date": "2025-11-09T22:19:40+00:00",
+          "message": "feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)",
+          "stats": {
+            "files_changed": 269,
+            "insertions": 22567,
+            "deletions": 173
+          }
+        },
+        {
+          "hash": "28b62d83",
+          "date": "2025-11-09T17:38:01+00:00",
+          "message": "feat: Complete Task 007 - Document new hierarchical structure",
+          "stats": {
+            "files_changed": 6,
+            "insertions": 965,
+            "deletions": 12
+          }
+        },
+        {
+          "hash": "896101da",
+          "date": "2025-11-09T17:35:24+00:00",
+          "message": "feat: Complete Task 006 - Create unit tests for generation systems",
+          "stats": {
+            "files_changed": 5,
+            "insertions": 416,
+            "deletions": 11
+          }
+        },
+        {
+          "hash": "a051d841",
+          "date": "2025-11-09T17:27:53+00:00",
+          "message": "feat: Complete Task 005 - Update roadmap state management scripts for hierarchical structure",
+          "stats": {
+            "files_changed": 9,
+            "insertions": 521,
+            "deletions": 162
+          }
+        },
+        {
+          "hash": "1c506e77",
+          "date": "2025-11-09T17:16:51+00:00",
+          "message": "feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)",
+          "stats": {
+            "files_changed": 205,
+            "insertions": 13155,
+            "deletions": 8
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-09T17:16:51+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_BULK_UPDATE",
+      "confidence": 75
+    },
+    "roadmap-integration": {
+      "track": "roadmap-integration",
+      "roadmap_commits": 6,
+      "nearby_work_commits": 3,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 339,
+      "dominant_pattern": "E_BULK_UPDATES",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 1,
+        "E_BULK_UPDATES": 5
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "f1a0808d",
+          "date": "2025-11-11T20:22:51+00:00",
+          "message": "feat: Complete platform tracking documentation and roadmap state audit",
+          "stats": {
+            "files_changed": 43,
+            "insertions": 9496,
+            "deletions": 33
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "706b8bec",
+          "date": "2025-11-10T13:32:08+00:00",
+          "message": "fix: Correct 5 track status mismatches in roadmap",
+          "stats": {
+            "files_changed": 14,
+            "insertions": 328,
+            "deletions": 242
+          }
+        },
+        {
+          "hash": "03028e81",
+          "date": "2025-11-09T22:19:40+00:00",
+          "message": "feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)",
+          "stats": {
+            "files_changed": 269,
+            "insertions": 22567,
+            "deletions": 173
+          }
+        },
+        {
+          "hash": "1c506e77",
+          "date": "2025-11-09T17:16:51+00:00",
+          "message": "feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)",
+          "stats": {
+            "files_changed": 205,
+            "insertions": 13155,
+            "deletions": 8
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-09T17:16:51+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "LEGITIMATE_WORK",
+      "confidence": 90
+    },
+    "interface-unification": {
+      "track": "interface-unification",
+      "roadmap_commits": 2,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "D_SUSPICIOUS_ONLY",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 1,
+        "E_BULK_UPDATES": 1
+      },
+      "commit_stats": [
+        {
+          "hash": "95f8f8ed",
+          "date": "2025-11-12T17:37:53+00:00",
+          "message": "feat: Complete interface-unification Sprint 3 - Documentation & Testing",
+          "stats": {
+            "files_changed": 6,
+            "insertions": 4371,
+            "deletions": 39
+          }
+        },
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-12T16:22:27+00:00",
+        "last": "2025-11-12T17:37:53+00:00"
+      },
+      "verdict": "SUSPICIOUS_ROADMAP_ONLY",
+      "confidence": 85
+    },
+    "roadmap-system": {
+      "track": "roadmap-system",
+      "roadmap_commits": 6,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "E_BULK_UPDATES",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 1,
+        "E_BULK_UPDATES": 5
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "e5ece282",
+          "date": "2025-11-10T23:31:04+00:00",
+          "message": "fix: Resolve roadmap status inconsistencies and document root causes",
+          "stats": {
+            "files_changed": 5,
+            "insertions": 618,
+            "deletions": 110
+          }
+        },
+        {
+          "hash": "706b8bec",
+          "date": "2025-11-10T13:32:08+00:00",
+          "message": "fix: Correct 5 track status mismatches in roadmap",
+          "stats": {
+            "files_changed": 14,
+            "insertions": 328,
+            "deletions": 242
+          }
+        },
+        {
+          "hash": "03028e81",
+          "date": "2025-11-09T22:19:40+00:00",
+          "message": "feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)",
+          "stats": {
+            "files_changed": 269,
+            "insertions": 22567,
+            "deletions": 173
+          }
+        },
+        {
+          "hash": "1c506e77",
+          "date": "2025-11-09T17:16:51+00:00",
+          "message": "feat: Migrate roadmap to hierarchical structure (Task 005 Part 1)",
+          "stats": {
+            "files_changed": 205,
+            "insertions": 13155,
+            "deletions": 8
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-09T17:16:51+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_BULK_UPDATE",
+      "confidence": 75
+    },
+    "standards-system": {
+      "track": "standards-system",
+      "roadmap_commits": 2,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "D_SUSPICIOUS_ONLY",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 1,
+        "E_BULK_UPDATES": 1
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "f1a0808d",
+          "date": "2025-11-11T20:22:51+00:00",
+          "message": "feat: Complete platform tracking documentation and roadmap state audit",
+          "stats": {
+            "files_changed": 43,
+            "insertions": 9496,
+            "deletions": 33
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-11T20:22:51+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_ROADMAP_ONLY",
+      "confidence": 85
+    },
+    "testing-system": {
+      "track": "testing-system",
+      "roadmap_commits": 9,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "E_BULK_UPDATES",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 4,
+        "E_BULK_UPDATES": 5
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "4367bc86",
+          "date": "2025-11-11T00:41:35+00:00",
+          "message": "fix: Resolve roadmap corruption and recalculation issues after VS Code crash",
+          "stats": {
+            "files_changed": 24,
+            "insertions": 402,
+            "deletions": 458
+          }
+        },
+        {
+          "hash": "e5ece282",
+          "date": "2025-11-10T23:31:04+00:00",
+          "message": "fix: Resolve roadmap status inconsistencies and document root causes",
+          "stats": {
+            "files_changed": 5,
+            "insertions": 618,
+            "deletions": 110
+          }
+        },
+        {
+          "hash": "706b8bec",
+          "date": "2025-11-10T13:32:08+00:00",
+          "message": "fix: Correct 5 track status mismatches in roadmap",
+          "stats": {
+            "files_changed": 14,
+            "insertions": 328,
+            "deletions": 242
+          }
+        },
+        {
+          "hash": "0ee4b6c3",
+          "date": "2025-11-10T09:18:33+00:00",
+          "message": "feat: Migrate roadmap from flat to hierarchical structure",
+          "stats": {
+            "files_changed": 127,
+            "insertions": 3600,
+            "deletions": 111
+          }
+        },
+        {
+          "hash": "815f3429",
+          "date": "2025-11-09T22:52:59+00:00",
+          "message": "feat: Complete testing-system track - All 3 sprints, 200+ tests, CI/CD \u2705",
+          "stats": {
+            "files_changed": 12,
+            "insertions": 2418,
+            "deletions": 15
+          }
+        },
+        {
+          "hash": "583ed9f2",
+          "date": "2025-11-09T22:42:00+00:00",
+          "message": "feat: Complete testing-system Sprint 2 - Journey Integration Tests \u2705",
+          "stats": {
+            "files_changed": 14,
+            "insertions": 3034,
+            "deletions": 6
+          }
+        },
+        {
+          "hash": "5d779493",
+          "date": "2025-11-09T22:28:23+00:00",
+          "message": "feat: Complete testing-system Sprint 1 - Test Framework Complete \u2705",
+          "stats": {
+            "files_changed": 3,
+            "insertions": 668,
+            "deletions": 15
+          }
+        },
+        {
+          "hash": "03028e81",
+          "date": "2025-11-09T22:19:40+00:00",
+          "message": "feat: Implement testing framework infrastructure (Sprint 1 - Tasks 1-5)",
+          "stats": {
+            "files_changed": 269,
+            "insertions": 22567,
+            "deletions": 173
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-09T22:19:40+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_BULK_UPDATE",
+      "confidence": 75
+    },
+    "directory-migration": {
+      "track": "directory-migration",
+      "roadmap_commits": 15,
+      "nearby_work_commits": 0,
+      "total_code_files": 0,
+      "total_test_files": 0,
+      "total_doc_files": 0,
+      "nearby_code_files": 0,
+      "dominant_pattern": "D_SUSPICIOUS_ONLY",
+      "pattern_distribution": {
+        "D_SUSPICIOUS_ONLY": 13,
+        "E_BULK_UPDATES": 2
+      },
+      "commit_stats": [
+        {
+          "hash": "205c877b",
+          "date": "2025-11-12T16:22:27+00:00",
+          "message": "fix: Begin addressing test failures in comprehensive CLI test suite",
+          "stats": {
+            "files_changed": 145,
+            "insertions": 27731,
+            "deletions": 5558
+          }
+        },
+        {
+          "hash": "884b2efa",
+          "date": "2025-11-10T23:43:45+00:00",
+          "message": "feat: Complete directory-migration track - All 3 sprints, 45 tasks \u2705",
+          "stats": {
+            "files_changed": 15,
+            "insertions": 111,
+            "deletions": 49
+          }
+        },
+        {
+          "hash": "cf2e9c10",
+          "date": "2025-11-10T23:19:25+00:00",
+          "message": "feat: Complete comprehensive test suite updates and coverage analysis",
+          "stats": {
+            "files_changed": 46,
+            "insertions": 15173,
+            "deletions": 12
+          }
+        },
+        {
+          "hash": "0a680f20",
+          "date": "2025-11-10T20:34:21+00:00",
+          "message": "feat: Sprint 3 Tasks 001-004 - Platform Adapter Foundation \u2705",
+          "stats": {
+            "files_changed": 4,
+            "insertions": 672,
+            "deletions": 0
+          }
+        },
+        {
+          "hash": "27b127f4",
+          "date": "2025-11-10T20:28:30+00:00",
+          "message": "feat: Complete Sprint 2 - Modular Config System with Auto-Migration \u2705",
+          "stats": {
+            "files_changed": 45,
+            "insertions": 5982,
+            "deletions": 46
+          }
+        },
+        {
+          "hash": "0c5864bf",
+          "date": "2025-11-10T19:15:18+00:00",
+          "message": "chore: Initialize Sprint 2 structure for Config Migration",
+          "stats": {
+            "files_changed": 1,
+            "insertions": 49,
+            "deletions": 0
+          }
+        },
+        {
+          "hash": "f19c2b19",
+          "date": "2025-11-10T19:12:56+00:00",
+          "message": "feat: Complete Sprint 1 - Unified CLI Tool (Tasks 009-012) \u2705",
+          "stats": {
+            "files_changed": 8,
+            "insertions": 491,
+            "deletions": 25
+          }
+        },
+        {
+          "hash": "d9a801d2",
+          "date": "2025-11-10T19:10:58+00:00",
+          "message": "feat: Add CLI test suite (Task 008)",
+          "stats": {
+            "files_changed": 7,
+            "insertions": 295,
+            "deletions": 10
+          }
+        },
+        {
+          "hash": "c5c575e8",
+          "date": "2025-11-10T19:07:12+00:00",
+          "message": "feat: Verify and fix roadmap CLI commands (Tasks 006-007)",
+          "stats": {
+            "files_changed": 7,
+            "insertions": 59,
+            "deletions": 20
+          }
+        },
+        {
+          "hash": "90d061f3",
+          "date": "2025-11-10T19:04:11+00:00",
+          "message": "feat: Update all imports to vibey package structure (Task 005)",
+          "stats": {
+            "files_changed": 26,
+            "insertions": 60,
+            "deletions": 54
+          }
+        }
+      ],
+      "date_range": {
+        "first": "2025-11-10T09:18:33+00:00",
+        "last": "2025-11-12T16:22:27+00:00"
+      },
+      "verdict": "SUSPICIOUS_ROADMAP_ONLY",
+      "confidence": 85
+    }
+  }
+}

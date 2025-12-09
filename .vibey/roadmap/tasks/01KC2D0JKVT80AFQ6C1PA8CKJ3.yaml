@@ -1,0 +1,75 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ3
+  sprint_id: unified-arch-2
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create schema migration script
+  description: "Create a script to migrate from legacy schema to unified schema.\n\
+    \nMIGRATION STEPS:\n1. Create new tables (completables, criteria, artifacts)\n\
+    2. Copy data from legacy tables to completables\n3. Convert blocked_by/depends_on\
+    \ to criteria rows\n4. Convert deliverables to criteria rows\n5. Convert quality_gates\
+    \ to criteria rows\n6. Create views for backward compatibility\n7. Drop legacy\
+    \ tables (optional, can keep for rollback)\n\nIMPLEMENTATION:\n```python\ndef\
+    \ migrate_to_v2_schema(db_path: Path, dry_run: bool = True) -> MigrationResult:\n\
+    \    conn = sqlite3.connect(db_path)\n\n    # 1. Create backup\n    backup_path\
+    \ = create_backup(db_path)\n\n    # 2. Create new tables\n    conn.executescript(SCHEMA_V2_SQL)\n\
+    \n    # 3. Migrate roadmaps → completables\n    for row in conn.execute(\"SELECT\
+    \ * FROM roadmaps\"):\n        insert_completable(conn, 'roadmap', row)\n\n  \
+    \  # 4. Migrate tracks → completables\n    # 5. Migrate sprints → completables\n\
+    \    # 6. Migrate tasks → completables\n\n    # 7. Convert blocked_by → criteria\n\
+    \    migrate_blocked_by_to_criteria(conn)\n\n    # 8. Convert depends_on → criteria\n\
+    \    migrate_depends_on_to_criteria(conn)\n\n    # 9. Convert deliverables → criteria\n\
+    \    migrate_deliverables_to_criteria(conn)\n\n    return MigrationResult(...)\n\
+    ```\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 60000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-2-task-007
+  blocked_by:
+  - unified-arch-2-task-001
+  - unified-arch-2-task-002
+  - unified-arch-2-task-003
+  depends_on:
+  - blocker_id: unified-arch-2-task-001
+    blocker_type: task
+    required_status: completed
+    description: Completables schema must be designed
+    status: pending
+  - blocker_id: unified-arch-2-task-002
+    blocker_type: task
+    required_status: completed
+    description: Criteria schema must be designed
+    status: pending
+  - blocker_id: unified-arch-2-task-003
+    blocker_type: task
+    required_status: completed
+    description: Artifacts schema must be designed
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/database/schema_v2.sql
+    type: code
+    description: Unified schema DDL
+  - path: vibey/roadmap/database/migrate_to_v2.py
+    type: code
+    description: Migration script
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: unified-arch-2-task-004
+  parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50

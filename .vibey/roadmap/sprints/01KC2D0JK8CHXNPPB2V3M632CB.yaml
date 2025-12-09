@@ -1,0 +1,81 @@
+sprint:
+  id: 01KC2D0JK8CHXNPPB2V3M632CB
+  name: Delete Legacy Interfaces & Consolidate
+  track_id: interface-unification
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-12T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100.0
+  tasks:
+  - id: interface-unification-1-task-001
+    title: Delete all slash commands (framework/commands/)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: interface-unification-1-task-002
+    title: Delete test scripts and audit standalone scripts
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: interface-unification-1-task-003
+    title: Audit deleted files for unique functionality
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: interface-unification-1-task-004
+    title: Implement missing features in CLI (if any)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: interface-unification-1-task-005
+    title: Clean up imports and dead references
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: interface-unification-1-task-006
+    title: Update project structure documentation
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: interface-unification-1
+  parent_ref: 01KC2D0JK8CHXNPPB2V3M632CA

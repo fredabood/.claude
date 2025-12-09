@@ -1,0 +1,86 @@
+sprint:
+  id: 01KC2D0JKWWW8WMS7PPGDQ42GP
+  name: Context Directory Writers & CLI Integration
+  track_id: user-journey-audit
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: user-journey-audit-22-task-001
+    name: Create architecture discovery context writer
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-22-task-002
+    name: Add --output-context flag to vibey discover command
+    status: not_started
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-22-task-003
+    name: Implement automatic context directory creation per track
+    status: not_started
+    priority: high
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-22-task-004
+    name: Add discovery context loading for AI agents
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-22-task-005
+    name: Create test suite for discovery context integration
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+  - id: user-journey-audit-22-task-006
+    name: Document discovery context workflow
+    status: not_started
+    priority: medium
+    estimated_hours: 3
+    assigned_agent: docs-writer
+  dependencies:
+  - user-journey-audit-21
+  blocked_by:
+  - user-journey-audit-21
+  quality_gates:
+  - name: Integration Tests
+    threshold: 95
+    blocking: true
+    status: not_run
+  - name: CLI Usability
+    threshold: 90
+    blocking: false
+    status: not_run
+  deliverables:
+  - ArchitectureDiscoveryWriter implementation
+  - vibey discover --output-context command
+  - Automatic context directory management
+  - Context loading for AI agent prompts
+  - Comprehensive test coverage
+  - User documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: "Sprint 2 completes the integration with CLI and AI context loading.\n\n\
+      CLI Usage:\n  vibey discover --output-context\n  vibey discover codebase --track\
+      \ mytrack\n  vibey discover git-history --track mytrack\n  vibey discover dependencies\
+      \ --track mytrack\n  vibey discover all --track mytrack\n\nContext Loading Flow:\n\
+      1. Discovery runs and writes to context/\n2. AI agent loads track context\n\
+      3. Discovery results included in prompt\n4. Agent has full project understanding\n\
+      \nDirectory structure after discovery:\n  .vibey/roadmap/[track]/context/\n\
+      \  ├── discovery/\n  │   ├── codebase-audit.md\n  │   ├── git-analysis.md\n\
+      \  │   ├── dependencies.yaml\n  │   ├── architecture.md\n  │   └── discovery-manifest.yaml\n\
+      \  └── ...other context files\n"
+  slug: user-journey-audit-22
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT

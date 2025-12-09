@@ -1,0 +1,34 @@
+task:
+  id: 01KC2D0JK1877YN6T0673VB253
+  sprint_id: claude-port-1
+  track_id: claude-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Document baseline metrics
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-11T00:03:00-05:00'
+  started: null
+  completed: '2025-11-11T00:03:00-05:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: claude-port-1-task-008
+  parent_ref: 01KC2D0JK1877YN6T0673VB24V

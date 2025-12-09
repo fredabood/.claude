@@ -1,0 +1,72 @@
+track:
+  id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
+  name: Roadmap Standards System
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completed: '2025-11-11T00:00:00+00:00'
+  estimated_duration: null
+  progress:
+    sprints_total: 6
+    sprints_completed: 6
+    tasks_total: 51
+    tasks_completed: 51
+    completion_percent: 100.0
+  sprints:
+  - id: standards-system-1
+    name: Core Data Model & YAML Schema
+    status: completed
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: standards-system-2
+    name: Standards Resolution Engine
+    status: completed
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: standards-system-3
+    name: Standard Validators
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: standards-system-4
+    name: CLI Integration
+    status: completed
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: standards-system-5
+    name: Standard Templates Library
+    status: completed
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: standards-system-6
+    name: UI/UX Enhancements & Documentation
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null
+  slug: standards-system

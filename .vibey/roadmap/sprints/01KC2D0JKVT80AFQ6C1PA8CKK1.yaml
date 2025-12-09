@@ -1,0 +1,181 @@
+sprint:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKK1
+  name: MCP Server & Platform Adapters Test Coverage
+  track_id: user-journey-audit
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: user-journey-audit-15-task-001
+    name: Audit existing MCP and adapter tests
+    status: not_started
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: 'Baseline MCP/adapter test coverage:
+
+      - Run pytest-cov on vibey/mcp/ and vibey/adapters/
+
+      - Document current coverage percentage
+
+      - Identify untested endpoints
+
+      - Identify untested adapters
+
+      '
+  - id: user-journey-audit-15-task-002
+    name: Write tests for MCP server
+    status: not_started
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: 'Test MCP server:
+
+      - Server initialization
+
+      - Tool registration
+
+      - Tool execution
+
+      - Request/response handling
+
+      - Error handling
+
+      - Protocol compliance
+
+      '
+  - id: user-journey-audit-15-task-003
+    name: Write tests for MCP tools
+    status: not_started
+    priority: critical
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: 'Test each MCP tool:
+
+      - roadmap_status tool
+
+      - roadmap_update tool
+
+      - Other exposed tools
+
+      - Input validation
+
+      - Output formatting
+
+      - Error responses
+
+      '
+  - id: user-journey-audit-15-task-004
+    name: Write tests for platform adapter base
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: test-engineer
+    description: 'Test adapter base class:
+
+      - PlatformAdapter interface
+
+      - Required method signatures
+
+      - Default implementations
+
+      - Adapter registration
+
+      '
+  - id: user-journey-audit-15-task-005
+    name: Write tests for each platform adapter
+    status: not_started
+    priority: high
+    estimated_hours: 10
+    assigned_agent: test-engineer
+    description: 'Test platform adapters:
+
+      - ClaudeAdapter
+
+      - GooseAdapter
+
+      - CursorAdapter
+
+      - Other adapters
+
+      - Platform-specific behavior
+
+      - Configuration handling
+
+      '
+  - id: user-journey-audit-15-task-006
+    name: Verify 100% MCP/adapter coverage achieved
+    status: not_started
+    priority: critical
+    estimated_hours: 4
+    assigned_agent: test-engineer
+    description: 'Validate coverage target:
+
+      - Run pytest-cov --cov=vibey/mcp --cov=vibey/adapters
+
+      - Verify 100% line coverage
+
+      - Verify 100% branch coverage
+
+      - Fix any remaining gaps
+
+      '
+  - id: user-journey-audit-15-task-007
+    name: Document MCP/adapter testing patterns
+    status: not_started
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: docs-writer
+    description: 'Create MCP/adapter testing guide:
+
+      - MCP protocol testing
+
+      - Mocking external platforms
+
+      - Adapter testing strategies
+
+      - Integration vs unit testing
+
+      '
+  dependencies:
+  - user-journey-audit-11
+  blocked_by:
+  - user-journey-audit-11
+  quality_gates:
+  - name: MCP Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+  - name: Adapters Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+  - name: MCP/Adapters Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+  deliverables:
+  - MCP/adapter test coverage baseline
+  - Tests for MCP server
+  - Tests for MCP tools
+  - Tests for adapter base
+  - Tests for platform adapters
+  - 100% MCP/adapter coverage verified
+  - MCP/adapter testing documentation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: 'Sprint 6 achieves 100% test coverage of MCP and adapters.
+
+      Targets: vibey/mcp/ and vibey/adapters/ directories
+
+      '
+  slug: user-journey-audit-15
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT

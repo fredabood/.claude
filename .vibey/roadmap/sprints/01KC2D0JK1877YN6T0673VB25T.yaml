@@ -1,0 +1,82 @@
+sprint:
+  id: 01KC2D0JK1877YN6T0673VB25T
+  name: Context Providers & Multi-IDE Support
+  track_id: continue-port
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  blocked_reason: null
+  created: '2025-11-22T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: continue-port-2-task-001
+    title: Vibey context provider implementation
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: continue-port-2-task-002
+    title: JetBrains integration testing
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: continue-port-2-task-003
+    title: MCP server integration
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: continue-port-2-task-004
+    title: Integration examples
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: continue-port-2-task-005
+    title: Complete documentation
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: continue-port-2
+  parent_ref: 01KC2D0JK1877YN6T0673VB25H

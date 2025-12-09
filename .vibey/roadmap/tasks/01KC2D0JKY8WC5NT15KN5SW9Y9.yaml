@@ -1,0 +1,35 @@
+task:
+  id: 01KC2D0JKY8WC5NT15KN5SW9Y9
+  sprint_id: vscode-roadmap-extension-6
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write e2e tests for edit operations
+  description: 'Test full edit workflow: start task, complete task, undo. Verify YAML
+    file modifications. Test error handling.'
+  status: not_started
+  blocked: false
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: vscode-roadmap-extension-6-task-003
+  parent_ref: 01KC2D0JKY8WC5NT15KN5SW9Y6

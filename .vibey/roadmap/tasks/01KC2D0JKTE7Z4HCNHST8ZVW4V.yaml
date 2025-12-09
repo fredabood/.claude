@@ -1,0 +1,58 @@
+task:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW4V
+  sprint_id: unified-arch-1
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create directory migration script with backup
+  description: "Create a migration script that:\n1. Backs up the entire .vibey/roadmap/\
+    \ directory\n2. Creates new flat directory structure (tracks/, sprints/, tasks/,\
+    \ artifacts/, context/)\n3. Moves files using git mv to preserve history\n4. Updates\
+    \ internal file references\n5. Validates the migration\n6. Provides rollback capability\n\
+    \nIMPLEMENTATION:\n```python\ndef migrate_to_flat_structure(\n    root_dir: Path,\n\
+    \    dry_run: bool = True,\n    backup: bool = True\n) -> MigrationResult:\n \
+    \   # 1. Create backup\n    if backup:\n        backup_path = create_backup(root_dir)\n\
+    \n    # 2. Scan current structure\n    tracks, sprints, tasks = scan_nested_structure(root_dir)\n\
+    \n    # 3. Create new directories\n    create_flat_directories(root_dir)\n\n \
+    \   # 4. Move files with git mv\n    for track in tracks:\n        git_mv(track.path,\
+    \ root_dir / \"tracks\" / f\"{track.id}.yaml\")\n    # ... sprints, tasks\n\n\
+    \    # 5. Update references\n    update_yaml_references(root_dir)\n\n    # 6.\
+    \ Validate\n    validate_migration(root_dir)\n\n    return MigrationResult(...)\n\
+    ```\n\nCLI COMMAND:\nvibey roadmap migrate-structure --dry-run\nvibey roadmap\
+    \ migrate-structure --execute\nvibey roadmap migrate-structure --rollback\n"
+  status: completed
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T15:05:00+00:00'
+  completed: '2025-12-09T15:15:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 50000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-1-task-005
+  blocked_by:
+  - unified-arch-1-task-001
+  depends_on:
+  - blocker_id: unified-arch-1-task-001
+    blocker_type: task
+    required_status: completed
+    description: Need directory schema before implementing migration
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/serialization/directory_migration.py
+    type: code
+    description: Directory migration script
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: unified-arch-1-task-002
+  parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4S

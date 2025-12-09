@@ -1,0 +1,106 @@
+sprint:
+  id: 01KC2D0JK6JC6706H9WP2NH5DX
+  name: Git Hooks Core
+  track_id: git-integration
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-24T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 11
+    development_tasks_completed: 11
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 11
+    tasks_completed: 11
+    completion_percent: 100.0
+  tasks:
+  - id: git-integration-2-task-001
+    title: Implement pre-commit hook architecture
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-002
+    title: Implement commit-msg hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-003
+    title: Add git hooks install/uninstall commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-004
+    title: Implement automatic task status updates
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-005
+    title: Create branch-to-task linking system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-006
+    title: Build PR description generator
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-007
+    title: Create test suite for git hooks
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-008
+    title: Document git hooks setup and usage
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-009
+    title: Implement sprint tagging system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-010
+    title: Implement Git-primary sync command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: git-integration-2-task-011
+    title: Implement mode detection and strategy enforcement
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: git-integration-2
+  parent_ref: 01KC2D0JK6JC6706H9WP2NH5DA

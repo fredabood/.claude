@@ -1,0 +1,40 @@
+task:
+  id: 01KC2D0JKWWW8WMS7PPGDQ42H4
+  sprint_id: vscode-port-1
+  track_id: vscode-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Write unit tests for adapter
+  description: null
+  status: not_started
+  blocked: true
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: vscode-port-1-task-005
+  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42GZ

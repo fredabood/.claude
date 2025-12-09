@@ -1,0 +1,86 @@
+sprint:
+  id: 01KC2D0JK2A3KNMQVJDACN1X9N
+  name: Core Adapter & MCP Configuration
+  track_id: cursor-port
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-23T00:00:00+00:00'
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 7
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 7
+    tasks_completed: 5
+    completion_percent: 71.0
+  tasks:
+  - id: cursor-port-1-task-001
+    title: Create CursorAdapter base class
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-002
+    title: Implement CursorContextGenerator
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-003
+    title: Implement CursorSettingsGenerator (.cursor/mcp.json)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-004
+    title: Add vibey deploy --platform cursor CLI
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-005
+    title: Generate .cursorrules from frontmatter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-006
+    title: Write unit tests for adapter
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: cursor-port-1-task-007
+    title: Write unit tests for generators
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: cursor-port-1
+  parent_ref: 01KC2D0JK2A3KNMQVJDACN1X9M

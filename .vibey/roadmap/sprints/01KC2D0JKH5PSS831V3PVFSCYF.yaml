@@ -1,0 +1,61 @@
+sprint:
+  id: 01KC2D0JKH5PSS831V3PVFSCYF
+  name: 'Audit: interface-unification'
+  track_id: roadmap-state-audit
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-23T20:35:52.725661+00:00'
+  started: '2025-11-23T20:35:52.725661+00:00'
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 2
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 2
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: roadmap-state-audit-15-task-001
+    title: Fix sprint progress counters
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: roadmap-state-audit-15-task-002
+    title: Update quality gates
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: roadmap-state-audit-15
+  parent_ref: 01KC2D0JKG48M2973YX4EGG3PS

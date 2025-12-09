@@ -1,0 +1,102 @@
+sprint:
+  id: 01KC2D0JKXPS17WN2TC0K8NG71
+  name: Task Links & File Navigation
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: vscode-roadmap-extension-5-task-001
+    title: Implement 'Open Task YAML' command from tree view
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-5-task-002
+    title: Parse and display task context files in tree
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-5-task-003
+    title: Add CodeLens for task references in code comments
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-5-task-004
+    title: Implement hover provider showing task details
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-5-task-005
+    title: Add 'Go to Task Definition' from task ID in code
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-5-task-006
+    title: Show related files (deliverables, context) in task detail
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Task YAML navigation
+  - Context file display
+  - CodeLens for task references
+  - Hover and definition providers
+  description: 'Enable navigation between tasks and related files: open task YAML,
+
+    show context files, CodeLens for task references, and hover information.
+
+    '
+  goal: Seamless navigation between code and roadmap
+  success_criteria:
+  - Click task to open its YAML file
+  - Context files shown as children in tree
+  - CodeLens shows task info on // TASK-001 comments
+  - Hover on task ID shows task title and status
+  risks:
+  - Performance of CodeLens on large files
+  notes: 'Task ID patterns to recognize:
+
+    - TASK-001, task-001
+
+    - sprint-1-task-001
+
+    - Full IDs like sqlite-backend-12-task-001
+
+    '
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: vscode-roadmap-extension-5
+  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB

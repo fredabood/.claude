@@ -1,0 +1,314 @@
+track:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  name: User Journey Audit & Documentation Coverage
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 44 weeks
+  progress:
+    sprints_total: 22
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: user-journey-audit-1
+    name: Documentation & Code Audit
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-2
+    name: CLI Reference Guide Tooling & Generation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-3
+    name: Journey Mapping & Pain Point Discovery
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-4
+    name: User Journey Walkthrough Generation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-5
+    name: Friction Analysis & Gap Identification
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-6
+    name: Recommendations & Improvement Roadmap
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-7
+    name: Documentation Completeness Audit
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-8
+    name: Documentation Correctness & Accuracy Review
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-9
+    name: Documentation Organization & Best Practices
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-10
+    name: CLI Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-11
+    name: Operations Library Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-12
+    name: Roadmap Models & Serialization Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-13
+    name: Config System Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-14
+    name: Common Utilities & Error Handling Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-15
+    name: MCP Server & Platform Adapters Test Coverage
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-16
+    name: Integration Tests & Final Validation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-17
+    name: Contributor Experience & Project Documentation
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 8
+    started: null
+  - id: user-journey-audit-18
+    name: Context Engineering Research & Landscape Analysis
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-19
+    name: Gap Analysis - Git Versioning for Vibe Coding Sessions
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-20
+    name: Transparency, Auditability & Reproducibility Design
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 7
+    started: null
+  - id: user-journey-audit-21
+    name: Discovery Output Architecture
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 6
+    started: null
+  - id: user-journey-audit-22
+    name: Context Directory Writers & CLI Integration
+    status: not_started
+    estimated_duration: 2 weeks
+    tasks_count: 6
+    started: null
+  dependencies:
+  - type: track
+    target_id: python-package
+    target_status: completed
+    reason: Package must be pip-installable before testing user journeys
+    optional: false
+  - type: track
+    target_id: git-integration
+    target_status: completed
+    reason: Git integration features must be complete before auditing user journeys
+    optional: false
+  blocks: []
+  blocked_by:
+  - python-package
+  - git-integration
+  depends_on:
+  - python-package
+  - git-integration
+  depended_on_by: []
+  quality_gates:
+  - name: Documentation Completeness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% of features and CLI commands documented
+    score: null
+  - name: Documentation Correctness
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: All code examples work, all links valid, all info accurate
+    score: null
+  - name: Documentation Usability
+    threshold: 90
+    blocking: true
+    status: not_run
+    description: Docs follow best practices and are intuitively organized
+    score: null
+  - name: CLI Reference Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: CLI reference guide covers 100% of vibey CLI
+    score: null
+  - name: User Journey Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: User journeys cover 100% of CLI reference functionality
+    score: null
+  - name: Friction Analysis Coverage
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: All user journeys analyzed for friction points
+    score: null
+  - name: Overall Test Coverage
+    threshold: 100
+    blocking: true
+    status: not_run
+    description: 100% code coverage across all vibey library components
+    score: null
+  - name: Test Pass Rate
+    threshold: 95
+    blocking: true
+    status: not_run
+    description: 95%+ of all tests must pass
+    score: null
+  assigned_agents:
+  - architecture-agent
+  - backend-engineer
+  - docs-writer
+  - test-engineer
+  deliverables:
+  - Documentation and code audit report
+  - CLI reference guide auto-generation tooling
+  - Auto-generated CLI reference guide (100% coverage)
+  - User persona journey maps
+  - Comprehensive user journey walkthroughs (100% CLI coverage)
+  - Automated doc refresh system (CLI → user journeys)
+  - Pain point inventory with severity ratings
+  - Friction analysis report
+  - Prioritized improvement recommendations
+  - UX improvement roadmap
+  - Documentation completeness audit and gap report
+  - Documentation correctness verification (all examples work)
+  - Link audit (internal and external)
+  - Technical accuracy verification
+  - Documentation style guide
+  - Reorganized documentation structure
+  - Documentation contribution guide
+  - 100% test coverage of vibey/cli/
+  - 100% test coverage of vibey/operations/
+  - 100% test coverage of vibey/roadmap/
+  - 100% test coverage of vibey/config/
+  - 100% test coverage of vibey/common/
+  - 100% test coverage of vibey/mcp/
+  - 100% test coverage of vibey/adapters/
+  - Integration test suite
+  - CI coverage enforcement
+  - Coverage maintenance documentation
+  - Updated README.md aligned to current state
+  - Updated CHANGELOG.md with complete history
+  - Comprehensive CONTRIBUTING.md
+  - Contributor onboarding guide
+  - Development workflow documentation
+  - Contributor journey walkthroughs
+  strategic_value:
+  - 'Completeness: 100% documentation coverage of all functionality'
+  - 'Correctness: All documentation verified accurate and working'
+  - 'Usability: Documentation follows best practices and conventions'
+  - 'Accuracy: Auto-generation prevents documentation drift'
+  - 'Maintainability: CLI changes auto-propagate to docs'
+  - 'Onboarding: Complete user journeys for all personas'
+  - 'UX: Data-driven friction reduction and improvements'
+  - 'Quality: Every library component fully tested'
+  - 'Regression Prevention: Changes caught immediately'
+  - 'Confidence: Refactoring safe with full coverage'
+  - 'Reliability: 95%+ pass rate ensures stability'
+  - 'Contributor Experience: Smooth onboarding for new contributors'
+  - 'Project Health: README, CHANGELOG, CONTRIBUTING aligned to current state'
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: "Comprehensive audit ensuring documentation, user journeys, and test\n\
+      coverage have 100% coverage of Vibey's functionality.\n\nPART 1: DOCUMENTATION\
+      \ & UX DISCOVERY (Sprints 1-6)\n1. Audit existing docs and code\n2. Build CLI\
+      \ reference auto-generation (100% coverage)\n3. Map actual user journeys per\
+      \ persona (discover pain points)\n4. Generate user journey walkthroughs (100%\
+      \ CLI coverage)\n5. Analyze friction and gaps\n6. Create prioritized improvement\
+      \ roadmap\n\nKEY INSIGHT:\nJourney mapping (Sprint 3) happens BEFORE walkthrough\
+      \ generation\n(Sprint 4) so that the walkthroughs address discovered pain points.\n\
+      \nPART 2: DOCUMENTATION QUALITY & BEST PRACTICES (Sprints 7-9)\n7. Documentation\
+      \ completeness audit (100% CLI coverage)\n8. Documentation correctness review\
+      \ (all examples work, links valid)\n9. Documentation organization & best practices\
+      \ (intuitive structure)\n\nDOCUMENTATION REQUIREMENTS:\n- 100% coverage over\
+      \ CLI reference guide\n- Expand on all scenarios in user journey flow\n- Follow\
+      \ technical writing best practices\n- Organized intuitively following conventions\
+      \ for similar projects\n- Benchmarked against Claude Code, Cursor, Aider documentation\n\
+      \nPART 3: TEST COVERAGE (Sprints 10-16)\n10. CLI test coverage (vibey/cli/)\n\
+      11. Operations library coverage (vibey/operations/)\n12. Roadmap models coverage\
+      \ (vibey/roadmap/)\n13. Config system coverage (vibey/config/)\n14. Common utilities\
+      \ coverage (vibey/common/)\n15. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)\n\
+      16. Integration tests & final validation\n\nPART 4: CONTRIBUTOR EXPERIENCE (Sprint\
+      \ 17)\n17. Contributor experience & project documentation\n    - README.md aligned\
+      \ to current project state\n    - CHANGELOG.md with complete release history\n\
+      \    - CONTRIBUTING.md with comprehensive contributor guide\n    - Contributor\
+      \ onboarding and journey walkthroughs\n    - Development workflow documentation\n\
+      \nCONTRIBUTOR CONSIDERATIONS:\n- Contributor persona included in journey mapping\
+      \ (Sprint 3)\n- Contributor walkthroughs included in journey generation (Sprint\
+      \ 4)\n- Documentation considers contributor use cases throughout\n\nPART 5:\
+      \ CONTEXT ENGINEERING STUDY (Sprints 18-20)\n18. Context engineering research\
+      \ & landscape analysis\n19. Gap analysis - Git versioning for vibe coding sessions\n\
+      20. Transparency, auditability & reproducibility design\n\nPART 6: DISCOVERY\
+      \ CONTEXT INTEGRATION (Sprints 21-22)\n21. Discovery output architecture\n22.\
+      \ Context directory writers & CLI integration\n\nSUCCESS CRITERIA:\n- 100% documentation\
+      \ completeness\n- 100% documentation correctness\n- 100% user journey coverage\n\
+      - 100% code coverage (line and branch)\n- 95%+ test pass rate\n- CI enforcement\
+      \ to prevent regression\n"
+  slug: user-journey-audit

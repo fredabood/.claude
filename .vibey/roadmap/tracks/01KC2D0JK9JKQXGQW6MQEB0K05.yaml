@@ -1,0 +1,60 @@
+track:
+  id: 01KC2D0JK9JKQXGQW6MQEB0K05
+  name: MCP Server Foundation
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: critical
+  created: '2025-11-09T00:00:00+00:00'
+  started: '2025-11-09T00:00:00+00:00'
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 4
+    sprints_completed: 0
+    tasks_total: 31
+    tasks_completed: 16
+    completion_percent: 52.0
+  sprints:
+  - id: mcp-server-1
+    name: MCP Server Foundation
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: mcp-server-2
+    name: Sprint & Query Tools
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: mcp-server-3
+    name: MCP Resources, Prompts & Handoff Discovery
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
+  - id: mcp-server-4
+    name: MCP Setup Automation for Platform Deployments
+    status: not_started
+    estimated_duration: null
+    tasks_count: 15
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null
+  slug: mcp-server

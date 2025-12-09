@@ -1,0 +1,77 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJR
+  sprint_id: unified-arch-5
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update CLI commands for new models
+  description: "Update CLI commands to use new operations and display criteria-based\
+    \ info.\n\nCOMMAND UPDATES:\n1. vibey roadmap status - Show criteria-based progress\n\
+    2. vibey roadmap show - Display criteria, blocking reasons\n3. vibey roadmap update\
+    \ - Use can_transition_to() for validation\n4. vibey roadmap blocking - Show what's\
+    \ blocking transitions\n\nNEW COMMANDS:\n1. vibey artifact list - List all artifacts\n\
+    2. vibey artifact show <id> - Show artifact details\n3. vibey artifact adopt <path>\
+    \ - Register file as artifact\n4. vibey artifact orphans - Show unreferenced artifacts\n\
+    5. vibey artifact impact <files> - Show affected tickets\n\nDISPLAY CHANGES:\n\
+    ```\n$ vibey roadmap show sqlite-backend-6-task-004\n\nTask: sqlite-backend-6-task-004\n\
+    Status: in_progress\nProgress: 2/3 criteria met (66%)\n\nCriteria:\n  ✓ [completed]\
+    \ Task 003 must complete\n  ✓ [completed] Design document exists\n  ✗ [pending]\
+    \ Implementation file exists\n    → Missing: vibey/roadmap/models/ticket.py\n\n\
+    Blocking Completion:\n  - Implementation file exists\n```\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 50000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-5-task-006
+  blocked_by:
+  - unified-arch-5-task-001
+  - unified-arch-5-task-002
+  - unified-arch-5-task-003
+  - unified-arch-5-task-004
+  depends_on:
+  - blocker_id: unified-arch-5-task-001
+    blocker_type: task
+    required_status: completed
+    description: Query ops must be migrated
+    status: pending
+  - blocker_id: unified-arch-5-task-002
+    blocker_type: task
+    required_status: completed
+    description: Update ops must be migrated
+    status: pending
+  - blocker_id: unified-arch-5-task-003
+    blocker_type: task
+    required_status: completed
+    description: Transitions must use can_transition_to
+    status: pending
+  - blocker_id: unified-arch-5-task-004
+    blocker_type: task
+    required_status: completed
+    description: Artifact ops must be implemented
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/cli/main.py
+    type: code
+    description: Updated CLI commands
+  - path: vibey/cli/commands.py
+    type: code
+    description: Updated command implementations
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: unified-arch-5-task-005
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJK

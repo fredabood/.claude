@@ -1,0 +1,48 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3P
+  sprint_id: sqlite-backend-13
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Modify update operations to write to both backends
+  description: "Implement dual-write pattern for all update operations.\n\nWRITE PATTERN:\n\
+    1. Receive update command (CLI or MCP)\n2. Write to SQLite database (primary)\n\
+    3. Mark database as dirty (has uncommitted changes)\n4. On pre-commit: dump dirty\
+    \ records to YAML\n5. Clear dirty flag after successful dump\n\nOPERATIONS TO\
+    \ UPDATE:\n- start_task() / start_sprint() / start_track()\n- complete_task()\
+    \ / complete_sprint() / complete_track()\n- update_task_status() / update_sprint_status()\n\
+    - add_commit_to_task()\n- add_deliverable_to_task()\n- update_progress()\n\nIMPLEMENTATION:\n\
+    ```python\ndef complete_task(task_id: str) -> None:\n    # 1. Load from DB\n \
+    \   task = sql_load_task(task_id)\n\n    # 2. Validate transition\n    can_complete,\
+    \ blocking = task.can_transition_to(COMPLETED)\n    if not can_complete:\n   \
+    \     raise TransitionBlockedError(blocking)\n\n    # 3. Update DB\n    task.status\
+    \ = COMPLETED\n    task.completed_at = datetime.now(timezone.utc)\n    sql_save_task(task)\n\
+    \n    # 4. Mark dirty\n    mark_dirty(task_id)\n\n    # 5. Log activity\n    log_activity(TICKET_COMPLETED,\
+    \ task_id)\n```\n\nREFERENCE:\n- vibey/operations/roadmap/update.py\n- vibey/roadmap/serialization/backend.py\
+    \ (SyncManager)\n"
+  status: completed
+  blocked: false
+  created: '2025-11-28T17:00:00+00:00'
+  started: '2025-12-06T15:39:09.102204+00:00'
+  completed: '2025-12-06T15:39:37.657077+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: sqlite-backend-13-task-002
+  parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M

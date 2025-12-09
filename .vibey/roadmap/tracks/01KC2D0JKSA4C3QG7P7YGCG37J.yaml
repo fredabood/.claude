@@ -1,0 +1,54 @@
+track:
+  id: 01KC2D0JKSA4C3QG7P7YGCG37J
+  name: Comprehensive Testing & Quality Assurance
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-10T03:00:00+00:00'
+  started: null
+  completed: '2025-11-10T03:00:00+00:00'
+  estimated_duration: null
+  progress:
+    sprints_total: 3
+    sprints_completed: 3
+    tasks_total: 30
+    tasks_completed: 30
+    completion_percent: 100.0
+  sprints:
+  - id: testing-system-1
+    name: Test Framework & Unit Tests
+    status: completed
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: testing-system-2
+    name: Journey Integration Tests
+    status: completed
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: testing-system-3
+    name: E2E Tests & Platform Tests
+    status: completed
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null
+  slug: testing-system

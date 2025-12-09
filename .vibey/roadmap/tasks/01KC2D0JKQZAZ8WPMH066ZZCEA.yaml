@@ -1,0 +1,34 @@
+task:
+  id: 01KC2D0JKQZAZ8WPMH066ZZCEA
+  sprint_id: sqlite-backend-8
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Database schema migration for hierarchy columns
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-29T14:00:00+00:00'
+  started: null
+  completed: '2025-11-29T14:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: sqlite-backend-8-task-004
+  parent_ref: 01KC2D0JKQZAZ8WPMH066ZZCE6

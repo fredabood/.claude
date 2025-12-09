@@ -1,0 +1,185 @@
+sprint:
+  id: 01KC2D0JKWWW8WMS7PPGDQ42GH
+  name: Context Engineering Research & Landscape Analysis
+  track_id: user-journey-audit
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 3 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: user-journey-audit-18-task-001
+    name: Define context taxonomy for vibe coding sessions
+    status: not_started
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: architecture-agent
+    description: 'Categorize all types of context in a vibe coding session:
+
+      - System context (CLAUDE.md, project config, environment)
+
+      - Conversation context (message history, user intent)
+
+      - Codebase context (files read, search results, diagnostics)
+
+      - Tool context (tool calls, results, errors)
+
+      - Agent context (agent instructions, handoffs)
+
+      - Temporal context (session state, checkpoints)
+
+      '
+  - id: user-journey-audit-18-task-002
+    name: Document context lifecycle and state transitions
+    status: not_started
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: architecture-agent
+    description: 'Map how context flows through a session:
+
+      - Context initialization (what loads at session start)
+
+      - Context accumulation (how context grows)
+
+      - Context pruning (what gets dropped and why)
+
+      - Context persistence (what survives session end)
+
+      - Context restoration (what loads on session resume)
+
+      '
+  - id: user-journey-audit-18-task-003
+    name: Research context engineering in competing tools
+    status: not_started
+    priority: high
+    estimated_hours: 12
+    assigned_agent: architecture-agent
+    description: 'Analyze how other AI coding tools handle context:
+
+      - Cursor (context files, @mentions, codebase indexing)
+
+      - GitHub Copilot (context awareness, workspace understanding)
+
+      - Continue.dev (context providers, embeddings)
+
+      - Aider (repo map, chat history, file tracking)
+
+      - Cody (embeddings, code graph, context windows)
+
+      '
+  - id: user-journey-audit-18-task-004
+    name: Analyze Vibey's current context architecture
+    status: not_started
+    priority: high
+    estimated_hours: 8
+    assigned_agent: architecture-agent
+    description: 'Document Vibey''s existing context handling:
+
+      - What context is currently captured
+
+      - How context is stored (.vibey/, roadmap, config)
+
+      - What context is passed to AI agents
+
+      - Current limitations and pain points
+
+      '
+  - id: user-journey-audit-18-task-005
+    name: Study context window management strategies
+    status: not_started
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: architecture-agent
+    description: 'Research context window optimization:
+
+      - Summarization strategies
+
+      - Relevance scoring
+
+      - Chunking approaches
+
+      - Token budgeting
+
+      - Context compression techniques
+
+      '
+  - id: user-journey-audit-18-task-006
+    name: Document context determinism requirements
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: architecture-agent
+    description: 'Identify factors affecting context reproducibility:
+
+      - Non-deterministic elements (timestamps, random IDs)
+
+      - External dependencies (API calls, file system state)
+
+      - Environment variations (OS, tools, versions)
+
+      - Model variations (temperature, model version)
+
+      '
+  - id: user-journey-audit-18-task-007
+    name: Produce Context Engineering Landscape Report
+    status: not_started
+    priority: critical
+    estimated_hours: 8
+    assigned_agent: docs-writer
+    description: 'Synthesize all research into comprehensive report:
+
+      - Context taxonomy with definitions
+
+      - Lifecycle diagrams and state machines
+
+      - Competitive analysis summary
+
+      - Current state assessment
+
+      - Key findings and insights
+
+      '
+  dependencies:
+  - user-journey-audit-17
+  blocked_by:
+  - user-journey-audit-17
+  quality_gates:
+  - name: Research Depth
+    threshold: 90
+    blocking: true
+    status: not_run
+  deliverables:
+  - Context taxonomy document
+  - Context lifecycle state machine diagram
+  - Competitive analysis report
+  - Vibey context architecture assessment
+  - Context Engineering Landscape Report (synthesis)
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: 'Sprint 1 is pure research - understanding the context engineering
+
+      landscape before identifying gaps and designing solutions.
+
+
+      Key insight areas:
+
+      1. What IS context in AI-assisted coding?
+
+      2. How do best-in-class tools handle it?
+
+      3. What does Vibey currently do?
+
+      4. What would ideal context engineering look like?
+
+
+      Output: Foundation knowledge for gap analysis in Sprint 2.
+
+      '
+  slug: user-journey-audit-18
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT

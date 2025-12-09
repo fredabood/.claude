@@ -1,0 +1,10 @@
+criteria:
+  - id: impl-deliverable
+    description: Implementation code
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      deliverable_type: code
+      paths:
+        - vibey/roadmap/models/ticket/base.py
+        - vibey/roadmap/models/ticket/__init__.py

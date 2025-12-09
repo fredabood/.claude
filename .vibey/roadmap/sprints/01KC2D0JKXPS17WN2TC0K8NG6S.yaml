@@ -1,0 +1,108 @@
+sprint:
+  id: 01KC2D0JKXPS17WN2TC0K8NG6S
+  name: Git Integration
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 7
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 7
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: vscode-roadmap-extension-4-task-001
+    title: Integrate with VS Code Git extension API
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-002
+    title: Auto-detect task ID from branch name patterns
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-003
+    title: Display linked commits in task detail view
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-004
+    title: Implement 'Link Commit to Task' command
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-005
+    title: Show task branches in tree view with branch icon
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-006
+    title: Add 'Create Branch for Task' command
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-4-task-007
+    title: Implement commit history view for tasks
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Git extension API integration
+  - Branch-to-task detection
+  - Commit linkage UI
+  - Branch creation command
+  description: 'Integrate with VS Code''s Git extension to link commits to tasks,
+
+    detect tasks from branch names, and provide branch management commands.
+
+    '
+  goal: Connect roadmap tasks with Git workflow
+  success_criteria:
+  - Commits are linked to tasks and displayed
+  - Branch names like 'task-001-feature' auto-detect task
+  - Users can create task branches from tree view
+  - Commit history shows which commits belong to which tasks
+  risks:
+  - Git extension API stability
+  - Different branch naming conventions
+  notes: 'Branch patterns to support:
+
+    - task-001-description
+
+    - feature/task-001
+
+    - sprint-1/task-001
+
+    '
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: vscode-roadmap-extension-4
+  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB

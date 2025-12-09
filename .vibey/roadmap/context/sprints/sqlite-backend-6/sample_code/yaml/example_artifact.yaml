@@ -1,0 +1,22 @@
+# artifacts/01JDK9A2B3C4D5E6F7G8H9J0.yaml
+artifact:
+  id: 01JDK9A2B3C4D5E6F7G8H9J0
+  name: Directory Structure Analysis
+  description: Comparison matrix of directory structure options
+  artifact_type: documentation
+  artifact_subtype: analysis
+
+  paths:
+    - .vibey/roadmap/sqlite-backend/sqlite-backend-6/context/DIRECTORY_STRUCTURE_ANALYSIS.md
+
+  provenance:
+    provenance_type: ticket_created
+    created_by_ticket_id: sqlite-backend-6-task-001
+    created_by_criterion_id: crit-001
+
+  # State
+  exists: true
+  is_stale: false
+
+  created_at: '2025-11-30T20:12:00+00:00'
+  updated_at: '2025-11-30T20:12:00+00:00'

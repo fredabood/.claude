@@ -2,11 +2,15 @@
 YAML dumper for roadmap objects.
 
 Saves Python dataclass objects to YAML files.
+
+Supports both nested (v1) and flat (v2) directory structures:
+- Nested: .vibey/roadmap/{track}/{sprint}/{task}/task.yaml
+- Flat: .vibey/roadmap/tracks/{ulid}.yaml, sprints/{ulid}.yaml, tasks/{ulid}.yaml
 """
 
 from datetime import datetime
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional, TYPE_CHECKING
 
 import yaml
 
@@ -16,6 +20,9 @@ from ..models import (
     Sprint,
     Task,
 )
+
+if TYPE_CHECKING:
+    from ...cli.roadmap_lib.filesystem import FileSystemManager
 
 
 def _format_datetime(dt: Union[datetime, None]) -> Union[str, None]:
@@ -610,24 +617,32 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
 
 def save_task(task: Task, file_path: Union[str, Path]):
     """
-    Save a single task to YAML file.
+    Save a single task to YAML file (supports nested and flat structures).
 
     This function only writes the specified task, avoiding reformatting
     sibling task files when used with hierarchical directory structure.
 
     Args:
         task: Task object to save
-        file_path: Path to task.yaml file or parent sprint directory
+        file_path: Path to save task
+            - Directory: saves to {file_path}/{task.id}/task.yaml (nested)
+            - File named task.yaml: saves single task (nested)
+            - File in tasks/ directory: saves single task (flat)
+            - Other file: legacy multi-task format
     """
     file_path = Path(file_path)
 
-    # If path is a directory (sprint dir), save to task subdirectory
+    # If path is a directory (sprint dir), save to task subdirectory (nested structure)
     if file_path.is_dir():
         _save_task_hierarchical(task, file_path)
         return
 
-    # If path is a file, determine if it's a task.yaml in hierarchical structure
-    if file_path.name == 'task.yaml':
+    # If path is a file, determine format based on location and name
+    # Flat structure: tasks/{ulid}.yaml or tasks/{slug}.yaml
+    if file_path.parent.name == 'tasks' and file_path.suffix == '.yaml':
+        _save_single_task_file(task, file_path)
+    # Nested structure: {track}/{sprint}/{task}/task.yaml
+    elif file_path.name == 'task.yaml':
         # Direct task.yaml path - save the single task
         _save_single_task_file(task, file_path)
     else:
@@ -1496,3 +1511,63 @@ def save_roadmap_ticket(roadmap: "RoadmapTicket", file_path: Union[str, Path]):
 
     with open(file_path, 'w') as f:
         yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+# ============================================================================
+# Helper Functions for Automatic Path Resolution
+# ============================================================================
+
+def save_track_auto(track: Track, fs: "FileSystemManager"):
+    """
+    Save track with automatic path resolution (supports both structures).
+
+    Args:
+        track: Track object to save
+        fs: FileSystemManager instance (detects structure automatically)
+    """
+    track_path = fs.get_track_path(track.id)
+    save_track(track, track_path)
+
+
+def save_sprint_auto(sprint: Sprint, fs: "FileSystemManager"):
+    """
+    Save sprint with automatic path resolution (supports both structures).
+
+    Args:
+        sprint: Sprint object to save
+        fs: FileSystemManager instance (detects structure automatically)
+    """
+    sprint_path = fs.get_sprint_path(sprint.id)
+    save_sprint(sprint, sprint_path)
+
+
+def save_task_auto(task: Task, fs: "FileSystemManager"):
+    """
+    Save task with automatic path resolution (supports both structures).
+
+    For nested structure: Uses sprint directory, saves to task subdirectory
+    For flat structure: Uses tasks/{task_id}.yaml path directly
+
+    Args:
+        task: Task object to save
+        fs: FileSystemManager instance (detects structure automatically)
+    """
+    if fs.structure_format == "flat":
+        # Flat structure: get direct task file path
+        task_path = fs.get_task_path(task.id)
+        save_task(task, task_path)
+    else:
+        # Nested structure: get sprint directory, let save_task create subdirectory
+        sprint_dir = fs.get_tasks_path(task.sprint_id)
+        save_task(task, sprint_dir)
+
+
+def save_roadmap_auto(roadmap: Roadmap, fs: "FileSystemManager"):
+    """
+    Save roadmap with automatic path resolution.
+
+    Args:
+        roadmap: Roadmap object to save
+        fs: FileSystemManager instance
+    """
+    roadmap_path = fs.get_roadmap_path()
+    save_roadmap(roadmap, roadmap_path)

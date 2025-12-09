@@ -1,0 +1,34 @@
+task:
+  id: 01KC2D0JK325ABWVR9FQD5ZNQM
+  sprint_id: directory-consolidation-4
+  track_id: directory-consolidation
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Move session-specific docs to .vibey/roadmap/*/context/
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-12-04T21:36:36.840057+00:00'
+  started: null
+  completed: '2025-12-04T21:36:36.840057+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: directory-consolidation-4-task-002
+  parent_ref: 01KC2D0JK325ABWVR9FQD5ZNQJ

@@ -1,18 +1,28 @@
 """
 File system management utilities for roadmap state.
 
-Handles hierarchical directory structure, file paths, and roadmap discovery.
+Handles both hierarchical and flat directory structures with automatic detection.
 
-This module has been updated to use the hierarchical directory structure:
-.vibey/roadmap/{track-slug}/{sprint-slug}/{task-slug}/
+DIRECTORY STRUCTURE FORMATS:
 
-Legacy flat structure (.vibey/tracks/, .vibey/sprints/, .vibey/tasks/) is deprecated.
+1. Nested (v1 - legacy):
+   .vibey/roadmap/{track-slug}/{sprint-slug}/{task-slug}/
+
+2. Flat (v2 - unified architecture):
+   .vibey/roadmap/tracks/{ulid}.yaml
+   .vibey/roadmap/sprints/{ulid}.yaml
+   .vibey/roadmap/tasks/{ulid}.yaml
+   .vibey/roadmap/artifacts/{ulid}.yaml
+   .vibey/roadmap/context/{scope}/{slug}/
+
+The FileSystemManager automatically detects which format is in use and provides
+a unified interface for both.
 """
 
 import os
 import sys
 from pathlib import Path
-from typing import Optional, Dict
+from typing import Optional, Dict, Literal
 
 # Add framework to path for DirectoryManager import
 # Handle both running from repo root and from framework/scripts/
@@ -33,7 +43,7 @@ except ModuleNotFoundError:
 
 
 class FileSystemManager:
-    """Manages hierarchical roadmap file system structure."""
+    """Manages roadmap file system structure (nested or flat)."""
 
     VIBEY_DIR = ".vibey"
     ROADMAP_DIR = "roadmap"
@@ -41,7 +51,7 @@ class FileSystemManager:
 
     def __init__(self, root_dir: Optional[Path] = None):
         """
-        Initialize file system manager.
+        Initialize file system manager with automatic structure detection.
 
         Args:
             root_dir: Root directory (defaults to current working directory)
@@ -50,16 +60,139 @@ class FileSystemManager:
         self.vibey_dir = self.root_dir / self.VIBEY_DIR
         self.roadmap_root = self.vibey_dir / self.ROADMAP_DIR
 
-        # Initialize DirectoryManager for hierarchical structure
+        # Detect directory structure format
+        self.structure_format = self._detect_structure_format()
+
+        # Initialize DirectoryManager for hierarchical structure (legacy)
+        # Only used when structure_format == 'nested'
         self.dir_manager = DirectoryManager(str(self.roadmap_root))
 
         # Cache for ID-to-slug mappings (populated on demand)
         self._id_to_slug_cache: Dict[str, str] = {}
 
+        # Cache for slug-to-ULID mappings from .id files (flat structure)
+        self._id_mappings: Optional[Dict[str, Dict[str, str]]] = None
+
     def ensure_structure(self):
         """Ensure .vibey/roadmap directory structure exists."""
         self.vibey_dir.mkdir(parents=True, exist_ok=True)
         self.dir_manager.create_roadmap_root()
+
+    def _detect_structure_format(self) -> Literal["flat", "nested"]:
+        """
+        Detect whether roadmap uses flat or nested directory structure.
+
+        Detection logic:
+        - If tracks/, sprints/, tasks/ directories exist → flat structure
+        - Otherwise → nested structure (default/legacy)
+
+        Returns:
+            "flat" or "nested"
+        """
+        if not self.roadmap_root.exists():
+            # No structure yet - default to nested for backward compatibility
+            return "nested"
+
+        # Check for flat structure markers
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tasks_dir = self.roadmap_root / "tasks"
+
+        if tracks_dir.exists() and sprints_dir.exists() and tasks_dir.exists():
+            return "flat"
+
+        return "nested"
+
+    def _load_id_mappings(self):
+        """
+        Load .id mapping files for flat structure.
+
+        Creates in-memory bidirectional mappings:
+        - slug → ULID
+        - ULID → slug
+
+        For each entity type (tracks, sprints, tasks, artifacts).
+        """
+        if self._id_mappings is not None:
+            return  # Already loaded
+
+        self._id_mappings = {
+            "tracks": {},
+            "sprints": {},
+            "tasks": {},
+            "artifacts": {},
+        }
+
+        for entity_type in ["tracks", "sprints", "tasks", "artifacts"]:
+            id_file = self.roadmap_root / entity_type / ".id"
+            if not id_file.exists():
+                continue
+
+            # Parse .id file
+            with open(id_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    # Skip empty lines and comments
+                    if not line or line.startswith('#'):
+                        continue
+
+                    # Parse slug=ulid
+                    if '=' in line:
+                        slug, ulid = line.split('=', 1)
+                        slug = slug.strip()
+                        ulid = ulid.strip()
+
+                        # Store bidirectional mapping
+                        self._id_mappings[entity_type][slug] = ulid
+                        self._id_mappings[entity_type][ulid] = slug
+
+    def _resolve_id_in_flat_structure(self, entity_id: str, entity_type: str) -> str:
+        """
+        Resolve slug or ULID to ULID in flat structure.
+
+        Args:
+            entity_id: Slug or ULID
+            entity_type: 'tracks', 'sprints', 'tasks', or 'artifacts'
+
+        Returns:
+            ULID
+
+        Raises:
+            ValueError: If entity not found
+        """
+        self._load_id_mappings()
+
+        # If it's already a ULID (26 chars, uppercase alphanumeric)
+        if len(entity_id) == 26 and entity_id.replace('_', '').replace('-', '').isalnum():
+            return entity_id
+
+        # Look up slug in mapping
+        mappings = self._id_mappings.get(entity_type, {})
+        ulid = mappings.get(entity_id)
+
+        if ulid:
+            # If mapping returns another slug, return the slug as ULID
+            # (handles pre-migration state where IDs are slugs)
+            return ulid
+
+        # Fallback: assume ID is ULID
+        return entity_id
+
+    def _resolve_slug_from_ulid(self, ulid: str, entity_type: str) -> Optional[str]:
+        """
+        Resolve ULID to slug in flat structure.
+
+        Args:
+            ulid: ULID
+            entity_type: 'tracks', 'sprints', 'tasks', or 'artifacts'
+
+        Returns:
+            Slug if found, None otherwise
+        """
+        self._load_id_mappings()
+
+        mappings = self._id_mappings.get(entity_type, {})
+        return mappings.get(ulid)
 
     def get_roadmap_path(self) -> Path:
         """Get path to roadmap.yaml."""
@@ -67,46 +200,95 @@ class FileSystemManager:
 
     def get_track_path(self, track_id: str) -> Path:
         """
-        Get path to track.yaml file in hierarchical structure.
+        Get path to track YAML file (supports both flat and nested structures).
 
         Args:
-            track_id: Track ID (e.g., 'core-framework' or 'track_01JB...')
+            track_id: Track ID (slug or ULID)
 
         Returns:
-            Path to track.yaml
+            Path to track YAML file
+            - Flat: .vibey/roadmap/tracks/{ulid}.yaml
+            - Nested: .vibey/roadmap/{track-slug}/track.yaml
         """
-        track_slug = self._resolve_slug(track_id, 'track')
-        return self.roadmap_root / track_slug / "track.yaml"
+        if self.structure_format == "flat":
+            ulid = self._resolve_id_in_flat_structure(track_id, "tracks")
+            return self.roadmap_root / "tracks" / f"{ulid}.yaml"
+        else:
+            # Nested structure (legacy)
+            track_slug = self._resolve_slug(track_id, 'track')
+            return self.roadmap_root / track_slug / "track.yaml"
 
     def get_sprint_path(self, sprint_id: str) -> Path:
         """
-        Get path to sprint.yaml file in hierarchical structure.
+        Get path to sprint YAML file (supports both flat and nested structures).
 
         Args:
-            sprint_id: Sprint ID
+            sprint_id: Sprint ID (slug or ULID)
 
         Returns:
-            Path to sprint.yaml
+            Path to sprint YAML file
+            - Flat: .vibey/roadmap/sprints/{ulid}.yaml
+            - Nested: .vibey/roadmap/{track-slug}/{sprint-slug}/sprint.yaml
         """
-        track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
-        return self.roadmap_root / track_slug / sprint_slug / "sprint.yaml"
+        if self.structure_format == "flat":
+            ulid = self._resolve_id_in_flat_structure(sprint_id, "sprints")
+            return self.roadmap_root / "sprints" / f"{ulid}.yaml"
+        else:
+            # Nested structure (legacy)
+            track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
+            return self.roadmap_root / track_slug / sprint_slug / "sprint.yaml"
 
     def get_tasks_path(self, sprint_id: str) -> Path:
         """
-        Get path to tasks in hierarchical structure.
+        Get path to tasks directory (behavior differs by structure).
 
-        Note: In hierarchical structure, tasks are individual files in
-        {track}/{sprint}/{task}/task.yaml, not a single tasks file.
-        This method returns the sprint directory for compatibility.
+        Flat structure: Returns tasks/ directory (all tasks in one place)
+        Nested structure: Returns sprint directory (tasks in subdirectories)
 
         Args:
             sprint_id: Sprint ID
 
         Returns:
-            Path to sprint directory containing task subdirectories
+            Path to directory containing task files
+            - Flat: .vibey/roadmap/tasks/ (all tasks)
+            - Nested: .vibey/roadmap/{track-slug}/{sprint-slug}/ (task subdirs)
         """
-        track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
-        return self.roadmap_root / track_slug / sprint_slug
+        if self.structure_format == "flat":
+            # In flat structure, all tasks are in tasks/ directory
+            # Caller will need to filter by sprint_id
+            return self.roadmap_root / "tasks"
+        else:
+            # Nested structure: return sprint directory containing task subdirectories
+            track_slug, sprint_slug = self._resolve_sprint_path(sprint_id)
+            return self.roadmap_root / track_slug / sprint_slug
+
+    def get_task_path(self, task_id: str) -> Path:
+        """
+        Get path to task YAML file (supports both flat and nested structures).
+
+        Args:
+            task_id: Task ID (slug or ULID)
+
+        Returns:
+            Path to task YAML file
+            - Flat: .vibey/roadmap/tasks/{ulid}.yaml
+            - Nested: .vibey/roadmap/{track-slug}/{sprint-slug}/{task-slug}/task.yaml
+        """
+        if self.structure_format == "flat":
+            ulid = self._resolve_id_in_flat_structure(task_id, "tasks")
+            return self.roadmap_root / "tasks" / f"{ulid}.yaml"
+        else:
+            # Nested structure - need to search for task
+            # This is inefficient but necessary for nested structure
+            for track_slug, _ in self.dir_manager.list_tracks():
+                for sprint_slug, _ in self.dir_manager.list_sprints(track_slug):
+                    task_dir = self.roadmap_root / track_slug / sprint_slug / task_id
+                    task_file = task_dir / "task.yaml"
+                    if task_file.exists():
+                        return task_file
+
+            # Fallback: construct path assuming task_id is directory name
+            raise ValueError(f"Task not found: {task_id}")
 
     def roadmap_exists(self) -> bool:
         """Check if roadmap.yaml exists."""
@@ -146,40 +328,77 @@ class FileSystemManager:
             return False
 
     def list_tracks(self) -> list[str]:
-        """List all track IDs from hierarchical structure."""
-        tracks = self.dir_manager.list_tracks()
-        # Return IDs (second element of tuples)
-        return [track_id for slug, track_id in tracks]
+        """
+        List all track IDs (supports both flat and nested structures).
+
+        Returns:
+            List of track IDs (ULIDs in flat structure, slugs in nested)
+        """
+        if self.structure_format == "flat":
+            tracks_dir = self.roadmap_root / "tracks"
+            if not tracks_dir.exists():
+                return []
+
+            # Return all .yaml files (excluding .id file)
+            track_files = tracks_dir.glob("*.yaml")
+            return [f.stem for f in track_files]  # stem removes .yaml extension
+        else:
+            # Nested structure
+            tracks = self.dir_manager.list_tracks()
+            # Return IDs (second element of tuples)
+            return [track_id for slug, track_id in tracks]
 
     def list_sprints(self) -> list[str]:
         """
-        List all sprint IDs from hierarchical structure.
+        List all sprint IDs (supports both flat and nested structures).
 
         Returns:
-            List of sprint IDs across all tracks
+            List of sprint IDs (ULIDs in flat structure, slugs in nested)
         """
-        sprint_ids = []
-        for track_slug, _ in self.dir_manager.list_tracks():
-            sprints = self.dir_manager.list_sprints(track_slug)
-            sprint_ids.extend([sprint_id for _, sprint_id in sprints])
-        return sprint_ids
+        if self.structure_format == "flat":
+            sprints_dir = self.roadmap_root / "sprints"
+            if not sprints_dir.exists():
+                return []
+
+            # Return all .yaml files (excluding .id file)
+            sprint_files = sprints_dir.glob("*.yaml")
+            return [f.stem for f in sprint_files]  # stem removes .yaml extension
+        else:
+            # Nested structure
+            sprint_ids = []
+            for track_slug, _ in self.dir_manager.list_tracks():
+                sprints = self.dir_manager.list_sprints(track_slug)
+                sprint_ids.extend([sprint_id for _, sprint_id in sprints])
+            return sprint_ids
 
     def list_sprint_tasks(self) -> list[str]:
         """
-        List all sprint IDs that have tasks.
+        List all sprint IDs that have tasks (supports both flat and nested structures).
 
         Returns:
-            List of sprint IDs that contain task subdirectories
+            List of sprint IDs that contain tasks
         """
-        sprint_ids_with_tasks = []
+        if self.structure_format == "flat":
+            # In flat structure, need to check tasks/ directory
+            tasks_dir = self.roadmap_root / "tasks"
+            if not tasks_dir.exists():
+                return []
 
-        for track_slug, _ in self.dir_manager.list_tracks():
-            for sprint_slug, sprint_id in self.dir_manager.list_sprints(track_slug):
-                tasks = self.dir_manager.list_tasks(track_slug, sprint_slug)
-                if tasks:
-                    sprint_ids_with_tasks.append(sprint_id)
+            # Get unique sprint IDs from task files
+            # Note: This requires loading task files to get sprint_id field
+            # For now, return all sprints (optimization can be done later)
+            return self.list_sprints()
+        else:
+            # Nested structure
+            sprint_ids_with_tasks = []
 
-        return sprint_ids_with_tasks
+            for track_slug, _ in self.dir_manager.list_tracks():
+                for sprint_slug, sprint_id in self.dir_manager.list_sprints(track_slug):
+                    tasks = self.dir_manager.list_tasks(track_slug, sprint_slug)
+                    if tasks:
+                        sprint_ids_with_tasks.append(sprint_id)
+
+            return sprint_ids_with_tasks
 
     # Private helper methods for slug resolution
 

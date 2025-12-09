@@ -1,0 +1,60 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJA
+  sprint_id: unified-arch-3
+  track_id: unified-architecture-migration
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update YAML loader/dumper for ULID
+  description: "Update YAML serialization to use ULIDs and .id files.\n\nYAML FORMAT\
+    \ CHANGES:\n```yaml\n# OLD\ntask:\n  id: sqlite-backend-6-task-004\n  sprint_id:\
+    \ sqlite-backend-6\n\n# NEW\ntask:\n  id: 01HXYZ123ABC456DEF789GHJ\n  slug: sqlite-backend-6-task-004\n\
+    \  sequence: 4\n  parent_ref: 01HXYZ987ZYX654CBA321MLK\n```\n\nLOADER CHANGES:\n\
+    - Check .id file for ULID → slug mapping\n- Support loading by slug (lookup in\
+    \ .id file)\n- Populate sequence from file ordering or explicit field\n- Populate\
+    \ slug from filename or explicit field\n\nDUMPER CHANGES:\n- Write ULID as id\
+    \ field\n- Write slug field\n- Write sequence field\n- Update .id file on save\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 30000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks:
+  - unified-arch-3-task-005
+  blocked_by:
+  - unified-arch-3-task-001
+  - unified-arch-3-task-002
+  depends_on:
+  - blocker_id: unified-arch-3-task-001
+    blocker_type: task
+    required_status: completed
+    description: ULID utilities must be ready
+    status: pending
+  - blocker_id: unified-arch-3-task-002
+    blocker_type: task
+    required_status: completed
+    description: .id file handler must be ready
+    status: pending
+  depended_on_by: []
+  deliverables:
+  - path: vibey/roadmap/serialization/yaml_loader.py
+    type: code
+    description: Updated YAML loader with ULID support
+  - path: vibey/roadmap/serialization/yaml_dumper.py
+    type: code
+    description: Updated YAML dumper with ULID support
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: unified-arch-3-task-003
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJ7

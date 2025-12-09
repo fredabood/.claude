@@ -1,0 +1,88 @@
+sprint:
+  id: 01KC2D0JKXPS17WN2TC0K8NG6K
+  name: Status Bar Integration
+  track_id: vscode-roadmap-extension
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-05T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: vscode-roadmap-extension-3-task-001
+    title: Create status bar item showing current sprint name
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-3-task-002
+    title: Add active task indicator to status bar
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-3-task-003
+    title: Display sprint/track progress percentage in status bar
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-3-task-004
+    title: Implement click-to-switch-task from status bar
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: vscode-roadmap-extension-3-task-005
+    title: Add tooltip with detailed progress information
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Status bar with current sprint/task
+  - Progress percentage display
+  - Quick-switch task functionality
+  description: 'Add VS Code status bar integration showing current sprint, active
+    task,
+
+    and progress percentage with click-to-switch functionality.
+
+    '
+  goal: Provide always-visible roadmap status in VS Code
+  success_criteria:
+  - Status bar shows current sprint and active task
+  - Progress percentage is visible
+  - Clicking status bar opens task switcher
+  - Tooltip shows detailed progress
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: vscode-roadmap-extension-3
+  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB

@@ -1,0 +1,81 @@
+sprint:
+  id: 01KC2D0JKA23EJA1W712Y5S70M
+  name: Design Adapter Pattern & Interface
+  track_id: multi-platform
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-10T20:30:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-10T20:30:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100.0
+  tasks:
+  - id: multi-platform-2-task-001
+    title: Design PlatformAdapter base class
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-2-task-002
+    title: Define adapter interface methods
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-2-task-003
+    title: Implement Claude Code adapter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-2-task-004
+    title: Test Claude Code adapter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-2-task-005
+    title: Implement Goose adapter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: multi-platform-2-task-006
+    title: Test Goose adapter
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: multi-platform-2
+  parent_ref: 01KC2D0JKA23EJA1W712Y5S70G

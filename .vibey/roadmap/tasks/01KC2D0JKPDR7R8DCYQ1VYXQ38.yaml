@@ -1,0 +1,53 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ38
+  sprint_id: sqlite-backend-12
+  track_id: sqlite-backend
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update YAML format to include criteria sections
+  description: "Update the YAML format for tasks, sprints, and tracks to include criteria.\n\
+    \nNEW YAML FORMAT (from 06-SERIALIZATION.md):\n```yaml\ntask:\n  id: task-001\n\
+    \  name: Implement feature X\n  status: in_progress\n  criteria:\n    - id: dep-task-002\n\
+    \      description: \"Task 002 must complete before starting\"\n      blocks_transition_to:\
+    \ in_progress\n      target:\n        type: completable\n        completable_id:\
+    \ task-002\n        required_status: completed\n    - id: file-api\n      description:\
+    \ \"API file must exist\"\n      blocks_transition_to: completed\n      target:\n\
+    \        type: file_exists\n        paths: [\"src/api.py\"]\n    - id: tests-pass\n\
+    \      description: \"Unit tests must pass\"\n      blocks_transition_to: completed\n\
+    \      target:\n        type: test_passes\n        test_command: \"pytest tests/\"\
+    \n        pass_threshold: 100.0\n```\n\nREQUIREMENTS:\n1. Design YAML schema for\
+    \ criteria section\n2. Update example YAML files\n3. Ensure backward compatibility\
+    \ (old format still loadable)\n4. Document format in architecture docs\n\nREFERENCE:\n\
+    - sqlite-backend-6/context/architecture/06-SERIALIZATION.md\n- sqlite-backend-6/context/sample_code/yaml/example_criteria.yaml\n"
+  status: completed
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
+  started: null
+  completed: '2025-12-06T15:28:50.834876+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: serialization
+  estimated_tokens: 25000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: sqlite-backend-12-task-004
+  parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RNR

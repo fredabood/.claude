@@ -1,0 +1,34 @@
+task:
+  id: 01KC2D0JK9JKQXGQW6MQEB0JZX
+  sprint_id: jetbrains-port-1
+  track_id: jetbrains-port
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Verify Vibey tools appear
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-23T04:54:00.180578+00:00'
+  started: null
+  completed: '2025-11-23T04:54:00.180578+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+  slug: jetbrains-port-1-task-006
+  parent_ref: 01KC2D0JK9JKQXGQW6MQEB0JZQ

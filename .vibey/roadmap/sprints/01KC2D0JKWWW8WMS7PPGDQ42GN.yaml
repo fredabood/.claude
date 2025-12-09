@@ -1,0 +1,101 @@
+sprint:
+  id: 01KC2D0JKWWW8WMS7PPGDQ42GN
+  name: Discovery Output Architecture
+  track_id: user-journey-audit
+  status: not_started
+  blocked: false
+  created: '2025-11-23T00:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: user-journey-audit-21-task-001
+    name: Design discovery output schema for context directories
+    status: not_started
+    priority: high
+    estimated_hours: 4
+    assigned_agent: architecture-agent
+  - id: user-journey-audit-21-task-002
+    name: Create DiscoveryOutput data models
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-21-task-003
+    name: Implement context directory writer base class
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-21-task-004
+    name: Create codebase audit context writer
+    status: not_started
+    priority: high
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-21-task-005
+    name: Create git history analysis context writer
+    status: not_started
+    priority: medium
+    estimated_hours: 6
+    assigned_agent: backend-engineer
+  - id: user-journey-audit-21-task-006
+    name: Create dependency analysis context writer
+    status: not_started
+    priority: medium
+    estimated_hours: 4
+    assigned_agent: backend-engineer
+  dependencies:
+  - user-journey-audit-20
+  blocked_by:
+  - user-journey-audit-20
+  quality_gates:
+  - name: Schema Validation
+    threshold: 100
+    blocking: true
+    status: not_run
+  deliverables:
+  - Discovery output schema specification
+  - DiscoveryOutput, CodebaseAudit, GitAnalysis data models
+  - ContextDirectoryWriter base class
+  - CodebaseAuditWriter implementation
+  - GitHistoryWriter implementation
+  - DependencyAnalysisWriter implementation
+  metadata:
+    created_by: vibey-framework-team
+    last_updated: '2025-11-23T00:00:00+00:00'
+    notes: 'Sprint 1 establishes the architecture for writing discovery
+
+      outputs to context directories.
+
+
+      Output file formats:
+
+      - codebase-audit.md: Markdown with structured sections
+
+      - git-analysis.md: Commit patterns, velocity, contributors
+
+      - dependencies.yaml: Structured dependency data
+
+      - architecture.md: Component diagrams, relationships
+
+
+      Each writer will:
+
+      1. Accept discovery results as input
+
+      2. Format for the appropriate output type
+
+      3. Write to track context directory
+
+      4. Support incremental updates (append/merge)
+
+      5. Include timestamps and discovery metadata
+
+      '
+  slug: user-journey-audit-21
+  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT

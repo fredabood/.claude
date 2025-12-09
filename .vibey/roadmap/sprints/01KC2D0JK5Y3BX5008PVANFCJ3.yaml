@@ -1,0 +1,81 @@
+sprint:
+  id: 01KC2D0JK5Y3BX5008PVANFCJ3
+  name: Sequential Orchestration Adaptation
+  track_id: gemini-port
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-23T05:11:27.054268+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-23T05:11:27.054268+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 6
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100.0
+  tasks:
+  - id: gemini-port-3-task-001
+    title: System Instruction Generator
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: gemini-port-3-task-002
+    title: Agent Prompt Converter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: gemini-port-3-task-003
+    title: Function Calling Integration
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: gemini-port-3-task-004
+    title: Agent Behavior Parity Testing
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: gemini-port-3-task-005
+    title: Context Window Optimization
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: gemini-port-3-task-006
+    title: Performance Optimization
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null
+  slug: gemini-port-3
+  parent_ref: 01KC2D0JK5Y3BX5008PVANFCHN

@@ -44,10 +44,10 @@ sprint:
     - First-class artifact support
 
     '
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
-  started: null
+  started: '2025-12-09T16:10:00+00:00'
   completed: null
   goal: Migrate database to unified completables + criteria schema
   success_criteria:
@@ -62,7 +62,7 @@ sprint:
   tasks:
   - id: unified-arch-2-task-001
     title: Design unified completables table schema
-    status: not_started
+    status: completed
   - id: unified-arch-2-task-002
     title: Design criteria table with polymorphic targets
     status: not_started

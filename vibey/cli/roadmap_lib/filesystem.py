@@ -195,8 +195,8 @@ class FileSystemManager:
         return mappings.get(ulid)
 
     def get_roadmap_path(self) -> Path:
-        """Get path to roadmap.yaml."""
-        return self.vibey_dir / self.ROADMAP_FILE
+        """Get path to roadmap.yaml (in roadmap root directory)."""
+        return self.roadmap_root / self.ROADMAP_FILE
 
     def get_track_path(self, track_id: str) -> Path:
         """

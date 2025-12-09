@@ -13,8 +13,8 @@ track:
     sprints_total: 5
     sprints_completed: 1
     tasks_total: 29
-    tasks_completed: 10
-    completion_percent: 34
+    tasks_completed: 11
+    completion_percent: 38
   sprints:
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
     name: Directory Structure Migration

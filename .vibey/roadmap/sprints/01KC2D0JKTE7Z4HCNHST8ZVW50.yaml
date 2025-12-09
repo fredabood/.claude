@@ -71,7 +71,7 @@ sprint:
     status: completed
   - id: unified-arch-2-task-004
     title: Create schema migration script
-    status: not_started
+    status: completed
   - id: unified-arch-2-task-005
     title: Update sql_loader for unified schema
     status: not_started

@@ -57,10 +57,10 @@ task:
     3. Document failure reason
 
     '
-  status: not_started
-  blocked: false
+  status: in_progress
+  blocked: true
   created: '2025-12-07T15:00:00+00:00'
-  started: null
+  started: '2025-12-09T18:15:00+00:00'
   completed: null
   assigned_agent: null
   priority: high

@@ -80,7 +80,7 @@ sprint:
     status: completed
   - id: unified-arch-2-task-007
     title: Execute migration and validate
-    status: not_started
+    status: in_progress
   dependencies: []
   blocks: []
   blocked_by:

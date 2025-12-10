@@ -434,6 +434,32 @@ def roadmap_validate_commits(ctx):
     sys.exit(exit_code)
 
 
+@roadmap.command('verify-change')
+@click.argument('file_path', type=click.Path(exists=True))
+@click.option('--json', 'json_output', is_flag=True, help='Output JSON format')
+@click.pass_context
+def roadmap_verify_change(ctx, file_path: str, json_output: bool):
+    """Verify a roadmap file change has a matching activity log entry
+
+    Checks if the file's current content hash matches a file_hash_after
+    in the activity log. This proves the change was made through the CLI.
+
+    Exit codes:
+      0 - File is verified (has matching activity log entry)
+      1 - File is unverified (no matching entry found)
+      2 - Error occurred
+
+    Examples:
+      vibey roadmap verify-change .vibey/roadmap/tasks/01KC...yaml
+      vibey roadmap verify-change .vibey/roadmap/sprints/01KC...yaml --json
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.verification import verify_change
+
+    exit_code = verify_change(Path.cwd(), Path(file_path), json_output)
+    sys.exit(exit_code)
+
+
 @roadmap.command('validate-fast')
 @click.option('--profile', type=click.Choice(['quick', 'standard', 'thorough']),
               default='standard', help='Validation profile (default: standard)')

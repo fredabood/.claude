@@ -30,6 +30,32 @@ from enum import Enum
 
 
 # ============================================================================
+# Validation Exclusion Patterns
+# ============================================================================
+
+VALIDATION_EXCLUDE_PATTERNS = [
+    "**/context/sample_code/**",       # Sample code snippets for documentation
+    "**/context/samples/**",           # Alternative sample directory
+    "**/test_fixtures/**",             # Test fixtures
+    "**/.backup/**",                   # Backup directories
+    "**/.archive/**",                  # Archived content
+    "**/archived/**",                  # Another archive pattern
+    "**/.git/**",                      # Git internals (should not be in roadmap anyway)
+]
+
+# Human-readable descriptions for documentation
+VALIDATION_EXCLUDE_DESCRIPTIONS = {
+    "**/context/sample_code/**": "Sample YAML snippets used in documentation",
+    "**/context/samples/**": "Alternative sample code directory",
+    "**/test_fixtures/**": "Test fixture files not meant for validation",
+    "**/.backup/**": "Backup directories",
+    "**/.archive/**": "Archived content not in active roadmap",
+    "**/archived/**": "Archived tracks/sprints",
+    "**/.git/**": "Git internal files",
+}
+
+
+# ============================================================================
 # Validation Profiles
 # ============================================================================
 
@@ -528,16 +554,67 @@ class OptimizedValidator:
         return report
 
     def _find_yaml_files(self, patterns: Optional[List[str]] = None) -> List[Path]:
-        """Find all YAML files to validate."""
+        """
+        Find all YAML files to validate, excluding sample code and other non-roadmap files.
+
+        Args:
+            patterns: Optional list of glob patterns to validate (overrides default)
+
+        Returns:
+            List of Path objects for files to validate
+        """
         if patterns:
             # Use custom patterns
             yaml_files = []
             for pattern in patterns:
                 yaml_files.extend(self.roadmap_dir.glob(pattern))
-            return list(set(yaml_files))  # Remove duplicates
+            yaml_files = list(set(yaml_files))  # Remove duplicates
         else:
             # Default: all YAML files in roadmap
-            return list(self.roadmap_dir.rglob("*.yaml"))
+            yaml_files = list(self.roadmap_dir.rglob("*.yaml"))
+
+        # Filter out excluded paths
+        yaml_files = self._filter_excluded_paths(yaml_files)
+
+        return yaml_files
+
+    def _filter_excluded_paths(self, file_paths: List[Path]) -> List[Path]:
+        """
+        Filter out files matching exclusion patterns.
+
+        Args:
+            file_paths: List of file paths to filter
+
+        Returns:
+            Filtered list with excluded paths removed
+        """
+        import fnmatch
+
+        filtered = []
+
+        for file_path in file_paths:
+            try:
+                rel_path_str = str(file_path.relative_to(self.roadmap_dir))
+            except ValueError:
+                # Not under roadmap_dir - skip filtering
+                filtered.append(file_path)
+                continue
+
+            excluded = False
+            for pattern in VALIDATION_EXCLUDE_PATTERNS:
+                # fnmatch handles ** patterns well
+                if fnmatch.fnmatch(rel_path_str, pattern):
+                    excluded = True
+                    break
+                # Also check with forward slashes normalized
+                if fnmatch.fnmatch(rel_path_str.replace("\\", "/"), pattern):
+                    excluded = True
+                    break
+
+            if not excluded:
+                filtered.append(file_path)
+
+        return filtered
 
     def validate_file(self, file_path: Path) -> FileValidationResult:
         """

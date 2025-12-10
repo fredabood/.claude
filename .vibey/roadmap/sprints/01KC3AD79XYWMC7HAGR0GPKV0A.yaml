@@ -5,10 +5,10 @@ sprint:
   name: 'Sprint 6: Tooling Polish'
   description: Clean up validator to exclude sample code directories and verify duplicate
     roadmap.yaml fix is complete.
-  status: not_started
+  status: completed
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T19:00:00+00:00'
+  completed: '2025-12-10T20:00:00+00:00'
   goal: Validation and tooling work correctly
   success_criteria:
   - Validator skips context/sample_code directories
@@ -17,22 +17,22 @@ sprint:
   tasks:
   - id: dogfooding-bugs-06-task-001
     title: Add VALIDATION_EXCLUDE_PATTERNS constant
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-06-task-002
     title: Update validator to skip excluded paths
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-06-task-003
     title: Add unit test for exclusion patterns
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-06-task-004
     title: Verify single roadmap.yaml exists at correct location
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-06-task-005
     title: Add startup check to warn if duplicate exists
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-06-task-006
     title: Document canonical location in CLAUDE.md
-    status: not_started
+    status: completed
   dependencies: []
   blocked_by: []
   depends_on: []

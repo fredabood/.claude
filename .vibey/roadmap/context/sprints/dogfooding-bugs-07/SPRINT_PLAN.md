@@ -35,12 +35,14 @@ None (can start immediately)
 
 ## Tasks (6 total)
 
-1. **Create activity_log/ directory structure** (development, low complexity)
-2. **Write JSONL writer for activity events** (development, medium complexity)
-3. **Write JSONL reader for activity queries** (development, medium complexity)
-4. **Migrate existing audit-trail.yaml to JSONL** (development, medium complexity)
-5. **Update all activity log consumers** (development, medium complexity)
-6. **Add tests for JSONL activity log** (testing, medium complexity)
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 001 | Create activity_log/ directory structure | Development | Low | [TASK_001_PLAN.md](./TASK_001_PLAN.md) |
+| 002 | Write JSONL writer for activity events | Development | Medium | [TASK_002_PLAN.md](./TASK_002_PLAN.md) |
+| 003 | Write JSONL reader for activity queries | Development | Medium | [TASK_003_PLAN.md](./TASK_003_PLAN.md) |
+| 004 | Migrate existing audit-trail.yaml to JSONL | Development | Medium | [TASK_004_PLAN.md](./TASK_004_PLAN.md) |
+| 005 | Update all activity log consumers | Development | Medium | [TASK_005_PLAN.md](./TASK_005_PLAN.md) |
+| 006 | Add tests for JSONL activity log | Testing | Medium | [TASK_006_PLAN.md](./TASK_006_PLAN.md) |
 
 ---
 

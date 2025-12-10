@@ -34,12 +34,23 @@ None (can start immediately)
 
 ## Tasks (6 total)
 
-1. **Add VALIDATION_EXCLUDE_PATTERNS constant** (development, low complexity)
-2. **Update validator to skip excluded paths** (development, low complexity)
-3. **Add unit test for exclusion patterns** (testing, low complexity)
-4. **Verify single roadmap.yaml exists at correct location** (testing, low complexity)
-5. **Add startup check to warn if duplicate exists** (development, low complexity)
-6. **Document canonical location in CLAUDE.md** (documentation, low complexity)
+### Bug #7: Validator Doesn't Exclude context/sample_code Directories
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 001 | Add VALIDATION_EXCLUDE_PATTERNS constant | Development | Low | [TASK_001_PLAN.md](./TASK_001_PLAN.md) |
+| 002 | Update validator to skip excluded paths | Development | Low | [TASK_002_PLAN.md](./TASK_002_PLAN.md) |
+| 003 | Add unit test for exclusion patterns | Testing | Low | [TASK_003_PLAN.md](./TASK_003_PLAN.md) |
+
+### Bug #14: Duplicate roadmap.yaml Files Existed at Two Locations
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 004 | Verify single roadmap.yaml exists at correct location | Testing | Low | [TASK_004_PLAN.md](./TASK_004_PLAN.md) |
+| 005 | Add startup check to warn if duplicate exists | Development | Low | [TASK_005_PLAN.md](./TASK_005_PLAN.md) |
+| 006 | Document canonical location in CLAUDE.md | Documentation | Low | [TASK_006_PLAN.md](./TASK_006_PLAN.md) |
+
+**Note:** Bug #14 is already **Fixed** - the duplicate file was deleted. Tasks 004-006 add verification, safeguards, and documentation to prevent recurrence.
 
 ---
 

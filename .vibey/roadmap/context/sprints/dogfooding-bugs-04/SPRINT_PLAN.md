@@ -35,11 +35,15 @@ Progress updates automatically propagate up the hierarchy
 
 ## Tasks (5 total)
 
-1. **Analyze current progress update flow** (research, low complexity)
-2. **Implement auto-progression logic in update.py** (development, medium complexity)
-3. **Add post-task-completion hook for parent updates** (development, medium complexity)
-4. **Add unit tests for progress propagation** (testing, medium complexity)
-5. **Manual verification with test sprint** (testing, low complexity)
+### Bug #1: Track and Sprint Progress Not Auto-Updated After Task Completion
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 001 | Analyze current progress update flow | Research | Low | [TASK_001_PLAN.md](./TASK_001_PLAN.md) |
+| 002 | Implement auto-progression logic in update.py | Development | Medium | [TASK_002_PLAN.md](./TASK_002_PLAN.md) |
+| 003 | Add post-task-completion hook for parent updates | Development | Medium | [TASK_003_PLAN.md](./TASK_003_PLAN.md) |
+| 004 | Add unit tests for progress propagation | Testing | Medium | [TASK_004_PLAN.md](./TASK_004_PLAN.md) |
+| 005 | Manual verification with test sprint | Testing | Low | [TASK_005_PLAN.md](./TASK_005_PLAN.md) |
 
 ---
 

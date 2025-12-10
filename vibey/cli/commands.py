@@ -1823,7 +1823,8 @@ def db_init_cmd(force: bool = False) -> int:
 
         # Load YAML data into database
         print("   Loading roadmap data from YAML...")
-        roadmap_yaml = vibey_dir / "roadmap.yaml"
+        # Canonical location is .vibey/roadmap/roadmap.yaml (not .vibey/roadmap.yaml)
+        roadmap_yaml = vibey_dir / "roadmap" / "roadmap.yaml"
 
         if not roadmap_yaml.exists():
             print("   ⚠️  No roadmap.yaml found, database initialized empty")

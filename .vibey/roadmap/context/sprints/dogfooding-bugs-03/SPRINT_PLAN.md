@@ -34,18 +34,32 @@ SQLite backend works correctly with ULID file system
 
 ## Tasks (12 total)
 
-1. **Add database sync step to migration script** (development, medium complexity)
-2. **Implement automatic db rebuild after YAML changes** (development, high complexity)
-3. **Add CLI command to force db resync** (development, medium complexity)
-4. **Add integration test for YAML-DB sync** (testing, medium complexity)
-5. **Investigate is_dirty column in schema history** (research, low complexity)
-6. **Update pre-commit hook to use correct schema** (development, medium complexity)
-7. **Add database migration script for schema updates** (development, medium complexity)
-8. **Test pre-commit hook with fresh database** (testing, low complexity)
-9. **Update db_rebuild_cmd to load from ULID files** (development, medium complexity)
-10. **Update sql_loader init to iterate tracks/*.yaml** (development, medium complexity)
-11. **Add progress reporting during rebuild** (development, low complexity)
-12. **Add integration test for database rebuild** (testing, medium complexity)
+### Bug #5: SQLite Database Out of Sync with YAML
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 001 | Add database sync step to migration script | Development | Medium | [TASK_001_PLAN.md](./TASK_001_PLAN.md) |
+| 002 | Implement automatic DB rebuild after YAML changes | Development | High | [TASK_002_PLAN.md](./TASK_002_PLAN.md) |
+| 003 | Add CLI command to force DB resync | Development | Medium | [TASK_003_PLAN.md](./TASK_003_PLAN.md) |
+| 004 | Add integration test for YAML-DB sync | Testing | Medium | [TASK_004_PLAN.md](./TASK_004_PLAN.md) |
+
+### Bug #9: Pre-commit Hook Database Error (is_dirty column)
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 005 | Investigate is_dirty column in schema history | Research | Low | [TASK_005_PLAN.md](./TASK_005_PLAN.md) |
+| 006 | Update pre-commit hook to use correct schema | Development | Medium | [TASK_006_PLAN.md](./TASK_006_PLAN.md) |
+| 007 | Add database migration script for schema updates | Development | Medium | [TASK_007_PLAN.md](./TASK_007_PLAN.md) |
+| 008 | Test pre-commit hook with fresh database | Testing | Low | [TASK_008_PLAN.md](./TASK_008_PLAN.md) |
+
+### Bug #11: Database Rebuild Loads 0 Tracks/Sprints/Tasks
+
+| Task | Title | Type | Complexity | Plan |
+|------|-------|------|------------|------|
+| 009 | Update db_rebuild_cmd to load from ULID files | Development | High | [TASK_009_PLAN.md](./TASK_009_PLAN.md) |
+| 010 | Update sql_loader init to iterate tracks/*.yaml | Development | Medium | [TASK_010_PLAN.md](./TASK_010_PLAN.md) |
+| 011 | Add progress reporting during rebuild | Development | Low | [TASK_011_PLAN.md](./TASK_011_PLAN.md) |
+| 012 | Add integration test for database rebuild | Testing | Medium | [TASK_012_PLAN.md](./TASK_012_PLAN.md) |
 
 ---
 

@@ -218,7 +218,7 @@ def query_track_details(root_dir: Path, track_id: str) -> Dict[str, Any]:
 
     try:
         if use_sqlite:
-            track = load_track(track_id)
+            track = load_track(track_id, root_dir=root_dir)
         else:
             track = load_track(track_path, root_dir=root_dir)
     except (ValueError, FileNotFoundError) as e:
@@ -304,7 +304,7 @@ def query_sprint_details(root_dir: Path, sprint_id: str) -> Dict[str, Any]:
 
     try:
         if use_sqlite:
-            sprint = load_sprint(sprint_id)
+            sprint = load_sprint(sprint_id, root_dir=root_dir)
         else:
             sprint = load_sprint(sprint_path, root_dir=root_dir)
     except (ValueError, FileNotFoundError) as e:
@@ -313,7 +313,7 @@ def query_sprint_details(root_dir: Path, sprint_id: str) -> Dict[str, Any]:
     # Load tasks
     tasks_path = fs.get_tasks_path(sprint_id)
     if use_sqlite:
-        tasks = load_tasks(sprint_id)
+        tasks = load_tasks(sprint_id, root_dir=root_dir)
     else:
         tasks = load_tasks(tasks_path, root_dir=root_dir) if tasks_path.exists() else []
 

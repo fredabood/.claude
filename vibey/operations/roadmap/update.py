@@ -49,7 +49,7 @@ from vibey.roadmap.models import (
     Dependency, DependencyType, GateInfo, DependencyStatus,
 )
 from vibey.roadmap.serialization import (
-    load_roadmap, load_track, load_sprint, load_tasks,
+    load_roadmap, load_track, load_sprint, load_task, load_tasks,
     save_roadmap, save_track, save_sprint, save_task, save_tasks,
 )
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
@@ -1350,12 +1350,34 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
         return
 
     sprint = load_sprint(sprint_path)
-    tasks_path = fs.get_tasks_path(sprint_id)
 
-    if not tasks_path.exists():
-        return
-
-    tasks = load_tasks(tasks_path)
+    # Get tasks for this sprint - method depends on structure
+    if fs.structure_format == "flat":
+        # In flat structure, load tasks from database or filter from all tasks
+        tasks_dir = fs.roadmap_root / "tasks"
+        if tasks_dir.exists():
+            tasks = []
+            # Load all task files and filter by sprint_id (slug)
+            # Sprint has both ULID (sprint.id) and slug (from parent_ref or derived)
+            sprint_slug = getattr(sprint, 'slug', None)
+            sprint_ulid = sprint.id
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    task = load_task(task_file)
+                    # Match by sprint slug or ULID
+                    task_sprint_id = getattr(task, 'sprint_id', None)
+                    if task_sprint_id and (task_sprint_id == sprint_slug or task_sprint_id == sprint_ulid):
+                        tasks.append(task)
+                except Exception:
+                    continue
+        else:
+            tasks = []
+    else:
+        # Nested structure: tasks are in sprint directory
+        tasks_path = fs.get_tasks_path(sprint_id)
+        if not tasks_path.exists():
+            return
+        tasks = load_tasks(tasks_path)
 
     # Calculate progress by task type
     from vibey.roadmap.models import TaskType
@@ -1434,9 +1456,9 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
     _record_cli_changes(sprint_path, fs.root_dir)
     _sync_sprint_to_db(sprint, fs.root_dir)
 
-    # Update track progress
-    track_id = sprint_id.rsplit('-', 1)[0]  # Extract track ID
-    _update_track_progress(fs, track_id)
+    # Update track progress (use sprint.track_id for ULID compatibility)
+    parent_track_id = getattr(sprint, 'track_id', None) or sprint_id.rsplit('-', 1)[0]
+    _update_track_progress(fs, parent_track_id)
 
 
 def _update_track_progress(fs: FileSystemManager, track_id: str):

@@ -20,10 +20,10 @@ task:
     \   return artifact\n\ndef orphan_artifacts(root_dir: Path) -> List[Artifact]:\n\
     \    artifacts = list_artifacts(root_dir)\n    return [a for a in artifacts if\
     \ a.is_orphan]\n```\n"
-  status: not_started
+  status: completed
   created: '2025-12-07T15:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T03:30:00+00:00'
+  completed: '2025-12-10T03:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: implementation

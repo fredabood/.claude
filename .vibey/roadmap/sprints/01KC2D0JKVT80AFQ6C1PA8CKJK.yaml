@@ -57,7 +57,7 @@ sprint:
     status: completed
   - id: unified-arch-5-task-004
     title: Implement artifact operations
-    status: not_started
+    status: completed
   - id: unified-arch-5-task-005
     title: Update CLI commands for new models
     status: not_started

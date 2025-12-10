@@ -14,12 +14,12 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 38
-    tracks_completed: 18
-    sprints_total: 193
-    sprints_completed: 95
-    tasks_total: 1033
-    tasks_completed: 745
-    completion_percent: 72.0
+    tracks_completed: 19
+    sprints_total: 198
+    sprints_completed: 100
+    tasks_total: 1062
+    tasks_completed: 774
+    completion_percent: 72.9
   tracks:
   - id: aider-port
     name: Aider Platform Port
@@ -169,9 +169,9 @@ roadmap:
     name: Windsurf/Codeium Platform Port
     status: in_progress
     priority: high
-  - id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  - id: unified-architecture-migration
     name: Unified Architecture Migration
-    status: in_progress
+    status: completed
     priority: critical
   dependencies: []
   blocked_by: []

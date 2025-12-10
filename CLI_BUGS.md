@@ -340,6 +340,132 @@ Use `git commit --no-verify` to bypass the hook
 
 ---
 
+## Bug #10: CLI Reads from Monolithic roadmap.yaml, Not ULID Files
+
+**Date:** 2025-12-10
+**Severity:** Critical
+**Status:** Documented
+
+**Description:**
+The CLI `roadmap status` command and related operations read track data from the monolithic `roadmap.yaml` file instead of the individual ULID-based track files. The `roadmap.yaml` only contains `TrackSummary` objects (id, name, status, priority) - NOT full Track objects with sprints and tasks.
+
+**Expected Behavior:**
+CLI should read track data from `.vibey/roadmap/tracks/{ulid}.yaml` files which contain full track data including sprints and tasks.
+
+**Actual Behavior:**
+- CLI reads from `.vibey/roadmap/roadmap.yaml`
+- Shows only summary info (37 tracks listed)
+- No sprints or tasks available
+- Missing `unified-architecture-migration` track entirely (not in roadmap.yaml)
+
+**Root Cause:**
+`vibey/operations/roadmap/query.py:180` loads roadmap via:
+```python
+roadmap = load_roadmap(roadmap_path, root_dir=root_dir)
+```
+Where `load_roadmap` reads from monolithic file, not ULID files.
+
+The `yaml_loader.py:load_roadmap()` function parses tracks as:
+```python
+tracks = [
+    TrackSummary(
+        id=t['id'],
+        name=t['name'],
+        status=Status(t.get('status', 'not_started')),
+        priority=Priority(t.get('priority', 'medium')),
+    )
+    for t in roadmap_data.get('tracks', [])
+]
+```
+
+**Impact:**
+- YAML backend cannot access full track/sprint/task hierarchy
+- Only SQLite backend (when working) can show full roadmap data
+- Newly created tracks in ULID system are invisible
+
+**Fix Required:**
+1. Update `load_roadmap` to discover tracks from `.vibey/roadmap/tracks/*.yaml`
+2. Or deprecate monolithic `roadmap.yaml` entirely
+3. Or implement lazy loading that fetches track details from ULID files
+
+**Files Affected:**
+- `vibey/roadmap/serialization/yaml_loader.py` (load_roadmap function)
+- `vibey/operations/roadmap/query.py` (query_roadmap_summary)
+
+---
+
+## Bug #11: Database Rebuild Loads 0 Tracks/Sprints/Tasks
+
+**Date:** 2025-12-10
+**Severity:** Critical
+**Status:** Documented
+
+**Description:**
+The `vibey roadmap db rebuild` command reports success but loads 0 tracks, 0 sprints, and 0 tasks into the database, even though there are 38 tracks, 193 sprints, and 1033 tasks in the ULID files.
+
+**Command Output:**
+```
+🔄 Rebuilding database from YAML...
+   Backup created: /Users/fredabood/Repositories/vibey/.vibey/roadmap.db.bak
+🗄️  Initializing SQLite database...
+   Loaded 0 tracks, 0 sprints, 0 tasks
+
+✅ Database initialized successfully
+   Tracks:   0
+   Sprints:  0
+   Tasks:    0
+```
+
+**Expected Behavior:**
+Database should load all 38 tracks, 193 sprints, and 1033 tasks from YAML files.
+
+**Root Cause:**
+Likely related to Bug #10 - the database init logic also reads from monolithic `roadmap.yaml` which only has track summaries, not from ULID files.
+
+**Impact:**
+- SQLite backend is effectively empty
+- All queries return no data
+- `roadmap status` shows empty roadmap
+
+**Files Affected:**
+- `vibey/cli/commands.py` (db_rebuild_cmd)
+- `vibey/roadmap/serialization/sql_loader.py` (database initialization)
+
+---
+
+## Bug #12: unified-architecture-migration Track Missing from roadmap.yaml
+
+**Date:** 2025-12-10
+**Severity:** High
+**Status:** Documented
+
+**Description:**
+The `unified-architecture-migration` track exists in ULID files but is NOT listed in the monolithic `roadmap.yaml` file. This causes the track to be invisible when the YAML backend is used.
+
+**Discovery:**
+- ULID files: 38 tracks (includes unified-architecture-migration)
+- roadmap.yaml: 37 tracks (missing unified-architecture-migration)
+
+**Root Cause:**
+The track was created AFTER the migration to ULID structure. Since `roadmap.yaml` is the old monolithic format, newly created tracks in the ULID system are not automatically synced back.
+
+**Impact:**
+- Track invisible to YAML-based CLI commands
+- Progress statistics incorrect (37/38 tracks, wrong completion %)
+- Data integrity mismatch between systems
+
+**Fix Required:**
+Either:
+1. Add the track to `roadmap.yaml` manually
+2. Implement sync mechanism: ULID files → roadmap.yaml
+3. Deprecate `roadmap.yaml` entirely as source of truth
+
+**Files Affected:**
+- `.vibey/roadmap/roadmap.yaml` (missing track entry)
+- `.vibey/roadmap/tracks/01KC2D0JKTE7Z4HCNHST8ZVW4R.yaml` (exists, is valid)
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
@@ -349,5 +475,8 @@ Use `git commit --no-verify` to bypass the hook
 6. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
 7. 🔧 Fix validator exclusion patterns (Bug #7)
 8. 🔧 Fix pre-commit hook database error (Bug #9)
-9. File GitHub issues for all documented bugs
-10. Add integration tests for flat structure progress updates
+9. 🔧 Fix CLI to read from ULID files (Bug #10)
+10. 🔧 Fix database rebuild to load ULID data (Bug #11)
+11. 🔧 Sync unified-architecture-migration to roadmap.yaml (Bug #12)
+12. File GitHub issues for all documented bugs
+13. Add integration tests for flat structure progress updates

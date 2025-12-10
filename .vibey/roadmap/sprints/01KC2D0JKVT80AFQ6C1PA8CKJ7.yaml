@@ -77,7 +77,7 @@ sprint:
     blocker_type: sprint
     required_status: completed
     description: Schema migration must be complete (completables.id field)
-    status: pending
+    status: resolved
   depended_on_by: []
   development_gates: []
   deliverables:

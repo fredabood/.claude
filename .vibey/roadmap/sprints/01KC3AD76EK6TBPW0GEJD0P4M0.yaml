@@ -6,10 +6,10 @@ sprint:
   description: Complete the ULID migration by updating CLI to read from individual
     ULID files instead of monolithic roadmap.yaml. Fix path resolution, track discovery,
     and model validation.
-  status: in_progress
+  status: completed
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T08:00:00.000000+00:00'
-  completed: null
+  completed: '2025-12-10T10:30:00.000000+00:00'
   goal: CLI correctly reads all data from ULID flat file structure
   success_criteria:
   - FileSystemManager uses correct roadmap.yaml location
@@ -29,37 +29,37 @@ sprint:
     status: completed
   - id: dogfooding-bugs-02-task-004
     title: Design new loading strategy for ULID files
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-005
     title: Update load_roadmap to discover tracks from tracks/*.yaml
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-006
     title: Implement lazy loading for track details
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-007
     title: Update query.py to use new loading strategy
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-008
     title: Add integration tests for ULID file loading
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-009
     title: Debug track discovery in FileSystemManager.list_tracks()
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-010
     title: Fix track filtering/discovery logic
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-011
     title: Add integration test for track listing
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-012
     title: Implement sync mechanism ULID files to roadmap.yaml
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-013
     title: Add CLI command to sync roadmap.yaml
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-014
     title: Add validation to detect sync discrepancies
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-015
     title: Update validation to accept ULID-based sprint IDs
     status: completed
@@ -68,7 +68,7 @@ sprint:
     status: completed
   - id: dogfooding-bugs-02-task-017
     title: Add unit tests for both ID formats
-    status: not_started
+    status: completed
   dependencies: []
   blocked_by: []
   depends_on:

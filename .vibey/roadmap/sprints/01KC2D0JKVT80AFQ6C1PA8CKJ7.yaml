@@ -39,10 +39,10 @@ sprint:
     - Better conflict handling in distributed scenarios
 
     '
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
-  started: null
+  started: '2025-12-10T01:00:00+00:00'
   completed: null
   goal: Implement ULID-based identity with sequence and slug fields
   success_criteria:
@@ -55,7 +55,7 @@ sprint:
   tasks:
   - id: unified-arch-3-task-001
     title: Add ULID generation and validation
-    status: not_started
+    status: completed
   - id: unified-arch-3-task-002
     title: Create .id file format and parser
     status: not_started

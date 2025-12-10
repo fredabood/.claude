@@ -3,10 +3,11 @@ sprint:
   name: Roadmap Integrity Protection
   track_id: git-integration
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
+  blocked: true
   blocked_reason: null
   created: '2025-11-26T01:21:21.766611+00:00'
-  started: null
+  started: '2025-12-10T16:34:32.584617+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
@@ -133,6 +134,8 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -141,14 +144,18 @@ sprint:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
+  depended_on_by: []
   plan_file: .vibey/roadmap/context/sprints/git-integration-5/TASK_PLANS.md
   deliverables: []
-  description: Implement defense-in-depth protection for roadmap integrity. Unified activity log architecture - one CLI command = one activity log entry with file hashes and optional signatures.
+  description: Implement defense-in-depth protection for roadmap integrity. Unified
+    activity log architecture - one CLI command = one activity log entry with file
+    hashes and optional signatures.
   goal: Prevent AI assistants from bypassing roadmap safeguards via direct YAML edits
   success_criteria: []
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -158,15 +165,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: git-integration-5
-  parent_ref: 01KC2D0JK6JC6706H9WP2NH5DA
-  criteria:
-  - id: dep-001
-    description: Depends on unknown
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unknown
-      required_status: resolved
-  sequence: 5

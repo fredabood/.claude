@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Design command-level activity log schema
   description: Design new CommandActivityEvent format with command-level granularity (one CLI command = one entry). Include changes[] array for field-level history, file_hash_before/after for verification, signature/signer for Phase 4. Deliverable - ACTIVITY_LOG_V2_SCHEMA.md
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767641+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T16:40:00.000000+00:00'
+  completed: '2025-12-10T16:50:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

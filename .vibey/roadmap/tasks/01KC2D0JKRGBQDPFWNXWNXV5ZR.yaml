@@ -7,7 +7,6 @@ task:
   title: Integration testing for all operations
   description: null
   status: completed
-  blocked: false
   created: '2025-11-29T14:00:00+00:00'
   started: '2025-12-05T02:37:26.995626+00:00'
   completed: '2025-12-05T02:41:42.624537+00:00'
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-9-task-005
   parent_ref: 01KC2D0JKRGBQDPFWNXWNXV5ZK
+  criteria: []
+  sequence: 5

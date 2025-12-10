@@ -20,7 +20,6 @@ task:
     \ counters match computed values\n- No orphaned files in directory structure\n\
     \nREFERENCE:\n- sqlite-backend-11/docs/INTEGRITY_AUDIT_REPORT.md\n- vibey/operations/roadmap/validation/yaml_remediation.py\n"
   status: completed
-  blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: '2025-12-06T15:40:31.804856+00:00'
   completed: '2025-12-06T15:40:43.042451+00:00'
@@ -33,10 +32,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -45,3 +42,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-13-task-005
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  criteria: []
+  sequence: 5

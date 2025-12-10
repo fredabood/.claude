@@ -3,7 +3,6 @@ track:
   name: Hierarchical Documentation & Context Management System
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-09T00:00:00+00:00'
@@ -40,11 +39,6 @@ track:
     target_status: completed
     reason: Needs platform-agnostic architecture and config system
     optional: false
-  blocks:
-  - type: track
-    target_id: mcp-server
-    at_status: not_started
-    reason: MCP server will be first track to use new hierarchical structure
   blocked_by: []
   depends_on:
   - blocker_id: core-framework
@@ -53,33 +47,6 @@ track:
     current_status: completed
     blocks_transition_to: in_progress
     last_checked: '2025-11-09T21:31:48.927542+00:00'
-  depended_on_by:
-  - mcp-server
-  quality_gates:
-  - name: Hierarchical Structure Validation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All roadmap objects properly organized in hierarchy
-    score: null
-  - name: Context Discovery Testing
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: AI can systematically discover and load context at all levels
-    score: null
-  - name: Synchronization Reliability
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Documentation synchronizes correctly from .vibey to docs/
-    score: null
-  - name: Migration Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All existing tracks migrated without data loss
-    score: null
   assigned_agents:
   - web-developer
   - test-engineer
@@ -235,3 +202,44 @@ track:
       \ It ensures that research, analyses, and context\ncreated during roadmap execution\
       \ are systematically preserved and\neasily discoverable by both humans and AI\
       \ agents.\n\nRecommend: START SOON, implement before mcp-server track begins\n"
+  criteria:
+  - id: dep-001
+    description: Depends on core-framework
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: core-framework
+      required_status: completed
+  - id: gate-001
+    description: All roadmap objects properly organized in hierarchy
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: AI can systematically discover and load context at all levels
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: Documentation synchronizes correctly from .vibey to docs/
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: All existing tracks migrated without data loss
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

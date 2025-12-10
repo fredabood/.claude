@@ -3,7 +3,6 @@ sprint:
   name: Unified Atlassian Experience & Polish
   track_id: atlassian-integration
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -166,19 +165,6 @@ sprint:
   blocked_by:
   - atlassian-integration-2
   - atlassian-integration-3
-  quality_gates:
-  - name: E2E Test Coverage
-    threshold: 95
-    blocking: true
-    status: not_run
-  - name: Documentation Completeness
-    threshold: 90
-    blocking: true
-    status: not_run
-  - name: Performance Benchmarks
-    threshold: 90
-    blocking: false
-    status: not_run
   deliverables:
   - Polished vibey atlassian CLI
   - Jira-Confluence cross-linking
@@ -213,3 +199,45 @@ sprint:
       - Get full audit trail in Atlassian\n- Collaborate with non-technical stakeholders\n"
   slug: atlassian-integration-4
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4
+  criteria:
+  - id: blk-001
+    description: Blocked by atlassian-integration-2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: atlassian-integration-2
+      required_status: completed
+  - id: blk-002
+    description: Blocked by atlassian-integration-3
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: atlassian-integration-3
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: E2E Test Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: Documentation Completeness'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: 'Quality gate: Performance Benchmarks'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 4

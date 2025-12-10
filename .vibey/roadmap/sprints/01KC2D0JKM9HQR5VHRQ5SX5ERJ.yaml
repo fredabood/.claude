@@ -4,7 +4,6 @@ sprint:
   track_id: roadmap-system
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   blocked_reason: null
   created: '2025-11-07T03:00:00+00:00'
   started: null
@@ -69,11 +68,8 @@ sprint:
     status: completed
     task_type: development
     gate_info: null
-  development_gates: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -82,7 +78,6 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
-  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -94,3 +89,5 @@ sprint:
     agents_used: null
   slug: roadmap-system-4
   parent_ref: 01KC2D0JKKVMZ8ZJNGPHV822QX
+  criteria: []
+  sequence: 4

@@ -3,7 +3,6 @@ sprint:
   name: Discovery Output Architecture
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -53,11 +52,6 @@ sprint:
   - user-journey-audit-20
   blocked_by:
   - user-journey-audit-20
-  quality_gates:
-  - name: Schema Validation
-    threshold: 100
-    blocking: true
-    status: not_run
   deliverables:
   - Discovery output schema specification
   - DiscoveryOutput, CodebaseAudit, GitAnalysis data models
@@ -99,3 +93,21 @@ sprint:
       '
   slug: user-journey-audit-21
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-20
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-20
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Schema Validation'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 21

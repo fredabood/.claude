@@ -7,7 +7,6 @@ task:
   title: Verify Sprint 2-3 task completion
   description: null
   status: not_started
-  blocked: false
   created: '2025-11-23T20:51:06.889497+00:00'
   started: null
   completed: null
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: roadmap-state-audit-11-task-001
   parent_ref: 01KC2D0JKG48M2973YX4EGG3Q1
+  criteria: []
+  sequence: 1

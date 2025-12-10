@@ -3,7 +3,6 @@ sprint:
   name: Release Automation & Testing
   track_id: brew-package
   status: not_started
-  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
@@ -94,18 +93,6 @@ sprint:
   - brew-package-1
   blocked_by:
   - brew-package-1
-  depended_on_by: []
-  quality_gates:
-  - name: CI Passes on All Platforms
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Formula tests pass on macOS and Linux
-  - name: Automation Works
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Formula auto-updates when new PyPI version is released
   deliverables:
   - Formula update automation (GitHub Action)
   - CI testing workflow
@@ -161,3 +148,29 @@ sprint:
       '
   slug: brew-package-2
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM9
+  criteria:
+  - id: blk-001
+    description: Blocked by brew-package-1
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: brew-package-1
+      required_status: completed
+  - id: gate-001
+    description: Formula tests pass on macOS and Linux
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: Formula auto-updates when new PyPI version is released
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 2

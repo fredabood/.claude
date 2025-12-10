@@ -3,7 +3,6 @@ sprint:
   name: Jira Core Integration & Data Mapping
   track_id: atlassian-integration
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -163,11 +162,6 @@ sprint:
       '
   dependencies: []
   blocked_by: []
-  quality_gates:
-  - name: API Coverage
-    threshold: 90
-    blocking: true
-    status: not_run
   deliverables:
   - JiraSemanticLayer class implementing SemanticLayer interface
   - Jira ticket classes (JiraProject, JiraEpic, JiraSprint, JiraIssue, JiraSubtask)
@@ -201,3 +195,13 @@ sprint:
       - Agile API: https://developer.atlassian.com/cloud/jira/software/rest/\n"
   slug: atlassian-integration-1
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4
+  criteria:
+  - id: gate-001
+    description: 'Quality gate: API Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 1

@@ -3,7 +3,6 @@ sprint:
   name: Gap Analysis - Git Versioning for Vibe Coding Sessions
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -156,11 +155,6 @@ sprint:
   - user-journey-audit-18
   blocked_by:
   - user-journey-audit-18
-  quality_gates:
-  - name: Gap Coverage
-    threshold: 95
-    blocking: true
-    status: not_run
   deliverables:
   - Context artifact inventory for versioning
   - Git workflow patterns document
@@ -194,3 +188,21 @@ sprint:
       '
   slug: user-journey-audit-19
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-18
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-18
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Gap Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 19

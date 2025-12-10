@@ -4,7 +4,6 @@ sprint:
   track_id: gemini-port
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
   blocked_reason: null
   created: '2025-11-23T05:11:27.060038+00:00'
   started: null
@@ -49,8 +48,6 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
-  development_gates: []
-  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -59,7 +56,6 @@ sprint:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
-  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -68,7 +64,6 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
-  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -80,3 +75,13 @@ sprint:
     agents_used: null
   slug: gemini-port-5
   parent_ref: 01KC2D0JK5Y3BX5008PVANFCHN
+  criteria:
+  - id: dep-001
+    description: Depends on unknown
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unknown
+      required_status: resolved
+  sequence: 5

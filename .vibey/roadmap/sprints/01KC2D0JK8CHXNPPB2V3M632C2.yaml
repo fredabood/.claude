@@ -4,7 +4,6 @@ sprint:
   track_id: infrastructure-fixes
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   blocked_reason: null
   created: '2025-11-15T19:00:00+00:00'
   started: null
@@ -75,11 +74,8 @@ sprint:
       threshold: 0
       is_blocking: true
       score: null
-  development_gates: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -88,7 +84,6 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
-  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -100,3 +95,5 @@ sprint:
     agents_used: null
   slug: infrastructure-fixes-2
   parent_ref: 01KC2D0JK8CHXNPPB2V3M632BK
+  criteria: []
+  sequence: 2

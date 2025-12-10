@@ -28,7 +28,6 @@ task:
     \nREFERENCE:\n- vibey/roadmap/models/ticket/targets.py (ThresholdTarget)\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
     \ (ThresholdTarget section)\n"
   status: completed
-  blocked: true
   created: '2025-12-06T00:00:00+00:00'
   started: null
   completed: '2025-12-06T15:30:50.211996+00:00'
@@ -41,7 +40,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -50,7 +48,6 @@ task:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -59,3 +56,13 @@ task:
     duration_hours: null
   slug: sqlite-backend-12-task-013
   parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RNR
+  criteria:
+  - id: dep-001
+    description: Depends on unknown
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unknown
+      required_status: resolved
+  sequence: 13

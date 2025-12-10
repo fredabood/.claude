@@ -3,7 +3,6 @@ track:
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
@@ -44,7 +43,6 @@ track:
     target_status: completed
     reason: Build on terminal adapter learnings
     optional: true
-  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: testing-system
@@ -65,33 +63,6 @@ track:
     current_status: not_started
     blocks_transition_to: in_progress
     last_checked: '2025-11-09T21:40:22.274961+00:00'
-  depended_on_by: []
-  quality_gates:
-  - name: Comprehensive Testing
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All journey tests pass, platform deployment tests pass, >95% platform
-      parity
-    score: null
-  - name: VS Code Integration Testing
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: Validate extension works in VS Code
-    score: null
-  - name: JetBrains Integration Testing
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Validate extension works in JetBrains IDEs
-    score: null
-  - name: Context Provider API
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: Custom context providers work correctly
-    score: null
   assigned_agents:
   - web-developer
   - test-engineer
@@ -139,3 +110,61 @@ track:
       \ }}\"\n  }\n}\n\nValidation:\n- Test in VS Code\n- Test in IntelliJ IDEA\n\
       - Test in PyCharm\n- Verify context providers load\n- Ensure commands execute\
       \ correctly\n\nTimeline: Q3 2025 (after Aider port)\n"
+  criteria:
+  - id: dep-001
+    description: Depends on testing-system
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: testing-system
+      required_status: completed
+  - id: dep-002
+    description: Depends on claude-port
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: claude-port
+      required_status: completed
+  - id: dep-003
+    description: Depends on goose-port
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: goose-port
+      required_status: completed
+  - id: gate-001
+    description: All journey tests pass, platform deployment tests pass, >95% platform
+      parity
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: Validate extension works in VS Code
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: Validate extension works in JetBrains IDEs
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: Custom context providers work correctly
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

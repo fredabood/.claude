@@ -4,7 +4,6 @@ sprint:
   track_id: vscode-roadmap-extension
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -59,11 +58,8 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
-  development_gates: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   plan_file: null
   deliverables:
   - Git extension API integration
@@ -94,7 +90,6 @@ sprint:
 
     '
   assigned_agents: []
-  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -106,3 +101,5 @@ sprint:
     agents_used: null
   slug: vscode-roadmap-extension-4
   parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
+  criteria: []
+  sequence: 4

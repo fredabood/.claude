@@ -3,7 +3,6 @@ sprint:
   name: Confluence Documentation Integration
   track_id: atlassian-integration
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -150,15 +149,6 @@ sprint:
   - atlassian-integration-1
   blocked_by:
   - atlassian-integration-1
-  quality_gates:
-  - name: Conversion Fidelity
-    threshold: 95
-    blocking: true
-    status: not_run
-  - name: Sync Reliability
-    threshold: 99
-    blocking: true
-    status: not_run
   deliverables:
   - Confluence to docs mapping specification
   - Confluence REST API client
@@ -188,3 +178,29 @@ sprint:
       \ will be lossy\n- Round-trip conversion should preserve meaning\n"
   slug: atlassian-integration-3
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4
+  criteria:
+  - id: blk-001
+    description: Blocked by atlassian-integration-1
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: atlassian-integration-1
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Conversion Fidelity'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: Sync Reliability'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 3

@@ -8,7 +8,6 @@ task:
   description: 'Calculate and display completion percentage. Format as ''Sprint: 5/12
     (42%)''. Update in real-time as tasks complete.'
   status: not_started
-  blocked: false
   created: '2025-12-05T12:00:00+00:00'
   started: null
   completed: null
@@ -21,10 +20,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -33,3 +30,5 @@ task:
     duration_hours: null
   slug: vscode-roadmap-extension-3-task-003
   parent_ref: 01KC2D0JKXPS17WN2TC0K8NG6K
+  criteria: []
+  sequence: 3

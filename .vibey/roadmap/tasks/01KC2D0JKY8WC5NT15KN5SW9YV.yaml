@@ -7,7 +7,6 @@ task:
   title: Integration tests
   description: null
   status: not_started
-  blocked: false
   created: '2025-11-23T04:54:00.179857+00:00'
   started: null
   completed: null
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: windsurf-port-2-task-004
   parent_ref: 01KC2D0JKY8WC5NT15KN5SW9YQ
+  criteria: []
+  sequence: 4

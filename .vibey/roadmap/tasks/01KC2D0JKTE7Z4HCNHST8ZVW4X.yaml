@@ -17,7 +17,6 @@ task:
     \ f:\n        yaml.dump(track_to_dict(track), f)\n```\n\nAlso need to update:\n\
     - dump_sprint()\n- dump_task()\n- dump_roadmap() orchestration\n"
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T15:35:00+00:00'
   completed: '2025-12-09T15:45:00+00:00'
@@ -30,8 +29,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-1-task-005
   blocked_by:
   - unified-arch-1-task-001
   depends_on:
@@ -40,7 +37,6 @@ task:
     required_status: completed
     description: Need directory schema before updating dumper
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/roadmap/serialization/yaml_dumper.py
     type: code
@@ -52,3 +48,31 @@ task:
     duration_hours: null
   slug: unified-arch-1-task-004
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  criteria:
+  - id: dep-001
+    description: Need directory schema before updating dumper
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1-task-001
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-1-task-001
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1-task-001
+      required_status: completed
+  - id: del-001
+    description: Updated YAML dumper with flat structure support
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/serialization/yaml_dumper.py
+      all_required: true
+      deliverable_type: code
+  sequence: 4

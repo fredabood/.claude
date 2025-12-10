@@ -3,7 +3,6 @@ sprint:
   name: Friction Analysis & Gap Identification
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -160,11 +159,6 @@ sprint:
   - user-journey-audit-4
   blocked_by:
   - user-journey-audit-4
-  quality_gates:
-  - name: Friction Coverage
-    threshold: 95
-    blocking: true
-    status: not_run
   deliverables:
   - Onboarding friction analysis
   - Daily workflow friction analysis
@@ -183,3 +177,21 @@ sprint:
       '
   slug: user-journey-audit-5
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-4
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-4
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Friction Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 5

@@ -3,7 +3,6 @@ sprint:
   name: Homebrew Formula & Tap Setup
   track_id: brew-package
   status: not_started
-  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
@@ -160,19 +159,6 @@ sprint:
   dependencies: []
   blocked_by:
   - python-package-2
-  depended_on_by:
-  - brew-package-2
-  quality_gates:
-  - name: Formula Audit Passes
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: brew audit --strict passes with no errors
-  - name: Local Install Works
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Formula installs and vibey CLI works
   deliverables:
   - Homebrew tap repository (homebrew-vibey)
   - Vibey formula (Formula/vibey.rb)
@@ -212,3 +198,29 @@ sprint:
       '
   slug: brew-package-1
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM9
+  criteria:
+  - id: blk-001
+    description: Blocked by python-package-2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: python-package-2
+      required_status: completed
+  - id: gate-001
+    description: brew audit --strict passes with no errors
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: Formula installs and vibey CLI works
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 1

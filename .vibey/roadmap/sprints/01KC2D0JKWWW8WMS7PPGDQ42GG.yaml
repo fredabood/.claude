@@ -3,7 +3,6 @@ sprint:
   name: Contributor Experience & Project Documentation
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -182,27 +181,6 @@ sprint:
   - user-journey-audit-16
   blocked_by:
   - user-journey-audit-16
-  quality_gates:
-  - name: README Accuracy
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: README accurately reflects current project state
-  - name: CONTRIBUTING Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: CONTRIBUTING covers all contribution scenarios
-  - name: Contributor Onboarding Success
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: New contributors can successfully set up and contribute
-  - name: Positioning Consistency
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All documentation reflects consistent context engineering positioning
   deliverables:
   - Updated README.md with context engineering positioning
   - Updated CHANGELOG.md with complete history
@@ -245,3 +223,45 @@ sprint:
       '
   slug: user-journey-audit-17
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-16
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-16
+      required_status: completed
+  - id: gate-001
+    description: README accurately reflects current project state
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: CONTRIBUTING covers all contribution scenarios
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: New contributors can successfully set up and contribute
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: All documentation reflects consistent context engineering positioning
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 17

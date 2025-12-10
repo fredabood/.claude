@@ -23,7 +23,6 @@ task:
     \    elif target == TicketStatus.COMPLETED:\n        return ticket.complete()\n\
     \    # ... etc\n```\n"
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -36,11 +35,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-5-task-005
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables:
   - path: vibey/operations/roadmap/transitions.py
     type: code
@@ -52,3 +48,15 @@ task:
     duration_hours: null
   slug: unified-arch-5-task-003
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  criteria:
+  - id: del-001
+    description: Centralized transition logic
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/operations/roadmap/transitions.py
+      all_required: true
+      deliverable_type: code
+  sequence: 3

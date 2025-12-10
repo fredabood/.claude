@@ -3,7 +3,6 @@ sprint:
   name: Jira Bidirectional Sync & Conflict Resolution
   track_id: atlassian-integration
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -153,15 +152,6 @@ sprint:
   - atlassian-integration-1
   blocked_by:
   - atlassian-integration-1
-  quality_gates:
-  - name: Sync Reliability
-    threshold: 99
-    blocking: true
-    status: not_run
-  - name: No Data Loss
-    threshold: 100
-    blocking: true
-    status: not_run
   deliverables:
   - Vibey to Jira export functionality
   - Sync state tracking system
@@ -195,3 +185,29 @@ sprint:
       \ is complex but powerful.\n"
   slug: atlassian-integration-2
   parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4
+  criteria:
+  - id: blk-001
+    description: Blocked by atlassian-integration-1
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: atlassian-integration-1
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Sync Reliability'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: No Data Loss'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 2

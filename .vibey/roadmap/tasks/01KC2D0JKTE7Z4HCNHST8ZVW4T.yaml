@@ -39,7 +39,6 @@ task:
 
     '
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T14:55:00+00:00'
   completed: '2025-12-09T15:05:00+00:00'
@@ -52,13 +51,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-1-task-002
-  - unified-arch-1-task-003
-  - unified-arch-1-task-004
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables:
   - path: .vibey/roadmap/unified-architecture-migration/unified-arch-1/context/DIRECTORY_SCHEMA.md
     type: documentation
@@ -70,3 +64,15 @@ task:
     duration_hours: null
   slug: unified-arch-1-task-001
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  criteria:
+  - id: del-001
+    description: Flat directory structure specification
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - .vibey/roadmap/unified-architecture-migration/unified-arch-1/context/DIRECTORY_SCHEMA.md
+      all_required: true
+      deliverable_type: documentation
+  sequence: 1

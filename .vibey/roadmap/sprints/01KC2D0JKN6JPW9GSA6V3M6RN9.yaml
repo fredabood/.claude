@@ -4,7 +4,6 @@ sprint:
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   blocked_reason: null
   created: '2025-11-29T14:00:00+00:00'
   started: '2025-12-05T05:00:00+00:00'
@@ -53,11 +52,8 @@ sprint:
       threshold: 0
       is_blocking: true
       score: 100
-  development_gates: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -66,7 +62,6 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
-  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -78,3 +73,5 @@ sprint:
     agents_used: null
   slug: sqlite-backend-10
   parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  criteria: []
+  sequence: 10

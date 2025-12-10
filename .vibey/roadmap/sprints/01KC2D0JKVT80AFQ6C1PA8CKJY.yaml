@@ -3,7 +3,6 @@ sprint:
   name: Roadmap Models & Serialization Test Coverage
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -150,15 +149,6 @@ sprint:
   - user-journey-audit-8
   blocked_by:
   - user-journey-audit-8
-  quality_gates:
-  - name: Models Coverage
-    threshold: 100
-    blocking: true
-    status: not_run
-  - name: Models Pass Rate
-    threshold: 95
-    blocking: true
-    status: not_run
   deliverables:
   - Models test coverage baseline
   - Tests for Roadmap model
@@ -177,3 +167,29 @@ sprint:
       '
   slug: user-journey-audit-12
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-8
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-8
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Models Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: Models Pass Rate'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 12

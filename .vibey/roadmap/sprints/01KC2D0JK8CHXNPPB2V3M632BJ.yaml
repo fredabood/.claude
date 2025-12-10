@@ -40,6 +40,7 @@ sprint:
   - docs/guides/RECIPE_DEVELOPMENT.md - How to create Goose recipes
   - docs/guides/MIGRATION_CLAUDE_TO_GOOSE.md - Migration guide
   - Updated README.md with Goose support announcement
-  blocked: false
   slug: goose-port-5
   parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
+  criteria: []
+  sequence: 5

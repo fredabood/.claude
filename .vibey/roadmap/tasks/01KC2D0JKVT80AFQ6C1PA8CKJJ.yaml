@@ -54,7 +54,6 @@ task:
 
     '
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -67,7 +66,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-4-task-002
   - unified-arch-4-task-003
@@ -88,7 +86,6 @@ task:
     required_status: completed
     description: YAML dumper must support v2
     status: pending
-  depended_on_by: []
   deliverables:
   - path: .vibey/roadmap/
     type: other
@@ -100,3 +97,63 @@ task:
     duration_hours: null
   slug: unified-arch-4-task-005
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJD
+  criteria:
+  - id: dep-001
+    description: Conversion script must be ready
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-002
+      required_status: completed
+  - id: dep-002
+    description: YAML loader must support v2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-003
+      required_status: completed
+  - id: dep-003
+    description: YAML dumper must support v2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-004
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-4-task-002
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-002
+      required_status: completed
+  - id: blk-002
+    description: Blocked by unified-arch-4-task-003
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-003
+      required_status: completed
+  - id: blk-003
+    description: Blocked by unified-arch-4-task-004
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-004
+      required_status: completed
+  - id: del-001
+    description: All YAML files in v2 format
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - .vibey/roadmap/
+      all_required: true
+      deliverable_type: other
+  sequence: 5

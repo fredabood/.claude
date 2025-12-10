@@ -3,7 +3,6 @@ sprint:
   name: Documentation & Code Audit
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -158,11 +157,6 @@ sprint:
       '
   dependencies: []
   blocked_by: []
-  quality_gates:
-  - name: Audit Completeness
-    threshold: 100
-    blocking: true
-    status: not_run
   deliverables:
   - Documentation file inventory
   - CLI command inventory (machine-readable)
@@ -183,3 +177,13 @@ sprint:
       '
   slug: user-journey-audit-1
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: gate-001
+    description: 'Quality gate: Audit Completeness'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 1

@@ -21,7 +21,6 @@ task:
     \n    # 6. Update cross-references\n    update_references(root_dir, ulid_map)\n\
     \n    return MigrationResult(...)\n```\n"
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -34,8 +33,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-3-task-005
   blocked_by:
   - unified-arch-3-task-001
   - unified-arch-3-task-002
@@ -50,7 +47,6 @@ task:
     required_status: completed
     description: .id file handler must be ready
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/roadmap/identity/migrate_to_ulid.py
     type: code
@@ -62,3 +58,47 @@ task:
     duration_hours: null
   slug: unified-arch-3-task-004
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJ7
+  criteria:
+  - id: dep-001
+    description: ULID generation must be available
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-3-task-001
+      required_status: completed
+  - id: dep-002
+    description: .id file handler must be ready
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-3-task-002
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-3-task-001
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-3-task-001
+      required_status: completed
+  - id: blk-002
+    description: Blocked by unified-arch-3-task-002
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-3-task-002
+      required_status: completed
+  - id: del-001
+    description: ULID migration script
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/identity/migrate_to_ulid.py
+      all_required: true
+      deliverable_type: code
+  sequence: 4

@@ -58,6 +58,7 @@ sprint:
   - .vibey/roadmap/goose-port/goose-port-4/context/CROSS_LLM_TESTING.md
   - .vibey/roadmap/goose-port/goose-port-4/context/SPRINT_4_COMPLETION.md
   - .vibey/roadmap/goose-port/goose-port-4/context/benchmark-results.json
-  blocked: false
   slug: goose-port-4
   parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
+  criteria: []
+  sequence: 4

@@ -43,6 +43,7 @@ sprint:
   - framework/mcp/discovery/generator.py - ToolGenerator class
   - framework/mcp/discovery/discovery.py - ToolDiscovery with 60s TTL cache
   - framework/mcp/server.py - Updated with dynamic tool integration
-  blocked: false
   slug: goose-port-2
   parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
+  criteria: []
+  sequence: 2

@@ -24,7 +24,6 @@ task:
     \                actual_value=sprint.progress.tasks_total\n            ))\n  \
     \  return discrepancies\n```\n\nREFERENCE:\n- vibey/operations/roadmap/validation/integrity_audit.py\n"
   status: completed
-  blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: '2025-12-07T14:09:53.210113+00:00'
   completed: '2025-12-07T14:11:11.196519+00:00'
@@ -37,10 +36,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -49,3 +46,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-13-task-006
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  criteria: []
+  sequence: 6

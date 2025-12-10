@@ -3,7 +3,6 @@ sprint:
   name: User Journey Walkthrough Generation
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -160,12 +159,6 @@ sprint:
   - user-journey-audit-3
   blocked_by:
   - user-journey-audit-3
-  quality_gates:
-  - name: Journey CLI Coverage
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: User journeys cover 100% of CLI reference
   deliverables:
   - User journey document structure spec
   - New user onboarding journey walkthrough
@@ -185,3 +178,21 @@ sprint:
       '
   slug: user-journey-audit-4
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-3
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-3
+      required_status: completed
+  - id: gate-001
+    description: User journeys cover 100% of CLI reference
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 4

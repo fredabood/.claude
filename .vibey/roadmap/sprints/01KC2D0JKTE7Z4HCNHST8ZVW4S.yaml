@@ -61,7 +61,6 @@ sprint:
 
     '
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T14:55:00+00:00'
   completed: '2025-12-09T15:55:00+00:00'
@@ -94,11 +93,8 @@ sprint:
     title: Update CLI path resolution and documentation
     status: completed
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  development_gates: []
   deliverables:
   - path: vibey/roadmap/serialization/directory_migration.py
     type: code
@@ -110,3 +106,15 @@ sprint:
     design_reference: sqlite-backend-6/context/architecture/09-DESIGN-DECISIONS.md
   slug: unified-arch-1
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  criteria:
+  - id: del-001
+    description: Migration script for directory restructuring
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/serialization/directory_migration.py
+      all_required: true
+      deliverable_type: code
+  sequence: 1

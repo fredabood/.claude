@@ -3,7 +3,6 @@ track:
   name: Unified Architecture Migration
   roadmap_id: vibey-framework-v2
   status: in_progress
-  blocked: false
   priority: critical
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T14:55:00+00:00'
@@ -11,10 +10,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 3
+    sprints_completed: 4
     tasks_total: 29
-    tasks_completed: 18
-    completion_percent: 62
+    tasks_completed: 23
+    completion_percent: 79
   sprints:
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
     name: Directory Structure Migration
@@ -36,10 +35,10 @@ track:
     started: '2025-12-10T01:00:00+00:00'
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJD
     name: v2 YAML Format Migration
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 5
-    started: null
+    started: '2025-12-10T01:35:00+00:00'
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJK
     name: Operations Layer Migration
     status: not_started
@@ -47,7 +46,6 @@ track:
     tasks_count: 6
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: sqlite-backend
@@ -57,8 +55,6 @@ track:
     description: Requires sqlite-backend model classes to be complete
     status: resolved
     last_checked: null
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value:
@@ -77,3 +73,14 @@ track:
     notes: Created to complete architectural migration that sqlite-backend track designed
       but did not implement
   slug: unified-architecture-migration
+  criteria:
+  - id: dep-001
+    description: Requires sqlite-backend model classes to be complete
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: sqlite-backend
+      required_status: completed
+    is_met: true
+    last_checked: '2025-12-10T01:11:00.545111+00:00'

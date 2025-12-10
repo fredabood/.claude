@@ -3,7 +3,6 @@ track:
   name: Roadmap State Integrity Audit
   roadmap_id: vibey-framework-v2
   status: wont_do
-  blocked: false
   priority: critical
   created: '2025-11-23T20:35:52.725661+00:00'
   started: null
@@ -185,11 +184,8 @@ track:
     tasks_count: 1
     started: '2025-11-23T20:35:52.725661+00:00'
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -202,3 +198,4 @@ track:
     implementation_plan: null
     notes: null
   slug: roadmap-state-audit
+  criteria: []

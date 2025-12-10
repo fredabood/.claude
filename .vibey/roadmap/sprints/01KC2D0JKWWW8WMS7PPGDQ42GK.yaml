@@ -3,7 +3,6 @@ sprint:
   name: CLI Reference Guide Tooling & Generation
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -154,14 +153,6 @@ sprint:
   - user-journey-audit-1
   blocked_by:
   - user-journey-audit-1
-  depended_on_by:
-  - mcp-server-3
-  quality_gates:
-  - name: CLI Coverage
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Generated reference covers 100% of CLI
   deliverables:
   - CLI auto-generation architecture design
   - CLI introspection module
@@ -187,3 +178,21 @@ sprint:
       '
   slug: user-journey-audit-2
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-1
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-1
+      required_status: completed
+  - id: gate-001
+    description: Generated reference covers 100% of CLI
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 2

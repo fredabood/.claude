@@ -24,7 +24,6 @@ task:
     \ Round-trip validation FUNCTIONALLY PASSING for authored content.\nComputed fields\
     \ correctly re-computed. Dependencies pending unified ticket implementation.\n"
   status: completed
-  blocked: false
   created: '2025-11-26T14:00:00+00:00'
   started: '2025-12-05T08:30:00+00:00'
   completed: '2025-12-05T08:45:00+00:00'
@@ -37,10 +36,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -49,3 +46,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-11-task-007
   parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RNF
+  criteria: []
+  sequence: 7

@@ -3,7 +3,6 @@ sprint:
   name: Recommendations & Improvement Roadmap
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -164,12 +163,6 @@ sprint:
   - user-journey-audit-5
   blocked_by:
   - user-journey-audit-5
-  quality_gates:
-  - name: Actionability
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All recommendations have clear next steps
   deliverables:
   - Prioritization matrix
   - Quick win improvement designs
@@ -190,3 +183,21 @@ sprint:
       '
   slug: user-journey-audit-6
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-5
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-5
+      required_status: completed
+  - id: gate-001
+    description: All recommendations have clear next steps
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 6

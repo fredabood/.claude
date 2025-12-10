@@ -3,7 +3,6 @@ track:
   name: Multi-Platform Architecture
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: medium
   created: '2025-11-07T02:00:00+00:00'
   started: null
@@ -35,11 +34,8 @@ track:
     tasks_count: 4
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -52,3 +48,4 @@ track:
     implementation_plan: null
     notes: null
   slug: multi-platform
+  criteria: []

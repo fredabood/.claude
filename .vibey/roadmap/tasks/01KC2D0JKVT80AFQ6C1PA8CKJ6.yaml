@@ -58,7 +58,6 @@ task:
 
     '
   status: in_progress
-  blocked: true
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T18:15:00+00:00'
   completed: null
@@ -71,7 +70,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-2-task-004
   - unified-arch-2-task-005
@@ -92,7 +90,6 @@ task:
     required_status: completed
     description: SQL dumper must support v2
     status: pending
-  depended_on_by: []
   deliverables:
   - path: .vibey/roadmap.db
     type: other
@@ -104,3 +101,63 @@ task:
     duration_hours: null
   slug: unified-arch-2-task-007
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  criteria:
+  - id: dep-001
+    description: Migration script must be ready
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-004
+      required_status: completed
+  - id: dep-002
+    description: SQL loader must support v2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-005
+      required_status: completed
+  - id: dep-003
+    description: SQL dumper must support v2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-006
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-2-task-004
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-004
+      required_status: completed
+  - id: blk-002
+    description: Blocked by unified-arch-2-task-005
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-005
+      required_status: completed
+  - id: blk-003
+    description: Blocked by unified-arch-2-task-006
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-006
+      required_status: completed
+  - id: del-001
+    description: Migrated database with unified schema
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - .vibey/roadmap.db
+      all_required: true
+      deliverable_type: other
+  sequence: 7

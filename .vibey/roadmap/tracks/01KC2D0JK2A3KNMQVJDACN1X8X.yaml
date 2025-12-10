@@ -3,7 +3,6 @@ track:
   name: Core Framework Enhancements
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: high
   created: '2025-11-05T00:00:00+00:00'
   started: null
@@ -29,11 +28,8 @@ track:
     tasks_count: 7
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -46,3 +42,4 @@ track:
     implementation_plan: null
     notes: null
   slug: core-framework
+  criteria: []

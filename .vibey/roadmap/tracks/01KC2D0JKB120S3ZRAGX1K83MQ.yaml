@@ -3,7 +3,6 @@ track:
   name: Platform Context Management System
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: critical
   created: '2025-11-12T00:00:00+00:00'
   started: null
@@ -47,11 +46,8 @@ track:
     tasks_count: 6
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -64,3 +60,4 @@ track:
     implementation_plan: null
     notes: null
   slug: platform-context-management
+  criteria: []

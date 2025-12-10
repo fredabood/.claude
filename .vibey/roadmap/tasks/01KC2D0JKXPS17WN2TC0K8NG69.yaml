@@ -8,7 +8,6 @@ task:
   description: Set up FileSystemWatcher for .vibey directory. Trigger tree refresh
     on YAML file changes. Debounce rapid changes to prevent excessive refreshes.
   status: not_started
-  blocked: false
   created: '2025-12-05T12:00:00+00:00'
   started: null
   completed: null
@@ -21,10 +20,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -33,3 +30,5 @@ task:
     duration_hours: null
   slug: vscode-roadmap-extension-1-task-004
   parent_ref: 01KC2D0JKXPS17WN2TC0K8NG65
+  criteria: []
+  sequence: 4

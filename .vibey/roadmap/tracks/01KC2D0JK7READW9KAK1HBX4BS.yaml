@@ -3,7 +3,6 @@ track:
   name: Goose Platform Port
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
   started: null
@@ -143,11 +142,6 @@ track:
     target_status: completed
     reason: Claude Code must be validated as reference implementation
     optional: false
-  blocks:
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Multi-platform needs Goose port experience
   blocked_by: []
   depends_on:
   - blocker_id: roadmap-system
@@ -168,34 +162,6 @@ track:
     current_status: completed
     blocks_transition_to: in_progress
     last_checked: '2025-11-16T14:19:42+00:00'
-  depended_on_by:
-  - multi-platform
-  quality_gates:
-  - name: Comprehensive Testing
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All journey tests pass, platform deployment tests pass, >95% platform
-      parity
-    score: null
-  - name: Goose Recipe Compatibility
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: null
-    score: null
-  - name: MCP Integration Testing
-    threshold: 85
-    blocking: true
-    status: not_run
-    description: null
-    score: null
-  - name: Cross-LLM Testing
-    threshold: 80
-    blocking: false
-    status: not_run
-    description: null
-    score: null
   assigned_agents:
   - web-developer
   - test-engineer
@@ -241,3 +207,61 @@ track:
       \ Testing + quality gates (2 weeks)\n- Sprint 5: Documentation + launch (1 week)\n"
     estimated_tokens: 0
   slug: goose-port
+  criteria:
+  - id: dep-001
+    description: Depends on roadmap-system
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: roadmap-system
+      required_status: completed
+  - id: dep-002
+    description: Depends on testing-system
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: testing-system
+      required_status: completed
+  - id: dep-003
+    description: Depends on claude-port
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: claude-port
+      required_status: completed
+  - id: gate-001
+    description: All journey tests pass, platform deployment tests pass, >95% platform
+      parity
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: Goose Recipe Compatibility'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: 'Quality gate: MCP Integration Testing'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: 'Quality gate: Cross-LLM Testing'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

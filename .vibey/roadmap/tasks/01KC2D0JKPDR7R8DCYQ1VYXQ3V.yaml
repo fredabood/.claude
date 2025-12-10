@@ -26,7 +26,6 @@ task:
     \ roadmap sync test --scenario performance\nvibey roadmap sync test --all\n```\n\
     \nREFERENCE:\n- sqlite-backend-6/context/005-yaml-sync-strategy.md\n"
   status: completed
-  blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: '2025-12-07T14:14:13.861977+00:00'
   completed: '2025-12-07T14:17:02.604202+00:00'
@@ -39,10 +38,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -51,3 +48,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-13-task-007
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  criteria: []
+  sequence: 7

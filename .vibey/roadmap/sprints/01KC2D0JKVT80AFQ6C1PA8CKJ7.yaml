@@ -40,7 +40,6 @@ sprint:
 
     '
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-10T01:00:00+00:00'
   completed: '2025-12-10T01:30:00+00:00'
@@ -69,7 +68,6 @@ sprint:
     title: Execute ULID migration
     status: completed
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-2
   depends_on:
@@ -78,8 +76,6 @@ sprint:
     required_status: completed
     description: Schema migration must be complete (completables.id field)
     status: resolved
-  depended_on_by: []
-  development_gates: []
   deliverables:
   - path: vibey/roadmap/identity/ulid.py
     type: code
@@ -94,3 +90,43 @@ sprint:
     design_reference: sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md
   slug: unified-arch-3
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  criteria:
+  - id: dep-001
+    description: Schema migration must be complete (completables.id field)
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2
+      required_status: completed
+    is_met: true
+    last_checked: '2025-12-10T01:11:00.126549+00:00'
+  - id: blk-001
+    description: Blocked by unified-arch-2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2
+      required_status: completed
+  - id: del-001
+    description: ULID generation and validation
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/identity/ulid.py
+      all_required: true
+      deliverable_type: code
+  - id: del-002
+    description: .id file format handler
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/identity/id_file.py
+      all_required: true
+      deliverable_type: code
+  sequence: 3

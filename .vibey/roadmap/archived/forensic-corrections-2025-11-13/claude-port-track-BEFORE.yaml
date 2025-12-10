@@ -3,7 +3,6 @@ track:
   name: Claude Code Platform Validation
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: critical
   created: '2025-11-10T03:30:00+00:00'
   started: '2025-11-11T06:30:00+00:00'
@@ -28,31 +27,6 @@ track:
     target_status: completed
     reason: Need test framework to validate Claude Code implementation
     optional: false
-  blocks:
-  - type: track
-    target_id: goose-port
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
-  - type: track
-    target_id: aider-port
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
-  - type: track
-    target_id: continue-port
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
-  - type: track
-    target_id: windsurf-port
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
-  - type: track
-    target_id: jetbrains-port
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
-  - type: track
-    target_id: multi-platform
-    at_status: not_started
-    reason: Validate existing platform before expanding to others
   blocked_by: []
   depends_on:
   - blocker_id: testing-system
@@ -61,39 +35,6 @@ track:
     current_status: completed
     blocks_transition_to: in_progress
     last_checked: '2025-11-11T04:50:00+00:00'
-  depended_on_by:
-  - goose-port
-  - aider-port
-  - continue-port
-  - windsurf-port
-  - jetbrains-port
-  - multi-platform
-  quality_gates:
-  - name: Comprehensive Testing
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All journey tests pass, platform deployment tests pass, >95% platform
-      parity baseline
-    score: null
-  - name: All User Journeys Validated
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All 7 user journeys complete successfully in Claude Code
-    score: null
-  - name: Quality Gates Functional
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All quality gates (security, testing, performance) work correctly
-    score: null
-  - name: Roadmap Integration
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Roadmap system fully integrated and functional
-    score: null
   assigned_agents:
   - test-engineer
   - web-developer
@@ -202,3 +143,45 @@ track:
       This is a CRITICAL validation step. We cannot expand to other\nplatforms until\
       \ we've proven that Claude Code works correctly\nand meets our quality standards.\n\
       \nRecommend: START IMMEDIATELY AFTER TESTING-SYSTEM COMPLETES\n"
+  criteria:
+  - id: dep-001
+    description: Depends on testing-system
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: testing-system
+      required_status: completed
+  - id: gate-001
+    description: All journey tests pass, platform deployment tests pass, >95% platform
+      parity baseline
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: All 7 user journeys complete successfully in Claude Code
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: All quality gates (security, testing, performance) work correctly
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: Roadmap system fully integrated and functional
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

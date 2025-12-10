@@ -3,7 +3,6 @@ sprint:
   name: Documentation Completeness Audit
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -150,17 +149,6 @@ sprint:
   - user-journey-audit-6
   blocked_by:
   - user-journey-audit-6
-  quality_gates:
-  - name: Documentation Inventory Complete
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: All documentation files inventoried and categorized
-  - name: CLI Coverage Verified
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: 100% of CLI commands have documentation
   deliverables:
   - Complete documentation inventory
   - CLI reference coverage audit
@@ -179,3 +167,29 @@ sprint:
       '
   slug: user-journey-audit-7
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-6
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-6
+      required_status: completed
+  - id: gate-001
+    description: All documentation files inventoried and categorized
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 100% of CLI commands have documentation
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 7

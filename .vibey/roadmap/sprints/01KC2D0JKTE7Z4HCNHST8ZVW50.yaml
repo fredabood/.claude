@@ -45,7 +45,6 @@ sprint:
 
     '
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T16:10:00+00:00'
   completed: '2025-12-10T00:46:00+00:00'
@@ -82,7 +81,6 @@ sprint:
     title: Execute migration and validate
     status: completed
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-1
   depends_on:
@@ -91,8 +89,6 @@ sprint:
     required_status: completed
     description: Directory migration should be complete first
     status: pending
-  depended_on_by: []
-  development_gates: []
   deliverables:
   - path: vibey/roadmap/database/schema_v2.sql
     type: code
@@ -107,3 +103,41 @@ sprint:
     design_reference: sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md
   slug: unified-arch-2
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  criteria:
+  - id: dep-001
+    description: Directory migration should be complete first
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-1
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1
+      required_status: completed
+  - id: del-001
+    description: New unified schema SQL
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/database/schema_v2.sql
+      all_required: true
+      deliverable_type: code
+  - id: del-002
+    description: Schema migration script
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/database/migrate_to_v2.py
+      all_required: true
+      deliverable_type: code
+  sequence: 2

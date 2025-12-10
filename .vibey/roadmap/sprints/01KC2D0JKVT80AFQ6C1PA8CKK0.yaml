@@ -3,7 +3,6 @@ sprint:
   name: Common Utilities & Error Handling Test Coverage
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -144,15 +143,6 @@ sprint:
   - user-journey-audit-10
   blocked_by:
   - user-journey-audit-10
-  quality_gates:
-  - name: Common Coverage
-    threshold: 100
-    blocking: true
-    status: not_run
-  - name: Common Pass Rate
-    threshold: 95
-    blocking: true
-    status: not_run
   deliverables:
   - Common test coverage baseline
   - Tests for error types
@@ -171,3 +161,29 @@ sprint:
       '
   slug: user-journey-audit-14
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-10
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-10
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Common Coverage'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: Common Pass Rate'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 14

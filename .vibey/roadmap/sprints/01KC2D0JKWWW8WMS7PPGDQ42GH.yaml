@@ -3,7 +3,6 @@ sprint:
   name: Context Engineering Research & Landscape Analysis
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -148,11 +147,6 @@ sprint:
   - user-journey-audit-17
   blocked_by:
   - user-journey-audit-17
-  quality_gates:
-  - name: Research Depth
-    threshold: 90
-    blocking: true
-    status: not_run
   deliverables:
   - Context taxonomy document
   - Context lifecycle state machine diagram
@@ -183,3 +177,21 @@ sprint:
       '
   slug: user-journey-audit-18
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-17
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-17
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Research Depth'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 18

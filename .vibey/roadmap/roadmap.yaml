@@ -7,7 +7,6 @@ roadmap:
     minor_on: track_completion
     patch_on: sprint_production_ready
   status: in_progress
-  blocked: false
   created: '2024-11-01T00:00:00+00:00'
   started: '2024-11-01T00:00:00+00:00'
   target_completion: null
@@ -187,3 +186,4 @@ roadmap:
     last_updated: null
     purpose: null
     description: null
+  criteria: []

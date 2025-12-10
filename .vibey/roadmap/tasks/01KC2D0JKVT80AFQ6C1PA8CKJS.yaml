@@ -65,7 +65,6 @@ task:
 
     '
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -78,7 +77,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-5-task-005
   depends_on:
@@ -87,7 +85,6 @@ task:
     required_status: completed
     description: CLI must be updated first
     status: pending
-  depended_on_by: []
   deliverables:
   - path: tests/roadmap/test_unified_architecture.py
     type: test
@@ -102,3 +99,41 @@ task:
     duration_hours: null
   slug: unified-arch-5-task-006
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  criteria:
+  - id: dep-001
+    description: CLI must be updated first
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-005
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-5-task-005
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-005
+      required_status: completed
+  - id: del-001
+    description: Integration tests
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - tests/roadmap/test_unified_architecture.py
+      all_required: true
+      deliverable_type: test
+  - id: del-002
+    description: Architecture documentation
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - docs/reference/unified-architecture.md
+      all_required: true
+      deliverable_type: documentation
+  sequence: 6

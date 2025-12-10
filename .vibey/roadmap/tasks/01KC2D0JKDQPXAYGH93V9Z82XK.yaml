@@ -7,7 +7,6 @@ task:
   title: Update vibey.md deployment to initialize roadmap
   description: null
   status: completed
-  blocked: false
   created: '2025-11-08T13:18:26.791622+00:00'
   started: null
   completed: '2025-11-08T13:18:26.791622+00:00'
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: roadmap-integration-1-task-001
   parent_ref: 01KC2D0JKDQPXAYGH93V9Z82XJ
+  criteria: []
+  sequence: 1

@@ -3,7 +3,6 @@ track:
   name: Homebrew Package Distribution
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
   priority: medium
   created: '2025-11-24T00:00:00+00:00'
   started: null
@@ -34,37 +33,10 @@ track:
     target_status: completed
     reason: PyPI package must be published before Homebrew formula can reference it
     optional: false
-  blocks: []
   blocked_by:
   - python-package
   depends_on:
   - python-package
-  depended_on_by: []
-  quality_gates:
-  - name: Formula Installs Successfully
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: brew install vibey works on macOS
-    score: null
-  - name: CLI Functional After Install
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: vibey --help and commands work after brew install
-    score: null
-  - name: Tap Published
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Tap repository is public and installable
-    score: null
-  - name: Linux Support
-    threshold: 100
-    blocking: false
-    status: not_run
-    description: Formula works on Linux via Linuxbrew (optional)
-    score: null
   assigned_agents:
   - backend-engineer
   - devops-engineer
@@ -102,3 +74,44 @@ track:
       - No native dependencies (pure Python)\n\nBLOCKED BY: python-package track must\
       \ complete first (need PyPI release)\n"
   slug: brew-package
+  criteria:
+  - id: blk-001
+    description: Blocked by python-package
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: python-package
+      required_status: completed
+  - id: gate-001
+    description: brew install vibey works on macOS
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: vibey --help and commands work after brew install
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: Tap repository is public and installable
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: Formula works on Linux via Linuxbrew (optional)
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

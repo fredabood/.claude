@@ -3,7 +3,6 @@ sprint:
   name: Context Directory Writers & CLI Integration
   track_id: user-journey-audit
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -53,15 +52,6 @@ sprint:
   - user-journey-audit-21
   blocked_by:
   - user-journey-audit-21
-  quality_gates:
-  - name: Integration Tests
-    threshold: 95
-    blocking: true
-    status: not_run
-  - name: CLI Usability
-    threshold: 90
-    blocking: false
-    status: not_run
   deliverables:
   - ArchitectureDiscoveryWriter implementation
   - vibey discover --output-context command
@@ -84,3 +74,29 @@ sprint:
       \  └── ...other context files\n"
   slug: user-journey-audit-22
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  criteria:
+  - id: blk-001
+    description: Blocked by user-journey-audit-21
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-21
+      required_status: completed
+  - id: gate-001
+    description: 'Quality gate: Integration Tests'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: 'Quality gate: CLI Usability'
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 22

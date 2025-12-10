@@ -3,7 +3,6 @@ track:
   name: Roadmap Object Hierarchy Implementation
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
   started: null
@@ -59,11 +58,8 @@ track:
     tasks_count: 5
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -76,3 +72,4 @@ track:
     implementation_plan: null
     notes: null
   slug: roadmap-system
+  criteria: []

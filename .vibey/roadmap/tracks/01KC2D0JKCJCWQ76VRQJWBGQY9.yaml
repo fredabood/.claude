@@ -3,7 +3,6 @@ track:
   name: Replit Agent Platform Port
   roadmap_id: vibey-framework-v2
   status: in_progress
-  blocked: false
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
@@ -53,11 +52,8 @@ track:
     tasks_count: 6
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -70,3 +66,4 @@ track:
     implementation_plan: null
     notes: null
   slug: replit-port
+  criteria: []

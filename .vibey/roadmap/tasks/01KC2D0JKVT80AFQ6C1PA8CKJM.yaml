@@ -19,7 +19,6 @@ task:
     \        'blocking_reasons': task.blocking_reasons,\n        'criteria': [c.model_dump()\
     \ for c in task.criteria],\n        ...\n    }\n```\n"
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -32,11 +31,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-5-task-005
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables:
   - path: vibey/operations/roadmap/query.py
     type: code
@@ -48,3 +44,15 @@ task:
     duration_hours: null
   slug: unified-arch-5-task-001
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  criteria:
+  - id: del-001
+    description: Migrated query operations
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/operations/roadmap/query.py
+      all_required: true
+      deliverable_type: code
+  sequence: 1

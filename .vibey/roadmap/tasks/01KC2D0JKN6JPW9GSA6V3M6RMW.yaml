@@ -7,7 +7,6 @@ task:
   title: Design triggers for automatic updates
   description: null
   status: completed
-  blocked: false
   created: '2025-11-26T10:00:00+00:00'
   started: null
   completed: '2025-11-26T10:00:00+00:00'
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-0-task-004
   parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RMR
+  criteria: []
+  sequence: 4

@@ -19,7 +19,6 @@ task:
     \ Implementation file exists\n    → Missing: vibey/roadmap/models/ticket.py\n\n\
     Blocking Completion:\n  - Implementation file exists\n```\n"
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -32,8 +31,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-5-task-006
   blocked_by:
   - unified-arch-5-task-001
   - unified-arch-5-task-002
@@ -60,7 +57,6 @@ task:
     required_status: completed
     description: Artifact ops must be implemented
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/cli/main.py
     type: code
@@ -75,3 +71,89 @@ task:
     duration_hours: null
   slug: unified-arch-5-task-005
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  criteria:
+  - id: dep-001
+    description: Query ops must be migrated
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-001
+      required_status: completed
+  - id: dep-002
+    description: Update ops must be migrated
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-002
+      required_status: completed
+  - id: dep-003
+    description: Transitions must use can_transition_to
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-003
+      required_status: completed
+  - id: dep-004
+    description: Artifact ops must be implemented
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-004
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-5-task-001
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-001
+      required_status: completed
+  - id: blk-002
+    description: Blocked by unified-arch-5-task-002
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-002
+      required_status: completed
+  - id: blk-003
+    description: Blocked by unified-arch-5-task-003
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-003
+      required_status: completed
+  - id: blk-004
+    description: Blocked by unified-arch-5-task-004
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-5-task-004
+      required_status: completed
+  - id: del-001
+    description: Updated CLI commands
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/cli/main.py
+      all_required: true
+      deliverable_type: code
+  - id: del-002
+    description: Updated command implementations
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/cli/commands.py
+      all_required: true
+      deliverable_type: code
+  sequence: 5

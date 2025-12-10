@@ -3,7 +3,6 @@ track:
   name: Roadmap Object Hierarchy Implementation
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
   priority: critical
   created: '2024-11-07T02:00:00+00:00'
   started: '2025-11-07T03:00:00+00:00'
@@ -53,39 +52,8 @@ track:
     tasks_count: 8
     started: '2025-11-07T14:00:00+00:00'
   dependencies: []
-  blocks:
-  - type: track
-    target_id: goose-port
-    at_status: completed
-    reason: Goose port should use roadmap system for project management
-  - type: track
-    target_id: multi-platform
-    at_status: completed
-    reason: Multi-platform architecture needs roadmap system to be portable
   blocked_by: []
   depends_on: []
-  depended_on_by:
-  - goose-port
-  - multi-platform
-  quality_gates:
-  - name: End-to-End Integration Testing
-    threshold: 90
-    blocking: true
-    status: not_run
-    description: Full workflow tests with real Vibey roadmap
-    score: null
-  - name: Documentation Completeness
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: All user and developer docs complete
-    score: null
-  - name: Performance Benchmarking
-    threshold: 85
-    blocking: false
-    status: not_run
-    description: CLI performance meets targets (<500ms response)
-    score: null
   assigned_agents:
   - web-developer
   - test-engineer
@@ -166,3 +134,28 @@ track:
       The roadmap system is ready for production use! 🎉
 
       '
+  criteria:
+  - id: gate-001
+    description: Full workflow tests with real Vibey roadmap
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: All user and developer docs complete
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: CLI performance meets targets (<500ms response)
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

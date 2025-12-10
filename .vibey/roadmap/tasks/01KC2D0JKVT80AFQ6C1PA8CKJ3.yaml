@@ -23,7 +23,6 @@ task:
     \    migrate_deliverables_to_criteria(conn)\n\n    return MigrationResult(...)\n\
     ```\n"
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T17:00:00+00:00'
   completed: '2025-12-09T17:15:00+00:00'
@@ -36,8 +35,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-2-task-007
   blocked_by:
   - unified-arch-2-task-001
   - unified-arch-2-task-002
@@ -58,7 +55,6 @@ task:
     required_status: completed
     description: Artifacts schema must be designed
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/roadmap/database/schema_v2.sql
     type: code
@@ -73,3 +69,73 @@ task:
     duration_hours: null
   slug: unified-arch-2-task-004
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  criteria:
+  - id: dep-001
+    description: Completables schema must be designed
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-001
+      required_status: completed
+  - id: dep-002
+    description: Criteria schema must be designed
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-002
+      required_status: completed
+  - id: dep-003
+    description: Artifacts schema must be designed
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-003
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-2-task-001
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-001
+      required_status: completed
+  - id: blk-002
+    description: Blocked by unified-arch-2-task-002
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-002
+      required_status: completed
+  - id: blk-003
+    description: Blocked by unified-arch-2-task-003
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-003
+      required_status: completed
+  - id: del-001
+    description: Unified schema DDL
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/database/schema_v2.sql
+      all_required: true
+      deliverable_type: code
+  - id: del-002
+    description: Migration script
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/database/migrate_to_v2.py
+      all_required: true
+      deliverable_type: code
+  sequence: 4

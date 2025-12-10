@@ -7,7 +7,6 @@ task:
   title: Audit all track statuses
   description: null
   status: completed
-  blocked: false
   created: '2025-11-10T10:00:00+00:00'
   started: null
   completed: '2025-11-10T10:00:00+00:00'
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: infrastructure-fixes-1-task-010
   parent_ref: 01KC2D0JK8CHXNPPB2V3M632BM
+  criteria: []
+  sequence: 10

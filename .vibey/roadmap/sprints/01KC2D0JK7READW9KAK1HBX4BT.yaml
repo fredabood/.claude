@@ -43,6 +43,7 @@ sprint:
     structured frontmatter that MCP server can parse dynamically.
 
     '
-  blocked: false
   slug: goose-port-1
   parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
+  criteria: []
+  sequence: 1

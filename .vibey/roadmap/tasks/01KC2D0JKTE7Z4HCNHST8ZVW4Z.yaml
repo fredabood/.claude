@@ -43,7 +43,6 @@ task:
 
     '
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T16:00:00+00:00'
   completed: '2025-12-09T16:05:00+00:00'
@@ -56,7 +55,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-1-task-005
   depends_on:
@@ -65,7 +63,6 @@ task:
     required_status: completed
     description: Migration must be complete before updating docs
     status: pending
-  depended_on_by: []
   deliverables:
   - path: CLAUDE.md
     type: documentation
@@ -80,3 +77,41 @@ task:
     duration_hours: null
   slug: unified-arch-1-task-006
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  criteria:
+  - id: dep-001
+    description: Migration must be complete before updating docs
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1-task-005
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-1-task-005
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-1-task-005
+      required_status: completed
+  - id: del-001
+    description: Updated project context with new directory structure
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - CLAUDE.md
+      all_required: true
+      deliverable_type: documentation
+  - id: del-002
+    description: Updated roadmap system documentation
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - docs/reference/roadmap-system.md
+      all_required: true
+      deliverable_type: documentation
+  sequence: 6

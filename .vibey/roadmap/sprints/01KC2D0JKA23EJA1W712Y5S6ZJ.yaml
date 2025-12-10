@@ -3,7 +3,6 @@ sprint:
   name: MCP Resources, Prompts & Handoff Discovery
   track_id: mcp-server
   status: not_started
-  blocked: false
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -158,22 +157,6 @@ sprint:
   blocked_by:
   - mcp-server-2
   - user-journey-audit-2
-  quality_gates:
-  - name: Resources Implementation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: MCP Resources working for workflows and handoffs
-  - name: Prompts Implementation
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: MCP Prompts working for quality gates
-  - name: Handoff Tools
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: Handoff discovery and tool generation working
   deliverables:
   - MCP Resources for workflow content
   - MCP Resources for handoff templates
@@ -211,3 +194,45 @@ sprint:
       '
   slug: mcp-server-3
   parent_ref: 01KC2D0JK9JKQXGQW6MQEB0K05
+  criteria:
+  - id: blk-001
+    description: Blocked by mcp-server-2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: mcp-server-2
+      required_status: completed
+  - id: blk-002
+    description: Blocked by user-journey-audit-2
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: user-journey-audit-2
+      required_status: completed
+  - id: gate-001
+    description: MCP Resources working for workflows and handoffs
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: MCP Prompts working for quality gates
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: Handoff discovery and tool generation working
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  sequence: 3

@@ -59,7 +59,6 @@ task:
 
     '
   status: completed
-  blocked: false
   created: '2025-11-28T17:00:00+00:00'
   started: '2025-12-06T15:38:07.070582+00:00'
   completed: '2025-12-06T15:38:57.590641+00:00'
@@ -72,10 +71,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -84,3 +81,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-13-task-001
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  criteria: []
+  sequence: 1

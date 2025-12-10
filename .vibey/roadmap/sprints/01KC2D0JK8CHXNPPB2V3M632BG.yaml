@@ -69,6 +69,7 @@ sprint:
   - scripts/run-mcp-server.py - Wrapper script for running from any directory
   - vibey/cli/main.py - Added export command group (list, run, stats)
   - .vibey/roadmap/goose-port/goose-port-3/context/PLATFORM_ADAPTER_ARCHITECTURE.md
-  blocked: false
   slug: goose-port-3
   parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
+  criteria: []
+  sequence: 3

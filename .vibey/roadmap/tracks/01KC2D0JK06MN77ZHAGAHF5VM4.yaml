@@ -3,7 +3,6 @@ track:
   name: Atlassian Integration (Jira & Confluence)
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -43,38 +42,11 @@ track:
   dependencies:
   - roadmap-system
   - sqlite-backend-6
-  blocks: []
   blocked_by:
   - sqlite-backend-6
   depends_on:
   - roadmap-system
   - sqlite-backend-6
-  depended_on_by: []
-  quality_gates:
-  - name: Jira API Integration Tests
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: All Jira operations tested against real API
-    score: null
-  - name: Confluence API Integration Tests
-    threshold: 95
-    blocking: true
-    status: not_run
-    description: All Confluence operations tested against real API
-    score: null
-  - name: Sync Reliability
-    threshold: 99
-    blocking: true
-    status: not_run
-    description: Bidirectional sync handles all edge cases
-    score: null
-  - name: Data Integrity
-    threshold: 100
-    blocking: true
-    status: not_run
-    description: No data loss during sync operations
-    score: null
   assigned_agents:
   - backend-engineer
   - architecture-agent
@@ -134,3 +106,44 @@ track:
       - vibey atlassian sync jira\n- vibey atlassian sync confluence\n- vibey atlassian\
       \ status\n- vibey atlassian import <project>\n- vibey atlassian export <track>\n"
   slug: atlassian-integration
+  criteria:
+  - id: blk-001
+    description: Blocked by sqlite-backend-6
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: sqlite-backend-6
+      required_status: completed
+  - id: gate-001
+    description: All Jira operations tested against real API
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-002
+    description: All Confluence operations tested against real API
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-003
+    description: Bidirectional sync handles all edge cases
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100
+  - id: gate-004
+    description: No data loss during sync operations
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: test_passes
+      test_command: ''
+      pass_threshold: 100

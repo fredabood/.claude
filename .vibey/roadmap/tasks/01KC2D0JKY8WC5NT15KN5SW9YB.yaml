@@ -8,7 +8,6 @@ task:
   description: Write comprehensive README with features, installation, usage. Include
     GIFs/screenshots. Document configuration options.
   status: not_started
-  blocked: false
   created: '2025-12-05T12:00:00+00:00'
   started: null
   completed: null
@@ -21,10 +20,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -33,3 +30,5 @@ task:
     duration_hours: null
   slug: vscode-roadmap-extension-6-task-005
   parent_ref: 01KC2D0JKY8WC5NT15KN5SW9Y6
+  criteria: []
+  sequence: 5

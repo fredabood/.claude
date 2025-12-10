@@ -37,7 +37,6 @@ task:
     ```\n\nREFERENCE:\n- GAP_ANALYSIS.md (GAP-008)\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
     \ (can_transition_to)\n"
   status: completed
-  blocked: false
   created: '2025-12-06T00:00:00+00:00'
   started: '2025-12-07T14:30:21.444305+00:00'
   completed: '2025-12-07T14:34:25.076997+00:00'
@@ -50,10 +49,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -62,3 +59,5 @@ task:
     duration_hours: null
   slug: sqlite-backend-13-task-011
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  criteria: []
+  sequence: 11

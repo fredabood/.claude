@@ -33,7 +33,6 @@ sprint:
 
     '
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -66,7 +65,6 @@ sprint:
     title: Final integration testing and documentation
     status: not_started
   dependencies: []
-  blocks: []
   blocked_by:
   - unified-arch-4
   depends_on:
@@ -75,8 +73,6 @@ sprint:
     required_status: completed
     description: v2 format migration must be complete
     status: pending
-  depended_on_by: []
-  development_gates: []
   deliverables:
   - path: vibey/operations/roadmap/
     type: code
@@ -88,3 +84,31 @@ sprint:
     design_reference: sqlite-backend-6/context/architecture/07-IMPLEMENTATION-PLAN.md
   slug: unified-arch-5
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  criteria:
+  - id: dep-001
+    description: v2 format migration must be complete
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-4
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4
+      required_status: completed
+  - id: del-001
+    description: Migrated operations layer
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/operations/roadmap/
+      all_required: true
+      deliverable_type: code
+  sequence: 5

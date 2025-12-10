@@ -7,7 +7,6 @@ task:
   title: Design commit message parsing schema
   description: null
   status: completed
-  blocked: false
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: '2025-11-24T00:00:00+00:00'
@@ -20,10 +19,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -32,3 +29,5 @@ task:
     duration_hours: null
   slug: git-integration-1-task-001
   parent_ref: 01KC2D0JK6JC6706H9WP2NH5DK
+  criteria: []
+  sequence: 1

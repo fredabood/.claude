@@ -22,7 +22,6 @@ task:
     \ 'other')\n           }\n       })\n   ```\n\n4. quality_gates → criteria with\
     \ ThresholdTarget\n\n5. Remove computed fields (blocked, progress)\n"
   status: not_started
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: null
   completed: null
@@ -35,8 +34,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-4-task-005
   blocked_by:
   - unified-arch-4-task-001
   depends_on:
@@ -45,7 +42,6 @@ task:
     required_status: completed
     description: Schema spec must be complete
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/roadmap/serialization/v1_to_v2.py
     type: code
@@ -57,3 +53,31 @@ task:
     duration_hours: null
   slug: unified-arch-4-task-002
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJD
+  criteria:
+  - id: dep-001
+    description: Schema spec must be complete
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-001
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-4-task-001
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-4-task-001
+      required_status: completed
+  - id: del-001
+    description: v1 to v2 conversion script
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/serialization/v1_to_v2.py
+      all_required: true
+      deliverable_type: code
+  sequence: 2

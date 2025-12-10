@@ -22,7 +22,6 @@ task:
     \            get_target_type(criterion.target),\n            json.dumps(get_target_config(criterion.target))\n\
     \        ))\n\n    conn.commit()\n```\n"
   status: completed
-  blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T17:50:00+00:00'
   completed: '2025-12-09T18:10:00+00:00'
@@ -35,8 +34,6 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks:
-  - unified-arch-2-task-007
   blocked_by:
   - unified-arch-2-task-004
   depends_on:
@@ -45,7 +42,6 @@ task:
     required_status: completed
     description: Schema must be created first
     status: pending
-  depended_on_by: []
   deliverables:
   - path: vibey/roadmap/serialization/sql_dumper.py
     type: code
@@ -57,3 +53,31 @@ task:
     duration_hours: null
   slug: unified-arch-2-task-006
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  criteria:
+  - id: dep-001
+    description: Schema must be created first
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-004
+      required_status: completed
+  - id: blk-001
+    description: Blocked by unified-arch-2-task-004
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unified-arch-2-task-004
+      required_status: completed
+  - id: del-001
+    description: Updated SQL dumper with v2 schema support
+    required: true
+    blocks_transition_to: completed
+    target:
+      type: file_exists
+      paths:
+      - vibey/roadmap/serialization/sql_dumper.py
+      all_required: true
+      deliverable_type: code
+  sequence: 6

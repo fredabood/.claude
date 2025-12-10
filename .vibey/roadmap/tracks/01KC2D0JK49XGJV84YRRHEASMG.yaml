@@ -3,7 +3,6 @@ track:
   name: Hierarchical Documentation & Context Management System
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: true
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: null
@@ -35,7 +34,6 @@ track:
     tasks_count: 5
     started: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -44,8 +42,6 @@ track:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
-  depended_on_by: []
-  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -58,3 +54,12 @@ track:
     implementation_plan: null
     notes: null
   slug: documentation-system
+  criteria:
+  - id: dep-001
+    description: Depends on unknown
+    required: true
+    blocks_transition_to: in_progress
+    target:
+      type: completable
+      completable_id: unknown
+      required_status: resolved

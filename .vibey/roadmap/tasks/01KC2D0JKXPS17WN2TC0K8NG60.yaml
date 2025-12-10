@@ -9,7 +9,6 @@ task:
     TypeScript template. Configure tsconfig, eslint, and package.json with proper
     extension manifest.
   status: not_started
-  blocked: false
   created: '2025-12-05T12:00:00+00:00'
   started: null
   completed: null
@@ -22,10 +21,8 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocks: []
   blocked_by: []
   depends_on: []
-  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
@@ -34,3 +31,5 @@ task:
     duration_hours: null
   slug: vscode-roadmap-extension-0-task-001
   parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HC
+  criteria: []
+  sequence: 1

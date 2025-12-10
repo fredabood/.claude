@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Move ORM imports behind try/except ImportError
   description: null
-  status: not_started
+  status: completed
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T06:00:00.000000+00:00'
+  completed: '2025-12-10T06:30:00.000000+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

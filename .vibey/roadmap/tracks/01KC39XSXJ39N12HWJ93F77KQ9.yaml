@@ -2,25 +2,25 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
+  started: '2025-12-10T06:00:00.000000+00:00'
   completed: null
   estimated_duration: null
   progress:
     sprints_total: 7
     sprints_completed: 0
     tasks_total: 61
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 3
+    completion_percent: 5
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 9
-    started: null
+    started: '2025-12-10T06:00:00.000000+00:00'
   - id: 01KC3AD76EK6TBPW0GEJD0P4M0
     name: 'Sprint 2: ULID File Loading System'
     status: not_started

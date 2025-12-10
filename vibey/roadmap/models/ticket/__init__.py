@@ -126,36 +126,69 @@ from vibey.roadmap.models.ticket.domain import (
     TaskTicket,
 )
 
-from vibey.roadmap.models.ticket.orm import (
-    # Base
-    Base,
-    # ORM Models
-    TicketORM,
-    RoadmapTicketORM,
-    TrackTicketORM,
-    SprintTicketORM,
-    TaskTicketORM,
-    CriterionORM,
-    # Serialization
-    deserialize_target,
-    serialize_target,
-    # Schema
-    get_unified_schema_ddl,
-    create_unified_schema,
-    # Factory
-    get_ticket_orm_class,
-)
+# ORM models are optional - only available when SQLAlchemy is installed
+_ORM_AVAILABLE = False
+try:
+    from vibey.roadmap.models.ticket.orm import (
+        # Base
+        Base,
+        # ORM Models
+        TicketORM,
+        RoadmapTicketORM,
+        TrackTicketORM,
+        SprintTicketORM,
+        TaskTicketORM,
+        CriterionORM,
+        # Serialization
+        deserialize_target,
+        serialize_target,
+        # Schema
+        get_unified_schema_ddl,
+        create_unified_schema,
+        # Factory
+        get_ticket_orm_class,
+    )
 
-from vibey.roadmap.models.ticket.repository import (
-    # Connection
-    get_engine,
-    get_session_factory,
-    # Repositories
-    TicketRepository,
-    CriterionRepository,
-    # Factory
-    RepositoryFactory,
-)
+    from vibey.roadmap.models.ticket.repository import (
+        # Connection
+        get_engine,
+        get_session_factory,
+        # Repositories
+        TicketRepository,
+        CriterionRepository,
+        # Factory
+        RepositoryFactory,
+    )
+    _ORM_AVAILABLE = True
+except ImportError:
+    # SQLAlchemy not installed - ORM features unavailable
+    # Provide stub values to avoid NameError in __all__
+    Base = None
+    TicketORM = None
+    RoadmapTicketORM = None
+    TrackTicketORM = None
+    SprintTicketORM = None
+    TaskTicketORM = None
+    CriterionORM = None
+    deserialize_target = None
+    serialize_target = None
+    get_unified_schema_ddl = None
+    create_unified_schema = None
+    get_ticket_orm_class = None
+    get_engine = None
+    get_session_factory = None
+    TicketRepository = None
+    CriterionRepository = None
+    RepositoryFactory = None
+
+
+def require_sqlalchemy():
+    """Raise ImportError with helpful message if SQLAlchemy is not available."""
+    if not _ORM_AVAILABLE:
+        raise ImportError(
+            "SQLAlchemy is required for ORM/database functionality. "
+            "Install with: pip install sqlalchemy"
+        )
 
 from vibey.roadmap.models.ticket.adapters import (
     # Status mapping
@@ -259,6 +292,9 @@ __all__ = [
     "TrackTicket",
     "SprintTicket",
     "TaskTicket",
+    # ORM - Availability check
+    "_ORM_AVAILABLE",
+    "require_sqlalchemy",
     # ORM - Base
     "Base",
     # ORM - Models

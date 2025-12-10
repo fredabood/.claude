@@ -5,9 +5,9 @@ sprint:
   name: 'Sprint 1: CLI Startup Unblock'
   description: Fix critical import and schema issues blocking CLI startup. SQLAlchemy
     must be optional, and YAML loader must handle v2 format without 'blocked' field.
-  status: not_started
+  status: in_progress
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
+  started: '2025-12-10T06:00:00.000000+00:00'
   completed: null
   goal: Make CLI commands executable without errors
   success_criteria:
@@ -17,13 +17,13 @@ sprint:
   tasks:
   - id: dogfooding-bugs-01-task-001
     title: Implement lazy imports in orm.py
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-002
     title: Move ORM imports behind try/except ImportError
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-003
     title: Add SQLAlchemy to optional dependencies in pyproject.toml
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-004
     title: Add test for CLI without SQLAlchemy installed
     status: not_started

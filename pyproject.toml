@@ -35,17 +35,22 @@ dependencies = [
     "rich>=13.0.0",
     "pydantic>=2.0.0",
     "jsonschema>=4.0.0",
-    "sqlalchemy>=2.0.0",
     "python-ulid>=3.0.0",
 ]
 
 [project.optional-dependencies]
+db = [
+    "sqlalchemy>=2.0.0",
+]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "black>=23.0.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
+]
+all = [
+    "sqlalchemy>=2.0.0",
 ]
 
 [project.urls]

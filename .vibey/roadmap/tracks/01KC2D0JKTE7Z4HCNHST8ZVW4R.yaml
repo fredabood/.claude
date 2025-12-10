@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 2
+    sprints_completed: 3
     tasks_total: 29
-    tasks_completed: 13
-    completion_percent: 45
+    tasks_completed: 18
+    completion_percent: 62
   sprints:
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
     name: Directory Structure Migration
@@ -30,10 +30,10 @@ track:
     started: '2025-12-09T16:10:00+00:00'
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
     name: ULID Identity System
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 5
-    started: null
+    started: '2025-12-10T01:00:00+00:00'
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJD
     name: v2 YAML Format Migration
     status: not_started

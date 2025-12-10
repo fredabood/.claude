@@ -39,11 +39,11 @@ sprint:
     - Better conflict handling in distributed scenarios
 
     '
-  status: in_progress
+  status: completed
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-10T01:00:00+00:00'
-  completed: null
+  completed: '2025-12-10T01:30:00+00:00'
   goal: Implement ULID-based identity with sequence and slug fields
   success_criteria:
   - All entities have ULID identifiers
@@ -64,10 +64,10 @@ sprint:
     status: completed
   - id: unified-arch-3-task-004
     title: Create ULID migration script
-    status: not_started
+    status: completed
   - id: unified-arch-3-task-005
     title: Execute ULID migration
-    status: not_started
+    status: completed
   dependencies: []
   blocks: []
   blocked_by:

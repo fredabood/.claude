@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Implement key generation (vibey auth setup)
   description: Implement vibey auth setup command to generate Ed25519 keypair. Store private key in ~/.vibey/ with restrictive permissions. Display public key for registration. Use cryptography library
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767683+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T20:35:00.000000+00:00'
+  completed: '2025-12-10T21:00:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

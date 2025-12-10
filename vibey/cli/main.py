@@ -3553,6 +3553,357 @@ def artifact_delete(ctx, artifact_id: str, force: bool):
 
 
 # ============================================================================
+# Auth Commands (vibey auth)
+# ============================================================================
+
+@cli.group('auth')
+@click.pass_context
+def auth(ctx):
+    """
+    Manage authentication keys for roadmap signing.
+
+    Set up Ed25519 keypairs for signing activity log entries,
+    register authorized signers for your project, and manage
+    signing identity.
+
+    Get started:
+      vibey auth setup           # Generate your keypair
+      vibey auth init-project    # Initialize signing for project
+      vibey auth add-signer      # Add team members
+
+    Examples:
+      vibey auth setup --email alice@example.com --name "Alice Smith"
+      vibey auth list            # List authorized signers
+      vibey auth export          # Share your public key
+    """
+    pass
+
+
+@auth.command('setup')
+@click.option('--email', prompt='Your email address', help='Email for identity')
+@click.option('--name', prompt='Your name', help='Full name for identity')
+@click.option('--force', '-f', is_flag=True, help='Overwrite existing keys')
+@click.pass_context
+def auth_setup(ctx, email: str, name: str, force: bool):
+    """Generate Ed25519 keypair for signing roadmap changes.
+
+    Creates a keypair in ~/.vibey/ for signing activity log entries.
+    Your private key never leaves your machine.
+
+    Examples:
+      vibey auth setup
+      vibey auth setup --email alice@example.com --name "Alice Smith"
+      vibey auth setup --force  # Regenerate keys
+    """
+    try:
+        from vibey.operations.auth import KeyManager, setup_user_keys
+    except ImportError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        console.print("\nInstall required dependency:")
+        console.print("  pip install cryptography")
+        sys.exit(1)
+
+    manager = KeyManager()
+
+    # Check for existing keys
+    if manager.has_keypair() and not force:
+        console.print("[yellow]Warning:[/yellow] Keypair already exists at ~/.vibey/")
+        console.print("Use --force to regenerate (this will overwrite existing keys)")
+        sys.exit(1)
+
+    console.print("\n[bold]Generating Ed25519 keypair...[/bold]\n")
+
+    try:
+        public_key_str, private_path, public_path = setup_user_keys(email, name)
+    except Exception as e:
+        console.print(f"[red]Error generating keys:[/red] {e}")
+        sys.exit(1)
+
+    console.print(f"[green]✓[/green] Private key saved to: [cyan]{private_path}[/cyan] (mode 0600)")
+    console.print(f"[green]✓[/green] Public key saved to: [cyan]{public_path}[/cyan]")
+    console.print(f"[green]✓[/green] Identity saved: [cyan]{name} <{email}>[/cyan]")
+    console.print()
+    console.print("[bold]Your public key (share this for authorization):[/bold]")
+    console.print(f"[dim]{public_key_str}[/dim]")
+    console.print()
+    console.print("Next steps:")
+    console.print("  1. Run [cyan]vibey auth init-project[/cyan] to enable signing for this project")
+    console.print("  2. Or share your public key with a project owner to be authorized")
+
+
+@auth.command('export')
+@click.pass_context
+def auth_export(ctx):
+    """Export your public key for sharing with project owners.
+
+    Displays your public key in a format that can be shared
+    with project owners for authorization.
+
+    Example:
+      vibey auth export | pbcopy  # Copy to clipboard on macOS
+    """
+    try:
+        from vibey.operations.auth import KeyManager
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    manager = KeyManager()
+
+    if not manager.has_keypair():
+        console.print("[red]Error:[/red] No keypair found")
+        console.print("Run [cyan]vibey auth setup[/cyan] to generate keys")
+        sys.exit(1)
+
+    public_key_str = manager.get_public_key_string()
+    if not public_key_str:
+        console.print("[red]Error:[/red] Could not load public key")
+        sys.exit(1)
+
+    identity = manager.load_identity()
+    console.print(f"Public key for [cyan]{identity.email if identity else 'unknown'}[/cyan]:")
+    console.print()
+    console.print(public_key_str)
+    console.print()
+    console.print("Share this key with a project owner to be authorized.")
+
+
+@auth.command('status')
+@click.pass_context
+def auth_status(ctx):
+    """Show current authentication status.
+
+    Displays whether you have keys configured and whether
+    signing is enabled for the current project.
+    """
+    try:
+        from vibey.operations.auth import KeyManager, list_authorized_signers
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    manager = KeyManager()
+
+    console.print("[bold]Authentication Status[/bold]\n")
+
+    # User keys
+    if manager.has_keypair():
+        identity = manager.load_identity()
+        console.print(f"[green]✓[/green] Keypair: configured")
+        if identity:
+            console.print(f"  Identity: {identity.name} <{identity.email}>")
+    else:
+        console.print("[yellow]○[/yellow] Keypair: not configured")
+        console.print("  Run [cyan]vibey auth setup[/cyan] to generate keys")
+
+    # Project signing
+    from pathlib import Path
+    signers_dir = Path.cwd() / ".vibey" / "authorized-signers"
+    if signers_dir.exists():
+        manifest = signers_dir / "manifest.yaml"
+        if manifest.exists():
+            console.print(f"[green]✓[/green] Project signing: enabled")
+            signers = list_authorized_signers()
+            active = [s for s in signers if s.active]
+            console.print(f"  Authorized signers: {len(active)}")
+        else:
+            console.print("[yellow]○[/yellow] Project signing: partially configured")
+    else:
+        console.print("[yellow]○[/yellow] Project signing: not configured")
+        console.print("  Run [cyan]vibey auth init-project[/cyan] to enable")
+
+
+@auth.command('init-project')
+@click.option('--force', '-f', is_flag=True, help='Reinitialize even if already configured')
+@click.pass_context
+def auth_init_project(ctx, force: bool):
+    """Initialize signing for this project.
+
+    Sets you up as the first authorized signer (owner).
+    Requires running 'vibey auth setup' first.
+
+    Creates:
+      .vibey/authorized-signers/manifest.yaml
+      .vibey/authorized-signers/{your-email}.pub
+
+    Example:
+      vibey auth init-project
+    """
+    try:
+        from vibey.operations.auth import SignerManager
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    manager = SignerManager()
+
+    if manager.is_initialized() and not force:
+        console.print("[yellow]Warning:[/yellow] Project signing already initialized")
+        console.print("Use --force to reinitialize")
+        sys.exit(1)
+
+    console.print("\n[bold]Initializing project signing...[/bold]\n")
+
+    try:
+        owner = manager.initialize_project()
+    except RuntimeError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    console.print(f"[green]✓[/green] Created .vibey/authorized-signers/")
+    console.print(f"[green]✓[/green] Added [cyan]{owner.identity}[/cyan] as owner")
+    console.print()
+    console.print("Commit and push to enable signed changes:")
+    console.print("  [dim]git add .vibey/authorized-signers/[/dim]")
+    console.print("  [dim]git commit -m 'Enable roadmap signing'[/dim]")
+
+
+@auth.command('add-signer')
+@click.argument('email')
+@click.argument('name')
+@click.argument('public_key')
+@click.option('--role', type=click.Choice(['developer', 'admin', 'owner']),
+              default='developer', help='Signer role')
+@click.pass_context
+def auth_add_signer(ctx, email: str, name: str, public_key: str, role: str):
+    """Add an authorized signer to this project.
+
+    Registers a team member's public key so their changes
+    can be verified.
+
+    Arguments:
+      EMAIL       Signer's email address
+      NAME        Signer's full name (use quotes)
+      PUBLIC_KEY  Public key string (vibey-ed25519 ...)
+
+    Example:
+      vibey auth add-signer bob@example.com "Bob Jones" "vibey-ed25519 AAAA..."
+    """
+    try:
+        from vibey.operations.auth import SignerManager
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    manager = SignerManager()
+
+    console.print(f"\n[bold]Adding authorized signer...[/bold]\n")
+
+    try:
+        signer = manager.add_signer(email, name, public_key, role)
+    except RuntimeError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    console.print(f"[green]✓[/green] Added signer: [cyan]{signer.name} <{signer.identity}>[/cyan]")
+    console.print(f"  Role: {signer.role}")
+    console.print()
+    console.print("Commit and push to authorize this signer:")
+    console.print("  [dim]git add .vibey/authorized-signers/[/dim]")
+    console.print("  [dim]git commit -m 'Add authorized signer: {}'[/dim]".format(email))
+
+
+@auth.command('list')
+@click.option('--all', 'show_all', is_flag=True, help='Include inactive signers')
+@click.pass_context
+def auth_list(ctx, show_all: bool):
+    """List authorized signers for this project.
+
+    Shows all team members who can make signed roadmap changes.
+
+    Example:
+      vibey auth list
+      vibey auth list --all  # Include revoked signers
+    """
+    try:
+        from vibey.operations.auth import list_authorized_signers, is_signing_enabled
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    if not is_signing_enabled():
+        console.print("[yellow]Project signing not configured[/yellow]")
+        console.print("Run [cyan]vibey auth init-project[/cyan] to enable")
+        return
+
+    signers = list_authorized_signers()
+
+    if not show_all:
+        signers = [s for s in signers if s.active]
+
+    if not signers:
+        console.print("No authorized signers found")
+        return
+
+    console.print("[bold]Authorized Signers[/bold]\n")
+
+    for signer in signers:
+        status = "[green]active[/green]" if signer.active else "[red]revoked[/red]"
+        role_color = {
+            "owner": "yellow",
+            "admin": "cyan",
+            "developer": "white",
+        }.get(signer.role, "white")
+
+        console.print(f"  {signer.identity}")
+        console.print(f"    Name: {signer.name}")
+        console.print(f"    Role: [{role_color}]{signer.role}[/{role_color}]")
+        console.print(f"    Status: {status}")
+        console.print(f"    Added: {signer.added[:10]} by {signer.added_by}")
+        console.print()
+
+
+@auth.command('revoke')
+@click.argument('email')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation')
+@click.pass_context
+def auth_revoke(ctx, email: str, yes: bool):
+    """Revoke a signer's authorization.
+
+    Marks a signer as inactive. Their existing signed changes
+    remain valid, but new changes won't be accepted.
+
+    Example:
+      vibey auth revoke bob@example.com
+    """
+    try:
+        from vibey.operations.auth import SignerManager
+    except ImportError:
+        console.print("[red]Error:[/red] Cryptography library not installed")
+        sys.exit(1)
+
+    manager = SignerManager()
+
+    if not manager.is_initialized():
+        console.print("[red]Error:[/red] Project signing not configured")
+        sys.exit(1)
+
+    signer = manager.get_signer(email)
+    if not signer:
+        console.print(f"[red]Error:[/red] Signer not found: {email}")
+        sys.exit(1)
+
+    if not signer.active:
+        console.print(f"[yellow]Signer already revoked:[/yellow] {email}")
+        return
+
+    if not yes:
+        console.print(f"About to revoke: [cyan]{signer.name} <{email}>[/cyan]")
+        console.print(f"  Role: {signer.role}")
+        if not click.confirm("Proceed?"):
+            console.print("[dim]Cancelled[/dim]")
+            return
+
+    if manager.revoke_signer(email):
+        console.print(f"[green]✓[/green] Revoked: {email}")
+        console.print()
+        console.print("Commit and push to apply revocation:")
+        console.print("  [dim]git add .vibey/authorized-signers/manifest.yaml[/dim]")
+    else:
+        console.print(f"[red]Error:[/red] Failed to revoke signer")
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

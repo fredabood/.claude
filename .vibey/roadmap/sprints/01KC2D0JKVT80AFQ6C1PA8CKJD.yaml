@@ -39,7 +39,7 @@ sprint:
     status: completed
   - id: unified-arch-4-task-002
     title: Create v1 to v2 YAML migration script
-    status: not_started
+    status: completed
   - id: unified-arch-4-task-003
     title: Update yaml_loader for v2 format only
     status: not_started

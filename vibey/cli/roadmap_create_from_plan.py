@@ -3,9 +3,10 @@
 Create Roadmap Sprint from Plan
 
 Parses a sprint plan markdown file and creates:
-- Sprint YAML in hierarchical structure
-- Task YAMLs in hierarchical structure
+- Sprint YAML in flat ULID structure (.vibey/roadmap/sprints/{ULID}.yaml)
+- Task YAMLs in flat ULID structure (.vibey/roadmap/tasks/{ULID}.yaml)
 - Updates track to reference the sprint
+- Updates .id mapping files for slug resolution
 
 Usage:
     roadmap-create-from-plan.py --plan sprint-plan.md --track main --sprint sprint-1
@@ -23,9 +24,10 @@ from typing import Dict, List, Optional, Tuple
 repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
 
+from ulid import ULID
 from vibey.roadmap.models import Sprint, SprintProgress, SprintMetadata, Task, TaskMetadata, TaskStatus, TaskType, Priority, Complexity
-from vibey.roadmap.serialization import save_sprint, save_tasks, load_track, save_track
-from vibey.roadmap.directory_manager import DirectoryManager
+from vibey.roadmap.serialization import save_sprint, save_task, load_track, save_track
+from vibey.cli.roadmap_lib.filesystem import FileSystemManager
 
 
 class SprintPlanParser:
@@ -170,6 +172,128 @@ class SprintPlanParser:
         return task
 
 
+# Helper functions for ULID flat structure
+
+def _resolve_track_id(track_id: str, roadmap_root: Path) -> Optional[str]:
+    """Resolve a track slug or ULID to a ULID."""
+    # If it looks like a ULID (26 chars, alphanumeric, uppercase), return as-is
+    if len(track_id) == 26 and track_id.isalnum() and track_id.isupper():
+        track_file = roadmap_root / "tracks" / f"{track_id}.yaml"
+        if track_file.exists():
+            return track_id
+        return None
+
+    # Otherwise, look up in .id file
+    id_file = roadmap_root / "tracks" / ".id"
+    if id_file.exists():
+        for line in id_file.read_text().strip().split("\n"):
+            if "=" in line:
+                slug, ulid = line.split("=", 1)
+                if slug == track_id:
+                    return ulid
+
+    return None
+
+
+def _get_slug_for_ulid(item_type: str, ulid: str, roadmap_root: Path) -> Optional[str]:
+    """Get the slug for a given ULID from .id file."""
+    type_to_dir = {"track": "tracks", "sprint": "sprints", "task": "tasks"}
+    id_file = roadmap_root / type_to_dir[item_type] / ".id"
+
+    if id_file.exists():
+        for line in id_file.read_text().strip().split("\n"):
+            if "=" in line:
+                slug, file_ulid = line.split("=", 1)
+                if file_ulid == ulid:
+                    return slug
+    return None
+
+
+def _update_id_mapping(item_type: str, slug: str, ulid: str, roadmap_root: Path):
+    """Add a slug=ULID mapping to the .id file."""
+    type_to_dir = {"track": "tracks", "sprint": "sprints", "task": "tasks"}
+    id_file = roadmap_root / type_to_dir[item_type] / ".id"
+
+    # Read existing content
+    if id_file.exists():
+        content = id_file.read_text()
+        if not content.endswith("\n"):
+            content += "\n"
+    else:
+        content = ""
+
+    # Add new mapping
+    content += f"{slug}={ulid}\n"
+    id_file.write_text(content)
+
+
+def _get_next_sprint_sequence(track_ulid: str, roadmap_root: Path) -> int:
+    """Get the next sprint sequence number for a track."""
+    import yaml
+
+    track_file = roadmap_root / "tracks" / f"{track_ulid}.yaml"
+    if not track_file.exists():
+        return 1
+
+    with open(track_file, 'r') as f:
+        data = yaml.safe_load(f)
+
+    sprints = data.get('track', {}).get('sprints', [])
+    return len(sprints) + 1
+
+
+def _update_sprint_tasks(sprint_yaml: Path, task_summaries: List[Dict]):
+    """Update sprint YAML with task summaries."""
+    import yaml
+
+    with open(sprint_yaml, 'r') as f:
+        data = yaml.safe_load(f)
+
+    data['sprint']['tasks'] = task_summaries
+    data['sprint']['progress'] = {
+        'tasks_total': len(task_summaries),
+        'tasks_completed': 0,
+        'completion_percent': 0
+    }
+
+    with open(sprint_yaml, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
+def _add_sprint_to_track_file(roadmap_root: Path, track_ulid: str, sprint_slug: str, sprint_name: str):
+    """Add a sprint reference to the track YAML file."""
+    import yaml
+
+    track_file = roadmap_root / "tracks" / f"{track_ulid}.yaml"
+    if not track_file.exists():
+        return
+
+    with open(track_file, 'r') as f:
+        data = yaml.safe_load(f)
+
+    if 'track' not in data:
+        data['track'] = {}
+    if 'sprints' not in data['track']:
+        data['track']['sprints'] = []
+
+    # Add sprint summary
+    sprint_entry = {
+        'id': sprint_slug,
+        'name': sprint_name,
+        'status': 'not_started',
+        'tasks_count': 0
+    }
+    data['track']['sprints'].append(sprint_entry)
+
+    # Update progress
+    if 'progress' not in data['track']:
+        data['track']['progress'] = {}
+    data['track']['progress']['sprints_total'] = len(data['track']['sprints'])
+
+    with open(track_file, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+
 def create_sprint_from_plan(
     plan_path: Path,
     track_id: str,
@@ -232,26 +356,42 @@ def create_sprint_from_plan(
         print("❌ No .vibey/ directory found in current or parent directories")
         return False
 
-    # Initialize directory manager
-    roadmap_root = root / ".vibey" / "roadmap"
-    dir_manager = DirectoryManager(str(roadmap_root))
+    # Initialize filesystem manager for flat ULID structure
+    fs = FileSystemManager(root)
+    roadmap_root = fs.roadmap_root
 
-    # Create sprint directory
-    print(f"\n📁 Creating sprint directory...")
-    sprint_dir = dir_manager.create_sprint_directory(
-        track_slug=track_id,
-        sprint_id=sprint_id,
-        sprint_slug=sprint_id,
-        create_context=True
-    )
+    # Resolve track ID (slug -> ULID if needed)
+    resolved_track_id = _resolve_track_id(track_id, roadmap_root)
+    if not resolved_track_id:
+        print(f"❌ Track not found: {track_id}")
+        return False
 
-    # Create sprint YAML
+    # Generate ULID for sprint
+    sprint_ulid = str(ULID())
+    sprint_slug = sprint_id  # Use the sprint_id from plan as slug
+
+    # Create sprint YAML in flat structure
+    print(f"\n📁 Creating sprint in flat structure...")
     now = datetime.now(timezone.utc)
+
+    # Get roadmap_id from roadmap.yaml
+    try:
+        from vibey.roadmap.serialization.yaml_loader import load_roadmap
+        roadmap_path = fs.get_roadmap_path()
+        roadmap = load_roadmap(roadmap_path)
+        roadmap_id = roadmap.id
+    except Exception:
+        roadmap_id = "vibey-framework-v2"
+
+    # Get track slug for parent reference
+    track_slug = _get_slug_for_ulid("track", resolved_track_id, roadmap_root)
+
+    # Create sprint object with new flat structure fields
     sprint_data = Sprint(
-        id=sprint_id,
+        id=sprint_ulid,
         name=metadata.get('name', sprint_id),
-        track_id=track_id,
-        roadmap_id="vibey-framework-v2",  # TODO: Get from roadmap
+        track_id=track_slug or track_id,  # Use slug for reference
+        roadmap_id=roadmap_id,
         status=TaskStatus.IN_PROGRESS if start else TaskStatus.NOT_STARTED,
         blocked=False,
         created=now,
@@ -266,56 +406,92 @@ def create_sprint_from_plan(
             tasks_completed=0,
             completion_percent=0,
         ),
-        tasks=[],  # Task summaries will be populated later
-        development_gates=[],
-        blocks=[],
+        tasks=[],  # Will be populated with task summaries
+        dependencies=[],
         blocked_by=[],
         depends_on=[],
         depended_on_by=[],
-        metadata=SprintMetadata(
-            last_updated=now,
-            estimated_duration=metadata.get('estimated_duration', '2 weeks'),
-        ),
+        deliverables=[],
+        risks=[],
+        metadata={
+            'estimated_duration': metadata.get('estimated_duration', '2 weeks'),
+            'plan_file': str(plan_path),
+        },
         started=now if start else None,
-        plan_file=str(plan_path),
+        slug=sprint_slug,
+        parent_ref=resolved_track_id,
+        criteria=[],
+        sequence=_get_next_sprint_sequence(resolved_track_id, roadmap_root),
     )
 
-    sprint_yaml = sprint_dir / "sprint.yaml"
+    # Save sprint to flat structure
+    sprints_dir = roadmap_root / "sprints"
+    sprints_dir.mkdir(parents=True, exist_ok=True)
+    sprint_yaml = sprints_dir / f"{sprint_ulid}.yaml"
     save_sprint(sprint_data, sprint_yaml)
-    print(f"✓ Created: {sprint_yaml}")
+    print(f"✓ Created: {sprint_yaml.relative_to(root)}")
 
-    # Create task objects
-    print(f"\n📝 Creating {len(tasks)} tasks...")
-    task_objects = []
-    for task_data in tasks:
+    # Update .id mapping for sprint
+    _update_id_mapping("sprint", sprint_slug, sprint_ulid, roadmap_root)
+
+    # Create task objects and save to flat structure
+    print(f"\n📝 Creating {len(tasks)} tasks in flat structure...")
+    tasks_dir = roadmap_root / "tasks"
+    tasks_dir.mkdir(parents=True, exist_ok=True)
+
+    task_summaries = []
+    for i, task_data in enumerate(tasks, 1):
         task_now = datetime.now(timezone.utc)
+        task_ulid = str(ULID())
+        task_slug = f"{sprint_slug}-task-{i:03d}"
+
         task = Task(
-            id=task_data['id'],
-            sprint_id=sprint_id,
-            track_id=track_id,
-            roadmap_id="vibey-framework-v2",
+            id=task_ulid,
+            sprint_id=sprint_slug,  # Use sprint slug for reference
+            track_id=track_slug or track_id,
+            roadmap_id=roadmap_id,
             task_type=TaskType.DEVELOPMENT,
             title=task_data['title'],
             description=task_data.get('description', ''),
             status=TaskStatus.NOT_STARTED,
-            blocked=False,
             created=task_now,
-            assigned_agent=task_data.get('assigned_agent', 'backend-engineer'),
             priority=Priority(task_data.get('priority', 'medium')),
             complexity=Complexity(task_data.get('complexity', 'medium')),
             estimated_tokens=task_data.get('estimated_tokens', 5000),
             dependencies=[],
-            blocks=[],
             blocked_by=[],
             depends_on=[],
             depended_on_by=[],
-            metadata=TaskMetadata(last_updated=task_now),
+            deliverables=[],
+            commits=[],
+            metadata={},
+            slug=task_slug,
+            parent_ref=sprint_ulid,
+            criteria=[],
+            sequence=i,
         )
-        task_objects.append(task)
 
-    # Save all tasks to sprint directory (hierarchical format)
-    save_tasks(task_objects, sprint_dir)
+        # Save task to flat structure
+        task_yaml = tasks_dir / f"{task_ulid}.yaml"
+        save_task(task, task_yaml)
+
+        # Update .id mapping for task
+        _update_id_mapping("task", task_slug, task_ulid, roadmap_root)
+
+        # Add to task summaries for sprint
+        task_summaries.append({
+            'id': task_slug,
+            'title': task_data['title'],
+            'status': 'not_started'
+        })
+
     print(f"✓ Created {len(tasks)} task files")
+
+    # Update sprint with task summaries
+    _update_sprint_tasks(sprint_yaml, task_summaries)
+
+    # Update track's sprint list
+    _add_sprint_to_track_file(roadmap_root, resolved_track_id, sprint_slug, metadata.get('name', sprint_id))
 
     print(f"\n✅ Sprint {sprint_id} created successfully!")
     print(f"   Sprint: {sprint_yaml}")

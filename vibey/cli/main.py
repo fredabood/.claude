@@ -155,6 +155,110 @@ def roadmap_sync(ctx, verbose: bool):
     sys.exit(exit_code)
 
 
+@roadmap.command('create-track')
+@click.option('--name', '-n', required=True, help='Track name')
+@click.option('--slug', '-s', help='URL-friendly slug (generated from name if not provided)')
+@click.option('--description', '-d', default='', help='Track description')
+@click.option('--priority', '-p',
+              type=click.Choice(['critical', 'high', 'medium', 'low']),
+              default='medium', help='Track priority')
+@click.option('--start', is_flag=True, help='Mark track as started immediately')
+@click.pass_context
+def roadmap_create_track(ctx, name: str, slug: str, description: str,
+                         priority: str, start: bool):
+    """Create a new track in the roadmap.
+
+    Creates a new track YAML file using ULID-based naming in the flat structure.
+    The track is automatically added to roadmap.yaml's track list.
+
+    Examples:
+      vibey roadmap create-track --name "Authentication System"
+      vibey roadmap create-track -n "Performance Optimization" -p high
+      vibey roadmap create-track --name "Bug Fixes" --slug bug-fixes --start
+    """
+    from vibey.cli.commands import create_track_cmd
+
+    exit_code = create_track_cmd(
+        name=name,
+        slug=slug,
+        description=description,
+        priority=priority,
+        start=start
+    )
+    sys.exit(exit_code)
+
+
+@roadmap.command('create-sprint')
+@click.option('--track', '-t', required=True, help='Track ID or slug to add sprint to')
+@click.option('--name', '-n', required=True, help='Sprint name')
+@click.option('--goal', '-g', default='', help='Sprint goal')
+@click.option('--description', '-d', default='', help='Sprint description')
+@click.option('--start', is_flag=True, help='Mark sprint as started immediately')
+@click.pass_context
+def roadmap_create_sprint(ctx, track: str, name: str, goal: str,
+                          description: str, start: bool):
+    """Create a new sprint in a track.
+
+    Creates a new sprint YAML file using ULID-based naming in the flat structure.
+    The sprint is automatically linked to the parent track.
+
+    Examples:
+      vibey roadmap create-sprint --track my-track --name "Sprint 1"
+      vibey roadmap create-sprint -t auth-system -n "Authentication MVP" -g "Basic login working"
+      vibey roadmap create-sprint --track 01KC2D0JK06MN77ZHAGAHF5VKD --name "Sprint 1" --start
+    """
+    from vibey.cli.commands import create_sprint_cmd
+
+    exit_code = create_sprint_cmd(
+        track_id=track,
+        name=name,
+        goal=goal,
+        description=description,
+        start=start
+    )
+    sys.exit(exit_code)
+
+
+@roadmap.command('create-task')
+@click.option('--sprint', '-s', required=True, help='Sprint ID or slug to add task to')
+@click.option('--title', '-t', required=True, help='Task title')
+@click.option('--description', '-d', default='', help='Task description')
+@click.option('--type', 'task_type', default='development',
+              type=click.Choice(['development', 'testing', 'documentation', 'research',
+                               'review', 'infrastructure', 'design']),
+              help='Task type')
+@click.option('--priority', '-p',
+              type=click.Choice(['critical', 'high', 'medium', 'low']),
+              default='medium', help='Task priority')
+@click.option('--complexity', '-c',
+              type=click.Choice(['trivial', 'low', 'medium', 'high', 'complex']),
+              default='medium', help='Task complexity')
+@click.pass_context
+def roadmap_create_task(ctx, sprint: str, title: str, description: str,
+                        task_type: str, priority: str, complexity: str):
+    """Create a new task in a sprint.
+
+    Creates a new task YAML file using ULID-based naming in the flat structure.
+    The task is automatically linked to the parent sprint.
+
+    Examples:
+      vibey roadmap create-task --sprint sprint-1 --title "Add login form"
+      vibey roadmap create-task -s 01KC2D0JKM9HQR5VHRQ5SX5EQY -t "Write unit tests" --type testing
+      vibey roadmap create-task --sprint auth-sprint-1 --title "Design auth flow" -p high -c medium
+    """
+    from vibey.cli.commands import create_task_cmd
+
+    exit_code = create_task_cmd(
+        sprint_id=sprint,
+        title=title,
+        description=description,
+        task_type=task_type,
+        priority=priority,
+        complexity=complexity
+    )
+    sys.exit(exit_code)
+
+
 @roadmap.command('show')
 @click.argument('item_id')
 @click.option('--no-compatibility', is_flag=True, help='Skip compatibility status display')

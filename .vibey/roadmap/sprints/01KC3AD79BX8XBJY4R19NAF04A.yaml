@@ -5,10 +5,10 @@ sprint:
   name: 'Sprint 5: CLI Create Commands'
   description: Add CLI commands to create new tracks, sprints, and tasks using the
     ULID flat file structure. Update create-from-plan to use new structure.
-  status: not_started
+  status: completed
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T17:00:00+00:00'
+  completed: '2025-12-10T19:00:00+00:00'
   goal: Users can create roadmap objects via CLI
   success_criteria:
   - '''vibey roadmap create track'' works'
@@ -18,22 +18,22 @@ sprint:
   tasks:
   - id: dogfooding-bugs-05-task-001
     title: Add create track CLI command
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-05-task-002
     title: Add create sprint CLI command
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-05-task-003
     title: Add create task CLI command
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-05-task-004
     title: Update create-from-plan to use ULID flat structure
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-05-task-005
     title: Create ULIDManager for ULID generation
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-05-task-006
     title: Add integration tests for create commands
-    status: not_started
+    status: completed
   dependencies: []
   blocked_by: []
   depends_on:

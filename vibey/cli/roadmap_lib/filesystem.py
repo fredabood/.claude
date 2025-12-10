@@ -60,6 +60,9 @@ class FileSystemManager:
         self.vibey_dir = self.root_dir / self.VIBEY_DIR
         self.roadmap_root = self.vibey_dir / self.ROADMAP_DIR
 
+        # Activity log directory (JSONL time-bucketed format)
+        self.activity_log_dir = self.roadmap_root / "activity_log"
+
         # Detect directory structure format
         self.structure_format = self._detect_structure_format()
 
@@ -77,6 +80,43 @@ class FileSystemManager:
         """Ensure .vibey/roadmap directory structure exists."""
         self.vibey_dir.mkdir(parents=True, exist_ok=True)
         self.dir_manager.create_roadmap_root()
+        # Also ensure activity_log directory exists
+        self.activity_log_dir.mkdir(parents=True, exist_ok=True)
+
+    def ensure_activity_log_dir(self) -> Path:
+        """
+        Ensure activity_log directory exists.
+
+        Returns:
+            Path to activity_log directory
+        """
+        self.activity_log_dir.mkdir(parents=True, exist_ok=True)
+        return self.activity_log_dir
+
+    def get_activity_log_path(self, year: int, month: int) -> Path:
+        """
+        Get path to activity log file for a specific month.
+
+        Args:
+            year: Year (e.g., 2025)
+            month: Month (1-12)
+
+        Returns:
+            Path to JSONL file (e.g., .vibey/roadmap/activity_log/2025-11.jsonl)
+        """
+        filename = f"{year}-{month:02d}.jsonl"
+        return self.activity_log_dir / filename
+
+    def get_current_activity_log_path(self) -> Path:
+        """
+        Get path to activity log file for current month.
+
+        Returns:
+            Path to current month's JSONL file
+        """
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        return self.get_activity_log_path(now.year, now.month)
 
     def _detect_structure_format(self) -> Literal["flat", "nested"]:
         """

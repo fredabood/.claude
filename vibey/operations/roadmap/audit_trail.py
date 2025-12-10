@@ -70,12 +70,13 @@ class AuditTrail:
 class AuditTrailManager:
     """Manages audit trail storage and operations.
 
-    Supports dual storage:
-    - YAML file (audit-trail.yaml) - source of truth, git-tracked
-    - SQLite database (audit_trail table) - for fast querying
+    Now uses JSONL format for storage (time-bucketed files).
+    Also supports legacy YAML file and SQLite database for backward compatibility.
 
-    By default, writes to both and reads from YAML. When use_sqlite=True,
-    reads from SQLite for better query performance.
+    Default behavior:
+    - Writes to JSONL (primary) and optionally SQLite
+    - Reads from JSONL
+    - Legacy YAML file is deprecated but can still be read
     """
 
     def __init__(self, root_dir: Path, use_sqlite: bool = False):
@@ -84,19 +85,34 @@ class AuditTrailManager:
 
         Args:
             root_dir: Project root directory containing .vibey/
-            use_sqlite: If True, read from SQLite instead of YAML (writes to both)
+            use_sqlite: If True, also read from SQLite for queries (writes to both)
         """
         self.root_dir = Path(root_dir)
-        self.audit_file = self.root_dir / ".vibey" / "roadmap" / "audit-trail.yaml"
+        self.roadmap_dir = self.root_dir / ".vibey" / "roadmap"
+        self.activity_log_dir = self.roadmap_dir / "activity_log"
+
+        # DEPRECATED: Legacy YAML file path (kept for migration support)
+        self.audit_file = self.roadmap_dir / "audit-trail.yaml"
+
         self.use_sqlite = use_sqlite
         self._db_available = None  # Lazy-check
-        self._ensure_audit_file()
+
+        # Initialize JSONL writer/reader
+        from vibey.operations.roadmap.jsonl_activity_log import (
+            ActivityLogWriter,
+            ActivityLogReader,
+        )
+        self._jsonl_writer = ActivityLogWriter(self.activity_log_dir)
+        self._jsonl_reader = ActivityLogReader(self.activity_log_dir)
 
     def _ensure_audit_file(self):
-        """Ensure audit trail file exists."""
-        if not self.audit_file.exists():
-            self.audit_file.parent.mkdir(parents=True, exist_ok=True)
-            self._save_trail(AuditTrail())
+        """DEPRECATED: Ensure audit trail file exists.
+
+        This is kept for backward compatibility but no longer actively used.
+        New entries are written to JSONL format.
+        """
+        # Ensure activity_log directory exists instead
+        self.activity_log_dir.mkdir(parents=True, exist_ok=True)
 
     def _is_db_available(self) -> bool:
         """Check if SQLite database is available."""
@@ -208,6 +224,8 @@ class AuditTrailManager:
         """
         Log a status change to the audit trail.
 
+        Now writes to JSONL format (primary) and optionally SQLite.
+
         Args:
             object_type: Type of object ("track", "sprint", "task")
             object_id: ID of the object
@@ -225,9 +243,10 @@ class AuditTrailManager:
         if changed_by is None:
             changed_by = self._get_current_user()
 
-        # Create audit entry
-        entry = AuditEntry(
-            timestamp=datetime.now(timezone.utc).isoformat(),
+        commit = self._get_current_commit()
+
+        # Write to JSONL (primary storage)
+        event = self._jsonl_writer.log_change(
             object_type=object_type,
             object_id=object_id,
             field=field,
@@ -235,14 +254,23 @@ class AuditTrailManager:
             new_value=new_value,
             changed_by=changed_by,
             reason=reason,
-            commit=self._get_current_commit(),
-            source=source
+            commit=commit,
+            source=source,
         )
 
-        # Add to trail and save to YAML (source of truth)
-        trail = self._load_trail_from_yaml()  # Always load from YAML for consistency
-        trail.add_entry(entry)
-        self._save_trail(trail)
+        # Create AuditEntry for backward compatibility
+        entry = AuditEntry(
+            timestamp=event.timestamp,
+            object_type=event.object_type,
+            object_id=event.object_id,
+            field=event.field,
+            old_value=event.old_value,
+            new_value=event.new_value,
+            changed_by=event.changed_by,
+            reason=event.reason,
+            commit=event.commit,
+            source=event.source,
+        )
 
         # Also save to SQLite if available
         self._save_to_db(entry)
@@ -250,31 +278,47 @@ class AuditTrailManager:
         return entry
 
     def get_recent_changes(self, limit: int = 20) -> List[AuditEntry]:
-        """Get recent audit entries."""
-        trail = self.load_trail()
-        return trail.get_recent(limit)
+        """Get recent audit entries from JSONL."""
+        events = self._jsonl_reader.get_history(limit=limit)
+        return [self._event_to_entry(e) for e in events]
 
-    def get_object_history(self, object_id: str) -> List[AuditEntry]:
-        """Get all changes for a specific object."""
-        trail = self.load_trail()
-        return trail.get_for_object(object_id)
+    def get_object_history(self, object_id: str, limit: int = 50) -> List[AuditEntry]:
+        """Get all changes for a specific object from JSONL."""
+        events = self._jsonl_reader.get_history(object_id=object_id, limit=limit)
+        return [self._event_to_entry(e) for e in events]
 
-    def get_field_history(self, object_id: str, field: str) -> List[AuditEntry]:
-        """Get history of changes to a specific field."""
-        trail = self.load_trail()
-        return trail.get_field_history(object_id, field)
+    def get_field_history(self, object_id: str, field: str, limit: int = 50) -> List[AuditEntry]:
+        """Get history of changes to a specific field from JSONL."""
+        events = list(self._jsonl_reader.stream_events(object_id=object_id, field=field))
+        events.sort(key=lambda e: e.timestamp, reverse=True)
+        return [self._event_to_entry(e) for e in events[:limit]]
 
-    def detect_suspicious_changes(self) -> List[Tuple[AuditEntry, str]]:
+    def _event_to_entry(self, event) -> AuditEntry:
+        """Convert ActivityEvent to AuditEntry for backward compatibility."""
+        return AuditEntry(
+            timestamp=event.timestamp,
+            object_type=event.object_type,
+            object_id=event.object_id,
+            field=event.field,
+            old_value=event.old_value,
+            new_value=event.new_value,
+            changed_by=event.changed_by,
+            reason=event.reason,
+            commit=event.commit,
+            source=event.source,
+        )
+
+    def detect_suspicious_changes(self, limit: int = 1000) -> List[Tuple[AuditEntry, str]]:
         """
         Detect suspicious changes in the audit trail.
 
         Returns:
             List of (entry, reason) tuples for suspicious changes
         """
-        trail = self.load_trail()
+        entries = self.get_recent_changes(limit=limit)
         suspicious = []
 
-        for entry in trail.entries:
+        for entry in entries:
             # Check for status rollbacks
             if entry.field == "status":
                 if (entry.old_value in ["completed", "production_ready"] and
@@ -299,7 +343,8 @@ class AuditTrailManager:
         self,
         object_id: Optional[str] = None,
         start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None
+        end_date: Optional[datetime] = None,
+        limit: int = 500,
     ) -> str:
         """
         Generate a human-readable audit report.
@@ -308,22 +353,19 @@ class AuditTrailManager:
             object_id: Filter by object ID (None = all)
             start_date: Filter by start date (None = no start filter)
             end_date: Filter by end date (None = no end filter)
+            limit: Maximum number of entries to include
 
         Returns:
             Formatted report string
         """
-        trail = self.load_trail()
-        entries = trail.entries
-
-        # Apply filters
-        if object_id:
-            entries = [e for e in entries if e.object_id == object_id]
-
-        if start_date:
-            entries = [e for e in entries if datetime.fromisoformat(e.timestamp) >= start_date]
-
-        if end_date:
-            entries = [e for e in entries if datetime.fromisoformat(e.timestamp) <= end_date]
+        # Read from JSONL with filters
+        events = list(self._jsonl_reader.stream_events(
+            object_id=object_id,
+            start_date=start_date,
+            end_date=end_date,
+        ))
+        events.sort(key=lambda e: e.timestamp, reverse=True)
+        entries = [self._event_to_entry(e) for e in events[:limit]]
 
         # Build report
         lines = []

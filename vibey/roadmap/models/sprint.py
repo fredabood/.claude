@@ -176,8 +176,10 @@ class Sprint:
 
     def __post_init__(self):
         """Validate sprint data."""
-        # Validate sprint ID is track-scoped
-        if not self.id.startswith(f"{self.track_id}-"):
+        # Validate sprint ID is track-scoped (skip for ULID IDs)
+        # ULIDs are 26 characters, all uppercase alphanumeric
+        is_ulid = len(self.id) == 26 and self.id.isalnum() and self.id.isupper()
+        if not is_ulid and not self.id.startswith(f"{self.track_id}-"):
             raise ValueError(f"Sprint ID {self.id} must start with track ID {self.track_id}")
 
         # Validate dates (use safe comparison for mixed timezone-aware/naive datetimes)
@@ -200,10 +202,11 @@ class Sprint:
         if self.status == Status.PRODUCTION_READY and not self.production_ready_at:
             raise ValueError("Production-ready sprints must have production_ready_at date")
 
-        # Validate task IDs are sprint-scoped
-        for task in self.tasks:
-            if not task.id.startswith(f"{self.id}-"):
-                raise ValueError(f"Task ID {task.id} must start with sprint ID {self.id}")
+        # Validate task IDs are sprint-scoped (skip for ULID sprint IDs)
+        if not is_ulid:
+            for task in self.tasks:
+                if not task.id.startswith(f"{self.id}-"):
+                    raise ValueError(f"Task ID {task.id} must start with sprint ID {self.id}")
 
         # Validate gate tasks have gate_info
         for task in self.tasks:

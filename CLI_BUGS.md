@@ -262,6 +262,49 @@ VALIDATION_EXCLUDE_PATTERNS = [
 
 ---
 
+## Bug #8: YAML Loader Breaks After v2 Migration (Missing `blocked` Field)
+
+**Date:** 2025-12-10
+**Severity:** Critical
+**Status:** Fixing
+
+**Description:**
+The v2 YAML format migration (Sprint 4) removed the `blocked` field from all YAML files (since it should be computed from criteria). However, the `yaml_loader.py` still expects `blocked` to be present, causing `KeyError: 'blocked'` when loading roadmap files.
+
+**Error:**
+```
+File "/Users/fredabood/Repositories/vibey/vibey/roadmap/serialization/yaml_loader.py", line 795, in load_roadmap
+    blocked=roadmap_data['blocked'],
+KeyError: 'blocked'
+```
+
+**Impact:**
+- YAML backend completely broken
+- Only SQLite backend works (hence not caught earlier)
+- All `load_roadmap`, `load_track`, `load_sprint`, `load_task` functions fail
+
+**Root Cause:**
+v1_to_v2.py migration script removed `blocked` field:
+```python
+for field in ['blocked', 'development_gates', 'quality_gates', 'blocks', 'depended_on_by']:
+    converted.pop(field, None)
+```
+
+But yaml_loader.py:795 still requires it:
+```python
+blocked=roadmap_data['blocked'],
+```
+
+**Fix Required:**
+Update yaml_loader.py to:
+1. Use `.get('blocked', False)` for backward compatibility
+2. Better: Compute `blocked` from `criteria` array using `any(c for c in criteria if not c.is_met)`
+
+**Files Affected:**
+- `vibey/roadmap/serialization/yaml_loader.py` (lines 795, and similar in load_track, load_sprint, load_task)
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location

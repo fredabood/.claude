@@ -48,7 +48,7 @@ sprint:
   tasks:
   - id: unified-arch-5-task-001
     title: Migrate query operations to unified models
-    status: not_started
+    status: completed
   - id: unified-arch-5-task-002
     title: Migrate update operations to unified models
     status: not_started

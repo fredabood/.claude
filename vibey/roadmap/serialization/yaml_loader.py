@@ -792,7 +792,7 @@ def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
         version=roadmap_data['version'],
         version_strategy=version_strategy,
         status=Status(roadmap_data['status']),
-        blocked=roadmap_data['blocked'],
+        blocked=roadmap_data.get('blocked', False),  # v2: computed from criteria
         created=_parse_datetime(roadmap_data['created']),
         started=_parse_datetime(roadmap_data.get('started')),
         target_completion=_parse_datetime(roadmap_data.get('target_completion')),
@@ -1248,7 +1248,7 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
     actual_duration = sprint_data.get('actual_duration') or meta_data.get('actual_duration')
 
     metadata = SprintMetadata(
-        last_updated=_parse_datetime(meta_data['last_updated']),
+        last_updated=_parse_datetime(meta_data.get('last_updated')),
         estimated_duration=estimated_duration,
         actual_duration=actual_duration,
         estimated_tokens=meta_data.get('estimated_tokens'),

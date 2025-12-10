@@ -253,10 +253,16 @@ class Task:
             raise ValueError(f"Task ID {self.id} must start with sprint ID {self.sprint_id}")
 
         # Validate task type and gate_info consistency
-        if self.task_type == TaskType.DEVELOPMENT:
+        # Gate types that require gate_info
+        gate_types = (TaskType.COMPLETION_GATE, TaskType.PRODUCTION_GATE, TaskType.GATE)
+        # Non-gate types that should NOT have gate_info
+        non_gate_types = (TaskType.DEVELOPMENT, TaskType.DOCUMENTATION, TaskType.TESTING,
+                         TaskType.RESEARCH, TaskType.REVIEW, TaskType.INFRASTRUCTURE, TaskType.DESIGN)
+
+        if self.task_type in non_gate_types:
             if self.gate_info is not None:
-                raise ValueError("Development tasks cannot have gate_info")
-        else:  # completion_gate or production_gate
+                raise ValueError(f"{self.task_type.value} tasks cannot have gate_info")
+        elif self.task_type in gate_types:
             if self.gate_info is None:
                 raise ValueError("Quality gate tasks must have gate_info")
 

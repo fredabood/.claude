@@ -586,7 +586,7 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
         if use_sqlite or track_path.exists():
             try:
                 if use_sqlite:
-                    track = load_track(track_summary.id)
+                    track = load_track(track_summary.id, root_dir=root_dir)
                 else:
                     track = load_track(track_path, root_dir=root_dir)
                 tracks_data.append({

@@ -176,7 +176,8 @@ CREATE TABLE IF NOT EXISTS tasks (
 
     -- Classification
     task_type TEXT NOT NULL CHECK (task_type IN (
-        'development', 'completion_gate', 'production_gate'
+        'development', 'documentation', 'testing', 'research', 'review',
+        'infrastructure', 'design', 'gate', 'completion_gate', 'production_gate'
     )),
     title TEXT NOT NULL,
     description TEXT,

@@ -74,6 +74,13 @@ class TaskType(str, Enum):
     """Task type classification."""
 
     DEVELOPMENT = "development"
+    DOCUMENTATION = "documentation"
+    TESTING = "testing"
+    RESEARCH = "research"
+    REVIEW = "review"
+    INFRASTRUCTURE = "infrastructure"
+    DESIGN = "design"
+    GATE = "gate"
     COMPLETION_GATE = "completion_gate"
     PRODUCTION_GATE = "production_gate"
 

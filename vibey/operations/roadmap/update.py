@@ -67,13 +67,8 @@ from vibey.operations.roadmap.query import (
     load_roadmap_ticket,
 )
 
-# Import ticket model save functions for v2 format
-from vibey.roadmap.serialization.yaml_dumper import (
-    save_task_ticket as save_task_ticket_yaml,
-    save_sprint_ticket as save_sprint_ticket_yaml,
-    save_track_ticket as save_track_ticket_yaml,
-    save_roadmap_ticket as save_roadmap_ticket_yaml,
-)
+# Note: Ticket save functions are now in transitions.py module
+# The yaml_dumper functions are imported there for centralized use
 
 
 def _use_sqlite_backend(root_dir: Path) -> bool:
@@ -228,24 +223,20 @@ except ImportError:
 
 
 # ============================================================================
-# Ticket-Based Status Transition Helpers (Sprint 5 - Unified Architecture)
+# Centralized Status Transitions (Sprint 5 - Task 003)
 # ============================================================================
-# These functions provide the unified interface for status transitions using
-# Pydantic ticket models. They:
-# 1. Load the entity as a ticket model
-# 2. Validate transition via can_transition_to()
-# 3. Use immutable start()/complete() methods
-# 4. Save using the v2 yaml_dumper functions
+# Import from the centralized transitions module for consistency.
+# The transitions module is the single source of truth for status transitions.
 # ============================================================================
 
-class TransitionBlockedError(Exception):
-    """Raised when a status transition is blocked by criteria."""
-
-    def __init__(self, entity_id: str, target_status: TicketStatus, reasons: List[str]):
-        self.entity_id = entity_id
-        self.target_status = target_status
-        self.reasons = reasons
-        super().__init__(f"Cannot transition {entity_id} to {target_status.value}: {'; '.join(reasons)}")
+from vibey.operations.roadmap.transitions import (
+    TransitionBlockedError,
+    transition_task,
+    transition_sprint,
+    transition_track,
+    transition_roadmap,
+    can_transition,
+)
 
 
 def _transition_task_status(
@@ -255,13 +246,10 @@ def _transition_task_status(
     changed_by: str = "system",
 ) -> Tuple[bool, str]:
     """
-    Transition a task to a new status using ticket model methods.
+    Transition a task to a new status using centralized transitions module.
 
-    This is the unified ticket-based approach:
-    1. Load task as TaskTicket
-    2. Validate transition via can_transition_to()
-    3. Call start() or complete() method
-    4. Save via yaml_dumper
+    This is a convenience wrapper that returns (success, message) tuple
+    and records CLI changes.
 
     Args:
         task_id: ID of the task to transition
@@ -276,36 +264,14 @@ def _transition_task_status(
         TransitionBlockedError: If transition is blocked by criteria
     """
     fs = FileSystemManager(root_dir)
+    updated_ticket = transition_task(task_id, target_status, root_dir, save=True)
 
-    try:
-        task_ticket = load_task_ticket(root_dir, task_id)
-    except Exception as e:
-        return False, f"Failed to load task ticket: {e}"
-
-    # Validate transition
-    can_transition, blockers = task_ticket.can_transition_to(target_status)
-    if not can_transition:
-        raise TransitionBlockedError(task_id, target_status, blockers)
-
-    # Apply transition using immutable methods
-    if target_status == TicketStatus.IN_PROGRESS:
-        updated_ticket = task_ticket.start()
-    elif target_status == TicketStatus.COMPLETED:
-        updated_ticket = task_ticket.complete()
-    else:
-        return False, f"Unsupported target status: {target_status}"
-
-    # Get task file path
+    # Record CLI changes for pre-commit hook
     task_path = fs.get_task_path(task_id)
     if not task_path:
-        # Try flat structure
         task_path = fs.roadmap_root / "tasks" / f"{task_id}.yaml"
-        if not task_path.exists():
-            return False, f"Task file not found for {task_id}"
-
-    # Save using v2 yaml dumper
-    save_task_ticket_yaml(updated_ticket, task_path)
-    _record_cli_changes(task_path, root_dir)
+    if task_path and task_path.exists():
+        _record_cli_changes(task_path, root_dir)
 
     return True, f"Task transitioned to {target_status.value}"
 
@@ -317,7 +283,7 @@ def _transition_sprint_status(
     changed_by: str = "system",
 ) -> Tuple[bool, str]:
     """
-    Transition a sprint to a new status using ticket model methods.
+    Transition a sprint to a new status using centralized transitions module.
 
     Args:
         sprint_id: ID of the sprint to transition
@@ -332,33 +298,12 @@ def _transition_sprint_status(
         TransitionBlockedError: If transition is blocked by criteria
     """
     fs = FileSystemManager(root_dir)
+    updated_ticket = transition_sprint(sprint_id, target_status, root_dir, save=True)
 
-    try:
-        sprint_ticket = load_sprint_ticket(root_dir, sprint_id)
-    except Exception as e:
-        return False, f"Failed to load sprint ticket: {e}"
-
-    # Validate transition
-    can_transition, blockers = sprint_ticket.can_transition_to(target_status)
-    if not can_transition:
-        raise TransitionBlockedError(sprint_id, target_status, blockers)
-
-    # Apply transition using immutable methods
-    if target_status == TicketStatus.IN_PROGRESS:
-        updated_ticket = sprint_ticket.start()
-    elif target_status == TicketStatus.COMPLETED:
-        updated_ticket = sprint_ticket.complete()
-    else:
-        return False, f"Unsupported target status: {target_status}"
-
-    # Get sprint file path
+    # Record CLI changes for pre-commit hook
     sprint_path = fs.get_sprint_path(sprint_id)
-    if not sprint_path or not sprint_path.exists():
-        return False, f"Sprint file not found for {sprint_id}"
-
-    # Save using v2 yaml dumper
-    save_sprint_ticket_yaml(updated_ticket, sprint_path)
-    _record_cli_changes(sprint_path, root_dir)
+    if sprint_path and sprint_path.exists():
+        _record_cli_changes(sprint_path, root_dir)
 
     return True, f"Sprint transitioned to {target_status.value}"
 
@@ -370,7 +315,7 @@ def _transition_track_status(
     changed_by: str = "system",
 ) -> Tuple[bool, str]:
     """
-    Transition a track to a new status using ticket model methods.
+    Transition a track to a new status using centralized transitions module.
 
     Args:
         track_id: ID of the track to transition
@@ -385,33 +330,12 @@ def _transition_track_status(
         TransitionBlockedError: If transition is blocked by criteria
     """
     fs = FileSystemManager(root_dir)
+    updated_ticket = transition_track(track_id, target_status, root_dir, save=True)
 
-    try:
-        track_ticket = load_track_ticket(root_dir, track_id)
-    except Exception as e:
-        return False, f"Failed to load track ticket: {e}"
-
-    # Validate transition
-    can_transition, blockers = track_ticket.can_transition_to(target_status)
-    if not can_transition:
-        raise TransitionBlockedError(track_id, target_status, blockers)
-
-    # Apply transition using immutable methods
-    if target_status == TicketStatus.IN_PROGRESS:
-        updated_ticket = track_ticket.start()
-    elif target_status == TicketStatus.COMPLETED:
-        updated_ticket = track_ticket.complete()
-    else:
-        return False, f"Unsupported target status: {target_status}"
-
-    # Get track file path
+    # Record CLI changes for pre-commit hook
     track_path = fs.get_track_path(track_id)
-    if not track_path or not track_path.exists():
-        return False, f"Track file not found for {track_id}"
-
-    # Save using v2 yaml dumper
-    save_track_ticket_yaml(updated_ticket, track_path)
-    _record_cli_changes(track_path, root_dir)
+    if track_path and track_path.exists():
+        _record_cli_changes(track_path, root_dir)
 
     return True, f"Track transitioned to {target_status.value}"
 

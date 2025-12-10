@@ -9,10 +9,10 @@ task:
     The `vibey roadmap complete <slug>` command fails to find tasks when using
     slug identifiers because it compares the slug against ULID identifiers in
     task files. Need to fix lookup logic to properly match slugs to tasks.
-  status: not_started
+  status: completed
   created: '2025-12-11T01:30:00.000000+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T02:30:00.000000+00:00'
+  completed: '2025-12-11T02:45:00.000000+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

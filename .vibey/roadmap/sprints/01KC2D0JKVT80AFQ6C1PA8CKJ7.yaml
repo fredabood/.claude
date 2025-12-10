@@ -58,7 +58,7 @@ sprint:
     status: completed
   - id: unified-arch-3-task-002
     title: Create .id file format and parser
-    status: not_started
+    status: completed
   - id: unified-arch-3-task-003
     title: Update YAML loader/dumper for ULID
     status: not_started

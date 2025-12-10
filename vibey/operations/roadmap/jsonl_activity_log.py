@@ -6,14 +6,20 @@ Each month's events are stored in a separate JSONL file.
 
 File format: .vibey/roadmap/activity_log/YYYY-MM.jsonl
 Each line is a complete JSON object representing one event.
+
+V2 Schema (2025-12): Command-level granularity
+- One CLI command = one activity log entry
+- Includes file hashes for verification
+- Includes signature fields for Phase 4
 """
 
+import hashlib
 import json
 import sys
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional, Iterator, List
+from typing import Any, Optional, Iterator, List, Dict, Union
 
 
 # Cross-platform file locking
@@ -38,6 +44,211 @@ else:
         """Unlock file on Unix."""
         fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
+
+def _generate_ulid() -> str:
+    """Generate a ULID for event IDs."""
+    try:
+        from ulid import ULID
+        return str(ULID())
+    except ImportError:
+        # Fallback: timestamp-based ID
+        import uuid
+        return f"evt_{uuid.uuid4().hex[:20]}"
+
+
+def compute_file_hash(file_path: Path) -> str:
+    """
+    Compute SHA256 hash of file contents.
+
+    Args:
+        file_path: Path to file
+
+    Returns:
+        64-character lowercase hex hash
+    """
+    sha256 = hashlib.sha256()
+    with open(file_path, 'rb') as f:
+        for chunk in iter(lambda: f.read(8192), b''):
+            sha256.update(chunk)
+    return sha256.hexdigest()
+
+
+# =============================================================================
+# V2 Schema: Command-Level Granularity
+# =============================================================================
+
+@dataclass
+class FieldChange:
+    """
+    Single field change within a command.
+
+    Part of V2 schema - tracks individual field changes within a command.
+    """
+    field: str       # Field name
+    old: Any         # Previous value (None for new fields)
+    new: Any         # New value
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization."""
+        return {"field": self.field, "old": self.old, "new": self.new}
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'FieldChange':
+        """Create from dictionary."""
+        return cls(field=data["field"], old=data.get("old"), new=data.get("new"))
+
+
+@dataclass
+class CommandActivityEvent:
+    """
+    Single activity event representing one CLI command.
+
+    V2 schema: Command-level granularity - one CLI command = one entry.
+    Includes file hashes for verification and signature fields for Phase 4.
+    """
+    # Identity
+    id: str                                      # Unique event ID (ULID)
+    timestamp: str                               # ISO8601 with timezone
+
+    # Command info
+    command: str                                 # Full CLI command string
+
+    # Target object
+    object_type: str                             # "track", "sprint", "task", "roadmap"
+    object_id: str                               # ULID of modified object
+
+    # Changes (array of field changes)
+    changes: List[FieldChange] = field(default_factory=list)
+
+    # File verification
+    file_path: str = ""                          # Relative path to YAML file
+    file_hash_before: Optional[str] = None       # SHA256 before change
+    file_hash_after: Optional[str] = None        # SHA256 after change
+
+    # Attribution
+    changed_by: str = "cli"                      # Source of change
+    reason: Optional[str] = None                 # User-provided reason
+
+    # Signing (Phase 4)
+    signature: Optional[str] = None              # Ed25519 signature (base64)
+    signer: Optional[str] = None                 # Signer identity
+
+    def to_json_line(self) -> str:
+        """Convert to JSON line (without trailing newline)."""
+        data = {
+            "id": self.id,
+            "timestamp": self.timestamp,
+            "command": self.command,
+            "object_type": self.object_type,
+            "object_id": self.object_id,
+            "changes": [c.to_dict() for c in self.changes],
+            "file_path": self.file_path,
+            "file_hash_before": self.file_hash_before,
+            "file_hash_after": self.file_hash_after,
+            "changed_by": self.changed_by,
+            "reason": self.reason,
+            "signature": self.signature,
+            "signer": self.signer,
+        }
+        return json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+
+    @classmethod
+    def from_json_line(cls, line: str) -> 'CommandActivityEvent':
+        """Parse from JSON line (handles both V1 and V2 formats)."""
+        data = json.loads(line.strip())
+
+        # V1 format detection: has 'field' but not 'changes'
+        if 'field' in data and 'changes' not in data:
+            return cls._from_v1_data(data)
+
+        # V2 format
+        changes = [FieldChange.from_dict(c) for c in data.get("changes", [])]
+        return cls(
+            id=data.get("id", _generate_ulid()),
+            timestamp=data["timestamp"],
+            command=data.get("command", "[legacy]"),
+            object_type=data["object_type"],
+            object_id=data["object_id"],
+            changes=changes,
+            file_path=data.get("file_path", ""),
+            file_hash_before=data.get("file_hash_before"),
+            file_hash_after=data.get("file_hash_after"),
+            changed_by=data.get("changed_by", "cli"),
+            reason=data.get("reason"),
+            signature=data.get("signature"),
+            signer=data.get("signer"),
+        )
+
+    @classmethod
+    def _from_v1_data(cls, data: Dict[str, Any]) -> 'CommandActivityEvent':
+        """Convert V1 field-level data to V2 command-level format."""
+        return cls(
+            id=data.get("id", _generate_ulid()),
+            timestamp=data["timestamp"],
+            command=f"[v1-{data.get('source', 'manual')}]",
+            object_type=data["object_type"],
+            object_id=data["object_id"],
+            changes=[FieldChange(
+                field=data["field"],
+                old=data.get("old_value"),
+                new=data.get("new_value"),
+            )],
+            file_path="",
+            file_hash_before=None,
+            file_hash_after=None,
+            changed_by=data.get("changed_by", "cli"),
+            reason=data.get("reason"),
+            signature=None,
+            signer=None,
+        )
+
+    def canonical_bytes(self) -> bytes:
+        """
+        Deterministic serialization for signing.
+
+        Only specific fields are included to ensure reproducible signatures.
+        """
+        # Sort changes by field name for determinism
+        sorted_changes = sorted(
+            [{"field": c.field, "old": c.old, "new": c.new} for c in self.changes],
+            key=lambda c: c["field"]
+        )
+
+        data = {
+            "id": self.id,
+            "timestamp": self.timestamp,
+            "command": self.command,
+            "object_type": self.object_type,
+            "object_id": self.object_id,
+            "changes": sorted_changes,
+            "file_hash_before": self.file_hash_before,
+            "file_hash_after": self.file_hash_after,
+        }
+
+        return json.dumps(data, sort_keys=True, separators=(',', ':')).encode('utf-8')
+
+    def to_v1_events(self) -> List['ActivityEvent']:
+        """Convert to list of V1 ActivityEvent objects (for backward compat)."""
+        events = []
+        for change in self.changes:
+            events.append(ActivityEvent(
+                timestamp=self.timestamp,
+                object_type=self.object_type,
+                object_id=self.object_id,
+                field=change.field,
+                old_value=change.old,
+                new_value=change.new,
+                changed_by=self.changed_by,
+                reason=self.reason,
+                commit=None,
+                source="v2",
+            ))
+        return events
+
+
+# =============================================================================
+# V1 Schema: Field-Level Granularity (Legacy, kept for backward compatibility)
+# =============================================================================
 
 @dataclass
 class ActivityEvent:
@@ -228,6 +439,84 @@ class ActivityLogWriter:
         self.write_event(event)
         return event
 
+    # =========================================================================
+    # V2 Methods: Command-Level Logging
+    # =========================================================================
+
+    def write_command_event(self, event: CommandActivityEvent) -> None:
+        """
+        Write a V2 command-level event to the appropriate JSONL file.
+
+        Uses file locking for concurrent write safety.
+
+        Args:
+            event: CommandActivityEvent to write
+        """
+        file_path = self._get_file_for_timestamp(event.timestamp)
+        json_line = event.to_json_line()
+
+        # Append with file locking
+        with open(file_path, 'a', encoding='utf-8') as f:
+            try:
+                _lock_file(f)
+                f.write(json_line + '\n')
+            finally:
+                _unlock_file(f)
+
+    def log_command(
+        self,
+        command: str,
+        object_type: str,
+        object_id: str,
+        changes: List[FieldChange],
+        file_path: Path,
+        file_hash_before: Optional[str] = None,
+        changed_by: str = "cli",
+        reason: Optional[str] = None,
+    ) -> CommandActivityEvent:
+        """
+        Log a command-level event (V2 schema).
+
+        Automatically computes file_hash_after from the current file state.
+
+        Args:
+            command: Full CLI command string
+            object_type: Type of object changed (track, sprint, task, roadmap)
+            object_id: ID of the object
+            changes: List of field changes
+            file_path: Path to the modified YAML file
+            file_hash_before: SHA256 hash before change (None for create)
+            changed_by: Who made the change (default: "cli")
+            reason: Optional reason for change
+
+        Returns:
+            The created CommandActivityEvent
+        """
+        # Compute file hash after the change
+        file_hash_after = None
+        if file_path.exists():
+            file_hash_after = compute_file_hash(file_path)
+
+        # Generate event
+        event = CommandActivityEvent(
+            id=_generate_ulid(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            command=command,
+            object_type=object_type,
+            object_id=object_id,
+            changes=changes,
+            file_path=str(file_path),
+            file_hash_before=file_hash_before,
+            file_hash_after=file_hash_after,
+            changed_by=changed_by,
+            reason=reason,
+            signature=None,  # Phase 4
+            signer=None,     # Phase 4
+        )
+
+        self.write_command_event(event)
+        return event
+
 
 class ActivityLogReader:
     """
@@ -292,13 +581,13 @@ class ActivityLogReader:
 
     def _read_file(self, file_path: Path) -> Iterator[ActivityEvent]:
         """
-        Stream events from a single JSONL file.
+        Stream V1 events from a single JSONL file.
 
         Args:
             file_path: Path to JSONL file
 
         Yields:
-            ActivityEvent objects
+            ActivityEvent objects (V1 format)
         """
         if not file_path.exists():
             return
@@ -317,6 +606,121 @@ class ActivityLogReader:
                     print(f"Warning: Invalid JSON at {file_path}:{line_num}: {e}",
                           file=sys.stderr)
                     continue
+
+    def _read_file_v2(self, file_path: Path) -> Iterator[CommandActivityEvent]:
+        """
+        Stream V2 command events from a single JSONL file.
+
+        Handles both V1 and V2 formats, converting V1 to V2 on the fly.
+
+        Args:
+            file_path: Path to JSONL file
+
+        Yields:
+            CommandActivityEvent objects
+        """
+        if not file_path.exists():
+            return
+
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line_num, line in enumerate(f, 1):
+                line = line.strip()
+                if not line:
+                    continue
+
+                try:
+                    event = CommandActivityEvent.from_json_line(line)
+                    yield event
+                except json.JSONDecodeError as e:
+                    print(f"Warning: Invalid JSON at {file_path}:{line_num}: {e}",
+                          file=sys.stderr)
+                    continue
+
+    def stream_command_events(
+        self,
+        start_date: Optional[datetime] = None,
+        end_date: Optional[datetime] = None,
+        object_type: Optional[str] = None,
+        object_id: Optional[str] = None,
+    ) -> Iterator[CommandActivityEvent]:
+        """
+        Stream V2 command events matching filters.
+
+        Args:
+            start_date: Start of date range
+            end_date: End of date range
+            object_type: Filter by object type
+            object_id: Filter by object ID
+
+        Yields:
+            Matching CommandActivityEvent objects
+        """
+        files = self._get_log_files(start_date, end_date)
+
+        for file_path in files:
+            for event in self._read_file_v2(file_path):
+                # Apply filters
+                if object_type and event.object_type != object_type:
+                    continue
+                if object_id and event.object_id != object_id:
+                    continue
+
+                # Check timestamp range
+                if start_date or end_date:
+                    try:
+                        event_time = datetime.fromisoformat(
+                            event.timestamp.replace('Z', '+00:00')
+                        )
+                        if start_date and event_time < start_date:
+                            continue
+                        if end_date and event_time > end_date:
+                            continue
+                    except ValueError:
+                        continue
+
+                yield event
+
+    def find_by_hash(self, file_hash: str) -> Optional[CommandActivityEvent]:
+        """
+        Find a command event by file_hash_after.
+
+        Used for verification: checks if a file's current state
+        has a corresponding activity log entry.
+
+        Args:
+            file_hash: SHA256 hash to search for
+
+        Returns:
+            CommandActivityEvent if found, None otherwise
+        """
+        # Search through all files (most recent first for efficiency)
+        files = self._get_log_files()
+        files.reverse()  # Most recent first
+
+        for file_path in files:
+            for event in self._read_file_v2(file_path):
+                if event.file_hash_after == file_hash:
+                    return event
+
+        return None
+
+    def build_hash_index(self) -> Dict[str, CommandActivityEvent]:
+        """
+        Build an index of file_hash_after -> event for fast lookups.
+
+        Useful for batch verification operations.
+
+        Returns:
+            Dictionary mapping file hashes to events
+        """
+        index: Dict[str, CommandActivityEvent] = {}
+
+        for file_path in self._get_log_files():
+            for event in self._read_file_v2(file_path):
+                if event.file_hash_after:
+                    index[event.file_hash_after] = event
+
+        return index
 
     def stream_events(
         self,

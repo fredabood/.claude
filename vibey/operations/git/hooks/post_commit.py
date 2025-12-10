@@ -171,7 +171,7 @@ class BypassDetector:
 
     def report_bypass(self, events: List[dict]) -> None:
         """
-        Report bypass events to console.
+        Report bypass events to console with actionable guidance.
 
         Args:
             events: List of bypass event dictionaries
@@ -182,6 +182,7 @@ class BypassDetector:
         # Colors
         RED = "\033[91m"
         YELLOW = "\033[93m"
+        CYAN = "\033[96m"
         RESET = "\033[0m"
         BOLD = "\033[1m"
 
@@ -194,7 +195,17 @@ class BypassDetector:
         print()
         print(f"  {RED}This has been logged to:{RESET} {self.audit_log_path}")
         print()
-        print(f"  To avoid this warning, use 'vibey roadmap' commands to modify roadmap files.")
+        print(f"  {BOLD}How to avoid this warning:{RESET}")
+        print(f"  Use the vibey CLI to modify roadmap files:")
+        print()
+        print(f"    {CYAN}vibey roadmap start <task-slug>{RESET}    - Start a task")
+        print(f"    {CYAN}vibey roadmap complete <task-slug>{RESET} - Complete a task")
+        print(f"    {CYAN}vibey roadmap update task <id> --status <status>{RESET}")
+        print()
+        print(f"  Or verify changes manually:")
+        print(f"    {CYAN}vibey roadmap verify <file>{RESET}        - Verify a file")
+        print()
+        print(f"  Documentation: docs/guides/ROADMAP_CLI_REFERENCE.md")
         print()
 
 

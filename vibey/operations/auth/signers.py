@@ -108,13 +108,21 @@ class SignerManager:
         """
         if not self.key_manager.has_keypair():
             raise RuntimeError(
-                "No keypair configured. Run 'vibey auth setup' first."
+                "No keypair configured.\n\n"
+                "To fix, run:\n"
+                "    vibey auth setup\n\n"
+                "This will generate your Ed25519 keypair.\n"
+                "See: docs/guides/KEY_MANAGEMENT.md"
             )
 
         identity = self.key_manager.load_identity()
         if not identity:
             raise RuntimeError(
-                "No identity configured. Run 'vibey auth setup' first."
+                "No identity configured.\n\n"
+                "To fix, run:\n"
+                "    vibey auth setup\n\n"
+                "This will set up your email and name.\n"
+                "See: docs/guides/KEY_MANAGEMENT.md"
             )
 
         public_key = self.key_manager.load_public_key()
@@ -176,7 +184,11 @@ class SignerManager:
         """
         if not self.is_initialized():
             raise RuntimeError(
-                "Project signing not initialized. Run 'vibey auth init-project' first."
+                "Project signing not initialized.\n\n"
+                "To fix, run:\n"
+                "    vibey auth init-project\n\n"
+                "This will set you up as the first authorized signer.\n"
+                "See: docs/guides/KEY_MANAGEMENT.md"
             )
 
         manifest = self._load_manifest()
@@ -184,13 +196,24 @@ class SignerManager:
         # Check if signer already exists
         for s in manifest.signers:
             if s.identity == email:
-                raise RuntimeError(f"Signer already exists: {email}")
+                raise RuntimeError(
+                    f"Signer already exists: {email}\n\n"
+                    "Each email can only be authorized once.\n"
+                    "To update their key, first revoke the old one:\n"
+                    f"    vibey auth revoke {email}"
+                )
 
         # Parse public key
         public_key_b64 = self._parse_public_key_string(public_key_str)
         if not public_key_b64:
             raise RuntimeError(
-                "Invalid public key format. Expected: vibey-ed25519 <base64> <email>"
+                "Invalid public key format.\n\n"
+                "Expected format:\n"
+                "    vibey-ed25519 <base64-key> <email>\n\n"
+                "The new team member should run:\n"
+                "    vibey auth export\n\n"
+                "And send you the output.\n"
+                "See: docs/guides/TEAM_ONBOARDING.md"
             )
 
         # Get current user identity for added_by

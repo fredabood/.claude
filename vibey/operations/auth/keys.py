@@ -58,6 +58,11 @@ class KeyPair:
         return f"vibey-ed25519 {encoded} {identity}"
 
 
+class KeyManagerError(RuntimeError):
+    """Error raised by KeyManager with actionable guidance."""
+    pass
+
+
 class KeyManager:
     """
     Manages Ed25519 keys for signing activity log entries.
@@ -70,9 +75,11 @@ class KeyManager:
 
     def __init__(self):
         if not CRYPTO_AVAILABLE:
-            raise RuntimeError(
-                "Cryptography library not installed. "
-                "Run: pip install cryptography"
+            raise KeyManagerError(
+                "Cryptography library not installed.\n\n"
+                "To fix, run:\n"
+                "    pip install cryptography\n\n"
+                "See: docs/guides/KEY_MANAGEMENT.md"
             )
 
     def ensure_vibey_home(self) -> Path:

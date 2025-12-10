@@ -288,6 +288,13 @@ def verify_change(
             print(f"❌ Unverified: {file_path}")
             print(f"   Hash: {result.current_hash}")
             print("   No matching activity log entry found")
+            print()
+            print("   This file was modified outside the CLI.")
+            print("   To fix, use CLI commands to make changes:")
+            print("     vibey roadmap start <task>")
+            print("     vibey roadmap complete <task>")
+            print()
+            print("   See: docs/guides/ROADMAP_CLI_REFERENCE.md")
 
     if result.error:
         return 2
@@ -541,7 +548,17 @@ def verify_commits(
             print(f"✅ All {verified_count} commits with roadmap changes verified")
         else:
             print(f"❌ {len(failed)} commits have unverified roadmap changes")
-            print("\nTo fix: Use 'vibey roadmap' CLI commands to make changes")
+            print()
+            print("How to fix:")
+            print("  1. Roadmap files should only be modified via the CLI:")
+            print("       vibey roadmap start <task>")
+            print("       vibey roadmap complete <task>")
+            print("       vibey roadmap update task <id> --status <status>")
+            print()
+            print("  2. To revert unauthorized changes:")
+            print("       git checkout <commit>^ -- .vibey/roadmap/")
+            print()
+            print("  See: docs/guides/CI_VERIFICATION.md")
         print()
 
     return 0 if all_verified else 1

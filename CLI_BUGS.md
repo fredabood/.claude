@@ -227,6 +227,41 @@ Install SQLAlchemy: `pip install sqlalchemy`
 
 ---
 
+## Bug #7: Validator Doesn't Exclude context/sample_code Directories
+
+**Date:** 2025-12-09
+**Severity:** Low
+**Status:** Documented
+
+**Description:**
+The `vibey roadmap validate-fast` command validates files in `context/sample_code` directories, which contain example YAML snippets that are NOT valid roadmap objects. These are documentation samples, not roadmap data.
+
+**Error:**
+```
+❌ .vibey/roadmap/sqlite-backend/sqlite-backend-6/context/sample_code/yaml/block_044.yaml
+   • YAML root must be a dictionary
+```
+
+**Expected Behavior:**
+Validator should skip files in `context/sample_code/` directories, similar to how it might skip test fixtures or documentation examples.
+
+**Actual Behavior:**
+Validator includes all YAML files, causing false positives for sample code files.
+
+**Files Affected:**
+- `vibey/cli/roadmap_lib/validation.py` (or wherever validate-fast is implemented)
+
+**Fix Required:**
+Add exclusion pattern for `context/sample_code/` directories:
+```python
+VALIDATION_EXCLUDE_PATTERNS = [
+    "**/context/sample_code/**",
+    "**/test_fixtures/**",
+]
+```
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
@@ -234,5 +269,6 @@ Install SQLAlchemy: `pip install sqlalchemy`
 4. ✅ Fix query.py SQLite backend parameter passing
 5. ✅ Disabled SQLite database (renamed to .db.disabled)
 6. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
-7. File GitHub issues for all documented bugs
-8. Add integration tests for flat structure progress updates
+7. 🔧 Fix validator exclusion patterns (Bug #7)
+8. File GitHub issues for all documented bugs
+9. Add integration tests for flat structure progress updates

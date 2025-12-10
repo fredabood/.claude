@@ -4,7 +4,7 @@ database:
   validate_on_load: true
   fallback_to_yaml: true
 auto_progression:
-  enabled: false
+  enabled: true
   mode: check
   transitions:
   - from: not_started

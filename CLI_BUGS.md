@@ -305,6 +305,41 @@ Update yaml_loader.py to:
 
 ---
 
+## Bug #9: Pre-commit Hook Database Error - Missing is_dirty Column
+
+**Date:** 2025-12-10
+**Severity:** Medium
+**Status:** Documented
+
+**Description:**
+The pre-commit hook fails with `no such column: is_dirty` error when trying to validate commits. This suggests the SQLite database schema is out of date or the hook is querying a column that doesn't exist.
+
+**Error:**
+```
+Error running pre-commit hook: no such column: is_dirty
+```
+
+**Root Cause:**
+The pre-commit hook appears to query the SQLite database for an `is_dirty` column that either:
+1. Was removed in a schema migration
+2. Never existed in the current schema
+3. The database file is outdated relative to the schema
+
+**Impact:**
+- Pre-commit hook blocks commits with database errors
+- Must use `--no-verify` to bypass hook
+- Automated commit validation not working
+
+**Files Affected:**
+- `.vibey/hooks/` (pre-commit hook)
+- `.vibey/roadmap.db` (database schema)
+- Database schema definitions
+
+**Workaround:**
+Use `git commit --no-verify` to bypass the hook
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
@@ -313,5 +348,6 @@ Update yaml_loader.py to:
 5. ✅ Disabled SQLite database (renamed to .db.disabled)
 6. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
 7. 🔧 Fix validator exclusion patterns (Bug #7)
-8. File GitHub issues for all documented bugs
-9. Add integration tests for flat structure progress updates
+8. 🔧 Fix pre-commit hook database error (Bug #9)
+9. File GitHub issues for all documented bugs
+10. Add integration tests for flat structure progress updates

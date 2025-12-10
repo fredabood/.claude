@@ -13,13 +13,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 38
+    tracks_total: 39
     tracks_completed: 19
-    sprints_total: 198
-    sprints_completed: 100
-    tasks_total: 1062
-    tasks_completed: 774
-    completion_percent: 72.9
+    sprints_total: 213
+    sprints_completed: 101
+    tasks_total: 1125
+    tasks_completed: 777
+    completion_percent: 69.1
   tracks:
   - id: aider-port
     name: Aider Platform Port
@@ -172,6 +172,10 @@ roadmap:
   - id: unified-architecture-migration
     name: Unified Architecture Migration
     status: completed
+    priority: critical
+  - id: dogfooding-bugs
+    name: CLI Dogfooding Bug Fixes
+    status: not_started
     priority: critical
   dependencies: []
   blocked_by: []

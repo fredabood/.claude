@@ -1,0 +1,47 @@
+sprint:
+  id: 01KC39XT07NTMNV08WQK2Z5WN7
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #8: YAML Loader Missing blocked Field'
+  description: yaml_loader.py expects 'blocked' field but v2 migration removed it.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #8: YAML Loader Missing blocked Field'
+  success_criteria:
+  - 'Root cause addressed: v1_to_v2.py removed blocked field but loader still requires
+    it.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-08-task-001
+    title: Update load_roadmap to use .get('blocked', False)
+    status: not_started
+  - id: dogfooding-bugs-08-task-002
+    title: Update load_track for backward compatibility
+    status: not_started
+  - id: dogfooding-bugs-08-task-003
+    title: Update load_sprint for backward compatibility
+    status: not_started
+  - id: dogfooding-bugs-08-task-004
+    title: Update load_task for backward compatibility
+    status: not_started
+  - id: dogfooding-bugs-08-task-005
+    title: Add migration test for v1 to v2 loading
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 8
+    severity: critical
+    original_status: documented
+    root_cause: v1_to_v2.py removed blocked field but loader still requires it.
+  slug: dogfooding-bugs-08
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 8

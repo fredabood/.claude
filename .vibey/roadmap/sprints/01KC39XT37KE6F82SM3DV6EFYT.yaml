@@ -1,0 +1,49 @@
+sprint:
+  id: 01KC39XT37KE6F82SM3DV6EFYT
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #15: No CLI Commands to Create Tracks/Sprints/Tasks'
+  description: CLI lacks commands to create new tracks/sprints/tasks in ULID structure.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #15: No CLI Commands to Create Tracks/Sprints/Tasks'
+  success_criteria:
+  - 'Root cause addressed: ULID migration focused on data migration, not CLI operations.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-15-task-001
+    title: Add create track CLI command
+    status: not_started
+  - id: dogfooding-bugs-15-task-002
+    title: Add create sprint CLI command
+    status: not_started
+  - id: dogfooding-bugs-15-task-003
+    title: Add create task CLI command
+    status: not_started
+  - id: dogfooding-bugs-15-task-004
+    title: Update create-from-plan to use ULID flat structure
+    status: not_started
+  - id: dogfooding-bugs-15-task-005
+    title: Create ULIDManager for ULID generation
+    status: not_started
+  - id: dogfooding-bugs-15-task-006
+    title: Add integration tests for create commands
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 15
+    severity: high
+    original_status: documented
+    root_cause: ULID migration focused on data migration, not CLI operations.
+  slug: dogfooding-bugs-15
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 15

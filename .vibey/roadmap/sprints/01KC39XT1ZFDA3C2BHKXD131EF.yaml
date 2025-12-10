@@ -1,0 +1,43 @@
+sprint:
+  id: 01KC39XT1ZFDA3C2BHKXD131EF
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #12: New Tracks Missing from roadmap.yaml'
+  description: Tracks created in ULID system don't appear in monolithic roadmap.yaml.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #12: New Tracks Missing from roadmap.yaml'
+  success_criteria:
+  - 'Root cause addressed: No sync mechanism from ULID files back to roadmap.yaml.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-12-task-001
+    title: Implement sync mechanism ULID files → roadmap.yaml
+    status: not_started
+  - id: dogfooding-bugs-12-task-002
+    title: Add CLI command to sync roadmap.yaml
+    status: not_started
+  - id: dogfooding-bugs-12-task-003
+    title: Consider deprecating roadmap.yaml as source of truth
+    status: not_started
+  - id: dogfooding-bugs-12-task-004
+    title: Add validation to detect sync discrepancies
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 12
+    severity: high
+    original_status: documented
+    root_cause: No sync mechanism from ULID files back to roadmap.yaml.
+  slug: dogfooding-bugs-12
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 12

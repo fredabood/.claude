@@ -1,0 +1,44 @@
+sprint:
+  id: 01KC39XT0QSWSNQQCWVY7P9KM3
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #9: Pre-commit Hook Database Error'
+  description: 'Pre-commit hook fails with ''no such column: is_dirty'' error.'
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #9: Pre-commit Hook Database Error'
+  success_criteria:
+  - 'Root cause addressed: Database schema out of date or hook queries non-existent
+    column.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-09-task-001
+    title: Investigate is_dirty column in schema history
+    status: not_started
+  - id: dogfooding-bugs-09-task-002
+    title: Update pre-commit hook to use correct schema
+    status: not_started
+  - id: dogfooding-bugs-09-task-003
+    title: Add database migration script for schema updates
+    status: not_started
+  - id: dogfooding-bugs-09-task-004
+    title: Test pre-commit hook with fresh database
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 9
+    severity: medium
+    original_status: documented
+    root_cause: Database schema out of date or hook queries non-existent column.
+  slug: dogfooding-bugs-09
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 9

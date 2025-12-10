@@ -1,0 +1,34 @@
+task:
+  id: 01KC39XSYZJVE87717V2MG0D4R
+  sprint_id: dogfooding-bugs-04
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add backward compatibility for slug-based IDs
+  description: null
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    bug_number: 4
+  slug: dogfooding-bugs-04-task-003
+  parent_ref: 01KC39XSYRZEPKK7BSKYVA53R0
+  criteria: []
+  sequence: 3

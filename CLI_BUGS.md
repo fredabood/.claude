@@ -533,6 +533,50 @@ Deleted `.vibey/roadmap.yaml`. The single source of truth is now `.vibey/roadmap
 
 ---
 
+## Bug #15: No CLI Commands to Create Tracks, Sprints, or Tasks in ULID Structure
+
+**Date:** 2025-12-10
+**Severity:** High
+**Status:** Documented
+
+**Description:**
+The CLI lacks commands to create new tracks, sprints, or tasks using the ULID-based flat directory structure. The only creation command (`create-from-plan`) uses the OLD hierarchical structure and requires an existing track.
+
+**Expected Behavior:**
+CLI should have commands like:
+- `vibey roadmap create track --name "My Track" --slug my-track`
+- `vibey roadmap create sprint --track my-track --name "Sprint 1"`
+- `vibey roadmap create task --sprint sprint-1 --title "Task title"`
+
+**Actual Behavior:**
+- No `create track` command exists
+- `create-from-plan` uses `DirectoryManager` (hierarchical, not ULID)
+- Must manually create YAML files in correct locations
+- New ULIDs must be generated manually
+
+**Root Cause:**
+ULID migration focused on data migration, not CLI operations. The CLI still references old `DirectoryManager` for creation operations.
+
+**Impact:**
+- Cannot create new tracks via CLI
+- Cannot create new sprints/tasks via CLI in ULID structure
+- Manual YAML file creation required
+- Development workflow impaired
+
+**Files Affected:**
+- `vibey/cli/roadmap_create_from_plan.py` (uses DirectoryManager)
+- `vibey/cli/commands.py` (missing create commands)
+- `vibey/roadmap/directory_manager.py` (hierarchical only)
+
+**Fix Required:**
+1. Add `create track` CLI command
+2. Add `create sprint` CLI command
+3. Add `create task` CLI command
+4. Update create-from-plan to use ULID flat structure
+5. Create ULIDManager for ULID generation
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
@@ -546,5 +590,6 @@ Deleted `.vibey/roadmap.yaml`. The single source of truth is now `.vibey/roadmap
 10. 🔧 Fix CLI to read from ULID files (Bug #10)
 11. 🔧 Fix database rebuild to load ULID data (Bug #11)
 12. 🔧 Migrate activity log to JSONL format (Bug #13)
-13. File GitHub issues for all documented bugs
-14. Add integration tests for flat structure progress updates
+13. 🔧 Add CLI commands for creating tracks/sprints/tasks (Bug #15)
+14. File GitHub issues for all documented bugs
+15. Add integration tests for flat structure progress updates

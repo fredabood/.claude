@@ -1,0 +1,127 @@
+track:
+  id: 01KC39XSXJ39N12HWJ93F77KQ9
+  name: CLI Dogfooding Bug Fixes
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  priority: critical
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 15
+    sprints_completed: 1
+    tasks_total: 63
+    tasks_completed: 3
+    completion_percent: 4.8
+  sprints:
+  - id: 01KC39XSXMN32Q6KB857YQPZBA
+    name: 'Bug #1: Track and Sprint Progress Not Auto-Updat...'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC39XSY4SASEGCPA0B80ESSF
+    name: 'Bug #2: Track Not Showing in roadmap status'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 3
+    started: null
+  - id: 01KC39XSYE460TYM9PE6W55HJK
+    name: 'Bug #3: CLI Looks for roadmap.yaml in Wrong Loca...'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 3
+    started: null
+  - id: 01KC39XSYRZEPKK7BSKYVA53R0
+    name: 'Bug #4: Track Model Validation Fails for Flat St...'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XSZ48YYYZ4J65TX76DHQ
+    name: 'Bug #5: SQLite Database Out of Sync with YAML'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XSZH8SZFERN8YJX0QZ2V
+    name: 'Bug #6: Missing SQLAlchemy Dependency Breaks CLI'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XSZX8X6S4CKVAR4ANG2P
+    name: 'Bug #7: Validator Doesn''t Exclude context/sample...'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 3
+    started: null
+  - id: 01KC39XT07NTMNV08WQK2Z5WN7
+    name: 'Bug #8: YAML Loader Missing blocked Field'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC39XT0QSWSNQQCWVY7P9KM3
+    name: 'Bug #9: Pre-commit Hook Database Error'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XT137TM9XY4VDYEY8GVQ
+    name: 'Bug #10: CLI Reads from Monolithic roadmap.yaml'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC39XT1J47CB153E0X725JDW
+    name: 'Bug #11: Database Rebuild Loads 0 Items'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XT1ZFDA3C2BHKXD131EF
+    name: 'Bug #12: New Tracks Missing from roadmap.yaml'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KC39XT2C6X7C7G84JM7EY3TT
+    name: 'Bug #13: Activity Log Not Migrated to JSONL'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC39XT2XDGKR6SAD9QJNCZBV
+    name: 'Bug #14: Duplicate roadmap.yaml Files'
+    status: completed
+    estimated_duration: null
+    tasks_count: 3
+    started: '2025-12-10T04:57:15.954263+00:00'
+  - id: 01KC39XT37KE6F82SM3DV6EFYT
+    name: 'Bug #15: No CLI Commands to Create Tracks/Sprints...'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value:
+  - Resolve bugs discovered during Vibey dogfooding
+  - Improve CLI reliability and user experience
+  - Complete ULID migration properly
+  - Enable YAML backend to work correctly
+  - Maintain development velocity
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: null
+    source: CLI_BUGS.md
+    notes: Track created from bugs discovered during Vibey development
+  slug: dogfooding-bugs
+  criteria: []

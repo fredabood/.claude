@@ -1,0 +1,41 @@
+sprint:
+  id: 01KC39XSY4SASEGCPA0B80ESSF
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #2: Track Not Showing in roadmap status'
+  description: The `vibey roadmap status` command does not display certain tracks
+    in its output.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #2: Track Not Showing in roadmap status'
+  success_criteria:
+  - 'Root cause addressed: Track discovery issue in flat structure implementation.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-02-task-001
+    title: Debug track discovery in FileSystemManager.list_tracks()
+    status: not_started
+  - id: dogfooding-bugs-02-task-002
+    title: Fix track filtering/discovery logic
+    status: not_started
+  - id: dogfooding-bugs-02-task-003
+    title: Add integration test for track listing
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 2
+    severity: low
+    original_status: documented
+    root_cause: Track discovery issue in flat structure implementation.
+  slug: dogfooding-bugs-02
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 2

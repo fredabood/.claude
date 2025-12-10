@@ -1,0 +1,34 @@
+task:
+  id: 01KC39XSYN4YJ1JRYW5KP5W87R
+  sprint_id: dogfooding-bugs-03
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Add unit test for path resolution
+  description: null
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    bug_number: 3
+  slug: dogfooding-bugs-03-task-003
+  parent_ref: 01KC39XSYE460TYM9PE6W55HJK
+  criteria: []
+  sequence: 3

@@ -1,0 +1,41 @@
+sprint:
+  id: 01KC39XSYE460TYM9PE6W55HJK
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #3: CLI Looks for roadmap.yaml in Wrong Location'
+  description: CLI commands look for roadmap.yaml at wrong location after flat structure
+    migration.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #3: CLI Looks for roadmap.yaml in Wrong Location'
+  success_criteria:
+  - 'Root cause addressed: FileSystemManager.get_roadmap_path() returns wrong path.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-03-task-001
+    title: Update FileSystemManager.get_roadmap_path() to use roadmap_root
+    status: not_started
+  - id: dogfooding-bugs-03-task-002
+    title: Update all callers to use correct path
+    status: not_started
+  - id: dogfooding-bugs-03-task-003
+    title: Add unit test for path resolution
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 3
+    severity: high
+    original_status: documented
+    root_cause: FileSystemManager.get_roadmap_path() returns wrong path.
+  slug: dogfooding-bugs-03
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 3

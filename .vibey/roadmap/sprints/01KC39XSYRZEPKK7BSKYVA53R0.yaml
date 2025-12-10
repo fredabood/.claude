@@ -1,0 +1,45 @@
+sprint:
+  id: 01KC39XSYRZEPKK7BSKYVA53R0
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #4: Track Model Validation Fails for Flat Structure Sprint IDs'
+  description: Track model validation fails because sprint IDs don't match expected
+    hierarchical format.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #4: Track Model Validation Fails for Flat Structure Sprint IDs'
+  success_criteria:
+  - 'Root cause addressed: Migration assigned ULIDs but didn''t update validation
+    logic.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-04-task-001
+    title: Analyze Track.__post_init__ validation requirements
+    status: not_started
+  - id: dogfooding-bugs-04-task-002
+    title: Update validation to accept ULID-based sprint IDs
+    status: not_started
+  - id: dogfooding-bugs-04-task-003
+    title: Add backward compatibility for slug-based IDs
+    status: not_started
+  - id: dogfooding-bugs-04-task-004
+    title: Add unit tests for both ID formats
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 4
+    severity: critical
+    original_status: documented
+    root_cause: Migration assigned ULIDs but didn't update validation logic.
+  slug: dogfooding-bugs-04
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 4

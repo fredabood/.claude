@@ -1,0 +1,34 @@
+task:
+  id: 01KC39XSY9CHFG1X7488WY7KCZ
+  sprint_id: dogfooding-bugs-02
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix track filtering/discovery logic
+  description: null
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    bug_number: 2
+  slug: dogfooding-bugs-02-task-002
+  parent_ref: 01KC39XSY4SASEGCPA0B80ESSF
+  criteria: []
+  sequence: 2

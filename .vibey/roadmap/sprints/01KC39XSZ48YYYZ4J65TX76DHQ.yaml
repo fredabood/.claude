@@ -1,0 +1,43 @@
+sprint:
+  id: 01KC39XSZ48YYYZ4J65TX76DHQ
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Bug #5: SQLite Database Out of Sync with YAML'
+  description: SQLite database out of sync with YAML files after migration.
+  status: not_started
+  created: '2025-12-10T04:57:15.954263+00:00'
+  started: null
+  completed: null
+  goal: 'Fix Bug #5: SQLite Database Out of Sync with YAML'
+  success_criteria:
+  - 'Root cause addressed: Migration updated YAML but not SQLite database.'
+  - All affected files updated
+  - Unit tests pass
+  - Integration tests pass
+  tasks:
+  - id: dogfooding-bugs-05-task-001
+    title: Add database sync step to migration script
+    status: not_started
+  - id: dogfooding-bugs-05-task-002
+    title: Implement automatic db rebuild after YAML changes
+    status: not_started
+  - id: dogfooding-bugs-05-task-003
+    title: Add CLI command to force db resync
+    status: not_started
+  - id: dogfooding-bugs-05-task-004
+    title: Add integration test for YAML-DB sync
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bug_number: 5
+    severity: critical
+    original_status: documented
+    root_cause: Migration updated YAML but not SQLite database.
+  slug: dogfooding-bugs-05
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 5

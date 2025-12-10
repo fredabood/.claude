@@ -6,9 +6,9 @@ sprint:
   description: Complete the ULID migration by updating CLI to read from individual
     ULID files instead of monolithic roadmap.yaml. Fix path resolution, track discovery,
     and model validation.
-  status: not_started
+  status: in_progress
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: null
+  started: '2025-12-10T08:00:00.000000+00:00'
   completed: null
   goal: CLI correctly reads all data from ULID flat file structure
   success_criteria:
@@ -62,10 +62,10 @@ sprint:
     status: not_started
   - id: dogfooding-bugs-02-task-015
     title: Update validation to accept ULID-based sprint IDs
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-016
     title: Add backward compatibility for slug-based IDs
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-017
     title: Add unit tests for both ID formats
     status: not_started
@@ -75,10 +75,10 @@ sprint:
   - blocker_id: dogfooding-bugs-01
     blocker_type: sprint
     required_status: completed
-    current_status: not_started
+    current_status: completed
     description: Requires dogfooding-bugs-01 to be completed first
-    status: pending
-    last_checked: null
+    status: satisfied
+    last_checked: '2025-12-10T08:00:00.000000+00:00'
   deliverables: []
   risks: []
   metadata:

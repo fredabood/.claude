@@ -18,10 +18,10 @@ sprint:
     - Unified blocking model (criteria)\n- Computed blocked field (no longer stored)\n\
     - Polymorphic targets for different criterion types\n- Compatible with unified\
     \ ticket architecture\n"
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
-  started: null
+  started: '2025-12-10T01:35:00+00:00'
   completed: null
   goal: Convert all YAML files to v2 criteria-based format
   success_criteria:
@@ -58,7 +58,7 @@ sprint:
     blocker_type: sprint
     required_status: completed
     description: ULID migration must be complete first
-    status: pending
+    status: resolved
   depended_on_by: []
   development_gates: []
   deliverables:

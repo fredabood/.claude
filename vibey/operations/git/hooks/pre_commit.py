@@ -295,6 +295,53 @@ class PreCommitHook:
                         suggestion=f"Consider using CLI: vibey roadmap update {item_type} {item_id} ...",
                     ))
 
+    def _verify_activity_log(self) -> None:
+        """
+        Verify staged roadmap files have matching activity log entries.
+
+        Uses V2 command-level activity log to verify that changes were made
+        through the CLI, not by direct YAML edits.
+
+        Task: git-integration-5-task-005
+        """
+        try:
+            from vibey.operations.roadmap.verification import ChangeVerifier
+        except ImportError:
+            # Verification module not available, skip
+            return
+
+        staged_files = self._get_staged_files()
+        roadmap_files = [
+            f for f in staged_files
+            if f.startswith(".vibey/roadmap/") and f.endswith(".yaml")
+        ]
+
+        if not roadmap_files:
+            return
+
+        verifier = ChangeVerifier(self.repo_path)
+        failures = []
+
+        for file in roadmap_files:
+            file_path = Path(file)
+            result = verifier.verify_file(file_path)
+            if not result.verified:
+                failures.append((file, result))
+
+        if failures:
+            # Determine severity based on mode
+            mode = self._get_rule_mode("cli_usage")  # Use cli_usage mode for verification
+            severity = "error" if mode == "blocking" else "warning"
+
+            for file, result in failures:
+                self.issues.append(ValidationIssue(
+                    severity=severity,
+                    rule="activity_log_verification",
+                    message=f"No activity log entry for: {file}",
+                    file=file,
+                    suggestion="Use 'vibey roadmap' CLI commands to make changes",
+                ))
+
     def _check_completion_verification(self) -> None:
         """
         Verify that items being marked as completed meet all completion criteria.
@@ -562,6 +609,7 @@ class PreCommitHook:
 
         # Run validations
         self._validate_roadmap_files()
+        self._verify_activity_log()  # V2 activity log verification
         self._check_cli_usage()
         self._check_completion_verification()
 

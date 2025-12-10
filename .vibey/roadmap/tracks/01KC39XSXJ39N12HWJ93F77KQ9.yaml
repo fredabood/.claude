@@ -2,18 +2,18 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: completed
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T06:00:00.000000+00:00'
-  completed: null
+  completed: '2025-12-10T23:00:00.000000+00:00'
   estimated_duration: null
   progress:
     sprints_total: 7
-    sprints_completed: 3
+    sprints_completed: 7
     tasks_total: 61
-    tasks_completed: 38
-    completion_percent: 62
+    tasks_completed: 61
+    completion_percent: 100
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -35,28 +35,28 @@ track:
     started: '2025-12-10T11:00:00.000000+00:00'
   - id: 01KC3AD78WY4Q2GB43KYWKKPYF
     name: 'Sprint 4: Progress Auto-Update'
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 5
-    started: null
+    started: '2025-12-10T14:00:00.000000+00:00'
   - id: 01KC3AD79BX8XBJY4R19NAF04A
     name: 'Sprint 5: CLI Create Commands'
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 6
-    started: null
+    started: '2025-12-10T16:00:00.000000+00:00'
   - id: 01KC3AD79XYWMC7HAGR0GPKV0A
     name: 'Sprint 6: Tooling Polish'
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 6
-    started: null
+    started: '2025-12-10T19:00:00.000000+00:00'
   - id: 01KC3AD7AEV9GYXG873QF4QEK3
     name: 'Sprint 7: Activity Log Migration'
-    status: not_started
+    status: completed
     estimated_duration: null
     tasks_count: 6
-    started: null
+    started: '2025-12-10T21:00:00.000000+00:00'
   dependencies: []
   blocked_by: []
   depends_on: []

@@ -1917,8 +1917,187 @@ def _normalize_status(status_value: str) -> str:
     return status_map.get(status_value, status_value)
 
 
+def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task):
+    """Load roadmap data from ULID flat file structure."""
+    roadmap_dir = vibey_dir / "roadmap"
+    loaded_tracks = 0
+    loaded_sprints = 0
+    loaded_tasks = 0
+    skipped_tracks = 0
+    skipped_sprints = 0
+    skipped_tasks = 0
+
+    # Build slug -> ULID mappings from .id files
+    def load_id_mapping(entity_dir):
+        """Load slug=ULID mapping from .id file."""
+        id_file = entity_dir / ".id"
+        mapping = {}
+        if id_file.exists():
+            for line in id_file.read_text().strip().split("\n"):
+                if "=" in line:
+                    slug, ulid = line.split("=", 1)
+                    mapping[slug] = ulid
+        return mapping
+
+    tracks_dir = roadmap_dir / "tracks"
+    sprints_dir = roadmap_dir / "sprints"
+    tasks_dir = roadmap_dir / "tasks"
+
+    track_slug_to_ulid = load_id_mapping(tracks_dir)
+    sprint_slug_to_ulid = load_id_mapping(sprints_dir)
+
+    # Build reverse mapping: track ULID -> track slug (for finding sprints by track)
+    track_ulid_to_slug = {v: k for k, v in track_slug_to_ulid.items()}
+
+    # Also build a set of valid track ULIDs for validation
+    valid_track_ulids = set()
+
+    # 1. Load all tracks from tracks/*.yaml
+    for track_file in sorted(tracks_dir.glob("*.yaml")):
+        try:
+            track = load_track(track_file)
+            track_status = track.status.value if hasattr(track.status, 'value') else str(track.status)
+
+            db_create_track(
+                id=track.id,
+                roadmap_id=roadmap.id,
+                name=track.name,
+                status=_normalize_status(track_status),
+                blocked=track.blocked,
+                priority=track.priority.value if hasattr(track, 'priority') and track.priority else 'medium',
+                created=track.created or now,
+                conn=conn,
+            )
+            valid_track_ulids.add(track.id)
+            loaded_tracks += 1
+        except Exception as e:
+            skipped_tracks += 1
+            continue
+
+    # 2. Load all sprints from sprints/*.yaml
+    valid_sprint_ulids = set()
+    if sprints_dir.exists():
+        for sprint_file in sorted(sprints_dir.glob("*.yaml")):
+            try:
+                sprint = load_sprint(sprint_file)
+                sprint_status = sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status)
+
+                # Get track_id from sprint and resolve slug -> ULID
+                track_id = getattr(sprint, 'track_id', None)
+                if not track_id:
+                    skipped_sprints += 1
+                    continue
+
+                # Resolve slug to ULID if needed
+                if track_id in track_slug_to_ulid:
+                    track_id = track_slug_to_ulid[track_id]
+                elif track_id not in valid_track_ulids:
+                    # Unknown track_id, skip
+                    skipped_sprints += 1
+                    continue
+
+                # Build metadata dict
+                sprint_metadata = None
+                if sprint.metadata:
+                    sprint_metadata = {
+                        'last_updated': sprint.metadata.last_updated.isoformat() if sprint.metadata.last_updated else None,
+                        'estimated_duration': getattr(sprint.metadata, 'estimated_duration', None),
+                        'actual_duration': getattr(sprint.metadata, 'actual_duration', None),
+                        'estimated_tokens': getattr(sprint.metadata, 'estimated_tokens', None),
+                        'actual_tokens': getattr(sprint.metadata, 'actual_tokens', None),
+                    }
+
+                db_create_sprint(
+                    id=sprint.id,
+                    track_id=track_id,
+                    roadmap_id=roadmap.id,
+                    name=sprint.name,
+                    status=_normalize_status(sprint_status),
+                    blocked=sprint.blocked,
+                    created=sprint.created or now,
+                    started=sprint.started,
+                    completed=sprint.completed,
+                    description=getattr(sprint, 'description', None),
+                    goal=getattr(sprint, 'goal', None),
+                    notes=getattr(sprint, 'notes', None),
+                    conn=conn,
+                )
+                valid_sprint_ulids.add(sprint.id)
+                loaded_sprints += 1
+            except Exception as e:
+                skipped_sprints += 1
+                continue
+
+    # 3. Load all tasks from tasks/*.yaml
+    if tasks_dir.exists():
+        for task_file in sorted(tasks_dir.glob("*.yaml")):
+            try:
+                task = load_task(task_file)
+                task_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
+
+                # Get sprint_id and track_id from task and resolve slugs -> ULIDs
+                sprint_id = getattr(task, 'sprint_id', None)
+                track_id = getattr(task, 'track_id', None)
+                if not sprint_id:
+                    skipped_tasks += 1
+                    continue
+
+                # Resolve sprint slug to ULID if needed
+                if sprint_id in sprint_slug_to_ulid:
+                    sprint_id = sprint_slug_to_ulid[sprint_id]
+                elif sprint_id not in valid_sprint_ulids:
+                    skipped_tasks += 1
+                    continue
+
+                # Resolve track slug to ULID if needed
+                if track_id and track_id in track_slug_to_ulid:
+                    track_id = track_slug_to_ulid[track_id]
+                elif track_id and track_id not in valid_track_ulids:
+                    # Try to get track_id from sprint if missing
+                    track_id = None
+
+                db_create_task(
+                    id=task.id,
+                    sprint_id=sprint_id,
+                    track_id=track_id,
+                    roadmap_id=roadmap.id,
+                    task_type=task.task_type.value if hasattr(task.task_type, 'value') else str(task.task_type),
+                    title=task.title,
+                    description=task.description,
+                    status=_normalize_status(task_status),
+                    blocked=task.blocked,
+                    priority=task.priority.value if hasattr(task, 'priority') and task.priority else 'medium',
+                    created=task.created or now,
+                    started=task.started,
+                    completed=task.completed,
+                    assigned_agent=task.assigned_agent,
+                    phase_label=task.phase_label,
+                    estimated_tokens=task.estimated_tokens,
+                    actual_tokens=task.actual_tokens,
+                    complexity=task.complexity.value if hasattr(task.complexity, 'value') else None,
+                    conn=conn,
+                )
+                loaded_tasks += 1
+            except Exception as e:
+                skipped_tasks += 1
+                continue
+
+    # Print summary
+    total_skipped = skipped_tracks + skipped_sprints + skipped_tasks
+    if total_skipped > 0:
+        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
+        print(f"   Skipped {skipped_tracks} tracks, {skipped_sprints} sprints, {skipped_tasks} tasks (validation errors)")
+    else:
+        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
+
+
 def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
-    """Load roadmap data into database."""
+    """Load roadmap data into database.
+
+    Supports both:
+    - ULID flat structure (tracks/, sprints/, tasks/)
+    - Legacy nested structure (track-id/sprint-id/task-id/)
+    """
     from datetime import datetime, timezone
     from vibey.roadmap.database.crud import (
         create_roadmap as db_create_roadmap,
@@ -1929,6 +2108,7 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
     from vibey.roadmap.serialization import load_track, load_sprint, load_task
 
     now = datetime.now(timezone.utc)
+    roadmap_dir = vibey_dir / "roadmap"
 
     # Create roadmap record
     status_val = roadmap.status.value if hasattr(roadmap.status, 'value') else str(roadmap.status)
@@ -1942,8 +2122,13 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
         conn=conn,
     )
 
-    # Load each track
-    roadmap_dir = vibey_dir / "roadmap"
+    # Detect structure type
+    tracks_dir = roadmap_dir / "tracks"
+    if tracks_dir.is_dir():
+        # ULID flat structure - iterate flat directories
+        return _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task)
+
+    # Legacy nested structure - use roadmap.tracks to iterate
     loaded_tracks = 0
     loaded_sprints = 0
     loaded_tasks = 0

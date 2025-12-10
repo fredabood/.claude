@@ -466,17 +466,85 @@ Either:
 
 ---
 
+## Bug #13: Activity Log Not Migrated to JSONL Format
+
+**Date:** 2025-12-10
+**Severity:** Medium
+**Status:** Documented
+
+**Description:**
+Per the unified architecture design (`DIRECTORY_SCHEMA.md`), the activity log should use time-bucketed JSONL files in an `activity_log/` directory. Instead, the old `audit-trail.yaml` format is still in use.
+
+**Designed Format (per unified architecture):**
+```
+.vibey/roadmap/activity_log/
+├── 2025-11.jsonl    # November 2025 events
+├── 2025-12.jsonl    # December 2025 events
+└── ...
+```
+
+**Actual Format:**
+```
+.vibey/roadmap/audit-trail.yaml   # 1,684 lines, monolithic YAML
+```
+
+**Root Cause:**
+The unified architecture migration (Sprint 5) focused on tracks/sprints/tasks/artifacts but did not include activity log migration.
+
+**Impact:**
+- Activity log format inconsistent with design
+- Not append-friendly (YAML requires full rewrite)
+- Not time-bucketed (single large file)
+
+**Fix Required:**
+1. Create `activity_log/` directory
+2. Migrate existing `audit-trail.yaml` entries to JSONL format
+3. Update `vibey/operations/roadmap/activity_log.py` to write JSONL
+4. Update readers to load from JSONL files
+5. Delete `audit-trail.yaml` after migration
+
+**Files Affected:**
+- `vibey/operations/roadmap/activity_log.py`
+- `vibey/operations/roadmap/audit_trail.py`
+- `vibey/roadmap/serialization/yaml_loader.py`
+- `vibey/roadmap/serialization/yaml_dumper.py`
+- `.vibey/roadmap/audit-trail.yaml`
+
+---
+
+## Bug #14: Duplicate roadmap.yaml Files Existed at Two Locations
+
+**Date:** 2025-12-10
+**Severity:** High
+**Status:** Fixed
+
+**Description:**
+Two `roadmap.yaml` files existed with different data:
+- `.vibey/roadmap.yaml` (108 KB, old location, stale data)
+- `.vibey/roadmap/roadmap.yaml` (5 KB, correct location, updated data)
+
+**Root Cause:**
+Bug #3 documented that CLI looks at `.vibey/roadmap.yaml` but the flat structure design places it at `.vibey/roadmap/roadmap.yaml`. Both files were being maintained.
+
+**Resolution:**
+Deleted `.vibey/roadmap.yaml`. The single source of truth is now `.vibey/roadmap/roadmap.yaml`.
+
+**Note:** CLI still needs to be updated (Bug #3) to use the correct location.
+
+---
+
 **Next Steps:**
 1. ✅ Fix progress calculation manually for unified-arch-migration
 2. ✅ Fix FileSystemManager.get_roadmap_path() to use new location
 3. ✅ Fix Track model validation for flat structure
 4. ✅ Fix query.py SQLite backend parameter passing
 5. ✅ Disabled SQLite database (renamed to .db.disabled)
-6. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
-7. 🔧 Fix validator exclusion patterns (Bug #7)
-8. 🔧 Fix pre-commit hook database error (Bug #9)
-9. 🔧 Fix CLI to read from ULID files (Bug #10)
-10. 🔧 Fix database rebuild to load ULID data (Bug #11)
-11. 🔧 Sync unified-architecture-migration to roadmap.yaml (Bug #12)
-12. File GitHub issues for all documented bugs
-13. Add integration tests for flat structure progress updates
+6. ✅ Deleted duplicate roadmap.yaml (Bug #14)
+7. 🔧 Fix SQLAlchemy optional dependency issue (Bug #6)
+8. 🔧 Fix validator exclusion patterns (Bug #7)
+9. 🔧 Fix pre-commit hook database error (Bug #9)
+10. 🔧 Fix CLI to read from ULID files (Bug #10)
+11. 🔧 Fix database rebuild to load ULID data (Bug #11)
+12. 🔧 Migrate activity log to JSONL format (Bug #13)
+13. File GitHub issues for all documented bugs
+14. Add integration tests for flat structure progress updates

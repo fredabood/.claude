@@ -550,6 +550,12 @@ class ActivityLogReader:
     Reads activity events from time-bucketed JSONL files.
 
     Supports streaming reads and filtering.
+
+    Performance characteristics:
+    - Hash index provides O(1) lookups for verification
+    - Index is cached after first build (cleared on invalidate)
+    - Time-bucketed files allow efficient date range queries
+    - Streaming API for memory-efficient large log processing
     """
 
     def __init__(self, activity_log_dir: Path):
@@ -560,6 +566,9 @@ class ActivityLogReader:
             activity_log_dir: Path to activity_log directory
         """
         self.activity_log_dir = Path(activity_log_dir)
+        # Cached hash index for fast repeated lookups
+        self._hash_index_cache: Optional[Dict[str, 'CommandActivityEvent']] = None
+        self._hash_index_timestamp: Optional[float] = None
 
     def _get_log_files(
         self,
@@ -731,15 +740,32 @@ class ActivityLogReader:
 
         return None
 
-    def build_hash_index(self) -> Dict[str, CommandActivityEvent]:
+    def build_hash_index(self, use_cache: bool = True) -> Dict[str, CommandActivityEvent]:
         """
         Build an index of file_hash_after -> event for fast lookups.
 
-        Useful for batch verification operations.
+        Useful for batch verification operations. The index is cached
+        after first build and reused for subsequent calls.
+
+        Args:
+            use_cache: Whether to use cached index if available
 
         Returns:
             Dictionary mapping file hashes to events
+
+        Performance:
+        - First call: O(n) where n is total events
+        - Subsequent calls: O(1) if cached
+        - Cache is auto-invalidated when log files change
         """
+        # Check cache validity
+        if use_cache and self._hash_index_cache is not None:
+            # Check if any log files have been modified
+            current_mtime = self._get_latest_log_mtime()
+            if current_mtime == self._hash_index_timestamp:
+                return self._hash_index_cache
+
+        # Build fresh index
         index: Dict[str, CommandActivityEvent] = {}
 
         for file_path in self._get_log_files():
@@ -747,7 +773,24 @@ class ActivityLogReader:
                 if event.file_hash_after:
                     index[event.file_hash_after] = event
 
+        # Cache the result
+        self._hash_index_cache = index
+        self._hash_index_timestamp = self._get_latest_log_mtime()
+
         return index
+
+    def _get_latest_log_mtime(self) -> Optional[float]:
+        """Get modification time of most recent log file."""
+        files = self._get_log_files()
+        if not files:
+            return None
+        # Get the mtime of the most recent file
+        return max(f.stat().st_mtime for f in files)
+
+    def invalidate_cache(self) -> None:
+        """Invalidate the hash index cache."""
+        self._hash_index_cache = None
+        self._hash_index_timestamp = None
 
     def stream_events(
         self,

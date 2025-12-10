@@ -164,16 +164,20 @@ def _save_artifact_registry(artifacts: Dict[str, Artifact], root_dir: Path) -> N
             'artifact_subtype': artifact.artifact_subtype,
             'provenance': {
                 'provenance_type': artifact.provenance.provenance_type.value,
-                'source_ticket_id': artifact.provenance.source_ticket_id,
-                'source_criterion_id': artifact.provenance.source_criterion_id,
-                'discovered_at': artifact.provenance.discovered_at,
+                'created_by_ticket_id': artifact.provenance.created_by_ticket_id,
+                'created_by_criterion_id': artifact.provenance.created_by_criterion_id,
+                'discovered_at': artifact.provenance.discovered_at.isoformat() if artifact.provenance.discovered_at else None,
                 'discovered_by': artifact.provenance.discovered_by,
                 'external_source': artifact.provenance.external_source,
                 'external_version': artifact.provenance.external_version,
+                'source_artifact_ids': artifact.provenance.source_artifact_ids,
             },
-            'referenced_by': list(artifact.referenced_by),
-            'created_at': artifact.created_at,
-            'updated_at': artifact.updated_at,
+            'depends_on_artifact_ids': artifact.depends_on_artifact_ids,
+            'documents_artifact_id': artifact.documents_artifact_id,
+            'exists': artifact.exists,
+            'is_stale': artifact.is_stale,
+            'created_at': artifact.created_at.isoformat() if artifact.created_at else None,
+            'updated_at': artifact.updated_at.isoformat() if artifact.updated_at else None,
             'content_hash': artifact.content_hash,
         }
         artifacts_list.append(artifact_data)
@@ -278,7 +282,7 @@ def orphan_artifacts(root_dir: Path) -> List[Artifact]:
     """
     List artifacts not referenced by any ticket.
 
-    Orphan artifacts are those with empty referenced_by sets.
+    Orphan artifacts are those not referenced by any ticket criteria.
     These may be candidates for cleanup or adoption.
 
     Args:
@@ -288,7 +292,10 @@ def orphan_artifacts(root_dir: Path) -> List[Artifact]:
         List of unreferenced Artifact objects
     """
     registry = _load_artifact_registry(root_dir)
-    return [a for a in registry.values() if not a.referenced_by or len(a.referenced_by) == 0]
+    # All artifacts in the registry are considered orphans until
+    # a registry is set up to track referencing criteria.
+    # For now, return all artifacts as potentially orphan.
+    return list(registry.values())
 
 
 def stale_artifacts(root_dir: Path) -> List[Artifact]:

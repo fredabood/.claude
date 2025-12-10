@@ -312,12 +312,19 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
         return
 
     sprint = load_sprint(sprint_path)
-    tasks_path = fs.get_tasks_path(sprint_id)
 
-    if not tasks_path.exists():
-        return
-
-    tasks = load_tasks(tasks_path)
+    # Load tasks - handle both flat and nested structures
+    if fs.structure_format == "flat":
+        # Flat structure: query tasks by sprint_id from flat tasks directory
+        from vibey.roadmap.serialization.yaml_loader import load_tasks_by_sprint_flat
+        tasks_dir = fs.roadmap_root / "tasks"
+        tasks = load_tasks_by_sprint_flat(tasks_dir, sprint_id)
+    else:
+        # Nested structure: load from sprint directory
+        tasks_path = fs.get_tasks_path(sprint_id)
+        if not tasks_path.exists():
+            return
+        tasks = load_tasks(tasks_path)
 
     # Calculate progress by task type
     from roadmap.models import TaskType

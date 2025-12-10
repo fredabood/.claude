@@ -1653,6 +1653,56 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
     return tasks
 
 
+def load_tasks_by_sprint_flat(tasks_dir: Union[str, Path], sprint_id: str) -> List[Task]:
+    """
+    Load tasks for a specific sprint from flat ULID directory structure.
+
+    In flat structure, all tasks are stored as individual YAML files in
+    .vibey/roadmap/tasks/ with ULID filenames. This function scans all
+    task files and returns those matching the given sprint_id.
+
+    Args:
+        tasks_dir: Path to tasks directory (.vibey/roadmap/tasks/)
+        sprint_id: Sprint ID to filter by (ULID)
+
+    Returns:
+        List of Task objects belonging to the sprint
+    """
+    tasks_dir = Path(tasks_dir)
+
+    if not tasks_dir.exists() or not tasks_dir.is_dir():
+        return []
+
+    tasks = []
+    for task_file in tasks_dir.glob("*.yaml"):
+        # Skip hidden files and non-task files
+        if task_file.name.startswith('.') or task_file.name == '.id':
+            continue
+
+        try:
+            # Load and check sprint_id
+            with open(task_file, 'r') as f:
+                data = yaml.safe_load(f)
+
+            if not data or 'task' not in data:
+                continue
+
+            task_data = data['task']
+            task_sprint_id = task_data.get('sprint_id')
+
+            # Match against sprint_id (supports both ULID and slug references)
+            if task_sprint_id == sprint_id:
+                # Use load_tasks to get properly parsed Task object
+                loaded = load_tasks(task_file)
+                if loaded:
+                    tasks.extend(loaded)
+        except Exception:
+            # Skip malformed files silently
+            continue
+
+    return tasks
+
+
 # =============================================================================
 # AUDIT TRAIL LOADER
 # =============================================================================

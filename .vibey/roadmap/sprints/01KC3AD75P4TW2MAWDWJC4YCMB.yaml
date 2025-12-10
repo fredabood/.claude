@@ -29,16 +29,16 @@ sprint:
     status: not_started
   - id: dogfooding-bugs-01-task-005
     title: Update load_roadmap to use .get('blocked', False)
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-006
     title: Update load_track for backward compatibility
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-007
     title: Update load_sprint for backward compatibility
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-008
     title: Update load_task for backward compatibility
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-01-task-009
     title: Add migration test for v1 to v2 loading
     status: not_started

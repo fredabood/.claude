@@ -245,8 +245,11 @@ class Task:
 
     def __post_init__(self):
         """Validate task data."""
-        # Validate task ID is sprint-scoped
-        if not self.id.startswith(f"{self.sprint_id}-"):
+        # Check if task ID is a ULID (26 chars, alphanumeric, uppercase)
+        is_ulid = len(self.id) == 26 and self.id.isalnum() and self.id.isupper()
+
+        # Validate task ID is sprint-scoped (skip for ULID task IDs)
+        if not is_ulid and not self.id.startswith(f"{self.sprint_id}-"):
             raise ValueError(f"Task ID {self.id} must start with sprint ID {self.sprint_id}")
 
         # Validate task type and gate_info consistency

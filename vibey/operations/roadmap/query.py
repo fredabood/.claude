@@ -32,6 +32,7 @@ from vibey.roadmap.serialization import load_roadmap as yaml_load_roadmap
 from vibey.roadmap.serialization import load_track as yaml_load_track
 from vibey.roadmap.serialization import load_sprint as yaml_load_sprint
 from vibey.roadmap.serialization import load_tasks as yaml_load_tasks
+from vibey.roadmap.serialization import load_task as yaml_load_task
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
 from vibey.cli.roadmap_lib.dependencies import DependencyResolver
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
@@ -379,13 +380,16 @@ def query_task_details(root_dir: Path, task_id: str) -> Dict[str, Any]:
 
     Args:
         root_dir: Root directory containing .vibey/
-        task_id: ID of the task to query (format: track-sprint-task-nnn)
+        task_id: ID of the task to query (ULID or format: track-sprint-task-nnn)
 
     Returns:
         Dictionary with task details
     """
     fs = FileSystemManager(root_dir)
     use_sqlite = _use_sqlite_backend(root_dir)
+
+    # Check if this is a ULID (26 chars, alphanumeric)
+    is_ulid = len(task_id) == 26 and task_id.isalnum()
 
     # For SQLite, we can load task directly by ID
     if use_sqlite:
@@ -394,8 +398,17 @@ def query_task_details(root_dir: Path, task_id: str) -> Dict[str, Any]:
             task = sql_load_task(task_id)
         except (ValueError, ImportError) as e:
             return {"error": f"Task '{task_id}' not found"}
+    elif is_ulid:
+        # ULID task: load directly from tasks/{ULID}.yaml
+        task_file = root_dir / ".vibey" / "roadmap" / "tasks" / f"{task_id}.yaml"
+        if not task_file.exists():
+            return {"error": f"Task '{task_id}' not found"}
+        try:
+            task = yaml_load_task(task_file)
+        except Exception as e:
+            return {"error": f"Failed to load task: {e}"}
     else:
-        # Extract sprint ID from task ID (e.g., track-1-task-001 -> track-1)
+        # Slug format: Extract sprint ID from task ID (e.g., track-1-task-001 -> track-1)
         # Task IDs are: track_id-sprint_num-task-nnn
         parts = task_id.split('-')
         if len(parts) < 4:

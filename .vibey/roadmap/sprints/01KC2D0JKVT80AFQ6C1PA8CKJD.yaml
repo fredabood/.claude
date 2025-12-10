@@ -42,10 +42,10 @@ sprint:
     status: completed
   - id: unified-arch-4-task-003
     title: Update yaml_loader for v2 format only
-    status: not_started
+    status: completed
   - id: unified-arch-4-task-004
     title: Update yaml_dumper for v2 format only
-    status: not_started
+    status: completed
   - id: unified-arch-4-task-005
     title: Execute v2 format migration
     status: not_started

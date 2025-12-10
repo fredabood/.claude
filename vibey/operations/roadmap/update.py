@@ -4,27 +4,38 @@ Roadmap update operations.
 Handles all write operations: completing tasks, progressing status, adding tracks/sprints, etc.
 Supports both YAML and SQLite backends with automatic detection.
 
-## Sprint 9: Smart Accessor Pattern Integration
+## Sprint 5 (unified-arch-5): Unified Architecture Migration
 
-This module now integrates with the unified ticket architecture (Sprint 6-8) via:
+This module has been migrated to use the unified ticket architecture:
 
-1. **Criteria-Based Validation**: Status transitions use `can_transition_to()` method
-   from the ticket model, which checks all criteria (dependencies, child completion).
+1. **Ticket-Based Status Transitions**: New helper functions provide clean interface:
+   - `_transition_task_status()` - Task status changes via ticket model
+   - `_transition_sprint_status()` - Sprint status changes via ticket model
+   - `_transition_track_status()` - Track status changes via ticket model
 
-2. **Ticket Model Loaders**: Functions like `load_task_ticket()`, `load_sprint_ticket()`
-   load entities as hierarchical ticket models with smart accessor support.
+   These functions:
+   - Load entity as Pydantic ticket model
+   - Validate via `can_transition_to()` (criteria-based)
+   - Apply change via immutable `start()`/`complete()` methods
+   - Save via v2 yaml_dumper functions
 
-3. **Computed vs Stored Progress**: Progress calculations exist in two forms:
-   - STORED (Legacy): `_update_sprint_progress()` etc. calculate and store progress
-     in YAML files. This is the current primary mechanism.
-   - COMPUTED (Ticket Model): The `HierarchicalTicket.progress` property computes
-     progress on-the-fly from criteria/children. Used for validation.
+2. **TransitionBlockedError**: New exception type for blocked transitions,
+   providing structured access to blocking reasons.
 
-   Both approaches coexist during transition. The stored approach maintains
-   backward compatibility while computed approach enables smart accessors.
+3. **Dual Path (Transition Period)**: Main functions (complete_task, start_task,
+   start_sprint, complete_sprint, complete_track) still use legacy models for
+   additional operations (progress updates, audit logging, activity logging).
+   The ticket-based helpers can be used directly for pure status transitions.
 
-4. **Immutable Update Pattern**: New functions like `add_commit_to_task()` use
-   immutable patterns (create new list instead of mutating).
+4. **Immutable Update Pattern**: Ticket models use immutable patterns -
+   `start()` and `complete()` return new instances rather than mutating.
+
+## Previous Architecture (sqlite-backend sprints 6-9)
+
+- Criteria-based validation via `can_transition_to()`
+- Ticket model loaders (`load_task_ticket()`, etc.)
+- Smart accessor pattern for computed vs stored progress
+- Dual YAML/SQLite backend support
 """
 
 from pathlib import Path
@@ -53,6 +64,15 @@ from vibey.operations.roadmap.query import (
     load_task_ticket,
     load_sprint_ticket,
     load_track_ticket,
+    load_roadmap_ticket,
+)
+
+# Import ticket model save functions for v2 format
+from vibey.roadmap.serialization.yaml_dumper import (
+    save_task_ticket as save_task_ticket_yaml,
+    save_sprint_ticket as save_sprint_ticket_yaml,
+    save_track_ticket as save_track_ticket_yaml,
+    save_roadmap_ticket as save_roadmap_ticket_yaml,
 )
 
 
@@ -205,6 +225,195 @@ try:
     SYNC_HOOKS_AVAILABLE = True
 except ImportError:
     SYNC_HOOKS_AVAILABLE = False
+
+
+# ============================================================================
+# Ticket-Based Status Transition Helpers (Sprint 5 - Unified Architecture)
+# ============================================================================
+# These functions provide the unified interface for status transitions using
+# Pydantic ticket models. They:
+# 1. Load the entity as a ticket model
+# 2. Validate transition via can_transition_to()
+# 3. Use immutable start()/complete() methods
+# 4. Save using the v2 yaml_dumper functions
+# ============================================================================
+
+class TransitionBlockedError(Exception):
+    """Raised when a status transition is blocked by criteria."""
+
+    def __init__(self, entity_id: str, target_status: TicketStatus, reasons: List[str]):
+        self.entity_id = entity_id
+        self.target_status = target_status
+        self.reasons = reasons
+        super().__init__(f"Cannot transition {entity_id} to {target_status.value}: {'; '.join(reasons)}")
+
+
+def _transition_task_status(
+    task_id: str,
+    target_status: TicketStatus,
+    root_dir: Path,
+    changed_by: str = "system",
+) -> Tuple[bool, str]:
+    """
+    Transition a task to a new status using ticket model methods.
+
+    This is the unified ticket-based approach:
+    1. Load task as TaskTicket
+    2. Validate transition via can_transition_to()
+    3. Call start() or complete() method
+    4. Save via yaml_dumper
+
+    Args:
+        task_id: ID of the task to transition
+        target_status: Target TicketStatus
+        root_dir: Root directory containing .vibey/
+        changed_by: Name of user/agent making the change
+
+    Returns:
+        Tuple of (success, message)
+
+    Raises:
+        TransitionBlockedError: If transition is blocked by criteria
+    """
+    fs = FileSystemManager(root_dir)
+
+    try:
+        task_ticket = load_task_ticket(root_dir, task_id)
+    except Exception as e:
+        return False, f"Failed to load task ticket: {e}"
+
+    # Validate transition
+    can_transition, blockers = task_ticket.can_transition_to(target_status)
+    if not can_transition:
+        raise TransitionBlockedError(task_id, target_status, blockers)
+
+    # Apply transition using immutable methods
+    if target_status == TicketStatus.IN_PROGRESS:
+        updated_ticket = task_ticket.start()
+    elif target_status == TicketStatus.COMPLETED:
+        updated_ticket = task_ticket.complete()
+    else:
+        return False, f"Unsupported target status: {target_status}"
+
+    # Get task file path
+    task_path = fs.get_task_path(task_id)
+    if not task_path:
+        # Try flat structure
+        task_path = fs.roadmap_root / "tasks" / f"{task_id}.yaml"
+        if not task_path.exists():
+            return False, f"Task file not found for {task_id}"
+
+    # Save using v2 yaml dumper
+    save_task_ticket_yaml(updated_ticket, task_path)
+    _record_cli_changes(task_path, root_dir)
+
+    return True, f"Task transitioned to {target_status.value}"
+
+
+def _transition_sprint_status(
+    sprint_id: str,
+    target_status: TicketStatus,
+    root_dir: Path,
+    changed_by: str = "system",
+) -> Tuple[bool, str]:
+    """
+    Transition a sprint to a new status using ticket model methods.
+
+    Args:
+        sprint_id: ID of the sprint to transition
+        target_status: Target TicketStatus
+        root_dir: Root directory containing .vibey/
+        changed_by: Name of user/agent making the change
+
+    Returns:
+        Tuple of (success, message)
+
+    Raises:
+        TransitionBlockedError: If transition is blocked by criteria
+    """
+    fs = FileSystemManager(root_dir)
+
+    try:
+        sprint_ticket = load_sprint_ticket(root_dir, sprint_id)
+    except Exception as e:
+        return False, f"Failed to load sprint ticket: {e}"
+
+    # Validate transition
+    can_transition, blockers = sprint_ticket.can_transition_to(target_status)
+    if not can_transition:
+        raise TransitionBlockedError(sprint_id, target_status, blockers)
+
+    # Apply transition using immutable methods
+    if target_status == TicketStatus.IN_PROGRESS:
+        updated_ticket = sprint_ticket.start()
+    elif target_status == TicketStatus.COMPLETED:
+        updated_ticket = sprint_ticket.complete()
+    else:
+        return False, f"Unsupported target status: {target_status}"
+
+    # Get sprint file path
+    sprint_path = fs.get_sprint_path(sprint_id)
+    if not sprint_path or not sprint_path.exists():
+        return False, f"Sprint file not found for {sprint_id}"
+
+    # Save using v2 yaml dumper
+    save_sprint_ticket_yaml(updated_ticket, sprint_path)
+    _record_cli_changes(sprint_path, root_dir)
+
+    return True, f"Sprint transitioned to {target_status.value}"
+
+
+def _transition_track_status(
+    track_id: str,
+    target_status: TicketStatus,
+    root_dir: Path,
+    changed_by: str = "system",
+) -> Tuple[bool, str]:
+    """
+    Transition a track to a new status using ticket model methods.
+
+    Args:
+        track_id: ID of the track to transition
+        target_status: Target TicketStatus
+        root_dir: Root directory containing .vibey/
+        changed_by: Name of user/agent making the change
+
+    Returns:
+        Tuple of (success, message)
+
+    Raises:
+        TransitionBlockedError: If transition is blocked by criteria
+    """
+    fs = FileSystemManager(root_dir)
+
+    try:
+        track_ticket = load_track_ticket(root_dir, track_id)
+    except Exception as e:
+        return False, f"Failed to load track ticket: {e}"
+
+    # Validate transition
+    can_transition, blockers = track_ticket.can_transition_to(target_status)
+    if not can_transition:
+        raise TransitionBlockedError(track_id, target_status, blockers)
+
+    # Apply transition using immutable methods
+    if target_status == TicketStatus.IN_PROGRESS:
+        updated_ticket = track_ticket.start()
+    elif target_status == TicketStatus.COMPLETED:
+        updated_ticket = track_ticket.complete()
+    else:
+        return False, f"Unsupported target status: {target_status}"
+
+    # Get track file path
+    track_path = fs.get_track_path(track_id)
+    if not track_path or not track_path.exists():
+        return False, f"Track file not found for {track_id}"
+
+    # Save using v2 yaml dumper
+    save_track_ticket_yaml(updated_ticket, track_path)
+    _record_cli_changes(track_path, root_dir)
+
+    return True, f"Track transitioned to {target_status.value}"
 
 
 def complete_task(

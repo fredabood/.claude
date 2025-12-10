@@ -18,10 +18,10 @@ task:
     \        task = task.start()\n    elif target_status == TicketStatus.COMPLETED:\n\
     \        task = task.complete()\n\n    backend = get_backend(root_dir)\n    backend.save_task(task)\n\
     \    return task\n```\n"
-  status: not_started
+  status: completed
   created: '2025-12-07T15:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T03:00:00+00:00'
+  completed: '2025-12-10T03:15:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update verification to check signatures
-  description: null
+  description: Update verify-change and verify-commits to validate signatures against authorized signers. Load public keys from .vibey/authorized-signers/. Clear errors for invalid/unknown signers. Support unsigned entries during transition
   status: not_started
   created: '2025-11-26T01:21:21.767688+00:00'
   started: null

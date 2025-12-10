@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Comprehensive testing
-  description: null
+  description: Comprehensive test suite for integrity protection system. Unit tests for manifest/keys, integration tests for CLI, end-to-end workflow tests, bypass detection tests. Target 90%+ coverage for new code. High complexity
   status: not_started
   created: '2025-11-26T01:21:21.767697+00:00'
   started: null

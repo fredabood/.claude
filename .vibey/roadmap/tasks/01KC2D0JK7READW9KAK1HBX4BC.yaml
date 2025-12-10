@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create GitLab CI equivalent
-  description: null
+  description: Create GitLab CI configuration equivalent to GitHub Actions workflow. Only runs when roadmap files change. Blocks pipeline on verification failure
   status: not_started
   created: '2025-11-26T01:21:21.767675+00:00'
   started: null

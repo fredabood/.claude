@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Edge case handling (merge conflicts, rebases)
-  description: null
+  description: Handle git workflow edge cases - merge conflicts, rebases, cherry-picks, amends, force pushes. Verify by content hash not commit hash. Create docs/guides/GIT_WORKFLOW_EDGE_CASES.md. High complexity
   status: not_started
   created: '2025-11-26T01:21:21.767694+00:00'
   started: null

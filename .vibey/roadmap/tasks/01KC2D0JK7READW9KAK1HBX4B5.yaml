@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Ensure all CLI write operations record to manifest
-  description: null
+  description: Update all roadmap CLI commands to record changes to manifest. Implement ManifestWriter utility. Dual-write to both manifest and Ticket.activity_log for unified architecture alignment. High complexity - touches all CLI write commands
   status: not_started
   created: '2025-11-26T01:21:21.767659+00:00'
   started: null

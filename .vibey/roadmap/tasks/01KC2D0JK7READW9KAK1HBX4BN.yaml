@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Error messages and user guidance
-  description: null
+  description: Improve error messages throughout integrity system to guide users to correct actions. All errors should be actionable, suggest correct CLI commands, and link to documentation
   status: not_started
   created: '2025-11-26T01:21:21.767692+00:00'
   started: null

@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add vibey verify-change command
-  description: null
+  description: Create vibey verify-change command to verify if YAML change was made through CLI. Provides implementation for ManifestVerifiedTarget.is_satisfied(). Supports --commit flag and JSON output for CI
   status: not_started
   created: '2025-11-26T01:21:21.767662+00:00'
   started: null

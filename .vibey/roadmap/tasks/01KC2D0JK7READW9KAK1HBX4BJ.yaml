@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate signing into CLI manifest writes
-  description: null
+  description: Update ManifestWriter to sign entries with users private key. Define canonical serialization for signing. Sign timestamp, operation, target_id, file_path, hashes. Graceful degradation if no key. High complexity
   status: not_started
   created: '2025-11-26T01:21:21.767687+00:00'
   started: null

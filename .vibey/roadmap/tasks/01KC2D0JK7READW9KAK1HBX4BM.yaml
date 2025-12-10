@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Documentation for key management
-  description: null
+  description: Document key management system including vibey auth commands, team onboarding, key rotation procedures, and security considerations. Create docs/guides/KEY_MANAGEMENT.md and TEAM_ONBOARDING.md
   status: not_started
   created: '2025-11-26T01:21:21.767690+00:00'
   started: null

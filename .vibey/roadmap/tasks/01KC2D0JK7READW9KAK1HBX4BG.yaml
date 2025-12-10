@@ -5,7 +5,7 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement key generation (vibey auth setup)
-  description: null
+  description: Implement vibey auth setup command to generate Ed25519 keypair. Store private key in ~/.vibey/ with restrictive permissions. Display public key for registration. Use cryptography library
   status: not_started
   created: '2025-11-26T01:21:21.767683+00:00'
   started: null

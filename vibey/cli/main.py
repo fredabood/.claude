@@ -3044,6 +3044,354 @@ def migrate_docs(ctx, dry_run: bool, path: Optional[str], verbose: bool):
 
 
 # ============================================================================
+# Artifact Command Group (Sprint 5 - Task 005)
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def artifact(ctx):
+    """
+    Manage artifacts - first-class file-based entities.
+
+    Artifacts are registered files that can be tracked, linked to tickets,
+    and monitored for staleness. Use these commands to manage the artifact
+    registry.
+
+    Examples:
+
+      vibey artifact list              # List all artifacts
+      vibey artifact show <id>         # Show artifact details
+      vibey artifact adopt <path>      # Register a file as artifact
+      vibey artifact orphans           # Show unreferenced artifacts
+      vibey artifact stale             # Show stale documentation
+      vibey artifact impact <files>    # Show affected tickets
+    """
+    ctx.ensure_object(dict)
+
+
+@artifact.command('list')
+@click.option('--type', '-t', 'artifact_type', help='Filter by artifact type (code, documentation, test, etc.)')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json', 'simple']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_list(ctx, artifact_type: Optional[str], output_format: str):
+    """List all registered artifacts."""
+    from vibey.operations.roadmap.artifacts import list_artifacts
+    from vibey.roadmap.models.ticket import ArtifactType
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+    import json
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found. Run 'vibey roadmap init' first.")
+        sys.exit(1)
+
+    artifacts = list_artifacts(root_dir)
+
+    # Filter by type if specified
+    if artifact_type:
+        try:
+            filter_type = ArtifactType(artifact_type)
+            artifacts = [a for a in artifacts if a.artifact_type == filter_type]
+        except ValueError:
+            console.print(f"[red]Error:[/red] Unknown artifact type: {artifact_type}")
+            console.print(f"Valid types: {', '.join(t.value for t in ArtifactType)}")
+            sys.exit(1)
+
+    if output_format == 'json':
+        data = [{'id': a.id, 'name': a.name, 'type': a.artifact_type.value, 'paths': a.paths} for a in artifacts]
+        console.print(json.dumps(data, indent=2))
+    elif output_format == 'simple':
+        for a in artifacts:
+            console.print(f"{a.id}\t{a.artifact_type.value}\t{a.name}")
+    else:
+        # Table format
+        if not artifacts:
+            console.print("[dim]No artifacts registered[/dim]")
+        else:
+            from rich.table import Table
+            table = Table(title="Artifacts")
+            table.add_column("ID", style="cyan")
+            table.add_column("Name", style="green")
+            table.add_column("Type", style="yellow")
+            table.add_column("Paths")
+            table.add_column("Refs", justify="right")
+
+            for a in artifacts:
+                table.add_row(
+                    a.id[:12] + "...",
+                    a.name,
+                    a.artifact_type.value,
+                    ", ".join(a.paths[:2]) + ("..." if len(a.paths) > 2 else ""),
+                    str(len(a.referenced_by))
+                )
+            console.print(table)
+
+
+@artifact.command('show')
+@click.argument('artifact_id')
+@click.pass_context
+def artifact_show(ctx, artifact_id: str):
+    """Show details of a specific artifact."""
+    from vibey.operations.roadmap.artifacts import show_artifact
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    artifact = show_artifact(artifact_id, root_dir)
+    if not artifact:
+        console.print(f"[red]Error:[/red] Artifact not found: {artifact_id}")
+        sys.exit(1)
+
+    from rich.panel import Panel
+    from rich.text import Text
+
+    # Build details
+    details = Text()
+    details.append(f"ID: ", style="bold")
+    details.append(f"{artifact.id}\n")
+    details.append(f"Name: ", style="bold")
+    details.append(f"{artifact.name}\n")
+    details.append(f"Type: ", style="bold")
+    details.append(f"{artifact.artifact_type.value}\n")
+    if artifact.artifact_subtype:
+        details.append(f"Subtype: ", style="bold")
+        details.append(f"{artifact.artifact_subtype}\n")
+    details.append(f"\nPaths:\n", style="bold")
+    for path in artifact.paths:
+        details.append(f"  - {path}\n")
+    details.append(f"\nProvenance: ", style="bold")
+    details.append(f"{artifact.provenance.provenance_type.value}\n")
+    if artifact.referenced_by:
+        details.append(f"\nReferenced by:\n", style="bold")
+        for ref in sorted(artifact.referenced_by):
+            details.append(f"  - {ref}\n")
+    else:
+        details.append(f"\n[dim]Not referenced by any ticket[/dim]\n")
+    if artifact.content_hash:
+        details.append(f"\nHash: ", style="bold")
+        details.append(f"{artifact.content_hash[:16]}...\n", style="dim")
+
+    console.print(Panel(details, title=f"Artifact: {artifact.name}", border_style="blue"))
+
+
+@artifact.command('adopt')
+@click.argument('file_path')
+@click.option('--type', '-t', 'artifact_type', required=True,
+              type=click.Choice(['code', 'documentation', 'test', 'context', 'agent', 'workflow', 'template', 'config', 'data', 'media']),
+              help='Artifact type classification')
+@click.option('--name', '-n', help='Optional name (defaults to filename)')
+@click.option('--subtype', '-s', help='Optional subtype for more specific classification')
+@click.pass_context
+def artifact_adopt(ctx, file_path: str, artifact_type: str, name: Optional[str], subtype: Optional[str]):
+    """Register an existing file as an artifact."""
+    from vibey.operations.roadmap.artifacts import adopt_artifact
+    from vibey.roadmap.models.ticket import ArtifactType
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    try:
+        a_type = ArtifactType(artifact_type)
+        artifact = adopt_artifact(file_path, a_type, root_dir, name=name, artifact_subtype=subtype)
+        console.print(f"[green]✓[/green] Artifact registered: {artifact.id}")
+        console.print(f"  Name: {artifact.name}")
+        console.print(f"  Type: {artifact.artifact_type.value}")
+        console.print(f"  Path: {', '.join(artifact.paths)}")
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+
+@artifact.command('orphans')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'simple']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_orphans(ctx, output_format: str):
+    """Show artifacts not referenced by any ticket."""
+    from vibey.operations.roadmap.artifacts import orphan_artifacts
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    orphans = orphan_artifacts(root_dir)
+
+    if not orphans:
+        console.print("[green]✓[/green] No orphan artifacts found")
+        return
+
+    if output_format == 'simple':
+        for a in orphans:
+            console.print(f"{a.id}\t{a.artifact_type.value}\t{a.name}")
+    else:
+        from rich.table import Table
+        table = Table(title="Orphan Artifacts (not referenced by any ticket)")
+        table.add_column("ID", style="cyan")
+        table.add_column("Name", style="green")
+        table.add_column("Type", style="yellow")
+        table.add_column("Paths")
+
+        for a in orphans:
+            table.add_row(
+                a.id[:12] + "...",
+                a.name,
+                a.artifact_type.value,
+                ", ".join(a.paths[:2])
+            )
+        console.print(table)
+        console.print(f"\n[dim]Found {len(orphans)} orphan artifact(s)[/dim]")
+
+
+@artifact.command('stale')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'simple']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_stale(ctx, output_format: str):
+    """Show stale documentation artifacts."""
+    from vibey.operations.roadmap.artifacts import stale_artifacts
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    stale = stale_artifacts(root_dir)
+
+    if not stale:
+        console.print("[green]✓[/green] No stale documentation artifacts")
+        return
+
+    if output_format == 'simple':
+        for a in stale:
+            console.print(f"{a.id}\t{a.name}")
+    else:
+        from rich.table import Table
+        table = Table(title="Stale Documentation Artifacts")
+        table.add_column("ID", style="cyan")
+        table.add_column("Name", style="green")
+        table.add_column("Paths")
+        table.add_column("Status", style="yellow")
+
+        for a in stale:
+            table.add_row(
+                a.id[:12] + "...",
+                a.name,
+                ", ".join(a.paths[:2]),
+                "Content changed" if a.content_hash else "Unknown"
+            )
+        console.print(table)
+        console.print(f"\n[yellow]⚠[/yellow] {len(stale)} artifact(s) need refresh")
+
+
+@artifact.command('impact')
+@click.argument('files', nargs=-1)
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json', 'simple']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_impact(ctx, files, output_format: str):
+    """Show tickets affected by changes to given files."""
+    from vibey.operations.roadmap.artifacts import impact_analysis
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+    import json
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    if not files:
+        console.print("[yellow]Warning:[/yellow] No files specified")
+        return
+
+    result = impact_analysis(list(files), root_dir)
+
+    if output_format == 'json':
+        console.print(json.dumps(result, indent=2))
+    elif output_format == 'simple':
+        for file_path, tickets in result.items():
+            if tickets:
+                console.print(f"{file_path}: {', '.join(tickets)}")
+    else:
+        from rich.table import Table
+        table = Table(title="Impact Analysis")
+        table.add_column("File", style="cyan")
+        table.add_column("Affected Tickets", style="yellow")
+
+        for file_path, tickets in result.items():
+            table.add_row(
+                file_path,
+                ", ".join(tickets) if tickets else "[dim]none[/dim]"
+            )
+        console.print(table)
+
+
+@artifact.command('refresh')
+@click.pass_context
+def artifact_refresh(ctx):
+    """Refresh content hashes for all artifacts."""
+    from vibey.operations.roadmap.artifacts import refresh_artifact_hashes
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    count = refresh_artifact_hashes(root_dir)
+    if count > 0:
+        console.print(f"[green]✓[/green] Refreshed {count} artifact hash(es)")
+    else:
+        console.print("[dim]All hashes up to date[/dim]")
+
+
+@artifact.command('delete')
+@click.argument('artifact_id')
+@click.option('--force', '-f', is_flag=True, help='Delete without confirmation')
+@click.pass_context
+def artifact_delete(ctx, artifact_id: str, force: bool):
+    """Delete an artifact from the registry (does not delete files)."""
+    from vibey.operations.roadmap.artifacts import delete_artifact, show_artifact
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    # Show artifact details
+    artifact = show_artifact(artifact_id, root_dir)
+    if not artifact:
+        console.print(f"[red]Error:[/red] Artifact not found: {artifact_id}")
+        sys.exit(1)
+
+    if not force:
+        console.print(f"About to delete artifact: [cyan]{artifact.name}[/cyan]")
+        console.print(f"  Type: {artifact.artifact_type.value}")
+        console.print(f"  Paths: {', '.join(artifact.paths)}")
+        if artifact.referenced_by:
+            console.print(f"  [yellow]Warning:[/yellow] Referenced by {len(artifact.referenced_by)} ticket(s)")
+        if not click.confirm("Proceed?"):
+            console.print("[dim]Cancelled[/dim]")
+            return
+
+    if delete_artifact(artifact_id, root_dir):
+        console.print(f"[green]✓[/green] Artifact deleted: {artifact_id}")
+    else:
+        console.print(f"[red]Error:[/red] Failed to delete artifact")
+        sys.exit(1)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

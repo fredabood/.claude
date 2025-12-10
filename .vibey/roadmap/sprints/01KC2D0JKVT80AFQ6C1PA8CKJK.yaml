@@ -60,7 +60,7 @@ sprint:
     status: completed
   - id: unified-arch-5-task-005
     title: Update CLI commands for new models
-    status: not_started
+    status: completed
   - id: unified-arch-5-task-006
     title: Final integration testing and documentation
     status: not_started

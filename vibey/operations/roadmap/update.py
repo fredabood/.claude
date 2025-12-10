@@ -56,7 +56,7 @@ from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_roo
 from vibey.cli.roadmap_lib.activity import ActivityLogger
 from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
-from vibey.operations.roadmap.audit_trail import log_status_change
+from vibey.operations.roadmap.audit_trail import log_status_change, log_command_change
 
 # Import ticket models and loaders for criteria-based validation
 from vibey.roadmap.models.ticket import TicketStatus
@@ -567,7 +567,7 @@ def start_task(
     task.metadata.last_modified = datetime.now(timezone.utc)
     task.metadata.last_modified_by = started_by
 
-    # Log status change to audit trail
+    # Log status change to audit trail (V1 format - backward compat)
     log_status_change(
         root_dir=root_dir,
         object_type="task",
@@ -580,6 +580,22 @@ def start_task(
 
     # Save only the modified task (not all sibling tasks)
     save_task(task, tasks_path)
+
+    # Log command-level change (V2 format) - includes file hash for verification
+    task_path = fs.get_task_path(task_id)
+    log_command_change(
+        root_dir=root_dir,
+        command=f"vibey roadmap start {task_id}",
+        object_type="task",
+        object_id=task_id,
+        changes=[
+            ("status", old_status, "in_progress"),
+            ("started", None, task.started.isoformat() if task.started else None),
+        ],
+        file_path=task_path,
+        reason=f"Task started via CLI by {started_by}",
+        changed_by=started_by,
+    )
     _record_cli_changes(tasks_path, root_dir)
     _sync_task_to_db(task, root_dir)
     print(f"✅ Task '{task.title}' marked as in progress")

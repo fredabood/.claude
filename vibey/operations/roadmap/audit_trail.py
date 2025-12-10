@@ -530,3 +530,95 @@ def log_progress_change(
         reason=reason,
         changed_by=changed_by
     )
+
+
+# =============================================================================
+# V2 Command-Level Logging Functions
+# =============================================================================
+
+def log_command_change(
+    root_dir: Path,
+    command: str,
+    object_type: str,
+    object_id: str,
+    changes: List[Tuple[str, Any, Any]],
+    file_path: Path,
+    reason: Optional[str] = None,
+    changed_by: Optional[str] = None,
+):
+    """
+    Log a command-level change (V2 schema).
+
+    One CLI command = one log entry, regardless of how many fields changed.
+
+    Args:
+        root_dir: Project root directory
+        command: Full CLI command string (e.g., "vibey roadmap start task-001")
+        object_type: Type of object ("track", "sprint", "task", "roadmap")
+        object_id: ID of the object
+        changes: List of (field, old_value, new_value) tuples
+        file_path: Path to the modified YAML file (relative to root_dir)
+        reason: Optional reason for the change
+        changed_by: User making the change (auto-detected if None)
+
+    Returns:
+        The created CommandActivityEvent
+
+    Example:
+        log_command_change(
+            root_dir=Path.cwd(),
+            command="vibey roadmap start task-001",
+            object_type="task",
+            object_id="01KC2D0JK7READW9KAK1HBX4B3",
+            changes=[
+                ("status", "not_started", "in_progress"),
+                ("started", None, "2025-12-10T17:00:00+00:00"),
+            ],
+            file_path=Path(".vibey/roadmap/tasks/01KC...yaml"),
+        )
+    """
+    from vibey.operations.roadmap.jsonl_activity_log import (
+        ActivityLogWriter,
+        FieldChange,
+        CommandActivityEvent,
+        compute_file_hash,
+    )
+    from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+
+    # Auto-detect user
+    if changed_by is None:
+        try:
+            changed_by = getpass.getuser()
+        except Exception:
+            changed_by = "unknown"
+
+    # Get activity log directory
+    fs = FileSystemManager(root_dir)
+    activity_log_dir = fs.roadmap_root / "activity_log"
+
+    # Convert changes to FieldChange objects
+    field_changes = [
+        FieldChange(field=f, old=old, new=new)
+        for f, old, new in changes
+    ]
+
+    # Compute file hash (file should already be updated)
+    file_hash_after = None
+    full_path = root_dir / file_path if not file_path.is_absolute() else file_path
+    if full_path.exists():
+        file_hash_after = compute_file_hash(full_path)
+
+    # Write V2 event
+    writer = ActivityLogWriter(activity_log_dir)
+    event = writer.log_command(
+        command=command,
+        object_type=object_type,
+        object_id=object_id,
+        changes=field_changes,
+        file_path=full_path,
+        file_hash_before=None,  # TODO: Capture before hash in caller
+        changed_by=changed_by,
+        reason=reason,
+    )
+
+    return event

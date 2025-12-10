@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Update CLI commands to use command-level logging
   description: Update all roadmap CLI commands to log single command-level entries. Create @log_command decorator. Capture full command string, collect field changes, compute file hashes. Single entry per command not per field. High complexity - touches all CLI write commands
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767659+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T17:15:00.000000+00:00'
+  completed: '2025-12-10T17:30:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

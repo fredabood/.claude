@@ -460,6 +460,37 @@ def roadmap_verify_change(ctx, file_path: str, json_output: bool):
     sys.exit(exit_code)
 
 
+@roadmap.command('verify-commits')
+@click.argument('commit_range')
+@click.option('--json', 'json_output', is_flag=True, help='Output JSON format for CI parsing')
+@click.pass_context
+def roadmap_verify_commits(ctx, commit_range: str, json_output: bool):
+    """Verify roadmap changes in a commit range have activity log entries.
+
+    Verifies all roadmap file changes in the specified commit range.
+    Designed for CI/CD pipelines to enforce roadmap integrity.
+
+    COMMIT_RANGE: Git revision range (e.g., main..HEAD, abc123..def456)
+
+    Exit codes:
+      0 - All commits verified
+      1 - Some commits have unverified changes
+      2 - Error occurred
+
+    Examples:
+      vibey roadmap verify-commits main..HEAD
+      vibey roadmap verify-commits origin/main..HEAD --json
+      vibey roadmap verify-commits abc123..def456
+
+    Task: git-integration-5-task-011
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.verification import verify_commits
+
+    exit_code = verify_commits(Path.cwd(), commit_range, json_output)
+    sys.exit(exit_code)
+
+
 @roadmap.command('validate-fast')
 @click.option('--profile', type=click.Choice(['quick', 'standard', 'thorough']),
               default='standard', help='Validation profile (default: standard)')

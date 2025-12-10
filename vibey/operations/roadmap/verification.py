@@ -3,11 +3,13 @@ Verification module for roadmap integrity.
 
 Verifies that roadmap file changes have corresponding activity log entries.
 Used by git hooks and CI to enforce CLI-only modifications.
+
+Includes signature verification for signed activity log entries.
 """
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict
 import json
 
 from vibey.operations.roadmap.jsonl_activity_log import (
@@ -27,13 +29,26 @@ class VerificationResult:
     matching_event: Optional[CommandActivityEvent] = None
     error: Optional[str] = None
 
+    # Signature verification (Phase 4)
+    signed: bool = False
+    signer: Optional[str] = None
+    signature_valid: Optional[bool] = None
+    signature_error: Optional[str] = None
+
     def to_dict(self) -> dict:
         """Convert to dictionary for JSON output."""
         result = {
             "file_path": str(self.file_path),
             "verified": self.verified,
             "current_hash": self.current_hash,
+            "signed": self.signed,
         }
+        if self.signer:
+            result["signer"] = self.signer
+        if self.signature_valid is not None:
+            result["signature_valid"] = self.signature_valid
+        if self.signature_error:
+            result["signature_error"] = self.signature_error
         if self.matching_event:
             result["event"] = {
                 "id": self.matching_event.id,
@@ -118,12 +133,63 @@ class ChangeVerifier:
         else:
             event = self.reader.find_by_hash(current_hash)
 
-        return VerificationResult(
+        # Build base result
+        result = VerificationResult(
             file_path=file_path,
             verified=event is not None,
             current_hash=current_hash,
             matching_event=event,
         )
+
+        # Verify signature if event has one
+        if event and hasattr(event, 'signature') and event.signature:
+            result.signed = True
+            result.signer = getattr(event, 'signer', None)
+
+            # Try to verify signature
+            try:
+                from vibey.operations.auth import SignerManager, verify_activity_signature
+
+                signer_manager = SignerManager(self.root_dir)
+                if not signer_manager.is_initialized():
+                    # No signers configured - can't verify
+                    result.signature_valid = None
+                    result.signature_error = "Project signing not initialized"
+                elif result.signer:
+                    # Look up signer's public key
+                    signer_info = signer_manager.get_signer(result.signer)
+                    if signer_info and signer_info.active:
+                        # Build entry dict for verification
+                        import base64
+                        entry_dict = {
+                            'id': event.id,
+                            'timestamp': event.timestamp,
+                            'command': event.command,
+                            'object_type': event.object_type,
+                            'object_id': event.object_id,
+                            'changes': event.changes or [],
+                            'file_path': event.file_path or '',
+                            'file_hash_after': event.file_hash_after or '',
+                        }
+                        public_key_bytes = base64.b64decode(signer_info.public_key)
+                        verify_result = verify_activity_signature(
+                            entry_dict, event.signature, public_key_bytes
+                        )
+                        result.signature_valid = verify_result.valid
+                        if not verify_result.valid:
+                            result.signature_error = verify_result.error
+                    else:
+                        result.signature_valid = False
+                        result.signature_error = f"Unknown or revoked signer: {result.signer}"
+                else:
+                    result.signature_valid = False
+                    result.signature_error = "Signature present but no signer identity"
+            except ImportError:
+                result.signature_error = "Cryptography library not available"
+            except Exception as e:
+                result.signature_error = str(e)
+
+        return result
 
     def verify_files(self, file_paths: List[Path]) -> List[VerificationResult]:
         """
@@ -208,6 +274,16 @@ def verify_change(
             if result.matching_event:
                 print(f"   Command: {result.matching_event.command}")
                 print(f"   Time: {result.matching_event.timestamp}")
+            # Display signature status
+            if result.signed:
+                if result.signature_valid:
+                    print(f"   🔏 Signed by: {result.signer} (verified)")
+                elif result.signature_valid is False:
+                    print(f"   ⚠️  Signed by: {result.signer} (INVALID: {result.signature_error})")
+                else:
+                    print(f"   🔏 Signed by: {result.signer} (unverified: {result.signature_error})")
+            else:
+                print("   📝 Unsigned (no signature in activity log)")
         else:
             print(f"❌ Unverified: {file_path}")
             print(f"   Hash: {result.current_hash}")

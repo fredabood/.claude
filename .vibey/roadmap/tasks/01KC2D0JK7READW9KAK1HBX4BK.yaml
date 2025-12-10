@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Update verification to check signatures
   description: Update verify-change and verify-commits to validate signatures against authorized signers. Load public keys from .vibey/authorized-signers/. Clear errors for invalid/unknown signers. Support unsigned entries during transition
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767688+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T22:30:00.000000+00:00'
+  completed: '2025-12-10T23:00:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

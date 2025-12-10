@@ -1,0 +1,10 @@
+version: '1.0'
+created: '2025-12-10T17:15:52.406520+00:00'
+updated: '2025-12-10T17:15:52.406520+00:00'
+signers:
+- identity: test@example.com
+  name: Test User
+  added: '2025-12-10T17:15:52.406520+00:00'
+  added_by: self
+  role: owner
+  active: true

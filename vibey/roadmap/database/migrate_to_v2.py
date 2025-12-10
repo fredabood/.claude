@@ -69,6 +69,35 @@ def execute_schema_ddl(conn: sqlite3.Connection, schema_path: Path) -> None:
     if not schema_path.exists():
         raise FileNotFoundError(f"Schema file not found: {schema_path}")
 
+    # Drop old database_state table if it exists (v1 schema has different columns)
+    # The new schema will recreate it with the correct columns
+    conn.execute("DROP TABLE IF EXISTS database_state")
+    print("  Dropped old database_state table (v1 schema)")
+
+    # Drop all views that will be recreated by schema_v2.sql
+    # These views may conflict with the new schema definitions
+    v2_views = [
+        "v_roadmaps", "v_tracks", "v_sprints", "v_tasks", "v_artifacts",
+        "v_blocking_criteria", "v_dependency_graph", "v_pending_evaluations",
+        "v_orphan_artifacts", "v_stale_documentation", "v_artifact_dependency_graph",
+        "v_unified_roadmap_progress", "v_unified_track_progress", "v_unified_sprint_progress"
+    ]
+    for view in v2_views:
+        conn.execute(f"DROP VIEW IF EXISTS {view}")
+    print(f"  Dropped {len(v2_views)} conflicting views")
+
+    # Drop empty v2 tables if they exist from a previous failed migration
+    # Check if completables exists and is empty
+    cursor = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='completables'"
+    )
+    if cursor.fetchone():
+        count = conn.execute("SELECT COUNT(*) FROM completables").fetchone()[0]
+        if count == 0:
+            conn.execute("DROP TABLE IF EXISTS criteria")
+            conn.execute("DROP TABLE IF EXISTS completables")
+            print("  Dropped empty v2 tables from previous failed migration")
+
     schema_sql = schema_path.read_text()
     conn.executescript(schema_sql)
 
@@ -533,15 +562,17 @@ def update_database_version(conn: sqlite3.Connection) -> None:
     """
     Update database_state to v2.0.0.
 
+    The v2 schema has a different database_state structure:
+    - id, schema_version, migration_timestamp, last_validated
+
     Args:
         conn: Database connection
     """
+    now = datetime.now(timezone.utc).isoformat()
     conn.execute("""
-        UPDATE database_state
-        SET schema_version = '2.0.0',
-            last_yaml_load = ?
-        WHERE id = 1
-    """, (datetime.now(timezone.utc).isoformat(),))
+        INSERT OR REPLACE INTO database_state (id, schema_version, migration_timestamp, last_validated)
+        VALUES (1, '2.0.0', ?, ?)
+    """, (now, now))
 
     print("✅ Updated database version to 2.0.0")
 

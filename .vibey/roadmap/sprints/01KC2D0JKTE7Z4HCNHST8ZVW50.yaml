@@ -44,11 +44,11 @@ sprint:
     - First-class artifact support
 
     '
-  status: in_progress
+  status: completed
   blocked: false
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T16:10:00+00:00'
-  completed: null
+  completed: '2025-12-10T00:46:00+00:00'
   goal: Migrate database to unified completables + criteria schema
   success_criteria:
   - completables table created with all ticket types
@@ -80,7 +80,7 @@ sprint:
     status: completed
   - id: unified-arch-2-task-007
     title: Execute migration and validate
-    status: in_progress
+    status: completed
   dependencies: []
   blocks: []
   blocked_by:

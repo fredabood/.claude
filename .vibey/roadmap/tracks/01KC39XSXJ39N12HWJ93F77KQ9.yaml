@@ -2,18 +2,18 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T06:00:00.000000+00:00'
-  completed: '2025-12-10T23:00:00.000000+00:00'
+  completed: null
   estimated_duration: null
   progress:
-    sprints_total: 7
+    sprints_total: 8
     sprints_completed: 7
-    tasks_total: 61
+    tasks_total: 63
     tasks_completed: 61
-    completion_percent: 100
+    completion_percent: 96.8
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -57,6 +57,12 @@ track:
     estimated_duration: null
     tasks_count: 6
     started: '2025-12-10T21:00:00.000000+00:00'
+  - id: 01KC4P55YG0C05YSWXR2YCS3C4
+    name: 'Sprint 8: Sync and Complete Command Bugs'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 2
+    started: null
   dependencies: []
   blocked_by: []
   depends_on: []

@@ -1,0 +1,34 @@
+task:
+  id: 01KC3AD77S1Z4Y751A5RDQ6Z30
+  sprint_id: dogfooding-bugs-02
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Add unit tests for both ID formats
+  description: null
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    original_bug: 4
+  slug: dogfooding-bugs-02-task-017
+  parent_ref: 01KC3AD76EK6TBPW0GEJD0P4M0
+  criteria: []
+  sequence: 17

@@ -1,0 +1,34 @@
+task:
+  id: 01KC3AD760TETBT0AGQW659GNW
+  sprint_id: dogfooding-bugs-01
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Add test for CLI without SQLAlchemy installed
+  description: null
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    original_bug: 6
+  slug: dogfooding-bugs-01-task-004
+  parent_ref: 01KC3AD75P4TW2MAWDWJC4YCMB
+  criteria: []
+  sequence: 4

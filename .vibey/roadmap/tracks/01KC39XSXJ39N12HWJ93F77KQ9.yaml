@@ -4,103 +4,55 @@ track:
   roadmap_id: vibey-framework-v2
   status: not_started
   priority: critical
-  created: '2025-12-10T04:57:15.954263+00:00'
+  created: '2025-12-10T05:05:41.041645+00:00'
   started: null
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 15
-    sprints_completed: 1
-    tasks_total: 63
-    tasks_completed: 3
-    completion_percent: 4.8
+    sprints_total: 7
+    sprints_completed: 0
+    tasks_total: 61
+    tasks_completed: 0
+    completion_percent: 0
   sprints:
-  - id: 01KC39XSXMN32Q6KB857YQPZBA
-    name: 'Bug #1: Track and Sprint Progress Not Auto-Updat...'
+  - id: 01KC3AD75P4TW2MAWDWJC4YCMB
+    name: 'Sprint 1: CLI Startup Unblock'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC3AD76EK6TBPW0GEJD0P4M0
+    name: 'Sprint 2: ULID File Loading System'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 17
+    started: null
+  - id: 01KC3AD77W9RD0RMA3S9N41EMF
+    name: 'Sprint 3: Database Synchronization'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 12
+    started: null
+  - id: 01KC3AD78WY4Q2GB43KYWKKPYF
+    name: 'Sprint 4: Progress Auto-Update'
     status: not_started
     estimated_duration: null
     tasks_count: 5
     started: null
-  - id: 01KC39XSY4SASEGCPA0B80ESSF
-    name: 'Bug #2: Track Not Showing in roadmap status'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 3
-    started: null
-  - id: 01KC39XSYE460TYM9PE6W55HJK
-    name: 'Bug #3: CLI Looks for roadmap.yaml in Wrong Loca...'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 3
-    started: null
-  - id: 01KC39XSYRZEPKK7BSKYVA53R0
-    name: 'Bug #4: Track Model Validation Fails for Flat St...'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XSZ48YYYZ4J65TX76DHQ
-    name: 'Bug #5: SQLite Database Out of Sync with YAML'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XSZH8SZFERN8YJX0QZ2V
-    name: 'Bug #6: Missing SQLAlchemy Dependency Breaks CLI'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XSZX8X6S4CKVAR4ANG2P
-    name: 'Bug #7: Validator Doesn''t Exclude context/sample...'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 3
-    started: null
-  - id: 01KC39XT07NTMNV08WQK2Z5WN7
-    name: 'Bug #8: YAML Loader Missing blocked Field'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 5
-    started: null
-  - id: 01KC39XT0QSWSNQQCWVY7P9KM3
-    name: 'Bug #9: Pre-commit Hook Database Error'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XT137TM9XY4VDYEY8GVQ
-    name: 'Bug #10: CLI Reads from Monolithic roadmap.yaml'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 5
-    started: null
-  - id: 01KC39XT1J47CB153E0X725JDW
-    name: 'Bug #11: Database Rebuild Loads 0 Items'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XT1ZFDA3C2BHKXD131EF
-    name: 'Bug #12: New Tracks Missing from roadmap.yaml'
-    status: not_started
-    estimated_duration: null
-    tasks_count: 4
-    started: null
-  - id: 01KC39XT2C6X7C7G84JM7EY3TT
-    name: 'Bug #13: Activity Log Not Migrated to JSONL'
+  - id: 01KC3AD79BX8XBJY4R19NAF04A
+    name: 'Sprint 5: CLI Create Commands'
     status: not_started
     estimated_duration: null
     tasks_count: 6
     started: null
-  - id: 01KC39XT2XDGKR6SAD9QJNCZBV
-    name: 'Bug #14: Duplicate roadmap.yaml Files'
-    status: completed
+  - id: 01KC3AD79XYWMC7HAGR0GPKV0A
+    name: 'Sprint 6: Tooling Polish'
+    status: not_started
     estimated_duration: null
-    tasks_count: 3
-    started: '2025-12-10T04:57:15.954263+00:00'
-  - id: 01KC39XT37KE6F82SM3DV6EFYT
-    name: 'Bug #15: No CLI Commands to Create Tracks/Sprints...'
+    tasks_count: 6
+    started: null
+  - id: 01KC3AD7AEV9GYXG873QF4QEK3
+    name: 'Sprint 7: Activity Log Migration'
     status: not_started
     estimated_duration: null
     tasks_count: 6
@@ -120,8 +72,8 @@ track:
   standards: []
   metadata:
     created_by: claude-code
-    last_updated: null
+    last_updated: '2025-12-10T05:05:41.041645+00:00'
     source: CLI_BUGS.md
-    notes: Track created from bugs discovered during Vibey development
+    notes: Consolidated from 15 individual bug sprints to 7 thematic sprints
   slug: dogfooding-bugs
   criteria: []

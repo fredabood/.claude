@@ -1,0 +1,34 @@
+task:
+  id: 01KC3AD7A2F2R2FWWYFZNA6H0W
+  sprint_id: dogfooding-bugs-06
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update validator to skip excluded paths
+  description: null
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    original_bug: 7
+  slug: dogfooding-bugs-06-task-002
+  parent_ref: 01KC3AD79XYWMC7HAGR0GPKV0A
+  criteria: []
+  sequence: 2

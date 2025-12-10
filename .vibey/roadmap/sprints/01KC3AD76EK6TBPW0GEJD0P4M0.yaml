@@ -1,0 +1,101 @@
+sprint:
+  id: 01KC3AD76EK6TBPW0GEJD0P4M0
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Sprint 2: ULID File Loading System'
+  description: Complete the ULID migration by updating CLI to read from individual
+    ULID files instead of monolithic roadmap.yaml. Fix path resolution, track discovery,
+    and model validation.
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  goal: CLI correctly reads all data from ULID flat file structure
+  success_criteria:
+  - FileSystemManager uses correct roadmap.yaml location
+  - load_roadmap discovers tracks from tracks/*.yaml
+  - All 39 tracks visible in 'roadmap status'
+  - Track model validates ULID-based sprint IDs
+  - New tracks sync back to roadmap.yaml
+  tasks:
+  - id: dogfooding-bugs-02-task-001
+    title: Update FileSystemManager.get_roadmap_path() to use roadmap_root
+    status: not_started
+  - id: dogfooding-bugs-02-task-002
+    title: Update all callers to use correct path
+    status: not_started
+  - id: dogfooding-bugs-02-task-003
+    title: Add unit test for path resolution
+    status: not_started
+  - id: dogfooding-bugs-02-task-004
+    title: Design new loading strategy for ULID files
+    status: not_started
+  - id: dogfooding-bugs-02-task-005
+    title: Update load_roadmap to discover tracks from tracks/*.yaml
+    status: not_started
+  - id: dogfooding-bugs-02-task-006
+    title: Implement lazy loading for track details
+    status: not_started
+  - id: dogfooding-bugs-02-task-007
+    title: Update query.py to use new loading strategy
+    status: not_started
+  - id: dogfooding-bugs-02-task-008
+    title: Add integration tests for ULID file loading
+    status: not_started
+  - id: dogfooding-bugs-02-task-009
+    title: Debug track discovery in FileSystemManager.list_tracks()
+    status: not_started
+  - id: dogfooding-bugs-02-task-010
+    title: Fix track filtering/discovery logic
+    status: not_started
+  - id: dogfooding-bugs-02-task-011
+    title: Add integration test for track listing
+    status: not_started
+  - id: dogfooding-bugs-02-task-012
+    title: Implement sync mechanism ULID files to roadmap.yaml
+    status: not_started
+  - id: dogfooding-bugs-02-task-013
+    title: Add CLI command to sync roadmap.yaml
+    status: not_started
+  - id: dogfooding-bugs-02-task-014
+    title: Add validation to detect sync discrepancies
+    status: not_started
+  - id: dogfooding-bugs-02-task-015
+    title: Update validation to accept ULID-based sprint IDs
+    status: not_started
+  - id: dogfooding-bugs-02-task-016
+    title: Add backward compatibility for slug-based IDs
+    status: not_started
+  - id: dogfooding-bugs-02-task-017
+    title: Add unit tests for both ID formats
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: dogfooding-bugs-01
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    description: Requires dogfooding-bugs-01 to be completed first
+    status: pending
+    last_checked: null
+  deliverables: []
+  risks: []
+  metadata:
+    bugs_addressed:
+    - 3
+    - 10
+    - 2
+    - 12
+    - 4
+    priority: critical
+    consolidated_from:
+    - 'Bug #3'
+    - 'Bug #10'
+    - 'Bug #2'
+    - 'Bug #12'
+    - 'Bug #4'
+  slug: dogfooding-bugs-02
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 2

@@ -1,0 +1,79 @@
+sprint:
+  id: 01KC3AD77W9RD0RMA3S9N41EMF
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Sprint 3: Database Synchronization'
+  description: Fix SQLite database backend to properly sync with YAML files. Update
+    schema, fix rebuild command, and ensure pre-commit hook works.
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  goal: SQLite backend works correctly with ULID file system
+  success_criteria:
+  - Database rebuild loads all 39 tracks, 213 sprints, 1125 tasks
+  - Pre-commit hook runs without is_dirty error
+  - Database stays in sync with YAML changes
+  tasks:
+  - id: dogfooding-bugs-03-task-001
+    title: Add database sync step to migration script
+    status: not_started
+  - id: dogfooding-bugs-03-task-002
+    title: Implement automatic db rebuild after YAML changes
+    status: not_started
+  - id: dogfooding-bugs-03-task-003
+    title: Add CLI command to force db resync
+    status: not_started
+  - id: dogfooding-bugs-03-task-004
+    title: Add integration test for YAML-DB sync
+    status: not_started
+  - id: dogfooding-bugs-03-task-005
+    title: Investigate is_dirty column in schema history
+    status: not_started
+  - id: dogfooding-bugs-03-task-006
+    title: Update pre-commit hook to use correct schema
+    status: not_started
+  - id: dogfooding-bugs-03-task-007
+    title: Add database migration script for schema updates
+    status: not_started
+  - id: dogfooding-bugs-03-task-008
+    title: Test pre-commit hook with fresh database
+    status: not_started
+  - id: dogfooding-bugs-03-task-009
+    title: Update db_rebuild_cmd to load from ULID files
+    status: not_started
+  - id: dogfooding-bugs-03-task-010
+    title: Update sql_loader init to iterate tracks/*.yaml
+    status: not_started
+  - id: dogfooding-bugs-03-task-011
+    title: Add progress reporting during rebuild
+    status: not_started
+  - id: dogfooding-bugs-03-task-012
+    title: Add integration test for database rebuild
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: dogfooding-bugs-02
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    description: Requires dogfooding-bugs-02 to be completed first
+    status: pending
+    last_checked: null
+  deliverables: []
+  risks: []
+  metadata:
+    bugs_addressed:
+    - 5
+    - 9
+    - 11
+    priority: high
+    consolidated_from:
+    - 'Bug #5'
+    - 'Bug #9'
+    - 'Bug #11'
+  slug: dogfooding-bugs-03
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 3

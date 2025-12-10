@@ -1,0 +1,52 @@
+sprint:
+  id: 01KC3AD79XYWMC7HAGR0GPKV0A
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  name: 'Sprint 6: Tooling Polish'
+  description: Clean up validator to exclude sample code directories and verify duplicate
+    roadmap.yaml fix is complete.
+  status: not_started
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: null
+  completed: null
+  goal: Validation and tooling work correctly
+  success_criteria:
+  - Validator skips context/sample_code directories
+  - Single roadmap.yaml verified at correct location
+  - Startup warns if duplicate found
+  tasks:
+  - id: dogfooding-bugs-06-task-001
+    title: Add VALIDATION_EXCLUDE_PATTERNS constant
+    status: not_started
+  - id: dogfooding-bugs-06-task-002
+    title: Update validator to skip excluded paths
+    status: not_started
+  - id: dogfooding-bugs-06-task-003
+    title: Add unit test for exclusion patterns
+    status: not_started
+  - id: dogfooding-bugs-06-task-004
+    title: Verify single roadmap.yaml exists at correct location
+    status: not_started
+  - id: dogfooding-bugs-06-task-005
+    title: Add startup check to warn if duplicate exists
+    status: not_started
+  - id: dogfooding-bugs-06-task-006
+    title: Document canonical location in CLAUDE.md
+    status: not_started
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  risks: []
+  metadata:
+    bugs_addressed:
+    - 7
+    - 14
+    priority: low
+    consolidated_from:
+    - 'Bug #7'
+    - 'Bug #14'
+  slug: dogfooding-bugs-06
+  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
+  criteria: []
+  sequence: 6

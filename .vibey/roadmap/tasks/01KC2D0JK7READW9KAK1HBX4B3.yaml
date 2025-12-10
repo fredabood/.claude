@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Audit existing cli-changes.json implementation
-  description: Review current cli-changes.json tracking system. Document capabilities, limitations, and gaps. Assess alignment with unified architecture activity_log. Deliverable - CLI_CHANGES_AUDIT.md
+  title: Design command-level activity log schema
+  description: Design new CommandActivityEvent format with command-level granularity (one CLI command = one entry). Include changes[] array for field-level history, file_hash_before/after for verification, signature/signer for Phase 4. Deliverable - ACTIVITY_LOG_V2_SCHEMA.md
   status: not_started
   created: '2025-11-26T01:21:21.767641+00:00'
   started: null

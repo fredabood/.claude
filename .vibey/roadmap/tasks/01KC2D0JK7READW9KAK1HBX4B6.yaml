@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Add vibey verify-change command
-  description: Create vibey verify-change command to verify if YAML change was made through CLI. Provides implementation for ManifestVerifiedTarget.is_satisfied(). Supports --commit flag and JSON output for CI
+  title: Implement verification logic and verify-change command
+  description: Create ChangeVerifier class with hash-based lookups against activity log. Implement vibey verify-change command with --commit flag for historical verification and --json output. Exit codes - 0=verified, 1=unverified, 2=error. Also migrate existing activity log entries to new format
   status: not_started
   created: '2025-11-26T01:21:21.767662+00:00'
   started: null

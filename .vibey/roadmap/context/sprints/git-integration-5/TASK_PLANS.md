@@ -4,163 +4,328 @@
 **Track:** Enhanced Git Integration
 **Status:** Planning
 **Created:** 2025-12-10
+**Updated:** 2025-12-10 (Unified Activity Log Architecture)
 **Integration Reference:** docs/roadmap/sqlite-backend/sqlite-backend-6/UNIFIED_TICKET_ARCHITECTURE.md
 
 ---
 
-## Unified Architecture Integration Summary
+## Architecture Decision: Unified Activity Log
 
-Sprint 5 implements **process enforcement** that complements the unified architecture's **requirement validation**:
+**Decision:** Merge manifest functionality INTO the activity log system.
 
-| System | Purpose | Question |
-|--------|---------|----------|
-| Unified Architecture | Requirement validation | "Are all criteria met for transition?" |
-| Sprint 5 | Process enforcement | "Did this change go through the approved CLI?" |
+**Key Changes:**
+1. Activity log changes from **field-level** to **command-level** granularity
+2. One CLI command = one activity log entry
+3. Activity log entries include verification fields (hash, signature)
+4. No separate manifest file needed
 
-**Key Integration Points:**
-1. `ManifestVerifiedTarget` - New criterion type proving CLI usage
-2. `activity_log` linking - Manifest entries sync to ticket activity
-3. `ManualTarget.assessed_by` alignment - Signature tracking
+### New Activity Log Entry Format
+
+```jsonl
+{
+  "id": "evt_01KC...",
+  "timestamp": "2025-12-10T15:30:00.000000+00:00",
+  "command": "vibey roadmap update task 01KC... --status completed --title 'New title'",
+  "object_type": "task",
+  "object_id": "01KC2D0JK7READW9KAK1HBX4B3",
+  "changes": [
+    {"field": "status", "old": "in_progress", "new": "completed"},
+    {"field": "title", "old": "Old title", "new": "New title"}
+  ],
+  "file_path": ".vibey/roadmap/tasks/01KC2D0JK7READW9KAK1HBX4B3.yaml",
+  "file_hash_before": "a1b2c3d4e5f6...",
+  "file_hash_after": "f6e5d4c3b2a1...",
+  "changed_by": "cli",
+  "reason": null,
+  "signature": null,
+  "signer": null
+}
+```
+
+### Comparison: Old vs New
+
+| Aspect | Old (Field-Level) | New (Command-Level) |
+|--------|-------------------|---------------------|
+| Granularity | One entry per field | One entry per CLI command |
+| `--status X --title Y` | 2 entries | 1 entry |
+| Changes stored in | `field`, `old_value`, `new_value` | `changes[]` array |
+| File verification | Not included | `file_hash_before/after` |
+| Signing | Not included | `signature`, `signer` |
+| Manifest | Separate system | **Integrated** |
+
+### Benefits
+
+1. **Single source of truth** - No separate manifest to maintain
+2. **Atomic operations** - One command = one entry (intuitive)
+3. **Natural 1:1 mapping** - Activity entry = verification entry
+4. **Simpler verification** - Git hooks query activity log directly
+5. **Field history preserved** - `changes[]` array still allows field queries
+
+---
+
+## Phase 0: Activity Log Refactor (Tasks 000A-000D)
+
+**NEW PHASE** - Refactor existing activity log before adding verification features.
+
+### Task 000A: Design command-level activity log schema
+**Complexity:** Medium | **Estimate:** 3 hours
+
+**Description:**
+Design the new command-level activity log entry format that unifies audit logging with manifest verification.
+
+**Implementation Steps:**
+1. Define new `CommandActivityEvent` dataclass:
+   ```python
+   @dataclass
+   class CommandActivityEvent:
+       id: str                          # Unique event ID (ULID)
+       timestamp: str                   # ISO8601
+       command: str                     # Full CLI command
+       object_type: str                 # track, sprint, task, roadmap
+       object_id: str                   # ULID of modified object
+       changes: List[FieldChange]       # Array of field changes
+       file_path: str                   # Relative path to YAML
+       file_hash_before: Optional[str]  # SHA256 before change
+       file_hash_after: str             # SHA256 after change
+       changed_by: str                  # "cli", "migration", etc.
+       reason: Optional[str]            # User-provided reason
+       signature: Optional[str]         # Ed25519 signature (Phase 4)
+       signer: Optional[str]            # Signer identity
+
+   @dataclass
+   class FieldChange:
+       field: str
+       old: Any
+       new: Any
+   ```
+2. Document migration path from old `ActivityEvent`
+3. Design backward compatibility layer
+
+**Acceptance Criteria:**
+- [ ] New schema documented
+- [ ] FieldChange nested type defined
+- [ ] Migration strategy documented
+- [ ] Backward compatibility approach defined
+
+**Deliverables:**
+- `ACTIVITY_LOG_V2_SCHEMA.md` in sprint context
+
+---
+
+### Task 000B: Refactor ActivityEvent to CommandActivityEvent
+**Complexity:** High | **Estimate:** 6 hours
+**Depends on:** Task 000A
+
+**Description:**
+Refactor `vibey/operations/roadmap/jsonl_activity_log.py` to use command-level granularity.
+
+**Implementation Steps:**
+1. Create new `CommandActivityEvent` dataclass
+2. Create `FieldChange` dataclass
+3. Update `ActivityLogWriter`:
+   - New method: `log_command(command, object_type, object_id, changes, file_path, ...)`
+   - Compute file hashes automatically
+   - Generate event ID (ULID)
+4. Update `ActivityLogReader`:
+   - Parse new format
+   - Add `get_changes_for_field()` method for field-level queries
+5. Maintain backward compatibility:
+   - Reader should handle both old and new formats
+   - Old format entries returned with `changes: [single_change]`
+
+**Acceptance Criteria:**
+- [ ] `CommandActivityEvent` dataclass implemented
+- [ ] Writer logs command-level entries
+- [ ] Reader parses both old and new formats
+- [ ] File hash computation integrated
+- [ ] Unit tests updated
+
+**Deliverables:**
+- Updated `jsonl_activity_log.py`
+- `FieldChange` dataclass
+
+---
+
+### Task 000C: Update CLI commands to use command-level logging
+**Complexity:** High | **Estimate:** 8 hours
+**Depends on:** Task 000B
+
+**Description:**
+Update all CLI commands to log single command-level entries instead of multiple field-level entries.
+
+**Implementation Steps:**
+1. Identify all CLI write operations in `vibey/cli/commands.py`
+2. For each command:
+   - Capture full command string
+   - Collect all field changes into list
+   - Compute file hash before change
+   - Make change
+   - Compute file hash after change
+   - Log single `CommandActivityEvent`
+3. Create helper decorator or context manager:
+   ```python
+   @log_command
+   def update_task(task_id, status, title, ...):
+       # Changes are automatically collected and logged
+   ```
+4. Update `AuditTrailManager` to use new format
+
+**Acceptance Criteria:**
+- [ ] All CLI write commands log command-level entries
+- [ ] File hashes computed for each change
+- [ ] Single entry per command (not per field)
+- [ ] Integration tests pass
+
+**Deliverables:**
+- Updated CLI commands
+- Command logging helper
+
+---
+
+### Task 000D: Migrate existing activity log entries
+**Complexity:** Medium | **Estimate:** 4 hours
+**Depends on:** Task 000C
+
+**Description:**
+Migrate existing field-level activity log entries to command-level format where possible.
+
+**Implementation Steps:**
+1. Analyze existing entries in `.vibey/roadmap/activity_log/`
+2. Group consecutive entries by:
+   - Same timestamp (within 1 second)
+   - Same object_id
+   - Same changed_by
+3. Merge grouped entries into single command-level entries:
+   ```python
+   # Old (2 entries):
+   {"field": "status", "old": "a", "new": "b", ...}
+   {"field": "title", "old": "x", "new": "y", ...}
+
+   # New (1 entry):
+   {"changes": [{"field": "status", ...}, {"field": "title", ...}], ...}
+   ```
+4. Entries that can't be grouped stay as-is (single-change format)
+5. Create backup before migration
+
+**Acceptance Criteria:**
+- [ ] Backup created before migration
+- [ ] Consecutive entries merged where possible
+- [ ] Standalone entries converted to new format
+- [ ] Verification: entry count reduced, no data loss
+- [ ] Reader still works with migrated data
+
+**Deliverables:**
+- Migration script
+- Migrated activity log files
 
 ---
 
 ## Phase 1: Foundation (Tasks 001-004)
 
-### Task 001: Audit existing cli-changes.json implementation
+### Task 001: Audit existing tracking implementations
 **File:** `01KC2D0JK7READW9KAK1HBX4B3.yaml`
 **Complexity:** Low | **Estimate:** 2 hours
 
 **Description:**
-Review the current `.vibey/cli-changes.json` tracking system to understand its capabilities and limitations. Document current state, identify gaps, and assess alignment with unified architecture.
+Review both the old `cli-changes.json` and the new command-level activity log. Document current state and identify remaining gaps for verification.
 
 **Implementation Steps:**
-1. Locate and read current cli-changes.json implementation
-2. Document current manifest format (fields, structure)
-3. List what CLI operations are tracked vs not tracked
-4. Identify coverage gaps
-5. Document how manifest could integrate with `Ticket.activity_log`
-
-**Unified Architecture Integration:**
-- Review `activity_log` field in ticket models
-- Identify overlap with manifest tracking
-- Propose dual-write strategy (manifest + activity_log)
+1. Review `.vibey/cli-changes.json` (if still exists)
+2. Review new command-level activity log format
+3. Verify all CLI operations are being logged
+4. Identify any gaps in coverage
+5. Document verification requirements not yet met
 
 **Acceptance Criteria:**
-- [ ] Current manifest format documented
-- [ ] List of tracked vs untracked operations
-- [ ] Gap analysis document
-- [ ] Integration proposal with unified architecture
+- [ ] Current logging coverage documented
+- [ ] Gaps identified
+- [ ] Verification requirements listed
 
 **Deliverables:**
-- `CLI_CHANGES_AUDIT.md` in sprint context
+- `TRACKING_AUDIT.md` in sprint context
 
 ---
 
-### Task 002: Design standardized manifest format
+### Task 002: Add verification fields to activity log
 **File:** `01KC2D0JK7READW9KAK1HBX4B4.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
-**Depends on:** Task 001
+**Depends on:** Task 001, Task 000B
 
 **Description:**
-Design a comprehensive manifest format that tracks all CLI write operations with sufficient metadata for verification. Align with unified ticket architecture concepts.
+Ensure activity log entries have all fields needed for verification. Design the `ActivityVerifiedTarget` criterion type.
 
 **Implementation Steps:**
-1. Define manifest entry schema:
-   ```yaml
-   manifest_entry:
-     timestamp: ISO8601
-     operation: create|update|delete|complete|start
-     cli_command: "vibey roadmap update task..."
-     target_type: roadmap|track|sprint|task
-     target_id: ULID
-     file_path: relative path
-     before_hash: SHA256 (null for create)
-     after_hash: SHA256
-     user_id: string (from auth if signed)
-     signature: base64 (Phase 4)
+1. Verify schema includes:
+   - `file_hash_before` / `file_hash_after` (SHA256)
+   - `signature` (optional, for Phase 4)
+   - `signer` (optional, for Phase 4)
+2. Define `ActivityVerifiedTarget` criterion type:
+   ```python
+   class ActivityVerifiedTarget(CriterionTarget):
+       """Criterion met when activity log verification succeeds."""
+       target_id: str
+
+       def is_satisfied(self) -> bool:
+           return verify_activity_entry(self.target_id)
    ```
-2. Design manifest file structure (`.vibey/manifest.jsonl` - append-only)
-3. Define retention/rotation policy
-4. Document verification algorithm
-
-**Unified Architecture Integration:**
-- Map `operation` to `TicketStatus` transitions
-- Define `ManifestVerifiedTarget` criterion type:
-  ```python
-  class ManifestVerifiedTarget(CriterionTarget):
-      """Criterion met when manifest verification succeeds."""
-      target_id: str
-      operation: str  # Operation type to verify
-
-      def is_satisfied(self) -> bool:
-          return verify_manifest_entry(self.target_id, self.operation)
-  ```
-- Link manifest entries to `Ticket.activity_log` format
+3. Document verification algorithm:
+   - Find entry with `file_hash_after` matching current file
+   - Verify entry exists
+   - (Phase 4) Verify signature if present
 
 **Acceptance Criteria:**
-- [ ] Manifest schema documented and validated
-- [ ] File format decision (JSONL recommended)
-- [ ] ManifestVerifiedTarget design documented
-- [ ] Integration with activity_log documented
+- [ ] All verification fields present in schema
+- [ ] `ActivityVerifiedTarget` criterion type designed
+- [ ] Verification algorithm documented
 
 **Deliverables:**
-- `MANIFEST_SCHEMA.md` in sprint context
-- `ManifestVerifiedTarget` type specification
+- Schema verification
+- `ActivityVerifiedTarget` specification
 
 ---
 
-### Task 003: Ensure all CLI write operations record to manifest
+### Task 003: Implement verification logic
 **File:** `01KC2D0JK7READW9KAK1HBX4B5.yaml`
-**Complexity:** High | **Estimate:** 8 hours
+**Complexity:** Medium | **Estimate:** 6 hours
 **Depends on:** Task 002
 
 **Description:**
-Update all roadmap CLI commands that modify YAML files to record their changes to the manifest. This ensures complete audit trail of CLI-authorized changes.
+Implement core verification logic that checks if a file change has a corresponding activity log entry.
 
 **Implementation Steps:**
-1. Identify all CLI write operations in `vibey/cli/commands.py`:
-   - `roadmap update task`
-   - `roadmap update sprint`
-   - `roadmap update track`
-   - `roadmap create task`
-   - `roadmap create sprint`
-   - `roadmap create track`
-   - etc.
-2. Create manifest writer utility:
+1. Create `vibey/operations/roadmap/verification.py`:
    ```python
-   # vibey/operations/roadmap/manifest.py
-   class ManifestWriter:
-       def record_change(
-           self,
-           operation: str,
-           target_type: str,
-           target_id: str,
-           file_path: Path,
-           before_content: Optional[str],
-           after_content: str,
-           cli_command: str
-       ) -> ManifestEntry
-   ```
-3. Integrate manifest writer into each CLI command
-4. Add pre-write hash calculation
-5. Add post-write verification
+   class ChangeVerifier:
+       def __init__(self, activity_reader: ActivityLogReader):
+           self.reader = activity_reader
 
-**Unified Architecture Integration:**
-- Also write to `activity_log` field for each ticket modified
-- Use same timestamp for both manifest and activity_log
-- Link manifest entry ID in activity_log entry
+       def verify_file(self, file_path: Path) -> VerificationResult:
+           """Verify file has matching activity log entry."""
+           current_hash = compute_file_hash(file_path)
+           entry = self.reader.find_by_hash(current_hash)
+           if not entry:
+               return VerificationResult(False, "No matching activity log entry")
+           return VerificationResult(True, f"Verified: {entry.id}")
+
+       def verify_file_at_commit(self, file_path: Path, commit: str) -> VerificationResult:
+           """Verify file state at specific commit."""
+           # Get file content at commit
+           # Find matching entry
+   ```
+2. Add `find_by_hash()` method to `ActivityLogReader`
+3. Create hash index for efficient lookups
+4. Handle edge cases: new files, deleted files
 
 **Acceptance Criteria:**
-- [ ] All write operations recorded to manifest
-- [ ] Consistent format across all commands
-- [ ] Pre/post hash verification working
-- [ ] Unit tests for manifest recording
-- [ ] Activity log dual-write implemented
+- [ ] `ChangeVerifier` class implemented
+- [ ] Hash-based lookup efficient
+- [ ] Historical verification supported
+- [ ] Edge cases handled
+- [ ] Unit tests
 
 **Deliverables:**
-- `vibey/operations/roadmap/manifest.py`
-- Updated CLI commands
-- Test suite
+- `vibey/operations/roadmap/verification.py`
+- Updated `ActivityLogReader`
 
 ---
 
@@ -170,200 +335,188 @@ Update all roadmap CLI commands that modify YAML files to record their changes t
 **Depends on:** Task 003
 
 **Description:**
-Create a new CLI command that verifies if a YAML change was made through CLI by checking the manifest.
+Create CLI command to verify if a file change was made through CLI.
 
 **Implementation Steps:**
-1. Implement `vibey verify-change <file>` command:
+1. Implement `vibey verify-change <file>`:
    ```python
    @roadmap.command('verify-change')
    @click.argument('file_path')
    @click.option('--commit', help='Verify against specific commit')
-   def verify_change(file_path: str, commit: Optional[str]):
+   @click.option('--json', 'output_json', is_flag=True, help='JSON output')
+   def verify_change(file_path: str, commit: Optional[str], output_json: bool):
        """Verify a file change was made through CLI."""
-   ```
-2. Verification algorithm:
-   - Get current file hash
-   - Find manifest entry with matching after_hash
-   - Verify entry exists and is valid
-   - Return success/failure with details
-3. Support `--commit` flag for historical verification
-4. JSON output option for machine parsing
+       verifier = ChangeVerifier(get_activity_reader())
+       if commit:
+           result = verifier.verify_file_at_commit(file_path, commit)
+       else:
+           result = verifier.verify_file(file_path)
 
-**Unified Architecture Integration:**
-- This command provides the implementation for `ManifestVerifiedTarget.is_satisfied()`
-- Can be called by criterion evaluation system
-- Output format compatible with criterion result
+       if output_json:
+           click.echo(json.dumps(result.to_dict()))
+       else:
+           click.echo(result.message)
+
+       sys.exit(0 if result.verified else 1)
+   ```
+2. Exit codes: 0=verified, 1=unverified, 2=error
+3. Human-readable and JSON output modes
 
 **Acceptance Criteria:**
-- [ ] `vibey verify-change <file>` command works
-- [ ] Clear success/failure messages
-- [ ] `--commit` flag for historical checks
-- [ ] JSON output option
-- [ ] Exit codes suitable for scripting (0=verified, 1=unverified, 2=error)
+- [ ] `vibey verify-change <file>` works
+- [ ] `--commit` flag for historical verification
+- [ ] `--json` flag for machine parsing
+- [ ] Appropriate exit codes
 
 **Deliverables:**
-- `verify-change` command in CLI
-- Verification logic in `vibey/operations/roadmap/manifest.py`
+- `verify-change` command
 
 ---
 
 ## Phase 2: Local Enforcement (Tasks 005-008)
 
-### Task 005: Update pre-commit hook to verify manifest
+### Task 005: Update pre-commit hook for verification
 **File:** `01KC2D0JK7READW9KAK1HBX4B7.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 004
 
 **Description:**
-Modify the pre-commit hook to use manifest verification for staged YAML files in the roadmap directory.
+Modify pre-commit hook to verify staged roadmap files against activity log.
 
 **Implementation Steps:**
 1. Update `vibey/operations/git/hooks/pre_commit.py`:
    ```python
    def verify_staged_roadmap_files():
+       verifier = ChangeVerifier(get_activity_reader())
        staged = get_staged_files()
        roadmap_files = [f for f in staged if is_roadmap_file(f)]
-       for file in roadmap_files:
-           result = verify_change(file)
-           if not result.verified:
-               block_commit(f"Unverified change to {file}")
-   ```
-2. Clear error messages explaining why commit is blocked
-3. Guidance on how to make changes correctly (use CLI)
-4. Support for `--no-verify` bypass (with audit logging)
 
-**Unified Architecture Integration:**
-- Hook enforces process that criterion validates
-- Failed verification = criterion would fail
-- Prevents invalid state from entering git
+       failures = []
+       for file in roadmap_files:
+           result = verifier.verify_file(file)
+           if not result.verified:
+               failures.append((file, result.message))
+
+       if failures:
+           for file, msg in failures:
+               print(f"BLOCKED: {file} - {msg}")
+           print("\nUse 'vibey roadmap' commands to make changes.")
+           sys.exit(1)
+   ```
+2. Clear error messages with guidance
+3. List all failed files before blocking
 
 **Acceptance Criteria:**
-- [ ] Pre-commit verifies all staged roadmap YAML files
-- [ ] Clear error messages on failure
-- [ ] Commit passes when changes are verified
-- [ ] Helpful guidance for users
+- [ ] Hook verifies all staged roadmap files
+- [ ] Clear error messages
+- [ ] Guidance to use CLI
+- [ ] All failures listed (not just first)
 
 **Deliverables:**
 - Updated pre-commit hook
-- Error message templates
 
 ---
 
-### Task 006: Add pre-push hook with manifest verification
+### Task 006: Add pre-push hook
 **File:** `01KC2D0JK7READW9KAK1HBX4B8.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 005
 
 **Description:**
-Create a pre-push hook that verifies all commits being pushed have valid manifest entries for roadmap changes.
+Create pre-push hook that verifies all commits being pushed.
 
 **Implementation Steps:**
-1. Create `vibey/operations/git/hooks/pre_push.py`:
-   ```python
-   def verify_commits_in_push(remote: str, url: str, local_ref: str, remote_ref: str):
-       commits = get_commits_in_range(remote_ref, local_ref)
-       for commit in commits:
-           roadmap_files = get_changed_files(commit, pattern=".vibey/roadmap/**")
-           for file in roadmap_files:
-               verify_at_commit(file, commit)
-   ```
-2. Install alongside pre-commit hook
-3. Verify entire commit range being pushed
-4. Block push if any commit has unverified changes
+1. Create `vibey/operations/git/hooks/pre_push.py`
+2. Get commit range being pushed
+3. For each commit, verify all roadmap file changes
+4. Block push if any verification fails
+5. Clear error output with commit hashes
 
 **Acceptance Criteria:**
-- [ ] Pre-push hook installed with hook installation command
-- [ ] Verifies all commits in push range
-- [ ] Blocks push on unverified changes
-- [ ] Clear error messages with commit hashes
+- [ ] Pre-push hook implemented
+- [ ] Verifies all commits in range
+- [ ] Blocks on failure
+- [ ] Shows which commits/files failed
 
 **Deliverables:**
-- `pre_push.py` hook implementation
-- Hook installer update
+- `pre_push.py` hook
 
 ---
 
-### Task 007: Add bypass detection with audit logging
+### Task 007: Add bypass detection
 **File:** `01KC2D0JK7READW9KAK1HBX4B9.yaml`
 **Complexity:** Low | **Estimate:** 2 hours
 **Depends on:** Task 005
 
 **Description:**
-Implement post-commit hook that detects when pre-commit was bypassed and logs to audit trail.
+Detect when pre-commit hook was bypassed via `--no-verify`.
 
 **Implementation Steps:**
-1. Create `vibey/operations/git/hooks/post_commit.py`:
-   ```python
-   def detect_bypass():
-       # Check if pre-commit marker file exists
-       if not pre_commit_ran():
-           log_bypass_event(
-               commit=get_head_commit(),
-               timestamp=datetime.now(timezone.utc),
-               files=get_changed_roadmap_files()
-           )
+1. Pre-commit creates marker: `.vibey/.pre-commit-ran`
+2. Post-commit checks for marker
+3. If missing + roadmap files changed = bypass detected
+4. Log bypass to activity log with special event type:
+   ```jsonl
+   {
+     "id": "evt_...",
+     "timestamp": "...",
+     "command": "BYPASS_DETECTED",
+     "object_type": "system",
+     "object_id": "pre-commit",
+     "changes": [],
+     "file_path": null,
+     "file_hash_before": null,
+     "file_hash_after": null,
+     "changed_by": "git-hook",
+     "reason": "Pre-commit hook bypassed",
+     "commit": "abc123..."
+   }
    ```
-2. Marker file approach: pre-commit creates `.vibey/.pre-commit-ran`
-3. Post-commit checks and deletes marker
-4. Missing marker = bypass detected
-5. Log to `.vibey/audit/bypass.log`
-
-**Unified Architecture Integration:**
-- Bypass events could create blocking criteria
-- `ExternalTarget` pointing to bypass audit status
-- Team can require "no recent bypasses" as criterion
 
 **Acceptance Criteria:**
-- [ ] Post-commit detects bypass
-- [ ] Logs to `.vibey/audit/bypass.log`
-- [ ] Includes commit hash, timestamp, files
-- [ ] Works with both pre-commit and commit-msg hooks
+- [ ] Bypass detection works
+- [ ] Logged to activity log
+- [ ] Includes commit hash
 
 **Deliverables:**
-- `post_commit.py` hook
-- Bypass audit log format
+- Post-commit hook
+- Bypass event type
 
 ---
 
-### Task 008: Documentation for hook installation
+### Task 008: Hook documentation
 **File:** `01KC2D0JK7READW9KAK1HBX4BA.yaml`
 **Complexity:** Low | **Estimate:** 2 hours
 **Depends on:** Task 007
 
 **Description:**
-Update documentation for git hook installation, covering all hooks.
+Document git hook installation and usage.
 
 **Implementation Steps:**
-1. Update `vibey roadmap install-hooks` command to install all hooks
-2. Create `docs/guides/GIT_HOOKS.md`:
-   - Pre-commit: YAML validation + manifest verification
-   - Commit-msg: Task reference parsing
-   - Post-commit: Bypass detection
-   - Pre-push: Batch commit verification
-3. Troubleshooting section
-4. Uninstall instructions
+1. Update `vibey roadmap install-hooks` to install all hooks
+2. Create `docs/guides/GIT_HOOKS.md`
+3. Cover: pre-commit, commit-msg, post-commit, pre-push
+4. Troubleshooting section
 
 **Acceptance Criteria:**
-- [ ] Updated `install-hooks` command
-- [ ] Comprehensive hook documentation
-- [ ] Troubleshooting guide
-- [ ] Uninstall command/instructions
+- [ ] All hooks in install command
+- [ ] Documentation complete
+- [ ] Troubleshooting included
 
 **Deliverables:**
 - `docs/guides/GIT_HOOKS.md`
-- Updated CLI help text
 
 ---
 
 ## Phase 3: Server Enforcement (Tasks 009-012)
 
-### Task 009: Create GitHub Actions workflow for verification
+### Task 009: GitHub Actions workflow
 **File:** `01KC2D0JK7READW9KAK1HBX4BB.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 004
 
 **Description:**
-Create a GitHub Actions workflow that verifies roadmap integrity on push and PR.
+Create GitHub Actions workflow for server-side verification.
 
 **Implementation Steps:**
 1. Create `.github/workflows/roadmap-integrity.yml`:
@@ -376,18 +529,16 @@ Create a GitHub Actions workflow that verifies roadmap integrity on push and PR.
        steps:
          - uses: actions/checkout@v4
            with:
-             fetch-depth: 0  # Full history for commit range
+             fetch-depth: 0
          - uses: actions/setup-python@v5
+           with:
+             python-version: '3.11'
          - run: pip install vibey
          - run: vibey verify-commits ${{ github.event.before }}..${{ github.sha }}
    ```
-2. Block merge on failure
-3. Clear status check name
-4. Support for base branch comparison on PRs
 
 **Acceptance Criteria:**
-- [ ] Workflow file created
-- [ ] Runs on push and PR
+- [ ] Workflow runs on push and PR
 - [ ] Blocks merge on failure
 - [ ] Clear error output
 
@@ -396,103 +547,54 @@ Create a GitHub Actions workflow that verifies roadmap integrity on push and PR.
 
 ---
 
-### Task 010: Create GitLab CI equivalent
+### Task 010: GitLab CI equivalent
 **File:** `01KC2D0JK7READW9KAK1HBX4BC.yaml`
 **Complexity:** Low | **Estimate:** 2 hours
 **Depends on:** Task 009
 
 **Description:**
-Create GitLab CI configuration for roadmap integrity verification.
-
-**Implementation Steps:**
-1. Create `.gitlab-ci.yml` section:
-   ```yaml
-   roadmap-integrity:
-     stage: test
-     image: python:3.11
-     script:
-       - pip install vibey
-       - vibey verify-commits $CI_COMMIT_BEFORE_SHA..$CI_COMMIT_SHA
-     rules:
-       - changes:
-           - ".vibey/roadmap/**"
-   ```
-2. Only run when roadmap files change
-3. Block pipeline on failure
-
-**Acceptance Criteria:**
-- [ ] GitLab CI config section
-- [ ] Equivalent to GitHub Actions
-- [ ] Documentation for setup
+Create GitLab CI configuration.
 
 **Deliverables:**
 - GitLab CI example in docs
 
 ---
 
-### Task 011: Add vibey verify-commits command for CI
+### Task 011: vibey verify-commits command
 **File:** `01KC2D0JK7READW9KAK1HBX4BD.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 004
 
 **Description:**
-Create a CLI command that verifies a range of commits for roadmap integrity, suitable for CI use.
+Create command to verify commit ranges for CI use.
 
 **Implementation Steps:**
 1. Implement `vibey verify-commits <range>`:
    ```python
    @roadmap.command('verify-commits')
    @click.argument('range')
-   @click.option('--json', is_flag=True, help='JSON output')
+   @click.option('--json', is_flag=True)
    def verify_commits(range: str, json: bool):
-       """Verify roadmap changes in a commit range."""
-       commits = parse_git_range(range)
-       results = []
-       for commit in commits:
-           result = verify_commit_changes(commit)
-           results.append(result)
-       # Return appropriate exit code
+       """Verify roadmap changes in commit range."""
    ```
-2. Accept git revision range (e.g., `main..HEAD`, `abc123..def456`)
-3. Non-zero exit code on any failure
-4. JSON output for CI parsing
-5. Summary output for humans
+2. Parse git revision range
+3. Verify each commit's roadmap changes
+4. Exit code 0=all pass, 1=failures
 
 **Acceptance Criteria:**
-- [ ] `vibey verify-commits <range>` command
-- [ ] Accepts git revision range
-- [ ] Exit code 0=all verified, 1=failures found
+- [ ] Command works with git ranges
 - [ ] JSON output option
-- [ ] Human-readable summary
+- [ ] Appropriate exit codes
 
 **Deliverables:**
 - `verify-commits` command
-- Batch verification logic
 
 ---
 
-### Task 012: Documentation for CI setup
+### Task 012: CI documentation
 **File:** `01KC2D0JK7READW9KAK1HBX4BE.yaml`
 **Complexity:** Low | **Estimate:** 2 hours
 **Depends on:** Task 010, Task 011
-
-**Description:**
-Document how to set up CI verification for GitHub Actions and GitLab CI.
-
-**Implementation Steps:**
-1. Create `docs/guides/CI_VERIFICATION.md`:
-   - GitHub Actions setup
-   - GitLab CI setup
-   - Generic CI setup (any system)
-   - Required environment
-   - Troubleshooting
-2. Copy-paste ready configurations
-3. Example output and error messages
-
-**Acceptance Criteria:**
-- [ ] Setup guide in docs
-- [ ] Copy-paste ready configs
-- [ ] Troubleshooting section
 
 **Deliverables:**
 - `docs/guides/CI_VERIFICATION.md`
@@ -501,248 +603,130 @@ Document how to set up CI verification for GitHub Actions and GitLab CI.
 
 ## Phase 4: Cryptographic Signing (Tasks 013-018)
 
-### Task 013: Design key management system
+### Task 013: Design key management
 **File:** `01KC2D0JK7READW9KAK1HBX4BF.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 002
 
 **Description:**
-Design the key management architecture for cryptographic signing of manifest entries.
+Design key management for signing activity log entries.
 
-**Implementation Steps:**
-1. Define key storage locations:
-   - Private key: `~/.vibey/private.key` (user-local, never committed)
-   - Public keys: `.vibey/authorized-signers/` (committed to repo)
-2. Key format: Ed25519 (fast, secure, small)
-3. Public key registration mechanism:
-   - Signer adds their public key via PR
-   - Existing authorized signers approve
-   - Bootstrap: first signer self-authorizes
-4. Key rotation strategy:
-   - Old keys remain valid for verification
-   - New keys added, old removed after transition period
-5. Solve bootstrap problem:
-   - Project owner generates first keypair
-   - Commits public key as first authorized signer
-   - This commit can be unsigned (bootstrap exception)
-
-**Unified Architecture Integration:**
-- Signature field aligns with `ManualTarget.assessed_by`
-- Signer identity maps to `assessed_by` for audit trail
-- Public key registry is source of truth for valid assessors
-
-**Acceptance Criteria:**
-- [ ] Key storage locations defined
-- [ ] Key format and algorithm chosen
-- [ ] Bootstrap problem solved
-- [ ] Key rotation documented
-- [ ] Security considerations documented
+**Key Decisions:**
+- Private key: `~/.vibey/private.key` (never committed)
+- Public keys: `.vibey/authorized-signers/` (committed)
+- Algorithm: Ed25519
+- Bootstrap: First signer self-authorizes
 
 **Deliverables:**
-- `KEY_MANAGEMENT_DESIGN.md` in sprint context
+- `KEY_MANAGEMENT_DESIGN.md`
 
 ---
 
-### Task 014: Implement key generation (vibey auth setup)
+### Task 014: vibey auth setup
 **File:** `01KC2D0JK7READW9KAK1HBX4BG.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 013
 
 **Description:**
-Implement the vibey auth setup command to generate keypairs for signing.
-
-**Implementation Steps:**
-1. Implement `vibey auth setup`:
-   ```python
-   @click.group()
-   def auth():
-       """Authentication and signing commands."""
-
-   @auth.command('setup')
-   @click.option('--force', is_flag=True, help='Overwrite existing keys')
-   def setup(force: bool):
-       """Generate signing keypair."""
-       key_dir = Path.home() / '.vibey'
-       private_key_path = key_dir / 'private.key'
-       public_key_path = key_dir / 'public.key'
-
-       if private_key_path.exists() and not force:
-           raise click.ClickException("Keys exist. Use --force to overwrite.")
-
-       # Generate Ed25519 keypair
-       private_key = Ed25519PrivateKey.generate()
-       # Save keys...
-   ```
-2. Use `cryptography` library for Ed25519
-3. Store private key with restrictive permissions (0600)
-4. Display public key for registration
-5. Prompt before overwriting existing keys
+Generate Ed25519 keypair for signing.
 
 **Acceptance Criteria:**
-- [ ] `vibey auth setup` generates keypair
-- [ ] Keys stored in `~/.vibey/`
-- [ ] Ed25519 algorithm used
-- [ ] Prompts for overwrite
-- [ ] Displays public key for registration
+- [ ] Generates keypair
+- [ ] Stores in `~/.vibey/`
+- [ ] Displays public key
 
 **Deliverables:**
 - `vibey auth setup` command
-- `vibey/operations/auth/keys.py`
 
 ---
 
-### Task 015: Implement signer registration (vibey auth add-signer)
+### Task 015: vibey auth add-signer
 **File:** `01KC2D0JK7READW9KAK1HBX4BH.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 014
 
 **Description:**
-Implement command to register new signers by adding their public key to the repository.
-
-**Implementation Steps:**
-1. Implement `vibey auth add-signer`:
-   ```python
-   @auth.command('add-signer')
-   @click.argument('name')
-   @click.argument('pubkey_file', type=click.Path(exists=True))
-   def add_signer(name: str, pubkey_file: str):
-       """Register a new authorized signer."""
-       # Validate public key format
-       # Create .vibey/authorized-signers/{name}.pub
-       # Require existing signer to commit (except bootstrap)
-   ```
-2. Validate public key format
-3. Store in `.vibey/authorized-signers/{name}.pub`
-4. Bootstrap detection: if no signers exist, allow self-registration
-5. Otherwise, require commit to be signed by existing signer
-
-**Acceptance Criteria:**
-- [ ] `vibey auth add-signer` command
-- [ ] Validates public key format
-- [ ] Creates file in authorized-signers directory
-- [ ] Handles bootstrap case
-- [ ] Error handling for invalid keys
+Register authorized signers.
 
 **Deliverables:**
 - `vibey auth add-signer` command
-- Authorized signers directory structure
 
 ---
 
-### Task 016: Integrate signing into CLI manifest writes
+### Task 016: Integrate signing into activity log
 **File:** `01KC2D0JK7READW9KAK1HBX4BJ.yaml`
 **Complexity:** High | **Estimate:** 6 hours
 **Depends on:** Task 015
 
 **Description:**
-Update manifest recording to sign entries with user's private key.
+Sign activity log entries with user's private key.
 
 **Implementation Steps:**
-1. Update `ManifestWriter.record_change()`:
+1. Update `ActivityLogWriter.log_command()`:
    ```python
-   def record_change(self, ...):
-       entry = ManifestEntry(
-           timestamp=...,
-           operation=...,
-           # ... other fields
-       )
+   def log_command(self, ...):
+       event = CommandActivityEvent(...)
 
-       # Sign the entry
-       if self.signing_enabled:
+       if signing_enabled():
            private_key = load_private_key()
-           signature_data = entry.canonical_bytes()
-           entry.signature = sign(private_key, signature_data)
-           entry.signer = get_signer_name()
+           event.signature = sign(private_key, event.canonical_bytes())
+           event.signer = get_signer_identity()
 
-       self.append_entry(entry)
+       self.write_event(event)
    ```
-2. Define canonical serialization for signing (deterministic)
-3. Sign: timestamp, operation, target_id, file_path, before_hash, after_hash
-4. Optional signing (graceful degradation if no key)
-5. Clear message when signing skipped
+2. Define canonical serialization (deterministic JSON)
+3. Sign: id, timestamp, command, object_id, changes, file_hashes
+4. Graceful degradation if no key
 
 **Acceptance Criteria:**
-- [ ] Manifest entries include signature field
-- [ ] Signature covers critical fields
-- [ ] Uses user's private key
-- [ ] Graceful degradation if no key
-- [ ] Signer identity recorded
+- [ ] Entries signed when key available
+- [ ] Canonical serialization defined
+- [ ] Graceful degradation
 
 **Deliverables:**
-- Signing integration in ManifestWriter
-- Canonical serialization format
+- Signing integration
 
 ---
 
-### Task 017: Update verification to check signatures
+### Task 017: Signature verification
 **File:** `01KC2D0JK7READW9KAK1HBX4BK.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
 **Depends on:** Task 016
 
 **Description:**
-Update verify-change and verify-commits to validate signatures against authorized signers.
+Verify signatures against authorized signers.
 
 **Implementation Steps:**
-1. Update verification logic:
+1. Update `ChangeVerifier.verify_file()`:
    ```python
-   def verify_entry(entry: ManifestEntry) -> VerificationResult:
-       # Step 1: Verify hash matches
-       if not verify_hash(entry):
-           return VerificationResult(False, "Hash mismatch")
+   def verify_file(self, file_path: Path) -> VerificationResult:
+       entry = self.find_entry_for_file(file_path)
+       if not entry:
+           return VerificationResult(False, "No activity log entry")
 
-       # Step 2: Verify signature (if present)
        if entry.signature:
-           signer_key = load_authorized_signer(entry.signer)
-           if not signer_key:
-               return VerificationResult(False, f"Unknown signer: {entry.signer}")
-           if not verify_signature(signer_key, entry):
+           if not self.verify_signature(entry):
                return VerificationResult(False, "Invalid signature")
+           if not self.is_authorized_signer(entry.signer):
+               return VerificationResult(False, f"Unknown signer: {entry.signer}")
 
        return VerificationResult(True, "Verified")
    ```
-2. Load public keys from `.vibey/authorized-signers/`
-3. Clear error for unknown signers
-4. Clear error for invalid signatures
-5. Support both signed and unsigned entries (transition period)
 
 **Acceptance Criteria:**
-- [ ] Verification checks signature validity
-- [ ] Checks signer is authorized
-- [ ] Clear errors for invalid/unknown signers
-- [ ] Supports unsigned entries (warning only)
+- [ ] Signature verification works
+- [ ] Unknown signers rejected
+- [ ] Unsigned entries: warning only
 
 **Deliverables:**
-- Updated verification logic
-- Signature validation utilities
+- Signature verification logic
 
 ---
 
-### Task 018: Documentation for key management
+### Task 018: Key management docs
 **File:** `01KC2D0JK7READW9KAK1HBX4BM.yaml`
 **Complexity:** Low | **Estimate:** 4 hours
 **Depends on:** Task 017
-
-**Description:**
-Document the key management system including setup, adding team members, and key rotation.
-
-**Implementation Steps:**
-1. Create `docs/guides/KEY_MANAGEMENT.md`:
-   - Initial setup (`vibey auth setup`)
-   - Registering as a signer
-   - Adding team members
-   - Key rotation procedures
-   - Security considerations
-   - Troubleshooting
-2. Create `docs/guides/TEAM_ONBOARDING.md`:
-   - New team member workflow
-   - Getting authorized
-   - First signed commit
-
-**Acceptance Criteria:**
-- [ ] User guide for vibey auth commands
-- [ ] Team onboarding guide
-- [ ] Key rotation procedures
-- [ ] Security considerations documented
 
 **Deliverables:**
 - `docs/guides/KEY_MANAGEMENT.md`
@@ -752,156 +736,49 @@ Document the key management system including setup, adding team members, and key
 
 ## Phase 5: Polish & Quality (Tasks 019-022)
 
-### Task 019: Error messages and user guidance
+### Task 019: Error messages
 **File:** `01KC2D0JK7READW9KAK1HBX4BN.yaml`
 **Complexity:** Low | **Estimate:** 4 hours
-**Depends on:** Task 008, Task 012, Task 018
 
 **Description:**
-Improve error messages throughout the integrity system to guide users to correct actions.
-
-**Implementation Steps:**
-1. Audit all error messages in:
-   - Verification commands
-   - Git hooks
-   - CI output
-2. Ensure every error:
-   - Explains what went wrong
-   - Suggests correct action
-   - Links to documentation
-3. Create error message catalog
-4. Localization-ready format (future)
-
-**Acceptance Criteria:**
-- [ ] All error messages actionable
-- [ ] Suggest correct CLI commands
-- [ ] Link to documentation
-- [ ] Consistent format across all components
-
-**Deliverables:**
-- Updated error messages
-- Error catalog document
+Improve error messages throughout the system.
 
 ---
 
-### Task 020: Edge case handling (merge conflicts, rebases)
+### Task 020: Edge cases
 **File:** `01KC2D0JK7READW9KAK1HBX4BP.yaml`
 **Complexity:** High | **Estimate:** 8 hours
-**Depends on:** Task 017
 
 **Description:**
-Handle edge cases in git workflows: merge conflicts, rebases, cherry-picks, amends.
+Handle merge conflicts, rebases, cherry-picks, amends.
 
-**Implementation Steps:**
-1. **Merge Conflicts:**
-   - Detect when roadmap files have conflicts
-   - Require re-running CLI commands after resolution
-   - Guidance document
-2. **Rebases:**
-   - Manifest entries reference original commit
-   - After rebase, commit hashes change
-   - Design: manifest references parent relationship or file hash
-3. **Cherry-picks:**
-   - Same issue as rebases
-   - Verify by content hash, not commit hash
-4. **Amends:**
-   - Amended commits change hash
-   - Manifest should track logical change, not commit
-5. **Force pushes:**
-   - Server-side verification catches gaps
-   - Clear error message
-
-**Acceptance Criteria:**
-- [ ] Merge conflict guidance documented
-- [ ] Rebase handling works correctly
-- [ ] Cherry-pick handling documented
-- [ ] Amend limitations documented
-- [ ] Force push detection
+**Key Insight:** Verify by file content hash, not commit hash.
 
 **Deliverables:**
-- Edge case handling code
 - `docs/guides/GIT_WORKFLOW_EDGE_CASES.md`
 
 ---
 
-### Task 021: Performance optimization
+### Task 021: Performance
 **File:** `01KC2D0JK7READW9KAK1HBX4BQ.yaml`
 **Complexity:** Medium | **Estimate:** 4 hours
-**Depends on:** Task 011
 
 **Description:**
-Optimize verification performance for large repositories with many commits.
+Optimize verification performance.
 
-**Implementation Steps:**
-1. **Manifest lookup optimization:**
-   - Index by file path
-   - Index by commit (if needed)
-   - Consider SQLite for large manifests
-2. **Batch verification:**
-   - Process commits in parallel
-   - Cache file contents across commits
-3. **Incremental verification:**
-   - Cache last verified state
-   - Only verify new changes
-4. **Profile and benchmark:**
-   - Measure current performance
-   - Identify bottlenecks
-   - Document improvements
-
-**Unified Architecture Integration:**
-- Consider using SQLite backend (from sqlite-backend track) for manifest storage
-- Would align storage mechanism with roadmap data
-
-**Acceptance Criteria:**
-- [ ] Manifest lookup is O(1) or O(log n)
-- [ ] Batch verification efficient
-- [ ] Caching where appropriate
-- [ ] Performance benchmarks documented
-
-**Deliverables:**
-- Performance optimizations
-- Benchmark results
+**Key Optimization:** Index activity log by `file_hash_after` for O(1) lookups.
 
 ---
 
-### Task 022: Comprehensive testing
+### Task 022: Testing
 **File:** `01KC2D0JK7READW9KAK1HBX4BR.yaml`
 **Complexity:** High | **Estimate:** 8 hours
-**Depends on:** Task 020, Task 021
 
 **Description:**
-Create comprehensive test suite for the entire integrity protection system.
+Comprehensive test suite.
 
-**Implementation Steps:**
-1. **Unit tests:**
-   - ManifestWriter
-   - ManifestReader
-   - Verification logic
-   - Signature generation/verification
-   - Key management
-2. **Integration tests:**
-   - CLI commands end-to-end
-   - Hook execution
-   - CI workflow simulation
-3. **End-to-end tests:**
-   - Complete workflow: edit via CLI -> commit -> verify
-   - Bypass scenario: direct edit -> commit -> detect
-   - Signature workflow: setup -> sign -> verify
-4. **Edge case tests:**
-   - Merge conflicts
-   - Rebases
-   - Missing keys
-   - Corrupted manifest
-
-**Acceptance Criteria:**
-- [ ] Unit tests for all new functions
-- [ ] Integration tests for CLI commands
-- [ ] End-to-end workflow tests
-- [ ] Bypass detection tests
-- [ ] >90% code coverage for new code
-
-**Deliverables:**
-- `tests/operations/roadmap/test_manifest.py`
+**Test Files:**
+- `tests/operations/roadmap/test_verification.py`
 - `tests/operations/git/test_hooks.py`
 - `tests/operations/auth/test_keys.py`
 - `tests/integration/test_integrity_workflow.py`
@@ -911,8 +788,11 @@ Create comprehensive test suite for the entire integrity protection system.
 ## Dependency Graph
 
 ```
+Phase 0 (Activity Log Refactor):
+  000A → 000B → 000C → 000D
+
 Phase 1 (Foundation):
-  001 → 002 → 003 → 004
+  000B → 001 → 002 → 003 → 004
 
 Phase 2 (Local Enforcement):
   004 → 005 → 006
@@ -935,21 +815,43 @@ Phase 5 (Polish):
 
 ## Estimated Timeline
 
-| Phase | Tasks | Hours | Calendar Days (2h/day) |
-|-------|-------|-------|------------------------|
-| Foundation | 001-004 | 18 | 9 days |
-| Local Enforcement | 005-008 | 12 | 6 days |
-| Server Enforcement | 009-012 | 12 | 6 days |
-| Crypto Signing | 013-018 | 26 | 13 days |
-| Polish | 019-022 | 24 | 12 days |
-| **Total** | **22** | **92** | **~46 days** |
+| Phase | Tasks | Hours |
+|-------|-------|-------|
+| **Phase 0: Activity Log Refactor** | 000A-000D | 21 |
+| Phase 1: Foundation | 001-004 | 16 |
+| Phase 2: Local Enforcement | 005-008 | 12 |
+| Phase 3: Server Enforcement | 009-012 | 12 |
+| Phase 4: Crypto Signing | 013-018 | 26 |
+| Phase 5: Polish | 019-022 | 24 |
+| **Total** | **26 tasks** | **111h** |
 
 ---
 
 ## Success Metrics
 
-1. **Coverage:** 100% of CLI write operations recorded to manifest
-2. **Verification:** <100ms to verify single file change
-3. **CI Performance:** <30s to verify typical PR (10-20 commits)
-4. **Bypass Detection:** 100% of bypasses logged within 1 commit
-5. **Documentation:** Zero questions in first week after deployment
+1. **Single Entry:** One CLI command = one activity log entry
+2. **Coverage:** 100% CLI write operations logged with hashes
+3. **Verification:** <100ms per file
+4. **CI Performance:** <30s for typical PR
+5. **Bypass Detection:** 100% logged
+
+---
+
+## Migration Notes
+
+### Existing Activity Log Data
+
+The existing activity log (from dogfooding-bugs Sprint 7) uses field-level entries:
+```jsonl
+{"field": "status", "old_value": "in_progress", "new_value": "completed", ...}
+```
+
+After Phase 0 migration, format will be:
+```jsonl
+{"command": "...", "changes": [{"field": "status", "old": "in_progress", "new": "completed"}], ...}
+```
+
+**Backward Compatibility:**
+- Reader supports both formats
+- Old entries returned with `changes: [single_change]`
+- No data loss during migration

@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Add pre-push hook with manifest verification
-  description: Create pre-push hook that verifies all commits being pushed have valid manifest entries for roadmap changes. Batch verification of commit range. Blocks push on unverified changes
+  title: Add pre-push hook with verification
+  description: Create pre-push hook that verifies all commits being pushed have valid activity log entries for roadmap changes. Batch verification of commit range. Blocks push on unverified changes
   status: not_started
   created: '2025-11-26T01:21:21.767667+00:00'
   started: null

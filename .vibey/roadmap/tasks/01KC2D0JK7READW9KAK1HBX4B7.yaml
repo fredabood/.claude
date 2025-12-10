@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Update pre-commit hook to verify manifest
-  description: Modify pre-commit hook to use manifest verification for staged roadmap YAML files. Enforces process that unified architecture criterion validates. Clear error messages with guidance to use CLI
+  title: Update pre-commit hook for verification
+  description: Modify pre-commit hook to verify staged roadmap YAML files against activity log entries. Enforces process that unified architecture criterion validates. Clear error messages with guidance to use CLI
   status: not_started
   created: '2025-11-26T01:21:21.767665+00:00'
   started: null

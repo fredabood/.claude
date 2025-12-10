@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Design standardized manifest format
-  description: Design comprehensive manifest format for tracking CLI write operations. Define ManifestVerifiedTarget criterion type for unified architecture integration. Schema includes timestamp, operation, target_id, file_path, before/after_hash, signature
+  title: Refactor ActivityEvent to CommandActivityEvent
+  description: Refactor jsonl_activity_log.py to use command-level granularity. Create CommandActivityEvent and FieldChange dataclasses. Update ActivityLogWriter with log_command() method and automatic file hash computation. Maintain backward compatibility for reading old format
   status: not_started
   created: '2025-11-26T01:21:21.767651+00:00'
   started: null

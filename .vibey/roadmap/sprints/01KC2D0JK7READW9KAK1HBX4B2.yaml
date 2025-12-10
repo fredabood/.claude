@@ -24,32 +24,32 @@ sprint:
     completion_percent: 0.0
   tasks:
   - id: git-integration-5-task-001
-    title: Audit existing cli-changes.json implementation
+    title: Design command-level activity log schema
     status: not_started
     task_type: development
     gate_info: null
   - id: git-integration-5-task-002
-    title: Design standardized manifest format
+    title: Refactor ActivityEvent to CommandActivityEvent
     status: not_started
     task_type: development
     gate_info: null
   - id: git-integration-5-task-003
-    title: Ensure all CLI write operations record to manifest
+    title: Update CLI commands to use command-level logging
     status: not_started
     task_type: development
     gate_info: null
   - id: git-integration-5-task-004
-    title: Add vibey verify-change command
+    title: Implement verification logic and verify-change command
     status: not_started
     task_type: development
     gate_info: null
   - id: git-integration-5-task-005
-    title: Update pre-commit hook to verify manifest
+    title: Update pre-commit hook for verification
     status: not_started
     task_type: development
     gate_info: null
   - id: git-integration-5-task-006
-    title: Add pre-push hook with manifest verification
+    title: Add pre-push hook with verification
     status: not_started
     task_type: development
     gate_info: null
@@ -99,7 +99,7 @@ sprint:
     task_type: development
     gate_info: null
   - id: git-integration-5-task-016
-    title: Integrate signing into CLI manifest writes
+    title: Integrate signing into activity log
     status: not_started
     task_type: development
     gate_info: null
@@ -141,10 +141,10 @@ sprint:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
-  plan_file: null
+  plan_file: .vibey/roadmap/context/sprints/git-integration-5/TASK_PLANS.md
   deliverables: []
-  description: null
-  goal: null
+  description: Implement defense-in-depth protection for roadmap integrity. Unified activity log architecture - one CLI command = one activity log entry with file hashes and optional signatures.
+  goal: Prevent AI assistants from bypassing roadmap safeguards via direct YAML edits
   success_criteria: []
   risks: []
   notes: null

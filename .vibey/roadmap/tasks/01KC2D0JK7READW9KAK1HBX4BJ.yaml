@@ -4,8 +4,8 @@ task:
   track_id: git-integration
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Integrate signing into CLI manifest writes
-  description: Update ManifestWriter to sign entries with users private key. Define canonical serialization for signing. Sign timestamp, operation, target_id, file_path, hashes. Graceful degradation if no key. High complexity
+  title: Integrate signing into activity log
+  description: Update ActivityLogWriter to sign entries with users private key. Define canonical serialization for signing. Sign timestamp, command, object_id, changes, file_hashes. Graceful degradation if no key. High complexity
   status: not_started
   created: '2025-11-26T01:21:21.767687+00:00'
   started: null

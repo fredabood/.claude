@@ -180,10 +180,10 @@ def complete_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task
+    # Find and update task - support both ULID and slug lookup
     task = None
     for t in tasks:
-        if t.id == task_id:
+        if t.id == task_id or getattr(t, 'slug', None) == task_id:
             task = t
             break
 
@@ -263,10 +263,10 @@ def start_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task
+    # Find and update task - support both ULID and slug lookup
     task = None
     for t in tasks:
-        if t.id == task_id:
+        if t.id == task_id or getattr(t, 'slug', None) == task_id:
             task = t
             break
 
@@ -572,10 +572,10 @@ def assign_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task
+    # Find and update task - support both ULID and slug lookup
     task = None
     for t in tasks:
-        if t.id == task_id:
+        if t.id == task_id or getattr(t, 'slug', None) == task_id:
             task = t
             break
 

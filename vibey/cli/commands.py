@@ -88,6 +88,7 @@ def roadmap_sync_cmd(verbose: bool = False) -> int:
     try:
         from vibey.cli.roadmap_lib.filesystem import FileSystemManager
         from vibey.operations.roadmap.update import _update_roadmap_progress
+        from vibey.roadmap.serialization.yaml_loader import load_roadmap, load_track
 
         fs = FileSystemManager(root_dir)
         roadmap_path = fs.get_roadmap_path()
@@ -98,10 +99,41 @@ def roadmap_sync_cmd(verbose: bool = False) -> int:
 
         print("🔄 Syncing roadmap status...")
 
-        if verbose:
-            print("  Reading individual track/sprint/task files...")
+        # Load roadmap to get track list
+        roadmap = load_roadmap(roadmap_path)
 
-        # Trigger the full sync chain
+        # Import update functions (file has hyphen, use importlib)
+        import importlib
+        roadmap_update = importlib.import_module('vibey.cli.roadmap-update')
+        update_sprint_progress = getattr(roadmap_update, 'update_sprint_progress', None)
+        update_track_progress = getattr(roadmap_update, 'update_track_progress', None)
+
+        # Step 1: Update each sprint's progress from task files
+        if update_sprint_progress:
+            for track_summary in roadmap.tracks:
+                track_path = fs.get_track_path(track_summary.id)
+                if not track_path.exists():
+                    continue
+                try:
+                    track = load_track(track_path)
+                    for sprint_summary in track.sprints:
+                        if verbose:
+                            print(f"  Updating sprint: {sprint_summary.id}")
+                        update_sprint_progress(fs, sprint_summary.id)
+                except Exception as e:
+                    if verbose:
+                        print(f"  ⚠️  Error loading track {track_summary.id}: {e}")
+
+        # Step 2: Update each track's progress from sprint files
+        if update_track_progress:
+            for track_summary in roadmap.tracks:
+                if verbose:
+                    print(f"  Updating track: {track_summary.id}")
+                update_track_progress(fs, track_summary.id)
+
+        # Step 3: Update roadmap progress from track files
+        if verbose:
+            print("  Updating roadmap progress...")
         _update_roadmap_progress(fs)
 
         print("✅ Roadmap synced successfully")

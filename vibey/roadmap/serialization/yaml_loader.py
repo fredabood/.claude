@@ -47,6 +47,7 @@ from ..models.ticket.targets import (
     FileExistsTarget,
     ThresholdTarget,
 )
+from ..id_generator import is_ulid_format, generate_id
 
 # Legacy dataclass models
 from ..models import (
@@ -195,6 +196,53 @@ def detect_yaml_format(data: Dict[str, Any]) -> str:
 
     # Default to v1 for backward compatibility
     return 'v1'
+
+
+def ensure_ulid(
+    entity_id: Optional[str],
+    entity_type: str,
+    slug: Optional[str] = None,
+    created_at: Optional[datetime] = None
+) -> str:
+    """
+    Ensure an entity has a ULID identifier.
+
+    If the ID is already in ULID format, return it unchanged.
+    If the ID is missing or uses old slug format, generate a new ULID.
+
+    Args:
+        entity_id: Existing ID (may be None, empty, or old slug format)
+        entity_type: 'track', 'sprint', or 'task'
+        slug: Human-readable slug (for logging/debugging)
+        created_at: Optional timestamp to encode in ULID (for migration consistency)
+
+    Returns:
+        ULID-format identifier
+
+    Examples:
+        >>> ensure_ulid('track_01KC2D0JK06MN77ZHAGAHF5VKB', 'track')
+        'track_01KC2D0JK06MN77ZHAGAHF5VKB'  # unchanged
+
+        >>> ensure_ulid('documentation-system', 'track')
+        'track_01KC2VTQ2JNFQJ2XYXHFPG2SS7'  # new ULID generated
+
+        >>> ensure_ulid(None, 'task')
+        'task_01KC2VTQ2JNFQJ2XYXHFPG2SS9'  # new ULID generated
+    """
+    # Already has valid ULID format - return unchanged
+    if entity_id and is_ulid_format(entity_id):
+        return entity_id
+
+    # Generate new ULID
+    new_id = generate_id(entity_type, created_at)
+
+    # Log the ID generation/upgrade
+    if entity_id:
+        logger.debug(f"Upgraded old ID '{entity_id}' to ULID '{new_id}' (slug: {slug})")
+    else:
+        logger.debug(f"Generated new ULID '{new_id}' for {entity_type} (slug: {slug})")
+
+    return new_id
 
 
 def _convert_status_to_ticket_status(status_str: str) -> TicketStatus:

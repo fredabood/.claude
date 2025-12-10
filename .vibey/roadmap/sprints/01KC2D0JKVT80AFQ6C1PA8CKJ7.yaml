@@ -61,7 +61,7 @@ sprint:
     status: completed
   - id: unified-arch-3-task-003
     title: Update YAML loader/dumper for ULID
-    status: not_started
+    status: completed
   - id: unified-arch-3-task-004
     title: Create ULID migration script
     status: not_started

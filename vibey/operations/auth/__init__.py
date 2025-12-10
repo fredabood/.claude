@@ -22,6 +22,15 @@ from .signers import (
     is_signing_enabled,
 )
 
+from .signing import (
+    ActivitySigner,
+    SigningResult,
+    VerifyResult,
+    sign_activity_entry,
+    verify_activity_signature,
+    signing_enabled,
+)
+
 __all__ = [
     # Keys
     "KeyManager",
@@ -37,4 +46,11 @@ __all__ = [
     "add_authorized_signer",
     "list_authorized_signers",
     "is_signing_enabled",
+    # Signing
+    "ActivitySigner",
+    "SigningResult",
+    "VerifyResult",
+    "sign_activity_entry",
+    "verify_activity_signature",
+    "signing_enabled",
 ]

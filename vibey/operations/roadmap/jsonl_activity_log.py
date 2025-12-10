@@ -478,6 +478,7 @@ class ActivityLogWriter:
         Log a command-level event (V2 schema).
 
         Automatically computes file_hash_after from the current file state.
+        Signs the event if signing is enabled (user has keypair).
 
         Args:
             command: Full CLI command string
@@ -497,7 +498,7 @@ class ActivityLogWriter:
         if file_path.exists():
             file_hash_after = compute_file_hash(file_path)
 
-        # Generate event
+        # Generate event (without signature first)
         event = CommandActivityEvent(
             id=_generate_ulid(),
             timestamp=datetime.now(timezone.utc).isoformat(),
@@ -510,9 +511,35 @@ class ActivityLogWriter:
             file_hash_after=file_hash_after,
             changed_by=changed_by,
             reason=reason,
-            signature=None,  # Phase 4
-            signer=None,     # Phase 4
+            signature=None,
+            signer=None,
         )
+
+        # Try to sign the event (graceful degradation if signing unavailable)
+        try:
+            from vibey.operations.auth import sign_activity_entry, signing_enabled
+            if signing_enabled():
+                # Build entry dict for signing (same fields as canonical)
+                entry_dict = {
+                    'id': event.id,
+                    'timestamp': event.timestamp,
+                    'command': event.command,
+                    'object_type': event.object_type,
+                    'object_id': event.object_id,
+                    'changes': [c.to_dict() for c in event.changes],
+                    'file_path': event.file_path,
+                    'file_hash_after': event.file_hash_after,
+                }
+                result = sign_activity_entry(entry_dict)
+                if result.signed:
+                    event.signature = result.signature
+                    event.signer = result.signer
+        except ImportError:
+            # Signing module not available, continue without signing
+            pass
+        except Exception:
+            # Any signing error, continue without signing
+            pass
 
         self.write_command_event(event)
         return event

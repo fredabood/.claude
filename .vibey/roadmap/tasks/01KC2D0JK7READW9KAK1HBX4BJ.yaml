@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Integrate signing into activity log
   description: Update ActivityLogWriter to sign entries with users private key. Define canonical serialization for signing. Sign timestamp, command, object_id, changes, file_hashes. Graceful degradation if no key. High complexity
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767687+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T21:30:00.000000+00:00'
+  completed: '2025-12-10T22:00:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

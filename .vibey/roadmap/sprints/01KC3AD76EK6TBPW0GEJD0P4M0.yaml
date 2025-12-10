@@ -20,13 +20,13 @@ sprint:
   tasks:
   - id: dogfooding-bugs-02-task-001
     title: Update FileSystemManager.get_roadmap_path() to use roadmap_root
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-002
     title: Update all callers to use correct path
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-003
     title: Add unit test for path resolution
-    status: not_started
+    status: completed
   - id: dogfooding-bugs-02-task-004
     title: Design new loading strategy for ULID files
     status: not_started

@@ -120,17 +120,58 @@ def roadmap_sync_cmd(verbose: bool = False) -> int:
         return 1
 
 
+def _detect_ulid_type(item_id: str, root_dir: Path) -> str | None:
+    """
+    Detect item type from ULID by checking .id files.
+
+    Returns: "track", "sprint", "task", or None if not found
+    """
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Check each type's .id file for the ULID
+    for item_type, subdir in [("task", "tasks"), ("sprint", "sprints"), ("track", "tracks")]:
+        id_file = roadmap_root / subdir / ".id"
+        if id_file.exists():
+            content = id_file.read_text()
+            # Check if ULID appears as a value (slug=ULID format)
+            if f"={item_id}" in content or f"={item_id}\n" in content:
+                return item_type
+
+    return None
+
+
 def roadmap_show_cmd(item_id: str) -> int:
     """Show details for an item."""
     root_dir = Path.cwd()  # Project root
 
     try:
         # Determine type from ID format
+        item_type = None
+
+        # Check for slug-based IDs first
         if 'task' in item_id:
-            result = query_task_details(root_dir, item_id)
+            item_type = "task"
         elif item_id.count('-') >= 2:  # sprint format: track-sprint
+            item_type = "sprint"
+        elif '-' in item_id:  # might be a track slug
+            item_type = "track"
+
+        # For ULID IDs (no hyphens, 26 chars), look up type from .id files
+        if item_type is None and len(item_id) == 26 and item_id.isalnum():
+            item_type = _detect_ulid_type(item_id, root_dir)
+            if item_type is None:
+                # Default to track for ULIDs not found in .id files
+                item_type = "track"
+        elif item_type is None:
+            # Default fallback
+            item_type = "track"
+
+        # Query based on detected type
+        if item_type == "task":
+            result = query_task_details(root_dir, item_id)
+        elif item_type == "sprint":
             result = query_sprint_details(root_dir, item_id)
-        else:  # track format
+        else:
             result = query_track_details(root_dir, item_id)
 
         # Check if query returned an error
@@ -139,9 +180,9 @@ def roadmap_show_cmd(item_id: str) -> int:
             return 1
 
         # Format and print the result based on type
-        if 'task' in item_id:
+        if item_type == "task":
             print(format_task_details(result))
-        elif item_id.count('-') >= 2:
+        elif item_type == "sprint":
             print(format_sprint_details(result))
         else:
             print(format_track_details(result))

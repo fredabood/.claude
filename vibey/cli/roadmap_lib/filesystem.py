@@ -467,9 +467,10 @@ class FileSystemManager:
 
 def find_roadmap_root(start_path: Optional[Path] = None) -> Optional[Path]:
     """
-    Find the root directory containing .vibey/roadmap.yaml.
+    Find the root directory containing a roadmap.
 
-    Searches upward from start_path until .vibey/roadmap.yaml is found.
+    Searches upward from start_path until a roadmap structure is found.
+    Checks for both new (.vibey/roadmap/roadmap.yaml) and legacy (.vibey/roadmap.yaml) paths.
 
     Args:
         start_path: Starting directory (defaults to current working directory)
@@ -482,9 +483,15 @@ def find_roadmap_root(start_path: Optional[Path] = None) -> Optional[Path]:
     # Search upward
     while True:
         vibey_dir = current / ".vibey"
-        roadmap_file = vibey_dir / "roadmap.yaml"
 
-        if roadmap_file.exists():
+        # Check new canonical location first: .vibey/roadmap/roadmap.yaml
+        new_roadmap_file = vibey_dir / "roadmap" / "roadmap.yaml"
+        if new_roadmap_file.exists():
+            return current
+
+        # Fall back to legacy location: .vibey/roadmap.yaml
+        legacy_roadmap_file = vibey_dir / "roadmap.yaml"
+        if legacy_roadmap_file.exists():
             return current
 
         # Move up one directory

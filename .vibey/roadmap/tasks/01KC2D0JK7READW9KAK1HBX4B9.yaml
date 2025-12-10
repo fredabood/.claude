@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Add bypass detection with audit logging
   description: Implement post-commit hook that detects when pre-commit was bypassed. Logs to .vibey/audit/bypass.log. Bypass events can create ExternalTarget blocking criteria in unified architecture
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767670+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T18:20:00.000000+00:00'
+  completed: '2025-12-10T18:30:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

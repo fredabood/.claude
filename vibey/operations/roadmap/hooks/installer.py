@@ -17,7 +17,7 @@ from typing import Tuple, Optional, List
 
 
 # Hooks that can be installed
-SUPPORTED_HOOKS = ["pre-commit", "pre-push"]
+SUPPORTED_HOOKS = ["pre-commit", "pre-push", "post-commit"]
 
 
 def find_git_dir(start_path: Path = None) -> Optional[Path]:

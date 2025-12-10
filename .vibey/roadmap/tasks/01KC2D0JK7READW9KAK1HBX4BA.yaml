@@ -6,10 +6,10 @@ task:
   task_type: development
   title: Documentation for hook installation
   description: Update documentation for git hook installation covering all hooks - pre-commit, commit-msg, post-commit, pre-push. Create docs/guides/GIT_HOOKS.md with troubleshooting guide
-  status: not_started
+  status: completed
   created: '2025-11-26T01:21:21.767672+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T18:35:00.000000+00:00'
+  completed: '2025-12-10T18:45:00.000000+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

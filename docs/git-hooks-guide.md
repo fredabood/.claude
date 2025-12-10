@@ -2,12 +2,18 @@
 
 Complete guide to using Vibey's Git hooks for roadmap integration.
 
-**Task:** git-integration-2-task-008
+**Tasks:** git-integration-2-task-008, git-integration-5-task-008
 
 ## Table of Contents
 
 - [Quick Start](#quick-start)
 - [Hook Reference](#hook-reference)
+  - [Pre-Commit Hook](#pre-commit-hook)
+  - [Pre-Push Hook](#pre-push-hook)
+  - [Post-Commit Hook](#post-commit-hook)
+  - [Commit-Msg Hook](#commit-msg-hook)
+- [Activity Log Verification](#activity-log-verification)
+- [Bypass Detection](#bypass-detection)
 - [Configuration](#configuration)
 - [Troubleshooting](#troubleshooting)
 - [Best Practices](#best-practices)
@@ -22,11 +28,13 @@ Complete guide to using Vibey's Git hooks for roadmap integration.
 Install Vibey git hooks in your repository:
 
 ```bash
-vibey git hooks install
+vibey roadmap install-hooks
 ```
 
 This installs:
-- **pre-commit** - Validates roadmap YAML files before commit
+- **pre-commit** - Validates roadmap YAML files and activity log before commit
+- **pre-push** - Verifies commits have activity log entries before push
+- **post-commit** - Detects bypass of pre-commit hook, logs to audit
 - **commit-msg** - Validates commit message format and task references
 
 ### Basic Configuration
@@ -98,6 +106,79 @@ The commit-msg hook will:
     Suggestion: Use 'vibey roadmap update task task-001 --status completed'
 ```
 
+### Pre-Push Hook
+
+**Purpose:** Verifies all commits being pushed have valid activity log entries for roadmap changes.
+
+**Task:** git-integration-5-task-006
+
+**What it checks:**
+- ✅ Each commit's roadmap file modifications have activity log entries
+- ✅ File hashes match activity log `file_hash_after` values
+- ✅ All commits in push range are verified
+
+**Exit behavior:**
+- **Blocking mode:** Exit code 1 (blocks push)
+- **Advisory mode:** Exit code 0 (warns, allows push)
+
+**Example output (blocking):**
+
+```
+[vibey] Pre-push Blocking:
+  ✗ abc1234: Unverified files:
+      - .vibey/roadmap/tasks/01KC2D0.yaml
+
+Push blocked. Use 'vibey roadmap' CLI to make changes.
+To force push: git push --no-verify
+```
+
+**Example output (advisory):**
+
+```
+[vibey] Pre-push Advisory:
+  ✗ abc1234: Unverified files:
+      - .vibey/roadmap/sprints/sprint-01.yaml
+
+Warning: Some commits contain unverified roadmap changes.
+```
+
+### Post-Commit Hook (Bypass Detection)
+
+**Purpose:** Detects when pre-commit was bypassed and logs the event.
+
+**Task:** git-integration-5-task-007
+
+**What it does:**
+- ✅ Checks if committed roadmap files have activity log entries
+- ✅ Logs bypass events to `.vibey/audit/bypass.log`
+- ✅ Reports bypass warnings to console
+- ✅ Never blocks (post-commit always returns 0)
+
+**Example output:**
+
+```
+[vibey] Pre-commit bypass detected!
+
+  The following roadmap files were modified without using the CLI:
+    - .vibey/roadmap/tasks/01KC2D0.yaml
+
+  This has been logged to: .vibey/audit/bypass.log
+
+  To avoid this warning, use 'vibey roadmap' commands to modify roadmap files.
+```
+
+**Audit log format (JSONL):**
+```json
+{
+  "type": "pre_commit_bypass",
+  "timestamp": "2025-12-10T18:30:00Z",
+  "commit_hash": "abc1234567890",
+  "file_path": ".vibey/roadmap/tasks/01KC2D0.yaml",
+  "file_hash": "sha256:...",
+  "detection_source": "post_commit_hook"
+}
+```
+
 ### Commit-Msg Hook
 
 **Purpose:** Validates commit message format and task references.
@@ -141,6 +222,81 @@ The commit-msg hook will:
 ⚠ Task 'task-002' not found in roadmap
   Suggestion: Did you mean: task-003, task-004?
 ```
+
+---
+
+## Activity Log Verification
+
+The activity log verification system ensures roadmap changes are made through the CLI.
+
+**Task:** git-integration-5 (Sprint 5)
+
+### How It Works
+
+1. **CLI records changes:** Each CLI command logs to `.vibey/roadmap/activity_log/`
+2. **Entry includes file hash:** SHA256 hash of the modified file
+3. **Hooks verify hashes:** Pre-commit and pre-push check file hashes against log
+4. **Bypass detected post-commit:** If verification failed but commit succeeded
+
+### Verification Flow
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│  CLI Write  │────►│ Activity Log │────►│  File Hash  │
+│  Command    │     │   Entry      │     │  Recorded   │
+└─────────────┘     └──────────────┘     └─────────────┘
+                            │
+                            ▼
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│  Pre-Commit │────►│ Verify Hash  │────►│  Pass/Fail  │
+│    Hook     │     │  in Log      │     │             │
+└─────────────┘     └──────────────┘     └─────────────┘
+```
+
+### Verify a File Manually
+
+```bash
+# Check if a file has a valid activity log entry
+vibey roadmap verify-change .vibey/roadmap/tasks/01KC2D0.yaml
+
+# Output:
+# ✅ Verified: .vibey/roadmap/tasks/01KC2D0.yaml
+#    Command: vibey roadmap start 01KC2D0
+#    Time: 2025-12-10T18:00:00Z
+```
+
+---
+
+## Bypass Detection
+
+The bypass detection system identifies when hooks were circumvented.
+
+### What Triggers Bypass Detection
+
+1. Using `--no-verify` flag
+2. Directly editing YAML files without CLI
+3. Disabling hooks temporarily
+
+### Viewing Bypass Audit Log
+
+```bash
+# View recent bypass events
+cat .vibey/audit/bypass.log | jq .
+
+# Count bypass events
+wc -l .vibey/audit/bypass.log
+
+# Find bypasses for specific file
+grep "task.yaml" .vibey/audit/bypass.log | jq .
+```
+
+### Preventing False Positives
+
+The activity log verification may flag legitimate changes as bypasses if:
+
+1. **Activity log not synced:** Run `vibey roadmap db dump` before commit
+2. **Manual YAML fixes:** Use CLI commands instead
+3. **Merge conflicts:** Resolve using CLI tools when possible
 
 ### Automatic Status Updates
 
@@ -677,5 +833,5 @@ vibey git link-commit security-task-001 $(git rev-parse HEAD)
 
 ---
 
-**Last Updated:** 2025-11-24
-**Version:** 2.0 (Git Integration Sprint 2)
+**Last Updated:** 2025-12-10
+**Version:** 3.0 (Git Integration Sprint 5 - Activity Log Verification)

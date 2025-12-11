@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JK9JKQXGQW6MQEB0K0E
-  sprint_id: mcp-server-1
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK9JKQXGQW6MQEB0K06
+  track_id: 01KC2D0JK9JKQXGQW6MQEB0K05
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Sprint 1 documentation

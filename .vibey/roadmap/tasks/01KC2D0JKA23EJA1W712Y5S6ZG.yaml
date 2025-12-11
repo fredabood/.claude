@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZG
-  sprint_id: mcp-server-2
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK9JKQXGQW6MQEB0K0F
+  track_id: 01KC2D0JK9JKQXGQW6MQEB0K05
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Testing documentation

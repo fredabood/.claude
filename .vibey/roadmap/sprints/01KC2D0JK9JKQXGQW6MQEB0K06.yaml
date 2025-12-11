@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK9JKQXGQW6MQEB0K06
   name: MCP Server Foundation
-  track_id: mcp-server
+  track_id: 01KC2D0JK9JKQXGQW6MQEB0K05
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

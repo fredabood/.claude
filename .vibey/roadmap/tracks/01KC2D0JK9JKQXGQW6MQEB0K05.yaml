@@ -2,38 +2,38 @@ track:
   id: 01KC2D0JK9JKQXGQW6MQEB0K05
   name: MCP Server Foundation
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: completed
   blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-09T00:00:00+00:00'
-  completed: null
+  completed: '2025-12-11T20:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 3
-    sprints_completed: 2
-    tasks_total: 16
-    tasks_completed: 16
+    sprints_completed: 3
+    tasks_total: 23
+    tasks_completed: 23
     completion_percent: 100
   sprints:
-  - id: mcp-server-1
+  - id: 01KC2D0JK9JKQXGQW6MQEB0K06
     name: MCP Server Foundation
     status: production_ready
     estimated_duration: null
     tasks_count: 8
-    started: null
-  - id: mcp-server-2
+    started: '2025-11-09T00:00:00+00:00'
+  - id: 01KC2D0JK9JKQXGQW6MQEB0K0F
     name: Sprint & Query Tools
     status: production_ready
     estimated_duration: null
     tasks_count: 8
-    started: null
-  - id: mcp-server-3
+    started: '2025-11-10T00:00:00+00:00'
+  - id: 01KC2D0JKA23EJA1W712Y5S6ZJ
     name: MCP Resources, Prompts & Handoff Discovery
-    status: not_started
+    status: completed
     estimated_duration: null
-    tasks_count: 0
-    started: null
+    tasks_count: 7
+    started: '2025-12-11T19:00:00+00:00'
   dependencies: []
   blocks: []
   blocked_by: []

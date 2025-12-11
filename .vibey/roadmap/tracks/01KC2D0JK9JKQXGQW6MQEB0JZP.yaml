@@ -2,7 +2,7 @@ track:
   id: 01KC2D0JK9JKQXGQW6MQEB0JZP
   name: JetBrains AI Assistant Port
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'

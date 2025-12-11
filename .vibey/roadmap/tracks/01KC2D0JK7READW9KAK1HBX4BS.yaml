@@ -2,7 +2,7 @@ track:
   id: 01KC2D0JK7READW9KAK1HBX4BS
   name: Goose Platform Port
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'

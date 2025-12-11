@@ -13,11 +13,11 @@ task:
     - Add deprecation warning if sprint_data['tasks'] exists
     - Set sprint.tasks = [] (will be populated from standalone files)
     - Update load_sprint() documentation
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T17:00:00+00:00'
+  completed: '2025-12-11T17:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

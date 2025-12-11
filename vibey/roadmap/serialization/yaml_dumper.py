@@ -502,21 +502,10 @@ def save_sprint(sprint: Sprint, file_path: Union[str, Path]):
                 'tasks_completed': sprint.progress.tasks_completed,
                 'completion_percent': sprint.progress.completion_percent,
             },
-            'tasks': [
-                {
-                    'id': t.id,
-                    'title': t.title,
-                    'status': t.status.value,
-                    'task_type': t.task_type.value,
-                    'gate_info': t.gate_info if isinstance(t.gate_info, dict) else ({
-                        'blocks_status': t.gate_info.blocks_status,
-                        'threshold': t.gate_info.threshold,
-                        'is_blocking': t.gate_info.is_blocking,
-                        'score': getattr(t.gate_info, 'score', None),
-                    } if t.gate_info else None),
-                }
-                for t in sprint.tasks
-            ],
+            # NOTE: Embedded tasks are DEPRECATED
+            # Tasks are stored in standalone files at tasks/*.yaml
+            # Query by sprint_id to get tasks for this sprint
+            # See: load_tasks_by_sprint_flat() in yaml_loader.py
             'development_gates': [
                 {
                     'type': dg.type.value,

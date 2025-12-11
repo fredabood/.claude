@@ -183,11 +183,71 @@ class ContextLoader:
 
     def _get_task_dependencies(self, task_id: str) -> List[str]:
         """
-        Get task dependencies from roadmap YAML.
+        Get task dependencies from standalone task file or roadmap YAML.
+
+        Tries standalone task files first (new format), then falls back to
+        embedded tasks in sprint YAML (deprecated).
 
         Returns:
             List of task IDs this task depends on
         """
+        # First, try loading from standalone task file (tasks/{ulid}.yaml)
+        tasks_dir = self.roadmap_dir / "tasks"
+
+        # Check if task_id looks like a ULID (26 chars alphanumeric)
+        is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
+
+        if is_ulid and tasks_dir.exists():
+            # Direct file lookup for ULID
+            task_file = tasks_dir / f"{task_id}.yaml"
+            if task_file.exists():
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if data and 'task' in data:
+                        task = data['task']
+                        # Get dependencies from depends_on or dependencies field
+                        deps = task.get('depends_on', []) or task.get('dependencies', [])
+                        if isinstance(deps, list):
+                            # Extract blocker_ids from structured depends_on format
+                            result = []
+                            for dep in deps:
+                                if isinstance(dep, dict):
+                                    result.append(dep.get('blocker_id', ''))
+                                else:
+                                    result.append(dep)
+                            return [d for d in result if d]
+                        return []
+                except Exception:
+                    pass
+
+        # For slug-based IDs or if ULID file not found, scan all task files
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if not data or 'task' not in data:
+                        continue
+                    task = data['task']
+                    # Match by ID or slug
+                    if task.get('id') == task_id or task.get('slug') == task_id:
+                        deps = task.get('depends_on', []) or task.get('dependencies', [])
+                        if isinstance(deps, list):
+                            result = []
+                            for dep in deps:
+                                if isinstance(dep, dict):
+                                    result.append(dep.get('blocker_id', ''))
+                                else:
+                                    result.append(dep)
+                            return [d for d in result if d]
+                        return []
+                except Exception:
+                    continue
+
+        # Fall back to embedded tasks (DEPRECATED)
         # Parse task_id to get sprint_id
         # Format: <track>-<sprint>-task-<num>
         # Example: core-framework-2-task-003
@@ -212,7 +272,7 @@ class ContextLoader:
             with open(sprint_file, 'r') as f:
                 sprint_data = yaml.safe_load(f)
 
-            # Find task in sprint
+            # Find task in sprint (DEPRECATED - embedded tasks)
             tasks = sprint_data.get('sprint', {}).get('tasks', [])
             for task in tasks:
                 if task.get('id') == task_id:
@@ -368,11 +428,50 @@ class ContextLoader:
 
     def _load_task(self, task_id: str) -> Optional[Dict]:
         """
-        Load task metadata from roadmap YAML.
+        Load task metadata from standalone task file or roadmap YAML.
+
+        Tries standalone task files first (new format), then falls back to
+        embedded tasks in sprint YAML (deprecated).
 
         Returns:
             Task dict or None if not found
         """
+        # First, try loading from standalone task file (tasks/{ulid}.yaml)
+        tasks_dir = self.roadmap_dir / "tasks"
+
+        # Check if task_id looks like a ULID (26 chars alphanumeric)
+        is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
+
+        if is_ulid and tasks_dir.exists():
+            # Direct file lookup for ULID
+            task_file = tasks_dir / f"{task_id}.yaml"
+            if task_file.exists():
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if data and 'task' in data:
+                        return data['task']
+                except Exception:
+                    pass
+
+        # For slug-based IDs or if ULID file not found, scan all task files
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if not data or 'task' not in data:
+                        continue
+                    task = data['task']
+                    # Match by ID or slug
+                    if task.get('id') == task_id or task.get('slug') == task_id:
+                        return task
+                except Exception:
+                    continue
+
+        # Fall back to embedded tasks (DEPRECATED)
         # Parse task_id to get sprint_id
         task_num_idx = task_id.rfind('-task-')
         if task_num_idx <= 0:
@@ -391,7 +490,7 @@ class ContextLoader:
             # Extract track_id from sprint
             track_id = sprint_data.get('sprint', {}).get('track_id')
 
-            # Find task
+            # Find task (DEPRECATED - embedded tasks)
             tasks = sprint_data.get('sprint', {}).get('tasks', [])
             for task in tasks:
                 if task.get('id') == task_id:

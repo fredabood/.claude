@@ -117,7 +117,48 @@ class SummaryGenerator:
         return True
 
     def _load_task(self, task_id: str) -> Optional[Dict]:
-        """Load task metadata from sprint YAML"""
+        """Load task metadata from standalone task file or sprint YAML.
+
+        Tries standalone task files first (new format), then falls back to
+        embedded tasks in sprint YAML (deprecated).
+        """
+        # First, try loading from standalone task file (tasks/{ulid}.yaml or tasks/{slug}.yaml)
+        tasks_dir = self.vibey_dir / "roadmap" / "tasks"
+
+        # Check if task_id looks like a ULID (26 chars alphanumeric)
+        is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
+
+        if is_ulid:
+            # Direct file lookup for ULID
+            task_file = tasks_dir / f"{task_id}.yaml"
+            if task_file.exists():
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if data and 'task' in data:
+                        task = data['task']
+                        return task
+                except Exception:
+                    pass
+
+        # For slug-based IDs or if ULID file not found, scan all task files
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file, 'r') as f:
+                        data = yaml.safe_load(f)
+                    if not data or 'task' not in data:
+                        continue
+                    task = data['task']
+                    # Match by ID or slug
+                    if task.get('id') == task_id or task.get('slug') == task_id:
+                        return task
+                except Exception:
+                    continue
+
+        # Fall back to embedded tasks (DEPRECATED)
         task_num_idx = task_id.rfind('-task-')
         if task_num_idx <= 0:
             return None
@@ -134,6 +175,7 @@ class SummaryGenerator:
 
             track_id = sprint_data.get('sprint', {}).get('track_id')
 
+            # NOTE: Embedded tasks are deprecated - tasks should be in tasks/*.yaml
             tasks = sprint_data.get('sprint', {}).get('tasks', [])
             for task in tasks:
                 if task.get('id') == task_id:
@@ -324,8 +366,24 @@ class SummaryGenerator:
             summary += f"**Status:** {sprint.get('status', 'unknown')}\n"
             summary += f"**Progress:** {sprint.get('progress', {}).get('completion_percent', 0)}%\n\n"
 
+            # Load tasks from standalone files (tasks/*.yaml)
+            tasks_dir = self.vibey_dir / "roadmap" / "tasks"
+            tasks = []
+            if tasks_dir.exists():
+                for task_file in tasks_dir.glob("*.yaml"):
+                    if task_file.name.startswith('.'):
+                        continue
+                    try:
+                        with open(task_file, 'r') as f:
+                            task_data = yaml.safe_load(f)
+                        if task_data and 'task' in task_data:
+                            t = task_data['task']
+                            if t.get('sprint_id') == sprint_id:
+                                tasks.append(t)
+                    except Exception:
+                        continue
+
             # Tasks overview
-            tasks = sprint.get('tasks', [])
             summary += f"## Tasks ({len(tasks)} total)\n\n"
 
             completed = [t for t in tasks if t.get('status') == 'completed']

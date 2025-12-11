@@ -282,15 +282,38 @@ class MarkdownGenerator:
             md.append(f"- **Overall:** {progress.get('completion_percent', 0)}% complete")
             md.append("")
 
-        # Tasks
-        if 'tasks' in sprint:
+        # Tasks - load from standalone task files (tasks/*.yaml)
+        sprint_id = sprint.get('id')
+        tasks_dir = self.roadmap_root / "tasks"
+        tasks = []
+
+        # First, collect tasks for this sprint from standalone files
+        if tasks_dir.exists() and sprint_id:
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file) as f:
+                        task_data = yaml.safe_load(f)
+                    if task_data and 'task' in task_data:
+                        t = task_data['task']
+                        if t.get('sprint_id') == sprint_id:
+                            tasks.append(t)
+                except Exception:
+                    continue
+
+        # Fall back to embedded tasks if no standalone tasks found (DEPRECATED)
+        if not tasks and 'tasks' in sprint:
+            tasks = sprint['tasks']
+
+        if tasks:
             md.append("## Tasks")
             md.append("")
-            for task in sprint['tasks']:
+            for task in tasks:
                 task_id = task.get('id')
                 task_title = task.get('title', task_id)
                 task_status = task.get('status', 'not_started')
-                task_type = task.get('type', 'development')
+                task_type = task.get('type') or task.get('task_type', 'development')
 
                 md.append(f"### {task_title}")
                 md.append(f"- **ID:** `{task_id}`")

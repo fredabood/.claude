@@ -9,6 +9,7 @@ Supports backward compatibility with v1 YAML format while migrating to v2.
 """
 
 import logging
+import warnings
 from datetime import datetime, timezone, date
 from pathlib import Path
 from typing import Union, Dict, Any, List, Tuple, Optional
@@ -1102,9 +1103,25 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
         completion_percent=completion_percent,
     )
 
+    # Check for embedded tasks (DEPRECATED)
+    embedded_tasks = sprint_data.get('tasks', [])
+    if embedded_tasks:
+        sprint_id = sprint_data.get('id', 'unknown')
+        warnings.warn(
+            f"Sprint '{sprint_id}' has {len(embedded_tasks)} embedded tasks. "
+            "Embedded tasks are deprecated - tasks should be stored in standalone files at tasks/*.yaml. "
+            "Run 'vibey roadmap extract-embedded' to migrate them.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+
+    # Don't load embedded tasks - they should be in standalone files
+    # Tasks are loaded separately from tasks/*.yaml by querying sprint_id
+    tasks = []
+
+    # Legacy code preserved for reference but not executed:
     # Parse tasks (backward compatible - multiple formats supported)
-    if 'tasks' in sprint_data:
-        tasks = []
+    if False and 'tasks' in sprint_data:  # DISABLED - embedded tasks deprecated
         for t in sprint_data['tasks']:
             # Handle string format (new schema: just task IDs)
             if isinstance(t, str):
@@ -2108,22 +2125,38 @@ def _migrate_sprint_to_ticket(sprint_data: Dict[str, Any]) -> SprintTicket:
                 required=True,
             ))
 
+    # Check for embedded tasks (DEPRECATED)
+    embedded_tasks = sprint_data.get('tasks', [])
+    if embedded_tasks:
+        sprint_id = sprint_data.get('id', 'unknown')
+        warnings.warn(
+            f"Sprint '{sprint_id}' has {len(embedded_tasks)} embedded tasks. "
+            "Embedded tasks are deprecated - tasks should be stored in standalone files at tasks/*.yaml. "
+            "Run 'vibey roadmap extract-embedded' to migrate them.",
+            DeprecationWarning,
+            stacklevel=3
+        )
+
+    # Don't convert embedded tasks to criteria - they are deprecated
+    # Tasks are loaded separately from standalone files at tasks/*.yaml
+    # Legacy code preserved for reference but disabled:
     # Convert tasks to subtask criteria
     # In v1, tasks is a list of task summaries or IDs
-    for task in sprint_data.get('tasks', []):
-        if isinstance(task, dict):
-            task_id = task.get('id', '')
-            task_status_str = task.get('status', 'not_started')
-            task_status = _convert_status_to_ticket_status(task_status_str)
-        elif isinstance(task, str):
-            task_id = task
-            task_status = None
-        else:
-            continue
+    if False:  # DISABLED - embedded tasks deprecated
+        for task in sprint_data.get('tasks', []):
+            if isinstance(task, dict):
+                task_id = task.get('id', '')
+                task_status_str = task.get('status', 'not_started')
+                task_status = _convert_status_to_ticket_status(task_status_str)
+            elif isinstance(task, str):
+                task_id = task
+                task_status = None
+            else:
+                continue
 
-        if task_id:
-            criterion = _create_subtask_criterion(task_id, task_status)
-            criteria.append(criterion)
+            if task_id:
+                criterion = _create_subtask_criterion(task_id, task_status)
+                criteria.append(criterion)
 
     # Convert quality_gates to threshold criteria
     for i, qg in enumerate(sprint_data.get('quality_gates', [])):

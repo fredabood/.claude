@@ -73,13 +73,17 @@ class ResourceManager:
         This is called lazily on first access.
         """
         from .workflows import WorkflowResourceProvider
+        from .handoffs import HandoffResourceProvider
 
         # Register workflow provider
         self.providers['workflows'] = WorkflowResourceProvider(self.content_root)
         logger.debug("Registered workflows resource provider")
 
+        # Register handoff provider
+        self.providers['handoffs'] = HandoffResourceProvider(self.content_root)
+        logger.debug("Registered handoffs resource provider")
+
         # Future providers will be registered here as they are implemented:
-        # self.providers['handoffs'] = HandoffResourceProvider(self.content_root)
         # self.providers['agents'] = AgentResourceProvider(self.content_root)
         # self.providers['quality-gates'] = QualityGateResourceProvider(self.content_root)
 

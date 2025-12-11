@@ -34,6 +34,7 @@ from .exceptions import (
 from .provider import ResourceProvider
 from .manager import ResourceManager
 from .workflows import WorkflowResourceProvider
+from .handoffs import HandoffResourceProvider, HandoffDefinition, HandoffVariable
 
 __all__ = [
     # Types
@@ -63,4 +64,8 @@ __all__ = [
     "ResourceManager",
     # Providers
     "WorkflowResourceProvider",
+    "HandoffResourceProvider",
+    # Handoff types
+    "HandoffDefinition",
+    "HandoffVariable",
 ]

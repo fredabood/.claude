@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 7
-    development_tasks_completed: 2
+    development_tasks_completed: 3
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 2
-    completion_percent: 28
+    tasks_completed: 3
+    completion_percent: 42
   tasks:
   - id: 01KC79XW008MN6KHT4S4AVS7VG
     title: Design MCP Resources architecture
@@ -36,7 +36,7 @@ sprint:
     gate_info: null
   - id: 01KC79XW01GARBZYRXEFX766K6
     title: Implement MCP Resources for handoffs
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: 01KC79XW02AZ2V0JCE08C2VZ38

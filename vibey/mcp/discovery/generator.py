@@ -6,10 +6,11 @@ MCP tool schema format for dynamic tool discovery.
 """
 
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from .agents import AgentDefinition
 from .workflows import WorkflowDefinition
+from .handoffs import HandoffDefinition, HandoffVariable
 
 logger = logging.getLogger(__name__)
 
@@ -179,17 +180,75 @@ class ToolGenerator:
             }
         }
 
+    def handoff_to_tool(self, handoff: HandoffDefinition) -> Dict[str, Any]:
+        """
+        Convert a HandoffDefinition to an MCP tool schema.
+
+        Each handoff becomes a tool that renders the handoff template
+        with the provided variable values.
+
+        Args:
+            handoff: HandoffDefinition object
+
+        Returns:
+            MCP tool definition dict
+        """
+        tool_name = f"{self.tool_prefix}_handoff_{handoff.id.replace('-', '_')}"
+
+        # Build input schema from handoff variables
+        properties = {}
+        required = []
+
+        for var in handoff.variables:
+            prop_type = TYPE_MAP.get(var.type, "string")
+            prop_def = {
+                "type": prop_type,
+                "description": var.description or f"Variable: {var.name}",
+            }
+
+            if var.default is not None:
+                prop_def["default"] = var.default
+
+            properties[var.name] = prop_def
+
+            if var.required:
+                required.append(var.name)
+
+        # Build description with agent routing info
+        description = f"{handoff.name}: {handoff.purpose}"
+        description += f" (from: {handoff.from_agent}, to: {', '.join(handoff.to_agents)})"
+
+        return {
+            "name": tool_name,
+            "title": f"Handoff: {handoff.name}",
+            "description": description,
+            "inputSchema": {
+                "type": "object",
+                "properties": properties,
+                "required": required,
+            },
+            "_metadata": {
+                "asset_type": "handoff",
+                "asset_id": handoff.id,
+                "from_agent": handoff.from_agent,
+                "to_agents": handoff.to_agents,
+                "version": handoff.version,
+            },
+        }
+
     def generate_all_tools(
         self,
         agents: List[AgentDefinition],
-        workflows: List[WorkflowDefinition]
+        workflows: List[WorkflowDefinition],
+        handoffs: Optional[List[HandoffDefinition]] = None,
     ) -> List[Dict[str, Any]]:
         """
-        Generate MCP tools for all agents and workflows.
+        Generate MCP tools for all agents, workflows, and handoffs.
 
         Args:
             agents: List of AgentDefinition objects
             workflows: List of WorkflowDefinition objects
+            handoffs: Optional list of HandoffDefinition objects
 
         Returns:
             List of MCP tool definitions
@@ -214,5 +273,19 @@ class ToolGenerator:
             except Exception as e:
                 logger.error(f"Error generating tool for workflow {workflow.id}: {e}")
 
-        logger.info(f"Generated {len(tools)} tools ({len(agents)} agents, {len(workflows)} workflows)")
+        # Generate handoff tools
+        if handoffs:
+            for handoff in handoffs:
+                try:
+                    tool = self.handoff_to_tool(handoff)
+                    tools.append(tool)
+                    logger.debug(f"Generated tool: {tool['name']}")
+                except Exception as e:
+                    logger.error(f"Error generating tool for handoff {handoff.id}: {e}")
+
+        handoff_count = len(handoffs) if handoffs else 0
+        logger.info(
+            f"Generated {len(tools)} tools "
+            f"({len(agents)} agents, {len(workflows)} workflows, {handoff_count} handoffs)"
+        )
         return tools

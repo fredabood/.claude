@@ -14,6 +14,7 @@ from typing import Dict, Any, List, Optional
 
 from .agents import AgentDiscovery, AgentDefinition
 from .workflows import WorkflowDiscovery, WorkflowDefinition
+from .handoffs import HandoffDiscovery, HandoffDefinition
 from .generator import ToolGenerator
 
 logger = logging.getLogger(__name__)
@@ -56,6 +57,7 @@ class ToolDiscovery:
         # Initialize sub-modules
         self.agent_discovery = AgentDiscovery(root_dir)
         self.workflow_discovery = WorkflowDiscovery(root_dir)
+        self.handoff_discovery = HandoffDiscovery(root_dir)
         self.generator = ToolGenerator(tool_prefix)
 
         # Cache storage
@@ -92,6 +94,11 @@ class ToolDiscovery:
         tools = self.get_all_tools(force_refresh)
         return [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'workflow']
 
+    def get_handoff_tools(self, force_refresh: bool = False) -> List[Dict[str, Any]]:
+        """Get only handoff tools."""
+        tools = self.get_all_tools(force_refresh)
+        return [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'handoff']
+
     def get_tool_by_name(self, tool_name: str) -> Optional[Dict[str, Any]]:
         """
         Get a specific tool by name.
@@ -115,6 +122,10 @@ class ToolDiscovery:
     def get_workflows(self) -> List[WorkflowDefinition]:
         """Get all discovered workflow definitions."""
         return self.workflow_discovery.discover()
+
+    def get_handoffs(self) -> List[HandoffDefinition]:
+        """Get all discovered handoff definitions."""
+        return self.handoff_discovery.discover()
 
     def invalidate_cache(self):
         """Manually invalidate the cache."""
@@ -148,15 +159,17 @@ class ToolDiscovery:
         # Discover assets
         agents = self.agent_discovery.discover()
         workflows = self.workflow_discovery.discover()
+        handoffs = self.handoff_discovery.discover()
 
         # Generate tools
-        tools = self.generator.generate_all_tools(agents, workflows)
+        tools = self.generator.generate_all_tools(agents, workflows, handoffs)
 
         # Update cache
         self._cache = {
             'tools': tools,
             'agents': agents,
             'workflows': workflows,
+            'handoffs': handoffs,
         }
         self._cache_time = time.time()
         self._cache_hash = self._compute_source_hash()
@@ -192,6 +205,16 @@ class ToolDiscovery:
                 except OSError:
                     pass
 
+        # Get mod times for handoff files
+        handoffs_dir = self.handoff_discovery.handoffs_dir
+        if handoffs_dir.exists():
+            for f in handoffs_dir.glob('*.md'):
+                try:
+                    mtime = os.path.getmtime(f)
+                    hash_input.append(f"{f}:{mtime}")
+                except OSError:
+                    pass
+
         # Compute hash
         hash_str = '\n'.join(sorted(hash_input))
         return hashlib.md5(hash_str.encode()).hexdigest()
@@ -206,11 +229,13 @@ class ToolDiscovery:
         tools = self.get_all_tools()
         agent_tools = [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'agent']
         workflow_tools = [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'workflow']
+        handoff_tools = [t for t in tools if t.get('_metadata', {}).get('asset_type') == 'handoff']
 
         return {
             'total_tools': len(tools),
             'agent_tools': len(agent_tools),
             'workflow_tools': len(workflow_tools),
+            'handoff_tools': len(handoff_tools),
             'cache_valid': self._is_cache_valid(),
             'cache_age_seconds': time.time() - self._cache_time if self._cache_time else None,
             'cache_ttl': self.cache_ttl,

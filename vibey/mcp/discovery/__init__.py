@@ -16,6 +16,7 @@ Usage:
 from .parser import FrontmatterParser
 from .agents import AgentDiscovery, AgentDefinition
 from .workflows import WorkflowDiscovery, WorkflowDefinition, WorkflowStep, QualityGate
+from .handoffs import HandoffDiscovery, HandoffDefinition, HandoffVariable
 from .generator import ToolGenerator
 from .discovery import ToolDiscovery
 
@@ -27,6 +28,9 @@ __all__ = [
     "WorkflowDefinition",
     "WorkflowStep",
     "QualityGate",
+    "HandoffDiscovery",
+    "HandoffDefinition",
+    "HandoffVariable",
     "ToolGenerator",
     "ToolDiscovery",
 ]

@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 7
-    development_tasks_completed: 5
+    development_tasks_completed: 6
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 5
-    completion_percent: 71
+    tasks_completed: 6
+    completion_percent: 86
   tasks:
   - id: 01KC79XW008MN6KHT4S4AVS7VG
     title: Design MCP Resources architecture
@@ -51,7 +51,7 @@ sprint:
     gate_info: null
   - id: 01KC79XW0348EJZBAJ6YPW09FK
     title: Implement handoff discovery and tool generation
-    status: not_started
+    status: completed
     task_type: development
     gate_info: null
   - id: 01KC79XW04BECR363WJ42Y335F

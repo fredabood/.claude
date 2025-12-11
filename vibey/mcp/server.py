@@ -274,6 +274,8 @@ class VibeyMCPServer:
             return await self._execute_agent_tool(asset_id, arguments, metadata)
         elif asset_type == 'workflow':
             return await self._execute_workflow_tool(asset_id, arguments, metadata)
+        elif asset_type == 'handoff':
+            return await self._execute_handoff_tool(asset_id, arguments, metadata)
         else:
             return {
                 "content": [
@@ -487,6 +489,112 @@ class VibeyMCPServer:
                 "",
                 workflow_content,
             ])
+
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": "\n".join(response_parts)
+                }
+            ],
+            "isError": False
+        }
+
+    async def _execute_handoff_tool(
+        self,
+        handoff_id: str,
+        arguments: Dict[str, Any],
+        metadata: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Execute a handoff tool.
+
+        Renders the handoff template with provided arguments
+        and returns the formatted handoff document.
+
+        Args:
+            handoff_id: Handoff identifier
+            arguments: Input arguments from tool call
+            metadata: Handoff metadata from discovery
+
+        Returns:
+            Tool response with rendered handoff
+        """
+        from datetime import datetime
+        from jinja2 import Environment, BaseLoader
+
+        # Get the handoff definition
+        handoff = self.tool_discovery.handoff_discovery.get_handoff_by_id(handoff_id)
+
+        if not handoff:
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Handoff not found: {handoff_id}"
+                    }
+                ],
+                "isError": True
+            }
+
+        # Read template content
+        if not handoff.filepath or not handoff.filepath.exists():
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Handoff template file not found: {handoff_id}"
+                    }
+                ],
+                "isError": True
+            }
+
+        raw_content = handoff.filepath.read_text()
+
+        # Remove frontmatter
+        if raw_content.startswith('---'):
+            parts = raw_content.split('---', 2)
+            template_content = parts[2].strip() if len(parts) >= 3 else raw_content
+        else:
+            template_content = raw_content
+
+        # Build template context
+        context = {
+            "config": {"roles": {}},
+            "handoff_title": arguments.get("handoff_title", handoff.name),
+            "handoff_date": datetime.now().strftime("%Y-%m-%d"),
+            **arguments
+        }
+
+        # Render template
+        try:
+            env = Environment(loader=BaseLoader())
+            template = env.from_string(template_content)
+            rendered = template.render(**context)
+        except Exception as e:
+            logger.warning(f"Template rendering error: {e}")
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"❌ Template rendering error: {str(e)}"
+                    }
+                ],
+                "isError": True
+            }
+
+        # Build response with handoff header
+        response_parts = [
+            f"# Handoff: {handoff.name}",
+            "",
+            f"**From:** {handoff.from_agent}",
+            f"**To:** {', '.join(handoff.to_agents)}",
+            f"**Version:** {handoff.version}",
+            "",
+            "---",
+            "",
+            rendered
+        ]
 
         return {
             "content": [

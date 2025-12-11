@@ -1,0 +1,31 @@
+task:
+  id: 01KC78XNT3YWHWPPX2D21RCXZC
+  sprint_id: 01KC2D0JK9JKQXGQW6MQEB0JZY
+  track_id: 01KC2D0JK9JKQXGQW6MQEB0JZP
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement MCP Auto-Setup - JetBrains
+  description: Implement automated MCP server configuration for JetBrains platform
+  status: not_started
+  created: '2025-12-11T17:56:40.896931+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-11T17:56:40.896931+00:00'
+  slug: null
+  parent_ref: 01KC2D0JK9JKQXGQW6MQEB0JZY
+  criteria: []
+  sequence: 99

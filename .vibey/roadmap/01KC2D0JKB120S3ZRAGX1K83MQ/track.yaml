@@ -1,0 +1,65 @@
+track:
+  id: 01KC2D0JKB120S3ZRAGX1K83MQ
+  name: Platform Context Management System
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-12T00:00:00+00:00'
+  started: null
+  completed: '2025-11-12T00:00:00+00:00'
+  estimated_duration: null
+  progress:
+    sprints_total: 5
+    sprints_completed: 5
+    tasks_total: 29
+    tasks_completed: 29
+    completion_percent: 100.0
+  sprints:
+  - id: 01KC2D0JKB120S3ZRAGX1K83MR
+    name: Platform & Context Detection
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JKB120S3ZRAGX1K83MY
+    name: Compatibility Analysis
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JKB120S3ZRAGX1K83N4
+    name: Smart Prompting & User Flow
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JKB120S3ZRAGX1K83NA
+    name: Intelligent Recalculation Algorithm
+    status: completed
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: 01KC2D0JKB120S3ZRAGX1K83NK
+    name: Testing, Documentation & Polish
+    status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

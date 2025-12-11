@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JK325ABWVR9FQD5ZNPZ
   name: Directory Structure Consolidation
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -13,41 +14,44 @@ track:
     sprints_completed: 5
     tasks_total: 23
     tasks_completed: 23
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: directory-consolidation-1
     name: Low-Risk Cleanup & Preparation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 5
     started: null
   - id: directory-consolidation-2
     name: Move Unique Code & Update Imports
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
   - id: directory-consolidation-3
     name: Content Audit
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 4
     started: null
   - id: directory-consolidation-4
     name: Content Remediation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 4
     started: null
   - id: directory-consolidation-5
     name: .vibey Directory Cleanup
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 4
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -59,5 +63,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: directory-consolidation
-  criteria: []

@@ -2,159 +2,75 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GJ
   name: Gap Analysis - Git Versioning for Vibe Coding Sessions
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 3 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-19-task-001
-    name: Identify context artifacts suitable for git versioning
+    title: Identify context artifacts suitable for git versioning
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Determine what context should be version-controlled:
-
-      - Session transcripts and conversation history
-
-      - Context snapshots at decision points
-
-      - Agent instructions and handoff documents
-
-      - Tool call logs and results
-
-      - File read/write operations log
-
-      - Search queries and results
-
-      - Configuration state changes
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-002
-    name: Analyze git workflow patterns for context versioning
+    title: Analyze git workflow patterns for context versioning
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Design git workflows for context:
-
-      - Commit strategies (per-interaction, per-task, per-session)
-
-      - Branch patterns (context branches, session branches)
-
-      - Merge strategies for context convergence
-
-      - Tag conventions for reproducible states
-
-      - .gitignore patterns for ephemeral context
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-003
-    name: Identify Vibey context versioning gaps
+    title: Identify Vibey context versioning gaps
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: architecture-agent
-    description: 'Document what Vibey is missing:
-
-      - Context not currently captured
-
-      - Context captured but not versioned
-
-      - Context versioned but not queryable
-
-      - Context lacking audit metadata
-
-      - Context that breaks reproducibility
-
-      Rate each gap by severity (critical/high/medium/low)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-004
-    name: Design context snapshot format specification
+    title: Design context snapshot format specification
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Specify format for git-friendly context snapshots:
-
-      - YAML/JSON schema for context state
-
-      - Diff-friendly formatting (sorted keys, stable serialization)
-
-      - Compression strategies for large context
-
-      - Reference handling (pointers to files vs inline)
-
-      - Metadata fields (timestamp, hash, parent, session)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-005
-    name: Analyze context diff and merge challenges
+    title: Analyze context diff and merge challenges
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Identify challenges in context version control:
-
-      - Large context blobs and git performance
-
-      - Meaningful diffs for context changes
-
-      - Three-way merges for context branches
-
-      - Conflict resolution strategies
-
-      - Binary content in context (images, embeddings)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-006
-    name: Study session reconstruction requirements
+    title: Study session reconstruction requirements
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Define what''s needed to reconstruct a session:
-
-      - Minimum context for session replay
-
-      - External dependencies to capture/mock
-
-      - Environment state requirements
-
-      - Tool availability requirements
-
-      - Model version pinning needs
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-19-task-007
-    name: Produce Git Versioning Gap Analysis Report
+    title: Produce Git Versioning Gap Analysis Report
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: 'Comprehensive gap analysis document:
-
-      - Gap inventory with severity ratings
-
-      - Root cause analysis for each gap
-
-      - Impact assessment (transparency, audit, reproducibility)
-
-      - Prioritized remediation recommendations
-
-      - Effort estimates for closing gaps
-
-      '
-  dependencies:
-  - user-journey-audit-18
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-18
+  - dependency_id: user-journey-audit-18
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Context artifact inventory for versioning
   - Git workflow patterns document
@@ -162,47 +78,19 @@ sprint:
   - Context snapshot format specification
   - Session reconstruction requirements
   - Git Versioning Gap Analysis Report
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 2 focuses on identifying gaps in Vibey''s ability to
-
-      use git to version context for vibe coding sessions.
-
-
-      Key questions:
-
-      1. What context artifacts should be in git?
-
-      2. What git workflows support context versioning?
-
-      3. What is Vibey currently missing?
-
-      4. How severe are the gaps?
-
-      5. What would it take to close them?
-
-
-      Output: Prioritized gap list with remediation recommendations.
-
-      '
-  slug: user-journey-audit-19
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-18
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-18
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Gap Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 19
+    estimated_duration: 3 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

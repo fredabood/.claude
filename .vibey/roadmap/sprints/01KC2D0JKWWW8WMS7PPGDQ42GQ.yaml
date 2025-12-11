@@ -2,203 +2,93 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GQ
   name: Journey Mapping & Pain Point Discovery
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-3-task-001
-    name: Define user personas and their goals
+    title: Define user personas and their goals
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Create detailed persona definitions:
-
-      - New User: Goals, technical level, expectations
-
-      - Solo Developer: Workflow patterns, pain tolerance
-
-      - Team Lead: Setup needs, team coordination
-
-      - Team Member: Daily usage patterns
-
-      - Platform Migrator: Migration concerns, comparison points
-
-      - Power User: Advanced needs, customization desires
-
-      - Contributor: Development setup, contribution workflow, PR process
-
-      - First-time Contributor: Onboarding friction, finding good first issues
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-002
-    name: Map new user onboarding experience
+    title: Map new user onboarding experience
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Document the complete new user experience:
-
-      - Discovery: How do users find Vibey?
-
-      - Installation: What''s the actual experience?
-
-      - First run: What happens, what''s confusing?
-
-      - Configuration: Pain points in initial setup
-
-      - First success: Time to first value
-
-      - Documentation touchpoints and quality
-
-      - Common failure modes and recovery
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-003
-    name: Map roadmap creation and management experience
+    title: Map roadmap creation and management experience
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Document roadmap lifecycle experience:
-
-      - Creating a new roadmap (friction points)
-
-      - Adding tracks and sprints (UX issues)
-
-      - Defining tasks and dependencies
-
-      - Updating progress (manual effort)
-
-      - Viewing status and reports (clarity)
-
-      - Archiving and cleanup
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-004
-    name: Map sprint execution experience
+    title: Map sprint execution experience
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Document sprint workflow experience:
-
-      - Sprint planning process
-
-      - Starting a sprint
-
-      - Daily task management friction
-
-      - Handling blockers
-
-      - Completing tasks
-
-      - Sprint review and completion
-
-      - What''s missing or awkward?
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-005
-    name: Map multi-platform and integration experiences
+    title: Map multi-platform and integration experiences
     status: not_started
-    priority: medium
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Document platform and integration experiences:
-
-      - Platform deployment complexity
-
-      - Git integration setup and daily usage
-
-      - Jira/Confluence connection experience
-
-      - Webhook configuration complexity
-
-      - Troubleshooting integrations
-
-      - What''s unclear or broken?
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-006
-    name: Identify and catalog all pain points
+    title: Identify and catalog all pain points
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Compile pain point inventory:
-
-      - List all friction points discovered
-
-      - Categorize by journey phase
-
-      - Rate severity (Critical/High/Medium/Low)
-
-      - Note frequency of occurrence
-
-      - Identify quick wins vs deep issues
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-3-task-007
-    name: Compile journey maps with annotated pain points
+    title: Compile journey maps with annotated pain points
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: 'Create comprehensive journey map document:
-
-      - Visual journey diagrams per persona
-
-      - Step-by-step experience descriptions
-
-      - Pain points flagged at each step
-
-      - Cross-reference to CLI reference commands
-
-      - Input for walkthrough generation (Sprint 4)
-
-      '
-  dependencies:
-  - user-journey-audit-2
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-2
+  - dependency_id: user-journey-audit-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - User persona definitions document
   - Journey maps for all personas
   - Pain point inventory with severity ratings
   - Compiled journey documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 3 maps actual user experiences BEFORE generating
-
-      walkthrough documentation. This ensures walkthroughs
-
-      address real pain points and aren''t just feature lists.
-
-      '
-  slug: user-journey-audit-3
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-2
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Persona Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 3
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

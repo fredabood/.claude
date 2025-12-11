@@ -3,6 +3,7 @@ track:
   name: Gemini Platform Port
   roadmap_id: vibey-framework-v2
   status: in_progress
+  blocked: false
   priority: high
   created: '2025-11-22T00:00:00+00:00'
   started: '2025-11-22T00:00:00+00:00'
@@ -13,29 +14,29 @@ track:
     sprints_completed: 4
     tasks_total: 32
     tasks_completed: 22
-    completion_percent: 69.0
+    completion_percent: 68
   sprints:
   - id: gemini-port-1
     name: Generators & Build Pipeline
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
   - id: gemini-port-2
     name: Gemini Platform Adapter Integration
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 5
     started: null
   - id: gemini-port-3
     name: Sequential Orchestration Adaptation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
   - id: gemini-port-4
     name: Testing & Documentation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 5
     started: null
@@ -52,8 +53,11 @@ track:
     tasks_count: 5
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -65,5 +69,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: gemini-port
-  criteria: []

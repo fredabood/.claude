@@ -3,14 +3,15 @@ sprint:
   name: Core Adapter & MCP Configuration
   track_id: cursor-port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
-  completion_gate_check_at: null
+  completion_gate_check_at: '2025-12-10T18:03:02.488958+00:00'
   completed: null
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:33.848985+00:00'
+  production_ready_at: '2025-12-10T18:06:39.745314+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 7
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 5
-    completion_percent: 71.0
+    completion_percent: 71
   tasks:
   - id: cursor-port-1-task-001
     title: Create CursorAdapter base class
@@ -58,8 +59,11 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -68,6 +72,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -77,7 +82,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: cursor-port-1
-  parent_ref: 01KC2D0JK2A3KNMQVJDACN1X9M
-  criteria: []
-  sequence: 1

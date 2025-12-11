@@ -2,163 +2,75 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GR
   name: User Journey Walkthrough Generation
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-4-task-001
-    name: Design user journey document structure
+    title: Design user journey document structure
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Design journey document format:
-
-      - Link to CLI reference for each command used
-
-      - Step-by-step walkthrough format
-
-      - Expected output examples
-
-      - Error handling guidance (informed by pain points)
-
-      - Cross-references between journeys
-
-      - Coverage tracking metadata
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-002
-    name: Generate new user onboarding journey walkthrough
+    title: Generate new user onboarding journey walkthrough
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: 'Write complete onboarding walkthrough:
-
-      - Installation to first success
-
-      - Every command with CLI reference link
-
-      - Expected outputs at each step
-
-      - Address pain points from Sprint 3
-
-      - Common errors and solutions
-
-      - Track which CLI commands are covered
-
-      Must cover 100% of onboarding-relevant CLI
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-003
-    name: Generate workflow journeys for each persona
+    title: Generate workflow journeys for each persona
     status: not_started
-    priority: critical
-    estimated_hours: 12
-    assigned_agent: docs-writer
-    description: 'Write journey docs for each persona:
-
-      - Solo developer daily workflow
-
-      - Team lead setup and management
-
-      - Sprint planning and execution
-
-      - Platform deployment workflow
-
-      - Integration setup workflows
-
-      - Contributor first contribution workflow
-
-      - Contributor development environment setup
-
-      Each journey links to CLI reference
-
-      Each journey addresses discovered pain points
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-004
-    name: Verify 100% CLI reference coverage in journeys
+    title: Verify 100% CLI reference coverage in journeys
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Validate coverage completeness:
-
-      - Parse all journey docs for CLI references
-
-      - Compare to CLI reference command list
-
-      - Identify uncovered commands
-
-      - Add journeys or extend existing for gaps
-
-      Must achieve 100% coverage
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-005
-    name: Build CLI reference change trigger system
+    title: Build CLI reference change trigger system
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
-    description: 'Automate user journey updates on CLI changes:
-
-      - Detect CLI reference changes (diff)
-
-      - Identify affected user journeys
-
-      - Generate review checklist
-
-      - CI warning when journeys may be stale
-
-      - `vibey docs check journeys` command
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-006
-    name: Add journey coverage to CI validation
+    title: Add journey coverage to CI validation
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-    description: 'CI integration for journey coverage:
-
-      - Validate all CLI commands appear in journeys
-
-      - Warn on new commands without journey coverage
-
-      - Report coverage percentage
-
-      - Block merge if coverage drops below 100%
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-4-task-007
-    name: Review and refine journeys based on pain points
+    title: Review and refine journeys based on pain points
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: 'Quality review of generated journeys:
-
-      - Verify pain points are addressed
-
-      - Ensure guidance is actionable
-
-      - Check for consistency across journeys
-
-      - Validate examples work as documented
-
-      '
-  dependencies:
-  - user-journey-audit-3
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-3
+  - dependency_id: user-journey-audit-3
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - User journey document structure spec
   - New user onboarding journey walkthrough
@@ -166,33 +78,19 @@ sprint:
   - CLI coverage verification report
   - CLI change trigger system
   - Journey coverage CI integration
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 4 generates user journey walkthroughs AFTER journey
-
-      mapping (Sprint 3), so walkthroughs address discovered pain
-
-      points rather than being generic feature documentation.
-
-      '
-  slug: user-journey-audit-4
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-3
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-3
-      required_status: completed
-  - id: gate-001
-    description: User journeys cover 100% of CLI reference
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 4
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

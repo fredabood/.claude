@@ -1,0 +1,74 @@
+sprint:
+  id: 01KC2D0JKFNSS8J3691657050W
+  name: Critical Git & Status Fixes
+  track_id: 01KC2D0JKFNSS8J3691657050V
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: 01KC2D0JKFNSS8J3691657050X
+    title: Add brew-package track to git
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657050Y
+    title: Add python-package track to git
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657050Z
+    title: Sync git-integration and python-package status in roadmap.yaml
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J36916570510
+    title: Sync jetbrains-port status in roadmap.yaml
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J36916570511
+    title: Commit all Sprint 1 fixes
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

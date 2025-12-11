@@ -1,40 +1,65 @@
 sprint:
   id: 01KC2D0JK7READW9KAK1HBX4BV
-  track_id: goose-port
   name: Dynamic Discovery in MCP Server
-  status: completed
+  track_id: goose-port
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-11-22T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-22T00:00:00+00:00'
-  estimated_duration: 2 weeks
+  production_gate_check_at: '2025-12-10T18:03:04.866223+00:00'
+  production_ready_at: '2025-12-10T18:03:36.203311+00:00'
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: goose-port-2-task-001
-    name: Create frontmatter parser module
+    title: Create frontmatter parser module
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-2-task-002
-    name: Create agent discovery module
+    title: Create agent discovery module
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-2-task-003
-    name: Create workflow discovery module
+    title: Create workflow discovery module
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-2-task-004
-    name: Create dynamic tool generator
+    title: Create dynamic tool generator
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-2-task-005
-    name: Integrate discovery into MCP server
+    title: Integrate discovery into MCP server
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-2-task-006
-    name: Add caching for discovered tools
+    title: Add caching for discovered tools
     status: completed
-  description: 'Extend existing MCP server with dynamic tool discovery.
-
-    MCP server scans frontmatter and generates tools automatically.
-
-    '
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - framework/mcp/discovery/__init__.py - Module exports
   - framework/mcp/discovery/parser.py - FrontmatterParser class
@@ -43,7 +68,23 @@ sprint:
   - framework/mcp/discovery/generator.py - ToolGenerator class
   - framework/mcp/discovery/discovery.py - ToolDiscovery with 60s TTL cache
   - framework/mcp/server.py - Updated with dynamic tool integration
-  slug: goose-port-2
-  parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
-  criteria: []
-  sequence: 2
+  description: 'Extend existing MCP server with dynamic tool discovery.
+
+    MCP server scans frontmatter and generates tools automatically.
+
+    '
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-10T18:03:04.863221+00:00'
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

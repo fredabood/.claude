@@ -1,41 +1,76 @@
 sprint:
   id: 01KC2D0JK7READW9KAK1HBX4BT
-  track_id: goose-port
   name: Frontmatter Schema & Asset Migration
-  status: completed
+  track_id: goose-port
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-11-22T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: '2025-11-22T00:00:00+00:00'
-  estimated_duration: 2 weeks
+  production_gate_check_at: '2025-12-10T18:03:04.769694+00:00'
+  production_ready_at: '2025-12-10T18:03:36.103346+00:00'
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: goose-port-1-task-001
-    name: Design frontmatter schema for agents
+    title: Design frontmatter schema for agents
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-002
-    name: Design frontmatter schema for workflows
+    title: Design frontmatter schema for workflows
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-003
-    name: Design frontmatter schema for handoffs
+    title: Design frontmatter schema for handoffs
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-004
-    name: Create migration script for frontmatter
+    title: Create migration script for frontmatter
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-005
-    name: Migrate 19 agent markdown files
+    title: Migrate 19 agent markdown files
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-006
-    name: Migrate 16 workflow markdown files
+    title: Migrate 16 workflow markdown files
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-007
-    name: Migrate 22 handoff template files
+    title: Migrate 22 handoff template files
     status: completed
+    task_type: development
+    gate_info: null
   - id: goose-port-1-task-008
-    name: Validate all migrations with schema validator
+    title: Validate all migrations with schema validator
     status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
   description: 'Design YAML frontmatter schema for agents/workflows/handoffs.
 
     Migrate all 19 agents, 16 workflows, and 22 handoffs to include
@@ -43,7 +78,18 @@ sprint:
     structured frontmatter that MCP server can parse dynamically.
 
     '
-  slug: goose-port-1
-  parent_ref: 01KC2D0JK7READW9KAK1HBX4BS
-  criteria: []
-  sequence: 1
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-10T18:03:04.766659+00:00'
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

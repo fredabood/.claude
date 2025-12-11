@@ -1,0 +1,64 @@
+task:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW4T
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: design
+  title: Design flat directory schema and file naming convention
+  description: 'Define the exact directory structure and file naming conventions for
+    the flat organization.
+
+
+    DESIGN DECISIONS NEEDED:
+
+    1. File naming: {id}.yaml vs {slug}.yaml
+
+    2. Context file organization within context/
+
+    3. Artifact file organization within artifacts/
+
+    4. How to handle track-specific context (currently in track/sprint/context/)
+
+    5. Backward compatibility - can old paths redirect?
+
+
+    DELIVERABLES:
+
+    1. Directory structure specification document
+
+    2. File naming convention document
+
+    3. Migration path document (how old → new mapping works)
+
+
+    REFERENCE:
+
+    - sqlite-backend-6/context/architecture/09-DESIGN-DECISIONS.md (original design)
+
+    - Current directory structure analysis
+
+    '
+  status: completed
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T14:55:00+00:00'
+  completed: '2025-12-09T15:05:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: design
+  estimated_tokens: 20000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

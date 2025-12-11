@@ -2,7 +2,7 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 9
+    sprints_total: 10
     sprints_completed: 9
-    tasks_total: 1
-    tasks_completed: 1
-    completion_percent: 100
+    tasks_total: 78
+    tasks_completed: 65
+    completion_percent: 83
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -70,6 +70,12 @@ track:
     estimated_duration: null
     tasks_count: 1
     started: '2025-12-10T18:29:28.864113+00:00'
+  - id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+    name: 'Sprint 10: Hierarchical to Flat Structure Migration'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 14
+    started: '2025-12-11T18:00:00+00:00'
   dependencies: []
   blocks: []
   blocked_by: []

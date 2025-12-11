@@ -2,161 +2,69 @@ sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJV
   name: Documentation & Code Audit
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-1-task-001
-    name: Inventory all existing documentation files
+    title: Inventory all existing documentation files
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Catalog all documentation in the repository:
-
-      - docs/ folder structure and contents
-
-      - README files throughout codebase
-
-      - CLAUDE.md and configuration docs
-
-      - Inline code documentation
-
-      - Docstrings in Python code
-
-      - Example files and templates
-
-      Create inventory with file paths, purposes, last updated dates
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-002
-    name: Inventory all CLI commands and options
+    title: Inventory all CLI commands and options
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: backend-engineer
-    description: 'Extract complete CLI surface area:
-
-      - All vibey commands and subcommands
-
-      - All options and flags per command
-
-      - Argument types and defaults
-
-      - Help text for each command
-
-      - Exit codes and error conditions
-
-      Create machine-readable inventory (YAML/JSON)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-003
-    name: Find and catalog existing user journey documentation
+    title: Find and catalog existing user journey documentation
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Locate all user journey content:
-
-      - USER_JOURNEY.md and related files
-
-      - Getting started guides
-
-      - Tutorial content
-
-      - Workflow documentation
-
-      - Persona-specific guides
-
-      Map each to the functionality it covers
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-004
-    name: Audit documentation completeness against codebase
+    title: Audit documentation completeness against codebase
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Compare documentation to actual functionality:
-
-      - CLI commands: documented vs actual
-
-      - Features: documented vs implemented
-
-      - Configuration options: documented vs available
-
-      - API/library functions: documented vs exported
-
-      Create coverage matrix showing gaps
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-005
-    name: Audit documentation correctness
+    title: Audit documentation correctness
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Verify documentation accuracy:
-
-      - Do documented commands work as described?
-
-      - Are examples correct and runnable?
-
-      - Do configuration examples match schema?
-
-      - Are file paths and references valid?
-
-      - Is terminology consistent?
-
-      Flag all inaccuracies with severity
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-006
-    name: Audit test suite coverage of documented features
+    title: Audit test suite coverage of documented features
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: 'Map tests to documented functionality:
-
-      - Which CLI commands have tests?
-
-      - Which documented features are tested?
-
-      - Which tests exist for undocumented features?
-
-      Create test-to-documentation mapping
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-1-task-007
-    name: Produce comprehensive audit report
+    title: Produce comprehensive audit report
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: docs-writer
-    description: 'Compile audit findings:
-
-      - Documentation inventory summary
-
-      - CLI command inventory
-
-      - Coverage gaps (undocumented features)
-
-      - Correctness issues (inaccurate docs)
-
-      - Test coverage gaps
-
-      - Prioritized remediation recommendations
-
-      '
-  dependencies: []
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Documentation file inventory
   - CLI command inventory (machine-readable)
@@ -165,25 +73,19 @@ sprint:
   - Documentation correctness audit
   - Test-to-documentation mapping
   - Comprehensive audit report
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 1 establishes the baseline: what exists today,
-
-      what''s documented, what''s accurate, what''s tested.
-
-      This informs all subsequent sprints.
-
-      '
-  slug: user-journey-audit-1
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: gate-001
-    description: 'Quality gate: Audit Completeness'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 1
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

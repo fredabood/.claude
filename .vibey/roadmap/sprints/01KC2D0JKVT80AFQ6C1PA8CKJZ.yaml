@@ -2,151 +2,75 @@ sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJZ
   name: Config System Test Coverage
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-13-task-001
-    name: Audit existing config tests and coverage
+    title: Audit existing config tests and coverage
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Baseline config test coverage:
-
-      - Run pytest-cov on vibey/config/
-
-      - Document current coverage percentage
-
-      - Identify untested loaders
-
-      - Identify untested models
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-002
-    name: Write tests for config loader
+    title: Write tests for config loader
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: test-engineer
-    description: 'Test config loading:
-
-      - load_config() function
-
-      - Modular config loading
-
-      - Legacy config fallback
-
-      - Config file discovery
-
-      - Environment variable overrides
-
-      - Error handling for missing/invalid
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-003
-    name: Write tests for config models
+    title: Write tests for config models
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test config models:
-
-      - ProjectConfig model
-
-      - FrameworkConfig model
-
-      - AgentsConfig model
-
-      - QualityGatesConfig model
-
-      - Validation for each model
-
-      - Default values
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-004
-    name: Write tests for config validation
+    title: Write tests for config validation
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test config validation:
-
-      - Schema validation
-
-      - Required field validation
-
-      - Type validation
-
-      - Cross-field validation
-
-      - Helpful error messages
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-005
-    name: Write tests for config migration
+    title: Write tests for config migration
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: 'Test config migration:
-
-      - migrate_config() function
-
-      - Legacy to modular conversion
-
-      - Backup creation
-
-      - Dry run mode
-
-      - Error recovery
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-006
-    name: Verify 100% config coverage achieved
+    title: Verify 100% config coverage achieved
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Validate coverage target:
-
-      - Run pytest-cov --cov=vibey/config
-
-      - Verify 100% line coverage
-
-      - Verify 100% branch coverage
-
-      - Fix any remaining gaps
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-13-task-007
-    name: Document config testing patterns
+    title: Document config testing patterns
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: 'Create config testing guide:
-
-      - Temporary config files for tests
-
-      - Environment variable mocking
-
-      - Config fixture patterns
-
-      - Validation testing strategies
-
-      '
-  dependencies:
-  - user-journey-audit-9
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-9
+  - dependency_id: user-journey-audit-9
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Config test coverage baseline
   - Tests for config loader
@@ -155,39 +79,19 @@ sprint:
   - Tests for config migration
   - 100% config coverage verified
   - Config testing documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 4 achieves 100% test coverage of config system.
-
-      Target: vibey/config/ directory
-
-      '
-  slug: user-journey-audit-13
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-9
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-9
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Config Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: Config Pass Rate'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 13
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

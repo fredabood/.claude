@@ -3,14 +3,15 @@ sprint:
   name: CLI Integration
   track_id: sqlite-backend
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-26T12:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-26T12:00:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:14.345305+00:00'
+  production_ready_at: '2025-12-10T18:03:45.783815+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 7
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
-    completion_percent: 100.0
+    completion_percent: 100
   tasks:
   - id: sqlite-backend-2-task-001
     title: Add vibey roadmap db subcommand group
@@ -58,8 +59,11 @@ sprint:
     status: completed
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -68,6 +72,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -77,7 +82,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: sqlite-backend-2
-  parent_ref: 01KC2D0JKN6JPW9GSA6V3M6RMQ
-  criteria: []
-  sequence: 2

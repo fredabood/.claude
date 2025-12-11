@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 39
     tracks_completed: 22
-    sprints_total: 200
-    sprints_completed: 108
-    tasks_total: 1082
-    tasks_completed: 807
-    completion_percent: 75.0
+    sprints_total: 192
+    sprints_completed: 138
+    tasks_total: 946
+    tasks_completed: 747
+    completion_percent: 78
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -40,7 +40,7 @@ roadmap:
     priority: medium
   - id: 01KC2D0JK1877YN6T0673VB24T
     name: Claude Code Platform Validation
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK1877YN6T0673VB254
     name: Sourcegraph Cody Platform Port
@@ -56,7 +56,7 @@ roadmap:
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X8X
     name: Core Framework Enhancements
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X9M
     name: Cursor Platform Port
@@ -64,15 +64,15 @@ roadmap:
     priority: high
   - id: 01KC2D0JK325ABWVR9FQD5ZNPZ
     name: Directory Structure Consolidation
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KC2D0JK325ABWVR9FQD5ZNQW
     name: Platform-Agnostic Architecture (Design & Implementation)
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK49XGJV84YRRHEASMG
     name: Hierarchical Documentation & Context Management System
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JK5Y3BX5008PVANFCHN
     name: Gemini Platform Port
@@ -80,23 +80,23 @@ roadmap:
     priority: high
   - id: 01KC2D0JK6JC6706H9WP2NH5DA
     name: Enhanced Git Integration
-    status: in_progress
+    status: production_ready
     priority: high
   - id: 01KC2D0JK7READW9KAK1HBX4BS
     name: Goose Platform Port
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632BK
     name: Critical Infrastructure Fixes
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632CA
     name: Interface Unification & Simplification
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK9JKQXGQW6MQEB0JZP
     name: JetBrains AI Assistant Port
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KC2D0JK9JKQXGQW6MQEB0K05
     name: MCP Server Foundation
@@ -104,19 +104,19 @@ roadmap:
     priority: critical
   - id: 01KC2D0JKA23EJA1W712Y5S703
     name: Missing Agents Implementation
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKA23EJA1W712Y5S70G
     name: Multi-Platform Architecture
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KC2D0JKB120S3ZRAGX1K83MQ
     name: Platform Context Management System
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKB120S3ZRAGX1K83NT
     name: Python Package Structure & Distribution
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKCJCWQ76VRQJWBGQY9
     name: Replit Agent Platform Port
@@ -124,7 +124,7 @@ roadmap:
     priority: medium
   - id: 01KC2D0JKDQPXAYGH93V9Z82XH
     name: Roadmap Integration into /vibey Commands
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKDQPXAYGH93V9Z82Y5
     name: Roadmap Data Integrity & Validation System
@@ -140,23 +140,23 @@ roadmap:
     priority: critical
   - id: 01KC2D0JKKVMZ8ZJNGPHV822QX
     name: Roadmap Object Hierarchy Implementation
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
     name: SQLite Database Backend
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
     name: Roadmap Standards System
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKSA4C3QG7P7YGCG37J
     name: Comprehensive Testing & Quality Assurance
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
     name: Unified Architecture Migration
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJT
     name: User Journey Audit & Documentation Coverage
@@ -176,7 +176,7 @@ roadmap:
     priority: high
   - id: 01KC39XSXJ39N12HWJ93F77KQ9
     name: CLI Dogfooding Bug Fixes
-    status: completed
+    status: in_progress
     priority: critical
   dependencies: []
   blocked_by: []

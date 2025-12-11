@@ -1,0 +1,181 @@
+sprint:
+  id: 01KC2D0JKN6JPW9GSA6V3M6RNR
+  name: Unified Ticket Architecture Implementation
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: true
+  blocked_reason: null
+  created: '2025-12-05T00:00:00+00:00'
+  started: '2025-12-05T12:00:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-06T15:35:51.501954+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 15
+    development_tasks_completed: 15
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 15
+    tasks_completed: 15
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RNS
+    title: Audit Sprint 6 design vs current codebase implementation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RNT
+    title: Add criteria table to database schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RNV
+    title: Add criterion_targets table with polymorphic target types
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ38
+    title: Update YAML format to include criteria sections
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ39
+    title: Update yaml_loader to parse criteria from YAML
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3A
+    title: Update sql_loader to load criteria from database
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3B
+    title: Update yaml_dumper to serialize criteria to YAML
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3C
+    title: Update sql_dumper to persist criteria to database
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3D
+    title: Migrate dependencies/blocked_by to CompletableTarget criteria
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3E
+    title: Implement can_transition_to() checks in CLI status updates
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3F
+    title: Implement verify_completion_claims() in pre-commit hook
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3G
+    title: End-to-end validation of criteria-based completion system
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3H
+    title: Migrate quality_gates to criteria with ThresholdTarget
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3J
+    title: Implement Requirements cascade for standards enforcement
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKPDR7R8DCYQ1VYXQ3K
+    title: Implement computed progress from criteria
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: 'Sprint 6 designed a comprehensive unified ticket architecture with
+    criteria-based
+
+    completion. However, the actual integration was never completed. This sprint
+
+    implements the full design:
+
+
+    1. AUDIT: Compare Sprint 6 design documents against current codebase
+
+    2. SCHEMA: Add criteria and criterion_targets tables
+
+    3. SERIALIZATION: Update YAML/SQL loaders/dumpers for criteria
+
+    4. MIGRATION: Convert legacy dependencies to CompletableTarget criteria
+
+    5. ENFORCEMENT: Implement can_transition_to() checks throughout system
+
+    6. GIT HOOKS: Add verify_completion_claims() for commit validation
+
+
+    Reference: sqlite-backend-6/context/architecture/
+
+    '
+  goal: Fully implement the unified ticket architecture designed in Sprint 6
+  success_criteria: []
+  risks: []
+  notes: 'KEY ARCHITECTURE REFERENCES:
+
+    - sqlite-backend-6/context/architecture/01-DESIGN-PRINCIPLES.md
+
+    - sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
+
+    - sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md
+
+    - sqlite-backend-6/context/architecture/06-SERIALIZATION.md
+
+
+    KEY SAMPLE CODE:
+
+    - sqlite-backend-6/context/sample_code/models/completable.py
+
+    - sqlite-backend-6/context/sample_code/models/criterion.py
+
+    - sqlite-backend-6/context/sample_code/models/func_verify_completion_claims.py
+
+
+    EXISTING IMPLEMENTATION (not integrated):
+
+    - vibey/roadmap/models/ticket/completable.py
+
+    - vibey/roadmap/models/ticket/targets.py
+
+    - vibey/roadmap/models/ticket/adapters.py
+
+    '
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

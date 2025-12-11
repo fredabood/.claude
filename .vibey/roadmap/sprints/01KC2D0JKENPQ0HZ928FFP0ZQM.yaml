@@ -3,14 +3,15 @@ sprint:
   name: Comprehensive Forensic Audit
   track_id: roadmap-integrity-fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-12T19:45:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-12T19:45:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:08.269583+00:00'
+  production_ready_at: '2025-12-10T18:03:39.620208+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 13
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 13
     tasks_completed: 13
-    completion_percent: 100.0
+    completion_percent: 100
   tasks:
   - id: roadmap-integrity-fixes-2-task-001
     title: Forensic audit of standards-system track
@@ -88,8 +89,11 @@ sprint:
     status: completed
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -98,6 +102,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -107,7 +112,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: roadmap-integrity-fixes-2
-  parent_ref: 01KC2D0JKDQPXAYGH93V9Z82Y5
-  criteria: []
-  sequence: 2

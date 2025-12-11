@@ -1,0 +1,84 @@
+sprint:
+  id: 01KC2D0JKRGBQDPFWNXWNXV606
+  name: Standards Resolution Engine
+  track_id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-11T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-11T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 7
+    development_tasks_completed: 7
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 7
+    tasks_completed: 7
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JKRGBQDPFWNXWNXV607
+    title: Create standards resolver module
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV608
+    title: Implement resolve_standards_for_task()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV609
+    title: Implement resolve_standards_for_sprint()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV60A
+    title: Implement resolve_standards_for_track()
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV60B
+    title: Implement inheritance and deduplication logic
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV60C
+    title: Add override handling
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKRGBQDPFWNXWNXV60D
+    title: Write integration tests
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

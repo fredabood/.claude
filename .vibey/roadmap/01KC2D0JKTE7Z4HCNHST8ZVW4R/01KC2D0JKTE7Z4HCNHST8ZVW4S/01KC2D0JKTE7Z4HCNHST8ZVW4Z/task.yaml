@@ -1,0 +1,74 @@
+task:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW4Z
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update CLI path resolution and documentation
+  description: 'Update CLI commands and documentation to reflect the new flat directory
+    structure.
+
+
+    CLI CHANGES:
+
+    1. Update `vibey roadmap show` to use flat paths
+
+    2. Update `vibey roadmap update` to use flat paths
+
+    3. Update any hardcoded path assumptions
+
+    4. Add migration command documentation
+
+
+    DOCUMENTATION UPDATES:
+
+    1. Update CLAUDE.md roadmap directory description
+
+    2. Update docs/reference/roadmap-system.md
+
+    3. Update any path examples in documentation
+
+    4. Document the migration process for other projects
+
+
+    NEW CLI COMMANDS:
+
+    - vibey roadmap migrate-structure --detect  # Show current structure type
+
+    - vibey roadmap migrate-structure --dry-run  # Preview migration
+
+    - vibey roadmap migrate-structure --execute  # Perform migration
+
+    - vibey roadmap migrate-structure --rollback  # Undo migration
+
+    '
+  status: completed
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T16:00:00+00:00'
+  completed: '2025-12-09T16:05:00+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: documentation
+  estimated_tokens: 20000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

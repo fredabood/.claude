@@ -1,0 +1,53 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJF
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJD
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create v1 to v2 YAML migration script
+  description: "Create script to convert v1 YAML files to v2 format.\n\nCONVERSIONS:\n\
+    1. blocked_by → criteria\n   ```python\n   for blocker in v1_data.get('blocked_by',\
+    \ []):\n       criteria.append({\n           'id': f\"blocker-{blocker['target_id']}\"\
+    ,\n           'description': blocker.get('description', f\"Blocked by {blocker['target_id']}\"\
+    ),\n           'blocks_transition_to': 'in_progress',\n           'target': {\n\
+    \               'type': 'completable',\n               'completable_id': ulid_map[blocker['target_id']],\n\
+    \               'required_status': 'completed'\n           }\n       })\n   ```\n\
+    \n2. depends_on → criteria (similar to blocked_by)\n\n3. deliverables → criteria\n\
+    \   ```python\n   for deliverable in v1_data.get('deliverables', []):\n      \
+    \ criteria.append({\n           'id': f\"deliverable-{hash(deliverable['path'])}\"\
+    ,\n           'description': deliverable.get('description', f\"File must exist:\
+    \ {deliverable['path']}\"),\n           'blocks_transition_to': 'completed',\n\
+    \           'target': {\n               'type': 'file_exists',\n             \
+    \  'path': deliverable['path'],\n               'deliverable_type': deliverable.get('type',\
+    \ 'other')\n           }\n       })\n   ```\n\n4. quality_gates → criteria with\
+    \ ThresholdTarget\n\n5. Remove computed fields (blocked, progress)\n"
+  status: not_started
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 50000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

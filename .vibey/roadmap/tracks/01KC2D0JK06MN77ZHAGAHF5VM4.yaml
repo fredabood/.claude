@@ -3,6 +3,7 @@ track:
   name: Atlassian Integration (Jira & Confluence)
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: true
   priority: high
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -40,13 +41,39 @@ track:
     tasks_count: 7
     started: null
   dependencies:
-  - roadmap-system
-  - sqlite-backend-6
+  - type: track
+    target_id: roadmap-system
+    target_status: completed
+    reason: Dependency on track completion
+    optional: false
+  - type: track
+    target_id: sqlite-backend-6
+    target_status: completed
+    reason: Dependency on track completion
+    optional: false
+  blocks: []
   blocked_by:
-  - sqlite-backend-6
+  - dependency_id: sqlite-backend-6
+    dependency_type: track
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-10T18:03:01.135218+00:00'
+    estimated_resolution: null
   depends_on:
-  - roadmap-system
-  - sqlite-backend-6
+  - blocker_id: roadmap-system
+    blocker_type: track
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T18:03:01.135221+00:00'
+  - blocker_id: sqlite-backend-6
+    blocker_type: track
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T18:03:01.135222+00:00'
+  depended_on_by: []
+  quality_gates: []
   assigned_agents:
   - backend-engineer
   - architecture-agent
@@ -105,45 +132,3 @@ track:
       \ account support for automation\n\nCLI COMMANDS:\n- vibey atlassian connect\n\
       - vibey atlassian sync jira\n- vibey atlassian sync confluence\n- vibey atlassian\
       \ status\n- vibey atlassian import <project>\n- vibey atlassian export <track>\n"
-  slug: atlassian-integration
-  criteria:
-  - id: blk-001
-    description: Blocked by sqlite-backend-6
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: sqlite-backend-6
-      required_status: completed
-  - id: gate-001
-    description: All Jira operations tested against real API
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: All Confluence operations tested against real API
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-003
-    description: Bidirectional sync handles all edge cases
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-004
-    description: No data loss during sync operations
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100

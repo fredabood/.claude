@@ -2,151 +2,75 @@ sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJW
   name: CLI Test Coverage
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-10-task-001
-    name: Audit existing CLI tests and coverage
+    title: Audit existing CLI tests and coverage
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Baseline CLI test coverage:
-
-      - Run pytest-cov on vibey/cli/
-
-      - Document current coverage percentage
-
-      - Identify untested commands
-
-      - Identify untested options/flags
-
-      - Map tests to CLI reference commands
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-002
-    name: Write tests for vibey/cli/main.py
+    title: Write tests for vibey/cli/main.py
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test CLI entry point:
-
-      - Test main() function
-
-      - Test CLI group setup
-
-      - Test help output
-
-      - Test version output
-
-      - Test invalid command handling
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-003
-    name: Write tests for vibey/cli/commands.py
+    title: Write tests for vibey/cli/commands.py
     status: not_started
-    priority: critical
-    estimated_hours: 12
-    assigned_agent: test-engineer
-    description: 'Test all CLI commands:
-
-      - Test each command happy path
-
-      - Test each command with all options
-
-      - Test error cases for each command
-
-      - Test output formatting
-
-      - Mock external dependencies
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-004
-    name: Write tests for roadmap CLI commands
+    title: Write tests for roadmap CLI commands
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: test-engineer
-    description: 'Test roadmap subcommands:
-
-      - vibey roadmap init
-
-      - vibey roadmap status
-
-      - vibey roadmap show
-
-      - vibey roadmap update
-
-      - All options and variations
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-005
-    name: Write tests for docs CLI commands
+    title: Write tests for docs CLI commands
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test docs subcommands:
-
-      - vibey docs generate
-
-      - vibey docs check
-
-      - Output format tests
-
-      - Error handling tests
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-006
-    name: Verify 100% CLI coverage achieved
+    title: Verify 100% CLI coverage achieved
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Validate coverage target:
-
-      - Run pytest-cov --cov=vibey/cli
-
-      - Verify 100% line coverage
-
-      - Verify 100% branch coverage
-
-      - Document any exclusions with justification
-
-      - Fix any remaining gaps
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-10-task-007
-    name: Document CLI testing patterns
+    title: Document CLI testing patterns
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: 'Create CLI testing guide:
-
-      - How to test Click commands
-
-      - Mocking patterns for CLI tests
-
-      - Testing output formats
-
-      - Testing error handling
-
-      - Examples for each pattern
-
-      '
-  dependencies:
-  - user-journey-audit-9
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-9
+  - dependency_id: user-journey-audit-9
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - CLI test coverage baseline
   - Tests for vibey/cli/main.py
@@ -155,39 +79,19 @@ sprint:
   - Tests for docs commands
   - 100% CLI coverage verified
   - CLI testing documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 1 achieves 100% test coverage of the CLI layer.
-
-      Target: vibey/cli/ directory
-
-      '
-  slug: user-journey-audit-10
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-9
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-9
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: CLI Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: CLI Pass Rate'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 10
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

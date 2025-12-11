@@ -2,56 +2,70 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GP
   name: Context Directory Writers & CLI Integration
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-22-task-001
-    name: Create architecture discovery context writer
+    title: Create architecture discovery context writer
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-22-task-002
-    name: Add --output-context flag to vibey discover command
+    title: Add --output-context flag to vibey discover command
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-22-task-003
-    name: Implement automatic context directory creation per track
+    title: Implement automatic context directory creation per track
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-22-task-004
-    name: Add discovery context loading for AI agents
+    title: Add discovery context loading for AI agents
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-22-task-005
-    name: Create test suite for discovery context integration
+    title: Create test suite for discovery context integration
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: test-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-22-task-006
-    name: Document discovery context workflow
+    title: Document discovery context workflow
     status: not_started
-    priority: medium
-    estimated_hours: 3
-    assigned_agent: docs-writer
-  dependencies:
-  - user-journey-audit-21
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-21
+  - dependency_id: user-journey-audit-21
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - ArchitectureDiscoveryWriter implementation
   - vibey discover --output-context command
@@ -59,44 +73,19 @@ sprint:
   - Context loading for AI agent prompts
   - Comprehensive test coverage
   - User documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: "Sprint 2 completes the integration with CLI and AI context loading.\n\n\
-      CLI Usage:\n  vibey discover --output-context\n  vibey discover codebase --track\
-      \ mytrack\n  vibey discover git-history --track mytrack\n  vibey discover dependencies\
-      \ --track mytrack\n  vibey discover all --track mytrack\n\nContext Loading Flow:\n\
-      1. Discovery runs and writes to context/\n2. AI agent loads track context\n\
-      3. Discovery results included in prompt\n4. Agent has full project understanding\n\
-      \nDirectory structure after discovery:\n  .vibey/roadmap/[track]/context/\n\
-      \  ├── discovery/\n  │   ├── codebase-audit.md\n  │   ├── git-analysis.md\n\
-      \  │   ├── dependencies.yaml\n  │   ├── architecture.md\n  │   └── discovery-manifest.yaml\n\
-      \  └── ...other context files\n"
-  slug: user-journey-audit-22
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-21
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-21
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Integration Tests'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: CLI Usability'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 22
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

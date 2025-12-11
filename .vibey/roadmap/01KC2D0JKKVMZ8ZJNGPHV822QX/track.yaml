@@ -1,0 +1,77 @@
+track:
+  id: 01KC2D0JKKVMZ8ZJNGPHV822QX
+  name: Roadmap Object Hierarchy Implementation
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  priority: critical
+  created: '2025-11-07T02:00:00+00:00'
+  started: null
+  completed: '2025-11-07T02:00:00+00:00'
+  estimated_duration: null
+  progress:
+    sprints_total: 7
+    sprints_completed: 7
+    tasks_total: 58
+    tasks_completed: 58
+    completion_percent: 100.0
+  sprints:
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822QY
+    name: Core Data Model & YAML Schema
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5EQY
+    name: State Management Scripts
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ER8
+    name: 'CLI Commands (Part 1: Query)'
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ERJ
+    name: 'CLI Commands (Part 2: Update & Version)'
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ERW
+    name: Agent Integration & Auto-routing
+    status: completed
+    estimated_duration: null
+    tasks_count: 9
+    started: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ES6
+    name: Documentation & Polish
+    status: completed
+    estimated_duration: null
+    tasks_count: 8
+    started: null
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RMH
+    name: Token-Based Effort Estimation
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

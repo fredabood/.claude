@@ -2,153 +2,75 @@ sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJY
   name: Roadmap Models & Serialization Test Coverage
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-12-task-001
-    name: Audit existing models tests and coverage
+    title: Audit existing models tests and coverage
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Baseline models test coverage:
-
-      - Run pytest-cov on vibey/roadmap/
-
-      - Document current coverage percentage
-
-      - Identify untested models
-
-      - Identify untested serialization paths
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-002
-    name: Write tests for Roadmap model
+    title: Write tests for Roadmap model
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test Roadmap model:
-
-      - Construction and validation
-
-      - Property accessors
-
-      - Progress calculations
-
-      - Serialization to YAML
-
-      - Deserialization from YAML
-
-      - Edge cases (empty, invalid)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-003
-    name: Write tests for Track model
+    title: Write tests for Track model
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test Track model:
-
-      - Construction and validation
-
-      - Status transitions
-
-      - Progress calculations
-
-      - Dependencies handling
-
-      - Quality gates
-
-      - Serialization/deserialization
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-004
-    name: Write tests for Sprint model
+    title: Write tests for Sprint model
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test Sprint model:
-
-      - Construction and validation
-
-      - Status transitions
-
-      - Task aggregation
-
-      - Progress calculations
-
-      - Serialization/deserialization
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-005
-    name: Write tests for Task model
+    title: Write tests for Task model
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test Task model:
-
-      - Construction and validation
-
-      - All status values
-
-      - Blocking/blocked_by relationships
-
-      - Commit associations
-
-      - Serialization/deserialization
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-006
-    name: Write tests for serialization utilities
+    title: Write tests for serialization utilities
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: 'Test serialization:
-
-      - YAML serializers
-
-      - Custom representers
-
-      - Round-trip serialization
-
-      - Schema validation
-
-      - Error handling for malformed data
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-12-task-007
-    name: Verify 100% models coverage achieved
+    title: Verify 100% models coverage achieved
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Validate coverage target:
-
-      - Run pytest-cov --cov=vibey/roadmap
-
-      - Verify 100% line coverage
-
-      - Verify 100% branch coverage
-
-      - Fix any remaining gaps
-
-      '
-  dependencies:
-  - user-journey-audit-8
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-8
+  - dependency_id: user-journey-audit-8
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Models test coverage baseline
   - Tests for Roadmap model
@@ -157,39 +79,19 @@ sprint:
   - Tests for Task model
   - Tests for serialization utilities
   - 100% models coverage verified
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 3 achieves 100% test coverage of roadmap models.
-
-      Target: vibey/roadmap/ directory
-
-      '
-  slug: user-journey-audit-12
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-8
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-8
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Models Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: Models Pass Rate'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 12
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

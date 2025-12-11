@@ -1,0 +1,47 @@
+task:
+  id: 01KC6WAAM87S5VVJ1JBN29PBX4
+  sprint_id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: 'Task 014: Update Test Files for Flat Structure'
+  description: >-
+    Update test files that create hierarchical structures for testing:
+    - test_hierarchical_integration.py - Tests hierarchical DirectoryManager
+    - test_toc_generator.py - Creates temp hierarchical structures
+    - test_directory_manager.py - Tests DirectoryManager (slug-based)
+    Tests should either be updated to test flat structure, or marked as
+    legacy/deprecated tests for slug-based context directories.
+  status: not_started
+  created: '2025-12-11T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: low
+  phase_label: null
+  estimated_tokens: 2500
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on:
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXQ
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXR
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXS
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXT
+    - 01KC6WAAM87S5VVJ1JBN29PBWZ
+    - 01KC6WAAM87S5VVJ1JBN29PBX0
+    - 01KC6WAAM87S5VVJ1JBN29PBX1
+    - 01KC6WAAM87S5VVJ1JBN29PBX2
+  deliverables:
+    - Updated test_hierarchical_integration.py
+    - Updated test_toc_generator.py
+    - Updated test_directory_manager.py
+    - All tests pass
+  commits: []
+  metadata:
+    bug_number: 19
+    scope: tests
+    files_count: 3

@@ -1,0 +1,87 @@
+task:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW4Y
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Execute migration with validation
+  description: 'Execute the directory migration on the actual .vibey/roadmap/ directory.
+
+
+    EXECUTION STEPS:
+
+    1. Run dry-run first: vibey roadmap migrate-structure --dry-run
+
+    2. Review planned changes
+
+    3. Create backup
+
+    4. Execute migration: vibey roadmap migrate-structure --execute
+
+    5. Run round-trip validation
+
+    6. Verify all YAML files load correctly
+
+    7. Verify database sync still works
+
+    8. Commit the migration
+
+
+    VALIDATION CHECKS:
+
+    - All tracks load correctly
+
+    - All sprints load correctly
+
+    - All tasks load correctly
+
+    - roadmap.yaml summary is accurate
+
+    - vibey roadmap status shows correct data
+
+    - SQLite database can be rebuilt from YAML
+
+    - Round-trip: YAML → SQLite → YAML produces identical files
+
+
+    ROLLBACK PLAN:
+
+    If validation fails:
+
+    1. vibey roadmap migrate-structure --rollback
+
+    2. Restore from backup
+
+    3. Document failure reason
+
+    '
+  status: completed
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T15:45:00+00:00'
+  completed: '2025-12-09T15:55:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: execution
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

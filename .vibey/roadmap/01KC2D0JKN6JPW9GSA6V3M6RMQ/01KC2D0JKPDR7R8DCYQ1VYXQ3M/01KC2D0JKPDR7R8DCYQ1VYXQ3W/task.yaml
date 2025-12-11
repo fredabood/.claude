@@ -1,0 +1,56 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3W
+  sprint_id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create migration script for existing roadmaps to new directory structure
+  description: "Create migration script to upgrade existing vibey roadmaps to new\
+    \ structure.\n\nMIGRATION REQUIREMENTS:\n1. Detect existing roadmap format version\n\
+    2. Backup existing files before migration\n3. Convert to new directory structure\n\
+    4. Initialize SQLite database\n5. Validate migration success\n6. Provide rollback\
+    \ capability\n\nDIRECTORY STRUCTURE CHANGES:\n```\n# OLD STRUCTURE\n.vibey/\n\
+    \  roadmap.yaml          # Single file with all data\n  roadmap/\n    tracks/\
+    \             # Flat track files\n\n# NEW STRUCTURE\n.vibey/\n  roadmap.yaml \
+    \         # Summary only\n  roadmap.db            # SQLite database (NEW)\n  roadmap/\n\
+    \    track-id/\n      track.yaml\n      sprint-id/\n        sprint.yaml\n    \
+    \    task-id/\n          task.yaml\n```\n\nMIGRATION STEPS:\n1. Detect format:\
+    \ `vibey roadmap migrate --detect`\n2. Preview changes: `vibey roadmap migrate\
+    \ --dry-run`\n3. Create backup: `vibey roadmap migrate --backup`\n4. Execute migration:\
+    \ `vibey roadmap migrate --execute`\n5. Validate: `vibey roadmap migrate --validate`\n\
+    6. Rollback if needed: `vibey roadmap migrate --rollback`\n\nIMPLEMENTATION:\n\
+    ```python\ndef migrate_roadmap(root_dir: Path, dry_run: bool = True) -> MigrationResult:\n\
+    \    # 1. Detect current format\n    format_version = detect_format_version(root_dir)\n\
+    \n    # 2. Create backup\n    backup_path = create_backup(root_dir)\n\n    # 3.\
+    \ Load from old format\n    roadmap = load_legacy_roadmap(root_dir)\n\n    # 4.\
+    \ Create new directory structure\n    create_directory_structure(root_dir, roadmap)\n\
+    \n    # 5. Write new YAML files\n    dump_to_new_structure(root_dir, roadmap)\n\
+    \n    # 6. Initialize database\n    init_database(root_dir)\n    rebuild_from_yaml(root_dir)\n\
+    \n    # 7. Validate\n    validate_migration(root_dir)\n\n    return MigrationResult(\n\
+    \        backup_path=backup_path,\n        tracks_migrated=len(roadmap.tracks),\n\
+    \        tasks_migrated=count_tasks(roadmap)\n    )\n```\n\nREFERENCE:\n- vibey/operations/roadmap/migration.py\
+    \ (to be created)\n"
+  status: completed
+  blocked: false
+  created: '2025-11-30T20:00:00+00:00'
+  started: '2025-12-07T14:18:00.030296+00:00'
+  completed: '2025-12-07T14:19:40.273233+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

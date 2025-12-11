@@ -1,0 +1,32 @@
+task:
+  id: 01KC2D0JKN6JPW9GSA6V3M6RMD
+  sprint_id: 01KC2D0JKM9HQR5VHRQ5SX5ES6
+  track_id: 01KC2D0JKKVMZ8ZJNGPHV822QX
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create architecture diagrams
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completed: '2025-11-07T03:00:00+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,7 +1,7 @@
 task:
   id: 01KC3AD77M9H9BDVEB4CBJ0VFP
-  sprint_id: dogfooding-bugs-02
-  track_id: dogfooding-bugs
+  sprint_id: 01KC3AD76EK6TBPW0GEJD0P4M0
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update validation to accept ULID-based sprint IDs

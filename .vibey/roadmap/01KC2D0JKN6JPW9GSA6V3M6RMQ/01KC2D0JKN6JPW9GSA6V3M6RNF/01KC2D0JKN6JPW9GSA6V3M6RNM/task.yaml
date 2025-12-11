@@ -1,0 +1,36 @@
+task:
+  id: 01KC2D0JKN6JPW9GSA6V3M6RNM
+  sprint_id: 01KC2D0JKN6JPW9GSA6V3M6RNF
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement YAML remediation tooling
+  description: "Created vibey/roadmap/database/yaml_remediation.py with:\n- remediate_track_counters():\
+    \ Fixes track-level progress counters\n- remediate_sprint_counters(): Fixes sprint-level\
+    \ progress counters  \n- remediate_all_discrepancies(): Finds and fixes all discrepancies\n\
+    - verify_remediation(): Runs audit after remediation to verify fixes\nSupports\
+    \ dry-run mode and per-entity remediation."
+  status: completed
+  blocked: false
+  created: '2025-11-26T14:00:00+00:00'
+  started: '2025-12-05T08:00:00+00:00'
+  completed: '2025-12-05T08:15:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

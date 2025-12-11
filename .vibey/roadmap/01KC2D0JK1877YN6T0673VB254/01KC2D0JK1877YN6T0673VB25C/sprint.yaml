@@ -1,0 +1,69 @@
+sprint:
+  id: 01KC2D0JK1877YN6T0673VB25C
+  name: Enterprise Features & Documentation
+  track_id: 01KC2D0JK1877YN6T0673VB254
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: 01KC2D0JK1877YN6T0673VB25D
+    title: Implement Sourcegraph Enterprise module
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK1877YN6T0673VB25E
+    title: Create Prompt Library templates
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK1877YN6T0673VB25F
+    title: Write E2E tests with Cody extension
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK1877YN6T0673VB25G
+    title: Write Cody integration guide
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

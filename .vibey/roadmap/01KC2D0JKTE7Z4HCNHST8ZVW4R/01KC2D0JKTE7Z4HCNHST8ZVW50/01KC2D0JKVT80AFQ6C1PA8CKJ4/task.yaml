@@ -1,0 +1,49 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ4
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update sql_loader for unified schema
+  description: "Update sql_loader.py to load from unified schema (completables + criteria\
+    \ tables).\n\nCHANGES REQUIRED:\n1. Load from completables table instead of separate\
+    \ tables\n2. Load criteria and construct Criterion objects\n3. Return new Pydantic\
+    \ models (RoadmapTicket, TrackTicket, etc.)\n4. Support both v1 and v2 schemas\
+    \ during transition\n\nIMPLEMENTATION:\n```python\ndef load_task_v2(task_id: str)\
+    \ -> TaskTicket:\n    conn = get_connection()\n\n    # Load from completables\n\
+    \    row = conn.execute(\n        \"SELECT * FROM completables WHERE id = ? AND\
+    \ type = 'task'\",\n        (task_id,)\n    ).fetchone()\n\n    # Load criteria\n\
+    \    criteria_rows = conn.execute(\n        \"SELECT * FROM criteria WHERE completable_id\
+    \ = ?\",\n        (task_id,)\n    ).fetchall()\n\n    criteria = [row_to_criterion(row)\
+    \ for row in criteria_rows]\n\n    return TaskTicket(\n        id=row['id'],\n\
+    \        name=row['name'],\n        criteria=criteria,\n        ...\n    )\n```\n"
+  status: completed
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T17:20:00+00:00'
+  completed: '2025-12-09T17:45:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

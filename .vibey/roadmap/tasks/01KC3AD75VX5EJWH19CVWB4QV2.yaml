@@ -1,7 +1,7 @@
 task:
   id: 01KC3AD75VX5EJWH19CVWB4QV2
-  sprint_id: dogfooding-bugs-01
-  track_id: dogfooding-bugs
+  sprint_id: 01KC3AD75P4TW2MAWDWJC4YCMB
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Move ORM imports behind try/except ImportError

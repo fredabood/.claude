@@ -2,147 +2,75 @@ sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKK0
   name: Common Utilities & Error Handling Test Coverage
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-14-task-001
-    name: Audit existing common tests and coverage
+    title: Audit existing common tests and coverage
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Baseline common test coverage:
-
-      - Run pytest-cov on vibey/common/
-
-      - Document current coverage percentage
-
-      - Identify untested utilities
-
-      - Identify untested error types
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-002
-    name: Write tests for error types
+    title: Write tests for error types
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: test-engineer
-    description: 'Test all error types in errors.py:
-
-      - VibeyError base class
-
-      - ConfigError and subtypes
-
-      - RoadmapError and subtypes
-
-      - ValidationError and subtypes
-
-      - Error context and metadata
-
-      - Error message formatting
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-003
-    name: Write tests for error renderers
+    title: Write tests for error renderers
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test error rendering:
-
-      - CLIRenderer (colored output)
-
-      - MCPRenderer (JSON output)
-
-      - PlainTextRenderer
-
-      - LoggingRenderer
-
-      - Renderer selection logic
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-004
-    name: Write tests for utility functions
+    title: Write tests for utility functions
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test utility functions:
-
-      - File utilities
-
-      - Path utilities
-
-      - String utilities
-
-      - Date/time utilities
-
-      - Any helper functions
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-005
-    name: Write tests for shared constants and types
+    title: Write tests for shared constants and types
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Test constants and types:
-
-      - Status enums
-
-      - Priority enums
-
-      - Type definitions
-
-      - Default values
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-006
-    name: Verify 100% common coverage achieved
+    title: Verify 100% common coverage achieved
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: test-engineer
-    description: 'Validate coverage target:
-
-      - Run pytest-cov --cov=vibey/common
-
-      - Verify 100% line coverage
-
-      - Verify 100% branch coverage
-
-      - Fix any remaining gaps
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-14-task-007
-    name: Document error handling testing patterns
+    title: Document error handling testing patterns
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: docs-writer
-    description: 'Create error testing guide:
-
-      - Testing exception raising
-
-      - Testing error messages
-
-      - Testing error context
-
-      - Renderer testing patterns
-
-      '
-  dependencies:
-  - user-journey-audit-10
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-10
+  - dependency_id: user-journey-audit-10
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Common test coverage baseline
   - Tests for error types
@@ -151,39 +79,19 @@ sprint:
   - Tests for constants and types
   - 100% common coverage verified
   - Error handling testing documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 5 achieves 100% test coverage of common utilities.
-
-      Target: vibey/common/ directory
-
-      '
-  slug: user-journey-audit-14
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-10
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-10
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Common Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: Common Pass Rate'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 14
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

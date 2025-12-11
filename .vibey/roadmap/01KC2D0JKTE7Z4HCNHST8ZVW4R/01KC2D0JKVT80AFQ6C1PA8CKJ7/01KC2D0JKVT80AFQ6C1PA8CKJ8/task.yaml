@@ -1,0 +1,40 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ8
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add ULID generation and validation
+  description: "Implement ULID generation and validation utilities.\n\nULID FORMAT:\n\
+    - 26 characters, Crockford Base32\n- First 10 chars: timestamp (48 bits)\n- Last\
+    \ 16 chars: randomness (80 bits)\n- Lexicographically sortable\n- Example: 01HXYZ123ABC456DEF789GHJ\n\
+    \nIMPLEMENTATION:\n```python\nimport ulid\n\ndef generate_ulid() -> str:\n   \
+    \ return str(ulid.new())\n\ndef validate_ulid(value: str) -> bool:\n    try:\n\
+    \        ulid.parse(value)\n        return True\n    except ValueError:\n    \
+    \    return False\n\ndef ulid_timestamp(value: str) -> datetime:\n    return ulid.parse(value).timestamp().datetime\n\
+    ```\n\nDEPENDENCIES:\n- python-ulid package\n\nINTEGRATION:\n- Add to vibey/roadmap/identity/__init__.py\n\
+    - Use in model constructors when id not provided\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 15000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

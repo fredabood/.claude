@@ -2,185 +2,80 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GG
   name: Contributor Experience & Project Documentation
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-17-task-001
-    name: Audit and update README.md
+    title: Audit and update README.md
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: "Align README with current project state and positioning:\n- Update\
-      \ project positioning: \"comprehensive framework for\n  context engineering\
-      \ lifecycle management with vibe coding tools\"\n- Craft compelling value proposition\
-      \ around context engineering\n- Update installation instructions\n- Update quick\
-      \ start examples\n- Update feature list to match current capabilities\n- Update\
-      \ badges and status indicators\n- Add/update architecture overview\n- Ensure\
-      \ all links work\n- Add contributor quick links\n"
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-002
-    name: Audit and update CHANGELOG.md
+    title: Audit and update CHANGELOG.md
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: docs-writer
-    description: 'Align CHANGELOG with current state:
-
-      - Review git history for missing entries
-
-      - Ensure all releases documented
-
-      - Follow Keep a Changelog format
-
-      - Categorize changes (Added, Changed, Fixed, etc.)
-
-      - Link to relevant PRs/issues
-
-      - Add migration notes where needed
-
-      - Document breaking changes clearly
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-003
-    name: Audit and update CONTRIBUTING.md
+    title: Audit and update CONTRIBUTING.md
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: 'Comprehensive contributor guide:
-
-      - Development environment setup
-
-      - Code style and conventions
-
-      - Testing requirements
-
-      - PR process and expectations
-
-      - Issue reporting guidelines
-
-      - Documentation contribution guide
-
-      - Roadmap contribution process
-
-      - Code of conduct reference
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-004
-    name: Create contributor onboarding guide
+    title: Create contributor onboarding guide
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: docs-writer
-    description: 'First-time contributor experience:
-
-      - Repository structure overview
-
-      - Key files and their purposes
-
-      - How to find good first issues
-
-      - Development workflow walkthrough
-
-      - Common pitfalls and solutions
-
-      - Where to ask questions
-
-      - Mentorship/review process
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-005
-    name: Create development workflow documentation
+    title: Create development workflow documentation
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: docs-writer
-    description: 'Document development processes:
-
-      - Branch naming conventions
-
-      - Commit message format
-
-      - Testing workflow (local, CI)
-
-      - Code review process
-
-      - Release process
-
-      - Roadmap update workflow
-
-      - Documentation update workflow
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-006
-    name: Create contributor journey walkthroughs
+    title: Create contributor journey walkthroughs
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: 'Step-by-step contributor journeys:
-
-      - First bug fix journey
-
-      - First feature contribution journey
-
-      - Documentation contribution journey
-
-      - Roadmap/planning contribution journey
-
-      - Test contribution journey
-
-      - Platform adapter contribution journey
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-007
-    name: Validate contributor experience end-to-end
+    title: Validate contributor experience end-to-end
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: 'Test contributor workflows:
-
-      - Clone and setup from scratch
-
-      - Run tests successfully
-
-      - Make a sample change
-
-      - Submit PR following guidelines
-
-      - Verify CI passes
-
-      - Document any friction points
-
-      - Create issues for improvements
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-17-task-008
-    name: Ensure positioning consistency across all documentation
+    title: Ensure positioning consistency across all documentation
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: "Align all documentation to new positioning:\n- Position: \"comprehensive\
-      \ framework for context engineering\n  lifecycle management with vibe coding\
-      \ tools\"\n- Audit all docs for consistent messaging\n- Update CLAUDE.md project\
-      \ description\n- Update docs/getting-started/ positioning\n- Update docs/guides/\
-      \ descriptions\n- Update docs/reference/ introductions\n- Ensure feature descriptions\
-      \ align with positioning\n- Create positioning style guide for future docs\n\
-      - Define key terms: context engineering, lifecycle management,\n  vibe coding,\
-      \ context versioning, session reproducibility\n"
-  dependencies:
-  - user-journey-audit-16
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-16
+  - dependency_id: user-journey-audit-16
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Updated README.md with context engineering positioning
   - Updated CHANGELOG.md with complete history
@@ -191,77 +86,19 @@ sprint:
   - Validated contributor experience
   - Positioning consistency across all documentation
   - Positioning style guide and key terms glossary
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 17 focuses on contributor experience and project documentation.
-
-      Ensures README, CHANGELOG, and CONTRIBUTING are aligned and complete.
-
-      Creates contributor-specific journey walkthroughs.
-
-
-      POSITIONING UPDATE:
-
-      Updates Vibey''s positioning as a "comprehensive framework for context
-
-      engineering lifecycle management with vibe coding tools."
-
-
-      Key terms to define consistently:
-
-      - Context engineering: Managing the context that AI coding assistants use
-
-      - Lifecycle management: From session start to completion and beyond
-
-      - Vibe coding: AI-assisted development workflows
-
-      - Context versioning: Git-based context history
-
-      - Session reproducibility: Recreating coding sessions from context
-
-      '
-  slug: user-journey-audit-17
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-16
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-16
-      required_status: completed
-  - id: gate-001
-    description: README accurately reflects current project state
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: CONTRIBUTING covers all contribution scenarios
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-003
-    description: New contributors can successfully set up and contribute
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-004
-    description: All documentation reflects consistent context engineering positioning
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 17
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

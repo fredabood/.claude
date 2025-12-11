@@ -1,0 +1,41 @@
+task:
+  id: 01KC2D0JKN6JPW9GSA6V3M6RNS
+  sprint_id: 01KC2D0JKN6JPW9GSA6V3M6RNR
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Audit Sprint 6 design vs current codebase implementation
+  description: "Comprehensive audit comparing Sprint 6 unified ticket architecture\
+    \ design\nagainst the current codebase implementation.\n\nDELIVERABLES:\n1. Gap\
+    \ analysis document listing:\n   - Designed features vs implemented features\n\
+    \   - Sample code vs production code mapping\n   - Missing integrations\n2. Prioritized\
+    \ implementation checklist\n3. Risk assessment for each gap\n\nREFERENCE DOCUMENTS:\n\
+    - sqlite-backend-6/context/architecture/00-INDEX.md (start here)\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\n\
+    - sqlite-backend-6/context/architecture/07-IMPLEMENTATION-PLAN.md\n\nCODEBASE\
+    \ TO AUDIT:\n- vibey/roadmap/models/ticket/*.py (unified models)\n- vibey/roadmap/serialization/*.py\
+    \ (loaders/dumpers)\n- vibey/cli/commands.py (CLI integration)\n- vibey/operations/roadmap/*.py\
+    \ (operations)\n"
+  status: completed
+  blocked: false
+  created: '2025-12-05T00:00:00+00:00'
+  started: null
+  completed: '2025-12-06T15:28:48.070676+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: audit
+  estimated_tokens: 50000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

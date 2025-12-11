@@ -2,157 +2,75 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GK
   name: CLI Reference Guide Tooling & Generation
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-2-task-001
-    name: Design CLI reference auto-generation architecture
+    title: Design CLI reference auto-generation architecture
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Design the auto-generation system:
-
-      - How to introspect Click commands programmatically
-
-      - Output format (Markdown, structured data, both?)
-
-      - Template system for consistent formatting
-
-      - Handling of examples and usage patterns
-
-      - Version tracking and change detection
-
-      - Integration with build/CI pipeline
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-002
-    name: Build CLI introspection module
+    title: Build CLI introspection module
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Create module to extract CLI metadata:
-
-      - Walk Click command tree
-
-      - Extract command names, help text
-
-      - Extract options, flags, arguments
-
-      - Extract types, defaults, required status
-
-      - Extract examples from docstrings
-
-      - Output as structured data (JSON/YAML)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-003
-    name: Build CLI reference Markdown generator
+    title: Build CLI reference Markdown generator
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Create Markdown generator from CLI metadata:
-
-      - Jinja2 templates for reference format
-
-      - Command hierarchy navigation
-
-      - Option/flag tables
-
-      - Example code blocks
-
-      - Cross-references between commands
-
-      - Table of contents generation
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-004
-    name: Implement drift detection
+    title: Implement drift detection
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
-    description: 'Detect when CLI changes without doc regeneration:
-
-      - Hash CLI metadata on generation
-
-      - Compare current CLI to stored hash
-
-      - CI check that fails if drift detected
-
-      - Clear error message showing what changed
-
-      - `vibey docs check` command
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-005
-    name: Implement vibey docs generate cli command
+    title: Implement vibey docs generate cli command
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-    description: 'Add CLI command for doc generation:
-
-      - `vibey docs generate cli` - generate CLI reference
-
-      - `vibey docs generate cli --check` - verify up to date
-
-      - `vibey docs generate cli --output PATH` - custom output
-
-      - Integrate with existing CLI structure
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-006
-    name: Generate initial CLI reference guide
+    title: Generate initial CLI reference guide
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-    description: 'Run the generator to produce CLI reference:
-
-      - Generate complete CLI reference
-
-      - Verify 100% command coverage
-
-      - Review output for quality
-
-      - Place in docs/reference/CLI_REFERENCE.md
-
-      - Commit as baseline
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-2-task-007
-    name: Add CI integration for CLI reference freshness
+    title: Add CI integration for CLI reference freshness
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-    description: 'Integrate into CI/CD pipeline:
-
-      - Pre-commit hook option
-
-      - GitHub Actions check
-
-      - Fail PR if CLI reference is stale
-
-      - Auto-generate in CI (optional)
-
-      - Document CI integration
-
-      '
-  dependencies:
-  - user-journey-audit-1
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-1
+  - dependency_id: user-journey-audit-1
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - CLI auto-generation architecture design
   - CLI introspection module
@@ -161,38 +79,19 @@ sprint:
   - vibey docs generate cli command
   - Generated CLI reference guide (100% coverage)
   - CI integration for freshness checks
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 2 builds tooling to auto-generate CLI reference.
-
-      Key principle: CLI reference is NEVER manually edited.
-
-      It is always generated from code, ensuring accuracy.
-
-
-      The drift detection ensures the reference stays current.
-
-      CI integration prevents merging code that would cause drift.
-
-      '
-  slug: user-journey-audit-2
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-1
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-1
-      required_status: completed
-  - id: gate-001
-    description: Generated reference covers 100% of CLI
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 2
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

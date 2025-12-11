@@ -1,0 +1,48 @@
+task:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW4X
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update YAML dumper to use flat structure
+  description: "Modify yaml_dumper.py to write files using flat directory structure.\n\
+    \nCHANGES REQUIRED:\n1. Update output path calculation\n2. Create flat directories\
+    \ on first write\n3. Support configuration flag for structure format\n4. Update\
+    \ dump_roadmap() to use new paths\n\nIMPLEMENTATION:\n```python\ndef get_track_path(track_id:\
+    \ str, roadmap_dir: Path, flat: bool = True) -> Path:\n    if flat:\n        return\
+    \ roadmap_dir / \"tracks\" / f\"{track_id}.yaml\"\n    return roadmap_dir / track_id\
+    \ / \"track.yaml\"\n\ndef dump_track(track: Track, roadmap_dir: Path, flat: bool\
+    \ = True) -> None:\n    path = get_track_path(track.id, roadmap_dir, flat)\n \
+    \   path.parent.mkdir(parents=True, exist_ok=True)\n    with open(path, 'w') as\
+    \ f:\n        yaml.dump(track_to_dict(track), f)\n```\n\nAlso need to update:\n\
+    - dump_sprint()\n- dump_task()\n- dump_roadmap() orchestration\n"
+  status: completed
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T15:35:00+00:00'
+  completed: '2025-12-09T15:45:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 25000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

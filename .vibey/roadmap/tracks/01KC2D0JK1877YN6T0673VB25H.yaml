@@ -3,6 +3,7 @@ track:
   name: Continue.dev Platform Port
   roadmap_id: vibey-framework-v2
   status: in_progress
+  blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-09T00:00:00+00:00'
@@ -13,11 +14,11 @@ track:
     sprints_completed: 1
     tasks_total: 12
     tasks_completed: 7
-    completion_percent: 58.0
+    completion_percent: 58
   sprints:
   - id: continue-port-1
     name: Continue Adapter & Slash Commands
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 7
     started: null
@@ -28,8 +29,11 @@ track:
     tasks_count: 5
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -41,5 +45,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: continue-port
-  criteria: []

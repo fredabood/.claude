@@ -1,0 +1,85 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJJ
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJD
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Execute v2 format migration
+  description: 'Execute the v2 format migration on all YAML files.
+
+
+    EXECUTION STEPS:
+
+    1. Run conversion in dry-run mode
+
+    2. Review planned changes for a sample of files
+
+    3. Create backups
+
+    4. Execute conversion
+
+    5. Run validation tests
+
+    6. Verify round-trip integrity
+
+
+    VALIDATION CHECKS:
+
+    - All YAML files are valid v2 format
+
+    - All criteria are correctly formed
+
+    - All targets have valid type and config
+
+    - blocked_by conversions preserve semantics
+
+    - depends_on conversions preserve semantics
+
+    - deliverables conversions preserve semantics
+
+    - YAML loader returns correct objects
+
+    - YAML dumper produces valid output
+
+    - Round-trip: file → object → file matches
+
+
+    ROLLBACK PLAN:
+
+    1. Restore YAML backups
+
+    2. Revert yaml_loader/yaml_dumper changes
+
+    3. Document failure reason
+
+    '
+  status: not_started
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: execution
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

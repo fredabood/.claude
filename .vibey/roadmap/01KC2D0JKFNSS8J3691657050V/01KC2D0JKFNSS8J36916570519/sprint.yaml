@@ -1,0 +1,79 @@
+sprint:
+  id: 01KC2D0JKFNSS8J36916570519
+  name: Schema Migration (python-package)
+  track_id: 01KC2D0JKFNSS8J3691657050V
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-24T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 6
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 6
+    tasks_completed: 0
+    completion_percent: 0.0
+  tasks:
+  - id: 01KC2D0JKFNSS8J3691657051A
+    title: Extract python-package-1 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657051B
+    title: Extract python-package-2 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657051C
+    title: Extract python-package-3 tasks to task.yaml files
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657051D
+    title: Run python-package quality gates
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657051E
+    title: Verify python-package deliverables
+    status: not_started
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKFNSS8J3691657051F
+    title: Commit python-package schema migration
+    status: not_started
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

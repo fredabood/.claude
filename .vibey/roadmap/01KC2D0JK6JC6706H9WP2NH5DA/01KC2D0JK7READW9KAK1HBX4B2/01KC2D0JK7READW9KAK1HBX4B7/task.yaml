@@ -1,0 +1,34 @@
+task:
+  id: 01KC2D0JK7READW9KAK1HBX4B7
+  sprint_id: 01KC2D0JK7READW9KAK1HBX4B2
+  track_id: 01KC2D0JK6JC6706H9WP2NH5DA
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update pre-commit hook for verification
+  description: Modify pre-commit hook to verify staged roadmap YAML files against
+    activity log entries. Enforces process that unified architecture criterion validates.
+    Clear error messages with guidance to use CLI
+  status: not_started
+  blocked: false
+  created: '2025-11-26T01:21:21.767665+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

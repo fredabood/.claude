@@ -2,225 +2,94 @@ sprint:
   id: 01KC2D0JK06MN77ZHAGAHF5VMA
   name: Homebrew Formula & Tap Setup
   track_id: brew-package
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1 week
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: brew-package-1-task-001
-    name: Create Homebrew tap repository
+    title: Create Homebrew tap repository
     status: not_started
-    priority: critical
-    estimated_hours: 2
-    assigned_agent: devops-engineer
-    description: 'Create the tap repository on GitHub:
-
-      - Create github.com/vibey-framework/homebrew-vibey
-
-      - Add README.md with installation instructions
-
-      - Add LICENSE file (MIT)
-
-      - Configure repository settings (branch protection, etc.)
-
-      - Add .github/CODEOWNERS if needed
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-002
-    name: Create initial Homebrew formula
+    title: Create initial Homebrew formula
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-    description: "Create Formula/vibey.rb:\n- Use PyPI-based installation approach\n\
-      - Declare python@3.11 dependency\n- Use virtualenv_install_with_resources helper\n\
-      - Pin to specific vibey version from PyPI\n- Add test block to verify installation\n\
-      - Include proper desc, homepage, license fields\n\nExample structure:\n```ruby\n\
-      class Vibey < Formula\n  include Language::Python::Virtualenv\n  desc \"Agentic\
-      \ orchestration framework for AI coding assistants\"\n  homepage \"https://github.com/vibey-framework/vibey\"\
-      \n  url \"https://files.pythonhosted.org/packages/.../vibey-framework-X.Y.Z.tar.gz\"\
-      \n  sha256 \"...\"\n  license \"MIT\"\n  depends_on \"python@3.11\"\n  # ...\
-      \ resources for dependencies\n  def install\n    virtualenv_install_with_resources\n\
-      \  end\n  test do\n    system \"#{bin}/vibey\", \"--version\"\n  end\nend\n\
-      ```\n"
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-003
-    name: Generate Python dependency resources
+    title: Generate Python dependency resources
     status: not_started
-    priority: high
-    estimated_hours: 3
-    assigned_agent: backend-engineer
-    description: 'Generate resource blocks for all Python dependencies:
-
-      - Use homebrew-pypi-poet or poet to generate resources
-
-      - Include: pyyaml, jinja2, click, rich, pydantic
-
-      - Include transitive dependencies
-
-      - Pin exact versions for reproducibility
-
-      - Verify SHA256 checksums
-
-
-      Commands:
-
-      ```bash
-
-      pip install homebrew-pypi-poet
-
-      poet vibey-framework > resources.rb
-
-      ```
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-004
-    name: Test formula locally
+    title: Test formula locally
     status: not_started
-    priority: high
-    estimated_hours: 2
-    assigned_agent: test-engineer
-    description: 'Test the formula before publishing:
-
-      - brew install --build-from-source ./Formula/vibey.rb
-
-      - Verify vibey --version works
-
-      - Verify vibey --help works
-
-      - Test basic commands (vibey roadmap status, etc.)
-
-      - Check for missing dependencies
-
-      - Test on both Intel and Apple Silicon Macs
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-005
-    name: Run Homebrew audit and style checks
+    title: Run Homebrew audit and style checks
     status: not_started
-    priority: high
-    estimated_hours: 1
-    assigned_agent: backend-engineer
-    description: 'Ensure formula passes Homebrew quality checks:
-
-      - brew audit --strict --online Formula/vibey.rb
-
-      - brew style Formula/vibey.rb
-
-      - Fix any warnings or errors
-
-      - Ensure formula follows Homebrew conventions
-
-      - Verify URL is stable and accessible
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-006
-    name: Push formula to tap repository
+    title: Push formula to tap repository
     status: not_started
-    priority: critical
-    estimated_hours: 1
-    assigned_agent: devops-engineer
-    description: 'Publish the formula:
-
-      - Commit Formula/vibey.rb to homebrew-vibey repo
-
-      - Tag release (v1.0.0 or matching vibey version)
-
-      - Verify brew tap vibey-framework/vibey works
-
-      - Verify brew install vibey-framework/vibey/vibey works
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-1-task-007
-    name: Create installation documentation
+    title: Create installation documentation
     status: not_started
-    priority: high
-    estimated_hours: 2
-    assigned_agent: docs-writer
-    description: 'Document the Homebrew installation:
-
-      - Update main README.md with brew install instructions
-
-      - Add docs/getting-started/HOMEBREW.md
-
-      - Include troubleshooting section
-
-      - Document upgrade process (brew upgrade vibey)
-
-      - Document uninstall process
-
-      - Add to QUICK_START.md
-
-      '
-  dependencies: []
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - python-package-2
+  - dependency_id: python-package-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Homebrew tap repository (homebrew-vibey)
   - Vibey formula (Formula/vibey.rb)
   - Dependency resources generated
   - Local testing complete
   - Installation documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 1 creates the initial Homebrew formula and tap repository.
-
-
-      KEY DECISION: Using PyPI-based formula with virtualenv
-
-      - Simpler than source-based build
-
-      - Leverages existing PyPI release infrastructure
-
-      - Homebrew handles Python version management
-
-      - virtualenv isolates dependencies
-
-
-      BLOCKED BY: python-package track must publish to PyPI first.
-
-      The formula URL references the PyPI package.
-
-
-      TESTING MATRIX:
-
-      - macOS 13+ (Ventura) on Intel
-
-      - macOS 13+ (Ventura) on Apple Silicon
-
-      - Linuxbrew on Ubuntu 22.04 (stretch goal)
-
-      '
-  slug: brew-package-1
-  parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM9
-  criteria:
-  - id: blk-001
-    description: Blocked by python-package-2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: python-package-2
-      required_status: completed
-  - id: gate-001
-    description: brew audit --strict passes with no errors
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: Formula installs and vibey CLI works
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 1
+    estimated_duration: 1 week
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

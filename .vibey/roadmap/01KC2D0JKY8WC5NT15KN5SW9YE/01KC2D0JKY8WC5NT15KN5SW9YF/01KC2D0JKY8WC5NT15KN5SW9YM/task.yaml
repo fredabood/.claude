@@ -1,0 +1,32 @@
+task:
+  id: 01KC2D0JKY8WC5NT15KN5SW9YM
+  sprint_id: 01KC2D0JKY8WC5NT15KN5SW9YF
+  track_id: 01KC2D0JKY8WC5NT15KN5SW9YE
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Settings and MCP config
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-23T04:54:00.179316+00:00'
+  started: null
+  completed: '2025-11-23T04:54:00.179316+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

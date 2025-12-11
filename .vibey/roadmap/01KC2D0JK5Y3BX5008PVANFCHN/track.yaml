@@ -1,0 +1,71 @@
+track:
+  id: 01KC2D0JK5Y3BX5008PVANFCHN
+  name: Gemini Platform Port
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: high
+  created: '2025-11-22T00:00:00+00:00'
+  started: '2025-11-22T00:00:00+00:00'
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 6
+    sprints_completed: 4
+    tasks_total: 32
+    tasks_completed: 22
+    completion_percent: 69.0
+  sprints:
+  - id: 01KC2D0JK5Y3BX5008PVANFCHP
+    name: Generators & Build Pipeline
+    status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JK5Y3BX5008PVANFCHX
+    name: Gemini Platform Adapter Integration
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JK5Y3BX5008PVANFCJ3
+    name: Sequential Orchestration Adaptation
+    status: completed
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KC2D0JK5Y3BX5008PVANFCJA
+    name: Testing & Documentation
+    status: completed
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JK5Y3BX5008PVANFCJG
+    name: AI Studio & Vertex AI Integration
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC2D0JK6JC6706H9WP2NH5D4
+    name: Testing, Documentation & Launch
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

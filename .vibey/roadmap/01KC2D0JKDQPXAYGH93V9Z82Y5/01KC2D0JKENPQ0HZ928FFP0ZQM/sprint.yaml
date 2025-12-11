@@ -1,0 +1,114 @@
+sprint:
+  id: 01KC2D0JKENPQ0HZ928FFP0ZQM
+  name: Comprehensive Forensic Audit
+  track_id: 01KC2D0JKDQPXAYGH93V9Z82Y5
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-12T19:45:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-12T19:45:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 13
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 13
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQN
+    title: Forensic audit of standards-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQP
+    title: Forensic audit of testing-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQQ
+    title: Forensic audit of documentation-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQR
+    title: Forensic audit of missing-agents track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQS
+    title: Forensic audit of claude-port track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQT
+    title: Forensic audit of roadmap-system track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQV
+    title: Forensic audit of interface-unification track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQW
+    title: Forensic audit of platform-context-management track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQX
+    title: Forensic audit of infrastructure-fixes track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQY
+    title: Forensic audit of directory-migration track
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZQZ
+    title: Cross-track analysis and pattern identification
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZR0
+    title: Comprehensive forensic audit summary report
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKENPQ0HZ928FFP0ZR1
+    title: Comprehensive standards and modernization audit
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

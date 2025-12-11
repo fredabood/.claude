@@ -1,0 +1,54 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3X
+  sprint_id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update CLI and tooling for new directory structure
+  description: "Update all CLI commands and tooling to work with new directory structure.\n\
+    \nAFFECTED COMMANDS:\n1. vibey roadmap status - Query from DB instead of YAML\n\
+    2. vibey roadmap show <id> - Load from DB\n3. vibey roadmap start/complete <id>\
+    \ - Update DB, mark dirty\n4. vibey roadmap context <task> - Load context from\
+    \ DB with hierarchy\n5. vibey roadmap validate - Check both DB and YAML\n6. vibey\
+    \ roadmap db * - New database management commands\n\nNEW DATABASE COMMANDS:\n\
+    ```\nvibey roadmap db status      # Show DB state (dirty, schema version)\nvibey\
+    \ roadmap db dump        # Dump DB to YAML (for pre-commit)\nvibey roadmap db\
+    \ rebuild     # Rebuild DB from YAML (for post-merge)\nvibey roadmap db validate\
+    \    # Compare DB to YAML\nvibey roadmap db is-dirty    # Exit 0 if dirty, 1 if\
+    \ clean\n```\n\nPATH RESOLUTION:\n```python\ndef resolve_task_path(task_id: str,\
+    \ root_dir: Path) -> Path:\n    # NEW: Use DB to get hierarchy\n    task = sql_load_task(task_id)\n\
+    \    return (root_dir / \".vibey\" / \"roadmap\" /\n            task.track_id\
+    \ / task.sprint_id / task.id / \"task.yaml\")\n\ndef resolve_sprint_path(sprint_id:\
+    \ str, root_dir: Path) -> Path:\n    sprint = sql_load_sprint(sprint_id)\n   \
+    \ return (root_dir / \".vibey\" / \"roadmap\" /\n            sprint.track_id /\
+    \ sprint.id / \"sprint.yaml\")\n```\n\nBACKWARD COMPATIBILITY:\n- Detect old vs\
+    \ new structure on startup\n- Suggest migration if old structure detected\n- Error\
+    \ gracefully with helpful message\n\nIMPLEMENTATION CHECKLIST:\n- [ ] Update vibey/cli/commands.py\
+    \ for DB-first reads\n- [ ] Update vibey/operations/roadmap/query.py\n- [ ] Add\
+    \ vibey/cli/db_commands.py for db subcommands\n- [ ] Update path resolution utilities\n\
+    - [ ] Add structure detection logic\n- [ ] Update documentation\n\nREFERENCE:\n\
+    - vibey/cli/commands.py\n- vibey/operations/roadmap/query.py\n"
+  status: completed
+  blocked: false
+  created: '2025-11-30T20:00:00+00:00'
+  started: '2025-12-07T14:20:33.801248+00:00'
+  completed: '2025-12-07T14:21:21.135911+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

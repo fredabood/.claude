@@ -1,28 +1,28 @@
 sprint:
   id: 01KC4P55YG0C05YSWXR2YCS3C4
   name: 'Sprint 8: Sync and Complete Command Bugs'
-  track_id: dogfooding-bugs
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   blocked_reason: null
   created: '2025-12-11T01:30:00+00:00'
   started: '2025-12-11T02:30:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-11T03:00:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:22:59.877133+00:00'
+  production_ready_at: '2025-12-10T18:25:10.077974+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 2
-    development_tasks_completed: 2
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 2
-    tasks_completed: 2
-    completion_percent: 100
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: 01KC4P92GRAHA428M96MTXWP5T
     title: 'Bug #16: complete command compares slug to ULID'

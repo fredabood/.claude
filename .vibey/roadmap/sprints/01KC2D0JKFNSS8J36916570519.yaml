@@ -3,14 +3,15 @@ sprint:
   name: Schema Migration (python-package)
   track_id: roadmap-integrity-fixes-2
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:09.251312+00:00'
+  production_ready_at: '2025-12-10T18:03:40.616699+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 6
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: roadmap-integrity-fixes-2-3-task-001
     title: Extract python-package-1 tasks to task.yaml files
@@ -53,8 +54,11 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -63,6 +67,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -72,7 +77,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: roadmap-integrity-fixes-2-3
-  parent_ref: 01KC2D0JKFNSS8J3691657050V
-  criteria: []
-  sequence: 23

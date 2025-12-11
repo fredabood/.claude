@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JKKVMZ8ZJNGPHV822QX
   name: Roadmap Object Hierarchy Implementation
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
   started: null
@@ -13,53 +14,56 @@ track:
     sprints_completed: 7
     tasks_total: 58
     tasks_completed: 58
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: roadmap-system-1
     name: Core Data Model & YAML Schema
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
   - id: roadmap-system-2
     name: State Management Scripts
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
   - id: roadmap-system-3
     name: 'CLI Commands (Part 1: Query)'
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
   - id: roadmap-system-4
     name: 'CLI Commands (Part 2: Update & Version)'
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
   - id: roadmap-system-5
     name: Agent Integration & Auto-routing
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
   - id: roadmap-system-6
     name: Documentation & Polish
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 8
     started: null
   - id: roadmap-system-7
     name: Token-Based Effort Estimation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 5
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -71,5 +75,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: roadmap-system
-  criteria: []

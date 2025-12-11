@@ -2,175 +2,84 @@ sprint:
   id: 01KC2D0JK1877YN6T0673VB24S
   name: Release Automation & Testing
   track_id: brew-package
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-24T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 1 week
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: brew-package-2-task-001
-    name: Create formula update automation
+    title: Create formula update automation
     status: not_started
-    priority: critical
-    estimated_hours: 4
-    assigned_agent: devops-engineer
-    description: "Automate formula updates when new PyPI versions are released:\n\
-      - Create GitHub Action in homebrew-vibey repo\n- Trigger on: manual dispatch,\
-      \ or webhook from main repo\n- Steps:\n  1. Fetch latest version from PyPI\n\
-      \  2. Download tarball and compute SHA256\n  3. Update formula version and checksum\n\
-      \  4. Regenerate dependency resources with poet\n  5. Run brew audit\n  6. Create\
-      \ PR or auto-commit\n\nAlternative: Use bump-formula-pr action\n```yaml\n- uses:\
-      \ dawidd6/action-homebrew-bump-formula@v3\n  with:\n    token: ${{ secrets.HOMEBREW_TAP_TOKEN\
-      \ }}\n    formula: vibey\n```\n"
+    task_type: development
+    gate_info: null
   - id: brew-package-2-task-002
-    name: Add CI testing for formula
+    title: Add CI testing for formula
     status: not_started
-    priority: high
-    estimated_hours: 3
-    assigned_agent: devops-engineer
-    description: "Add GitHub Actions CI to test formula on each change:\n- Test on\
-      \ macos-latest (Apple Silicon)\n- Test on macos-13 (Intel) if needed\n- Test\
-      \ on ubuntu-latest (Linuxbrew)\n- Steps:\n  1. brew tap local tap\n  2. brew\
-      \ install --build-from-source vibey\n  3. brew test vibey\n  4. Run basic CLI\
-      \ commands\n- Fail PR if tests fail\n"
+    task_type: development
+    gate_info: null
   - id: brew-package-2-task-003
-    name: Add version synchronization workflow
+    title: Add version synchronization workflow
     status: not_started
-    priority: high
-    estimated_hours: 3
-    assigned_agent: devops-engineer
-    description: "Create workflow in main vibey repo to trigger formula updates:\n\
-      - Trigger after successful PyPI publish\n- Use repository_dispatch to notify\
-      \ homebrew-vibey repo\n- Pass version number and SHA256 as payload\n- Homebrew\
-      \ repo receives event and updates formula\n\nMain repo workflow:\n```yaml\n\
-      - name: Trigger Homebrew update\n  uses: peter-evans/repository-dispatch@v2\n\
-      \  with:\n    token: ${{ secrets.HOMEBREW_REPO_TOKEN }}\n    repository: vibey-framework/homebrew-vibey\n\
-      \    event-type: pypi-release\n    client-payload: '{\"version\": \"${{ env.VERSION\
-      \ }}\", \"sha256\": \"${{ env.SHA256 }}\"}'\n```\n"
+    task_type: development
+    gate_info: null
   - id: brew-package-2-task-004
-    name: Test Linux (Linuxbrew) support
+    title: Test Linux (Linuxbrew) support
     status: not_started
-    priority: medium
-    estimated_hours: 2
-    assigned_agent: test-engineer
-    description: 'Verify formula works on Linux:
-
-      - Test on Ubuntu 22.04 with Linuxbrew
-
-      - Verify Python dependency resolution
-
-      - Check for any macOS-specific assumptions
-
-      - Document any Linux-specific notes
-
-      - Add Linux to CI matrix if supported
-
-      '
+    task_type: development
+    gate_info: null
   - id: brew-package-2-task-005
-    name: Document release process
+    title: Document release process
     status: not_started
-    priority: medium
-    estimated_hours: 2
-    assigned_agent: docs-writer
-    description: 'Document the release automation:
-
-      - Add RELEASING.md to homebrew-vibey repo
-
-      - Document manual formula update process
-
-      - Document automated update flow
-
-      - Document troubleshooting common issues
-
-      - Add runbook for failed updates
-
-      '
-  dependencies:
-  - brew-package-1
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - brew-package-1
+  - dependency_id: brew-package-1
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Formula update automation (GitHub Action)
   - CI testing workflow
   - Version sync workflow between repos
   - Linux (Linuxbrew) support verification
   - Release process documentation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 2 adds automation to keep the Homebrew formula in sync
-
-      with PyPI releases.
-
-
-      AUTOMATION FLOW:
-
-      1. Developer merges to main in vibey repo
-
-      2. CI publishes to PyPI
-
-      3. CI triggers repository_dispatch to homebrew-vibey
-
-      4. homebrew-vibey workflow updates formula
-
-      5. CI tests the updated formula
-
-      6. Auto-merge or create PR for review
-
-
-      MANUAL OVERRIDE:
-
-      Maintainers can always manually update the formula by:
-
-      1. Editing Formula/vibey.rb
-
-      2. Running: brew bump-formula-pr --url <new-url> --sha256 <sha>
-
-
-      FUTURE: Submit to homebrew-core
-
-      Once stable, consider submitting to homebrew-core for
-
-      direct `brew install vibey` without needing a tap.
-
-      Requirements:
-
-      - Notable user base
-
-      - Regular releases
-
-      - Stable formula
-
-      '
-  slug: brew-package-2
-  parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM9
-  criteria:
-  - id: blk-001
-    description: Blocked by brew-package-1
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: brew-package-1
-      required_status: completed
-  - id: gate-001
-    description: Formula tests pass on macOS and Linux
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: Formula auto-updates when new PyPI version is released
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 2
+    estimated_duration: 1 week
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

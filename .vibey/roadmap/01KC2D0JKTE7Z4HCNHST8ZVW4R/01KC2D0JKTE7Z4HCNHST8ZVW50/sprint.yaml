@@ -1,0 +1,130 @@
+sprint:
+  id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  name: Database Schema Migration
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: true
+  blocked_reason: null
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T16:10:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T00:46:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ0
+    title: Design unified completables table schema
+    status: completed
+    task_type: design
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ1
+    title: Design criteria table with polymorphic targets
+    status: completed
+    task_type: design
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ2
+    title: Design artifacts table schema
+    status: completed
+    task_type: design
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ3
+    title: Create schema migration script
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ4
+    title: Update sql_loader for unified schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ5
+    title: Update sql_dumper for unified schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJ6
+    title: Execute migration and validate
+    status: in_progress
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: 'Migrate from separate tables (roadmaps, tracks, sprints, tasks) to
+    unified schema
+
+    (completables, criteria) as designed in sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md.
+
+
+    CURRENT SCHEMA:
+
+    - roadmaps table
+
+    - tracks table
+
+    - sprints table
+
+    - tasks table
+
+    - Various JSON blobs for dependencies, blockers, etc.
+
+
+    TARGET SCHEMA:
+
+    - completables table (single table inheritance for all ticket types)
+
+    - criteria table (unified blocking with polymorphic targets)
+
+    - artifacts table (first-class artifact entities)
+
+    - Views for type-specific queries (v_tracks, v_sprints, v_tasks)
+
+
+    Benefits:
+
+    - Single table for all completable entities
+
+    - Unified criteria-based blocking (replaces blocked_by, depends_on, etc.)
+
+    - Polymorphic targets for different criterion types
+
+    - First-class artifact support
+
+    '
+  goal: Migrate database to unified completables + criteria schema
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

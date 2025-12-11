@@ -2,161 +2,81 @@ sprint:
   id: 01KC2D0JKA23EJA1W712Y5S6ZJ
   name: MCP Resources, Prompts & Handoff Discovery
   track_id: mcp-server
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: mcp-server-3-task-001
-    name: Design MCP Resources architecture
+    title: Design MCP Resources architecture
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Design MCP Resources implementation:
-
-      - Define resource types for workflows
-
-      - Define resource types for handoffs
-
-      - Resource URI scheme design
-
-      - Resource metadata structure
-
-      - Caching strategy for resources
-
-      - Integration with existing discovery system
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-002
-    name: Implement MCP Resources for workflows
+    title: Implement MCP Resources for workflows
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Add MCP Resources for workflow content:
-
-      - Expose workflow markdown as resources
-
-      - Resource discovery via frontmatter
-
-      - Resource content serving
-
-      - Resource metadata (title, description, type)
-
-      - Integration with workflow discovery
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-003
-    name: Implement MCP Resources for handoffs
+    title: Implement MCP Resources for handoffs
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Add MCP Resources for handoff templates:
-
-      - Expose handoff templates as resources
-
-      - Handoff discovery from templates/handoffs/
-
-      - Resource content with Jinja2 variables noted
-
-      - Resource metadata for handoff type
-
-      - Integration with agent tools
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-004
-    name: Design MCP Prompts architecture
+    title: Design MCP Prompts architecture
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Design MCP Prompts implementation:
-
-      - Prompt types for quality gates
-
-      - Prompt argument schemas
-
-      - Prompt-to-gate mapping
-
-      - Integration with roadmap system
-
-      - User-facing prompt descriptions
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-005
-    name: Implement MCP Prompts for quality gates
+    title: Implement MCP Prompts for quality gates
     status: not_started
-    priority: medium
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Add MCP Prompts for quality gate checks:
-
-      - Security audit prompt
-
-      - Test coverage prompt
-
-      - Documentation check prompt
-
-      - Code review prompt
-
-      - Prompts accept context (file paths, etc.)
-
-      - Return structured gate results
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-006
-    name: Implement handoff discovery and tool generation
+    title: Implement handoff discovery and tool generation
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Add handoff discovery to MCP server:
-
-      - Scan templates/handoffs/ for handoff templates
-
-      - Parse handoff frontmatter (if present)
-
-      - Generate MCP tools for handoff rendering
-
-      - Tools accept context variables
-
-      - Return rendered handoff content
-
-      '
+    task_type: development
+    gate_info: null
   - id: mcp-server-3-task-007
-    name: Test and document MCP enhancements
+    title: Test and document MCP enhancements
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: test-engineer
-    description: 'Validate and document new MCP features:
-
-      - Test Resources with Claude Code
-
-      - Test Resources with Goose
-
-      - Test Prompts with supported clients
-
-      - Test handoff tools
-
-      - Update MCP documentation
-
-      - Update platform integration guides
-
-      '
-  dependencies:
-  - mcp-server-2
-  - user-journey-audit-2
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - mcp-server-2
-  - user-journey-audit-2
+  - dependency_id: mcp-server-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  - dependency_id: user-journey-audit-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - MCP Resources for workflow content
   - MCP Resources for handoff templates
@@ -164,75 +84,19 @@ sprint:
   - Handoff discovery and tool generation
   - Updated MCP documentation
   - Platform integration guide updates
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-24T00:00:00+00:00'
-    notes: 'Sprint 3 adds MCP Resources, Prompts, and handoff discovery.
-
-      These are future enhancements noted in the original MCP implementation.
-
-
-      MCP Resources: Expose workflow and handoff content as browsable resources
-
-      MCP Prompts: Quality gate checks as interactive prompts
-
-      Handoff Discovery: Auto-generate tools for handoff template rendering
-
-
-      DEPENDENCY ADDED (2025-11-24):
-
-      Now depends on user-journey-audit-2 (CLI Reference Guide).
-
-      Rationale: The auto-generated CLI reference provides a comprehensive view
-
-      of all CLI operations, which informs what Resources and Prompts should be
-
-      exposed via MCP. This prevents building incomplete/misaligned primitives
-
-      and reduces rework risk.
-
-      '
-  slug: mcp-server-3
-  parent_ref: 01KC2D0JK9JKQXGQW6MQEB0K05
-  criteria:
-  - id: blk-001
-    description: Blocked by mcp-server-2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: mcp-server-2
-      required_status: completed
-  - id: blk-002
-    description: Blocked by user-journey-audit-2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-2
-      required_status: completed
-  - id: gate-001
-    description: MCP Resources working for workflows and handoffs
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: MCP Prompts working for quality gates
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-003
-    description: Handoff discovery and tool generation working
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 3
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

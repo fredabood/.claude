@@ -2,56 +2,70 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GN
   name: Discovery Output Architecture
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-21-task-001
-    name: Design discovery output schema for context directories
+    title: Design discovery output schema for context directories
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: architecture-agent
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-21-task-002
-    name: Create DiscoveryOutput data models
+    title: Create DiscoveryOutput data models
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-21-task-003
-    name: Implement context directory writer base class
+    title: Implement context directory writer base class
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-21-task-004
-    name: Create codebase audit context writer
+    title: Create codebase audit context writer
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-21-task-005
-    name: Create git history analysis context writer
+    title: Create git history analysis context writer
     status: not_started
-    priority: medium
-    estimated_hours: 6
-    assigned_agent: backend-engineer
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-21-task-006
-    name: Create dependency analysis context writer
+    title: Create dependency analysis context writer
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: backend-engineer
-  dependencies:
-  - user-journey-audit-20
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-20
+  - dependency_id: user-journey-audit-20
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Discovery output schema specification
   - DiscoveryOutput, CodebaseAudit, GitAnalysis data models
@@ -59,55 +73,19 @@ sprint:
   - CodebaseAuditWriter implementation
   - GitHistoryWriter implementation
   - DependencyAnalysisWriter implementation
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 1 establishes the architecture for writing discovery
-
-      outputs to context directories.
-
-
-      Output file formats:
-
-      - codebase-audit.md: Markdown with structured sections
-
-      - git-analysis.md: Commit patterns, velocity, contributors
-
-      - dependencies.yaml: Structured dependency data
-
-      - architecture.md: Component diagrams, relationships
-
-
-      Each writer will:
-
-      1. Accept discovery results as input
-
-      2. Format for the appropriate output type
-
-      3. Write to track context directory
-
-      4. Support incremental updates (append/merge)
-
-      5. Include timestamps and discovery metadata
-
-      '
-  slug: user-journey-audit-21
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-20
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-20
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Schema Validation'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 21
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

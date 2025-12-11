@@ -1,7 +1,7 @@
 task:
   id: 01KC4P92GRAHA428M96MTXWP5T
-  sprint_id: dogfooding-bugs-08
-  track_id: dogfooding-bugs
+  sprint_id: 01KC4P55YG0C05YSWXR2YCS3C4
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Bug #16: complete command compares slug to ULID'

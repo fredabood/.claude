@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JK9JKQXGQW6MQEB0JZP
   name: JetBrains AI Assistant Port
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'
   started: null
@@ -13,23 +14,26 @@ track:
     sprints_completed: 2
     tasks_total: 12
     tasks_completed: 12
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: jetbrains-port-1
     name: JetBrains MCP Configuration & IDE Setup
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
   - id: jetbrains-port-2
     name: Multi-IDE Testing & Documentation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -41,5 +45,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: jetbrains-port
-  criteria: []

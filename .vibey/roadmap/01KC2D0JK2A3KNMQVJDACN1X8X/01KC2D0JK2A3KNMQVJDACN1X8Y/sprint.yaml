@@ -1,0 +1,114 @@
+sprint:
+  id: 01KC2D0JK2A3KNMQVJDACN1X8Y
+  name: Config-to-Docs Architecture
+  track_id: 01KC2D0JK2A3KNMQVJDACN1X8X
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-09T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: '2025-11-09T00:00:00+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 13
+    development_tasks_completed: 13
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 13
+    tasks_completed: 13
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JK2A3KNMQVJDACN1X8Z
+    title: Design and document permanent .vibey/ directory structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X90
+    title: Implement modular config system (project, framework, agents, quality-gates)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X91
+    title: Implement context loading strategy with dependency summaries
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X92
+    title: Implement auto-generated task and dependency summaries
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X93
+    title: Design platform adapter pattern and interfaces
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X94
+    title: Implement Claude Code platform adapter
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X95
+    title: Implement vibey deploy --platform <name> command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X96
+    title: Implement vibey docs generate command
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X97
+    title: Implement roadmap summarize and roadmap context commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X98
+    title: Create migration script from current structure to new .vibey/ structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X99
+    title: Update all Vibey commands to use .vibey/ structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X9A
+    title: Write comprehensive documentation for Config-to-Docs Architecture
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JK2A3KNMQVJDACN1X9B
+    title: Integration testing and production readiness validation
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

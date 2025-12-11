@@ -1,55 +1,85 @@
 sprint:
   id: 01KC3AD78WY4Q2GB43KYWKKPYF
-  track_id: dogfooding-bugs
-  roadmap_id: vibey-framework-v2
   name: 'Sprint 4: Progress Auto-Update'
-  description: Implement automatic progress propagation when tasks/sprints are completed.
-    Parent objects should automatically update their progress counters.
-  status: completed
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T12:00:00+00:00'
+  completion_gate_check_at: null
   completed: '2025-12-10T16:00:00+00:00'
-  goal: Progress updates automatically propagate up the hierarchy
-  success_criteria:
-  - Completing a task updates sprint progress
-  - Completing all tasks marks sprint as completed
-  - Sprint completion updates track progress
-  - Track completion updates roadmap progress
+  production_gate_check_at: '2025-12-10T18:03:19.684422+00:00'
+  production_ready_at: '2025-12-10T18:03:51.042618+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: dogfooding-bugs-04-task-001
     title: Analyze current progress update flow
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-04-task-002
     title: Implement auto-progression logic in update.py
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-04-task-003
     title: Add post-task-completion hook for parent updates
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-04-task-004
     title: Add unit tests for progress propagation
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-04-task-005
     title: Manual verification with test sprint
     status: completed
-  dependencies: []
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: dogfooding-bugs-02
     blocker_type: sprint
     required_status: completed
     current_status: not_started
-    description: Requires dogfooding-bugs-02 to be completed first
-    status: pending
+    blocks_transition_to: completed
     last_checked: null
+  depended_on_by: []
+  plan_file: null
   deliverables: []
+  description: Implement automatic progress propagation when tasks/sprints are completed.
+    Parent objects should automatically update their progress counters.
+  goal: Progress updates automatically propagate up the hierarchy
+  success_criteria:
+  - Completing a task updates sprint progress
+  - Completing all tasks marks sprint as completed
+  - Sprint completion updates track progress
+  - Track completion updates roadmap progress
   risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    bugs_addressed:
-    - 1
-    priority: medium
-    consolidated_from:
-    - 'Bug #1'
-  slug: dogfooding-bugs-04
-  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
-  criteria: []
-  sequence: 4
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

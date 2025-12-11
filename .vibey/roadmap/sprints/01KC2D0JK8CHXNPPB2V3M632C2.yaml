@@ -3,14 +3,15 @@ sprint:
   name: CLI/MCP Integration & Quality Gates
   track_id: infrastructure-fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-15T19:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-15T19:00:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:05.334493+00:00'
+  production_ready_at: '2025-12-10T18:03:36.680787+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 3
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
-    completion_percent: 100.0
+    completion_percent: 100
   tasks:
   - id: infrastructure-fixes-2-task-001
     title: Integrate roadmap initialization into CLI deployment
@@ -74,8 +75,11 @@ sprint:
       threshold: 0
       is_blocking: true
       score: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -84,6 +88,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -93,7 +98,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: infrastructure-fixes-2
-  parent_ref: 01KC2D0JK8CHXNPPB2V3M632BK
-  criteria: []
-  sequence: 2

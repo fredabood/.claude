@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JK1877YN6T0673VB24T
   name: Claude Code Platform Validation
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: critical
   created: '2025-11-10T03:30:00+00:00'
   started: null
@@ -13,17 +14,20 @@ track:
     sprints_completed: 1
     tasks_total: 8
     tasks_completed: 8
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: claude-port-1
     name: Claude Code Testing & Validation
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 8
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -35,5 +39,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: claude-port
-  criteria: []

@@ -1,52 +1,83 @@
 sprint:
   id: 01KC3AD79XYWMC7HAGR0GPKV0A
-  track_id: dogfooding-bugs
-  roadmap_id: vibey-framework-v2
   name: 'Sprint 6: Tooling Polish'
-  description: Clean up validator to exclude sample code directories and verify duplicate
-    roadmap.yaml fix is complete.
-  status: completed
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T19:00:00+00:00'
+  completion_gate_check_at: null
   completed: '2025-12-10T20:00:00+00:00'
+  production_gate_check_at: '2025-12-10T18:03:19.693888+00:00'
+  production_ready_at: '2025-12-10T18:03:51.054702+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: dogfooding-bugs-06-task-001
+    title: Add VALIDATION_EXCLUDE_PATTERNS constant
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: dogfooding-bugs-06-task-002
+    title: Update validator to skip excluded paths
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: dogfooding-bugs-06-task-003
+    title: Add unit test for exclusion patterns
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: dogfooding-bugs-06-task-004
+    title: Verify single roadmap.yaml exists at correct location
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: dogfooding-bugs-06-task-005
+    title: Add startup check to warn if duplicate exists
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: dogfooding-bugs-06-task-006
+    title: Document canonical location in CLAUDE.md
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Clean up validator to exclude sample code directories and verify duplicate
+    roadmap.yaml fix is complete.
   goal: Validation and tooling work correctly
   success_criteria:
   - Validator skips context/sample_code directories
   - Single roadmap.yaml verified at correct location
   - Startup warns if duplicate found
-  tasks:
-  - id: dogfooding-bugs-06-task-001
-    title: Add VALIDATION_EXCLUDE_PATTERNS constant
-    status: completed
-  - id: dogfooding-bugs-06-task-002
-    title: Update validator to skip excluded paths
-    status: completed
-  - id: dogfooding-bugs-06-task-003
-    title: Add unit test for exclusion patterns
-    status: completed
-  - id: dogfooding-bugs-06-task-004
-    title: Verify single roadmap.yaml exists at correct location
-    status: completed
-  - id: dogfooding-bugs-06-task-005
-    title: Add startup check to warn if duplicate exists
-    status: completed
-  - id: dogfooding-bugs-06-task-006
-    title: Document canonical location in CLAUDE.md
-    status: completed
-  dependencies: []
-  blocked_by: []
-  depends_on: []
-  deliverables: []
   risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    bugs_addressed:
-    - 7
-    - 14
-    priority: low
-    consolidated_from:
-    - 'Bug #7'
-    - 'Bug #14'
-  slug: dogfooding-bugs-06
-  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
-  criteria: []
-  sequence: 6
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

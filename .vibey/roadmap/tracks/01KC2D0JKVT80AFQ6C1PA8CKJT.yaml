@@ -3,6 +3,7 @@ track:
   name: User Journey Audit & Documentation Coverage
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
   started: null
@@ -158,12 +159,35 @@ track:
     target_status: completed
     reason: Git integration features must be complete before auditing user journeys
     optional: false
+  blocks: []
   blocked_by:
-  - python-package
-  - git-integration
+  - dependency_id: python-package
+    dependency_type: track
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-10T18:03:16.140628+00:00'
+    estimated_resolution: null
+  - dependency_id: git-integration
+    dependency_type: track
+    current_status: unknown
+    required_status: completed
+    blocking_since: '2025-12-10T18:03:16.140631+00:00'
+    estimated_resolution: null
   depends_on:
-  - python-package
-  - git-integration
+  - blocker_id: python-package
+    blocker_type: track
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T18:03:16.140632+00:00'
+  - blocker_id: git-integration
+    blocker_type: track
+    required_status: completed
+    current_status: unknown
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T18:03:16.140632+00:00'
+  depended_on_by: []
+  quality_gates: []
   assigned_agents:
   - architecture-agent
   - backend-engineer
@@ -259,85 +283,3 @@ track:
       \ completeness\n- 100% documentation correctness\n- 100% user journey coverage\n\
       - 100% code coverage (line and branch)\n- 95%+ test pass rate\n- CI enforcement\
       \ to prevent regression\n"
-  slug: user-journey-audit
-  criteria:
-  - id: blk-001
-    description: Blocked by python-package
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: python-package
-      required_status: completed
-  - id: blk-002
-    description: Blocked by git-integration
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: git-integration
-      required_status: completed
-  - id: gate-001
-    description: 100% of features and CLI commands documented
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: All code examples work, all links valid, all info accurate
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-003
-    description: Docs follow best practices and are intuitively organized
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-004
-    description: CLI reference guide covers 100% of vibey CLI
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-005
-    description: User journeys cover 100% of CLI reference functionality
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-006
-    description: All user journeys analyzed for friction points
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-007
-    description: 100% code coverage across all vibey library components
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-008
-    description: 95%+ of all tests must pass
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100

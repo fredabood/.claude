@@ -2,163 +2,75 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GS
   name: Friction Analysis & Gap Identification
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-5-task-001
-    name: Deep analysis of onboarding friction
+    title: Deep analysis of onboarding friction
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Analyze onboarding friction in depth:
-
-      - Time to first success (target vs actual)
-
-      - Steps requiring documentation lookup
-
-      - Error-prone configuration steps
-
-      - Unclear terminology or concepts
-
-      - Missing defaults or scaffolding
-
-      - Comparison to competitor onboarding
-
-      Rate each friction point: Critical/High/Medium/Low
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-002
-    name: Deep analysis of daily workflow friction
+    title: Deep analysis of daily workflow friction
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Analyze daily usage patterns for friction:
-
-      - Commands that are hard to remember
-
-      - Repetitive tasks lacking automation
-
-      - Unclear status or feedback
-
-      - Context switching pain points
-
-      - Information not where expected
-
-      - Undo/recovery difficulties
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-003
-    name: Analyze documentation quality gaps
+    title: Analyze documentation quality gaps
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Identify documentation quality issues:
-
-      - Gaps in how-to guidance
-
-      - Unclear explanations despite coverage
-
-      - Missing contextual examples
-
-      - Poor discoverability
-
-      - Conceptual gaps (why, not just how)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-004
-    name: Analyze error handling and recovery experience
+    title: Analyze error handling and recovery experience
     status: not_started
-    priority: high
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Evaluate error experience:
-
-      - Error message clarity
-
-      - Recovery guidance quality
-
-      - Data loss risks
-
-      - Rollback capabilities
-
-      - Debug information availability
-
-      - Support escalation path clarity
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-005
-    name: Compare to ideal-state journeys
+    title: Compare to ideal-state journeys
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Define ideal-state journeys and measure gap:
-
-      - What should onboarding feel like?
-
-      - What should daily workflow feel like?
-
-      - What''s the ideal integration experience?
-
-      - Gap analysis: current vs ideal
-
-      - Competitive benchmarking insights
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-006
-    name: Quantify friction impact
+    title: Quantify friction impact
     status: not_started
-    priority: medium
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Estimate impact of each friction point:
-
-      - User drop-off risk
-
-      - Time wasted per occurrence
-
-      - Support burden created
-
-      - Adoption barrier severity
-
-      - Workaround availability and cost
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-5-task-007
-    name: Compile comprehensive friction analysis report
+    title: Compile comprehensive friction analysis report
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: docs-writer
-    description: 'Create comprehensive friction report:
-
-      - Friction point inventory
-
-      - Severity ratings
-
-      - Impact quantification
-
-      - Gap analysis summary
-
-      - Supporting evidence
-
-      - Initial improvement hypotheses
-
-      '
-  dependencies:
-  - user-journey-audit-4
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-4
+  - dependency_id: user-journey-audit-4
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Onboarding friction analysis
   - Daily workflow friction analysis
@@ -167,31 +79,19 @@ sprint:
   - Ideal-state journey definitions
   - Friction impact quantification
   - Comprehensive friction report
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 5 performs deep friction analysis on the journey
-
-      maps and walkthroughs produced in Sprints 3-4.
-
-      '
-  slug: user-journey-audit-5
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-4
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-4
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Friction Coverage'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 5
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

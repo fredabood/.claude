@@ -4,6 +4,7 @@ sprint:
   track_id: core-framework
   roadmap_id: vibey-framework-v2
   status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-09T00:00:00+00:00'
   started: null
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 13
     tasks_completed: 13
-    completion_percent: 100.0
+    completion_percent: 100
   tasks:
   - id: core-framework-2-task-001
     title: Design and document permanent .vibey/ directory structure
@@ -88,8 +89,11 @@ sprint:
     status: completed
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -98,6 +102,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -107,7 +112,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: core-framework-2
-  parent_ref: 01KC2D0JK2A3KNMQVJDACN1X8X
-  criteria: []
-  sequence: 2

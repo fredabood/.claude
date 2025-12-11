@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JK2A3KNMQVJDACN1X8X
   name: Core Framework Enhancements
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: high
   created: '2025-11-05T00:00:00+00:00'
   started: null
@@ -10,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 2
-    sprints_completed: 0
+    sprints_completed: 2
     tasks_total: 20
     tasks_completed: 20
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: core-framework-2
     name: Config-to-Docs Architecture
@@ -28,8 +29,11 @@ track:
     tasks_count: 7
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -41,5 +45,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: core-framework
-  criteria: []

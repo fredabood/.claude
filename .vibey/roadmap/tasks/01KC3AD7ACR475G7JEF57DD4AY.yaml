@@ -1,7 +1,7 @@
 task:
   id: 01KC3AD7ACR475G7JEF57DD4AY
-  sprint_id: dogfooding-bugs-06
-  track_id: dogfooding-bugs
+  sprint_id: 01KC3AD79XYWMC7HAGR0GPKV0A
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Document canonical location in CLAUDE.md
@@ -9,7 +9,7 @@ task:
   status: completed
   created: '2025-12-10T05:05:41.041645+00:00'
   started: null
-  completed: null
+  completed: '2025-12-10T12:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

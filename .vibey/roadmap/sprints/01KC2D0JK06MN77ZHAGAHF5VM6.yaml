@@ -2,156 +2,75 @@ sprint:
   id: 01KC2D0JK06MN77ZHAGAHF5VM6
   name: Jira Bidirectional Sync & Conflict Resolution
   track_id: atlassian-integration
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 3 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: atlassian-integration-2-task-001
-    name: Implement Vibey to Jira export (write operations)
+    title: Implement Vibey to Jira export (write operations)
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: backend-engineer
-    description: 'Push Vibey changes to Jira:
-
-      - Create Jira issues from tasks
-
-      - Update issue status on task completion
-
-      - Update issue fields from task metadata
-
-      - Create sprints from Vibey sprints
-
-      - Handle issue transitions
-
-      - vibey atlassian export <track>
-
-      '
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-002
-    name: Design sync state tracking system
+    title: Design sync state tracking system
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Track sync state for conflict detection:
-
-      - Last sync timestamp per entity
-
-      - Entity version/hash tracking
-
-      - Sync manifest format
-
-      - Dirty tracking (local changes)
-
-      - Remote change detection
-
-      - .vibey/atlassian/sync-state.yaml
-
-      '
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-003
-    name: Implement bidirectional sync engine
+    title: Implement bidirectional sync engine
     status: not_started
-    priority: critical
-    estimated_hours: 12
-    assigned_agent: backend-engineer
-    description: 'Core sync engine:
-
-      - Pull changes from Jira
-
-      - Push changes to Jira
-
-      - Detect changes since last sync
-
-      - Handle creates, updates, deletes
-
-      - Batch operations for efficiency
-
-      - vibey atlassian sync --direction=both
-
-      '
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-004
-    name: Implement conflict detection and resolution
+    title: Implement conflict detection and resolution
     status: not_started
-    priority: critical
-    estimated_hours: 10
-    assigned_agent: backend-engineer
-    description: "Handle sync conflicts:\n- Detect concurrent modifications\n- Conflict\
-      \ resolution strategies:\n  * Jira wins (default for Jira-as-source)\n  * Vibey\
-      \ wins (for Vibey-as-source)\n  * Manual resolution (interactive)\n  * Last-write-wins\
-      \ (timestamp-based)\n- Conflict report generation\n- vibey atlassian conflicts\n"
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-005
-    name: Implement Jira webhooks for real-time sync
+    title: Implement Jira webhooks for real-time sync
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: backend-engineer
-    description: 'Real-time sync via webhooks:
-
-      - Webhook endpoint handler
-
-      - Issue created/updated/deleted events
-
-      - Sprint created/updated/closed events
-
-      - Project updated events
-
-      - Event validation and security
-
-      - Webhook registration management
-
-      '
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-006
-    name: Add sync configuration options
+    title: Add sync configuration options
     status: not_started
-    priority: medium
-    estimated_hours: 6
-    assigned_agent: backend-engineer
-    description: 'Configurable sync behavior:
-
-      - Sync direction (jira→vibey, vibey→jira, both)
-
-      - Field mapping overrides
-
-      - Status mapping configuration
-
-      - Include/exclude filters (JQL)
-
-      - Auto-sync interval
-
-      - .vibey/config/atlassian.yaml
-
-      '
+    task_type: development
+    gate_info: null
   - id: atlassian-integration-2-task-007
-    name: Create bidirectional sync tests
+    title: Create bidirectional sync tests
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: test-engineer
-    description: 'Test sync functionality:
-
-      - Push scenarios
-
-      - Pull scenarios
-
-      - Conflict scenarios
-
-      - Webhook handling
-
-      - Configuration variations
-
-      - Error recovery
-
-      '
-  dependencies:
-  - atlassian-integration-1
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - atlassian-integration-1
+  - dependency_id: atlassian-integration-1
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Vibey to Jira export functionality
   - Sync state tracking system
@@ -160,54 +79,19 @@ sprint:
   - Webhook handlers for real-time sync
   - Sync configuration system
   - Comprehensive sync tests
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-12-04T00:00:00+00:00'
-    notes: "Sprint 2: Jira Bidirectional Sync using Semantic Layer\n\nDESIGN REFERENCE:\
-      \ sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\n\nKEY INTEGRATION\
-      \ POINTS:\n\n1. STATUS MAPPING VIA SEMANTIC LAYER:\n   On pull from Jira:\n\
-      \   ```python\n   jira_status = issue['fields']['status']['name']  # \"In Review\"\
-      \n   canonical = jira_layer.map_status_to_canonical(\"issue\", jira_status)\n\
-      \   # → TicketStatus.IN_PROGRESS\n   ```\n\n   On push to Jira:\n   ```python\n\
-      \   canonical = ticket.status  # TicketStatus.COMPLETED\n   jira_status = jira_layer.map_status_from_canonical(\"\
-      issue\", canonical)\n   # → \"Done\"\n   ```\n\n2. EXTERNAL_STATUS FOR ROUND-TRIP:\n\
-      \   - Preserve original Jira status in external_status field\n   - If status\
-      \ unchanged locally, use external_status on push back\n   - If status changed\
-      \ locally, map from canonical\n\n3. SYNC STATE TRACKING:\n   - Use content hash\
-      \ for change detection\n   - External timestamps from Jira API\n   - Internal\
-      \ timestamps from Ticket fields\n\n4. CONFLICT DETECTION:\n   - Compare last_sync\
-      \ timestamp with both sides' modification times\n   - If both modified since\
-      \ sync → conflict\n   - Conflict resolution strategies: Jira-wins, Vibey-wins,\
-      \ manual\n\nSYNC MODES:\n1. PULL-ONLY: Jira is source of truth, Vibey is read-only\n\
-      2. PUSH-ONLY: Vibey is source of truth, Jira reflects\n3. BIDIRECTIONAL: Both\
-      \ sides can change, conflicts resolved\n\nFor teams using Jira, PULL-ONLY is\
-      \ recommended.\nFor solo devs wanting Jira visibility, PUSH-ONLY works.\nBIDIRECTIONAL\
-      \ is complex but powerful.\n"
-  slug: atlassian-integration-2
-  parent_ref: 01KC2D0JK06MN77ZHAGAHF5VM4
-  criteria:
-  - id: blk-001
-    description: Blocked by atlassian-integration-1
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: atlassian-integration-1
-      required_status: completed
-  - id: gate-001
-    description: 'Quality gate: Sync Reliability'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  - id: gate-002
-    description: 'Quality gate: No Data Loss'
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 2
+    estimated_duration: 3 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

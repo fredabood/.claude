@@ -1,0 +1,42 @@
+task:
+  id: 01KC6WAAM87S5VVJ1JBN29PBX3
+  sprint_id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Task 013: Deprecate directory_migration.py HierarchicalPathResolver'
+  description: >-
+    Review and deprecate vibey/roadmap/serialization/directory_migration.py:
+    - Line 97: HierarchicalPathResolver.track_path() - roadmap_dir / track_id / 'track.yaml'
+    - Line 113: HierarchicalPathResolver.sprint_path() - track_id / sprint_id / 'sprint.yaml'
+    - Line 131: HierarchicalPathResolver.task_path() - nested task paths
+    - Lines 148-152: context_path() - nested context paths
+    Either delete the HierarchicalPathResolver class or add deprecation warnings
+    and create FlatPathResolver as replacement.
+  status: not_started
+  created: '2025-12-11T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: low
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on:
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXQ
+    - 01KC6WAAM87S5VVJ1JBN29PBWZ
+    - 01KC6WAAM87S5VVJ1JBN29PBX0
+    - 01KC6WAAM87S5VVJ1JBN29PBX1
+    - 01KC6WAAM87S5VVJ1JBN29PBX2
+  deliverables:
+    - Deprecated or removed HierarchicalPathResolver
+    - Optional FlatPathResolver if needed
+  commits: []
+  metadata:
+    bug_number: 19
+    scope: serialization

@@ -1,0 +1,53 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ5
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update sql_dumper for unified schema
+  description: "Update sql_dumper.py to write to unified schema (completables + criteria\
+    \ tables).\n\nCHANGES REQUIRED:\n1. Write to completables table instead of separate\
+    \ tables\n2. Write criteria from Criterion objects\n3. Accept new Pydantic models\
+    \ (RoadmapTicket, TrackTicket, etc.)\n4. Support both v1 and v2 schemas during\
+    \ transition\n\nIMPLEMENTATION:\n```python\ndef dump_task_v2(task: TaskTicket)\
+    \ -> None:\n    conn = get_connection()\n\n    # Insert into completables\n  \
+    \  conn.execute('''\n        INSERT OR REPLACE INTO completables\n        (id,\
+    \ type, parent_id, name, status, ...)\n        VALUES (?, 'task', ?, ?, ?, ...)\n\
+    \    ''', (task.id, task.parent_ref, task.name, task.status.value, ...))\n\n \
+    \   # Insert criteria\n    for criterion in task.criteria:\n        conn.execute('''\n\
+    \            INSERT OR REPLACE INTO criteria\n            (id, completable_id,\
+    \ description, blocks_transition_to, target_type, target_config)\n           \
+    \ VALUES (?, ?, ?, ?, ?, ?)\n        ''', (\n            criterion.id,\n     \
+    \       task.id,\n            criterion.description,\n            criterion.blocks_transition_to.value,\n\
+    \            get_target_type(criterion.target),\n            json.dumps(get_target_config(criterion.target))\n\
+    \        ))\n\n    conn.commit()\n```\n"
+  status: completed
+  blocked: true
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T17:50:00+00:00'
+  completed: '2025-12-09T18:10:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 35000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

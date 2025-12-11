@@ -1,0 +1,47 @@
+track:
+  id: 01KC2D0JK06MN77ZHAGAHF5VKN
+  name: Amazon Q Developer Platform Port
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: medium
+  created: '2025-11-23T00:00:00+00:00'
+  started: '2025-11-23T00:00:00+00:00'
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 12
+    tasks_completed: 5
+    completion_percent: 42.0
+  sprints:
+  - id: 01KC2D0JK06MN77ZHAGAHF5VKP
+    name: Core Adapter & MCP Configuration
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 7
+    started: '2025-11-23T00:00:00+00:00'
+  - id: 01KC2D0JK06MN77ZHAGAHF5VKY
+    name: Testing & Documentation
+    status: not_started
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: null
+    design_doc: null
+    implementation_plan: null
+    notes: null

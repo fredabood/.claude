@@ -1,0 +1,94 @@
+sprint:
+  id: 01KC2D0JKKVMZ8ZJNGPHV822QY
+  name: Core Data Model & YAML Schema
+  track_id: 01KC2D0JKKVMZ8ZJNGPHV822QX
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-07T03:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-07T03:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 9
+    development_tasks_completed: 9
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 9
+    tasks_completed: 9
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822QZ
+    title: Design YAML schema for Roadmap object
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822R0
+    title: Design YAML schema for Track object
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822R1
+    title: Design YAML schema for Sprint object
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822R2
+    title: Design YAML schema for Task object
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822R3
+    title: Create Python data models (dataclasses)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822R4
+    title: Implement YAML validation logic
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5EQV
+    title: Implement serialization/deserialization
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5EQW
+    title: Create example roadmap for testing
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5EQX
+    title: Write unit tests for data models
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

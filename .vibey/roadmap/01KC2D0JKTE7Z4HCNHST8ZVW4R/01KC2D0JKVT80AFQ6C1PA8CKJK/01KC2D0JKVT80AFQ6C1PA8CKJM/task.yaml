@@ -1,0 +1,44 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJM
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Migrate query operations to unified models
+  description: "Update query.py to use new Pydantic models.\n\nCURRENT:\n- query_roadmap_summary()\
+    \ returns dict built from legacy models\n- query_track_details() returns dict\n\
+    - query_sprint_details() returns dict\n- query_task_details() returns dict\n\n\
+    TARGET:\n- query_roadmap() returns RoadmapTicket\n- query_track() returns TrackTicket\n\
+    - query_sprint() returns SprintTicket\n- query_task() returns TaskTicket\n- Summary\
+    \ functions derive from model properties\n\nIMPLEMENTATION:\n```python\ndef query_task(task_id:\
+    \ str, root_dir: Path) -> TaskTicket:\n    backend = get_backend(root_dir)\n \
+    \   return backend.load_task(task_id)\n\ndef query_task_details(task_id: str,\
+    \ root_dir: Path) -> Dict[str, Any]:\n    task = query_task(task_id, root_dir)\n\
+    \    return {\n        'id': task.id,\n        'name': task.name,\n        'status':\
+    \ task.status.value,\n        'progress': task.progress.completion_percent,\n\
+    \        'blocking_reasons': task.blocking_reasons,\n        'criteria': [c.model_dump()\
+    \ for c in task.criteria],\n        ...\n    }\n```\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

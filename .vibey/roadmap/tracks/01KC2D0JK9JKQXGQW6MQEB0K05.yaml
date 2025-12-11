@@ -3,6 +3,7 @@ track:
   name: MCP Server Foundation
   roadmap_id: vibey-framework-v2
   status: in_progress
+  blocked: false
   priority: critical
   created: '2025-11-09T00:00:00+00:00'
   started: '2025-11-09T00:00:00+00:00'
@@ -10,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 4
-    sprints_completed: 0
+    sprints_completed: 2
     tasks_total: 31
     tasks_completed: 16
-    completion_percent: 52.0
+    completion_percent: 51
   sprints:
   - id: mcp-server-1
     name: MCP Server Foundation
@@ -40,8 +41,11 @@ track:
     tasks_count: 15
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -53,5 +57,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: mcp-server
-  criteria: []

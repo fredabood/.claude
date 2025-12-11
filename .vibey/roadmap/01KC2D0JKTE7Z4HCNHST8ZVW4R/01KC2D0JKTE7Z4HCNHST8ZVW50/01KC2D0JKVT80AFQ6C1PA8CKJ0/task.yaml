@@ -1,0 +1,44 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ0
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: design
+  title: Design unified completables table schema
+  description: "Design the unified completables table that replaces separate roadmaps,\
+    \ tracks, sprints, tasks tables.\n\nDESIGN (from 05-DATABASE-SCHEMA.md):\n```sql\n\
+    CREATE TABLE completables (\n    -- Identity (ULID)\n    id TEXT PRIMARY KEY,\n\
+    \    type TEXT NOT NULL CHECK (type IN ('roadmap', 'track', 'sprint', 'task',\
+    \ 'artifact')),\n\n    -- Hierarchy\n    parent_id TEXT REFERENCES completables(id),\n\
+    \    sequence INTEGER DEFAULT 0,\n    slug TEXT NOT NULL,\n\n    -- Core fields\n\
+    \    name TEXT NOT NULL,\n    description TEXT,\n    status TEXT NOT NULL,\n\n\
+    \    -- Timestamps\n    created_at TEXT NOT NULL,\n    updated_at TEXT,\n    started_at\
+    \ TEXT,\n    completed_at TEXT,\n\n    -- Type-specific fields (JSON)\n    type_specific\
+    \ TEXT,  -- JSON blob for type-specific fields\n\n    -- Metadata\n    metadata\
+    \ TEXT\n);\n```\n\nDECISIONS NEEDED:\n1. Which fields go in main table vs type_specific\
+    \ JSON?\n2. Index strategy for common queries\n3. View definitions for type-specific\
+    \ access\n"
+  status: completed
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T16:10:00+00:00'
+  completed: '2025-12-09T16:25:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: design
+  estimated_tokens: 25000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

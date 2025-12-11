@@ -2,167 +2,75 @@ sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GT
   name: Recommendations & Improvement Roadmap
   track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
+  blocked_reason: null
   created: '2025-11-23T00:00:00+00:00'
   started: null
+  completion_gate_check_at: null
   completed: null
-  estimated_duration: 2 weeks
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
   progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: user-journey-audit-6-task-001
-    name: Prioritize friction points by impact and effort
+    title: Prioritize friction points by impact and effort
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Create prioritization matrix:
-
-      - Impact score (user value, adoption effect)
-
-      - Effort estimate (dev time, complexity)
-
-      - Risk assessment (breaking changes, dependencies)
-
-      - Quick wins identification (high impact, low effort)
-
-      - Strategic investments (high impact, high effort)
-
-      - Deprioritize (low impact regardless of effort)
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-002
-    name: Design quick win improvements
+    title: Design quick win improvements
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Detail quick win solutions:
-
-      - Specific changes needed
-
-      - Implementation approach
-
-      - Success metrics
-
-      - Rollout plan
-
-      - Rollback plan if needed
-
-      Target: Improvements achievable in 1-2 weeks each
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-003
-    name: Design strategic improvements
+    title: Design strategic improvements
     status: not_started
-    priority: high
-    estimated_hours: 8
-    assigned_agent: architecture-agent
-    description: 'Detail larger improvements:
-
-      - Architecture changes needed
-
-      - Phased implementation plan
-
-      - Dependencies and prerequisites
-
-      - Resource requirements
-
-      - Timeline estimates
-
-      - Risk mitigations
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-004
-    name: Define success metrics and tracking
+    title: Define success metrics and tracking
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Establish measurement framework:
-
-      - Time to first success metric
-
-      - Task completion time metrics
-
-      - Error rate tracking
-
-      - User satisfaction proxies
-
-      - Adoption funnel metrics
-
-      - Retention indicators
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-005
-    name: Create improvement roadmap
+    title: Create improvement roadmap
     status: not_started
-    priority: critical
-    estimated_hours: 6
-    assigned_agent: architecture-agent
-    description: 'Build phased improvement plan:
-
-      - Phase 1: Quick wins (immediate)
-
-      - Phase 2: High-priority fixes (1-2 months)
-
-      - Phase 3: Strategic improvements (3-6 months)
-
-      - Dependencies between improvements
-
-      - Resource allocation recommendations
-
-      - Milestone definitions
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-006
-    name: Create new roadmap tracks from recommendations
+    title: Create new roadmap tracks from recommendations
     status: not_started
-    priority: high
-    estimated_hours: 4
-    assigned_agent: architecture-agent
-    description: 'Convert recommendations to actionable tracks:
-
-      - Identify improvements needing dedicated tracks
-
-      - Draft track definitions
-
-      - Define sprints and tasks
-
-      - Link to audit findings
-
-      - Integrate into main roadmap
-
-      '
+    task_type: development
+    gate_info: null
   - id: user-journey-audit-6-task-007
-    name: Produce final audit report and recommendations
+    title: Produce final audit report and recommendations
     status: not_started
-    priority: critical
-    estimated_hours: 8
-    assigned_agent: docs-writer
-    description: 'Create executive summary and full report:
-
-      - Executive summary (1-2 pages)
-
-      - Key findings overview
-
-      - Prioritized recommendations
-
-      - Improvement roadmap
-
-      - Success metrics
-
-      - Appendices with detailed analysis
-
-      - Presentation deck for stakeholders
-
-      '
-  dependencies:
-  - user-journey-audit-5
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by:
-  - user-journey-audit-5
+  - dependency_id: user-journey-audit-5
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
   deliverables:
   - Prioritization matrix
   - Quick win improvement designs
@@ -171,33 +79,19 @@ sprint:
   - Phased improvement roadmap
   - New roadmap track definitions
   - Final audit report and recommendations
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    created_by: vibey-framework-team
     last_updated: '2025-11-23T00:00:00+00:00'
-    notes: 'Sprint 6 turns analysis into action. Every friction point
-
-      identified should have a clear recommendation and path
-
-      to resolution. Output feeds directly into future work.
-
-      '
-  slug: user-journey-audit-6
-  parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJT
-  criteria:
-  - id: blk-001
-    description: Blocked by user-journey-audit-5
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: user-journey-audit-5
-      required_status: completed
-  - id: gate-001
-    description: All recommendations have clear next steps
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: test_passes
-      test_command: ''
-      pass_threshold: 100
-  sequence: 6
+    estimated_duration: 2 weeks
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

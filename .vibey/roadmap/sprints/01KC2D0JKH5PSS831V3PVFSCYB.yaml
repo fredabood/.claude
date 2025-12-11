@@ -3,14 +3,15 @@ sprint:
   name: 'Audit: infrastructure-fixes'
   track_id: roadmap-state-audit
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-23T20:35:52.725661+00:00'
   started: '2025-11-23T20:35:52.725661+00:00'
-  completion_gate_check_at: null
+  completion_gate_check_at: '2025-12-10T18:03:10.132614+00:00'
   completed: null
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:41.516707+00:00'
+  production_ready_at: '2025-12-10T18:06:47.612473+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 3
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: roadmap-state-audit-14-task-001
     title: Update quality gates
@@ -38,8 +39,11 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -48,6 +52,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -57,7 +62,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: roadmap-state-audit-14
-  parent_ref: 01KC2D0JKG48M2973YX4EGG3PS
-  criteria: []
-  sequence: 14

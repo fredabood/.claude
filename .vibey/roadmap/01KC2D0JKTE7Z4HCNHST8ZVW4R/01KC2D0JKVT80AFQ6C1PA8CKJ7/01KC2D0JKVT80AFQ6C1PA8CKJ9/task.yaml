@@ -1,0 +1,45 @@
+task:
+  id: 01KC2D0JKVT80AFQ6C1PA8CKJ9
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create .id file format and parser
+  description: "Implement .id file format for mapping slugs to ULIDs.\n\nFILE FORMAT:\n\
+    ```\n# .vibey/roadmap/tracks/.id\n# Maps human-readable slugs to immutable ULIDs\n\
+    sqlite-backend = 01HXYZ123ABC456DEF789GHJ\nunified-architecture-migration = 01HXYZ987ZYX654CBA321MLK\n\
+    ```\n\nIMPLEMENTATION:\n```python\nclass IdFile:\n    def __init__(self, path:\
+    \ Path):\n        self.path = path\n        self._mappings: Dict[str, str] = {}\n\
+    \        self._load()\n\n    def get_ulid(self, slug: str) -> Optional[str]:\n\
+    \        return self._mappings.get(slug)\n\n    def get_slug(self, ulid: str)\
+    \ -> Optional[str]:\n        for slug, id in self._mappings.items():\n       \
+    \     if id == ulid:\n                return slug\n        return None\n\n   \
+    \ def register(self, slug: str, ulid: str) -> None:\n        self._mappings[slug]\
+    \ = ulid\n        self._save()\n\n    def rename_slug(self, old_slug: str, new_slug:\
+    \ str) -> None:\n        ulid = self._mappings.pop(old_slug)\n        self._mappings[new_slug]\
+    \ = ulid\n        self._save()\n```\n\nFILE LOCATIONS:\n- .vibey/roadmap/tracks/.id\n\
+    - .vibey/roadmap/sprints/.id\n- .vibey/roadmap/tasks/.id\n"
+  status: not_started
+  blocked: false
+  created: '2025-12-07T15:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: implementation
+  estimated_tokens: 20000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

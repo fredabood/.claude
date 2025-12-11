@@ -1,8 +1,69 @@
 sprint:
   id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  name: Directory Structure Migration
   track_id: unified-architecture-migration
   roadmap_id: vibey-framework-v2
-  name: Directory Structure Migration
+  status: production_ready
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T14:55:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-09T15:55:00+00:00'
+  production_gate_check_at: '2025-12-10T18:03:16.090134+00:00'
+  production_ready_at: '2025-12-10T18:03:47.544183+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: unified-arch-1-task-001
+    title: Design flat directory schema and file naming convention
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-1-task-002
+    title: Create directory migration script with backup
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-1-task-003
+    title: Update YAML loader to support flat structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-1-task-004
+    title: Update YAML dumper to use flat structure
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-1-task-005
+    title: Execute migration with validation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-1-task-006
+    title: Update CLI path resolution and documentation
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - path: vibey/roadmap/serialization/directory_migration.py
+    type: code
+    description: Migration script for directory restructuring
   description: 'Migrate from nested directory structure (track/sprint/task) to flat
     structure
 
@@ -60,10 +121,6 @@ sprint:
     - Better git performance
 
     '
-  status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T14:55:00+00:00'
-  completed: '2025-12-09T15:55:00+00:00'
   goal: Flatten roadmap directory structure from nested to flat organization
   success_criteria:
   - All track.yaml files moved to tracks/ directory
@@ -73,48 +130,18 @@ sprint:
   - All YAML file references updated
   - Round-trip validation passes
   - Git history preserved via moves (not delete+create)
-  tasks:
-  - id: unified-arch-1-task-001
-    title: Design flat directory schema and file naming convention
-    status: completed
-  - id: unified-arch-1-task-002
-    title: Create directory migration script with backup
-    status: completed
-  - id: unified-arch-1-task-003
-    title: Update YAML loader to support flat structure
-    status: completed
-  - id: unified-arch-1-task-004
-    title: Update YAML dumper to use flat structure
-    status: completed
-  - id: unified-arch-1-task-005
-    title: Execute migration with validation
-    status: completed
-  - id: unified-arch-1-task-006
-    title: Update CLI path resolution and documentation
-    status: completed
-  dependencies: []
-  blocked_by: []
-  depends_on: []
-  deliverables:
-  - path: vibey/roadmap/serialization/directory_migration.py
-    type: code
-    description: Migration script for directory restructuring
   risks:
   - Git history may be disrupted if using delete+create instead of git mv
   - References between files may break if not updated atomically
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    design_reference: sqlite-backend-6/context/architecture/09-DESIGN-DECISIONS.md
-  slug: unified-arch-1
-  parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
-  criteria:
-  - id: del-001
-    description: Migration script for directory restructuring
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/serialization/directory_migration.py
-      all_required: true
-      deliverable_type: code
-  sequence: 1
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

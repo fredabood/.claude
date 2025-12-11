@@ -1,7 +1,7 @@
 task:
   id: 01KC3AD788XJKNSP8ECY5NX6ZD
-  sprint_id: dogfooding-bugs-03
-  track_id: dogfooding-bugs
+  sprint_id: 01KC3AD77W9RD0RMA3S9N41EMF
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: research
   title: Investigate is_dirty column in schema history

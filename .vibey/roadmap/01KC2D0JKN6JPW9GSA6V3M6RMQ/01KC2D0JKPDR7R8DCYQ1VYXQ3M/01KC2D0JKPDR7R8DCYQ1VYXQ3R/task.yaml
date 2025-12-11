@@ -1,0 +1,47 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3R
+  sprint_id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add DB rebuild to post-merge hook
+  description: "Add post-merge hook that rebuilds SQLite database from YAML after\
+    \ git merge.\n\nHOOK RESPONSIBILITIES:\n1. Detect if YAML files changed in the\
+    \ merge\n2. If changed, rebuild database from YAML\n3. Validate integrity after\
+    \ rebuild\n4. Log rebuild operation\n\nHOOK LOCATION: .vibey/hooks/post-merge\n\
+    \nIMPLEMENTATION:\n```bash\n#!/bin/bash\nset -e\n\n# Check if roadmap YAML files\
+    \ changed\nCHANGED=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD\
+    \ \\\n          | grep -E '\\.vibey/roadmap/.*\\.yaml$' || true)\n\nif [ -n \"\
+    $CHANGED\" ]; then\n    echo \"Roadmap YAML files changed, rebuilding database...\"\
+    \n    vibey roadmap db rebuild\n\n    echo \"Validating integrity...\"\n    vibey\
+    \ roadmap db validate\n\n    echo \"Database rebuilt successfully.\"\nfi\n```\n\
+    \nREBUILD STRATEGY:\n- Parse all YAML files in .vibey/roadmap/\n- Clear existing\
+    \ database tables (cascade)\n- Insert records from YAML\n- Rebuild computed views\n\
+    - Reset dirty flags\n\nCONFLICT HANDLING:\n- If YAML has merge conflicts, rebuild\
+    \ fails gracefully\n- User must resolve conflicts in YAML first\n- Database remains\
+    \ in pre-merge state until conflicts resolved\n\nREFERENCE:\n- sqlite-backend-6/context/005-yaml-sync-strategy.md\n\
+    - vibey/roadmap/serialization/yaml_loader.py\n"
+  status: completed
+  blocked: false
+  created: '2025-11-28T17:00:00+00:00'
+  started: null
+  completed: '2025-12-06T15:40:24.636614+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

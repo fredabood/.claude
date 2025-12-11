@@ -1,58 +1,90 @@
 sprint:
   id: 01KC3AD79BX8XBJY4R19NAF04A
-  track_id: dogfooding-bugs
-  roadmap_id: vibey-framework-v2
   name: 'Sprint 5: CLI Create Commands'
-  description: Add CLI commands to create new tracks, sprints, and tasks using the
-    ULID flat file structure. Update create-from-plan to use new structure.
-  status: completed
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T17:00:00+00:00'
+  completion_gate_check_at: null
   completed: '2025-12-10T19:00:00+00:00'
-  goal: Users can create roadmap objects via CLI
-  success_criteria:
-  - '''vibey roadmap create track'' works'
-  - '''vibey roadmap create sprint'' works'
-  - '''vibey roadmap create task'' works'
-  - create-from-plan uses ULID flat structure
+  production_gate_check_at: '2025-12-10T18:03:19.689182+00:00'
+  production_ready_at: '2025-12-10T18:03:51.048210+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: dogfooding-bugs-05-task-001
     title: Add create track CLI command
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-05-task-002
     title: Add create sprint CLI command
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-05-task-003
     title: Add create task CLI command
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-05-task-004
     title: Update create-from-plan to use ULID flat structure
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-05-task-005
     title: Create ULIDManager for ULID generation
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-05-task-006
     title: Add integration tests for create commands
     status: completed
-  dependencies: []
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: dogfooding-bugs-02
     blocker_type: sprint
     required_status: completed
     current_status: not_started
-    description: Requires dogfooding-bugs-02 to be completed first
-    status: pending
+    blocks_transition_to: completed
     last_checked: null
+  depended_on_by: []
+  plan_file: null
   deliverables: []
+  description: Add CLI commands to create new tracks, sprints, and tasks using the
+    ULID flat file structure. Update create-from-plan to use new structure.
+  goal: Users can create roadmap objects via CLI
+  success_criteria:
+  - '''vibey roadmap create track'' works'
+  - '''vibey roadmap create sprint'' works'
+  - '''vibey roadmap create task'' works'
+  - create-from-plan uses ULID flat structure
   risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    bugs_addressed:
-    - 15
-    priority: high
-    consolidated_from:
-    - 'Bug #15'
-  slug: dogfooding-bugs-05
-  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
-  criteria: []
-  sequence: 5
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

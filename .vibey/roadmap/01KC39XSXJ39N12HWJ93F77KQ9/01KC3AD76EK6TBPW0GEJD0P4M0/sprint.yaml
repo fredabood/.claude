@@ -1,0 +1,136 @@
+sprint:
+  id: 01KC3AD76EK6TBPW0GEJD0P4M0
+  name: 'Sprint 2: ULID File Loading System'
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: '2025-12-10T08:00:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T10:30:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: 01KC3AD76HMVWMSN6TCDP854HX
+    title: Update FileSystemManager.get_roadmap_path() to use roadmap_root
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD76KH769FQ72K7RGWFC5
+    title: Update all callers to use correct path
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD76PTW29RNTSG8CCFJY5
+    title: Add unit test for path resolution
+    status: completed
+    task_type: testing
+    gate_info: null
+  - id: 01KC3AD76RB84SSD5S7E0KT416
+    title: Design new loading strategy for ULID files
+    status: completed
+    task_type: research
+    gate_info: null
+  - id: 01KC3AD76VX5BAERMZRH57753D
+    title: Update load_roadmap to discover tracks from tracks/*.yaml
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD76X3B5KGEMKS76CCQ7T
+    title: Implement lazy loading for track details
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77074JGVQT4AVM9WGWG
+    title: Update query.py to use new loading strategy
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD772ARZE479JE60PSNRK
+    title: Add integration tests for ULID file loading
+    status: completed
+    task_type: testing
+    gate_info: null
+  - id: 01KC3AD775WN2JV82DS23830BE
+    title: Debug track discovery in FileSystemManager.list_tracks()
+    status: completed
+    task_type: research
+    gate_info: null
+  - id: 01KC3AD777NVRCHYP9HF5ZZE55
+    title: Fix track filtering/discovery logic
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77AP0JEADACR2DQ2MZY
+    title: Add integration test for track listing
+    status: completed
+    task_type: testing
+    gate_info: null
+  - id: 01KC3AD77CN1CBCSVT26MF13ZC
+    title: Implement sync mechanism ULID files to roadmap.yaml
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77FNG3FZTJF63XXM1CB
+    title: Add CLI command to sync roadmap.yaml
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77H9B4J28N8CBTQWXAA
+    title: Add validation to detect sync discrepancies
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77M9H9BDVEB4CBJ0VFP
+    title: Update validation to accept ULID-based sprint IDs
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77PG40VMNTJGTKD0ZPF
+    title: Add backward compatibility for slug-based IDs
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD77S1Z4Y751A5RDQ6Z30
+    title: Add unit tests for both ID formats
+    status: completed
+    task_type: testing
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Complete the ULID migration by updating CLI to read from individual
+    ULID files instead of monolithic roadmap.yaml. Fix path resolution, track discovery,
+    and model validation.
+  goal: CLI correctly reads all data from ULID flat file structure
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

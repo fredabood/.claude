@@ -1,8 +1,89 @@
 sprint:
   id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  name: Database Schema Migration
   track_id: unified-architecture-migration
   roadmap_id: vibey-framework-v2
-  name: Database Schema Migration
+  status: production_ready
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-09T16:10:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T00:46:00+00:00'
+  production_gate_check_at: '2025-12-10T18:03:16.096547+00:00'
+  production_ready_at: '2025-12-10T18:03:47.550991+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: unified-arch-2-task-001
+    title: Design unified completables table schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-002
+    title: Design criteria table with polymorphic targets
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-003
+    title: Design artifacts table schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-004
+    title: Create schema migration script
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-005
+    title: Update sql_loader for unified schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-006
+    title: Update sql_dumper for unified schema
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-2-task-007
+    title: Execute migration and validate
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by:
+  - dependency_id: unified-arch-1
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on:
+  - blocker_id: unified-arch-1
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T13:03:16.094167+00:00'
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - path: vibey/roadmap/database/schema_v2.sql
+    type: code
+    description: New unified schema SQL
+  - path: vibey/roadmap/database/migrate_to_v2.py
+    type: code
+    description: Schema migration script
   description: 'Migrate from separate tables (roadmaps, tracks, sprints, tasks) to
     unified schema
 
@@ -44,10 +125,6 @@ sprint:
     - First-class artifact support
 
     '
-  status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T16:10:00+00:00'
-  completed: '2025-12-10T00:46:00+00:00'
   goal: Migrate database to unified completables + criteria schema
   success_criteria:
   - completables table created with all ticket types
@@ -58,86 +135,18 @@ sprint:
   - Round-trip validation passes
   - SQL loader updated to use new schema
   - SQL dumper updated to use new schema
-  tasks:
-  - id: unified-arch-2-task-001
-    title: Design unified completables table schema
-    status: completed
-  - id: unified-arch-2-task-002
-    title: Design criteria table with polymorphic targets
-    status: completed
-  - id: unified-arch-2-task-003
-    title: Design artifacts table schema
-    status: completed
-  - id: unified-arch-2-task-004
-    title: Create schema migration script
-    status: completed
-  - id: unified-arch-2-task-005
-    title: Update sql_loader for unified schema
-    status: completed
-  - id: unified-arch-2-task-006
-    title: Update sql_dumper for unified schema
-    status: completed
-  - id: unified-arch-2-task-007
-    title: Execute migration and validate
-    status: completed
-  dependencies: []
-  blocked_by:
-  - unified-arch-1
-  depends_on:
-  - blocker_id: unified-arch-1
-    blocker_type: sprint
-    required_status: completed
-    description: Directory migration should be complete first
-    status: pending
-  deliverables:
-  - path: vibey/roadmap/database/schema_v2.sql
-    type: code
-    description: New unified schema SQL
-  - path: vibey/roadmap/database/migrate_to_v2.py
-    type: code
-    description: Schema migration script
   risks:
   - Data loss if migration script has bugs
   - Performance regression with single-table inheritance
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    design_reference: sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md
-  slug: unified-arch-2
-  parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
-  criteria:
-  - id: dep-001
-    description: Directory migration should be complete first
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1
-      required_status: completed
-  - id: blk-001
-    description: Blocked by unified-arch-1
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1
-      required_status: completed
-  - id: del-001
-    description: New unified schema SQL
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/database/schema_v2.sql
-      all_required: true
-      deliverable_type: code
-  - id: del-002
-    description: Schema migration script
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/database/migrate_to_v2.py
-      all_required: true
-      deliverable_type: code
-  sequence: 2
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

@@ -1,0 +1,99 @@
+sprint:
+  id: 01KC2D0JKCJCWQ76VRQJWBGQXY
+  name: Content Management Interface
+  track_id: 01KC2D0JKB120S3ZRAGX1K83NT
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-11-24T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: '2025-11-24T00:00:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 10
+    development_tasks_completed: 10
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 10
+    tasks_completed: 10
+    completion_percent: 100.0
+  tasks:
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQXZ
+    title: Design content operations API
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY0
+    title: Create content operations library
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY1
+    title: Implement content list operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY2
+    title: Implement content show operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY3
+    title: Implement content create operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY4
+    title: Implement content edit operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY5
+    title: Implement content delete operation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY6
+    title: Add CLI content commands
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY7
+    title: Add MCP content tools
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY8
+    title: Create content management tests
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: null
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

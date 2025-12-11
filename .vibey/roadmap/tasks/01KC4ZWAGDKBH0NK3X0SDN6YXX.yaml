@@ -1,0 +1,36 @@
+task:
+  id: 01KC4ZWAGDKBH0NK3X0SDN6YXX
+  sprint_id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Task 008: Add Structure Validation to CLI'
+  description: >-
+    Add CLI command or check to validate directory structure:
+    - vibey roadmap validate-structure
+    - Check for orphaned hierarchical directories
+    - Check for missing flat structure directories (tracks/, sprints/, tasks/)
+    - Warn if both structures exist
+    - Add to db rebuild/init as pre-check
+  status: not_started
+  created: '2025-12-10T20:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 2000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on:
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXW
+  deliverables:
+    - New CLI validation command
+    - Integration with existing commands
+  commits: []
+  metadata:
+    bug_number: 19

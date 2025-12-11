@@ -1,0 +1,43 @@
+task:
+  id: 01KC6WAAM87S5VVJ1JBN29PBX1
+  sprint_id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Task 011: Migrate Roadmap Operations Files'
+  description: >-
+    Update roadmap operations files with hierarchical patterns:
+    - migration.py (operations/roadmap) - lines 103, 110, 230, 255, 322, 325, 376, 386, 580
+    - yaml_remediation.py - lines 145, 155, 241
+    - toc_generator.py - lines 201, 219, 240, 293, 297
+    - migrate_to_criteria.py - lines 39, 46, 209, 259
+    - summarize.py - line 168
+    All track_dir / "track.yaml" and sprint_dir / "sprint.yaml" patterns
+    must be migrated to flat structure.
+  status: not_started
+  created: '2025-12-11T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 3500
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on:
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXQ
+  deliverables:
+    - Updated migration.py
+    - Updated yaml_remediation.py
+    - Updated toc_generator.py
+    - Updated migrate_to_criteria.py
+    - Updated summarize.py
+  commits: []
+  metadata:
+    bug_number: 19
+    scope: roadmap-operations
+    files_count: 5

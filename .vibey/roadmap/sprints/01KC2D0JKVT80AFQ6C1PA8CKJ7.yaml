@@ -1,8 +1,79 @@
 sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
+  name: ULID Identity System
   track_id: unified-architecture-migration
   roadmap_id: vibey-framework-v2
-  name: ULID Identity System
+  status: production_ready
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-07T15:00:00+00:00'
+  started: '2025-12-10T01:00:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T01:30:00+00:00'
+  production_gate_check_at: '2025-12-10T18:03:16.103158+00:00'
+  production_ready_at: '2025-12-10T18:03:47.557613+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: unified-arch-3-task-001
+    title: Add ULID generation and validation
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-3-task-002
+    title: Create .id file format and parser
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-3-task-003
+    title: Update YAML loader/dumper for ULID
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-3-task-004
+    title: Create ULID migration script
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: unified-arch-3-task-005
+    title: Execute ULID migration
+    status: completed
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by:
+  - dependency_id: unified-arch-2
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: null
+    estimated_resolution: null
+  depends_on:
+  - blocker_id: unified-arch-2
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-12-10T13:03:16.100843+00:00'
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - path: vibey/roadmap/identity/ulid.py
+    type: code
+    description: ULID generation and validation
+  - path: vibey/roadmap/identity/id_file.py
+    type: code
+    description: .id file format handler
   description: 'Implement ULID-based identity system as designed in sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md.
 
 
@@ -39,10 +110,6 @@ sprint:
     - Better conflict handling in distributed scenarios
 
     '
-  status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-10T01:00:00+00:00'
-  completed: '2025-12-10T01:30:00+00:00'
   goal: Implement ULID-based identity with sequence and slug fields
   success_criteria:
   - All entities have ULID identifiers
@@ -51,82 +118,18 @@ sprint:
   - .id files map slug to ULID
   - All references updated to use ULIDs
   - Backward compatibility with slug lookups
-  tasks:
-  - id: unified-arch-3-task-001
-    title: Add ULID generation and validation
-    status: completed
-  - id: unified-arch-3-task-002
-    title: Create .id file format and parser
-    status: completed
-  - id: unified-arch-3-task-003
-    title: Update YAML loader/dumper for ULID
-    status: completed
-  - id: unified-arch-3-task-004
-    title: Create ULID migration script
-    status: completed
-  - id: unified-arch-3-task-005
-    title: Execute ULID migration
-    status: completed
-  dependencies: []
-  blocked_by:
-  - unified-arch-2
-  depends_on:
-  - blocker_id: unified-arch-2
-    blocker_type: sprint
-    required_status: completed
-    description: Schema migration must be complete (completables.id field)
-    status: resolved
-  deliverables:
-  - path: vibey/roadmap/identity/ulid.py
-    type: code
-    description: ULID generation and validation
-  - path: vibey/roadmap/identity/id_file.py
-    type: code
-    description: .id file format handler
   risks:
   - Breaking external references to old IDs
   - Git history may show as delete+create for renamed files
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    design_reference: sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md
-  slug: unified-arch-3
-  parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4R
-  criteria:
-  - id: dep-001
-    description: Schema migration must be complete (completables.id field)
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2
-      required_status: completed
-    is_met: true
-    last_checked: '2025-12-10T01:11:00.126549+00:00'
-  - id: blk-001
-    description: Blocked by unified-arch-2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2
-      required_status: completed
-  - id: del-001
-    description: ULID generation and validation
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/identity/ulid.py
-      all_required: true
-      deliverable_type: code
-  - id: del-002
-    description: .id file format handler
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/identity/id_file.py
-      all_required: true
-      deliverable_type: code
-  sequence: 3
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

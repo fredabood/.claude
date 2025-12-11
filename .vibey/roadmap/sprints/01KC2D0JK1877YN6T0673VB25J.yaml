@@ -3,14 +3,15 @@ sprint:
   name: Continue Adapter & Slash Commands
   track_id: continue-port
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   blocked_reason: null
   created: '2025-11-22T00:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-22T00:00:00+00:00'
-  production_gate_check_at: null
-  production_ready_at: null
+  production_gate_check_at: '2025-12-10T18:03:01.969117+00:00'
+  production_ready_at: '2025-12-10T18:03:33.344654+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 7
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
-    completion_percent: 100.0
+    completion_percent: 100
   tasks:
   - id: continue-port-1-task-001
     title: Create ContinueAdapter class
@@ -58,6 +59,8 @@ sprint:
     status: completed
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -66,6 +69,7 @@ sprint:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -74,6 +78,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -83,15 +88,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: continue-port-1
-  parent_ref: 01KC2D0JK1877YN6T0673VB25H
-  criteria:
-  - id: dep-001
-    description: Depends on unknown
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unknown
-      required_status: resolved
-  sequence: 1

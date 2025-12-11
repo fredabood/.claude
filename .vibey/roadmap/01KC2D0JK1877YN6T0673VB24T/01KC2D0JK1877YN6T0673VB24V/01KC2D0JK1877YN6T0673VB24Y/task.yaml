@@ -1,0 +1,32 @@
+task:
+  id: 01KC2D0JK1877YN6T0673VB24Y
+  sprint_id: 01KC2D0JK1877YN6T0673VB24V
+  track_id: 01KC2D0JK1877YN6T0673VB24T
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Run E2E tests
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-10T23:48:00-05:00'
+  started: null
+  completed: '2025-11-10T23:48:00-05:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

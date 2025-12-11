@@ -1,79 +1,119 @@
 sprint:
   id: 01KC3AD77W9RD0RMA3S9N41EMF
-  track_id: dogfooding-bugs
-  roadmap_id: vibey-framework-v2
   name: 'Sprint 3: Database Synchronization'
-  description: Fix SQLite database backend to properly sync with YAML files. Update
-    schema, fix rebuild command, and ensure pre-commit hook works.
-  status: completed
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: production_ready
+  blocked: false
+  blocked_reason: null
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: '2025-12-10T11:00:00.000000+00:00'
-  completed: '2025-12-10T11:30:00.000000+00:00'
-  goal: SQLite backend works correctly with ULID file system
-  success_criteria:
-  - Database rebuild loads all 39 tracks, 213 sprints, 1125 tasks
-  - Pre-commit hook runs without is_dirty error
-  - Database stays in sync with YAML changes
+  started: '2025-12-10T11:00:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T11:30:00+00:00'
+  production_gate_check_at: '2025-12-10T18:03:19.679221+00:00'
+  production_ready_at: '2025-12-10T18:03:51.036359+00:00'
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   tasks:
   - id: dogfooding-bugs-03-task-001
     title: Add database sync step to migration script
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-002
     title: Implement automatic db rebuild after YAML changes
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-003
     title: Add CLI command to force db resync
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-004
     title: Add integration test for YAML-DB sync
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-005
     title: Investigate is_dirty column in schema history
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-006
     title: Update pre-commit hook to use correct schema
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-007
     title: Add database migration script for schema updates
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-008
     title: Test pre-commit hook with fresh database
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-009
     title: Update db_rebuild_cmd to load from ULID files
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-010
     title: Update sql_loader init to iterate tracks/*.yaml
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-011
     title: Add progress reporting during rebuild
     status: completed
+    task_type: development
+    gate_info: null
   - id: dogfooding-bugs-03-task-012
     title: Add integration test for database rebuild
     status: completed
-  dependencies: []
+    task_type: development
+    gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: dogfooding-bugs-02
     blocker_type: sprint
     required_status: completed
     current_status: not_started
-    description: Requires dogfooding-bugs-02 to be completed first
-    status: pending
+    blocks_transition_to: completed
     last_checked: null
+  depended_on_by: []
+  plan_file: null
   deliverables: []
+  description: Fix SQLite database backend to properly sync with YAML files. Update
+    schema, fix rebuild command, and ensure pre-commit hook works.
+  goal: SQLite backend works correctly with ULID file system
+  success_criteria:
+  - Database rebuild loads all 39 tracks, 213 sprints, 1125 tasks
+  - Pre-commit hook runs without is_dirty error
+  - Database stays in sync with YAML changes
   risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
   metadata:
-    bugs_addressed:
-    - 5
-    - 9
-    - 11
-    priority: high
-    consolidated_from:
-    - 'Bug #5'
-    - 'Bug #9'
-    - 'Bug #11'
-  slug: dogfooding-bugs-03
-  parent_ref: 01KC39XSXJ39N12HWJ93F77KQ9
-  criteria: []
-  sequence: 3
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

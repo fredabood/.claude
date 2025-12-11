@@ -4,6 +4,7 @@ sprint:
   track_id: windsurf-port
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-11-22T00:00:00+00:00'
   started: null
@@ -21,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   tasks:
   - id: windsurf-port-2-task-001
     title: Advanced Cascade integration
@@ -53,6 +54,8 @@ sprint:
     status: not_started
     task_type: development
     gate_info: null
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on:
   - blocker_id: unknown
@@ -61,6 +64,7 @@ sprint:
     current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -69,6 +73,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -78,15 +83,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: windsurf-port-2
-  parent_ref: 01KC2D0JKY8WC5NT15KN5SW9YE
-  criteria:
-  - id: dep-001
-    description: Depends on unknown
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unknown
-      required_status: resolved
-  sequence: 2

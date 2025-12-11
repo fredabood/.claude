@@ -2,7 +2,8 @@ track:
   id: 01KC2D0JK8CHXNPPB2V3M632BK
   name: Critical Infrastructure Fixes
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
+  blocked: false
   priority: critical
   created: '2025-11-10T10:00:00+00:00'
   started: null
@@ -10,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 2
-    sprints_completed: 1
+    sprints_completed: 2
     tasks_total: 20
     tasks_completed: 20
-    completion_percent: 100.0
+    completion_percent: 100
   sprints:
   - id: infrastructure-fixes-1
     name: Critical Infrastructure Fixes
@@ -23,13 +24,16 @@ track:
     started: null
   - id: infrastructure-fixes-2
     name: CLI/MCP Integration & Quality Gates
-    status: completed
+    status: production_ready
     estimated_duration: null
     tasks_count: 7
     started: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
+  quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
@@ -41,5 +45,3 @@ track:
     design_doc: null
     implementation_plan: null
     notes: null
-  slug: infrastructure-fixes
-  criteria: []

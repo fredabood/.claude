@@ -1,0 +1,32 @@
+task:
+  id: 01KC2D0JK2A3KNMQVJDACN1X95
+  sprint_id: 01KC2D0JK2A3KNMQVJDACN1X8Y
+  track_id: 01KC2D0JK2A3KNMQVJDACN1X8X
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement vibey deploy --platform <name> command
+  description: null
+  status: completed
+  blocked: false
+  created: '2025-11-08T00:00:00+00:00'
+  started: null
+  completed: '2025-11-08T00:00:00+00:00'
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

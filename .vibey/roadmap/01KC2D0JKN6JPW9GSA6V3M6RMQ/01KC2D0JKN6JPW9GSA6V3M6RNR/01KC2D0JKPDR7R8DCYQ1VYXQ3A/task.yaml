@@ -1,0 +1,51 @@
+task:
+  id: 01KC2D0JKPDR7R8DCYQ1VYXQ3A
+  sprint_id: 01KC2D0JKN6JPW9GSA6V3M6RNR
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Update sql_loader to load criteria from database
+  description: "Update sql_loader.py to load criteria from the criteria and criterion_targets\
+    \ tables.\n\nREQUIREMENTS:\n1. Query criteria table joined with criterion_targets\n\
+    2. Reconstruct Criterion objects with appropriate CriterionTarget\n3. Attach criteria\
+    \ to loaded Task/Sprint/Track objects\n4. Handle polymorphic target types based\
+    \ on target_type column\n\nQUERY PATTERN:\n```sql\nSELECT c.*, ct.*\nFROM criteria\
+    \ c\nLEFT JOIN criterion_targets ct ON c.id = ct.criterion_id\nWHERE c.completable_id\
+    \ = ?\n```\n\nIMPLEMENTATION:\n```python\ndef _load_criteria_for_ticket(ticket_id:\
+    \ str, conn) -> List[Criterion]:\n    rows = conn.execute(CRITERIA_QUERY, (ticket_id,)).fetchall()\n\
+    \    criteria = []\n    for row in rows:\n        target = _build_target_from_row(row)\n\
+    \        criteria.append(Criterion(\n            id=row['id'],\n            description=row['description'],\n\
+    \            blocks_transition_to=TicketStatus(row['blocks_transition_to']),\n\
+    \            target=target,\n            required=bool(row['required']),\n   \
+    \     ))\n    return criteria\n```\n\nREFERENCE:\n- vibey/roadmap/serialization/sql_loader.py\
+    \ (current loader)\n- sqlite-backend-6/context/architecture/05-DATABASE-SCHEMA.md\n"
+  status: completed
+  blocked: true
+  created: '2025-12-05T00:00:00+00:00'
+  started: null
+  completed: '2025-12-06T15:29:00.440942+00:00'
+  assigned_agent: null
+  priority: critical
+  phase_label: serialization
+  estimated_tokens: 40000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

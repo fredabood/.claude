@@ -1,0 +1,95 @@
+sprint:
+  id: 01KC3AD75P4TW2MAWDWJC4YCMB
+  name: 'Sprint 1: CLI Startup Unblock'
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-10T05:05:41.041645+00:00'
+  started: '2025-12-10T06:00:00+00:00'
+  completion_gate_check_at: null
+  completed: '2025-12-10T07:30:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  tasks:
+  - id: 01KC3AD75SAPKHVA1R1F0RBB40
+    title: Implement lazy imports in orm.py
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD75VX5EJWH19CVWB4QV2
+    title: Move ORM imports behind try/except ImportError
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD75YMRYQQ08CHRF8JBR2
+    title: Add SQLAlchemy to optional dependencies in pyproject.toml
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD760TETBT0AGQW659GNW
+    title: Add test for CLI without SQLAlchemy installed
+    status: completed
+    task_type: testing
+    gate_info: null
+  - id: 01KC3AD763XV7RAPQH6G0BDNVB
+    title: Update load_roadmap to use .get('blocked', False)
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD765Q48Q9S2Y5BST15YM
+    title: Update load_track for backward compatibility
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD7676MS1JZ8DD5DEJDEP
+    title: Update load_sprint for backward compatibility
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD76A4TP1DNGA96TK4694
+    title: Update load_task for backward compatibility
+    status: completed
+    task_type: development
+    gate_info: null
+  - id: 01KC3AD76C6BTCB8MRZGHZZM13
+    title: Add migration test for v1 to v2 loading
+    status: completed
+    task_type: testing
+    gate_info: null
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Fix critical import and schema issues blocking CLI startup. SQLAlchemy
+    must be optional, and YAML loader must handle v2 format without 'blocked' field.
+  goal: Make CLI commands executable without errors
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

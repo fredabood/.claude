@@ -1,0 +1,38 @@
+task:
+  id: 01KC4ZWAGDKBH0NK3X0SDN6YXV
+  sprint_id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Task 006: Update/Remove migrate_to_hierarchical.py'
+  description: >-
+    The migrate_to_hierarchical.py module is now obsolete since we're
+    using flat structure. Options:
+    1. Delete the module entirely
+    2. Rename to migrate_to_flat.py with inverse functionality
+    3. Keep as archive with deprecation warning
+    Also update any CLI commands that reference this migration.
+    Remove migrate_to_hierarchical_cmd from commands.py.
+  status: not_started
+  created: '2025-12-10T20:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1500
+  actual_tokens: null
+  complexity: low
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on:
+    - 01KC4ZWAGDKBH0NK3X0SDN6YXQ
+  deliverables:
+    - Removed or updated migration module
+    - Updated CLI commands
+  commits: []
+  metadata:
+    bug_number: 19
+    file: vibey/operations/migrations/to_hierarchical.py

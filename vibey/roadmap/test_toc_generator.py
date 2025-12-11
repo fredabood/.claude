@@ -84,11 +84,14 @@ class TestTOCGeneration(unittest.TestCase):
 
     def test_generate_track_toc(self):
         """Track TOC is generated correctly."""
-        # Create track directory and YAML
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tracks_dir.mkdir(parents=True)
+        sprints_dir.mkdir(parents=True)
 
-        track_yaml = track_dir / "track-1.yaml"
+        # Create track YAML in flat structure
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -107,11 +110,8 @@ class TestTOCGeneration(unittest.TestCase):
         with open(track_yaml, 'w') as f:
             yaml.dump(track_data, f)
 
-        # Create sprint directories
-        sprint1_dir = track_dir / "sprint-1"
-        sprint1_dir.mkdir()
-
-        sprint1_yaml = sprint1_dir / "sprint-1.yaml"
+        # Create sprint YAML in flat structure
+        sprint1_yaml = sprints_dir / "sprint-1.yaml"
         sprint1_data = {
             'sprint': {
                 'id': 'sprint-1',
@@ -140,25 +140,20 @@ class TestTOCGeneration(unittest.TestCase):
 
     def test_generate_sprint_toc(self):
         """Sprint TOC is generated correctly."""
-        # Create track and sprint structure
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        sprints_dir = self.roadmap_root / "sprints"
+        tasks_dir = self.roadmap_root / "tasks"
+        sprints_dir.mkdir(parents=True)
+        tasks_dir.mkdir(parents=True)
 
-        sprint_dir = track_dir / "sprint-1"
-        sprint_dir.mkdir()
-
-        sprint_yaml = sprint_dir / "sprint-1.yaml"
+        # Create sprint YAML in flat structure
+        sprint_yaml = sprints_dir / "sprint-1.yaml"
         sprint_data = {
             'sprint': {
                 'id': 'sprint-1',
                 'name': 'Sprint One',
                 'track_id': 'track-1',
                 'status': 'in_progress',
-                'tasks': [
-                    {'id': 'task-001', 'name': 'Task One', 'status': 'completed'},
-                    {'id': 'task-002', 'name': 'Task Two', 'status': 'in_progress'},
-                    {'id': 'task-003', 'name': 'Task Three', 'status': 'not_started'}
-                ],
                 'progress': {
                     'tasks_total': 3,
                     'tasks_completed': 1
@@ -168,6 +163,18 @@ class TestTOCGeneration(unittest.TestCase):
 
         with open(sprint_yaml, 'w') as f:
             yaml.dump(sprint_data, f)
+
+        # Create task files in flat structure
+        task_data_list = [
+            {'id': 'task-001', 'title': 'Task One', 'status': 'completed', 'sprint_id': 'sprint-1'},
+            {'id': 'task-002', 'title': 'Task Two', 'status': 'in_progress', 'sprint_id': 'sprint-1'},
+            {'id': 'task-003', 'title': 'Task Three', 'status': 'not_started', 'sprint_id': 'sprint-1'}
+        ]
+
+        for task in task_data_list:
+            task_yaml = tasks_dir / f"{task['id']}.yaml"
+            with open(task_yaml, 'w') as f:
+                yaml.dump({'task': task}, f)
 
         # Generate TOC
         toc = self.gen.generate_sprint_toc('track-1', 'sprint-1')
@@ -209,18 +216,20 @@ class TestContextDiscovery(unittest.TestCase):
 
     def test_discover_context_files_with_files(self):
         """Context files are discovered correctly."""
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        tracks_dir.mkdir(parents=True)
 
-        context_dir = track_dir / "context"
-        context_dir.mkdir()
+        # Create context directory for track
+        context_dir = self.roadmap_root / "context" / "tracks" / "track-1"
+        context_dir.mkdir(parents=True)
 
         # Create context files
         (context_dir / "design.md").write_text("Design doc")
         (context_dir / "architecture.md").write_text("Architecture doc")
 
-        # Create track YAML
-        track_yaml = track_dir / "track-1.yaml"
+        # Create track YAML in flat structure
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -260,10 +269,12 @@ class TestContextDiscovery(unittest.TestCase):
 
     def test_context_none_when_no_directory(self):
         """Context is None when directory doesn't exist."""
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        tracks_dir.mkdir(parents=True)
 
-        track_yaml = track_dir / "track-1.yaml"
+        # Create track YAML in flat structure (no context dir)
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -372,10 +383,11 @@ class TestJSONOutput(unittest.TestCase):
 
     def test_metadata_excludes_none_values(self):
         """Metadata excludes None values from JSON."""
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        tracks_dir.mkdir(parents=True)
 
-        track_yaml = track_dir / "track-1.yaml"
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -394,7 +406,7 @@ class TestJSONOutput(unittest.TestCase):
 
         toc = self.gen.generate_track_toc('track-1')
 
-        output_path = track_dir / "table_of_contents.json"
+        output_path = tracks_dir / "table_of_contents.json"
         self.gen.save_toc(toc, str(output_path))
 
         with open(output_path, 'r') as f:
@@ -459,11 +471,13 @@ class TestPerformance(unittest.TestCase):
 
     def test_track_toc_fast_generation(self):
         """Track TOC generates in <100ms."""
-        # Create track with many sprints
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tracks_dir.mkdir(parents=True)
+        sprints_dir.mkdir(parents=True)
 
-        track_yaml = track_dir / "track-1.yaml"
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -479,12 +493,9 @@ class TestPerformance(unittest.TestCase):
         with open(track_yaml, 'w') as f:
             yaml.dump(track_data, f)
 
-        # Create multiple sprint directories
+        # Create multiple sprint files in flat structure
         for i in range(10):
-            sprint_dir = track_dir / f"sprint-{i}"
-            sprint_dir.mkdir()
-
-            sprint_yaml = sprint_dir / f"sprint-{i}.yaml"
+            sprint_yaml = sprints_dir / f"sprint-{i}.yaml"
             sprint_data = {
                 'sprint': {
                     'id': f'sprint-{i}',
@@ -584,10 +595,13 @@ class TestEdgeCases(unittest.TestCase):
 
     def test_track_with_no_sprints(self):
         """Track with no sprints generates valid TOC."""
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tracks_dir.mkdir(parents=True)
+        sprints_dir.mkdir(parents=True)
 
-        track_yaml = track_dir / "track-1.yaml"
+        track_yaml = tracks_dir / "track-1.yaml"
         track_data = {
             'track': {
                 'id': 'track-1',
@@ -609,13 +623,11 @@ class TestEdgeCases(unittest.TestCase):
 
     def test_sprint_with_no_tasks(self):
         """Sprint with no tasks generates valid TOC."""
-        track_dir = self.roadmap_root / "track-1"
-        track_dir.mkdir(parents=True)
+        # Create flat structure directories
+        sprints_dir = self.roadmap_root / "sprints"
+        sprints_dir.mkdir(parents=True)
 
-        sprint_dir = track_dir / "sprint-1"
-        sprint_dir.mkdir()
-
-        sprint_yaml = sprint_dir / "sprint-1.yaml"
+        sprint_yaml = sprints_dir / "sprint-1.yaml"
         sprint_data = {
             'sprint': {
                 'id': 'sprint-1',

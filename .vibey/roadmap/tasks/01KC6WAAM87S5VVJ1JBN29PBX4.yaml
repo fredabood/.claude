@@ -12,10 +12,10 @@ task:
     - test_directory_manager.py - Tests DirectoryManager (slug-based)
     Tests should either be updated to test flat structure, or marked as
     legacy/deprecated tests for slug-based context directories.
-  status: not_started
+  status: completed
   created: '2025-12-11T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T23:30:00+00:00'
+  completed: '2025-12-11T23:50:00+00:00'
   assigned_agent: null
   priority: low
   phase_label: null

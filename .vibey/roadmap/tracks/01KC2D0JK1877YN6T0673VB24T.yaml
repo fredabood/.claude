@@ -2,7 +2,7 @@ track:
   id: 01KC2D0JK1877YN6T0673VB24T
   name: Claude Code Platform Validation
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-11-10T03:30:00+00:00'

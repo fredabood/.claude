@@ -208,10 +208,10 @@ def check_task_compatibility(
 
 def load_sprint_tasks(sprint_id: str, project_root: Optional[Path] = None) -> Tuple[Dict, List[Dict]]:
     """
-    Load sprint and its tasks from the roadmap.
+    Load sprint and its tasks from the roadmap using flat ULID structure.
 
     Args:
-        sprint_id: Sprint identifier.
+        sprint_id: Sprint identifier (ULID).
         project_root: Project root directory.
 
     Returns:
@@ -222,37 +222,48 @@ def load_sprint_tasks(sprint_id: str, project_root: Optional[Path] = None) -> Tu
 
     roadmap_root = project_root / ".vibey" / "roadmap"
 
-    # Find the sprint file - need to search in track directories
-    sprint_file = None
-    sprint_dir = None
+    # Direct lookup in flat sprints/ directory
+    sprint_file = roadmap_root / "sprints" / f"{sprint_id}.yaml"
 
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir():
-            continue
-        potential_sprint_dir = track_dir / sprint_id
-        if potential_sprint_dir.exists():
-            sprint_file = potential_sprint_dir / "sprint.yaml"
-            sprint_dir = potential_sprint_dir
-            break
+    if not sprint_file.exists():
+        # Fallback: scan sprints directory for matching ID in YAML content
+        sprints_dir = roadmap_root / "sprints"
+        if sprints_dir.exists():
+            for candidate in sprints_dir.glob("*.yaml"):
+                if candidate.name.startswith('.'):
+                    continue
+                try:
+                    with open(candidate) as f:
+                        data = yaml.safe_load(f)
+                    if data and 'sprint' in data:
+                        if data['sprint'].get('id') == sprint_id:
+                            sprint_file = candidate
+                            break
+                except Exception:
+                    continue
 
-    if not sprint_file or not sprint_file.exists():
+    if not sprint_file.exists():
         raise FileNotFoundError(f"Sprint not found: {sprint_id}")
 
     # Load sprint data
     with open(sprint_file) as f:
         sprint_data = yaml.safe_load(f)
 
-    # Load task files
+    # Load tasks from flat tasks/ directory, filtered by sprint_id
     tasks = []
-    if sprint_dir:
-        for task_dir in sorted(sprint_dir.iterdir()):
-            if not task_dir.is_dir():
+    tasks_dir = roadmap_root / "tasks"
+    if tasks_dir.exists():
+        for task_file in sorted(tasks_dir.glob("*.yaml")):
+            if task_file.name.startswith('.'):
                 continue
-            task_file = task_dir / "task.yaml"
-            if task_file.exists():
+            try:
                 with open(task_file) as f:
                     task_data = yaml.safe_load(f)
-                    tasks.append(task_data)
+                if task_data and 'task' in task_data:
+                    if task_data['task'].get('sprint_id') == sprint_id:
+                        tasks.append(task_data)
+            except Exception:
+                continue
 
     return sprint_data, tasks
 

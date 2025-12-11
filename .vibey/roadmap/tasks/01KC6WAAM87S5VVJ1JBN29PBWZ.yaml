@@ -14,10 +14,10 @@ task:
     - Line 2709: sprint_yaml = sprint_dir / "sprint.yaml"
     - Line 3023: sprint_dir = roadmap_dir / track_id / sprint_id
     Migrate to flat paths: tracks/{id}.yaml, sprints/{id}.yaml
-  status: not_started
+  status: completed
   created: '2025-12-11T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T22:00:00+00:00'
+  completed: '2025-12-11T22:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

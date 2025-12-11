@@ -2649,199 +2649,18 @@ def _load_roadmap_to_db(conn, roadmap, vibey_dir: Path):
         conn=conn,
     )
 
-    # Detect structure type
+    # Flat structure is now required (tracks/, sprints/, tasks/ directories)
     tracks_dir = roadmap_dir / "tracks"
     if tracks_dir.is_dir():
         # ULID flat structure - iterate flat directories
         return _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_create_sprint, db_create_task, load_track, load_sprint, load_task)
 
-    # Legacy nested structure - use roadmap.tracks to iterate
-    loaded_tracks = 0
-    loaded_sprints = 0
-    loaded_tasks = 0
-    skipped_tracks = 0
-    skipped_sprints = 0
-    skipped_tasks = 0
-
-    for track_summary in roadmap.tracks:
-        track_dir = roadmap_dir / track_summary.id
-        track_yaml = track_dir / "track.yaml"
-
-        if not track_yaml.exists():
-            continue
-
-        try:
-            track = load_track(track_yaml)
-        except (KeyError, ValueError, AttributeError, TypeError) as e:
-            skipped_tracks += 1
-            continue
-
-        try:
-            track_status = track.status.value if hasattr(track.status, 'value') else str(track.status)
-            db_create_track(
-                id=track.id,
-                roadmap_id=roadmap.id,
-                name=track.name,
-                status=_normalize_status(track_status),
-                blocked=track.blocked,
-                priority=track.priority.value if hasattr(track, 'priority') and track.priority else 'medium',
-                created=track.created or now,
-                conn=conn,
-            )
-            loaded_tracks += 1
-        except Exception as e:
-            skipped_tracks += 1
-            continue
-
-        # Load sprints for this track
-        for sprint_summary in track.sprints:
-            sprint_dir = track_dir / sprint_summary.id
-            sprint_yaml = sprint_dir / "sprint.yaml"
-
-            if not sprint_yaml.exists():
-                continue
-
-            try:
-                sprint = load_sprint(sprint_yaml)
-            except (KeyError, ValueError, AttributeError, TypeError) as e:
-                skipped_sprints += 1
-                continue
-
-            sprint_status = sprint.status.value if hasattr(sprint.status, 'value') else str(sprint.status)
-
-            # Build metadata dict for sprint
-            sprint_metadata = None
-            if sprint.metadata:
-                sprint_metadata = {
-                    'last_updated': sprint.metadata.last_updated.isoformat() if sprint.metadata.last_updated else None,
-                    'estimated_duration': sprint.metadata.estimated_duration,
-                    'actual_duration': sprint.metadata.actual_duration,
-                    'estimated_tokens': sprint.metadata.estimated_tokens,
-                    'actual_tokens': sprint.metadata.actual_tokens,
-                }
-
-            # Convert deliverables to list of dicts if they're strings
-            deliverables_list = None
-            if sprint.deliverables:
-                deliverables_list = [{'name': d} if isinstance(d, str) else d for d in sprint.deliverables]
-
-            # Convert quality gates to dicts
-            quality_gates_list = None
-            if sprint.quality_gates:
-                quality_gates_list = []
-                for qg in sprint.quality_gates:
-                    if hasattr(qg, '__dict__'):
-                        quality_gates_list.append({
-                            'name': getattr(qg, 'name', ''),
-                            'threshold': getattr(qg, 'threshold', 0),
-                            'blocking': getattr(qg, 'blocking', True),
-                            'status': str(getattr(qg, 'status', 'pending')),
-                        })
-                    elif isinstance(qg, dict):
-                        quality_gates_list.append(qg)
-
-            db_create_sprint(
-                id=sprint.id,
-                track_id=track.id,
-                roadmap_id=roadmap.id,
-                name=sprint.name,
-                status=_normalize_status(sprint_status),
-                blocked=sprint.blocked,
-                created=sprint.created or now,
-                started=sprint.started,
-                completed=sprint.completed,
-                plan_file=sprint.plan_file,
-                description=sprint.description,
-                goal=sprint.goal,
-                estimated_duration=sprint.metadata.estimated_duration if sprint.metadata else None,
-                notes=sprint.notes,
-                success_criteria=sprint.success_criteria if sprint.success_criteria else None,
-                risks=sprint.risks if sprint.risks else None,
-                deliverables=deliverables_list,
-                quality_gates=quality_gates_list,
-                metadata=sprint_metadata,
-                conn=conn,
-            )
-            loaded_sprints += 1
-
-            # Load tasks for this sprint
-            for task_dir_entry in sprint_dir.iterdir():
-                if not task_dir_entry.is_dir():
-                    continue
-
-                task_yaml = task_dir_entry / "task.yaml"
-                if not task_yaml.exists():
-                    continue
-
-                try:
-                    task = load_task(task_yaml)
-                except (KeyError, ValueError, AttributeError, TypeError) as e:
-                    skipped_tasks += 1
-                    continue
-
-                try:
-                    task_status = task.status.value if hasattr(task.status, 'value') else str(task.status)
-                    # Build gate_info dict if present
-                    gate_info_dict = None
-                    if task.gate_info:
-                        gate_info_dict = {
-                            'blocks_status': task.gate_info.blocks_status,
-                            'threshold': task.gate_info.threshold,
-                            'is_blocking': task.gate_info.is_blocking,
-                            'score': getattr(task.gate_info, 'score', None),
-                        }
-                    # Build audit_results dict if present
-                    audit_results_dict = None
-                    if task.audit_results:
-                        audit_results_dict = {
-                            'issues_found': task.audit_results.issues_found,
-                            'issues_fixed': task.audit_results.issues_fixed,
-                            'recommendations': task.audit_results.recommendations,
-                        }
-                    # Build metadata dict
-                    metadata_dict = None
-                    if task.metadata:
-                        metadata_dict = {
-                            'last_updated': task.metadata.last_updated.isoformat() if hasattr(task.metadata, 'last_updated') and task.metadata.last_updated else None,
-                            'token_efficiency': task.metadata.token_efficiency if hasattr(task.metadata, 'token_efficiency') else None,
-                            'duration_hours': task.metadata.duration_hours if hasattr(task.metadata, 'duration_hours') else None,
-                        }
-                    db_create_task(
-                        id=task.id,
-                        sprint_id=sprint.id,
-                        track_id=track.id,
-                        roadmap_id=roadmap.id,
-                        task_type=task.task_type.value if hasattr(task.task_type, 'value') else str(task.task_type),
-                        title=task.title,
-                        description=task.description,
-                        status=_normalize_status(task_status),
-                        blocked=task.blocked,
-                        priority=task.priority.value if hasattr(task, 'priority') and task.priority else 'medium',
-                        created=task.created or now,
-                        started=task.started,
-                        completed=task.completed,
-                        assigned_agent=task.assigned_agent,
-                        phase_label=task.phase_label,
-                        estimated_tokens=task.estimated_tokens,
-                        actual_tokens=task.actual_tokens,
-                        complexity=task.complexity.value if hasattr(task.complexity, 'value') else None,
-                        gate_info=gate_info_dict,
-                        audit_results=audit_results_dict,
-                        metadata=metadata_dict,
-                        conn=conn,
-                    )
-                    loaded_tasks += 1
-                except Exception as e:
-                    skipped_tasks += 1
-                    continue
-
-    # Print summary
-    total_skipped = skipped_tracks + skipped_sprints + skipped_tasks
-    if total_skipped > 0:
-        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
-        print(f"   Skipped {skipped_tracks} tracks, {skipped_sprints} sprints, {skipped_tasks} tasks (validation errors)")
-    else:
-        print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
+    # Flat structure not found - error
+    raise ValueError(
+        f"Flat structure directories not found at {roadmap_dir}. "
+        "Expected tracks/, sprints/, tasks/ directories. "
+        "Run 'vibey roadmap validate-structure' to check your roadmap structure."
+    )
 
 
 def db_rebuild_cmd(force: bool = False) -> int:
@@ -2991,13 +2810,13 @@ def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:
         for track in tracks:
             sync.yaml_backend.save_track(track)
             if verbose:
-                print(f"   ✓ Saved {track.id}/track.yaml")
+                print(f"   ✓ Saved tracks/{track.id}.yaml")
 
         # Save sprints
         for sprint in sprints:
             sync.yaml_backend.save_sprint(sprint)
             if verbose:
-                print(f"   ✓ Saved {sprint.track_id}/{sprint.id}/sprint.yaml")
+                print(f"   ✓ Saved sprints/{sprint.id}.yaml")
 
         # Save tasks (grouped by sprint)
         tasks_by_sprint = {}
@@ -3007,13 +2826,10 @@ def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:
             tasks_by_sprint[task.sprint_id].append(task)
 
         for sprint_id, sprint_tasks in tasks_by_sprint.items():
-            # Find the track_id for this sprint
             if sprint_tasks:
-                track_id = sprint_tasks[0].track_id
-                sprint_dir = roadmap_dir / track_id / sprint_id
                 sync.yaml_backend.save_tasks(sprint_tasks)
                 if verbose:
-                    print(f"   ✓ Saved {len(sprint_tasks)} tasks in {sprint_id}")
+                    print(f"   ✓ Saved {len(sprint_tasks)} tasks in tasks/{sprint_id}*.yaml")
 
         # Update checksums and mark clean
         if verbose:

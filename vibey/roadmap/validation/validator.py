@@ -266,7 +266,7 @@ class Validator:
             "blocked",
             "created",
             "progress",
-            "tasks",
+            # NOTE: "tasks" removed - tasks are now standalone files in tasks/*.yaml
             "development_gates",
             "blocks",
             "blocked_by",
@@ -276,31 +276,19 @@ class Validator:
             if field not in sprint:
                 self.errors.append(f"Missing required field: {field}")
 
-        # Validate sprint ID is track-scoped
+        # Validate sprint ID is track-scoped (only for slug-based IDs, not ULIDs)
         if "id" in sprint and "track_id" in sprint:
-            if not sprint["id"].startswith(f"{sprint['track_id']}-"):
-                self.errors.append(f"Sprint ID {sprint['id']} must start with track ID {sprint['track_id']}")
-
-        # Validate task IDs are sprint-scoped
-        if "id" in sprint and "tasks" in sprint:
             sprint_id = sprint["id"]
-            for task in sprint["tasks"]:
-                if "id" in task:
-                    if not task["id"].startswith(f"{sprint_id}-"):
-                        self.errors.append(f"Task ID {task['id']} must start with sprint ID {sprint_id}")
+            track_id = sprint["track_id"]
+            # Only validate slug-based IDs, not ULIDs (26 alphanumeric chars)
+            if not (len(sprint_id) == 26 and sprint_id.isalnum()):
+                if not sprint_id.startswith(f"{track_id}-"):
+                    self.errors.append(f"Sprint ID {sprint_id} must start with track ID {track_id}")
 
-        # Validate gate tasks have gate_info
-        if "tasks" in sprint:
-            for task in sprint["tasks"]:
-                task_type = task.get("task_type")
-                gate_info = task.get("gate_info")
-
-                if task_type in ["completion_gate", "production_gate"]:
-                    if not gate_info:
-                        self.errors.append(f"Gate task {task.get('id')} must have gate_info")
-                elif task_type == "development":
-                    if gate_info:
-                        self.errors.append(f"Development task {task.get('id')} cannot have gate_info")
+        # NOTE: Embedded tasks validation removed.
+        # Tasks are now stored as standalone files in tasks/*.yaml.
+        # Task validation is done separately via validate_task() for individual task files.
+        # Legacy embedded sprint.tasks[] arrays are DEPRECATED.
 
         # Validate progress totals
         if "progress" in sprint:

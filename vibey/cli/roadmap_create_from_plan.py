@@ -243,17 +243,24 @@ def _get_next_sprint_sequence(track_ulid: str, roadmap_root: Path) -> int:
 
 
 def _update_sprint_tasks(sprint_yaml: Path, task_summaries: List[Dict]):
-    """Update sprint YAML with task summaries."""
+    """Update sprint YAML progress after creating tasks.
+
+    NOTE: Tasks are stored as standalone files in tasks/{ulid}.yaml.
+    This function only updates the sprint's progress count.
+    Embedded tasks in sprint.tasks[] arrays are DEPRECATED.
+    """
     import yaml
 
     with open(sprint_yaml, 'r') as f:
         data = yaml.safe_load(f)
 
-    data['sprint']['tasks'] = task_summaries
+    # Update progress counts only (do NOT add embedded tasks array)
     data['sprint']['progress'] = {
         'tasks_total': len(task_summaries),
         'tasks_completed': 0,
-        'completion_percent': 0
+        'completion_percent': 0,
+        'development_tasks_total': len(task_summaries),
+        'development_tasks_completed': 0,
     }
 
     with open(sprint_yaml, 'w') as f:

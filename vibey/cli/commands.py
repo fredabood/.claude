@@ -551,11 +551,26 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
         if not sprint_path.exists():
             raise FileNotFoundError(f"Sprint not found: {sprint_id}")
 
-        # Load sprint to get task count and track info
+        # Load sprint to get track info
         from vibey.roadmap.serialization.yaml_loader import load_sprint
         sprint = load_sprint(sprint_path)
-        sequence = len(sprint.tasks) + 1
         track_id = sprint.track_id
+
+        # Count tasks from standalone files for sequence number
+        tasks_dir = fs.roadmap_root / "tasks"
+        task_count = 0
+        if tasks_dir.exists():
+            import yaml as yaml_mod
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file, 'r') as tf:
+                        task_data = yaml_mod.safe_load(tf)
+                    task_info = task_data.get('task', {})
+                    if task_info.get('sprint_id') == resolved_sprint_id:
+                        task_count += 1
+                except Exception:
+                    continue
+        sequence = task_count + 1
 
         # Generate slug (Sprint model doesn't have a slug attribute, so we look it up)
         sprint_slug = _get_slug_for_ulid("sprint", resolved_sprint_id, root_dir)
@@ -620,9 +635,13 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
 
 
 def _add_task_to_sprint(fs, sprint_ulid: str, task_ulid: str, task_title: str, task_slug: str):
-    """Add a task reference to the sprint YAML file."""
+    """Update sprint progress after adding a task (standalone file).
+
+    NOTE: Tasks are stored as standalone files in tasks/{ulid}.yaml.
+    This function only updates the sprint's progress count.
+    Embedded tasks in sprint.tasks[] arrays are DEPRECATED.
+    """
     import yaml
-    from vibey.roadmap.models.common import Status
 
     sprint_path = fs.roadmap_root / "sprints" / f"{sprint_ulid}.yaml"
 
@@ -630,26 +649,28 @@ def _add_task_to_sprint(fs, sprint_ulid: str, task_ulid: str, task_title: str, t
     with open(sprint_path, 'r') as f:
         data = yaml.safe_load(f)
 
-    # Add task to tasks list
     if 'sprint' not in data:
         data['sprint'] = {}
 
-    if 'tasks' not in data['sprint']:
-        data['sprint']['tasks'] = []
+    # Count standalone tasks for this sprint
+    tasks_dir = fs.roadmap_root / "tasks"
+    task_count = 0
+    if tasks_dir.exists():
+        for task_file in tasks_dir.glob("*.yaml"):
+            try:
+                with open(task_file, 'r') as f:
+                    task_data = yaml.safe_load(f)
+                task_info = task_data.get('task', {})
+                if task_info.get('sprint_id') == sprint_ulid:
+                    task_count += 1
+            except Exception:
+                continue
 
-    # Create task summary entry
-    task_entry = {
-        'id': task_slug,
-        'title': task_title,
-        'status': Status.NOT_STARTED.value
-    }
-
-    data['sprint']['tasks'].append(task_entry)
-
-    # Update progress counts
+    # Update progress counts (do NOT add embedded tasks array)
     if 'progress' not in data['sprint']:
         data['sprint']['progress'] = {}
-    data['sprint']['progress']['tasks_total'] = len(data['sprint']['tasks'])
+    data['sprint']['progress']['tasks_total'] = task_count
+    data['sprint']['progress']['development_tasks_total'] = task_count
 
     # Write back
     with open(sprint_path, 'w') as f:

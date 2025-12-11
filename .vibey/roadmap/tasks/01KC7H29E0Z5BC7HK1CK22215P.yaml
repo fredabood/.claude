@@ -6,17 +6,15 @@ task:
   task_type: development
   title: Update formatters.py
   description: |
-    Update formatters.py to query standalone task files instead of
-    reading sprint['tasks'].
-
-    Changes at line 86:
-    - Replace: tasks = sprint.get('tasks', [])
-    - With: query from standalone files
-  status: not_started
+    Verified formatters.py does not need changes - it's a presentation layer
+    that formats data already loaded by the query layer. The sprint.get('tasks', [])
+    at line 86 reads from data already provided by query_track_details(), not
+    directly from YAML files. No embedded task access issues.
+  status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T20:00:00+00:00'
+  completed: '2025-12-11T20:05:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: implementation

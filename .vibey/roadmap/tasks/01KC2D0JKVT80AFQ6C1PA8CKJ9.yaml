@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJ9
-  sprint_id: unified-arch-3
-  track_id: unified-architecture-migration
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJ7
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create .id file format and parser
@@ -19,10 +19,10 @@ task:
     \ str) -> None:\n        ulid = self._mappings.pop(old_slug)\n        self._mappings[new_slug]\
     \ = ulid\n        self._save()\n```\n\nFILE LOCATIONS:\n- .vibey/roadmap/tracks/.id\n\
     - .vibey/roadmap/sprints/.id\n- .vibey/roadmap/tasks/.id\n"
-  status: not_started
+  status: completed
   created: '2025-12-07T15:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-10T04:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

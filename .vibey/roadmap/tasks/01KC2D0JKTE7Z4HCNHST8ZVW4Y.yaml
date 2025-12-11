@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKTE7Z4HCNHST8ZVW4Y
-  sprint_id: unified-arch-1
-  track_id: unified-architecture-migration
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Execute migration with validation

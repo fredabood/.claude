@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJ3
-  sprint_id: unified-arch-2
-  track_id: unified-architecture-migration
+  sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW50
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create schema migration script

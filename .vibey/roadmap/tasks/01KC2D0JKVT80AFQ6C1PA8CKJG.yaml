@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJG
-  sprint_id: unified-arch-4
-  track_id: unified-architecture-migration
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJD
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update yaml_loader for v2 format only
@@ -18,10 +18,10 @@ task:
     \        id=data['id'],\n        slug=data['slug'],\n        sequence=data['sequence'],\n\
     \        parent_ref=data['parent_ref'],\n        name=data['name'],\n        criteria=criteria,\n\
     \        ...\n    )\n```\n"
-  status: not_started
+  status: completed
   created: '2025-12-07T15:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-10T04:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

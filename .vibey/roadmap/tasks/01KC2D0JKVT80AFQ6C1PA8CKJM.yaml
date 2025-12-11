@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJM
-  sprint_id: unified-arch-5
-  track_id: unified-architecture-migration
+  sprint_id: 01KC2D0JKVT80AFQ6C1PA8CKJK
+  track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Migrate query operations to unified models
@@ -18,10 +18,10 @@ task:
     \ task.status.value,\n        'progress': task.progress.completion_percent,\n\
     \        'blocking_reasons': task.blocking_reasons,\n        'criteria': [c.model_dump()\
     \ for c in task.criteria],\n        ...\n    }\n```\n"
-  status: not_started
+  status: completed
   created: '2025-12-07T15:00:00+00:00'
   started: null
-  completed: null
+  completed: '2025-12-10T04:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

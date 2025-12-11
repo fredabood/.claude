@@ -742,12 +742,14 @@ def _save_single_task_file(task: Task, file_path: Path):
         for bb in task.blocked_by
     ]
 
-    # Add depends_on
+    # Add depends_on (handles both Dependency and DependencyStatus objects)
     task_data['depends_on'] = [
         {
-            'entity_type': d.entity_type.value,
-            'entity_id': d.entity_id,
-            'required_status': d.required_status.value,
+            'blocker_type': getattr(d, 'blocker_type', None) or getattr(d, 'entity_type', {}).value if hasattr(getattr(d, 'entity_type', None), 'value') else getattr(d, 'blocker_type', 'task'),
+            'blocker_id': getattr(d, 'blocker_id', None) or getattr(d, 'entity_id', ''),
+            'required_status': d.required_status if isinstance(d.required_status, str) else d.required_status.value if hasattr(d.required_status, 'value') else str(d.required_status),
+            'current_status': getattr(d, 'current_status', None),
+            'blocks_transition_to': getattr(d, 'blocks_transition_to', None),
         }
         for d in task.depends_on
     ]

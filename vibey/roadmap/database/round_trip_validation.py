@@ -109,7 +109,7 @@ def dump_database_to_yaml(
     Dump SQLite database contents to YAML files.
 
     This creates a full YAML roadmap structure from the database.
-    Uses hierarchical format (task: singular) to match original files.
+    Uses flat structure (tracks/, sprints/, tasks/ directories).
 
     Args:
         db_path: Path to SQLite database
@@ -119,51 +119,44 @@ def dump_database_to_yaml(
         load_roadmap,
         load_track,
         load_sprint,
-        load_tasks_by_sprint,
+        load_task,
     )
     from ..serialization.yaml_dumper import (
         save_roadmap,
         save_track,
         save_sprint,
-        save_tasks,
+        save_task,
     )
 
     # Load roadmap
     roadmap = load_roadmap()
 
-    # Create output directory
+    # Create output directory and flat structure subdirectories
     output_dir.mkdir(parents=True, exist_ok=True)
+    tracks_dir = output_dir / "tracks"
+    sprints_dir = output_dir / "sprints"
+    tasks_dir = output_dir / "tasks"
+    tracks_dir.mkdir(exist_ok=True)
+    sprints_dir.mkdir(exist_ok=True)
+    tasks_dir.mkdir(exist_ok=True)
 
     # Save roadmap.yaml
     save_roadmap(roadmap, output_dir / "roadmap.yaml")
 
-    # Process each track
+    # Dump tracks to flat structure
     for track_id in _get_track_ids(db_path):
         track = load_track(track_id)
+        save_track(track, tracks_dir / f"{track_id}.yaml")
 
-        # Create track directory
-        track_dir = output_dir / track_id
-        track_dir.mkdir(parents=True, exist_ok=True)
+    # Dump sprints to flat structure
+    for sprint_id in _get_all_sprint_ids(db_path):
+        sprint = load_sprint(sprint_id)
+        save_sprint(sprint, sprints_dir / f"{sprint_id}.yaml")
 
-        # Save track.yaml
-        save_track(track, track_dir / "track.yaml")
-
-        # Process each sprint
-        for sprint_id in _get_sprint_ids(db_path, track_id):
-            sprint = load_sprint(sprint_id)
-
-            # Create sprint directory
-            sprint_dir = track_dir / sprint_id
-            sprint_dir.mkdir(parents=True, exist_ok=True)
-
-            # Save sprint.yaml
-            save_sprint(sprint, sprint_dir / "sprint.yaml")
-
-            # Get tasks for sprint and save using hierarchical format
-            # Pass sprint_dir as directory so save_tasks uses _save_task_hierarchical
-            tasks = load_tasks_by_sprint(sprint_id)
-            if tasks:
-                save_tasks(tasks, sprint_dir)
+    # Dump tasks to flat structure
+    for task_id in _get_all_task_ids(db_path):
+        task = load_task(task_id)
+        save_task(task, tasks_dir / f"{task_id}.yaml")
 
 
 def _get_track_ids(db_path: Path) -> List[str]:
@@ -177,15 +170,23 @@ def _get_track_ids(db_path: Path) -> List[str]:
         conn.close()
 
 
-def _get_sprint_ids(db_path: Path, track_id: str) -> List[str]:
-    """Get all sprint IDs for a track from database."""
+def _get_all_sprint_ids(db_path: Path) -> List[str]:
+    """Get all sprint IDs from database."""
     import sqlite3
     conn = sqlite3.connect(str(db_path))
     try:
-        rows = conn.execute(
-            "SELECT id FROM sprints WHERE track_id = ? ORDER BY id",
-            (track_id,)
-        ).fetchall()
+        rows = conn.execute("SELECT id FROM sprints ORDER BY id").fetchall()
+        return [row[0] for row in rows]
+    finally:
+        conn.close()
+
+
+def _get_all_task_ids(db_path: Path) -> List[str]:
+    """Get all task IDs from database."""
+    import sqlite3
+    conn = sqlite3.connect(str(db_path))
+    try:
+        rows = conn.execute("SELECT id FROM tasks ORDER BY id").fetchall()
         return [row[0] for row in rows]
     finally:
         conn.close()
@@ -198,6 +199,8 @@ def compare_yaml_directories(
     """
     Compare two YAML directory trees and report differences.
 
+    Supports flat structure (tracks/, sprints/, tasks/ directories).
+
     Args:
         original_dir: Original YAML directory
         generated_dir: Generated YAML directory
@@ -207,18 +210,18 @@ def compare_yaml_directories(
     """
     differences = []
 
-    # Get all YAML files from both directories
+    # Get all YAML files from both directories (flat structure)
     original_files = set()
     for f in original_dir.rglob("*.yaml"):
         rel = f.relative_to(original_dir)
-        # Skip non-roadmap files
-        if rel.name in ['roadmap.yaml', 'track.yaml', 'sprint.yaml', 'task.yaml']:
+        # Accept roadmap.yaml and files in tracks/, sprints/, tasks/
+        if rel.name == 'roadmap.yaml' or str(rel.parent) in ['tracks', 'sprints', 'tasks']:
             original_files.add(str(rel))
 
     generated_files = set()
     for f in generated_dir.rglob("*.yaml"):
         rel = f.relative_to(generated_dir)
-        if rel.name in ['roadmap.yaml', 'track.yaml', 'sprint.yaml', 'task.yaml']:
+        if rel.name == 'roadmap.yaml' or str(rel.parent) in ['tracks', 'sprints', 'tasks']:
             generated_files.add(str(rel))
 
     # Check for missing files

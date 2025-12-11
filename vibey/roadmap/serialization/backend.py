@@ -155,83 +155,68 @@ class YAMLBackend:
         return load_roadmap(self.roadmap_dir / "roadmap.yaml")
 
     def load_track(self, track_id: str) -> Track:
-        """Load a track from YAML."""
+        """Load a track from YAML (flat structure)."""
         from .yaml_loader import load_track
-        return load_track(self.roadmap_dir / track_id / "track.yaml")
+        return load_track(self.roadmap_dir / "tracks" / f"{track_id}.yaml")
 
     def load_sprint(self, sprint_id: str) -> Sprint:
-        """Load a sprint from YAML."""
+        """Load a sprint from YAML (flat structure)."""
         from .yaml_loader import load_sprint
-
-        # Find the sprint file by searching track directories
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
-            sprint_dir = track_dir / sprint_id
-            if sprint_dir.exists():
-                return load_sprint(sprint_dir / "sprint.yaml")
-
+        sprint_path = self.roadmap_dir / "sprints" / f"{sprint_id}.yaml"
+        if sprint_path.exists():
+            return load_sprint(sprint_path)
         raise ValueError(f"Sprint '{sprint_id}' not found")
 
     def load_task(self, task_id: str) -> Task:
-        """Load a task from YAML."""
+        """Load a task from YAML (flat structure)."""
         from .yaml_loader import load_task
-
-        # Find the task file by searching
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir() or sprint_dir.name.startswith('.'):
-                    continue
-                task_dir = sprint_dir / task_id
-                task_file = task_dir / "task.yaml"
-                if task_file.exists():
-                    return load_task(task_file)
-
+        task_path = self.roadmap_dir / "tasks" / f"{task_id}.yaml"
+        if task_path.exists():
+            return load_task(task_path)
         raise ValueError(f"Task '{task_id}' not found")
 
     def load_tasks_by_sprint(self, sprint_id: str) -> List[Task]:
-        """Load all tasks for a sprint from YAML."""
-        from .yaml_loader import load_tasks
-
-        # Find the sprint directory
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
-            sprint_dir = track_dir / sprint_id
-            if sprint_dir.exists():
-                return load_tasks(sprint_dir)
-
-        raise ValueError(f"Sprint '{sprint_id}' not found")
+        """Load all tasks for a sprint from YAML (flat structure)."""
+        from .yaml_loader import load_task
+        tasks_dir = self.roadmap_dir / "tasks"
+        tasks = []
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                task = load_task(task_file)
+                if task.sprint_id == sprint_id:
+                    tasks.append(task)
+        return tasks
 
     def load_tasks_by_track(self, track_id: str) -> List[Task]:
-        """Load all tasks for a track from YAML."""
-        from .yaml_loader import load_tasks
-
-        track_dir = self.roadmap_dir / track_id
-        if not track_dir.exists():
-            raise ValueError(f"Track '{track_id}' not found")
-
+        """Load all tasks for a track from YAML (flat structure)."""
+        from .yaml_loader import load_task
+        tasks_dir = self.roadmap_dir / "tasks"
         tasks = []
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-                continue
-            tasks.extend(load_tasks(sprint_dir))
-
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                task = load_task(task_file)
+                if task.track_id == track_id:
+                    tasks.append(task)
         return tasks
 
     def load_all_tasks(self, roadmap_id: str = "vibey-framework-v2") -> List[Task]:
-        """Load all tasks from YAML."""
+        """Load all tasks from YAML (flat structure)."""
+        from .yaml_loader import load_task
+        tasks_dir = self.roadmap_dir / "tasks"
         tasks = []
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
-            try:
-                tasks.extend(self.load_tasks_by_track(track_dir.name))
-            except ValueError:
-                pass
-
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    task = load_task(task_file)
+                    tasks.append(task)
+                except Exception:
+                    pass
         return tasks
 
     def save_roadmap(self, roadmap: Roadmap) -> None:
@@ -240,42 +225,30 @@ class YAMLBackend:
         save_roadmap(roadmap, self.roadmap_dir / "roadmap.yaml")
 
     def save_track(self, track: Track) -> None:
-        """Save a track to YAML."""
+        """Save a track to YAML (flat structure)."""
         from .yaml_dumper import save_track
-        save_track(track, self.roadmap_dir / track.id / "track.yaml")
+        tracks_dir = self.roadmap_dir / "tracks"
+        tracks_dir.mkdir(parents=True, exist_ok=True)
+        save_track(track, tracks_dir / f"{track.id}.yaml")
 
     def save_sprint(self, sprint: Sprint) -> None:
-        """Save a sprint to YAML."""
+        """Save a sprint to YAML (flat structure)."""
         from .yaml_dumper import save_sprint
-
-        # Find the track for this sprint
-        track_dir = self.roadmap_dir / sprint.track_id
-        sprint_dir = track_dir / sprint.id
-        sprint_dir.mkdir(parents=True, exist_ok=True)
-        save_sprint(sprint, sprint_dir / "sprint.yaml")
+        sprints_dir = self.roadmap_dir / "sprints"
+        sprints_dir.mkdir(parents=True, exist_ok=True)
+        save_sprint(sprint, sprints_dir / f"{sprint.id}.yaml")
 
     def save_task(self, task: Task) -> None:
         """Save a task to YAML."""
         self.save_tasks([task])
 
     def save_tasks(self, tasks: List[Task]) -> None:
-        """Save tasks to YAML."""
-        from .yaml_dumper import save_tasks
-
-        # Group tasks by sprint
-        tasks_by_sprint = {}
+        """Save tasks to YAML (flat structure)."""
+        from .yaml_dumper import save_task
+        tasks_dir = self.roadmap_dir / "tasks"
+        tasks_dir.mkdir(parents=True, exist_ok=True)
         for task in tasks:
-            if task.sprint_id not in tasks_by_sprint:
-                tasks_by_sprint[task.sprint_id] = []
-            tasks_by_sprint[task.sprint_id].append(task)
-
-        # Save each group to appropriate sprint directory
-        for sprint_id, sprint_tasks in tasks_by_sprint.items():
-            if sprint_tasks:
-                track_id = sprint_tasks[0].track_id
-                sprint_dir = self.roadmap_dir / track_id / sprint_id
-                sprint_dir.mkdir(parents=True, exist_ok=True)
-                save_tasks(sprint_tasks, sprint_dir)
+            save_task(task, tasks_dir / f"{task.id}.yaml")
 
 
 class SQLiteBackend:
@@ -410,7 +383,7 @@ class SyncManager:
         return sha256.hexdigest()
 
     def find_all_yaml_files(self) -> List[Path]:
-        """Find all YAML files in the roadmap directory."""
+        """Find all YAML files in the roadmap directory (flat structure)."""
         yaml_files = []
 
         # Main roadmap.yaml
@@ -418,30 +391,26 @@ class SyncManager:
         if roadmap_file.exists():
             yaml_files.append(roadmap_file)
 
-        # Track, sprint, and task YAML files
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
+        # Track files (flat structure: tracks/*.yaml)
+        tracks_dir = self.roadmap_dir / "tracks"
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if not track_file.name.startswith('.'):
+                    yaml_files.append(track_file)
 
-            track_file = track_dir / "track.yaml"
-            if track_file.exists():
-                yaml_files.append(track_file)
-
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-                    continue
-
-                sprint_file = sprint_dir / "sprint.yaml"
-                if sprint_file.exists():
+        # Sprint files (flat structure: sprints/*.yaml)
+        sprints_dir = self.roadmap_dir / "sprints"
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if not sprint_file.name.startswith('.'):
                     yaml_files.append(sprint_file)
 
-                for task_dir in sprint_dir.iterdir():
-                    if not task_dir.is_dir() or task_dir.name.startswith('.'):
-                        continue
-
-                    task_file = task_dir / "task.yaml"
-                    if task_file.exists():
-                        yaml_files.append(task_file)
+        # Task files (flat structure: tasks/*.yaml)
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if not task_file.name.startswith('.'):
+                    yaml_files.append(task_file)
 
         return yaml_files
 
@@ -591,32 +560,50 @@ class SyncManager:
         if not force and self.is_db_dirty():
             raise DirtyDatabaseError()
 
-        # Load from YAML
+        # Load from YAML (flat structure)
+        from .yaml_loader import load_track, load_sprint, load_task
+
         roadmap = self.yaml_backend.load_roadmap()
 
         tracks = []
         sprints = []
         tasks = []
 
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
+        # Load tracks from flat structure
+        tracks_dir = self.roadmap_dir / "tracks"
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if track_file.name.startswith('.'):
+                    continue
+                try:
+                    track = load_track(track_file)
+                    tracks.append(track)
+                except Exception:
+                    pass
 
-            try:
-                track = self.yaml_backend.load_track(track_dir.name)
-                tracks.append(track)
+        # Load sprints from flat structure
+        sprints_dir = self.roadmap_dir / "sprints"
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if sprint_file.name.startswith('.'):
+                    continue
+                try:
+                    sprint = load_sprint(sprint_file)
+                    sprints.append(sprint)
+                except Exception:
+                    pass
 
-                for sprint_summary in track.sprints:
-                    try:
-                        sprint = self.yaml_backend.load_sprint(sprint_summary.id)
-                        sprints.append(sprint)
-
-                        sprint_tasks = self.yaml_backend.load_tasks_by_sprint(sprint_summary.id)
-                        tasks.extend(sprint_tasks)
-                    except (ValueError, FileNotFoundError):
-                        pass
-            except (ValueError, FileNotFoundError):
-                pass
+        # Load tasks from flat structure
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    task = load_task(task_file)
+                    tasks.append(task)
+                except Exception:
+                    pass
 
         # Rebuild database
         # Drop and recreate schema (each function handles its own transactions)

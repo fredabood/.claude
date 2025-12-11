@@ -13,10 +13,10 @@ task:
     - load_track() -> read from tracks/{id}.yaml
     - load_sprint() -> read from sprints/{id}.yaml
     Remove all mkdir calls that create nested directories.
-  status: not_started
+  status: completed
   created: '2025-12-10T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T09:30:00+00:00'
+  completed: '2025-12-11T09:45:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

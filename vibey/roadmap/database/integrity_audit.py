@@ -190,7 +190,12 @@ def count_files_in_directory(
     roadmap_root: Path,
 ) -> Tuple[Dict[str, FileCount], Dict[str, int]]:
     """
-    Walk the roadmap directory and count actual files.
+    Walk the roadmap directory and count actual files (flat structure).
+
+    Uses flat structure:
+    - tracks/{track_id}.yaml
+    - sprints/{sprint_id}.yaml
+    - tasks/{task_id}.yaml
 
     Returns:
         Tuple of (file_counts, task_statuses)
@@ -203,133 +208,161 @@ def count_files_in_directory(
     if not roadmap_root.exists():
         return file_counts, task_statuses
 
-    # Walk track directories
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
-            continue
+    tracks_dir = roadmap_root / "tracks"
+    sprints_dir = roadmap_root / "sprints"
+    tasks_dir = roadmap_root / "tasks"
 
-        track_yaml = track_dir / "track.yaml"
-        if not track_yaml.exists():
-            continue
+    # Build lookup tables for relationships
+    # task_id -> task_info (including sprint_id, track_id)
+    task_by_id: Dict[str, Dict] = {}
+    # sprint_id -> sprint_info (including track_id)
+    sprint_by_id: Dict[str, Dict] = {}
+    # track_id -> track_info
+    track_by_id: Dict[str, Dict] = {}
 
-        track_data = _parse_yaml_safe(track_yaml)
-        if not track_data or 'track' not in track_data:
-            continue
+    # Load all tasks
+    if tasks_dir.exists():
+        for task_yaml in tasks_dir.glob("*.yaml"):
+            if task_yaml.name.startswith('.'):
+                continue
+            task_data = _parse_yaml_safe(task_yaml)
+            if not task_data or 'task' not in task_data:
+                continue
+            task_info = task_data['task']
+            task_id = task_info.get('id', task_yaml.stem)
+            task_info['_file_path'] = task_yaml
+            task_by_id[task_id] = task_info
 
-        track_info = track_data['track']
-        track_id = track_info.get('id', track_dir.name)
+    # Load all sprints
+    if sprints_dir.exists():
+        for sprint_yaml in sprints_dir.glob("*.yaml"):
+            if sprint_yaml.name.startswith('.'):
+                continue
+            sprint_data = _parse_yaml_safe(sprint_yaml)
+            if not sprint_data or 'sprint' not in sprint_data:
+                continue
+            sprint_info = sprint_data['sprint']
+            sprint_id = sprint_info.get('id', sprint_yaml.stem)
+            sprint_info['_file_path'] = sprint_yaml
+            sprint_by_id[sprint_id] = sprint_info
 
-        # Count sprints and tasks for this track
-        sprint_count = 0
+    # Load all tracks
+    if tracks_dir.exists():
+        for track_yaml in tracks_dir.glob("*.yaml"):
+            if track_yaml.name.startswith('.'):
+                continue
+            track_data = _parse_yaml_safe(track_yaml)
+            if not track_data or 'track' not in track_data:
+                continue
+            track_info = track_data['track']
+            track_id = track_info.get('id', track_yaml.stem)
+            track_info['_file_path'] = track_yaml
+            track_by_id[track_id] = track_info
+
+    # Process tasks - group by sprint
+    tasks_by_sprint: Dict[str, List[str]] = {}
+    for task_id, task_info in task_by_id.items():
+        sprint_id = task_info.get('sprint_id')
+        if sprint_id:
+            tasks_by_sprint.setdefault(sprint_id, []).append(task_id)
+
+        task_status = task_info.get('status', 'not_started')
+        task_statuses[task_id] = task_status
+
+        file_counts[task_id] = FileCount(
+            entity_type='task',
+            entity_id=task_id,
+            parent_id=sprint_id,
+            file_path=task_info['_file_path'],
+            child_count=0,
+            status=task_status,
+            name=task_info.get('title', task_id),
+        )
+
+    # Process sprints - group by track
+    sprints_by_track: Dict[str, List[str]] = {}
+    for sprint_id, sprint_info in sprint_by_id.items():
+        track_id = sprint_info.get('track_id')
+        if track_id:
+            sprints_by_track.setdefault(track_id, []).append(sprint_id)
+
+        sprint_status = sprint_info.get('status', 'not_started')
+
+        # Count tasks for this sprint
+        sprint_task_ids = tasks_by_sprint.get(sprint_id, [])
+        task_count = len(sprint_task_ids)
+        tasks_completed = 0
+        dev_tasks = 0
+        dev_completed = 0
+        completion_gate_tasks = 0
+        completion_gate_completed = 0
+        production_gate_tasks = 0
+        production_gate_completed = 0
+
+        for task_id in sprint_task_ids:
+            task_info = task_by_id.get(task_id, {})
+            task_status = task_info.get('status', 'not_started')
+            task_type = task_info.get('task_type', 'development')
+
+            if task_status == 'completed':
+                tasks_completed += 1
+
+            if task_type == 'development':
+                dev_tasks += 1
+                if task_status == 'completed':
+                    dev_completed += 1
+            elif task_type == 'completion_gate':
+                completion_gate_tasks += 1
+                if task_status == 'completed':
+                    completion_gate_completed += 1
+            elif task_type == 'production_gate':
+                production_gate_tasks += 1
+                if task_status == 'completed':
+                    production_gate_completed += 1
+
+        file_counts[sprint_id] = FileCount(
+            entity_type='sprint',
+            entity_id=sprint_id,
+            parent_id=track_id,
+            file_path=sprint_info['_file_path'],
+            child_count=task_count,
+            status=sprint_status,
+            name=sprint_info.get('name', sprint_id),
+        )
+        file_counts[sprint_id]._dev_tasks = dev_tasks
+        file_counts[sprint_id]._dev_completed = dev_completed
+        file_counts[sprint_id]._cg_tasks = completion_gate_tasks
+        file_counts[sprint_id]._cg_completed = completion_gate_completed
+        file_counts[sprint_id]._pg_tasks = production_gate_tasks
+        file_counts[sprint_id]._pg_completed = production_gate_completed
+        file_counts[sprint_id]._tasks_completed = tasks_completed
+
+    # Process tracks
+    for track_id, track_info in track_by_id.items():
+        track_sprint_ids = sprints_by_track.get(track_id, [])
+        sprint_count = len(track_sprint_ids)
         sprints_completed = 0
         track_tasks_total = 0
         track_tasks_completed = 0
 
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-                continue
-
-            sprint_yaml = sprint_dir / "sprint.yaml"
-            if not sprint_yaml.exists():
-                continue
-
-            sprint_data = _parse_yaml_safe(sprint_yaml)
-            if not sprint_data or 'sprint' not in sprint_data:
-                continue
-
-            sprint_info = sprint_data['sprint']
-            sprint_id = sprint_info.get('id', sprint_dir.name)
-            sprint_status = sprint_info.get('status', 'not_started')
-
-            sprint_count += 1
-            if sprint_status == 'completed':
+        for sprint_id in track_sprint_ids:
+            sprint_info = sprint_by_id.get(sprint_id, {})
+            if sprint_info.get('status') == 'completed':
                 sprints_completed += 1
 
             # Count tasks for this sprint
-            task_count = 0
-            tasks_completed = 0
-            dev_tasks = 0
-            dev_completed = 0
-            completion_gate_tasks = 0
-            completion_gate_completed = 0
-            production_gate_tasks = 0
-            production_gate_completed = 0
-
-            for task_dir in sprint_dir.iterdir():
-                if not task_dir.is_dir() or task_dir.name.startswith('.') or task_dir.name == 'context':
-                    continue
-
-                task_yaml = task_dir / "task.yaml"
-                if not task_yaml.exists():
-                    continue
-
-                task_data = _parse_yaml_safe(task_yaml)
-                if not task_data or 'task' not in task_data:
-                    continue
-
-                task_info = task_data['task']
-                task_id = task_info.get('id', task_dir.name)
-                task_status = task_info.get('status', 'not_started')
-                task_type = task_info.get('task_type', 'development')
-
-                task_count += 1
-                track_tasks_total += 1
-                task_statuses[task_id] = task_status
-
-                if task_status == 'completed':
-                    tasks_completed += 1
+            sprint_task_ids = tasks_by_sprint.get(sprint_id, [])
+            track_tasks_total += len(sprint_task_ids)
+            for task_id in sprint_task_ids:
+                task_info = task_by_id.get(task_id, {})
+                if task_info.get('status') == 'completed':
                     track_tasks_completed += 1
 
-                # Count by type
-                if task_type == 'development':
-                    dev_tasks += 1
-                    if task_status == 'completed':
-                        dev_completed += 1
-                elif task_type == 'completion_gate':
-                    completion_gate_tasks += 1
-                    if task_status == 'completed':
-                        completion_gate_completed += 1
-                elif task_type == 'production_gate':
-                    production_gate_tasks += 1
-                    if task_status == 'completed':
-                        production_gate_completed += 1
-
-                # Record task
-                file_counts[task_id] = FileCount(
-                    entity_type='task',
-                    entity_id=task_id,
-                    parent_id=sprint_id,
-                    file_path=task_yaml,
-                    child_count=0,
-                    status=task_status,
-                    name=task_info.get('title', task_id),
-                )
-
-            # Record sprint with computed task counts
-            file_counts[sprint_id] = FileCount(
-                entity_type='sprint',
-                entity_id=sprint_id,
-                parent_id=track_id,
-                file_path=sprint_yaml,
-                child_count=task_count,
-                status=sprint_status,
-                name=sprint_info.get('name', sprint_id),
-            )
-            # Store additional computed values as attributes
-            file_counts[sprint_id]._dev_tasks = dev_tasks
-            file_counts[sprint_id]._dev_completed = dev_completed
-            file_counts[sprint_id]._cg_tasks = completion_gate_tasks
-            file_counts[sprint_id]._cg_completed = completion_gate_completed
-            file_counts[sprint_id]._pg_tasks = production_gate_tasks
-            file_counts[sprint_id]._pg_completed = production_gate_completed
-            file_counts[sprint_id]._tasks_completed = tasks_completed
-
-        # Record track
         file_counts[track_id] = FileCount(
             entity_type='track',
             entity_id=track_id,
             parent_id=None,
-            file_path=track_yaml,
+            file_path=track_info['_file_path'],
             child_count=sprint_count,
             status=track_info.get('status', 'not_started'),
             name=track_info.get('name', track_id),
@@ -345,7 +378,11 @@ def extract_declared_progress(
     roadmap_root: Path,
 ) -> Dict[str, DeclaredProgress]:
     """
-    Extract declared progress counters from YAML files.
+    Extract declared progress counters from YAML files (flat structure).
+
+    Uses flat structure:
+    - tracks/{track_id}.yaml
+    - sprints/{sprint_id}.yaml
 
     Returns:
         Dict mapping entity_id to DeclaredProgress
@@ -355,42 +392,39 @@ def extract_declared_progress(
     if not roadmap_root.exists():
         return declared
 
-    # Walk track directories
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
-            continue
+    tracks_dir = roadmap_root / "tracks"
+    sprints_dir = roadmap_root / "sprints"
 
-        track_yaml = track_dir / "track.yaml"
-        if not track_yaml.exists():
-            continue
-
-        track_data = _parse_yaml_safe(track_yaml)
-        if not track_data or 'track' not in track_data:
-            continue
-
-        track_info = track_data['track']
-        track_id = track_info.get('id', track_dir.name)
-
-        # Extract track-level progress
-        progress = track_info.get('progress', {})
-        declared[track_id] = DeclaredProgress(
-            entity_type='track',
-            entity_id=track_id,
-            parent_id=None,
-            declared_sprints_total=progress.get('sprints_total'),
-            declared_sprints_completed=progress.get('sprints_completed'),
-            declared_tasks_total=progress.get('tasks_total'),
-            declared_tasks_completed=progress.get('tasks_completed'),
-            declared_completion_percent=progress.get('completion_percent'),
-        )
-
-        # Walk sprint directories
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+    # Load all tracks
+    if tracks_dir.exists():
+        for track_yaml in tracks_dir.glob("*.yaml"):
+            if track_yaml.name.startswith('.'):
                 continue
 
-            sprint_yaml = sprint_dir / "sprint.yaml"
-            if not sprint_yaml.exists():
+            track_data = _parse_yaml_safe(track_yaml)
+            if not track_data or 'track' not in track_data:
+                continue
+
+            track_info = track_data['track']
+            track_id = track_info.get('id', track_yaml.stem)
+
+            # Extract track-level progress
+            progress = track_info.get('progress', {})
+            declared[track_id] = DeclaredProgress(
+                entity_type='track',
+                entity_id=track_id,
+                parent_id=None,
+                declared_sprints_total=progress.get('sprints_total'),
+                declared_sprints_completed=progress.get('sprints_completed'),
+                declared_tasks_total=progress.get('tasks_total'),
+                declared_tasks_completed=progress.get('tasks_completed'),
+                declared_completion_percent=progress.get('completion_percent'),
+            )
+
+    # Load all sprints
+    if sprints_dir.exists():
+        for sprint_yaml in sprints_dir.glob("*.yaml"):
+            if sprint_yaml.name.startswith('.'):
                 continue
 
             sprint_data = _parse_yaml_safe(sprint_yaml)
@@ -398,7 +432,8 @@ def extract_declared_progress(
                 continue
 
             sprint_info = sprint_data['sprint']
-            sprint_id = sprint_info.get('id', sprint_dir.name)
+            sprint_id = sprint_info.get('id', sprint_yaml.stem)
+            track_id = sprint_info.get('track_id')
 
             # Extract sprint-level progress
             progress = sprint_info.get('progress', {})
@@ -691,36 +726,43 @@ def run_full_audit(roadmap_root: Path) -> AuditReport:
     return audit_discrepancies(computed, declared)
 
 
-def validate_embedded_summaries(track_path: Path) -> EmbeddedSummaryReport:
+def validate_embedded_summaries(track_id: str, roadmap_root: Path) -> EmbeddedSummaryReport:
     """
-    Validate embedded sprint summaries in track.yaml against actual sprint data.
+    Validate embedded sprint summaries in track.yaml against actual sprint data (flat structure).
 
     Sprint 13 Task 006: Extends integrity audit to validate that embedded
     sprint summaries in track.yaml match the actual sprint.yaml files.
 
+    Uses flat structure:
+    - tracks/{track_id}.yaml
+    - sprints/{sprint_id}.yaml (filtered by track_id)
+
     Args:
-        track_path: Path to track directory (containing track.yaml)
+        track_id: The track ID to validate
+        roadmap_root: Path to .vibey/roadmap directory
 
     Returns:
         EmbeddedSummaryReport with discrepancies
 
     Validation checks:
-    1. Sprint count matches actual sprint directories
+    1. Sprint count matches actual sprint files for this track
     2. Sprint IDs in summary match sprint.yaml IDs
     3. Task counts match computed values
     4. Completion percentages are accurate
     5. Status values are current
     """
-    track_yaml = track_path / "track.yaml"
+    tracks_dir = roadmap_root / "tracks"
+    sprints_dir = roadmap_root / "sprints"
+
+    track_yaml = tracks_dir / f"{track_id}.yaml"
     if not track_yaml.exists():
-        return EmbeddedSummaryReport(track_id=track_path.name)
+        return EmbeddedSummaryReport(track_id=track_id)
 
     track_data = _parse_yaml_safe(track_yaml)
     if not track_data or 'track' not in track_data:
-        return EmbeddedSummaryReport(track_id=track_path.name)
+        return EmbeddedSummaryReport(track_id=track_id)
 
     track_info = track_data['track']
-    track_id = track_info.get('id', track_path.name)
 
     report = EmbeddedSummaryReport(track_id=track_id)
 
@@ -728,18 +770,23 @@ def validate_embedded_summaries(track_path: Path) -> EmbeddedSummaryReport:
     embedded_summaries = track_info.get('sprints', [])
     embedded_by_id = {s.get('id', ''): s for s in embedded_summaries if isinstance(s, dict)}
 
-    # Find actual sprint directories
-    actual_sprint_ids = set()
-    for sprint_dir in track_path.iterdir():
-        if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-            continue
-        sprint_yaml = sprint_dir / "sprint.yaml"
-        if sprint_yaml.exists():
+    # Find actual sprints for this track (from flat sprints/ directory)
+    actual_sprints: Dict[str, Dict] = {}
+    if sprints_dir.exists():
+        for sprint_yaml in sprints_dir.glob("*.yaml"):
+            if sprint_yaml.name.startswith('.'):
+                continue
             sprint_data = _parse_yaml_safe(sprint_yaml)
             if sprint_data and 'sprint' in sprint_data:
-                actual_sprint_ids.add(sprint_data['sprint'].get('id', sprint_dir.name))
+                sprint_info = sprint_data['sprint']
+                # Only include sprints belonging to this track
+                if sprint_info.get('track_id') == track_id:
+                    sprint_id = sprint_info.get('id', sprint_yaml.stem)
+                    actual_sprints[sprint_id] = sprint_info
 
-    # Check for orphaned summaries (in track.yaml but no sprint directory)
+    actual_sprint_ids = set(actual_sprints.keys())
+
+    # Check for orphaned summaries (in track.yaml but no sprint file)
     for embedded_id in embedded_by_id:
         if embedded_id and embedded_id not in actual_sprint_ids:
             report.orphaned_summaries.append(embedded_id)
@@ -750,21 +797,7 @@ def validate_embedded_summaries(track_path: Path) -> EmbeddedSummaryReport:
             report.missing_summaries.append(actual_id)
 
     # Compare embedded summaries to actual sprint data
-    for sprint_dir in track_path.iterdir():
-        if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-            continue
-
-        sprint_yaml = sprint_dir / "sprint.yaml"
-        if not sprint_yaml.exists():
-            continue
-
-        sprint_data = _parse_yaml_safe(sprint_yaml)
-        if not sprint_data or 'sprint' not in sprint_data:
-            continue
-
-        sprint_info = sprint_data['sprint']
-        sprint_id = sprint_info.get('id', sprint_dir.name)
-
+    for sprint_id, sprint_info in actual_sprints.items():
         # Get corresponding embedded summary
         embedded = embedded_by_id.get(sprint_id)
         if not embedded:
@@ -837,7 +870,10 @@ def validate_embedded_summaries(track_path: Path) -> EmbeddedSummaryReport:
 
 def validate_all_embedded_summaries(roadmap_root: Path) -> List[EmbeddedSummaryReport]:
     """
-    Validate embedded sprint summaries across all tracks.
+    Validate embedded sprint summaries across all tracks (flat structure).
+
+    Uses flat structure:
+    - tracks/{track_id}.yaml
 
     Args:
         roadmap_root: Path to .vibey/roadmap directory
@@ -850,15 +886,20 @@ def validate_all_embedded_summaries(roadmap_root: Path) -> List[EmbeddedSummaryR
     if not roadmap_root.exists():
         return reports
 
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
+    tracks_dir = roadmap_root / "tracks"
+    if not tracks_dir.exists():
+        return reports
+
+    for track_yaml in tracks_dir.glob("*.yaml"):
+        if track_yaml.name.startswith('.'):
             continue
 
-        track_yaml = track_dir / "track.yaml"
-        if not track_yaml.exists():
+        track_data = _parse_yaml_safe(track_yaml)
+        if not track_data or 'track' not in track_data:
             continue
 
-        report = validate_embedded_summaries(track_dir)
+        track_id = track_data['track'].get('id', track_yaml.stem)
+        report = validate_embedded_summaries(track_id, roadmap_root)
         reports.append(report)
 
     return reports

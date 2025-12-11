@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKVT80AFQ6C1PA8CKK1
   name: MCP Server & Platform Adapters Test Coverage
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

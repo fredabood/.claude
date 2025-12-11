@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK06MN77ZHAGAHF5VMA
   name: Homebrew Formula & Tap Setup
-  track_id: brew-package
+  track_id: 01KC2D0JK06MN77ZHAGAHF5VM9
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

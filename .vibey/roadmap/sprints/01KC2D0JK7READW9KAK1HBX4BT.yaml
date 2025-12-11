@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK7READW9KAK1HBX4BT
   name: Frontmatter Schema & Asset Migration
-  track_id: goose-port
+  track_id: 01KC2D0JK7READW9KAK1HBX4BS
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

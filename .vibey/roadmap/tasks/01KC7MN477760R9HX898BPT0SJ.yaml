@@ -1,0 +1,35 @@
+task:
+  id: 01KC7MN477760R9HX898BPT0SJ
+  sprint_id: 01KC2D0JK7READW9KAK1HBX4BV
+  track_id: 01KC2D0JK7READW9KAK1HBX4BS
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create agent discovery module
+  description: ''
+  status: completed
+  blocked: false
+  created: '2025-12-11T21:21:43.655541+00:00'
+  started: null
+  completed: '2025-12-11T21:21:43.655543+00:00'
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-11T21:21:43.655544+00:00'
+    token_efficiency: null
+    duration_hours: null
+  criteria: []
+  sequence: 1
+  slug: goose-port-2-task-002
+  parent_ref: 01KC2D0JK7READW9KAK1HBX4BV

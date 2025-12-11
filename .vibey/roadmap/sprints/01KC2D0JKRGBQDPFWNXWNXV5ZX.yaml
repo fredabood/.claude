@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKRGBQDPFWNXWNXV5ZX
   name: Core Data Model & YAML Schema
-  track_id: standards-system
+  track_id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

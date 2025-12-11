@@ -5,157 +5,31 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Execute migration with validation
-  description: 'Execute the directory migration on the actual .vibey/roadmap/ directory.
-
-
-    EXECUTION STEPS:
-
-    1. Run dry-run first: vibey roadmap migrate-structure --dry-run
-
-    2. Review planned changes
-
-    3. Create backup
-
-    4. Execute migration: vibey roadmap migrate-structure --execute
-
-    5. Run round-trip validation
-
-    6. Verify all YAML files load correctly
-
-    7. Verify database sync still works
-
-    8. Commit the migration
-
-
-    VALIDATION CHECKS:
-
-    - All tracks load correctly
-
-    - All sprints load correctly
-
-    - All tasks load correctly
-
-    - roadmap.yaml summary is accurate
-
-    - vibey roadmap status shows correct data
-
-    - SQLite database can be rebuilt from YAML
-
-    - Round-trip: YAML → SQLite → YAML produces identical files
-
-
-    ROLLBACK PLAN:
-
-    If validation fails:
-
-    1. vibey roadmap migrate-structure --rollback
-
-    2. Restore from backup
-
-    3. Document failure reason
-
-    '
+  description: ''
   status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T15:45:00+00:00'
-  completed: '2025-12-09T15:55:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.446575+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.446577+00:00'
   assigned_agent: null
-  priority: high
-  phase_label: execution
-  estimated_tokens: 40000
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocked_by:
-  - unified-arch-1-task-002
-  - unified-arch-1-task-003
-  - unified-arch-1-task-004
-  depends_on:
-  - blocker_id: unified-arch-1-task-002
-    blocker_type: task
-    required_status: completed
-    description: Migration script must be ready
-    status: pending
-  - blocker_id: unified-arch-1-task-003
-    blocker_type: task
-    required_status: completed
-    description: YAML loader must support flat structure
-    status: pending
-  - blocker_id: unified-arch-1-task-004
-    blocker_type: task
-    required_status: completed
-    description: YAML dumper must support flat structure
-    status: pending
-  deliverables:
-  - path: .vibey/roadmap/
-    type: other
-    description: Migrated flat directory structure
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.446579+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: unified-arch-1-task-005
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW4S
-  criteria:
-  - id: dep-001
-    description: Migration script must be ready
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-002
-      required_status: completed
-  - id: dep-002
-    description: YAML loader must support flat structure
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-003
-      required_status: completed
-  - id: dep-003
-    description: YAML dumper must support flat structure
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-004
-      required_status: completed
-  - id: blk-001
-    description: Blocked by unified-arch-1-task-002
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-002
-      required_status: completed
-  - id: blk-002
-    description: Blocked by unified-arch-1-task-003
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-003
-      required_status: completed
-  - id: blk-003
-    description: Blocked by unified-arch-1-task-004
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-1-task-004
-      required_status: completed
-  - id: del-001
-    description: Migrated flat directory structure
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - .vibey/roadmap/
-      all_required: true
-      deliverable_type: other
-  sequence: 5

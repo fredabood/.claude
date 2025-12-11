@@ -5,15 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix track filtering/discovery logic
-  description: null
+  description: ''
   status: completed
-  created: '2025-12-10T05:05:41.041645+00:00'
-  started: '2025-12-10T10:00:00.000000+00:00'
-  completed: '2025-12-10T10:30:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.760177+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.760178+00:00'
   assigned_agent: null
-  priority: high
+  priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,14 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.760180+00:00'
     token_efficiency: null
     duration_hours: null
-    original_bug: 2
+  criteria: []
+  sequence: 1
   slug: dogfooding-bugs-02-task-010
   parent_ref: 01KC3AD76EK6TBPW0GEJD0P4M0
-  criteria: []
-  sequence: 10

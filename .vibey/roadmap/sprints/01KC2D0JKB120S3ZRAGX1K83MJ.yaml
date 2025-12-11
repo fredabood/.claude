@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKB120S3ZRAGX1K83MJ
   name: Build Unified vibey CLI
-  track_id: multi-platform
+  track_id: 01KC2D0JKA23EJA1W712Y5S70G
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

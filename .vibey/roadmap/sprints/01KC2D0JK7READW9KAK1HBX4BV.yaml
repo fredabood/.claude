@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK7READW9KAK1HBX4BV
   name: Dynamic Discovery in MCP Server
-  track_id: goose-port
+  track_id: 01KC2D0JK7READW9KAK1HBX4BS
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

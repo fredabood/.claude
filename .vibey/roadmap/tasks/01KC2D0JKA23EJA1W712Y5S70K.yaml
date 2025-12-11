@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S70K
-  sprint_id: multi-platform-1
-  track_id: multi-platform
+  sprint_id: 01KC2D0JKA23EJA1W712Y5S70H
+  track_id: 01KC2D0JKA23EJA1W712Y5S70G
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build platform-agnostic deployment models
-  description: null
+  description: ''
   status: completed
-  created: '2025-11-10T20:30:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.774941+00:00'
   started: null
-  completed: '2025-11-10T20:30:00+00:00'
+  completed: '2025-12-11T21:21:43.774943+00:00'
   assigned_agent: null
-  priority: high
+  priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.774944+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: multi-platform-1-task-002
   parent_ref: 01KC2D0JKA23EJA1W712Y5S70H
-  criteria: []
-  sequence: 2

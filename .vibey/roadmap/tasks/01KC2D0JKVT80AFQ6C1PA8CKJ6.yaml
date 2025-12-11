@@ -5,159 +5,31 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Execute migration and validate
-  description: 'Execute the schema migration on the production database and validate.
-
-
-    EXECUTION STEPS:
-
-    1. Backup current database
-
-    2. Run migration in dry-run mode
-
-    3. Review planned changes
-
-    4. Execute migration
-
-    5. Run validation tests
-
-    6. Verify round-trip integrity
-
-
-    VALIDATION CHECKS:
-
-    - All roadmaps migrated correctly
-
-    - All tracks migrated correctly
-
-    - All sprints migrated correctly
-
-    - All tasks migrated correctly
-
-    - blocked_by converted to criteria
-
-    - depends_on converted to criteria
-
-    - deliverables converted to criteria
-
-    - quality_gates converted to criteria
-
-    - SQL loader returns correct data
-
-    - SQL dumper writes correct data
-
-    - Round-trip: YAML → SQLite → YAML matches
-
-
-    ROLLBACK PLAN:
-
-    1. Restore backup database
-
-    2. Revert sql_loader/sql_dumper changes
-
-    3. Document failure reason
-
-    '
+  description: ''
   status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T18:15:00+00:00'
-  completed: '2025-12-10T04:30:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.455937+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.455939+00:00'
   assigned_agent: null
-  priority: high
-  phase_label: execution
-  estimated_tokens: 40000
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
-  complexity: complex
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocked_by:
-  - unified-arch-2-task-004
-  - unified-arch-2-task-005
-  - unified-arch-2-task-006
-  depends_on:
-  - blocker_id: unified-arch-2-task-004
-    blocker_type: task
-    required_status: completed
-    description: Migration script must be ready
-    status: pending
-  - blocker_id: unified-arch-2-task-005
-    blocker_type: task
-    required_status: completed
-    description: SQL loader must support v2
-    status: pending
-  - blocker_id: unified-arch-2-task-006
-    blocker_type: task
-    required_status: completed
-    description: SQL dumper must support v2
-    status: pending
-  deliverables:
-  - path: .vibey/roadmap.db
-    type: other
-    description: Migrated database with unified schema
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.455940+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: unified-arch-2-task-007
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50
-  criteria:
-  - id: dep-001
-    description: Migration script must be ready
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-004
-      required_status: completed
-  - id: dep-002
-    description: SQL loader must support v2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-005
-      required_status: completed
-  - id: dep-003
-    description: SQL dumper must support v2
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-006
-      required_status: completed
-  - id: blk-001
-    description: Blocked by unified-arch-2-task-004
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-004
-      required_status: completed
-  - id: blk-002
-    description: Blocked by unified-arch-2-task-005
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-005
-      required_status: completed
-  - id: blk-003
-    description: Blocked by unified-arch-2-task-006
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-2-task-006
-      required_status: completed
-  - id: del-001
-    description: Migrated database with unified schema
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - .vibey/roadmap.db
-      all_required: true
-      deliverable_type: other
-  sequence: 7

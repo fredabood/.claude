@@ -1,0 +1,70 @@
+sprint:
+  id: 01KC7H29E0Z5BC7HK1CK222156
+  name: CLI and Validation Migration
+  track_id: 01KC7H29E0Z5BC7HK1CK222152
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  blocked_reason: Waiting for Sprint 3 (Git Operations Migration) to complete
+  created: '2025-12-11T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by:
+  - dependency_id: 01KC7H29E0Z5BC7HK1CK222155
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: '2025-12-11T00:00:00+00:00'
+    estimated_resolution: null
+  depends_on:
+  - blocker_id: 01KC7H29E0Z5BC7HK1CK222155
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Updated formatters.py
+  - Updated commands.py task creation
+  - Updated roadmap_create_from_plan.py
+  - Updated validator.py
+  description: |
+    Migrate CLI and validation code to use standalone task files.
+    Update task creation to write standalone files only.
+  goal: CLI and validation use standalone task files only
+  success_criteria:
+  - Task creation writes standalone files
+  - CLI displays tasks correctly
+  - Validation checks standalone files
+  risks:
+  - User-facing changes may confuse users
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-11T00:00:00+00:00'
+    estimated_duration: 2 days
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

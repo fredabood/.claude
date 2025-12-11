@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK49XGJV84YRRHEASK8
-  sprint_id: directory-migration-1
-  track_id: directory-migration
+  sprint_id: 01KC2D0JK325ABWVR9FQD5ZNQX
+  track_id: 01KC2D0JK325ABWVR9FQD5ZNQW
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create tests for CLI commands
-  description: null
+  description: ''
   status: completed
-  created: '2025-11-10T23:43:25.586527+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.488463+00:00'
   started: null
-  completed: '2025-11-10T23:43:25.586527+00:00'
+  completed: '2025-12-11T21:21:43.488465+00:00'
   assigned_agent: null
-  priority: high
+  priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.488467+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: directory-migration-1-task-008
   parent_ref: 01KC2D0JK325ABWVR9FQD5ZNQX
-  criteria: []
-  sequence: 8

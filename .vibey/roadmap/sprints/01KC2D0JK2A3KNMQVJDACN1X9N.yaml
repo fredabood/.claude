@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK2A3KNMQVJDACN1X9N
   name: Core Adapter & MCP Configuration
-  track_id: cursor-port
+  track_id: 01KC2D0JK2A3KNMQVJDACN1X9M
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

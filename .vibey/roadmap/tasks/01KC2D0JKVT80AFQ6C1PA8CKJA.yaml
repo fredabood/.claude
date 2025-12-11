@@ -5,106 +5,31 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update YAML loader/dumper for ULID
-  description: "Update YAML serialization to use ULIDs and .id files.\n\nYAML FORMAT\
-    \ CHANGES:\n```yaml\n# OLD\ntask:\n  id: sqlite-backend-6-task-004\n  sprint_id:\
-    \ sqlite-backend-6\n\n# NEW\ntask:\n  id: 01HXYZ123ABC456DEF789GHJ\n  slug: sqlite-backend-6-task-004\n\
-    \  sequence: 4\n  parent_ref: 01HXYZ987ZYX654CBA321MLK\n```\n\nLOADER CHANGES:\n\
-    - Check .id file for ULID → slug mapping\n- Support loading by slug (lookup in\
-    \ .id file)\n- Populate sequence from file ordering or explicit field\n- Populate\
-    \ slug from filename or explicit field\n\nDUMPER CHANGES:\n- Write ULID as id\
-    \ field\n- Write slug field\n- Write sequence field\n- Update .id file on save\n"
+  description: ''
   status: completed
-  created: '2025-12-07T15:00:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.462478+00:00'
   started: null
-  completed: '2025-12-10T04:30:00+00:00'
+  completed: '2025-12-11T21:21:44.462480+00:00'
   assigned_agent: null
-  priority: high
-  phase_label: implementation
-  estimated_tokens: 30000
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
-  blocked_by:
-  - unified-arch-3-task-001
-  - unified-arch-3-task-002
-  depends_on:
-  - blocker_id: unified-arch-3-task-001
-    blocker_type: task
-    required_status: completed
-    description: ULID utilities must be ready
-    status: pending
-  - blocker_id: unified-arch-3-task-002
-    blocker_type: task
-    required_status: completed
-    description: .id file handler must be ready
-    status: pending
-  deliverables:
-  - path: vibey/roadmap/serialization/yaml_loader.py
-    type: code
-    description: Updated YAML loader with ULID support
-  - path: vibey/roadmap/serialization/yaml_dumper.py
-    type: code
-    description: Updated YAML dumper with ULID support
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.462482+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: unified-arch-3-task-003
   parent_ref: 01KC2D0JKVT80AFQ6C1PA8CKJ7
-  criteria:
-  - id: dep-001
-    description: ULID utilities must be ready
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-3-task-001
-      required_status: completed
-  - id: dep-002
-    description: .id file handler must be ready
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-3-task-002
-      required_status: completed
-  - id: blk-001
-    description: Blocked by unified-arch-3-task-001
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-3-task-001
-      required_status: completed
-  - id: blk-002
-    description: Blocked by unified-arch-3-task-002
-    required: true
-    blocks_transition_to: in_progress
-    target:
-      type: completable
-      completable_id: unified-arch-3-task-002
-      required_status: completed
-  - id: del-001
-    description: Updated YAML loader with ULID support
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/serialization/yaml_loader.py
-      all_required: true
-      deliverable_type: code
-  - id: del-002
-    description: Updated YAML dumper with ULID support
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - vibey/roadmap/serialization/yaml_dumper.py
-      all_required: true
-      deliverable_type: code
-  sequence: 3

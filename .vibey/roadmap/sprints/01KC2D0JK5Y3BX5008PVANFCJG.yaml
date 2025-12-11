@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK5Y3BX5008PVANFCJG
   name: AI Studio & Vertex AI Integration
-  track_id: gemini-port
+  track_id: 01KC2D0JK5Y3BX5008PVANFCHN
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKTE7Z4HCNHST8ZVW4D
   name: E2E Tests & Platform Tests
-  track_id: testing-system
+  track_id: 01KC2D0JKSA4C3QG7P7YGCG37J
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKY8WC5NT15KN5SW9YF
   name: Windsurf Adapter & Cascade Integration
-  track_id: windsurf-port
+  track_id: 01KC2D0JKY8WC5NT15KN5SW9YE
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

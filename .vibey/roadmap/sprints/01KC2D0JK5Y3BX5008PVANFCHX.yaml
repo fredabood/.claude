@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK5Y3BX5008PVANFCHX
   name: Gemini Platform Adapter Integration
-  track_id: gemini-port
+  track_id: 01KC2D0JK5Y3BX5008PVANFCHN
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

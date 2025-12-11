@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK9JKQXGQW6MQEB0JZN
-  sprint_id: interface-unification-3
-  track_id: interface-unification
+  sprint_id: 01KC2D0JK9JKQXGQW6MQEB0JZF
+  track_id: 01KC2D0JK8CHXNPPB2V3M632CA
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Code cleanup and dead reference removal
-  description: null
+  description: ''
   status: completed
-  created: '2025-11-27T11:04:09.541538+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.724196+00:00'
   started: null
-  completed: '2025-11-27T11:04:09.541538+00:00'
+  completed: '2025-12-11T21:21:43.724197+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.724199+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: interface-unification-3-task-006
   parent_ref: 01KC2D0JK9JKQXGQW6MQEB0JZF
-  criteria: []
-  sequence: 6

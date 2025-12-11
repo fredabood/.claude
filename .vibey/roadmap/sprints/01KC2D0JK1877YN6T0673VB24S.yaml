@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK1877YN6T0673VB24S
   name: Release Automation & Testing
-  track_id: brew-package
+  track_id: 01KC2D0JK06MN77ZHAGAHF5VM9
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

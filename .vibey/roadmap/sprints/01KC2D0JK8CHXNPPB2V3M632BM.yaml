@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK8CHXNPPB2V3M632BM
   name: Critical Infrastructure Fixes
-  track_id: infrastructure-fixes
+  track_id: 01KC2D0JK8CHXNPPB2V3M632BK
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

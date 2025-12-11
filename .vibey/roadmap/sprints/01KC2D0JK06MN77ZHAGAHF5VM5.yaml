@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK06MN77ZHAGAHF5VM5
   name: Jira Core Integration & Data Mapping
-  track_id: atlassian-integration
+  track_id: 01KC2D0JK06MN77ZHAGAHF5VM4
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

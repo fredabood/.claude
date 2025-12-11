@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JKWWW8WMS7PPGDQ42GZ
   name: Core Adapter & MCP Configuration
-  track_id: vscode-port
+  track_id: 01KC2D0JKWWW8WMS7PPGDQ42GY
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

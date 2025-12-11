@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK325ABWVR9FQD5ZNQ5
-  sprint_id: directory-consolidation-1
-  track_id: directory-consolidation
+  sprint_id: 01KC2D0JK325ABWVR9FQD5ZNQ0
+  track_id: 01KC2D0JK325ABWVR9FQD5ZNPZ
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Verify and run tests after Phase 1 cleanup
-  description: null
+  description: ''
   status: completed
-  created: '2025-11-28T00:00:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.456183+00:00'
   started: null
-  completed: '2025-11-28T00:00:00+00:00'
+  completed: '2025-12-11T21:21:43.456185+00:00'
   assigned_agent: null
-  priority: high
+  priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.456186+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: directory-consolidation-1-task-005
   parent_ref: 01KC2D0JK325ABWVR9FQD5ZNQ0
-  criteria: []
-  sequence: 5

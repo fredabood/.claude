@@ -3684,6 +3684,43 @@ def validate_structure_cmd(fix: bool = False) -> int:
         return 0
 
 
+def extract_embedded_cmd(dry_run: bool = True, verbose: bool = True) -> int:
+    """Extract embedded tasks from sprint files to standalone task files.
+
+    Scans all sprint YAML files for embedded tasks[] arrays and creates
+    individual task files in the flat .vibey/roadmap/tasks/ directory.
+
+    Args:
+        dry_run: If True, only show what would be extracted without creating files
+        verbose: If True, print detailed output
+
+    Returns:
+        0 if successful, 1 if errors occurred
+    """
+    from vibey.operations.migrations.extract_embedded_tasks import (
+        extract_embedded_tasks,
+    )
+
+    root_dir = Path.cwd()
+    roadmap_dir = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_dir.exists():
+        print("❌ Roadmap directory not found")
+        print("   Run 'vibey roadmap init' first")
+        return 1
+
+    stats = extract_embedded_tasks(
+        roadmap_dir=roadmap_dir,
+        dry_run=dry_run,
+        verbose=verbose,
+    )
+
+    if stats.get("errors"):
+        return 1
+
+    return 0
+
+
 # ============================================================================
 # Format Migration Commands
 # ============================================================================

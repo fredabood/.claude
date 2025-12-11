@@ -3,32 +3,33 @@ task:
   sprint_id: 01KC3AD77W9RD0RMA3S9N41EMF
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  task_type: testing
+  task_type: development
   title: Test pre-commit hook with fresh database
-  description: null
+  description: ''
   status: completed
-  created: '2025-12-10T05:05:41.041645+00:00'
-  started: '2025-12-10T11:00:00.000000+00:00'
-  completed: '2025-12-10T11:30:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.773653+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.773654+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
-  complexity: low
+  complexity: medium
   gate_info: null
   audit_results: null
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.773656+00:00'
     token_efficiency: null
     duration_hours: null
-    original_bug: 9
+  criteria: []
+  sequence: 1
   slug: dogfooding-bugs-03-task-008
   parent_ref: 01KC3AD77W9RD0RMA3S9N41EMF
-  criteria: []
-  sequence: 8

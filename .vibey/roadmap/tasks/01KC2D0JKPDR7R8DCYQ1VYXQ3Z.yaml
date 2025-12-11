@@ -1,49 +1,20 @@
 task:
   id: 01KC2D0JKPDR7R8DCYQ1VYXQ3Z
-  sprint_id: sqlite-backend-13
-  track_id: sqlite-backend
+  sprint_id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement optional auto-progression for status transitions
-  description: "Implement optional automatic status progression when criteria are\
-    \ met.\n\nGAP ADDRESSED: GAP-008 (Status Auto-Progression Logic)\n\nDESIGN DECISION:\n\
-    Auto-progression is OPTIONAL and config-driven. Users can choose between:\n1.\
-    \ EXPLICIT mode: Status only changes via manual command\n2. AUTO mode: Status\
-    \ advances automatically when criteria are met\n\nThis is a configuration choice,\
-    \ not a change to the domain model.\n\nCURRENT STATE:\n- can_transition_to() only\
-    \ CHECKS if transition is allowed\n- Does not trigger the transition automatically\n\
-    - Status changes require explicit CLI command\n\nIMPLEMENTATION:\n1. Add configuration\
-    \ option:\n   ```yaml\n   # .vibey/config/roadmap.yaml\n   roadmap:\n     auto_progression:\n\
-    \       enabled: true  # or false for explicit mode\n       transitions:\n   \
-    \      - from: not_started\n           to: in_progress\n           when: all_start_criteria_met\n\
-    \         - from: in_progress\n           to: completed\n           when: all_completion_criteria_met\n\
-    \   ```\n\n2. Implement StatusManager.check_and_advance():\n   ```python\n   def\
-    \ check_and_advance(ticket: Ticket) -> Optional[TicketStatus]:\n       \"\"\"\
-    Check if ticket can auto-advance and do so if configured.\"\"\"\n       if not\
-    \ config.auto_progression.enabled:\n           return None\n\n       for transition\
-    \ in config.auto_progression.transitions:\n           if ticket.status == transition.from_status:\n\
-    \               can_advance, _ = ticket.can_transition_to(transition.to_status)\n\
-    \               if can_advance:\n                   ticket.status = transition.to_status\n\
-    \                   return transition.to_status\n       return None\n   ```\n\n\
-    3. Hook auto-progression into:\n   - Post-update checks (after any ticket update)\n\
-    \   - Post-commit hooks (after git commit changes)\n   - CLI status display (show\
-    \ pending auto-transitions)\n\n4. Add CLI commands:\n   ```\n   $ vibey roadmap\
-    \ auto-progress --check  # Show what would advance\n   $ vibey roadmap auto-progress\
-    \ --apply  # Actually advance tickets\n   ```\n\nPARENT CHAIN PROPAGATION:\nWhen\
-    \ a child ticket completes, check if parent can now advance:\n```python\ndef propagate_completion(ticket:\
-    \ Ticket):\n    \"\"\"Propagate completion up the hierarchy.\"\"\"\n    if ticket.parent_ref:\n\
-    \        parent = load_ticket(ticket.parent_ref)\n        advanced = check_and_advance(parent)\n\
-    \        if advanced:\n            propagate_completion(parent)  # Recurse up\n\
-    ```\n\nREFERENCE:\n- GAP_ANALYSIS.md (GAP-008)\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
-    \ (can_transition_to)\n"
-  status: completed
-  created: '2025-12-06T00:00:00+00:00'
-  started: '2025-12-07T14:30:21.444305+00:00'
-  completed: '2025-12-07T14:34:25.076997+00:00'
+  description: ''
+  status: not_started
+  blocked: false
+  created: '2025-12-11T21:21:44.282579+00:00'
+  started: null
+  completed: null
   assigned_agent: null
-  priority: low
-  phase_label: implementation
-  estimated_tokens: 25000
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -51,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.282581+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: sqlite-backend-13-task-011
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
-  criteria: []
-  sequence: 11

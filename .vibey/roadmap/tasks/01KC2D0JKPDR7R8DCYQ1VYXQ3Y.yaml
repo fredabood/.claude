@@ -1,40 +1,20 @@
 task:
   id: 01KC2D0JKPDR7R8DCYQ1VYXQ3Y
-  sprint_id: sqlite-backend-13
-  track_id: sqlite-backend
+  sprint_id: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
+  track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Integrate ActivityLog with unified ticket lifecycle
-  description: "Integrate the unified ActivityLog with ticket lifecycle events.\n\n\
-    GAP ADDRESSED: GAP-003 (Audit Trail Integration)\n\nDESIGN DECISION:\nThe audit\
-    \ trail is kept as an operational concern, NOT integrated into the\ndomain model.\
-    \ ActivityLog at the RoadmapTicket level captures high-level events.\nPer-field\
-    \ change tracking is handled by:\n1. Git history for YAML files (comprehensive,\
-    \ immutable)\n2. ActivityLogEntry for structured event queries\n3. Optional detailed\
-    \ audit_trail table for compliance needs\n\nIMPLEMENTATION:\n1. Hook ActivityLog\
-    \ into Ticket lifecycle methods:\n   - start() -> log START event\n   - complete()\
-    \ -> log COMPLETE event\n   - transition to PRODUCTION_READY -> log DEPLOY_READY\
-    \ event\n2. Log criteria evaluation results:\n   - can_transition_to() blocked\
-    \ -> log BLOCKED event with reasons\n   - criteria met -> log CRITERIA_MET event\n\
-    3. Add event types to ActivityType enum:\n   - TICKET_STARTED\n   - TICKET_COMPLETED\n\
-    \   - TICKET_BLOCKED\n   - CRITERIA_MET\n   - CRITERIA_FAILED\n   - STATUS_CHANGED\n\
-    4. Update CLI to display recent activity\n\nACTIVITY LOG ENTRY STRUCTURE:\n```python\n\
-    class ActivityLogEntry(BaseModel):\n    timestamp: datetime\n    event_type: ActivityType\n\
-    \    ticket_id: str\n    ticket_type: str  # roadmap, track, sprint, task\n  \
-    \  actor: str  # claude-code, user, system, hook\n    details: Optional[Dict[str,\
-    \ Any]]\n    commit_sha: Optional[str]\n```\n\nCLI DISPLAY:\n```\n$ vibey roadmap\
-    \ activity --last 10\n2025-12-06 14:30  TICKET_COMPLETED  task-123  claude-code\n\
-    2025-12-06 14:29  CRITERIA_MET      task-123  Tests passed\n2025-12-06 14:00 \
-    \ TICKET_STARTED    task-123  claude-code\n```\n\nREFERENCE:\n- sqlite-backend-6/context/architecture/02-CLASS-MODEL.md\
-    \ (ActivityLogEntry)\n- vibey/roadmap/models/ticket/hierarchical.py (RoadmapTicket.activity_log)\n"
+  description: ''
   status: completed
-  created: '2025-12-06T00:00:00+00:00'
-  started: '2025-12-07T14:22:13.437981+00:00'
-  completed: '2025-12-07T14:27:43.005464+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.281974+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.281975+00:00'
   assigned_agent: null
   priority: medium
-  phase_label: implementation
-  estimated_tokens: 30000
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -42,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.281977+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: sqlite-backend-13-task-010
   parent_ref: 01KC2D0JKPDR7R8DCYQ1VYXQ3M
-  criteria: []
-  sequence: 10

@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JKM9HQR5VHRQ5SX5EQW
-  sprint_id: roadmap-system-1
-  track_id: roadmap-system
+  sprint_id: 01KC2D0JKKVMZ8ZJNGPHV822QY
+  track_id: 01KC2D0JKKVMZ8ZJNGPHV822QX
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create example roadmap for testing
-  description: null
+  description: ''
   status: completed
-  created: '2025-11-07T03:00:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.167725+00:00'
   started: null
-  completed: '2025-11-07T03:00:00+00:00'
+  completed: '2025-12-11T21:21:44.167727+00:00'
   assigned_agent: null
-  priority: critical
+  priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.167728+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: roadmap-system-1-task-008
   parent_ref: 01KC2D0JKKVMZ8ZJNGPHV822QY
-  criteria: []
-  sequence: 8

@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK7READW9KAK1HBX4BB
-  sprint_id: git-integration-5
-  track_id: git-integration
+  sprint_id: 01KC2D0JK7READW9KAK1HBX4B2
+  track_id: 01KC2D0JK6JC6706H9WP2NH5DA
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create GitHub Actions workflow for verification
-  description: Create GitHub Actions workflow .github/workflows/roadmap-integrity.yml that runs on push and PR. Calls vibey verify-commits to verify roadmap changes. Blocks merge on failure. Server-side enforcement layer
+  description: ''
   status: completed
-  created: '2025-11-26T01:21:21.767674+00:00'
-  started: '2025-12-10T19:00:00.000000+00:00'
-  completed: '2025-12-10T19:10:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.634314+00:00'
+  started: null
+  completed: '2025-12-11T21:21:43.634315+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.634317+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: git-integration-5-task-009
   parent_ref: 01KC2D0JK7READW9KAK1HBX4B2
-  criteria: []
-  sequence: 9

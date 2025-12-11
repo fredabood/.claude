@@ -1,0 +1,71 @@
+sprint:
+  id: 01KC7H29E0Z5BC7HK1CK222155
+  name: Git Operations Migration
+  track_id: 01KC7H29E0Z5BC7HK1CK222152
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  blocked_reason: Waiting for Sprint 2 (Serialization Migration) to complete
+  created: '2025-12-11T00:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by:
+  - dependency_id: 01KC7H29E0Z5BC7HK1CK222154
+    dependency_type: sprint
+    current_status: not_started
+    required_status: completed
+    blocking_since: '2025-12-11T00:00:00+00:00'
+    estimated_resolution: null
+  depends_on:
+  - blocker_id: 01KC7H29E0Z5BC7HK1CK222154
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: in_progress
+    last_checked: null
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Updated git_sync.py
+  - Updated merge_checker.py
+  - Updated branch_linker.py
+  - Updated status_updater.py
+  - Updated commit_msg.py hook
+  description: |
+    Migrate all git operations code to use standalone task files instead
+    of reading embedded sprint.tasks[] arrays.
+  goal: Git operations use standalone task files only
+  success_criteria:
+  - All git operation files updated
+  - Git sync works with standalone files
+  - Status updates work correctly
+  risks:
+  - Git hooks may break during migration
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-11T00:00:00+00:00'
+    estimated_duration: 2 days
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

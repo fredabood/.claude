@@ -3,32 +3,18 @@ task:
   sprint_id: 01KC2D0JKTE7Z4HCNHST8ZVW50
   track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
-  task_type: design
+  task_type: development
   title: Design artifacts table schema
-  description: "Design the artifacts table for first-class artifact entities.\n\n\
-    DESIGN (from 03-ARTIFACT-SYSTEM.md):\n```sql\nCREATE TABLE artifacts (\n    id\
-    \ TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    description TEXT,\n\n    --\
-    \ File location\n    paths TEXT NOT NULL,  -- JSON array of file paths\n    content_hash\
-    \ TEXT,\n    last_verified TEXT,\n\n    -- Classification\n    artifact_type TEXT\
-    \ NOT NULL,\n    artifact_subtype TEXT,\n\n    -- Provenance (JSON)\n    provenance\
-    \ TEXT NOT NULL,\n\n    -- Relationships\n    documents_artifact_id TEXT REFERENCES\
-    \ artifacts(id),\n\n    -- State\n    exists INTEGER NOT NULL DEFAULT 1,\n   \
-    \ is_stale INTEGER NOT NULL DEFAULT 0,\n\n    -- Timestamps\n    created_at TEXT\
-    \ NOT NULL,\n    updated_at TEXT\n);\n\nCREATE TABLE artifact_dependencies (\n\
-    \    artifact_id TEXT NOT NULL REFERENCES artifacts(id),\n    depends_on_artifact_id\
-    \ TEXT NOT NULL REFERENCES artifacts(id),\n    PRIMARY KEY (artifact_id, depends_on_artifact_id)\n\
-    );\n```\n\nARTIFACT TYPES:\n- code: Source code files\n- test: Test files\n- documentation:\
-    \ Documentation files\n- context: Context/planning documents\n- config: Configuration\
-    \ files\n- agent: Vibey agent definitions\n- workflow: Vibey workflow definitions\n\
-    - template: Vibey template files\n"
+  description: ''
   status: completed
-  created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T16:40:00+00:00'
-  completed: '2025-12-09T16:50:00+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:44.453796+00:00'
+  started: null
+  completed: '2025-12-11T21:21:44.453798+00:00'
   assigned_agent: null
-  priority: high
-  phase_label: design
-  estimated_tokens: 20000
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -36,26 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
-  deliverables:
-  - path: .vibey/roadmap/unified-architecture-migration/unified-arch-2/context/ARTIFACTS_SCHEMA.md
-    type: documentation
-    description: Artifacts table design document
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:44.453799+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: unified-arch-2-task-003
   parent_ref: 01KC2D0JKTE7Z4HCNHST8ZVW50
-  criteria:
-  - id: del-001
-    description: Artifacts table design document
-    required: true
-    blocks_transition_to: completed
-    target:
-      type: file_exists
-      paths:
-      - .vibey/roadmap/unified-architecture-migration/unified-arch-2/context/ARTIFACTS_SCHEMA.md
-      all_required: true
-      deliverable_type: documentation
-  sequence: 3

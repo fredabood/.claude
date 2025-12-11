@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK1877YN6T0673VB25J
   name: Continue Adapter & Slash Commands
-  track_id: continue-port
+  track_id: 01KC2D0JK1877YN6T0673VB25H
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

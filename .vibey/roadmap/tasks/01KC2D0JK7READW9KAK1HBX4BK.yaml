@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK7READW9KAK1HBX4BK
-  sprint_id: git-integration-5
-  track_id: git-integration
+  sprint_id: 01KC2D0JK7READW9KAK1HBX4B2
+  track_id: 01KC2D0JK6JC6706H9WP2NH5DA
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update verification to check signatures
-  description: Update verify-change and verify-commits to validate signatures against authorized signers. Load public keys from .vibey/authorized-signers/. Clear errors for invalid/unknown signers. Support unsigned entries during transition
+  description: ''
   status: completed
-  created: '2025-11-26T01:21:21.767688+00:00'
-  started: '2025-12-10T22:30:00.000000+00:00'
-  completed: '2025-12-10T23:00:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.638550+00:00'
+  started: null
+  completed: '2025-12-11T21:21:43.638551+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.638553+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: git-integration-5-task-017
   parent_ref: 01KC2D0JK7READW9KAK1HBX4B2
-  criteria: []
-  sequence: 17

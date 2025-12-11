@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK06MN77ZHAGAHF5VKC
   name: Aider Platform Adapter Implementation
-  track_id: aider-port
+  track_id: 01KC2D0JK06MN77ZHAGAHF5VKB
   roadmap_id: vibey-framework-v2
   status: production_gate_check
   blocked: false

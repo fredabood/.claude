@@ -1,0 +1,71 @@
+track:
+  id: 01KC7H29E0Z5BC7HK1CK222152
+  name: Embedded Task Migration
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  priority: critical
+  created: '2025-12-11T00:00:00+00:00'
+  started: '2025-12-11T16:00:00+00:00'
+  completed: null
+  estimated_duration: 2 weeks
+  progress:
+    sprints_total: 5
+    sprints_completed: 1
+    tasks_total: 21
+    tasks_completed: 4
+    completion_percent: 19
+  sprints:
+  - id: 01KC7H29E0Z5BC7HK1CK222153
+    name: Task Extraction
+    status: production_ready
+    estimated_duration: 3 days
+    tasks_count: 4
+    started: '2025-12-11T16:00:00+00:00'
+  - id: 01KC7H29E0Z5BC7HK1CK222154
+    name: Serialization Migration
+    status: not_started
+    estimated_duration: 2 days
+    tasks_count: 5
+    started: null
+  - id: 01KC7H29E0Z5BC7HK1CK222155
+    name: Git Operations Migration
+    status: not_started
+    estimated_duration: 2 days
+    tasks_count: 5
+    started: null
+  - id: 01KC7H29E0Z5BC7HK1CK222156
+    name: CLI and Validation Migration
+    status: not_started
+    estimated_duration: 2 days
+    tasks_count: 4
+    started: null
+  - id: 01KC7H29E0Z5BC7HK1CK222157
+    name: Cleanup and Verification
+    status: not_started
+    estimated_duration: 1 day
+    tasks_count: 3
+    started: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables:
+  - All 1,330 embedded tasks extracted to standalone files
+  - Codebase migrated to use standalone task files only
+  - No embedded tasks remain in sprint files
+  strategic_value:
+  - Fix data integrity issues across all tracks
+  - Enable accurate progress tracking
+  - Unblock track status reporting
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-12-11T00:00:00+00:00'
+    design_doc: .vibey/roadmap/context/EMBEDDED_TASK_MIGRATION_PLAN.md
+    implementation_plan: null
+    notes: Migrating 1,330 embedded tasks from 202 sprint files to standalone task files

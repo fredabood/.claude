@@ -1,19 +1,20 @@
 task:
   id: 01KC2D0JK7READW9KAK1HBX4BR
-  sprint_id: git-integration-5
-  track_id: git-integration
+  sprint_id: 01KC2D0JK7READW9KAK1HBX4B2
+  track_id: 01KC2D0JK6JC6706H9WP2NH5DA
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Comprehensive testing
-  description: Comprehensive test suite for integrity protection system. Unit tests for manifest/keys, integration tests for CLI, end-to-end workflow tests, bypass detection tests. Target 90%+ coverage for new code. High complexity
+  description: ''
   status: completed
-  created: '2025-11-26T01:21:21.767697+00:00'
-  started: '2025-12-11T01:00:00.000000+00:00'
-  completed: '2025-12-11T01:30:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T21:21:43.641483+00:00'
+  started: null
+  completed: '2025-12-11T21:21:43.641484+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 10000
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -21,13 +22,14 @@ task:
   dependencies: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T21:21:43.641486+00:00'
     token_efficiency: null
     duration_hours: null
+  criteria: []
+  sequence: 1
   slug: git-integration-5-task-022
   parent_ref: 01KC2D0JK7READW9KAK1HBX4B2
-  criteria: []
-  sequence: 22

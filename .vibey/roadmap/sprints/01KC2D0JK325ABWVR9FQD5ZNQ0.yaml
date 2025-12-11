@@ -1,7 +1,7 @@
 sprint:
   id: 01KC2D0JK325ABWVR9FQD5ZNQ0
   name: Low-Risk Cleanup & Preparation
-  track_id: directory-consolidation
+  track_id: 01KC2D0JK325ABWVR9FQD5ZNPZ
   roadmap_id: vibey-framework-v2
   status: production_ready
   blocked: false

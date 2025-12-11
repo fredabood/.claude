@@ -596,6 +596,33 @@ def roadmap_validate_structure(ctx, fix: bool):
     sys.exit(exit_code)
 
 
+@roadmap.command('extract-embedded')
+@click.option('--execute', is_flag=True, help='Execute extraction (default is dry-run)')
+@click.option('--quiet', is_flag=True, help='Reduce output verbosity')
+@click.pass_context
+def roadmap_extract_embedded(ctx, execute: bool, quiet: bool):
+    """Extract embedded tasks from sprint files to standalone task files.
+
+    Scans all sprint YAML files for embedded tasks[] arrays and creates
+    individual task files in the flat .vibey/roadmap/tasks/ directory.
+
+    By default, runs in dry-run mode to show what would be extracted.
+    Use --execute to actually create the task files.
+
+    Examples:
+      vibey roadmap extract-embedded            # Dry run (show what would be extracted)
+      vibey roadmap extract-embedded --execute  # Create task files
+      vibey roadmap extract-embedded --quiet    # Less verbose output
+    """
+    from vibey.cli.commands import extract_embedded_cmd
+
+    dry_run = not execute
+    verbose = not quiet
+
+    exit_code = extract_embedded_cmd(dry_run=dry_run, verbose=verbose)
+    sys.exit(exit_code)
+
+
 @roadmap.command('install-hooks')
 @click.option('--force', is_flag=True, help='Overwrite existing pre-commit hook')
 @click.pass_context

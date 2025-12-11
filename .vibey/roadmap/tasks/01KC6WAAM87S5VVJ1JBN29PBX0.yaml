@@ -17,10 +17,10 @@ task:
     - state_reconstructor.py (line 207)
     All patterns like sprint_dir / "sprint.yaml" and track_id / "track.yaml"
     must be migrated to flat paths: tracks/{id}.yaml, sprints/{id}.yaml
-  status: not_started
+  status: completed
   created: '2025-12-11T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T20:30:00+00:00'
+  completed: '2025-12-11T21:15:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

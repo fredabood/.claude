@@ -167,54 +167,52 @@ class MergeOrderAnalyzer:
         return None
 
     def _build_dependency_graph(self) -> None:
-        """Build the dependency graph from roadmap files."""
+        """Build the dependency graph from roadmap files using flat structure."""
         self._dependency_graph = {}
         self._edges = []
 
-        # Load tracks
-        for track_dir in self.roadmap_root.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.'):
-                continue
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tasks_dir = self.roadmap_root / "tasks"
 
-            track_file = track_dir / "track.yaml"
-            if not track_file.exists():
-                continue
-
-            data = self._load_yaml_file(track_file)
-            if not data or 'track' not in data:
-                continue
-
-            track = data['track']
-            track_id = track.get('id', track_dir.name)
-
-            node = DependencyNode(
-                id=track_id,
-                level=DependencyLevel.TRACK,
-                name=track.get('name', track_id),
-                status=track.get('status', 'not_started'),
-                depends_on=[d if isinstance(d, str) else d.get('dependency_id', '')
-                           for d in track.get('depends_on', []) + track.get('blocked_by', [])],
-                blocks=[b if isinstance(b, str) else b.get('target_id', '')
-                       for b in track.get('blocks', [])]
-            )
-            self._dependency_graph[track_id] = node
-
-            # Add edges
-            for dep in node.depends_on:
-                if dep:
-                    self._edges.append(DependencyEdge(
-                        from_id=track_id,
-                        to_id=dep,
-                        dependency_type='depends_on'
-                    ))
-
-            # Load sprints
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+        # Load tracks from flat tracks/ directory
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if track_file.name.startswith('.'):
                     continue
 
-                sprint_file = sprint_dir / "sprint.yaml"
-                if not sprint_file.exists():
+                data = self._load_yaml_file(track_file)
+                if not data or 'track' not in data:
+                    continue
+
+                track = data['track']
+                track_id = track.get('id', track_file.stem)
+
+                node = DependencyNode(
+                    id=track_id,
+                    level=DependencyLevel.TRACK,
+                    name=track.get('name', track_id),
+                    status=track.get('status', 'not_started'),
+                    depends_on=[d if isinstance(d, str) else d.get('dependency_id', '')
+                               for d in track.get('depends_on', []) + track.get('blocked_by', [])],
+                    blocks=[b if isinstance(b, str) else b.get('target_id', '')
+                           for b in track.get('blocks', [])]
+                )
+                self._dependency_graph[track_id] = node
+
+                # Add edges
+                for dep in node.depends_on:
+                    if dep:
+                        self._edges.append(DependencyEdge(
+                            from_id=track_id,
+                            to_id=dep,
+                            dependency_type='depends_on'
+                        ))
+
+        # Load sprints from flat sprints/ directory
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if sprint_file.name.startswith('.'):
                     continue
 
                 sprint_data = self._load_yaml_file(sprint_file)
@@ -222,7 +220,7 @@ class MergeOrderAnalyzer:
                     continue
 
                 sprint = sprint_data['sprint']
-                sprint_id = sprint.get('id', sprint_dir.name)
+                sprint_id = sprint.get('id', sprint_file.stem)
 
                 sprint_node = DependencyNode(
                     id=sprint_id,
@@ -243,41 +241,38 @@ class MergeOrderAnalyzer:
                             dependency_type='depends_on'
                         ))
 
-                # Load tasks
-                for task_dir in sprint_dir.iterdir():
-                    if not task_dir.is_dir() or task_dir.name.startswith('.'):
-                        continue
+        # Load tasks from flat tasks/ directory
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
 
-                    task_file = task_dir / "task.yaml"
-                    if not task_file.exists():
-                        continue
+                task_data = self._load_yaml_file(task_file)
+                if not task_data or 'task' not in task_data:
+                    continue
 
-                    task_data = self._load_yaml_file(task_file)
-                    if not task_data or 'task' not in task_data:
-                        continue
+                task = task_data['task']
+                task_id = task.get('id', task_file.stem)
 
-                    task = task_data['task']
-                    task_id = task.get('id', task_dir.name)
+                task_node = DependencyNode(
+                    id=task_id,
+                    level=DependencyLevel.TASK,
+                    name=task.get('title', task.get('name', task_id)),
+                    status=task.get('status', 'not_started'),
+                    depends_on=[d if isinstance(d, str) else d.get('target_id', '')
+                               for d in task.get('dependencies', []) + task.get('blocked_by', [])],
+                    blocks=[b if isinstance(b, str) else b.get('target_id', '')
+                           for b in task.get('blocks', [])]
+                )
+                self._dependency_graph[task_id] = task_node
 
-                    task_node = DependencyNode(
-                        id=task_id,
-                        level=DependencyLevel.TASK,
-                        name=task.get('title', task.get('name', task_id)),
-                        status=task.get('status', 'not_started'),
-                        depends_on=[d if isinstance(d, str) else d.get('target_id', '')
-                                   for d in task.get('dependencies', []) + task.get('blocked_by', [])],
-                        blocks=[b if isinstance(b, str) else b.get('target_id', '')
-                               for b in task.get('blocks', [])]
-                    )
-                    self._dependency_graph[task_id] = task_node
-
-                    for dep in task_node.depends_on:
-                        if dep:
-                            self._edges.append(DependencyEdge(
-                                from_id=task_id,
-                                to_id=dep,
-                                dependency_type='depends_on'
-                            ))
+                for dep in task_node.depends_on:
+                    if dep:
+                        self._edges.append(DependencyEdge(
+                            from_id=task_id,
+                            to_id=dep,
+                            dependency_type='depends_on'
+                        ))
 
     def _get_branches_with_items(self) -> Dict[str, str]:
         """

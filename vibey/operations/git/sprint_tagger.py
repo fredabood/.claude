@@ -119,7 +119,7 @@ class SprintTagger:
 
     def _load_sprint_metadata(self, sprint_id: str) -> Optional[Dict[str, Any]]:
         """
-        Load sprint metadata from roadmap YAML.
+        Load sprint metadata from roadmap YAML using flat structure.
 
         Args:
             sprint_id: Sprint identifier
@@ -127,29 +127,32 @@ class SprintTagger:
         Returns:
             Sprint metadata dict, or None if not found
         """
-        # Find sprint file
         roadmap_dir = self.repo_path / ".vibey" / "roadmap"
         if not roadmap_dir.exists():
             return None
 
-        # Search for sprint file
-        for track_dir in roadmap_dir.iterdir():
-            if not track_dir.is_dir():
-                continue
+        # Direct lookup in flat sprints/ directory
+        sprint_file = roadmap_dir / "sprints" / f"{sprint_id}.yaml"
+        if sprint_file.exists():
+            try:
+                with open(sprint_file, 'r') as f:
+                    data = yaml.safe_load(f)
+                    sprint = data.get('sprint', {})
+                    if sprint.get('id') == sprint_id:
+                        return sprint
+            except Exception:
+                pass
 
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir():
+        # Fallback: scan sprints directory for matching ID
+        sprints_dir = roadmap_dir / "sprints"
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if sprint_file.name.startswith('.'):
                     continue
-
-                sprint_file = sprint_dir / "sprint.yaml"
-                if not sprint_file.exists():
-                    continue
-
                 try:
                     with open(sprint_file, 'r') as f:
                         data = yaml.safe_load(f)
                         sprint = data.get('sprint', {})
-
                         if sprint.get('id') == sprint_id:
                             return sprint
                 except Exception:

@@ -92,37 +92,42 @@ class PRDescriptionGenerator:
 
     def find_task_file(self, task_id: str) -> Optional[Path]:
         """
-        Find the sprint YAML file containing a specific task.
+        Find the task YAML file in flat structure.
 
         Args:
             task_id: Task ID to search for
 
         Returns:
-            Path to sprint.yaml file, or None if not found
+            Path to task YAML file, or None if not found
         """
         if not self.roadmap_dir.exists():
             return None
 
-        for sprint_file in self.roadmap_dir.rglob("sprint.yaml"):
-            try:
-                with open(sprint_file) as f:
-                    data = yaml.safe_load(f)
+        # Direct lookup in flat tasks/ directory
+        task_file = self.roadmap_dir / "tasks" / f"{task_id}.yaml"
+        if task_file.exists():
+            return task_file
 
-                sprint = data.get("sprint", {})
-                tasks = sprint.get("tasks", [])
-
-                for task in tasks:
-                    if task.get("id") == task_id:
-                        return sprint_file
-
-            except Exception:
-                continue
+        # Fallback: scan tasks directory for matching ID
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+                    if data and 'task' in data:
+                        if data['task'].get('id') == task_id:
+                            return task_file
+                except Exception:
+                    continue
 
         return None
 
     def load_task_info(self, task_id: str) -> Optional[TaskInfo]:
         """
-        Load complete task information.
+        Load complete task information from flat structure.
 
         Args:
             task_id: Task ID
@@ -139,27 +144,27 @@ class PRDescriptionGenerator:
             with open(task_file) as f:
                 data = yaml.safe_load(f)
 
-            sprint = data.get("sprint", {})
-            sprint_id = sprint.get("id", "unknown")
-            sprint_name = sprint.get("name", "Unknown Sprint")
-            track_id = sprint.get("track_id", "unknown")
-
-            tasks = sprint.get("tasks", [])
-
-            # Find target task
-            task = None
-            for t in tasks:
-                if t.get("id") == task_id:
-                    task = t
-                    break
-
+            task = data.get("task", {})
             if not task:
                 return None
 
-            # Load track info
-            track_name = "Unknown Track"
-            track_file = task_file.parent.parent / "track.yaml"
+            sprint_id = task.get("sprint_id", "unknown")
+            track_id = task.get("track_id", "unknown")
 
+            # Load sprint info from flat structure
+            sprint_name = "Unknown Sprint"
+            quality_gates = []
+            sprint_file = self.roadmap_dir / "sprints" / f"{sprint_id}.yaml"
+            if sprint_file.exists():
+                with open(sprint_file) as f:
+                    sprint_data = yaml.safe_load(f)
+                    sprint_info = sprint_data.get("sprint", {})
+                    sprint_name = sprint_info.get("name", "Unknown Sprint")
+                    quality_gates = sprint_info.get("quality_gates", [])
+
+            # Load track info from flat structure
+            track_name = "Unknown Track"
+            track_file = self.roadmap_dir / "tracks" / f"{track_id}.yaml"
             if track_file.exists():
                 with open(track_file) as f:
                     track_data = yaml.safe_load(f)
@@ -172,8 +177,8 @@ class PRDescriptionGenerator:
 
             # Build TaskInfo
             return TaskInfo(
-                id=task["id"],
-                name=task.get("name", "Untitled Task"),
+                id=task.get("id", task_id),
+                name=task.get("title", task.get("name", "Untitled Task")),
                 description=task.get("description", ""),
                 status=task.get("status", "not_started"),
                 priority=task.get("priority", "medium"),
@@ -186,7 +191,7 @@ class PRDescriptionGenerator:
                 dependencies=task.get("dependencies", []),
                 blocks=task.get("blocks", []),
                 blocked_by=task.get("blocked_by", []),
-                quality_gates=sprint.get("quality_gates", []),
+                quality_gates=quality_gates,
                 branch_name=branch_name,
                 commits=task.get("commits", [])
             )

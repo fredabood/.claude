@@ -219,21 +219,23 @@ class ErrorHandler:
         return issues
 
     def _validate_references(self) -> List[ValidationIssue]:
-        """Validate task and sprint ID references."""
+        """Validate task and sprint ID references using flat structure."""
         issues = []
 
-        # Load all IDs from track and sprint files
+        # Load all IDs from flat structure directories
         track_ids = set()
         sprint_ids = set()
         task_ids = set()
 
-        # Collect all IDs
-        for track_dir in self.roadmap_root.iterdir():
-            if not track_dir.is_dir():
-                continue
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tasks_dir = self.roadmap_root / "tasks"
 
-            track_file = track_dir / "track.yaml"
-            if track_file.exists():
+        # Collect track IDs from flat tracks/ directory
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if track_file.name.startswith('.'):
+                    continue
                 try:
                     with open(track_file) as f:
                         track_data = yaml.safe_load(f)
@@ -242,77 +244,81 @@ class ErrorHandler:
                 except Exception:
                     pass
 
-            # Check sprint files
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir():
+        # Collect sprint IDs from flat sprints/ directory
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if sprint_file.name.startswith('.'):
                     continue
+                try:
+                    with open(sprint_file) as f:
+                        sprint_data = yaml.safe_load(f)
+                        if sprint_data and 'sprint' in sprint_data:
+                            sprint_ids.add(sprint_data['sprint'].get('id'))
+                except Exception:
+                    pass
 
-                sprint_file = sprint_dir / "sprint.yaml"
-                if sprint_file.exists():
-                    try:
-                        with open(sprint_file) as f:
-                            sprint_data = yaml.safe_load(f)
-                            if sprint_data and 'sprint' in sprint_data:
-                                sprint_ids.add(sprint_data['sprint'].get('id'))
-                                for task in sprint_data['sprint'].get('tasks', []):
-                                    task_ids.add(task.get('id'))
-                    except Exception:
-                        pass
-
-        # Now validate references in track files
-        for track_dir in self.roadmap_root.iterdir():
-            if not track_dir.is_dir():
-                continue
-
-            track_file = track_dir / "track.yaml"
-            if not track_file.exists():
-                continue
-
-            try:
-                with open(track_file) as f:
-                    track_data = yaml.safe_load(f)
-
-                if not track_data or 'track' not in track_data:
+        # Collect task IDs from flat tasks/ directory
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
                     continue
+                try:
+                    with open(task_file) as f:
+                        task_data = yaml.safe_load(f)
+                        if task_data and 'task' in task_data:
+                            task_ids.add(task_data['task'].get('id'))
+                except Exception:
+                    pass
 
-                track = track_data['track']
+        # Validate references in track files
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if track_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(track_file) as f:
+                        track_data = yaml.safe_load(f)
 
-                # Check sprint references
-                for sprint_ref in track.get('sprints', []):
-                    sprint_id = sprint_ref.get('id')
-                    if sprint_id and sprint_id not in sprint_ids:
-                        issues.append(ValidationIssue(
-                            severity='error',
-                            category='consistency',
-                            file_path=str(track_file.relative_to(self.roadmap_root)),
-                            issue=f"Track references non-existent sprint: {sprint_id}",
-                            suggestion=f"Create sprint directory and file for {sprint_id}"
-                        ))
+                    if not track_data or 'track' not in track_data:
+                        continue
 
-                # Check dependency references
-                dependencies = track.get('dependencies', [])
-                if dependencies and isinstance(dependencies, list):
-                    for dep in dependencies:
-                        # Skip if dependency is not a string (might be dict or other type)
-                        if not isinstance(dep, str):
-                            continue
-                        if dep not in track_ids:
+                    track = track_data['track']
+
+                    # Check sprint references
+                    for sprint_ref in track.get('sprints', []):
+                        sprint_id = sprint_ref.get('id')
+                        if sprint_id and sprint_id not in sprint_ids:
                             issues.append(ValidationIssue(
-                                severity='warning',
+                                severity='error',
                                 category='consistency',
-                                file_path=str(track_file.relative_to(self.roadmap_root)),
-                                issue=f"Track dependency not found: {dep}",
-                                suggestion="Remove invalid dependency or create missing track"
+                                file_path=f"tracks/{track_file.name}",
+                                issue=f"Track references non-existent sprint: {sprint_id}",
+                                suggestion=f"Create sprint file sprints/{sprint_id}.yaml"
                             ))
 
-            except Exception as e:
-                issues.append(ValidationIssue(
-                    severity='error',
-                    category='yaml',
-                    file_path=str(track_file.relative_to(self.roadmap_root)),
-                    issue=f"Error validating references: {e}",
-                    suggestion="Check YAML syntax and structure"
-                ))
+                    # Check dependency references
+                    dependencies = track.get('dependencies', [])
+                    if dependencies and isinstance(dependencies, list):
+                        for dep in dependencies:
+                            if not isinstance(dep, str):
+                                continue
+                            if dep not in track_ids:
+                                issues.append(ValidationIssue(
+                                    severity='warning',
+                                    category='consistency',
+                                    file_path=f"tracks/{track_file.name}",
+                                    issue=f"Track dependency not found: {dep}",
+                                    suggestion="Remove invalid dependency or create missing track"
+                                ))
+
+                except Exception as e:
+                    issues.append(ValidationIssue(
+                        severity='error',
+                        category='yaml',
+                        file_path=f"tracks/{track_file.name}",
+                        issue=f"Error validating references: {e}",
+                        suggestion="Check YAML syntax and structure"
+                    ))
 
         return issues
 
@@ -362,21 +368,81 @@ class ErrorHandler:
         return issues
 
     def _check_orphaned_files(self) -> List[ValidationIssue]:
-        """Check for orphaned sprint directories without track.yaml."""
+        """Check for orphaned sprints/tasks without valid parent references."""
         issues = []
 
-        for track_dir in self.roadmap_root.iterdir():
-            if not track_dir.is_dir():
-                continue
+        tracks_dir = self.roadmap_root / "tracks"
+        sprints_dir = self.roadmap_root / "sprints"
+        tasks_dir = self.roadmap_root / "tasks"
 
-            track_file = track_dir / "track.yaml"
-            if not track_file.exists():
+        # Collect valid track and sprint IDs
+        track_ids = set()
+        sprint_ids = set()
+
+        if tracks_dir.exists():
+            for track_file in tracks_dir.glob("*.yaml"):
+                if track_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(track_file) as f:
+                        data = yaml.safe_load(f)
+                        if data and 'track' in data:
+                            track_ids.add(data['track'].get('id'))
+                except Exception:
+                    pass
+
+        if sprints_dir.exists():
+            for sprint_file in sprints_dir.glob("*.yaml"):
+                if sprint_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(sprint_file) as f:
+                        data = yaml.safe_load(f)
+                        if data and 'sprint' in data:
+                            sprint_ids.add(data['sprint'].get('id'))
+                            # Check sprint references valid track
+                            track_id = data['sprint'].get('track_id')
+                            if track_id and track_id not in track_ids:
+                                issues.append(ValidationIssue(
+                                    severity='warning',
+                                    category='consistency',
+                                    file_path=f"sprints/{sprint_file.name}",
+                                    issue=f"Sprint references non-existent track: {track_id}",
+                                    suggestion="Fix track_id or remove orphaned sprint"
+                                ))
+                except Exception:
+                    pass
+
+        # Check tasks reference valid sprints
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+                        if data and 'task' in data:
+                            sprint_id = data['task'].get('sprint_id')
+                            if sprint_id and sprint_id not in sprint_ids:
+                                issues.append(ValidationIssue(
+                                    severity='warning',
+                                    category='consistency',
+                                    file_path=f"tasks/{task_file.name}",
+                                    issue=f"Task references non-existent sprint: {sprint_id}",
+                                    suggestion="Fix sprint_id or remove orphaned task"
+                                ))
+                except Exception:
+                    pass
+
+        # Check for legacy hierarchical ULID directories (should not exist)
+        for item in self.roadmap_root.iterdir():
+            if item.is_dir() and item.name.startswith('01K'):
                 issues.append(ValidationIssue(
                     severity='warning',
                     category='consistency',
-                    file_path=str(track_dir.relative_to(self.roadmap_root)),
-                    issue=f"Track directory missing track.yaml: {track_dir.name}",
-                    suggestion="Create track.yaml or remove orphaned directory"
+                    file_path=item.name,
+                    issue=f"Legacy hierarchical ULID directory found: {item.name}",
+                    suggestion="Delete legacy directory or run migration"
                 ))
 
         return issues

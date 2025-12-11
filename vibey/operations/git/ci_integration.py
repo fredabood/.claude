@@ -221,22 +221,18 @@ class CIIntegration:
         """
         gates = []
 
-        # If sprint specified, load sprint gates
+        # If sprint specified, load sprint gates from flat structure
         if sprint_id:
-            sprint_path = None
-            for p in self.roadmap_root.glob(f"**/{sprint_id}/sprint.yaml"):
-                sprint_path = p
-                break
-
-            if sprint_path and sprint_path.exists():
+            sprint_path = self.roadmap_root / "sprints" / f"{sprint_id}.yaml"
+            if sprint_path.exists():
                 with open(sprint_path, 'r') as f:
                     data = yaml.safe_load(f)
                     if data and 'sprint' in data:
                         gates.extend(data['sprint'].get('quality_gates', []))
 
-        # If track specified, load track gates
+        # If track specified, load track gates from flat structure
         if track_id:
-            track_path = self.roadmap_root / track_id / "track.yaml"
+            track_path = self.roadmap_root / "tracks" / f"{track_id}.yaml"
             if track_path.exists():
                 with open(track_path, 'r') as f:
                     data = yaml.safe_load(f)
@@ -498,13 +494,10 @@ class CIIntegration:
         try:
             # Find the file to update
             if sprint_id:
-                file_path = None
-                for p in self.roadmap_root.glob(f"**/{sprint_id}/sprint.yaml"):
-                    file_path = p
-                    break
+                file_path = self.roadmap_root / "sprints" / f"{sprint_id}.yaml"
                 key = 'sprint'
             elif track_id:
-                file_path = self.roadmap_root / track_id / "track.yaml"
+                file_path = self.roadmap_root / "tracks" / f"{track_id}.yaml"
                 key = 'track'
             else:
                 return False, "Must specify sprint_id or track_id"

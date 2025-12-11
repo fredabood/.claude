@@ -99,40 +99,40 @@ def get_task_commits(task_id: str, repo_path: Optional[Path] = None) -> List[str
 
 
 def get_task_yaml_commits(task_id: str, repo_path: Path) -> List[str]:
-    """Get commits stored in task.yaml."""
-    # Extract sprint ID
-    if '-task-' not in task_id:
-        return []
-
-    sprint_id = task_id.split('-task-')[0]
-
-    # Build path: .vibey/roadmap/<track>/<sprint>/<task>/task.yaml
-    # We need to find the track from the sprint ID
+    """Get commits stored in task.yaml using flat structure."""
     roadmap_root = repo_path / ".vibey" / "roadmap"
     if not roadmap_root.exists():
         return []
 
-    # Search for the task file
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
-            continue
+    # Direct lookup in flat tasks/ directory
+    task_file = roadmap_root / "tasks" / f"{task_id}.yaml"
+    if task_file.exists():
+        try:
+            with open(task_file, 'r') as f:
+                task_data = yaml.safe_load(f)
+                if task_data and 'task' in task_data:
+                    commits = task_data['task'].get('commits', [])
+                    return [c.get('sha', c) if isinstance(c, dict) else c
+                            for c in commits]
+        except Exception:
+            pass
 
-        sprint_dir = track_dir / sprint_id
-        if sprint_dir.exists():
-            task_dir = sprint_dir / task_id
-            task_file = task_dir / "task.yaml"
-
-            if task_file.exists():
-                try:
-                    with open(task_file, 'r') as f:
-                        task_data = yaml.safe_load(f)
-                        if task_data and 'task' in task_data:
+    # Fallback: scan tasks directory for matching ID
+    tasks_dir = roadmap_root / "tasks"
+    if tasks_dir.exists():
+        for task_file in tasks_dir.glob("*.yaml"):
+            if task_file.name.startswith('.'):
+                continue
+            try:
+                with open(task_file, 'r') as f:
+                    task_data = yaml.safe_load(f)
+                    if task_data and 'task' in task_data:
+                        if task_data['task'].get('id') == task_id:
                             commits = task_data['task'].get('commits', [])
-                            # Extract SHAs from commit objects
                             return [c.get('sha', c) if isinstance(c, dict) else c
                                     for c in commits]
-                except Exception:
-                    pass
+            except Exception:
+                pass
 
     return []
 
@@ -157,33 +157,37 @@ def find_commits_referencing_task(task_id: str, repo_path: Path) -> List[str]:
 
 
 def get_task_type(task_id: str, repo_path: Path) -> Optional[str]:
-    """Get the task type from task.yaml."""
-    if '-task-' not in task_id:
-        return None
-
-    sprint_id = task_id.split('-task-')[0]
+    """Get the task type from task.yaml using flat structure."""
     roadmap_root = repo_path / ".vibey" / "roadmap"
 
     if not roadmap_root.exists():
         return None
 
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
-            continue
+    # Direct lookup in flat tasks/ directory
+    task_file = roadmap_root / "tasks" / f"{task_id}.yaml"
+    if task_file.exists():
+        try:
+            with open(task_file, 'r') as f:
+                task_data = yaml.safe_load(f)
+                if task_data and 'task' in task_data:
+                    return task_data['task'].get('task_type')
+        except Exception:
+            pass
 
-        sprint_dir = track_dir / sprint_id
-        if sprint_dir.exists():
-            task_dir = sprint_dir / task_id
-            task_file = task_dir / "task.yaml"
-
-            if task_file.exists():
-                try:
-                    with open(task_file, 'r') as f:
-                        task_data = yaml.safe_load(f)
-                        if task_data and 'task' in task_data:
+    # Fallback: scan tasks directory for matching ID
+    tasks_dir = roadmap_root / "tasks"
+    if tasks_dir.exists():
+        for task_file in tasks_dir.glob("*.yaml"):
+            if task_file.name.startswith('.'):
+                continue
+            try:
+                with open(task_file, 'r') as f:
+                    task_data = yaml.safe_load(f)
+                    if task_data and 'task' in task_data:
+                        if task_data['task'].get('id') == task_id:
                             return task_data['task'].get('task_type')
-                except Exception:
-                    pass
+            except Exception:
+                pass
 
     return None
 
@@ -316,7 +320,7 @@ def validate_all_tasks_have_commits(
     repo_path: Optional[Path] = None
 ) -> List[EvidenceCheckResult]:
     """
-    Validate that all completed tasks have commit evidence.
+    Validate that all completed tasks have commit evidence using flat structure.
 
     Returns list of tasks missing commits.
     """
@@ -329,33 +333,25 @@ def validate_all_tasks_have_commits(
     if not roadmap_root.exists():
         return issues
 
-    # Find all completed tasks
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
+    # Find all completed tasks from flat tasks/ directory
+    tasks_dir = roadmap_root / "tasks"
+    if not tasks_dir.exists():
+        return issues
+
+    for task_file in tasks_dir.glob("*.yaml"):
+        if task_file.name.startswith('.'):
             continue
 
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-                continue
-
-            for task_dir in sprint_dir.iterdir():
-                if not task_dir.is_dir() or task_dir.name.startswith('.') or task_dir.name == 'context':
-                    continue
-
-                task_file = task_dir / "task.yaml"
-                if not task_file.exists():
-                    continue
-
-                try:
-                    with open(task_file, 'r') as f:
-                        task_data = yaml.safe_load(f)
-                        if task_data and 'task' in task_data:
-                            task = task_data['task']
-                            if task.get('status') == 'completed':
-                                result = check_commit_evidence(task['id'], repo_path)
-                                if not result.has_evidence and not result.is_exception:
-                                    issues.append(result)
-                except Exception:
-                    pass
+        try:
+            with open(task_file, 'r') as f:
+                task_data = yaml.safe_load(f)
+                if task_data and 'task' in task_data:
+                    task = task_data['task']
+                    if task.get('status') == 'completed':
+                        result = check_commit_evidence(task['id'], repo_path)
+                        if not result.has_evidence and not result.is_exception:
+                            issues.append(result)
+        except Exception:
+            pass
 
     return issues

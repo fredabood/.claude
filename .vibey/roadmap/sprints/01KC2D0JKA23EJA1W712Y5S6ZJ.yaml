@@ -15,14 +15,14 @@ sprint:
   deployed_at: null
   progress:
     development_tasks_total: 7
-    development_tasks_completed: 3
+    development_tasks_completed: 4
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 7
-    tasks_completed: 3
-    completion_percent: 42
+    tasks_completed: 4
+    completion_percent: 57
   tasks:
   - id: 01KC79XW008MN6KHT4S4AVS7VG
     title: Design MCP Resources architecture
@@ -41,7 +41,7 @@ sprint:
     gate_info: null
   - id: 01KC79XW02AZ2V0JCE08C2VZ38
     title: Design MCP Prompts architecture
-    status: not_started
+    status: completed
     task_type: research
     gate_info: null
   - id: 01KC79XW0348EJZBAJ6YPW09FJ

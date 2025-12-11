@@ -6,10 +6,10 @@ task:
   task_type: research
   title: Design MCP Prompts architecture
   description: null
-  status: not_started
+  status: completed
   created: '2025-12-11T18:14:15.808058+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T22:30:00+00:00'
+  completed: '2025-12-11T22:45:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: unified-arch-3-task-001
-    title: Add ULID generation and validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-3-task-002
-    title: Create .id file format and parser
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-3-task-003
-    title: Update YAML loader/dumper for ULID
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-3-task-004
-    title: Create ULID migration script
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-3-task-005
-    title: Execute ULID migration
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

@@ -23,52 +23,6 @@ sprint:
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100
-  tasks:
-  - id: git-integration-3-task-001
-    title: Implement error handling and recovery
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-002
-    title: Implement tag repair automation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-003
-    title: Implement PR merge checkpoint for task conflicts
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-004
-    title: Implement blocker enforcement in git workflow
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-005
-    title: Implement quality gate CI integration
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-006
-    title: Implement dependency-aware merge ordering
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-007
-    title: Implement strategy preset adoption
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-008
-    title: Create integration test suite
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-3-task-009
-    title: Complete git integration documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

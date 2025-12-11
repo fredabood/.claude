@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: cursor-port-2-task-001
-    title: Integration tests with Cursor
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cursor-port-2-task-002
-    title: E2E tests with Composer agent
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cursor-port-2-task-003
-    title: Write Cursor integration guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cursor-port-2-task-004
-    title: Migration guide (Claude Code to Cursor)
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cursor-port-2-task-005
-    title: Quality gate validation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

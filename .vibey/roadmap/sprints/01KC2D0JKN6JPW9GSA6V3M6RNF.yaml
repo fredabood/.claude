@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: sqlite-backend-11-task-001
-    title: Build Computed DB from task files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-002
-    title: Build Declared DB from YAML counters
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-003
-    title: Implement database comparison engine
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-004
-    title: Create integrity audit report generator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-005
-    title: Implement YAML remediation tooling
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-006
-    title: 'Validation Step 1: Computed DB vs Declared DB comparison'
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-007
-    title: 'Validation Steps 2-3: YAML round-trip verification'
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-11-task-008
-    title: Fix CLI task completion reformatting sibling task files
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

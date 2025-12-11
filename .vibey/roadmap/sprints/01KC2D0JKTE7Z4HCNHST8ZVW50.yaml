@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: unified-arch-2-task-001
-    title: Design unified completables table schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-002
-    title: Design criteria table with polymorphic targets
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-003
-    title: Design artifacts table schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-004
-    title: Create schema migration script
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-005
-    title: Update sql_loader for unified schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-006
-    title: Update sql_dumper for unified schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-2-task-007
-    title: Execute migration and validate
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

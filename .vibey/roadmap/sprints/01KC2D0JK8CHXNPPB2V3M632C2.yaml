@@ -23,58 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: infrastructure-fixes-2-task-001
-    title: Integrate roadmap initialization into CLI deployment
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: infrastructure-fixes-2-task-002
-    title: Create vibey plan command with roadmap integration
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: infrastructure-fixes-2-task-003
-    title: Add automatic roadmap progress tracking
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: infrastructure-fixes-2-task-004
-    title: Execute Roadmap CLI Functionality quality gate
-    status: completed
-    task_type: completion_gate
-    gate_info:
-      blocks_status: completed
-      threshold: 0
-      is_blocking: true
-      score: null
-  - id: infrastructure-fixes-2-task-005
-    title: Execute CLI Integration quality gate
-    status: completed
-    task_type: completion_gate
-    gate_info:
-      blocks_status: completed
-      threshold: 0
-      is_blocking: true
-      score: null
-  - id: infrastructure-fixes-2-task-006
-    title: Execute Status Accuracy quality gate
-    status: completed
-    task_type: completion_gate
-    gate_info:
-      blocks_status: completed
-      threshold: 0
-      is_blocking: true
-      score: null
-  - id: infrastructure-fixes-2-task-007
-    title: Execute Backward Compatibility quality gate
-    status: completed
-    task_type: completion_gate
-    gate_info:
-      blocks_status: completed
-      threshold: 0
-      is_blocking: true
-      score: null
   development_gates: []
   blocks: []
   blocked_by: []

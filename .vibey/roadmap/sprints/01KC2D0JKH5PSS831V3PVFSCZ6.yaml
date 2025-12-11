@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-20-task-001
-    title: Run quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-20-task-002
-    title: Synchronize sprint task status
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-20-task-003
-    title: Create or remove platform.yaml
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-20-task-004
-    title: Fix timestamp inconsistencies
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

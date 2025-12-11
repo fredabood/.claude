@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 2
     completion_percent: 50
-  tasks:
-  - id: roadmap-state-audit-28-task-001
-    title: Update all 7 Sprint 1 task statuses
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-28-task-002
-    title: Update sprint.yaml status
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-28-task-003
-    title: Link commit f9bc7c2
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-28-task-004
-    title: Add deliverable records
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,37 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-22-task-001
-    title: Create architecture discovery context writer
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-22-task-002
-    title: Add --output-context flag to vibey discover command
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-22-task-003
-    title: Implement automatic context directory creation per track
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-22-task-004
-    title: Add discovery context loading for AI agents
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-22-task-005
-    title: Create test suite for discovery context integration
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-22-task-006
-    title: Document discovery context workflow
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

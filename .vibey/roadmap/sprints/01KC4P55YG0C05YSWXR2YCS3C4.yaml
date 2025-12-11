@@ -23,17 +23,6 @@ sprint:
     tasks_total: 2
     tasks_completed: 2
     completion_percent: 100
-  tasks:
-  - id: 01KC4P92GRAHA428M96MTXWP5T
-    title: 'Bug #16: complete command compares slug to ULID'
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: 01KC4P92GRAHA428M96MTXWP5V
-    title: 'Bug #17: sync command does not update sprint/track progress'
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

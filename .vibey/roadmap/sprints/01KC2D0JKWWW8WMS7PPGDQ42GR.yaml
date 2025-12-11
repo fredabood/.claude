@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-4-task-001
-    title: Design user journey document structure
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-002
-    title: Generate new user onboarding journey walkthrough
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-003
-    title: Generate workflow journeys for each persona
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-004
-    title: Verify 100% CLI reference coverage in journeys
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-005
-    title: Build CLI reference change trigger system
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-006
-    title: Add journey coverage to CI validation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-4-task-007
-    title: Review and refine journeys based on pain points
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

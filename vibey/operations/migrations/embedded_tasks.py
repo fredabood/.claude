@@ -1,6 +1,19 @@
 """
-Migrate Embedded Tasks to Separate Files
+DEPRECATED: Migrate Embedded Tasks to Separate Files
 
+================================================================================
+DEPRECATION NOTICE (2025-12-11):
+
+This module is DEPRECATED. The embedded task migration has been completed.
+All tasks are now stored as standalone files in .vibey/roadmap/tasks/{ulid}.yaml.
+
+The codebase no longer creates embedded tasks in sprint files.
+This module is kept for historical reference only.
+
+See: .vibey/roadmap/context/EMBEDDED_TASK_MIGRATION_PLAN.md
+================================================================================
+
+Original Purpose:
 Detects sprints with tasks embedded in sprint YAML files and migrates them
 to the separate-file format (.vibey/tasks/{sprint-id}-tasks.yaml) that the
 roadmap update scripts expect.
@@ -11,6 +24,14 @@ the update script can't find the tasks file.
 Created: 2025-11-09
 Purpose: Fix data model mismatch between embedded and separate task formats
 """
+
+import warnings
+warnings.warn(
+    "vibey.operations.migrations.embedded_tasks is deprecated. "
+    "All tasks are now standalone files in tasks/{ulid}.yaml.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 import yaml
 import shutil

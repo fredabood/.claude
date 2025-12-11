@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-14-task-001
-    title: Audit existing common tests and coverage
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-002
-    title: Write tests for error types
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-003
-    title: Write tests for error renderers
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-004
-    title: Write tests for utility functions
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-005
-    title: Write tests for shared constants and types
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-006
-    title: Verify 100% common coverage achieved
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-14-task-007
-    title: Document error handling testing patterns
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

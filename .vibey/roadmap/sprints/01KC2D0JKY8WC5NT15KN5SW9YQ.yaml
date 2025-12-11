@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: windsurf-port-2-task-001
-    title: Advanced Cascade integration
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-2-task-002
-    title: MCP tool wrapper
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-2-task-003
-    title: VS Code compatibility testing
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-2-task-004
-    title: Integration tests
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-2-task-005
-    title: Documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-2-task-006
-    title: Example projects
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

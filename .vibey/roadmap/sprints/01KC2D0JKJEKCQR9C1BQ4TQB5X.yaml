@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 2
     completion_percent: 50
-  tasks:
-  - id: roadmap-state-audit-27-task-001
-    title: Register VSCodeAdapter in PLATFORMS
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-27-task-002
-    title: Update Sprint 1 status
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-27-task-003
-    title: Reconcile deliverables list
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-27-task-004
-    title: Create hierarchical YAML structure
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

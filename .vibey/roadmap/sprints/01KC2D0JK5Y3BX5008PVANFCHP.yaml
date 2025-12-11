@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: gemini-port-1-task-001
-    title: Gemini API Documentation Study
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-1-task-002
-    title: AI Studio Capabilities Analysis
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-1-task-003
-    title: Vertex AI Integration Research
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-1-task-004
-    title: MCP Compatibility Assessment
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-1-task-005
-    title: Architecture Design Document
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-1-task-006
-    title: Technical Spike - API Integration
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

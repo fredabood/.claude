@@ -23,57 +23,6 @@ sprint:
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100
-  tasks:
-  - id: testing-system-2-task-001
-    title: Write Journey 1 integration tests (First-Time Setup)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-002
-    title: Write Journey 2 integration tests (Sprint Planning)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-003
-    title: Write Journey 3 integration tests (Feature Development)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-004
-    title: Write Journey 4 integration tests (Quality Assurance)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-005
-    title: Write Journey 5 integration tests (Framework Management)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-006
-    title: Write Journey 6 integration tests (Multi-Platform)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-007
-    title: Write Journey 7 integration tests (Roadmap-Driven)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-008
-    title: Implement repository state transition validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-009
-    title: Implement git history pattern validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-2-task-010
-    title: Track and validate success metrics
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

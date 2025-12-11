@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: replit-port-4-task-001
-    title: Initialize Extension project structure
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-4-task-002
-    title: Create React scaffolding
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-4-task-003
-    title: Implement useVibey hook
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-4-task-004
-    title: Create Dashboard component
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-4-task-005
-    title: Implement CLUI commands
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-4-task-006
-    title: Configure extension manifest
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

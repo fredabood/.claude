@@ -23,37 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: unified-arch-5-task-001
-    title: Migrate query operations to unified models
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-5-task-002
-    title: Migrate update operations to unified models
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-5-task-003
-    title: Migrate status transitions to use can_transition_to
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-5-task-004
-    title: Implement artifact operations
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-5-task-005
-    title: Update CLI commands for new models
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-5-task-006
-    title: Final integration testing and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

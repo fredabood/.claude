@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-integrity-fixes-2-5-task-001
-    title: Run full roadmap validation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-5-task-002
-    title: Document schema decisions
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-5-task-003
-    title: Update audit report
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-5-task-004
-    title: Mark track complete and commit
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

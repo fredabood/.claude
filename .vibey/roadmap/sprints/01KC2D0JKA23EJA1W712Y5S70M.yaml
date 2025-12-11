@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: multi-platform-2-task-001
-    title: Design PlatformAdapter base class
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-2-task-002
-    title: Define adapter interface methods
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-2-task-003
-    title: Implement Claude Code adapter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-2-task-004
-    title: Test Claude Code adapter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-2-task-005
-    title: Implement Goose adapter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-2-task-006
-    title: Test Goose adapter
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

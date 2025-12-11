@@ -23,52 +23,6 @@ sprint:
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100
-  tasks:
-  - id: standards-system-3-task-001
-    title: Create validator base class and framework
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-002
-    title: Implement CommitCheckValidator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-003
-    title: Implement FileCheckValidator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-004
-    title: Implement TestRunValidator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-005
-    title: Implement CustomScriptValidator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-006
-    title: Create validator registry
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-007
-    title: Define validation result types
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-008
-    title: Write validator unit tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-3-task-009
-    title: Document validator API
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

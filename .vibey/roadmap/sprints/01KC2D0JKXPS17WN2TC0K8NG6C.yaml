@@ -22,37 +22,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
-  tasks:
-  - id: vscode-roadmap-extension-2-task-001
-    title: Implement 'Start Task' command with YAML update
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-2-task-002
-    title: Implement 'Complete Task' command with YAML update
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-2-task-003
-    title: Implement 'Start Sprint' command
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-2-task-004
-    title: Add status picker quick-pick for manual status changes
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-2-task-005
-    title: Implement safe YAML modification preserving comments/formatting
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-2-task-006
-    title: Add undo support and confirmation dialogs for edits
-    status: not_started
-    task_type: development
-    gate_info: null
   blocked_by: []
   depends_on: []
   plan_file: null

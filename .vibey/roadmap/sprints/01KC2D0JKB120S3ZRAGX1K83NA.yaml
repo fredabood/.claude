@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: platform-context-management-4-task-001
-    title: Task splitting algorithm
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-002
-    title: Dependency analysis and preservation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-003
-    title: Dependency re-mapping
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-004
-    title: Agent assignment mapping
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-005
-    title: Success criteria distribution
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-006
-    title: Sprint metadata update system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-007
-    title: CLI command - vibey roadmap recalculate
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-4-task-008
-    title: Integration testing
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,52 +23,6 @@ sprint:
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100
-  tasks:
-  - id: git-integration-1-task-001
-    title: Design commit message parsing schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-002
-    title: Implement commit-to-task correlation engine
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-003
-    title: Create git log analysis utilities
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-004
-    title: Build sprint velocity calculator from git history
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-005
-    title: Add vibey git analyze CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-006
-    title: Create comprehensive test suite for git analysis
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-007
-    title: Document git analysis features and usage
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-008
-    title: Implement state reconstruction queries
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-1-task-009
-    title: Add sprint and task tag parsing
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,12 +23,6 @@ sprint:
     tasks_total: 1
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-3-task-001
-    title: Fix quality gate scores
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

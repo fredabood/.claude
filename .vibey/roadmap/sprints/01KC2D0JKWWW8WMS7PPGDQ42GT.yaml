@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-6-task-001
-    title: Prioritize friction points by impact and effort
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-002
-    title: Design quick win improvements
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-003
-    title: Design strategic improvements
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-004
-    title: Define success metrics and tracking
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-005
-    title: Create improvement roadmap
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-006
-    title: Create new roadmap tracks from recommendations
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-6-task-007
-    title: Produce final audit report and recommendations
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

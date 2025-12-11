@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: platform-context-management-2-task-001
-    title: Task size vs context window checker
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-2-task-002
-    title: Incomplete task filter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-2-task-003
-    title: Sprint-level compatibility analyzer
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-2-task-004
-    title: CLI command - vibey roadmap check-compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-2-task-005
-    title: Warning messages and UX design
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: git-integration-0-task-001
-    title: Define Vibey-Git primitive mapping
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-002
-    title: Establish source of truth model
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-003
-    title: Design commit message conventions
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-004
-    title: Design branching strategy
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-005
-    title: Define enforcement philosophy
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-006
-    title: Design state reconstruction model
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-0-task-007
-    title: Produce integration architecture document
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

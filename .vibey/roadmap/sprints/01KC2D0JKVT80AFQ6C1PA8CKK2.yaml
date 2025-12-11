@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-16-task-001
-    title: Design integration test suite
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-002
-    title: Write workflow integration tests
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-003
-    title: Write error propagation tests
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-004
-    title: Validate 100% overall coverage
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-005
-    title: Validate 95%+ pass rate
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-006
-    title: Set up CI coverage enforcement
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-16-task-007
-    title: Produce final coverage report and documentation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: roadmap-integration-3-task-001
-    title: Finalize Roadmap System Documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-3-task-002
-    title: Create Comprehensive Integration Test Suite
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-3-task-003
-    title: Run End-to-End Workflow Validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-3-task-004
-    title: Create Track Completion Summary
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-3-task-005
-    title: Update CHANGELOG and Prepare Release
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

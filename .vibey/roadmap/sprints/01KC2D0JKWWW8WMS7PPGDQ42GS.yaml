@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-5-task-001
-    title: Deep analysis of onboarding friction
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-002
-    title: Deep analysis of daily workflow friction
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-003
-    title: Analyze documentation quality gaps
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-004
-    title: Analyze error handling and recovery experience
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-005
-    title: Compare to ideal-state journeys
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-006
-    title: Quantify friction impact
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-5-task-007
-    title: Compile comprehensive friction analysis report
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

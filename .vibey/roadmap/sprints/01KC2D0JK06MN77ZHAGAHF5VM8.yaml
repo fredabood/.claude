@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: atlassian-integration-4-task-001
-    title: Create unified vibey atlassian CLI
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-002
-    title: Implement Jira-Confluence cross-linking
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-003
-    title: Add Atlassian notifications and alerts
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-004
-    title: Implement bulk operations and performance optimization
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-005
-    title: Create Atlassian admin configuration
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-006
-    title: Write comprehensive documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-4-task-007
-    title: End-to-end integration testing
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

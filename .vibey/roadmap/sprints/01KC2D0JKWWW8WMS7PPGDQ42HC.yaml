@@ -22,32 +22,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
-  tasks:
-  - id: vscode-roadmap-extension-0-task-001
-    title: Scaffold VS Code extension project with TypeScript
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-0-task-002
-    title: Implement roadmap file detection (.vibey/roadmap.yaml)
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-0-task-003
-    title: Create YAML parser for roadmap, track, sprint, task files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-0-task-004
-    title: Design data models for roadmap hierarchy in TypeScript
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-0-task-005
-    title: Implement extension activation and workspace detection
-    status: not_started
-    task_type: development
-    gate_info: null
   blocked_by: []
   depends_on: []
   plan_file: null

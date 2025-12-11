@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-19-task-001
-    title: Identify context artifacts suitable for git versioning
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-002
-    title: Analyze git workflow patterns for context versioning
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-003
-    title: Identify Vibey context versioning gaps
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-004
-    title: Design context snapshot format specification
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-005
-    title: Analyze context diff and merge challenges
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-006
-    title: Study session reconstruction requirements
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-19-task-007
-    title: Produce Git Versioning Gap Analysis Report
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

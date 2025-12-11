@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-12-task-001
-    title: Audit existing models tests and coverage
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-002
-    title: Write tests for Roadmap model
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-003
-    title: Write tests for Track model
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-004
-    title: Write tests for Sprint model
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-005
-    title: Write tests for Task model
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-006
-    title: Write tests for serialization utilities
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-12-task-007
-    title: Verify 100% models coverage achieved
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: roadmap-integrity-fixes-8-task-001
-    title: Audit schema validation failures
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-002
-    title: Fix missing required fields (47 critical)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-003
-    title: Fix field hierarchy issues (373 high)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-004
-    title: Create schema migration script
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-005
-    title: Validate all 435 YAML files pass schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-006
-    title: Update Pydantic models for compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-8-task-007
-    title: Add schema validation to CI/CD
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

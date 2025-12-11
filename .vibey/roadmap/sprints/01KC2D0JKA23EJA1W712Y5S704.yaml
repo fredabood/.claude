@@ -23,62 +23,6 @@ sprint:
     tasks_total: 11
     tasks_completed: 11
     completion_percent: 100
-  tasks:
-  - id: missing-agents-1-task-001
-    title: Implement test-engineer agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-002
-    title: Implement docs-writer agent (alias/rename)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-003
-    title: Implement security-auditor agent (alias/rename)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-004
-    title: Implement architecture-agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-005
-    title: Implement backend-engineer agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-006
-    title: Implement frontend-engineer agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-007
-    title: Implement database-specialist agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-008
-    title: Implement infrastructure-engineer agent
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-009
-    title: Update all agent references
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-010
-    title: Create agent directory README
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: missing-agents-1-task-011
-    title: Add agent validation tests
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

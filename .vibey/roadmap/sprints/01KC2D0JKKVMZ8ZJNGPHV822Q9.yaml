@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-5-task-001
-    title: Update Sprint 1 task statuses
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-5-task-002
-    title: Update Sprint 1 sprint.yaml status
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-5-task-003
-    title: Link commit f9bc7c2
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-5-task-004
-    title: Populate deliverable lists
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

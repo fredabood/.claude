@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-10-task-001
-    title: Audit existing CLI tests and coverage
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-002
-    title: Write tests for vibey/cli/main.py
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-003
-    title: Write tests for vibey/cli/commands.py
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-004
-    title: Write tests for roadmap CLI commands
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-005
-    title: Write tests for docs CLI commands
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-006
-    title: Verify 100% CLI coverage achieved
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-10-task-007
-    title: Document CLI testing patterns
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

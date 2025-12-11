@@ -23,22 +23,6 @@ sprint:
     tasks_total: 3
     tasks_completed: 1
     completion_percent: 33
-  tasks:
-  - id: roadmap-state-audit-1-task-001
-    title: Fix sprint count mismatch
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-1-task-002
-    title: Update track status to completed
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-1-task-003
-    title: Add commit f9bc7c2 to commits arrays
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

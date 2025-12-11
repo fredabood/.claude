@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: roadmap-system-7-task-001
-    title: Research token-based sizing methodology
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-7-task-002
-    title: Update data models for token-based estimates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-7-task-003
-    title: Add token estimation utilities
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-7-task-004
-    title: Migrate existing time estimates to token estimates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-7-task-005
-    title: Update documentation and validation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

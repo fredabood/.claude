@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: roadmap-integrity-fixes-0-task-001
-    title: Backup archive integrity verification
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-0-task-002
-    title: Create checkpoint backup of current state
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-0-task-003
-    title: Establish stakeholder approval process
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-0-task-004
-    title: Define evidence conflict resolution framework
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-0-task-005
-    title: Document rollback procedures
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-0-task-006
-    title: Extend forensic audit timeline
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

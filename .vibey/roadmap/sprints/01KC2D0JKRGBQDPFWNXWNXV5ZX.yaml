@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: standards-system-1-task-001
-    title: Define Standard dataclass with all required fields
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-002
-    title: Add standards field to Roadmap model
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-003
-    title: Add standards field to Track model
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-004
-    title: Add standards field to Sprint model
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-005
-    title: Update models __init__.py for exports
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-006
-    title: Implement YAML dumper for standards
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-007
-    title: Implement YAML loader for standards
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-1-task-008
-    title: Write comprehensive unit tests
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,22 +23,6 @@ sprint:
     tasks_total: 3
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-14-task-001
-    title: Update quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-14-task-002
-    title: Add Sprint 2 commit references
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-14-task-003
-    title: Normalize sprint status naming
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: replit-port-2-task-001
-    title: Create ReplitAdapter class
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-002
-    title: Implement ReplitContextGenerator
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-003
-    title: Implement deploy methods
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-004
-    title: Implement validate_deployment method
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-005
-    title: Create unit tests for adapter
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-006
-    title: Create integration tests
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-2-task-007
-    title: Write adapter documentation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

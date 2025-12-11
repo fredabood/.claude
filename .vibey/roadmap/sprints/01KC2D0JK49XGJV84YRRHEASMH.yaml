@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: documentation-system-1-task-000
-    title: Implement ULID-based ID generation system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-001
-    title: Design and implement hierarchical directory structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-002
-    title: Build table_of_contents.json generation system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-003
-    title: Create markdown view generation from YAML
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-004
-    title: Implement context directory management
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-005
-    title: Update roadmap state management scripts
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-006
-    title: Create unit tests for generation systems
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-1-task-007
-    title: Document new hierarchical structure
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: amazonq-port-2-task-001
-    title: Integration tests with Q CLI
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: amazonq-port-2-task-002
-    title: E2E tests with Q IDE plugins
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: amazonq-port-2-task-003
-    title: Enterprise admin control testing
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: amazonq-port-2-task-004
-    title: Write Amazon Q integration guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: amazonq-port-2-task-005
-    title: Quality gate validation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

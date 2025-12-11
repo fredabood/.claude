@@ -23,47 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: goose-port-1-task-001
-    title: Design frontmatter schema for agents
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-002
-    title: Design frontmatter schema for workflows
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-003
-    title: Design frontmatter schema for handoffs
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-004
-    title: Create migration script for frontmatter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-005
-    title: Migrate 19 agent markdown files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-006
-    title: Migrate 16 workflow markdown files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-007
-    title: Migrate 22 handoff template files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-1-task-008
-    title: Validate all migrations with schema validator
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

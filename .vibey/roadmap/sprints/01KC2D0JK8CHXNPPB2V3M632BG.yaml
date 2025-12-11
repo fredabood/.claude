@@ -23,47 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: goose-port-3-task-001
-    title: Create BaseAdapter and CompositeAdapter abstract base classes
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-002
-    title: Create AdapterRegistry for managing platform adapters
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-003
-    title: Refactor MCP discovery into MCPAdapter (BaseAdapter)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-004
-    title: Create GooseAdapter (CompositeAdapter using MCPAdapter)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-005
-    title: Add vibey export CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-006
-    title: Test MCP server with Goose
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-007
-    title: Test MCP server with Claude Code
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-3-task-008
-    title: Document platform adapter architecture
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

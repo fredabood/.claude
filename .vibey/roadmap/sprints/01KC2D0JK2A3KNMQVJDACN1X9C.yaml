@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: core-framework-3-task-001
-    title: Design and implement RoadmapCache class
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-002
-    title: Integrate cache into roadmap CLI commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-003
-    title: Add optional persistent cache to disk
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-004
-    title: Performance benchmarking and validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-005
-    title: Improve CLI output formatting and colors
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-006
-    title: Add agent management functionality to Vibey Manager
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: core-framework-3-task-gate-001
-    title: Update documentation with caching and performance info
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

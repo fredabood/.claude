@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100
-  tasks:
-  - id: directory-consolidation-5-task-001
-    title: Move sprint_docs/ and sprint_summaries/ to track contexts
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-5-task-002
-    title: Move track_summaries/ to track context
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-5-task-003
-    title: Consolidate and delete backup directories
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-5-task-004
-    title: Final .vibey cleanup and verification
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

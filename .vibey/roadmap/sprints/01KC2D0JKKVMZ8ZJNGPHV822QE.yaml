@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 2
     completion_percent: 50
-  tasks:
-  - id: roadmap-state-audit-6-task-001
-    title: Create sprint.yaml files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-6-task-002
-    title: Create task.yaml files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-6-task-003
-    title: Run quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-6-task-004
-    title: Update documentation paths
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

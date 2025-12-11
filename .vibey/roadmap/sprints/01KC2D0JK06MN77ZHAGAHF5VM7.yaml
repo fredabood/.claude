@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: atlassian-integration-3-task-001
-    title: Design Confluence to docs folder mapping
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-002
-    title: Create Confluence REST API client
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-003
-    title: Implement Confluence to Markdown converter
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-004
-    title: Implement Confluence page import
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-005
-    title: Implement Markdown to Confluence export
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-006
-    title: Implement docs bidirectional sync
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-3-task-007
-    title: Create Confluence integration tests
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

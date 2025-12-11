@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: gemini-port-3-task-001
-    title: System Instruction Generator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-3-task-002
-    title: Agent Prompt Converter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-3-task-003
-    title: Function Calling Integration
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-3-task-004
-    title: Agent Behavior Parity Testing
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-3-task-005
-    title: Context Window Optimization
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-3-task-006
-    title: Performance Optimization
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

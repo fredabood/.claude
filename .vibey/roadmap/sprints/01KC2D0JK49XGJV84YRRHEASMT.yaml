@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: documentation-system-2-task-001
-    title: Build documentation synchronization engine
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-2-task-002
-    title: Implement sync manifest tracking system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-2-task-003
-    title: Create sync configuration system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-2-task-004
-    title: Add documentation synchronization CLI commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-2-task-005
-    title: Implement automatic sync triggers
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-2-task-006
-    title: Create synchronization reliability tests
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: gemini-port-4-task-001
-    title: Workflow Prompt Chain Generator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-4-task-002
-    title: Extended Context Strategy
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-4-task-003
-    title: Multi-Modal Support (Optional)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-4-task-004
-    title: Cross-Session Context
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: gemini-port-4-task-005
-    title: Quality Gate Integration
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

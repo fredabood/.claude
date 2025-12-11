@@ -23,47 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-17-task-001
-    title: Audit and update README.md
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-002
-    title: Audit and update CHANGELOG.md
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-003
-    title: Audit and update CONTRIBUTING.md
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-004
-    title: Create contributor onboarding guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-005
-    title: Create development workflow documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-006
-    title: Create contributor journey walkthroughs
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-007
-    title: Validate contributor experience end-to-end
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-17-task-008
-    title: Ensure positioning consistency across all documentation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

@@ -23,12 +23,6 @@ sprint:
     tasks_total: 1
     tasks_completed: 1
     completion_percent: 100
-  tasks:
-  - id: 01KC4QN9S0778RKMVWB6RZ8QCV
-    title: 'Bug #18: update_sprint_progress does not work with flat ULID structure'
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

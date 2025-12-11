@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: windsurf-port-1-task-001
-    title: Create WindsurfAdapter class
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-002
-    title: .windsurfrules generation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-003
-    title: Workflow to Markdown conversion
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-004
-    title: Agent rules generation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-005
-    title: Settings and MCP config
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-006
-    title: Unit tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: windsurf-port-1-task-007
-    title: Manual testing with Windsurf
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

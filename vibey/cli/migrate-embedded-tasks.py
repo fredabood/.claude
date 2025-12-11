@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 """
-Migrate Embedded Tasks to Separate Files
+DEPRECATED: Migrate Embedded Tasks to Separate Files
 
+================================================================================
+DEPRECATION NOTICE (2025-12-11):
+
+This script is DEPRECATED. The embedded task migration has been completed.
+All tasks are now stored as standalone files in .vibey/roadmap/tasks/{ulid}.yaml.
+
+The codebase no longer creates embedded tasks in sprint files.
+This script is kept for historical reference only.
+
+See: .vibey/roadmap/context/EMBEDDED_TASK_MIGRATION_PLAN.md
+================================================================================
+
+Original Purpose:
 Detects sprints with tasks embedded in sprint YAML files and migrates them
 to the separate-file format (.vibey/tasks/{sprint-id}-tasks.yaml) that the
 roadmap update scripts expect.
@@ -9,7 +22,7 @@ roadmap update scripts expect.
 This fixes the silent failure issue where task completions don't work because
 the update script can't find the tasks file.
 
-Usage:
+Usage (DEPRECATED):
     python3 framework/scripts/migrate-embedded-tasks.py             # Dry run
     python3 framework/scripts/migrate-embedded-tasks.py --execute   # Actually migrate
     python3 framework/scripts/migrate-embedded-tasks.py --backup-dir /path/to/backup
@@ -17,6 +30,20 @@ Usage:
 Created: 2025-11-09
 Purpose: Fix data model mismatch between embedded and separate task formats
 """
+
+import sys
+import warnings
+
+warnings.warn(
+    "migrate-embedded-tasks.py is deprecated. "
+    "All tasks are now standalone files in tasks/{ulid}.yaml.",
+    DeprecationWarning
+)
+
+print("WARNING: This script is deprecated. The embedded task migration is complete.")
+print("All tasks are now standalone files in .vibey/roadmap/tasks/{ulid}.yaml")
+print("No action needed.")
+sys.exit(0)
 
 import sys
 import argparse

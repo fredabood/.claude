@@ -23,67 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: dogfooding-bugs-03-task-001
-    title: Add database sync step to migration script
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-002
-    title: Implement automatic db rebuild after YAML changes
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-003
-    title: Add CLI command to force db resync
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-004
-    title: Add integration test for YAML-DB sync
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-005
-    title: Investigate is_dirty column in schema history
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-006
-    title: Update pre-commit hook to use correct schema
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-007
-    title: Add database migration script for schema updates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-008
-    title: Test pre-commit hook with fresh database
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-009
-    title: Update db_rebuild_cmd to load from ULID files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-010
-    title: Update sql_loader init to iterate tracks/*.yaml
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-011
-    title: Add progress reporting during rebuild
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-03-task-012
-    title: Add integration test for database rebuild
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

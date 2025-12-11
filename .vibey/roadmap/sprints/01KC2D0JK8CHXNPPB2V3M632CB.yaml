@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: interface-unification-1-task-001
-    title: Delete all slash commands (framework/commands/)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-1-task-002
-    title: Delete test scripts and audit standalone scripts
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-1-task-003
-    title: Audit deleted files for unique functionality
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-1-task-004
-    title: Implement missing features in CLI (if any)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-1-task-005
-    title: Clean up imports and dead references
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-1-task-006
-    title: Update project structure documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

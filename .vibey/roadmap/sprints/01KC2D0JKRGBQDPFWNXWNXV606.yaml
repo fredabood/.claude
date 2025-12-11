@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: standards-system-2-task-001
-    title: Create standards resolver module
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-002
-    title: Implement resolve_standards_for_task()
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-003
-    title: Implement resolve_standards_for_sprint()
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-004
-    title: Implement resolve_standards_for_track()
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-005
-    title: Implement inheritance and deduplication logic
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-006
-    title: Add override handling
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-2-task-007
-    title: Write integration tests
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

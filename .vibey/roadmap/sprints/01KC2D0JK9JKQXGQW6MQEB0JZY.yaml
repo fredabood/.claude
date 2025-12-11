@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: jetbrains-port-2-task-001
-    title: Test in PyCharm
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: jetbrains-port-2-task-002
-    title: Test in WebStorm
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: jetbrains-port-2-task-003
-    title: Test in GoLand
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: jetbrains-port-2-task-004
-    title: Test multi-agent coordination
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: jetbrains-port-2-task-005
-    title: Create JetBrains integration guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: jetbrains-port-2-task-006
-    title: Create IDE-specific examples
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

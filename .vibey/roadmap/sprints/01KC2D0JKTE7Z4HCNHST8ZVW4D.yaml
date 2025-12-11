@@ -23,57 +23,6 @@ sprint:
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100
-  tasks:
-  - id: testing-system-3-task-001
-    title: Write E2E test for complete sprint workflow
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-002
-    title: Write E2E test for multi-agent orchestration
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-003
-    title: Write E2E test for quality gate enforcement
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-004
-    title: Write E2E test for error recovery
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-005
-    title: Create Claude Code platform-specific test suite
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-006
-    title: Create Goose platform-specific test suite
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-007
-    title: Implement platform parity validation (>95% threshold)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-008
-    title: Set up GitHub Actions CI/CD pipeline
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-009
-    title: Configure pre-commit hooks for testing
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-3-task-010
-    title: Create comprehensive testing documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

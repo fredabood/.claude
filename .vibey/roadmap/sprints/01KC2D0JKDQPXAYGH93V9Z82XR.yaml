@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: roadmap-integration-2-task-001
-    title: Update /vibey code Dashboard
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-2-task-002
-    title: Implement Task Status Updates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-2-task-003
-    title: Extend Vibey Manager with Roadmap Commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-2-task-004
-    title: Add Real-time Progress Visualization
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-2-task-005
-    title: Create Integration Tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integration-2-task-006
-    title: Update Documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

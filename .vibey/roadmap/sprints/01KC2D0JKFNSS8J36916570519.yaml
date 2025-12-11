@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-integrity-fixes-2-3-task-001
-    title: Extract python-package-1 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-3-task-002
-    title: Extract python-package-2 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-3-task-003
-    title: Extract python-package-3 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-3-task-004
-    title: Run python-package quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-3-task-005
-    title: Verify python-package deliverables
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-3-task-006
-    title: Commit python-package schema migration
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

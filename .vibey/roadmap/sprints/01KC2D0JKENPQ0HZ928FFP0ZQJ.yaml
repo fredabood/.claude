@@ -22,12 +22,6 @@ sprint:
     tasks_total: 1
     tasks_completed: 1
     completion_percent: 100.0
-  tasks:
-  - id: roadmap-integrity-fixes-11-task-001
-    title: Create backup of python-package track
-    status: completed
-    task_type: development
-    gate_info: null
   blocked_by: []
   depends_on: []
   plan_file: null

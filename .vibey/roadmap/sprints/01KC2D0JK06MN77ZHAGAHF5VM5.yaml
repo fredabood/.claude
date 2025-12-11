@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: atlassian-integration-1-task-001
-    title: Implement JiraSemanticLayer class
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-002
-    title: Implement Atlassian OAuth 2.0 authentication
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-003
-    title: Create Jira REST API client
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-004
-    title: Implement Jira project to track import
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-005
-    title: Implement Jira sprint to sprint import
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-006
-    title: Implement Jira issue to task import
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: atlassian-integration-1-task-007
-    title: Create integration tests for Jira import
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

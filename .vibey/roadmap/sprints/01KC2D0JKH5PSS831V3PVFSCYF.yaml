@@ -23,17 +23,6 @@ sprint:
     tasks_total: 2
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-15-task-001
-    title: Fix sprint progress counters
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-15-task-002
-    title: Update quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

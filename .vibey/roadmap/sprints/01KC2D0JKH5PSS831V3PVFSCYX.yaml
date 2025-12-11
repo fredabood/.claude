@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 2
     completion_percent: 50
-  tasks:
-  - id: roadmap-state-audit-19-task-001
-    title: Fix broken import in registry.py
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-19-task-002
-    title: Run quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-19-task-003
-    title: Create missing task files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-19-task-004
-    title: Update deliverable paths
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

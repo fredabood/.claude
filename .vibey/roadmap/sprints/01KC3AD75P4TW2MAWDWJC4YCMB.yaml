@@ -23,52 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: dogfooding-bugs-01-task-001
-    title: Implement lazy imports in orm.py
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-002
-    title: Move ORM imports behind try/except ImportError
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-003
-    title: Add SQLAlchemy to optional dependencies in pyproject.toml
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-004
-    title: Add test for CLI without SQLAlchemy installed
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-005
-    title: Update load_roadmap to use .get('blocked', False)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-006
-    title: Update load_track for backward compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-007
-    title: Update load_sprint for backward compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-008
-    title: Update load_task for backward compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-01-task-009
-    title: Add migration test for v1 to v2 loading
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

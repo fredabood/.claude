@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: git-integration-4-task-001
-    title: Review and document enforcement mode options
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-4-task-002
-    title: Configure commit tracking and evidence requirements
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-4-task-003
-    title: Implement CLI usage validation and suggestions
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-4-task-004
-    title: Set up advisory mode with selective blocking
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-4-task-005
-    title: Evaluate dogfooding experience and iterate
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

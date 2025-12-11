@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-integrity-fixes-2-4-task-001
-    title: Create task hierarchy for amazonq-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-002
-    title: Create task hierarchy for cody-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-003
-    title: Create task hierarchy for copilot-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-004
-    title: Create task hierarchy for cursor-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-005
-    title: Create task hierarchy for replit-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-006
-    title: Create task hierarchy for vscode-port
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-007
-    title: Fix continue-port adapter naming
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-4-task-008
-    title: Fix mcp-server sprints_completed counter
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

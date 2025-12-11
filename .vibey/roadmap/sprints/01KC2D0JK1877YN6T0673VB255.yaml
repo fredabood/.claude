@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: cody-port-1-task-001
-    title: Create CodyAdapter base class
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: cody-port-1-task-002
-    title: Implement CodyContextGenerator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: cody-port-1-task-003
-    title: Implement CodySettingsGenerator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: cody-port-1-task-004
-    title: Add vibey deploy --platform cody CLI
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: cody-port-1-task-005
-    title: Write unit tests for adapter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: cody-port-1-task-006
-    title: Write unit tests for generators
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

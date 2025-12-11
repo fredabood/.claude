@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: cody-port-2-task-001
-    title: Implement Sourcegraph Enterprise module
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cody-port-2-task-002
-    title: Create Prompt Library templates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cody-port-2-task-003
-    title: Write E2E tests with Cody extension
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: cody-port-2-task-004
-    title: Write Cody integration guide
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

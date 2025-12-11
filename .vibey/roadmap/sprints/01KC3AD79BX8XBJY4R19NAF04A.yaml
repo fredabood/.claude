@@ -23,37 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: dogfooding-bugs-05-task-001
-    title: Add create track CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-05-task-002
-    title: Add create sprint CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-05-task-003
-    title: Add create task CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-05-task-004
-    title: Update create-from-plan to use ULID flat structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-05-task-005
-    title: Create ULIDManager for ULID generation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-05-task-006
-    title: Add integration tests for create commands
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

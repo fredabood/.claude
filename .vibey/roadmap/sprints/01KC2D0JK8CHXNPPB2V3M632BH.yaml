@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: goose-port-4-task-001
-    title: Unit tests for frontmatter parser
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-002
-    title: Unit tests for discovery modules
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-003
-    title: Integration tests for MCP tool generation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-004
-    title: End-to-end tests with Goose
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-005
-    title: Cross-LLM testing documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-006
-    title: Performance benchmarking
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-4-task-007
-    title: Sprint completion summary
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

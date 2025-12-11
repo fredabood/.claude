@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100
-  tasks:
-  - id: roadmap-integrity-fixes-9-task-001
-    title: Fix deliverables schema backward compatibility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-9-task-002
-    title: Fix DeliverableType enum value normalization
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-9-task-003
-    title: Fix standards enforcement field mismatch (title vs name)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-9-task-004
-    title: Audit and fix Task model field consistency
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,57 +23,6 @@ sprint:
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100
-  tasks:
-  - id: standards-system-4-task-001
-    title: Update 'vibey roadmap complete' with standards checking
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-002
-    title: Implement blocking enforcement
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-003
-    title: Implement warning enforcement
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-004
-    title: Create 'vibey roadmap check-standards' command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-005
-    title: Create 'vibey roadmap override-standard' command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-006
-    title: Create 'vibey roadmap add-standard' command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-007
-    title: Update error messaging
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-008
-    title: Update help documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-009
-    title: Write CLI tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-4-task-010
-    title: Update command documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

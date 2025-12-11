@@ -23,67 +23,6 @@ sprint:
     tasks_total: 12
     tasks_completed: 12
     completion_percent: 100
-  tasks:
-  - id: directory-migration-1-task-001
-    title: Create Python package structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-002
-    title: Move framework/scripts/ to vibey/cli/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-003
-    title: Create entry point vibey/__main__.py
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-004
-    title: Register CLI commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-005
-    title: 'Update imports: framework.roadmap → vibey.roadmap'
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-006
-    title: 'Test: pip install and vibey --version'
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-007
-    title: Verify roadmap commands work without .claude/ prefix
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-008
-    title: Create tests for CLI commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-009
-    title: Document CLI usage
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-010
-    title: Package for PyPI distribution
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-011
-    title: Verify installation on clean system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-migration-1-task-012
-    title: Update PATH dependencies
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

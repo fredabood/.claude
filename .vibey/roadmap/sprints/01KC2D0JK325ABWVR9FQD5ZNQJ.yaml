@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100
-  tasks:
-  - id: directory-consolidation-4-task-001
-    title: Merge framework/docs/ into docs/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-4-task-002
-    title: Move session-specific docs to .vibey/roadmap/*/context/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-4-task-003
-    title: Archive obsolete .vibey/roadmap/*/context/ files
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-4-task-004
-    title: Final content verification and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

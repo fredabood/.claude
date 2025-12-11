@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-20-task-001
-    title: Design transparency framework for context visibility
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-002
-    title: Design auditability framework for context decisions
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-003
-    title: Design reproducibility protocol for sessions
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-004
-    title: Design context provenance tracking
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-005
-    title: Design context integrity verification
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-006
-    title: Create implementation roadmap recommendations
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-20-task-007
-    title: Produce final study report and specifications
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

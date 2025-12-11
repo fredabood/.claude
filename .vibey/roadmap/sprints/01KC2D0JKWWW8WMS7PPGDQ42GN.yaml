@@ -23,37 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-21-task-001
-    title: Design discovery output schema for context directories
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-21-task-002
-    title: Create DiscoveryOutput data models
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-21-task-003
-    title: Implement context directory writer base class
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-21-task-004
-    title: Create codebase audit context writer
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-21-task-005
-    title: Create git history analysis context writer
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-21-task-006
-    title: Create dependency analysis context writer
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

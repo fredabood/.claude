@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: documentation-system-3-task-001
-    title: Build migration script for existing tracks
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-3-task-002
-    title: Migrate all existing tracks to hierarchy
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-3-task-003
-    title: Implement project documentation tracking system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-3-task-004
-    title: Add documentation changelog generation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: documentation-system-3-task-005
-    title: Complete system documentation and final validation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

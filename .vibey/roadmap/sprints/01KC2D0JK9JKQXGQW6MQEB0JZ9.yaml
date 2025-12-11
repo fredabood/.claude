@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: interface-unification-2-task-001
-    title: Create unified error handling library (vibey/common/errors.py)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-2-task-002
-    title: Create error renderers (CLI and MCP)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-2-task-003
-    title: Update CLI to use error library
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-2-task-004
-    title: Prepare MCP error structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-2-task-005
-    title: Integration tests and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

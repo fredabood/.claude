@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: claude-port-1-task-001
-    title: Run unit tests against Claude Code implementation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-002
-    title: Run integration tests for all 7 journeys
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-003
-    title: Run E2E tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-004
-    title: Validate quality gates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-005
-    title: Fix bugs discovered in testing
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-006
-    title: Update documentation for accuracy
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-007
-    title: Re-run full test suite
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: claude-port-1-task-008
-    title: Document baseline metrics
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,37 +23,6 @@ sprint:
     tasks_total: 3
     tasks_completed: 3
     completion_percent: 100
-  tasks:
-  - id: dogfooding-bugs-06-task-001
-    title: Add VALIDATION_EXCLUDE_PATTERNS constant
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-06-task-002
-    title: Update validator to skip excluded paths
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-06-task-003
-    title: Add unit test for exclusion patterns
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-06-task-004
-    title: Verify single roadmap.yaml exists at correct location
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-06-task-005
-    title: Add startup check to warn if duplicate exists
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-06-task-006
-    title: Document canonical location in CLAUDE.md
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

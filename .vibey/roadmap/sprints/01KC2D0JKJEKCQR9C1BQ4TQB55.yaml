@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-state-audit-21-task-001
-    title: Downgrade Sprint 1-2 status
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-21-task-002
-    title: Adjust progress metrics
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-21-task-003
-    title: Create missing deliverables
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-21-task-004
-    title: Create hierarchical YAML structure
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

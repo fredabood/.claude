@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: continue-port-2-task-001
-    title: Vibey context provider implementation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: continue-port-2-task-002
-    title: JetBrains integration testing
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: continue-port-2-task-003
-    title: MCP server integration
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: continue-port-2-task-004
-    title: Integration examples
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: continue-port-2-task-005
-    title: Complete documentation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

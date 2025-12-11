@@ -23,32 +23,6 @@ sprint:
     tasks_total: 2
     tasks_completed: 2
     completion_percent: 100
-  tasks:
-  - id: dogfooding-bugs-04-task-001
-    title: Analyze current progress update flow
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-04-task-002
-    title: Implement auto-progression logic in update.py
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-04-task-003
-    title: Add post-task-completion hook for parent updates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-04-task-004
-    title: Add unit tests for progress propagation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: dogfooding-bugs-04-task-005
-    title: Manual verification with test sprint
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: roadmap-integrity-fixes-2-2-task-001
-    title: Extract git-integration-0 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-2-task-002
-    title: Extract git-integration-1 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-2-task-003
-    title: Extract git-integration-2 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-2-task-004
-    title: Extract git-integration-3 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-2-task-005
-    title: Extract git-integration-4 tasks to task.yaml files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-2-2-task-006
-    title: Validate and commit git-integration schema migration
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

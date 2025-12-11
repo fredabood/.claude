@@ -14,11 +14,11 @@ task:
     2. Remove 'tasks' key from sprint data
     3. Save updated sprint files
     4. Verify no sprint files have tasks[] arrays
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T20:30:00+00:00'
+  completed: '2025-12-11T20:35:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: cleanup

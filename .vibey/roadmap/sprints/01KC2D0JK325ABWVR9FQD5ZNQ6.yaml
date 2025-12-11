@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: directory-consolidation-2-task-001
-    title: Move framework/mcp/ to vibey/mcp/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-2-task-002
-    title: Move framework/adapters/ registry to vibey/adapters/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-2-task-003
-    title: Move framework/docs/ to vibey/operations/docs/
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-2-task-004
-    title: Update all import statements
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-2-task-005
-    title: Delete remaining framework/ Python code
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-2-task-006
-    title: Final verification and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

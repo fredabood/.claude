@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: copilot-port-2-task-001
-    title: Integration tests with Copilot CLI
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-002
-    title: E2E tests with VS Code Copilot
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-003
-    title: Organization-level configuration guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-004
-    title: Enterprise deployment documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-005
-    title: Migration guide for existing Copilot users
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-006
-    title: Quality gate validation and sign-off
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-2-task-007
-    title: Performance benchmarks vs native tools
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

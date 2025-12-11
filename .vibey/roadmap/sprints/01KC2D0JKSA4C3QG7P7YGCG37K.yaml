@@ -23,57 +23,6 @@ sprint:
     tasks_total: 10
     tasks_completed: 10
     completion_percent: 100
-  tasks:
-  - id: testing-system-1-task-001
-    title: Set up pytest infrastructure and configuration
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-002
-    title: Create RepoBuilder test utility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-003
-    title: Create StateValidator test utility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-004
-    title: Create GitValidator test utility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-005
-    title: Create MetricsCollector test utility
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-006
-    title: Create web-app mock repository fixture
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-007
-    title: Create API mock repository fixture
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-008
-    title: Create ML mock repository fixture
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-009
-    title: Write unit tests for config module (20 tests)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: testing-system-1-task-010
-    title: Set up coverage reporting configuration
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

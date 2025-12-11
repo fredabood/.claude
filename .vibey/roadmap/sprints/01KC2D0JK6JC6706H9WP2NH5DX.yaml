@@ -23,62 +23,6 @@ sprint:
     tasks_total: 11
     tasks_completed: 11
     completion_percent: 100
-  tasks:
-  - id: git-integration-2-task-001
-    title: Implement pre-commit hook architecture
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-002
-    title: Implement commit-msg hook
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-003
-    title: Add git hooks install/uninstall commands
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-004
-    title: Implement automatic task status updates
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-005
-    title: Create branch-to-task linking system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-006
-    title: Build PR description generator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-007
-    title: Create test suite for git hooks
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-008
-    title: Document git hooks setup and usage
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-009
-    title: Implement sprint tagging system
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-010
-    title: Implement Git-primary sync command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: git-integration-2-task-011
-    title: Implement mode detection and strategy enforcement
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

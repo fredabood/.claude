@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: replit-port-3-task-001
-    title: Create ReplitConfigGenerator class
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-3-task-002
-    title: Implement .replit TOML generation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-3-task-003
-    title: Implement replit.nix generation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-3-task-004
-    title: Generate MCP server configuration
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-3-task-005
-    title: Implement drift detection with checksums
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-3-task-006
-    title: Create configuration validation
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

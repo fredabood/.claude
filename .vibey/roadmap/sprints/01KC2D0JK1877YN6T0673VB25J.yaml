@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: continue-port-1-task-001
-    title: Create ContinueAdapter class
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-002
-    title: Agent to Slash Command conversion
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-003
-    title: Workflow to Command sequence mapping
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-004
-    title: config.yaml template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-005
-    title: Unit tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-006
-    title: VS Code integration testing
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: continue-port-1-task-007
-    title: Documentation start
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

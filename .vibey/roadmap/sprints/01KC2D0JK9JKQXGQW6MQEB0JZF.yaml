@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: interface-unification-3-task-001
-    title: Write CLI Reference documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-3-task-002
-    title: Write MCP Integration Guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-3-task-003
-    title: Write Getting Started Guide (CLI-first)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-3-task-004
-    title: Write Developer/Contributor Guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-3-task-005
-    title: Comprehensive test suite (>90% coverage)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: interface-unification-3-task-006
-    title: Code cleanup and dead reference removal
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

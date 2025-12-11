@@ -23,37 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: unified-arch-1-task-001
-    title: Design flat directory schema and file naming convention
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-1-task-002
-    title: Create directory migration script with backup
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-1-task-003
-    title: Update YAML loader to support flat structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-1-task-004
-    title: Update YAML dumper to use flat structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-1-task-005
-    title: Execute migration with validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: unified-arch-1-task-006
-    title: Update CLI path resolution and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

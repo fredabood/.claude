@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-2-task-001
-    title: Design CLI reference auto-generation architecture
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-002
-    title: Build CLI introspection module
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-003
-    title: Build CLI reference Markdown generator
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-004
-    title: Implement drift detection
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-005
-    title: Implement vibey docs generate cli command
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-006
-    title: Generate initial CLI reference guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-2-task-007
-    title: Add CI integration for CLI reference freshness
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

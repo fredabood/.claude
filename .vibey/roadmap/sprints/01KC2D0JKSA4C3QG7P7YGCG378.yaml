@@ -23,52 +23,6 @@ sprint:
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100
-  tasks:
-  - id: standards-system-6-task-001
-    title: Update 'vibey roadmap status' with standards display
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-002
-    title: Update 'vibey roadmap show' with standards information
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-003
-    title: Add color coding (green/yellow/red)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-004
-    title: Add progress indicators for standards
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-005
-    title: Create user documentation (ROADMAP_STANDARDS.md)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-006
-    title: Create developer documentation (STANDARDS_IMPLEMENTATION.md)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-007
-    title: Create API documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-008
-    title: Update user journeys with standards examples
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-6-task-009
-    title: Final integration testing
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

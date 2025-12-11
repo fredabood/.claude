@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: replit-port-6-task-001
-    title: Create vibey-replit-template
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-6-task-002
-    title: Write quick start guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-6-task-003
-    title: Write extension installation guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-6-task-004
-    title: Publish to Replit Templates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-6-task-005
-    title: Validate template and documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: replit-port-6-task-006
-    title: Write release notes
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

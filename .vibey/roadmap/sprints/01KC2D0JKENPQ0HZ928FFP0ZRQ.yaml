@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: roadmap-integrity-fixes-6-task-001
-    title: Implement vibey roadmap validate command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-002
-    title: Add status/progress mismatch detection
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-003
-    title: Add referential integrity checks
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-004
-    title: Add task data model validation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-005
-    title: Create pre-commit validation hook
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-006
-    title: Add CI/CD validation pipeline
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-007
-    title: Implement audit trail for status changes
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-6-task-008
-    title: Document validation standards and best practices
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

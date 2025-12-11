@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: roadmap-system-6-task-001
-    title: Write user guide (Getting Started)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-002
-    title: Write CLI reference documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-003
-    title: Create tutorial (E-commerce example)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-004
-    title: Build 3 example projects
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-005
-    title: Create architecture diagrams
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-006
-    title: Polish CLI output and error messages
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-007
-    title: Final integration testing
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-6-task-008
-    title: Bug fixes and refinements
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

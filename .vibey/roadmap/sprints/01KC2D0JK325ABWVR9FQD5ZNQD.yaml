@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100
-  tasks:
-  - id: directory-consolidation-3-task-001
-    title: Audit framework/docs/ vs docs/ duplication
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-3-task-002
-    title: Categorize docs/ files (permanent vs session-specific)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-3-task-003
-    title: Audit .vibey/roadmap/*/context/ for cleanup opportunities
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: directory-consolidation-3-task-004
-    title: Create content audit report with recommendations
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

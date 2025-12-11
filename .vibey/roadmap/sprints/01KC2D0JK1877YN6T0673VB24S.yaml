@@ -23,32 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: brew-package-2-task-001
-    title: Create formula update automation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: brew-package-2-task-002
-    title: Add CI testing for formula
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: brew-package-2-task-003
-    title: Add version synchronization workflow
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: brew-package-2-task-004
-    title: Test Linux (Linuxbrew) support
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: brew-package-2-task-005
-    title: Document release process
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

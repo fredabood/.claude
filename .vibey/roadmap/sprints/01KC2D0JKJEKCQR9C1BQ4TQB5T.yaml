@@ -23,17 +23,6 @@ sprint:
     tasks_total: 2
     tasks_completed: 1
     completion_percent: 50
-  tasks:
-  - id: roadmap-state-audit-26-task-001
-    title: Run quality gates
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-26-task-002
-    title: Create requirements-test.txt
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

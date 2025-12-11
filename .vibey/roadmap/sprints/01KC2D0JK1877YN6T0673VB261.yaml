@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 5
     completion_percent: 71
-  tasks:
-  - id: copilot-port-1-task-001
-    title: Research validation - verify MCP configuration format
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-002
-    title: Create CopilotAdapter class extending BaseAdapter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-003
-    title: Implement custom agent profile generator from frontmatter
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-004
-    title: Create repository MCP configuration generator
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-005
-    title: Implement vibey export --platform copilot CLI command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-006
-    title: Unit tests for CopilotAdapter
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: copilot-port-1-task-007
-    title: Documentation - Copilot integration quick start guide
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -2,19 +2,19 @@ track:
   id: 01KC7H29E0Z5BC7HK1CK222152
   name: Embedded Task Migration
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: completed
   blocked: false
   priority: critical
   created: '2025-12-11T00:00:00+00:00'
   started: '2025-12-11T16:00:00+00:00'
-  completed: null
+  completed: '2025-12-11T20:45:00+00:00'
   estimated_duration: 2 weeks
   progress:
     sprints_total: 5
-    sprints_completed: 4
+    sprints_completed: 5
     tasks_total: 21
-    tasks_completed: 18
-    completion_percent: 86
+    tasks_completed: 21
+    completion_percent: 100
   sprints:
   - id: 01KC7H29E0Z5BC7HK1CK222153
     name: Task Extraction
@@ -42,10 +42,10 @@ track:
     started: '2025-12-11T20:00:00+00:00'
   - id: 01KC7H29E0Z5BC7HK1CK222157
     name: Cleanup and Verification
-    status: not_started
+    status: production_ready
     estimated_duration: 1 day
     tasks_count: 3
-    started: null
+    started: '2025-12-11T20:30:00+00:00'
   dependencies: []
   blocks: []
   blocked_by: []

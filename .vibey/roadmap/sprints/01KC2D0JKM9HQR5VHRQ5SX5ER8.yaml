@@ -23,52 +23,6 @@ sprint:
     tasks_total: 9
     tasks_completed: 9
     completion_percent: 100
-  tasks:
-  - id: roadmap-system-3-task-001
-    title: Set up CLI framework (Click/Typer)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-002
-    title: Implement `vibey roadmap status`
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-003
-    title: Implement `vibey track list/status`
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-004
-    title: Implement `vibey sprint list/status`
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-005
-    title: Implement `vibey task list/status`
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-006
-    title: Implement `vibey deps graph/check`
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-007
-    title: Build rich output formatting (tables)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-008
-    title: Implement filtering and search
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-system-3-task-009
-    title: Write CLI integration tests
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

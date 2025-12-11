@@ -23,22 +23,6 @@ sprint:
     tasks_total: 3
     tasks_completed: 3
     completion_percent: 100
-  tasks:
-  - id: sqlite-backend-5-task-001
-    title: Add JSON columns for human-provided data
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-5-task-002
-    title: Create relationship aggregation views
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-5-task-003
-    title: Update compare_databases.py to compare declared vs computed views
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

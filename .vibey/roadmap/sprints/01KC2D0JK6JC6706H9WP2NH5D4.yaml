@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: gemini-port-6-task-001
-    title: Comprehensive Test Suite
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-6-task-002
-    title: Performance Benchmarks
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-6-task-003
-    title: User Documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-6-task-004
-    title: Migration Guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-6-task-005
-    title: Example Projects
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

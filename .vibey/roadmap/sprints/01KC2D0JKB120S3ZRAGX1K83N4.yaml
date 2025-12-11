@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 5
     completion_percent: 100
-  tasks:
-  - id: platform-context-management-3-task-001
-    title: Hook compatibility check into roadmap start command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-3-task-002
-    title: Hook compatibility check into roadmap show command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-3-task-003
-    title: User prompt system (always ask, never auto-recalculate)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-3-task-004
-    title: Prompt options (Yes/No/Info/Cancel)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: platform-context-management-3-task-005
-    title: Integration tests for prompt flow
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

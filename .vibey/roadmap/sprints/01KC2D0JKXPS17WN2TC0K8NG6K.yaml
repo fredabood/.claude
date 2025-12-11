@@ -22,32 +22,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
-  tasks:
-  - id: vscode-roadmap-extension-3-task-001
-    title: Create status bar item showing current sprint name
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-3-task-002
-    title: Add active task indicator to status bar
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-3-task-003
-    title: Display sprint/track progress percentage in status bar
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-3-task-004
-    title: Implement click-to-switch-task from status bar
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: vscode-roadmap-extension-3-task-005
-    title: Add tooltip with detailed progress information
-    status: not_started
-    task_type: development
-    gate_info: null
   blocked_by: []
   depends_on: []
   plan_file: null

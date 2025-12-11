@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-3-task-001
-    title: Define user personas and their goals
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-002
-    title: Map new user onboarding experience
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-003
-    title: Map roadmap creation and management experience
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-004
-    title: Map sprint execution experience
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-005
-    title: Map multi-platform and integration experiences
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-006
-    title: Identify and catalog all pain points
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-3-task-007
-    title: Compile journey maps with annotated pain points
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

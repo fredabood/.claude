@@ -23,27 +23,6 @@ sprint:
     tasks_total: 4
     tasks_completed: 4
     completion_percent: 100
-  tasks:
-  - id: multi-platform-3-task-001
-    title: Create vibey deploy command
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-3-task-002
-    title: Add --clean and --no-validate flags
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-3-task-003
-    title: Implement deploy --platform all
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: multi-platform-3-task-004
-    title: Update .gitignore for platform deployments
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

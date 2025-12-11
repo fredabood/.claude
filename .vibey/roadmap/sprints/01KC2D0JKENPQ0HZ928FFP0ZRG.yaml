@@ -23,37 +23,6 @@ sprint:
     tasks_total: 6
     tasks_completed: 6
     completion_percent: 100
-  tasks:
-  - id: roadmap-integrity-fixes-5-task-001
-    title: Fix interface-unification YAML structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-5-task-002
-    title: Fix platform-context-management YAML structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-5-task-003
-    title: Clean up missing sprint declarations
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-5-task-004
-    title: Verify all tracks use hierarchical structure correctly
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-5-task-005
-    title: Ensure all tracks loadable without errors
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: roadmap-integrity-fixes-5-task-006
-    title: Run full validation to confirm structural issues resolved
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

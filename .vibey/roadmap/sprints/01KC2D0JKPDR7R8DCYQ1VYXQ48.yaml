@@ -23,42 +23,6 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100
-  tasks:
-  - id: sqlite-backend-3-task-001
-    title: Implement deterministic DB to YAML dump
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-002
-    title: Implement YAML to DB rebuild
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-003
-    title: Integrate with pre-commit hook
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-004
-    title: Integrate with post-merge and post-checkout hooks
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-005
-    title: Create roundtrip tests
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-006
-    title: Create migration guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: sqlite-backend-3-task-007
-    title: Final integration testing and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: goose-port-5-task-001
-    title: Frontmatter schema reference documentation
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-5-task-002
-    title: Goose integration guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-5-task-003
-    title: Recipe development guide
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-5-task-004
-    title: Migration guide (Claude Code to Goose)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: goose-port-5-task-005
-    title: Update README and announce release
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

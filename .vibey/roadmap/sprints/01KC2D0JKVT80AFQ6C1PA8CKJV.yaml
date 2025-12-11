@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-1-task-001
-    title: Inventory all existing documentation files
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-002
-    title: Inventory all CLI commands and options
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-003
-    title: Find and catalog existing user journey documentation
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-004
-    title: Audit documentation completeness against codebase
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-005
-    title: Audit documentation correctness
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-006
-    title: Audit test suite coverage of documented features
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-1-task-007
-    title: Produce comprehensive audit report
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

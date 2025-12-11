@@ -23,22 +23,6 @@ sprint:
     tasks_total: 3
     tasks_completed: 1
     completion_percent: 33
-  tasks:
-  - id: roadmap-state-audit-4-task-001
-    title: Reset Sprint 1 status
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-4-task-002
-    title: Adjust completion percent
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: roadmap-state-audit-4-task-003
-    title: Create hierarchical YAML structure
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

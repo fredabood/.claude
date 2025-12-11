@@ -23,47 +23,6 @@ sprint:
     tasks_total: 8
     tasks_completed: 8
     completion_percent: 100
-  tasks:
-  - id: standards-system-5-task-001
-    title: Create templates package structure
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-002
-    title: Create commit-required template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-003
-    title: Create doc-review-required template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-004
-    title: Create test-coverage-required template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-005
-    title: Create multi-platform-testing template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-006
-    title: Create security-review template
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-007
-    title: Implement template CLI (list, add)
-    status: completed
-    task_type: development
-    gate_info: null
-  - id: standards-system-5-task-008
-    title: Write template tests and documentation
-    status: completed
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

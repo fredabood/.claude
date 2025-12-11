@@ -23,42 +23,6 @@ sprint:
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: user-journey-audit-11-task-001
-    title: Audit existing operations tests and coverage
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-002
-    title: Write tests for vibey/operations/roadmap/query.py
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-003
-    title: Write tests for vibey/operations/roadmap/update.py
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-004
-    title: Write tests for vibey/operations/roadmap/context.py
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-005
-    title: Write tests for vibey/operations/docs/
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-006
-    title: Verify 100% operations coverage achieved
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: user-journey-audit-11-task-007
-    title: Document operations testing patterns
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by:

@@ -23,32 +23,6 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
-  tasks:
-  - id: gemini-port-5-task-001
-    title: AI Studio Integration Guide
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-5-task-002
-    title: Vertex AI Deployment Support
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-5-task-003
-    title: Enterprise Authentication Flows
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-5-task-004
-    title: Monitoring & Logging
-    status: not_started
-    task_type: development
-    gate_info: null
-  - id: gemini-port-5-task-005
-    title: Enterprise Configuration Examples
-    status: not_started
-    task_type: development
-    gate_info: null
   development_gates: []
   blocks: []
   blocked_by: []

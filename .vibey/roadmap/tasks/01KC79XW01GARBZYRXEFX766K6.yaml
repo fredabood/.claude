@@ -1,0 +1,31 @@
+task:
+  id: 01KC79XW01GARBZYRXEFX766K6
+  sprint_id: 01KC2D0JKA23EJA1W712Y5S6ZJ
+  track_id: 01KC2D0JK9JKQXGQW6MQEB0K05
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement MCP Resources for handoffs
+  description: null
+  status: not_started
+  created: '2025-12-11T18:14:15.808058+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 2
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocked_by: []
+  depends_on: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-11T18:14:15.808058+00:00'
+  slug: mcp-server-3-task-003
+  parent_ref: 01KC2D0JKA23EJA1W712Y5S6ZJ
+  criteria: []
+  sequence: 3

@@ -13,10 +13,10 @@ task:
     3. Keep as archive with deprecation warning
     Also update any CLI commands that reference this migration.
     Remove migrate_to_hierarchical_cmd from commands.py.
-  status: not_started
+  status: completed
   created: '2025-12-10T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T12:30:00+00:00'
+  completed: '2025-12-11T12:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

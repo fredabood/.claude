@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 4
+    sprints_total: 3
     sprints_completed: 2
-    tasks_total: 31
+    tasks_total: 16
     tasks_completed: 16
-    completion_percent: 51
+    completion_percent: 100
   sprints:
   - id: mcp-server-1
     name: MCP Server Foundation
@@ -33,12 +33,6 @@ track:
     status: not_started
     estimated_duration: null
     tasks_count: 0
-    started: null
-  - id: mcp-server-4
-    name: MCP Setup Automation for Platform Deployments
-    status: not_started
-    estimated_duration: null
-    tasks_count: 15
     started: null
   dependencies: []
   blocks: []

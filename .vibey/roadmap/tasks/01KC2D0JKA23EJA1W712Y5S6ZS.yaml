@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZS
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK2A3KNMQVJDACN1X8N
+  track_id: 01KC2D0JK1877YN6T0673VB260
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Copilot MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Copilot
+  description: Research Copilot MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

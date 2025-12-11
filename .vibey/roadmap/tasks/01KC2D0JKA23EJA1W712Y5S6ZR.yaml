@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZR
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK325ABWVR9FQD5ZNPS
+  track_id: 01KC2D0JK2A3KNMQVJDACN1X9M
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Cursor MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Cursor
+  description: Research Cursor MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZY
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK8CHXNPPB2V3M632BJ
+  track_id: 01KC2D0JK7READW9KAK1HBX4BS
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Goose MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Goose
+  description: Research Goose MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

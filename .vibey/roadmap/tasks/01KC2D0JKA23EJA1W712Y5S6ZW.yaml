@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZW
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK06MN77ZHAGAHF5VKY
+  track_id: 01KC2D0JK06MN77ZHAGAHF5VKN
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Amazon Q MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Amazon Q
+  description: Research Amazon Q MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

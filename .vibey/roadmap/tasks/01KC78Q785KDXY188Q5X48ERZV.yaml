@@ -1,19 +1,19 @@
 task:
-  id: 01KC2D0JKA23EJA1W712Y5S6ZM
-  sprint_id: 01KC2D0JK06MN77ZHAGAHF5VKC
-  track_id: 01KC2D0JK06MN77ZHAGAHF5VKB
+  id: 01KC78Q785KDXY188Q5X48ERZV
+  sprint_id: 01KC2D0JK1877YN6T0673VB25T
+  track_id: 01KC2D0JK1877YN6T0673VB25H
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: MCP Auto-Setup Research - Aider
-  description: Research Aider MCP configuration requirements and automation approach
+  title: Implement MCP Auto-Setup - Continue
+  description: Implement automated MCP server configuration for Continue platform
   status: not_started
-  created: '2025-11-25T00:00:00+00:00'
+  created: '2025-12-11T17:53:09.378955+00:00'
   started: null
   completed: null
   assigned_agent: null
   priority: medium
   phase_label: null
-  estimated_tokens: 1
+  estimated_tokens: 2
   actual_tokens: null
   complexity: medium
   gate_info: null
@@ -24,10 +24,10 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-11T17:53:09.378955+00:00'
     token_efficiency: null
     duration_hours: null
-  slug: mcp-server-4-task-001
-  parent_ref: 01KC2D0JKA23EJA1W712Y5S6ZK
+  slug: null
+  parent_ref: 01KC2D0JK1877YN6T0673VB25T
   criteria: []
-  sequence: 1
+  sequence: 99

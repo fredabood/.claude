@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZT
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JKDQPXAYGH93V9Z82XA
+  track_id: 01KC2D0JKCJCWQ76VRQJWBGQY9
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Replit MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Replit
+  description: Research Replit MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

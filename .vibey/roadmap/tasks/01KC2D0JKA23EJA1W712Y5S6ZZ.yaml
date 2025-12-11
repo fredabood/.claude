@@ -1,11 +1,11 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZZ
-  sprint_id: mcp-server-4
-  track_id: mcp-server
+  sprint_id: 01KC2D0JK6JC6706H9WP2NH5D4
+  track_id: 01KC2D0JK5Y3BX5008PVANFCHN
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Research - Gemini MCP Automation
-  description: null
+  title: MCP Auto-Setup Research - Gemini
+  description: Research Gemini MCP configuration requirements and automation approach
   status: not_started
   created: '2025-11-25T00:00:00+00:00'
   started: null

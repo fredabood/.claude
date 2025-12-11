@@ -283,7 +283,11 @@ def apply_recalculation(
     dry_run: bool = False,
 ) -> RecalculationResult:
     """
-    Apply a recalculation plan to the sprint.
+    Apply a recalculation plan to the sprint (flat structure).
+
+    Uses flat structure:
+    - tasks/{task_id}.yaml for new subtasks
+    - sprints/{sprint_id}.yaml for sprint metadata
 
     Args:
         plan: RecalculationPlan to apply.
@@ -299,41 +303,41 @@ def apply_recalculation(
     files_modified = []
     errors = []
 
-    # Find sprint directory
+    # Use flat structure directories
     roadmap_root = project_root / ".vibey" / "roadmap"
-    sprint_dir = None
+    sprints_dir = roadmap_root / "sprints"
+    tasks_dir = roadmap_root / "tasks"
 
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir():
-            continue
-        potential = track_dir / plan.sprint_id
-        if potential.exists():
-            sprint_dir = potential
-            break
-
-    if not sprint_dir:
+    # Check if sprint exists in flat structure
+    sprint_file = sprints_dir / f"{plan.sprint_id}.yaml"
+    if not sprint_file.exists():
         return RecalculationResult(
             success=False,
             sprint_id=plan.sprint_id,
             plan=plan,
             files_modified=[],
-            message=f"Sprint directory not found: {plan.sprint_id}",
-            errors=[f"Directory not found"],
+            message=f"Sprint file not found: sprints/{plan.sprint_id}.yaml",
+            errors=[f"Sprint file not found"],
         )
+
+    # Get track_id from sprint file
+    with open(sprint_file) as f:
+        sprint_data = yaml.safe_load(f)
+    sprint = sprint_data.get("sprint", sprint_data)
+    track_id = sprint.get("track_id", "")
 
     now = datetime.now(timezone.utc).isoformat()
 
-    # Create subtask files
+    # Create subtask files in flat tasks/ directory
     for subtask in plan.subtasks:
-        task_dir = sprint_dir / subtask.id
-        task_file = task_dir / "task.yaml"
+        task_file = tasks_dir / f"{subtask.id}.yaml"
 
         task_data = {
             "task": {
                 "id": subtask.id,
                 "name": subtask.name,
                 "sprint_id": plan.sprint_id,
-                "track_id": sprint_dir.parent.name,
+                "track_id": track_id,
                 "roadmap_id": "vibey-framework-v2",
                 "status": "not_started",
                 "blocked": False,
@@ -360,39 +364,34 @@ def apply_recalculation(
         }
 
         if not dry_run:
-            task_dir.mkdir(parents=True, exist_ok=True)
+            tasks_dir.mkdir(parents=True, exist_ok=True)
             with open(task_file, "w") as f:
                 yaml.dump(task_data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
         files_modified.append(str(task_file))
 
     # Update sprint metadata
-    sprint_file = sprint_dir / "sprint.yaml"
-    if sprint_file.exists():
-        with open(sprint_file) as f:
-            sprint_data = yaml.safe_load(f)
+    # Add recalculation metadata
+    if "metadata" not in sprint:
+        sprint["metadata"] = {}
 
-        sprint = sprint_data.get("sprint", sprint_data)
+    sprint["metadata"]["recalculated_at"] = now
+    sprint["metadata"]["recalculated_for_platform"] = plan.platform.name
+    sprint["metadata"]["recalculated_context_window"] = plan.target_context
+    sprint["metadata"]["tasks_split"] = plan.tasks_to_split
+    sprint["metadata"]["subtasks_created"] = [s.id for s in plan.subtasks]
 
-        # Add recalculation metadata
-        if "metadata" not in sprint:
-            sprint["metadata"] = {}
+    # Update task count
+    new_task_count = len(plan.tasks_unchanged) + len(plan.subtasks)
+    if "progress" not in sprint:
+        sprint["progress"] = {}
+    sprint["progress"]["tasks_total"] = new_task_count
 
-        sprint["metadata"]["recalculated_at"] = now
-        sprint["metadata"]["recalculated_for_platform"] = plan.platform.name
-        sprint["metadata"]["recalculated_context_window"] = plan.target_context
-        sprint["metadata"]["tasks_split"] = plan.tasks_to_split
-        sprint["metadata"]["subtasks_created"] = [s.id for s in plan.subtasks]
+    if not dry_run:
+        with open(sprint_file, "w") as f:
+            yaml.dump({"sprint": sprint}, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
-        # Update task count
-        new_task_count = len(plan.tasks_unchanged) + len(plan.subtasks)
-        sprint["progress"]["tasks_total"] = new_task_count
-
-        if not dry_run:
-            with open(sprint_file, "w") as f:
-                yaml.dump({"sprint": sprint}, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
-
-        files_modified.append(str(sprint_file))
+    files_modified.append(str(sprint_file))
 
     return RecalculationResult(
         success=True,

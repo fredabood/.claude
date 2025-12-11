@@ -11,10 +11,10 @@ task:
     - Remove task_dir = sprint_dir / subtask.id pattern (line 328)
     - Write new task files to tasks/{ulid}.yaml
     - Update sprint file references to use sprints/{id}.yaml
-  status: not_started
+  status: completed
   created: '2025-12-10T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T12:00:00+00:00'
+  completed: '2025-12-11T12:15:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -12,6 +12,7 @@ import logging
 from .types import PromptDefinition, PromptResult
 from .exceptions import PromptNotFoundError
 from .provider import PromptProvider
+from .quality_gates import QualityGatePromptProvider
 
 logger = logging.getLogger(__name__)
 
@@ -72,16 +73,14 @@ class PromptManager:
 
         Override this method to register providers for specific prompt types.
         This is called lazily on first access.
-
-        Note: Actual provider implementations are in Task 005.
-        This method will be updated as providers are implemented.
         """
-        # Providers will be registered here as they are implemented:
-        # self.providers['quality-gates'] = QualityGatePromptProvider(self.content_root)
+        # Quality gates provider
+        self.providers['quality-gates'] = QualityGatePromptProvider(self.content_root)
+
+        # Future providers:
         # self.providers['workflows'] = WorkflowPromptProvider(self.content_root)
         # self.providers['reviews'] = ReviewPromptProvider(self.content_root)
         # self.providers['planning'] = PlanningPromptProvider(self.roadmap_root)
-        pass
 
     def list_prompts(self) -> List[PromptDefinition]:
         """

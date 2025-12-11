@@ -28,6 +28,7 @@ from .exceptions import (
 
 from .provider import PromptProvider
 from .manager import PromptManager
+from .quality_gates import QualityGatePromptProvider
 
 __all__ = [
     # Types
@@ -50,4 +51,6 @@ __all__ = [
     # Core classes
     "PromptProvider",
     "PromptManager",
+    # Providers
+    "QualityGatePromptProvider",
 ]

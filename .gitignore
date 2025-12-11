@@ -81,3 +81,7 @@ Thumbs.db
 # Generated platform exports (test output)
 goose-export/
 .vibey/backups/
+
+# Legacy hierarchical roadmap directories (migrated to flat structure)
+# Prevent accidental creation of ULID-named directories in roadmap root
+.vibey/roadmap/01*/

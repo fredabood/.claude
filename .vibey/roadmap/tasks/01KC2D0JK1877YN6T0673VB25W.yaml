@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JK1877YN6T0673VB25W
-  sprint_id: 01KC2D0JK1877YN6T0673VB25T
-  track_id: 01KC2D0JK1877YN6T0673VB25H
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J1A
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: JetBrains integration testing

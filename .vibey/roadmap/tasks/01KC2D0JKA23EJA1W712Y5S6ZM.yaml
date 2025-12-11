@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZM
-  sprint_id: 01KC2D0JK06MN77ZHAGAHF5VKC
-  track_id: 01KC2D0JK06MN77ZHAGAHF5VKB
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J1B
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: MCP Auto-Setup Research - Aider

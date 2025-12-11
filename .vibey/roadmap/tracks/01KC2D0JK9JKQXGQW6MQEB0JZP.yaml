@@ -2,7 +2,7 @@ track:
   id: 01KC2D0JK9JKQXGQW6MQEB0JZP
   name: JetBrains AI Assistant Port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: superseded
   blocked: false
   priority: medium
   created: '2025-11-09T00:00:00+00:00'
@@ -44,4 +44,6 @@ track:
     last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: null
+    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
+    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
+    superseded_date: '2025-12-11T23:09:20.061361+00:00'

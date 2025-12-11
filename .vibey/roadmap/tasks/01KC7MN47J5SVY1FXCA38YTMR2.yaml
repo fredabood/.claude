@@ -1,7 +1,7 @@
 task:
   id: 01KC7MN47J5SVY1FXCA38YTMR2
-  sprint_id: 01KC2D0JK8CHXNPPB2V3M632BG
-  track_id: 01KC2D0JK7READW9KAK1HBX4BS
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J16
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Test MCP server with Goose

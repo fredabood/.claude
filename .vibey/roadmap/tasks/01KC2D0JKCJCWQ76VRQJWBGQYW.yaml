@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKCJCWQ76VRQJWBGQYW
-  sprint_id: 01KC2D0JKCJCWQ76VRQJWBGQYR
-  track_id: 01KC2D0JKCJCWQ76VRQJWBGQY9
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J1H
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Generate MCP server configuration

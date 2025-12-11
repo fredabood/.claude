@@ -2,7 +2,7 @@ track:
   id: 01KC2D0JK7READW9KAK1HBX4BS
   name: Goose Platform Port
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: superseded
   blocked: false
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
@@ -113,18 +113,6 @@ track:
     last_updated: '2025-11-22T00:00:00+00:00'
     design_doc: docs/FRAMEWORK_ROADMAP.md#goose-compatibility-analysis
     implementation_plan: null
-    notes: "GOOSE PORT - REVISED ARCHITECTURE (Nov 2025)\n\nKey Decision: Extend existing\
-      \ MCP server with dynamic discovery\ninstead of building separate Goose-specific\
-      \ extensions.\n\nAPPROACH:\n1. Add YAML frontmatter to all agents/workflows/handoffs\n\
-      2. MCP server dynamically discovers and generates tools from frontmatter\n3.\
-      \ Zero drift - tools always match source definitions\n4. Works with any MCP\
-      \ client (Goose, Claude Code, future clients)\n\nFRONTMATTER EXAMPLE (agent):\n\
-      ---\nid: test-engineer\nname: Test Engineer\ntype: quality\ntriggers:\n  keywords:\
-      \ [write tests, pytest, coverage]\n  file_patterns: [tests/*, test_*.py]\ninputs:\n\
-      \  - name: code_to_test\n    type: string\n    required: true\n---\n\nBENEFITS:\n\
-      - Single source of truth (markdown files)\n- Human-readable + machine-parseable\n\
-      - No manual tool definitions to maintain\n- Automatic tool generation from 57\
-      \ assets\n\nTIMELINE: 9 weeks (reduced from 16 weeks)\n- Sprint 1: Schema design\
-      \ + asset migration (2 weeks)\n- Sprint 2: Dynamic discovery implementation\
-      \ (2 weeks)\n- Sprint 3: Goose integration + recipes (2 weeks)\n- Sprint 4:\
-      \ Testing + quality gates (2 weeks)\n- Sprint 5: Documentation + launch (1 week)\n"
+    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
+    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
+    superseded_date: '2025-12-11T23:09:20.061361+00:00'

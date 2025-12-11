@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JK1877YN6T0673VB265
-  sprint_id: 01KC2D0JK1877YN6T0673VB261
-  track_id: 01KC2D0JK1877YN6T0673VB260
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J19
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Create repository MCP configuration generator

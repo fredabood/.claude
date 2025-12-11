@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JKA23EJA1W712Y5S6ZR
-  sprint_id: 01KC2D0JK325ABWVR9FQD5ZNPS
-  track_id: 01KC2D0JK2A3KNMQVJDACN1X9M
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J17
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: MCP Auto-Setup Research - Cursor

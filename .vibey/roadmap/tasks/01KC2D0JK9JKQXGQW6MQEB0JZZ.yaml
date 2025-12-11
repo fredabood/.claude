@@ -1,7 +1,7 @@
 task:
   id: 01KC2D0JK9JKQXGQW6MQEB0JZZ
-  sprint_id: 01KC2D0JK9JKQXGQW6MQEB0JZY
-  track_id: 01KC2D0JK9JKQXGQW6MQEB0JZP
+  sprint_id: 01KC7TNS0SC0FX8TPGN9SG4J1C
+  track_id: 01KC7TNS0SC0FX8TPGN9SG4J14
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Test in PyCharm

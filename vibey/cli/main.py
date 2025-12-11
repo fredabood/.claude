@@ -570,6 +570,32 @@ def roadmap_repair(ctx, fix_progress: bool, fix_references: bool, fix_all: bool,
     sys.exit(exit_code)
 
 
+@roadmap.command('validate-structure')
+@click.option('--fix', is_flag=True, help='Automatically delete hierarchical ULID directories')
+@click.pass_context
+def roadmap_validate_structure(ctx, fix: bool):
+    """Validate roadmap directory structure is flat (no ULID directories).
+
+    Ensures the roadmap uses the flat ULID-based structure:
+      .vibey/roadmap/tracks/{ulid}.yaml
+      .vibey/roadmap/sprints/{ulid}.yaml
+      .vibey/roadmap/tasks/{ulid}.yaml
+
+    Fails if legacy hierarchical directories exist (01KC.../01KC.../...).
+
+    Use --fix to automatically delete hierarchical directories after
+    verifying data exists in the flat structure.
+
+    Examples:
+      vibey roadmap validate-structure         # Check structure
+      vibey roadmap validate-structure --fix   # Auto-fix issues
+    """
+    from vibey.cli.commands import validate_structure_cmd
+
+    exit_code = validate_structure_cmd(fix)
+    sys.exit(exit_code)
+
+
 @roadmap.command('install-hooks')
 @click.option('--force', is_flag=True, help='Overwrite existing pre-commit hook')
 @click.pass_context

@@ -12,10 +12,10 @@ task:
     - Check for missing flat structure directories (tracks/, sprints/, tasks/)
     - Warn if both structures exist
     - Add to db rebuild/init as pre-check
-  status: not_started
+  status: completed
   created: '2025-12-10T20:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T21:20:00+00:00'
+  completed: '2025-12-11T21:40:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

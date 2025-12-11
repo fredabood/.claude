@@ -3776,6 +3776,98 @@ def db_config_cmd() -> int:
     return 0
 
 
+def validate_structure_cmd(fix: bool = False) -> int:
+    """Validate roadmap directory structure is flat (no ULID directories).
+
+    Checks that:
+    - No hierarchical ULID directories exist (01KC.../01KC.../...)
+    - Required flat structure directories exist (tracks/, sprints/, tasks/)
+
+    Args:
+        fix: If True, automatically delete any hierarchical ULID directories
+
+    Returns:
+        0 if validation passes, 1 if issues found
+    """
+    import shutil
+
+    root_dir = Path.cwd()
+    roadmap_dir = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_dir.exists():
+        print("❌ Roadmap directory not found")
+        print("   Run 'vibey roadmap init' first")
+        return 1
+
+    print("=" * 60)
+    print("🔍 Structure Validation")
+    print("=" * 60)
+
+    issues = []
+    ulid_dirs = []
+
+    # Check for hierarchical ULID directories
+    for item in roadmap_dir.iterdir():
+        if item.is_dir() and item.name.startswith('01'):
+            # ULID directories start with '01' (timestamp prefix)
+            ulid_dirs.append(item)
+            issues.append(f"Hierarchical directory found: {item.name}")
+
+    # Verify flat structure exists
+    required_dirs = ['tracks', 'sprints', 'tasks']
+    print("\n📁 Checking flat structure directories...")
+    for dir_name in required_dirs:
+        dir_path = roadmap_dir / dir_name
+        if not dir_path.exists():
+            issues.append(f"Missing required directory: {dir_name}/")
+            print(f"   ❌ {dir_name}/ - missing")
+        else:
+            count = len(list(dir_path.glob('*.yaml')))
+            print(f"   ✅ {dir_name}/ - {count} files")
+
+    # Check for hierarchical directories
+    print("\n📂 Checking for hierarchical ULID directories...")
+    if ulid_dirs:
+        print(f"   ❌ Found {len(ulid_dirs)} hierarchical directories")
+        for d in ulid_dirs[:5]:  # Show first 5
+            print(f"      {d.name}/")
+        if len(ulid_dirs) > 5:
+            print(f"      ... and {len(ulid_dirs) - 5} more")
+
+        if fix:
+            print("\n🔧 Fixing issues...")
+            for d in ulid_dirs:
+                try:
+                    shutil.rmtree(d)
+                    print(f"   ✅ Deleted: {d.name}/")
+                except Exception as e:
+                    print(f"   ❌ Failed to delete {d.name}/: {e}")
+
+            # Re-check after fix
+            remaining = [d for d in roadmap_dir.iterdir() if d.is_dir() and d.name.startswith('01')]
+            if not remaining:
+                print("\n✅ All hierarchical directories removed")
+                # Remove the hierarchical issues since they're fixed
+                issues = [i for i in issues if not i.startswith("Hierarchical directory")]
+    else:
+        print("   ✅ No hierarchical directories found")
+
+    # Report results
+    print("\n" + "=" * 60)
+    if issues:
+        print("❌ Structure validation FAILED")
+        for issue in issues:
+            print(f"   - {issue}")
+        if ulid_dirs and not fix:
+            print("\n💡 Run with --fix to automatically delete hierarchical directories")
+        return 1
+    else:
+        print("✅ Structure validation PASSED")
+        print("   - No hierarchical ULID directories")
+        print("   - Flat structure verified: tracks/, sprints/, tasks/")
+        return 0
+
+
 # ============================================================================
 # Format Migration Commands
 # ============================================================================

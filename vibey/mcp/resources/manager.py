@@ -71,16 +71,17 @@ class ResourceManager:
 
         Override this method to register providers for specific content types.
         This is called lazily on first access.
-
-        Note: Actual provider implementations are in Task 002/003.
-        This method will be updated as providers are implemented.
         """
-        # Providers will be registered here as they are implemented:
-        # self.providers['workflows'] = WorkflowResourceProvider(self.content_root)
+        from .workflows import WorkflowResourceProvider
+
+        # Register workflow provider
+        self.providers['workflows'] = WorkflowResourceProvider(self.content_root)
+        logger.debug("Registered workflows resource provider")
+
+        # Future providers will be registered here as they are implemented:
         # self.providers['handoffs'] = HandoffResourceProvider(self.content_root)
         # self.providers['agents'] = AgentResourceProvider(self.content_root)
         # self.providers['quality-gates'] = QualityGateResourceProvider(self.content_root)
-        pass
 
     def get_all_templates(self) -> List[ResourceTemplate]:
         """

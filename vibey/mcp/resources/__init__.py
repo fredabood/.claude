@@ -33,6 +33,7 @@ from .exceptions import (
 
 from .provider import ResourceProvider
 from .manager import ResourceManager
+from .workflows import WorkflowResourceProvider
 
 __all__ = [
     # Types
@@ -60,4 +61,6 @@ __all__ = [
     # Core classes
     "ResourceProvider",
     "ResourceManager",
+    # Providers
+    "WorkflowResourceProvider",
 ]

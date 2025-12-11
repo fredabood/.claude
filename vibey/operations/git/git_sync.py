@@ -277,6 +277,34 @@ class GitPrimarySync:
             return sprint_file
         return None
 
+    def _load_tasks_for_sprint(self, sprint_id: str) -> List[Dict[str, Any]]:
+        """
+        Load tasks for a sprint from standalone task files.
+
+        Args:
+            sprint_id: Sprint identifier (ULID)
+
+        Returns:
+            List of task dictionaries
+        """
+        tasks = []
+        tasks_dir = self.roadmap_dir / "tasks"
+
+        if not tasks_dir.exists():
+            return tasks
+
+        for task_file in tasks_dir.glob("*.yaml"):
+            try:
+                with open(task_file, 'r') as f:
+                    data = yaml.safe_load(f)
+                task_data = data.get('task', {})
+                if task_data.get('sprint_id') == sprint_id:
+                    tasks.append(task_data)
+            except Exception:
+                continue
+
+        return tasks
+
     def sync_task(
         self,
         task_id: str,
@@ -301,23 +329,14 @@ class GitPrimarySync:
             warnings.append(f"Task {task_id} not found in roadmap")
             return changes, warnings
 
-        # Load current state
+        # Load current state from standalone task file (tasks/{id}.yaml)
         with open(task_file, 'r') as f:
             data = yaml.safe_load(f)
 
-        sprint = data.get('sprint', {})
-        tasks = sprint.get('tasks', [])
-
-        task_data = None
-        task_index = None
-        for i, task in enumerate(tasks):
-            if task.get('id') == task_id:
-                task_data = task
-                task_index = i
-                break
-
+        # Standalone task files have 'task:' root key (not 'sprint.tasks[]')
+        task_data = data.get('task', {})
         if not task_data:
-            warnings.append(f"Task {task_id} not found in {task_file}")
+            warnings.append(f"Task {task_id} has invalid format in {task_file}")
             return changes, warnings
 
         # Derive status from git
@@ -337,18 +356,20 @@ class GitPrimarySync:
 
             # Apply change if not dry-run
             if not dry_run:
-                tasks[task_index]['status'] = derived_status
+                data['task']['status'] = derived_status
 
                 # Add git sync metadata
-                tasks[task_index]['_git_sync'] = {
+                if 'metadata' not in data['task']:
+                    data['task']['metadata'] = {}
+                data['task']['metadata']['_git_sync'] = {
                     'last_synced': datetime.now(timezone.utc).isoformat(),
                     'derived_from': 'git',
                     'reason': reason
                 }
 
                 # Update completed timestamp if newly completed
-                if derived_status == 'completed' and 'completed' not in tasks[task_index]:
-                    tasks[task_index]['completed'] = datetime.now(timezone.utc).isoformat()
+                if derived_status == 'completed' and not data['task'].get('completed'):
+                    data['task']['completed'] = datetime.now(timezone.utc).isoformat()
 
                 # Write back
                 with open(task_file, 'w') as f:
@@ -386,7 +407,9 @@ class GitPrimarySync:
             data = yaml.safe_load(f)
 
         sprint = data.get('sprint', {})
-        tasks = sprint.get('tasks', [])
+
+        # Load tasks from standalone files (not embedded sprint.tasks[])
+        tasks = self._load_tasks_for_sprint(sprint_id)
 
         # Derive sprint status
         derived_status, reason = self._derive_sprint_status(sprint_id, sprint)
@@ -421,11 +444,13 @@ class GitPrimarySync:
 
         # Recalculate progress if tasks changed
         if task_changes and not dry_run:
-            # Reload to get updated task statuses
+            # Reload to get updated task statuses from standalone files
+            tasks = self._load_tasks_for_sprint(sprint_id)
+
+            # Reload sprint data for metadata update
             with open(sprint_file, 'r') as f:
                 data = yaml.safe_load(f)
             sprint = data.get('sprint', {})
-            tasks = sprint.get('tasks', [])
 
             new_progress = self._calculate_progress(tasks)
             sprint['progress'] = new_progress

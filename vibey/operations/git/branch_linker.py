@@ -243,18 +243,40 @@ class BranchLinker:
 
     def find_task_file(self, task_id: str) -> Optional[Path]:
         """
-        Find the sprint YAML file containing a specific task.
+        Find the YAML file for a specific task.
+
+        First checks standalone task files (tasks/*.yaml), then falls back
+        to searching legacy sprint files with embedded tasks.
 
         Args:
             task_id: Task ID to search for
 
         Returns:
-            Path to sprint.yaml file, or None if not found
+            Path to task.yaml file (standalone) or sprint.yaml (legacy), or None
         """
         if not self.roadmap_dir.exists():
             return None
 
-        # Search all sprint.yaml files
+        # First: Check for standalone task file (flat structure)
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            # Direct lookup for ULID-based task IDs
+            task_file = tasks_dir / f"{task_id}.yaml"
+            if task_file.exists():
+                return task_file
+
+            # Search all task files for slug-based IDs
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+                    task_data = data.get("task", {})
+                    if task_data.get("id") == task_id or task_data.get("slug") == task_id:
+                        return task_file
+                except Exception:
+                    continue
+
+        # Fallback: Search legacy sprint.yaml files with embedded tasks (DEPRECATED)
         for sprint_file in self.roadmap_dir.rglob("sprint.yaml"):
             try:
                 with open(sprint_file) as f:
@@ -281,6 +303,9 @@ class BranchLinker:
         """
         Link a branch to a task in roadmap YAML.
 
+        Handles both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
+
         Args:
             task_id: Task ID
             branch_name: Branch name
@@ -299,49 +324,52 @@ class BranchLinker:
             with open(task_file) as f:
                 data = yaml.safe_load(f)
 
-            sprint = data.get("sprint", {})
-            tasks = sprint.get("tasks", [])
+            # Determine file format: standalone task vs legacy sprint
+            task = None
+            if "task" in data:
+                # Standalone task file format
+                task = data["task"]
+            elif "sprint" in data:
+                # Legacy sprint file with embedded tasks
+                sprint = data.get("sprint", {})
+                tasks = sprint.get("tasks", [])
+                for t in tasks:
+                    if t.get("id") == task_id:
+                        task = t
+                        break
 
-            # Find and update task
-            task_found = False
-            for task in tasks:
-                if task.get("id") == task_id:
-                    task_found = True
-
-                    # Initialize branch metadata
-                    if "branch" not in task:
-                        task["branch"] = {}
-
-                    # Check if branch is merged
-                    is_merged = self.is_branch_merged(branch_name)
-                    merge_commit = None
-
-                    if is_merged:
-                        # Get merge commit
-                        try:
-                            result = subprocess.run(
-                                ["git", "log", "--merges", "--oneline", "--grep", branch_name, "-1"],
-                                cwd=self.repo_path,
-                                capture_output=True,
-                                text=True
-                            )
-                            if result.stdout:
-                                merge_commit = result.stdout.split()[0]
-                        except subprocess.CalledProcessError:
-                            pass
-
-                    # Update branch info
-                    task["branch"]["name"] = branch_name
-                    task["branch"]["created"] = task["branch"].get("created") or datetime.now(timezone.utc).isoformat()
-                    task["branch"]["merged"] = is_merged
-
-                    if merge_commit:
-                        task["branch"]["merge_commit"] = merge_commit
-
-                    break
-
-            if not task_found:
+            if not task:
                 return False, f"Task {task_id} not found in file"
+
+            # Initialize branch metadata
+            if "branch" not in task:
+                task["branch"] = {}
+
+            # Check if branch is merged
+            is_merged = self.is_branch_merged(branch_name)
+            merge_commit = None
+
+            if is_merged:
+                # Get merge commit
+                try:
+                    result = subprocess.run(
+                        ["git", "log", "--merges", "--oneline", "--grep", branch_name, "-1"],
+                        cwd=self.repo_path,
+                        capture_output=True,
+                        text=True
+                    )
+                    if result.stdout:
+                        merge_commit = result.stdout.split()[0]
+                except subprocess.CalledProcessError:
+                    pass
+
+            # Update branch info
+            task["branch"]["name"] = branch_name
+            task["branch"]["created"] = task["branch"].get("created") or datetime.now(timezone.utc).isoformat()
+            task["branch"]["merged"] = is_merged
+
+            if merge_commit:
+                task["branch"]["merge_commit"] = merge_commit
 
             # Write changes
             if not dry_run:
@@ -361,6 +389,9 @@ class BranchLinker:
         """
         Unlink a branch from a task.
 
+        Handles both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
+
         Args:
             task_id: Task ID
             dry_run: If True, don't actually write changes
@@ -378,23 +409,26 @@ class BranchLinker:
             with open(task_file) as f:
                 data = yaml.safe_load(f)
 
-            sprint = data.get("sprint", {})
-            tasks = sprint.get("tasks", [])
+            # Determine file format: standalone task vs legacy sprint
+            task = None
+            if "task" in data:
+                # Standalone task file format
+                task = data["task"]
+            elif "sprint" in data:
+                # Legacy sprint file with embedded tasks
+                sprint = data.get("sprint", {})
+                tasks = sprint.get("tasks", [])
+                for t in tasks:
+                    if t.get("id") == task_id:
+                        task = t
+                        break
 
-            # Find and update task
-            task_found = False
-            for task in tasks:
-                if task.get("id") == task_id:
-                    task_found = True
-
-                    # Remove branch metadata
-                    if "branch" in task:
-                        del task["branch"]
-
-                    break
-
-            if not task_found:
+            if not task:
                 return False, f"Task {task_id} not found in file"
+
+            # Remove branch metadata
+            if "branch" in task:
+                del task["branch"]
 
             # Write changes
             if not dry_run:
@@ -409,6 +443,9 @@ class BranchLinker:
     def get_task_branch(self, task_id: str) -> Optional[BranchLinkInfo]:
         """
         Get branch information for a task.
+
+        Handles both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
 
         Args:
             task_id: Task ID
@@ -425,33 +462,45 @@ class BranchLinker:
             with open(task_file) as f:
                 data = yaml.safe_load(f)
 
-            sprint = data.get("sprint", {})
-            tasks = sprint.get("tasks", [])
+            # Determine file format: standalone task vs legacy sprint
+            task = None
+            if "task" in data:
+                # Standalone task file format
+                task = data["task"]
+            elif "sprint" in data:
+                # Legacy sprint file with embedded tasks
+                sprint = data.get("sprint", {})
+                tasks = sprint.get("tasks", [])
+                for t in tasks:
+                    if t.get("id") == task_id:
+                        task = t
+                        break
 
-            for task in tasks:
-                if task.get("id") == task_id:
-                    branch_info = task.get("branch")
+            if not task:
+                return None
 
-                    if not branch_info:
-                        return None
+            branch_info = task.get("branch")
 
-                    branch_name = branch_info.get("name")
+            if not branch_info:
+                return None
 
-                    if not branch_name:
-                        return None
+            branch_name = branch_info.get("name")
 
-                    current_branch = self.get_current_branch()
-                    exists = self.branch_exists(branch_name)
+            if not branch_name:
+                return None
 
-                    return BranchLinkInfo(
-                        task_id=task_id,
-                        branch_name=branch_name,
-                        created=branch_info.get("created"),
-                        merged=branch_info.get("merged"),
-                        merge_commit=branch_info.get("merge_commit"),
-                        current=(branch_name == current_branch),
-                        exists=exists
-                    )
+            current_branch = self.get_current_branch()
+            exists = self.branch_exists(branch_name)
+
+            return BranchLinkInfo(
+                task_id=task_id,
+                branch_name=branch_name,
+                created=branch_info.get("created"),
+                merged=branch_info.get("merged"),
+                merge_commit=branch_info.get("merge_commit"),
+                current=(branch_name == current_branch),
+                exists=exists
+            )
 
         except Exception:
             pass
@@ -461,6 +510,9 @@ class BranchLinker:
     def get_all_branch_links(self) -> List[BranchLinkInfo]:
         """
         Get all branch-task links.
+
+        Scans both standalone task files (tasks/*.yaml) and legacy sprint files
+        with embedded tasks.
 
         Returns:
             List of BranchLinkInfo
@@ -472,7 +524,35 @@ class BranchLinker:
 
         current_branch = self.get_current_branch()
 
-        # Search all sprint.yaml files
+        # First: Scan standalone task files (primary source)
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+
+                    task = data.get("task", {})
+                    branch_info = task.get("branch")
+
+                    if branch_info and branch_info.get("name"):
+                        branch_name = branch_info["name"]
+                        exists = self.branch_exists(branch_name)
+
+                        links.append(BranchLinkInfo(
+                            task_id=task["id"],
+                            branch_name=branch_name,
+                            created=branch_info.get("created"),
+                            merged=branch_info.get("merged"),
+                            merge_commit=branch_info.get("merge_commit"),
+                            current=(branch_name == current_branch),
+                            exists=exists
+                        ))
+
+                except Exception:
+                    continue
+
+        # Second: Also scan legacy sprint.yaml files with embedded tasks (DEPRECATED)
         for sprint_file in self.roadmap_dir.rglob("sprint.yaml"):
             try:
                 with open(sprint_file) as f:

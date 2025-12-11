@@ -12,11 +12,11 @@ task:
     Changes at lines 309, 389, 428:
     - Replace: tasks = sprint.get('tasks', [])
     - With: query from standalone files
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T18:00:00+00:00'
+  completed: '2025-12-11T18:15:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: implementation

@@ -120,7 +120,10 @@ class MergeChecker:
 
     def _parse_task_status(self, yaml_content: str) -> Dict[str, str]:
         """
-        Parse task statuses from sprint YAML content.
+        Parse task statuses from standalone task YAML content or sprint YAML.
+
+        Supports both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
 
         Args:
             yaml_content: YAML file content
@@ -130,7 +133,19 @@ class MergeChecker:
         """
         try:
             data = yaml.safe_load(yaml_content)
-            if not data or 'sprint' not in data:
+            if not data:
+                return {}
+
+            # Check for standalone task file format (task: {})
+            if 'task' in data:
+                task_data = data['task']
+                task_id = task_data.get('id')
+                if task_id:
+                    return {task_id: task_data.get('status', 'not_started')}
+                return {}
+
+            # Legacy: Sprint file with embedded tasks (DEPRECATED)
+            if 'sprint' not in data:
                 return {}
 
             tasks = data['sprint'].get('tasks', [])
@@ -167,9 +182,37 @@ class MergeChecker:
 
         return files
 
+    def _find_task_files(self, ref: str) -> List[str]:
+        """
+        Find all standalone task YAML files at a given ref.
+
+        Args:
+            ref: Git ref to search
+
+        Returns:
+            List of file paths relative to repo root
+        """
+        success, stdout, _ = self._run_git(
+            ['ls-tree', '-r', '--name-only', ref, '.vibey/roadmap/tasks'],
+            check=False
+        )
+
+        if not success:
+            return []
+
+        files = []
+        for line in stdout.strip().split('\n'):
+            if line and line.endswith('.yaml'):
+                files.append(line)
+
+        return files
+
     def _get_task_status_changes(self, pr_branch: str, target_branch: str) -> List[TaskStatusChange]:
         """
         Get all task status changes between PR branch and target branch.
+
+        Scans both standalone task files (tasks/*.yaml) and legacy sprint files
+        with embedded tasks.
 
         Args:
             pr_branch: PR source branch
@@ -180,25 +223,71 @@ class MergeChecker:
         """
         changes = []
 
-        # Find all sprint files in target branch
+        # First: Scan standalone task files (primary source)
+        task_files = self._find_task_files(target_branch)
+        pr_task_files = self._find_task_files(pr_branch)
+        all_task_files = set(task_files) | set(pr_task_files)
+
+        for task_file in all_task_files:
+            target_content = self._get_file_at_ref(task_file, target_branch)
+            pr_content = self._get_file_at_ref(task_file, pr_branch)
+
+            target_statuses = self._parse_task_status(target_content) if target_content else {}
+            pr_statuses = self._parse_task_status(pr_content) if pr_content else {}
+
+            # Get sprint_id from task file content
+            sprint_id = 'unknown'
+            content = pr_content or target_content
+            if content:
+                try:
+                    data = yaml.safe_load(content)
+                    if data and 'task' in data:
+                        sprint_id = data['task'].get('sprint_id', 'unknown')
+                except Exception:
+                    pass
+
+            all_task_ids = set(target_statuses.keys()) | set(pr_statuses.keys())
+            for task_id in all_task_ids:
+                target_status = target_statuses.get(task_id, 'not_started')
+                pr_status = pr_statuses.get(task_id, 'not_started')
+
+                if target_status != pr_status:
+                    changes.append(TaskStatusChange(
+                        task_id=task_id,
+                        file_path=task_file,
+                        old_status=target_status,
+                        new_status=pr_status,
+                        sprint_id=sprint_id
+                    ))
+
+        # Second: Also check legacy sprint files with embedded tasks (DEPRECATED)
         sprint_files = self._find_sprint_files(target_branch)
 
         for sprint_file in sprint_files:
-            # Get file content in both branches
             target_content = self._get_file_at_ref(sprint_file, target_branch)
             pr_content = self._get_file_at_ref(sprint_file, pr_branch)
 
             if not target_content or not pr_content:
                 continue
 
-            # Parse task statuses
+            # Parse task statuses (will return empty for sprints without embedded tasks)
             target_statuses = self._parse_task_status(target_content)
             pr_statuses = self._parse_task_status(pr_content)
 
+            # Skip if no embedded tasks found (they're in standalone files now)
+            if not target_statuses and not pr_statuses:
+                continue
+
             # Extract sprint ID from file path
-            # .vibey/roadmap/track-name/sprint-name/sprint.yaml
+            # .vibey/roadmap/sprints/{sprint_id}.yaml or legacy path
             parts = Path(sprint_file).parts
-            if len(parts) >= 4:
+            if 'sprints' in parts:
+                idx = parts.index('sprints')
+                if idx + 1 < len(parts):
+                    sprint_id = Path(parts[idx + 1]).stem  # Remove .yaml extension
+                else:
+                    sprint_id = 'unknown'
+            elif len(parts) >= 4:
                 sprint_id = parts[3]
             else:
                 sprint_id = 'unknown'

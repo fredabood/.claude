@@ -105,6 +105,9 @@ class CommitMsgHook:
         """
         Load all task IDs from roadmap YAML files.
 
+        Scans both standalone task files (tasks/*.yaml) and legacy sprint files
+        with embedded tasks.
+
         Returns:
             Set of task IDs
         """
@@ -114,7 +117,24 @@ class CommitMsgHook:
         if not roadmap_dir.exists():
             return task_ids
 
-        # Find all sprint.yaml files
+        # First: Scan standalone task files (primary source)
+        tasks_dir = roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+
+                    task = data.get("task", {})
+                    if "id" in task:
+                        task_ids.add(task["id"])
+                    # Also add slug as an alias
+                    if "slug" in task:
+                        task_ids.add(task["slug"])
+                except Exception:
+                    continue
+
+        # Second: Also scan legacy sprint.yaml files with embedded tasks (DEPRECATED)
         for sprint_file in roadmap_dir.rglob("sprint.yaml"):
             try:
                 with open(sprint_file) as f:

@@ -61,18 +61,40 @@ class TaskStatusUpdater:
 
     def find_task_file(self, task_id: str) -> Optional[Path]:
         """
-        Find the sprint YAML file containing a specific task.
+        Find the YAML file for a specific task.
+
+        First checks standalone task files (tasks/*.yaml), then falls back
+        to searching legacy sprint files with embedded tasks.
 
         Args:
             task_id: Task ID to search for
 
         Returns:
-            Path to sprint.yaml file, or None if not found
+            Path to task.yaml file (standalone) or sprint.yaml (legacy), or None
         """
         if not self.roadmap_dir.exists():
             return None
 
-        # Search all sprint.yaml files
+        # First: Check for standalone task file (flat structure)
+        tasks_dir = self.roadmap_dir / "tasks"
+        if tasks_dir.exists():
+            # Direct lookup for ULID-based task IDs
+            task_file = tasks_dir / f"{task_id}.yaml"
+            if task_file.exists():
+                return task_file
+
+            # Search all task files for slug-based IDs
+            for task_file in tasks_dir.glob("*.yaml"):
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+                    task_data = data.get("task", {})
+                    if task_data.get("id") == task_id or task_data.get("slug") == task_id:
+                        return task_file
+                except Exception:
+                    continue
+
+        # Fallback: Search legacy sprint.yaml files with embedded tasks (DEPRECATED)
         for sprint_file in self.roadmap_dir.rglob("sprint.yaml"):
             try:
                 with open(sprint_file) as f:
@@ -92,10 +114,13 @@ class TaskStatusUpdater:
 
     def get_task_from_file(self, file_path: Path, task_id: str) -> Optional[Dict]:
         """
-        Load a specific task from a sprint YAML file.
+        Load a specific task from a YAML file.
+
+        Handles both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
 
         Args:
-            file_path: Path to sprint.yaml
+            file_path: Path to task.yaml or sprint.yaml
             task_id: Task ID to load
 
         Returns:
@@ -105,6 +130,14 @@ class TaskStatusUpdater:
             with open(file_path) as f:
                 data = yaml.safe_load(f)
 
+            # Check for standalone task file format
+            if "task" in data:
+                task = data["task"]
+                if task.get("id") == task_id or task.get("slug") == task_id:
+                    return task
+                return None
+
+            # Legacy: sprint file with embedded tasks
             sprint = data.get("sprint", {})
             tasks = sprint.get("tasks", [])
 
@@ -126,10 +159,13 @@ class TaskStatusUpdater:
         dry_run: bool = False
     ) -> Tuple[bool, Optional[str]]:
         """
-        Update task status in a sprint YAML file.
+        Update task status in a YAML file.
+
+        Handles both standalone task files (task: {}) and legacy sprint files
+        with embedded tasks (sprint: {tasks: []}).
 
         Args:
-            file_path: Path to sprint.yaml
+            file_path: Path to task.yaml or sprint.yaml
             task_id: Task ID to update
             new_status: New status to set
             commit_sha: Commit SHA to record
@@ -142,9 +178,37 @@ class TaskStatusUpdater:
             with open(file_path) as f:
                 data = yaml.safe_load(f)
 
+            # Check for standalone task file format
+            if "task" in data:
+                task = data["task"]
+                if task.get("id") != task_id and task.get("slug") != task_id:
+                    return False, f"Task {task_id} not found in file"
+
+                # Update task
+                task["status"] = new_status
+
+                # Add commit to commits list
+                if "commits" not in task:
+                    task["commits"] = []
+                if commit_sha not in task["commits"]:
+                    task["commits"].append(commit_sha)
+
+                # Update timestamps
+                if new_status == "completed" and task.get("completed") is None:
+                    task["completed"] = datetime.now(timezone.utc).isoformat()
+                if new_status == "in_progress" and task.get("started") is None:
+                    task["started"] = datetime.now(timezone.utc).isoformat()
+
+                # Write changes
+                if not dry_run:
+                    with open(file_path, 'w') as f:
+                        yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+
+                return True, None
+
+            # Legacy: sprint file with embedded tasks
             sprint = data.get("sprint", {})
             tasks = sprint.get("tasks", [])
-            sprint_id = sprint.get("id", "unknown")
 
             # Find and update task
             task_found = False
@@ -174,7 +238,7 @@ class TaskStatusUpdater:
             if not task_found:
                 return False, f"Task {task_id} not found in file"
 
-            # Update sprint progress
+            # Update sprint progress (only for legacy format)
             completed_count = sum(1 for t in tasks if t.get("status") == "completed")
             total_count = len(tasks)
 

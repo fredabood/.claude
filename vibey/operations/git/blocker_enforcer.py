@@ -264,23 +264,22 @@ class BlockerEnforcer:
     def _find_item_path(self, item_id: str, item_type: str) -> Optional[Path]:
         """
         Find the YAML file path for an item by ID.
+
+        Uses flat structure:
+        - tasks/{task_id}.yaml
+        - sprints/{sprint_id}.yaml
+        - tracks/{track_id}.yaml
         """
         if item_type == 'task':
-            # Search for task.yaml in task directories
-            for task_dir in self.roadmap_root.glob(f"**/{item_id}"):
-                task_file = task_dir / "task.yaml"
-                if task_file.exists():
-                    return task_file
+            task_file = self.roadmap_root / "tasks" / f"{item_id}.yaml"
+            if task_file.exists():
+                return task_file
         elif item_type == 'sprint':
-            # Search for sprint.yaml
-            for sprint_dir in self.roadmap_root.glob(f"**/{item_id}"):
-                sprint_file = sprint_dir / "sprint.yaml"
-                if sprint_file.exists():
-                    return sprint_file
+            sprint_file = self.roadmap_root / "sprints" / f"{item_id}.yaml"
+            if sprint_file.exists():
+                return sprint_file
         elif item_type == 'track':
-            # Search for track.yaml
-            track_dir = self.roadmap_root / item_id
-            track_file = track_dir / "track.yaml"
+            track_file = self.roadmap_root / "tracks" / f"{item_id}.yaml"
             if track_file.exists():
                 return track_file
 

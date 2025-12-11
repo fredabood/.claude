@@ -245,72 +245,36 @@ class GitPrimarySync:
 
     def _find_task_file(self, task_id: str) -> Optional[Path]:
         """
-        Find YAML file containing a task.
+        Find YAML file for a task.
+
+        Uses flat structure: tasks/{task_id}.yaml
 
         Args:
-            task_id: Task identifier
+            task_id: Task identifier (ULID)
 
         Returns:
-            Path to sprint.yaml file, or None
+            Path to task.yaml file, or None
         """
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir():
-                continue
-
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir():
-                    continue
-
-                sprint_file = sprint_dir / "sprint.yaml"
-                if not sprint_file.exists():
-                    continue
-
-                try:
-                    with open(sprint_file, 'r') as f:
-                        data = yaml.safe_load(f)
-                        sprint = data.get('sprint', {})
-                        tasks = sprint.get('tasks', [])
-
-                        for task in tasks:
-                            if task.get('id') == task_id:
-                                return sprint_file
-                except Exception:
-                    continue
-
+        task_file = self.roadmap_dir / "tasks" / f"{task_id}.yaml"
+        if task_file.exists():
+            return task_file
         return None
 
     def _find_sprint_file(self, sprint_id: str) -> Optional[Path]:
         """
         Find YAML file for a sprint.
 
+        Uses flat structure: sprints/{sprint_id}.yaml
+
         Args:
-            sprint_id: Sprint identifier
+            sprint_id: Sprint identifier (ULID)
 
         Returns:
             Path to sprint.yaml file, or None
         """
-        for track_dir in self.roadmap_dir.iterdir():
-            if not track_dir.is_dir():
-                continue
-
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir():
-                    continue
-
-                sprint_file = sprint_dir / "sprint.yaml"
-                if not sprint_file.exists():
-                    continue
-
-                try:
-                    with open(sprint_file, 'r') as f:
-                        data = yaml.safe_load(f)
-                        sprint = data.get('sprint', {})
-
-                        if sprint.get('id') == sprint_id:
-                            return sprint_file
-                except Exception:
-                    continue
-
+        sprint_file = self.roadmap_dir / "sprints" / f"{sprint_id}.yaml"
+        if sprint_file.exists():
+            return sprint_file
         return None
 
     def sync_task(
@@ -489,6 +453,8 @@ class GitPrimarySync:
         """
         Sync all sprints/tasks from git state.
 
+        Uses flat structure: sprints/{sprint_id}.yaml
+
         Args:
             track_id: Only sync specific track (optional)
             dry_run: If True, don't modify files
@@ -501,35 +467,38 @@ class GitPrimarySync:
         all_warnings = []
         conflicts = []
 
-        # Find all sprint files
-        track_dirs = [self.roadmap_dir / track_id] if track_id else list(self.roadmap_dir.iterdir())
+        # Find all sprint files from flat structure
+        sprints_dir = self.roadmap_dir / "sprints"
+        if not sprints_dir.is_dir():
+            all_warnings.append(f"Sprints directory not found: {sprints_dir}")
+            return SyncResult(
+                task_changes=all_task_changes,
+                sprint_changes=all_sprint_changes,
+                conflicts=conflicts,
+                warnings=all_warnings,
+                dry_run=dry_run
+            )
 
-        for track_dir in track_dirs:
-            if not track_dir.is_dir():
-                continue
+        for sprint_file in sprints_dir.glob("*.yaml"):
+            try:
+                with open(sprint_file, 'r') as f:
+                    data = yaml.safe_load(f)
+                    sprint = data.get('sprint', {})
+                    sprint_id = sprint.get('id')
+                    sprint_track_id = sprint.get('track_id')
 
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir():
-                    continue
+                    # Filter by track_id if specified
+                    if track_id and sprint_track_id != track_id:
+                        continue
 
-                sprint_file = sprint_dir / "sprint.yaml"
-                if not sprint_file.exists():
-                    continue
+                    if sprint_id:
+                        sprint_changes, task_changes, warnings = self.sync_sprint(sprint_id, dry_run)
+                        all_sprint_changes.extend(sprint_changes)
+                        all_task_changes.extend(task_changes)
+                        all_warnings.extend(warnings)
 
-                try:
-                    with open(sprint_file, 'r') as f:
-                        data = yaml.safe_load(f)
-                        sprint = data.get('sprint', {})
-                        sprint_id = sprint.get('id')
-
-                        if sprint_id:
-                            sprint_changes, task_changes, warnings = self.sync_sprint(sprint_id, dry_run)
-                            all_sprint_changes.extend(sprint_changes)
-                            all_task_changes.extend(task_changes)
-                            all_warnings.extend(warnings)
-
-                except Exception as e:
-                    all_warnings.append(f"Error syncing {sprint_file}: {e}")
+            except Exception as e:
+                all_warnings.append(f"Error syncing {sprint_file}: {e}")
 
         return SyncResult(
             task_changes=all_task_changes,

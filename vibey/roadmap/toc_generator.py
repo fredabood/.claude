@@ -185,20 +185,18 @@ class TOCGenerator:
         track_yaml_path: Optional[str] = None
     ) -> TableOfContents:
         """
-        Generate TOC for track level.
+        Generate TOC for track level using flat structure.
 
         Args:
-            track_slug: Track directory slug
-            track_yaml_path: Optional path to track.yaml (defaults to track_slug/track.yaml)
+            track_slug: Track ID (used for flat lookup)
+            track_yaml_path: Optional path to track.yaml (defaults to tracks/{track_slug}.yaml)
 
         Returns:
             TableOfContents: Complete TOC structure for track level
         """
-        track_dir = self.roadmap_root / track_slug
-
-        # Default track YAML path
+        # Default track YAML path - flat structure
         if track_yaml_path is None:
-            track_yaml_path = track_dir / "track.yaml"
+            track_yaml_path = self.roadmap_root / "tracks" / f"{track_slug}.yaml"
         else:
             track_yaml_path = Path(track_yaml_path)
 
@@ -207,18 +205,20 @@ class TOCGenerator:
             track_data = yaml.safe_load(f)
 
         track_info = track_data.get('track', {})
+        track_id = track_info.get('id', track_slug)
 
-        # Discover context files
-        context_files = self._discover_context_files(track_dir / "context")
+        # Discover context files (context directories can still exist per track)
+        context_dir = self.roadmap_root / "context" / "tracks" / track_id
+        context_files = self._discover_context_files(context_dir)
 
         # Current object
         current = TOCCurrent(
-            id=track_info.get('id', 'unknown'),
+            id=track_id,
             name=track_info.get('name', track_slug),
             files=TOCFile(
-                yaml="track.yaml",
-                markdown="track.md",
-                summary=f"{track_slug}-COMPLETED.md"
+                yaml=f"tracks/{track_id}.yaml",
+                markdown=f"tracks/{track_id}.md",
+                summary=f"tracks/{track_id}-COMPLETED.md"
             ),
             context=context_files if context_files else None
         )
@@ -230,30 +230,30 @@ class TOCGenerator:
             id=track_info.get('roadmap_id')
         )
 
-        # Children (sprints)
+        # Children (sprints) - find sprints belonging to this track from flat structure
         children = []
+        sprints_dir = self.roadmap_root / "sprints"
+        if sprints_dir.exists():
+            for sprint_file in sorted(sprints_dir.glob("*.yaml")):
+                if sprint_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(sprint_file, 'r') as f:
+                        sprint_data = yaml.safe_load(f)
+                        sprint_info = sprint_data.get('sprint', {})
 
-        # Discover sprint directories
-        for item in sorted(track_dir.iterdir()):
-            if item.is_dir() and not item.name.startswith('.') and item.name != 'context':
-                sprint_slug = item.name
-                sprint_yaml_path = item / "sprint.yaml"
-
-                if sprint_yaml_path.exists():
-                    try:
-                        with open(sprint_yaml_path, 'r') as f:
-                            sprint_data = yaml.safe_load(f)
-                            sprint_info = sprint_data.get('sprint', {})
-
+                        # Only include sprints belonging to this track
+                        if sprint_info.get('track_id') == track_id:
+                            sprint_id = sprint_info.get('id', sprint_file.stem)
                             children.append(TOCChild(
                                 type='sprint',
-                                id=sprint_info.get('id', sprint_slug),
-                                name=sprint_info.get('name', sprint_slug),
-                                path=f"{sprint_slug}/",
+                                id=sprint_id,
+                                name=sprint_info.get('name', sprint_id),
+                                path=f"sprints/{sprint_id}.yaml",
                                 status=sprint_info.get('status', 'not_started')
                             ))
-                    except Exception:
-                        continue
+                except Exception:
+                    continue
 
         # Metadata
         progress = track_info.get('progress', {})
@@ -279,22 +279,19 @@ class TOCGenerator:
         sprint_yaml_path: Optional[str] = None
     ) -> TableOfContents:
         """
-        Generate TOC for sprint level.
+        Generate TOC for sprint level using flat structure.
 
         Args:
-            track_slug: Track directory slug
-            sprint_slug: Sprint directory slug
-            sprint_yaml_path: Optional path to sprint.yaml
+            track_slug: Track ID (parent track)
+            sprint_slug: Sprint ID (used for flat lookup)
+            sprint_yaml_path: Optional path to sprint.yaml (defaults to sprints/{sprint_slug}.yaml)
 
         Returns:
             TableOfContents: Complete TOC structure for sprint level
         """
-        track_dir = self.roadmap_root / track_slug
-        sprint_dir = track_dir / sprint_slug
-
-        # Default sprint YAML path
+        # Default sprint YAML path - flat structure
         if sprint_yaml_path is None:
-            sprint_yaml_path = sprint_dir / "sprint.yaml"
+            sprint_yaml_path = self.roadmap_root / "sprints" / f"{sprint_slug}.yaml"
         else:
             sprint_yaml_path = Path(sprint_yaml_path)
 
@@ -303,18 +300,20 @@ class TOCGenerator:
             sprint_data = yaml.safe_load(f)
 
         sprint_info = sprint_data.get('sprint', {})
+        sprint_id = sprint_info.get('id', sprint_slug)
 
         # Discover context files
-        context_files = self._discover_context_files(sprint_dir / "context")
+        context_dir = self.roadmap_root / "context" / "sprints" / sprint_id
+        context_files = self._discover_context_files(context_dir)
 
         # Current object
         current = TOCCurrent(
-            id=sprint_info.get('id', 'unknown'),
+            id=sprint_id,
             name=sprint_info.get('name', sprint_slug),
             files=TOCFile(
-                yaml="sprint.yaml",
-                markdown="sprint.md",
-                summary=f"{sprint_slug}-COMPLETED.md"
+                yaml=f"sprints/{sprint_id}.yaml",
+                markdown=f"sprints/{sprint_id}.md",
+                summary=f"sprints/{sprint_id}-COMPLETED.md"
             ),
             context=context_files if context_files else None
         )
@@ -322,25 +321,34 @@ class TOCGenerator:
         # Parent (track)
         parent = TOCParent(
             type='track',
-            path='../',
+            path=f"tracks/{track_slug}.yaml",
             id=sprint_info.get('track_id')
         )
 
-        # Children (tasks)
+        # Children (tasks) - find tasks belonging to this sprint from flat structure
         children = []
-        tasks = sprint_info.get('tasks', [])
+        tasks_dir = self.roadmap_root / "tasks"
+        if tasks_dir.exists():
+            for task_file in sorted(tasks_dir.glob("*.yaml")):
+                if task_file.name.startswith('.'):
+                    continue
+                try:
+                    with open(task_file, 'r') as f:
+                        task_data = yaml.safe_load(f)
+                        task_info = task_data.get('task', {})
 
-        for task in tasks:
-            task_id = task.get('id')
-            task_slug = self._id_to_slug(task_id)
-
-            children.append(TOCChild(
-                type='task',
-                id=task_id,
-                name=task.get('name', task_id),
-                path=f"{task_slug}/",
-                status=task.get('status', 'not_started')
-            ))
+                        # Only include tasks belonging to this sprint
+                        if task_info.get('sprint_id') == sprint_id:
+                            task_id = task_info.get('id', task_file.stem)
+                            children.append(TOCChild(
+                                type='task',
+                                id=task_id,
+                                name=task_info.get('title', task_info.get('name', task_id)),
+                                path=f"tasks/{task_id}.yaml",
+                                status=task_info.get('status', 'not_started')
+                            ))
+                except Exception:
+                    continue
 
         # Metadata
         progress = sprint_info.get('progress', {})
@@ -403,11 +411,14 @@ class TOCGenerator:
         track_yaml_path: Optional[str] = None,
         output_path: Optional[str] = None
     ) -> TableOfContents:
-        """Generate and save track TOC in one operation."""
+        """Generate and save track TOC in one operation using flat structure."""
         toc = self.generate_track_toc(track_slug, track_yaml_path)
 
         if output_path is None:
-            output_path = self.roadmap_root / track_slug / "table_of_contents.json"
+            # Flat structure: store TOC in tocs/ directory
+            tocs_dir = self.roadmap_root / "tocs" / "tracks"
+            tocs_dir.mkdir(parents=True, exist_ok=True)
+            output_path = tocs_dir / f"{track_slug}_toc.json"
 
         self.save_toc(toc, output_path)
         return toc
@@ -419,11 +430,14 @@ class TOCGenerator:
         sprint_yaml_path: Optional[str] = None,
         output_path: Optional[str] = None
     ) -> TableOfContents:
-        """Generate and save sprint TOC in one operation."""
+        """Generate and save sprint TOC in one operation using flat structure."""
         toc = self.generate_sprint_toc(track_slug, sprint_slug, sprint_yaml_path)
 
         if output_path is None:
-            output_path = self.roadmap_root / track_slug / sprint_slug / "table_of_contents.json"
+            # Flat structure: store TOC in tocs/ directory
+            tocs_dir = self.roadmap_root / "tocs" / "sprints"
+            tocs_dir.mkdir(parents=True, exist_ok=True)
+            output_path = tocs_dir / f"{sprint_slug}_toc.json"
 
         self.save_toc(toc, output_path)
         return toc

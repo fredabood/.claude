@@ -137,22 +137,26 @@ def remediate_track_counters(
     """
     actions = []
 
-    # Find track directory
-    track_dir = None
-    for d in roadmap_root.iterdir():
-        if not d.is_dir() or d.name.startswith('.'):
-            continue
-        track_yaml = d / "track.yaml"
-        if track_yaml.exists():
-            data = _load_yaml(track_yaml)
-            if data and data.get('track', {}).get('id') == track_id:
-                track_dir = d
-                break
-
-    if not track_dir:
+    # Find track file in flat tracks/ directory
+    tracks_dir = roadmap_root / "tracks"
+    if not tracks_dir.exists():
         return actions
 
-    track_yaml = track_dir / "track.yaml"
+    # Direct lookup by ID
+    track_yaml = tracks_dir / f"{track_id}.yaml"
+    if not track_yaml.exists():
+        # Fallback: scan for matching ID
+        track_yaml = None
+        for f in tracks_dir.glob("*.yaml"):
+            if f.name.startswith('.'):
+                continue
+            data = _load_yaml(f)
+            if data and data.get('track', {}).get('id') == track_id:
+                track_yaml = f
+                break
+
+    if not track_yaml:
+        return actions
     track_data = _load_yaml(track_yaml)
     if not track_data:
         return actions
@@ -230,22 +234,23 @@ def remediate_sprint_counters(
     """
     actions = []
 
-    # Find sprint directory
-    sprint_yaml = None
-    for track_dir in roadmap_root.iterdir():
-        if not track_dir.is_dir() or track_dir.name.startswith('.'):
-            continue
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
+    # Find sprint file in flat sprints/ directory
+    sprints_dir = roadmap_root / "sprints"
+    if not sprints_dir.exists():
+        return actions
+
+    # Direct lookup by ID
+    sprint_yaml = sprints_dir / f"{sprint_id}.yaml"
+    if not sprint_yaml.exists():
+        # Fallback: scan for matching ID
+        sprint_yaml = None
+        for f in sprints_dir.glob("*.yaml"):
+            if f.name.startswith('.'):
                 continue
-            candidate = sprint_dir / "sprint.yaml"
-            if candidate.exists():
-                data = _load_yaml(candidate)
-                if data and data.get('sprint', {}).get('id') == sprint_id:
-                    sprint_yaml = candidate
-                    break
-        if sprint_yaml:
-            break
+            data = _load_yaml(f)
+            if data and data.get('sprint', {}).get('id') == sprint_id:
+                sprint_yaml = f
+                break
 
     if not sprint_yaml:
         return actions

@@ -14,10 +14,10 @@ task:
     - summarize.py - line 168
     All track_dir / "track.yaml" and sprint_dir / "sprint.yaml" patterns
     must be migrated to flat structure.
-  status: not_started
+  status: completed
   created: '2025-12-11T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-11T22:00:00+00:00'
+  completed: '2025-12-11T22:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

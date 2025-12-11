@@ -95,22 +95,30 @@ def detect_format_version(root_dir: Path) -> str:
     roadmap_yaml = vibey_dir / "roadmap.yaml"
     roadmap_db = vibey_dir / "roadmap.db"
 
-    # Check for V3: has database
+    # Check for V3: has database AND flat structure (tracks/, sprints/, tasks/ directories)
     if roadmap_db.exists() and roadmap_dir.exists():
-        # Verify it has hierarchical structure
+        tracks_dir = roadmap_dir / "tracks"
+        sprints_dir = roadmap_dir / "sprints"
+        tasks_dir = roadmap_dir / "tasks"
+
+        # V3 flat structure: has tracks/, sprints/, tasks/ directories
+        if tracks_dir.exists() and any(tracks_dir.glob("*.yaml")):
+            return FormatVersion.V3_SQLITE
+
+        # Legacy V3: hierarchical structure with database (shouldn't exist anymore)
         track_dirs = [d for d in roadmap_dir.iterdir()
-                      if d.is_dir() and not d.name.startswith('.')]
+                      if d.is_dir() and not d.name.startswith('.') and d.name not in ('tracks', 'sprints', 'tasks', 'context')]
         if track_dirs and any((d / "track.yaml").exists() for d in track_dirs):
             return FormatVersion.V3_SQLITE
 
     # Check for V2: hierarchical without database
     if roadmap_dir.exists():
         track_dirs = [d for d in roadmap_dir.iterdir()
-                      if d.is_dir() and not d.name.startswith('.')]
+                      if d.is_dir() and not d.name.startswith('.') and d.name not in ('tracks', 'sprints', 'tasks', 'context')]
         if track_dirs and any((d / "track.yaml").exists() for d in track_dirs):
             return FormatVersion.V2_HIERARCHY
 
-    # Check for V1: flat structure
+    # Check for V1: flat structure (single roadmap.yaml with embedded data)
     if roadmap_yaml.exists():
         data = _parse_yaml_safe(roadmap_yaml)
         if data and 'roadmap' in data:
@@ -562,28 +570,28 @@ def validate_migration(root_dir: Path) -> List[str]:
         except Exception as e:
             errors.append(f"Database validation failed: {e}")
 
-    # Check directory structure
+    # Check flat directory structure
     roadmap_dir = vibey_dir / "roadmap"
-    # Known special directories that are not tracks
-    special_dirs = {'audit_reports', 'archived', 'context', 'backups', 'validation'}
 
     if not roadmap_dir.exists():
         errors.append("Roadmap directory missing")
     else:
-        track_count = 0
-        for track_dir in roadmap_dir.iterdir():
-            if track_dir.is_dir() and not track_dir.name.startswith('.'):
-                # Skip known special directories
-                if track_dir.name in special_dirs:
-                    continue
+        # Check for flat structure directories
+        tracks_dir = roadmap_dir / "tracks"
+        sprints_dir = roadmap_dir / "sprints"
+        tasks_dir = roadmap_dir / "tasks"
 
-                track_yaml = track_dir / "track.yaml"
-                if track_yaml.exists():
-                    track_count += 1
-                else:
-                    errors.append(f"Track {track_dir.name} missing track.yaml")
+        if not tracks_dir.exists():
+            errors.append("Flat structure: tracks/ directory missing")
+        else:
+            track_count = len(list(tracks_dir.glob("*.yaml")))
+            if track_count == 0:
+                errors.append("No track YAML files found in tracks/")
 
-        if track_count == 0:
-            errors.append("No valid tracks found")
+        if not sprints_dir.exists():
+            errors.append("Flat structure: sprints/ directory missing")
+
+        if not tasks_dir.exists():
+            errors.append("Flat structure: tasks/ directory missing")
 
     return errors

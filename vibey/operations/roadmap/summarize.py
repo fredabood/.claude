@@ -156,32 +156,30 @@ class SummaryGenerator:
             return 0
 
         completed_count = 0
-        # Iterate through hierarchical structure: tracks/sprints
-        for track_dir in roadmap_root.iterdir():
-            if not track_dir.is_dir() or track_dir.name.startswith('.') or track_dir.name == 'context':
+
+        # Iterate through flat sprints/ directory
+        sprints_dir = roadmap_root / "sprints"
+        if not sprints_dir.exists():
+            print(f"❌ No sprints directory found")
+            return 0
+
+        for sprint_file in sprints_dir.glob("*.yaml"):
+            if sprint_file.name.startswith('.'):
                 continue
 
-            for sprint_dir in track_dir.iterdir():
-                if not sprint_dir.is_dir() or sprint_dir.name.startswith('.') or sprint_dir.name == 'context':
-                    continue
+            sprint_data = load_yaml(sprint_file)
+            if not sprint_data or 'sprint' not in sprint_data:
+                continue
 
-                sprint_file = sprint_dir / 'sprint.yaml'
-                if not sprint_file.exists():
-                    continue
-
-                sprint_data = load_yaml(sprint_file)
-                if not sprint_data or 'sprint' not in sprint_data:
-                    continue
-
-                sprint = sprint_data['sprint']
-                if sprint.get('status') == 'completed':
-                    sprint_id = sprint['id']
-                    print(f"\n📊 {sprint_id}: {sprint['name']}")
-                    try:
-                        if self.summarize_sprint(sprint_id, force=False):
-                            completed_count += 1
-                    except Exception as e:
-                        print(f"   ❌ Error: {e}")
+            sprint = sprint_data['sprint']
+            if sprint.get('status') == 'completed':
+                sprint_id = sprint['id']
+                print(f"\n📊 {sprint_id}: {sprint['name']}")
+                try:
+                    if self.summarize_sprint(sprint_id, force=False):
+                        completed_count += 1
+                except Exception as e:
+                    print(f"   ❌ Error: {e}")
 
         print(f"\n✅ Generated summaries for {completed_count} completed sprints")
         return completed_count

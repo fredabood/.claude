@@ -29,29 +29,107 @@ from ..database import get_connection
 from ..database.schema import has_criteria_table, create_criteria_table
 
 
-def _find_track_dirs(base_dir: Path) -> Generator[Path, None, None]:
-    """Find all track directories in the roadmap."""
+def _find_track_files(base_dir: Path) -> Generator[Path, None, None]:
+    """Find all track YAML files in the roadmap using flat structure."""
     roadmap_dir = base_dir / ".vibey" / "roadmap"
     if not roadmap_dir.exists():
         return
 
-    for item in roadmap_dir.iterdir():
-        if item.is_dir() and (item / "track.yaml").exists():
-            yield item
+    tracks_dir = roadmap_dir / "tracks"
+    if tracks_dir.exists():
+        for track_file in tracks_dir.glob("*.yaml"):
+            if not track_file.name.startswith('.'):
+                yield track_file
+
+
+def _find_sprint_files(base_dir: Path, track_id: Optional[str] = None) -> Generator[Path, None, None]:
+    """Find all sprint YAML files in the roadmap using flat structure."""
+    roadmap_dir = base_dir / ".vibey" / "roadmap"
+    if not roadmap_dir.exists():
+        return
+
+    sprints_dir = roadmap_dir / "sprints"
+    if sprints_dir.exists():
+        for sprint_file in sprints_dir.glob("*.yaml"):
+            if sprint_file.name.startswith('.'):
+                continue
+            if track_id:
+                # Filter by track_id if specified
+                import yaml
+                try:
+                    with open(sprint_file) as f:
+                        data = yaml.safe_load(f)
+                        if data and data.get('sprint', {}).get('track_id') == track_id:
+                            yield sprint_file
+                except Exception:
+                    continue
+            else:
+                yield sprint_file
+
+
+def _find_task_files(base_dir: Path, sprint_id: Optional[str] = None) -> Generator[Path, None, None]:
+    """Find all task YAML files in the roadmap using flat structure."""
+    roadmap_dir = base_dir / ".vibey" / "roadmap"
+    if not roadmap_dir.exists():
+        return
+
+    tasks_dir = roadmap_dir / "tasks"
+    if tasks_dir.exists():
+        for task_file in tasks_dir.glob("*.yaml"):
+            if task_file.name.startswith('.'):
+                continue
+            if sprint_id:
+                # Filter by sprint_id if specified
+                import yaml
+                try:
+                    with open(task_file) as f:
+                        data = yaml.safe_load(f)
+                        if data and data.get('task', {}).get('sprint_id') == sprint_id:
+                            yield task_file
+                except Exception:
+                    continue
+            else:
+                yield task_file
+
+
+# Legacy aliases for backwards compatibility
+def _find_track_dirs(base_dir: Path) -> Generator[Path, None, None]:
+    """Legacy: Find all track directories - now returns track files."""
+    return _find_track_files(base_dir)
 
 
 def _find_sprint_dirs(track_dir: Path) -> Generator[Path, None, None]:
-    """Find all sprint directories in a track."""
-    for item in track_dir.iterdir():
-        if item.is_dir() and (item / "sprint.yaml").exists():
-            yield item
+    """Legacy: Find all sprint directories - now uses flat structure."""
+    # track_dir is actually a track file in flat structure
+    # Get track_id from the file and find associated sprints
+    import yaml
+    try:
+        with open(track_dir) as f:
+            data = yaml.safe_load(f)
+            track_id = data.get('track', {}).get('id')
+            if track_id:
+                base_dir = track_dir.parent.parent.parent  # tracks/track.yaml -> .vibey/roadmap -> .vibey -> base
+                return _find_sprint_files(base_dir, track_id)
+    except Exception:
+        pass
+    return iter([])
 
 
 def _find_task_dirs(sprint_dir: Path) -> Generator[Path, None, None]:
-    """Find all task directories in a sprint."""
-    for item in sprint_dir.iterdir():
-        if item.is_dir() and (item / "task.yaml").exists():
-            yield item
+    """Legacy: Find all task directories - now uses flat structure."""
+    # sprint_dir is actually a sprint file in flat structure
+    # Get sprint_id from the file and find associated tasks
+    import yaml
+    try:
+        with open(sprint_dir) as f:
+            data = yaml.safe_load(f)
+            sprint_id = data.get('sprint', {}).get('id')
+            if sprint_id:
+                base_dir = sprint_dir.parent.parent.parent  # sprints/sprint.yaml -> .vibey/roadmap -> .vibey -> base
+                return _find_task_files(base_dir, sprint_id)
+    except Exception:
+        pass
+    return iter([])
 
 
 def _convert_dependency_to_criterion(dep, entity_id: str, index: int) -> "Criterion":
@@ -196,17 +274,20 @@ def migrate_sprint_criteria_from_dir(
     dry_run: bool = False,
 ) -> Dict[str, Any]:
     """
-    Migrate criteria for a sprint and all its tasks from directory.
+    Migrate criteria for a sprint and all its tasks from file.
 
     Args:
-        sprint_dir: Path to sprint directory
+        sprint_dir: Path to sprint YAML file (flat structure)
         db_path: Database path
         dry_run: If True, don't write to database
 
     Returns:
         Dict with migration results
     """
-    sprint_file = sprint_dir / "sprint.yaml"
+    # Handle both old directory-based and new file-based paths
+    sprint_file = sprint_dir
+    if sprint_dir.is_dir():
+        sprint_file = sprint_dir / "sprint.yaml"
     if not sprint_file.exists():
         return {'sprint_dir': str(sprint_dir), 'status': 'not_found'}
 
@@ -246,17 +327,20 @@ def migrate_track_criteria_from_dir(
     dry_run: bool = False,
 ) -> Dict[str, Any]:
     """
-    Migrate criteria for a track and all its sprints/tasks from directory.
+    Migrate criteria for a track and all its sprints/tasks from file.
 
     Args:
-        track_dir: Path to track directory
+        track_dir: Path to track YAML file (flat structure)
         db_path: Database path
         dry_run: If True, don't write to database
 
     Returns:
         Dict with migration results
     """
-    track_file = track_dir / "track.yaml"
+    # Handle both old directory-based and new file-based paths
+    track_file = track_dir
+    if track_dir.is_dir():
+        track_file = track_dir / "track.yaml"
     if not track_file.exists():
         return {'track_dir': str(track_dir), 'status': 'not_found'}
 

@@ -107,6 +107,19 @@ from .standard import (
     StandardOverride,
 )
 
+from .session import (
+    Session,
+    SessionStatus,
+    SessionEvent,
+    SessionEventType,
+    Decision,
+    DecisionCategory,
+    DecisionConfidence,
+    ContextSnapshot,
+    SessionCommit,
+    SessionStats,
+)
+
 __all__ = [
     # Roadmap
     "Roadmap",
@@ -163,6 +176,17 @@ __all__ = [
     "StandardType",
     "EnforcementMode",
     "StandardOverride",
+    # Session
+    "Session",
+    "SessionStatus",
+    "SessionEvent",
+    "SessionEventType",
+    "Decision",
+    "DecisionCategory",
+    "DecisionConfidence",
+    "ContextSnapshot",
+    "SessionCommit",
+    "SessionStats",
 ]
 
 __version__ = "2.1"

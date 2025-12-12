@@ -7,11 +7,11 @@ task:
   title: Audit docs/operations/
   description: 'Apply audit criteria to docs/operations/. Document: operations guides,
     workflow documentation, operational procedures. Output: AUDIT_OPERATIONS_DOCS.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T04:35:43.904080+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T07:00:00+00:00'
+  completed: '2025-12-12T07:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -1,0 +1,88 @@
+audit:
+  directory: docs/validation/
+  generated_at: '2025-12-12T07:10:00+00:00'
+  criteria_version: '1.0'
+
+  summary:
+    files_audited: 9
+    total_bytes: 121582
+    average_quality_score: 65.0
+    overall_grade: D
+    status: mostly_historical
+
+  validation_documentation_coverage:
+    validation_rules: documented_elsewhere
+    error_handling: documented_elsewhere
+    custom_validators: not_documented
+
+  files:
+    - path: docs/validation/CLAUDE_CODE_VALIDATION_REPORT.md
+      size_bytes: 11078
+      purpose: "Claude Code platform validation report"
+      status: historical
+      score: 70
+
+    - path: docs/validation/GIT_COMMIT_PLATFORM_TRACKING_COMPLETION.md
+      size_bytes: 9369
+      purpose: "Git commit tracking completion report"
+      status: historical
+      score: 65
+
+    - path: docs/validation/HIERARCHICAL_COMMIT_TRACKING_COMPLETION.md
+      size_bytes: 13627
+      purpose: "Hierarchical tracking completion report"
+      status: historical
+      score: 65
+
+    - path: docs/validation/PASS_RATE_IMPROVEMENT_PROGRESS.md
+      size_bytes: 17275
+      purpose: "Test pass rate improvement tracking"
+      status: historical
+      score: 65
+
+    - path: docs/validation/PHASE_2_COMPLETION_REPORT.md
+      size_bytes: 15353
+      purpose: "Phase 2 completion report"
+      status: historical
+      score: 70
+
+    - path: docs/validation/PLATFORM_TRACKING_AUDIT.md
+      size_bytes: 16161
+      purpose: "Platform tracking audit"
+      status: historical
+      score: 65
+
+    - path: docs/validation/REQUIRED_PLATFORM_TRACKING_COMPLETION.md
+      size_bytes: 15317
+      purpose: "Required platform tracking completion"
+      status: historical
+      score: 60
+
+    - path: docs/validation/ROADMAP_PLATFORM_TRACKING_COMPLETION.md
+      size_bytes: 13123
+      purpose: "Roadmap platform tracking completion"
+      status: historical
+      score: 60
+
+    - path: docs/validation/ROADMAP_STATE_AUDIT.md
+      size_bytes: 10279
+      purpose: "Roadmap state audit"
+      status: historical
+      score: 65
+
+  findings:
+    - type: major
+      description: "All 9 files appear to be historical completion/audit reports"
+      recommendation: "Archive to docs/archived/validation/"
+    - type: minor
+      description: "No current validation documentation"
+      recommendation: "Create current validation guide if needed"
+
+  remediation_roadmap:
+    immediate:
+      - "Mark all files as historical"
+    short_term:
+      - "Archive to docs/archived/validation/"
+    long_term:
+      - "Create active validation documentation if needed"
+      - "Validation rules now in docs/roadmap/VALIDATION_*.md"

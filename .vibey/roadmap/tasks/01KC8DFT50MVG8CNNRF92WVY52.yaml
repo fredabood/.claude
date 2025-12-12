@@ -7,11 +7,11 @@ task:
   title: Audit docs/roadmap/
   description: 'Apply audit criteria to docs/roadmap/. Check roadmap documentation,
     best practices, system guides for completeness and accuracy. Output: AUDIT_ROADMAP_DOCS.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T04:35:43.904508+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T07:00:00+00:00'
+  completed: '2025-12-12T07:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

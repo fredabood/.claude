@@ -1,0 +1,59 @@
+audit:
+  directory: docs/sprints/
+  generated_at: '2025-12-12T07:10:00+00:00'
+  criteria_version: '1.0'
+
+  summary:
+    files_audited: 4
+    total_bytes: 98896
+    average_quality_score: 55.0
+    overall_grade: F
+    status: historical
+
+  files:
+    - path: docs/sprints/core-framework-2-plan.md
+      size_bytes: 63923
+      purpose: "Core framework sprint 2 plan"
+      status: historical
+      score: 60
+      findings:
+        - "Large sprint plan (64KB)"
+        - "Historical - sprint completed"
+        - "Value: reference for future planning"
+
+    - path: docs/sprints/roadmap-integration-2-plan.md
+      size_bytes: 6793
+      purpose: "Roadmap integration sprint 2 plan"
+      status: historical
+      score: 55
+
+    - path: docs/sprints/roadmap-integration-3-plan.md
+      size_bytes: 15380
+      purpose: "Roadmap integration sprint 3 plan"
+      status: historical
+      score: 55
+
+    - path: docs/sprints/roadmap-integration-3-REVISED-plan.md
+      size_bytes: 12800
+      purpose: "Revised sprint 3 plan"
+      status: historical
+      score: 50
+      findings:
+        - "Superseded version - may cause confusion"
+
+  findings:
+    - type: major
+      description: "All files are historical sprint plans"
+      recommendation: "Archive to docs/archived/sprints/"
+    - type: minor
+      description: "REVISED version alongside original creates confusion"
+      recommendation: "Archive original, keep only REVISED"
+
+  remediation_roadmap:
+    immediate:
+      - "Mark all files as historical"
+    short_term:
+      - "Move to docs/archived/sprints/"
+      - "Remove REVISED suffix confusion"
+    long_term:
+      - "Sprint plans should live in .vibey/roadmap/context/"

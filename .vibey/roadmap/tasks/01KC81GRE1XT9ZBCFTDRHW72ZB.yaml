@@ -7,11 +7,11 @@ task:
   title: Audit docs/reference/
   description: 'Apply audit criteria to reference documentation. Check CLI reference,
     roadmap system docs for completeness and accuracy. Output: AUDIT_REFERENCE.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.001654+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T07:00:00+00:00'
+  completed: '2025-12-12T07:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

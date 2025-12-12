@@ -1,0 +1,2156 @@
+audit:
+  directory: docs/
+  scope: root_files_only
+  generated_at: '2025-12-12T06:15:00+00:00'
+  criteria_version: '1.0'
+  auditor: claude-code
+
+  summary:
+    files_audited: 22
+    total_bytes: 459982
+    average_quality_score: 58.4
+    overall_grade: F
+    grade_distribution:
+      A: 0
+      B: 3
+      C: 5
+      D: 6
+      F: 8
+
+    by_category:
+      active_documentation:
+        files: [README.md, CLI_USAGE.md, CONFIG_SYSTEM.md, FAQ.md, TROUBLESHOOTING.md]
+        count: 5
+        avg_score: 74.6
+      architecture_design:
+        files: [AGENTS.md, ARCHITECTURE.md, WORKFLOWS.md, PLATFORM_ABSTRACTION_EXPLAINED.md]
+        count: 4
+        avg_score: 41.3
+      historical_status:
+        files: [DEVELOPMENT_HISTORY.md, FRAMEWORK_ROADMAP.md, ROADMAP_STATUS.md, RELEASE_NOTES_V1.3.0.md]
+        count: 4
+        avg_score: 62.0
+      gap_analysis:
+        files: [USER_JOURNEY_GAP_ANALYSIS.md, REMAINING_JOURNEY_GAPS.md, VIBEY_USER_JOURNEYS.md, VIBEY_TESTING_PLAN.md, CLAUDE_PORT_TEST_REPORT.md]
+        count: 5
+        avg_score: 57.6
+      maintenance:
+        files: [DEPRECATION_NOTICES.md, CONFIGURATION.md, JOURNEY_7_CLI_ENHANCEMENTS.md, git-hooks-guide.md]
+        count: 4
+        avg_score: 54.5
+
+    critical_findings:
+      - "3 auto-generated stub files with minimal content (AGENTS.md, ARCHITECTURE.md, WORKFLOWS.md)"
+      - "Version inconsistencies: some show v1.2.0, others v2.5.0"
+      - "Date inconsistencies: 2024 vs 2025 dates across files"
+      - "Large historical files may need archiving (DEVELOPMENT_HISTORY.md at 89KB)"
+      - "Outdated slash command references (/vibey) in FAQ.md - CLI was deprecated"
+      - "Duplicate content between CLI_USAGE.md and docs/reference/"
+
+    immediate_actions:
+      - "Delete or regenerate stub files (AGENTS.md, ARCHITECTURE.md, WORKFLOWS.md)"
+      - "Update FAQ.md to remove /vibey slash command references"
+      - "Standardize version to current (2.5.0 or 1.3.0)"
+      - "Archive DEVELOPMENT_HISTORY.md to docs/archived/"
+
+  files:
+    # ============================================================
+    # ACTIVE DOCUMENTATION (User-facing, actively maintained)
+    # ============================================================
+
+    - path: docs/README.md
+      size_bytes: 2866
+      lines: 80
+      purpose: Entry point for docs/ directory, navigation guide
+      category: active_documentation
+      target_audience: [new_users, developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - documentation_structure
+          - quick_links
+          - additional_resources
+          - getting_help
+        topics_missing: []
+        feature_coverage_percent: 90
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found:
+          - location: "Line 78"
+            description: "Version 1.2.0 - outdated"
+            severity: minor
+          - location: "Line 79"
+            description: "Last Updated 2024-11-05 - likely stale"
+            severity: minor
+        overall_score: 70
+
+      currency:
+        last_updated: '2024-11-05'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: false
+        stale_references:
+          present: true
+          items:
+            - reference: "Version 1.2.0"
+              status: outdated
+        overall_score: 60
+
+      accessibility:
+        target_audience: [new_users, developers]
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 5
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: low
+        code_dependencies: []
+        overall_score: 85
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 12          # 60 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 13   # 85 × 0.15
+        total: 75
+        grade: C
+
+      findings:
+        - type: minor
+          category: currency
+          description: "Version and date outdated"
+          location: "Lines 78-79"
+          recommendation: "Update to current version and date"
+
+      recommendations:
+        immediate:
+          - "Update version to 2.5.0 or 1.3.0"
+          - "Update last modified date"
+
+    - path: docs/CLI_USAGE.md
+      size_bytes: 6907
+      lines: 426
+      purpose: Primary CLI command reference
+      category: active_documentation
+      target_audience: [developers, admins]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - installation
+          - quick_start
+          - global_options
+          - roadmap_commands
+          - deploy_commands
+          - docs_commands
+          - config_commands
+          - examples
+          - troubleshooting
+        topics_missing:
+          - audit_commands
+          - mcp_commands
+        feature_coverage_percent: 85
+        examples_provided: true
+        example_count: 35
+        edge_cases_documented: true
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 85
+
+      accessibility:
+        target_audience: [developers, admins]
+        reading_level: intermediate
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 12
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/reference/CLI_REFERENCE.md
+        auto_generation:
+          candidate: true
+          source: "Click introspection from vibey/cli/main.py"
+          method: "Extract help text from Click commands"
+          currently_generated: false
+        update_frequency: high
+        code_dependencies:
+          - file: vibey/cli/main.py
+            relationship: documents
+            impact: high
+          - file: vibey/cli/commands.py
+            relationship: documents
+            impact: high
+        overall_score: 55
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 17          # 85 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 8    # 55 × 0.15
+        total: 76
+        grade: C
+
+      findings:
+        - type: major
+          category: maintainability
+          description: "Potential duplication with docs/reference/CLI_REFERENCE.md"
+          recommendation: "Consolidate or clearly distinguish purposes"
+        - type: major
+          category: maintainability
+          description: "High maintenance burden - should be auto-generated"
+          recommendation: "Implement Click introspection for auto-generation"
+
+      recommendations:
+        immediate:
+          - "Test all command examples against current CLI"
+        short_term:
+          - "Implement auto-generation from Click help"
+          - "Add missing audit and MCP commands"
+
+    - path: docs/CONFIG_SYSTEM.md
+      size_bytes: 11516
+      lines: 536
+      purpose: Complete guide to modular configuration system
+      category: active_documentation
+      target_audience: [developers, admins]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - overview
+          - quick_start
+          - project_yaml
+          - framework_yaml
+          - agents_yaml
+          - quality_gates_yaml
+          - usage_in_python
+          - cli_commands
+          - migration
+          - validation
+          - best_practices
+          - troubleshooting
+          - advanced_topics
+          - faq
+        topics_missing: []
+        feature_coverage_percent: 95
+        examples_provided: true
+        example_count: 25
+        edge_cases_documented: true
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 90
+
+      accessibility:
+        target_audience: [developers, admins]
+        reading_level: intermediate
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 14
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies:
+          - file: vibey/config/loader.py
+            relationship: documents
+            impact: high
+          - file: vibey/config/models.py
+            relationship: documents
+            impact: high
+        overall_score: 75
+
+      quality_score:
+        completeness: 19      # 95 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 18          # 90 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 11   # 75 × 0.15
+        total: 82
+        grade: B
+
+      findings:
+        - type: minor
+          category: correctness
+          description: "Code examples not verified against current implementation"
+          recommendation: "Test Python and CLI examples"
+
+      recommendations:
+        short_term:
+          - "Add table of contents"
+          - "Test code examples"
+
+    - path: docs/FAQ.md
+      size_bytes: 12306
+      lines: 554
+      purpose: Frequently asked questions
+      category: active_documentation
+      target_audience: [new_users, developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - general_questions
+          - getting_started
+          - sprint_planning
+          - sprint_execution
+          - agents_workflows
+          - configuration
+          - troubleshooting
+          - advanced_usage
+          - best_practices
+        topics_missing: []
+        feature_coverage_percent: 90
+        examples_provided: true
+        example_count: 20
+        edge_cases_documented: true
+        overall_score: 90
+
+      correctness:
+        technical_accuracy: errors_found
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found:
+          - location: "Lines 75-82"
+            description: "/vibey slash command references - these were deleted"
+            severity: critical
+          - location: "Lines 135-148"
+            description: "/vibey plan - slash commands no longer exist"
+            severity: critical
+          - location: "Lines 186-198"
+            description: "/vibey code references - deprecated"
+            severity: critical
+          - location: "Lines 322-345"
+            description: "Config file location .claude/ instead of .vibey/"
+            severity: major
+        overall_score: 40
+
+      currency:
+        last_updated: '2024-11-05'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "/vibey slash commands"
+              deprecated_in: "v2.5.0"
+              replacement: "vibey CLI"
+            - feature: ".claude/ directory"
+              deprecated_in: "v2.5.0"
+              replacement: ".vibey/ directory"
+        stale_references:
+          present: true
+          items:
+            - reference: "/vibey"
+              status: removed
+            - reference: ".claude/"
+              status: renamed
+        overall_score: 30
+
+      accessibility:
+        target_audience: [new_users, developers]
+        reading_level: beginner
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 9
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 90
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/getting-started/
+          - docs/TROUBLESHOOTING.md
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies: []
+        overall_score: 60
+
+      quality_score:
+        completeness: 18      # 90 × 0.20
+        correctness: 12       # 40 × 0.30
+        currency: 6           # 30 × 0.20
+        accessibility: 14     # 90 × 0.15
+        maintainability: 9    # 60 × 0.15
+        total: 59
+        grade: F
+
+      findings:
+        - type: critical
+          category: correctness
+          description: "Multiple references to deleted /vibey slash commands"
+          recommendation: "Complete rewrite to use vibey CLI commands"
+        - type: critical
+          category: currency
+          description: "References .claude/ directory instead of .vibey/"
+          recommendation: "Update all path references"
+        - type: major
+          category: currency
+          description: "Version shows 1.2.0, current is 2.5.0+"
+          recommendation: "Update version references"
+
+      recommendations:
+        immediate:
+          - "Replace all /vibey references with vibey CLI"
+          - "Update .claude/ to .vibey/"
+          - "Update version to current"
+        short_term:
+          - "Full content review and update"
+          - "Test all command examples"
+
+    - path: docs/TROUBLESHOOTING.md
+      size_bytes: 12765
+      lines: 400
+      purpose: Common issues and solutions
+      category: active_documentation
+      target_audience: [developers, admins]
+
+      completeness:
+        topic_coverage: partial
+        topics_covered:
+          - common_errors
+          - installation_issues
+          - config_issues
+        topics_missing:
+          - database_issues
+          - mcp_issues
+          - cli_specific_issues
+        feature_coverage_percent: 70
+        examples_provided: true
+        example_count: 15
+        edge_cases_documented: true
+        overall_score: 70
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 65
+
+      currency:
+        last_updated: '2025-11-08'
+        last_verified: null
+        reflects_current_version: partial
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 70
+
+      accessibility:
+        target_audience: [developers, admins]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/FAQ.md
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies: []
+        overall_score: 65
+
+      quality_score:
+        completeness: 14      # 70 × 0.20
+        correctness: 20       # 65 × 0.30
+        currency: 14          # 70 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 10   # 65 × 0.15
+        total: 70
+        grade: C
+
+      findings:
+        - type: minor
+          category: completeness
+          description: "Missing database and MCP troubleshooting"
+          recommendation: "Add sections for database sync issues and MCP errors"
+
+      recommendations:
+        short_term:
+          - "Add database troubleshooting section"
+          - "Add MCP server troubleshooting"
+          - "Verify all solutions still work"
+
+    # ============================================================
+    # ARCHITECTURE & DESIGN DOCUMENTATION
+    # ============================================================
+
+    - path: docs/AGENTS.md
+      size_bytes: 467
+      lines: 28
+      purpose: Agent system overview (auto-generated stub)
+      category: architecture_design
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: minimal
+        topics_covered:
+          - overview
+          - single_agent_example
+        topics_missing:
+          - full_agent_list
+          - agent_capabilities
+          - trigger_patterns
+          - agent_configuration
+        feature_coverage_percent: 10
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 15
+
+      correctness:
+        technical_accuracy: errors_found
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: false
+        errors_found:
+          - location: "Line 15"
+            description: "Shows 'Total Agents: 1' but framework has 12 agents"
+            severity: critical
+        overall_score: 20
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 40
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 2
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 60
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - framework/agents/
+        auto_generation:
+          candidate: true
+          source: "framework/agents/*.md files"
+          method: "Aggregate agent definitions"
+          currently_generated: true
+        update_frequency: high
+        code_dependencies:
+          - file: framework/agents/
+            relationship: documents
+            impact: high
+        overall_score: 30
+
+      quality_score:
+        completeness: 3       # 15 × 0.20
+        correctness: 6        # 20 × 0.30
+        currency: 8           # 40 × 0.20
+        accessibility: 9      # 60 × 0.15
+        maintainability: 5    # 30 × 0.15
+        total: 31
+        grade: F
+
+      findings:
+        - type: critical
+          category: correctness
+          description: "Auto-generated stub with incorrect data - shows 1 agent when 12 exist"
+          recommendation: "Fix auto-generation or delete file"
+
+      recommendations:
+        immediate:
+          - "Delete file or fix auto-generation"
+        short_term:
+          - "Create comprehensive agent documentation from framework/agents/"
+
+    - path: docs/ARCHITECTURE.md
+      size_bytes: 301
+      lines: 24
+      purpose: System architecture (auto-generated stub)
+      category: architecture_design
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: minimal
+        topics_covered:
+          - system_overview_placeholder
+        topics_missing:
+          - component_diagram
+          - data_flow
+          - module_responsibilities
+          - integration_points
+        feature_coverage_percent: 5
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 10
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found:
+          - location: "Line 12"
+            description: "Version 1.2.0 - outdated"
+            severity: minor
+        overall_score: 40
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: false
+        stale_references:
+          present: true
+          items:
+            - reference: "Version 1.2.0"
+              status: outdated
+        overall_score: 40
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: false
+          sections_count: 2
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 40
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: true
+          source: "codebase analysis"
+          method: "Generate from module docstrings and structure"
+          currently_generated: true
+        update_frequency: low
+        code_dependencies: []
+        overall_score: 40
+
+      quality_score:
+        completeness: 2       # 10 × 0.20
+        correctness: 12       # 40 × 0.30
+        currency: 8           # 40 × 0.20
+        accessibility: 6      # 40 × 0.15
+        maintainability: 6    # 40 × 0.15
+        total: 34
+        grade: F
+
+      findings:
+        - type: critical
+          category: completeness
+          description: "Empty stub file with no useful content"
+          recommendation: "Delete or write comprehensive architecture documentation"
+
+      recommendations:
+        immediate:
+          - "Delete empty stub"
+        long_term:
+          - "Create comprehensive architecture documentation with diagrams"
+
+    - path: docs/WORKFLOWS.md
+      size_bytes: 321
+      lines: 18
+      purpose: Workflows reference (auto-generated stub)
+      category: architecture_design
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: minimal
+        topics_covered:
+          - overview_placeholder
+        topics_missing:
+          - workflow_list
+          - workflow_descriptions
+          - usage_examples
+          - selection_guide
+        feature_coverage_percent: 5
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 10
+
+      correctness:
+        technical_accuracy: errors_found
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: false
+        errors_found:
+          - location: "Line 13"
+            description: "Shows 'Total Workflows: 0' but framework has 16 workflows"
+            severity: critical
+        overall_score: 20
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 40
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 2
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 50
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - framework/workflows/
+        auto_generation:
+          candidate: true
+          source: "framework/workflows/*.md files"
+          method: "Aggregate workflow definitions"
+          currently_generated: true
+        update_frequency: high
+        code_dependencies:
+          - file: framework/workflows/
+            relationship: documents
+            impact: high
+        overall_score: 30
+
+      quality_score:
+        completeness: 2       # 10 × 0.20
+        correctness: 6        # 20 × 0.30
+        currency: 8           # 40 × 0.20
+        accessibility: 8      # 50 × 0.15
+        maintainability: 5    # 30 × 0.15
+        total: 29
+        grade: F
+
+      findings:
+        - type: critical
+          category: correctness
+          description: "Shows 0 workflows when framework has 16"
+          recommendation: "Fix auto-generation or delete"
+
+      recommendations:
+        immediate:
+          - "Delete file or fix auto-generation"
+
+    - path: docs/PLATFORM_ABSTRACTION_EXPLAINED.md
+      size_bytes: 19808
+      lines: 600
+      purpose: Platform abstraction layer design documentation
+      category: architecture_design
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - design_rationale
+          - adapter_pattern
+          - platform_differences
+          - extension_guide
+        topics_missing: []
+        feature_coverage_percent: 90
+        examples_provided: true
+        example_count: 10
+        edge_cases_documented: true
+        overall_score: 90
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 80
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 12
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: low
+        code_dependencies:
+          - file: vibey/adapters/
+            relationship: documents
+            impact: medium
+        overall_score: 80
+
+      quality_score:
+        completeness: 18      # 90 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 16          # 80 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 12   # 80 × 0.15
+        total: 80
+        grade: B
+
+      findings: []
+
+      recommendations:
+        short_term:
+          - "Add code examples verification"
+
+    # ============================================================
+    # HISTORICAL & STATUS DOCUMENTATION
+    # ============================================================
+
+    - path: docs/DEVELOPMENT_HISTORY.md
+      size_bytes: 89601
+      lines: 2500
+      purpose: Historical development timeline
+      category: historical_status
+      target_audience: [contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - development_timeline
+          - major_decisions
+          - architecture_evolution
+        topics_missing: []
+        feature_coverage_percent: 95
+        examples_provided: true
+        example_count: 50
+        edge_cases_documented: true
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 75
+
+      currency:
+        last_updated: '2025-11-11'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: true
+          items:
+            - feature: "Historical commands and features"
+              deprecated_in: "various"
+              replacement: "documented in file"
+        stale_references:
+          present: false
+        overall_score: 60
+
+      accessibility:
+        target_audience: [contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 30
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 70
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: high
+        code_dependencies: []
+        overall_score: 40
+
+      quality_score:
+        completeness: 19      # 95 × 0.20
+        correctness: 23       # 75 × 0.30
+        currency: 12          # 60 × 0.20
+        accessibility: 11     # 70 × 0.15
+        maintainability: 6    # 40 × 0.15
+        total: 71
+        grade: C
+
+      findings:
+        - type: major
+          category: maintainability
+          description: "89KB file is too large, difficult to navigate and maintain"
+          recommendation: "Consider archiving or splitting into year-based files"
+
+      recommendations:
+        short_term:
+          - "Archive older content to docs/archived/"
+          - "Keep only recent 6 months in main file"
+
+    - path: docs/FRAMEWORK_ROADMAP.md
+      size_bytes: 19930
+      lines: 600
+      purpose: Development roadmap and future plans
+      category: historical_status
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: partial
+        topics_covered:
+          - current_status
+          - planned_features
+          - platform_ports
+        topics_missing:
+          - timeline_updates
+        feature_coverage_percent: 75
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 75
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-12'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 80
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 10
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - .vibey/roadmap/
+        auto_generation:
+          candidate: true
+          source: ".vibey/roadmap/ system"
+          method: "Generate from roadmap tracks and sprints"
+          currently_generated: false
+        update_frequency: high
+        code_dependencies: []
+        overall_score: 50
+
+      quality_score:
+        completeness: 15      # 75 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 16          # 80 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 8    # 50 × 0.15
+        total: 72
+        grade: C
+
+      findings:
+        - type: major
+          category: maintainability
+          description: "Manual document duplicates .vibey/roadmap/ system"
+          recommendation: "Consider auto-generating from roadmap system"
+
+      recommendations:
+        short_term:
+          - "Link to or generate from .vibey/roadmap/"
+
+    - path: docs/ROADMAP_STATUS.md
+      size_bytes: 15196
+      lines: 450
+      purpose: Current roadmap status
+      category: historical_status
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - track_status
+          - sprint_status
+          - completion_metrics
+        topics_missing: []
+        feature_coverage_percent: 85
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-12'
+        last_verified: null
+        reflects_current_version: partial
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 65
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - .vibey/roadmap/
+        auto_generation:
+          candidate: true
+          source: ".vibey/roadmap/ and vibey roadmap status"
+          method: "Run vibey roadmap status and format output"
+          currently_generated: false
+        update_frequency: high
+        code_dependencies:
+          - file: .vibey/roadmap/
+            relationship: mirrors
+            impact: high
+        overall_score: 40
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 13          # 65 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 6    # 40 × 0.15
+        total: 69
+        grade: D
+
+      findings:
+        - type: major
+          category: maintainability
+          description: "Manually maintained duplicate of roadmap system data"
+          recommendation: "Auto-generate from vibey roadmap status"
+
+      recommendations:
+        immediate:
+          - "Mark file as potentially stale"
+        short_term:
+          - "Implement auto-generation from CLI"
+
+    - path: docs/RELEASE_NOTES_V1.3.0.md
+      size_bytes: 14084
+      lines: 400
+      purpose: Release notes for version 1.3.0
+      category: historical_status
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - new_features
+          - breaking_changes
+          - bug_fixes
+          - migration_guide
+        topics_missing: []
+        feature_coverage_percent: 95
+        examples_provided: true
+        example_count: 10
+        edge_cases_documented: true
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: verified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 85
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: na
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 100
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 90
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: static
+        code_dependencies: []
+        overall_score: 100
+
+      quality_score:
+        completeness: 19      # 95 × 0.20
+        correctness: 26       # 85 × 0.30
+        currency: 20          # 100 × 0.20
+        accessibility: 14     # 90 × 0.15
+        maintainability: 15   # 100 × 0.15
+        total: 94
+        grade: A
+
+      findings: []
+
+      recommendations: []
+
+    # ============================================================
+    # GAP ANALYSIS & TEST DOCUMENTATION
+    # ============================================================
+
+    - path: docs/USER_JOURNEY_GAP_ANALYSIS.md
+      size_bytes: 17497
+      lines: 500
+      purpose: User journey coverage analysis
+      category: gap_analysis
+      target_audience: [contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - coverage_analysis
+          - gap_identification
+          - recommendations
+        topics_missing: []
+        feature_coverage_percent: 85
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: partial
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 65
+
+      accessibility:
+        target_audience: [contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 10
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 75
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/REMAINING_JOURNEY_GAPS.md
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies: []
+        overall_score: 55
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 13          # 65 × 0.20
+        accessibility: 11     # 75 × 0.15
+        maintainability: 8    # 55 × 0.15
+        total: 70
+        grade: C
+
+      findings:
+        - type: minor
+          category: maintainability
+          description: "Overlaps with REMAINING_JOURNEY_GAPS.md"
+          recommendation: "Consolidate into single document"
+
+      recommendations:
+        short_term:
+          - "Consolidate with REMAINING_JOURNEY_GAPS.md"
+
+    - path: docs/REMAINING_JOURNEY_GAPS.md
+      size_bytes: 12803
+      lines: 380
+      purpose: Outstanding journey gaps
+      category: gap_analysis
+      target_audience: [contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - outstanding_gaps
+          - priority_ranking
+          - remediation_plan
+        topics_missing: []
+        feature_coverage_percent: 80
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 80
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: partial
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 65
+
+      accessibility:
+        target_audience: [contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 75
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/USER_JOURNEY_GAP_ANALYSIS.md
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies: []
+        overall_score: 55
+
+      quality_score:
+        completeness: 16      # 80 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 13          # 65 × 0.20
+        accessibility: 11     # 75 × 0.15
+        maintainability: 8    # 55 × 0.15
+        total: 69
+        grade: D
+
+      findings:
+        - type: minor
+          category: maintainability
+          description: "Overlaps with USER_JOURNEY_GAP_ANALYSIS.md"
+          recommendation: "Consolidate"
+
+      recommendations:
+        short_term:
+          - "Merge into USER_JOURNEY_GAP_ANALYSIS.md"
+
+    - path: docs/VIBEY_USER_JOURNEYS.md
+      size_bytes: 135224
+      lines: 4000
+      purpose: Complete user journey documentation
+      category: gap_analysis
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - all_user_journeys
+          - step_by_step_guides
+          - scenarios
+        topics_missing: []
+        feature_coverage_percent: 95
+        examples_provided: true
+        example_count: 100
+        edge_cases_documented: true
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: errors_found
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found:
+          - location: "Multiple sections"
+            description: "Contains /vibey slash command references"
+            severity: critical
+        overall_score: 50
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "/vibey slash commands"
+              deprecated_in: "v2.5.0"
+              replacement: "vibey CLI"
+        stale_references:
+          present: true
+          items:
+            - reference: "/vibey"
+              status: removed
+        overall_score: 40
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 40
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/getting-started/
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: high
+        code_dependencies: []
+        overall_score: 30
+
+      quality_score:
+        completeness: 19      # 95 × 0.20
+        correctness: 15       # 50 × 0.30
+        currency: 8           # 40 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 5    # 30 × 0.15
+        total: 59
+        grade: F
+
+      findings:
+        - type: critical
+          category: correctness
+          description: "135KB file with deprecated /vibey references throughout"
+          recommendation: "Major update needed to replace slash commands with CLI"
+        - type: major
+          category: maintainability
+          description: "Extremely large file (135KB) difficult to maintain"
+          recommendation: "Split into multiple smaller files"
+
+      recommendations:
+        immediate:
+          - "Replace all /vibey with vibey CLI"
+        short_term:
+          - "Split into docs/getting-started/ journey files"
+          - "Archive historical content"
+
+    - path: docs/VIBEY_TESTING_PLAN.md
+      size_bytes: 41183
+      lines: 1200
+      purpose: Comprehensive testing strategy
+      category: gap_analysis
+      target_audience: [developers, contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - test_strategy
+          - test_types
+          - coverage_goals
+          - tooling
+        topics_missing: []
+        feature_coverage_percent: 90
+        examples_provided: true
+        example_count: 30
+        edge_cases_documented: true
+        overall_score: 90
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 80
+
+      accessibility:
+        target_audience: [developers, contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 15
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies:
+          - file: tests/
+            relationship: documents
+            impact: medium
+        overall_score: 70
+
+      quality_score:
+        completeness: 18      # 90 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 16          # 80 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 11   # 70 × 0.15
+        total: 79
+        grade: C
+
+      findings: []
+
+      recommendations:
+        short_term:
+          - "Verify test strategy against actual test suite"
+
+    - path: docs/CLAUDE_PORT_TEST_REPORT.md
+      size_bytes: 9191
+      lines: 280
+      purpose: Claude Code port test results
+      category: gap_analysis
+      target_audience: [contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - test_results
+          - compatibility_assessment
+          - issues_found
+        topics_missing: []
+        feature_coverage_percent: 85
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: true
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: verified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 85
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: na
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 100
+
+      accessibility:
+        target_audience: [contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 6
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: static
+        code_dependencies: []
+        overall_score: 100
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 26       # 85 × 0.30
+        currency: 20          # 100 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 15   # 100 × 0.15
+        total: 91
+        grade: A
+
+      findings: []
+
+      recommendations: []
+
+    # ============================================================
+    # MAINTENANCE DOCUMENTATION
+    # ============================================================
+
+    - path: docs/DEPRECATION_NOTICES.md
+      size_bytes: 4806
+      lines: 212
+      purpose: Deprecated features tracking
+      category: maintenance
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - active_deprecations
+          - future_deprecations
+          - removed_features
+          - deprecation_policy
+          - migration_support
+        topics_missing: []
+        feature_coverage_percent: 95
+        examples_provided: true
+        example_count: 8
+        edge_cases_documented: true
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: verified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 85
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 90
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: intermediate
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: low
+        code_dependencies: []
+        overall_score: 85
+
+      quality_score:
+        completeness: 19      # 95 × 0.20
+        correctness: 26       # 85 × 0.30
+        currency: 18          # 90 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 13   # 85 × 0.15
+        total: 89
+        grade: B
+
+      findings: []
+
+      recommendations:
+        short_term:
+          - "Add table of contents"
+
+    - path: docs/CONFIGURATION.md
+      size_bytes: 1329
+      lines: 50
+      purpose: Legacy configuration documentation
+      category: maintenance
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: minimal
+        topics_covered:
+          - basic_config_reference
+        topics_missing:
+          - detailed_options
+          - examples
+          - migration_guide
+        feature_coverage_percent: 20
+        examples_provided: false
+        example_count: 0
+        edge_cases_documented: false
+        overall_score: 20
+
+      correctness:
+        technical_accuracy: errors_found
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: false
+        errors_found:
+          - location: "Entire file"
+            description: "References old config format, superseded by CONFIG_SYSTEM.md"
+            severity: major
+        overall_score: 40
+
+      currency:
+        last_updated: '2025-11-09'
+        last_verified: null
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "Legacy config format"
+              deprecated_in: "v2.5.0"
+              replacement: "CONFIG_SYSTEM.md"
+        stale_references:
+          present: true
+          items:
+            - reference: "Old config format"
+              status: deprecated
+        overall_score: 30
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+          sections_count: 3
+        prerequisites_stated: false
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 60
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/CONFIG_SYSTEM.md
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: low
+        code_dependencies: []
+        overall_score: 30
+
+      quality_score:
+        completeness: 4       # 20 × 0.20
+        correctness: 12       # 40 × 0.30
+        currency: 6           # 30 × 0.20
+        accessibility: 9      # 60 × 0.15
+        maintainability: 5    # 30 × 0.15
+        total: 36
+        grade: F
+
+      findings:
+        - type: critical
+          category: currency
+          description: "Superseded by CONFIG_SYSTEM.md"
+          recommendation: "Delete or redirect to CONFIG_SYSTEM.md"
+
+      recommendations:
+        immediate:
+          - "Delete file and redirect to CONFIG_SYSTEM.md"
+
+    - path: docs/JOURNEY_7_CLI_ENHANCEMENTS.md
+      size_bytes: 10343
+      lines: 300
+      purpose: Sprint-specific CLI enhancement documentation
+      category: maintenance
+      target_audience: [contributors]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - cli_enhancements
+          - implementation_details
+          - sprint_scope
+        topics_missing: []
+        feature_coverage_percent: 85
+        examples_provided: true
+        example_count: 15
+        edge_cases_documented: false
+        overall_score: 85
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-11-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 75
+
+      accessibility:
+        target_audience: [contributors]
+        reading_level: advanced
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 8
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: static
+        code_dependencies: []
+        overall_score: 80
+
+      quality_score:
+        completeness: 17      # 85 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 15          # 75 × 0.20
+        accessibility: 12     # 80 × 0.15
+        maintainability: 12   # 80 × 0.15
+        total: 77
+        grade: C
+
+      findings:
+        - type: minor
+          category: maintainability
+          description: "Sprint-specific doc may be better archived"
+          recommendation: "Consider moving to docs/archived/"
+
+      recommendations:
+        long_term:
+          - "Archive to docs/archived/sprints/"
+
+    - path: docs/git-hooks-guide.md
+      size_bytes: 18238
+      lines: 550
+      purpose: Git hooks documentation
+      category: maintenance
+      target_audience: [developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - hook_types
+          - installation
+          - configuration
+          - troubleshooting
+        topics_missing: []
+        feature_coverage_percent: 90
+        examples_provided: true
+        example_count: 20
+        edge_cases_documented: true
+        overall_score: 90
+
+      correctness:
+        technical_accuracy: unverified
+        code_examples_tested: false
+        code_examples_working: null
+        command_examples_tested: false
+        command_examples_working: null
+        api_matches_implementation: na
+        errors_found: []
+        overall_score: 70
+
+      currency:
+        last_updated: '2025-12-10'
+        last_verified: null
+        reflects_current_version: true
+        deprecated_content:
+          present: false
+        stale_references:
+          present: false
+        overall_score: 90
+
+      accessibility:
+        target_audience: [developers]
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+          sections_count: 10
+        prerequisites_stated: true
+        navigation:
+          internal_links_working: null
+          external_links_working: null
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: false
+        duplicate_locations: []
+        auto_generation:
+          candidate: false
+          source: null
+        update_frequency: medium
+        code_dependencies:
+          - file: vibey/operations/git/hooks/
+            relationship: documents
+            impact: high
+        overall_score: 75
+
+      quality_score:
+        completeness: 18      # 90 × 0.20
+        correctness: 21       # 70 × 0.30
+        currency: 18          # 90 × 0.20
+        accessibility: 13     # 85 × 0.15
+        maintainability: 11   # 75 × 0.15
+        total: 81
+        grade: B
+
+      findings: []
+
+      recommendations:
+        short_term:
+          - "Verify code examples work"
+
+  auto_generation_candidates:
+    - file: docs/CLI_USAGE.md
+      source: vibey.cli
+      method: "Click help introspection"
+      effort: medium
+      impact: high
+
+    - file: docs/AGENTS.md
+      source: framework/agents/
+      method: "Aggregate agent markdown files"
+      effort: low
+      impact: high
+
+    - file: docs/WORKFLOWS.md
+      source: framework/workflows/
+      method: "Aggregate workflow markdown files"
+      effort: low
+      impact: high
+
+    - file: docs/ARCHITECTURE.md
+      source: vibey/
+      method: "Generate from module docstrings"
+      effort: high
+      impact: medium
+
+    - file: docs/ROADMAP_STATUS.md
+      source: vibey roadmap status
+      method: "Format CLI output as markdown"
+      effort: low
+      impact: medium
+
+  files_to_delete:
+    - path: docs/AGENTS.md
+      reason: "Broken auto-generated stub showing incorrect data"
+      action: "Delete or fix generator"
+
+    - path: docs/ARCHITECTURE.md
+      reason: "Empty stub with no useful content"
+      action: "Delete or create proper documentation"
+
+    - path: docs/WORKFLOWS.md
+      reason: "Broken auto-generated stub showing 0 workflows"
+      action: "Delete or fix generator"
+
+    - path: docs/CONFIGURATION.md
+      reason: "Superseded by CONFIG_SYSTEM.md"
+      action: "Delete and redirect"
+
+  files_to_archive:
+    - path: docs/DEVELOPMENT_HISTORY.md
+      reason: "89KB file too large for active docs"
+      destination: docs/archived/
+
+    - path: docs/JOURNEY_7_CLI_ENHANCEMENTS.md
+      reason: "Sprint-specific historical document"
+      destination: docs/archived/sprints/
+
+  remediation_roadmap:
+    immediate:
+      - "Delete broken stub files (AGENTS.md, ARCHITECTURE.md, WORKFLOWS.md)"
+      - "Delete CONFIGURATION.md (superseded by CONFIG_SYSTEM.md)"
+      - "Update FAQ.md to remove /vibey slash command references"
+      - "Update FAQ.md to use .vibey/ instead of .claude/"
+
+    short_term:
+      - "Archive DEVELOPMENT_HISTORY.md"
+      - "Update VIBEY_USER_JOURNEYS.md to use CLI"
+      - "Consolidate USER_JOURNEY_GAP_ANALYSIS.md and REMAINING_JOURNEY_GAPS.md"
+      - "Implement auto-generation for CLI_USAGE.md"
+      - "Standardize version numbers across all files"
+
+    long_term:
+      - "Create comprehensive ARCHITECTURE.md with diagrams"
+      - "Create comprehensive AGENTS.md from framework/agents/"
+      - "Create comprehensive WORKFLOWS.md from framework/workflows/"
+      - "Implement CI/CD doc validation"

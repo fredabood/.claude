@@ -1,0 +1,228 @@
+audit:
+  directory: docs/getting-started/
+  generated_at: '2025-12-12T06:50:00+00:00'
+  criteria_version: '1.0'
+
+  summary:
+    files_audited: 3
+    total_bytes: 76358
+    total_lines: 1500
+    average_quality_score: 48.3
+    overall_grade: F
+
+    critical_issue: "All files reference deprecated /vibey slash commands"
+
+  user_journey_coverage:
+    install_vibey: partial
+    create_first_roadmap: missing
+    basic_cli_usage: missing
+    understand_concepts: partial
+
+  files:
+    - path: docs/getting-started/README.md
+      size_bytes: 2644
+      lines: 102
+      purpose: "Entry point for getting started documentation"
+      target_audience: [new_users]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered: [installation, documentation_links, what_happens, next_steps]
+        topics_missing: []
+        overall_score: 80
+
+      correctness:
+        technical_accuracy: errors_found
+        errors_found:
+          - location: "Lines 12-16"
+            description: "/vibey slash command deprecated - should use vibey CLI"
+            severity: critical
+          - location: "Line 30"
+            description: "References /vibey command"
+            severity: critical
+          - location: "Lines 60-77"
+            description: "Entire deployment phase references old .vibey to .claude flow"
+            severity: critical
+        overall_score: 30
+
+      currency:
+        last_updated: '2025-11-04'
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "/vibey slash commands"
+              replacement: "vibey CLI"
+            - feature: ".claude/ directory"
+              replacement: ".vibey/ directory"
+        overall_score: 25
+
+      accessibility:
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+        overall_score: 80
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations: [docs/getting-started/QUICK_START.md]
+        overall_score: 60
+
+      quality_score:
+        total: 51
+        grade: F
+
+      findings:
+        - type: critical
+          description: "References deleted /vibey slash command throughout"
+          recommendation: "Rewrite to use vibey CLI commands"
+
+    - path: docs/getting-started/QUICK_START.md
+      size_bytes: 19443
+      lines: 500
+      purpose: "10-minute quick start guide"
+      target_audience: [new_users]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - what_is_vibey
+          - installation
+          - initialization
+          - orchestration_modes
+          - quality_gates
+          - after_installation
+        overall_score: 90
+
+      correctness:
+        technical_accuracy: errors_found
+        errors_found:
+          - location: "Lines 53-59"
+            description: "/vibey slash command references"
+            severity: critical
+          - location: "Line 49"
+            description: "claude-code command - may not exist"
+            severity: minor
+          - location: "Lines 93-94"
+            description: "References .claude/project-config.yaml - now .vibey/config/"
+            severity: major
+        overall_score: 35
+
+      currency:
+        last_updated: '2025-11-08'
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "/vibey"
+              replacement: "vibey CLI"
+            - feature: ".claude/"
+              replacement: ".vibey/"
+        overall_score: 30
+
+      accessibility:
+        reading_level: beginner
+        structure:
+          has_toc: false
+          clear_headings: true
+          logical_flow: true
+        overall_score: 85
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations: [docs/getting-started/USER_JOURNEY.md]
+        overall_score: 55
+
+      quality_score:
+        total: 52
+        grade: F
+
+      findings:
+        - type: critical
+          description: "Major rewrite needed - all command references deprecated"
+
+    - path: docs/getting-started/USER_JOURNEY.md
+      size_bytes: 54271
+      lines: 1500
+      purpose: "Detailed user journey walkthroughs for 3 scenarios"
+      target_audience: [new_users, developers]
+
+      completeness:
+        topic_coverage: complete
+        topics_covered:
+          - new_repository
+          - existing_repo_without_claude
+          - existing_repo_with_claude
+          - step_by_step_examples
+        overall_score: 95
+
+      correctness:
+        technical_accuracy: errors_found
+        errors_found:
+          - location: "Multiple sections"
+            description: "Extensive /vibey slash command references"
+            severity: critical
+          - location: "All scenarios"
+            description: "References .vibey to .claude deployment flow - deprecated"
+            severity: critical
+          - location: "Configuration examples"
+            description: "Shows old config format"
+            severity: major
+        overall_score: 25
+
+      currency:
+        last_updated: '2025-11-04'
+        reflects_current_version: false
+        deprecated_content:
+          present: true
+          items:
+            - feature: "/vibey"
+              replacement: "vibey CLI"
+            - feature: ".vibey -> .claude deployment"
+              replacement: "pip install vibey-framework"
+        overall_score: 20
+
+      accessibility:
+        reading_level: intermediate
+        structure:
+          has_toc: true
+          clear_headings: true
+          logical_flow: true
+        overall_score: 90
+
+      maintainability:
+        duplicated_elsewhere: true
+        duplicate_locations:
+          - docs/VIBEY_USER_JOURNEYS.md
+        overall_score: 40
+
+      quality_score:
+        total: 42
+        grade: F
+
+      findings:
+        - type: critical
+          description: "54KB file needs complete rewrite"
+          recommendation: "Rewrite all scenarios using vibey CLI"
+        - type: major
+          description: "Duplicates docs/VIBEY_USER_JOURNEYS.md"
+          recommendation: "Consolidate into single source"
+
+  critical_findings:
+    - "All 3 files reference deprecated /vibey slash commands"
+    - "Installation flow described is completely outdated"
+    - "Configuration paths reference old .claude/ structure"
+    - "Version shows 1.0 when current is 2.5.0+"
+
+  remediation_roadmap:
+    immediate:
+      - "Add deprecation notice to all files"
+    short_term:
+      - "Complete rewrite of all getting-started documentation"
+      - "Update to use vibey CLI (pip install vibey-framework)"
+      - "Update configuration paths to .vibey/"
+      - "Update version references"
+    long_term:
+      - "Consolidate USER_JOURNEY.md with docs/VIBEY_USER_JOURNEYS.md"

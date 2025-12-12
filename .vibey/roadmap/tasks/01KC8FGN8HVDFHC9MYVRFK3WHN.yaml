@@ -1,0 +1,36 @@
+task:
+  id: 01KC8FGN8HVDFHC9MYVRFK3WHN
+  sprint_id: dogfooding-bugs-11
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: db dump command does not create activity log entries
+  description: 'The ''roadmap db dump'' command exports YAML files from the database
+    but does not create corresponding activity log entries. This causes the pre-commit
+    hook to block commits because it cannot find activity log entries for the modified
+    roadmap files. Workaround: use --no-verify. Fix: add activity log entry creation
+    to the sql_dumper module.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T05:11:09.841817+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-12T05:11:09.841817+00:00'
+    token_efficiency: null
+    duration_hours: null

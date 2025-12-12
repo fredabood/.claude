@@ -10,7 +10,7 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 10
+    sprints_total: 11
     sprints_completed: 0
     tasks_total: 78
     tasks_completed: 78
@@ -76,6 +76,10 @@ track:
     estimated_duration: null
     tasks_count: 14
     started: '2025-12-11T18:00:00+00:00'
+  - id: dogfooding-bugs-11
+    name: 'Sprint 11: Database Dump Activity Log Bug'
+    status: not_started
+    tasks_count: 0
   dependencies: []
   blocks: []
   blocked_by: []

@@ -8,11 +8,11 @@ task:
   description: 'Create a classification schema for files: core-lib (models, operations,
     serialization, cli, mcp, adapters, common), documentation (guides, reference,
     architecture), tests (unit, integration, fixtures). Document in CLASSIFICATION_TAXONOMY.md.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.000621+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T05:18:00+00:00'
+  completed: '2025-12-12T05:18:30+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null
@@ -32,6 +32,3 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-status: completed
-started: '2025-12-12T05:18:00+00:00'
-completed: '2025-12-12T05:18:30+00:00'

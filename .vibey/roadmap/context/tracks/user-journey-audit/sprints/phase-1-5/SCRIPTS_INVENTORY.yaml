@@ -1,0 +1,212 @@
+# SCRIPTS_INVENTORY.yaml
+# Generated: 2025-12-12
+# Sprint: Phase 1.5 - Scripts & Project Config Audit
+# Task: Inventory all scripts
+
+inventory:
+  generated_at: "2025-12-12T10:20:00+00:00"
+  directory: scripts/
+  criteria_version: "1.0"
+
+  summary:
+    total_scripts: 4
+    total_lines: 1474
+    total_bytes: 60323
+    by_category:
+      migration: 2
+      roadmap_management: 2
+      utilities: 0
+    by_executable:
+      executable: 2
+      non_executable: 2
+
+  scripts:
+    - path: scripts/consolidate_dogfooding_track.py
+      filename: consolidate_dogfooding_track.py
+      size_bytes: 25762
+      lines: 589
+      last_modified: "2025-12-10T00:05:35"
+      category: roadmap_management
+      brief_purpose: "Consolidate dogfooding-bugs track from 15 sprints to 7 sprints"
+      executable: false
+      shebang: present
+      docstring: "Consolidate dogfooding-bugs track from 15 sprints to 7 sprints."
+
+      imports:
+        standard_library:
+          - os
+          - sys
+          - time
+          - shutil
+          - datetime (datetime, timezone)
+          - pathlib (Path)
+        third_party:
+          - yaml
+          - ulid (ULID)
+        internal: []
+
+      git_history:
+        first_commit: "2025-12-10"
+        commits_count: 1
+        last_commit_message: "refactor(dogfooding-bugs): Consolidate 15 bug sprints into 7 thematic sprints"
+
+      usage_pattern:
+        frequency: one_time
+        last_known_use: "2025-12-10"
+        use_case: "One-time track consolidation"
+
+    - path: scripts/create_dogfooding_track.py
+      filename: create_dogfooding_track.py
+      size_bytes: 25107
+      lines: 565
+      last_modified: "2025-12-09T23:57:10"
+      category: roadmap_management
+      brief_purpose: "Create dogfooding-bugs track from CLI_BUGS.md content"
+      executable: false
+      shebang: present
+      docstring: "Create dogfooding-bugs track from CLI_BUGS.md content."
+
+      imports:
+        standard_library:
+          - os
+          - sys
+          - time
+          - datetime (datetime, timezone)
+          - pathlib (Path)
+        third_party:
+          - yaml
+          - ulid (ULID)
+        internal: []
+
+      git_history:
+        first_commit: "2025-12-09"
+        commits_count: 1
+        last_commit_message: "feat(dogfooding-bugs): Create track for CLI bugs discovered during dogfooding"
+
+      usage_pattern:
+        frequency: one_time
+        last_known_use: "2025-12-09"
+        use_case: "One-time track creation from bug list"
+
+    - path: scripts/execute_migration.py
+      filename: execute_migration.py
+      size_bytes: 4729
+      lines: 161
+      last_modified: "2025-12-09T15:29:39"
+      category: migration
+      brief_purpose: "Execute unified architecture migration (nested to flat directory structure)"
+      executable: true
+      shebang: present
+      docstring: "Execute unified architecture migration. This script runs the directory structure migration from nested to flat format."
+
+      imports:
+        standard_library:
+          - sys
+          - pathlib (Path)
+        third_party: []
+        internal:
+          - vibey.roadmap.serialization.directory_migration_v2 (migrate_to_flat_structure, validate_migration)
+
+      git_history:
+        first_commit: "2025-12-09"
+        commits_count: 1
+        last_commit_message: "feat(unified-arch): Complete Sprint 1 - Directory Structure Migration"
+
+      usage_pattern:
+        frequency: one_time
+        last_known_use: "2025-12-09"
+        use_case: "One-time migration execution"
+
+    - path: scripts/run_migration_standalone.py
+      filename: run_migration_standalone.py
+      size_bytes: 4725
+      lines: 159
+      last_modified: "2025-12-09T15:31:40"
+      category: migration
+      brief_purpose: "Standalone migration execution without importing full package"
+      executable: true
+      shebang: present
+      docstring: "Standalone migration execution script. Runs directory structure migration without importing full package."
+
+      imports:
+        standard_library:
+          - sys
+          - pathlib (Path)
+        third_party: []
+        internal: []
+        note: "Uses exec() to load migration module directly - avoids package imports"
+
+      git_history:
+        first_commit: "2025-12-09"
+        commits_count: 1
+        last_commit_message: "feat(unified-arch): Complete Sprint 1 - Directory Structure Migration"
+
+      usage_pattern:
+        frequency: one_time
+        last_known_use: "2025-12-09"
+        use_case: "Fallback migration when package imports fail"
+
+  historical_scripts:
+    note: "Scripts that previously existed but were moved/deleted"
+    items:
+      - path: scripts/generate-config.py (deleted in v2.5.0)
+        reason: "Migrated to CLI command"
+      - path: scripts/update-config.py (deleted in v2.5.0)
+        reason: "Migrated to CLI command"
+      - path: scripts/validate-config.py (deleted in v2.5.0)
+        reason: "Migrated to CLI command"
+      - path: scripts/render-template.py (deleted in v2.5.0)
+        reason: "Migrated to CLI command"
+      - path: scripts/create-sprint-state.py (deleted in v2.5.0)
+        reason: "Migrated to CLI roadmap commands"
+      - path: scripts/query-sprint-state.py (deleted in v2.5.0)
+        reason: "Migrated to CLI roadmap commands"
+      - path: scripts/update-sprint-state.py (deleted in v2.5.0)
+        reason: "Migrated to CLI roadmap commands"
+
+  related_scripts_elsewhere:
+    note: "Script-like files in other locations that are NOT standalone scripts"
+    items:
+      - path: tests/conftest.py
+        reason: "Test configuration, not a standalone script"
+      - path: vibey/cli/main.py
+        reason: "CLI entry point, not a standalone script"
+
+  analysis:
+    patterns_observed:
+      - "All scripts have docstrings (good practice)"
+      - "All scripts have shebang lines (good practice)"
+      - "Migration scripts are executable, management scripts are not"
+      - "Heavy reliance on ULID generation for IDs"
+      - "Direct YAML manipulation vs using vibey library"
+
+    concerns:
+      - "consolidate_dogfooding_track.py and create_dogfooding_track.py are very large (500+ lines)"
+      - "run_migration_standalone.py uses exec() - security concern"
+      - "No tests exist for any of these scripts"
+      - "Path manipulation done manually vs using vibey library patterns"
+
+    categories_breakdown:
+      roadmap_management:
+        scripts: [consolidate_dogfooding_track.py, create_dogfooding_track.py]
+        total_lines: 1154
+        total_bytes: 50869
+        percentage_of_total: 84%
+      migration:
+        scripts: [execute_migration.py, run_migration_standalone.py]
+        total_lines: 320
+        total_bytes: 9454
+        percentage_of_total: 16%
+
+  recommendations:
+    immediate:
+      - "Review run_migration_standalone.py exec() usage for security"
+      - "Document whether these scripts are still needed"
+
+    short_term:
+      - "Consider deprecating one-time scripts after confirming migration complete"
+      - "Add deprecation notices to script docstrings"
+
+    long_term:
+      - "Evaluate if roadmap management patterns should be CLI commands"
+      - "Clean up scripts directory when no longer needed"

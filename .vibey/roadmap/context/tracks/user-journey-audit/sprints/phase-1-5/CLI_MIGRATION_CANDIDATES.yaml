@@ -1,0 +1,185 @@
+# CLI_MIGRATION_CANDIDATES.yaml
+# Generated: 2025-12-12
+# Sprint: Phase 1.5 - Scripts & Project Config Audit
+# Task: Identify CLI migration candidates
+
+migration_candidates:
+  generated_at: "2025-12-12T11:05:00+00:00"
+  criteria_version: "1.0"
+
+  summary:
+    total_scripts: 4
+    migrate_to_cli: 0
+    keep_as_script: 0
+    deprecate: 4
+    rationale: "All scripts are one-time utilities that have already served their purpose"
+
+  assessment_methodology:
+    migrate_if:
+      - "Script is used regularly (weekly or more)"
+      - "Script functionality is generally useful"
+      - "Script aligns with existing CLI patterns"
+      - "Migration effort is justified by value"
+    keep_as_script_if:
+      - "Script is one-time use"
+      - "Script is development/debugging only"
+      - "Script requires special permissions/environment"
+      - "Script is temporary/experimental"
+    deprecate_if:
+      - "Script duplicates existing CLI functionality"
+      - "Script is obsolete"
+      - "Script is broken and unfixable"
+      - "Script was one-time and task is complete"
+
+  candidates:
+    # ============================================
+    # Script 1: consolidate_dogfooding_track.py
+    # ============================================
+    - script: scripts/consolidate_dogfooding_track.py
+      decision: deprecate
+      decision_rationale: "One-time migration completed 2025-12-10; no future need"
+
+      cli_migration_analysis:
+        candidate: false
+        reason: "Hardcoded data specific to one track; not generalizable"
+        suggested_command: null
+        migration_blockers:
+          - "Contains hardcoded SPRINTS data specific to dogfooding-bugs track"
+          - "Task-specific logic not reusable"
+          - "Would require major refactoring to generalize"
+
+      if_migration_were_needed:
+        command: "vibey roadmap consolidate-sprints"
+        command_group: roadmap
+        options:
+          - name: --track
+            type: string
+            required: true
+            description: "Track ID or slug to consolidate"
+          - name: --mapping-file
+            type: path
+            required: true
+            description: "YAML file defining sprint consolidation mapping"
+          - name: --dry-run
+            type: flag
+            description: "Show what would be done without making changes"
+        effort_estimate: "8-12 hours"
+        priority: not_applicable
+
+    # ============================================
+    # Script 2: create_dogfooding_track.py
+    # ============================================
+    - script: scripts/create_dogfooding_track.py
+      decision: deprecate
+      decision_rationale: "One-time script; track creation now via CLI commands"
+
+      cli_migration_analysis:
+        candidate: false
+        reason: "Superseded by consolidate script; original structure no longer exists"
+        suggested_command: null
+        migration_blockers:
+          - "Contains hardcoded BUGS data from CLI_BUGS.md"
+          - "Output format was replaced by consolidate script"
+          - "CLI 'vibey roadmap create track' covers general case"
+
+      existing_cli_coverage:
+        - command: "vibey roadmap create track"
+          overlap: 60%
+          notes: "Handles general track creation"
+        - command: "vibey roadmap create-from-plan"
+          overlap: 40%
+          notes: "Handles batch creation from plan file"
+
+      if_migration_were_needed:
+        command: "vibey roadmap create-from-bugs"
+        notes: "Could create track from bug list, but not generally useful"
+        priority: not_applicable
+
+    # ============================================
+    # Script 3: execute_migration.py
+    # ============================================
+    - script: scripts/execute_migration.py
+      decision: deprecate
+      decision_rationale: "Migration complete; if future migrations needed, implement fresh"
+
+      cli_migration_analysis:
+        candidate: true
+        confidence: medium
+        reason: "Well-structured with argparse; could be CLI command"
+        suggested_command: "vibey roadmap migrate"
+        migration_blockers:
+          - "Current migration already complete"
+          - "Future migrations may have different requirements"
+
+      if_migration_were_needed:
+        command: "vibey roadmap migrate"
+        command_group: roadmap
+        options:
+          - name: --dry-run
+            type: flag
+            description: "Show what would be migrated"
+          - name: --execute
+            type: flag
+            description: "Execute the migration"
+          - name: --validate
+            type: flag
+            description: "Validate existing structure"
+          - name: --backup
+            type: flag
+            default: true
+            description: "Create backup before migration"
+        implementation_notes:
+          - "Core logic already in vibey.roadmap.serialization.directory_migration_v2"
+          - "CLI would be thin wrapper around existing library"
+          - "Consider versioned migrations (v1_to_v2, v2_to_v3, etc.)"
+        effort_estimate: "4-6 hours"
+        priority: low
+
+    # ============================================
+    # Script 4: run_migration_standalone.py
+    # ============================================
+    - script: scripts/run_migration_standalone.py
+      decision: deprecate
+      decision_rationale: "Duplicate of execute_migration.py with security concern (exec)"
+
+      cli_migration_analysis:
+        candidate: false
+        reason: "98% duplicate of execute_migration.py; exec() pattern unacceptable"
+        suggested_command: null
+        migration_blockers:
+          - "Uses exec() which is security risk"
+          - "Duplicate functionality"
+          - "No unique value over execute_migration.py"
+
+      notes: "If standalone execution ever needed, fix import issues rather than use exec()"
+
+  # ============================================
+  # Implementation Roadmap (if any migration)
+  # ============================================
+  implementation_roadmap:
+    current_recommendation: no_migration_needed
+    rationale: "All scripts are one-time utilities that have completed their purpose"
+
+    if_future_migration_needed:
+      phase_1:
+        description: "Create general migration framework"
+        priority: low
+        effort: "8-12 hours"
+        items:
+          - "Design versioned migration system"
+          - "Implement 'vibey roadmap migrate' command"
+          - "Support dry-run, backup, validation"
+
+  # ============================================
+  # Conclusion
+  # ============================================
+  conclusion:
+    migrate_to_cli: []
+    reason: "No scripts warrant CLI migration; all are one-time utilities"
+
+    future_considerations:
+      - "If track consolidation becomes common, consider 'vibey roadmap consolidate' command"
+      - "If data migrations become common, consider versioned migration CLI"
+      - "Document patterns in these scripts for future reference"
+
+    action_required: deprecate_all_scripts

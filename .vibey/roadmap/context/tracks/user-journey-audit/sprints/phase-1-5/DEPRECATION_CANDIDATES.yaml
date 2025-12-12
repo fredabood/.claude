@@ -1,0 +1,260 @@
+# DEPRECATION_CANDIDATES.yaml
+# Generated: 2025-12-12
+# Sprint: Phase 1.5 - Scripts & Project Config Audit
+# Task: Identify deprecation candidates
+
+deprecation_candidates:
+  generated_at: "2025-12-12T11:15:00+00:00"
+  criteria_version: "1.0"
+
+  summary:
+    scripts_to_deprecate: 4
+    config_settings_to_remove: 2
+    config_files_to_remove: 0
+    total_items: 6
+
+  deprecation_criteria:
+    obsolete:
+      description: "Scripts/settings that are no longer needed"
+      criteria:
+        - "Functionality moved to CLI"
+        - "One-time task completed"
+        - "Superseded by newer implementation"
+    redundant:
+      description: "Scripts/settings that duplicate existing functionality"
+      criteria:
+        - "CLI command does same thing"
+        - "Library function does same thing"
+        - "Multiple scripts do same thing"
+    broken:
+      description: "Scripts/settings that no longer work"
+      criteria:
+        - "Import errors"
+        - "API changes broke functionality"
+        - "Dependencies removed"
+    security_concern:
+      description: "Scripts/settings with security issues"
+      criteria:
+        - "Uses unsafe patterns (exec, eval)"
+        - "Exposes sensitive data"
+        - "Has known vulnerabilities"
+
+  # ============================================
+  # Scripts to Deprecate
+  # ============================================
+  scripts:
+    - path: scripts/consolidate_dogfooding_track.py
+      category: obsolete
+      severity: low
+      reason: "One-time migration script; consolidation completed 2025-12-10"
+      evidence:
+        - "Last used: 2025-12-10"
+        - "Task completed: dogfooding-bugs track consolidated from 15 to 7 sprints"
+        - "No foreseeable future use"
+      replacement: null
+      safe_to_delete: true
+      deletion_blockers: []
+      safe_removal_checklist:
+        - "[x] Script has completed its purpose"
+        - "[x] No other code imports this script"
+        - "[x] No scheduled jobs reference this script"
+        - "[x] Track consolidation verified successful"
+        - "[ ] Add deprecation notice (optional)"
+      recommended_action: archive_then_delete
+      timeline: "Archive now, delete after 30 days"
+
+    - path: scripts/create_dogfooding_track.py
+      category: obsolete
+      severity: low
+      reason: "One-time script superseded by consolidate script; original structure replaced"
+      evidence:
+        - "Last used: 2025-12-09"
+        - "Output superseded by consolidate_dogfooding_track.py on 2025-12-10"
+        - "Track structure completely reorganized"
+      replacement:
+        type: script
+        path: scripts/consolidate_dogfooding_track.py
+        notes: "Even replacement is now obsolete"
+      safe_to_delete: true
+      deletion_blockers: []
+      safe_removal_checklist:
+        - "[x] Script output has been replaced"
+        - "[x] No other code imports this script"
+        - "[x] consolidate script handles track structure"
+        - "[ ] Add deprecation notice (optional)"
+      recommended_action: delete
+      timeline: "Can delete immediately"
+
+    - path: scripts/execute_migration.py
+      category: obsolete
+      severity: low
+      reason: "Directory structure migration completed 2025-12-09"
+      evidence:
+        - "Last used: 2025-12-09"
+        - "Migration task completed"
+        - "Flat directory structure is now canonical"
+      replacement:
+        type: cli_command
+        command: "vibey roadmap db rebuild"
+        notes: "For database sync; directory migration was one-time"
+      safe_to_delete: true
+      deletion_blockers: []
+      safe_removal_checklist:
+        - "[x] Migration completed successfully"
+        - "[x] Flat structure validated"
+        - "[x] No rollback anticipated"
+        - "[ ] Document the migration in CHANGELOG"
+      recommended_action: archive_then_delete
+      timeline: "Archive now, delete after 30 days"
+
+    - path: scripts/run_migration_standalone.py
+      category: redundant
+      severity: medium
+      reason: "98% duplicate of execute_migration.py with exec() security concern"
+      evidence:
+        - "Uses exec(open(file).read()) - security risk"
+        - "Nearly identical to execute_migration.py"
+        - "No unique value provided"
+      replacement:
+        type: script
+        path: scripts/execute_migration.py
+        notes: "Safer alternative that properly imports"
+      safe_to_delete: true
+      deletion_blockers: []
+      safe_removal_checklist:
+        - "[x] execute_migration.py provides same functionality"
+        - "[x] exec() pattern is security concern"
+        - "[x] No unique features"
+        - "[x] Migration already complete anyway"
+      recommended_action: delete
+      timeline: "Delete immediately (security concern)"
+
+  # ============================================
+  # Configuration Settings to Fix/Remove
+  # ============================================
+  config_settings:
+    - file: .coveragerc
+      setting: "source = framework"
+      severity: high
+      reason: "Package renamed from 'framework' to 'vibey'"
+      category: broken
+      evidence:
+        - "source directive points to non-existent 'framework' directory"
+        - "Actual package is 'vibey'"
+        - "Coverage reports would be incorrect"
+      fix:
+        action: update
+        old_value: "source = framework"
+        new_value: "source = vibey"
+      safe_to_fix: true
+      recommended_action: fix_immediately
+      timeline: "Fix in next commit"
+
+    - file: pytest.ini
+      setting: "--cov-fail-under=90"
+      severity: medium
+      reason: "Coverage threshold unrealistic given actual 28% coverage"
+      category: broken
+      evidence:
+        - "Actual coverage: 28.5%"
+        - "Threshold: 90%"
+        - "Tests fail due to coverage, not code issues"
+      fix:
+        action: update
+        old_value: "--cov-fail-under=90"
+        new_value: "--cov-fail-under=50"
+        notes: "Set achievable target, improve incrementally"
+      safe_to_fix: true
+      recommended_action: fix_soon
+      timeline: "Fix when addressing test coverage"
+
+  # ============================================
+  # Configuration Files - No Removal Needed
+  # ============================================
+  config_files: []
+  config_files_note: "All config files are needed; some have settings to fix"
+
+  # ============================================
+  # Deprecation Plan
+  # ============================================
+  deprecation_plan:
+    immediate:
+      description: "Safe to remove/fix now"
+      items:
+        - type: script
+          path: scripts/run_migration_standalone.py
+          action: delete
+          reason: "Security concern (exec), duplicate"
+
+        - type: script
+          path: scripts/create_dogfooding_track.py
+          action: delete
+          reason: "Superseded, no longer relevant"
+
+        - type: config_setting
+          file: .coveragerc
+          setting: source
+          action: fix
+          reason: "Points to wrong directory"
+
+    after_verification:
+      description: "Remove after confirming no usage"
+      items:
+        - type: script
+          path: scripts/consolidate_dogfooding_track.py
+          action: archive_then_delete
+          verification_steps:
+            - "Confirm dogfooding-bugs track is correctly structured"
+            - "Verify no processes reference this script"
+          wait_period: 30_days
+
+        - type: script
+          path: scripts/execute_migration.py
+          action: archive_then_delete
+          verification_steps:
+            - "Confirm flat structure is stable"
+            - "Document migration in CHANGELOG"
+          wait_period: 30_days
+
+    deferred:
+      description: "Keep for now, revisit later"
+      items:
+        - type: config_setting
+          file: pytest.ini
+          setting: "--cov-fail-under"
+          action: fix_when_improving_coverage
+          revisit_date: "2026-01-15"
+          reason: "Fix when coverage improves to achievable level"
+
+  # ============================================
+  # Impact Analysis
+  # ============================================
+  impact_analysis:
+    scripts_removal:
+      total_lines_removed: 1474
+      total_bytes_removed: 60323
+      breaking_changes: none
+      risk: low
+
+    config_fixes:
+      breaking_changes: none
+      risk: low
+      notes: "Fixes improve accuracy, don't break functionality"
+
+  # ============================================
+  # Action Summary
+  # ============================================
+  action_summary:
+    delete_immediately:
+      - scripts/run_migration_standalone.py
+      - scripts/create_dogfooding_track.py
+
+    fix_immediately:
+      - ".coveragerc source directive"
+
+    archive_then_delete:
+      - scripts/consolidate_dogfooding_track.py
+      - scripts/execute_migration.py
+
+    fix_when_appropriate:
+      - "pytest.ini coverage threshold"

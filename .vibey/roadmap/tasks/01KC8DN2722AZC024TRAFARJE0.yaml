@@ -8,11 +8,11 @@ task:
   description: 'Based on audit findings, identify scripts that should be migrated
     to vibey CLI commands. Document: script name, proposed CLI command, migration
     complexity, priority. Output: SCRIPTS_CLI_MIGRATION_CANDIDATES.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T04:38:36.002936+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T11:00:00+00:00'
+  completed: '2025-12-12T11:10:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

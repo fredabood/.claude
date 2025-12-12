@@ -8,11 +8,11 @@ task:
   description: 'Apply audit criteria to run_migration_standalone.py. Document: purpose,
     current relevance, CLI migration potential, deprecation recommendation. Output
     entry in AUDIT_SCRIPTS.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T04:38:36.002866+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T10:50:00+00:00'
+  completed: '2025-12-12T11:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -271,6 +271,5 @@ WHERE e.event_type = 'decision_made';
 -- =============================================================================
 
 UPDATE database_state SET
-    schema_version = '2.1.0',
-    migration_timestamp = datetime('now')
+    schema_version = '2.1.0'
 WHERE id = 1;

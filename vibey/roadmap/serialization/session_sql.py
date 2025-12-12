@@ -14,7 +14,8 @@ Schema Reference:
 
 import json
 from datetime import datetime, timezone
-from typing import List, Optional, Dict, Any
+from pathlib import Path
+from typing import List, Optional, Dict, Any, Union
 
 from ..models.session import (
     Session,
@@ -29,6 +30,15 @@ from ..models.session import (
     SessionStats,
 )
 from ..database import get_connection
+
+
+def _to_path(db_path: Optional[Union[str, Path]]) -> Optional[Path]:
+    """Convert string or Path to Path object."""
+    if db_path is None:
+        return None
+    if isinstance(db_path, Path):
+        return db_path
+    return Path(db_path)
 
 
 def _parse_datetime(value: Optional[str]) -> Optional[datetime]:
@@ -100,7 +110,7 @@ def load_session(session_id: str, db_path: Optional[str] = None) -> Optional[Ses
     Returns:
         Session object or None if not found
     """
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     conn.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
 
     cursor = conn.cursor()
@@ -282,7 +292,7 @@ def list_sessions(
     Returns:
         List of Session objects
     """
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     conn.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
 
     query = "SELECT id FROM sessions WHERE 1=1"
@@ -333,7 +343,7 @@ def get_sessions_by_commit(
     commit_sha: str, db_path: Optional[str] = None
 ) -> List[Session]:
     """Get all sessions that contain a specific commit."""
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     conn.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
 
     cursor = conn.cursor()
@@ -353,7 +363,7 @@ def get_sessions_by_commit(
 
 def get_sessions_by_task(task_id: str, db_path: Optional[str] = None) -> List[Session]:
     """Get all sessions that worked on a specific task."""
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     conn.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
 
     cursor = conn.cursor()
@@ -383,7 +393,7 @@ def save_session(session: Session, db_path: Optional[str] = None) -> None:
         session: Session object to save
         db_path: Optional database path
     """
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     cursor = conn.cursor()
 
     # Compute stats
@@ -544,7 +554,7 @@ def delete_session(session_id: str, db_path: Optional[str] = None) -> bool:
     Returns:
         True if session was deleted, False if not found
     """
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     cursor = conn.cursor()
 
     # Check if session exists
@@ -569,9 +579,7 @@ def ensure_session_tables(db_path: Optional[str] = None) -> None:
 
     Runs the session schema migration if tables don't exist.
     """
-    from pathlib import Path
-
-    conn = get_connection(db_path)
+    conn = get_connection(_to_path(db_path))
     cursor = conn.cursor()
 
     # Check if sessions table exists

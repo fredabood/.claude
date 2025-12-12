@@ -4431,6 +4431,192 @@ def audit_classify(ctx, directory: str, output: Optional[str]):
 
 
 # ============================================================================
+# Session Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def session(ctx):
+    """
+    Manage AI-assisted coding sessions.
+
+    Track session lifecycle, log events and decisions, associate commits,
+    and maintain context for session reconstruction.
+
+    Examples:
+
+      vibey session start                        # Start new session
+      vibey session start "Feature work"         # Start with name
+      vibey session status                       # Show active session
+      vibey session end --summary "Completed X"  # End session
+      vibey session list                         # List all sessions
+    """
+    ctx.ensure_object(dict)
+
+
+@session.command('start')
+@click.argument('name', required=False)
+@click.option('--goal', '-g', multiple=True, help='Session goal (can specify multiple)')
+@click.option('--track', '-t', help='Associate with track ID')
+@click.option('--sprint', '-s', help='Associate with sprint ID')
+@click.option('--task', '-T', multiple=True, help='Associate with task ID (can specify multiple)')
+@click.pass_context
+def session_start(ctx, name: Optional[str], goal: tuple, track: Optional[str],
+                  sprint: Optional[str], task: tuple):
+    """Start a new coding session.
+
+    Creates a new session to track work, decisions, and commits. Only one
+    session can be active at a time.
+
+    Examples:
+      vibey session start                              # Auto-generated name
+      vibey session start "Implement auth"             # Custom name
+      vibey session start -g "Fix login bug" -g "Add tests"  # With goals
+      vibey session start --track my-track --sprint sprint-1  # With associations
+    """
+    from vibey.cli.commands import session_start_cmd
+
+    exit_code = session_start_cmd(
+        name=name,
+        goals=list(goal) if goal else None,
+        track_id=track,
+        sprint_id=sprint,
+        task_ids=list(task) if task else None,
+    )
+    sys.exit(exit_code)
+
+
+@session.command('end')
+@click.option('--summary', '-s', help='Session summary')
+@click.option('--status', type=click.Choice(['completed', 'abandoned']),
+              default='completed', help='End status')
+@click.option('--session-id', help='Specific session ID to end (default: active)')
+@click.pass_context
+def session_end(ctx, summary: Optional[str], status: str, session_id: Optional[str]):
+    """End the current or specified session.
+
+    Marks the session as completed or abandoned, captures final git state,
+    and calculates session statistics.
+
+    Examples:
+      vibey session end                                    # End active session
+      vibey session end --summary "Completed feature X"    # With summary
+      vibey session end --status abandoned                 # Mark as abandoned
+      vibey session end --session-id 01ABC123...          # End specific session
+    """
+    from vibey.cli.commands import session_end_cmd
+
+    exit_code = session_end_cmd(
+        session_id=session_id,
+        summary=summary,
+        status=status,
+    )
+    sys.exit(exit_code)
+
+
+@session.command('pause')
+@click.option('--session-id', help='Specific session ID to pause (default: active)')
+@click.pass_context
+def session_pause(ctx, session_id: Optional[str]):
+    """Pause the current or specified session.
+
+    Temporarily stops tracking while preserving state. Use 'resume' to continue.
+
+    Examples:
+      vibey session pause                       # Pause active session
+      vibey session pause --session-id 01ABC... # Pause specific session
+    """
+    from vibey.cli.commands import session_pause_cmd
+
+    exit_code = session_pause_cmd(session_id=session_id)
+    sys.exit(exit_code)
+
+
+@session.command('resume')
+@click.argument('session_id')
+@click.pass_context
+def session_resume(ctx, session_id: str):
+    """Resume a paused session.
+
+    Continues a previously paused session, restoring it as the active session.
+
+    Examples:
+      vibey session resume 01ABC123DEF456GHI789JKL012
+    """
+    from vibey.cli.commands import session_resume_cmd
+
+    exit_code = session_resume_cmd(session_id=session_id)
+    sys.exit(exit_code)
+
+
+@session.command('status')
+@click.pass_context
+def session_status(ctx):
+    """Show the current active session status.
+
+    Displays information about the currently active session, including
+    goals, associations, and event/decision counts.
+
+    Examples:
+      vibey session status
+    """
+    from vibey.cli.commands import session_status_cmd
+
+    exit_code = session_status_cmd()
+    sys.exit(exit_code)
+
+
+@session.command('show')
+@click.argument('session_id')
+@click.pass_context
+def session_show(ctx, session_id: str):
+    """Show detailed information about a specific session.
+
+    Displays comprehensive session details including events, decisions,
+    commits, and statistics.
+
+    Examples:
+      vibey session show 01ABC123DEF456GHI789JKL012
+    """
+    from vibey.cli.commands import session_show_cmd
+
+    exit_code = session_show_cmd(session_id=session_id)
+    sys.exit(exit_code)
+
+
+@session.command('list')
+@click.option('--status', type=click.Choice(['active', 'paused', 'completed', 'abandoned']),
+              help='Filter by status')
+@click.option('--track', '-t', help='Filter by track ID')
+@click.option('--sprint', '-s', help='Filter by sprint ID')
+@click.option('--since', help='Filter by date (ISO format or relative: 7d, 2w, 1m)')
+@click.option('--limit', '-n', default=20, help='Maximum sessions to show')
+@click.pass_context
+def session_list(ctx, status: Optional[str], track: Optional[str],
+                 sprint: Optional[str], since: Optional[str], limit: int):
+    """List sessions with optional filters.
+
+    Shows all sessions matching the specified filters, sorted by creation date.
+
+    Examples:
+      vibey session list                      # List all sessions
+      vibey session list --status completed   # Only completed sessions
+      vibey session list --track my-track     # Filter by track
+      vibey session list --since 7d -n 10     # Last 7 days, max 10
+    """
+    from vibey.cli.commands import session_list_cmd
+
+    exit_code = session_list_cmd(
+        status=status,
+        track_id=track,
+        sprint_id=sprint,
+        since=since,
+        limit=limit,
+    )
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

@@ -1,0 +1,366 @@
+# Missing Artifact Types Analysis
+# Generated: 2025-12-12
+# Sprint: Phase 1.6 - Database Artifact Audit
+# Task: Identify missing artifact types
+
+# Based on file audits (Sprints 1.1-1.5) and database schema analysis,
+# this document identifies gaps in artifact tracking capabilities.
+
+summary:
+  existing_artifact_types: 12
+  missing_artifact_types: 0
+  missing_subtypes: 6
+  missing_relationship_types: 4
+  missing_metadata_fields: 18
+  missing_tables: 2
+
+# Current artifact types in schema
+existing_artifact_types:
+  - code
+  - test
+  - config
+  - documentation
+  - context
+  - agent
+  - workflow
+  - template
+  - data
+  - asset
+  - schema
+  - other
+
+# Analysis: All needed types exist, but subtypes are not formally defined
+missing_artifact_subtypes:
+
+  code:
+    existing_subtypes: []  # artifact_subtype field exists but no defined values
+    needed_subtypes:
+      - cli: "CLI commands and entry points"
+      - operations: "Core business logic"
+      - models: "Data models and schemas"
+      - serialization: "YAML/JSON serialization"
+      - database: "SQLite ORM and queries"
+      - mcp: "MCP protocol handlers"
+      - adapters: "Platform adapters"
+      - platform: "Platform abstraction"
+      - common: "Shared utilities"
+      - utility_script: "Standalone scripts"
+    impact: "Cannot filter artifacts by code type"
+
+  test:
+    existing_subtypes: []
+    needed_subtypes:
+      - unit: "Isolated unit tests"
+      - integration: "Cross-module tests"
+      - e2e: "End-to-end tests"
+      - performance: "Performance benchmarks"
+      - fixture: "Test fixtures and data"
+    impact: "Cannot distinguish test types"
+
+  documentation:
+    existing_subtypes: []
+    needed_subtypes:
+      - user_guide: "End-user documentation"
+      - reference: "API and CLI reference"
+      - development: "Developer documentation"
+      - architecture: "Design and architecture"
+      - changelog: "Release notes and history"
+      - readme: "Project README files"
+    impact: "Cannot filter docs by purpose"
+
+  config:
+    existing_subtypes: []
+    needed_subtypes:
+      - project_config: "pyproject.toml, package config"
+      - test_config: "pytest, coverage config"
+      - ci_config: "CI/CD configuration"
+      - git_config: "Git-related config"
+      - vibey_config: "Framework configuration"
+    impact: "Cannot distinguish config types"
+
+  context:
+    existing_subtypes: []
+    needed_subtypes:
+      - sprint_plan: "Sprint planning documents"
+      - audit_result: "Audit output documents"
+      - design_doc: "Design specifications"
+      - gap_analysis: "Analysis documents"
+      - migration_plan: "Migration planning"
+    impact: "Cannot categorize context files"
+
+# Missing relationship types between artifacts and entities
+missing_relationship_types:
+
+  artifact_to_entity:
+    description: "Link artifacts to tracks/sprints/tasks"
+    current_state: "No entity_artifacts table exists"
+    needed:
+      - table: entity_artifacts
+        columns:
+          - owner_type: "track, sprint, task"
+          - owner_id: "ULID of entity"
+          - artifact_id: "FK to artifacts"
+          - relationship_type: "produces, consumes, modifies, references"
+        indexes:
+          - idx_entity_artifacts_owner
+          - idx_entity_artifacts_artifact
+    impact: "Cannot track which tasks produce which artifacts"
+
+  artifact_to_commit:
+    description: "Link artifacts to git commits"
+    current_state: "commits table exists but not linked to artifacts"
+    needed:
+      - table: artifact_commits
+        columns:
+          - artifact_id: "FK to artifacts"
+          - commit_id: "FK to commits"
+          - change_type: "created, modified, deleted"
+        alternative: "Add commit_id to provenance JSON"
+    impact: "Cannot track artifact version history"
+
+  test_to_code:
+    description: "Link test files to code they test"
+    current_state: "No relationship table"
+    needed:
+      - approach_a: "Use artifact dependencies (depends_on_artifact_ids)"
+      - approach_b: "Add tests_artifact_id column to test artifacts"
+      - approach_c: "Metadata field in test artifact"
+    recommended: approach_a
+    impact: "Cannot correlate tests to tested code"
+
+  doc_to_code:
+    description: "Link documentation to code it documents"
+    current_state: "documents_artifact_id exists but only for artifact-to-artifact"
+    enhancement:
+      - "Already supported via documents_artifact_id FK"
+      - "Need consistent population"
+    impact: "Staleness detection broken without population"
+
+# Missing metadata fields
+missing_metadata_fields:
+
+  common_fields:
+    - field: audit_sprint_id
+      type: TEXT
+      description: "Sprint that audited this artifact"
+      location: "artifacts table or provenance JSON"
+      impact: "Cannot trace audit coverage"
+
+    - field: audit_task_id
+      type: TEXT
+      description: "Task that produced audit results"
+      location: "artifacts table or provenance JSON"
+      impact: "Cannot link to roadmap work"
+
+    - field: quality_score
+      type: INTEGER
+      description: "0-100 quality score from audit"
+      location: "metadata JSON or dedicated column"
+      impact: "Quality metrics not queryable"
+
+    - field: quality_grade
+      type: TEXT
+      description: "A-F quality grade"
+      location: "metadata JSON or dedicated column"
+      impact: "Quality filtering not possible"
+
+  code_specific:
+    - field: line_count
+      type: INTEGER
+      description: "Lines of code"
+      location: "metadata JSON"
+      impact: "Cannot measure code size"
+
+    - field: has_tests
+      type: INTEGER
+      description: "Boolean: has corresponding tests"
+      location: "metadata JSON or relationship"
+      impact: "Test coverage tracking broken"
+
+    - field: test_coverage_percent
+      type: REAL
+      description: "Code coverage percentage"
+      location: "metadata JSON"
+      impact: "Cannot track coverage"
+
+    - field: module_path
+      type: TEXT
+      description: "Python module path (e.g., vibey.cli.commands)"
+      location: "metadata JSON"
+      impact: "Cannot map to import paths"
+
+  documentation_specific:
+    - field: word_count
+      type: INTEGER
+      description: "Approximate word count"
+      location: "metadata JSON"
+      impact: "Cannot measure doc size"
+
+    - field: has_deprecated_refs
+      type: INTEGER
+      description: "Contains deprecated references"
+      location: "metadata JSON"
+      impact: "Cleanup tracking broken"
+
+    - field: version_references
+      type: TEXT
+      description: "JSON array of version numbers found"
+      location: "metadata JSON"
+      impact: "Cannot detect version drift"
+
+    - field: documents_files
+      type: TEXT
+      description: "JSON array of files this doc covers"
+      location: "metadata JSON or relationship"
+      impact: "Documentation coverage unknown"
+
+  test_specific:
+    - field: test_count
+      type: INTEGER
+      description: "Number of test functions"
+      location: "metadata JSON"
+      impact: "Cannot measure test volume"
+
+    - field: pass_rate
+      type: REAL
+      description: "Test pass percentage"
+      location: "metadata JSON"
+      impact: "Test health unknown"
+
+    - field: fixtures_used
+      type: TEXT
+      description: "JSON array of pytest fixtures"
+      location: "metadata JSON"
+      impact: "Cannot analyze test dependencies"
+
+  provenance_fields:
+    - field: commit_sha
+      type: TEXT
+      description: "Git commit that created/modified artifact"
+      location: "provenance JSON"
+      impact: "Version history not linked"
+
+    - field: task_id
+      type: TEXT
+      description: "Task that produced the artifact"
+      location: "provenance JSON"
+      impact: "Work tracking broken"
+
+    - field: agent_type
+      type: TEXT
+      description: "Type of AI agent that created (if any)"
+      location: "provenance JSON"
+      impact: "AI attribution lost"
+
+# Missing tables
+missing_tables:
+
+  entity_artifacts:
+    purpose: "Polymorphic link between entities and artifacts"
+    priority: critical
+    schema: |
+      CREATE TABLE entity_artifacts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+          -- Polymorphic owner
+          owner_type TEXT NOT NULL CHECK (owner_type IN ('track', 'sprint', 'task')),
+          owner_id TEXT NOT NULL,
+
+          -- Artifact reference
+          artifact_id TEXT NOT NULL REFERENCES artifacts(id) ON DELETE CASCADE,
+
+          -- Relationship semantics
+          relationship_type TEXT DEFAULT 'produces'
+              CHECK (relationship_type IN ('produces', 'consumes', 'modifies', 'references')),
+
+          -- Context
+          added_at TEXT NOT NULL,
+          added_by TEXT,  -- user, agent, or system
+
+          UNIQUE(owner_type, owner_id, artifact_id)
+      );
+      CREATE INDEX idx_entity_artifacts_owner ON entity_artifacts(owner_type, owner_id);
+      CREATE INDEX idx_entity_artifacts_artifact ON entity_artifacts(artifact_id);
+
+  artifact_versions:
+    purpose: "Track artifact version history over time"
+    priority: medium
+    schema: |
+      CREATE TABLE artifact_versions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          artifact_id TEXT NOT NULL REFERENCES artifacts(id) ON DELETE CASCADE,
+
+          -- Version info
+          version_number INTEGER NOT NULL,
+          content_hash TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+
+          -- What changed
+          change_type TEXT CHECK (change_type IN ('created', 'modified', 'metadata_only')),
+          change_summary TEXT,
+
+          -- Provenance
+          commit_sha TEXT,
+          task_id TEXT,
+
+          UNIQUE(artifact_id, version_number)
+      );
+      CREATE INDEX idx_artifact_versions_artifact ON artifact_versions(artifact_id);
+
+# Recommendations
+recommendations:
+
+  immediate_priority:
+    - action: "Create entity_artifacts table"
+      rationale: "Cannot link artifacts to roadmap work without this"
+      effort: "1 hour"
+
+    - action: "Define artifact_subtype enum values"
+      rationale: "Subtypes needed for meaningful queries"
+      effort: "30 minutes"
+
+    - action: "Extend provenance JSON schema"
+      rationale: "Add commit_sha, task_id, agent_type"
+      effort: "15 minutes"
+
+  medium_priority:
+    - action: "Create artifact_versions table"
+      rationale: "Track artifact changes over time"
+      effort: "1 hour"
+
+    - action: "Add quality metadata fields"
+      rationale: "Store audit results in queryable form"
+      effort: "30 minutes"
+
+    - action: "Define relationship_type semantics"
+      rationale: "Clarify produces vs consumes vs modifies"
+      effort: "15 minutes"
+
+  lower_priority:
+    - action: "Add code-specific metadata fields"
+      rationale: "Enable code quality queries"
+      effort: "1 hour"
+
+    - action: "Add test-specific metadata fields"
+      rationale: "Enable test health queries"
+      effort: "30 minutes"
+
+    - action: "Add documentation staleness triggers"
+      rationale: "Auto-detect when docs are stale"
+      effort: "2 hours"
+
+# Impact summary
+impact_summary:
+  blocking_issues:
+    - "Cannot link artifacts to tasks/sprints/tracks"
+    - "Cannot track which work produced which artifacts"
+
+  quality_issues:
+    - "Cannot query by artifact quality score"
+    - "Cannot filter by subtype"
+    - "Cannot measure coverage or completeness"
+
+  operational_issues:
+    - "Cannot detect stale documentation"
+    - "Cannot correlate tests to code"
+    - "Cannot track artifact version history"

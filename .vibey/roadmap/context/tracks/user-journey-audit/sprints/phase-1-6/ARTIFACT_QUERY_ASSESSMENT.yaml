@@ -1,0 +1,362 @@
+# Artifact Query Capabilities Assessment
+# Generated: 2025-12-12
+# Sprint: Phase 1.6 - Database Artifact Audit
+# Task: Audit artifact query capabilities
+
+# Assesses current database views and query patterns for artifact retrieval.
+
+summary:
+  total_views: 21
+  artifact_related_views: 4
+  query_capability_score: "25%"
+  critical_gaps: 5
+  views_needing_population: 4
+
+# Current artifact-related views
+existing_artifact_views:
+
+  v_sprint_commits:
+    purpose: "Aggregate task commits at sprint level"
+    source: "tasks.commits_json"
+    works: false
+    reason: "Source column (commits_json) is always empty"
+    sample_query: |
+      SELECT sprint_id, commits_json, tasks_with_commits
+      FROM v_sprint_commits
+      WHERE commits_json IS NOT NULL;
+    current_result: "No rows returned (all tasks have empty commits_json)"
+
+  v_sprint_deliverables:
+    purpose: "Aggregate task deliverables at sprint level"
+    source: "tasks.deliverables_json"
+    works: false
+    reason: "Source column (deliverables_json) is always empty"
+    sample_query: |
+      SELECT sprint_id, deliverables_json, tasks_with_deliverables
+      FROM v_sprint_deliverables
+      WHERE deliverables_json IS NOT NULL;
+    current_result: "No rows returned (all tasks have empty deliverables_json)"
+
+  v_track_commits:
+    purpose: "Aggregate sprint commits at track level"
+    source: "v_sprint_commits"
+    works: false
+    reason: "Depends on v_sprint_commits which has no data"
+
+  v_track_deliverables:
+    purpose: "Aggregate sprint deliverables at track level"
+    source: "v_sprint_deliverables"
+    works: false
+    reason: "Depends on v_sprint_deliverables which has no data"
+
+# Query capability analysis
+query_capabilities:
+
+  can_query_artifacts_for_task:
+    supported: false
+    reason: "No entity_artifacts table linking tasks to artifacts"
+    workaround: "None - cannot track task artifacts"
+    gap_severity: critical
+    proposed_solution: |
+      CREATE VIEW v_task_artifacts AS
+      SELECT ea.owner_id as task_id, a.*
+      FROM entity_artifacts ea
+      JOIN artifacts a ON ea.artifact_id = a.id
+      WHERE ea.owner_type = 'task';
+
+  can_query_artifacts_for_sprint:
+    supported: false
+    reason: "No entity_artifacts table, deliverables_json empty"
+    workaround: "None"
+    gap_severity: critical
+    proposed_solution: |
+      CREATE VIEW v_sprint_artifacts AS
+      SELECT s.id as sprint_id, s.name as sprint_name, a.*
+      FROM sprints s
+      JOIN entity_artifacts ea ON ea.owner_type = 'sprint' AND ea.owner_id = s.id
+      JOIN artifacts a ON ea.artifact_id = a.id
+      UNION
+      SELECT t.sprint_id, s.name, a.*
+      FROM tasks t
+      JOIN sprints s ON t.sprint_id = s.id
+      JOIN entity_artifacts ea ON ea.owner_type = 'task' AND ea.owner_id = t.id
+      JOIN artifacts a ON ea.artifact_id = a.id;
+
+  can_query_artifacts_for_track:
+    supported: false
+    reason: "Same as sprint - no underlying data"
+    workaround: "None"
+    gap_severity: critical
+
+  can_query_artifacts_by_type:
+    supported: partial
+    reason: "artifacts table has artifact_type column, but table is empty"
+    sample_query: |
+      SELECT * FROM artifacts WHERE artifact_type = 'code';
+    current_result: "No rows (table empty)"
+    when_populated: "Will work correctly"
+    gap_severity: medium
+
+  can_query_artifacts_by_subtype:
+    supported: partial
+    reason: "artifact_subtype column exists but no defined values"
+    sample_query: |
+      SELECT * FROM artifacts WHERE artifact_subtype = 'cli';
+    current_result: "No rows (table empty, no defined subtypes)"
+    gap_severity: medium
+
+  can_query_artifact_dependencies:
+    supported: partial
+    reason: "depends_on_artifact_ids is JSON array - complex queries"
+    sample_query: |
+      -- Find artifacts depending on artifact X
+      SELECT * FROM artifacts
+      WHERE depends_on_artifact_ids LIKE '%"artifact-id-here"%';
+    issues:
+      - "JSON LIKE matching is fragile"
+      - "No index on JSON content"
+      - "Cannot use foreign key joins"
+    proposed_solution: |
+      -- Normalize to relationship table
+      CREATE TABLE artifact_dependencies (
+          dependent_id TEXT REFERENCES artifacts(id),
+          dependency_id TEXT REFERENCES artifacts(id),
+          PRIMARY KEY (dependent_id, dependency_id)
+      );
+      CREATE INDEX idx_artifact_deps_dependency ON artifact_dependencies(dependency_id);
+
+  can_query_artifact_history:
+    supported: false
+    reason: "No version tracking table"
+    workaround: "Can query activity_log for artifact changes"
+    sample_query: |
+      SELECT * FROM activity_log
+      WHERE entity_type = 'artifact' AND entity_id = ?;
+    issues: "activity_log doesn't track artifacts (entity_type IN track, sprint, task)"
+    gap_severity: high
+
+  can_query_stale_artifacts:
+    supported: partial
+    reason: "is_stale column exists"
+    sample_query: |
+      SELECT * FROM artifacts WHERE is_stale = 1;
+    current_result: "No rows (table empty)"
+    when_populated: "Will work correctly"
+    gap_severity: low
+
+  can_query_missing_files:
+    supported: partial
+    reason: "file_exists column exists"
+    sample_query: |
+      SELECT * FROM artifacts WHERE file_exists = 0;
+    current_result: "No rows (table empty)"
+    when_populated: "Will work correctly"
+    gap_severity: low
+
+  can_query_documentation_coverage:
+    supported: partial
+    reason: "documents_artifact_id exists"
+    sample_query: |
+      -- Find code artifacts with no documentation
+      SELECT a.*
+      FROM artifacts a
+      WHERE a.artifact_type = 'code'
+      AND NOT EXISTS (
+          SELECT 1 FROM artifacts doc
+          WHERE doc.documents_artifact_id = a.id
+      );
+    current_result: "No rows (table empty)"
+    when_populated: "Will work correctly"
+    gap_severity: medium
+
+  can_query_test_coverage:
+    supported: false
+    reason: "No test-to-code relationship"
+    workaround: "None"
+    proposed_solution: |
+      -- Add relationship table
+      CREATE TABLE artifact_tests_code (
+          test_artifact_id TEXT REFERENCES artifacts(id),
+          code_artifact_id TEXT REFERENCES artifacts(id),
+          PRIMARY KEY (test_artifact_id, code_artifact_id)
+      );
+
+      -- Then query untested code
+      CREATE VIEW v_untested_code AS
+      SELECT a.*
+      FROM artifacts a
+      WHERE a.artifact_type = 'code'
+      AND NOT EXISTS (
+          SELECT 1 FROM artifact_tests_code tc
+          WHERE tc.code_artifact_id = a.id
+      );
+    gap_severity: critical
+
+# Recommended views to add
+recommended_views:
+
+  v_task_artifacts:
+    purpose: "All artifacts produced by a task"
+    depends_on: "entity_artifacts table"
+    priority: critical
+    sql: |
+      CREATE VIEW v_task_artifacts AS
+      SELECT
+          t.id as task_id,
+          t.title as task_title,
+          t.status as task_status,
+          a.*
+      FROM tasks t
+      JOIN entity_artifacts ea ON ea.owner_type = 'task' AND ea.owner_id = t.id
+      JOIN artifacts a ON ea.artifact_id = a.id;
+
+  v_sprint_artifact_summary:
+    purpose: "Artifact counts and types per sprint"
+    depends_on: "entity_artifacts table"
+    priority: high
+    sql: |
+      CREATE VIEW v_sprint_artifact_summary AS
+      SELECT
+          s.id as sprint_id,
+          s.name as sprint_name,
+          COUNT(DISTINCT a.id) as artifact_count,
+          GROUP_CONCAT(DISTINCT a.artifact_type) as artifact_types
+      FROM sprints s
+      LEFT JOIN entity_artifacts ea ON ea.owner_type = 'sprint' AND ea.owner_id = s.id
+      LEFT JOIN artifacts a ON ea.artifact_id = a.id
+      GROUP BY s.id, s.name;
+
+  v_artifact_by_type:
+    purpose: "Artifacts grouped by type with counts"
+    depends_on: "populated artifacts table"
+    priority: medium
+    sql: |
+      CREATE VIEW v_artifact_by_type AS
+      SELECT
+          artifact_type,
+          artifact_subtype,
+          COUNT(*) as count,
+          SUM(CASE WHEN is_stale = 1 THEN 1 ELSE 0 END) as stale_count,
+          SUM(CASE WHEN file_exists = 0 THEN 1 ELSE 0 END) as missing_count
+      FROM artifacts
+      GROUP BY artifact_type, artifact_subtype;
+
+  v_untested_code:
+    purpose: "Code artifacts without corresponding tests"
+    depends_on: "artifact_tests_code table"
+    priority: critical
+    sql: "See can_query_test_coverage above"
+
+  v_undocumented_code:
+    purpose: "Code artifacts without documentation"
+    depends_on: "populated artifacts table"
+    priority: high
+    sql: |
+      CREATE VIEW v_undocumented_code AS
+      SELECT a.*
+      FROM artifacts a
+      WHERE a.artifact_type = 'code'
+      AND NOT EXISTS (
+          SELECT 1 FROM artifacts doc
+          WHERE doc.documents_artifact_id = a.id
+          AND doc.artifact_type = 'documentation'
+      );
+
+  v_artifact_dependency_graph:
+    purpose: "All artifact dependencies for visualization"
+    depends_on: "artifact_dependencies table (normalized)"
+    priority: medium
+    sql: |
+      CREATE VIEW v_artifact_dependency_graph AS
+      SELECT
+          a1.id as source_id,
+          a1.name as source_name,
+          a1.artifact_type as source_type,
+          a2.id as target_id,
+          a2.name as target_name,
+          a2.artifact_type as target_type
+      FROM artifact_dependencies ad
+      JOIN artifacts a1 ON ad.dependent_id = a1.id
+      JOIN artifacts a2 ON ad.dependency_id = a2.id;
+
+# Current query patterns analysis
+query_pattern_analysis:
+
+  json_based_queries:
+    pattern: "Using JSON columns for relationships"
+    examples:
+      - "tasks.commits_json"
+      - "tasks.deliverables_json"
+      - "artifacts.depends_on_artifact_ids"
+    issues:
+      - "Cannot use indexes efficiently"
+      - "Complex WHERE clauses"
+      - "No foreign key integrity"
+      - "Harder to aggregate"
+    recommendation: "Normalize to relationship tables OR use SQLite JSON functions"
+
+  aggregation_via_views:
+    pattern: "Roll up data from child to parent"
+    examples:
+      - "v_sprint_commits aggregates from tasks"
+      - "v_track_commits aggregates from sprints"
+    assessment: "Good pattern, but source data is empty"
+
+  polymorphic_relationships:
+    pattern: "entity_type + entity_id pattern"
+    examples:
+      - "entity_blocks, entity_blocked_by"
+      - "entity_commits, entity_deliverables"
+    assessment: "Well-designed but unpopulated"
+
+# Implementation priority
+implementation_priority:
+
+  phase_1_blocking:
+    description: "Unblock artifact queries"
+    tasks:
+      - "Create entity_artifacts table"
+      - "Populate artifacts table from file inventory"
+      - "Link artifacts to tasks via entity_artifacts"
+    estimated_effort: "4 hours"
+
+  phase_2_relationships:
+    description: "Enable relationship queries"
+    tasks:
+      - "Create artifact_tests_code table"
+      - "Normalize depends_on_artifact_ids"
+      - "Create artifact_dependencies table"
+    estimated_effort: "3 hours"
+
+  phase_3_views:
+    description: "Add query convenience views"
+    tasks:
+      - "Create v_task_artifacts"
+      - "Create v_untested_code"
+      - "Create v_undocumented_code"
+      - "Create v_artifact_by_type"
+    estimated_effort: "2 hours"
+
+# Summary
+assessment_summary:
+  current_state: |
+    The database has good infrastructure for artifact queries but no data to query.
+    All artifact-related tables and JSON columns are empty.
+    Views that aggregate artifacts work correctly but return no results.
+
+  blocking_issues:
+    - "artifacts table is empty (0 rows)"
+    - "commits table is empty (0 rows)"
+    - "deliverables table is empty (0 rows)"
+    - "entity_commits/entity_deliverables empty"
+    - "entity_artifacts table doesn't exist"
+
+  when_fixed: |
+    Once artifacts are populated and entity_artifacts is added:
+    - All type/subtype queries will work
+    - Staleness detection will work
+    - Documentation coverage queries will work
+    - Need test_tests_code for test coverage queries
+    - Need normalized dependencies for dependency graph
+
+  overall_score: "25% - Infrastructure exists, data is missing"

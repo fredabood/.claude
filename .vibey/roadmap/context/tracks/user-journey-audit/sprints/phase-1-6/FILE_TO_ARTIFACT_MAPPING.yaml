@@ -1,0 +1,342 @@
+# File to Artifact Type Mapping
+# Generated: 2025-12-12
+# Sprint: Phase 1.6 - Database Artifact Audit
+# Task: Map file audit outputs to artifact types
+
+# Maps file categories discovered in Sprints 1.1-1.5 to artifact types
+# trackable in the database artifacts table.
+
+mapping_summary:
+  total_files_audited: 856
+  file_categories: 6
+  artifact_types_needed: 9
+  missing_artifact_types: 0
+  new_subtypes_needed: 12
+
+# File inventory summary from Sprint 1.1
+file_inventory:
+  by_extension:
+    .py: 522
+    .md: 272
+    .yaml: 41
+    .sh: 5
+    template: 5
+    .j2: 3
+    .sql: 2
+    .typed: 1
+    no_extension: 5
+
+# Mapping from file categories to artifact types
+category_mappings:
+
+  # Sprint 1.2: Core Library (367 Python files)
+  - category: core_library
+    source_sprint: "Phase 1.2"
+    file_count: 367
+    extensions: [.py]
+    directories:
+      - vibey/cli
+      - vibey/operations
+      - vibey/roadmap
+      - vibey/mcp
+      - vibey/adapters
+      - vibey/common
+      - vibey/config
+      - vibey/content
+      - vibey/platform
+    artifact_mapping:
+      type: code
+      subtypes:
+        - { subtype: cli, directories: [vibey/cli] }
+        - { subtype: operations, directories: [vibey/operations] }
+        - { subtype: models, directories: [vibey/roadmap/models] }
+        - { subtype: serialization, directories: [vibey/roadmap/serialization] }
+        - { subtype: database, directories: [vibey/roadmap/database] }
+        - { subtype: mcp, directories: [vibey/mcp] }
+        - { subtype: adapters, directories: [vibey/adapters] }
+        - { subtype: platform, directories: [vibey/platform] }
+        - { subtype: common, directories: [vibey/common] }
+        - { subtype: config_loader, directories: [vibey/config] }
+    metadata_needed:
+      - module_name: "Python module path (e.g., vibey.cli.commands)"
+      - line_count: "Lines of code"
+      - has_tests: "Boolean: corresponding test file exists"
+      - test_file_path: "Path to test file if exists"
+      - quality_score: "Audit quality score (0-100)"
+      - quality_grade: "A-F grade"
+      - docstring_coverage: "Percentage of functions with docstrings"
+      - type_hint_coverage: "Percentage of functions with type hints"
+
+  # Sprint 1.3: Documentation (187 Markdown files)
+  - category: documentation
+    source_sprint: "Phase 1.3"
+    file_count: 187
+    extensions: [.md]
+    directories:
+      - docs/
+      - README.md
+      - CLAUDE.md
+      - CHANGELOG.md
+    artifact_mapping:
+      type: documentation
+      subtypes:
+        - { subtype: user_guide, directories: [docs/getting-started, docs/guides] }
+        - { subtype: reference, directories: [docs/reference] }
+        - { subtype: development, directories: [docs/development] }
+        - { subtype: operations, directories: [docs/operations] }
+        - { subtype: roadmap_docs, directories: [docs/roadmap] }
+        - { subtype: root_docs, directories: ["."], files: [README.md, CLAUDE.md, CHANGELOG.md] }
+    metadata_needed:
+      - word_count: "Approximate word count"
+      - has_deprecated_refs: "Boolean: contains deprecated /vibey references"
+      - version_references: "List of version numbers found"
+      - quality_score: "Audit quality score (0-100)"
+      - quality_grade: "A-F grade"
+      - last_meaningful_update: "Date of last non-trivial change"
+    staleness_detection:
+      enabled: true
+      documents_code: true
+      staleness_indicators:
+        - "References deleted /vibey slash commands"
+        - "Version mismatch with current"
+        - "References non-existent files"
+
+  # Sprint 1.4: Test Suite (155 test files, ~2,681 tests)
+  - category: tests
+    source_sprint: "Phase 1.4"
+    file_count: 155
+    extensions: [.py]
+    directories:
+      - tests/
+    artifact_mapping:
+      type: test
+      subtypes:
+        - { subtype: unit, directories: [tests/unit] }
+        - { subtype: integration, directories: [tests/integration] }
+        - { subtype: e2e, directories: [tests/e2e] }
+        - { subtype: cli_tests, directories: [tests/cli] }
+        - { subtype: mcp_tests, directories: [tests/mcp] }
+        - { subtype: platform_tests, directories: [tests/platform] }
+        - { subtype: roadmap_tests, directories: [tests/roadmap] }
+        - { subtype: operations_tests, directories: [tests/operations] }
+    metadata_needed:
+      - test_count: "Number of test functions"
+      - pass_rate: "Percentage of tests passing"
+      - coverage_percent: "Line coverage percentage"
+      - tests_code_file: "Path to code file being tested"
+      - quality_score: "Audit quality score (0-100)"
+      - fixtures_used: "List of pytest fixtures used"
+    relationships:
+      - type: tests_artifact
+        target_type: code
+        description: "Link to code file this test file tests"
+
+  # Sprint 1.5: Scripts (4 scripts)
+  - category: scripts
+    source_sprint: "Phase 1.5"
+    file_count: 4
+    extensions: [.py, .sh]
+    directories:
+      - scripts/
+    artifact_mapping:
+      type: code
+      subtypes:
+        - { subtype: utility_script, extensions: [.py] }
+        - { subtype: shell_script, extensions: [.sh] }
+    metadata_needed:
+      - purpose: "Script purpose description"
+      - status: "active, deprecated, or to_delete"
+      - cli_migration_candidate: "Boolean: should migrate to CLI"
+      - quality_score: "Audit quality score (0-100)"
+      - last_used: "Date last executed (if known)"
+
+  # Sprint 1.5: Configuration files (6 files)
+  - category: configuration
+    source_sprint: "Phase 1.5"
+    file_count: 6
+    extensions: [.toml, .yaml, .ini, .in]
+    files:
+      - pyproject.toml
+      - pytest.ini
+      - .coveragerc
+      - .pre-commit-config.yaml
+      - .gitignore
+      - MANIFEST.in
+    artifact_mapping:
+      type: config
+      subtypes:
+        - { subtype: project_config, files: [pyproject.toml, MANIFEST.in] }
+        - { subtype: test_config, files: [pytest.ini, .coveragerc] }
+        - { subtype: ci_config, files: [.pre-commit-config.yaml] }
+        - { subtype: git_config, files: [.gitignore] }
+    metadata_needed:
+      - config_type: "Type of configuration"
+      - quality_score: "Audit quality score (0-100)"
+      - issues_found: "List of issues from audit"
+      - validation_status: "passes/fails schema validation"
+
+  # Context files (not formally audited but critical)
+  - category: context
+    source_sprint: "N/A"
+    file_count: "~100+"
+    extensions: [.yaml, .md]
+    directories:
+      - .vibey/roadmap/context/
+    artifact_mapping:
+      type: context
+      subtypes:
+        - { subtype: sprint_context, pattern: ".vibey/roadmap/context/tracks/*/sprints/*/" }
+        - { subtype: track_context, pattern: ".vibey/roadmap/context/tracks/*/" }
+        - { subtype: audit_deliverable, pattern: "*_AUDIT*.md, *_SUMMARY.md" }
+    metadata_needed:
+      - context_type: "sprint_plan, audit_result, design_doc"
+      - related_sprint_id: "ULID of related sprint"
+      - related_task_id: "ULID of related task"
+      - generated_by: "Agent or human that created it"
+    relationships:
+      - type: documents_sprint
+        target_type: sprint
+        description: "Context file documents a sprint"
+      - type: deliverable_of_task
+        target_type: task
+        description: "Context file is deliverable of a task"
+
+# Artifact type coverage analysis
+artifact_type_analysis:
+
+  # Database artifact types vs file categories
+  database_artifact_types:
+    code:
+      file_categories: [core_library, scripts]
+      file_extensions: [.py, .sh]
+      estimated_files: 371
+    test:
+      file_categories: [tests]
+      file_extensions: [.py]
+      estimated_files: 155
+    config:
+      file_categories: [configuration]
+      file_extensions: [.toml, .yaml, .ini, .in]
+      estimated_files: 47
+    documentation:
+      file_categories: [documentation]
+      file_extensions: [.md]
+      estimated_files: 187
+    context:
+      file_categories: [context]
+      file_extensions: [.yaml, .md]
+      estimated_files: 100
+    agent:
+      file_categories: []  # framework/agents/ - not audited
+      file_extensions: [.md]
+      estimated_files: 12
+    workflow:
+      file_categories: []  # framework/workflows/ - not audited
+      file_extensions: [.md]
+      estimated_files: 16
+    template:
+      file_categories: []  # templates
+      file_extensions: [.template, .j2]
+      estimated_files: 8
+    schema:
+      file_categories: []  # .sql files
+      file_extensions: [.sql]
+      estimated_files: 2
+    data:
+      file_categories: []  # no data files found
+      file_extensions: []
+      estimated_files: 0
+    asset:
+      file_categories: []  # no assets found
+      file_extensions: []
+      estimated_files: 0
+    other:
+      file_categories: []  # .typed, no extension
+      file_extensions: [.typed]
+      estimated_files: 6
+
+  # Gap analysis
+  coverage_gaps:
+    - gap: "Framework content not audited"
+      missing: ["framework/agents/", "framework/workflows/", "framework/templates/"]
+      impact: "Cannot track agent/workflow/template artifacts"
+      recommendation: "Add Sprint 1.7 for framework content audit"
+
+    - gap: "Artifact-to-entity linking"
+      missing: "entity_artifacts table"
+      impact: "Cannot link artifacts to tasks/sprints/tracks"
+      recommendation: "Add polymorphic entity_artifacts table"
+
+    - gap: "Artifact provenance"
+      missing: "Commit-to-artifact linking"
+      impact: "Cannot track which commits created which artifacts"
+      recommendation: "Add commit_id to artifact provenance JSON"
+
+# Metadata requirements summary
+metadata_requirements:
+
+  common_fields:
+    - file_path: "Absolute or relative path"
+    - file_size_bytes: "Size in bytes"
+    - last_modified: "ISO timestamp"
+    - content_hash: "SHA256 or similar"
+    - line_count: "Number of lines"
+    - audit_sprint: "Sprint that audited this file"
+    - quality_score: "0-100 score from audit"
+    - quality_grade: "A-F grade"
+
+  provenance_types:
+    manual:
+      description: "Human-written file"
+      fields: [author, created_date]
+    generated:
+      description: "Auto-generated file"
+      fields: [generator_script, generated_at, source_files]
+    ai_created:
+      description: "Created by AI agent"
+      fields: [agent_type, task_id, created_at]
+    migrated:
+      description: "Migrated from old system"
+      fields: [source_path, migrated_at, migration_script]
+
+# Implementation recommendations
+recommendations:
+
+  immediate_actions:
+    - action: "Create artifact import script"
+      description: "Script to read FILE_INVENTORY.yaml and populate artifacts table"
+      priority: high
+
+    - action: "Define artifact subtypes"
+      description: "Formalize artifact_subtype values based on this mapping"
+      priority: high
+
+    - action: "Add entity_artifacts table"
+      description: "Enable linking artifacts to tasks/sprints/tracks"
+      priority: high
+
+  schema_changes:
+    - change: "Add entity_artifacts polymorphic table"
+      sql: |
+        CREATE TABLE entity_artifacts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            owner_type TEXT NOT NULL CHECK (owner_type IN ('track', 'sprint', 'task')),
+            owner_id TEXT NOT NULL,
+            artifact_id TEXT NOT NULL REFERENCES artifacts(id) ON DELETE CASCADE,
+            relationship_type TEXT DEFAULT 'produces',  -- produces, consumes, modifies
+            UNIQUE(owner_type, owner_id, artifact_id)
+        );
+
+    - change: "Extend provenance JSON schema"
+      fields:
+        - commit_id: "Git commit that created/modified artifact"
+        - task_id: "Task that produced the artifact"
+        - sprint_id: "Sprint context for creation"
+
+  population_strategy:
+    phase_1: "Import core library files (367 files)"
+    phase_2: "Import test files with code linkage (155 files)"
+    phase_3: "Import documentation files (187 files)"
+    phase_4: "Import configuration and scripts (10 files)"
+    phase_5: "Import context files (~100+ files)"
+    phase_6: "Establish artifact relationships (test→code, doc→code)"

@@ -1,0 +1,336 @@
+# Missing Relationship Types Analysis
+# Generated: 2025-12-12
+# Sprint: Phase 1.6 - Database Artifact Audit
+# Task: Identify missing relationship types
+
+# Based on file dependency patterns discovered in Sprint 1.1 and
+# relationship model analysis from Task 3.
+
+summary:
+  existing_relationship_types: 6
+  missing_relationship_types: 8
+  partially_supported: 2
+  priority_additions: 4
+
+# Current relationship types in schema
+existing_relationship_types:
+
+  entity_to_entity:
+    - type: blocks
+      table: entity_blocks
+      description: "Entity A blocks Entity B"
+      status: implemented_but_empty
+      row_count: 0
+
+    - type: blocked_by
+      table: entity_blocked_by
+      description: "Entity A is blocked by Entity B"
+      status: implemented_but_empty
+      row_count: 0
+      has_triggers: true
+
+    - type: depends_on
+      table: entity_depends_on
+      description: "Soft dependency between entities"
+      status: implemented_but_empty
+      row_count: 0
+
+  entity_to_artifact:
+    - type: commits
+      table: entity_commits
+      description: "Entity has commits"
+      status: implemented_but_empty
+      row_count: 0
+
+    - type: deliverables
+      table: entity_deliverables
+      description: "Entity has deliverables"
+      status: implemented_but_empty
+      row_count: 0
+
+  artifact_to_artifact:
+    - type: documents
+      column: artifacts.documents_artifact_id
+      description: "Artifact documents another artifact"
+      status: implemented_but_empty
+
+    - type: depends_on
+      column: artifacts.depends_on_artifact_ids
+      description: "Artifact depends on other artifacts (JSON array)"
+      status: implemented_but_empty
+
+# Missing relationship types
+missing_relationship_types:
+
+  # Priority 1: Critical for artifact tracking
+  priority_1_critical:
+
+    - type: entity_produces_artifact
+      description: "Task/Sprint/Track produces an artifact as output"
+      use_cases:
+        - "Track deliverables from task completion"
+        - "Link audit results to audit tasks"
+        - "Associate generated docs with tasks"
+      current_gap: "No way to link artifacts to tasks that produced them"
+      proposed_schema:
+        table: entity_artifacts
+        columns:
+          - { name: owner_type, type: TEXT, check: "IN ('track', 'sprint', 'task')" }
+          - { name: owner_id, type: TEXT }
+          - { name: artifact_id, type: TEXT, fk: "artifacts(id)" }
+          - { name: relationship_type, type: TEXT, default: produces }
+          - { name: added_at, type: TEXT }
+      priority: critical
+      effort: "1 hour"
+
+    - type: test_tests_code
+      description: "Test file tests a code file"
+      use_cases:
+        - "Identify untested code files"
+        - "Track test coverage at file level"
+        - "Navigate from code to its tests"
+      current_gap: "No test-to-code relationship"
+      proposed_approaches:
+        - approach_a:
+            name: "Use depends_on_artifact_ids"
+            description: "Test artifact depends on code artifact it tests"
+            pros: "No schema change needed"
+            cons: "Overloads 'depends' semantics"
+        - approach_b:
+            name: "Add tests_artifact_id column"
+            description: "New column on test artifacts"
+            pros: "Clear semantics"
+            cons: "Only supports 1:1 relationship"
+        - approach_c:
+            name: "New artifact_tests_code table"
+            description: "Dedicated relationship table"
+            pros: "M:N support, clear semantics"
+            cons: "New table"
+      recommended: approach_c
+      priority: critical
+      effort: "1 hour"
+
+  # Priority 2: Important for dependency tracking
+  priority_2_important:
+
+    - type: python_imports
+      description: "Code file imports another code file"
+      use_cases:
+        - "Understand module dependencies"
+        - "Impact analysis for changes"
+        - "Detect circular dependencies"
+        - "Calculate import graph"
+      current_gap: "No import relationship tracking"
+      proposed_schema:
+        table: artifact_imports
+        columns:
+          - { name: importer_id, type: TEXT, fk: "artifacts(id)" }
+          - { name: imported_id, type: TEXT, fk: "artifacts(id)" }
+          - { name: import_type, type: TEXT, check: "IN ('direct', 'from', 'relative')" }
+          - { name: import_statement, type: TEXT, description: "Full import line" }
+          - { name: extracted_at, type: TEXT }
+        indexes:
+          - idx_imports_importer
+          - idx_imports_imported
+      priority: important
+      effort: "1.5 hours"
+
+    - type: config_configures
+      description: "Config file configures a code/test artifact"
+      use_cases:
+        - "Track which configs affect which code"
+        - "Understand pytest.ini affects on tests"
+        - "Link pyproject.toml to package"
+      current_gap: "No config-to-code relationship"
+      proposed_approach: "Use depends_on_artifact_ids with config as dependency"
+      alternative: "Metadata field in code artifacts listing config sources"
+      priority: important
+      effort: "30 minutes"
+
+  # Priority 3: Nice to have
+  priority_3_nice_to_have:
+
+    - type: doc_references_code
+      description: "Documentation references specific code (not full documentation)"
+      use_cases:
+        - "Track code references in docs"
+        - "Update docs when code changes"
+        - "Navigate from code to documentation"
+      current_gap: "documents_artifact_id is for full documentation only"
+      proposed_approach: "Metadata field with referenced artifact IDs"
+      priority: nice_to_have
+      effort: "30 minutes"
+
+    - type: artifact_supersedes
+      description: "New artifact replaces an old artifact"
+      use_cases:
+        - "Track file renames"
+        - "Track refactoring (split/merge)"
+        - "Maintain history through reorganization"
+      current_gap: "No supersession tracking"
+      proposed_schema:
+        columns:
+          - { name: supersedes_artifact_id, type: TEXT, fk: "artifacts(id)" }
+          - { name: superseded_at, type: TEXT }
+          - { name: supersession_type, type: TEXT, check: "IN ('rename', 'split', 'merge', 'replace')" }
+      priority: nice_to_have
+      effort: "1 hour"
+
+    - type: artifact_version
+      description: "Track versions of same artifact over time"
+      use_cases:
+        - "Track file changes"
+        - "Enable point-in-time queries"
+        - "Audit history"
+      current_gap: "No version tracking"
+      proposed_schema:
+        table: artifact_versions
+        description: "See MISSING_ARTIFACT_TYPES.yaml for full schema"
+      priority: nice_to_have
+      effort: "1.5 hours"
+
+    - type: external_dependency
+      description: "Artifact depends on external system/library"
+      use_cases:
+        - "Track pip dependencies"
+        - "Track external service dependencies"
+        - "Risk assessment for external deps"
+      current_state: "external_dependencies table exists for entities, not artifacts"
+      proposed_approach: "Add artifact_id column to external_dependencies"
+      priority: nice_to_have
+      effort: "30 minutes"
+
+# Partially supported relationships
+partially_supported:
+
+  - type: artifact_documents_artifact
+    current_support:
+      column: documents_artifact_id
+      description: "FK to artifact this documents"
+      limitation: "Only supports 1:1 relationship"
+    needed_enhancement:
+      description: "Support M:N documentation relationships"
+      approach: "Convert to artifact_documentation table or JSON array"
+    use_case: "One README documenting multiple code files"
+    priority: medium
+
+  - type: artifact_depends_on_artifacts
+    current_support:
+      column: depends_on_artifact_ids
+      description: "JSON array of artifact IDs"
+      limitation: "JSON makes queries complex"
+    needed_enhancement:
+      description: "Proper relationship table for dependency tracking"
+      approach: |
+        CREATE TABLE artifact_dependencies (
+            dependent_id TEXT REFERENCES artifacts(id),
+            dependency_id TEXT REFERENCES artifacts(id),
+            dependency_type TEXT DEFAULT 'requires',
+            PRIMARY KEY (dependent_id, dependency_id)
+        );
+    priority: medium
+
+# Relationship type coverage by file category
+coverage_by_file_category:
+
+  core_library:
+    files: 367
+    needed_relationships:
+      - python_imports: "Track which files import which"
+      - test_tests_code: "Link to test files"
+      - doc_references: "Link to documenting files"
+      - config_configures: "Link to config files"
+    current_coverage: 0%
+
+  tests:
+    files: 155
+    needed_relationships:
+      - test_tests_code: "Link to code being tested"
+      - depends_on: "Test dependencies (fixtures, shared utilities)"
+    current_coverage: 0%
+
+  documentation:
+    files: 187
+    needed_relationships:
+      - documents_artifact: "What code does this document"
+      - references_code: "Code snippets referenced"
+    current_coverage: 0%
+    note: "documents_artifact_id exists but not populated"
+
+  scripts:
+    files: 4
+    needed_relationships:
+      - entity_produces: "Task that created script"
+      - artifact_supersedes: "Track deprecation"
+    current_coverage: 0%
+
+  configuration:
+    files: 6
+    needed_relationships:
+      - config_configures: "What this config affects"
+      - depends_on: "Config includes/extends"
+    current_coverage: 0%
+
+# Implementation roadmap
+implementation_roadmap:
+
+  phase_1_essential:
+    duration: "2 hours"
+    deliverables:
+      - table: entity_artifacts
+        description: "Enable task → artifact linking"
+      - population: "Initial artifact loading"
+
+  phase_2_testing:
+    duration: "1.5 hours"
+    deliverables:
+      - relationship: test_tests_code
+        approach: "Use approach_c (artifact_tests_code table)"
+      - population: "Map test files to code files"
+
+  phase_3_imports:
+    duration: "3 hours"
+    deliverables:
+      - table: artifact_imports
+        description: "Python import tracking"
+      - script: "Import extraction script"
+      - population: "Scan all Python files"
+
+  phase_4_enhancement:
+    duration: "2 hours"
+    deliverables:
+      - normalize: "Convert depends_on_artifact_ids to proper table"
+      - normalize: "Consider documents_artifact_id to M:N"
+
+# Schema additions summary
+schema_additions:
+
+  new_tables:
+    - name: entity_artifacts
+      purpose: "Link entities to artifacts"
+      priority: critical
+
+    - name: artifact_tests_code
+      purpose: "Link test artifacts to code artifacts"
+      priority: critical
+
+    - name: artifact_imports
+      purpose: "Track Python import relationships"
+      priority: important
+
+    - name: artifact_dependencies
+      purpose: "Normalized artifact dependency relationships"
+      priority: medium
+
+  column_additions:
+    - table: artifacts
+      column: supersedes_artifact_id
+      purpose: "Track artifact replacement"
+      priority: nice_to_have
+
+    - table: external_dependencies
+      column: artifact_id
+      purpose: "Link external deps to artifacts"
+      priority: nice_to_have
+
+  estimated_total_effort: "6-8 hours for all phases"

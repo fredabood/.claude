@@ -1,0 +1,412 @@
+# Artifact Metadata Assessment
+# Generated: 2025-12-12
+# Sprint: Phase 1.6 - Database Artifact Audit
+# Task: Assess artifact metadata completeness
+
+# For each trackable artifact type, assess whether the schema captures
+# sufficient metadata for effective artifact tracking.
+
+summary:
+  artifact_types_assessed: 12
+  metadata_completeness: "45%"
+  critical_gaps: 8
+  recommended_additions: 23
+
+# Current artifacts table metadata fields
+existing_metadata_fields:
+  identity:
+    - { field: id, type: TEXT, status: adequate, notes: "ULID identifier" }
+    - { field: name, type: TEXT, status: adequate, notes: "Human-readable name" }
+    - { field: description, type: TEXT, status: adequate, notes: "Optional description" }
+
+  file_location:
+    - { field: paths, type: JSON, status: adequate, notes: "Supports multiple paths" }
+    - { field: content_hash, type: TEXT, status: adequate, notes: "For staleness detection" }
+    - { field: last_verified, type: TEXT, status: adequate, notes: "When hash was verified" }
+
+  classification:
+    - field: artifact_type
+      type: TEXT
+      status: adequate
+      notes: "12 types defined"
+      values: [code, test, config, documentation, context, agent, workflow, template, data, asset, schema, other]
+    - { field: artifact_subtype, type: TEXT, status: incomplete, notes: "No defined values" }
+
+  provenance:
+    - field: provenance
+      type: JSON
+      status: partial
+      notes: "Flexible but undefined structure"
+      current_fields: [provenance_type]
+      missing_fields: [created_by, created_via, task_id, commit_sha, agent_type]
+
+  relationships:
+    - { field: documents_artifact_id, type: TEXT, status: adequate, notes: "1:1 documentation link" }
+    - { field: depends_on_artifact_ids, type: JSON, status: partial, notes: "Array, hard to query" }
+
+  state:
+    - { field: file_exists, type: INTEGER, status: adequate, notes: "Boolean for existence" }
+    - { field: is_stale, type: INTEGER, status: adequate, notes: "Boolean for staleness" }
+    - { field: documented_source_hash, type: TEXT, status: adequate, notes: "For staleness detection" }
+
+  timestamps:
+    - { field: created_at, type: TEXT, status: adequate, notes: "ISO timestamp" }
+    - { field: updated_at, type: TEXT, status: adequate, notes: "ISO timestamp" }
+
+# Per-artifact-type assessment
+artifact_type_assessments:
+
+  code:
+    completeness: "35%"
+    adequate_fields:
+      - id, name, description
+      - paths, content_hash
+      - artifact_type
+      - created_at, updated_at
+    missing_fields:
+      - line_count: "Lines of code"
+      - module_path: "Python import path"
+      - language: "Programming language"
+      - has_tests: "Boolean"
+      - test_coverage: "Percentage"
+      - docstring_coverage: "Percentage"
+      - type_hint_coverage: "Percentage"
+      - quality_score: "Audit quality score"
+      - quality_grade: "A-F grade"
+      - complexity_score: "Cyclomatic or similar"
+      - imports: "List of imports"
+      - exports: "List of exports"
+    provenance_needs:
+      - author: "Primary author"
+      - created_commit: "Git commit that created file"
+      - last_modified_commit: "Most recent git commit"
+    recommendations:
+      - "Add code-specific metadata fields or extend provenance JSON"
+      - "Define artifact_subtype values for code categories"
+
+  test:
+    completeness: "30%"
+    adequate_fields:
+      - id, name, description
+      - paths, content_hash
+      - artifact_type
+    missing_fields:
+      - test_count: "Number of test functions"
+      - test_class_count: "Number of test classes"
+      - pass_rate: "Last known pass percentage"
+      - last_run_at: "When tests last executed"
+      - tests_artifact_id: "Code file being tested"
+      - fixtures_used: "List of pytest fixtures"
+      - markers_used: "List of pytest markers"
+      - quality_score: "Test quality score"
+    provenance_needs:
+      - test_framework: "pytest, unittest, etc."
+      - generated_vs_manual: "How test was created"
+    recommendations:
+      - "Add test_tests_code relationship"
+      - "Add test execution metadata"
+
+  config:
+    completeness: "40%"
+    adequate_fields:
+      - id, name, description
+      - paths, content_hash
+      - artifact_type
+    missing_fields:
+      - config_format: "YAML, TOML, INI, etc."
+      - validation_status: "Passes schema validation"
+      - schema_path: "Path to validation schema"
+      - configures_artifacts: "What this configures"
+      - issues_found: "List of issues from audit"
+    provenance_needs:
+      - config_source: "Template, generated, manual"
+    recommendations:
+      - "Define config_configures relationship"
+      - "Add validation metadata"
+
+  documentation:
+    completeness: "50%"
+    adequate_fields:
+      - id, name, description
+      - paths, content_hash
+      - artifact_type
+      - documents_artifact_id
+      - is_stale, documented_source_hash
+    missing_fields:
+      - word_count: "Approximate word count"
+      - reading_time_minutes: "Estimated read time"
+      - has_deprecated_refs: "Contains deprecated commands"
+      - version_references: "Versions mentioned"
+      - heading_count: "Number of headings"
+      - code_block_count: "Code examples included"
+      - link_count: "Internal/external links"
+      - documents_files: "Array of documented files"
+      - quality_score: "Documentation quality score"
+    provenance_needs:
+      - doc_type: "user_guide, reference, tutorial"
+      - audience: "users, developers, ops"
+    recommendations:
+      - "Add M:N documentation relationship"
+      - "Enable staleness detection for all doc types"
+
+  context:
+    completeness: "25%"
+    adequate_fields:
+      - id, name
+      - paths
+      - artifact_type
+    missing_fields:
+      - context_type: "sprint_plan, audit_result, design_doc"
+      - related_sprint_id: "Sprint this context belongs to"
+      - related_task_id: "Task that produced this"
+      - generated_by: "Agent or user"
+      - purpose: "Why this context was created"
+      - expiration: "When context becomes irrelevant"
+    provenance_needs:
+      - generation_source: "AI agent, human, template"
+      - template_used: "If from template"
+    recommendations:
+      - "Critical: Link context to sprints/tasks via entity_artifacts"
+      - "Define context_type taxonomy"
+
+  agent:
+    completeness: "35%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - agent_version: "Agent definition version"
+      - trigger_patterns: "When agent activates"
+      - tools_available: "Tools agent can use"
+      - handoff_templates: "Templates agent uses"
+      - quality_criteria: "What makes output good"
+    provenance_needs:
+      - framework_version: "Vibey version"
+    recommendations:
+      - "Extend for agent-specific metadata"
+
+  workflow:
+    completeness: "35%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - step_count: "Number of workflow steps"
+      - agents_used: "Agents involved"
+      - project_types: "Applicable project types"
+      - estimated_duration: "How long workflow takes"
+      - complexity_level: "simple, medium, complex"
+    provenance_needs:
+      - framework_version: "Vibey version"
+    recommendations:
+      - "Extend for workflow-specific metadata"
+
+  template:
+    completeness: "40%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - template_engine: "Jinja2, Mustache, etc."
+      - variables: "List of template variables"
+      - renders_to: "Output artifact type"
+      - sample_output: "Example rendered output"
+    provenance_needs:
+      - template_version: "Template version"
+    recommendations:
+      - "Add template variable discovery"
+
+  schema:
+    completeness: "40%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - schema_type: "JSON Schema, SQL DDL, etc."
+      - table_count: "For SQL schemas"
+      - validates_artifacts: "What artifacts use this schema"
+      - version: "Schema version"
+    provenance_needs:
+      - generated_from: "If auto-generated"
+    recommendations:
+      - "Link schemas to artifacts they validate"
+
+  data:
+    completeness: "30%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - data_format: "JSON, CSV, SQLite, etc."
+      - row_count: "For tabular data"
+      - record_count: "For structured data"
+      - schema_id: "Schema that validates this"
+      - sample_record: "Example record"
+    provenance_needs:
+      - data_source: "Where data came from"
+      - extraction_date: "When data was extracted"
+    recommendations:
+      - "Add data-specific metadata fields"
+
+  asset:
+    completeness: "30%"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - asset_type: "image, font, icon, binary"
+      - dimensions: "For images"
+      - format: "File format (PNG, JPG, etc.)"
+      - size_bytes: "File size"
+    provenance_needs:
+      - asset_source: "Created, purchased, open-source"
+      - license: "License terms"
+    recommendations:
+      - "Add asset-specific metadata"
+
+  other:
+    completeness: "20%"
+    notes: "Catch-all category, minimal metadata by design"
+    adequate_fields:
+      - id, name, description
+      - paths
+      - artifact_type
+    missing_fields:
+      - actual_type: "What type this really is"
+      - reason_other: "Why not in another category"
+    recommendations:
+      - "Review artifacts in 'other' for recategorization"
+
+# Provenance JSON schema assessment
+provenance_schema_assessment:
+  current_state: "Flexible but undefined"
+  defined_fields:
+    - provenance_type: "manual, generated, ai_created, migrated"
+  missing_critical_fields:
+    - created_by:
+        description: "User or system that created"
+        importance: critical
+    - task_id:
+        description: "Task that produced this artifact"
+        importance: critical
+    - commit_sha:
+        description: "Git commit associated with creation"
+        importance: high
+    - agent_type:
+        description: "Type of AI agent if AI-created"
+        importance: medium
+    - template_used:
+        description: "Template if generated from template"
+        importance: medium
+    - source_artifacts:
+        description: "Artifacts this was derived from"
+        importance: medium
+
+  recommended_schema:
+    provenance_type: "manual | generated | ai_created | migrated"
+    created_by:
+      type: object
+      properties:
+        type: "user | agent | system"
+        id: "Identifier for creator"
+        name: "Human-readable name"
+    task_context:
+      type: object
+      properties:
+        task_id: "ULID of producing task"
+        sprint_id: "Sprint context"
+        track_id: "Track context"
+    git_context:
+      type: object
+      properties:
+        commit_sha: "Git commit SHA"
+        branch: "Git branch"
+        committed_at: "Commit timestamp"
+    generation_context:
+      type: object
+      properties:
+        template_used: "Template path if applicable"
+        source_artifacts: "Array of source artifact IDs"
+        generation_script: "Script that generated this"
+
+# Overall recommendations
+recommendations:
+  critical_priority:
+    - recommendation: "Define provenance JSON schema"
+      rationale: "Enables consistent artifact attribution"
+      effort: "1 hour"
+
+    - recommendation: "Add entity_artifacts table"
+      rationale: "Links artifacts to tasks that produced them"
+      effort: "1 hour"
+
+    - recommendation: "Define artifact_subtype values"
+      rationale: "Enables filtering by specific artifact categories"
+      effort: "30 minutes"
+
+  high_priority:
+    - recommendation: "Add quality metadata fields"
+      fields: [quality_score, quality_grade]
+      rationale: "Enables quality queries and tracking"
+      effort: "30 minutes"
+
+    - recommendation: "Add code-specific metadata"
+      fields: [line_count, module_path, has_tests]
+      rationale: "Enables code quality queries"
+      effort: "1 hour"
+
+    - recommendation: "Add test-specific metadata"
+      fields: [test_count, pass_rate, tests_artifact_id]
+      rationale: "Enables test health queries"
+      effort: "1 hour"
+
+  medium_priority:
+    - recommendation: "Add documentation metadata"
+      fields: [word_count, has_deprecated_refs]
+      rationale: "Enables doc quality queries"
+      effort: "30 minutes"
+
+    - recommendation: "Add context metadata"
+      fields: [context_type, related_sprint_id]
+      rationale: "Enables context organization"
+      effort: "30 minutes"
+
+# Implementation approach
+implementation_approach:
+  option_a:
+    name: "Extend provenance JSON"
+    pros:
+      - "No schema migration needed"
+      - "Flexible per-type metadata"
+    cons:
+      - "Harder to query"
+      - "No type enforcement"
+    effort: "Low"
+
+  option_b:
+    name: "Add nullable columns"
+    pros:
+      - "Easy to query"
+      - "Type enforcement"
+    cons:
+      - "Many nullable columns"
+      - "Schema migration needed"
+    effort: "Medium"
+
+  option_c:
+    name: "Type-specific metadata tables"
+    pros:
+      - "Clean separation"
+      - "Type-specific indexing"
+    cons:
+      - "More tables to manage"
+      - "Join complexity"
+    effort: "High"
+
+  recommended: "option_a for provenance, option_b for common fields (quality_score, line_count)"

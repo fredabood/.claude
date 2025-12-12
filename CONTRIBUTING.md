@@ -1,18 +1,16 @@
 # Contributing to Vibey Agent Framework
 
-Thank you for your interest in contributing to the Vibey Agent Framework! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to Vibey! This guide will help you get started.
 
 ---
 
 ## Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
+- [Quick Start](#quick-start)
 - [Development Setup](#development-setup)
 - [How to Contribute](#how-to-contribute)
-- [Development Guidelines](#development-guidelines)
-- [Testing](#testing)
-- [Documentation](#documentation)
+- [Development Workflow](#development-workflow)
 - [Submitting Changes](#submitting-changes)
 - [Release Process](#release-process)
 
@@ -24,62 +22,63 @@ Be respectful, constructive, and collaborative. We're all here to make Vibey bet
 
 ---
 
-## Getting Started
+## Quick Start
 
-### Prerequisites
+```bash
+# 1. Fork and clone
+git clone https://github.com/YOUR_USERNAME/vibey.git
+cd vibey
 
-- Python 3.7 or later
-- Git
-- A text editor or IDE
-- Basic understanding of:
-  - AI agent frameworks
-  - YAML configuration
-  - Jinja2 templates
-  - Markdown documentation
+# 2. Create virtual environment
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-### Understanding the Framework
+# 3. Install in development mode
+pip install -e ".[dev]"
 
-Before contributing, familiarize yourself with:
+# 4. Install pre-commit hooks
+pre-commit install
 
-1. **[CLAUDE.md](CLAUDE.md)** - Repository context and development guidelines
-2. **[docs/ROADMAP.md](docs/ROADMAP.md)** - Strategic direction and future plans
-3. **[CHANGELOG.md](CHANGELOG.md)** - Version history and recent changes
-4. **[docs/](docs/)** - User-facing and development documentation
+# 5. Verify setup
+vibey --version
+pytest tests/ -x -q
+```
+
+For detailed setup instructions, see **[Development Setup Guide](docs/development/SETUP.md)**.
 
 ---
 
 ## Development Setup
 
-### 1. Fork and Clone
+### Prerequisites
+
+- **Python 3.9+** (3.11+ recommended)
+- **Git** 2.30+
+- **SQLite** 3.35+ (usually included with Python)
+
+### Detailed Setup
+
+The complete development environment setup is documented in:
+
+- **[docs/development/SETUP.md](docs/development/SETUP.md)** - Environment setup, IDE configuration, troubleshooting
+- **[docs/development/CODING_STANDARDS.md](docs/development/CODING_STANDARDS.md)** - Code style, conventions, best practices
+
+### Verify Your Setup
 
 ```bash
-# Fork the repository on GitHub
-# Then clone your fork
-git clone https://github.com/YOUR_USERNAME/vibey.git
-cd vibey
-```
+# Run the test suite
+pytest tests/ -x -q
 
-### 2. Install Dependencies
+# Check code formatting
+black --check vibey/ tests/
+isort --check vibey/ tests/
 
-```bash
-# Install Python dependencies
-pip install pyyaml jinja2
+# Type checking
+mypy vibey/
 
-# Optional: Install development tools
-pip install pytest black flake8
-```
-
-### 3. Verify Setup
-
-```bash
-# Validate existing configs
-python3 framework/scripts/validate-config.py framework/config/config-templates/web-application-fullstack.yaml
-
-# Render a template
-python3 framework/scripts/render-template.py \
-  -c framework/config/config-templates/web-application-fullstack.yaml \
-  -t framework/templates/CLAUDE.md.template \
-  -o /tmp/test-claude.md
+# CLI works
+vibey --help
+vibey roadmap status
 ```
 
 ---
@@ -88,457 +87,204 @@ python3 framework/scripts/render-template.py \
 
 ### Types of Contributions
 
-We welcome:
-
-1. **Bug fixes** - Fix issues in agents, workflows, scripts
-2. **New agents** - Add specialized agents for new domains
-3. **New workflows** - Add structured processes for common tasks
-4. **New templates** - Add handoff templates for agent communication
-5. **Documentation** - Improve guides, references, examples
-6. **Scripts** - Add utilities for framework management
-7. **Config templates** - Add project type templates
-8. **Platform ports** - Port framework to Goose, Cursor, etc.
+| Type | Description | Good First Issue? |
+|------|-------------|-------------------|
+| Bug fixes | Fix issues in CLI, operations, or MCP server | Yes |
+| Documentation | Improve guides, fix typos, add examples | Yes |
+| Tests | Add test coverage, fix flaky tests | Yes |
+| New features | Add CLI commands, MCP tools | Sometimes |
+| Platform adapters | Add support for new AI platforms | No |
+| Architecture | Core system changes | No |
 
 ### Finding Work
 
-- **Good First Issues** - Look for `good-first-issue` label
-- **Help Wanted** - Check `help-wanted` label
-- **Roadmap Items** - See [docs/ROADMAP.md](docs/ROADMAP.md)
-- **Your Ideas** - Propose new features via issues
+1. **Good First Issues** - Look for the `good-first-issue` label on GitHub
+2. **Roadmap** - Check active sprints: `vibey roadmap status`
+3. **Documentation** - Always welcome improvements
+4. **Your Ideas** - Open an issue to discuss before implementing
+
+### Understanding the Codebase
+
+Before contributing, familiarize yourself with:
+
+| Document | Purpose |
+|----------|---------|
+| [CLAUDE.md](CLAUDE.md) | Repository context and session guidelines |
+| [README.md](README.md) | Project overview and quick start |
+| [CHANGELOG.md](CHANGELOG.md) | Version history and recent changes |
+| [docs/architecture/adr/](docs/architecture/adr/) | Architectural decisions |
 
 ---
 
-## Development Guidelines
+## Development Workflow
 
-### File Organization
+### Project Structure
 
 ```
 vibey/
-├── framework/               # Framework source (gets deployed)
-│   ├── agents/             # Specialized agents
-│   ├── workflows/          # Structured workflows
-│   ├── templates/          # Jinja2 templates
-│   ├── config/             # Config schema and templates
-│   ├── commands/           # Slash commands
-│   ├── scripts/            # Python utilities
-│   └── docs/               # User documentation
-├── docs/                   # Framework development docs
-├── CLAUDE.md               # Repository context
-├── README.md               # Main documentation
-├── CHANGELOG.md            # Version history
-└── CONTRIBUTING.md         # This file
+├── vibey/                    # Python package (ALL code here)
+│   ├── cli/                  # CLI commands (Click)
+│   ├── operations/           # Core business logic
+│   │   ├── roadmap/          # Roadmap operations
+│   │   └── docs/             # Documentation generation
+│   ├── mcp/                  # MCP server implementation
+│   ├── adapters/             # Platform adapters (9 platforms)
+│   ├── common/               # Shared utilities, errors
+│   └── roadmap/              # Models and serialization
+│
+├── .vibey/                   # Framework data
+│   ├── config/               # Modular configuration
+│   └── roadmap/              # Roadmap system (YAML + SQLite)
+│
+├── docs/                     # Documentation
+│   ├── development/          # SETUP.md, CODING_STANDARDS.md
+│   ├── architecture/adr/     # Architectural Decision Records
+│   ├── reference/            # CLI_REFERENCE.md, MCP_REFERENCE.md
+│   └── guides/               # User guides
+│
+├── tests/                    # Test suite
+└── pyproject.toml            # Project configuration
 ```
 
 ### Design Principles
 
-1. **Config-Driven** - Use `{{ config.* }}` for all tech-specific references
-2. **Self-Documenting** - Clear, descriptive names and inline documentation
-3. **Platform-Agnostic** - Core concepts portable across AI platforms
-4. **Quality-First** - Quality gates prevent shipping incomplete work
-5. **User-Friendly** - Conversational, natural language interaction
+1. **YAML Source of Truth** - All roadmap data in human-readable YAML files
+2. **SQLite Query Cache** - Fast queries, regenerable from YAML
+3. **CLI First** - `vibey` command is the primary interface
+4. **MCP for AI** - Model Context Protocol for AI assistant integration
+5. **Platform Agnostic** - Core operations shared across platforms
 
----
+See [Architectural Decision Records](docs/architecture/adr/) for detailed rationale.
 
-## Adding Components
+### Making Changes
 
-### Adding a New Agent
-
-1. **Choose Location**
-   ```
-   framework/agents/
-   ├── planning/         # Strategic planning and research
-   ├── development/      # Code implementation
-   ├── quality/          # Testing, security, performance
-   ├── documentation/    # Docs, diagrams, commits
-   ├── core/             # Framework coordination
-   └── architecture/     # Architecture review
-   ```
-
-2. **Create Agent File**
-   ```markdown
-   # [Agent Name]
-
-   **Role:** [One-line description]
-
-   ## Responsibilities
-   - [Responsibility 1]
-   - [Responsibility 2]
-
-   ## Trigger Patterns (for Balanced/Tiered modes)
-   **Keywords:** [list of keywords]
-   **Contexts:** [list of contexts]
-   **File Patterns:** [list of file patterns]
-
-   ## Process
-   ### Step 1: [Step name]
-   [Instructions using {{ config.* }} for tech references]
-
-   ### Step 2: [Step name]
-   [More instructions]
-
-   ## Quality Standards
-   - [Standard 1]
-   - [Standard 2]
-
-   ## Outputs
-   **Handoff Template:** `templates/handoffs/[template-name].md`
-   **Deliverables:** [List of artifacts]
-
-   ## Examples
-   [Example usage scenarios]
-   ```
-
-3. **Use Config Variables**
-   ```markdown
-   ❌ BAD: Run `pytest` to test your code
-   ✅ GOOD: Run `{{ config.testing.backend.command }}` to test your code
-
-   ❌ BAD: Use React for the frontend
-   ✅ GOOD: Use {{ config.technology_stack.frontend.framework }} for the frontend
-   ```
-
-4. **Add to Documentation**
-   - Update agent count in README
-   - Add to reference documentation
-   - Add example usage
-
-### Adding a New Workflow
-
-1. **Choose Location**
-   ```
-   framework/workflows/
-   ├── planning/         # Planning and design workflows
-   ├── development/      # Development workflows
-   ├── quality/          # Quality assurance workflows
-   └── operations/       # Operational workflows
-   ```
-
-2. **Create Workflow File**
-   ```markdown
-   # [Workflow Name]
-
-   **Purpose:** [One-line description]
-   **Duration:** [Estimated time]
-   **Project Types:** [Applicable project types]
-
-   ## Prerequisites
-   - [Prerequisite 1]
-   - [Prerequisite 2]
-
-   ## Phases
-
-   ### Phase 1: [Phase Name] ([Duration])
-   **Agent:** [Primary agent]
-   **Inputs:** [Required inputs]
-   **Process:** [Step-by-step instructions]
-   **Outputs:** [Deliverables]
-
-   ### Phase 2: [Phase Name] ([Duration])
-   [Same structure]
-
-   ## Success Criteria
-   - [Criterion 1]
-   - [Criterion 2]
-
-   ## Variations
-   ### For Web Apps
-   [Specific instructions]
-
-   ### For APIs
-   [Specific instructions]
-   ```
-
-3. **Update Workflow Selection Guide**
-   - Add to `docs/guides/WORKFLOW_SELECTION_GUIDE.md`
-
-### Adding a New Template
-
-1. **Create Template File**
-   ```
-   framework/templates/handoffs/[name].md
-   ```
-
-2. **Use Jinja2 Syntax**
-   ```jinja2
-   # {{ title }}
-
-   **Date:** {{ date }}
-   **Project:** {{ config.project.name }}
-
-   ## Summary
-   {{ summary }}
-
-   {% if optional_section %}
-   ## Optional Section
-   {{ optional_section }}
-   {% endif %}
-
-   {% for item in items %}
-   - {{ item.name }}: {{ item.description }}
-   {% endfor %}
-   ```
-
-3. **Reference in Agents**
-   - Update agents that use this template
-   - Add examples of usage
-
-### Adding a New Script
-
-1. **Create Script**
-   ```python
-   #!/usr/bin/env python3
-   """
-   Script Name - Brief description
-
-   Longer description of what this script does.
-
-   Usage:
-       python3 script-name.py [arguments]
-   """
-
-   import sys
-   import argparse
-   from pathlib import Path
-   from typing import Optional
-
-   def main():
-       parser = argparse.ArgumentParser(
-           description="Script description"
-       )
-       parser.add_argument('--arg', help='Argument help')
-       args = parser.parse_args()
-
-       # Script logic
-
-       return 0
-
-   if __name__ == '__main__':
-       sys.exit(main())
-   ```
-
-2. **Make Executable**
-   ```bash
-   chmod +x framework/scripts/script-name.py
-   ```
-
-3. **Add Error Handling**
-   ```python
-   try:
-       import yaml
-   except ImportError:
-       print("Error: PyYAML not installed", file=sys.stderr)
-       print("Install: pip install pyyaml", file=sys.stderr)
-       sys.exit(1)
-   ```
-
-4. **Test the Script**
-   ```bash
-   python3 framework/scripts/script-name.py --help
-   python3 framework/scripts/script-name.py [test arguments]
-   ```
-
----
-
-## Testing
-
-### Manual Testing
-
-1. **Test in Isolation**
-   ```bash
-   # Validate config
-   python3 framework/scripts/validate-config.py [config-file]
-
-   # Render template
-   python3 framework/scripts/render-template.py -c [config] -t [template] -o [output]
-   ```
-
-2. **Test Deployment**
-   ```bash
-   # Create test project
-   mkdir /tmp/test-vibey-project
-   cd /tmp/test-vibey-project
-
-   # Copy framework
-   cp -r /path/to/vibey/framework .
-
-   # Test deployment (simulated)
-   cp -r framework/agents .claude/
-   cp -r framework/workflows .claude/
-   # etc.
-   ```
-
-3. **Test with Claude Code**
-   - Deploy to actual project
-   - Run `/vibey` command
-   - Test workflows end-to-end
-
-### Automated Testing
+#### Adding CLI Commands
 
 ```python
-# Coming soon - automated test suite
-# framework/tests/test_agents.py
-# framework/tests/test_workflows.py
-# framework/tests/test_scripts.py
+# vibey/cli/commands.py
+
+@roadmap.command('my-command')
+@click.argument('item_id')
+@click.option('--format', '-f', type=click.Choice(['text', 'json']))
+def my_command(item_id: str, format: str):
+    """Short description for --help."""
+    # Call operations layer
+    result = my_operation(item_id)
+    # Output result
+    click.echo(format_output(result, format))
 ```
 
----
+#### Adding MCP Tools
 
-## Documentation
+```python
+# vibey/mcp/server.py
 
-### Types of Documentation
-
-1. **Documentation** (`docs/`) - All framework documentation
-   - Getting started guides (`docs/getting-started/`)
-   - Usage guides (`docs/guides/`)
-   - Reference documentation (`docs/reference/`)
-   - Development documentation (`docs/development/`)
-
-2. **Content Files** (`framework/`) - Agent and workflow definitions
-   - Architecture decisions
-   - Development history
-   - Roadmap and strategy
-
-3. **Roadmap Documentation** (`.vibey/roadmap/`) - Track/sprint/task context
-   - Analysis and audit reports
-   - Planning documents
-   - Completion reports
-
-4. **Code Documentation** - Inline in agents, workflows, scripts
-   - Clear comments
-   - Usage examples
-   - Config variable references
-
-### Roadmap Documentation Organization
-
-All analysis, reports, and supplementary documentation in the roadmap system must be placed in `context/` directories:
-
-```
-.vibey/roadmap/
-├── roadmap.yaml              # Root state (allowed)
-├── roadmap.md                # Root documentation (allowed)
-├── archived/                 # Historical archives
-│
-└── {track}/
-    ├── track.yaml            # Track state (allowed)
-    ├── track.md              # Track documentation (allowed)
-    ├── context/              # Track-level context
-    │   ├── audits/           # Audit reports
-    │   ├── remediation/      # Fix documentation
-    │   └── ...               # Other categories
-    │
-    └── {sprint}/
-        ├── sprint.yaml       # Sprint state (allowed)
-        ├── sprint.md         # Sprint documentation (allowed)
-        ├── context/          # Sprint-level context
-        │
-        └── {task}/
-            ├── task.yaml     # Task state (allowed)
-            └── task.md       # Task documentation (allowed)
+@server.call_tool()
+async def call_tool(name: str, arguments: dict) -> Any:
+    if name == "vibey_my_tool":
+        return await my_tool_handler(arguments)
 ```
 
-**Rules:**
-- Only `*.yaml` and `*.md` core structure files at each level
-- All analysis/report files go in `context/` directories
-- Use categories: `audits/`, `remediation/`, `planning/`, `summaries/`
-- File naming: `CATEGORY_DESCRIPTION_DATE.md` (e.g., `AUDIT_REPORT_2025-11-15.md`)
+#### Adding Operations
 
-**Validation:**
+```python
+# vibey/operations/roadmap/my_operation.py
+
+def my_operation(item_id: str) -> Result:
+    """Operation description.
+
+    Args:
+        item_id: ULID identifier for the item.
+
+    Returns:
+        Result object with operation outcome.
+
+    Raises:
+        ItemNotFoundError: If item doesn't exist.
+    """
+    # Implementation
+```
+
+### Testing Your Changes
+
 ```bash
-python3 scripts/validate-doc-organization.py
+# Run specific tests
+pytest tests/path/to/test.py -v
+
+# Run with coverage
+pytest tests/ --cov=vibey --cov-report=term-missing
+
+# Run type checking
+mypy vibey/
+
+# Format code
+black vibey/ tests/
+isort vibey/ tests/
 ```
 
-See `.vibey/roadmap/roadmap-integrity-fixes/roadmap-integrity-fixes-10/context/DOCUMENTATION_ORGANIZATION_STANDARDS.md` for complete standards.
-
-### Documentation Standards
-
-- **Clear headings** - Use descriptive section titles
-- **Examples** - Show, don't just tell
-- **Config references** - Use `{{ config.* }}` consistently
-- **Links** - Link to related docs
-- **Keep updated** - Update docs when changing code
+See [Coding Standards](docs/development/CODING_STANDARDS.md) for testing conventions.
 
 ---
 
 ## Submitting Changes
 
-### Git Workflow
+### Branch Naming
 
-1. **Create Branch**
-   ```bash
-   git checkout -b feature/description
-   # or
-   git checkout -b bugfix/description
-   ```
-
-2. **Make Changes**
-   - Follow file organization
-   - Use config-driven approach
-   - Add documentation
-   - Test your changes
-
-3. **Commit Changes**
-   ```bash
-   git add .
-   git commit -m "type: description
-
-   Longer explanation of changes
-
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-   Co-Authored-By: Claude <noreply@anthropic.com>"
-   ```
-
-   **Commit types:**
-   - `feat:` - New feature
-   - `fix:` - Bug fix
-   - `docs:` - Documentation changes
-   - `refactor:` - Code restructuring
-   - `test:` - Test additions
-   - `chore:` - Maintenance tasks
-
-4. **Push Changes**
-   ```bash
-   git push origin feature/description
-   ```
-
-5. **Create Pull Request**
-   - Go to GitHub
-   - Create PR from your branch
-   - Fill in PR template
-   - Link related issues
-
-### Pull Request Guidelines
-
-**PR Title:** `type: Brief description`
-
-**PR Description:**
-```markdown
-## Summary
-[What does this PR do?]
-
-## Changes
-- [Change 1]
-- [Change 2]
-
-## Testing
-[How was this tested?]
-
-## Documentation
-[What docs were updated?]
-
-## Screenshots (if applicable)
-[Visual changes]
-
-Closes #[issue-number]
+```bash
+git checkout -b feat/add-new-command     # New feature
+git checkout -b fix/cli-error-handling   # Bug fix
+git checkout -b docs/update-readme       # Documentation
+git checkout -b refactor/simplify-loader # Refactoring
 ```
 
-### Code Review Process
+### Commit Messages
 
-1. **Automated Checks** - Will run (when implemented)
-2. **Maintainer Review** - Review for quality and fit
-3. **Feedback** - Address review comments
-4. **Approval** - Maintainer approves
-5. **Merge** - PR is merged
+Format: `type(scope): description`
+
+```bash
+# Good examples
+git commit -m "feat(cli): add batch update command"
+git commit -m "fix(roadmap): handle missing sprint gracefully"
+git commit -m "docs: update CONTRIBUTING with new workflow"
+git commit -m "test(mcp): add tool introspection tests"
+
+# Types: feat, fix, docs, test, refactor, chore
+```
+
+### Pre-commit Checks
+
+Pre-commit hooks run automatically:
+
+```bash
+# Manual run
+pre-commit run --all-files
+
+# Skip hooks (emergency only)
+git commit --no-verify -m "message"
+```
+
+### Pull Request Process
+
+1. **Create PR** from your branch to `main`
+2. **Fill out template**:
+   ```markdown
+   ## Summary
+   Brief description of changes.
+
+   ## Changes
+   - Change 1
+   - Change 2
+
+   ## Testing
+   How was this tested?
+
+   ## Checklist
+   - [ ] Tests pass
+   - [ ] Code formatted
+   - [ ] Documentation updated
+   ```
+3. **Address feedback** from reviewers
+4. **Merge** after approval
 
 ---
 
@@ -546,67 +292,73 @@ Closes #[issue-number]
 
 ### Version Numbering
 
-Format: `MAJOR.MINOR.PATCH`
+Format: `MAJOR.MINOR.PATCH` (Semantic Versioning)
 
-- **MAJOR** - Breaking changes (config schema, API)
-- **MINOR** - New features (agents, workflows, scripts)
+- **MAJOR** - Breaking changes to CLI or API
+- **MINOR** - New features, backward compatible
 - **PATCH** - Bug fixes, documentation
 
 ### Pre-Release Checklist
 
-- [ ] All tests passing
-- [ ] Documentation updated
+- [ ] All tests passing (`pytest tests/`)
+- [ ] Code formatted (`black --check vibey/`)
+- [ ] Type hints pass (`mypy vibey/`)
 - [ ] CHANGELOG.md updated
-- [ ] Version numbers updated
-- [ ] Examples tested
-- [ ] README.md current
+- [ ] Documentation current
+- [ ] CLI reference regenerated (`vibey docs generate-cli`)
+- [ ] MCP reference regenerated (`vibey docs generate-mcp`)
 
 ### Creating a Release
 
-1. **Update Version**
-   - `framework/scripts/check-version.py` - Update FRAMEWORK_VERSION
-   - `CHANGELOG.md` - Add release notes
-   - `README.md` - Update version if shown
+```bash
+# 1. Update CHANGELOG.md with release notes
+# 2. Update version in pyproject.toml
+# 3. Commit changes
+git commit -m "chore: prepare release v2.6.0"
 
-2. **Create Release Branch**
-   ```bash
-   git checkout -b release/v1.x.0
-   ```
+# 4. Tag release
+git tag -a v2.6.0 -m "Release v2.6.0"
 
-3. **Final Testing**
-   - Test deployment
-   - Verify docs
-   - Check examples
-
-4. **Merge to Main**
-   ```bash
-   git checkout main
-   git merge release/v1.x.0
-   ```
-
-5. **Tag Release**
-   ```bash
-   git tag -a v1.x.0 -m "Release v1.x.0"
-   git push origin v1.x.0
-   ```
-
-6. **GitHub Release**
-   - Create release on GitHub
-   - Add release notes from CHANGELOG
-   - Attach any artifacts
+# 5. Push
+git push origin main --tags
+```
 
 ---
 
-## Questions?
+## Getting Help
 
-- **Issues** - Open a GitHub issue
-- **Discussions** - Use GitHub discussions
-- **Email** - [contact email if applicable]
+- **GitHub Issues** - Bug reports, feature requests
+- **GitHub Discussions** - Questions, ideas
+- **Documentation** - Start with [README.md](README.md)
+
+### Useful Commands
+
+```bash
+# Project status
+vibey roadmap status
+
+# CLI help
+vibey --help
+vibey roadmap --help
+
+# Run tests
+pytest tests/ -v
+
+# Check documentation drift
+vibey docs check-drift
+```
 
 ---
 
-## Attribution
+## Additional Resources
 
-This contributing guide was created for the Vibey Agent Framework.
+- [Development Setup Guide](docs/development/SETUP.md)
+- [Coding Standards](docs/development/CODING_STANDARDS.md)
+- [Architectural Decision Records](docs/architecture/adr/)
+- [CLI Reference](docs/reference/CLI_REFERENCE.md)
+- [MCP Reference](docs/reference/MCP_REFERENCE.md)
+- [Contributor Walkthrough](docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md)
 
-Thank you for contributing! 🎉
+---
+
+Thank you for contributing!

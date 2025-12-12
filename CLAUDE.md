@@ -1,7 +1,6 @@
 # Vibey Agent Framework - Repository Context
 
-**Repository:** Vibey Agent Framework
-**Version:** 1.3.0 (Config-to-Docs Architecture)
+**Version:** 2.5.0
 **Purpose:** Agentic orchestration framework for AI coding assistants
 
 ---
@@ -10,613 +9,374 @@
 
 Every session working on this repository:
 
-1. ✅ **Read this file** (CLAUDE.md) - Framework repository context
-2. 📋 **Check docs/FRAMEWORK_ROADMAP.md** - Multi-platform strategy and development roadmap
-3. 🎯 **Check .vibey/roadmap.yaml** - Current sprint/task status (Vibey dogfooding its own system)
-4. 🔍 **Run `git status`** - Understand current state
-5. 📚 **Review recent commits** - Context on recent changes
+1. **Read this file** (CLAUDE.md) - Repository context
+2. **Check roadmap status** - `vibey roadmap status`
+3. **Run `git status`** - Understand current state
+4. **Review recent commits** - `git log --oneline -10`
 
 ---
 
-## What Is This Repository?
+## What Is Vibey?
 
-This is the **Vibey Agent Framework** - an intelligent agent orchestration system originally built for Claude Code, designed to transform AI coding assistants into specialized development teams.
+Vibey is a **roadmap management and AI orchestration framework** that helps development teams:
 
-### Framework Components
+- Track development progress through tracks, sprints, and tasks
+- Integrate AI assistants via the Model Context Protocol (MCP)
+- Deploy configurations to 9 different AI platforms
 
-- **12 Specialized Agents** - Planning, development, quality, documentation, core
-- **16 Structured Workflows** - Sprint planning, feature development, ML, infrastructure, etc.
-- **22 Handoff Templates** - Structured outputs for agent-to-agent communication
-- **3 Orchestration Modes** - Simple (keyword), Balanced (pattern), Tiered (intelligent)
-- **Quality Gates** - Security, testing, logging, documentation audits
-- **Python Tooling** - Config validation, template rendering (Jinja2)
+### Key Statistics
 
-### Framework Statistics
-
-- **Total Lines:** ~50,600 across 68 components
-- **Agents:** ~21,375 lines across 12 agents
-- **Workflows:** Comprehensive lifecycle coverage
-- **Status:** Production-ready for Claude Code
+| Component | Count |
+|-----------|-------|
+| CLI Commands | 169 |
+| MCP Tools | 76 |
+| Platform Adapters | 9 |
+| Database Tables | 26 |
 
 ---
 
 ## Repository Structure
 
 ```
-vibey/                            # Repository root
-├── .vibey/                       # Vibey framework data
-│   ├── config/                   # Modular configuration
-│   ├── roadmap/                  # Roadmap system (tracks, sprints, tasks)
-│   │   └── [track]/context/      # Track-specific context files
-│   └── sprint_summaries/         # Archived sprint completion docs
+vibey/
+├── vibey/                    # Python package (ALL code)
+│   ├── cli/                  # CLI commands (Click framework)
+│   ├── operations/           # Core business logic
+│   │   ├── roadmap/          # Roadmap CRUD operations
+│   │   └── docs/             # Documentation generation
+│   ├── mcp/                  # MCP server implementation
+│   ├── adapters/             # 9 platform adapters
+│   ├── common/               # Shared utilities, errors
+│   └── roadmap/              # Models and serialization
 │
-├── vibey/                        # Python package (ALL code)
-│   ├── cli/                      # CLI commands and entry point
-│   ├── operations/               # Core business logic
-│   │   ├── roadmap/              # Roadmap operations
-│   │   └── docs/                 # Documentation generation
-│   ├── mcp/                      # MCP server implementation
-│   ├── adapters/                 # Platform adapters
-│   ├── common/                   # Shared utilities, errors
-│   └── roadmap/                  # Roadmap models and serialization
+├── .vibey/                   # Framework data
+│   ├── config/               # Modular configuration
+│   └── roadmap/              # Roadmap system
+│       ├── tracks/           # Track YAML files
+│       ├── sprints/          # Sprint YAML files
+│       ├── tasks/            # Task YAML files
+│       └── roadmap.db        # SQLite query cache
 │
-├── framework/                    # Content files ONLY (no Python)
-│   ├── agents/                   # 12 specialized agent definitions
-│   ├── workflows/                # 16 structured workflows
-│   ├── templates/                # Handoff templates
-│   ├── config/                   # Config schemas and examples
-│   ├── schemas/                  # YAML schemas
-│   └── examples/                 # Example configurations
+├── docs/                     # Documentation
+│   ├── development/          # SETUP.md, CODING_STANDARDS.md
+│   ├── architecture/adr/     # Architectural Decision Records
+│   ├── reference/            # CLI_REFERENCE.md, MCP_REFERENCE.md
+│   ├── guides/               # User guides
+│   ├── journeys/             # Persona-based user journeys
+│   └── walkthroughs/         # Step-by-step tutorials
 │
-├── docs/                         # All documentation
-│   ├── getting-started/          # Quick start, user journey
-│   ├── guides/                   # Orchestration, workflow selection
-│   ├── reference/                # CLI reference, roadmap system
-│   ├── development/              # Framework development docs
-│   └── roadmap/                  # Roadmap best practices
-│
-├── tests/                        # Test suite
-└── README.md                     # Main documentation
+├── tests/                    # Test suite
+├── CLAUDE.md                 # This file
+├── README.md                 # Project overview
+├── CONTRIBUTING.md           # Contribution guide
+└── CHANGELOG.md              # Version history
 ```
 
 ---
 
-## Current Development State
+## Core Architecture
 
-### Framework Status: ✅ Production Ready (Claude Code)
+### Dual Storage System
 
-**Latest Updates (Nov 12, 2025 - Interface Unification Sprints 1-2):**
-1. ✅ **Sprint 1 Complete** - Deleted slash commands (4,389 lines), preserved UX design for future CLI interactive mode
-2. ✅ **Sprint 2 Complete** - Unified error handling system (6 hours, 3,100+ lines)
-   - ✅ Created vibey/common/errors.py with 15+ error types, rich context (800 lines)
-   - ✅ Created 4 platform renderers: CLI (colors), MCP (JSON), PlainText, Logging (400 lines)
-   - ✅ Migrated config/loader.py to use unified errors
-   - ✅ Created roadmap_errors.py CLI bridge with backward compatibility (600 lines)
-   - ✅ Comprehensive documentation: UNIFIED_ERROR_HANDLING.md, CLI_ERROR_HANDLING_EXAMPLES.md (900+ lines)
-   - ✅ Test suite: 20 tests, all passing (330 lines)
-3. ⏸️ **Script Refactoring** - Deferred to post-Sprint 3 (convert run_script() to direct imports)
+- **YAML files** - Source of truth, human-readable, git-friendly
+- **SQLite database** - Query cache, fast operations, regenerable
 
-**Previous Updates (Nov 11, 2025 - Test Suite & Code Quality):**
-1. ✅ **Modular Config System** - Split monolithic config into 4 focused files at `.vibey/config/`
-2. ✅ **Config Loader** - Auto-fallback between modular and legacy formats
-3. ✅ **Migration Tool** - `vibey config migrate` with backup and dry-run
-4. ✅ **Integration Complete** - All code updated to use modular config system
-5. ✅ **Test Suite Modernized** - 91% pass rate achieved (354/389 tests)
-6. ✅ **Code Quality** - Deprecated API usage eliminated (datetime.utcnow → datetime.now(timezone.utc))
-
-**Previous Updates (Nov 7, 2025 - Roadmap System Planning):**
-1. 🎯 **Roadmap Object Hierarchy** - Comprehensive design complete (v2.1 Gate Model)
-2. 📋 **Implementation Plan** - Detailed 6-sprint plan (11 weeks, Q1 2025)
-3. 🔄 **Dogfooding Initialized** - Vibey now manages its own development
-4. ⚠️ **Integration Gap Identified** - Roadmap system integration with CLI
-5. 📁 **File Reorganization** - ROADMAP.md → FRAMEWORK_ROADMAP.md for clarity
-
-**Previous Updates (Nov 5, 2024 - Phase 1 & 2 Production Readiness):**
-1. ✅ **Critical Scripts Added** - generate-config.py, update-config.py (unblocked first-time users)
-2. ✅ **100% Claude Compatibility** - Replaced all 24 bash prompts with native conversational questions
-3. ✅ **Sprint State Management** - Complete lifecycle tracking with 4 Python scripts
-4. ✅ **PROJECT-CONTEXT System** - Unified discovery output with archiving
-5. ✅ **Deployment Improvements** - Pre-flight checks, better error handling
-
-**Previous Major Enhancements (Nov 2024):**
-1. **Documentation Organization** - Moved to docs/ with 4-category taxonomy
-2. **Codebase Audit Workflow** - Automated analysis for existing projects
-3. **Git History Analysis** - Discover sprint patterns and velocity
-4. **Independent Analysis Components** - Users choose code audit, git history, both, or neither
-5. **Vibey Manager Agent** - Post-initialization framework management
-
-### Key Files and Their Purposes
-
-**Core Framework Files:**
-- `vibey/cli/main.py` - Unified CLI entry point using Click (360 lines)
-- `vibey/cli/commands.py` - Command implementations calling operations (300 lines)
-- `vibey/operations/roadmap/*.py` - Core business logic (query, update, context, etc.)
-- `framework/mcp/server.py` - MCP server for AI assistant integration (250 lines)
-- `vibey/common/errors.py` - Unified error handling library (800 lines)
-- `config/schema.yaml` - Project configuration schema (400+ lines)
-- `templates/CLAUDE.md.template` - User project context template
-
-**Python Scripts (10 total):**
-- `scripts/generate-config.py` - Creates project-config.yaml from templates (203 lines)
-- `scripts/update-config.py` - Updates nested config values with dot notation (266 lines)
-- `scripts/manage-project-context.py` - PROJECT-CONTEXT.md lifecycle management (566 lines)
-- `scripts/create-sprint-state.py` - Generates sprint state from plan (304 lines)
-- `scripts/query-sprint-state.py` - Queries sprint progress and status (504 lines)
-- `scripts/update-sprint-state.py` - Tracks tasks, agents, gates (526 lines)
-- `scripts/update-sprint-marker.py` - Updates CLAUDE.md sprint marker (323 lines)
-- `scripts/check-version.py` - Version checking and upgrade detection (NEW)
-- `scripts/rollback-framework.py` - Framework rollback to previous backup (NEW)
-- `scripts/render-template.py` - Jinja2 template renderer
-
-**Workflows:**
-- `workflows/planning/sprint-planning.md` - Sprint planning process
-- `workflows/planning/codebase-audit-discovery.md` - Automated project analysis (1,200 lines)
-- `workflows/single-feature-development.md` - Feature development lifecycle
-- `workflows/ml-model-development.md` - ML model lifecycle
-- `workflows/infrastructure-setup.md` - IaC deployment
-
-**Documentation:**
-- `docs/getting-started/QUICK_START.md` - 10-minute quick start (675 lines)
-- `docs/getting-started/USER_JOURNEY.md` - Detailed scenarios (1,800+ lines)
-- `docs/guides/ORCHESTRATION.md` - Orchestration deep dive (500+ lines)
-- `docs/guides/WORKFLOW_SELECTION_GUIDE.md` - Workflow selection guide
-- `docs/development/ROADMAP.md` - Multi-platform roadmap and compatibility assessment
-
----
-
-## Critical Context for Development
-
-### Design Principles
-
-1. **Conversational First** - Natural language interaction, no complex commands
-2. **Quality-Driven** - Quality gates prevent shipping incomplete/insecure code
-3. **Flexible Orchestration** - Three modes: Simple (explicit) → Balanced (smart) → Tiered (coordinated)
-4. **Agent Specialization** - Each agent has specific expertise and trigger patterns
-5. **Structured Handoffs** - Templates ensure consistent information flow
-6. **Platform Agnostic (Goal)** - Core concepts portable, implementation platform-specific
-
-### Claude Code Dependencies (Important for Porting)
-
-**Hard Dependencies (DEPRECATED in v2.5.0):**
-- ~~Slash commands (`/vibey`)~~ - Deleted in Sprint 1, replaced by CLI and MCP
-- `.claude/` directory - Framework storage location
-- Task tool - Subagent launching mechanism
-- CLAUDE.md auto-reading - Context loading
-- Agent markdown files - Instruction format
-
-**Current Architecture (v2.5.0+):**
-- **CLI** (`vibey` command) - Primary interface, platform-agnostic
-- **MCP Server** (optional) - Protocol wrapper for AI assistant integration
-- **Python Library** - Core roadmap operations shared by CLI and MCP
-- **Configuration** - Modular YAML files at `.vibey/config/`
-
-**Soft Dependencies (Portable):**
-- Conversational discovery - Q&A patterns
-- Jinja2 templates - Config rendering
-- Python operations - Business logic
-- Git integration - Version control patterns
-- Quality gates - Testing/security concepts
-
-### Interface Unification (Completed v2.5.0)
-
-**Sprint 1 & 2 Achievements:**
-- ✅ Deleted 4,389 lines of slash commands (framework/commands/)
-- ✅ Deleted 31 standalone Python scripts (replaced by CLI)
-- ✅ Unified error handling library (vibey/common/errors.py)
-- ✅ CLI with complete feature set (vibey/cli/main.py)
-- ✅ MCP server wrapping core library (framework/mcp/server.py)
-
-**Two Clean Interfaces:**
-1. **CLI Mode** - `vibey roadmap <command>` for terminal usage
-2. **MCP Mode** - AI assistants call tools via Model Context Protocol
-
-**No Legacy Code:**
-- No slash commands
-- No standalone scripts
-- No backward compatibility needed
-- Clean architecture going forward
-
----
-
-## Platform Compatibility (Strategic Direction)
-
-### Current Roadmap Priorities
-
-**Near-Term (3 months):**
-- Default CLAUDE.md file
-- Config-driven → Docs-driven migration
-
-**Multi-Platform Strategy:**
-
-**Goose Port:** ✅ **RECOMMENDED** (75-85% compatible)
-- Workflows → Recipes (direct mapping)
-- Agents → Extensions (direct mapping)
-- Effort: 150-225 hours (2.5-3.5 months with 2-3 devs)
-- MCP ecosystem access (1000+ tools)
-- LLM agnostic
-
-**Cursor Port:** ⚠️ **RISKY** (50-65% compatible)
-- Paradigm mismatch: sequential → parallel
-- Effort: 265-405 hours (4-5 months with 3-4 devs)
-- POC recommended before full commitment
-
-**Long-Term Vision:**
-- Platform-agnostic core
-- Adapter pattern for each platform
-- Unified `vibey` CLI tool
-- Timeline: 12 months to multi-platform production
-
-See `docs/development/ROADMAP.md` for complete assessment.
-
----
-
-## Working on This Repository
-
-### Before Making Changes
-
-1. **Read relevant documentation** - Understand component purpose
-2. **Check existing patterns** - Follow established conventions
-3. **Consider portability** - Will this work on other platforms?
-4. **Test thoroughly** - Validate with real scenarios
-
-### File Modification Guidelines
-
-**Agents (`agents/**/*.md`):**
-- Follow agent template structure
-- Include trigger patterns for orchestration
-- Specify inputs, outputs, and quality criteria
-- Keep instructions clear and actionable
-
-**Workflows (`workflows/**/*.md`):**
-- Sequential steps with clear handoffs
-- Include project type variations (web-app, API, ML)
-- Specify durations and complexity
-- Reference appropriate handoff templates
-
-**Templates (`templates/**/*.md`):**
-- Use Jinja2 syntax for variables
-- Include clear section headings
-- Provide examples and guidance
-- Ensure all referenced config keys exist in schema
-
-**Configuration (`config/schema.yaml`):**
-- Document all fields with descriptions
-- Provide examples and defaults
-- Validate with `validate-config.py`
-- Update templates if schema changes
-
-### Testing Changes
-
-**Config Validation:**
 ```bash
-python3 scripts/validate-config.py project-config.yaml
+# Rebuild database from YAML
+vibey roadmap db rebuild
+
+# Check sync status
+vibey roadmap db status
 ```
 
-**Template Rendering:**
+### Flat Directory Structure
+
+All roadmap entities use ULID-based filenames in flat directories:
+
+```
+.vibey/roadmap/
+├── tracks/01KC2D0JK9JKQXGQW6MQEB0JZP.yaml
+├── sprints/01KC2D0JKVT80AFQ6C1PA8CKJD.yaml
+└── tasks/01KC2D0JK7READW9KAK1HBX4B8.yaml
+```
+
+Benefits: 98% directory reduction, fast git operations, simple file lookups.
+
+See [ADR-0001](docs/architecture/adr/0001-ulid-identifiers.md) and [ADR-0002](docs/architecture/adr/0002-flat-directory-structure.md) for rationale.
+
+---
+
+## Common Commands
+
+### Roadmap Operations
+
 ```bash
-python3 scripts/render-template.py \
-  -c project-config.yaml \
-  -t templates/CLAUDE.md.template \
-  -o CLAUDE.md
+# View overall status
+vibey roadmap status
+
+# Show specific item
+vibey roadmap show <ULID>
+
+# Start working on a task
+vibey roadmap start <task-id>
+
+# Complete a task
+vibey roadmap complete <task-id>
+
+# List items
+vibey roadmap list tracks
+vibey roadmap list sprints --track <id>
+vibey roadmap list tasks --sprint <id>
 ```
 
-**Manual Testing:**
-- Deploy to test project
-- Run `/vibey` initialization
-- Test relevant workflows
-- Verify quality gates
+### Documentation
+
+```bash
+# Generate CLI reference
+vibey docs generate-cli
+
+# Generate MCP reference
+vibey docs generate-mcp
+
+# Check for documentation drift
+vibey docs check-drift
+```
+
+### Database
+
+```bash
+# Rebuild database from YAML
+vibey roadmap db rebuild
+
+# Check database status
+vibey roadmap db status
+
+# Validate database integrity
+vibey roadmap db validate
+```
+
+---
+
+## Development Guidelines
+
+### Code Location
+
+- **ALL Python code** lives in `vibey/` package
+- **CLI commands** use Click framework (`vibey/cli/`)
+- **Operations** are in `vibey/operations/`
+- **Models** are in `vibey/roadmap/models/`
+
+### Key Patterns
+
+1. **CLI → Operations → Storage**
+   ```
+   CLI command → Operation function → YAML + SQLite
+   ```
+
+2. **YAML as Source of Truth**
+   - Always update YAML files
+   - Database is regenerable from YAML
+   - Use `vibey roadmap db rebuild` after external YAML edits
+
+3. **ULID Identifiers**
+   - All entities use 26-character ULIDs
+   - Time-sortable, URL-safe, globally unique
+
+### Prerequisites
+
+- **Python 3.9+** (3.11+ recommended)
+- **SQLite 3.35+** (included with Python)
+- **Git 2.30+**
+
+### Development Setup
+
+```bash
+# Create virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install in development mode
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+
+# Run tests
+pytest tests/ -x -q
+```
+
+For complete setup: [docs/development/SETUP.md](docs/development/SETUP.md)
 
 ---
 
 ## Code Standards
 
-### Markdown Files
+### Python Style
 
-- Use clear, descriptive headings
-- Include examples and code blocks
-- Follow existing formatting conventions
-- Keep lines under 120 characters where practical
+- **Formatter**: Black (line length 88)
+- **Imports**: isort
+- **Linting**: flake8
+- **Type hints**: Required for public APIs
 
-### Python Scripts
+### Testing
 
-- Python 3.7+ compatibility
-- Type hints for functions
-- Docstrings for modules and functions
-- Error handling with clear messages
-- Dependencies: PyYAML, Jinja2
-
-### YAML Files
-
-- 2-space indentation
-- Clear key naming (snake_case)
-- Comments for complex sections
-- Validate against schema
-
----
-
-## Quality Standards
-
-### For Agents
-
-- ✅ Clear role and purpose
-- ✅ Specific trigger patterns
-- ✅ Defined inputs and outputs
-- ✅ Quality criteria and validation steps
-- ✅ Handoff template references
-- ✅ Example usage scenarios
-
-### For Workflows
-
-- ✅ Step-by-step process
-- ✅ Agent recommendations per step
-- ✅ Duration estimates
-- ✅ Prerequisites documented
-- ✅ Expected outputs defined
-- ✅ Project type variations
-
-### For Templates
-
-- ✅ All Jinja2 variables documented
-- ✅ Conditional sections explained
-- ✅ Examples provided
-- ✅ Clear section structure
-- ✅ Schema alignment verified
-
----
-
-## Common Development Tasks
-
-### Adding a New Agent
-
-1. Create markdown file in appropriate `agents/` subdirectory
-2. Follow agent template structure (see existing agents)
-3. Define trigger patterns for orchestration modes
-4. Specify quality criteria and validation
-5. Create or reference handoff template
-6. Update documentation and README
-7. Test with relevant workflows
-
-### Adding a New Workflow
-
-1. Create markdown file in appropriate `workflows/` subdirectory
-2. Define sequential steps with durations
-3. Recommend agents for each step
-4. Specify project type variations
-5. Reference handoff templates
-6. Update WORKFLOW_SELECTION_GUIDE.md
-7. Test end-to-end execution
-
-### Adding a New Template
-
-1. Create template in `templates/handoffs/`
-2. Use Jinja2 syntax for variables
-3. Ensure all variables exist in schema
-4. Provide examples and guidance
-5. Reference from relevant agents/workflows
-6. Test rendering with sample config
-
-### Updating Configuration Schema
-
-1. Edit `config/schema.yaml`
-2. Update all affected templates
-3. Update config examples in `config/config-templates/`
-4. Update documentation
-5. Test validation and rendering
-6. Update version number if breaking change
-
----
-
-## Git Workflow
-
-### Branch Strategy
-
-- `main` - Production-ready code
-- Feature branches - `feature/description`
-- Bugfix branches - `bugfix/description`
-- Documentation - `docs/description`
-
-### Commit Messages
-
-Format: `<type>: <description>`
-
-Types:
-- `feat:` - New feature (agent, workflow, template)
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `refactor:` - Code restructuring
-- `test:` - Test additions/changes
-- `chore:` - Maintenance tasks
-
-Example: `feat: add performance optimization workflow`
-
-### Before Committing
-
-- [ ] Code follows existing patterns
-- [ ] Documentation updated
-- [ ] Examples provided if applicable
-- [ ] Changes tested manually
-- [ ] No sensitive data included
-
----
-
-## Troubleshooting Development Issues
-
-### Python Script Errors
-
-**"PyYAML not found" or "Jinja2 not found":**
 ```bash
-pip install pyyaml jinja2
+# Run all tests
+pytest tests/
+
+# Run with coverage
+pytest tests/ --cov=vibey
+
+# Type checking
+mypy vibey/
 ```
 
-**Config validation fails:**
-- Check `config/schema.yaml` for required fields
-- Ensure all keys in config match schema
-- Validate YAML syntax
-
-**Template rendering fails:**
-- Check Jinja2 syntax
-- Ensure all variables exist in config
-- Check for typos in variable names
-
-### Framework Testing Issues
-
-**Agents not triggering:**
-- Check trigger patterns in agent files
-- Verify orchestration mode in config
-- Review CLAUDE.md generation
-
-**Quality gates failing:**
-- Review quality gate requirements
-- Check threshold values
-- Verify audit scripts work
+For complete standards: [docs/development/CODING_STANDARDS.md](docs/development/CODING_STANDARDS.md)
 
 ---
 
-## Release Process
+## Architecture Decisions
 
-### Version Numbering
+Key architectural decisions are documented as ADRs:
 
-Format: `MAJOR.MINOR.PATCH`
-- `MAJOR` - Breaking changes (schema, API)
-- `MINOR` - New features (agents, workflows)
-- `PATCH` - Bug fixes, documentation
-
-### Pre-Release Checklist
-
-- [ ] All tests passing
-- [ ] Documentation updated
-- [ ] CHANGELOG.md updated
-- [ ] Version numbers updated
-- [ ] Examples tested
-- [ ] README.md current
-
-### Release Steps
-
-1. Update version in relevant files
-2. Update CHANGELOG.md
-3. Create release branch
-4. Final testing
-5. Merge to main
-6. Tag release
-7. Update GitHub release notes
+| ADR | Decision |
+|-----|----------|
+| [ADR-0001](docs/architecture/adr/0001-ulid-identifiers.md) | ULID identifiers |
+| [ADR-0002](docs/architecture/adr/0002-flat-directory-structure.md) | Flat directory structure |
+| [ADR-0003](docs/architecture/adr/0003-dual-storage-sqlite-yaml.md) | SQLite + YAML dual storage |
+| [ADR-0004](docs/architecture/adr/0004-click-cli-framework.md) | Click CLI framework |
+| [ADR-0005](docs/architecture/adr/0005-mcp-integration.md) | MCP protocol integration |
 
 ---
 
-## Key Decisions and Rationale
+## Interfaces
 
-### Why Markdown for Agents?
+### CLI Interface
 
-- Human-readable instructions
-- Easy to version control
-- Simple to edit and maintain
-- Claude Code's native format
-- Portable across platforms (with adaptation)
+Primary interface for terminal usage:
 
-### Why Three Orchestration Modes?
+```bash
+vibey --help                    # Show all commands
+vibey roadmap --help            # Roadmap commands
+vibey deploy --help             # Deployment commands
+vibey docs --help               # Documentation commands
+```
 
-- **Simple** - Easy to learn, predictable behavior
-- **Balanced** - Smart defaults, minimal cognitive load
-- **Tiered** - Handles complex multi-agent scenarios
-- Allows users to choose based on project complexity
+Full reference: [docs/reference/CLI_REFERENCE.md](docs/reference/CLI_REFERENCE.md)
 
-### Why Quality Gates?
+### MCP Interface
 
-- Prevent shipping incomplete work
-- Enforce best practices
-- Catch security issues early
-- Improve code quality systematically
+For AI assistant integration via Model Context Protocol:
 
-### Why Dual-Mode /vibey Command?
+- **76 tools** - Task operations, queries, content access
+- **8 resources** - Workflow and handoff templates
+- **4 prompts** - Quality gates, security, testing
 
-- Single entry point for all framework interactions
-- Context-aware behavior
-- Reduces cognitive load
-- Natural progression: initialize → manage
+Full reference: [docs/reference/MCP_REFERENCE.md](docs/reference/MCP_REFERENCE.md)
+
+### Platform Adapters
+
+Deploy configurations to 9 platforms:
+
+```bash
+vibey deploy list               # Show available platforms
+vibey deploy run --platform cursor
+```
+
+Supported: Claude Code, Cursor, Copilot, VS Code, Goose, Gemini, Aider, Continue, Windsurf
 
 ---
 
-## Important Notes
+## Current State
 
-### When Working on Platform Ports
+### Version 2.5.0 Features
 
-1. **Extract concepts first** - Agents, workflows, quality gates are portable
-2. **Adapt implementation** - Platform-specific mechanisms differ
-3. **Test thoroughly** - Validate orchestration works
-4. **Document differences** - Help users understand platform constraints
-5. **Maintain core value** - Specialized agents + structured workflows + quality gates
+- **Auto-generated documentation** - CLI and MCP references
+- **Documentation drift detection** - CI/CD enforcement
+- **User journey documentation** - 5 personas, walkthroughs
+- **Contributor documentation** - SETUP.md, CODING_STANDARDS.md, ADRs
 
-### When Adding Features
+### Check Current Work
 
-1. **Consider all orchestration modes** - How does this work in Simple/Balanced/Tiered?
-2. **Think about project types** - Web-app, API, ML, data platform, infrastructure
-3. **Maintain quality standards** - Does this uphold framework principles?
-4. **Document thoroughly** - Users should understand purpose and usage
-5. **Test with real scenarios** - Validate with actual projects
+```bash
+# View roadmap status
+vibey roadmap status
+
+# See active track
+vibey roadmap list tracks --status in_progress
+
+# See active sprint
+vibey roadmap list sprints --status in_progress
+```
+
+---
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `vibey/cli/main.py` | CLI entry point |
+| `vibey/cli/commands.py` | Command implementations |
+| `vibey/operations/roadmap/` | Roadmap business logic |
+| `vibey/mcp/server.py` | MCP server |
+| `vibey/roadmap/models/` | Data models |
+| `.vibey/roadmap/` | Roadmap data (YAML + SQLite) |
+
+---
+
+## Troubleshooting
+
+### Database Issues
+
+```bash
+# Rebuild database from YAML
+vibey roadmap db rebuild
+
+# If rebuild fails, delete and recreate
+rm .vibey/roadmap/roadmap.db
+vibey roadmap db rebuild
+```
+
+### Import Errors
+
+```bash
+# Reinstall in development mode
+pip install -e ".[dev]"
+```
+
+### Test Failures
+
+```bash
+# Run specific test with verbose output
+pytest tests/path/to/test.py -v
+
+# Run tests matching pattern
+pytest tests/ -k "test_pattern"
+```
 
 ---
 
 ## Resources
 
 ### Documentation
-- **README.md** - Main framework documentation
-- **docs/** - Comprehensive guides and references
-- **docs/development/ROADMAP.md** - Multi-platform strategy
 
-### External References
-- **Goose Framework:** https://block.github.io/goose/
-- **Cursor 2.0:** https://cursor.com/
-- **MCP Protocol:** https://github.com/anthropics/mcp
-- **Claude Code:** https://docs.claude.com/claude-code
+- [README.md](README.md) - Project overview
+- [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
+- [CHANGELOG.md](CHANGELOG.md) - Version history
+- [docs/](docs/) - All documentation
 
----
+### References
 
-## Contact & Contribution
+- [CLI Reference](docs/reference/CLI_REFERENCE.md) - All 169 commands
+- [MCP Reference](docs/reference/MCP_REFERENCE.md) - All 76 tools
+- [ADRs](docs/architecture/adr/) - Architecture decisions
 
-### Reporting Issues
+### Walkthroughs
 
-- GitHub Issues for bug reports
-- Include framework version
-- Provide reproduction steps
-- Attach relevant config/logs
-
-### Contributing
-
-- Fork repository
-- Create feature branch
-- Follow code standards
-- Write clear commit messages
-- Submit pull request
-- Respond to review feedback
+- [New User](docs/walkthroughs/WALKTHROUGH_NEW_USER.md) - First 30 minutes
+- [Active Developer](docs/walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md) - Daily workflow
+- [Contributor](docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md) - Contributing code
 
 ---
 
-## Session Context
-
-**Last Major Update:** 2025-11-11
-**Phase Completed:** Test Suite Modernization & Code Quality Improvements
-**Next Milestone:** Remaining roadmap CLI command implementations
-
-**Recent Changes:**
-- ✅ Achieved 91% test pass rate (354/389 tests passing)
-- ✅ Fixed all deprecated datetime.utcnow() usage (Python 3.14 compatibility)
-- ✅ Modernized roadmap-init.py to use current data models
-- ✅ Completed comprehensive audit (docs, codebase, tests, roadmap)
-- ✅ Documented all findings in COMPREHENSIVE_AUDIT_2025-11-11.md
-
-**Current Focus:**
-- **Test Suite** - Address remaining 35 test failures (mostly test infrastructure issues)
-- **Documentation Cleanup** - Update outdated path references
-- **Roadmap System** - Complete CLI command implementation
-- **Code Quality** - Maintain high standards, eliminate technical debt
-
-**Active Tracks:**
-1. **roadmap-system** (🎯 Ready to Build) - 6 sprints, 11 weeks, CRITICAL priority
-2. **core-framework** (🔄 In Progress) - Claude Code enhancements
-3. **goose-port** (⏳ Blocked) - Waiting for roadmap-system completion
-4. **multi-platform** (⏳ Blocked) - Waiting for roadmap-system + goose-port
-
----
-
-**Framework Version:** 1.3.0 (Config-to-Docs Architecture)
-**Target Platforms:** Claude Code (current), Goose (Q2 2025), Cursor (research), Multi-platform (Q3-Q4 2025)
-**Status:** Production ready for Claude Code, 91% test coverage, actively improving quality
+**Version:** 2.5.0 | **Python:** 3.9+ | **Storage:** YAML + SQLite

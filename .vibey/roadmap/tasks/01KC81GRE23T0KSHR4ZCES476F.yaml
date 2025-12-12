@@ -7,11 +7,11 @@ task:
   title: Audit tests/cli/ test files
   description: 'Apply audit criteria to CLI tests. Map tests to CLI commands, identify
     missing command coverage. Output: AUDIT_CLI_TESTS.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.002009+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T09:00:00+00:00'
+  completed: '2025-12-12T09:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

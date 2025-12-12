@@ -14,29 +14,22 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 7
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 7
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Documentation file inventory
-  - CLI command inventory (machine-readable)
-  - User journey documentation catalog
-  - Documentation coverage matrix
-  - Documentation correctness audit
-  - Test-to-documentation mapping
-  - Comprehensive audit report
+  deliverables: []
   description: null
   goal: null
   success_criteria: []
@@ -47,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-23T00:00:00+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

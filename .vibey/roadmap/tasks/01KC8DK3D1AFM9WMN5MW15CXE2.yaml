@@ -7,11 +7,11 @@ task:
   title: Audit tests/utils/ test files
   description: 'Apply audit criteria to tests/utils/. Check utility function tests,
     helper tests, shared test utilities. Output: AUDIT_UTILS_TESTS.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T04:37:31.681169+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T09:00:00+00:00'
+  completed: '2025-12-12T09:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

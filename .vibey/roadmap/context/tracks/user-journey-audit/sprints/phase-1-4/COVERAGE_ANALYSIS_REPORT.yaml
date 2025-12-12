@@ -1,0 +1,334 @@
+coverage_analysis:
+  generated_at: "2025-12-12T08:30:00Z"
+  tool: pytest-cov 7.0.0
+  python_version: "3.14.0"
+
+  test_execution:
+    total_tests: 2681
+    passed: 2492
+    failed: 125
+    skipped: 27
+    errors: 37
+    pass_rate_percent: 93.0
+    duration_seconds: 86.48
+
+  summary:
+    total_files: 328
+    total_statements: 48504
+    covered_statements: 15672
+    missing_statements: 32832
+    excluded_statements: 583
+    line_coverage_percent: 28.5
+    total_branches: 17384
+    covered_branches: 3093
+    missing_branches: 14291
+    branch_coverage_percent: 17.8
+
+  by_module:
+    - module: vibey/__init__.py
+      files: 1
+      line_coverage_percent: 100.0
+      branch_coverage_percent: 0.0
+      missing_lines: 0
+
+    - module: vibey/__main__.py
+      files: 1
+      line_coverage_percent: 0.0
+      branch_coverage_percent: 0.0
+      missing_lines: 1
+
+    - module: vibey/adapters
+      files: 34
+      line_coverage_percent: 57.9
+      branch_coverage_percent: 30.6
+      missing_lines: 1130
+
+    - module: vibey/cli
+      files: 78
+      line_coverage_percent: 14.6
+      branch_coverage_percent: 5.7
+      missing_lines: 13385
+      notes: "Largest coverage gap - CLI code mostly untested"
+
+    - module: vibey/common
+      files: 3
+      line_coverage_percent: 88.7
+      branch_coverage_percent: 70.0
+      missing_lines: 25
+
+    - module: vibey/config
+      files: 3
+      line_coverage_percent: 55.0
+      branch_coverage_percent: 0.0
+      missing_lines: 126
+
+    - module: vibey/content
+      files: 1
+      line_coverage_percent: 100.0
+      branch_coverage_percent: 100.0
+      missing_lines: 0
+
+    - module: vibey/mcp
+      files: 32
+      line_coverage_percent: 63.3
+      branch_coverage_percent: 48.0
+      missing_lines: 744
+
+    - module: vibey/operations
+      files: 89
+      line_coverage_percent: 31.4
+      branch_coverage_percent: 16.1
+      missing_lines: 10021
+      notes: "Second largest coverage gap - core business logic"
+
+    - module: vibey/platform
+      files: 5
+      line_coverage_percent: 32.3
+      branch_coverage_percent: 0.0
+      missing_lines: 239
+
+    - module: vibey/roadmap
+      files: 81
+      line_coverage_percent: 44.8
+      branch_coverage_percent: 29.9
+      missing_lines: 6740
+
+  coverage_distribution:
+    zero_coverage:
+      count: 93
+      top_files:
+        - path: vibey/cli/roadmap-update.py
+          lines: 630
+          reason: "Standalone script, not imported by tests"
+        - path: vibey/operations/audit/file_classifier.py
+          lines: 438
+          reason: "Audit functionality not tested"
+        - path: vibey/roadmap/database/integrity_audit.py
+          lines: 369
+          reason: "Database audit not tested"
+        - path: vibey/roadmap/serialization/directory_migration_v2.py
+          lines: 363
+          reason: "Migration code not tested"
+        - path: vibey/operations/roadmap/advanced_validator.py
+          lines: 317
+          reason: "Validator not tested"
+        - path: vibey/cli/manage-project-context.py
+          lines: 307
+          reason: "Standalone script"
+        - path: vibey/roadmap/markdown_generator.py
+          lines: 297
+          reason: "Generator not tested"
+        - path: vibey/cli/roadmap-summarize.py
+          lines: 274
+          reason: "Standalone script"
+        - path: vibey/operations/roadmap/migration.py
+          lines: 271
+          reason: "Migration code not tested"
+        - path: vibey/operations/audit/code_auditor.py
+          lines: 262
+          reason: "Audit functionality not tested"
+
+    low_coverage_below_30:
+      count: 64
+      top_files:
+        - path: vibey/cli/commands.py
+          coverage_percent: 23.7
+          missing_lines: 1741
+          notes: "Core CLI commands - critical gap"
+        - path: vibey/cli/git_commands.py
+          coverage_percent: 11.1
+          missing_lines: 1544
+          notes: "Git integration commands"
+        - path: vibey/cli/main.py
+          coverage_percent: 27.9
+          missing_lines: 1260
+          notes: "CLI entry point"
+        - path: vibey/operations/roadmap/update.py
+          coverage_percent: 7.4
+          missing_lines: 794
+          notes: "Roadmap update operations - critical"
+        - path: vibey/cli/roadmap_lib/cache.py
+          coverage_percent: 6.8
+          missing_lines: 336
+          notes: "Caching logic"
+        - path: vibey/operations/docs/generator.py
+          coverage_percent: 4.6
+          missing_lines: 273
+          notes: "Documentation generator"
+        - path: vibey/operations/roadmap/summarize.py
+          coverage_percent: 6.0
+          missing_lines: 250
+          notes: "Summarization logic"
+
+    good_coverage_above_80:
+      count: 54
+      top_files:
+        - path: vibey/__init__.py
+          coverage_percent: 100.0
+          lines: 5
+        - path: vibey/adapters/__init__.py
+          coverage_percent: 100.0
+          lines: 15
+        - path: vibey/content/__init__.py
+          coverage_percent: 100.0
+          lines: 21
+        - path: vibey/mcp/prompts/quality_gates.py
+          coverage_percent: 100.0
+          lines: 57
+        - path: vibey/common/errors.py
+          coverage_percent: 88.7
+          lines: 221
+          notes: "Good coverage for error handling"
+
+  test_failures_analysis:
+    total_failures: 125
+    total_errors: 37
+
+    failure_categories:
+      - category: "Standards Resolution"
+        count: 14
+        files: ["tests/integration/test_standards_resolution.py"]
+        pattern: "FFFFFFFFFFFFF"
+        notes: "All tests in module failing - likely broken integration"
+
+      - category: "Performance Tests"
+        count: 10
+        files: ["tests/operations/roadmap/test_performance.py"]
+        pattern: "FFFFFFFFF..F"
+        notes: "Performance test infrastructure issues"
+
+      - category: "Operations Integration"
+        count: 11
+        files: ["tests/operations/roadmap/test_integration.py"]
+        pattern: "FFFsFFFFFF.........FF"
+        notes: "Integration test failures"
+
+      - category: "Validators"
+        count: 12
+        files: ["tests/unit/test_validators.py"]
+        notes: "Validator implementation changed"
+
+      - category: "CLI Roadmap"
+        count: 18
+        files: ["tests/cli/test_roadmap_cli_comprehensive.py"]
+        notes: "CLI command test failures"
+
+      - category: "Agent Validation"
+        count: 3
+        files: ["tests/agents/test_agent_validation.py"]
+        notes: "Agent definition validation failures"
+
+    error_categories:
+      - category: "ORM Tests"
+        count: 15
+        files: ["tests/roadmap/models/ticket/test_orm.py"]
+        error_type: "Setup/fixture errors"
+        notes: "SQLAlchemy ORM test infrastructure broken"
+
+      - category: "Repository Tests"
+        count: 17
+        files: ["tests/roadmap/models/ticket/test_repository.py"]
+        error_type: "Setup/fixture errors"
+        notes: "Repository test infrastructure broken"
+
+      - category: "Sync Roundtrip"
+        count: 3
+        files: ["tests/roadmap/test_sync_roundtrip.py"]
+        error_type: "Database state errors"
+
+  coverage_gaps:
+    critical_untested_areas:
+      - area: "CLI Commands"
+        modules: ["vibey/cli/commands.py", "vibey/cli/main.py", "vibey/cli/git_commands.py"]
+        total_missing_lines: 4545
+        impact: "User-facing functionality untested"
+        priority: critical
+
+      - area: "Roadmap Operations"
+        modules: ["vibey/operations/roadmap/update.py", "vibey/operations/roadmap/context.py"]
+        total_missing_lines: 1018
+        impact: "Core business logic untested"
+        priority: critical
+
+      - area: "Standalone Scripts"
+        modules:
+          - vibey/cli/roadmap-update.py
+          - vibey/cli/manage-project-context.py
+          - vibey/cli/roadmap-summarize.py
+          - vibey/cli/roadmap-prepare.py
+          - vibey/cli/roadmap-context.py
+          - vibey/cli/roadmap-query.py
+        total_missing_lines: 2170
+        impact: "Scripts never imported by tests"
+        priority: high
+        recommendation: "Consider migrating to CLI subcommands or removing"
+
+      - area: "Audit Operations"
+        modules: ["vibey/operations/audit/file_classifier.py", "vibey/operations/audit/code_auditor.py"]
+        total_missing_lines: 700
+        impact: "Audit functionality untested"
+        priority: medium
+
+      - area: "Database Utilities"
+        modules:
+          - vibey/roadmap/database/integrity_audit.py
+          - vibey/roadmap/database/migrate_to_v2.py
+          - vibey/roadmap/database/compare_databases.py
+        total_missing_lines: 782
+        impact: "Database integrity features untested"
+        priority: high
+
+  recommendations:
+    priority_1_critical:
+      - action: "Add CLI command integration tests"
+        target_files: ["vibey/cli/commands.py", "vibey/cli/main.py"]
+        estimated_effort: "High"
+        expected_improvement: "+15% line coverage"
+
+      - action: "Fix broken test infrastructure"
+        target_tests:
+          - tests/roadmap/models/ticket/test_orm.py
+          - tests/roadmap/models/ticket/test_repository.py
+        expected_improvement: "+37 tests passing"
+
+      - action: "Add roadmap operation tests"
+        target_files: ["vibey/operations/roadmap/update.py"]
+        expected_improvement: "+2% line coverage"
+
+    priority_2_high:
+      - action: "Consolidate or remove standalone scripts"
+        target_files: 20
+        notes: "93 files with zero coverage, many are standalone scripts"
+
+      - action: "Fix integration test failures"
+        target_tests:
+          - tests/integration/test_standards_resolution.py
+          - tests/operations/roadmap/test_integration.py
+        expected_improvement: "+25 tests passing"
+
+    priority_3_medium:
+      - action: "Add branch coverage tests"
+        current_branch_coverage: 17.8
+        target_branch_coverage: 40.0
+        focus_areas: ["error handling paths", "conditional logic"]
+
+      - action: "Add audit operation tests"
+        target_files: ["vibey/operations/audit/"]
+        notes: "Entire audit module untested"
+
+  quality_assessment:
+    line_coverage_score: 6  # 28.5% < 50% = 6 points
+    branch_coverage_score: 3  # 17.8% < 40% = 3 points
+    test_pass_rate_score: 18  # 93% pass rate
+    total_coverage_score: 27
+    grade: F
+    notes: |
+      Overall test coverage is critically low at 28.5%.
+      While the test pass rate is good at 93%, the coverage
+      shows most code paths are untested.
+
+      Key concerns:
+      1. 93 files with ZERO test coverage
+      2. CLI (largest module) has only 14.6% coverage
+      3. Branch coverage at 17.8% indicates error paths mostly untested
+      4. 162 test failures/errors need investigation

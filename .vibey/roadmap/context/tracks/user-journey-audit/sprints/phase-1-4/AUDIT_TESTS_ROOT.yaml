@@ -1,0 +1,366 @@
+audit:
+  directory: tests/
+  scope: root_files_only
+  generated_at: "2025-12-12T08:45:00Z"
+  criteria_version: "1.0"
+
+  infrastructure:
+    conftest:
+      path: tests/conftest.py
+      size_bytes: 3456
+      size_lines: 156
+      purpose: "Shared pytest fixtures and configuration"
+
+      fixtures_defined:
+        - name: temp_dir
+          scope: function
+          purpose: "Provides temporary directory for test isolation"
+          documented: true
+        - name: mock_repo_path
+          scope: function
+          purpose: "Creates mock repository path within temp directory"
+          documented: true
+        - name: vibey_test_config
+          scope: function
+          purpose: "Provides test configuration dictionary"
+          documented: true
+        - name: reset_environment
+          scope: function
+          autouse: true
+          purpose: "Resets environment variables before each test"
+          documented: true
+        - name: sample_yaml_config
+          scope: function
+          purpose: "Provides sample YAML configuration string"
+          documented: true
+        - name: sample_roadmap_state
+          scope: function
+          purpose: "Provides sample roadmap state dictionary"
+          documented: true
+
+      configuration:
+        markers_defined:
+          - unit
+          - integration
+          - e2e
+          - platform
+          - slow
+          - requires_git
+        hooks_implemented:
+          - pytest_configure
+
+      quality_assessment:
+        fixtures_reusable: true
+        fixtures_documented: true
+        scope_appropriate: true
+        issues: []
+        score: 95
+        grade: A
+
+    init:
+      path: tests/__init__.py
+      purpose: "Package initialization"
+      content: "Empty marker file"
+      lines: 1
+
+    readme:
+      path: tests/README.md
+      purpose: "Test suite documentation"
+      size_lines: 255
+      content_current: partial
+      issues:
+        - "References framework/ path (obsolete)"
+        - "Coverage goals state >90% (current is 28.5%)"
+        - "Missing actual test counts vs documented"
+      recommendations:
+        - "Update to reflect actual test structure"
+        - "Update coverage goals to realistic targets"
+        - "Add current test statistics"
+
+  test_files:
+    - path: tests/test_unified_errors.py
+      size_bytes: 10503
+      size_lines: 313
+      purpose: "Test unified error handling system"
+      tests_module: vibey.common.errors
+
+      test_inventory:
+        total_tests: 20
+        test_classes:
+          - name: TestErrorCreation
+            tests: 5
+            purpose: "Test error creation and context"
+          - name: TestCLIRendering
+            tests: 3
+            purpose: "Test CLI error rendering"
+          - name: TestMCPRendering
+            tests: 3
+            purpose: "Test MCP JSON rendering"
+          - name: TestPlainTextRendering
+            tests: 1
+            purpose: "Test plain text rendering"
+          - name: TestLogRendering
+            tests: 2
+            purpose: "Test structured logging renderer"
+          - name: TestErrorContext
+            tests: 2
+            purpose: "Test error context and metadata"
+          - name: TestConfigLoaderIntegration
+            tests: 1
+            purpose: "Test config loader integration"
+          - name: TestErrorHandling
+            tests: 3
+            purpose: "Test error catching and handling"
+
+      quality_metrics:
+        test_isolation: true
+        deterministic: true
+        average_duration_ms: 5
+        assertion_density: 2.5
+        naming_convention: good
+        documentation: excellent
+
+      coverage_analysis:
+        module_covered: vibey.common.errors
+        line_coverage_percent: 88.7
+        areas_tested:
+          - error_creation
+          - context_management
+          - cli_rendering
+          - mcp_rendering
+          - plain_text_rendering
+          - log_rendering
+          - serialization
+          - inheritance
+
+      quality_score:
+        coverage: 27
+        test_quality: 24
+        organization: 13
+        effectiveness: 18
+        maintainability: 9
+        total: 91
+        grade: A
+
+    - path: tests/test_git_hooks.py
+      size_bytes: 18085
+      size_lines: 548
+      purpose: "Tests for Git Hooks functionality"
+      tests_module: vibey.operations.git.hooks
+
+      test_inventory:
+        total_tests: 34
+        test_classes:
+          - name: TestPreCommitHook
+            tests: 15
+            purpose: "Tests for pre-commit hook"
+          - name: TestCommitMsgHook
+            tests: 7
+            purpose: "Tests for commit message hook"
+          - name: TestTaskStatusUpdater
+            tests: 6
+            purpose: "Tests for task status updater"
+          - name: TestBranchLinker
+            tests: 6
+            purpose: "Tests for branch linking"
+
+      test_results:
+        passed: 26
+        failed: 8
+        pass_rate: 76.5
+
+      quality_metrics:
+        test_isolation: partial
+        deterministic: true
+        average_duration_ms: 150
+        uses_fixtures: true
+        creates_temp_repos: true
+
+      issues:
+        - severity: major
+          description: "8 tests failing - TestBranchLinker and some PreCommit tests"
+          failing_tests:
+            - TestBranchLinker::test_init_linker
+            - TestPreCommitHook::various
+
+      quality_score:
+        coverage: 18
+        test_quality: 18
+        organization: 12
+        effectiveness: 14
+        maintainability: 7
+        total: 69
+        grade: D
+
+    - path: tests/test_safe_yaml_editor.py
+      size_bytes: 17675
+      size_lines: 580
+      purpose: "Tests for safe YAML editing functionality"
+      tests_module: vibey.cli.roadmap_lib.yaml_editor
+
+      test_inventory:
+        total_tests: 26
+        test_functions:
+          - "test_01_create_yaml_file"
+          - "test_02_edit_with_invalid_yaml_syntax"
+          - "test_03_edit_nested_values"
+          - "... (26 numbered tests)"
+
+      test_results:
+        passed: 25
+        failed: 1
+        pass_rate: 96.2
+
+      quality_metrics:
+        test_isolation: true
+        deterministic: partial
+        naming_convention: numbered
+        issues:
+          - "Test names use numbers instead of descriptive names"
+          - "One flaky test: test_02_edit_with_invalid_yaml_syntax"
+
+      quality_score:
+        coverage: 20
+        test_quality: 18
+        organization: 10
+        effectiveness: 15
+        maintainability: 7
+        total: 70
+        grade: C
+
+    - path: tests/test_package_installation.py
+      size_bytes: 8442
+      size_lines: 246
+      purpose: "Tests for package installation verification"
+      tests_module: vibey package
+
+      test_inventory:
+        total_tests: 15
+        areas_covered:
+          - package_importability
+          - version_check
+          - dependencies
+          - entry_points
+
+      test_results:
+        passed: 15
+        failed: 0
+        pass_rate: 100.0
+
+      quality_metrics:
+        test_isolation: true
+        deterministic: true
+        useful_for_ci: true
+
+      quality_score:
+        coverage: 20
+        test_quality: 22
+        organization: 13
+        effectiveness: 16
+        maintainability: 8
+        total: 79
+        grade: C
+
+    - path: tests/test_deliverable_type_normalization.py
+      size_bytes: 5790
+      size_lines: 198
+      purpose: "Tests for deliverable type normalization"
+      tests_module: vibey.roadmap
+
+      test_inventory:
+        total_tests: 8
+        areas_covered:
+          - type_normalization
+          - enum_mapping
+          - edge_cases
+
+      test_results:
+        passed: 8
+        failed: 0
+        pass_rate: 100.0
+
+      quality_metrics:
+        test_isolation: true
+        deterministic: true
+
+      quality_score:
+        coverage: 22
+        test_quality: 23
+        organization: 14
+        effectiveness: 16
+        maintainability: 9
+        total: 84
+        grade: B
+
+  placement_analysis:
+    correctly_placed:
+      - tests/conftest.py
+      - tests/__init__.py
+      - tests/README.md
+
+    should_move:
+      - file: tests/test_unified_errors.py
+        suggested_location: tests/unit/common/test_errors.py
+        reason: "Unit test for specific module - better organized in unit/"
+
+      - file: tests/test_git_hooks.py
+        suggested_location: tests/integration/git/test_hooks.py
+        reason: "Integration test using real git repos"
+
+      - file: tests/test_safe_yaml_editor.py
+        suggested_location: tests/unit/cli/test_yaml_editor.py
+        reason: "Unit test for CLI library"
+
+      - file: tests/test_package_installation.py
+        suggested_location: tests/integration/test_installation.py
+        reason: "Integration test for package"
+
+      - file: tests/test_deliverable_type_normalization.py
+        suggested_location: tests/unit/roadmap/test_deliverable_types.py
+        reason: "Unit test for roadmap module"
+
+  summary:
+    files_audited: 7
+    test_files: 5
+    infrastructure_files: 2
+    documentation_files: 1
+
+    total_tests: 103
+    tests_passed: 94
+    tests_failed: 9
+    pass_rate_percent: 91.3
+
+    total_lines: 2041
+
+    average_quality_score: 78.6
+    grade_distribution:
+      A: 2
+      B: 1
+      C: 2
+      D: 1
+      F: 0
+
+    infrastructure_health: good
+    notes: |
+      Root test infrastructure is well-organized with good fixtures.
+      conftest.py provides proper test isolation and configuration.
+
+      Main issues:
+      1. Test files in root should be moved to appropriate subdirectories
+      2. 9 failing tests need investigation (mostly in test_git_hooks.py)
+      3. README.md is out of date with actual coverage stats
+      4. Some test files use numbered naming instead of descriptive names
+
+  recommendations:
+    immediate:
+      - "Fix 8 failing tests in test_git_hooks.py"
+      - "Fix flaky test in test_safe_yaml_editor.py"
+
+    short_term:
+      - "Move root test files to appropriate subdirectories"
+      - "Update README.md with current statistics"
+      - "Rename numbered tests to descriptive names"
+
+    long_term:
+      - "Add more edge case tests"
+      - "Increase assertion density"

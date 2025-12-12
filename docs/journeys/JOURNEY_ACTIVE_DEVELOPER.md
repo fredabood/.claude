@@ -289,3 +289,17 @@ Task: <task-id>
 | Understanding status | ROADMAP_SYSTEM.md |
 | Git integration | GIT_HOOKS_GUIDE.md |
 | Context management | (Context docs) |
+
+---
+
+## Hands-On Tutorial
+
+Practice the daily workflow with a step-by-step walkthrough:
+
+**📚 [Active Developer Walkthrough: Daily Workflow with Vibey](../walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md)**
+
+This walkthrough covers:
+- Session start routines
+- Task selection and execution
+- Handling blockers
+- End-of-day practices

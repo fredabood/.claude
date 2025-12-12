@@ -343,3 +343,17 @@ A: Most operations are reversible. Use `show` commands to inspect state.
 
 **Q: Can I use Vibey with an existing project?**
 A: Yes! `vibey init` can be run in any directory with or without existing code.
+
+---
+
+## Hands-On Tutorial
+
+Ready to get started? Follow the step-by-step walkthrough:
+
+**📚 [New User Walkthrough: Your First 30 Minutes with Vibey](../walkthroughs/WALKTHROUGH_NEW_USER.md)**
+
+This walkthrough includes:
+- Copy-paste ready commands
+- Expected output examples
+- Troubleshooting tips
+- Checkpoints to verify progress

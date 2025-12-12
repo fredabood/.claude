@@ -386,3 +386,17 @@ async def get_current_task():
 | Server source | vibey/mcp/server.py |
 | Tool definitions | vibey/mcp/tools/*.py |
 | Resource providers | vibey/mcp/resources/*.py |
+
+---
+
+## Hands-On Tutorial
+
+Build your first MCP integration with a step-by-step walkthrough:
+
+**📚 [Platform Integrator Walkthrough: Building with Vibey MCP](../walkthroughs/WALKTHROUGH_PLATFORM_INTEGRATOR.md)**
+
+This walkthrough covers:
+- MCP server architecture
+- Calling tools programmatically
+- Building Python/JS clients
+- Error handling patterns

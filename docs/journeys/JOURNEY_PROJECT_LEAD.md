@@ -311,3 +311,17 @@ vibey roadmap update task <id> --priority high
 | Roadmap concepts | ROADMAP_SYSTEM.md |
 | Data validation | VALIDATION_GUIDE.md |
 | Best practices | ROADMAP_BEST_PRACTICES.md |
+
+---
+
+## Hands-On Tutorial
+
+Learn roadmap management with a step-by-step walkthrough:
+
+**📚 [Project Lead Walkthrough: Managing Roadmaps](../walkthroughs/WALKTHROUGH_PROJECT_LEAD.md)**
+
+This walkthrough covers:
+- Multi-track project structure
+- Progress monitoring
+- Dependency management
+- Status reporting

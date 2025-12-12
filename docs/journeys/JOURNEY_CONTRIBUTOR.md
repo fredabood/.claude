@@ -415,3 +415,17 @@ def process_task(
 | CLI reference | docs/reference/CLI_REFERENCE.md |
 | Architecture | docs/development/*.md |
 | Test patterns | tests/README.md |
+
+---
+
+## Hands-On Tutorial
+
+Make your first contribution with a step-by-step walkthrough:
+
+**📚 [Contributor Walkthrough: Your First Vibey Contribution](../walkthroughs/WALKTHROUGH_CONTRIBUTOR.md)**
+
+This walkthrough covers:
+- Development environment setup
+- Codebase navigation
+- Test suite execution
+- Pull request workflow

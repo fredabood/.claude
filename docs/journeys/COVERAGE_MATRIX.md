@@ -227,6 +227,20 @@ This document maps Vibey features to user personas and their journeys, identifyi
 
 ---
 
+## Walkthrough Coverage
+
+Each persona has a dedicated step-by-step walkthrough with copy-paste commands and expected outputs:
+
+| Persona | Walkthrough | Duration |
+|---------|-------------|----------|
+| Nina (New User) | [WALKTHROUGH_NEW_USER.md](../walkthroughs/WALKTHROUGH_NEW_USER.md) | 30 min |
+| Alex (Active Developer) | [WALKTHROUGH_ACTIVE_DEVELOPER.md](../walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md) | 20 min |
+| Pat (Project Lead) | [WALKTHROUGH_PROJECT_LEAD.md](../walkthroughs/WALKTHROUGH_PROJECT_LEAD.md) | 45 min |
+| Chris (Contributor) | [WALKTHROUGH_CONTRIBUTOR.md](../walkthroughs/WALKTHROUGH_CONTRIBUTOR.md) | 60 min |
+| Sam (Platform Integrator) | [WALKTHROUGH_PLATFORM_INTEGRATOR.md](../walkthroughs/WALKTHROUGH_PLATFORM_INTEGRATOR.md) | 45 min |
+
+---
+
 ## Recommendations
 
 ### High Priority

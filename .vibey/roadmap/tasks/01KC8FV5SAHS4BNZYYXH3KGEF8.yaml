@@ -1,0 +1,33 @@
+task:
+  id: 01KC8FV5SAHS4BNZYYXH3KGEF8
+  sprint_id: dogfooding-bugs-11
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: edit command warns Unknown YAML file type for ULID files
+  description: The 'roadmap edit file' command emits warning 'Unknown YAML file type'
+    for ULID-named task/sprint files. Should recognize ULID naming pattern.
+  status: not_started
+  blocked: false
+  created: '2025-12-12T05:16:54.520261+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: low
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-12T05:16:54.520261+00:00'
+    token_efficiency: null
+    duration_hours: null

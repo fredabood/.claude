@@ -16,10 +16,10 @@ roadmap:
   progress:
     tracks_total: 41
     tracks_completed: 22
-    sprints_total: 207
+    sprints_total: 208
     sprints_completed: 9
-    tasks_total: 1550
-    tasks_completed: 1003
+    tasks_total: 1556
+    tasks_completed: 1004
     completion_percent: 65.0
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB

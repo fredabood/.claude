@@ -6,15 +6,15 @@ track:
   blocked: true
   priority: high
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-12-12T15:15:56Z'
+  started: '2025-11-23T00:00:00+00:00'
   completed: null
   estimated_duration: null
   progress:
     sprints_total: 42
     sprints_completed: 6
     tasks_total: 321
-    tasks_completed: 72
-    completion_percent: 22.0
+    tasks_completed: 73
+    completion_percent: 23.0
   sprints:
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJV
     name: Documentation & Code Audit
@@ -174,10 +174,10 @@ track:
     started: '2025-12-12T08:00:00+00:00'
   - id: 01KC81GRE23T0KSHR4ZCES476M
     name: 'Phase 2.1: CLI Reference Guide (Auto-Generated)'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 7
-    started: null
+    started: '2025-12-12T16:33:20Z'
   - id: 01KC81GRE23T0KSHR4ZCES476W
     name: 'Phase 2.2: MCP Server Reference Guide (Auto-Generated)'
     status: not_started

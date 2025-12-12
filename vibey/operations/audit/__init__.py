@@ -13,6 +13,12 @@ from vibey.operations.audit.file_classifier import (
     FileClassification,
     save_classification,
 )
+from vibey.operations.audit.code_auditor import (
+    audit_python_file,
+    audit_module,
+    save_audit,
+    AuditResult,
+)
 
 __all__ = [
     "generate_file_inventory",
@@ -24,4 +30,8 @@ __all__ = [
     "generate_consolidated_registry",
     "FileClassification",
     "save_classification",
+    "audit_python_file",
+    "audit_module",
+    "save_audit",
+    "AuditResult",
 ]

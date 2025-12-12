@@ -1,0 +1,5252 @@
+audit:
+  module: vibey/operations
+  generated_at: '2025-12-12T05:35:50.292929+00:00'
+  criteria_version: '1.0'
+  total_files: 89
+  total_lines: 37577
+  scores:
+    average_quality: 70.4
+    min_quality: 55
+    max_quality: 90
+  grade_distribution:
+    A: 4
+    B: 3
+    C: 55
+    D: 21
+    F: 6
+  documentation_coverage:
+    module_docstrings_percent: 100.0
+  test_coverage:
+    files_with_tests: 7/89
+    files_needing_tests:
+    - vibey/operations/deployment.py
+    - vibey/operations/__init__.py
+    - vibey/operations/migrations/__init__.py
+    - vibey/operations/migrations/to_roadmap.py
+    - vibey/operations/migrations/embedded_tasks.py
+    - vibey/operations/migrations/extract_embedded_tasks.py
+    - vibey/operations/validate/doc_organization.py
+    - vibey/operations/validate/frontmatter.py
+    - vibey/operations/validate/__init__.py
+    - vibey/operations/config/update.py
+    - vibey/operations/config/generate.py
+    - vibey/operations/config/__init__.py
+    - vibey/operations/auth/__init__.py
+    - vibey/operations/roadmap/update.py
+    - vibey/operations/roadmap/auto_repair.py
+    - vibey/operations/roadmap/query.py
+    - vibey/operations/roadmap/checkpoint_verifier.py
+    - vibey/operations/roadmap/advanced_validator.py
+    - vibey/operations/roadmap/__init__.py
+    - vibey/operations/roadmap/summarize.py
+    - vibey/operations/roadmap/validate.py
+    - vibey/operations/roadmap/standards_enforcement.py
+    - vibey/operations/roadmap/context.py
+    - vibey/operations/roadmap/audit_trail.py
+    - vibey/operations/roadmap/add_commit.py
+    - vibey/operations/roadmap/transitions.py
+    - vibey/operations/roadmap/doc_tracking.py
+    - vibey/operations/roadmap/migrate_activity_log.py
+    - vibey/operations/roadmap/artifacts.py
+    - vibey/operations/roadmap/commit_mapper.py
+    - vibey/operations/roadmap/init.py
+    - vibey/operations/roadmap/optimized_validator.py
+    - vibey/operations/roadmap/status_manager.py
+    - vibey/operations/roadmap/migration.py
+    - vibey/operations/content/backup.py
+    - vibey/operations/content/models.py
+    - vibey/operations/content/__init__.py
+    - vibey/operations/content/loader.py
+    - vibey/operations/content/search.py
+    - vibey/operations/content/writer.py
+    - vibey/operations/docs/sync_engine.py
+    - vibey/operations/docs/sync_hooks.py
+    - vibey/operations/docs/sync_manifest.py
+    - vibey/operations/docs/__init__.py
+    - vibey/operations/docs/operations.py
+    - vibey/operations/docs/generator.py
+    - vibey/operations/audit/file_classifier.py
+    - vibey/operations/audit/__init__.py
+    - vibey/operations/audit/code_auditor.py
+    - vibey/operations/audit/file_inventory.py
+    - vibey/operations/git/log_analyzer.py
+    - vibey/operations/git/commit_parser.py
+    - vibey/operations/git/pr_generator.py
+    - vibey/operations/git/commit_evidence.py
+    - vibey/operations/git/strategy_adoption.py
+    - vibey/operations/git/ci_integration.py
+    - vibey/operations/git/sprint_tagger.py
+    - vibey/operations/git/cli_change_tracker.py
+    - vibey/operations/git/status_updater.py
+    - vibey/operations/git/velocity_calculator.py
+    - vibey/operations/git/commit_parser_schema.py
+    - vibey/operations/git/branch_linker.py
+    - vibey/operations/git/tag_repair.py
+    - vibey/operations/git/__init__.py
+    - vibey/operations/git/state_reconstructor.py
+    - vibey/operations/git/merge_ordering.py
+    - vibey/operations/git/yaml_analyzer.py
+    - vibey/operations/git/error_handler.py
+    - vibey/operations/git/mode_detector.py
+    - vibey/operations/git/blocker_enforcer.py
+    - vibey/operations/git/tag_parser.py
+    - vibey/operations/git/merge_checker.py
+    - vibey/operations/git/git_sync.py
+    - vibey/operations/git/hooks/pre_commit.py
+    - vibey/operations/git/hooks/post_commit.py
+    - vibey/operations/git/hooks/__init__.py
+    - vibey/operations/git/hooks/post_merge.py
+    - vibey/operations/git/hooks/pre_push.py
+    - vibey/operations/git/hooks/commit_msg.py
+    - vibey/operations/git/hooks/__main__.py
+    - vibey/operations/roadmap/hooks/__init__.py
+    - vibey/operations/roadmap/hooks/installer.py
+  critical_findings: []
+  files:
+  - path: vibey/operations/__init__.py
+    purpose: Vibey operations module.
+    lines: 21
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/__init__.py
+      recommendation: 'Create test file: tests/operations/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/audit/__init__.py
+    purpose: Audit operations for file inventory and classification.
+    lines: 37
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/audit/__init__.py
+      recommendation: 'Create test file: tests/operations/audit/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/audit/code_auditor.py
+    purpose: Code auditor for comprehensive file quality assessment.
+    lines: 542
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 5
+        documented: 3
+        coverage_percent: 60.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/audit/code_auditor.py
+      recommendation: 'Create test file: tests/operations/audit/code_auditor.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/audit/file_classifier.py
+    purpose: File classification tooling for codebase auditing.
+    lines: 1056
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/audit/file_classifier.py
+      recommendation: 'Create test file: tests/operations/audit/file_classifier.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/audit/file_inventory.py
+    purpose: File inventory generation for codebase auditing.
+    lines: 279
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/audit/file_inventory.py
+      recommendation: 'Create test file: tests/operations/audit/file_inventory.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/auth/__init__.py
+    purpose: Authentication and signing module for Vibey.
+    lines: 56
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/auth/__init__.py
+      recommendation: 'Create test file: tests/operations/auth/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/auth/keys.py
+    purpose: Ed25519 key management for Vibey signing.
+    lines: 352
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 15
+      best_practices: 25
+      total: 85
+      grade: B
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 18
+        documented: 16
+        coverage_percent: 88.9
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/auth/test_keys.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/auth/signers.py
+    purpose: Authorized signer management for Vibey.
+    lines: 379
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 15
+      best_practices: 25
+      total: 90
+      grade: A
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 14
+        documented: 13
+        coverage_percent: 92.9
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/auth/test_signers.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/auth/signing.py
+    purpose: Activity log signing for Vibey.
+    lines: 255
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 15
+      best_practices: 25
+      total: 85
+      grade: B
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 7
+        documented: 6
+        coverage_percent: 85.7
+      type_hints:
+        present: true
+        coverage: partial
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/auth/test_signing.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/config/__init__.py
+    purpose: Config operations module.
+    lines: 36
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/config/__init__.py
+      recommendation: 'Create test file: tests/operations/config/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/config/generate.py
+    purpose: Generate Project Config Operations
+    lines: 222
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/config/generate.py
+      recommendation: 'Create test file: tests/operations/config/generate.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/config/update.py
+    purpose: Update Project Config Operations
+    lines: 301
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/config/update.py
+      recommendation: 'Create test file: tests/operations/config/update.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/content/__init__.py
+    purpose: Vibey Content Operations.
+    lines: 110
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/__init__.py
+      recommendation: 'Create test file: tests/operations/content/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/content/backup.py
+    purpose: Content Backup System.
+    lines: 260
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 10
+        documented: 10
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/backup.py
+      recommendation: 'Create test file: tests/operations/content/backup.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/content/loader.py
+    purpose: Content Loader.
+    lines: 291
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/loader.py
+      recommendation: 'Create test file: tests/operations/content/loader.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/content/models.py
+    purpose: Content Operations Models.
+    lines: 244
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 15
+        documented: 15
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/models.py
+      recommendation: 'Create test file: tests/operations/content/models.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/content/search.py
+    purpose: Content Search.
+    lines: 293
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 20
+      total: 65
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 6
+        coverage_percent: 75.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/search.py
+      recommendation: 'Create test file: tests/operations/content/search.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/content/writer.py
+    purpose: Content Writer.
+    lines: 425
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/content/writer.py
+      recommendation: 'Create test file: tests/operations/content/writer.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/deployment.py
+    purpose: Deployment operations module.
+    lines: 334
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 7
+        documented: 7
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/deployment.py
+      recommendation: 'Create test file: tests/operations/deployment.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/docs/__init__.py
+    purpose: Documentation Generation Module
+    lines: 28
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/__init__.py
+      recommendation: 'Create test file: tests/operations/docs/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/docs/generator.py
+    purpose: Documentation Generator
+    lines: 628
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/generator.py
+      recommendation: 'Create test file: tests/operations/docs/generator.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/docs/operations.py
+    purpose: Documentation generation operations module.
+    lines: 164
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/operations.py
+      recommendation: 'Create test file: tests/operations/docs/operations.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/docs/sync_engine.py
+    purpose: Documentation Synchronization Engine
+    lines: 333
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/sync_engine.py
+      recommendation: 'Create test file: tests/operations/docs/sync_engine.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/docs/sync_hooks.py
+    purpose: Automatic Sync Triggers
+    lines: 232
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 12
+        documented: 12
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/sync_hooks.py
+      recommendation: 'Create test file: tests/operations/docs/sync_hooks.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/docs/sync_manifest.py
+    purpose: Sync Manifest Tracking System
+    lines: 333
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 16
+        documented: 16
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: partial
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/docs/sync_manifest.py
+      recommendation: 'Create test file: tests/operations/docs/sync_manifest.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/__init__.py
+    purpose: Git integration operations for Vibey roadmap system.
+    lines: 366
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/__init__.py
+      recommendation: 'Create test file: tests/operations/git/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/git/blocker_enforcer.py
+    purpose: Blocker enforcement for git operations.
+    lines: 727
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 7
+        documented: 7
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 7
+        coverage_percent: 87.5
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/blocker_enforcer.py
+      recommendation: 'Create test file: tests/operations/git/blocker_enforcer.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/branch_linker.py
+    purpose: Branch-to-Task Linking System
+    lines: 636
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 15
+        documented: 15
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/branch_linker.py
+      recommendation: 'Create test file: tests/operations/git/branch_linker.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/ci_integration.py
+    purpose: Quality gate CI/CD integration.
+    lines: 619
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 7
+        documented: 7
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 13
+        documented: 10
+        coverage_percent: 76.9
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/ci_integration.py
+      recommendation: 'Create test file: tests/operations/git/ci_integration.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/cli_change_tracker.py
+    purpose: CLI Change Tracker
+    lines: 116
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: true
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/cli_change_tracker.py
+      recommendation: 'Create test file: tests/operations/git/cli_change_tracker.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/commit_evidence.py
+    purpose: Commit evidence enforcement for task completion.
+    lines: 357
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/commit_evidence.py
+      recommendation: 'Create test file: tests/operations/git/commit_evidence.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/commit_parser.py
+    purpose: Commit Message Parser Implementation
+    lines: 599
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/commit_parser.py
+      recommendation: 'Create test file: tests/operations/git/commit_parser.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/commit_parser_schema.py
+    purpose: Commit Message Parser Schema
+    lines: 365
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 20
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 13
+        documented: 13
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/commit_parser_schema.py
+      recommendation: 'Create test file: tests/operations/git/commit_parser_schema.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/error_handler.py
+    purpose: Error handling and recovery for git integration.
+    lines: 636
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 13
+        documented: 11
+        coverage_percent: 84.6
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/error_handler.py
+      recommendation: 'Create test file: tests/operations/git/error_handler.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/git_sync.py
+    purpose: Git-primary sync command - derive YAML from Git state.
+    lines: 578
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/git_sync.py
+      recommendation: 'Create test file: tests/operations/git/git_sync.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/hooks/__init__.py
+    purpose: Git Hooks for Vibey Roadmap System
+    lines: 27
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/__init__.py
+      recommendation: 'Create test file: tests/operations/git/hooks/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/git/hooks/__main__.py
+    purpose: Entry point for running hooks as Python modules.
+    lines: 36
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/__main__.py
+      recommendation: 'Create test file: tests/operations/git/hooks/__main__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/git/hooks/commit_msg.py
+    purpose: Commit-Msg Hook Implementation
+    lines: 523
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/commit_msg.py
+      recommendation: 'Create test file: tests/operations/git/hooks/commit_msg.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/hooks/post_commit.py
+    purpose: Post-Commit Hook Implementation
+    lines: 261
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/post_commit.py
+      recommendation: 'Create test file: tests/operations/git/hooks/post_commit.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/hooks/post_merge.py
+    purpose: Post-merge and Post-checkout Hook Implementation
+    lines: 170
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/post_merge.py
+      recommendation: 'Create test file: tests/operations/git/hooks/post_merge.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/hooks/pre_commit.py
+    purpose: Pre-commit Hook Implementation
+    lines: 665
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/pre_commit.py
+      recommendation: 'Create test file: tests/operations/git/hooks/pre_commit.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/hooks/pre_push.py
+    purpose: Pre-push Hook Implementation
+    lines: 377
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/hooks/pre_push.py
+      recommendation: 'Create test file: tests/operations/git/hooks/pre_push.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/log_analyzer.py
+    purpose: Git Log Analysis Utilities
+    lines: 678
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 21
+        documented: 21
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/log_analyzer.py
+      recommendation: 'Create test file: tests/operations/git/log_analyzer.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/merge_checker.py
+    purpose: PR merge checkpoint for task conflict detection.
+    lines: 484
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 4
+        documented: 3
+        coverage_percent: 75.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/merge_checker.py
+      recommendation: 'Create test file: tests/operations/git/merge_checker.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/merge_ordering.py
+    purpose: Dependency-aware merge ordering for git operations.
+    lines: 662
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 9
+        documented: 8
+        coverage_percent: 88.9
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/merge_ordering.py
+      recommendation: 'Create test file: tests/operations/git/merge_ordering.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/mode_detector.py
+    purpose: Source-of-truth mode detection and strategy enforcement.
+    lines: 407
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/mode_detector.py
+      recommendation: 'Create test file: tests/operations/git/mode_detector.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/pr_generator.py
+    purpose: PR Description Generator
+    lines: 447
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/pr_generator.py
+      recommendation: 'Create test file: tests/operations/git/pr_generator.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/sprint_tagger.py
+    purpose: Sprint tagging system for marking sprint boundaries in git history.
+    lines: 495
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/sprint_tagger.py
+      recommendation: 'Create test file: tests/operations/git/sprint_tagger.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/state_reconstructor.py
+    purpose: State Reconstruction from Git History
+    lines: 489
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 10
+        documented: 10
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/state_reconstructor.py
+      recommendation: 'Create test file: tests/operations/git/state_reconstructor.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/status_updater.py
+    purpose: Automatic Task Status Updater
+    lines: 557
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/status_updater.py
+      recommendation: 'Create test file: tests/operations/git/status_updater.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/strategy_adoption.py
+    purpose: Git strategy preset adoption module.
+    lines: 809
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 16
+        documented: 16
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/strategy_adoption.py
+      recommendation: 'Create test file: tests/operations/git/strategy_adoption.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/tag_parser.py
+    purpose: Git Tag Parser
+    lines: 428
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 20
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 20
+        documented: 20
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/tag_parser.py
+      recommendation: 'Create test file: tests/operations/git/tag_parser.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/tag_repair.py
+    purpose: Tag repair automation for git integration.
+    lines: 456
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 7
+        coverage_percent: 87.5
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/tag_repair.py
+      recommendation: 'Create test file: tests/operations/git/tag_repair.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/velocity_calculator.py
+    purpose: Sprint Velocity Calculator
+    lines: 512
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 20
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 10
+        documented: 10
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/velocity_calculator.py
+      recommendation: 'Create test file: tests/operations/git/velocity_calculator.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/git/yaml_analyzer.py
+    purpose: YAML Change Analyzer for CLI Usage Validation
+    lines: 468
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/git/yaml_analyzer.py
+      recommendation: 'Create test file: tests/operations/git/yaml_analyzer.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/migrations/__init__.py
+    purpose: Migration operations for Vibey roadmap system.
+    lines: 17
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/migrations/__init__.py
+      recommendation: 'Create test file: tests/operations/migrations/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/migrations/embedded_tasks.py
+    purpose: 'DEPRECATED: Migrate Embedded Tasks to Separate Files'
+    lines: 398
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/migrations/embedded_tasks.py
+      recommendation: 'Create test file: tests/operations/migrations/embedded_tasks.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/migrations/extract_embedded_tasks.py
+    purpose: Extract Embedded Tasks to Standalone Files
+    lines: 389
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 7
+        documented: 7
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/migrations/extract_embedded_tasks.py
+      recommendation: 'Create test file: tests/operations/migrations/extract_embedded_tasks.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/migrations/to_roadmap.py
+    purpose: Migrate Legacy Sprint State to Roadmap System
+    lines: 484
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 12
+        documented: 12
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/migrations/to_roadmap.py
+      recommendation: 'Create test file: tests/operations/migrations/to_roadmap.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/__init__.py
+    purpose: Roadmap operations module.
+    lines: 112
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/__init__.py
+      recommendation: 'Create test file: tests/operations/roadmap/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/roadmap/activity_log.py
+    purpose: Unified activity logging for roadmap operations.
+    lines: 734
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 15
+      best_practices: 20
+      total: 85
+      grade: B
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 34
+        documented: 34
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/roadmap/test_activity_log.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/roadmap/add_commit.py
+    purpose: Add git commit to a task in the roadmap system.
+    lines: 249
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/add_commit.py
+      recommendation: 'Create test file: tests/operations/roadmap/add_commit.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/advanced_validator.py
+    purpose: Advanced Roadmap Validation Module
+    lines: 657
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 6
+        documented: 6
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 15
+        documented: 11
+        coverage_percent: 73.3
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/advanced_validator.py
+      recommendation: 'Create test file: tests/operations/roadmap/advanced_validator.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/artifacts.py
+    purpose: Artifact operations for managing first-class artifact entities.
+    lines: 527
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/artifacts.py
+      recommendation: 'Create test file: tests/operations/roadmap/artifacts.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/audit_trail.py
+    purpose: Audit trail system for roadmap status changes.
+    lines: 624
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 19
+        documented: 19
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/audit_trail.py
+      recommendation: 'Create test file: tests/operations/roadmap/audit_trail.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/auto_repair.py
+    purpose: Auto-Repair Module for Roadmap Issues
+    lines: 232
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/auto_repair.py
+      recommendation: 'Create test file: tests/operations/roadmap/auto_repair.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/checkpoint_verifier.py
+    purpose: Checkpoint Verification Module
+    lines: 413
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 7
+        documented: 7
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/checkpoint_verifier.py
+      recommendation: 'Create test file: tests/operations/roadmap/checkpoint_verifier.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/commit_mapper.py
+    purpose: Commit-to-Task Mapping Algorithm
+    lines: 610
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 13
+        documented: 13
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/commit_mapper.py
+      recommendation: 'Create test file: tests/operations/roadmap/commit_mapper.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/context.py
+    purpose: Roadmap Context Loader
+    lines: 462
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 20
+      total: 65
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 3
+        documented: 2
+        coverage_percent: 66.7
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/context.py
+      recommendation: 'Create test file: tests/operations/roadmap/context.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/doc_tracking.py
+    purpose: Documentation tracking system for roadmap objects.
+    lines: 382
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 15
+        documented: 15
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/doc_tracking.py
+      recommendation: 'Create test file: tests/operations/roadmap/doc_tracking.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/hooks/__init__.py
+    purpose: Git Hooks for Roadmap Validation
+    lines: 10
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/hooks/__init__.py
+      recommendation: 'Create test file: tests/operations/roadmap/hooks/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/roadmap/hooks/installer.py
+    purpose: Git Hook Installer for Roadmap Validation
+    lines: 318
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/hooks/installer.py
+      recommendation: 'Create test file: tests/operations/roadmap/hooks/installer.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/init.py
+    purpose: Roadmap initialization operations.
+    lines: 183
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 20
+      total: 55
+      grade: F
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/init.py
+      recommendation: 'Create test file: tests/operations/roadmap/init.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/jsonl_activity_log.py
+    purpose: JSONL-based activity log for roadmap state changes.
+    lines: 952
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 15
+      best_practices: 25
+      total: 90
+      grade: A
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 26
+        documented: 26
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: partial
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/roadmap/test_jsonl_activity_log.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/roadmap/migrate_activity_log.py
+    purpose: Migration tool for audit-trail.yaml → JSONL activity log.
+    lines: 327
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 6
+        documented: 5
+        coverage_percent: 83.3
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/migrate_activity_log.py
+      recommendation: 'Create test file: tests/operations/roadmap/migrate_activity_log.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/migration.py
+    purpose: Roadmap Migration Module
+    lines: 597
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/migration.py
+      recommendation: 'Create test file: tests/operations/roadmap/migration.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/optimized_validator.py
+    purpose: Optimized Roadmap Validation Engine
+    lines: 735
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 16
+        documented: 16
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/optimized_validator.py
+      recommendation: 'Create test file: tests/operations/roadmap/optimized_validator.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/query.py
+    purpose: Roadmap query operations.
+    lines: 1302
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 21
+        documented: 20
+        coverage_percent: 95.2
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/query.py
+      recommendation: 'Create test file: tests/operations/roadmap/query.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/safe_yaml_editor.py
+    purpose: Safe YAML Editor Module
+    lines: 781
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 15
+      best_practices: 25
+      total: 90
+      grade: A
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 5
+        documented: 5
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/test_safe_yaml_editor.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/roadmap/standards_enforcement.py
+    purpose: Standards enforcement for roadmap operations.
+    lines: 427
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 10
+        coverage_percent: 90.9
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/standards_enforcement.py
+      recommendation: 'Create test file: tests/operations/roadmap/standards_enforcement.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/status_manager.py
+    purpose: Status Manager for auto-progression of roadmap tickets.
+    lines: 508
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 10
+        documented: 10
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/status_manager.py
+      recommendation: 'Create test file: tests/operations/roadmap/status_manager.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/summarize.py
+    purpose: Roadmap Summary Generator
+    lines: 531
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 7
+        documented: 6
+        coverage_percent: 85.7
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/summarize.py
+      recommendation: 'Create test file: tests/operations/roadmap/summarize.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/transitions.py
+    purpose: Centralized status transition logic for roadmap entities.
+    lines: 351
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 7
+        documented: 6
+        coverage_percent: 85.7
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/transitions.py
+      recommendation: 'Create test file: tests/operations/roadmap/transitions.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/update.py
+    purpose: Roadmap update operations.
+    lines: 1818
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 9
+        documented: 9
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: appropriate
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/update.py
+      recommendation: 'Create test file: tests/operations/roadmap/update.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/validate.py
+    purpose: Validate Roadmap Data Format
+    lines: 330
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 0
+      best_practices: 25
+      total: 75
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 1
+        documented: 1
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 8
+        documented: 8
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/roadmap/validate.py
+      recommendation: 'Create test file: tests/operations/roadmap/validate.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/roadmap/verification.py
+    purpose: Verification module for roadmap integrity.
+    lines: 564
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 25
+      test_coverage: 15
+      best_practices: 25
+      total: 90
+      grade: A
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 4
+        documented: 4
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 11
+        coverage_percent: 100.0
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: true
+      test_files:
+      - tests/operations/roadmap/test_verification.py
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings: []
+    recommendations: []
+  - path: vibey/operations/validate/__init__.py
+    purpose: Validation operations for Vibey framework.
+    lines: 17
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 10
+      test_coverage: 0
+      best_practices: 25
+      total: 60
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      function_docstrings:
+        total: 0
+        documented: 0
+        coverage_percent: 0
+      type_hints:
+        present: false
+        coverage: none
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: adequate
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/validate/__init__.py
+      recommendation: 'Create test file: tests/operations/validate/__init__.py'
+    recommendations:
+    - Add unit tests
+    - Add type hints to function signatures
+  - path: vibey/operations/validate/doc_organization.py
+    purpose: Documentation Organization Validator
+    lines: 134
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 20
+      total: 65
+      grade: D
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 2
+        documented: 2
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 5
+        documented: 4
+        coverage_percent: 80.0
+      type_hints:
+        present: true
+        coverage: partial
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: missing
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/validate/doc_organization.py
+      recommendation: 'Create test file: tests/operations/validate/doc_organization.py'
+    recommendations:
+    - Add unit tests
+  - path: vibey/operations/validate/frontmatter.py
+    purpose: Frontmatter Validator
+    lines: 241
+    quality_score:
+      architectural_relevance: 25
+      documentation_status: 20
+      test_coverage: 0
+      best_practices: 25
+      total: 70
+      grade: C
+    architectural_relevance:
+      alignment: aligned
+      placement_correct: true
+      single_responsibility: true
+      layer: business_logic
+      notes: ''
+    documentation_status:
+      module_docstring: present
+      class_docstrings:
+        total: 3
+        documented: 3
+        coverage_percent: 100.0
+      function_docstrings:
+        total: 11
+        documented: 8
+        coverage_percent: 72.7
+      type_hints:
+        present: true
+        coverage: full
+      inline_comments: sparse
+    test_coverage:
+      has_tests: false
+      test_files: []
+      line_coverage_percent: null
+      branch_coverage_percent: null
+      critical_paths_tested: unknown
+      gaps: []
+    access_patterns:
+      cli_accessible: false
+      cli_commands: []
+      mcp_accessible: false
+      mcp_tools: []
+      internal_only: false
+      entry_points: []
+    best_practices:
+      error_handling: good
+      logging: missing
+      security_issues: []
+      performance_concerns: []
+      code_style_compliant: true
+      violations: []
+    findings:
+    - type: major
+      description: No test file found
+      location: vibey/operations/validate/frontmatter.py
+      recommendation: 'Create test file: tests/operations/validate/frontmatter.py'
+    recommendations:
+    - Add unit tests

@@ -1,0 +1,130 @@
+obsolete_code:
+  generated_at: '2025-12-12T05:45:00+00:00'
+  criteria_version: '1.0'
+
+  summary:
+    total_obsolete_files: 0
+    total_obsolete_functions: 3
+    total_redundant_code_patterns: 5
+    estimated_cleanup_effort: "1 day"
+
+  # No complete files identified as obsolete
+  obsolete_files: []
+
+  # Functions that appear unused or deprecated
+  obsolete_functions:
+    - file: vibey/cli/roadmap_lib/legacy_helpers.py
+      function: format_legacy_output
+      reason: "Appears to be leftover from old CLI format"
+      callers: []
+      confidence: medium
+      action: verify_and_delete
+
+    - file: vibey/operations/roadmap/migration.py
+      function: migrate_v1_to_v2
+      reason: "One-time migration function, v1 format no longer supported"
+      callers: []
+      confidence: high
+      action: archive_or_delete
+
+    - file: vibey/adapters/base.py
+      function: _legacy_init
+      reason: "Superseded by new initialization pattern"
+      callers: []
+      confidence: medium
+      action: verify_and_delete
+
+  # Patterns of redundant code
+  redundant_code:
+    - type: duplicate_utilities
+      locations:
+        - vibey/cli/roadmap_lib/utils.py
+        - vibey/common/utils.py
+      description: "Similar utility functions exist in multiple locations"
+      recommendation: "Consolidate into vibey/common/utils.py"
+      effort: "2-4 hours"
+
+    - type: similar_error_handling
+      locations:
+        - vibey/cli/main.py (error handling patterns)
+        - vibey/mcp/server.py (error handling patterns)
+      description: "Error handling logic duplicated instead of using common errors"
+      recommendation: "Use vibey/common/errors.py consistently"
+      effort: "4-6 hours"
+
+    - type: repeated_yaml_operations
+      locations:
+        - vibey/roadmap/serialization/yaml_loader.py
+        - vibey/cli/roadmap_lib/filesystem.py
+      description: "YAML file operations repeated in multiple places"
+      recommendation: "Centralize YAML I/O in serialization module"
+      effort: "2-3 hours"
+
+    - type: similar_path_handling
+      locations:
+        - vibey/platform/paths.py
+        - vibey/cli/roadmap_lib/filesystem.py
+      description: "Path manipulation logic in multiple places"
+      recommendation: "Consolidate into vibey/platform/paths.py"
+      effort: "1-2 hours"
+
+    - type: duplicate_validation
+      locations:
+        - vibey/roadmap/models/*.py (validation methods)
+        - vibey/operations/roadmap/validation.py
+      description: "Validation logic split between models and operations"
+      recommendation: "Define clear validation boundaries"
+      effort: "3-4 hours"
+
+  # Code quality concerns (not obsolete but need attention)
+  quality_concerns:
+    high_complexity:
+      - file: vibey/cli/main.py
+        lines: 4100
+        concern: "Single file too large, difficult to maintain"
+        recommendation: "Split into multiple command modules"
+
+      - file: vibey/operations/roadmap/update.py
+        concern: "Multiple responsibilities in single module"
+        recommendation: "Split by entity type (track_update, sprint_update, task_update)"
+
+    low_test_coverage:
+      - module: vibey/cli/
+        files_without_tests: 88
+        concern: "CLI module lacks comprehensive tests"
+        recommendation: "Add integration tests for CLI commands"
+
+      - module: vibey/adapters/
+        files_without_tests: 40
+        concern: "Adapter implementations untested"
+        recommendation: "Add unit tests for each adapter"
+
+    missing_documentation:
+      - module: vibey/content/
+        concern: "Minimal documentation for content module"
+        recommendation: "Add module docstrings and usage examples"
+
+  recommendations:
+    immediate:
+      - "Verify and remove 3 identified obsolete functions"
+      - "Run dead code analysis tool (vulture) for comprehensive check"
+
+    short_term:
+      - "Consolidate utility functions into common module"
+      - "Standardize error handling across CLI and MCP"
+      - "Add tests for untested modules"
+
+    long_term:
+      - "Refactor vibey/cli/main.py into smaller modules"
+      - "Establish clear module boundaries and responsibilities"
+      - "Implement continuous test coverage monitoring"
+
+  verification_needed:
+    - description: "Run vulture or similar tool to identify dead code"
+      command: "pip install vulture && vulture vibey/"
+
+    - description: "Check import graph for unused modules"
+      command: "Use vibey audit dependency-graph to verify"
+
+    - description: "Verify no external dependencies on obsolete code"
+      command: "grep -r 'function_name' --include='*.py'"

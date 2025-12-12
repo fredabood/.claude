@@ -229,6 +229,30 @@ def detect_and_log_bypass(repo_path: Path) -> int:
     return len(events)
 
 
+def get_head_commit_info(repo_path: Path) -> tuple:
+    """Get commit SHA and message for HEAD."""
+    try:
+        # Get commit SHA
+        result = subprocess.run(
+            ["git", "-C", str(repo_path), "rev-parse", "HEAD"],
+            capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            return None, None
+        commit_sha = result.stdout.strip()
+
+        # Get commit message
+        result = subprocess.run(
+            ["git", "-C", str(repo_path), "log", "-1", "--format=%s"],
+            capture_output=True, text=True
+        )
+        message = result.stdout.strip() if result.returncode == 0 else ""
+
+        return commit_sha, message
+    except Exception:
+        return None, None
+
+
 def main() -> int:
     """Clear CLI changes tracker after successful commit and detect bypass."""
     try:
@@ -248,6 +272,18 @@ def main() -> int:
 
         # Detect bypass
         detect_and_log_bypass(repo_path)
+
+        # Session tracking: Associate commit with active session
+        try:
+            from vibey.operations.roadmap.hooks.session_hooks import on_post_commit
+            commit_sha, message = get_head_commit_info(repo_path)
+            if commit_sha:
+                on_post_commit(repo_path, commit_sha, message)
+        except ImportError:
+            pass  # Session hooks not available
+        except Exception as e:
+            # Don't fail commit for session tracking errors
+            print(f"Warning: Session tracking error: {e}", file=sys.stderr)
 
         return 0
 

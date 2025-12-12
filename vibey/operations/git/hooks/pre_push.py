@@ -310,6 +310,21 @@ class PrePushHook:
         if self.config.get("mode") == "off":
             return 0
 
+        # Session tracking: Warn about active session (advisory only)
+        try:
+            from vibey.operations.roadmap.hooks.session_hooks import (
+                on_pre_push,
+                print_active_session_warning,
+            )
+            session_info = on_pre_push(self.repo_path)
+            if session_info:
+                print_active_session_warning(session_info)
+        except ImportError:
+            pass  # Session hooks not available
+        except Exception as e:
+            # Don't fail push for session tracking errors
+            print(f"Warning: Session check error: {e}", file=sys.stderr)
+
         # Parse refs from stdin
         if not stdin_data:
             stdin_data = sys.stdin.read()

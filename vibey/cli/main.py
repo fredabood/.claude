@@ -4047,6 +4047,59 @@ def audit_inventory(ctx, output: Optional[str], directories: tuple, output_forma
         console.print(f"\n[green]Inventory saved to:[/green] {output_path}")
 
 
+@audit.command('classify')
+@click.option('--directory', '-d', type=click.Choice(['vibey', 'docs', 'tests', 'all']),
+              default='vibey', help='Directory to classify')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Output file path')
+@click.pass_context
+def audit_classify(ctx, directory: str, output: Optional[str]):
+    """Classify files according to taxonomy.
+
+    Analyzes files in specified directory and generates a classification
+    YAML file with category, purpose, dependencies, and coverage info.
+
+    Examples:
+      vibey audit classify                      # Classify vibey/ (default)
+      vibey audit classify -d docs              # Classify docs/
+      vibey audit classify -d vibey -o out.yaml # Custom output
+    """
+    from pathlib import Path
+    from vibey.operations.audit.file_classifier import (
+        classify_vibey_files,
+        save_classification,
+    )
+
+    root_path = Path.cwd()
+
+    if directory == 'vibey':
+        console.print("[blue]Classifying vibey/ package files...[/blue]")
+        classification = classify_vibey_files(root_path)
+
+        if output:
+            output_path = Path(output)
+        else:
+            output_path = Path(".vibey/roadmap/context/tracks/user-journey-audit/sprints/phase-1-1/VIBEY_FILE_CLASSIFICATION.yaml")
+
+        summary = classification["classification"]["summary"]
+        console.print(f"[green]Classified {summary['total_files']} files[/green]")
+
+        console.print("\n[bold]Files by subcategory:[/bold]")
+        for subcat, count in summary['by_subcategory'].items():
+            console.print(f"  {subcat}: {count}")
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        save_classification(classification, output_path)
+        console.print(f"\n[green]Classification saved to:[/green] {output_path}")
+
+    elif directory in ('docs', 'tests'):
+        console.print(f"[yellow]Classification for {directory}/ not yet implemented[/yellow]")
+        console.print("Use vibey audit classify -d vibey for now")
+
+    else:
+        console.print("[yellow]Classification for all directories not yet implemented[/yellow]")
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

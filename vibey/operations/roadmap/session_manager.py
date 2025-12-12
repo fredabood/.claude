@@ -502,11 +502,18 @@ class SessionManager:
         session.add_task(task_id)
 
         # Log task association event
-        self.log_event(
-            SessionEventType.TASK_START,
+        event = SessionEvent(
+            id=str(ULID()),
+            session_id=session.id,
+            timestamp=datetime.now(timezone.utc),
+            event_type=SessionEventType.TASK_START,
             data={"task_id": task_id},
             task_id=task_id,
         )
+        session.add_event(event)
+
+        # Save session with both task and event
+        self._save_session(session)
 
     def associate_commit(
         self,
@@ -550,8 +557,11 @@ class SessionManager:
         session.add_commit(commit)
 
         # Log commit event
-        self.log_event(
-            SessionEventType.COMMIT_MADE,
+        event = SessionEvent(
+            id=str(ULID()),
+            session_id=session.id,
+            timestamp=datetime.now(timezone.utc),
+            event_type=SessionEventType.COMMIT_MADE,
             data={
                 "commit_sha": commit_sha,
                 "message": message,
@@ -559,6 +569,10 @@ class SessionManager:
             },
             commit_sha=commit_sha,
         )
+        session.add_event(event)
+
+        # Save session with both commit and event
+        self._save_session(session)
 
     # =========================================================================
     # Context Snapshots

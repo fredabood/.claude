@@ -3957,6 +3957,97 @@ def auth_revoke(ctx, email: str, yes: bool):
 
 
 # ============================================================================
+# Audit Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def audit(ctx):
+    """
+    Audit and analyze codebase structure, documentation coverage, and file classification.
+
+    The audit system provides tools for:
+    - File inventory generation
+    - File classification by purpose and type
+    - Dependency analysis
+    - Documentation coverage analysis
+    - Test coverage mapping
+
+    Examples:
+
+      vibey audit inventory             # Generate file inventory
+      vibey audit inventory --output FILE  # Save to specific file
+    """
+    ctx.ensure_object(dict)
+
+
+@audit.command('inventory')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Output file path (default: .vibey/roadmap/context/.../FILE_INVENTORY.yaml)')
+@click.option('--directories', '-d', multiple=True, default=None,
+              help='Directories to scan (can specify multiple)')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['yaml', 'json']),
+              default='yaml', help='Output format')
+@click.pass_context
+def audit_inventory(ctx, output: Optional[str], directories: tuple, output_format: str):
+    """Generate file inventory for codebase audit.
+
+    Scans specified directories and generates a structured inventory
+    of all files with metadata (path, type, size, lines, modified time).
+
+    Examples:
+      vibey audit inventory                          # Default directories
+      vibey audit inventory -d vibey/ -d docs/       # Custom directories
+      vibey audit inventory --output inventory.yaml  # Custom output path
+      vibey audit inventory --format json            # JSON output
+    """
+    from pathlib import Path
+    from vibey.operations.audit.file_inventory import (
+        generate_file_inventory,
+        FileInventoryConfig,
+        save_inventory,
+    )
+    import json as json_mod
+    import yaml
+
+    # Set up configuration
+    config = FileInventoryConfig()
+    if directories:
+        config.directories = list(directories)
+
+    # Generate inventory
+    console.print(f"[blue]Scanning directories:[/blue] {', '.join(config.directories)}")
+    inventory = generate_file_inventory(config)
+
+    summary = inventory["inventory"]["summary"]
+    console.print(f"[green]Found {summary['total_files']} files in {summary['total_directories']} directories[/green]")
+
+    # Show extension breakdown
+    console.print("\n[bold]Files by extension:[/bold]")
+    for ext, count in list(summary['by_extension'].items())[:10]:
+        console.print(f"  {ext}: {count}")
+    if len(summary['by_extension']) > 10:
+        console.print(f"  ... and {len(summary['by_extension']) - 10} more extensions")
+
+    # Determine output path
+    if output:
+        output_path = Path(output)
+    else:
+        output_path = Path(".vibey/roadmap/context/tracks/user-journey-audit/sprints/phase-1-1/FILE_INVENTORY.yaml")
+
+    # Save output
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if output_format == 'json':
+        with open(output_path.with_suffix('.json'), 'w') as f:
+            json_mod.dump(inventory, f, indent=2)
+        console.print(f"\n[green]Inventory saved to:[/green] {output_path.with_suffix('.json')}")
+    else:
+        save_inventory(inventory, output_path)
+        console.print(f"\n[green]Inventory saved to:[/green] {output_path}")
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

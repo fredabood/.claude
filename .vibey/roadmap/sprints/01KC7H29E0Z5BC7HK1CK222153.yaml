@@ -22,37 +22,32 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 4
     tasks_completed: 4
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Extraction script that converts embedded tasks to standalone files
-  - 1,330 new standalone task files created
-  - Database rebuilt with correct task counts
-  description: |
-    Extract all 1,330 embedded tasks from 202 sprint YAML files to standalone
+  deliverables: []
+  description: 'Extract all 1,330 embedded tasks from 202 sprint YAML files to standalone
+
     task files in the .vibey/roadmap/tasks/ directory. Each embedded task
+
     gets a new ULID and proper standalone format.
+
+    '
   goal: All embedded tasks extracted to standalone files
-  success_criteria:
-  - All 1,330 embedded tasks have standalone files
-  - Database shows correct task counts for all tracks
-  - No data loss during extraction
-  risks:
-  - Duplicate task creation if IDs not properly mapped
-  - Data loss if extraction script has bugs
+  success_criteria: []
+  risks: []
   notes: Priority CRITICAL - blocks all other sprints
   assigned_agents: []
   quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
-    estimated_duration: 3 days
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

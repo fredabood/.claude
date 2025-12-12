@@ -5,15 +5,21 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Bug #17: sync command does not update sprint/track progress'
-  description: |
-    The `vibey roadmap sync` command only updates roadmap.yaml progress but does
+  description: 'The `vibey roadmap sync` command only updates roadmap.yaml progress
+    but does
+
     not recalculate and update sprint-level and track-level progress counts.
+
     When individual tasks are marked completed, the sprint/track files still
+
     show old progress numbers. Need to implement cascading progress updates.
+
+    '
   status: completed
-  created: '2025-12-11T01:30:00.000000+00:00'
-  started: '2025-12-11T02:45:00.000000+00:00'
-  completed: '2025-12-11T03:00:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T01:30:00+00:00'
+  started: '2025-12-11T02:45:00+00:00'
+  completed: '2025-12-11T03:00:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -23,16 +29,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-    original_bug: 17
-  slug: dogfooding-bugs-08-task-002
-  parent_ref: 01KC4P55YG0C05YSWXR2YCS3C4
-  criteria: []
-  sequence: 2

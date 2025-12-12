@@ -2,32 +2,20 @@ track:
   id: 01KC2D0JK2A3KNMQVJDACN1X9M
   name: Cursor Platform Port
   roadmap_id: vibey-framework-v2
-  status: superseded
+  status: wont_do
   blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  started: null
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 2
-    sprints_completed: 1
-    tasks_total: 12
-    tasks_completed: 5
-    completion_percent: 41
-  sprints:
-  - id: cursor-port-1
-    name: Core Adapter & MCP Configuration
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 7
-    started: '2025-11-23T00:00:00+00:00'
-  - id: cursor-port-2
-    name: Testing & Documentation
-    status: not_started
-    estimated_duration: null
-    tasks_count: 5
-    started: null
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -44,6 +32,4 @@ track:
     last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
-    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
-    superseded_date: '2025-12-11T23:09:20.061361+00:00'
+    notes: null

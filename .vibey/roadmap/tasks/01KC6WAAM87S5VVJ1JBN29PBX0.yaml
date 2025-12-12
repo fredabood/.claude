@@ -5,19 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Task 010: Migrate Git Integration Files'
-  description: >-
-    Update 8 git integration files to use flat structure paths:
-    - git_sync.py (lines 264, 300, 505, 515)
-    - ci_integration.py (lines 239, 507)
-    - commit_evidence.py (lines 120, 174)
-    - blocker_enforcer.py (lines 277, 283)
-    - error_handler.py (lines 235, 250, 267, 372)
-    - merge_ordering.py (lines 179, 216)
-    - sprint_tagger.py (line 144)
-    - state_reconstructor.py (line 207)
-    All patterns like sprint_dir / "sprint.yaml" and track_id / "track.yaml"
-    must be migrated to flat paths: tracks/{id}.yaml, sprints/{id}.yaml
+  description: 'Update 8 git integration files to use flat structure paths: - git_sync.py
+    (lines 264, 300, 505, 515) - ci_integration.py (lines 239, 507) - commit_evidence.py
+    (lines 120, 174) - blocker_enforcer.py (lines 277, 283) - error_handler.py (lines
+    235, 250, 267, 372) - merge_ordering.py (lines 179, 216) - sprint_tagger.py (line
+    144) - state_reconstructor.py (line 207) All patterns like sprint_dir / "sprint.yaml"
+    and track_id / "track.yaml" must be migrated to flat paths: tracks/{id}.yaml,
+    sprints/{id}.yaml'
   status: completed
+  blocked: true
   created: '2025-12-11T19:00:00+00:00'
   started: '2025-12-11T20:30:00+00:00'
   completed: '2025-12-11T21:15:00+00:00'
@@ -26,24 +22,22 @@ task:
   phase_label: null
   estimated_tokens: 4000
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on:
-    - 01KC4ZWAGDKBH0NK3X0SDN6YXQ
-  deliverables:
-    - Updated git_sync.py
-    - Updated ci_integration.py
-    - Updated commit_evidence.py
-    - Updated blocker_enforcer.py
-    - Updated error_handler.py
-    - Updated merge_ordering.py
-    - Updated sprint_tagger.py
-    - Updated state_reconstructor.py
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    bug_number: 19
-    scope: git-integration
-    files_count: 8
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

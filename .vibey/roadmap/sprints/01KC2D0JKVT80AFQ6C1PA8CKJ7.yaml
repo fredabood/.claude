@@ -4,50 +4,38 @@ sprint:
   track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-10T01:00:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-10T01:30:00+00:00'
-  production_gate_check_at: '2025-12-10T18:03:16.103158+00:00'
-  production_ready_at: '2025-12-10T18:03:47.557613+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-10T01:30:00+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 0
-    development_tasks_completed: 0
+    development_tasks_total: 5
+    development_tasks_completed: 5
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: unified-arch-2
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: unified-arch-2
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T13:03:16.100843+00:00'
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - path: vibey/roadmap/identity/ulid.py
-    type: code
-    description: ULID generation and validation
-  - path: vibey/roadmap/identity/id_file.py
-    type: code
-    description: .id file format handler
+  deliverables: []
   description: 'Implement ULID-based identity system as designed in sqlite-backend-6/context/architecture/04-IDENTITY-SYSTEM.md.
 
 
@@ -85,16 +73,8 @@ sprint:
 
     '
   goal: Implement ULID-based identity with sequence and slug fields
-  success_criteria:
-  - All entities have ULID identifiers
-  - sequence field controls sibling ordering
-  - slug field provides human-readable path
-  - .id files map slug to ULID
-  - All references updated to use ULIDs
-  - Backward compatibility with slug lookups
-  risks:
-  - Breaking external references to old IDs
-  - Git history may show as delete+create for renamed files
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []

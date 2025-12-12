@@ -10,8 +10,8 @@ sprint:
   started: null
   completion_gate_check_at: null
   completed: '2025-11-24T00:00:00+00:00'
-  production_gate_check_at: '2025-12-10T18:03:07.098114+00:00'
-  production_ready_at: '2025-12-10T18:03:38.441092+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-11-24T00:00:00+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 6
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 6
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []

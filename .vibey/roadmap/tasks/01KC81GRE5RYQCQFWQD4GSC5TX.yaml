@@ -1,0 +1,33 @@
+task:
+  id: 01KC81GRE5RYQCQFWQD4GSC5TX
+  sprint_id: 01KC81GRE5RYQCQFWQD4GSC5TR
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement audit logging infrastructure
+  description: Implement audit logging in vibey/operations/audit/ with structured
+    event capture and storage.
+  status: not_started
+  blocked: false
+  created: '2025-12-12T01:06:32.005519+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 18000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

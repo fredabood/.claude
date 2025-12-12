@@ -5,13 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update validator.py
-  description: |
-    Update validator.py to check standalone task files instead of
+  description: 'Update validator.py to check standalone task files instead of
+
     embedded tasks in sprint files.
 
+
     Changes at lines 285, 287, 294:
+
     - Update validation to check tasks/*.yaml files
+
     - Remove validation of embedded tasks
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -26,19 +31,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/roadmap/validation/validator.py
-    type: code
-    description: Updated to validate standalone files
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-4-task-004
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222156
-  criteria: []
-  sequence: 4

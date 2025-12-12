@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-12-07T15:00:00+00:00'
-  started: '2025-12-09T14:55:00+00:00'
-  completed: '2025-12-11T23:21:39.265658+00:00'
+  started: null
+  completed: '2025-12-07T15:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 5
+    sprints_completed: 0
     tasks_total: 29
     tasks_completed: 29
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4S
     name: Directory Structure Migration
@@ -49,29 +49,17 @@ track:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: sqlite-backend
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: completed
-    last_checked: null
+  depends_on: []
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
   deliverables: []
-  strategic_value:
-  - Complete the unified ticket architecture as designed
-  - Enable criteria-based completion enforcement
-  - Reduce directory bloat by 98% (1,300+ dirs to ~30)
-  - Enable ULID-based immutable identity
-  - Unblock future Jira/GitHub/Linear integrations
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: claude-code
+    created_by: unknown
     last_updated: null
-    design_doc: .vibey/roadmap/sqlite-backend/sqlite-backend-6/context/architecture/
-    implementation_plan: .vibey/roadmap/sqlite-backend/IMPLEMENTATION_AUDIT_2025-12-07.md
-    notes: Created to complete architectural migration that sqlite-backend track designed
-      but did not implement
+    design_doc: null
+    implementation_plan: null
+    notes: null

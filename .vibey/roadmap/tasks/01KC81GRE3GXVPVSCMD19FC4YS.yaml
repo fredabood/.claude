@@ -1,0 +1,33 @@
+task:
+  id: 01KC81GRE3GXVPVSCMD19FC4YS
+  sprint_id: 01KC81GRE3GXVPVSCMD19FC4YQ
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Map New User journey
+  description: 'Document complete journey for new users: discovery → installation
+    → first project → basic CLI usage. Map to CLI commands used. Output: JOURNEY_NEW_USER.md.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T01:06:32.003185+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 12000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,35 @@
+task:
+  id: 01KC8DN271YHZ3PPN4X9NHS36P
+  sprint_id: 01KC8DN270VNW5CP8F8Q9QA4WB
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Define scripts audit criteria
+  description: 'Document the audit criteria checklist for scripts: (1) purpose and
+    functionality, (2) relevance to current architecture, (3) documentation (docstrings,
+    usage instructions), (4) CLI equivalent exists or needed, (5) deprecation candidate,
+    (6) security considerations. Output: SCRIPTS_AUDIT_CRITERIA.md.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:38:36.001548+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

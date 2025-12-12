@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -22,29 +23,24 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Fully functional tree view in sidebar
-  - Status-based icons and colors
-  - Auto-refresh on file changes
-  - Context menus and filtering
+  deliverables: []
   description: 'Implement the VS Code tree view sidebar showing the roadmap hierarchy
 
     (tracks -> sprints -> tasks) with status icons, decorations, and context menus.
 
     '
   goal: Complete tree view navigation for roadmap
-  success_criteria:
-  - Tree shows tracks, sprints, and tasks hierarchically
-  - Status icons reflect current state (completed, in_progress, etc.)
-  - Tree refreshes automatically when YAML files change
-  - Context menus provide relevant actions
-  risks:
-  - Performance with large roadmaps
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -54,7 +50,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: vscode-roadmap-extension-1
-  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  criteria: []
-  sequence: 1

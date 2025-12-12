@@ -7,6 +7,7 @@ task:
   title: MCP Auto-Setup Research - Continue
   description: Research Continue MCP configuration requirements and automation approach
   status: not_started
+  blocked: false
   created: '2025-11-25T00:00:00+00:00'
   started: null
   completed: null
@@ -19,15 +20,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: mcp-server-4-task-002
-  parent_ref: 01KC2D0JKA23EJA1W712Y5S6ZK
-  criteria: []
-  sequence: 2

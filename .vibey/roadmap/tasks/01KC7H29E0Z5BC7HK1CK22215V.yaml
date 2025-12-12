@@ -5,16 +5,23 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Remove legacy embedded task migration code
-  description: |
-    Remove or deprecate legacy migration code that handled embedded
+  description: 'Remove or deprecate legacy migration code that handled embedded
+
     task formats.
 
+
     Files to review:
+
     - vibey/operations/migrations/embedded_tasks.py
+
     - vibey/cli/migrate-embedded-tasks.py
+
     - vibey/operations/roadmap/validate.py (embedded task warnings)
 
+
     Either remove completely or mark as deprecated.
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -29,19 +36,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/operations/migrations/
-    type: code
-    description: Cleaned up migration code
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-5-task-002
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222157
-  criteria: []
-  sequence: 2

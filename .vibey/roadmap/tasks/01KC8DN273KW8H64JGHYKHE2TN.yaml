@@ -1,0 +1,34 @@
+task:
+  id: 01KC8DN273KW8H64JGHYKHE2TN
+  sprint_id: 01KC8DN270VNW5CP8F8Q9QA4WB
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Identify deprecation candidates
+  description: 'Based on audit findings, identify scripts that are obsolete, redundant,
+    or no longer needed. Document: script name, reason for deprecation, safe removal
+    checklist. Output: SCRIPTS_DEPRECATION_CANDIDATES.yaml.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:38:36.003020+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 6000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

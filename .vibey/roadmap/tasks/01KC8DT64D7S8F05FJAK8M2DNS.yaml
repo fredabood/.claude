@@ -1,0 +1,34 @@
+task:
+  id: 01KC8DT64D7S8F05FJAK8M2DNS
+  sprint_id: 01KC8DT64AT78E0YHCBA2YE919
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: design
+  title: Design artifact tracking improvements
+  description: 'Based on gap analysis, design schema improvements to enable complete
+    artifact tracking: new tables, new columns, new relationships, migration strategy.
+    Output: ARTIFACT_TRACKING_IMPROVEMENTS_DESIGN.md.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:41:23.853395+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 20000
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

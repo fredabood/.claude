@@ -7,28 +7,28 @@ track:
   priority: medium
   created: '2025-11-07T02:00:00+00:00'
   started: null
-  completed: '2025-12-11T23:21:39.265658+00:00'
+  completed: '2025-11-07T02:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 3
-    sprints_completed: 3
+    sprints_completed: 0
     tasks_total: 12
     tasks_completed: 12
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
-  - id: multi-platform-1
+  - id: 01KC2D0JKA23EJA1W712Y5S70H
     name: Extract Platform-Agnostic Core
     status: production_ready
     estimated_duration: null
     tasks_count: 2
     started: null
-  - id: multi-platform-2
+  - id: 01KC2D0JKA23EJA1W712Y5S70M
     name: Design Adapter Pattern & Interface
     status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
-  - id: multi-platform-3
+  - id: 01KC2D0JKB120S3ZRAGX1K83MJ
     name: Build Unified vibey CLI
     status: production_ready
     estimated_duration: null

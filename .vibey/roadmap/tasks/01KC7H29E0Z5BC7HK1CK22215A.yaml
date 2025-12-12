@@ -5,16 +5,24 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Execute extraction for all 1,330 embedded tasks
-  description: |
-    Run the extraction script to create standalone files for all
+  description: 'Run the extraction script to create standalone files for all
+
     1,330 embedded tasks across 202 sprints.
 
+
     Steps:
+
     1. Run extraction in dry-run mode first
+
     2. Review planned changes
+
     3. Create full backup
+
     4. Execute extraction
+
     5. Verify all tasks extracted
+
+    '
   status: completed
   blocked: true
   created: '2025-12-11T00:00:00+00:00'
@@ -29,31 +37,18 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocked_by:
-  - embedded-task-migration-1-task-001
-  - embedded-task-migration-1-task-002
+  blocks: []
+  blocked_by: []
   depends_on:
-  - blocker_id: 01KC7H29E0Z5BC7HK1CK222158
-    blocker_type: task
-    required_status: completed
-    description: Extraction script must be ready
-    status: pending
-  - blocker_id: 01KC7H29E0Z5BC7HK1CK222159
-    blocker_type: task
-    required_status: completed
-    description: Slug mapping must be ready
-    status: pending
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - path: .vibey/roadmap/tasks/
-    type: other
-    description: 1,330 new standalone task files
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-1-task-003
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222153
-  criteria: []
-  sequence: 3

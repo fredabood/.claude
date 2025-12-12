@@ -1,0 +1,33 @@
+task:
+  id: 01KC8D9ZBZ40QHPXV2GCFDEMZ6
+  sprint_id: 01KC81GRE03CSJ06K7K481K3XJ
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit vibey/content/ module
+  description: 'Apply audit criteria to all files in vibey/content/. Document: content
+    types, file handling, template management, asset processing. Output: AUDIT_CONTENT_MODULE.yaml.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:32:32.639449+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 15000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

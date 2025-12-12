@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKDQPXAYGH93V9Z82Y5
   roadmap_id: vibey-framework-v2
   status: completed
+  blocked: false
   blocked_reason: null
   created: '2025-11-20T01:00:00+00:00'
   started: null
@@ -22,8 +23,11 @@ sprint:
     tasks_total: 7
     tasks_completed: 7
     completion_percent: 100.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
   deliverables: []
   description: null
@@ -32,6 +36,7 @@ sprint:
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -41,7 +46,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: roadmap-integrity-fixes-10
-  parent_ref: 01KC2D0JKDQPXAYGH93V9Z82Y5
-  criteria: []
-  sequence: 10

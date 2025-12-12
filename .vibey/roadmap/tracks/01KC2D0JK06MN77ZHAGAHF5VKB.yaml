@@ -2,26 +2,20 @@ track:
   id: 01KC2D0JK06MN77ZHAGAHF5VKB
   name: Aider Platform Port
   roadmap_id: vibey-framework-v2
-  status: superseded
+  status: wont_do
   blocked: false
   priority: high
   created: '2025-11-09T00:00:00+00:00'
-  started: '2025-11-09T00:00:00+00:00'
-  completed: '2025-11-09T12:00:00+00:00'
+  started: null
+  completed: null
   estimated_duration: null
   progress:
-    sprints_total: 1
-    sprints_completed: 1
+    sprints_total: 0
+    sprints_completed: 0
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  sprints:
-  - id: aider-port-1
-    name: Aider Platform Adapter Implementation
-    status: production_gate_check
-    estimated_duration: null
-    tasks_count: 8
-    started: null
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -38,6 +32,4 @@ track:
     last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
-    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
-    superseded_date: '2025-12-11T23:09:20.061361+00:00'
+    notes: null

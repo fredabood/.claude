@@ -1,0 +1,36 @@
+task:
+  id: 01KC8DP9BN6XYVPE9RXX2D5QNB
+  sprint_id: 01KC8DN270VNW5CP8F8Q9QA4WB
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Audit project configuration files
+  description: 'Apply audit criteria to root-level project configuration files: .coveragerc
+    (coverage settings), .gitignore (git exclusions), .pre-commit-config.yaml (pre-commit
+    hooks), MANIFEST.in (package manifest), pyproject.toml (project metadata, dependencies,
+    tool configs), pytest.ini (pytest settings). Check for: accuracy, completeness,
+    alignment with current tooling, best practices compliance. Output: AUDIT_PROJECT_CONFIG_FILES.yaml.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:39:16.085337+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 12000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -5,12 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update context_loader.py
-  description: |
-    Update context_loader.py to query standalone task files instead
-    of reading sprint['tasks'].
+  description: 'Update context_loader.py to query standalone task files instead
+
+    of reading sprint[''tasks''].
+
 
     Changes at lines 216, 395:
+
     - Replace embedded task reading with standalone file queries
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -25,19 +29,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/roadmap/context_loader.py
-    type: code
-    description: Updated to use standalone files
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-2-task-004
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222154
-  criteria: []
-  sequence: 4

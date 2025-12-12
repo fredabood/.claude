@@ -5,14 +5,13 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Task 004: Migrate integrity_audit.py to Flat Structure'
-  description: >-
-    Update integrity_audit.py to work with flat structure:
-    - Remove track_dir / "track.yaml" patterns (lines 211, 363, 714)
-    - Remove sprint_dir / "sprint.yaml" patterns (lines 232, 392, 736)
-    - Remove task_dir / "task.yaml" patterns (line 262)
-    - Update all file counting and validation logic
-    - Update orphan detection to use flat structure
+  description: 'Update integrity_audit.py to work with flat structure: - Remove track_dir
+    / "track.yaml" patterns (lines 211, 363, 714) - Remove sprint_dir / "sprint.yaml"
+    patterns (lines 232, 392, 736) - Remove task_dir / "task.yaml" patterns (line
+    262) - Update all file counting and validation logic - Update orphan detection
+    to use flat structure'
   status: completed
+  blocked: true
   created: '2025-12-10T20:00:00+00:00'
   started: '2025-12-11T11:00:00+00:00'
   completed: '2025-12-11T11:30:00+00:00'
@@ -21,17 +20,22 @@ task:
   phase_label: null
   estimated_tokens: 3500
   actual_tokens: null
-  complexity: high
+  complexity: complex
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on:
-    - 01KC4ZWAGDKBH0NK3X0SDN6YXP
-  deliverables:
-    - Updated integrity_audit.py
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
-    bug_number: 19
-    file: vibey/roadmap/database/integrity_audit.py
-    lines: '211-742'
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

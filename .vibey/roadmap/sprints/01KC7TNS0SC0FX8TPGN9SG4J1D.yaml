@@ -22,25 +22,17 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 15
     tasks_completed: 7
-    completion_percent: 46
+    completion_percent: 47.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Windsurf/Codeium adapter implementation
-  - Windsurf/Codeium MCP configuration
-  - Windsurf/Codeium integration tests
-  - Windsurf/Codeium documentation
+  deliverables: []
   description: Implement Vibey framework compatibility for Windsurf/Codeium.
   goal: Full Windsurf/Codeium integration with Vibey framework
-  success_criteria:
-  - Windsurf/CodeiumAdapter class implemented
-  - Unit tests passing
-  - Integration tests passing
-  - Documentation complete
+  success_criteria: []
   risks: []
   notes: Migrated from old track 01KC2D0JKY8WC5NT15KN5SW9YE
   assigned_agents: []
@@ -48,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

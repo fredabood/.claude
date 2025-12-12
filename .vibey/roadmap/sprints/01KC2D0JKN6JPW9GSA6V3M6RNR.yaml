@@ -4,14 +4,14 @@ sprint:
   track_id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-05T00:00:00+00:00'
   started: '2025-12-05T12:00:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-06T15:35:51.501954+00:00'
-  production_gate_check_at: '2025-12-10T18:03:14.113909+00:00'
-  production_ready_at: '2025-12-10T18:03:45.551846+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-06T15:35:51.501954+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 15
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 15
     tasks_completed: 15
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -35,19 +35,7 @@ sprint:
     last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Comprehensive audit report comparing Sprint 6 design to codebase
-  - criteria table in database schema
-  - criterion_targets table with polymorphic types
-  - YAML format with criteria sections
-  - Bidirectional criteria serialization (load/dump)
-  - Migration from legacy dependencies to criteria
-  - can_transition_to() integration in CLI
-  - verify_completion_claims() in pre-commit hook
-  - Full criteria-based completion enforcement
-  - Quality gates migrated to ThresholdTarget criteria
-  - Standards enforced via Requirements cascade system
-  - Computed progress from criteria (replaces manual counters)
+  deliverables: []
   description: 'Sprint 6 designed a comprehensive unified ticket architecture with
     criteria-based
 
@@ -73,19 +61,8 @@ sprint:
 
     '
   goal: Fully implement the unified ticket architecture designed in Sprint 6
-  success_criteria:
-  - All criteria are stored in database, not JSON columns
-  - Dependencies use CompletableTarget with blocks_transition_to=IN_PROGRESS
-  - Status changes require can_transition_to() validation
-  - Pre-commit hook blocks completion claims if criteria not met
-  - Round-trip validation passes for criteria
-  - Quality gates converted to ThresholdTarget criteria with score comparison
-  - Standards cascade via Requirements with inherit_mode (INHERIT/OVERRIDE/SKIP)
-  - Progress computed automatically from met/unmet criteria per transition type
-  risks:
-  - Breaking changes to existing YAML format
-  - Migration complexity for existing roadmaps
-  - Performance impact of criteria evaluation
+  success_criteria: []
+  risks: []
   notes: 'KEY ARCHITECTURE REFERENCES:
 
     - sqlite-backend-6/context/architecture/01-DESIGN-PRINCIPLES.md

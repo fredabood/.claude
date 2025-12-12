@@ -8,39 +8,28 @@ sprint:
   blocked_reason: null
   created: '2025-11-28T17:00:00+00:00'
   started: '2025-12-06T15:37:59.551220+00:00'
-  completion_gate_check_at: '2025-12-07T14:34:25.175106+00:00'
+  completion_gate_check_at: null
   completed: '2025-12-07T14:35:42.385073+00:00'
-  production_gate_check_at: '2025-12-10T18:03:14.230275+00:00'
-  production_ready_at: '2025-12-10T18:03:45.668538+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-07T14:35:42.385073+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 11
-    development_tasks_completed: 11
+    development_tasks_total: 10
+    development_tasks_completed: 10
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 11
-    tasks_completed: 11
-    completion_percent: 100
+    tasks_total: 10
+    tasks_completed: 10
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Production database initialized with full schema (27 tables, 21 views)
-  - Dual-write pattern for all update operations
-  - Pre-commit hook that dumps DB to YAML
-  - Post-merge hook that rebuilds DB from YAML
-  - Data integrity fixes for existing roadmap YAML
-  - Sprint summary validation in integrity audit
-  - End-to-end sync system validation suite
-  - Migration script for existing roadmaps
-  - Updated CLI with new directory structure support
-  - ActivityLog integration with ticket lifecycle events
-  - Optional auto-progression for status transitions
+  deliverables: []
   description: 'Execute the production cutover where SQLite becomes the primary source
     of truth
 
@@ -93,20 +82,8 @@ sprint:
 
     '
   goal: Execute production cutover to SQLite with automatic YAML sync via git hooks
-  success_criteria:
-  - Production database created with full schema
-  - All update operations write to SQLite first
-  - Pre-commit hook exports DB to YAML before commit
-  - Post-merge hook rebuilds DB from YAML after merge
-  - No manual YAML editing required for status changes
-  - Round-trip integrity maintained (YAML → DB → YAML)
-  - ActivityLog captures all lifecycle events
-  - Migration script works on existing vibey roadmaps
-  risks:
-  - Data loss if hooks fail silently
-  - Merge conflicts in YAML after concurrent edits
-  - Performance impact of full DB dump on commit
-  - User confusion during transition period
+  success_criteria: []
+  risks: []
   notes: 'CRITICAL: This sprint is the final cutover. Once complete:
 
     1. SQLite is the primary data store

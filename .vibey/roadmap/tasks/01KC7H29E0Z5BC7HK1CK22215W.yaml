@@ -5,21 +5,33 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Final verification and documentation
-  description: |
-    Run comprehensive verification of the migration and update
+  description: 'Run comprehensive verification of the migration and update
+
     documentation.
 
+
     Verification:
+
     1. Count all standalone task files (should be ~2,459)
+
     2. Verify no sprint files have tasks[] arrays
+
     3. Rebuild database and verify counts
-    4. Run 'vibey roadmap status' to verify all tracks show correct counts
+
+    4. Run ''vibey roadmap status'' to verify all tracks show correct counts
+
     5. Run test suite to verify no regressions
 
+
     Documentation:
+
     1. Update CLAUDE.md if needed
+
     2. Archive migration plan as completed
+
     3. Document any remaining issues
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -34,19 +46,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: .vibey/roadmap/context/EMBEDDED_TASK_MIGRATION_COMPLETE.md
-    type: docs
-    description: Migration completion report
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-5-task-003
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222157
-  criteria: []
-  sequence: 3

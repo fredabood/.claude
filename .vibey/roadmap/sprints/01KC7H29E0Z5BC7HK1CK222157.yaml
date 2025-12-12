@@ -4,7 +4,7 @@ sprint:
   track_id: 01KC7H29E0Z5BC7HK1CK222152
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-11T00:00:00+00:00'
   started: '2025-12-11T20:30:00+00:00'
@@ -22,48 +22,36 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 3
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: 01KC7H29E0Z5BC7HK1CK222156
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: '2025-12-11T00:00:00+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: 01KC7H29E0Z5BC7HK1CK222156
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Sprint files with embedded tasks removed
-  - Legacy migration code removed
-  - Final verification report
-  description: |
-    Remove embedded tasks from all sprint files, remove legacy migration
+  deliverables: []
+  description: 'Remove embedded tasks from all sprint files, remove legacy migration
+
     code, and verify the entire migration was successful.
+
+    '
   goal: No embedded tasks remain, codebase fully migrated
-  success_criteria:
-  - No sprint files have tasks[] arrays
-  - All 2,459+ tasks in standalone files
-  - Database counts match file counts
-  - All tests pass
-  risks:
-  - Residual embedded task references may exist
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
-    estimated_duration: 1 day
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

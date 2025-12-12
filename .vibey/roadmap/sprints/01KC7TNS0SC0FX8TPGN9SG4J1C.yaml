@@ -14,33 +14,25 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 14
-    development_tasks_completed: 12
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 14
-    tasks_completed: 12
-    completion_percent: 85
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - JetBrains adapter implementation
-  - JetBrains MCP configuration
-  - JetBrains integration tests
-  - JetBrains documentation
+  deliverables: []
   description: Implement Vibey framework compatibility for JetBrains.
   goal: Full JetBrains integration with Vibey framework
-  success_criteria:
-  - JetBrainsAdapter class implemented
-  - Unit tests passing
-  - Integration tests passing
-  - Documentation complete
+  success_criteria: []
   risks: []
   notes: Migrated from old track 01KC2D0JK9JKQXGQW6MQEB0JZP
   assigned_agents: []
@@ -48,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

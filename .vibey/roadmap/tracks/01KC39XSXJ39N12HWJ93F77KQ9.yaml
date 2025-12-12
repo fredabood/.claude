@@ -6,15 +6,15 @@ track:
   blocked: false
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
-  started: '2025-12-10T06:00:00+00:00'
-  completed: '2025-12-11T18:49:00+00:00'
+  started: null
+  completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
     sprints_total: 10
-    sprints_completed: 10
+    sprints_completed: 0
     tasks_total: 78
     tasks_completed: 78
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -84,17 +84,12 @@ track:
   quality_gates: []
   assigned_agents: []
   deliverables: []
-  strategic_value:
-  - Resolve bugs discovered during Vibey dogfooding
-  - Improve CLI reliability and user experience
-  - Complete ULID migration properly
-  - Enable YAML backend to work correctly
-  - Maintain development velocity
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-12-10T05:05:41.041645+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: Consolidated from 15 individual bug sprints to 7 thematic sprints
+    notes: null

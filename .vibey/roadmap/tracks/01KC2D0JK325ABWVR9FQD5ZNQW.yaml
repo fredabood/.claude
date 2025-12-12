@@ -3,32 +3,32 @@ track:
   name: Platform-Agnostic Architecture (Design & Implementation)
   roadmap_id: vibey-framework-v2
   status: completed
-  blocked: false
+  blocked: true
   priority: critical
   created: '2025-11-10T10:00:00+00:00'
   started: null
-  completed: '2025-12-11T23:21:39.265658+00:00'
+  completed: '2025-11-10T10:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 3
-    sprints_completed: 3
+    sprints_completed: 0
     tasks_total: 45
     tasks_completed: 45
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
-  - id: directory-migration-1
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQX
     name: Unified CLI Tool
     status: production_ready
     estimated_duration: null
     tasks_count: 12
     started: null
-  - id: directory-migration-2
+  - id: 01KC2D0JK49XGJV84YRRHEASKD
     name: Config Migration System
     status: production_ready
     estimated_duration: null
     tasks_count: 15
     started: null
-  - id: directory-migration-3
+  - id: 01KC2D0JK49XGJV84YRRHEASKX
     name: Platform Adapter Implementation
     status: production_ready
     estimated_duration: null

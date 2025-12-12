@@ -7,9 +7,10 @@ task:
   title: Test and document MCP enhancements
   description: null
   status: completed
+  blocked: false
   created: '2025-12-11T18:14:15.808058+00:00'
-  started: '2025-12-11T19:30:00.000000+00:00'
-  completed: '2025-12-11T20:00:00.000000+00:00'
+  started: '2025-12-11T19:30:00+00:00'
+  completed: '2025-12-11T20:00:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -19,13 +20,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T18:14:15.808058+00:00'
-  slug: mcp-server-3-task-007
-  parent_ref: 01KC2D0JKA23EJA1W712Y5S6ZJ
-  criteria: []
-  sequence: 7
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

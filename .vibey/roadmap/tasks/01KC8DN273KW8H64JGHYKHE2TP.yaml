@@ -1,0 +1,34 @@
+task:
+  id: 01KC8DN273KW8H64JGHYKHE2TP
+  sprint_id: 01KC8DN270VNW5CP8F8Q9QA4WB
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Generate Scripts Audit Summary
+  description: 'Consolidate all script audits into SCRIPTS_AUDIT_SUMMARY.md with:
+    inventory statistics, relevance assessment per script, CLI migration recommendations,
+    deprecation recommendations, and priority action items.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:38:36.003082+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 12000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -22,25 +22,17 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 14
     tasks_completed: 5
-    completion_percent: 35
+    completion_percent: 36.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Cursor adapter implementation
-  - Cursor MCP configuration
-  - Cursor integration tests
-  - Cursor documentation
+  deliverables: []
   description: Implement Vibey framework compatibility for Cursor.
   goal: Full Cursor integration with Vibey framework
-  success_criteria:
-  - CursorAdapter class implemented
-  - Unit tests passing
-  - Integration tests passing
-  - Documentation complete
+  success_criteria: []
   risks: []
   notes: Migrated from old track 01KC2D0JK2A3KNMQVJDACN1X9M
   assigned_agents: []
@@ -48,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

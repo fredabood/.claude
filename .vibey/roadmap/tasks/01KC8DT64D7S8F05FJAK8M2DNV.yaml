@@ -1,0 +1,34 @@
+task:
+  id: 01KC8DT64D7S8F05FJAK8M2DNV
+  sprint_id: 01KC8DT64AT78E0YHCBA2YE919
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Generate Database Artifact Audit Summary
+  description: 'Consolidate all findings into DATABASE_ARTIFACT_AUDIT_SUMMARY.md with:
+    schema overview, artifact tracking capabilities, gap inventory, improvement recommendations,
+    and implementation priority.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:41:23.853545+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 18000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

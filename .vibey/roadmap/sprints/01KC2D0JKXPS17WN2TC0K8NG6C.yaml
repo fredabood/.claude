@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -22,14 +23,13 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Start/complete task commands
-  - Start sprint command
-  - Status picker UI
-  - Safe YAML modification
+  deliverables: []
   description: 'Enable basic editing operations from VS Code: starting/completing
     tasks and sprints,
 
@@ -37,16 +37,11 @@ sprint:
 
     '
   goal: Enable task and sprint status updates from VS Code UI
-  success_criteria:
-  - Users can start/complete tasks from tree view or command palette
-  - YAML files are updated correctly without losing formatting
-  - Confirmation dialogs prevent accidental changes
-  - Undo is available for recent changes
-  risks:
-  - YAML formatting preservation complexity
-  - Race conditions with external file changes
+  success_criteria: []
+  risks: []
   notes: Consider using yaml library that preserves comments
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -56,7 +51,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: vscode-roadmap-extension-2
-  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  criteria: []
-  sequence: 2

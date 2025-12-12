@@ -2,117 +2,40 @@ track:
   id: 01KC2D0JK7READW9KAK1HBX4BS
   name: Goose Platform Port
   roadmap_id: vibey-framework-v2
-  status: superseded
-  blocked: false
+  status: wont_do
+  blocked: true
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
   started: null
-  completed: '2025-11-07T02:00:00+00:00'
-  estimated_duration: 9 weeks
+  completed: null
+  estimated_duration: null
   progress:
-    sprints_total: 5
-    sprints_completed: 5
+    sprints_total: 0
+    sprints_completed: 0
     tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  sprints:
-  - id: goose-port-1
-    name: Frontmatter Schema & Asset Migration
-    status: production_ready
-    estimated_duration: 2 weeks
-    tasks_count: 8
-    started: null
-  - id: goose-port-2
-    name: Dynamic Discovery in MCP Server
-    status: production_ready
-    estimated_duration: 2 weeks
-    tasks_count: 6
-    started: null
-  - id: goose-port-3
-    name: Platform Adapter Architecture
-    status: production_ready
-    estimated_duration: 2 weeks
-    tasks_count: 8
-    started: null
-  - id: goose-port-4
-    name: Testing & Quality Gates
-    status: production_ready
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: goose-port-5
-    name: Documentation & Launch
-    status: production_ready
-    estimated_duration: 1 week
-    tasks_count: 5
-    started: null
-  dependencies:
-  - type: track
-    target_id: roadmap-system
-    target_status: completed
-    reason: Need roadmap system to manage Goose port work
-    optional: false
-  - type: track
-    target_id: testing-system
-    target_status: completed
-    reason: Must pass comprehensive testing before platform expansion
-    optional: false
-  - type: track
-    target_id: claude-port
-    target_status: completed
-    reason: Claude Code must be validated as reference implementation
-    optional: false
+  sprints: []
+  dependencies: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: roadmap-system
-    blocker_type: track
-    required_status: completed
-    current_status: in_progress
-    blocks_transition_to: completed
-    last_checked: '2025-11-20T17:57:18.370165+00:00'
-  - blocker_id: testing-system
-    blocker_type: track
-    required_status: completed
-    current_status: completed
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    last_checked: '2025-11-11T05:28:20.958644+00:00'
-  - blocker_id: claude-port
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-11-16T14:19:42+00:00'
+    last_checked: null
   depended_on_by: []
   quality_gates: []
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - YAML frontmatter schema for agents, workflows, and handoffs
-  - Frontmatter migration for all 57 assets (19 agents + 16 workflows + 22 handoffs)
-  - Dynamic discovery module in MCP server (framework/mcp/discovery/)
-  - 5+ Goose recipes leveraging Vibey tools
-  - Comprehensive test suite for MCP/Goose integration
-  - Frontmatter schema documentation
-  - Goose integration guide
-  - Recipe development guide
-  strategic_value:
-  - 'Platform Agnostic: Single MCP server works with Goose, Claude Code, and future
-    MCP clients'
-  - 'Zero Drift: Dynamic discovery ensures MCP tools always match agent/workflow definitions'
-  - 'LLM Agnostic: Goose supports Claude, GPT-4, Gemini, and local models'
-  - 'Ecosystem Access: 1000+ MCP tools available through Goose'
-  - 'Simpler Architecture: Extend existing MCP server instead of building new one'
-  - 'Future-Proof: Frontmatter schema enables other integrations'
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-22T00:00:00+00:00'
-    design_doc: docs/FRAMEWORK_ROADMAP.md#goose-compatibility-analysis
+    created_by: unknown
+    last_updated: null
+    design_doc: null
     implementation_plan: null
-    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
-    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
-    superseded_date: '2025-12-11T23:09:20.061361+00:00'
+    notes: null

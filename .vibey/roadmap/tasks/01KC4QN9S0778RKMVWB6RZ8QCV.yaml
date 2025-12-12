@@ -1,19 +1,27 @@
 task:
   id: 01KC4QN9S0778RKMVWB6RZ8QCV
-  title: 'Bug #18: update_sprint_progress does not work with flat ULID structure'
   sprint_id: 01KC4QN9S0778RKMVWB6RZ8QCT
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
-  description: |
-    The `update_sprint_progress` function in roadmap-update.py cannot load tasks
+  title: 'Bug #18: update_sprint_progress does not work with flat ULID structure'
+  description: 'The `update_sprint_progress` function in roadmap-update.py cannot
+    load tasks
+
     for sprints when using the flat ULID directory structure. It calls
+
     `fs.get_tasks_path(sprint_id)` which returns .vibey/roadmap/tasks/ (the entire
-    tasks directory), but `load_tasks()` doesn't filter by sprint_id.
+
+    tasks directory), but `load_tasks()` doesn''t filter by sprint_id.
+
 
     Need to add a `load_tasks_by_sprint_flat()` function that scans the flat tasks
+
     directory and returns only tasks matching the given sprint_id.
+
+    '
   status: completed
+  blocked: false
   created: '2025-12-11T03:30:00+00:00'
   started: '2025-12-11T04:00:00+00:00'
   completed: '2025-12-11T04:30:00+00:00'
@@ -21,16 +29,18 @@ task:
   priority: high
   phase_label: null
   estimated_tokens: 1
+  actual_tokens: null
   complexity: medium
-  slug: dogfooding-bugs-09-task-001
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
   depends_on: []
   depended_on_by: []
-  blocked_by: []
-  blocks: []
+  deliverables: []
   commits: []
-  artifacts: []
-  criteria: []
-  standards: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-12-11T03:30:00+00:00'
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

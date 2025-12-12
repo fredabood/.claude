@@ -22,25 +22,17 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 36
     tasks_completed: 34
-    completion_percent: 94
+    completion_percent: 94.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Goose adapter implementation
-  - Goose MCP configuration
-  - Goose integration tests
-  - Goose documentation
+  deliverables: []
   description: Implement Vibey framework compatibility for Goose.
   goal: Full Goose integration with Vibey framework
-  success_criteria:
-  - GooseAdapter class implemented
-  - Unit tests passing
-  - Integration tests passing
-  - Documentation complete
+  success_criteria: []
   risks: []
   notes: Migrated from old track 01KC2D0JK7READW9KAK1HBX4BS
   assigned_agents: []
@@ -48,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

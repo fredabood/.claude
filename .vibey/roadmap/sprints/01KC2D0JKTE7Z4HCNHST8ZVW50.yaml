@@ -4,50 +4,38 @@ sprint:
   track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-09T16:10:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-10T00:46:00+00:00'
-  production_gate_check_at: '2025-12-10T18:03:16.096547+00:00'
-  production_ready_at: '2025-12-10T18:03:47.550991+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-10T00:46:00+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 0
-    development_tasks_completed: 0
+    development_tasks_total: 7
+    development_tasks_completed: 7
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 7
+    tasks_completed: 7
+    completion_percent: 100.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: unified-arch-1
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: unified-arch-1
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T13:03:16.094167+00:00'
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - path: vibey/roadmap/database/schema_v2.sql
-    type: code
-    description: New unified schema SQL
-  - path: vibey/roadmap/database/migrate_to_v2.py
-    type: code
-    description: Schema migration script
+  deliverables: []
   description: 'Migrate from separate tables (roadmaps, tracks, sprints, tasks) to
     unified schema
 
@@ -90,18 +78,8 @@ sprint:
 
     '
   goal: Migrate database to unified completables + criteria schema
-  success_criteria:
-  - completables table created with all ticket types
-  - criteria table created with polymorphic targets
-  - artifacts table created
-  - Migration script converts legacy data
-  - All existing data preserved
-  - Round-trip validation passes
-  - SQL loader updated to use new schema
-  - SQL dumper updated to use new schema
-  risks:
-  - Data loss if migration script has bugs
-  - Performance regression with single-table inheritance
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []

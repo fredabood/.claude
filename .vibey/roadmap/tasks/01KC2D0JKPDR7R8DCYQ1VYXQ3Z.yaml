@@ -5,12 +5,16 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement optional auto-progression for status transitions
-  description: ''
-  status: not_started
+  description: 'Implementation complete. Auto-progression feature provides config-driven
+    automatic status advancement: CLI command (vibey roadmap auto-progress --check/--apply/--enable/--disable),
+    StatusManager class with check_progressions() and apply_progressions(), configurable
+    transitions and parent propagation in .vibey/config/roadmap.yaml, audit logging
+    integration.'
+  status: completed
   blocked: false
   created: '2025-12-11T21:21:44.282579+00:00'
-  started: null
-  completed: null
+  started: '2025-12-10T00:00:00+00:00'
+  completed: '2025-12-11T23:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

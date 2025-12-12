@@ -5,15 +5,22 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Build slug to ULID mapping for embedded tasks
-  description: |
-    Build a comprehensive mapping from legacy slug-based task IDs
+  description: 'Build a comprehensive mapping from legacy slug-based task IDs
+
     (like goose-port-1-task-001) to new ULIDs.
 
+
     Requirements:
+
     - Scan all existing standalone task files for slug fields
+
     - Create mapping dictionary for known slugs
+
     - Generate new ULIDs for unmapped slugs during extraction
+
     - Persist mapping for future reference
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -28,19 +35,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: .vibey/roadmap/context/task_slug_mapping.json
-    type: other
-    description: Slug to ULID mapping file
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-1-task-002
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222153
-  criteria: []
-  sequence: 2

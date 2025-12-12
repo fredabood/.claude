@@ -4,14 +4,14 @@ sprint:
   track_id: 01KC2D0JKSA4C3QG7P7YGCG37J
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-11-10T07:00:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-11-10T07:00:00+00:00'
-  production_gate_check_at: '2025-12-10T18:03:16.000494+00:00'
-  production_ready_at: '2025-12-10T18:03:47.453452+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-11-10T07:00:00+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 10
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 10
     tasks_completed: 10
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
   blocked_by: []

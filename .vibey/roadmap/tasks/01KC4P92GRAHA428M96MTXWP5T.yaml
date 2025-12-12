@@ -5,14 +5,19 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: 'Bug #16: complete command compares slug to ULID'
-  description: |
-    The `vibey roadmap complete <slug>` command fails to find tasks when using
+  description: 'The `vibey roadmap complete <slug>` command fails to find tasks when
+    using
+
     slug identifiers because it compares the slug against ULID identifiers in
+
     task files. Need to fix lookup logic to properly match slugs to tasks.
+
+    '
   status: completed
-  created: '2025-12-11T01:30:00.000000+00:00'
-  started: '2025-12-11T02:30:00.000000+00:00'
-  completed: '2025-12-11T02:45:00.000000+00:00'
+  blocked: false
+  created: '2025-12-11T01:30:00+00:00'
+  started: '2025-12-11T02:30:00+00:00'
+  completed: '2025-12-11T02:45:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null
@@ -22,16 +27,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   deliverables: []
   commits: []
   metadata:
     last_updated: null
     token_efficiency: null
     duration_hours: null
-    original_bug: 16
-  slug: dogfooding-bugs-08-task-001
-  parent_ref: 01KC4P55YG0C05YSWXR2YCS3C4
-  criteria: []
-  sequence: 1

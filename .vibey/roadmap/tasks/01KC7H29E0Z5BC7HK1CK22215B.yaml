@@ -5,16 +5,24 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Rebuild database and verify task counts
-  description: |
-    After extraction, rebuild the SQLite database and verify that
+  description: 'After extraction, rebuild the SQLite database and verify that
+
     all tracks now show correct task counts.
 
+
     Verification:
-    - Run 'vibey roadmap db rebuild'
+
+    - Run ''vibey roadmap db rebuild''
+
     - Check all tracks show expected task counts
+
     - Verify goose-port shows 34+ tasks
+
     - Verify jetbrains-port shows correct counts
+
     - Compare DB counts with file counts
+
+    '
   status: completed
   blocked: true
   created: '2025-12-11T00:00:00+00:00'
@@ -29,25 +37,18 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
-  blocked_by:
-  - embedded-task-migration-1-task-003
+  blocks: []
+  blocked_by: []
   depends_on:
-  - blocker_id: 01KC7H29E0Z5BC7HK1CK22215A
-    blocker_type: task
-    required_status: completed
-    description: Extraction must be complete
-    status: pending
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
   depended_on_by: []
-  deliverables:
-  - path: null
-    type: other
-    description: Verified database with correct counts
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-1-task-004
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222153
-  criteria: []
-  sequence: 4

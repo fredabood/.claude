@@ -5,11 +5,17 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update formatters.py
-  description: |
-    Verified formatters.py does not need changes - it's a presentation layer
-    that formats data already loaded by the query layer. The sprint.get('tasks', [])
+  description: 'Verified formatters.py does not need changes - it''s a presentation
+    layer
+
+    that formats data already loaded by the query layer. The sprint.get(''tasks'',
+    [])
+
     at line 86 reads from data already provided by query_track_details(), not
+
     directly from YAML files. No embedded task access issues.
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -24,19 +30,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/cli/formatters.py
-    type: code
-    description: Updated to use standalone files
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-4-task-001
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222156
-  criteria: []
-  sequence: 1

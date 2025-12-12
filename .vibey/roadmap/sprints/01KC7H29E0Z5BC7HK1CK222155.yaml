@@ -4,7 +4,7 @@ sprint:
   track_id: 01KC7H29E0Z5BC7HK1CK222152
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-11T00:00:00+00:00'
   started: '2025-12-11T18:00:00+00:00'
@@ -22,49 +22,36 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 5
     tasks_completed: 5
-    completion_percent: 100
+    completion_percent: 100.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: 01KC7H29E0Z5BC7HK1CK222154
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: '2025-12-11T00:00:00+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: 01KC7H29E0Z5BC7HK1CK222154
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
     last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Updated git_sync.py
-  - Updated merge_checker.py
-  - Updated branch_linker.py
-  - Updated status_updater.py
-  - Updated commit_msg.py hook
-  description: |
-    Migrate all git operations code to use standalone task files instead
+  deliverables: []
+  description: 'Migrate all git operations code to use standalone task files instead
+
     of reading embedded sprint.tasks[] arrays.
+
+    '
   goal: Git operations use standalone task files only
-  success_criteria:
-  - All git operation files updated
-  - Git sync works with standalone files
-  - Status updates work correctly
-  risks:
-  - Git hooks may break during migration
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
-    estimated_duration: 2 days
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

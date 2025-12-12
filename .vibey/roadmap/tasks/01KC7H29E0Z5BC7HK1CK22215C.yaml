@@ -5,14 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update yaml_loader.py - add deprecation warning
-  description: |
-    Update yaml_loader.py to warn when embedded tasks are detected
+  description: 'Update yaml_loader.py to warn when embedded tasks are detected
+
     and stop loading them into Sprint.tasks.
 
+
     Changes:
-    - Add deprecation warning if sprint_data['tasks'] exists
+
+    - Add deprecation warning if sprint_data[''tasks''] exists
+
     - Set sprint.tasks = [] (will be populated from standalone files)
+
     - Update load_sprint() documentation
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -27,19 +33,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/roadmap/serialization/yaml_loader.py
-    type: code
-    description: Updated loader with deprecation warning
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-2-task-001
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222154
-  criteria: []
-  sequence: 1

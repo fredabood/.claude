@@ -8,10 +8,10 @@ sprint:
   blocked_reason: null
   created: '2025-11-23T20:35:52.725661+00:00'
   started: '2025-11-23T20:35:52.725661+00:00'
-  completion_gate_check_at: '2025-12-10T18:03:09.519235+00:00'
+  completion_gate_check_at: null
   completed: null
-  production_gate_check_at: '2025-12-10T18:03:40.889649+00:00'
-  production_ready_at: '2025-12-10T18:06:46.975876+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-11-23T20:35:52.725661+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 3
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 3
     tasks_completed: 1
-    completion_percent: 33
+    completion_percent: 33.0
   development_gates: []
   blocks: []
   blocked_by: []

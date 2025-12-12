@@ -3,87 +3,51 @@ track:
   name: Homebrew Package Distribution
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   priority: medium
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 2 weeks
+  estimated_duration: null
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 12
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   sprints:
-  - id: brew-package-1
+  - id: 01KC2D0JK06MN77ZHAGAHF5VMA
     name: Homebrew Formula & Tap Setup
     status: not_started
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: brew-package-2
+  - id: 01KC2D0JK1877YN6T0673VB24S
     name: Release Automation & Testing
     status: not_started
-    estimated_duration: 1 week
+    estimated_duration: null
     tasks_count: 5
     started: null
-  dependencies:
-  - type: track
-    target_id: python-package
-    target_status: completed
-    reason: PyPI package must be published before Homebrew formula can reference it
-    optional: false
+  dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: python-package
-    dependency_type: track
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-10T18:03:01.543300+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: python-package
-    blocker_type: track
-    required_status: completed
-    current_status: unknown
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T18:03:01.543302+00:00'
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   quality_gates: []
-  assigned_agents:
-  - backend-engineer
-  - devops-engineer
-  - test-engineer
-  deliverables:
-  - Homebrew tap repository (homebrew-vibey)
-  - Vibey formula (vibey.rb)
-  - Installation documentation
-  - Release automation (GitHub Actions)
-  - Version bump automation
-  - Multi-platform testing (macOS, Linux)
-  strategic_value:
-  - 'User Experience: brew install vibey is familiar to macOS developers'
-  - 'Discoverability: Listed in Homebrew search'
-  - 'Version Management: Easy upgrades via brew upgrade'
-  - 'Dependency Resolution: Homebrew handles Python dependencies'
-  - 'Platform Coverage: Supports macOS and Linux (Linuxbrew)'
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-24T00:00:00+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: "HOMEBREW DISTRIBUTION\n\nProvides `brew install vibey` for macOS and Linux\
-      \ users.\n\nTWO OPTIONS FOR FORMULA:\n1. PyPI-based: Downloads from PyPI, installs\
-      \ with pip\n   - Pro: Simple, leverages existing PyPI release\n   - Con: Requires\
-      \ Python dependency management\n2. Source-based: Builds from GitHub release\
-      \ tarball\n   - Pro: More control, can pin dependencies\n   - Con: More complex\
-      \ formula\n\nRECOMMENDED: PyPI-based formula using virtualenv resource.\n\n\
-      TAP REPOSITORY:\n- Create github.com/vibey-framework/homebrew-vibey\n- Users\
-      \ install with: brew tap vibey-framework/vibey && brew install vibey\n- Or shorthand:\
-      \ brew install vibey-framework/vibey/vibey\n\nFUTURE: Submit to homebrew-core\
-      \ for `brew install vibey` without tap.\n\nDEPENDENCIES:\n- python@3.11 or python@3.12\n\
-      - No native dependencies (pure Python)\n\nBLOCKED BY: python-package track must\
-      \ complete first (need PyPI release)\n"
+    notes: null

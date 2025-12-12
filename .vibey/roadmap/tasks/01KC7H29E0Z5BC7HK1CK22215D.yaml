@@ -5,13 +5,18 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update yaml_dumper.py - stop writing embedded tasks
-  description: |
-    Update yaml_dumper.py to not write embedded tasks to sprint files.
+  description: 'Update yaml_dumper.py to not write embedded tasks to sprint files.
+
 
     Changes:
-    - Remove 'tasks': [...] section from save_sprint() output
+
+    - Remove ''tasks'': [...] section from save_sprint() output
+
     - Update save_sprint_ticket() similarly
+
     - Add comment explaining tasks are in standalone files
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -26,19 +31,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/roadmap/serialization/yaml_dumper.py
-    type: code
-    description: Updated dumper without embedded tasks
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-2-task-002
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222154
-  criteria: []
-  sequence: 2

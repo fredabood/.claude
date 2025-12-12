@@ -5,14 +5,20 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Update commands.py task creation
-  description: |
-    Update commands.py to write tasks to standalone files only,
+  description: 'Update commands.py to write tasks to standalone files only,
+
     not as embedded tasks in sprint files.
 
+
     Changes at lines 638, 647, 652:
-    - Remove: data['sprint']['tasks'] = []
-    - Remove: data['sprint']['tasks'].append(task_entry)
+
+    - Remove: data[''sprint''][''tasks''] = []
+
+    - Remove: data[''sprint''][''tasks''].append(task_entry)
+
     - Add: create standalone task file in tasks/{ulid}.yaml
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -27,19 +33,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: vibey/cli/commands.py
-    type: code
-    description: Updated task creation to use standalone files
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-4-task-002
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222156
-  criteria: []
-  sequence: 2

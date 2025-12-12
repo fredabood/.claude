@@ -4,47 +4,38 @@ sprint:
   track_id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: false
+  blocked: true
   blocked_reason: null
   created: '2025-12-07T15:00:00+00:00'
   started: '2025-12-10T02:05:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-10T04:30:00+00:00'
-  production_gate_check_at: '2025-12-10T18:03:16.116448+00:00'
-  production_ready_at: '2025-12-10T18:03:47.570662+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-10T04:30:00+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 0
-    development_tasks_completed: 0
+    development_tasks_total: 6
+    development_tasks_completed: 6
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: unified-arch-4
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: unified-arch-4
-    blocker_type: sprint
-    required_status: completed
-    current_status: not_started
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T13:03:16.114198+00:00'
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - path: vibey/operations/roadmap/
-    type: code
-    description: Migrated operations layer
+  deliverables: []
   description: 'Migrate all operations to use new Pydantic models and criteria-based
     blocking.
 
@@ -75,17 +66,8 @@ sprint:
 
     '
   goal: Migrate operations to use unified ticket architecture
-  success_criteria:
-  - All operations use new Pydantic models
-  - All blocking checks use can_transition_to()
-  - All status transitions use start()/complete()
-  - All progress uses criteria-based calculation
-  - CLI commands work correctly
-  - MCP tools work correctly
-  - Artifact commands implemented
-  risks:
-  - Behavioral changes may break existing workflows
-  - Performance regression from Pydantic overhead
+  success_criteria: []
+  risks: []
   notes: null
   assigned_agents: []
   quality_gates: []

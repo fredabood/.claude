@@ -3,283 +3,159 @@ track:
   name: User Journey Audit & Documentation Coverage
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   priority: high
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
-  estimated_duration: 44 weeks
+  estimated_duration: null
   progress:
-    sprints_total: 22
+    sprints_total: 20
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 168
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   sprints:
-  - id: user-journey-audit-1
-    name: Documentation & Code Audit
+  - id: 01KC81GRE03CSJ06K7K481K3XA
+    name: 'Phase 1.1: File Inventory & Classification'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-2
-    name: CLI Reference Guide Tooling & Generation
+  - id: 01KC81GRE03CSJ06K7K481K3XJ
+    name: 'Phase 1.2: Core Library Audit'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
+    tasks_count: 12
+    started: null
+  - id: 01KC81GRE1XT9ZBCFTDRHW72Z7
+    name: 'Phase 1.3: Documentation Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 14
+    started: null
+  - id: 01KC81GRE1XT9ZBCFTDRHW72ZF
+    name: 'Phase 1.4: Test Suite Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 18
+    started: null
+  - id: 01KC81GRE23T0KSHR4ZCES476M
+    name: 'Phase 2.1: CLI Reference Guide (Auto-Generated)'
+    status: not_started
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-3
-    name: Journey Mapping & Pain Point Discovery
+  - id: 01KC81GRE23T0KSHR4ZCES476W
+    name: 'Phase 2.2: MCP Server Reference Guide (Auto-Generated)'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-4
-    name: User Journey Walkthrough Generation
+  - id: 01KC81GRE3GXVPVSCMD19FC4YQ
+    name: 'Phase 2.3: Persona-Based User Journeys'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-5
-    name: Friction Analysis & Gap Identification
+  - id: 01KC81GRE3GXVPVSCMD19FC4YZ
+    name: 'Phase 2.4: User Journey Walkthroughs'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-6
-    name: Recommendations & Improvement Roadmap
+  - id: 01KC81GRE3GXVPVSCMD19FC4Z7
+    name: 'Phase 2.5: Contributor Experience & Project Docs'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-7
-    name: Documentation Completeness Audit
+  - id: 01KC81GRE4ZAJR0ZP9RCQCJ79Z
+    name: 'Phase 3.1: Context Engineering Research & Landscape'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-8
-    name: Documentation Correctness & Accuracy Review
+  - id: 01KC81GRE4ZAJR0ZP9RCQCJ7A7
+    name: 'Phase 3.2: Git Versioning for Vibe Coding Sessions'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-9
-    name: Documentation Organization & Best Practices
+  - id: 01KC81GRE5RYQCQFWQD4GSC5TR
+    name: 'Phase 3.3: Transparency, Auditability & Reproducibility'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-10
-    name: CLI Test Coverage
+  - id: 01KC81GRE5RYQCQFWQD4GSC5V0
+    name: 'Phase 4.1: Friction Analysis & Gap Identification'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 7
     started: null
-  - id: user-journey-audit-11
-    name: Operations Library Test Coverage
+  - id: 01KC81GRE6NHSPP7X34M5MT21Y
+    name: 'Phase 4.2: Discovery Output Architecture'
     status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-12
-    name: Roadmap Models & Serialization Test Coverage
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-13
-    name: Config System Test Coverage
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-14
-    name: Common Utilities & Error Handling Test Coverage
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-15
-    name: MCP Server & Platform Adapters Test Coverage
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-16
-    name: Integration Tests & Final Validation
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-17
-    name: Contributor Experience & Project Documentation
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 8
-    started: null
-  - id: user-journey-audit-18
-    name: Context Engineering Research & Landscape Analysis
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-19
-    name: Gap Analysis - Git Versioning for Vibe Coding Sessions
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-20
-    name: Transparency, Auditability & Reproducibility Design
-    status: not_started
-    estimated_duration: 2 weeks
-    tasks_count: 7
-    started: null
-  - id: user-journey-audit-21
-    name: Discovery Output Architecture
-    status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
     tasks_count: 6
     started: null
-  - id: user-journey-audit-22
-    name: Context Directory Writers & CLI Integration
+  - id: 01KC81GRE6NHSPP7X34M5MT225
+    name: 'Phase 4.3: Recommendations & Improvement Roadmap'
     status: not_started
-    estimated_duration: 2 weeks
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: 01KC81GRE6NHSPP7X34M5MT22D
+    name: 'Phase 4.4: Context Directory Writers & CLI Integration'
+    status: not_started
+    estimated_duration: null
     tasks_count: 6
     started: null
-  dependencies:
-  - type: track
-    target_id: python-package
-    target_status: completed
-    reason: Package must be pip-installable before testing user journeys
-    optional: false
-  - type: track
-    target_id: git-integration
-    target_status: completed
-    reason: Git integration features must be complete before auditing user journeys
-    optional: false
+  - id: 01KC81GRE7HFXA9J6FYFM7H3BW
+    name: 'Phase 5.1: Test Coverage Implementation'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: 01KC81GRE7HFXA9J6FYFM7H3C4
+    name: 'Phase 5.2: Integration Tests & CI Enforcement'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 7
+    started: null
+  - id: 01KC8DN270VNW5CP8F8Q9QA4WB
+    name: 'Phase 1.5: Scripts & Project Config Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 10
+    started: null
+  - id: 01KC8DT64AT78E0YHCBA2YE919
+    name: 'Phase 1.6: Database Artifact Audit'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 11
+    started: null
+  dependencies: []
   blocks: []
-  blocked_by:
-  - dependency_id: python-package
-    dependency_type: track
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-10T18:03:16.140628+00:00'
-    estimated_resolution: null
-  - dependency_id: git-integration
-    dependency_type: track
-    current_status: unknown
-    required_status: completed
-    blocking_since: '2025-12-10T18:03:16.140631+00:00'
-    estimated_resolution: null
+  blocked_by: []
   depends_on:
-  - blocker_id: python-package
-    blocker_type: track
-    required_status: completed
-    current_status: unknown
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T18:03:16.140632+00:00'
-  - blocker_id: git-integration
-    blocker_type: track
-    required_status: completed
-    current_status: unknown
-    blocks_transition_to: completed
-    last_checked: '2025-12-10T18:03:16.140632+00:00'
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+    last_checked: null
   depended_on_by: []
   quality_gates: []
-  assigned_agents:
-  - architecture-agent
-  - backend-engineer
-  - docs-writer
-  - test-engineer
-  deliverables:
-  - Documentation and code audit report
-  - CLI reference guide auto-generation tooling
-  - Auto-generated CLI reference guide (100% coverage)
-  - User persona journey maps
-  - Comprehensive user journey walkthroughs (100% CLI coverage)
-  - Automated doc refresh system (CLI → user journeys)
-  - Pain point inventory with severity ratings
-  - Friction analysis report
-  - Prioritized improvement recommendations
-  - UX improvement roadmap
-  - Documentation completeness audit and gap report
-  - Documentation correctness verification (all examples work)
-  - Link audit (internal and external)
-  - Technical accuracy verification
-  - Documentation style guide
-  - Reorganized documentation structure
-  - Documentation contribution guide
-  - 100% test coverage of vibey/cli/
-  - 100% test coverage of vibey/operations/
-  - 100% test coverage of vibey/roadmap/
-  - 100% test coverage of vibey/config/
-  - 100% test coverage of vibey/common/
-  - 100% test coverage of vibey/mcp/
-  - 100% test coverage of vibey/adapters/
-  - Integration test suite
-  - CI coverage enforcement
-  - Coverage maintenance documentation
-  - Updated README.md aligned to current state
-  - Updated CHANGELOG.md with complete history
-  - Comprehensive CONTRIBUTING.md
-  - Contributor onboarding guide
-  - Development workflow documentation
-  - Contributor journey walkthroughs
-  strategic_value:
-  - 'Completeness: 100% documentation coverage of all functionality'
-  - 'Correctness: All documentation verified accurate and working'
-  - 'Usability: Documentation follows best practices and conventions'
-  - 'Accuracy: Auto-generation prevents documentation drift'
-  - 'Maintainability: CLI changes auto-propagate to docs'
-  - 'Onboarding: Complete user journeys for all personas'
-  - 'UX: Data-driven friction reduction and improvements'
-  - 'Quality: Every library component fully tested'
-  - 'Regression Prevention: Changes caught immediately'
-  - 'Confidence: Refactoring safe with full coverage'
-  - 'Reliability: 95%+ pass rate ensures stability'
-  - 'Contributor Experience: Smooth onboarding for new contributors'
-  - 'Project Health: README, CHANGELOG, CONTRIBUTING aligned to current state'
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: vibey-framework-team
-    last_updated: '2025-11-23T00:00:00+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: "Comprehensive audit ensuring documentation, user journeys, and test\n\
-      coverage have 100% coverage of Vibey's functionality.\n\nPART 1: DOCUMENTATION\
-      \ & UX DISCOVERY (Sprints 1-6)\n1. Audit existing docs and code\n2. Build CLI\
-      \ reference auto-generation (100% coverage)\n3. Map actual user journeys per\
-      \ persona (discover pain points)\n4. Generate user journey walkthroughs (100%\
-      \ CLI coverage)\n5. Analyze friction and gaps\n6. Create prioritized improvement\
-      \ roadmap\n\nKEY INSIGHT:\nJourney mapping (Sprint 3) happens BEFORE walkthrough\
-      \ generation\n(Sprint 4) so that the walkthroughs address discovered pain points.\n\
-      \nPART 2: DOCUMENTATION QUALITY & BEST PRACTICES (Sprints 7-9)\n7. Documentation\
-      \ completeness audit (100% CLI coverage)\n8. Documentation correctness review\
-      \ (all examples work, links valid)\n9. Documentation organization & best practices\
-      \ (intuitive structure)\n\nDOCUMENTATION REQUIREMENTS:\n- 100% coverage over\
-      \ CLI reference guide\n- Expand on all scenarios in user journey flow\n- Follow\
-      \ technical writing best practices\n- Organized intuitively following conventions\
-      \ for similar projects\n- Benchmarked against Claude Code, Cursor, Aider documentation\n\
-      \nPART 3: TEST COVERAGE (Sprints 10-16)\n10. CLI test coverage (vibey/cli/)\n\
-      11. Operations library coverage (vibey/operations/)\n12. Roadmap models coverage\
-      \ (vibey/roadmap/)\n13. Config system coverage (vibey/config/)\n14. Common utilities\
-      \ coverage (vibey/common/)\n15. MCP & adapters coverage (vibey/mcp/, vibey/adapters/)\n\
-      16. Integration tests & final validation\n\nPART 4: CONTRIBUTOR EXPERIENCE (Sprint\
-      \ 17)\n17. Contributor experience & project documentation\n    - README.md aligned\
-      \ to current project state\n    - CHANGELOG.md with complete release history\n\
-      \    - CONTRIBUTING.md with comprehensive contributor guide\n    - Contributor\
-      \ onboarding and journey walkthroughs\n    - Development workflow documentation\n\
-      \nCONTRIBUTOR CONSIDERATIONS:\n- Contributor persona included in journey mapping\
-      \ (Sprint 3)\n- Contributor walkthroughs included in journey generation (Sprint\
-      \ 4)\n- Documentation considers contributor use cases throughout\n\nPART 5:\
-      \ CONTEXT ENGINEERING STUDY (Sprints 18-20)\n18. Context engineering research\
-      \ & landscape analysis\n19. Gap analysis - Git versioning for vibe coding sessions\n\
-      20. Transparency, auditability & reproducibility design\n\nPART 6: DISCOVERY\
-      \ CONTEXT INTEGRATION (Sprints 21-22)\n21. Discovery output architecture\n22.\
-      \ Context directory writers & CLI integration\n\nSUCCESS CRITERIA:\n- 100% documentation\
-      \ completeness\n- 100% documentation correctness\n- 100% user journey coverage\n\
-      - 100% code coverage (line and branch)\n- 95%+ test pass rate\n- CI enforcement\
-      \ to prevent regression\n"
+    notes: null

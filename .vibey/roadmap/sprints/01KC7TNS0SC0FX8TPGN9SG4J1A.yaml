@@ -22,25 +22,17 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 14
     tasks_completed: 7
-    completion_percent: 50
+    completion_percent: 50.0
   development_gates: []
   blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Continue.dev adapter implementation
-  - Continue.dev MCP configuration
-  - Continue.dev integration tests
-  - Continue.dev documentation
+  deliverables: []
   description: Implement Vibey framework compatibility for Continue.dev.
   goal: Full Continue.dev integration with Vibey framework
-  success_criteria:
-  - Continue.devAdapter class implemented
-  - Unit tests passing
-  - Integration tests passing
-  - Documentation complete
+  success_criteria: []
   risks: []
   notes: Migrated from old track 01KC2D0JK1877YN6T0673VB25H
   assigned_agents: []
@@ -48,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    estimated_duration: 2 weeks
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

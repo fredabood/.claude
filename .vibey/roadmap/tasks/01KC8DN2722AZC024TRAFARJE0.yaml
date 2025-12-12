@@ -1,0 +1,34 @@
+task:
+  id: 01KC8DN2722AZC024TRAFARJE0
+  sprint_id: 01KC8DN270VNW5CP8F8Q9QA4WB
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: research
+  title: Identify CLI migration candidates
+  description: 'Based on audit findings, identify scripts that should be migrated
+    to vibey CLI commands. Document: script name, proposed CLI command, migration
+    complexity, priority. Output: SCRIPTS_CLI_MIGRATION_CANDIDATES.yaml.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T04:38:36.002936+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 10000
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

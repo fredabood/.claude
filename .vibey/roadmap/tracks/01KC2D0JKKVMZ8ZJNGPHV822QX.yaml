@@ -7,52 +7,52 @@ track:
   priority: critical
   created: '2025-11-07T02:00:00+00:00'
   started: null
-  completed: '2025-12-11T23:21:39.265658+00:00'
+  completed: '2025-11-07T02:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 7
-    sprints_completed: 7
+    sprints_completed: 0
     tasks_total: 58
     tasks_completed: 58
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
-  - id: roadmap-system-1
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822QY
     name: Core Data Model & YAML Schema
     status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
-  - id: roadmap-system-2
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5EQY
     name: State Management Scripts
     status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
-  - id: roadmap-system-3
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ER8
     name: 'CLI Commands (Part 1: Query)'
     status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
-  - id: roadmap-system-4
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ERJ
     name: 'CLI Commands (Part 2: Update & Version)'
     status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
-  - id: roadmap-system-5
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ERW
     name: Agent Integration & Auto-routing
     status: production_ready
     estimated_duration: null
     tasks_count: 9
     started: null
-  - id: roadmap-system-6
+  - id: 01KC2D0JKM9HQR5VHRQ5SX5ES6
     name: Documentation & Polish
     status: production_ready
     estimated_duration: null
     tasks_count: 8
     started: null
-  - id: roadmap-system-7
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RMH
     name: Token-Based Effort Estimation
     status: production_ready
     estimated_duration: null

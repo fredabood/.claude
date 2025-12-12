@@ -8,91 +8,91 @@ track:
   created: '2025-12-11T23:08:27.578366+00:00'
   started: '2025-12-11T23:08:27.578366+00:00'
   completed: null
-  estimated_duration: 6 months
+  estimated_duration: null
   progress:
     sprints_total: 13
     sprints_completed: 0
     tasks_total: 239
     tasks_completed: 127
-    completion_percent: 53
+    completion_percent: 53.0
   sprints:
   - id: 01KC7TNS0SC0FX8TPGN9SG4J15
-    name: 'Claude Code Integration'
+    name: Claude Code Integration
     status: in_progress
     estimated_duration: null
     tasks_count: 10
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J16
-    name: 'Goose Integration'
+    name: Goose Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 47
+    tasks_count: 36
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J17
-    name: 'Cursor Integration'
+    name: Cursor Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 20
+    tasks_count: 14
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J18
-    name: 'VS Code MCP Integration'
+    name: VS Code MCP Integration
     status: in_progress
     estimated_duration: null
     tasks_count: 12
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J19
-    name: 'GitHub Copilot Integration'
+    name: GitHub Copilot Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 5
+    tasks_count: 16
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1A
-    name: 'Continue.dev Integration'
+    name: Continue.dev Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 11
+    tasks_count: 14
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1B
-    name: 'Aider Integration'
+    name: Aider Integration
     status: in_progress
     estimated_duration: null
     tasks_count: 10
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1C
-    name: 'JetBrains Integration'
+    name: JetBrains Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 12
+    tasks_count: 14
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1D
-    name: 'Windsurf/Codeium Integration'
+    name: Windsurf/Codeium Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 13
+    tasks_count: 15
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1E
-    name: 'Gemini Integration'
+    name: Gemini Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 32
+    tasks_count: 34
     started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1F
-    name: 'Amazon Q Integration'
+    name: Amazon Q Integration
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 14
+    started: '2025-12-11T23:08:27.578366+00:00'
+  - id: 01KC7TNS0SC0FX8TPGN9SG4J1G
+    name: Sourcegraph Cody Integration
     status: in_progress
     estimated_duration: null
     tasks_count: 12
     started: '2025-12-11T23:08:27.578366+00:00'
-  - id: 01KC7TNS0SC0FX8TPGN9SG4J1G
-    name: 'Sourcegraph Cody Integration'
-    status: in_progress
-    estimated_duration: null
-    tasks_count: 10
-    started: '2025-12-11T23:08:27.578366+00:00'
   - id: 01KC7TNS0SC0FX8TPGN9SG4J1H
-    name: 'Replit Integration'
+    name: Replit Integration
     status: in_progress
     estimated_duration: null
-    tasks_count: 45
+    tasks_count: 38
     started: '2025-12-11T23:08:27.578366+00:00'
   dependencies: []
   blocks: []
@@ -100,25 +100,14 @@ track:
   depends_on: []
   depended_on_by: []
   quality_gates: []
-  assigned_agents:
-  - web-developer
-  - test-engineer
-  - docs-writer
-  deliverables:
-  - Platform adapters for 13 AI coding assistants
-  - MCP configuration for each platform
-  - Integration guides and migration documentation
-  - End-to-end test suites per platform
-  strategic_value:
-  - Single track for all platform integrations
-  - Consistent sprint structure across platforms
-  - Clear progress visibility per platform
-  - Simplified dependency management
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
   commits: []
   standards: []
   metadata:
-    created_by: claude-code
-    last_updated: '2025-12-11T23:08:27.578366+00:00'
-    design_doc: .vibey/roadmap/context/PLATFORM_COMPATIBILITY_REFACTOR_PLAN.md
+    created_by: unknown
+    last_updated: null
+    design_doc: null
     implementation_plan: null
-    notes: Consolidated from 13 separate platform port tracks
+    notes: null

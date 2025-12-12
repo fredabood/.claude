@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -22,27 +23,21 @@ sprint:
     tasks_total: 6
     tasks_completed: 0
     completion_percent: 0.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Task YAML navigation
-  - Context file display
-  - CodeLens for task references
-  - Hover and definition providers
+  deliverables: []
   description: 'Enable navigation between tasks and related files: open task YAML,
 
     show context files, CodeLens for task references, and hover information.
 
     '
   goal: Seamless navigation between code and roadmap
-  success_criteria:
-  - Click task to open its YAML file
-  - Context files shown as children in tree
-  - CodeLens shows task info on // TASK-001 comments
-  - Hover on task ID shows task title and status
-  risks:
-  - Performance of CodeLens on large files
+  success_criteria: []
+  risks: []
   notes: 'Task ID patterns to recognize:
 
     - TASK-001, task-001
@@ -53,6 +48,7 @@ sprint:
 
     '
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -62,7 +58,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: vscode-roadmap-extension-5
-  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  criteria: []
-  sequence: 5

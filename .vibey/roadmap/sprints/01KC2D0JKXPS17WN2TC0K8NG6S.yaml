@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -22,28 +23,21 @@ sprint:
     tasks_total: 7
     tasks_completed: 0
     completion_percent: 0.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Git extension API integration
-  - Branch-to-task detection
-  - Commit linkage UI
-  - Branch creation command
+  deliverables: []
   description: 'Integrate with VS Code''s Git extension to link commits to tasks,
 
     detect tasks from branch names, and provide branch management commands.
 
     '
   goal: Connect roadmap tasks with Git workflow
-  success_criteria:
-  - Commits are linked to tasks and displayed
-  - Branch names like 'task-001-feature' auto-detect task
-  - Users can create task branches from tree view
-  - Commit history shows which commits belong to which tasks
-  risks:
-  - Git extension API stability
-  - Different branch naming conventions
+  success_criteria: []
+  risks: []
   notes: 'Branch patterns to support:
 
     - task-001-description
@@ -54,6 +48,7 @@ sprint:
 
     '
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -63,7 +58,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: vscode-roadmap-extension-4
-  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  criteria: []
-  sequence: 4

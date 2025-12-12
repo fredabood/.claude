@@ -4,6 +4,7 @@ sprint:
   track_id: 01KC2D0JKWWW8WMS7PPGDQ42HB
   roadmap_id: vibey-framework-v2
   status: not_started
+  blocked: false
   blocked_reason: null
   created: '2025-12-05T12:00:00+00:00'
   started: null
@@ -22,13 +23,13 @@ sprint:
     tasks_total: 5
     tasks_completed: 0
     completion_percent: 0.0
+  development_gates: []
+  blocks: []
   blocked_by: []
   depends_on: []
+  depended_on_by: []
   plan_file: null
-  deliverables:
-  - Status bar with current sprint/task
-  - Progress percentage display
-  - Quick-switch task functionality
+  deliverables: []
   description: 'Add VS Code status bar integration showing current sprint, active
     task,
 
@@ -36,14 +37,11 @@ sprint:
 
     '
   goal: Provide always-visible roadmap status in VS Code
-  success_criteria:
-  - Status bar shows current sprint and active task
-  - Progress percentage is visible
-  - Clicking status bar opens task switcher
-  - Tooltip shows detailed progress
+  success_criteria: []
   risks: []
   notes: null
   assigned_agents: []
+  quality_gates: []
   commits: []
   standards: []
   metadata:
@@ -53,7 +51,3 @@ sprint:
     estimated_tokens: null
     actual_tokens: null
     agents_used: null
-  slug: vscode-roadmap-extension-3
-  parent_ref: 01KC2D0JKWWW8WMS7PPGDQ42HB
-  criteria: []
-  sequence: 3

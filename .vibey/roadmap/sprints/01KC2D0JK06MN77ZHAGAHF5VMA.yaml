@@ -14,33 +14,22 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 7
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 7
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: python-package-2
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null
-  deliverables:
-  - Homebrew tap repository (homebrew-vibey)
-  - Vibey formula (Formula/vibey.rb)
-  - Dependency resources generated
-  - Local testing complete
-  - Installation documentation
+  deliverables: []
   description: null
   goal: null
   success_criteria: []
@@ -51,8 +40,8 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-11-24T00:00:00+00:00'
-    estimated_duration: 1 week
+    last_updated: null
+    estimated_duration: null
     actual_duration: null
     estimated_tokens: null
     actual_tokens: null

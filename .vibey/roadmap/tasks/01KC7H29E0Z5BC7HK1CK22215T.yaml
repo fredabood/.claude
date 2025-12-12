@@ -5,15 +5,22 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Remove embedded tasks from sprint files
-  description: |
-    Run cleanup script to remove 'tasks:' section from all sprint
+  description: 'Run cleanup script to remove ''tasks:'' section from all sprint
+
     YAML files.
 
+
     Steps:
+
     1. Create backup of all sprint files
-    2. Remove 'tasks' key from sprint data
+
+    2. Remove ''tasks'' key from sprint data
+
     3. Save updated sprint files
+
     4. Verify no sprint files have tasks[] arrays
+
+    '
   status: completed
   blocked: false
   created: '2025-12-11T00:00:00+00:00'
@@ -28,19 +35,13 @@ task:
   gate_info: null
   audit_results: null
   dependencies: []
+  blocks: []
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-  - path: .vibey/roadmap/sprints/
-    type: other
-    description: Sprint files without embedded tasks
+  deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-11T00:00:00+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null
-  slug: embedded-task-migration-5-task-001
-  parent_ref: 01KC7H29E0Z5BC7HK1CK222157
-  criteria: []
-  sequence: 1

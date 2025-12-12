@@ -1,0 +1,33 @@
+task:
+  id: 01KC81GRE3GXVPVSCMD19FC4Z0
+  sprint_id: 01KC81GRE3GXVPVSCMD19FC4YZ
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Create walkthrough template
+  description: 'Design a standard template for walkthroughs: prerequisites, step-by-step
+    instructions, expected outputs, troubleshooting, next steps. Output: WALKTHROUGH_TEMPLATE.md.'
+  status: not_started
+  blocked: false
+  created: '2025-12-12T01:06:32.003555+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: medium
+  phase_label: null
+  estimated_tokens: 5000
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

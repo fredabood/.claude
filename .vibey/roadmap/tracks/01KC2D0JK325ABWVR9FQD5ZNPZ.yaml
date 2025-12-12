@@ -7,40 +7,40 @@ track:
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
   started: null
-  completed: '2025-12-11T23:21:39.265658+00:00'
+  completed: '2025-11-23T00:00:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 5
-    sprints_completed: 5
+    sprints_completed: 0
     tasks_total: 23
     tasks_completed: 23
-    completion_percent: 100
+    completion_percent: 100.0
   sprints:
-  - id: directory-consolidation-1
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQ0
     name: Low-Risk Cleanup & Preparation
     status: production_ready
     estimated_duration: null
     tasks_count: 5
     started: null
-  - id: directory-consolidation-2
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQ6
     name: Move Unique Code & Update Imports
     status: production_ready
     estimated_duration: null
     tasks_count: 6
     started: null
-  - id: directory-consolidation-3
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQD
     name: Content Audit
     status: production_ready
     estimated_duration: null
     tasks_count: 4
     started: null
-  - id: directory-consolidation-4
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQJ
     name: Content Remediation
     status: production_ready
     estimated_duration: null
     tasks_count: 4
     started: null
-  - id: directory-consolidation-5
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQQ
     name: .vibey Directory Cleanup
     status: production_ready
     estimated_duration: null

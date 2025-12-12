@@ -14,21 +14,21 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 39
+    tracks_total: 41
     tracks_completed: 22
-    sprints_total: 202
-    sprints_completed: 147
-    tasks_total: 1002
-    tasks_completed: 797
-    completion_percent: 79
+    sprints_total: 183
+    sprints_completed: 3
+    tasks_total: 1391
+    tasks_completed: 931
+    completion_percent: 67.0
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JK06MN77ZHAGAHF5VKN
     name: Amazon Q Developer Platform Port
-    status: in_progress
+    status: wont_do
     priority: medium
   - id: 01KC2D0JK06MN77ZHAGAHF5VM4
     name: Atlassian Integration (Jira & Confluence)
@@ -40,91 +40,91 @@ roadmap:
     priority: medium
   - id: 01KC2D0JK1877YN6T0673VB24T
     name: Claude Code Platform Validation
-    status: production_ready
+    status: wont_do
     priority: critical
   - id: 01KC2D0JK1877YN6T0673VB254
     name: Sourcegraph Cody Platform Port
-    status: in_progress
+    status: wont_do
     priority: low
   - id: 01KC2D0JK1877YN6T0673VB25H
     name: Continue.dev Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JK1877YN6T0673VB260
     name: GitHub Copilot Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X8X
     name: Core Framework Enhancements
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X9M
     name: Cursor Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JK325ABWVR9FQD5ZNPZ
     name: Directory Structure Consolidation
-    status: production_ready
+    status: completed
     priority: medium
   - id: 01KC2D0JK325ABWVR9FQD5ZNQW
     name: Platform-Agnostic Architecture (Design & Implementation)
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JK49XGJV84YRRHEASMG
     name: Hierarchical Documentation & Context Management System
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JK5Y3BX5008PVANFCHN
     name: Gemini Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JK6JC6706H9WP2NH5DA
     name: Enhanced Git Integration
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JK7READW9KAK1HBX4BS
     name: Goose Platform Port
-    status: production_ready
+    status: wont_do
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632BK
     name: Critical Infrastructure Fixes
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632CA
     name: Interface Unification & Simplification
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JK9JKQXGQW6MQEB0JZP
     name: JetBrains AI Assistant Port
-    status: production_ready
+    status: wont_do
     priority: medium
   - id: 01KC2D0JK9JKQXGQW6MQEB0K05
     name: MCP Server Foundation
-    status: in_progress
+    status: completed
     priority: critical
   - id: 01KC2D0JKA23EJA1W712Y5S703
     name: Missing Agents Implementation
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JKA23EJA1W712Y5S70G
     name: Multi-Platform Architecture
-    status: production_ready
+    status: completed
     priority: medium
   - id: 01KC2D0JKB120S3ZRAGX1K83MQ
     name: Platform Context Management System
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKB120S3ZRAGX1K83NT
     name: Python Package Structure & Distribution
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKCJCWQ76VRQJWBGQY9
     name: Replit Agent Platform Port
-    status: in_progress
+    status: wont_do
     priority: medium
   - id: 01KC2D0JKDQPXAYGH93V9Z82XH
     name: Roadmap Integration into /vibey Commands
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JKDQPXAYGH93V9Z82Y5
     name: Roadmap Data Integrity & Validation System
@@ -140,23 +140,23 @@ roadmap:
     priority: critical
   - id: 01KC2D0JKKVMZ8ZJNGPHV822QX
     name: Roadmap Object Hierarchy Implementation
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
     name: SQLite Database Backend
-    status: production_ready
+    status: completed
     priority: high
   - id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
     name: Roadmap Standards System
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKSA4C3QG7P7YGCG37J
     name: Comprehensive Testing & Quality Assurance
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
     name: Unified Architecture Migration
-    status: production_ready
+    status: completed
     priority: critical
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJT
     name: User Journey Audit & Documentation Coverage
@@ -164,7 +164,7 @@ roadmap:
     priority: high
   - id: 01KC2D0JKWWW8WMS7PPGDQ42GY
     name: VS Code Native MCP Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC2D0JKWWW8WMS7PPGDQ42HB
     name: VS Code Roadmap Visualization Extension
@@ -172,10 +172,18 @@ roadmap:
     priority: medium
   - id: 01KC2D0JKY8WC5NT15KN5SW9YE
     name: Windsurf/Codeium Platform Port
-    status: in_progress
+    status: wont_do
     priority: high
   - id: 01KC39XSXJ39N12HWJ93F77KQ9
     name: CLI Dogfooding Bug Fixes
+    status: completed
+    priority: critical
+  - id: 01KC7H29E0Z5BC7HK1CK222152
+    name: Embedded Task Migration
+    status: completed
+    priority: critical
+  - id: 01KC7TNS0SC0FX8TPGN9SG4J14
+    name: Platform Compatibility
     status: in_progress
     priority: critical
   dependencies: []

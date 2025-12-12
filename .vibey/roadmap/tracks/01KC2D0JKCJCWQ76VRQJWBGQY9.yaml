@@ -2,56 +2,20 @@ track:
   id: 01KC2D0JKCJCWQ76VRQJWBGQY9
   name: Replit Agent Platform Port
   roadmap_id: vibey-framework-v2
-  status: superseded
+  status: wont_do
   blocked: false
   priority: medium
   created: '2025-11-23T00:00:00+00:00'
-  started: '2025-11-23T00:00:00+00:00'
+  started: null
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 6
-    sprints_completed: 1
-    tasks_total: 36
-    tasks_completed: 4
-    completion_percent: 11
-  sprints:
-  - id: replit-port-1
-    name: Research & MCP Validation
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 5
-    started: '2025-11-23T00:00:00+00:00'
-  - id: replit-port-2
-    name: Adapter Foundation
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: replit-port-3
-    name: Configuration Generation
-    status: not_started
-    estimated_duration: null
-    tasks_count: 6
-    started: null
-  - id: replit-port-4
-    name: Extension Scaffolding
-    status: not_started
-    estimated_duration: null
-    tasks_count: 6
-    started: null
-  - id: replit-port-5
-    name: Extension Features
-    status: not_started
-    estimated_duration: null
-    tasks_count: 6
-    started: null
-  - id: replit-port-6
-    name: Template & Documentation
-    status: not_started
-    estimated_duration: null
-    tasks_count: 6
-    started: null
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -68,6 +32,4 @@ track:
     last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: Superseded by Platform Compatibility track (01KC7TNS0SC0FX8TPGN9SG4J14)
-    superseded_by: 01KC7TNS0SC0FX8TPGN9SG4J14
-    superseded_date: '2025-12-11T23:09:20.061361+00:00'
+    notes: null

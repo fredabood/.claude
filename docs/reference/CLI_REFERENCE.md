@@ -1,8 +1,8 @@
 # CLI Reference
 
 **Version:** 2.5.0
-**Total Commands:** 166
-**Generated:** 2025-12-12T16:48:57.958724+00:00
+**Total Commands:** 169
+**Generated:** 2025-12-12T17:26:03.924023+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
 
@@ -45,9 +45,11 @@ This document provides comprehensive reference documentation for all `vibey` CLI
   - [run](#deploy-run)
 - [docs](#docs)
   - [check-drift](#docs-check-drift)
+  - [check-mcp-drift](#docs-check-mcp-drift)
   - [generate](#docs-generate)
   - [generate-cli](#docs-generate-cli)
-  - [introspect](#docs-introspect)
+  - [generate-mcp](#docs-generate-mcp)
+  - *... and 2 more*
 - [export](#export)
   - [gemini](#export-gemini)
   - [list](#export-list)
@@ -254,15 +256,21 @@ Examples:
 **C**
 - [`vibey docs check-drift`](#vibey-docs-check-drift) - 
 Check if CLI documentation has drifted from imple...
+- [`vibey docs check-mcp-drift`](#vibey-docs-check-mcp-drift) - 
+Check if MCP documentation has drifted from imple...
 
 **G**
 - [`vibey docs generate`](#vibey-docs-generate) - Generate documentation from configuration
 - [`vibey docs generate-cli`](#vibey-docs-generate-cli) - 
 Auto-generate CLI reference documentation from co...
+- [`vibey docs generate-mcp`](#vibey-docs-generate-mcp) - 
+Auto-generate MCP server reference documentation ...
 
 **I**
 - [`vibey docs introspect`](#vibey-docs-introspect) - 
 Introspect CLI structure and output documentation...
+- [`vibey docs introspect-mcp`](#vibey-docs-introspect-mcp) - 
+Introspect MCP server structure and output docume...
 
 **E**
 - [`vibey export`](#vibey-export) - 
@@ -2166,15 +2174,21 @@ vibey docs context            # Generate context docs
 |---------|-------------|
 | `check-drift` | 
 Check if CLI documentation has drifted from implementation.... |
+| `check-mcp-drift` | 
+Check if MCP documentation has drifted from implementation.... |
 | `generate` | Generate documentation from configuration |
 | `generate-cli` | 
 Auto-generate CLI reference documentation from code.
 
 Intro... |
+| `generate-mcp` | 
+Auto-generate MCP server reference documentation from code.... |
 | `introspect` | 
 Introspect CLI structure and output documentation data.
 
 Ex... |
+| `introspect-mcp` | 
+Introspect MCP server structure and output documentation da... |
 
 ---
 
@@ -2217,6 +2231,49 @@ vibey docs check-drift --fix              # Auto-fix if drifted
 
 ```bash
 vibey docs check-drift -q                 # Quiet mode for CI
+```
+
+---
+
+<a id="vibey-docs-check-mcp-drift"></a>
+
+#### `vibey docs check-mcp-drift`
+
+Check if MCP documentation has drifted from implementation.
+
+Compares the committed MCP reference with freshly generated output.
+Use in CI to prevent documentation drift. Returns exit code 1 if
+drift is detected (unless --fix is used).
+
+**Usage:**
+```bash
+vibey docs check-mcp-drift [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--path, -p` | Path(exists, file, dir) | `docs/reference/MCP_REFERENCE.md` | Path to existing MCP reference |
+| `--fix` | flag | `False` | Regenerate if drift detected |
+| `--quiet, -q` | flag | `False` | Only output on drift |
+
+**Examples:**
+
+```bash
+vibey docs check-mcp-drift                 # Check default path
+```
+
+```bash
+vibey docs check-mcp-drift -p docs/mcp.md  # Check specific file
+```
+
+```bash
+vibey docs check-mcp-drift --fix           # Auto-fix if drifted
+```
+
+```bash
+vibey docs check-mcp-drift -q              # Quiet mode for CI
 ```
 
 ---
@@ -2282,6 +2339,44 @@ vibey docs generate-cli --include-hidden  # Include hidden commands
 
 ---
 
+<a id="vibey-docs-generate-mcp"></a>
+
+#### `vibey docs generate-mcp`
+
+Auto-generate MCP server reference documentation from code.
+
+Introspects the MCP server tools, resources, and prompts to generate
+comprehensive reference documentation. Output cannot drift from
+implementation.
+
+**Usage:**
+```bash
+vibey docs generate-mcp [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--output, -o` | Path(file, dir) | `docs/reference/MCP_REFERENCE.md` | Output file path |
+| `--format, -f` | Choice(['json', 'markdown']) | `markdown` | Output format |
+
+**Examples:**
+
+```bash
+vibey docs generate-mcp                    # Generate MCP_REFERENCE.md
+```
+
+```bash
+vibey docs generate-mcp -o docs/mcp.md    # Custom output path
+```
+
+```bash
+vibey docs generate-mcp -f json           # Output as JSON
+```
+
+---
+
 <a id="vibey-docs-introspect"></a>
 
 #### `vibey docs introspect`
@@ -2315,6 +2410,39 @@ vibey docs introspect -f yaml          # YAML to stdout
 
 ```bash
 vibey docs introspect -o cli.json     # Save to file
+```
+
+---
+
+<a id="vibey-docs-introspect-mcp"></a>
+
+#### `vibey docs introspect-mcp`
+
+Introspect MCP server structure and output documentation data.
+
+Extracts structured data from the MCP server for use in
+documentation generation, tooling, or drift detection.
+
+**Usage:**
+```bash
+vibey docs introspect-mcp [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['json']) | `json` | Output format |
+| `--output, -o` | Path(file, dir) | - | Output file (stdout if not specified) |
+
+**Examples:**
+
+```bash
+vibey docs introspect-mcp                  # JSON to stdout
+```
+
+```bash
+vibey docs introspect-mcp -o mcp.json      # Save to file
 ```
 
 ---
@@ -7262,4 +7390,4 @@ vibey validate docs --verbose
 
 *This documentation was auto-generated from the CLI source code.*
 
-*Generated at: 2025-12-12T16:48:57.958724+00:00*
+*Generated at: 2025-12-12T17:26:03.924023+00:00*

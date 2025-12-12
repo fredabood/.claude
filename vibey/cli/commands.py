@@ -4579,3 +4579,174 @@ def session_list_cmd(
     except Exception as e:
         print(format_error(f"Failed to list sessions: {e}"))
         return 1
+
+
+def session_report_cmd(session_id: str, format: str = "markdown", output: Optional[str] = None) -> int:
+    """Generate a session report."""
+    from vibey.operations.roadmap.session_reconstruction import SessionReconstructor
+
+    root_dir = Path.cwd()
+    roadmap_path = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_path.exists():
+        print(format_error("Roadmap not found. Run 'vibey roadmap init' first."))
+        return 1
+
+    try:
+        reconstructor = SessionReconstructor(roadmap_path)
+        report = reconstructor.generate_session_report(session_id, format=format)
+
+        if output:
+            output_path = Path(output)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(report)
+            print(format_success(f"Report written to: {output}"))
+        else:
+            print(report)
+
+        return 0
+    except Exception as e:
+        print(format_error(f"Failed to generate report: {e}"))
+        return 1
+
+
+def session_timeline_cmd(session_id: str) -> int:
+    """Show session timeline."""
+    from vibey.operations.roadmap.session_reconstruction import SessionReconstructor
+
+    root_dir = Path.cwd()
+    roadmap_path = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_path.exists():
+        print(format_error("Roadmap not found. Run 'vibey roadmap init' first."))
+        return 1
+
+    try:
+        reconstructor = SessionReconstructor(roadmap_path)
+        timeline = reconstructor.get_session_timeline(session_id)
+
+        if not timeline:
+            print(format_error(f"Session not found: {session_id}"))
+            return 1
+
+        session = timeline.session
+        print(f"📋 Session Timeline: {session.name}")
+        print(f"   Duration: {timeline.duration_formatted}")
+        print("=" * 60)
+
+        for event in timeline.events:
+            time_str = event.timestamp.strftime("%H:%M:%S")
+            event_name = event.event_type.value.replace("_", " ").title()
+
+            # Determine icon based on event type
+            icons = {
+                "session_start": "🟢",
+                "session_end": "🔴",
+                "session_pause": "⏸️",
+                "session_resume": "▶️",
+                "task_start": "📋",
+                "task_complete": "✅",
+                "commit_made": "📝",
+                "decision_made": "🤔",
+                "file_modified": "📄",
+                "error_encountered": "❌",
+            }
+            icon = icons.get(event.event_type.value, "•")
+
+            # Get detail
+            detail = ""
+            if event.task_id:
+                detail = f" (task: {event.task_id[:8]}...)"
+            elif event.commit_sha:
+                detail = f" ({event.commit_sha[:8]})"
+            elif event.file_path:
+                detail = f" ({event.file_path})"
+
+            print(f"  {time_str} {icon} {event_name}{detail}")
+
+        return 0
+    except Exception as e:
+        print(format_error(f"Failed to show timeline: {e}"))
+        return 1
+
+
+def session_export_cmd(session_id: str, output: Optional[str] = None) -> int:
+    """Export session for continuation."""
+    import json
+    from vibey.operations.roadmap.session_reconstruction import SessionReconstructor
+
+    root_dir = Path.cwd()
+    roadmap_path = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_path.exists():
+        print(format_error("Roadmap not found. Run 'vibey roadmap init' first."))
+        return 1
+
+    try:
+        reconstructor = SessionReconstructor(roadmap_path)
+        export_data = reconstructor.export_for_continuation(session_id)
+
+        if not export_data:
+            print(format_error(f"Session not found: {session_id}"))
+            return 1
+
+        if output:
+            output_path = Path(output)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(json.dumps(export_data, indent=2, default=str))
+            print(format_success(f"Export written to: {output}"))
+        else:
+            print(json.dumps(export_data, indent=2, default=str))
+
+        return 0
+    except Exception as e:
+        print(format_error(f"Failed to export session: {e}"))
+        return 1
+
+
+def session_decisions_cmd(session_id: str) -> int:
+    """Show decisions made in a session."""
+    from vibey.operations.roadmap.session_reconstruction import SessionReconstructor
+
+    root_dir = Path.cwd()
+    roadmap_path = root_dir / ".vibey" / "roadmap"
+
+    if not roadmap_path.exists():
+        print(format_error("Roadmap not found. Run 'vibey roadmap init' first."))
+        return 1
+
+    try:
+        reconstructor = SessionReconstructor(roadmap_path)
+        decisions = reconstructor.get_decisions_made(session_id)
+
+        if not decisions:
+            print("No decisions recorded in this session.")
+            return 0
+
+        print(f"🤔 Decisions Made ({len(decisions)} total)")
+        print("=" * 60)
+
+        for i, decision in enumerate(decisions, 1):
+            time_str = decision.timestamp.strftime("%Y-%m-%d %H:%M")
+            print(f"\n{i}. {decision.description}")
+            print(f"   Time: {time_str}")
+            print(f"   Category: {decision.category.value}")
+            print(f"   Confidence: {decision.confidence.value}")
+
+            if decision.rationale:
+                print(f"   Rationale: {decision.rationale}")
+
+            if decision.alternatives:
+                alts = ", ".join(
+                    a.get("name", str(a)) if isinstance(a, dict) else str(a)
+                    for a in decision.alternatives
+                )
+                print(f"   Alternatives: {alts}")
+
+            if decision.revisit:
+                print("   ⚠️  Marked for revisit")
+
+        return 0
+    except Exception as e:
+        print(format_error(f"Failed to show decisions: {e}"))
+        return 1

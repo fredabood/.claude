@@ -4616,6 +4616,92 @@ def session_list(ctx, status: Optional[str], track: Optional[str],
     sys.exit(exit_code)
 
 
+@session.command('report')
+@click.argument('session_id')
+@click.option('--format', '-f', type=click.Choice(['markdown', 'text']),
+              default='markdown', help='Output format')
+@click.option('--output', '-o', type=click.Path(), help='Write report to file')
+@click.pass_context
+def session_report(ctx, session_id: str, format: str, output: Optional[str]):
+    """Generate a session report.
+
+    Creates a human-readable report of the session including summary,
+    goals, tasks, commits, decisions, and timeline.
+
+    Examples:
+      vibey session report 01ABC123...              # Print to console
+      vibey session report 01ABC123... -o report.md # Save to file
+      vibey session report 01ABC123... -f text      # Plain text format
+    """
+    from vibey.cli.commands import session_report_cmd
+
+    exit_code = session_report_cmd(
+        session_id=session_id,
+        format=format,
+        output=output,
+    )
+    sys.exit(exit_code)
+
+
+@session.command('timeline')
+@click.argument('session_id')
+@click.pass_context
+def session_timeline(ctx, session_id: str):
+    """Show session timeline of events.
+
+    Displays a chronological list of all events that occurred during
+    the session with timestamps and details.
+
+    Examples:
+      vibey session timeline 01ABC123...
+    """
+    from vibey.cli.commands import session_timeline_cmd
+
+    exit_code = session_timeline_cmd(session_id=session_id)
+    sys.exit(exit_code)
+
+
+@session.command('export')
+@click.argument('session_id')
+@click.option('--output', '-o', type=click.Path(), help='Write export to file')
+@click.pass_context
+def session_export(ctx, session_id: str, output: Optional[str]):
+    """Export session for continuation.
+
+    Exports session state including incomplete tasks, goals, and decisions
+    that need revisiting. Useful for resuming work in a new session.
+
+    Examples:
+      vibey session export 01ABC123...               # Print to console
+      vibey session export 01ABC123... -o state.json # Save to file
+    """
+    from vibey.cli.commands import session_export_cmd
+
+    exit_code = session_export_cmd(
+        session_id=session_id,
+        output=output,
+    )
+    sys.exit(exit_code)
+
+
+@session.command('decisions')
+@click.argument('session_id')
+@click.pass_context
+def session_decisions(ctx, session_id: str):
+    """Show decisions made during a session.
+
+    Lists all decisions recorded during the session with their rationale,
+    alternatives considered, and whether they need revisiting.
+
+    Examples:
+      vibey session decisions 01ABC123...
+    """
+    from vibey.cli.commands import session_decisions_cmd
+
+    exit_code = session_decisions_cmd(session_id=session_id)
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Main Entry Point
 # ============================================================================

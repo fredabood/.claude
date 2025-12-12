@@ -1,15 +1,15 @@
 sprint:
-  id: 01KC8DT64AT78E0YHCBA2YE919
-  name: 'Phase 1.6: Database Artifact Audit'
-  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  id: 01KC9J5GNH6NZDW61996R79M38
+  name: 'Sprint 13: Auto-Progress and Edit Command Bugs'
+  track_id: dogfooding-bugs
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-12T04:41:23.850923+00:00'
-  started: '2025-12-12T11:35:00+00:00'
+  created: '2025-12-12T15:16:43.827557+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-12-12T14:30:00+00:00'
+  completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
@@ -30,12 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Audit the SQLite database schema and artifact tracking system. Verify
-    that all files and relationships identified in Sprints 1.1-1.5 can be properly
-    tracked as artifacts in the unified ticket architecture. Identify gaps between
-    file audits and database tracking capabilities.
-  goal: Complete assessment of database artifact tracking with gap analysis relative
-    to file audits from Phase 1.
+  description: null
+  goal: null
   success_criteria: []
   risks: []
   notes: null
@@ -44,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-12T15:16:43.827557+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

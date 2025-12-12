@@ -1,7 +1,7 @@
 task:
   id: 01KC8NA7RJTJKPRFABDZ2N4R9N
-  sprint_id: dogfooding-bugs-12
-  track_id: dogfooding-bugs
+  sprint_id: 01KC8N9MCJ9FDF1X23BY7CA7E2
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Database does not auto-sync when YAML files are edited directly
@@ -31,6 +31,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-12T06:52:30.948236+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -1,8 +1,8 @@
 # CLI Reference
 
 **Version:** 2.5.0
-**Total Commands:** 163
-**Generated:** 2025-12-12T16:39:42.764065+00:00
+**Total Commands:** 166
+**Generated:** 2025-12-12T16:48:57.958724+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
 
@@ -44,7 +44,10 @@ This document provides comprehensive reference documentation for all `vibey` CLI
   - [list](#deploy-list)
   - [run](#deploy-run)
 - [docs](#docs)
+  - [check-drift](#docs-check-drift)
   - [generate](#docs-generate)
+  - [generate-cli](#docs-generate-cli)
+  - [introspect](#docs-introspect)
 - [export](#export)
   - [gemini](#export-gemini)
   - [list](#export-list)
@@ -248,8 +251,18 @@ Examples:
 
   ...
 
+**C**
+- [`vibey docs check-drift`](#vibey-docs-check-drift) - 
+Check if CLI documentation has drifted from imple...
+
 **G**
 - [`vibey docs generate`](#vibey-docs-generate) - Generate documentation from configuration
+- [`vibey docs generate-cli`](#vibey-docs-generate-cli) - 
+Auto-generate CLI reference documentation from co...
+
+**I**
+- [`vibey docs introspect`](#vibey-docs-introspect) - 
+Introspect CLI structure and output documentation...
 
 **E**
 - [`vibey export`](#vibey-export) - 
@@ -2151,7 +2164,60 @@ vibey docs context            # Generate context docs
 
 | Command | Description |
 |---------|-------------|
+| `check-drift` | 
+Check if CLI documentation has drifted from implementation.... |
 | `generate` | Generate documentation from configuration |
+| `generate-cli` | 
+Auto-generate CLI reference documentation from code.
+
+Intro... |
+| `introspect` | 
+Introspect CLI structure and output documentation data.
+
+Ex... |
+
+---
+
+<a id="vibey-docs-check-drift"></a>
+
+#### `vibey docs check-drift`
+
+Check if CLI documentation has drifted from implementation.
+
+Compares the committed CLI reference with freshly generated output.
+Use in CI to prevent documentation drift. Returns exit code 1 if
+drift is detected (unless --fix is used).
+
+**Usage:**
+```bash
+vibey docs check-drift [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--path, -p` | Path(exists, file, dir) | `docs/reference/CLI_REFERENCE.md` | Path to existing CLI reference |
+| `--fix` | flag | `False` | Regenerate if drift detected |
+| `--quiet, -q` | flag | `False` | Only output on drift |
+
+**Examples:**
+
+```bash
+vibey docs check-drift                     # Check default path
+```
+
+```bash
+vibey docs check-drift -p docs/cli.md     # Check specific file
+```
+
+```bash
+vibey docs check-drift --fix              # Auto-fix if drifted
+```
+
+```bash
+vibey docs check-drift -q                 # Quiet mode for CI
+```
 
 ---
 
@@ -2171,6 +2237,85 @@ vibey docs generate [OPTIONS]
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `--overwrite` | flag | `False` | Overwrite existing docs |
+
+---
+
+<a id="vibey-docs-generate-cli"></a>
+
+#### `vibey docs generate-cli`
+
+Auto-generate CLI reference documentation from code.
+
+Introspects the Click command tree and generates comprehensive
+reference documentation. Output cannot drift from implementation.
+
+**Usage:**
+```bash
+vibey docs generate-cli [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--output, -o` | Path(file, dir) | `docs/reference/CLI_REFERENCE.md` | Output file path |
+| `--format, -f` | Choice(['json', 'markdown']) | `markdown` | Output format |
+| `--include-hidden` | flag | `False` | Include hidden commands |
+
+**Examples:**
+
+```bash
+vibey docs generate-cli                    # Generate CLI_REFERENCE.md
+```
+
+```bash
+vibey docs generate-cli -o docs/cli.md    # Custom output path
+```
+
+```bash
+vibey docs generate-cli -f json           # Output as JSON
+```
+
+```bash
+vibey docs generate-cli --include-hidden  # Include hidden commands
+```
+
+---
+
+<a id="vibey-docs-introspect"></a>
+
+#### `vibey docs introspect`
+
+Introspect CLI structure and output documentation data.
+
+Extracts structured data from the Click command tree for use in
+documentation generation, tooling, or drift detection.
+
+**Usage:**
+```bash
+vibey docs introspect [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['json', 'yaml']) | `json` | Output format |
+| `--output, -o` | Path(file, dir) | - | Output file (stdout if not specified) |
+
+**Examples:**
+
+```bash
+vibey docs introspect                  # JSON to stdout
+```
+
+```bash
+vibey docs introspect -f yaml          # YAML to stdout
+```
+
+```bash
+vibey docs introspect -o cli.json     # Save to file
+```
 
 ---
 
@@ -7117,4 +7262,4 @@ vibey validate docs --verbose
 
 *This documentation was auto-generated from the CLI source code.*
 
-*Generated at: 2025-12-12T16:39:42.764065+00:00*
+*Generated at: 2025-12-12T16:48:57.958724+00:00*

@@ -1719,6 +1719,175 @@ def docs_generate(ctx, overwrite: bool):
     sys.exit(exit_code)
 
 
+@docs.command('generate-cli')
+@click.option('--output', '-o', type=click.Path(),
+              default='docs/reference/CLI_REFERENCE.md',
+              help='Output file path')
+@click.option('--format', '-f', type=click.Choice(['markdown', 'json']),
+              default='markdown', help='Output format')
+@click.option('--include-hidden', is_flag=True, help='Include hidden commands')
+@click.pass_context
+def docs_generate_cli(ctx, output: str, format: str, include_hidden: bool):
+    """
+    Auto-generate CLI reference documentation from code.
+
+    Introspects the Click command tree and generates comprehensive
+    reference documentation. Output cannot drift from implementation.
+
+    Examples:
+      vibey docs generate-cli                    # Generate CLI_REFERENCE.md
+      vibey docs generate-cli -o docs/cli.md    # Custom output path
+      vibey docs generate-cli -f json           # Output as JSON
+      vibey docs generate-cli --include-hidden  # Include hidden commands
+    """
+    from pathlib import Path
+    from vibey.operations.docs.cli_introspector import introspect_cli
+    from vibey.operations.docs.cli_reference_generator import (
+        generate_cli_reference,
+        GeneratorConfig,
+    )
+
+    try:
+        if format == 'json':
+            structure = introspect_cli()
+            content = structure.to_json()
+        else:
+            config = GeneratorConfig(include_hidden=include_hidden)
+            content = generate_cli_reference(config=config)
+
+        output_path = Path(output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content)
+
+        if not ctx.obj.get('QUIET'):
+            click.echo(f"Generated: {output_path}")
+            click.echo(f"Size: {output_path.stat().st_size:,} bytes")
+
+        sys.exit(0)
+    except Exception as e:
+        click.echo(f"Error: {e}", err=True)
+        sys.exit(1)
+
+
+@docs.command('check-drift')
+@click.option('--path', '-p', type=click.Path(exists=True),
+              default='docs/reference/CLI_REFERENCE.md',
+              help='Path to existing CLI reference')
+@click.option('--fix', is_flag=True, help='Regenerate if drift detected')
+@click.option('--quiet', '-q', is_flag=True, help='Only output on drift')
+@click.pass_context
+def docs_check_drift(ctx, path: str, fix: bool, quiet: bool):
+    """
+    Check if CLI documentation has drifted from implementation.
+
+    Compares the committed CLI reference with freshly generated output.
+    Use in CI to prevent documentation drift. Returns exit code 1 if
+    drift is detected (unless --fix is used).
+
+    Examples:
+      vibey docs check-drift                     # Check default path
+      vibey docs check-drift -p docs/cli.md     # Check specific file
+      vibey docs check-drift --fix              # Auto-fix if drifted
+      vibey docs check-drift -q                 # Quiet mode for CI
+    """
+    from pathlib import Path
+    from vibey.operations.docs.cli_reference_generator import generate_cli_reference
+
+    try:
+        doc_path = Path(path)
+
+        if not doc_path.exists():
+            if not quiet:
+                click.echo(f"Documentation not found: {path}")
+                click.echo("Run 'vibey docs generate-cli' to create it.")
+            sys.exit(1)
+
+        # Read existing documentation
+        existing = doc_path.read_text()
+
+        # Generate fresh documentation
+        fresh = generate_cli_reference()
+
+        # Compare (ignoring timestamps)
+        def normalize(text: str) -> str:
+            """Remove timestamps for comparison."""
+            import re
+            # Remove generated timestamp lines
+            text = re.sub(r'\*\*Generated:\*\* [^\n]+', '**Generated:** <timestamp>', text)
+            text = re.sub(r'\*Generated at: [^\*]+\*', '*Generated at: <timestamp>*', text)
+            return text
+
+        existing_normalized = normalize(existing)
+        fresh_normalized = normalize(fresh)
+
+        if existing_normalized == fresh_normalized:
+            if not quiet:
+                click.echo(f"No drift detected in {path}")
+            sys.exit(0)
+        else:
+            if fix:
+                doc_path.write_text(fresh)
+                if not quiet:
+                    click.echo(f"Documentation updated: {path}")
+                sys.exit(0)
+            else:
+                click.echo(f"Drift detected in {path}!")
+                click.echo("")
+                click.echo("The committed CLI reference differs from the implementation.")
+                click.echo("")
+                click.echo("To fix this, run:")
+                click.echo(f"  vibey docs generate-cli -o {path}")
+                click.echo("")
+                click.echo("Or use --fix flag:")
+                click.echo(f"  vibey docs check-drift --fix")
+                sys.exit(1)
+
+    except Exception as e:
+        click.echo(f"Error: {e}", err=True)
+        sys.exit(1)
+
+
+@docs.command('introspect')
+@click.option('--format', '-f', type=click.Choice(['json', 'yaml']),
+              default='json', help='Output format')
+@click.option('--output', '-o', type=click.Path(), help='Output file (stdout if not specified)')
+@click.pass_context
+def docs_introspect(ctx, format: str, output: str):
+    """
+    Introspect CLI structure and output documentation data.
+
+    Extracts structured data from the Click command tree for use in
+    documentation generation, tooling, or drift detection.
+
+    Examples:
+      vibey docs introspect                  # JSON to stdout
+      vibey docs introspect -f yaml          # YAML to stdout
+      vibey docs introspect -o cli.json     # Save to file
+    """
+    from pathlib import Path
+    from vibey.operations.docs.cli_introspector import introspect_cli
+
+    try:
+        structure = introspect_cli()
+
+        if format == 'yaml':
+            content = structure.to_yaml()
+        else:
+            content = structure.to_json()
+
+        if output:
+            Path(output).write_text(content)
+            if not ctx.obj.get('QUIET'):
+                click.echo(f"Written to: {output}")
+        else:
+            click.echo(content)
+
+        sys.exit(0)
+    except Exception as e:
+        click.echo(f"Error: {e}", err=True)
+        sys.exit(1)
+
+
 # ============================================================================
 # Config Command Group
 # ============================================================================

@@ -7,11 +7,11 @@ task:
   title: Add usage examples to CLI commands
   description: Ensure every CLI command has usage examples in its help text or docstring.
     These will be extracted by the introspector.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.002485+00:00'
-  started: null
-  completed: null
+  started: '2025-12-12T16:46:57Z'
+  completed: '2025-12-12T16:47:31Z'
   assigned_agent: null
   priority: medium
   phase_label: null

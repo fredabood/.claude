@@ -1,0 +1,2958 @@
+classification:
+  generated_at: '2025-12-12T05:26:17.060681+00:00'
+  taxonomy_version: '1.0'
+  directory: tests/
+  summary:
+    total_files: 154
+    by_subcategory:
+      cli: 20
+      git-ops: 4
+      integration: 13
+      mcp: 12
+      models: 23
+      operations: 5
+      roadmap: 12
+      roadmap-ops: 7
+      root: 49
+      serialization: 9
+    by_test_type:
+      fixture: 2
+      integration: 20
+      package-init: 19
+      unit: 113
+  files:
+  - path: tests/__init__.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: package-init
+    purpose: Tests for vibey/__init__.py
+    module: tests
+    tests_subject: vibey/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-11-11T00:09:39.078710+00:00'
+  - path: tests/agents/__init__.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: package-init
+    purpose: Tests for vibey/agents/__init__.py
+    module: tests.agents
+    tests_subject: vibey/agents/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 25
+    lines: 1
+    last_modified: '2025-11-22T17:06:44.912559+00:00'
+  - path: tests/agents/test_agent_validation.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Agent validation tests for the Vibey Framework.
+    module: tests.agents.test_agent_validation
+    tests_subject: vibey/agents/agent_validation.py
+    dependencies:
+      internal: []
+      external:
+      - collections
+      - pathlib
+      - pytest
+      - re
+    size_bytes: 17026
+    lines: 488
+    last_modified: '2025-11-24T14:52:55.268841+00:00'
+  - path: tests/cli/__init__.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: package-init
+    purpose: CLI tests for Vibey framework.
+    module: tests.cli
+    tests_subject: vibey/cli/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 37
+    lines: 1
+    last_modified: '2025-11-12T17:46:25.952827+00:00'
+  - path: tests/cli/roadmap_lib/__init__.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: package-init
+    purpose: Tests for vibey/cli/roadmap_lib/__init__.py
+    module: tests.cli.roadmap_lib
+    tests_subject: vibey/cli/roadmap_lib/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-12-10T14:13:24.239862+00:00'
+  - path: tests/cli/roadmap_lib/test_filesystem.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for FileSystemManager path resolution.
+    module: tests.cli.roadmap_lib.test_filesystem
+    tests_subject: vibey/cli/roadmap_lib/filesystem.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_lib.filesystem
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 5640
+    lines: 148
+    last_modified: '2025-12-10T14:13:43.026583+00:00'
+  - path: tests/cli/roadmap_test_helpers.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Test helpers for roadmap CLI tests.
+    module: tests.cli.roadmap_test_helpers
+    tests_subject: vibey/cli/roadmap_test_helpers.py
+    dependencies:
+      internal: []
+      external:
+      - datetime
+      - pathlib
+      - typing
+      - yaml
+    size_bytes: 20688
+    lines: 626
+    last_modified: '2025-11-12T21:46:43.704427+00:00'
+  - path: tests/cli/test_agent_routing.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for agent routing and recommendation system.
+    module: tests.cli.test_agent_routing
+    tests_subject: vibey/cli/agent_routing.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_lib.agents
+      - vibey.roadmap.models
+      external:
+      - collections
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 13605
+    lines: 381
+    last_modified: '2025-11-22T19:21:43.415421+00:00'
+  - path: tests/cli/test_cli_basic.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Basic CLI tests for vibey command.
+    module: tests.cli.test_cli_basic
+    tests_subject: vibey/cli/cli_basic.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+    size_bytes: 3893
+    lines: 126
+    last_modified: '2025-11-11T20:19:52.148466+00:00'
+  - path: tests/cli/test_cli_no_sqlalchemy.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Test CLI operations work without SQLAlchemy installed.
+    module: tests.cli.test_cli_no_sqlalchemy
+    tests_subject: vibey/cli/cli_no_sqlalchemy.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      - vibey.roadmap.serialization
+      external:
+      - pytest
+      - sys
+      - unittest
+    size_bytes: 6991
+    lines: 189
+    last_modified: '2025-12-10T13:51:51.899004+00:00'
+  - path: tests/cli/test_commands.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for vibey.cli.commands module.
+    module: tests.cli.test_commands
+    tests_subject: vibey/cli/commands.py
+    dependencies:
+      internal:
+      - vibey.cli.commands
+      external:
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 3653
+    lines: 120
+    last_modified: '2025-11-12T17:34:09.974752+00:00'
+  - path: tests/cli/test_create_commands.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Integration tests for create-track, create-sprint, create-task CLI commands.
+    module: tests.cli.test_create_commands
+    tests_subject: vibey/cli/create_commands.py
+    dependencies:
+      internal:
+      - vibey.cli.main
+      external:
+      - click
+      - datetime
+      - os
+      - pathlib
+      - pytest
+    size_bytes: 8975
+    lines: 270
+    last_modified: '2025-12-10T15:02:12.758351+00:00'
+  - path: tests/cli/test_database_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for database CLI commands (vibey roadmap db).
+    module: tests.cli.test_database_cli
+    tests_subject: vibey/cli/database_cli.py
+    dependencies:
+      internal:
+      - vibey.cli.commands
+      - vibey.cli.main
+      - vibey.roadmap.serialization.backend
+      external:
+      - click
+      - pathlib
+      - pytest
+      - shutil
+      - sqlite3
+      - tempfile
+      - time
+      - unittest
+    size_bytes: 16332
+    lines: 490
+    last_modified: '2025-11-26T22:57:30.512483+00:00'
+  - path: tests/cli/test_deploy_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for Vibey deploy CLI commands.
+    module: tests.cli.test_deploy_cli
+    tests_subject: vibey/cli/deploy_cli.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+      - unittest
+    size_bytes: 9209
+    lines: 285
+    last_modified: '2025-11-11T20:20:31.205173+00:00'
+  - path: tests/cli/test_docs_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for Vibey docs CLI commands.
+    module: tests.cli.test_docs_cli
+    tests_subject: vibey/cli/docs_cli.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+    size_bytes: 7825
+    lines: 235
+    last_modified: '2025-11-11T20:21:46.931285+00:00'
+  - path: tests/cli/test_environment_variables.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for Vibey CLI environment variable support.
+    module: tests.cli.test_environment_variables
+    tests_subject: vibey/cli/environment_variables.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+    size_bytes: 12249
+    lines: 363
+    last_modified: '2025-11-11T03:44:45.087100+00:00'
+  - path: tests/cli/test_exit_codes.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for Vibey CLI exit codes.
+    module: tests.cli.test_exit_codes
+    tests_subject: vibey/cli/exit_codes.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+    size_bytes: 10348
+    lines: 315
+    last_modified: '2025-11-11T20:20:44.787022+00:00'
+  - path: tests/cli/test_global_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for global Vibey CLI options.
+    module: tests.cli.test_global_cli
+    tests_subject: vibey/cli/global_cli.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - re
+      - subprocess
+      - sys
+    size_bytes: 6492
+    lines: 195
+    last_modified: '2025-11-11T03:45:12.249973+00:00'
+  - path: tests/cli/test_migrate_format.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for the migrate-format CLI command.
+    module: tests.cli.test_migrate_format
+    tests_subject: vibey/cli/migrate_format.py
+    dependencies:
+      internal:
+      - vibey.cli.commands
+      - vibey.roadmap.serialization.yaml_loader
+      external:
+      - pathlib
+      - pytest
+      - shutil
+      - tempfile
+      - yaml
+    size_bytes: 16165
+    lines: 491
+    last_modified: '2025-12-05T01:14:15.100657+00:00'
+  - path: tests/cli/test_roadmap_cli_comprehensive.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: 'Comprehensive CLI tests for Journey 7: Roadmap-Driven Development.'
+    module: tests.cli.test_roadmap_cli_comprehensive
+    tests_subject: vibey/cli/roadmap_cli_comprehensive.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - shutil
+      - subprocess
+      - sys
+      - tempfile
+      - tests
+      - typing
+      - yaml
+    size_bytes: 43732
+    lines: 1070
+    last_modified: '2025-11-12T21:49:29.846562+00:00'
+  - path: tests/cli/test_standards_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Integration tests for standards CLI commands.
+    module: tests.cli.test_standards_cli
+    tests_subject: vibey/cli/standards_cli.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_commands.add_standard
+      - vibey.cli.roadmap_commands.check_standards
+      - vibey.cli.roadmap_commands.override_standard
+      - vibey.cli.roadmap_lib.filesystem
+      - vibey.operations.roadmap
+      - vibey.roadmap.models
+      - vibey.roadmap.serialization
+      external:
+      - argparse
+      - datetime
+      - pathlib
+      - pytest
+    size_bytes: 17254
+    lines: 553
+    last_modified: '2025-11-12T19:29:38.278848+00:00'
+  - path: tests/cli/test_templates.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Integration tests for standard templates.
+    module: tests.cli.test_templates
+    tests_subject: vibey/cli/templates.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_commands.add_from_template
+      - vibey.cli.roadmap_commands.list_templates
+      - vibey.cli.roadmap_lib.filesystem
+      - vibey.roadmap.models
+      - vibey.roadmap.serialization
+      - vibey.roadmap.standards.templates
+      external:
+      - argparse
+      - datetime
+      - pathlib
+      - pytest
+    size_bytes: 16097
+    lines: 510
+    last_modified: '2025-11-12T20:07:41.169443+00:00'
+  - path: tests/cli/test_workflows_cli.py
+    category: tests
+    subcategory: cli
+    subcategory_id: '3.3'
+    test_type: unit
+    purpose: Tests for common Vibey CLI workflows.
+    module: tests.cli.test_workflows_cli
+    tests_subject: vibey/cli/workflows_cli.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+    size_bytes: 10510
+    lines: 298
+    last_modified: '2025-11-11T03:43:12.716332+00:00'
+  - path: tests/conftest.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: fixture
+    purpose: Shared pytest fixtures and configuration for Vibey framework tests.
+    module: tests.conftest
+    tests_subject: vibey/conftest.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - shutil
+      - tempfile
+      - typing
+    size_bytes: 3456
+    lines: 155
+    last_modified: '2025-11-10T03:17:00.140862+00:00'
+  - path: tests/docs/__init__.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: package-init
+    purpose: Tests for vibey/docs/__init__.py
+    module: tests.docs
+    tests_subject: vibey/docs/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-11-22T19:56:46.433873+00:00'
+  - path: tests/docs/test_sync_engine.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for documentation synchronization engine.
+    module: tests.docs.test_sync_engine
+    tests_subject: vibey/docs/sync_engine.py
+    dependencies:
+      internal:
+      - vibey.operations.docs.sync_engine
+      - vibey.operations.docs.sync_hooks
+      - vibey.operations.docs.sync_manifest
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - shutil
+      - sys
+      - tempfile
+    size_bytes: 12056
+    lines: 354
+    last_modified: '2025-11-23T19:06:06.435427+00:00'
+  - path: tests/e2e/__init__.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: package-init
+    purpose: Tests for vibey/e2e/__init__.py
+    module: tests.e2e
+    tests_subject: vibey/e2e/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-11-23T03:05:25.667123+00:00'
+  - path: tests/e2e/test_complete_sprint.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: End-to-end tests for complete sprint workflows.
+    module: tests.e2e.test_complete_sprint
+    tests_subject: vibey/e2e/complete_sprint.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+      - time
+      - yaml
+    size_bytes: 16252
+    lines: 463
+    last_modified: '2025-11-11T19:19:44.520555+00:00'
+  - path: tests/e2e/test_goose_integration.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: integration
+    purpose: End-to-end tests for Goose integration.
+    module: tests.e2e.test_goose_integration
+    tests_subject: vibey/e2e/goose_integration.py
+    dependencies:
+      internal:
+      - vibey.mcp.discovery
+      - vibey.mcp.server
+      external:
+      - asyncio
+      - json
+      - pathlib
+      - pytest
+      - subprocess
+      - sys
+      - time
+      - typing
+    size_bytes: 17530
+    lines: 507
+    last_modified: '2025-11-24T14:49:51.964562+00:00'
+  - path: tests/e2e/test_multi_agent.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: End-to-end tests for multi-agent orchestration.
+    module: tests.e2e.test_multi_agent
+    tests_subject: vibey/e2e/multi_agent.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - yaml
+    size_bytes: 10475
+    lines: 317
+    last_modified: '2025-11-11T21:06:51.710945+00:00'
+  - path: tests/e2e/test_quality_gates.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: End-to-end tests for quality gate enforcement.
+    module: tests.e2e.test_quality_gates
+    tests_subject: vibey/e2e/quality_gates.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - yaml
+    size_bytes: 12569
+    lines: 365
+    last_modified: '2025-11-11T19:21:17.575573+00:00'
+  - path: tests/integration/test_git_integration.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: Integration tests for Git integration module.
+    module: tests.integration.test_git_integration
+    tests_subject: vibey/integration/git_integration.py
+    dependencies:
+      internal: []
+      external:
+      - datetime
+      - os
+      - pathlib
+      - pytest
+      - subprocess
+      - tempfile
+      - typing
+      - yaml
+    size_bytes: 20796
+    lines: 582
+    last_modified: '2025-11-25T05:14:48.214265+00:00'
+  - path: tests/integration/test_journey1_first_time_setup.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 1: First-Time Setup'
+    module: tests.integration.test_journey1_first_time_setup
+    tests_subject: vibey/integration/journey1_first_time_setup.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - time
+    size_bytes: 13497
+    lines: 366
+    last_modified: '2025-11-11T19:27:08.944900+00:00'
+  - path: tests/integration/test_journey1_steps_v2_5_0.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 1: First-Time Setup (v2.5.0)'
+    module: tests.integration.test_journey1_steps_v2_5_0
+    tests_subject: vibey/integration/journey1_steps_v2_5_0.py
+    dependencies:
+      internal: []
+      external:
+      - json
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+      - time
+      - unittest
+    size_bytes: 36226
+    lines: 1129
+    last_modified: '2025-11-11T21:10:42.815450+00:00'
+  - path: tests/integration/test_journey2_sprint_planning.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 2: Sprint Planning & Execution'
+    module: tests.integration.test_journey2_sprint_planning
+    tests_subject: vibey/integration/journey2_sprint_planning.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+      - time
+      - yaml
+    size_bytes: 17038
+    lines: 526
+    last_modified: '2025-11-11T19:14:17.524885+00:00'
+  - path: tests/integration/test_journey3_feature_development.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 3: Feature Development'
+    module: tests.integration.test_journey3_feature_development
+    tests_subject: vibey/integration/journey3_feature_development.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+      - time
+      - yaml
+    size_bytes: 20185
+    lines: 574
+    last_modified: '2025-11-11T19:15:44.541569+00:00'
+  - path: tests/integration/test_journey4_quality_assurance.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 4: Quality Assurance & Review'
+    module: tests.integration.test_journey4_quality_assurance
+    tests_subject: vibey/integration/journey4_quality_assurance.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - time
+    size_bytes: 11585
+    lines: 329
+    last_modified: '2025-11-11T19:15:04.224080+00:00'
+  - path: tests/integration/test_journey5_framework_management.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 5: Framework Management'
+    module: tests.integration.test_journey5_framework_management
+    tests_subject: vibey/integration/journey5_framework_management.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - yaml
+    size_bytes: 8268
+    lines: 208
+    last_modified: '2025-11-11T19:17:23.158438+00:00'
+  - path: tests/integration/test_journey6_multi_platform.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 6: Multi-Platform Deployment'
+    module: tests.integration.test_journey6_multi_platform
+    tests_subject: vibey/integration/journey6_multi_platform.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+    size_bytes: 7375
+    lines: 199
+    last_modified: '2025-11-11T19:18:00.273891+00:00'
+  - path: tests/integration/test_journey6_steps_v2_5_0.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 6: Multi-Platform Deployment (v2.5.0)'
+    module: tests.integration.test_journey6_steps_v2_5_0
+    tests_subject: vibey/integration/journey6_steps_v2_5_0.py
+    dependencies:
+      internal: []
+      external:
+      - os
+      - pathlib
+      - pytest
+      - shutil
+      - subprocess
+      - tests
+      - yaml
+    size_bytes: 24597
+    lines: 702
+    last_modified: '2025-11-11T21:10:50.733446+00:00'
+  - path: tests/integration/test_journey7_roadmap_driven.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 7: Roadmap-Driven Development'
+    module: tests.integration.test_journey7_roadmap_driven
+    tests_subject: vibey/integration/journey7_roadmap_driven.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - yaml
+    size_bytes: 26293
+    lines: 745
+    last_modified: '2025-11-12T01:05:34.113794+00:00'
+  - path: tests/integration/test_journey8_steps.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: 'Integration tests for Journey 8: Config Migration'
+    module: tests.integration.test_journey8_steps
+    tests_subject: vibey/integration/journey8_steps.py
+    dependencies:
+      internal: []
+      external:
+      - datetime
+      - json
+      - pathlib
+      - pytest
+      - shutil
+      - subprocess
+      - tests
+      - time
+      - unittest
+      - yaml
+    size_bytes: 70701
+    lines: 1945
+    last_modified: '2025-11-11T19:46:49.263090+00:00'
+  - path: tests/integration/test_mcp_tools.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: Integration tests for MCP tool generation.
+    module: tests.integration.test_mcp_tools
+    tests_subject: vibey/integration/mcp_tools.py
+    dependencies:
+      internal:
+      - vibey.mcp.adapters.roadmap_adapter
+      - vibey.mcp.discovery
+      - vibey.mcp.server
+      external:
+      - asyncio
+      - pathlib
+      - pytest
+    size_bytes: 11366
+    lines: 315
+    last_modified: '2025-11-23T19:04:25.202351+00:00'
+  - path: tests/integration/test_standards_resolution.py
+    category: tests
+    subcategory: integration
+    subcategory_id: '3.9'
+    test_type: integration
+    purpose: Integration tests for standards resolution engine.
+    module: tests.integration.test_standards_resolution
+    tests_subject: vibey/integration/standards_resolution.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models
+      - vibey.roadmap.serialization
+      - vibey.roadmap.standards
+      external:
+      - datetime
+      - pathlib
+      - pytest
+    size_bytes: 17678
+    lines: 492
+    last_modified: '2025-11-12T18:53:34.889851+00:00'
+  - path: tests/mcp/__init__.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: package-init
+    purpose: Tests for MCP module.
+    module: tests.mcp
+    tests_subject: vibey/mcp/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 28
+    lines: 1
+    last_modified: '2025-12-11T18:56:13.348350+00:00'
+  - path: tests/mcp/conftest.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: fixture
+    purpose: Test fixtures for MCP module tests.
+    module: tests.mcp.conftest
+    tests_subject: vibey/mcp/conftest.py
+    dependencies:
+      internal:
+      - vibey.mcp.discovery
+      - vibey.mcp.discovery.handoffs
+      - vibey.mcp.prompts.manager
+      - vibey.mcp.prompts.quality_gates
+      - vibey.mcp.resources.manager
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 4090
+    lines: 178
+    last_modified: '2025-12-11T18:56:31.852297+00:00'
+  - path: tests/mcp/discovery/__init__.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: package-init
+    purpose: Tests for MCP Discovery module.
+    module: tests.mcp.discovery
+    tests_subject: vibey/mcp/discovery/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 38
+    lines: 1
+    last_modified: '2025-12-11T18:56:13.644761+00:00'
+  - path: tests/mcp/discovery/test_handoffs.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for HandoffDiscovery module.
+    module: tests.mcp.discovery.test_handoffs
+    tests_subject: vibey/mcp/discovery/handoffs.py
+    dependencies:
+      internal:
+      - vibey.mcp.discovery.handoffs
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 10085
+    lines: 246
+    last_modified: '2025-12-11T18:59:26.750960+00:00'
+  - path: tests/mcp/prompts/__init__.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: package-init
+    purpose: Tests for MCP Prompts module.
+    module: tests.mcp.prompts
+    tests_subject: vibey/mcp/prompts/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 36
+    lines: 1
+    last_modified: '2025-12-11T18:56:13.547427+00:00'
+  - path: tests/mcp/prompts/test_manager.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for PromptManager.
+    module: tests.mcp.prompts.test_manager
+    tests_subject: vibey/mcp/prompts/manager.py
+    dependencies:
+      internal:
+      - vibey.mcp.prompts.exceptions
+      - vibey.mcp.prompts.manager
+      - vibey.mcp.prompts.quality_gates
+      external:
+      - pytest
+    size_bytes: 5064
+    lines: 125
+    last_modified: '2025-12-11T19:02:25.780022+00:00'
+  - path: tests/mcp/prompts/test_quality_gates.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for QualityGatePromptProvider.
+    module: tests.mcp.prompts.test_quality_gates
+    tests_subject: vibey/mcp/prompts/quality_gates.py
+    dependencies:
+      internal:
+      - vibey.mcp.prompts.exceptions
+      - vibey.mcp.prompts.quality_gates
+      external:
+      - pytest
+    size_bytes: 5239
+    lines: 116
+    last_modified: '2025-12-11T18:56:51.780808+00:00'
+  - path: tests/mcp/resources/__init__.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: package-init
+    purpose: Tests for MCP Resources module.
+    module: tests.mcp.resources
+    tests_subject: vibey/mcp/resources/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 38
+    lines: 1
+    last_modified: '2025-12-11T18:56:13.447484+00:00'
+  - path: tests/mcp/resources/test_handoffs.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for HandoffResourceProvider.
+    module: tests.mcp.resources.test_handoffs
+    tests_subject: vibey/mcp/resources/handoffs.py
+    dependencies:
+      internal:
+      - vibey.mcp.resources.exceptions
+      - vibey.mcp.resources.handoffs
+      external:
+      - json
+      - pytest
+    size_bytes: 8166
+    lines: 178
+    last_modified: '2025-12-11T19:05:16.088908+00:00'
+  - path: tests/mcp/resources/test_manager.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for ResourceManager.
+    module: tests.mcp.resources.test_manager
+    tests_subject: vibey/mcp/resources/manager.py
+    dependencies:
+      internal:
+      - vibey.mcp.resources.exceptions
+      - vibey.mcp.resources.handoffs
+      - vibey.mcp.resources.manager
+      external:
+      - pytest
+    size_bytes: 6752
+    lines: 157
+    last_modified: '2025-12-11T19:04:37.586421+00:00'
+  - path: tests/mcp/resources/test_workflows.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: unit
+    purpose: Tests for WorkflowResourceProvider.
+    module: tests.mcp.resources.test_workflows
+    tests_subject: vibey/mcp/resources/workflows.py
+    dependencies:
+      internal:
+      - vibey.mcp.resources.exceptions
+      - vibey.mcp.resources.workflows
+      external:
+      - json
+      - pytest
+    size_bytes: 5913
+    lines: 131
+    last_modified: '2025-12-11T19:03:19.987313+00:00'
+  - path: tests/mcp/test_server_integration.py
+    category: tests
+    subcategory: mcp
+    subcategory_id: '3.4'
+    test_type: integration
+    purpose: Integration tests for VibeyMCPServer.
+    module: tests.mcp.test_server_integration
+    tests_subject: vibey/mcp/server_integration.py
+    dependencies:
+      internal:
+      - vibey.mcp.server
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 5333
+    lines: 153
+    last_modified: '2025-12-11T19:03:17.846434+00:00'
+  - path: tests/operations/auth/__init__.py
+    category: tests
+    subcategory: operations
+    subcategory_id: '3.2'
+    test_type: package-init
+    purpose: Tests for vibey/operations/auth/__init__.py
+    module: tests.operations.auth
+    tests_subject: vibey/operations/auth/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-12-10T17:41:30.037285+00:00'
+  - path: tests/operations/auth/test_keys.py
+    category: tests
+    subcategory: operations
+    subcategory_id: '3.2'
+    test_type: unit
+    purpose: Unit tests for Ed25519 key management.
+    module: tests.operations.auth.test_keys
+    tests_subject: vibey/operations/auth/keys.py
+    dependencies:
+      internal:
+      - vibey.operations.auth.keys
+      external:
+      - os
+      - pathlib
+      - pytest
+      - tempfile
+      - unittest
+    size_bytes: 6047
+    lines: 165
+    last_modified: '2025-12-10T17:39:38.833508+00:00'
+  - path: tests/operations/auth/test_signers.py
+    category: tests
+    subcategory: operations
+    subcategory_id: '3.2'
+    test_type: unit
+    purpose: Unit tests for authorized signer management.
+    module: tests.operations.auth.test_signers
+    tests_subject: vibey/operations/auth/signers.py
+    dependencies:
+      internal:
+      - vibey.operations.auth.keys
+      - vibey.operations.auth.signers
+      external:
+      - pathlib
+      - pytest
+      - tempfile
+      - unittest
+    size_bytes: 9495
+    lines: 286
+    last_modified: '2025-12-10T17:42:07.958087+00:00'
+  - path: tests/operations/auth/test_signing.py
+    category: tests
+    subcategory: operations
+    subcategory_id: '3.2'
+    test_type: unit
+    purpose: Unit tests for activity log signing.
+    module: tests.operations.auth.test_signing
+    tests_subject: vibey/operations/auth/signing.py
+    dependencies:
+      internal:
+      - vibey.operations.auth.signing
+      external:
+      - base64
+      - pytest
+      - unittest
+    size_bytes: 6147
+    lines: 182
+    last_modified: '2025-12-10T17:40:32.600429+00:00'
+  - path: tests/operations/git/__init__.py
+    category: tests
+    subcategory: git-ops
+    subcategory_id: 3.2.3
+    test_type: package-init
+    purpose: Tests for vibey/operations/git/__init__.py
+    module: tests.operations.git
+    tests_subject: vibey/operations/git/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-12-10T17:41:34.838797+00:00'
+  - path: tests/operations/git/hooks/__init__.py
+    category: tests
+    subcategory: git-ops
+    subcategory_id: 3.2.3
+    test_type: package-init
+    purpose: Tests for vibey/operations/git/hooks/__init__.py
+    module: tests.operations.git.hooks
+    tests_subject: vibey/operations/git/hooks/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 0
+    lines: 0
+    last_modified: '2025-12-05T02:51:18.883049+00:00'
+  - path: tests/operations/git/hooks/test_completion_verification.py
+    category: tests
+    subcategory: git-ops
+    subcategory_id: 3.2.3
+    test_type: unit
+    purpose: Tests for pre-commit hook completion verification.
+    module: tests.operations.git.hooks.test_completion_verification
+    tests_subject: vibey/operations/git/hooks/completion_verification.py
+    dependencies:
+      internal:
+      - vibey.operations.git.hooks.pre_commit
+      - vibey.operations.roadmap.query
+      - vibey.roadmap.models.ticket
+      external:
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 6431
+    lines: 165
+    last_modified: '2025-12-05T02:51:14.355785+00:00'
+  - path: tests/operations/git/test_bypass_detection.py
+    category: tests
+    subcategory: git-ops
+    subcategory_id: 3.2.3
+    test_type: unit
+    purpose: Unit tests for bypass detection in post-commit hook.
+    module: tests.operations.git.test_bypass_detection
+    tests_subject: vibey/operations/git/bypass_detection.py
+    dependencies:
+      internal:
+      - vibey.operations.git.hooks.post_commit
+      external:
+      - json
+      - pathlib
+      - pytest
+      - tempfile
+      - unittest
+    size_bytes: 7703
+    lines: 188
+    last_modified: '2025-12-10T17:41:23.956630+00:00'
+  - path: tests/operations/roadmap/test_activity_log.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: Tests for unified activity logging in roadmap operations.
+    module: tests.operations.roadmap.test_activity_log
+    tests_subject: vibey/operations/roadmap/activity_log.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap
+      - vibey.operations.roadmap.activity_log
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 8802
+    lines: 234
+    last_modified: '2025-12-05T02:48:12.805441+00:00'
+  - path: tests/operations/roadmap/test_integration.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: integration
+    purpose: Integration tests for roadmap operations with unified ticket models.
+    module: tests.operations.roadmap.test_integration
+    tests_subject: vibey/operations/roadmap/integration.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.query
+      - vibey.operations.roadmap.standards_enforcement
+      - vibey.operations.roadmap.update
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pathlib
+      - pydantic
+      - pytest
+      - time
+    size_bytes: 12561
+    lines: 343
+    last_modified: '2025-12-05T02:39:21.510784+00:00'
+  - path: tests/operations/roadmap/test_jsonl_activity_log.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: Comprehensive tests for JSONL activity log system.
+    module: tests.operations.roadmap.test_jsonl_activity_log
+    tests_subject: vibey/operations/roadmap/jsonl_activity_log.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.audit_trail
+      - vibey.operations.roadmap.jsonl_activity_log
+      - vibey.operations.roadmap.migrate_activity_log
+      external:
+      - datetime
+      - json
+      - pathlib
+      - pytest
+      - yaml
+    size_bytes: 20295
+    lines: 574
+    last_modified: '2025-12-10T15:25:34.943916+00:00'
+  - path: tests/operations/roadmap/test_performance.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: Performance benchmarks for roadmap operations.
+    module: tests.operations.roadmap.test_performance
+    tests_subject: vibey/operations/roadmap/performance.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.query
+      - vibey.operations.roadmap.standards_enforcement
+      - vibey.roadmap.models.ticket
+      external:
+      - dataclasses
+      - pathlib
+      - pytest
+      - time
+      - typing
+    size_bytes: 11467
+    lines: 322
+    last_modified: '2025-12-05T02:43:50.220164+00:00'
+  - path: tests/operations/roadmap/test_query_hierarchy.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: Tests for hierarchy-aware query functions.
+    module: tests.operations.roadmap.test_query_hierarchy
+    tests_subject: vibey/operations/roadmap/query_hierarchy.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.query
+      - vibey.roadmap.models.ticket
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 6557
+    lines: 162
+    last_modified: '2025-12-05T02:06:50.530145+00:00'
+  - path: tests/operations/roadmap/test_standards_inheritance_e2e.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: End-to-end tests for Sprint 10 interface changes.
+    module: tests.operations.roadmap.test_standards_inheritance_e2e
+    tests_subject: vibey/operations/roadmap/standards_inheritance_e2e.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_lib.standards_formatter
+      - vibey.mcp.adapters.roadmap_adapter
+      - vibey.mcp.tools.query_tools
+      - vibey.roadmap.standards
+      - vibey.roadmap.standards.resolver
+      external:
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 10559
+    lines: 275
+    last_modified: '2025-12-05T03:20:47.090166+00:00'
+  - path: tests/operations/roadmap/test_verification.py
+    category: tests
+    subcategory: roadmap-ops
+    subcategory_id: 3.2.1
+    test_type: unit
+    purpose: Unit tests for roadmap verification.
+    module: tests.operations.roadmap.test_verification
+    tests_subject: vibey/operations/roadmap/verification.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.verification
+      external:
+      - pathlib
+      - pytest
+      - tempfile
+      - unittest
+    size_bytes: 7802
+    lines: 232
+    last_modified: '2025-12-10T17:40:57.921722+00:00'
+  - path: tests/operations/test_content_operations.py
+    category: tests
+    subcategory: operations
+    subcategory_id: '3.2'
+    test_type: unit
+    purpose: Content Operations Tests.
+    module: tests.operations.test_content_operations
+    tests_subject: vibey/operations/content_operations.py
+    dependencies:
+      internal:
+      - vibey.operations.content
+      external:
+      - pathlib
+      - pytest
+      - shutil
+      - tempfile
+    size_bytes: 16478
+    lines: 538
+    last_modified: '2025-11-24T15:17:40.644391+00:00'
+  - path: tests/platform/test_aider.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Aider adapter.
+    module: tests.platform.test_aider
+    tests_subject: vibey/platform/aider.py
+    dependencies:
+      internal:
+      - vibey.adapters.aider
+      - vibey.adapters.base
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - tempfile
+      - types
+    size_bytes: 13964
+    lines: 436
+    last_modified: '2025-11-23T05:25:20.801064+00:00'
+  - path: tests/platform/test_amazonq.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Amazon Q Developer adapter.
+    module: tests.platform.test_amazonq
+    tests_subject: vibey/platform/amazonq.py
+    dependencies:
+      internal:
+      - vibey.adapters.amazonq
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 16003
+    lines: 385
+    last_modified: '2025-11-23T19:06:56.207114+00:00'
+  - path: tests/platform/test_claude_code.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Claude Code.
+    module: tests.platform.test_claude_code
+    tests_subject: vibey/platform/claude_code.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+    size_bytes: 6975
+    lines: 196
+    last_modified: '2025-11-11T19:10:11.920411+00:00'
+  - path: tests/platform/test_cody.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Sourcegraph Cody adapter.
+    module: tests.platform.test_cody
+    tests_subject: vibey/platform/cody.py
+    dependencies:
+      internal:
+      - vibey.adapters.cody
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 12173
+    lines: 306
+    last_modified: '2025-11-23T17:42:18.821202+00:00'
+  - path: tests/platform/test_continue.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Continue.dev adapter.
+    module: tests.platform.test_continue
+    tests_subject: vibey/platform/continue.py
+    dependencies:
+      internal:
+      - vibey.adapters.continuedev
+      - vibey.adapters.continuedev.context_generator
+      - vibey.adapters.continuedev.settings_generator
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 7077
+    lines: 196
+    last_modified: '2025-11-23T16:39:42.876781+00:00'
+  - path: tests/platform/test_copilot.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for GitHub Copilot adapter.
+    module: tests.platform.test_copilot
+    tests_subject: vibey/platform/copilot.py
+    dependencies:
+      internal:
+      - vibey.adapters.copilot
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 17618
+    lines: 406
+    last_modified: '2025-11-23T16:56:58.022793+00:00'
+  - path: tests/platform/test_cursor.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Cursor adapter.
+    module: tests.platform.test_cursor
+    tests_subject: vibey/platform/cursor.py
+    dependencies:
+      internal:
+      - vibey.adapters.cursor
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 13674
+    lines: 339
+    last_modified: '2025-11-23T19:06:56.207449+00:00'
+  - path: tests/platform/test_goose.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Goose (simulated).
+    module: tests.platform.test_goose
+    tests_subject: vibey/platform/goose.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+      - yaml
+    size_bytes: 4325
+    lines: 140
+    last_modified: '2025-11-10T03:49:39.762109+00:00'
+  - path: tests/platform/test_jetbrains.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for JetBrains AI Assistant adapter.
+    module: tests.platform.test_jetbrains
+    tests_subject: vibey/platform/jetbrains.py
+    dependencies:
+      internal:
+      - vibey.adapters.jetbrains
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 11084
+    lines: 277
+    last_modified: '2025-11-23T19:06:56.207680+00:00'
+  - path: tests/platform/test_platform_parity.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform parity validation tests.
+    module: tests.platform.test_platform_parity
+    tests_subject: vibey/platform/platform_parity.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - tests
+    size_bytes: 9579
+    lines: 286
+    last_modified: '2025-11-11T18:48:30.008400+00:00'
+  - path: tests/platform/test_replit.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Replit adapter.
+    module: tests.platform.test_replit
+    tests_subject: vibey/platform/replit.py
+    dependencies:
+      internal:
+      - vibey.adapters.replit
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 9883
+    lines: 252
+    last_modified: '2025-11-23T17:41:30.356919+00:00'
+  - path: tests/platform/test_vscode.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for VS Code adapter.
+    module: tests.platform.test_vscode
+    tests_subject: vibey/platform/vscode.py
+    dependencies:
+      internal:
+      - vibey.adapters.vscode
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 11069
+    lines: 281
+    last_modified: '2025-11-23T19:06:56.207916+00:00'
+  - path: tests/platform/test_windsurf.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Platform-specific tests for Windsurf adapter.
+    module: tests.platform.test_windsurf
+    tests_subject: vibey/platform/windsurf.py
+    dependencies:
+      internal:
+      - vibey.adapters.windsurf
+      external:
+      - json
+      - pathlib
+      - pytest
+      - unittest
+    size_bytes: 8129
+    lines: 210
+    last_modified: '2025-11-23T16:39:16.566017+00:00'
+  - path: tests/roadmap/database/__init__.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: package-init
+    purpose: Tests for roadmap database schema and operations.
+    module: tests.roadmap.database
+    tests_subject: vibey/roadmap/database/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 56
+    lines: 1
+    last_modified: '2025-12-04T22:23:57.608936+00:00'
+  - path: tests/roadmap/database/test_artifacts_schema.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Tests for artifacts table schema.
+    module: tests.roadmap.database.test_artifacts_schema
+    tests_subject: vibey/roadmap/database/artifacts_schema.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.migrations.add_artifacts
+      - vibey.roadmap.database.schema
+      external:
+      - datetime
+      - json
+      - pathlib
+      - pytest
+      - sqlite3
+      - tempfile
+    size_bytes: 22946
+    lines: 615
+    last_modified: '2025-12-04T22:26:32.689962+00:00'
+  - path: tests/roadmap/database/test_migration_006.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: 'Tests for migration 006: Unified Ticket Schema.'
+    module: tests.roadmap.database.test_migration_006
+    tests_subject: vibey/roadmap/database/migration_006.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.connection
+      - vibey.roadmap.database.schema
+      external:
+      - pathlib
+      - pytest
+      - sqlite3
+      - tempfile
+    size_bytes: 10331
+    lines: 285
+    last_modified: '2025-12-04T23:36:37.494883+00:00'
+  - path: tests/roadmap/integration/__init__.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: integration
+    purpose: Integration tests for roadmap system.
+    module: tests.roadmap.integration
+    tests_subject: vibey/roadmap/integration/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 44
+    lines: 1
+    last_modified: '2025-12-04T22:48:14.042034+00:00'
+  - path: tests/roadmap/integration/test_artifact_workflow.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: integration
+    purpose: End-to-end integration tests for artifact workflows.
+    module: tests.roadmap.integration.test_artifact_workflow
+    tests_subject: vibey/roadmap/integration/artifact_workflow.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact
+      - vibey.roadmap.models.ticket.artifact_enums
+      - vibey.roadmap.models.ticket.completable
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.hierarchical
+      - vibey.roadmap.models.ticket.targets
+      - vibey.roadmap.models.ticket.ticket
+      - vibey.roadmap.operations.impact_analyzer
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 24795
+    lines: 698
+    last_modified: '2025-12-04T22:49:24.435224+00:00'
+  - path: tests/roadmap/migration/__init__.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: package-init
+    purpose: Tests for roadmap migration utilities.
+    module: tests.roadmap.migration
+    tests_subject: vibey/roadmap/migration/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 45
+    lines: 1
+    last_modified: '2025-12-04T21:59:58.559219+00:00'
+  - path: tests/roadmap/migration/test_yaml_migrator.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Tests for YAML migration utilities.
+    module: tests.roadmap.migration.test_yaml_migrator
+    tests_subject: vibey/roadmap/migration/yaml_migrator.py
+    dependencies:
+      internal:
+      - vibey.roadmap.migration
+      - vibey.roadmap.migration.yaml_migrator
+      external:
+      - datetime
+      - pytest
+    size_bytes: 10926
+    lines: 328
+    last_modified: '2025-12-04T22:00:38.465134+00:00'
+  - path: tests/roadmap/models/__init__.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: package-init
+    purpose: Tests for roadmap models.
+    module: tests.roadmap.models
+    tests_subject: vibey/roadmap/models/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 32
+    lines: 1
+    last_modified: '2025-12-04T19:35:43.343922+00:00'
+  - path: tests/roadmap/models/ticket/__init__.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: package-init
+    purpose: Tests for unified ticket architecture models.
+    module: tests.roadmap.models.ticket
+    tests_subject: vibey/roadmap/models/ticket/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 52
+    lines: 1
+    last_modified: '2025-12-04T19:35:33.536859+00:00'
+  - path: tests/roadmap/models/ticket/test_adapters.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for model adapters.
+    module: tests.roadmap.models.ticket.test_adapters
+    tests_subject: vibey/roadmap/models/ticket/adapters.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+    size_bytes: 12448
+    lines: 367
+    last_modified: '2025-12-04T21:59:48.929168+00:00'
+  - path: tests/roadmap/models/ticket/test_artifact.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for Artifact entity.
+    module: tests.roadmap.models.ticket.test_artifact
+    tests_subject: vibey/roadmap/models/ticket/artifact.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact
+      - vibey.roadmap.models.ticket.artifact_enums
+      external:
+      - datetime
+      - os
+      - pathlib
+      - pytest
+      - tempfile
+      - typing
+    size_bytes: 23085
+    lines: 659
+    last_modified: '2025-12-04T22:12:01.530062+00:00'
+  - path: tests/roadmap/models/ticket/test_artifact_enums.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for artifact system enums.
+    module: tests.roadmap.models.ticket.test_artifact_enums
+    tests_subject: vibey/roadmap/models/ticket/artifact_enums.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact_enums
+      external:
+      - pytest
+    size_bytes: 16823
+    lines: 388
+    last_modified: '2025-12-04T22:06:55.604220+00:00'
+  - path: tests/roadmap/models/ticket/test_artifact_integration.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: integration
+    purpose: Tests for Artifact System integration across Ticket layers.
+    module: tests.roadmap.models.ticket.test_artifact_integration
+    tests_subject: vibey/roadmap/models/ticket/artifact_integration.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact_enums
+      - vibey.roadmap.models.ticket.completable
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.hierarchical
+      - vibey.roadmap.models.ticket.targets
+      - vibey.roadmap.models.ticket.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 34212
+    lines: 970
+    last_modified: '2025-12-04T22:42:09.452949+00:00'
+  - path: tests/roadmap/models/ticket/test_artifact_provenance.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for ArtifactProvenance class.
+    module: tests.roadmap.models.ticket.test_artifact_provenance
+    tests_subject: vibey/roadmap/models/ticket/artifact_provenance.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact
+      - vibey.roadmap.models.ticket.artifact_enums
+      external:
+      - datetime
+      - pytest
+    size_bytes: 14428
+    lines: 369
+    last_modified: '2025-12-04T22:46:53.260108+00:00'
+  - path: tests/roadmap/models/ticket/test_artifact_target.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for ArtifactTarget criterion target.
+    module: tests.roadmap.models.ticket.test_artifact_target
+    tests_subject: vibey/roadmap/models/ticket/artifact_target.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact
+      - vibey.roadmap.models.ticket.artifact_enums
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.support
+      - vibey.roadmap.models.ticket.targets
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 15761
+    lines: 464
+    last_modified: '2025-12-04T22:17:13.282917+00:00'
+  - path: tests/roadmap/models/ticket/test_completable.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for Completable and Criterion classes.
+    module: tests.roadmap.models.ticket.test_completable
+    tests_subject: vibey/roadmap/models/ticket/completable.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.completable
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.targets
+      external:
+      - datetime
+      - pytest
+    size_bytes: 17904
+    lines: 518
+    last_modified: '2025-12-04T19:43:46.792055+00:00'
+  - path: tests/roadmap/models/ticket/test_deferred.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for deferred flag functionality.
+    module: tests.roadmap.models.ticket.test_deferred
+    tests_subject: vibey/roadmap/models/ticket/deferred.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 21402
+    lines: 626
+    last_modified: '2025-12-04T21:15:48.530632+00:00'
+  - path: tests/roadmap/models/ticket/test_enums.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for unified ticket architecture enum types.
+    module: tests.roadmap.models.ticket.test_enums
+    tests_subject: vibey/roadmap/models/ticket/enums.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.enums
+      external:
+      - json
+      - pytest
+    size_bytes: 16914
+    lines: 500
+    last_modified: '2025-12-04T19:37:08.156562+00:00'
+  - path: tests/roadmap/models/ticket/test_hierarchical.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for Layer 2 HierarchicalTicket class.
+    module: tests.roadmap.models.ticket.test_hierarchical
+    tests_subject: vibey/roadmap/models/ticket/hierarchical.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 38870
+    lines: 1113
+    last_modified: '2025-12-04T21:52:52.218670+00:00'
+  - path: tests/roadmap/models/ticket/test_orm.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for SQLAlchemy ORM models.
+    module: tests.roadmap.models.ticket.test_orm
+    tests_subject: vibey/roadmap/models/ticket/orm.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - sqlalchemy
+    size_bytes: 19558
+    lines: 589
+    last_modified: '2025-12-04T21:41:16.594639+00:00'
+  - path: tests/roadmap/models/ticket/test_repository.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for repository pattern implementation.
+    module: tests.roadmap.models.ticket.test_repository
+    tests_subject: vibey/roadmap/models/ticket/repository.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - sqlalchemy
+    size_bytes: 18141
+    lines: 551
+    last_modified: '2025-12-04T21:42:00.449113+00:00'
+  - path: tests/roadmap/models/ticket/test_requirements.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for requirement system (CriterionTemplate, ApplicabilityRules, Requirement, Resolver).
+    module: tests.roadmap.models.ticket.test_requirements
+    tests_subject: vibey/roadmap/models/ticket/requirements.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.requirements
+      external:
+      - pytest
+    size_bytes: 27123
+    lines: 705
+    last_modified: '2025-12-04T19:55:09.131457+00:00'
+  - path: tests/roadmap/models/ticket/test_roadmap_ticket.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for RoadmapTicket domain model.
+    module: tests.roadmap.models.ticket.test_roadmap_ticket
+    tests_subject: vibey/roadmap/models/ticket/roadmap_ticket.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+    size_bytes: 29329
+    lines: 790
+    last_modified: '2025-12-04T20:26:45.343692+00:00'
+  - path: tests/roadmap/models/ticket/test_sprint_ticket.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for SprintTicket (Layer 3 domain model).
+    module: tests.roadmap.models.ticket.test_sprint_ticket
+    tests_subject: vibey/roadmap/models/ticket/sprint_ticket.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 27048
+    lines: 719
+    last_modified: '2025-12-04T20:49:16.936237+00:00'
+  - path: tests/roadmap/models/ticket/test_support.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for support classes (Progress, TestResult).
+    module: tests.roadmap.models.ticket.test_support
+    tests_subject: vibey/roadmap/models/ticket/support.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.support
+      external:
+      - datetime
+      - pytest
+    size_bytes: 5742
+    lines: 183
+    last_modified: '2025-12-04T19:42:52.899454+00:00'
+  - path: tests/roadmap/models/ticket/test_targets.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for criterion target types.
+    module: tests.roadmap.models.ticket.test_targets
+    tests_subject: vibey/roadmap/models/ticket/targets.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.support
+      - vibey.roadmap.models.ticket.targets
+      external:
+      - dataclasses
+      - datetime
+      - pathlib
+      - pytest
+      - tempfile
+      - typing
+    size_bytes: 27284
+    lines: 828
+    last_modified: '2025-12-04T21:05:06.347768+00:00'
+  - path: tests/roadmap/models/ticket/test_task_ticket.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for TaskTicket (Layer 3 domain model).
+    module: tests.roadmap.models.ticket.test_task_ticket
+    tests_subject: vibey/roadmap/models/ticket/task_ticket.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 23833
+    lines: 700
+    last_modified: '2025-12-04T20:55:10.086479+00:00'
+  - path: tests/roadmap/models/ticket/test_ticket.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for Layer 1 Ticket class.
+    module: tests.roadmap.models.ticket.test_ticket
+    tests_subject: vibey/roadmap/models/ticket/ticket.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+    size_bytes: 36023
+    lines: 1009
+    last_modified: '2025-12-04T20:06:40.923383+00:00'
+  - path: tests/roadmap/models/ticket/test_tokens.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for computed_tokens and DeliverableType functionality.
+    module: tests.roadmap.models.ticket.test_tokens
+    tests_subject: vibey/roadmap/models/ticket/tokens.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 15965
+    lines: 445
+    last_modified: '2025-12-04T21:10:11.981201+00:00'
+  - path: tests/roadmap/models/ticket/test_track_ticket.py
+    category: tests
+    subcategory: models
+    subcategory_id: 3.1.2
+    test_type: unit
+    purpose: Tests for TrackTicket domain model.
+    module: tests.roadmap.models.ticket.test_track_ticket
+    tests_subject: vibey/roadmap/models/ticket/track_ticket.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket
+      external:
+      - datetime
+      - pytest
+      - typing
+    size_bytes: 22734
+    lines: 649
+    last_modified: '2025-12-04T20:33:25.648271+00:00'
+  - path: tests/roadmap/operations/__init__.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: package-init
+    purpose: Tests for roadmap operations.
+    module: tests.roadmap.operations
+    tests_subject: vibey/roadmap/operations/__init__.py
+    dependencies:
+      internal: []
+      external: []
+    size_bytes: 36
+    lines: 1
+    last_modified: '2025-12-04T22:29:59.186234+00:00'
+  - path: tests/roadmap/operations/test_impact_analyzer.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Tests for ImpactAnalyzer.
+    module: tests.roadmap.operations.test_impact_analyzer
+    tests_subject: vibey/roadmap/operations/impact_analyzer.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.artifact_enums
+      - vibey.roadmap.operations.impact_analyzer
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - typing
+    size_bytes: 20649
+    lines: 601
+    last_modified: '2025-12-04T22:30:59.909499+00:00'
+  - path: tests/roadmap/serialization/test_audit_migration.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for audit fields migration to ThresholdTarget criteria and markdown reports.
+    module: tests.roadmap.serialization.test_audit_migration
+    tests_subject: vibey/roadmap/serialization/audit_migration.py
+    dependencies:
+      internal:
+      - vibey.roadmap.serialization.audit_migration
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - tempfile
+    size_bytes: 13660
+    lines: 426
+    last_modified: '2025-12-05T01:31:15.697995+00:00'
+  - path: tests/roadmap/serialization/test_commit_serialization.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for GitCommit serialization with completion tracking.
+    module: tests.roadmap.serialization.test_commit_serialization
+    tests_subject: vibey/roadmap/serialization/commit_serialization.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.ticket
+      - vibey.roadmap.serialization.yaml_dumper
+      - vibey.roadmap.serialization.yaml_loader
+      external:
+      - datetime
+      - pytest
+    size_bytes: 14523
+    lines: 380
+    last_modified: '2025-12-05T01:20:36.422082+00:00'
+  - path: tests/roadmap/serialization/test_directory_migration.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for directory structure migration.
+    module: tests.roadmap.serialization.test_directory_migration
+    tests_subject: vibey/roadmap/serialization/directory_migration.py
+    dependencies:
+      internal:
+      - vibey.roadmap.serialization.directory_migration
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 14586
+    lines: 427
+    last_modified: '2025-12-05T01:34:48.003554+00:00'
+  - path: tests/roadmap/serialization/test_markdown_migration.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for markdown migration from YAML fields.
+    module: tests.roadmap.serialization.test_markdown_migration
+    tests_subject: vibey/roadmap/serialization/markdown_migration.py
+    dependencies:
+      internal:
+      - vibey.roadmap.serialization.markdown_migration
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - tempfile
+    size_bytes: 14977
+    lines: 475
+    last_modified: '2025-12-05T01:28:00.153447+00:00'
+  - path: tests/roadmap/serialization/test_roundtrip_integrity.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Comprehensive round-trip integrity tests for serialization paths.
+    module: tests.roadmap.serialization.test_roundtrip_integrity
+    tests_subject: vibey/roadmap/serialization/roundtrip_integrity.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.connection
+      - vibey.roadmap.database.schema
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.serialization.sql_dumper
+      - vibey.roadmap.serialization.sql_loader
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - sqlalchemy
+      - sqlite3
+      - tempfile
+      - typing
+    size_bytes: 21053
+    lines: 583
+    last_modified: '2025-12-05T00:03:17.179559+00:00'
+  - path: tests/roadmap/serialization/test_sql_dumper_v2.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for v2 SQL dumper functions (unified schema).
+    module: tests.roadmap.serialization.test_sql_dumper_v2
+    tests_subject: vibey/roadmap/serialization/sql_dumper_v2.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.connection
+      - vibey.roadmap.database.schema
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.serialization.sql_dumper
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - sqlalchemy
+      - sqlite3
+      - tempfile
+    size_bytes: 12021
+    lines: 357
+    last_modified: '2025-12-04T23:51:10.424948+00:00'
+  - path: tests/roadmap/serialization/test_sql_loader_v2.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for v2 SQL loader functions (unified schema).
+    module: tests.roadmap.serialization.test_sql_loader_v2
+    tests_subject: vibey/roadmap/serialization/sql_loader_v2.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.connection
+      - vibey.roadmap.database.schema
+      - vibey.roadmap.serialization.sql_loader
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - sqlalchemy
+      - sqlite3
+      - tempfile
+    size_bytes: 8510
+    lines: 239
+    last_modified: '2025-12-04T23:46:06.218141+00:00'
+  - path: tests/roadmap/serialization/test_yaml_dumper_v2.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for v2 YAML dumper functions.
+    module: tests.roadmap.serialization.test_yaml_dumper_v2
+    tests_subject: vibey/roadmap/serialization/yaml_dumper_v2.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.completable
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.models.ticket.targets
+      - vibey.roadmap.models.ticket.ticket
+      - vibey.roadmap.serialization.yaml_dumper
+      external:
+      - datetime
+      - pytest
+    size_bytes: 14082
+    lines: 424
+    last_modified: '2025-12-04T23:28:53.903017+00:00'
+  - path: tests/roadmap/serialization/test_yaml_loader_v2.py
+    category: tests
+    subcategory: serialization
+    subcategory_id: 3.1.1
+    test_type: unit
+    purpose: Tests for the v2 YAML loader functions (Pydantic model output).
+    module: tests.roadmap.serialization.test_yaml_loader_v2
+    tests_subject: vibey/roadmap/serialization/yaml_loader_v2.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.ticket.domain
+      - vibey.roadmap.models.ticket.enums
+      - vibey.roadmap.serialization.yaml_loader
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - tempfile
+      - yaml
+    size_bytes: 18855
+    lines: 470
+    last_modified: '2025-12-04T23:08:15.534944+00:00'
+  - path: tests/roadmap/test_sync_roundtrip.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Roundtrip Tests for SQLite ↔ YAML Synchronization
+    module: tests.roadmap.test_sync_roundtrip
+    tests_subject: vibey/roadmap/sync_roundtrip.py
+    dependencies:
+      internal:
+      - vibey.roadmap.database.connection
+      - vibey.roadmap.serialization.backend
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - shutil
+      - sqlite3
+      - tempfile
+      - typing
+      - yaml
+    size_bytes: 11346
+    lines: 329
+    last_modified: '2025-11-26T23:29:19.174262+00:00'
+  - path: tests/roadmap/test_unified_architecture.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Integration tests for unified architecture migration (Sprint 5).
+    module: tests.roadmap.test_unified_architecture
+    tests_subject: vibey/roadmap/unified_architecture.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.artifacts
+      - vibey.operations.roadmap.transitions
+      - vibey.roadmap.models.ticket
+      - vibey.roadmap.serialization.yaml_dumper
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - shutil
+      - tempfile
+      - yaml
+    size_bytes: 11629
+    lines: 375
+    last_modified: '2025-12-10T01:37:14.303003+00:00'
+  - path: tests/roadmap/test_validation_exclusions.py
+    category: tests
+    subcategory: roadmap
+    subcategory_id: '3.1'
+    test_type: unit
+    purpose: Unit tests for validation exclusion patterns.
+    module: tests.roadmap.test_validation_exclusions
+    tests_subject: vibey/roadmap/validation_exclusions.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.optimized_validator
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 4101
+    lines: 110
+    last_modified: '2025-12-10T15:09:40.078868+00:00'
+  - path: tests/test_deliverable_type_normalization.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Test deliverable type normalization in YAML loader.
+    module: tests.test_deliverable_type_normalization
+    tests_subject: vibey/deliverable_type_normalization.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models.common
+      - vibey.roadmap.models.task
+      - vibey.roadmap.serialization.yaml_loader
+      external:
+      - os
+      - pytest
+      - tempfile
+    size_bytes: 5790
+    lines: 198
+    last_modified: '2025-11-20T17:44:08.412111+00:00'
+  - path: tests/test_git_hooks.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for Git Hooks functionality.
+    module: tests.test_git_hooks
+    tests_subject: vibey/git_hooks.py
+    dependencies:
+      internal:
+      - vibey.operations.git.branch_linker
+      - vibey.operations.git.hooks
+      - vibey.operations.git.status_updater
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - shutil
+      - subprocess
+      - tempfile
+      - yaml
+    size_bytes: 18085
+    lines: 548
+    last_modified: '2025-11-24T23:24:43.156999+00:00'
+  - path: tests/test_package_installation.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Package Installation Tests.
+    module: tests.test_package_installation
+    tests_subject: vibey/package_installation.py
+    dependencies:
+      internal:
+      - vibey
+      - vibey.cli.main
+      - vibey.content
+      - vibey.mcp
+      - vibey.mcp.discovery.agents
+      - vibey.mcp.discovery.workflows
+      - vibey.operations
+      - vibey.roadmap
+      external:
+      - click
+      - pathlib
+      - pytest
+    size_bytes: 8442
+    lines: 246
+    last_modified: '2025-11-24T14:38:17.892858+00:00'
+  - path: tests/test_safe_yaml_editor.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Test Suite for Safe YAML Editor
+    module: tests.test_safe_yaml_editor
+    tests_subject: vibey/safe_yaml_editor.py
+    dependencies:
+      internal:
+      - vibey.operations.roadmap.safe_yaml_editor
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - shutil
+      - sys
+      - tempfile
+      - time
+      - yaml
+    size_bytes: 17675
+    lines: 580
+    last_modified: '2025-11-21T02:27:04.582450+00:00'
+  - path: tests/test_unified_errors.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Integration tests for unified error handling system.
+    module: tests.test_unified_errors
+    tests_subject: vibey/unified_errors.py
+    dependencies:
+      internal:
+      - vibey.common
+      - vibey.common.renderers
+      - vibey.config.loader
+      external:
+      - json
+      - pathlib
+      - pytest
+    size_bytes: 10503
+    lines: 313
+    last_modified: '2025-11-12T17:13:00.939800+00:00'
+  - path: tests/unit/test_blocker_enforcer.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for blocker enforcement module.
+    module: tests.unit.test_blocker_enforcer
+    tests_subject: vibey/unit/blocker_enforcer.py
+    dependencies:
+      internal:
+      - vibey.operations.git.blocker_enforcer
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - subprocess
+      - tempfile
+      - yaml
+    size_bytes: 10061
+    lines: 310
+    last_modified: '2025-11-25T04:58:34.366020+00:00'
+  - path: tests/unit/test_ci_integration.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: integration
+    purpose: Tests for CI integration module.
+    module: tests.unit.test_ci_integration
+    tests_subject: vibey/unit/ci_integration.py
+    dependencies:
+      internal:
+      - vibey.operations.git.ci_integration
+      external:
+      - datetime
+      - json
+      - pathlib
+      - pytest
+      - subprocess
+      - tempfile
+      - yaml
+    size_bytes: 12449
+    lines: 391
+    last_modified: '2025-11-25T05:04:06.144611+00:00'
+  - path: tests/unit/test_commit_evidence.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for commit evidence module.
+    module: tests.unit.test_commit_evidence
+    tests_subject: vibey/unit/commit_evidence.py
+    dependencies:
+      internal:
+      - vibey.operations.git.commit_evidence
+      external:
+      - pathlib
+      - pytest
+      - tempfile
+      - yaml
+    size_bytes: 7869
+    lines: 245
+    last_modified: '2025-11-25T05:32:43.527677+00:00'
+  - path: tests/unit/test_discovery.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for Discovery modules.
+    module: tests.unit.test_discovery
+    tests_subject: vibey/unit/discovery.py
+    dependencies:
+      internal:
+      - vibey.mcp.discovery
+      external:
+      - pathlib
+      - pytest
+    size_bytes: 13347
+    lines: 423
+    last_modified: '2025-11-23T19:04:25.201879+00:00'
+  - path: tests/unit/test_frontmatter_parser.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for FrontmatterParser.
+    module: tests.unit.test_frontmatter_parser
+    tests_subject: vibey/unit/frontmatter_parser.py
+    dependencies:
+      internal:
+      - vibey.mcp.discovery.parser
+      external:
+      - pathlib
+      - pytest
+      - tempfile
+      - yaml
+    size_bytes: 9049
+    lines: 304
+    last_modified: '2025-11-23T19:04:25.202109+00:00'
+  - path: tests/unit/test_git_operations.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for git operations modules.
+    module: tests.unit.test_git_operations
+    tests_subject: vibey/unit/git_operations.py
+    dependencies:
+      internal:
+      - vibey.operations.git.commit_parser
+      - vibey.operations.git.commit_parser_schema
+      - vibey.operations.git.log_analyzer
+      - vibey.operations.git.state_reconstructor
+      - vibey.operations.git.tag_parser
+      - vibey.operations.git.velocity_calculator
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - subprocess
+      - time
+      - typing
+      - unittest
+    size_bytes: 22548
+    lines: 710
+    last_modified: '2025-11-24T21:39:01.197741+00:00'
+  - path: tests/unit/test_merge_ordering.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for merge ordering module.
+    module: tests.unit.test_merge_ordering
+    tests_subject: vibey/unit/merge_ordering.py
+    dependencies:
+      internal:
+      - vibey.operations.git.merge_ordering
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - subprocess
+      - tempfile
+      - yaml
+    size_bytes: 13620
+    lines: 397
+    last_modified: '2025-11-25T05:07:33.431115+00:00'
+  - path: tests/unit/test_metrics_collector.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for MetricsCollector test utility.
+    module: tests.unit.test_metrics_collector
+    tests_subject: vibey/unit/metrics_collector.py
+    dependencies:
+      internal: []
+      external:
+      - json
+      - pathlib
+      - pytest
+      - tests
+    size_bytes: 7514
+    lines: 216
+    last_modified: '2025-11-10T03:23:23.936487+00:00'
+  - path: tests/unit/test_repo_builder.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for RepoBuilder test utility.
+    module: tests.unit.test_repo_builder
+    tests_subject: vibey/unit/repo_builder.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+    size_bytes: 8083
+    lines: 231
+    last_modified: '2025-11-11T18:50:41.454971+00:00'
+  - path: tests/unit/test_state_validator.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for StateValidator test utility.
+    module: tests.unit.test_state_validator
+    tests_subject: vibey/unit/state_validator.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tests
+      - yaml
+    size_bytes: 8057
+    lines: 254
+    last_modified: '2025-11-10T03:22:56.650376+00:00'
+  - path: tests/unit/test_strategy_adoption.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for strategy adoption module.
+    module: tests.unit.test_strategy_adoption
+    tests_subject: vibey/unit/strategy_adoption.py
+    dependencies:
+      internal:
+      - vibey.operations.git.strategy_adoption
+      external:
+      - pathlib
+      - pytest
+      - subprocess
+      - tempfile
+      - yaml
+    size_bytes: 13727
+    lines: 432
+    last_modified: '2025-11-25T05:12:51.980026+00:00'
+  - path: tests/unit/test_validators.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Unit tests for standard validators.
+    module: tests.unit.test_validators
+    tests_subject: vibey/unit/validators.py
+    dependencies:
+      internal:
+      - vibey.roadmap.models
+      - vibey.roadmap.standards
+      external:
+      - datetime
+      - pathlib
+      - pytest
+      - subprocess
+      - unittest
+    size_bytes: 26457
+    lines: 721
+    last_modified: '2025-11-12T19:11:25.250350+00:00'
+  - path: tests/unit/test_yaml_analyzer.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Tests for YAML change analyzer module.
+    module: tests.unit.test_yaml_analyzer
+    tests_subject: vibey/unit/yaml_analyzer.py
+    dependencies:
+      internal:
+      - vibey.operations.git.yaml_analyzer
+      external:
+      - pytest
+    size_bytes: 11674
+    lines: 331
+    last_modified: '2025-11-25T05:37:13.030141+00:00'
+  - path: tests/utils/__init__.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: package-init
+    purpose: Test utilities for Vibey framework testing.
+    module: tests.utils
+    tests_subject: vibey/utils/__init__.py
+    dependencies:
+      internal: []
+      external:
+      - git_validator
+      - metrics_collector
+      - repo_builder
+      - state_validator
+    size_bytes: 678
+    lines: 24
+    last_modified: '2025-11-11T21:07:06.447383+00:00'
+  - path: tests/utils/config_loader.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Config loader utility for tests.
+    module: tests.utils.config_loader
+    tests_subject: vibey/utils/config_loader.py
+    dependencies:
+      internal: []
+      external:
+      - pathlib
+      - typing
+      - yaml
+    size_bytes: 5399
+    lines: 159
+    last_modified: '2025-11-11T18:55:51.018337+00:00'
+  - path: tests/utils/git_validator.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Git validator utility for validating git history and commits.
+    module: tests.utils.git_validator
+    tests_subject: vibey/utils/git_validator.py
+    dependencies:
+      internal: []
+      external:
+      - dataclasses
+      - fnmatch
+      - pathlib
+      - re
+      - subprocess
+      - typing
+    size_bytes: 5411
+    lines: 202
+    last_modified: '2025-11-10T03:19:05.129405+00:00'
+  - path: tests/utils/metrics_collector.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Metrics collector utility for tracking test success metrics.
+    module: tests.utils.metrics_collector
+    tests_subject: vibey/utils/metrics_collector.py
+    dependencies:
+      internal: []
+      external:
+      - dataclasses
+      - json
+      - pathlib
+      - typing
+    size_bytes: 4729
+    lines: 181
+    last_modified: '2025-11-10T03:19:05.276803+00:00'
+  - path: tests/utils/repo_builder.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: Repository builder utility for creating mock test repositories.
+    module: tests.utils.repo_builder
+    tests_subject: vibey/utils/repo_builder.py
+    dependencies:
+      internal: []
+      external:
+      - dataclasses
+      - json
+      - os
+      - pathlib
+      - shutil
+      - subprocess
+      - typing
+    size_bytes: 14102
+    lines: 603
+    last_modified: '2025-11-11T21:10:12.831787+00:00'
+  - path: tests/utils/state_validator.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: State validator utility for verifying repository state.
+    module: tests.utils.state_validator
+    tests_subject: vibey/utils/state_validator.py
+    dependencies:
+      internal: []
+      external:
+      - dataclasses
+      - pathlib
+      - subprocess
+      - typing
+      - yaml
+    size_bytes: 6665
+    lines: 212
+    last_modified: '2025-11-10T03:18:34.058234+00:00'
+  - path: tests/validation/test_yaml_integrity.py
+    category: tests
+    subcategory: root
+    subcategory_id: '3.10'
+    test_type: unit
+    purpose: YAML integrity validation tests for roadmap data.
+    module: tests.validation.test_yaml_integrity
+    tests_subject: vibey/validation/yaml_integrity.py
+    dependencies:
+      internal:
+      - vibey.cli.roadmap_lib.filesystem
+      - vibey.roadmap.models.common
+      - vibey.roadmap.serialization.yaml_loader
+      external:
+      - pathlib
+      - pytest
+      - re
+      - yaml
+    size_bytes: 18525
+    lines: 456
+    last_modified: '2025-11-20T13:37:24.442302+00:00'

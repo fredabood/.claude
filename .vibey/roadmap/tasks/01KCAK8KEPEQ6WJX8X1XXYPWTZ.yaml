@@ -1,0 +1,32 @@
+task:
+  id: 01KCAK8KEPEQ6WJX8X1XXYPWTZ
+  sprint_id: user-journey-audit-43
+  track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update Phase 1 File Inventory with Phase 2-3 artifacts
+  description: Add ~30 new files to file inventory.
+  status: not_started
+  blocked: false
+  created: '2025-12-13T00:55:09.061054+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-13T00:55:09.061054+00:00'
+    token_efficiency: null
+    duration_hours: null

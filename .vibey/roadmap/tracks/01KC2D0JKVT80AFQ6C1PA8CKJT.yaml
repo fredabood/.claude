@@ -10,7 +10,7 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 42
+    sprints_total: 47
     sprints_completed: 10
     tasks_total: 321
     tasks_completed: 100
@@ -268,6 +268,26 @@ track:
     estimated_duration: null
     tasks_count: 11
     started: '2025-12-12T11:35:00+00:00'
+  - id: user-journey-audit-43
+    name: 'Phase 3.5: Pre-Phase 4 Documentation Sync'
+    status: not_started
+    tasks_count: 0
+  - id: user-journey-audit-44
+    name: 'Phase 4.2.5: Checkpoint 4A - Doc Sync'
+    status: not_started
+    tasks_count: 0
+  - id: user-journey-audit-45
+    name: 'Phase 4.4.5: Checkpoint 4B - Doc Sync'
+    status: not_started
+    tasks_count: 0
+  - id: user-journey-audit-46
+    name: 'Phase 5.1.5: Checkpoint 5A - Doc Sync'
+    status: not_started
+    tasks_count: 0
+  - id: user-journey-audit-47
+    name: 'Phase 5.2.5: Checkpoint 5B - Final Doc Sync'
+    status: not_started
+    tasks_count: 0
   dependencies: []
   blocks: []
   blocked_by: []

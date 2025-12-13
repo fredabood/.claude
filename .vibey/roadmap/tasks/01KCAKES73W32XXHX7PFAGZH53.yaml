@@ -1,0 +1,32 @@
+task:
+  id: 01KCAKES73W32XXHX7PFAGZH53
+  sprint_id: user-journey-audit-47
+  track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Verify all MCP tools documented
+  description: Audit MCP Reference Guide to ensure all tools are documented.
+  status: not_started
+  blocked: false
+  created: '2025-12-13T00:58:31.580669+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-13T00:58:31.580669+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -7,11 +7,11 @@ task:
   title: Implement session query commands
   description: 'Add CLI commands to query past sessions: list sessions, show session
     details, reconstruct session context.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.005194+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T19:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -7,11 +7,11 @@ task:
   title: Design session-to-commit mapping
   description: 'Design how vibe coding sessions map to git commits: session start/end
     markers, commit message conventions, metadata storage.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.004914+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T19:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

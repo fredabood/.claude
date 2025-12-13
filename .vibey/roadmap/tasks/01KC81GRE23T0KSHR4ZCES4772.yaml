@@ -7,11 +7,11 @@ task:
   title: Implement MCP drift detection
   description: Build a check that compares generated MCP reference against committed
     version. Integrate with CI.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.002981+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T06:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

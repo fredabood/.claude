@@ -1,12 +1,12 @@
 sprint:
-  id: 01KC81GRE3GXVPVSCMD19FC4Z7
-  name: 'Phase 2.5: Contributor Experience & Project Docs'
-  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  id: 01KCAH8XENHWJDQSEGJNRY5B4G
+  name: 'Sprint 10: Status Management CLI Gaps'
+  track_id: dogfooding-bugs
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-12T01:06:32.003941+00:00'
+  created: '2025-12-13T00:20:21.080510+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -30,10 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Update README, CHANGELOG, CONTRIBUTING to reflect current project state
-    and provide excellent contributor onboarding.
-  goal: Project documentation aligned with current state and optimized for contributor
-    success.
+  description: CLI commands needed for bulk status management and reconciliation
+  goal: null
   success_criteria: []
   risks: []
   notes: null
@@ -42,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-13T00:20:21.080510+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

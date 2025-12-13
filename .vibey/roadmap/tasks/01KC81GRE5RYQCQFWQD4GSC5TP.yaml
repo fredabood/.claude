@@ -7,11 +7,11 @@ task:
   title: Implement git integration for sessions
   description: Implement git hooks or CLI commands that automatically capture session
     context in commits.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.005137+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T19:45:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -3,13 +3,13 @@ sprint:
   name: 'Phase 2.3: Persona-Based User Journeys'
   track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: not_started
   blocked: false
   blocked_reason: null
   created: '2025-12-12T01:06:32.003082+00:00'
-  started: '2025-12-12T06:30:00+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-12-12T07:00:00+00:00'
+  completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null

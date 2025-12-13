@@ -10,11 +10,11 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 13
+    sprints_total: 14
     sprints_completed: 0
-    tasks_total: 84
+    tasks_total: 90
     tasks_completed: 78
-    completion_percent: 93.0
+    completion_percent: 87.0
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -88,8 +88,14 @@ track:
     estimated_duration: null
     tasks_count: 1
     started: null
-  - id: dogfooding-bugs-13
+  - id: 01KC9J5GNH6NZDW61996R79M38
     name: 'Sprint 13: Auto-Progress and Edit Command Bugs'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: dogfooding-bugs-14
+    name: 'Sprint 10: Status Management CLI Gaps'
     status: not_started
     tasks_count: 0
   dependencies: []

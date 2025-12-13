@@ -7,11 +7,11 @@ task:
   title: Generate initial MCP reference guide
   description: Run the generator to produce the first auto-generated MCP reference.
     Verify 100% tool/resource coverage.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003032+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T06:30:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

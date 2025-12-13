@@ -1,4 +1,4 @@
-# Sprint 3.5: Pre-Phase 4 Documentation Sync
+# Sprint 4.1: Pre-Implementation Documentation Sync
 
 ## Sprint Overview
 

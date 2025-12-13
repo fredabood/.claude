@@ -1,4 +1,4 @@
-# Sprint 4.2.5: Checkpoint 4A - Documentation Sync
+# Sprint 4.3: Documentation Sync (Post-Discovery)
 
 ## Sprint Overview
 

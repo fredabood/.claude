@@ -17,7 +17,7 @@
 Previous phases produced:
 - Phase 1: Comprehensive audit of code, docs, tests, database
 - Phases 2-3: Documentation, context engineering, session tracking
-- Phase 3.5-5.2.5: Implementation with iterative documentation sync checkpoints
+- Phase 4.1-5.4: Implementation with iterative documentation sync checkpoints
 - Phase 6.1: Friction analysis and gap identification (based on complete, synchronized docs)
 
 This sprint consolidates all findings into:
@@ -352,7 +352,7 @@ Task 7 (Metrics) - needs Task 6
 
 This sprint is the strategic planning pivot - translating analysis into action. The outputs guide all subsequent improvement work.
 
-**Why Phase 6?** The recommendations sprint was moved to after Phase 5.2.5 (Final Documentation Sync) because:
+**Why Phase 6?** The recommendations sprint was moved to after Phase 5.4 (Final Documentation Sync) because:
 1. Friction analysis (6.1) must run on complete, synchronized documentation
 2. Recommendations are only valid when based on current project state
 3. This ensures the improvement roadmap addresses actual issues, not stale findings

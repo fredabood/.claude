@@ -1,7 +1,7 @@
 task:
   id: 01KC9J6NXBB3G748D5R67DFJYH
-  sprint_id: dogfooding-bugs-13
-  track_id: dogfooding-bugs
+  sprint_id: 01KC9J5GNH6NZDW61996R79M38
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: auto-progress --check shows UNKNOWN instead of track/sprint names
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-12T15:17:22.996064+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

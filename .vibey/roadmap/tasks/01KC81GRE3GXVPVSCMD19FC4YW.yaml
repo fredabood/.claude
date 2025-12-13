@@ -7,11 +7,11 @@ task:
   title: Map Contributor journey
   description: 'Document journey for contributors: repo setup → understanding architecture
     → making changes → testing → submitting PRs. Output: JOURNEY_CONTRIBUTOR.md.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003348+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:39:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

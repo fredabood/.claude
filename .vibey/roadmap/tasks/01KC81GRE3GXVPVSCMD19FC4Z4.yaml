@@ -7,11 +7,11 @@ task:
   title: Write Contributor walkthrough
   description: 'Complete walkthrough for contributor journey from clone to PR. Output:
     docs/walkthroughs/CONTRIBUTOR.md.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003765+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:37:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

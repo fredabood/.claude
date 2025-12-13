@@ -7,11 +7,11 @@ task:
   title: Create walkthrough template
   description: 'Design a standard template for walkthroughs: prerequisites, step-by-step
     instructions, expected outputs, troubleshooting, next steps. Output: WALKTHROUGH_TEMPLATE.md.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003555+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:37:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

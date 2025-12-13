@@ -7,11 +7,11 @@ task:
   title: Audit and update README.md
   description: 'Comprehensive update of README: accurate feature list, current installation
     steps, working examples, correct links. Align with actual project state.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003979+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:50:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

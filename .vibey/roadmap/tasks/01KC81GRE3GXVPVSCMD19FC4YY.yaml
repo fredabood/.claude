@@ -7,11 +7,11 @@ task:
   title: Create journey-to-feature coverage matrix
   description: 'Build a matrix showing which CLI commands and MCP tools are covered
     by which persona journeys. Identify any gaps in coverage. Output: JOURNEY_COVERAGE_MATRIX.yaml.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003464+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:39:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

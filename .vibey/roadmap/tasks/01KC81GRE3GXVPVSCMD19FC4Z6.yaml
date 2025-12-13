@@ -7,11 +7,11 @@ task:
   title: Cross-link walkthroughs to reference guides
   description: Add hyperlinks from walkthrough steps to relevant CLI/MCP reference
     sections. Ensure bidirectional linking.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.003881+00:00'
   started: null
-  completed: null
+  completed: '2025-12-12T12:37:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

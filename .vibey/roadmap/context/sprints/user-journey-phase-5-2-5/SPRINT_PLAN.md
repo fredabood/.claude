@@ -207,16 +207,18 @@ Every PR triggers these automated checks:
 - CLI/MCP references completed
 - Coverage matrix established
 
-### Phase 4: Analysis & Implementation (Sprints 4.1-4.4)
-- Friction analysis completed
+### Phase 4: Implementation (Sprints 4.2, 4.4)
 - Discovery output architecture implemented
-- Recommendations roadmap created
 - Context directory writers implemented
 
 ### Phase 5: Testing & Quality (Sprints 5.1-5.2)
 - 100% test coverage achieved
 - Integration tests implemented
 - CI quality gates configured
+
+### Phase 6: Analysis & Recommendations (Sprints 6.1-6.2)
+- Friction analysis completed (based on complete, synchronized docs)
+- Recommendations roadmap created
 
 ## Key Deliverables
 
@@ -385,10 +387,12 @@ Task 6 (Final coverage + test analysis) - last task, closes the track
 
 ## Notes
 
-This is the final sprint of the User Journey Audit track. Upon completion:
+This is the final documentation sync checkpoint before Phase 6 (Friction Analysis & Recommendations). Upon completion:
 1. All documentation is synchronized with implementation
 2. All tests are in place with 100% coverage
 3. CI enforces quality gates
-4. The track can be marked as completed
+4. Phase 6 can proceed with analysis based on complete, up-to-date documentation
 
 The iterative checkpoint approach (Sprints 3.5, 4.2.5, 4.4.5, 5.1.5, 5.2.5) ensures documentation stays current with implementation at every major phase boundary.
+
+**Next:** Phase 6.1 (Friction Analysis) then Phase 6.2 (Recommendations) - these are the final sprints of the track.

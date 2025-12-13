@@ -1,4 +1,4 @@
-# Sprint 4.3: Recommendations & Improvement Roadmap
+# Sprint 6.2: Recommendations & Improvement Roadmap
 
 ## Sprint Overview
 
@@ -8,7 +8,7 @@
 
 **Estimated Duration:** 3-4 sessions
 
-**Prerequisites:** Phase 4.1 (Friction Analysis) completed
+**Prerequisites:** Phase 6.1 (Friction Analysis) completed
 
 ---
 
@@ -16,8 +16,9 @@
 
 Previous phases produced:
 - Phase 1: Comprehensive audit of code, docs, tests, database
-- Phase 3.5: Documentation refresh
-- Phase 4.1: Friction analysis and gap identification
+- Phases 2-3: Documentation, context engineering, session tracking
+- Phase 3.5-5.2.5: Implementation with iterative documentation sync checkpoints
+- Phase 6.1: Friction analysis and gap identification (based on complete, synchronized docs)
 
 This sprint consolidates all findings into:
 1. Actionable recommendations
@@ -62,13 +63,13 @@ This sprint consolidates all findings into:
 
 ### Task 2: Synthesize friction analysis
 
-**Objective:** Consolidate friction findings from Phase 4.1 into unified view of user experience issues.
+**Objective:** Consolidate friction findings from Phase 6.1 into unified view of user experience issues.
 
 **Deliverables:**
 - `FRICTION_SYNTHESIS.md` - Consolidated friction view
 
 **Consolidation:**
-1. Merge all friction inventories from 4.1
+1. Merge all friction inventories from 6.1
 2. De-duplicate similar issues
 3. Group by root cause
 4. Identify patterns
@@ -80,7 +81,7 @@ This sprint consolidates all findings into:
 - Highest impact friction points
 
 **Acceptance Criteria:**
-- [ ] All 4.1 friction inventories merged
+- [ ] All 6.1 friction inventories merged
 - [ ] Duplicates removed
 - [ ] Root causes identified
 - [ ] Patterns documented
@@ -217,7 +218,7 @@ strategic_improvements:
 - Goal: Immediate quality improvement
 
 ## Phase 2: Friction Remediation (2-4 weeks)
-- High-priority friction fixes from 4.1
+- High-priority friction fixes from 6.1
 - Goal: Improve user experience
 
 ## Phase 3: Technical Debt Resolution (4-6 weeks)
@@ -337,16 +338,21 @@ Task 7 (Metrics) - needs Task 6
 ## File Changes Summary
 
 **New Files:**
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/AUDIT_SYNTHESIS.md`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/FRICTION_SYNTHESIS.md`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/TECHNICAL_DEBT_INVENTORY.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/QUICK_WINS.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/STRATEGIC_IMPROVEMENTS.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/IMPROVEMENT_ROADMAP.md`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-3/SUCCESS_METRICS.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/AUDIT_SYNTHESIS.md`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/FRICTION_SYNTHESIS.md`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/TECHNICAL_DEBT_INVENTORY.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/QUICK_WINS.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/STRATEGIC_IMPROVEMENTS.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/IMPROVEMENT_ROADMAP.md`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-2/SUCCESS_METRICS.yaml`
 
 ---
 
 ## Notes
 
 This sprint is the strategic planning pivot - translating analysis into action. The outputs guide all subsequent improvement work.
+
+**Why Phase 6?** The recommendations sprint was moved to after Phase 5.2.5 (Final Documentation Sync) because:
+1. Friction analysis (6.1) must run on complete, synchronized documentation
+2. Recommendations are only valid when based on current project state
+3. This ensures the improvement roadmap addresses actual issues, not stale findings

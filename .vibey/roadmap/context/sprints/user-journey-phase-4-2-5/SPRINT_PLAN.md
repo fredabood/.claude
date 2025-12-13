@@ -14,7 +14,7 @@
 
 ## Background
 
-Phase 4.2 implemented structured discovery outputs, versioning, and new CLI commands. This checkpoint ensures all documentation reflects these additions before proceeding with Phase 4.3.
+Phase 4.2 implemented structured discovery outputs, versioning, and new CLI commands. This checkpoint ensures all documentation reflects these additions before proceeding with Phase 4.4.
 
 **Phase 4.2 Artifacts to Document:**
 - Discovery schema (`vibey/operations/discovery/schema.py`)

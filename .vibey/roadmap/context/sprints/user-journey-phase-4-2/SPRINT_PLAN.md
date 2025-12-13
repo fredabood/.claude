@@ -8,7 +8,7 @@
 
 **Estimated Duration:** 4-5 sessions
 
-**Prerequisites:** Phase 4.1 (Friction Analysis) completed
+**Prerequisites:** Phase 3.5 (Documentation Sync) completed
 
 ---
 

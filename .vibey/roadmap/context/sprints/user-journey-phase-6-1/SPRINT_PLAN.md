@@ -1,4 +1,4 @@
-# Sprint 4.1: Friction Analysis & Gap Identification
+# Sprint 6.1: Friction Analysis & Gap Identification
 
 ## Sprint Overview
 
@@ -8,20 +8,20 @@
 
 **Estimated Duration:** 4-5 sessions
 
-**Prerequisites:** Phase 3.5 (Documentation Sync) completed
+**Prerequisites:** Phase 5.2.5 (Final Documentation Sync) completed
 
 ---
 
 ## Background
 
-With Phase 1 audit complete and Phase 2-3 documentation refreshed, we now have a comprehensive view of the project. This sprint analyzes that view to identify:
+With all phases complete (audit, documentation, context engineering, discovery, testing, CI) and documentation fully synchronized at each checkpoint, we now have a comprehensive, up-to-date view of the entire project. This sprint analyzes that view to identify:
 
 1. **Friction Points** - Where users encounter difficulty, confusion, or frustration
 2. **Implementation Gaps** - Features designed but not implemented, or partially implemented
 3. **Documentation Gaps** - Missing, outdated, or unclear documentation
 4. **Technical Debt** - Code that should be removed, refactored, or updated
 
-The output of this sprint directly feeds Phase 4.3 (Recommendations & Improvement Roadmap).
+The output of this sprint directly feeds Phase 6.2 (Recommendations & Improvement Roadmap).
 
 ---
 
@@ -290,16 +290,21 @@ Task 7 (Report) - needs Task 5 and 6
 ## File Changes Summary
 
 **New Files:**
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/USER_JOURNEY_FRICTION.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/WALKTHROUGH_FRICTION.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/REFERENCE_GUIDE_FRICTION.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/CONTEXT_ENGINEERING_GAPS.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/OBSOLETE_CODE_INVENTORY.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/FRICTION_REMEDIATION_PRIORITY.yaml`
-- `.vibey/roadmap/context/sprints/user-journey-phase-4-1/FRICTION_ANALYSIS_REPORT.md`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/USER_JOURNEY_FRICTION.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/WALKTHROUGH_FRICTION.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/REFERENCE_GUIDE_FRICTION.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/CONTEXT_ENGINEERING_GAPS.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/OBSOLETE_CODE_INVENTORY.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/FRICTION_REMEDIATION_PRIORITY.yaml`
+- `.vibey/roadmap/context/sprints/user-journey-phase-6-1/FRICTION_ANALYSIS_REPORT.md`
 
 ---
 
 ## Notes
 
-This sprint is primarily research and analysis - no code changes expected. The output directly feeds the improvement roadmap in Phase 4.3.
+This sprint is primarily research and analysis - no code changes expected. The output directly feeds the improvement roadmap in Phase 6.2.
+
+**Why Phase 6?** The friction analysis and recommendations were moved to after Phase 5.2.5 (Final Documentation Sync) because:
+1. All documentation must be complete and synchronized before analyzing it
+2. All tests and CI must be in place to accurately assess quality gaps
+3. The analysis will include all Phase 3-5 artifacts that didn't exist earlier

@@ -1,19 +1,19 @@
 inventory:
-  generated_at: '2025-12-12T05:13:21.380491+00:00'
+  generated_at: '2025-12-13T17:23:10.606043+00:00'
   directories_scanned:
   - vibey/
   - docs/
   - tests/
   - scripts/
   summary:
-    total_files: 856
+    total_files: 884
     total_directories: 149
     by_extension:
-      .py: 522
-      .md: 272
+      .py: 529
+      .md: 293
       .yaml: 41
-      .sh: 5
       (none): 5
+      .sh: 5
       .template: 5
       .j2: 3
       .sql: 2
@@ -124,6 +124,41 @@ inventory:
     size_bytes: 321
     last_modified: '2025-11-09T17:50:25.356827+00:00'
     lines: 17
+  - path: docs/architecture/adr/0000-template.md
+    type: markdown
+    size_bytes: 648
+    last_modified: '2025-12-12T17:47:36+00:00'
+    lines: 47
+  - path: docs/architecture/adr/0001-ulid-identifiers.md
+    type: markdown
+    size_bytes: 2611
+    last_modified: '2025-12-12T17:47:36+00:00'
+    lines: 98
+  - path: docs/architecture/adr/0002-flat-directory-structure.md
+    type: markdown
+    size_bytes: 2813
+    last_modified: '2025-12-12T17:47:36+00:00'
+    lines: 112
+  - path: docs/architecture/adr/0003-dual-storage-sqlite-yaml.md
+    type: markdown
+    size_bytes: 3616
+    last_modified: '2025-12-12T17:47:37+00:00'
+    lines: 144
+  - path: docs/architecture/adr/0004-click-cli-framework.md
+    type: markdown
+    size_bytes: 3532
+    last_modified: '2025-12-12T17:47:37+00:00'
+    lines: 171
+  - path: docs/architecture/adr/0005-mcp-integration.md
+    type: markdown
+    size_bytes: 4746
+    last_modified: '2025-12-12T17:47:37+00:00'
+    lines: 172
+  - path: docs/architecture/adr/README.md
+    type: markdown
+    size_bytes: 1477
+    last_modified: '2025-12-12T17:46:01+00:00'
+    lines: 42
   - path: docs/development/ADAPTER_DEVELOPMENT_GUIDE.md
     type: markdown
     size_bytes: 16773
@@ -679,6 +714,36 @@ inventory:
     size_bytes: 25677
     last_modified: '2025-11-05T04:22:52.134586+00:00'
     lines: 760
+  - path: docs/journeys/COVERAGE_MATRIX.md
+    type: markdown
+    size_bytes: 9767
+    last_modified: '2025-12-12T17:39:06+00:00'
+    lines: 283
+  - path: docs/journeys/JOURNEY_ACTIVE_DEVELOPER.md
+    type: markdown
+    size_bytes: 7944
+    last_modified: '2025-12-12T17:38:53+00:00'
+    lines: 305
+  - path: docs/journeys/JOURNEY_CONTRIBUTOR.md
+    type: markdown
+    size_bytes: 9723
+    last_modified: '2025-12-12T17:38:53+00:00'
+    lines: 431
+  - path: docs/journeys/JOURNEY_NEW_USER.md
+    type: markdown
+    size_bytes: 10601
+    last_modified: '2025-12-12T17:38:53+00:00'
+    lines: 359
+  - path: docs/journeys/JOURNEY_PLATFORM_INTEGRATOR.md
+    type: markdown
+    size_bytes: 11123
+    last_modified: '2025-12-12T17:38:53+00:00'
+    lines: 402
+  - path: docs/journeys/JOURNEY_PROJECT_LEAD.md
+    type: markdown
+    size_bytes: 7930
+    last_modified: '2025-12-12T17:38:53+00:00'
+    lines: 327
   - path: docs/operations/ADVANCED_VALIDATION_AND_REPAIR.md
     type: markdown
     size_bytes: 25920
@@ -704,6 +769,11 @@ inventory:
     size_bytes: 16610
     last_modified: '2025-11-21T02:28:46.624097+00:00'
     lines: 742
+  - path: docs/personas/USER_PERSONAS.md
+    type: markdown
+    size_bytes: 9074
+    last_modified: '2025-12-12T17:27:58+00:00'
+    lines: 350
   - path: docs/reference/CLI_REFERENCE.md
     type: markdown
     size_bytes: 23990
@@ -719,6 +789,11 @@ inventory:
     size_bytes: 11943
     last_modified: '2025-11-23T03:15:30.901352+00:00'
     lines: 480
+  - path: docs/reference/MCP_REFERENCE.md
+    type: markdown
+    size_bytes: 76472
+    last_modified: '2025-12-12T17:24:32+00:00'
+    lines: 2157
   - path: docs/reference/README.md
     type: markdown
     size_bytes: 6049
@@ -954,6 +1029,36 @@ inventory:
     size_bytes: 10279
     last_modified: '2025-11-12T01:16:52.466921+00:00'
     lines: 346
+  - path: docs/walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md
+    type: markdown
+    size_bytes: 7295
+    last_modified: '2025-12-12T17:35:07+00:00'
+    lines: 370
+  - path: docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md
+    type: markdown
+    size_bytes: 12653
+    last_modified: '2025-12-12T17:37:59+00:00'
+    lines: 644
+  - path: docs/walkthroughs/WALKTHROUGH_NEW_USER.md
+    type: markdown
+    size_bytes: 10131
+    last_modified: '2025-12-12T17:34:18+00:00'
+    lines: 550
+  - path: docs/walkthroughs/WALKTHROUGH_PLATFORM_INTEGRATOR.md
+    type: markdown
+    size_bytes: 17386
+    last_modified: '2025-12-12T17:37:59+00:00'
+    lines: 734
+  - path: docs/walkthroughs/WALKTHROUGH_PROJECT_LEAD.md
+    type: markdown
+    size_bytes: 4144
+    last_modified: '2025-12-12T17:35:07+00:00'
+    lines: 207
+  - path: docs/walkthroughs/WALKTHROUGH_TEMPLATE.md
+    type: markdown
+    size_bytes: 3416
+    last_modified: '2025-12-12T17:33:35+00:00'
+    lines: 199
   - path: scripts/consolidate_dogfooding_track.py
     type: python
     size_bytes: 25762
@@ -3344,11 +3449,31 @@ inventory:
     size_bytes: 645
     last_modified: '2025-11-23T19:08:33.659626+00:00'
     lines: 28
+  - path: vibey/operations/docs/cli_introspector.py
+    type: python
+    size_bytes: 19800
+    last_modified: '2025-12-12T16:38:22+00:00'
+    lines: 641
+  - path: vibey/operations/docs/cli_reference_generator.py
+    type: python
+    size_bytes: 14220
+    last_modified: '2025-12-12T16:39:32+00:00'
+    lines: 447
   - path: vibey/operations/docs/generator.py
     type: python
     size_bytes: 19773
     last_modified: '2025-11-23T19:06:06.435125+00:00'
     lines: 628
+  - path: vibey/operations/docs/mcp_introspector.py
+    type: python
+    size_bytes: 25599
+    last_modified: '2025-12-12T17:23:06+00:00'
+    lines: 840
+  - path: vibey/operations/docs/mcp_reference_generator.py
+    type: python
+    size_bytes: 17547
+    last_modified: '2025-12-12T17:24:25+00:00'
+    lines: 502
   - path: vibey/operations/docs/operations.py
     type: python
     size_bytes: 5187
@@ -3664,6 +3789,16 @@ inventory:
     size_bytes: 27645
     last_modified: '2025-11-21T02:26:38.957168+00:00'
     lines: 781
+  - path: vibey/operations/roadmap/session_manager.py
+    type: python
+    size_bytes: 26626
+    last_modified: '2025-12-12T19:38:15+00:00'
+    lines: 803
+  - path: vibey/operations/roadmap/session_reconstruction.py
+    type: python
+    size_bytes: 15853
+    last_modified: '2025-12-12T19:30:40+00:00'
+    lines: 461
   - path: vibey/operations/roadmap/standards_enforcement.py
     type: python
     size_bytes: 13523
@@ -3979,6 +4114,11 @@ inventory:
     size_bytes: 8504
     last_modified: '2025-12-05T03:07:05.546935+00:00'
     lines: 260
+  - path: vibey/roadmap/models/session.py
+    type: python
+    size_bytes: 16857
+    last_modified: '2025-12-12T19:11:42+00:00'
+    lines: 469
   - path: vibey/roadmap/models/sprint.py
     type: python
     size_bytes: 12715

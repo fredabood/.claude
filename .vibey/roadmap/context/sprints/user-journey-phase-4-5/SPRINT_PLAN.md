@@ -127,22 +127,100 @@ vibey discover [--output-context]
 
 ---
 
+### Task 5: Update MCP Reference with context tools
+
+**Objective:** Document context management MCP tools exposed via the MCP server.
+
+**Deliverables:**
+- Updated `docs/reference/MCP_REFERENCE.md`
+
+**Tools to Document (if implemented):**
+
+```yaml
+vibey_context_list:
+  description: List available context files
+  parameters:
+    - type: string (optional)
+    - status: string (optional)
+
+vibey_context_show:
+  description: Display context content
+  parameters:
+    - context_id: string
+    - format: yaml|json|text
+
+vibey_context_search:
+  description: Search context files
+  parameters:
+    - query: string
+    - type: string (optional)
+
+vibey_context_export:
+  description: Export context to file
+  parameters:
+    - context_id: string
+    - output: string
+
+# Resources
+vibey://context/{id}:
+  description: Access specific context file
+vibey://context/current:
+  description: Current active context
+vibey://context/types:
+  description: Available context types
+```
+
+**Acceptance Criteria:**
+- [ ] All context MCP tools documented (or noted as CLI-only)
+- [ ] Request/response schemas included
+- [ ] Examples provided
+- [ ] Cross-reference to CLI commands
+
+---
+
+### Task 6: Update Coverage Matrix with context features
+
+**Objective:** Ensure coverage matrix reflects all context management features.
+
+**Deliverables:**
+- Updated `docs/journeys/COVERAGE_MATRIX.md`
+
+**New Features to Map:**
+
+| Feature | CLI Commands | MCP Tools | Relevant Journeys |
+|---------|--------------|-----------|-------------------|
+| Context Management | context list, context show, context archive, context clean, context export, context import, context search | vibey_context_* | Active Developer, Project Lead, Platform Integrator |
+| Context Output Flag | --output-context on roadmap start/complete, discover | N/A | Active Developer |
+
+**Acceptance Criteria:**
+- [ ] All context commands in matrix
+- [ ] MCP tools mapped
+- [ ] Commands mapped to journeys
+- [ ] Coverage statistics updated
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory) - first
     ↓
-Tasks 2, 3, 4 - can run in parallel
+Tasks 2-6 - can run in parallel
 ```
 
 ---
 
 ## Success Criteria
 
-- [ ] File inventory current
-- [ ] CLI reference includes all context commands
-- [ ] User journeys include context workflows
+**Phase 1 Updates:**
+- [ ] File inventory current with context files
+
+**Phase 2 Updates:**
+- [ ] CLI Reference includes all context commands
+- [ ] MCP Reference includes context tools
+- [ ] User Journeys include context workflows
 - [ ] Walkthroughs include context examples
+- [ ] Coverage Matrix maps context features
 
 ---
 

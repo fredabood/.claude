@@ -164,7 +164,56 @@ Every PR triggers these automated checks:
 
 ---
 
-### Task 5: Create final User Journey Audit summary
+### Task 5: Update User Journeys with final integration workflows
+
+**Objective:** Add integration testing and CI workflows to relevant user journeys.
+
+**Deliverables:**
+- Updated journey files in `docs/journeys/`
+
+**Journeys to Update:**
+
+| Journey | New Content |
+|---------|-------------|
+| Contributor | "Understanding CI quality gates" workflow |
+| Active Developer | "Running integration tests" workflow |
+| Project Lead | "Monitoring CI status" workflow |
+| Platform Integrator | "Testing MCP integrations" workflow |
+
+**Acceptance Criteria:**
+- [ ] CI/integration workflows added to all relevant journeys
+- [ ] Commands accurate
+- [ ] Flows complete
+- [ ] Cross-references to walkthroughs
+
+---
+
+### Task 6: Final User Personas review
+
+**Objective:** Final review and update of User Personas to ensure they reflect all implemented capabilities.
+
+**Deliverables:**
+- Updated `docs/personas/USER_PERSONAS.md`
+
+**Review Checklist per Persona:**
+
+| Persona | Capabilities to Verify |
+|---------|------------------------|
+| New User | Discovery, initial setup, first roadmap |
+| Active Developer | Session tracking, context management, testing |
+| Project Lead | Audit reports, coverage monitoring, CI status |
+| Platform Integrator | MCP tools, context loading, API access |
+| Contributor | Testing workflow, CI gates, audit logging |
+
+**Acceptance Criteria:**
+- [ ] All personas reflect final implemented features
+- [ ] Goals align with documented capabilities
+- [ ] Pain points addressed by implementations noted
+- [ ] No outdated references
+
+---
+
+### Task 7: Create final User Journey Audit summary
 
 **Objective:** Create a comprehensive summary document for the User Journey Audit track.
 
@@ -259,7 +308,7 @@ Every PR triggers these automated checks:
 
 ---
 
-### Task 6: Final coverage matrix update with test coverage analysis
+### Task 8: Final coverage matrix update with test coverage analysis
 
 **Objective:** Update coverage matrix with all Phase 4-5 artifacts, include comprehensive test coverage analysis, and mark track as complete.
 
@@ -347,24 +396,31 @@ Every PR triggers these automated checks:
 ## Task Dependencies
 
 ```
-Tasks 1, 2, 3, 4 - can run in parallel (documentation updates)
+Tasks 1-6 - can run in parallel (documentation updates)
     |
-Task 5 (Summary) - needs Tasks 1-4 complete to include all info
+Task 7 (Summary) - needs Tasks 1-6 complete to include all info
     |
-Task 6 (Final coverage + test analysis) - last task, closes the track
+Task 8 (Final coverage + test analysis) - last task, closes the track
 ```
 
 ---
 
 ## Success Criteria
 
+**Phase 1 Updates:**
 - [ ] File inventory includes all test and CI files
+
+**Phase 2 Updates:**
 - [ ] CLI Reference includes test commands
 - [ ] MCP Reference includes test-related tools/resources
-- [ ] Contributor walkthrough includes CI guidance
+- [ ] User Journeys include integration/CI workflows
+- [ ] User Personas reflect all implemented capabilities
+- [ ] Contributor Walkthrough includes CI guidance
+- [ ] Coverage Matrix finalized with test coverage analysis
+
+**Track Completion:**
 - [ ] Track summary document created
 - [ ] Test coverage analysis complete
-- [ ] Coverage matrix finalized
 - [ ] Track marked as completed
 
 ---
@@ -375,13 +431,22 @@ Task 6 (Final coverage + test analysis) - last task, closes the track
 - `docs/audits/USER_JOURNEY_AUDIT_SUMMARY.md`
 - `TEST_COVERAGE_ANALYSIS.md`
 
-**Modified Files:**
+**Phase 1 Files to Update:**
+- File inventory files
+
+**Phase 2 Files to Update:**
 - `docs/reference/CLI_REFERENCE.md`
 - `docs/reference/MCP_REFERENCE.md`
+- `docs/personas/USER_PERSONAS.md`
+- `docs/journeys/JOURNEY_CONTRIBUTOR.md`
+- `docs/journeys/JOURNEY_ACTIVE_DEVELOPER.md`
+- `docs/journeys/JOURNEY_PROJECT_LEAD.md`
+- `docs/journeys/JOURNEY_PLATFORM_INTEGRATOR.md`
 - `docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md`
-- `COVERAGE_MATRIX.md`
-- File inventory files
-- Track status
+- `docs/journeys/COVERAGE_MATRIX.md`
+
+**Track Status:**
+- Track status updated to completed
 
 ---
 

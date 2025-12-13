@@ -118,21 +118,118 @@ vibey discover refresh [--force]
 
 ---
 
+### Task 4: Update MCP Reference with discovery tools
+
+**Objective:** Document any discovery-related MCP tools exposed via the MCP server.
+
+**Deliverables:**
+- Updated `docs/reference/MCP_REFERENCE.md`
+
+**Tools to Document (if implemented):**
+
+```yaml
+vibey_discover:
+  description: Run project discovery
+  parameters:
+    - output: yaml|json|text
+    - save: boolean
+
+vibey_discover_show:
+  description: Display current discovery output
+  parameters:
+    - format: yaml|json|text
+
+vibey_discover_diff:
+  description: Compare discovery versions
+  parameters:
+    - version1: string
+    - version2: string
+
+vibey_discover_history:
+  description: Show discovery history
+  parameters:
+    - limit: number
+
+# Resources
+vibey://discovery/current:
+  description: Current discovery output
+vibey://discovery/history:
+  description: Discovery version history
+```
+
+**Acceptance Criteria:**
+- [ ] All discovery MCP tools documented (or noted as CLI-only)
+- [ ] Request/response schemas included
+- [ ] Examples provided
+- [ ] Cross-reference to CLI commands
+
+---
+
+### Task 5: Update Walkthroughs with discovery examples
+
+**Objective:** Add practical discovery examples to relevant walkthroughs.
+
+**Deliverables:**
+- Updated walkthrough files
+
+**Walkthroughs to Update:**
+
+| Walkthrough | New Content |
+|-------------|-------------|
+| New User | "Running your first discovery" section |
+| Active Developer | "Comparing project changes with discovery diff" section |
+| Project Lead | "Tracking project evolution" section |
+
+**Acceptance Criteria:**
+- [ ] Discovery sections added to 3 walkthroughs
+- [ ] Commands tested and working
+- [ ] Output examples accurate
+- [ ] Follows existing walkthrough style
+
+---
+
+### Task 6: Update Coverage Matrix with discovery features
+
+**Objective:** Ensure coverage matrix reflects all discovery commands and features.
+
+**Deliverables:**
+- Updated `docs/journeys/COVERAGE_MATRIX.md`
+
+**New Features to Map:**
+
+| Feature | CLI Commands | MCP Tools | Relevant Journeys |
+|---------|--------------|-----------|-------------------|
+| Discovery | discover, discover show, discover diff, discover history, discover status, discover refresh | vibey_discover_* | New User, Active Developer, Project Lead |
+
+**Acceptance Criteria:**
+- [ ] All discovery commands in matrix
+- [ ] MCP tools mapped
+- [ ] Commands mapped to journeys
+- [ ] Coverage statistics updated
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory) - first
     ↓
-Tasks 2, 3 - can run in parallel
+Tasks 2-6 - can run in parallel
 ```
 
 ---
 
 ## Success Criteria
 
-- [ ] File inventory current
-- [ ] CLI reference includes all discovery commands
-- [ ] User journeys include discovery workflows
+**Phase 1 Updates:**
+- [ ] File inventory current with discovery files
+
+**Phase 2 Updates:**
+- [ ] CLI Reference includes all discovery commands
+- [ ] MCP Reference includes discovery tools
+- [ ] User Journeys include discovery workflows
+- [ ] Walkthroughs include discovery examples
+- [ ] Coverage Matrix maps discovery features
 
 ---
 

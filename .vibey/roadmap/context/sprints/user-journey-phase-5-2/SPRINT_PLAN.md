@@ -126,21 +126,140 @@ pytest tests/operations/roadmap/
 
 ---
 
+### Task 4: Update CLI Reference with test commands
+
+**Objective:** Document test-related CLI commands and flags added in Phase 5.1.
+
+**Deliverables:**
+- Updated `docs/reference/CLI_REFERENCE.md`
+
+**Commands to Document (if implemented):**
+
+```bash
+# Test running commands
+vibey test [--coverage] [--unit] [--integration]
+# Run test suite with options
+
+vibey coverage report [--format html|term|json]
+# Generate coverage report
+
+vibey coverage check [--threshold PERCENT]
+# Check coverage meets threshold
+```
+
+**Note:** If test commands are not exposed via CLI, document pytest equivalents and reference them.
+
+**Acceptance Criteria:**
+- [ ] Test commands documented (or pytest equivalents)
+- [ ] Coverage options explained
+- [ ] Examples provided
+
+---
+
+### Task 5: Update MCP Reference with test-related tools
+
+**Objective:** Document any test/coverage-related MCP tools or resources.
+
+**Deliverables:**
+- Updated `docs/reference/MCP_REFERENCE.md`
+
+**Tools/Resources to Document (if implemented):**
+
+```yaml
+# Tools
+vibey_test_run:
+  description: Run test suite
+  parameters:
+    - scope: unit|integration|all
+    - coverage: boolean
+
+vibey_coverage_report:
+  description: Get coverage report
+  parameters:
+    - format: json|summary
+
+# Resources
+vibey://coverage/current:
+  description: Current test coverage metrics
+vibey://tests/status:
+  description: Latest test run status
+```
+
+**Note:** If no test-related MCP tools exist, document that testing is CLI-only.
+
+**Acceptance Criteria:**
+- [ ] Test-related MCP tools documented (or noted as CLI-only)
+- [ ] Coverage resources documented
+- [ ] Cross-reference to CLI Reference
+
+---
+
+### Task 6: Update User Journeys with testing workflows
+
+**Objective:** Add testing workflows to relevant user journeys.
+
+**Deliverables:**
+- Updated journey files
+
+**Journeys to Update:**
+
+| Journey | New Content |
+|---------|-------------|
+| Contributor | "Running tests before submitting" workflow |
+| Active Developer | "Checking test coverage" workflow |
+| Project Lead | "Reviewing test coverage reports" workflow |
+
+**Acceptance Criteria:**
+- [ ] Testing workflows added to 3 journeys
+- [ ] Commands accurate
+- [ ] Flows complete
+
+---
+
+### Task 7: Update Coverage Matrix with test features
+
+**Objective:** Ensure coverage matrix reflects all test-related commands and features.
+
+**Deliverables:**
+- Updated `docs/journeys/COVERAGE_MATRIX.md`
+
+**New Features to Map:**
+
+| Feature | CLI Commands | MCP Tools | Relevant Journeys |
+|---------|--------------|-----------|-------------------|
+| Test Running | test, pytest | vibey_test_run | Contributor, Active Developer |
+| Coverage Reporting | coverage report, coverage check | vibey_coverage_report | Active Developer, Project Lead |
+
+**Acceptance Criteria:**
+- [ ] All test commands in matrix
+- [ ] MCP tools mapped (or noted as N/A)
+- [ ] Commands mapped to journeys
+- [ ] Coverage statistics updated
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory) - first
     ↓
-Tasks 2, 3 - can run in parallel
+Tasks 2-7 - can run in parallel
 ```
 
 ---
 
 ## Success Criteria
 
+**Phase 1 Updates:**
 - [ ] File inventory includes all test files
-- [ ] Test audit updated with final metrics
-- [ ] Contributor walkthrough includes testing guidance
+- [ ] Test Suite Audit (1.4) updated with final metrics
+
+**Phase 2 Updates:**
+- [ ] CLI Reference includes test commands
+- [ ] MCP Reference includes test tools (or documents CLI-only)
+- [ ] User Journeys include testing workflows
+- [ ] Contributor Walkthrough includes testing guidance
+- [ ] Coverage Matrix maps test features
 
 ---
 

@@ -209,12 +209,136 @@ vibey roadmap audit report [--object-id ID] [--start-date DATE] [--end-date DATE
 
 ---
 
+### Task 7: Update Core Library Audit with Phase 2-3 code
+
+**Objective:** Update Phase 1.2 Core Library Audit to include new code modules from Phases 2 and 3.
+
+**Deliverables:**
+- Updated Core Library Audit documentation
+
+**New Modules to Document:**
+
+| Module | Purpose | Lines |
+|--------|---------|-------|
+| `vibey/operations/docs/cli_introspector.py` | CLI introspection for docs | ~200 |
+| `vibey/operations/docs/cli_reference_generator.py` | CLI reference generation | ~300 |
+| `vibey/operations/docs/mcp_introspector.py` | MCP introspection | ~150 |
+| `vibey/operations/docs/mcp_reference_generator.py` | MCP reference generation | ~250 |
+| `vibey/roadmap/models/session.py` | Session tracking model | ~470 |
+| `vibey/operations/roadmap/session_manager.py` | Session management | ~800 |
+| `vibey/operations/roadmap/session_reconstruction.py` | Session reconstruction | ~460 |
+| `vibey/operations/roadmap/audit_trail.py` | Audit trail system | ~625 |
+| `vibey/operations/roadmap/jsonl_activity_log.py` | Activity logging | ~950 |
+
+**Acceptance Criteria:**
+- [ ] All Phase 2-3 code modules added to audit
+- [ ] Module purposes documented
+- [ ] Dependencies mapped
+- [ ] Public APIs documented
+
+---
+
+### Task 8: Update Documentation Audit with Phase 2-3 docs
+
+**Objective:** Update Phase 1.3 Documentation Audit to include new documentation from Phases 2 and 3.
+
+**Deliverables:**
+- Updated Documentation Audit
+
+**New Documentation to Audit:**
+
+| Document | Category | Status |
+|----------|----------|--------|
+| `docs/reference/CLI_REFERENCE.md` | Reference | Complete |
+| `docs/reference/MCP_REFERENCE.md` | Reference | Complete |
+| `docs/personas/USER_PERSONAS.md` | User Docs | Complete |
+| `docs/journeys/JOURNEY_*.md` (5 files) | User Docs | Complete |
+| `docs/walkthroughs/WALKTHROUGH_*.md` (6 files) | User Docs | Complete |
+| `docs/development/SETUP.md` | Development | Complete |
+| `docs/development/CODING_STANDARDS.md` | Development | Complete |
+| `docs/architecture/adr/*.md` (6 files) | Architecture | Complete |
+
+**Acceptance Criteria:**
+- [ ] All Phase 2-3 docs added to audit
+- [ ] Accuracy review completed
+- [ ] Cross-references verified
+- [ ] Gaps identified
+
+---
+
+### Task 9: Update Scripts & Config Audit with Phase 2-3 changes
+
+**Objective:** Update Phase 1.5 Scripts & Project Config Audit with any new scripts or config changes.
+
+**Deliverables:**
+- Updated Scripts & Config Audit
+
+**Review Items:**
+- Any new scripts added in Phases 2-3
+- Config schema changes for session/audit features
+- New CLI command registrations
+- MCP tool registrations
+
+**Acceptance Criteria:**
+- [ ] New scripts documented
+- [ ] Config schema changes noted
+- [ ] CLI registration verified
+- [ ] MCP registration verified
+
+---
+
+### Task 10: Update Database Artifact Audit with Phase 3 schema changes
+
+**Objective:** Update Phase 1.6 Database Artifact Audit with session and audit trail schema additions.
+
+**Deliverables:**
+- Updated Database Artifact Audit
+
+**Schema Changes to Document:**
+- Session table (if SQLite-backed)
+- Audit trail table
+- Activity log schema (JSONL format)
+- Any new indexes or constraints
+
+**Acceptance Criteria:**
+- [ ] Session schema documented
+- [ ] Audit trail schema documented
+- [ ] Activity log format documented
+- [ ] Migration notes included
+
+---
+
+### Task 11: Update User Personas with audit/session capabilities
+
+**Objective:** Update Phase 2.3 User Personas to reflect new audit and session tracking capabilities.
+
+**Deliverables:**
+- Updated `docs/personas/USER_PERSONAS.md`
+
+**Updates per Persona:**
+
+| Persona | New Capabilities |
+|---------|------------------|
+| New User | Session tracking from day one |
+| Active Developer | Review work history, audit trail access |
+| Project Lead | Generate audit reports, monitor integrity |
+| Platform Integrator | MCP access to audit data |
+| Contributor | Understanding of audit logging |
+
+**Acceptance Criteria:**
+- [ ] All personas updated with audit capabilities
+- [ ] Session tracking benefits documented
+- [ ] Persona goals remain accurate
+- [ ] Pain points addressed by new features noted
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory)
     ↓
-Tasks 2-6 can run in parallel after Task 1
+Tasks 2-11 can run in parallel after Task 1
 ```
 
 Task 1 should be completed first to establish the complete file inventory that other tasks may reference.
@@ -223,21 +347,36 @@ Task 1 should be completed first to establish the complete file inventory that o
 
 ## Success Criteria
 
-- [ ] Phase 1 file inventory includes all Phase 2-3 files
-- [ ] CLI Reference documents all audit commands
-- [ ] MCP Reference documents any audit tools
-- [ ] User journeys include audit workflows
-- [ ] Walkthroughs include audit examples
-- [ ] Coverage matrix maps all new features
+**Phase 1 Audit Updates:**
+- [ ] 1.1 File inventory includes all Phase 2-3 files
+- [ ] 1.2 Core Library Audit includes new code modules
+- [ ] 1.3 Documentation Audit includes new docs
+- [ ] 1.5 Scripts & Config Audit updated
+- [ ] 1.6 Database Artifact Audit includes schema changes
+
+**Phase 2 Documentation Updates:**
+- [ ] 2.1 CLI Reference documents all audit commands
+- [ ] 2.2 MCP Reference documents any audit tools
+- [ ] 2.3 User Personas updated with new capabilities
+- [ ] 2.4 User Journeys include audit workflows
+- [ ] 2.4 Walkthroughs include audit examples
+- [ ] Coverage Matrix maps all new features
 
 ---
 
 ## File Changes Summary
 
-**Files to Update:**
+**Phase 1 Audit Files to Update:**
 - Phase 1.1 file inventory deliverable
+- Phase 1.2 core library audit deliverable
+- Phase 1.3 documentation audit deliverable
+- Phase 1.5 scripts & config audit deliverable
+- Phase 1.6 database artifact audit deliverable
+
+**Phase 2 Documentation Files to Update:**
 - `docs/reference/CLI_REFERENCE.md`
 - `docs/reference/MCP_REFERENCE.md`
+- `docs/personas/USER_PERSONAS.md`
 - `docs/journeys/JOURNEY_ACTIVE_DEVELOPER.md`
 - `docs/journeys/JOURNEY_PROJECT_LEAD.md`
 - `docs/journeys/JOURNEY_CONTRIBUTOR.md`

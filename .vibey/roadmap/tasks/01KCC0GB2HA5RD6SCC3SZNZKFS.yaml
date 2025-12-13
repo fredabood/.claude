@@ -1,0 +1,30 @@
+task:
+  id: 01KCC0GB2HA5RD6SCC3SZNZKFS
+  title: 'Create documentation coverage matrix'
+  sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
+  track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-13T14:53:08.802569+00:00'
+  started: null
+  completed: null
+  description: 'Build matrix tracking which features have docs, tests, and user journeys'
+  task_type: documentation
+  priority: medium
+  complexity: medium
+  estimated_tokens: null
+  actual_tokens: null
+  acceptance_criteria: []
+  deliverables: []
+  depends_on: []
+  depended_on_by: []
+  blocks: []
+  blocked_by: []
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null

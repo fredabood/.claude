@@ -1,0 +1,30 @@
+task:
+  id: 01KCC0GB64VBR3XP3J7Y7FWW20
+  title: 'Update CLI Reference with context commands'
+  sprint_id: 01KCAKC833MGED5PY2M45T5ZDY
+  track_id: user-journey-audit
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-13T14:53:08.802569+00:00'
+  started: null
+  completed: null
+  description: 'Document vibey context command family and --output-context flags'
+  task_type: documentation
+  priority: medium
+  complexity: medium
+  estimated_tokens: null
+  actual_tokens: null
+  acceptance_criteria: []
+  deliverables: []
+  depends_on: []
+  depended_on_by: []
+  blocks: []
+  blocked_by: []
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null

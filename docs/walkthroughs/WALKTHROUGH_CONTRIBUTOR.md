@@ -580,6 +580,64 @@ Address feedback and get your PR merged.
 
 ---
 
+## Step 11: Understand How Your Changes Are Tracked
+
+### Goal
+
+Learn how the audit trail captures your contributions.
+
+### Instructions
+
+1. View recent audit entries after your PR is merged:
+
+   ```bash
+   vibey roadmap audit log --limit 10
+   ```
+
+   **Expected Output:**
+   ```
+   Audit Trail (last 10 entries)
+   =============================
+   2025-12-12 16:30 | commit linked | Task: 01KC2D → abc123f "fix: your contribution"
+   2025-12-12 16:25 | status: in_progress → completed | Task: 01KC2D
+   ```
+
+2. Check your task's complete history:
+
+   ```bash
+   vibey roadmap audit show <task-id>
+   ```
+
+   **Expected Output:**
+   ```
+   Audit History for Task: 01KC2D0JK7READW9KAK1HBX4A5
+   ================================================
+   2025-12-12 16:30 | commit: abc123f linked
+   2025-12-12 16:25 | completed
+   2025-12-12 14:00 | started
+   2025-12-12 13:45 | created via roadmap create-task
+   ```
+
+### What Gets Tracked
+
+- **Task lifecycle:** created → started → completed
+- **Commit links:** SHA, message, timestamp
+- **Context additions:** Notes you added during work
+- **Status changes:** All transitions with timestamps
+
+### Why This Matters
+
+- **Attribution:** Your work is credited to you
+- **Traceability:** Changes can be traced to specific commits
+- **Transparency:** Project history is visible to all
+- **Quality:** Enables debugging and rollback if needed
+
+### Checkpoint
+
+> **Verify:** You understand how your contributions are tracked in the audit trail
+
+---
+
 ## Summary
 
 ### What You Accomplished

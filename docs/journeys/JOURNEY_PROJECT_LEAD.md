@@ -247,6 +247,75 @@ vibey roadmap summarize --type executive --output stakeholder-update.md
 | `validate` | Check integrity |
 | `sync` | Sync YAML/DB |
 
+### Audit Trail Commands
+
+| Command | Purpose |
+|---------|---------|
+| `audit log` | View recent changes |
+| `audit show <id>` | History for item |
+| `audit suspicious` | Detect anomalies |
+| `audit report` | Detailed audit report |
+
+---
+
+## Audit Trail & Data Integrity
+
+### Generate Audit Reports
+
+Track all changes across your roadmap for accountability and compliance:
+
+```bash
+# Generate comprehensive audit report
+vibey roadmap audit report
+
+# Report for specific time period
+vibey roadmap audit report --start 2025-01-01 --end 2025-01-31
+
+# Report for specific object
+vibey roadmap audit report --object-id <track-id>
+
+# View recent changes across all objects
+vibey roadmap audit log --limit 50
+```
+
+**Report Use Cases:**
+- Sprint retrospectives - what changed and when
+- Stakeholder accountability - who made changes
+- Compliance documentation - change history
+- Debug unexpected status changes
+
+### Monitor Data Integrity
+
+Ensure roadmap data remains consistent and detect issues early:
+
+```bash
+# Detect suspicious changes (status rollbacks, etc.)
+vibey roadmap audit suspicious
+
+# Validate roadmap structure
+vibey roadmap validate
+
+# Check YAML-SQLite sync status
+vibey roadmap db status
+
+# Verify integrity checksums
+vibey roadmap checkpoint verify
+```
+
+**Integrity Checks:**
+- Status rollbacks (completed → not_started)
+- Progress decreases
+- Manual edits without commits
+- YAML/SQLite mismatches
+
+**Weekly Integrity Review:**
+```bash
+# Comprehensive weekly check
+vibey roadmap audit suspicious
+vibey roadmap validate --fix
+vibey roadmap db sync --dry-run
+```
+
 ---
 
 ## Multi-Track Management

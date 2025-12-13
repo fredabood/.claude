@@ -319,6 +319,64 @@ vibey roadmap summarize --type release --version <version>
 | `vibey git hooks install` | Install hooks |
 | `git commit` (with hooks) | Validated commits |
 
+### Audit Trail Commands
+
+| Command | Purpose |
+|---------|---------|
+| `vibey roadmap audit log` | View recent changes |
+| `vibey roadmap audit show <id>` | History for specific item |
+
+---
+
+## Understanding Audit Logging
+
+### How Your Changes Are Tracked
+
+Vibey automatically tracks all changes to roadmap objects. When you:
+- Start or complete a task
+- Update status
+- Add context or commits
+- Make any roadmap modification
+
+These changes are recorded in the audit trail with:
+- **Who:** The user/system that made the change
+- **When:** Timestamp of the change
+- **What:** The specific modification
+- **Why:** Context if provided
+
+### Viewing Your Contribution History
+
+```bash
+# See recent changes you made
+vibey roadmap audit log --limit 20
+
+# View history for a specific task you worked on
+vibey roadmap audit show <task-id>
+```
+
+### How Commits Are Linked
+
+When you commit with the proper format:
+
+```bash
+git commit -m "feat(scope): Add feature
+
+Task: 01KC2D0JK7READW9KAK1HBX4A5"
+```
+
+The git hooks automatically:
+1. Validate the task ID exists
+2. Link the commit to the task
+3. Log the association in the audit trail
+
+### Why Audit Trail Matters
+
+For contributors, the audit trail:
+- **Provides attribution** - Your work is properly credited
+- **Supports debugging** - Track when issues were introduced
+- **Enables rollback** - Understand state changes
+- **Documents progress** - Show what was accomplished
+
 ---
 
 ## Testing Guide

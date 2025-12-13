@@ -215,6 +215,54 @@ vibey roadmap start <original-task-id>
 | `vibey roadmap list-blockers` | See blocked items |
 | `vibey roadmap update task <id>` | Modify task properties |
 
+### Audit Trail & History
+
+| Command | Purpose |
+|---------|---------|
+| `vibey roadmap audit log` | View recent changes across roadmap |
+| `vibey roadmap audit show <id>` | View history for specific object |
+| `vibey roadmap audit suspicious` | Detect unusual status changes |
+
+---
+
+## Audit Trail & Session History
+
+### Review Your Work History
+
+Track what you've accomplished and how your work has progressed:
+
+```bash
+# See recent changes across all your work
+vibey roadmap audit log --limit 20
+
+# View history for a specific task
+vibey roadmap audit show <task-id>
+
+# See what changed today
+vibey roadmap activity --today
+```
+
+### Check Audit Trail
+
+When debugging issues or understanding how work progressed:
+
+```bash
+# View all changes to a sprint
+vibey roadmap audit show <sprint-id>
+
+# Find suspicious changes (status rollbacks, etc.)
+vibey roadmap audit suspicious
+
+# Generate a report for a time period
+vibey roadmap audit report --start 2025-01-01 --end 2025-01-31
+```
+
+**Use Cases:**
+- Verify your commits are linked to tasks
+- Understand why a task was blocked
+- Review progress before standups
+- Debug unexpected status changes
+
 ---
 
 ## Best Practices

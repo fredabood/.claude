@@ -46,6 +46,15 @@ This document maps Vibey features to user personas and their journeys, identifyi
 | `roadmap db sync` | - | - | S | S | - | Yes |
 | `roadmap db rebuild` | - | - | S | S | - | Yes |
 
+### Audit Trail Commands (Phase 3)
+
+| Command | Nina | Alex | Pat | Chris | Sam | Documented |
+|---------|:----:|:----:|:---:|:-----:|:---:|:----------:|
+| `roadmap audit log` | - | M | M | S | - | Yes |
+| `roadmap audit show` | - | M | M | S | - | Yes |
+| `roadmap audit suspicious` | - | S | M | - | - | Yes |
+| `roadmap audit report` | - | N | M | - | - | Yes |
+
 ### Init & Config Commands
 
 | Command | Nina | Alex | Pat | Chris | Sam | Documented |
@@ -212,10 +221,12 @@ This document maps Vibey features to user personas and their journeys, identifyi
 | Persona | CLI Commands | MCP Tools | Documentation |
 |---------|:------------:|:---------:|:-------------:|
 | Nina (New User) | 12/12 (100%) | N/A | 5/5 (100%) |
-| Alex (Active Developer) | 15/15 (100%) | N/A | 4/4 (100%) |
-| Pat (Project Lead) | 18/18 (100%) | N/A | 3/4 (75%) |
-| Chris (Contributor) | 12/12 (100%) | N/A | 4/5 (80%) |
+| Alex (Active Developer) | 19/19 (100%) | N/A | 4/4 (100%) |
+| Pat (Project Lead) | 22/22 (100%) | N/A | 3/4 (75%) |
+| Chris (Contributor) | 14/14 (100%) | N/A | 4/5 (80%) |
 | Sam (Platform Integrator) | 8/8 (100%) | 76/76 (100%) | 2/3 (67%) |
+
+**Note:** Phase 3 added 4 audit trail commands that are now mapped to relevant personas.
 
 ### Gap Analysis
 

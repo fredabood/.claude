@@ -213,3 +213,54 @@ The codebase is architecturally sound with clear module boundaries.
 - Sprint 1.1 outputs: `FILE_REGISTRY.yaml`
 - Project context: `CLAUDE.md`
 - Audit criteria: `CORE_LIB_AUDIT_CRITERIA.md`
+
+---
+
+## Phase 2-3 Additions (Sprint 4.1 Update)
+
+**Added:** 2025-12-13
+**Updated By:** Phase 4.1 Documentation Sync
+
+### New Code Files Added in Phases 2-3
+
+The following code files were created after the initial Phase 1.2 audit and are now part of the codebase:
+
+#### Phase 2: Documentation Introspection (4 files, ~2,430 lines)
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `vibey/operations/docs/cli_introspector.py` | 641 | CLI introspection for reference generation |
+| `vibey/operations/docs/cli_reference_generator.py` | 447 | Generates CLI_REFERENCE.md |
+| `vibey/operations/docs/mcp_introspector.py` | 840 | MCP server introspection |
+| `vibey/operations/docs/mcp_reference_generator.py` | 502 | Generates MCP_REFERENCE.md |
+
+#### Phase 3: Session & Audit Trail (4 files, ~3,186 lines)
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `vibey/roadmap/models/session.py` | 469 | Session tracking data model |
+| `vibey/operations/roadmap/session_manager.py` | 803 | Session lifecycle management |
+| `vibey/operations/roadmap/session_reconstruction.py` | 461 | Reconstruct sessions from activity log |
+| `vibey/operations/roadmap/audit_trail.py` | 625 | Audit trail for change tracking |
+| `vibey/operations/roadmap/jsonl_activity_log.py` | 952 | JSONL-based activity logging |
+
+### Summary of Additions
+
+| Phase | Files | Total Lines | Test Coverage |
+|-------|-------|-------------|---------------|
+| Phase 2 | 4 | 2,430 | Partial (drift checks) |
+| Phase 3 | 5 | 3,310 | test_jsonl_activity_log.py |
+| **Total** | **9** | **5,740** | **Low** |
+
+### Audit Notes for New Files
+
+1. **Test coverage needed** - Most new files lack dedicated test files
+2. **Documentation introspection works** - CLI/MCP references are auto-generated
+3. **Session management functional** - Integrated with roadmap system
+4. **Audit trail operational** - Tracking status changes
+
+**Recommendation:** Create test files for:
+- `test_session_manager.py`
+- `test_session_reconstruction.py`
+- `test_cli_introspector.py`
+- `test_mcp_introspector.py`

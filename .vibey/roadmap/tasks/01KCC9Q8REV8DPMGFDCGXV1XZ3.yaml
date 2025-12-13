@@ -1,6 +1,6 @@
 task:
   id: 01KCC9Q8REV8DPMGFDCGXV1XZ3
-  sprint_id: user-journey-audit-43
+  sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
   track_id: user-journey-audit
   roadmap_id: vibey-framework-v2
   task_type: documentation
@@ -8,7 +8,7 @@ task:
   description: Update Phase 1.3 Documentation Audit to include new documentation from
     Phases 2 and 3 (CLI reference, MCP reference, user personas, journeys, walkthroughs,
     ADRs).
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-13T16:46:52.779899+00:00'
   started: null

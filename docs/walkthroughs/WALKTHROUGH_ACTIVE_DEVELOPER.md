@@ -305,6 +305,57 @@ Leave things in a good state for next session.
 
 ---
 
+## Step 7: Review Your Work History (Optional)
+
+### Goal
+
+Use the audit trail to understand your work patterns and verify changes.
+
+### Instructions
+
+1. View your recent work history:
+
+   ```bash
+   vibey roadmap audit log --limit 10
+   ```
+
+   **Expected Output:**
+   ```
+   Audit Trail (last 10 entries)
+   =============================
+   2025-12-12 14:35 | status: not_started → in_progress | Task: Write auth tests
+   2025-12-12 14:30 | status: in_progress → completed   | Task: Add password reset
+   2025-12-12 10:00 | status: not_started → in_progress | Task: Add password reset
+   ```
+
+2. Check history for a specific task:
+
+   ```bash
+   vibey roadmap audit show <task-id>
+   ```
+
+   **Expected Output:**
+   ```
+   Audit History for Task: 01KC2D0JK7READW9KAK1HBX4A5
+   ================================================
+   2025-12-12 14:30 | completed   | Progress noted: "All tests passing"
+   2025-12-12 11:30 | context     | "Implemented email verification flow"
+   2025-12-12 10:00 | started     | Initial task start
+   ```
+
+### Use Cases
+
+- **Before standup:** See what you accomplished yesterday
+- **End of sprint:** Review your contributions
+- **Debug issues:** Track when changes were made
+- **Verify commits:** Ensure work is properly linked
+
+### Checkpoint
+
+> **Verify:** You can see your complete work history in the audit trail
+
+---
+
 ## Summary
 
 ### What You Accomplished

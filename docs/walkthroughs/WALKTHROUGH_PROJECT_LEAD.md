@@ -186,6 +186,70 @@ Create status reports for stakeholders.
 
 ---
 
+## Step 5: Generate Compliance Reports (Optional)
+
+### Goal
+
+Use the audit trail for accountability and compliance documentation.
+
+### Instructions
+
+1. Generate an audit report for a time period:
+
+   ```bash
+   vibey roadmap audit report --start 2025-01-01 --end 2025-01-31
+   ```
+
+   **Expected Output:**
+   ```
+   Audit Report: 2025-01-01 to 2025-01-31
+   =====================================
+
+   Summary:
+   - Total changes: 234
+   - Tracks modified: 3
+   - Sprints modified: 8
+   - Tasks modified: 45
+   - Status transitions: 156
+
+   Top Contributors:
+   1. dev@example.com - 89 changes
+   2. lead@example.com - 45 changes
+   ```
+
+2. Check for suspicious changes:
+
+   ```bash
+   vibey roadmap audit suspicious
+   ```
+
+   **Expected Output:**
+   ```
+   Suspicious Changes Detected
+   ===========================
+   ⚠️ Status rollback: Task 01KC2D → completed → not_started (2025-01-15)
+   ⚠️ Manual YAML edit: Sprint sprint-3.yaml modified without commit
+   ```
+
+3. Get detailed history for a specific track:
+
+   ```bash
+   vibey roadmap audit show <track-id>
+   ```
+
+### Use Cases
+
+- **Sprint retrospectives:** Who did what, when
+- **Stakeholder accountability:** Change attribution
+- **Compliance audits:** Full change history
+- **Issue debugging:** Track state changes
+
+### Checkpoint
+
+> **Verify:** You can generate and interpret audit reports
+
+---
+
 ## Summary
 
 ### Commands Used

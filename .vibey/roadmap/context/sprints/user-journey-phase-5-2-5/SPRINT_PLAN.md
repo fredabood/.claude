@@ -77,7 +77,47 @@ vibey coverage check [--threshold PERCENT]
 
 ---
 
-### Task 3: Update Contributor Walkthrough with CI workflow
+### Task 3: Update MCP Reference with test-related tools
+
+**Objective:** Document any MCP tools related to testing, coverage, or CI status.
+
+**Deliverables:**
+- Updated `docs/reference/MCP_REFERENCE.md`
+
+**Tools/Resources to Document:**
+
+```yaml
+# Tools (if implemented)
+vibey_test_run:
+  description: Run test suite via MCP
+  parameters:
+    - scope: unit|integration|all
+    - coverage: boolean
+
+vibey_coverage_report:
+  description: Get coverage report
+  parameters:
+    - format: json|summary
+
+# Resources
+vibey://coverage/current:
+  description: Current test coverage metrics
+
+vibey://ci/status:
+  description: Latest CI run status
+```
+
+**Note:** Document actual implemented tools. If no test-related MCP tools exist, document that testing is CLI-only and reference the CLI commands.
+
+**Acceptance Criteria:**
+- [ ] Test-related MCP tools documented (or noted as CLI-only)
+- [ ] Coverage resources documented
+- [ ] CI status resources documented
+- [ ] Cross-reference to CLI Reference
+
+---
+
+### Task 4: Update Contributor Walkthrough with CI workflow
 
 **Objective:** Add CI/CD workflow guidance to the Contributor walkthrough.
 
@@ -124,7 +164,7 @@ Every PR triggers these automated checks:
 
 ---
 
-### Task 4: Create final User Journey Audit summary
+### Task 5: Create final User Journey Audit summary
 
 **Objective:** Create a comprehensive summary document for the User Journey Audit track.
 
@@ -217,19 +257,20 @@ Every PR triggers these automated checks:
 
 ---
 
-### Task 5: Final coverage matrix update
+### Task 6: Final coverage matrix update with test coverage analysis
 
-**Objective:** Update coverage matrix with all Phase 4-5 artifacts and mark track as complete.
+**Objective:** Update coverage matrix with all Phase 4-5 artifacts, include comprehensive test coverage analysis, and mark track as complete.
 
 **Deliverables:**
 - Updated `COVERAGE_MATRIX.md`
+- `TEST_COVERAGE_ANALYSIS.md` - Detailed test coverage breakdown
 
 **Final Updates:**
 
-1. **Mark all coverage gaps as filled:**
-   - All modules have tests
-   - All commands documented
-   - All journeys cover features
+1. **Mark all documentation coverage gaps as filled:**
+   - All modules have documentation
+   - All commands documented in CLI/MCP references
+   - All journeys cover implemented features
 
 2. **Add Phase 4-5 artifacts:**
    - Integration tests
@@ -237,17 +278,64 @@ Every PR triggers these automated checks:
    - Context directory code
    - Discovery outputs
 
-3. **Calculate final metrics:**
-   - Documentation coverage %
-   - Test coverage %
-   - Feature coverage %
+3. **Test Coverage Analysis:**
 
-4. **Mark track complete:**
+   ```markdown
+   ## Test Coverage Analysis
+
+   ### Summary
+   - Line coverage: 100%
+   - Branch coverage: 100%
+   - Total test files: X
+   - Total test cases: X
+
+   ### Coverage by Module
+
+   | Module | Lines | Covered | % | Branch % |
+   |--------|-------|---------|---|----------|
+   | vibey/cli/ | X | X | 100% | 100% |
+   | vibey/operations/ | X | X | 100% | 100% |
+   | vibey/roadmap/ | X | X | 100% | 100% |
+   | vibey/mcp/ | X | X | 100% | 100% |
+   | vibey/common/ | X | X | 100% | 100% |
+
+   ### Test Distribution
+
+   | Category | Count | % of Total |
+   |----------|-------|------------|
+   | Unit tests | X | X% |
+   | Integration tests | X | X% |
+   | Model tests | X | X% |
+   | Serialization tests | X | X% |
+
+   ### Exclusions
+
+   | File | Lines Excluded | Reason |
+   |------|----------------|--------|
+   | ... | X | pragma: no cover - defensive code |
+
+   ### Quality Metrics
+   - Test-to-code ratio: X:1
+   - Average assertions per test: X
+   - Test execution time: Xs
+   ```
+
+4. **Calculate final metrics:**
+   - Documentation coverage %
+   - Test line coverage %
+   - Test branch coverage %
+   - Feature coverage % (features with tests + docs)
+
+5. **Mark track complete:**
    - Update track status
    - Archive sprint context
 
 **Acceptance Criteria:**
-- [ ] All gaps marked filled
+- [ ] All documentation gaps marked filled
+- [ ] Test coverage analysis complete
+- [ ] Module-by-module coverage documented
+- [ ] Test distribution analyzed
+- [ ] Exclusions documented with justifications
 - [ ] Final metrics calculated
 - [ ] Track marked complete
 - [ ] Context archived
@@ -257,11 +345,11 @@ Every PR triggers these automated checks:
 ## Task Dependencies
 
 ```
-Tasks 1, 2, 3 - can run in parallel (documentation updates)
+Tasks 1, 2, 3, 4 - can run in parallel (documentation updates)
     |
-Task 4 (Summary) - needs Tasks 1-3 complete to include all info
+Task 5 (Summary) - needs Tasks 1-4 complete to include all info
     |
-Task 5 (Final update) - last task, closes the track
+Task 6 (Final coverage + test analysis) - last task, closes the track
 ```
 
 ---
@@ -270,8 +358,10 @@ Task 5 (Final update) - last task, closes the track
 
 - [ ] File inventory includes all test and CI files
 - [ ] CLI Reference includes test commands
+- [ ] MCP Reference includes test-related tools/resources
 - [ ] Contributor walkthrough includes CI guidance
 - [ ] Track summary document created
+- [ ] Test coverage analysis complete
 - [ ] Coverage matrix finalized
 - [ ] Track marked as completed
 
@@ -281,9 +371,11 @@ Task 5 (Final update) - last task, closes the track
 
 **New Files:**
 - `docs/audits/USER_JOURNEY_AUDIT_SUMMARY.md`
+- `TEST_COVERAGE_ANALYSIS.md`
 
 **Modified Files:**
 - `docs/reference/CLI_REFERENCE.md`
+- `docs/reference/MCP_REFERENCE.md`
 - `docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md`
 - `COVERAGE_MATRIX.md`
 - File inventory files

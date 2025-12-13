@@ -238,31 +238,95 @@ vibey://tests/status:
 
 ---
 
+### Task 8: Comprehensive Phase 1 Audit Review
+
+**Objective:** Review and update ALL Phase 1 audit artifacts to ensure they accurately reflect the current state after test implementation.
+
+**Deliverables:**
+- Updated Phase 1 audit documents as needed
+
+**Review Checklist:**
+
+| Audit | Review Focus |
+|-------|--------------|
+| 1.1 File Inventory | Already updated in Task 1 ✓ |
+| 1.2 Core Library Audit | Verify module documentation still accurate, note test utilities |
+| 1.3 Documentation Audit | Verify all doc references valid, add test documentation |
+| 1.4 Test Suite Audit | Updated in Task 2 ✓, comprehensive review of all test patterns |
+| 1.5 Scripts & Config Audit | Check for test-related config (pytest.ini, coverage config) |
+| 1.6 Database Artifact Audit | Verify still accurate |
+
+**Acceptance Criteria:**
+- [ ] Core Library Audit current
+- [ ] Documentation Audit includes test docs
+- [ ] Test Suite Audit comprehensive
+- [ ] Scripts & Config Audit includes test config
+- [ ] Database Artifact Audit current
+
+---
+
+### Task 9: Comprehensive Phase 2 Documentation Review
+
+**Objective:** Review and update ALL Phase 2 documentation artifacts to ensure they accurately reflect all features including testing.
+
+**Deliverables:**
+- Updated Phase 2 documentation as needed
+
+**Review Checklist:**
+
+| Document | Review Focus |
+|----------|--------------|
+| 2.1 CLI Reference | Test commands added in Task 4 ✓, verify all commands accurate |
+| 2.2 MCP Reference | Test tools added in Task 5 ✓, verify all tools accurate |
+| 2.3 User Personas | Update personas with testing capabilities/expectations |
+| 2.4 User Journeys | Test workflows added in Task 6 ✓, verify all workflows accurate |
+| 2.4 Walkthroughs | Contributor walkthrough updated in Task 3 ✓, verify all examples work |
+| 2.5 Contributor Docs | Ensure complete testing guidance |
+| Coverage Matrix | Updated in Task 7 ✓ |
+
+**Acceptance Criteria:**
+- [ ] All CLI commands verified accurate
+- [ ] All MCP tools verified accurate
+- [ ] User Personas include testing expectations
+- [ ] All User Journeys verified accurate
+- [ ] All Walkthroughs verified working
+- [ ] Contributor Docs complete with testing
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory) - first
     ↓
-Tasks 2-7 - can run in parallel
+Tasks 2-7 - can run in parallel (test-specific updates)
+    ↓
+Tasks 8-9 - comprehensive review (after test updates complete)
 ```
 
 ---
 
 ## Success Criteria
 
-**Phase 1 Updates:**
-- [ ] File inventory includes all test files
-- [ ] Test Suite Audit (1.4) updated with final metrics
+**Phase 1 Audit Updates (ALL artifacts):**
+- [ ] 1.1 File Inventory - updated with test files
+- [ ] 1.2 Core Library Audit - current
+- [ ] 1.3 Documentation Audit - includes test docs
+- [ ] 1.4 Test Suite Audit - comprehensive with metrics
+- [ ] 1.5 Scripts & Config Audit - includes test config
+- [ ] 1.6 Database Artifact Audit - current
 
-**Phase 2 Updates:**
-- [ ] CLI Reference includes test commands
-- [ ] MCP Reference includes test tools (or documents CLI-only)
-- [ ] User Journeys include testing workflows
-- [ ] Contributor Walkthrough includes testing guidance
-- [ ] Coverage Matrix maps test features
+**Phase 2 Documentation Updates (ALL artifacts):**
+- [ ] 2.1 CLI Reference - all commands accurate
+- [ ] 2.2 MCP Reference - all tools accurate
+- [ ] 2.3 User Personas - includes testing expectations
+- [ ] 2.4 User Journeys - all workflows accurate
+- [ ] 2.4 Walkthroughs - all examples working
+- [ ] 2.5 Contributor Docs - complete with testing
+- [ ] Coverage Matrix - complete
 
 ---
 
 ## Notes
 
-This is a lightweight checkpoint focused on keeping documentation current with test coverage work.
+This checkpoint focuses on test coverage work but ensures the **entire** documentation set is accurate. Every checkpoint verifies all Phase 1 audits and Phase 2 documentation, not just newly implemented features.

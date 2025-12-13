@@ -209,30 +209,95 @@ vibey://discovery/history:
 
 ---
 
+### Task 7: Comprehensive Phase 1 Audit Review
+
+**Objective:** Review and update ALL Phase 1 audit artifacts to ensure they accurately reflect the current state after discovery implementation.
+
+**Deliverables:**
+- Updated Phase 1 audit documents as needed
+
+**Review Checklist:**
+
+| Audit | Review Focus |
+|-------|--------------|
+| 1.1 File Inventory | Already updated in Task 1 ✓ |
+| 1.2 Core Library Audit | Add discovery modules, verify existing module descriptions still accurate |
+| 1.3 Documentation Audit | Add discovery docs, verify existing doc references still valid |
+| 1.4 Test Suite Audit | Note any discovery tests added, verify test patterns still current |
+| 1.5 Scripts & Config Audit | Check for discovery-related config changes |
+| 1.6 Database Artifact Audit | Check for discovery-related schema changes (if any) |
+
+**Acceptance Criteria:**
+- [ ] Core Library Audit includes discovery modules
+- [ ] Documentation Audit includes discovery docs
+- [ ] Test Suite Audit reflects current test state
+- [ ] Scripts & Config Audit current
+- [ ] Database Artifact Audit current
+
+---
+
+### Task 8: Comprehensive Phase 2 Documentation Review
+
+**Objective:** Review and update ALL Phase 2 documentation artifacts to ensure they accurately reflect all features including discovery.
+
+**Deliverables:**
+- Updated Phase 2 documentation as needed
+
+**Review Checklist:**
+
+| Document | Review Focus |
+|----------|--------------|
+| 2.1 CLI Reference | Discovery commands added in Task 2 ✓, verify all other commands still accurate |
+| 2.2 MCP Reference | Discovery tools added in Task 4 ✓, verify all other tools still accurate |
+| 2.3 User Personas | Update personas with discovery capabilities |
+| 2.4 User Journeys | Discovery workflows added in Task 3 ✓, verify existing workflows still accurate |
+| 2.4 Walkthroughs | Discovery examples added in Task 5 ✓, verify existing examples still work |
+| 2.5 Contributor Docs | Update if discovery affects contribution workflow |
+| Coverage Matrix | Updated in Task 6 ✓ |
+
+**Acceptance Criteria:**
+- [ ] All CLI commands verified accurate
+- [ ] All MCP tools verified accurate
+- [ ] User Personas include discovery capabilities
+- [ ] All User Journeys verified accurate
+- [ ] All Walkthroughs verified working
+- [ ] Contributor Docs current
+
+---
+
 ## Task Dependencies
 
 ```
 Task 1 (File Inventory) - first
     ↓
-Tasks 2-6 - can run in parallel
+Tasks 2-6 - can run in parallel (discovery-specific updates)
+    ↓
+Tasks 7-8 - comprehensive review (after discovery updates complete)
 ```
 
 ---
 
 ## Success Criteria
 
-**Phase 1 Updates:**
-- [ ] File inventory current with discovery files
+**Phase 1 Audit Updates (ALL artifacts):**
+- [ ] 1.1 File Inventory - updated with discovery files
+- [ ] 1.2 Core Library Audit - includes discovery modules
+- [ ] 1.3 Documentation Audit - includes discovery docs
+- [ ] 1.4 Test Suite Audit - reflects current test state
+- [ ] 1.5 Scripts & Config Audit - current
+- [ ] 1.6 Database Artifact Audit - current
 
-**Phase 2 Updates:**
-- [ ] CLI Reference includes all discovery commands
-- [ ] MCP Reference includes discovery tools
-- [ ] User Journeys include discovery workflows
-- [ ] Walkthroughs include discovery examples
-- [ ] Coverage Matrix maps discovery features
+**Phase 2 Documentation Updates (ALL artifacts):**
+- [ ] 2.1 CLI Reference - all commands accurate
+- [ ] 2.2 MCP Reference - all tools accurate
+- [ ] 2.3 User Personas - includes discovery capabilities
+- [ ] 2.4 User Journeys - all workflows accurate
+- [ ] 2.4 Walkthroughs - all examples working
+- [ ] 2.5 Contributor Docs - current
+- [ ] Coverage Matrix - complete
 
 ---
 
 ## Notes
 
-This is a documentation checkpoint sprint - no new feature development. Focus is on keeping documentation current with Phase 4.2 implementation.
+This is a documentation checkpoint sprint - no new feature development. Focus is on keeping **ALL** documentation current, not just discovery-specific docs. Every checkpoint ensures the entire documentation set is accurate.

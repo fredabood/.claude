@@ -1,0 +1,16 @@
+context_config:
+  version: '1.0'
+  retention:
+    sessions:
+      active_max: 1
+      history_days: 90
+      archive_format: yaml
+    tasks:
+      completed_days: 180
+      archive_monthly: true
+    decisions:
+      keep_forever: true
+  cleanup:
+    enabled: true
+    schedule: weekly
+    dry_run_first: true

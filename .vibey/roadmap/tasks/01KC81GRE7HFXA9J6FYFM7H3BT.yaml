@@ -7,11 +7,11 @@ task:
   title: Implement 'vibey context' command family
   description: 'Add context management commands: list, show, archive, clean, export.
     Full lifecycle management.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.007320+00:00'
-  started: null
-  completed: null
+  started: '2025-12-14T17:45:00+00:00'
+  completed: '2025-12-14T18:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

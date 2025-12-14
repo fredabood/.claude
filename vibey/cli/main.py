@@ -4879,6 +4879,199 @@ def discover_refresh(ctx, force: bool):
 
 
 # ============================================================================
+# Context Commands
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def context(ctx):
+    """Context management - manage session, task, and decision context.
+
+    Context provides structured storage for AI-assisted development work:
+    - Sessions: Track work sessions with goals and artifacts
+    - Tasks: Capture task execution context with commands and files
+    - Decisions: Record architectural decisions (ADRs)
+    - Sprints: Store sprint planning documents and artifacts
+    """
+    ctx.ensure_object(dict)
+
+
+@context.command('list')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task', 'decision', 'sprint', 'all']),
+              default='all', help='Context type to list')
+@click.option('--status', '-s', type=str, help='Filter by status')
+@click.option('--limit', '-n', type=int, default=20, help='Maximum items to show')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['table', 'yaml', 'json']),
+              default='table', help='Output format')
+@click.pass_context
+def context_list(ctx, context_type: str, status: str, limit: int, output_format: str):
+    """List context items.
+
+    Examples:
+      vibey context list
+      vibey context list --type session --status active
+      vibey context list --type decision --limit 10
+      vibey context list --format json
+    """
+    from vibey.cli.commands import context_list_cmd
+
+    exit_code = context_list_cmd(
+        context_type=context_type,
+        status=status,
+        limit=limit,
+        output_format=output_format,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('show')
+@click.argument('context_id')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task', 'decision', 'sprint']),
+              help='Context type (auto-detected if not specified)')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['yaml', 'json', 'text']),
+              default='yaml', help='Output format')
+@click.pass_context
+def context_show(ctx, context_id: str, context_type: str, output_format: str):
+    """Show context details.
+
+    Examples:
+      vibey context show 01KC7MN54VXRB3APC5FV5XBDXX
+      vibey context show 0001-adopt-ulid-naming --type decision
+      vibey context show user-journey-phase-4-4 --type sprint
+    """
+    from vibey.cli.commands import context_show_cmd
+
+    exit_code = context_show_cmd(
+        context_id=context_id,
+        context_type=context_type,
+        output_format=output_format,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('archive')
+@click.argument('context_id')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task']),
+              help='Context type (required)')
+@click.pass_context
+def context_archive(ctx, context_id: str, context_type: str):
+    """Archive context to history.
+
+    Moves context from current/active to history directory.
+
+    Examples:
+      vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --type session
+      vibey context archive 01KC81GRE7HFXA9J6FYFM7H3BR --type task
+    """
+    from vibey.cli.commands import context_archive_cmd
+
+    exit_code = context_archive_cmd(
+        context_id=context_id,
+        context_type=context_type,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('clean')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task', 'all']),
+              default='all', help='Context type to clean')
+@click.option('--older-than', '-d', type=int, default=90,
+              help='Delete items older than N days')
+@click.option('--dry-run', is_flag=True,
+              help='Show what would be deleted without deleting')
+@click.pass_context
+def context_clean(ctx, context_type: str, older_than: int, dry_run: bool):
+    """Clean old archived context.
+
+    Removes archived context older than the specified number of days.
+    Uses --dry-run to preview before deleting.
+
+    Examples:
+      vibey context clean --older-than 90 --dry-run
+      vibey context clean --type session --older-than 30
+    """
+    from vibey.cli.commands import context_clean_cmd
+
+    exit_code = context_clean_cmd(
+        context_type=context_type,
+        older_than_days=older_than,
+        dry_run=dry_run,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('export')
+@click.argument('context_id')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task', 'decision', 'sprint']),
+              help='Context type')
+@click.option('--output', '-o', type=click.Path(), help='Output file path')
+@click.pass_context
+def context_export(ctx, context_id: str, context_type: str, output: str):
+    """Export context to file.
+
+    Examples:
+      vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
+      vibey context export user-journey-phase-4-4 --type sprint -o sprint-context.tar.gz
+    """
+    from vibey.cli.commands import context_export_cmd
+
+    exit_code = context_export_cmd(
+        context_id=context_id,
+        context_type=context_type,
+        output_path=output,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('search')
+@click.argument('query')
+@click.option('--type', '-t', 'context_type',
+              type=click.Choice(['session', 'task', 'decision', 'sprint', 'all']),
+              default='all', help='Context type to search')
+@click.option('--limit', '-n', type=int, default=20, help='Maximum results')
+@click.pass_context
+def context_search(ctx, query: str, context_type: str, limit: int):
+    """Search context by content.
+
+    Examples:
+      vibey context search "ULID naming" --type decision
+      vibey context search "phase 4" --limit 10
+    """
+    from vibey.cli.commands import context_search_cmd
+
+    exit_code = context_search_cmd(
+        query=query,
+        context_type=context_type,
+        limit=limit,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('init')
+@click.pass_context
+def context_init(ctx):
+    """Initialize context directory structure.
+
+    Creates the .vibey/context/ directory with proper subdirectories
+    and initial configuration files.
+
+    Examples:
+      vibey context init
+    """
+    from vibey.cli.commands import context_init_cmd
+
+    exit_code = context_init_cmd()
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

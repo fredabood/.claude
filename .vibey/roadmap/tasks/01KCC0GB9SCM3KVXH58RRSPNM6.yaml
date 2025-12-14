@@ -2,7 +2,7 @@ task:
   id: 01KCC0GB9SCM3KVXH58RRSPNM6
   title: 'Update Contributor Walkthrough with test info'
   sprint_id: 01KCAKDB2DXPYDQ2VYT7332EGF
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

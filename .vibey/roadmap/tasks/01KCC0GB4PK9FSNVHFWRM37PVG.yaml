@@ -2,7 +2,7 @@ task:
   id: 01KCC0GB4PK9FSNVHFWRM37PVG
   title: 'Update User Journeys with discovery workflows'
   sprint_id: 01KCAKBBCJGHQ1J5NF24HYTM0T
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

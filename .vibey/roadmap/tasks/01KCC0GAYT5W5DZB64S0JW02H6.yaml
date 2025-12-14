@@ -2,13 +2,13 @@ task:
   id: 01KCC0GAYT5W5DZB64S0JW02H6
   title: 'Update file inventory with Phase 2-3 artifacts'
   sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false
   blocked_reason: null
   created: '2025-12-13T14:53:08.802569+00:00'
-  started: '2025-12-13T22:45:00+00:00'
+  started: '2025-12-13T17:00:00+00:00'
   completed: '2025-12-13T17:25:00+00:00'
   description: 'Add all files created in Phases 2 and 3 to Phase 1 file inventory'
   task_type: documentation

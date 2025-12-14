@@ -2,7 +2,7 @@ task:
   id: 01KCC0GB8CT88X6S78FX8F87KM
   title: 'Update file inventory with test files'
   sprint_id: 01KCAKDB2DXPYDQ2VYT7332EGF
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

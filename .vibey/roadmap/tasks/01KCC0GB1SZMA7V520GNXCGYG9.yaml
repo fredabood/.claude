@@ -2,7 +2,7 @@ task:
   id: 01KCC0GB1SZMA7V520GNXCGYG9
   title: 'Update Walkthroughs with Phase 3 examples'
   sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: completed
   blocked: false

@@ -2,7 +2,7 @@ task:
   id: 01KCC0GB64VBR3XP3J7Y7FWW20
   title: 'Update CLI Reference with context commands'
   sprint_id: 01KCAKC833MGED5PY2M45T5ZDY
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

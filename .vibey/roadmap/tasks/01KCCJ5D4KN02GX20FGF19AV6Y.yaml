@@ -1,0 +1,42 @@
+task:
+  id: 01KCCJ5D4KN02GX20FGF19AV6Y
+  title: 'Date validation errors silently skip tasks during db rebuild'
+  sprint_id: 01KCC74TQ2KB6CD81FJ7SJ709N
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-13T23:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Tasks with invalid date relationships (started > completed, started < created) 
+    are silently skipped during `vibey roadmap db rebuild`. 
+    
+    Issues found:
+    1. Task with started date after completed date
+    2. Task with started date before created date
+    3. Tasks with status: completed but started/completed both null
+    
+    Fix should either:
+    - Show warning messages identifying which tasks failed and why
+    - Auto-correct obvious date issues (null dates on completed tasks)
+    - Validate dates during task update commands
+  task_type: bug
+  priority: medium
+  complexity: medium
+  estimated_tokens: 500
+  actual_tokens: null
+  acceptance_criteria: []
+  deliverables: []
+  depends_on: []
+  depended_on_by: []
+  blocks: []
+  blocked_by: []
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null

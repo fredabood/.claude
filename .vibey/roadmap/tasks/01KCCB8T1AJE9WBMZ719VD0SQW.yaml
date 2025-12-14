@@ -1,7 +1,7 @@
 task:
   id: 01KCCB8T1AJE9WBMZ719VD0SQW
   sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Update User Personas with audit/session capabilities
@@ -10,8 +10,8 @@ task:
   status: completed
   blocked: false
   created: '2025-12-13T17:13:56.062987+00:00'
-  started: null
-  completed: null
+  started: '2025-12-13T17:30:00+00:00'
+  completed: '2025-12-13T18:00:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

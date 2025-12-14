@@ -2,7 +2,7 @@ task:
   id: 01KCC0GBE8HEGXGBCCHX0VWS8B
   title: 'Final coverage matrix update with test coverage analysis'
   sprint_id: 01KCAKE58ZSR92X1EPF90FGFSF
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false

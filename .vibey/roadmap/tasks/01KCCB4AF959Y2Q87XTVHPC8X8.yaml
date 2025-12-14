@@ -1,7 +1,7 @@
 task:
   id: 01KCCB4AF959Y2Q87XTVHPC8X8
   sprint_id: 01KCAK59GA2ENQ572HQVFXCRKK
-  track_id: user-journey-audit
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Update Database Artifact Audit with Phase 3 schema changes
@@ -10,8 +10,8 @@ task:
   status: completed
   blocked: false
   created: '2025-12-13T17:11:29.081199+00:00'
-  started: null
-  completed: null
+  started: '2025-12-13T17:30:00+00:00'
+  completed: '2025-12-13T18:00:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

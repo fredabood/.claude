@@ -64,6 +64,21 @@ from .readers import (
     get_context_loader,
 )
 
+from .capture import (
+    CommandContext,
+    CommandContextCapture,
+    capture_command_context,
+    get_recent_command_contexts,
+)
+
+from .agent_context import (
+    EnhancedAgentContext,
+    AgentContextLoader,
+    get_agent_context_loader,
+    load_agent_context,
+    format_context_for_prompt,
+)
+
 __all__ = [
     # Data classes
     "SessionContext",
@@ -71,6 +86,7 @@ __all__ = [
     "DecisionContext",
     "SprintContext",
     "AgentContext",
+    "CommandContext",
     # Writers
     "ContextWriter",
     "SessionContextWriter",
@@ -89,4 +105,14 @@ __all__ = [
     "ContextLoader",
     "get_context_manager",
     "get_context_loader",
+    # Capture
+    "CommandContextCapture",
+    "capture_command_context",
+    "get_recent_command_contexts",
+    # Agent Context
+    "EnhancedAgentContext",
+    "AgentContextLoader",
+    "get_agent_context_loader",
+    "load_agent_context",
+    "format_context_for_prompt",
 ]

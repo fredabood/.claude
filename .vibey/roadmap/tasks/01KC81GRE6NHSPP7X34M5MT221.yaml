@@ -7,11 +7,11 @@ task:
   title: Design discovery-to-context integration
   description: 'Design how discovery outputs feed into context management: automatic
     context seeding, discovery refresh triggers, staleness detection.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.006332+00:00'
-  started: null
-  completed: null
+  started: '2025-12-14T02:00:00+00:00'
+  completed: '2025-12-14T03:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

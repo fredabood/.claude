@@ -327,6 +327,9 @@ All commands used in this journey:
 | Basic Usage | `vibey roadmap start <task-id>` | Start task |
 | Basic Usage | `vibey roadmap complete <task-id>` | Complete task |
 | Advanced | `vibey roadmap context` | View context |
+| Advanced | `vibey context init` | Initialize context directory |
+| Advanced | `vibey context list` | List context items |
+| Advanced | `vibey context show <id>` | View context details |
 | Advanced | `vibey git hooks install` | Set up hooks |
 
 ---

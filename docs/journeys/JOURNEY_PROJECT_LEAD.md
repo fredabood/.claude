@@ -267,6 +267,18 @@ vibey roadmap summarize --type executive --output stakeholder-update.md
 | `audit suspicious` | Detect anomalies |
 | `audit report` | Detailed audit report |
 
+### Context Management Commands
+
+| Command | Purpose |
+|---------|---------|
+| `vibey context list` | List all context items |
+| `vibey context list --type decision` | List architectural decisions |
+| `vibey context list --type sprint` | List sprint planning docs |
+| `vibey context show <id>` | View context details |
+| `vibey context search "query"` | Search context by content |
+| `vibey context export <id> -o file.yaml` | Export context to file |
+| `vibey context clean --older-than 90` | Clean old context |
+
 ---
 
 ## Audit Trail & Data Integrity

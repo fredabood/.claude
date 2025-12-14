@@ -1,0 +1,44 @@
+task:
+  id: 01KCEWQQQA930VK1J282TC9XGT
+  title: 'Fix TypeError in roadmap start when estimated_tokens is None'
+  sprint_id: 01KCEWQQQA930VK1J282TC9XGS
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-14T19:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Bug: `vibey roadmap start <sprint-id>` fails with TypeError when tasks have null estimated_tokens.
+
+    Error location: vibey/roadmap/compatibility.py:165
+
+    Stack trace:
+    ```
+    File "/Users/fredabood/Repositories/vibey/vibey/roadmap/compatibility.py", line 165, in check_task_compatibility
+        utilization = (estimated_tokens / context_window) * 100
+    TypeError: unsupported operand type(s) for /: 'NoneType' and 'int'
+    ```
+
+    Fix: Add null check before division - if estimated_tokens is None, skip compatibility check or use default value.
+  task_type: development
+  priority: high
+  complexity: low
+  estimated_tokens: 3000
+  actual_tokens: null
+  acceptance_criteria:
+    - 'roadmap start command works when estimated_tokens is null'
+    - 'No TypeError thrown'
+  deliverables: []
+  depends_on: []
+  depended_on_by: []
+  blocks: []
+  blocked_by: []
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null

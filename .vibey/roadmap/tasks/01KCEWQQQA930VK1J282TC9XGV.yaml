@@ -1,0 +1,44 @@
+task:
+  id: 01KCEWQQQA930VK1J282TC9XGV
+  title: 'Fix roadmap start command not recognizing ULID task IDs'
+  sprint_id: 01KCEWQQQA930VK1J282TC9XGS
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-14T19:00:00+00:00'
+  started: null
+  completed: null
+  description: |
+    Bug: `vibey roadmap start <task-ulid>` fails with ID format error.
+
+    Error message:
+    ```
+    Error: Cannot determine item type from ID: 01KCC0GB5D8K0D60VTX96Z7NZS
+    Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]
+    ```
+
+    The start command only recognizes legacy slug-based IDs, not the new ULID format.
+
+    Fix: Update ID parsing logic in start command to recognize ULID format (26 alphanumeric characters starting with 01K).
+  task_type: development
+  priority: high
+  complexity: medium
+  estimated_tokens: 5000
+  actual_tokens: null
+  acceptance_criteria:
+    - 'roadmap start command recognizes ULID task IDs'
+    - 'roadmap start command recognizes ULID sprint IDs'
+    - 'Backward compatible with legacy slug IDs'
+  deliverables: []
+  depends_on: []
+  depended_on_by: []
+  blocks: []
+  blocked_by: []
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null

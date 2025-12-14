@@ -379,6 +379,9 @@ Use the audit trail to understand your work patterns and verify changes.
 | `vibey roadmap update task --blocked` | Mark blocked |
 | `vibey roadmap list-blockers` | View blocked items |
 | `vibey roadmap checkpoint` | Save state |
+| `vibey context list` | List context items |
+| `vibey context show <id>` | View context details |
+| `vibey context search "query"` | Search context |
 
 ### Next Steps
 
@@ -397,11 +400,13 @@ Use the audit trail to understand your work patterns and verify changes.
 vibey roadmap status
 vibey roadmap activity --limit 5
 vibey roadmap list-blockers
+vibey context list --type session --limit 3   # Review past sessions
 
 # During work
 vibey roadmap start <task-id>
 vibey roadmap show task <task-id>
 vibey roadmap add-context <task-id> --message "Note"
+vibey context search "feature name"            # Search past context
 
 # Handle blockers
 vibey roadmap update task <id> --blocked true --blocked-by "reason"
@@ -412,6 +417,7 @@ vibey roadmap complete <task-id>
 # Session end
 vibey roadmap activity --today
 vibey roadmap checkpoint
+vibey context archive <session-id> --type session  # Optional cleanup
 ```
 
 ### Related Documentation

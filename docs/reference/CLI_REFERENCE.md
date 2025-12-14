@@ -1,7 +1,7 @@
 # CLI Reference
 
 **Version:** 2.5.0
-**Total Commands:** 176
+**Total Commands:** 184
 **Generated:** 2025-12-12T17:26:03.924023+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
@@ -40,6 +40,14 @@ This document provides comprehensive reference documentation for all `vibey` CLI
   - [list](#content-list)
   - [search](#content-search)
   - *... and 2 more*
+- [context](#context)
+  - [init](#context-init)
+  - [list](#context-list)
+  - [show](#context-show)
+  - [archive](#context-archive)
+  - [clean](#context-clean)
+  - [export](#context-export)
+  - [search](#context-search)
 - [deploy](#deploy)
   - [list](#deploy-list)
   - [run](#deploy-run)
@@ -239,6 +247,28 @@ Displays metadata and option...
 - [`vibey content validate`](#vibey-content-validate) - Validate content frontmatter
 
 Checks content for r...
+
+**C**
+- [`vibey context`](#vibey-context) - Context management for AI-assisted development
+
+**A**
+- [`vibey context archive`](#vibey-context-archive) - Archive context to history
+
+**C**
+- [`vibey context clean`](#vibey-context-clean) - Clean old archived context
+
+**E**
+- [`vibey context export`](#vibey-context-export) - Export context to file
+
+**I**
+- [`vibey context init`](#vibey-context-init) - Initialize context directory structure
+
+**L**
+- [`vibey context list`](#vibey-context-list) - List context items
+
+**S**
+- [`vibey context search`](#vibey-context-search) - Search context by content
+- [`vibey context show`](#vibey-context-show) - Show context details
 
 **D**
 - [`vibey deploy`](#vibey-deploy) - 
@@ -2079,6 +2109,280 @@ vibey content validate --type agent --all
 
 ```bash
 vibey content validate --all
+```
+
+---
+
+<a id="vibey-context"></a>
+
+### `vibey context`
+
+Context management - manage session, task, and decision context.
+
+Context provides structured storage for AI-assisted development work:
+- Sessions: Track work sessions with goals and artifacts
+- Tasks: Capture task execution context with commands and files
+- Decisions: Record architectural decisions (ADRs)
+- Sprints: Store sprint planning documents and artifacts
+
+**Usage:**
+```bash
+vibey context COMMAND
+```
+
+**Available Commands:**
+
+| Command | Description |
+|---------|-------------|
+| `init` | Initialize context directory structure |
+| `list` | List context items |
+| `show` | Show context details |
+| `archive` | Archive context to history |
+| `clean` | Clean old archived context |
+| `export` | Export context to file |
+| `search` | Search context by content |
+
+---
+
+<a id="vibey-context-init"></a>
+
+#### `vibey context init`
+
+Initialize context directory structure.
+
+Creates the `.vibey/context/` directory with proper subdirectories and initial configuration files.
+
+**Usage:**
+```bash
+vibey context init
+```
+
+**Examples:**
+
+```bash
+vibey context init
+```
+
+---
+
+<a id="vibey-context-list"></a>
+
+#### `vibey context list`
+
+List context items.
+
+**Usage:**
+```bash
+vibey context list [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task, decision, sprint, all]) | `all` | Context type to list |
+| `-s, --status` | TEXT | - | Filter by status |
+| `-n, --limit` | INTEGER | - | Maximum items to show |
+| `-f, --format` | Choice([table, yaml, json]) | `table` | Output format |
+
+**Examples:**
+
+```bash
+vibey context list
+```
+
+```bash
+vibey context list --type session --status active
+```
+
+```bash
+vibey context list --type decision --limit 10
+```
+
+```bash
+vibey context list --format json
+```
+
+---
+
+<a id="vibey-context-show"></a>
+
+#### `vibey context show`
+
+Show context details.
+
+**Usage:**
+```bash
+vibey context show [OPTIONS] CONTEXT_ID
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `CONTEXT_ID` | TEXT | Yes | ID of context item to show |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task, decision, sprint]) | - | Context type (auto-detected if not specified) |
+| `-f, --format` | Choice([yaml, json, text]) | `yaml` | Output format |
+
+**Examples:**
+
+```bash
+vibey context show 01KC7MN54VXRB3APC5FV5XBDXX
+```
+
+```bash
+vibey context show 0001-adopt-ulid-naming --type decision
+```
+
+```bash
+vibey context show user-journey-phase-4-4 --type sprint
+```
+
+---
+
+<a id="vibey-context-archive"></a>
+
+#### `vibey context archive`
+
+Archive context to history.
+
+Moves context from current/active to history directory.
+
+**Usage:**
+```bash
+vibey context archive [OPTIONS] CONTEXT_ID
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `CONTEXT_ID` | TEXT | Yes | ID of context item to archive |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task]) | - | Context type (required) |
+
+**Examples:**
+
+```bash
+vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --type session
+```
+
+```bash
+vibey context archive 01KC81GRE7HFXA9J6FYFM7H3BR --type task
+```
+
+---
+
+<a id="vibey-context-clean"></a>
+
+#### `vibey context clean`
+
+Clean old archived context.
+
+Removes archived context older than the specified number of days. Use `--dry-run` to preview before deleting.
+
+**Usage:**
+```bash
+vibey context clean [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task, all]) | `all` | Context type to clean |
+| `-d, --older-than` | INTEGER | `90` | Delete items older than N days |
+| `--dry-run` | flag | `False` | Show what would be deleted without deleting |
+
+**Examples:**
+
+```bash
+vibey context clean --older-than 90 --dry-run
+```
+
+```bash
+vibey context clean --type session --older-than 30
+```
+
+---
+
+<a id="vibey-context-export"></a>
+
+#### `vibey context export`
+
+Export context to file.
+
+**Usage:**
+```bash
+vibey context export [OPTIONS] CONTEXT_ID
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `CONTEXT_ID` | TEXT | Yes | ID of context item to export |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task, decision, sprint]) | - | Context type |
+| `-o, --output` | PATH | - | Output file path |
+
+**Examples:**
+
+```bash
+vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
+```
+
+```bash
+vibey context export user-journey-phase-4-4 --type sprint -o sprint-context.tar.gz
+```
+
+---
+
+<a id="vibey-context-search"></a>
+
+#### `vibey context search`
+
+Search context by content.
+
+**Usage:**
+```bash
+vibey context search [OPTIONS] QUERY
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `QUERY` | TEXT | Yes | Search query string |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-t, --type` | Choice([session, task, decision, sprint, all]) | `all` | Context type to search |
+| `-n, --limit` | INTEGER | `10` | Maximum results |
+
+**Examples:**
+
+```bash
+vibey context search "ULID naming" --type decision
+```
+
+```bash
+vibey context search "phase 4" --limit 10
 ```
 
 ---

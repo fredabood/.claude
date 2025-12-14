@@ -6,10 +6,10 @@ inventory:
   - tests/
   - scripts/
   summary:
-    total_files: 888
-    total_directories: 149
+    total_files: 893
+    total_directories: 150
     by_extension:
-      .py: 533
+      .py: 538
       .md: 293
       .yaml: 41
       (none): 5
@@ -3439,6 +3439,36 @@ inventory:
     size_bytes: 13667
     last_modified: '2025-11-24T15:11:56.192013+00:00'
     lines: 425
+  - path: vibey/operations/context/__init__.py
+    type: python
+    size_bytes: 3089
+    last_modified: '2025-12-14T16:23:50+00:00'
+    lines: 118
+    notes: Phase 4.4 - Context module exports all writers, readers, capture, and agent context
+  - path: vibey/operations/context/agent_context.py
+    type: python
+    size_bytes: 16011
+    last_modified: '2025-12-14T16:23:39+00:00'
+    lines: 466
+    notes: Phase 4.4 - AgentContextLoader for AI-assisted development context loading
+  - path: vibey/operations/context/capture.py
+    type: python
+    size_bytes: 9336
+    last_modified: '2025-12-14T16:21:57+00:00'
+    lines: 319
+    notes: Phase 4.4 - CommandContextCapture for CLI command context tracking
+  - path: vibey/operations/context/readers.py
+    type: python
+    size_bytes: 20158
+    last_modified: '2025-12-14T16:16:13+00:00'
+    lines: 666
+    notes: Phase 4.4 - Context readers with LRU cache and TTL, ContextLoader
+  - path: vibey/operations/context/writers.py
+    type: python
+    size_bytes: 35269
+    last_modified: '2025-12-14T16:14:33+00:00'
+    lines: 1152
+    notes: Phase 4.4 - Session/Task/Decision/Sprint context writers with atomic writes
   - path: vibey/operations/deployment.py
     type: python
     size_bytes: 9843

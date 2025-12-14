@@ -263,6 +263,10 @@ Use the audit trail for accountability and compliance documentation.
 | `summarize` | Generate reports |
 | `export` | Export data |
 | `checkpoint` | Save state |
+| `vibey context list --type decision` | List decisions |
+| `vibey context list --type sprint` | List sprint context |
+| `vibey context search "query"` | Search context |
+| `vibey context export <id>` | Export context to file |
 
 ### Related Documentation
 

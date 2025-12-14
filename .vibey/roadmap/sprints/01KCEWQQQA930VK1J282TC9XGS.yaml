@@ -1,15 +1,15 @@
 sprint:
-  id: 01KCAKC833MGED5PY2M45T5ZDY
-  name: 'Phase 4.5: Documentation Sync (Post-Context)'
-  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  id: 01KCEWQQQA930VK1J282TC9XGS
+  name: 'Sprint 15: Roadmap Start Command Bugs'
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-13T00:57:07.434550+00:00'
-  started: '2025-12-14T19:00:00+00:00'
+  created: '2025-12-14T19:00:00+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-12-14T19:35:00+00:00'
+  completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
@@ -30,8 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Update documentation after Context Directory Writers implementation.
-  goal: null
+  description: Fix bugs in `vibey roadmap start` command discovered during Phase 4.5 work.
+  goal: Make roadmap start command work with ULID IDs and null estimated_tokens
   success_criteria: []
   risks: []
   notes: null
@@ -40,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-13T00:57:07.434550+00:00'
+    last_updated: '2025-12-14T19:00:00+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

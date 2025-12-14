@@ -45,11 +45,17 @@ vibey roadmap activity --limit 10
 # Load context for current work
 vibey roadmap context
 
+# Review previous session context
+vibey context list --type session --limit 3
+
 # Check if project discovery needs refresh
 vibey discover status
 # If stale (code/deps changed significantly):
 vibey discover refresh
 ```
+
+**Context Review:** Check your previous sessions with `vibey context list` to recall
+what you were working on. Use `vibey context show <session-id>` for full details.
 
 **Discovery Refresh:** When significant changes have been made (new dependencies,
 major refactors, architecture changes), refresh discovery to keep project context
@@ -124,7 +130,16 @@ vibey roadmap activity --today
 
 # Check remaining work
 vibey roadmap status
+
+# Archive completed session context (optional, for cleanup)
+vibey context archive <session-id> --type session
+
+# Periodic cleanup of old context
+vibey context clean --older-than 90 --dry-run
 ```
+
+**Context Cleanup:** Periodically archive completed sessions and clean old context
+to keep the context directory manageable. Use `--dry-run` first to preview changes.
 
 ---
 
@@ -223,6 +238,18 @@ vibey roadmap start <original-task-id>
 | `vibey roadmap auto-progress` | Auto-update counters |
 | `vibey roadmap list-blockers` | See blocked items |
 | `vibey roadmap update task <id>` | Modify task properties |
+
+### Context Management
+
+| Command | Purpose |
+|---------|---------|
+| `vibey context init` | Initialize context directory |
+| `vibey context list` | List all context items |
+| `vibey context list --type session` | List work sessions |
+| `vibey context show <id>` | View context details |
+| `vibey context archive <id> --type session` | Archive old sessions |
+| `vibey context clean --older-than 30` | Clean old context |
+| `vibey context search "query"` | Search context by content |
 
 ### Audit Trail & History
 

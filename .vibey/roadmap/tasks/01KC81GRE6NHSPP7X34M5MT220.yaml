@@ -7,11 +7,11 @@ task:
   title: Design discovery output schema
   description: 'Design structured schema for discovery outputs that integrates with
     context versioning. Include: project structure, dependencies, patterns, recommendations.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.006281+00:00'
-  started: null
-  completed: null
+  started: '2025-12-14T01:00:00+00:00'
+  completed: '2025-12-14T02:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

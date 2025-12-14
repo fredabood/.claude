@@ -42,12 +42,23 @@ vibey roadmap show track --all
 # Check sprint progress
 vibey roadmap show sprint <current-sprint> --detailed
 
+# Review project evolution via discovery
+vibey discover history --limit 5
+# Compare recent changes to understand project growth
+vibey discover diff
+
 # Identify blockers
 vibey roadmap list-blockers --all-tracks
 
 # Generate planning summary
 vibey roadmap summarize --output weekly-planning.md
 ```
+
+**Project Evolution Tracking:** Use `vibey discover history` to see how the project
+has evolved over time. This helps in planning by showing:
+- New dependencies added (may need documentation/training)
+- Growth in file count (may need architecture review)
+- Changes in patterns/conventions (ensure consistency)
 
 ### Daily: Quick Check
 

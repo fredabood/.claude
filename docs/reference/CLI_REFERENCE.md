@@ -1,7 +1,7 @@
 # CLI Reference
 
 **Version:** 2.5.0
-**Total Commands:** 169
+**Total Commands:** 176
 **Generated:** 2025-12-12T17:26:03.924023+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
@@ -43,6 +43,13 @@ This document provides comprehensive reference documentation for all `vibey` CLI
 - [deploy](#deploy)
   - [list](#deploy-list)
   - [run](#deploy-run)
+- [discover](#discover)
+  - [run](#discover-run)
+  - [show](#discover-show)
+  - [status](#discover-status)
+  - [history](#discover-history)
+  - [diff](#discover-diff)
+  - [refresh](#discover-refresh)
 - [docs](#docs)
   - [check-drift](#docs-check-drift)
   - [check-mcp-drift](#docs-check-mcp-drift)
@@ -244,6 +251,23 @@ Supports m...
 
 **R**
 - [`vibey deploy run`](#vibey-deploy-run) - Deploy framework to specified platform
+
+**D**
+- [`vibey discover`](#vibey-discover) - Project discovery - analyze structure, dependencies, and patterns.
+
+**D**
+- [`vibey discover diff`](#vibey-discover-diff) - Compare two discovery versions.
+
+**H**
+- [`vibey discover history`](#vibey-discover-history) - List discovery version history.
+
+**R**
+- [`vibey discover refresh`](#vibey-discover-refresh) - Refresh discovery if stale.
+- [`vibey discover run`](#vibey-discover-run) - Run project discovery and analyze the codebase.
+
+**S**
+- [`vibey discover show`](#vibey-discover-show) - Show current discovery output.
+- [`vibey discover status`](#vibey-discover-status) - Check if current discovery is stale.
 
 **D**
 - [`vibey docs`](#vibey-docs) - 
@@ -2140,6 +2164,239 @@ vibey deploy run [OPTIONS]
 | `--clean` | flag | `False` | Remove existing deployment first |
 | `--no-validate` | flag | `False` | Skip post-deployment validation |
 | `--no-roadmap-init` | flag | `False` | Skip roadmap initialization after deployment |
+
+---
+
+<a id="vibey-discover"></a>
+
+### `vibey discover`
+
+Project discovery - analyze structure, dependencies, and patterns.
+
+The discover command analyzes your project and generates structured output
+about its characteristics. Discovery results are versioned and can be used
+for context management and change tracking.
+
+**Usage:**
+```bash
+vibey discover COMMAND
+```
+
+**Examples:**
+
+```bash
+vibey discover run              # Run discovery
+```
+
+```bash
+vibey discover show             # Show current discovery
+```
+
+```bash
+vibey discover status           # Check if discovery is stale
+```
+
+```bash
+vibey discover history          # List discovery versions
+```
+
+```bash
+vibey discover diff             # Compare versions
+```
+
+**Subcommands:**
+
+| Command | Description |
+|---------|-------------|
+| `run` | Run project discovery and analyze the codebase. |
+| `show` | Show current discovery output. |
+| `status` | Check if current discovery is stale. |
+| `history` | List discovery version history. |
+| `diff` | Compare two discovery versions. |
+| `refresh` | Refresh discovery if stale. |
+
+---
+
+<a id="vibey-discover-run"></a>
+
+#### `vibey discover run`
+
+Run project discovery and analyze the codebase.
+
+Analyzes the project structure, dependencies, patterns, and conventions.
+Results are saved to .vibey/discovery/ by default.
+
+**Usage:**
+```bash
+vibey discover run [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--output, -o` | Choice(['yaml', 'json', 'text']) | `yaml` | Output format |
+| `--save/--no-save` | flag | `True` | Save discovery to history |
+| `--project, -p` | TEXT | `.` | Project root directory |
+
+**Examples:**
+
+```bash
+vibey discover run
+vibey discover run --output json
+vibey discover run --no-save
+vibey discover run -p /path/to/project
+```
+
+---
+
+<a id="vibey-discover-show"></a>
+
+#### `vibey discover show`
+
+Show current discovery output.
+
+Displays the most recent discovery analysis. Use --section to
+show only specific parts of the discovery.
+
+**Usage:**
+```bash
+vibey discover show [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['yaml', 'json', 'text']) | `text` | Output format |
+| `--section, -s` | Choice(['all', 'project', 'structure', 'dependencies', 'patterns', 'conventions', 'quality', 'recommendations']) | `all` | Section to display |
+
+**Examples:**
+
+```bash
+vibey discover show
+vibey discover show --format yaml
+vibey discover show --section dependencies
+```
+
+---
+
+<a id="vibey-discover-status"></a>
+
+#### `vibey discover status`
+
+Check if current discovery is stale.
+
+Reports whether the discovery should be refreshed based on:
+- Age of the discovery
+- Git commit changes
+- File system changes
+
+**Usage:**
+```bash
+vibey discover status [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--max-age, -a` | INT | `24` | Hours before discovery is considered stale |
+
+**Examples:**
+
+```bash
+vibey discover status
+vibey discover status --max-age 48
+```
+
+---
+
+<a id="vibey-discover-history"></a>
+
+#### `vibey discover history`
+
+List discovery version history.
+
+Shows previous discovery runs with timestamps and git commits.
+
+**Usage:**
+```bash
+vibey discover history [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--limit, -n` | INT | `10` | Maximum number of versions to show |
+
+**Examples:**
+
+```bash
+vibey discover history
+vibey discover history --limit 5
+```
+
+---
+
+<a id="vibey-discover-diff"></a>
+
+#### `vibey discover diff`
+
+Compare two discovery versions.
+
+Shows differences between discovery outputs. By default, compares
+the current discovery with the previous version.
+
+**Usage:**
+```bash
+vibey discover diff [FROM_VERSION] [TO_VERSION]
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `FROM_VERSION` | TEXT | No | Earlier version (defaults to previous) |
+| `TO_VERSION` | TEXT | No | Later version (defaults to current) |
+
+**Examples:**
+
+```bash
+vibey discover diff
+vibey discover diff 2025-12-13T10-00-00
+vibey discover diff 2025-12-13T10-00-00 2025-12-14T10-00-00
+```
+
+---
+
+<a id="vibey-discover-refresh"></a>
+
+#### `vibey discover refresh`
+
+Refresh discovery if stale.
+
+Re-runs discovery only if the current discovery is stale,
+unless --force is specified.
+
+**Usage:**
+```bash
+vibey discover refresh [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--force, -f` | flag | `False` | Force refresh even if not stale |
+
+**Examples:**
+
+```bash
+vibey discover refresh
+vibey discover refresh --force
+```
 
 ---
 

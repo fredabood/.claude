@@ -127,6 +127,7 @@ Uncertain → Relieved → Ready to proceed
 | Action | Documentation | Commands |
 |--------|---------------|----------|
 | Initialize Vibey | docs/getting-started/QUICK_START.md | `vibey init` |
+| Run project discovery | docs/reference/CLI_REFERENCE.md#vibey-discover | `vibey discover run` |
 | Understand structure | docs/reference/ROADMAP_SYSTEM.md | - |
 | View initial status | - | `vibey roadmap status` |
 | Create first track | - | `vibey roadmap create-track` |
@@ -136,6 +137,18 @@ Uncertain → Relieved → Ready to proceed
 ```bash
 # Initialize Vibey in current project
 vibey init
+
+# Run project discovery to analyze your codebase
+vibey discover run
+# Discovery analyzes:
+# - Project type (cli, api, library, etc.)
+# - Languages and frameworks used
+# - Directory structure and key files
+# - Dependencies and their health
+# - Code patterns and conventions
+
+# View discovery output
+vibey discover show
 
 # View roadmap status
 vibey roadmap status

@@ -6,10 +6,10 @@ inventory:
   - tests/
   - scripts/
   summary:
-    total_files: 884
+    total_files: 888
     total_directories: 149
     by_extension:
-      .py: 529
+      .py: 533
       .md: 293
       .yaml: 41
       (none): 5
@@ -4439,3 +4439,28 @@ inventory:
     size_bytes: 14420
     last_modified: '2025-12-11T21:51:15.684668+00:00'
     lines: 421
+  # Discovery Module (added Phase 4.3)
+  - path: vibey/operations/discovery/__init__.py
+    type: python
+    size_bytes: 3278
+    last_modified: '2025-12-14T10:56:44+00:00'
+    lines: 164
+    description: Discovery module exports - schema, serializers, versioning
+  - path: vibey/operations/discovery/schema.py
+    type: python
+    size_bytes: 18597
+    last_modified: '2025-12-14T10:49:38+00:00'
+    lines: 621
+    description: Pydantic models for DiscoveryOutput schema
+  - path: vibey/operations/discovery/serializers.py
+    type: python
+    size_bytes: 6881
+    last_modified: '2025-12-14T10:51:06+00:00'
+    lines: 236
+    description: YAML/JSON serialization for discovery outputs
+  - path: vibey/operations/discovery/versioning.py
+    type: python
+    size_bytes: 21052
+    last_modified: '2025-12-14T10:56:33+00:00'
+    lines: 628
+    description: Discovery version management and diff capability

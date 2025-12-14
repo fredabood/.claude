@@ -44,7 +44,16 @@ vibey roadmap activity --limit 10
 
 # Load context for current work
 vibey roadmap context
+
+# Check if project discovery needs refresh
+vibey discover status
+# If stale (code/deps changed significantly):
+vibey discover refresh
 ```
+
+**Discovery Refresh:** When significant changes have been made (new dependencies,
+major refactors, architecture changes), refresh discovery to keep project context
+accurate. Use `vibey discover diff` to see what changed.
 
 ### Phase 2: Task Selection (5 minutes)
 

@@ -99,7 +99,7 @@ def test_roadmap(tmp_path):
         standards=[],
     )
 
-    save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+    save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
     # Create track
     track = Track(
@@ -316,7 +316,7 @@ class TestAddFromTemplateCommand:
         assert result == 0  # Success
 
         # Verify standard was added
-        roadmap_path = test_roadmap / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard('commit-required')
@@ -370,7 +370,7 @@ class TestAddFromTemplateCommand:
         assert result == 0  # Success
 
         # Verify standard has custom ID
-        roadmap_path = test_roadmap / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard('my-commit-check')
@@ -394,7 +394,7 @@ class TestAddFromTemplateCommand:
         assert result == 0  # Success
 
         # Verify enforcement was overridden
-        roadmap_path = test_roadmap / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard('commit-required')
@@ -459,7 +459,7 @@ class TestAddFromTemplateCommand:
         assert 'Commit Required' in captured.out
 
         # Verify standard was NOT added (info only)
-        roadmap_path = test_roadmap / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
         assert roadmap.get_standard('commit-required') is None
 

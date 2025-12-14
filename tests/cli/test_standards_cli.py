@@ -121,7 +121,7 @@ def test_roadmap_with_task(tmp_path):
         standards=[roadmap_standard],
     )
 
-    save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+    save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
     # Create track
     track = Track(
@@ -264,7 +264,7 @@ class TestStandardsEnforcement:
         from vibey.roadmap.serialization import load_roadmap, save_roadmap
 
         # Add override for the test-coverage standard
-        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard("test-coverage")
@@ -345,7 +345,7 @@ class TestOverrideStandardCommand:
         assert result == 0  # Success
 
         # Verify override was added
-        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard("test-coverage")
@@ -400,7 +400,7 @@ class TestAddStandardCommand:
         assert result == 0  # Success
 
         # Verify standard was added
-        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap.yaml"
+        roadmap_path = test_roadmap_with_task / ".vibey" / "roadmap" / "roadmap.yaml"
         roadmap = load_roadmap(roadmap_path)
 
         standard = roadmap.get_standard("commit-required")

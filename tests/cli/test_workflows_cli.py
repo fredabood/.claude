@@ -81,10 +81,10 @@ class TestMultiPlatformDeploymentWorkflow:
         Verify: Multi-platform commands available
         """
         # Step 1: List available platforms
-        list_result = run_cli("deploy", "list-platforms")
+        list_result = run_cli("deploy", "list")
         assert list_result.returncode == 0
-        assert "claude-code" in list_result.stdout
-        assert "goose" in list_result.stdout
+        assert "claude-code" in list_result.stdout.lower()
+        assert "goose" in list_result.stdout.lower()
 
         # Step 2: Verify deploy run command structure
         run_help = run_cli("deploy", "run", "--help")

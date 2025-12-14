@@ -109,7 +109,8 @@ class HierarchicalRoadmapBuilder:
             }
         }
 
-        roadmap_file = self.vibey_dir / "roadmap.yaml"
+        # Create file in hierarchical structure: .vibey/roadmap/roadmap.yaml
+        roadmap_file = self.roadmap_root / "roadmap.yaml"
         with open(roadmap_file, 'w') as f:
             yaml.dump(roadmap_data, f, default_flow_style=False, sort_keys=False)
 

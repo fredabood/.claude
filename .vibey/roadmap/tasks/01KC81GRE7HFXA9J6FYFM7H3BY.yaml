@@ -7,10 +7,10 @@ task:
   title: Write tests for vibey/cli/
   description: Fill all test coverage gaps in CLI module. Focus on command behavior,
     error handling, output formatting.
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-12T01:06:32.007559+00:00'
-  started: null
+  started: '2025-12-14T22:00:00+00:00'
   completed: null
   assigned_agent: null
   priority: medium

@@ -23,7 +23,7 @@ task:
     - Show warning messages identifying which tasks failed and why
     - Auto-correct obvious date issues (null dates on completed tasks)
     - Validate dates during task update commands
-  task_type: bug
+  task_type: development
   priority: medium
   complexity: medium
   estimated_tokens: 500

@@ -4703,6 +4703,182 @@ def session_decisions(ctx, session_id: str):
 
 
 # ============================================================================
+# Discover Command Group
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def discover(ctx):
+    """
+    Project discovery - analyze structure, dependencies, and patterns.
+
+    The discover command analyzes your project and generates structured
+    output about its characteristics. Discovery results are versioned
+    and can be used for context management and change tracking.
+
+    Examples:
+
+      vibey discover run              # Run discovery
+      vibey discover show             # Show current discovery
+      vibey discover status           # Check if discovery is stale
+      vibey discover history          # List discovery versions
+      vibey discover diff             # Compare versions
+
+    Discovery outputs include:
+      - Project type and languages
+      - Directory structure and key files
+      - Dependencies (runtime and dev)
+      - Code patterns and conventions
+      - Quality metrics and recommendations
+    """
+    ctx.ensure_object(dict)
+
+
+@discover.command('run')
+@click.option('--output', '-o', type=click.Choice(['yaml', 'json', 'text']),
+              default='yaml', help='Output format')
+@click.option('--save/--no-save', default=True,
+              help='Save discovery to history')
+@click.option('--project', '-p', default='.',
+              help='Project root directory')
+@click.pass_context
+def discover_run(ctx, output: str, save: bool, project: str):
+    """Run project discovery and analyze the codebase.
+
+    Analyzes the project structure, dependencies, patterns, and conventions.
+    Results are saved to .vibey/discovery/ by default.
+
+    Examples:
+      vibey discover run
+      vibey discover run --output json
+      vibey discover run --no-save
+      vibey discover run -p /path/to/project
+    """
+    from vibey.cli.commands import discover_run_cmd
+
+    exit_code = discover_run_cmd(
+        output_format=output,
+        save=save,
+        project_root=project,
+    )
+    sys.exit(exit_code)
+
+
+@discover.command('show')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['yaml', 'json', 'text']),
+              default='text', help='Output format')
+@click.option('--section', '-s',
+              type=click.Choice(['all', 'project', 'structure', 'dependencies',
+                                'patterns', 'conventions', 'quality', 'recommendations']),
+              default='all', help='Section to display')
+@click.pass_context
+def discover_show(ctx, output_format: str, section: str):
+    """Show current discovery output.
+
+    Displays the most recent discovery analysis. Use --section to
+    show only specific parts of the discovery.
+
+    Examples:
+      vibey discover show
+      vibey discover show --format yaml
+      vibey discover show --section dependencies
+    """
+    from vibey.cli.commands import discover_show_cmd
+
+    exit_code = discover_show_cmd(
+        output_format=output_format,
+        section=section,
+    )
+    sys.exit(exit_code)
+
+
+@discover.command('status')
+@click.option('--max-age', '-a', default=24, type=int,
+              help='Hours before discovery is considered stale')
+@click.pass_context
+def discover_status(ctx, max_age: int):
+    """Check if current discovery is stale.
+
+    Reports whether the discovery should be refreshed based on:
+    - Age of the discovery
+    - Git commit changes
+    - File system changes
+
+    Examples:
+      vibey discover status
+      vibey discover status --max-age 48
+    """
+    from vibey.cli.commands import discover_status_cmd
+
+    exit_code = discover_status_cmd(max_age_hours=max_age)
+    sys.exit(exit_code)
+
+
+@discover.command('history')
+@click.option('--limit', '-n', default=10, type=int,
+              help='Maximum number of versions to show')
+@click.pass_context
+def discover_history(ctx, limit: int):
+    """List discovery version history.
+
+    Shows previous discovery runs with timestamps and git commits.
+
+    Examples:
+      vibey discover history
+      vibey discover history --limit 5
+    """
+    from vibey.cli.commands import discover_history_cmd
+
+    exit_code = discover_history_cmd(limit=limit)
+    sys.exit(exit_code)
+
+
+@discover.command('diff')
+@click.argument('from_version', required=False)
+@click.argument('to_version', default='current')
+@click.pass_context
+def discover_diff(ctx, from_version: Optional[str], to_version: str):
+    """Compare two discovery versions.
+
+    Shows differences between discovery outputs. By default, compares
+    the current discovery with the previous version.
+
+    Examples:
+      vibey discover diff
+      vibey discover diff 2025-12-13T10-00-00
+      vibey discover diff 2025-12-13T10-00-00 2025-12-14T10-00-00
+    """
+    from vibey.cli.commands import discover_diff_cmd
+
+    exit_code = discover_diff_cmd(
+        from_version=from_version,
+        to_version=to_version,
+    )
+    sys.exit(exit_code)
+
+
+@discover.command('refresh')
+@click.option('--force', '-f', is_flag=True,
+              help='Force refresh even if not stale')
+@click.pass_context
+def discover_refresh(ctx, force: bool):
+    """Refresh discovery if stale.
+
+    Re-runs discovery only if the current discovery is stale,
+    unless --force is specified.
+
+    Examples:
+      vibey discover refresh
+      vibey discover refresh --force
+    """
+    from vibey.cli.commands import discover_refresh_cmd
+
+    exit_code = discover_refresh_cmd(force=force)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

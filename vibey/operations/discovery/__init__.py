@@ -90,6 +90,13 @@ from .serializers import (
     load_json,
 )
 
+from .versioning import (
+    DiscoveryVersion,
+    DiscoveryDiff,
+    DiscoveryVersionManager,
+    get_version_manager,
+)
+
 __all__ = [
     # Main output
     "DiscoveryOutput",
@@ -149,4 +156,9 @@ __all__ = [
     "save_json",
     "load_yaml",
     "load_json",
+    # Versioning
+    "DiscoveryVersion",
+    "DiscoveryDiff",
+    "DiscoveryVersionManager",
+    "get_version_manager",
 ]

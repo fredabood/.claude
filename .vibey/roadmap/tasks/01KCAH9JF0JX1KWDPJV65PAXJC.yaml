@@ -1,7 +1,7 @@
 task:
   id: 01KCAH9JF0JX1KWDPJV65PAXJC
-  sprint_id: dogfooding-bugs-14
-  track_id: dogfooding-bugs
+  sprint_id: 01KCAH8XENHWJDQSEGJNRY5B4G
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add CLI command for bulk task status updates
@@ -28,6 +28,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-13T00:20:43.689590+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -446,6 +446,59 @@ Ensure your changes work correctly and don't break existing functionality.
 
 ---
 
+## Testing Requirements
+
+Before submitting your contribution, ensure your changes meet testing requirements:
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=vibey --cov-report=term-missing
+
+# Run specific module tests
+pytest tests/operations/roadmap/
+
+# Run integration tests
+pytest tests/integration/ -v
+```
+
+### Coverage Requirements
+
+- **All new code must have tests** - No PR may add untested code
+- **Coverage must not decrease** - CI will block PRs that reduce coverage
+- **90% threshold** - CI enforces minimum 90% coverage
+
+### Test Patterns
+
+- **Use fixtures** from `tests/conftest.py` for common setup
+- **Follow existing structure** - Mirror the module layout in tests/
+- **Include edge cases** - Empty inputs, invalid data, error paths
+- **Test error handling** - Verify exceptions are raised correctly
+
+### Before Submitting
+
+1. Run full test suite: `pytest`
+2. Check coverage: `pytest --cov=vibey`
+3. Verify no coverage regression
+4. Run integration tests: `pytest tests/integration/`
+
+### CI Checks
+
+When you submit a PR, CI will automatically:
+- Run all tests across Python 3.10, 3.11, 3.12
+- Enforce 90% coverage threshold
+- Run lint checks (ruff)
+- Run type checks (mypy)
+- Run security scan (bandit)
+
+See `docs/development/TEST_MAINTENANCE.md` for detailed testing guidance.
+
+---
+
 ## Step 8: Commit Your Changes
 
 ### Goal

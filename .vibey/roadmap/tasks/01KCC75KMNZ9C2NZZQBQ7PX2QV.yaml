@@ -1,7 +1,7 @@
 task:
   id: 01KCC75KMNZ9C2NZZQBQ7PX2QV
-  sprint_id: dogfooding-bugs-15
-  track_id: dogfooding-bugs
+  sprint_id: 01KCC74TQ2KB6CD81FJ7SJ709N
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Legacy task files with slug sprint_ids not cleaned during flat migration
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-13T16:02:16.923923+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

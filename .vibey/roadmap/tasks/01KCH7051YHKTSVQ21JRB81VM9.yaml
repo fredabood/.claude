@@ -1,7 +1,7 @@
 task:
   id: 01KCH7051YHKTSVQ21JRB81VM9
-  sprint_id: dogfooding-bugs-16
-  track_id: dogfooding-bugs
+  sprint_id: 01KCH6XCTG0KQ4SCTBDQ4WQWAJ
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: CLI complete command doesn't support ULID task IDs
@@ -30,6 +30,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-15T14:35:30.351402+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

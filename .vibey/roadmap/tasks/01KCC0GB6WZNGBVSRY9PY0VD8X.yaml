@@ -1,30 +1,32 @@
 task:
   id: 01KCC0GB6WZNGBVSRY9PY0VD8X
-  title: 'Update User Journeys with context workflows'
   sprint_id: 01KCAKC833MGED5PY2M45T5ZDY
   track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Update User Journeys with context workflows
+  description: Add context loading and writing workflows to user journeys
   status: completed
   blocked: false
-  blocked_reason: null
   created: '2025-12-13T14:53:08.802569+00:00'
   started: '2025-12-14T19:15:00+00:00'
   completed: '2025-12-14T19:25:00+00:00'
-  description: 'Add context loading and writing workflows to user journeys'
-  task_type: documentation
+  assigned_agent: null
   priority: medium
-  complexity: medium
-  estimated_tokens: null
+  phase_label: null
+  estimated_tokens: 1
   actual_tokens: null
-  acceptance_criteria: []
-  deliverables: []
-  depends_on: []
-  depended_on_by: []
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
   blocks: []
   blocked_by: []
-  assigned_agents: []
-  quality_gates: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
   commits: []
-  standards: []
   metadata:
     last_updated: null
+    token_efficiency: null
+    duration_hours: null

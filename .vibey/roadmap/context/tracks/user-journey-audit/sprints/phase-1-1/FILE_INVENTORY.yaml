@@ -6,12 +6,12 @@ inventory:
   - tests/
   - scripts/
   summary:
-    total_files: 893
-    total_directories: 150
+    total_files: 901
+    total_directories: 151
     by_extension:
-      .py: 538
-      .md: 293
-      .yaml: 41
+      .py: 542
+      .md: 294
+      .yaml: 43
       (none): 5
       .sh: 5
       .template: 5
@@ -4494,3 +4494,48 @@ inventory:
     last_modified: '2025-12-14T10:56:33+00:00'
     lines: 628
     description: Discovery version management and diff capability
+  # Integration Tests (added Phase 5.3)
+  - path: tests/integration/__init__.py
+    type: python
+    size_bytes: 32
+    last_modified: '2025-12-15T15:20:00+00:00'
+    lines: 2
+    description: Integration tests package marker
+  - path: tests/integration/test_cli_workflows.py
+    type: python
+    size_bytes: 11500
+    last_modified: '2025-12-15T15:26:00+00:00'
+    lines: 371
+    description: CLI workflow integration tests - 23 tests covering all roadmap commands
+  - path: tests/integration/test_mcp_workflows.py
+    type: python
+    size_bytes: 8900
+    last_modified: '2025-12-15T15:45:00+00:00'
+    lines: 289
+    description: MCP server workflow integration tests - 13 tests covering tools, resources, prompts
+  - path: tests/integration/test_cross_module.py
+    type: python
+    size_bytes: 10200
+    last_modified: '2025-12-15T16:05:00+00:00'
+    lines: 364
+    description: Cross-module integration tests - 23 tests covering CLI to database flows
+  # Test Maintenance Documentation (added Phase 5.3)
+  - path: docs/development/TEST_MAINTENANCE.md
+    type: markdown
+    size_bytes: 6800
+    last_modified: '2025-12-15T16:55:00+00:00'
+    lines: 275
+    description: Test maintenance guide - when to add tests, coverage drops, review criteria
+  # CI Workflows (added Phase 5.3)
+  - path: .github/workflows/test.yml
+    type: yaml
+    size_bytes: 4200
+    last_modified: '2025-12-15T16:25:00+00:00'
+    lines: 155
+    description: CI test workflow with coverage enforcement (90% threshold)
+  - path: .github/workflows/quality.yml
+    type: yaml
+    size_bytes: 4500
+    last_modified: '2025-12-15T16:40:00+00:00'
+    lines: 170
+    description: CI quality gates - lint, type check, doc freshness, security scan

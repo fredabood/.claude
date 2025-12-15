@@ -14,15 +14,15 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 2
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 2
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,7 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Fix bugs in `vibey roadmap start` command discovered during Phase 4.5 work.
+  description: Fix bugs in `vibey roadmap start` command discovered during Phase 4.5
+    work.
   goal: Make roadmap start command work with ULID IDs and null estimated_tokens
   success_criteria: []
   risks: []
@@ -40,7 +41,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-14T19:00:00+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

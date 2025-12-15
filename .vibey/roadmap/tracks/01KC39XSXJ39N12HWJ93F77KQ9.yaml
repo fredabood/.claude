@@ -10,11 +10,11 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 16
+    sprints_total: 17
     sprints_completed: 0
-    tasks_total: 90
+    tasks_total: 105
     tasks_completed: 78
-    completion_percent: 87.0
+    completion_percent: 74.0
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -68,7 +68,7 @@ track:
     name: 'Sprint 9: Flat Structure Task Loading'
     status: production_ready
     estimated_duration: null
-    tasks_count: 1
+    tasks_count: 3
     started: '2025-12-10T18:29:28.864113+00:00'
   - id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
     name: 'Sprint 10: Hierarchical to Flat Structure Migration'
@@ -94,18 +94,30 @@ track:
     estimated_duration: null
     tasks_count: 6
     started: null
-  - id: dogfooding-bugs-14
+  - id: 01KCAH8XENHWJDQSEGJNRY5B4G
     name: 'Sprint 10: Status Management CLI Gaps'
     status: not_started
-    tasks_count: 0
-  - id: dogfooding-bugs-15
+    estimated_duration: null
+    tasks_count: 4
+    started: null
+  - id: 01KCC74TQ2KB6CD81FJ7SJ709N
     name: 'Sprint 14: YAML-DB Sync and Task Migration Bugs'
     status: not_started
-    tasks_count: 0
-  - id: dogfooding-bugs-16
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCEWQQQA930VK1J282TC9XGS
+    name: 'Sprint 15: Roadmap Start Command Bugs'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 2
+    started: null
+  - id: 01KCH6XCTG0KQ4SCTBDQ4WQWAJ
     name: 'Sprint 10: ULID Support in CLI Commands'
     status: not_started
-    tasks_count: 0
+    estimated_duration: null
+    tasks_count: 2
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []

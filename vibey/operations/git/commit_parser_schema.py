@@ -181,8 +181,9 @@ class ParserConfig:
         "test", "chore", "perf", "ci", "build", "revert"
     ])
 
-    # Task ID pattern
-    task_id_pattern: str = r"^[\w-]+-\d+-task-\d+$"
+    # Task ID pattern (matches legacy slug format OR ULID format)
+    # ULID: 26 alphanumeric chars starting with 01
+    task_id_pattern: str = r"^(?:[\w-]+-\d+-task-\d+|01[0-9A-HJKMNP-TV-Z]{24})$"
 
     # Length limits
     subject_max_length: int = 72
@@ -223,14 +224,14 @@ class RegexPatterns:
         re.MULTILINE
     )
 
-    # Bracket notation
+    # Bracket notation (legacy slug OR ULID)
     BRACKET = re.compile(
-        r'^\[(?P<task_id>[\w-]+)\]\s*(?P<description>.+)$'
+        r'^\[(?P<task_id>(?:[\w-]+-\d+-task-\d+|01[0-9A-HJKMNP-TV-Z]{24}))\]\s*(?P<description>.+)$'
     )
 
-    # Task ID (full format)
+    # Task ID (full format - legacy slug OR ULID)
     TASK_ID_FULL = re.compile(
-        r'(?P<track>[\w-]+)-(?P<sprint>\d+)-task-(?P<number>\d+)'
+        r'(?:(?P<track>[\w-]+)-(?P<sprint>\d+)-task-(?P<number>\d+)|(?P<ulid>01[0-9A-HJKMNP-TV-Z]{24}))'
     )
 
     # Task ID (short format)
@@ -238,21 +239,21 @@ class RegexPatterns:
         r'task-(?P<number>\d+)'
     )
 
-    # Inline task reference
+    # Inline task reference (legacy slug OR ULID)
     INLINE = re.compile(
-        r'\b(?:task:\s*)?(?P<task_id>[\w]+-\d+-task-\d+)\b',
+        r'\b(?:task:\s*)?(?P<task_id>(?:[\w]+-\d+-task-\d+|01[0-9A-HJKMNP-TV-Z]{24}))\b',
         re.IGNORECASE
     )
 
-    # Sprint reference
+    # Sprint reference (legacy slug OR ULID)
     SPRINT = re.compile(
-        r'sprint:\s*(?P<sprint_id>[\w-]+-\d+)',
+        r'sprint:\s*(?P<sprint_id>(?:[\w-]+-\d+|01[0-9A-HJKMNP-TV-Z]{24}))',
         re.IGNORECASE
     )
 
-    # Track reference
+    # Track reference (legacy slug OR ULID)
     TRACK = re.compile(
-        r'track:\s*(?P<track_id>[\w-]+)',
+        r'track:\s*(?P<track_id>(?:[\w-]+|01[0-9A-HJKMNP-TV-Z]{24}))',
         re.IGNORECASE
     )
 

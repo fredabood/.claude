@@ -2,12 +2,12 @@ track:
   id: 01KC2D0JKVT80AFQ6C1PA8CKJT
   name: User Journey Audit & Documentation Coverage
   roadmap_id: vibey-framework-v2
-  status: in_progress
-  blocked: true
+  status: completed
+  blocked: false
   priority: high
   created: '2025-11-23T00:00:00+00:00'
   started: '2025-11-23T00:00:00+00:00'
-  completed: null
+  completed: '2025-12-16T03:30:00+00:00'
   estimated_duration: null
   progress:
     sprints_total: 47

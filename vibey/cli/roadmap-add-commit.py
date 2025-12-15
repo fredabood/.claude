@@ -164,46 +164,50 @@ def add_commit_to_task(
         traceback.print_exc()
         return 1
 
-    # Find the task file using the hierarchical directory structure
-    # Format: .vibey/roadmap/{track_id}/{sprint_id}/{task_id}/task.yaml
-
-    # Parse task ID to extract track and sprint
-    # Task ID format: {track}-{sprint}-task-{number}
-    # Example: infrastructure-fixes-1-task-005
-    parts = task_id.split('-task-')
-    if len(parts) != 2:
-        print(f"❌ Error: Invalid task ID format: {task_id}")
-        print("   Expected format: <track>-<sprint>-task-<number>")
-        return 1
-
-    prefix = parts[0]  # infrastructure-fixes-1
-    task_num = parts[1]  # 005
-
-    # Find the task in the roadmap directory structure
-    # We need to search for it since we don't know the exact track/sprint split
+    # Find the task file - support both ULID and legacy formats
     task_path = None
     if not roadmap_dir.exists():
         print(f"❌ Error: Roadmap directory not found: {roadmap_dir}")
         return 1
 
-    for track_dir in roadmap_dir.iterdir():
-        if not track_dir.is_dir():
-            continue
-        for sprint_dir in track_dir.iterdir():
-            if not sprint_dir.is_dir():
-                continue
-            task_dir = sprint_dir / task_id
-            potential_path = task_dir / "task.yaml"
-            if potential_path.exists():
-                task_path = potential_path
-                break
-        if task_path:
-            break
+    # Check if task_id is a ULID (26 alphanumeric chars starting with 01)
+    is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
 
-    if not task_path:
-        print(f"❌ Error: Task file not found: {task_id}")
-        print(f"   Searched in: {roadmap_dir}")
-        return 1
+    if is_ulid:
+        # Flat structure: .vibey/roadmap/tasks/{ulid}.yaml
+        task_path = roadmap_dir / "tasks" / f"{task_id}.yaml"
+        if not task_path.exists():
+            print(f"❌ Error: Task file not found: {task_path}")
+            return 1
+    else:
+        # Legacy format: parse task ID to extract track and sprint
+        # Task ID format: {track}-{sprint}-task-{number}
+        # Example: infrastructure-fixes-1-task-005
+        parts = task_id.split('-task-')
+        if len(parts) != 2:
+            print(f"❌ Error: Invalid task ID format: {task_id}")
+            print("   Expected format: <track>-<sprint>-task-<number> OR 26-char ULID")
+            return 1
+
+        # Find the task in the hierarchical directory structure
+        for track_dir in roadmap_dir.iterdir():
+            if not track_dir.is_dir() or track_dir.name in ('tracks', 'sprints', 'tasks'):
+                continue
+            for sprint_dir in track_dir.iterdir():
+                if not sprint_dir.is_dir():
+                    continue
+                task_dir = sprint_dir / task_id
+                potential_path = task_dir / "task.yaml"
+                if potential_path.exists():
+                    task_path = potential_path
+                    break
+            if task_path:
+                break
+
+        if not task_path:
+            print(f"❌ Error: Task file not found: {task_id}")
+            print(f"   Searched in: {roadmap_dir}")
+            return 1
 
     # Load the task - directly read the task.yaml file since it has {'task': {...}} format
     try:

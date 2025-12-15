@@ -566,13 +566,24 @@ class SafeYAMLEditor:
 
         Args:
             data: Dictionary to modify
-            field_path: Dot-separated path (e.g., "task.status")
+            field_path: Dot-separated path (e.g., "task.status" or just "status")
             new_value: New value to set
 
         Returns:
             Old value (or None if field didn't exist)
         """
         keys = field_path.split('.')
+
+        # Auto-detect root key for roadmap YAML files
+        # If field_path doesn't start with a known root and data has one, prepend it
+        known_roots = ('task', 'sprint', 'track', 'roadmap')
+        if keys[0] not in known_roots:
+            # Check if data has exactly one known root
+            roots_in_data = [r for r in known_roots if r in data]
+            if len(roots_in_data) == 1:
+                # Prepend the root to the field path
+                keys = [roots_in_data[0]] + keys
+
         current = data
 
         # Navigate to parent of target field

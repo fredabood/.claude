@@ -495,6 +495,29 @@ When you submit a PR, CI will automatically:
 - Run type checks (mypy)
 - Run security scan (bandit)
 
+### Handling CI Failures
+
+**Test Failures:**
+1. Check CI output for the failing test name
+2. Run locally: `pytest path/to/test.py -v`
+3. Fix the issue and push again
+
+**Coverage Failures:**
+1. Check which lines are uncovered in the CI output
+2. Add tests for uncovered code paths
+3. If code cannot be tested, mark as `# pragma: no cover` with justification
+4. See `TEST_MAINTENANCE.md` for coverage exclusion guidelines
+
+**Lint/Type Failures:**
+1. Run locally: `ruff check vibey/` or `mypy vibey/`
+2. Fix reported issues (auto-fix available: `ruff check --fix vibey/`)
+3. Push updated code
+
+**Security Scan Failures:**
+1. Review the bandit output for security issues
+2. Fix genuine security issues
+3. For false positives, add inline `# nosec` comments with justification
+
 See `docs/development/TEST_MAINTENANCE.md` for detailed testing guidance.
 
 ---

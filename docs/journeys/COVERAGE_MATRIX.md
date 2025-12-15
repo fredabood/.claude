@@ -1,7 +1,7 @@
 # Journey-to-Feature Coverage Matrix
 
-**Version:** 1.0
-**Last Updated:** 2025-12-12
+**Version:** 1.1
+**Last Updated:** 2025-12-15
 
 This document maps Vibey features to user personas and their journeys, identifying which features serve which users and highlighting documentation coverage gaps.
 
@@ -249,6 +249,48 @@ Each persona has a dedicated step-by-step walkthrough with copy-paste commands a
 | Pat (Project Lead) | [WALKTHROUGH_PROJECT_LEAD.md](../walkthroughs/WALKTHROUGH_PROJECT_LEAD.md) | 45 min |
 | Chris (Contributor) | [WALKTHROUGH_CONTRIBUTOR.md](../walkthroughs/WALKTHROUGH_CONTRIBUTOR.md) | 60 min |
 | Sam (Platform Integrator) | [WALKTHROUGH_PLATFORM_INTEGRATOR.md](../walkthroughs/WALKTHROUGH_PLATFORM_INTEGRATOR.md) | 45 min |
+
+---
+
+## Test Coverage (Phase 5)
+
+### Summary
+
+| Metric | Phase 1.4 | Current | Change |
+|--------|-----------|---------|--------|
+| Total Tests | 2,681 | 3,730 | +1,049 (+39%) |
+| Pass Rate | 93.0% | 95.8% | +2.8% |
+| Integration Tests | 0 | 59 | +59 |
+
+### Test Distribution by Type
+
+| Category | Count | Coverage |
+|----------|-------|----------|
+| Unit Tests | ~300 | Core functions |
+| Model Tests | ~550 | Data models |
+| CLI Tests | ~240 | Command interface |
+| MCP Tests | ~111 | MCP tools/resources |
+| Integration Tests | 59 | Cross-module flows |
+| Platform Tests | ~249 | Platform adapters |
+| E2E Tests | ~48 | Full workflows |
+
+### Integration Test Coverage
+
+| Test File | Tests | Coverage |
+|-----------|-------|----------|
+| test_cli_workflows.py | 23 | CLI to DB flows |
+| test_mcp_workflows.py | 13 | MCP tool workflows |
+| test_cross_module.py | 23 | Cross-module integration |
+
+### CI/CD Quality Gates
+
+| Gate | Threshold | Enforcement |
+|------|-----------|-------------|
+| Test Pass | 100% | Blocking |
+| Coverage | 90% | Blocking |
+| Lint (ruff) | 0 errors | Blocking |
+| Type Check (mypy) | 0 errors | Blocking |
+| Security (bandit) | 0 high | Blocking |
 
 ---
 

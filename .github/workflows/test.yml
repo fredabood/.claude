@@ -1,13 +1,13 @@
-name: Vibey Framework Test Suite
+name: Tests
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    # Run daily at midnight UTC
-    - cron: '0 0 * * *'
+
+env:
+  COVERAGE_THRESHOLD: 90
 
 jobs:
   test:
@@ -18,82 +18,63 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ['3.8', '3.9', '3.10', '3.11']
+        python-version: ['3.10', '3.11', '3.12']
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Cache dependencies
-      uses: actions/cache@v3
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements-test.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-test.txt
+        pip install -e ".[dev,db]"
+        pip install pytest-asyncio
 
     - name: Configure git for tests
       run: |
         git config --global user.name "Test User"
         git config --global user.email "test@vibey-framework.com"
 
-    - name: Run unit tests
+    - name: Run tests with coverage
       run: |
-        pytest tests/unit/ -v --cov=framework --cov=scripts --cov-report=xml --cov-report=term
-
-    - name: Run integration tests
-      run: |
-        pytest tests/integration/ -v --cov=framework --cov=scripts --cov-append --cov-report=xml --cov-report=term
-
-    - name: Run E2E tests
-      run: |
-        pytest tests/e2e/ -v --cov=framework --cov=scripts --cov-append --cov-report=xml --cov-report=term
-
-    - name: Run platform tests
-      run: |
-        pytest tests/platform/ -v --cov=framework --cov=scripts --cov-append --cov-report=xml --cov-report=term
-
-    - name: Generate coverage report
-      run: |
-        pytest --cov=framework --cov=scripts --cov-report=html --cov-fail-under=90
+        pytest tests/ \
+          --cov=vibey \
+          --cov-report=xml \
+          --cov-report=term-missing \
+          --cov-fail-under=${{ env.COVERAGE_THRESHOLD }} \
+          -v
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
-        file: ./coverage.xml
+        files: ./coverage.xml
         flags: unittests
         name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
         fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Upload coverage report artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report-${{ matrix.os }}-py${{ matrix.python-version }}
-        path: htmlcov/
+        path: coverage.xml
         retention-days: 30
 
-    - name: Upload test results artifact
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results-${{ matrix.os }}-py${{ matrix.python-version }}
-        path: |
-          .pytest_cache/
-          coverage.xml
-        retention-days: 30
-
-  coverage-check:
-    name: Coverage Check
+  coverage-gate:
+    name: Coverage Gate
     runs-on: ubuntu-latest
     needs: test
 
@@ -102,25 +83,31 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-test.txt
+        pip install -e ".[dev,db]"
+        pip install pytest-asyncio
 
-    - name: Run full test suite with coverage
+    - name: Run coverage check
       run: |
-        pytest --cov=framework --cov=scripts --cov-report=term-missing --cov-fail-under=90
+        pytest tests/ \
+          --cov=vibey \
+          --cov-report=term-missing \
+          --cov-fail-under=${{ env.COVERAGE_THRESHOLD }}
 
-    - name: Check coverage threshold
+    - name: Verify coverage threshold
       run: |
-        coverage report --fail-under=90
+        echo "## Coverage Gate" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Coverage threshold of ${{ env.COVERAGE_THRESHOLD }}% met" >> $GITHUB_STEP_SUMMARY
 
-  lint:
-    name: Code Quality (Linting)
+  integration-tests:
+    name: Integration Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -128,44 +115,29 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
-    - name: Install linting tools
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 black isort
+        pip install -e ".[dev,db]"
+        pip install pytest-asyncio
 
-    - name: Run Black (code formatting check)
+    - name: Configure git for tests
       run: |
-        black --check tests/ || echo "Black check passed or not required"
+        git config --global user.name "Test User"
+        git config --global user.email "test@vibey-framework.com"
 
-    - name: Run isort (import sorting check)
+    - name: Run integration tests
       run: |
-        isort --check-only tests/ || echo "isort check passed or not required"
-
-    - name: Run Flake8 (linting)
-      run: |
-        flake8 tests/ --max-line-length=120 --extend-ignore=E203,W503 || echo "Flake8 check passed or not required"
-
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Run Bandit security scan
-      run: |
-        pip install bandit
-        bandit -r tests/ -ll || echo "Security scan passed or not required"
+        pytest tests/integration/ -v --tb=short
 
   summary:
     name: Test Summary
     runs-on: ubuntu-latest
-    needs: [test, coverage-check]
+    needs: [test, coverage-gate, integration-tests]
     if: always()
 
     steps:
@@ -173,10 +145,10 @@ jobs:
       run: |
         echo "## Test Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "✅ All test suites completed" >> $GITHUB_STEP_SUMMARY
+        echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Unit Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Coverage Gate | ${{ needs.coverage-gate.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Integration Tests | ${{ needs.integration-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- Unit Tests: Passed" >> $GITHUB_STEP_SUMMARY
-        echo "- Integration Tests: Passed" >> $GITHUB_STEP_SUMMARY
-        echo "- E2E Tests: Passed" >> $GITHUB_STEP_SUMMARY
-        echo "- Platform Tests: Passed" >> $GITHUB_STEP_SUMMARY
-        echo "- Coverage Threshold: >90%" >> $GITHUB_STEP_SUMMARY
+        echo "Coverage threshold: ${{ env.COVERAGE_THRESHOLD }}%" >> $GITHUB_STEP_SUMMARY

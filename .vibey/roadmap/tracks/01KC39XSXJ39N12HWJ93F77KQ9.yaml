@@ -10,7 +10,7 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 17
+    sprints_total: 18
     sprints_completed: 0
     tasks_total: 105
     tasks_completed: 78
@@ -118,6 +118,10 @@ track:
     estimated_duration: null
     tasks_count: 2
     started: null
+  - id: dogfooding-bugs-18
+    name: 'Sprint 16: Silent Sprint Skipping Bug'
+    status: not_started
+    tasks_count: 0
   dependencies: []
   blocks: []
   blocked_by: []

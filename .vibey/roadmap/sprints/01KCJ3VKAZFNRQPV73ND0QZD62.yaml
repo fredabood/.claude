@@ -1,28 +1,28 @@
 sprint:
-  id: 01KCAH8XENHWJDQSEGJNRY5B4G
-  name: 'Sprint 10: Status Management CLI Gaps'
-  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  id: 01KCJ3VKAZFNRQPV73ND0QZD62
+  name: 'Sprint 16: Silent Sprint Skipping Bug'
+  track_id: dogfooding-bugs
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-13T00:20:21.080510+00:00'
-  started: '2025-12-15T22:57:41.127756+00:00'
+  created: '2025-12-15T22:59:48.706619+00:00'
+  started: null
   completion_gate_check_at: null
-  completed: '2025-12-16T00:00:00+00:00'
+  completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 4
+    development_tasks_total: 0
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 4
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,7 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: CLI commands needed for bulk status management and reconciliation
+  description: Sprints with status=completed but completed=null are silently skipped
+    during db rebuild. Should show warning or error instead of silent skip.
   goal: null
   success_criteria: []
   risks: []
@@ -40,7 +41,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-15T22:59:48.706619+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

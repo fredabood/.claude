@@ -3,13 +3,13 @@ sprint:
   name: 'Sprint 12: YAML-SQLite Auto-Sync'
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
   blocked_reason: null
   created: '2025-12-12T06:52:10.005337+00:00'
-  started: null
+  started: '2025-12-15T22:58:16.638767+00:00'
   completion_gate_check_at: null
-  completed: null
+  completed: '2025-12-16T00:05:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null

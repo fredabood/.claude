@@ -1,0 +1,34 @@
+task:
+  id: 01KCJ3VTYMSJY5S5MYCJ5MXDNA
+  sprint_id: dogfooding-bugs-18
+  track_id: dogfooding-bugs
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Sprints with invalid dates are silently skipped during db rebuild
+  description: 'When a sprint has status=completed but completed=null, the SQL loader
+    silently skips it during db rebuild. Expected behavior: show warning or error
+    message identifying which files failed validation.'
+  status: not_started
+  blocked: false
+  created: '2025-12-15T22:59:57.586019+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-15T22:59:57.586019+00:00'
+    token_efficiency: null
+    duration_hours: null

@@ -394,11 +394,13 @@ class ActivityType(str, Enum):
     TRACK_COMPLETED = "track_completed"
 
     # Sprint events
+    SPRINT_ADDED = "sprint_added"
     SPRINT_STARTED = "sprint_started"
     SPRINT_COMPLETED = "sprint_completed"
     SPRINT_PRODUCTION_READY = "sprint_production_ready"
 
     # Task events
+    TASK_ADDED = "task_added"
     TASK_STARTED = "task_started"
     TASK_COMPLETED = "task_completed"
 

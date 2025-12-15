@@ -452,6 +452,19 @@ def create_sprint_cmd(track_id: str, name: str, goal: str,
         except Exception:
             pass  # Database rebuild is optional
 
+        # Log activity for pre-commit hook
+        try:
+            from vibey.operations.roadmap.activity_log import log_sprint_added
+            log_sprint_added(
+                root_dir=root_dir,
+                sprint_id=ulid,
+                track_id=resolved_track_id,
+                name=name,
+                reason="Sprint created via CLI",
+            )
+        except Exception:
+            pass  # Activity logging is optional
+
         print(f"✅ Created sprint: {name}")
         print(f"   ID: {ulid}")
         print(f"   Slug: {sprint_slug}")
@@ -621,6 +634,19 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
             db_rebuild_cmd(force=True)
         except Exception:
             pass  # Database rebuild is optional
+
+        # Log activity for pre-commit hook
+        try:
+            from vibey.operations.roadmap.activity_log import log_task_added
+            log_task_added(
+                root_dir=root_dir,
+                task_id=ulid,
+                sprint_id=resolved_sprint_id,
+                title=title,
+                reason="Task created via CLI",
+            )
+        except Exception:
+            pass  # Activity logging is optional
 
         print(f"✅ Created task: {title}")
         print(f"   ID: {ulid}")
@@ -2891,6 +2917,86 @@ def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:
             print("\n   Updating checksums...")
         sync.store_yaml_checksums()
         sync.mark_db_clean()
+
+        # Log activity for pre-commit hook
+        if verbose:
+            print("\n   Creating activity log entries...")
+        try:
+            from vibey.operations.roadmap.jsonl_activity_log import (
+                ActivityLogWriter,
+                FieldChange,
+                compute_file_hash,
+            )
+            activity_log_dir = roadmap_dir / "activity_log"
+            activity_log_dir.mkdir(parents=True, exist_ok=True)
+            writer = ActivityLogWriter(activity_log_dir)
+
+            # Log roadmap file
+            roadmap_path = roadmap_dir / "roadmap.yaml"
+            if roadmap_path.exists():
+                writer.log_command_event(
+                    command_name="db_dump",
+                    object_type="roadmap",
+                    object_id=roadmap.id,
+                    changes=[FieldChange(field="status", old=None, new="dumped_from_db")],
+                    file_path=roadmap_path,
+                    file_hash_before=None,
+                    changed_by="cli",
+                    reason="Database dump to YAML",
+                )
+
+            # Log track files
+            for track in tracks:
+                track_path = roadmap_dir / "tracks" / f"{track.id}.yaml"
+                if track_path.exists():
+                    writer.log_command_event(
+                        command_name="db_dump",
+                        object_type="track",
+                        object_id=track.id,
+                        changes=[FieldChange(field="status", old=None, new="dumped_from_db")],
+                        file_path=track_path,
+                        file_hash_before=None,
+                        changed_by="cli",
+                        reason="Database dump to YAML",
+                    )
+
+            # Log sprint files
+            for sprint in sprints:
+                sprint_path = roadmap_dir / "sprints" / f"{sprint.id}.yaml"
+                if sprint_path.exists():
+                    writer.log_command_event(
+                        command_name="db_dump",
+                        object_type="sprint",
+                        object_id=sprint.id,
+                        changes=[FieldChange(field="status", old=None, new="dumped_from_db")],
+                        file_path=sprint_path,
+                        file_hash_before=None,
+                        changed_by="cli",
+                        reason="Database dump to YAML",
+                    )
+
+            # Log task files
+            for task in tasks:
+                task_path = roadmap_dir / "tasks" / f"{task.id}.yaml"
+                if task_path.exists():
+                    writer.log_command_event(
+                        command_name="db_dump",
+                        object_type="task",
+                        object_id=task.id,
+                        changes=[FieldChange(field="status", old=None, new="dumped_from_db")],
+                        file_path=task_path,
+                        file_hash_before=None,
+                        changed_by="cli",
+                        reason="Database dump to YAML",
+                    )
+
+            if verbose:
+                print(f"   ✓ Created {1 + len(tracks) + len(sprints) + len(tasks)} activity log entries")
+
+        except Exception as e:
+            if verbose:
+                print(f"   ⚠ Activity log creation failed: {e}")
+            # Don't fail the whole dump if activity logging fails
 
         # Summary
         print(f"\n✅ Dump complete!")

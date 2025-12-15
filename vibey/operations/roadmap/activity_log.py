@@ -153,9 +153,67 @@ class UnifiedActivityLog:
             reason=reason,
         )
 
+    def log_task_added(
+        self,
+        task_id: str,
+        sprint_id: str,
+        title: str,
+        reason: str = "Task created via CLI",
+    ) -> AuditEntry:
+        """
+        Log a new task being created.
+
+        Args:
+            task_id: ID of the new task
+            sprint_id: ID of the parent sprint
+            title: Title of the task
+            reason: Reason for creation
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type="task",
+            object_id=task_id,
+            field="created",
+            old_value=None,
+            new_value=f"Sprint: {sprint_id}, Title: {title}",
+            reason=reason,
+            source="cli",
+        )
+
     # =========================================================================
     # Sprint Activities
     # =========================================================================
+
+    def log_sprint_added(
+        self,
+        sprint_id: str,
+        track_id: str,
+        name: str,
+        reason: str = "Sprint created via CLI",
+    ) -> AuditEntry:
+        """
+        Log a new sprint being created.
+
+        Args:
+            sprint_id: ID of the new sprint
+            track_id: ID of the parent track
+            name: Name of the sprint
+            reason: Reason for creation
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type="sprint",
+            object_id=sprint_id,
+            field="created",
+            old_value=None,
+            new_value=f"Track: {track_id}, Name: {name}",
+            reason=reason,
+            source="cli",
+        )
 
     def log_sprint_started(
         self,
@@ -641,6 +699,28 @@ def log_task_completed(
 ) -> AuditEntry:
     """Convenience function to log task completed."""
     return get_activity_log(root_dir).log_task_completed(task_id, old_status, reason)
+
+
+def log_task_added(
+    root_dir: Path,
+    task_id: str,
+    sprint_id: str,
+    title: str,
+    reason: str = "Task created via CLI",
+) -> AuditEntry:
+    """Convenience function to log task creation."""
+    return get_activity_log(root_dir).log_task_added(task_id, sprint_id, title, reason)
+
+
+def log_sprint_added(
+    root_dir: Path,
+    sprint_id: str,
+    track_id: str,
+    name: str,
+    reason: str = "Sprint created via CLI",
+) -> AuditEntry:
+    """Convenience function to log sprint creation."""
+    return get_activity_log(root_dir).log_sprint_added(sprint_id, track_id, name, reason)
 
 
 def log_sprint_started(

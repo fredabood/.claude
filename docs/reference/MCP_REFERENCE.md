@@ -3,7 +3,7 @@
 **Server:** vibey-roadmap
 **Version:** 2.5.0
 
-**Generated:** 2025-12-12T17:24:32.110898+00:00
+**Generated:** 2025-12-15T23:22:05.408603+00:00
 
 This document provides comprehensive reference documentation for the Vibey MCP (Model Context Protocol) server, including all tools, resources, and prompts available for AI assistant integration.
 

@@ -1,8 +1,8 @@
 # CLI Reference
 
 **Version:** 2.5.0
-**Total Commands:** 184
-**Generated:** 2025-12-12T17:26:03.924023+00:00
+**Total Commands:** 200
+**Generated:** 2025-12-15T23:21:29.641766+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
 
@@ -41,23 +41,22 @@ This document provides comprehensive reference documentation for all `vibey` CLI
   - [search](#content-search)
   - *... and 2 more*
 - [context](#context)
-  - [init](#context-init)
-  - [list](#context-list)
-  - [show](#context-show)
   - [archive](#context-archive)
   - [clean](#context-clean)
   - [export](#context-export)
-  - [search](#context-search)
+  - [init](#context-init)
+  - [list](#context-list)
+  - *... and 2 more*
 - [deploy](#deploy)
   - [list](#deploy-list)
   - [run](#deploy-run)
 - [discover](#discover)
+  - [diff](#discover-diff)
+  - [history](#discover-history)
+  - [refresh](#discover-refresh)
   - [run](#discover-run)
   - [show](#discover-show)
-  - [status](#discover-status)
-  - [history](#discover-history)
-  - [diff](#discover-diff)
-  - [refresh](#discover-refresh)
+  - *... and 1 more*
 - [docs](#docs)
   - [check-drift](#docs-check-drift)
   - [check-mcp-drift](#docs-check-mcp-drift)
@@ -83,7 +82,14 @@ This document provides comprehensive reference documentation for all `vibey` CLI
   - [add-context](#roadmap-add-context)
   - [add-standard](#roadmap-add-standard)
   - [audit](#roadmap-audit)
-  - *... and 38 more*
+  - *... and 41 more*
+- [session](#session)
+  - [decisions](#session-decisions)
+  - [end](#session-end)
+  - [export](#session-export)
+  - [list](#session-list)
+  - [pause](#session-pause)
+  - *... and 6 more*
 - [validate](#validate)
   - [assets](#validate-assets)
   - [docs](#validate-docs)
@@ -249,26 +255,44 @@ Displays metadata and option...
 Checks content for r...
 
 **C**
-- [`vibey context`](#vibey-context) - Context management for AI-assisted development
+- [`vibey context`](#vibey-context) - Context management - manage session, task, and dec...
 
 **A**
-- [`vibey context archive`](#vibey-context-archive) - Archive context to history
+- [`vibey context archive`](#vibey-context-archive) - Archive context to history.
+
+Moves context from cu...
 
 **C**
-- [`vibey context clean`](#vibey-context-clean) - Clean old archived context
+- [`vibey context clean`](#vibey-context-clean) - Clean old archived context.
+
+Removes archived cont...
 
 **E**
-- [`vibey context export`](#vibey-context-export) - Export context to file
+- [`vibey context export`](#vibey-context-export) - Export context to file.
+
+Examples:
+  vibey context...
 
 **I**
-- [`vibey context init`](#vibey-context-init) - Initialize context directory structure
+- [`vibey context init`](#vibey-context-init) - Initialize context directory structure.
+
+Creates t...
 
 **L**
-- [`vibey context list`](#vibey-context-list) - List context items
+- [`vibey context list`](#vibey-context-list) - List context items.
+
+Examples:
+  vibey context lis...
 
 **S**
-- [`vibey context search`](#vibey-context-search) - Search context by content
-- [`vibey context show`](#vibey-context-show) - Show context details
+- [`vibey context search`](#vibey-context-search) - Search context by content.
+
+Examples:
+  vibey cont...
+- [`vibey context show`](#vibey-context-show) - Show context details.
+
+Examples:
+  vibey context s...
 
 **D**
 - [`vibey deploy`](#vibey-deploy) - 
@@ -283,21 +307,32 @@ Supports m...
 - [`vibey deploy run`](#vibey-deploy-run) - Deploy framework to specified platform
 
 **D**
-- [`vibey discover`](#vibey-discover) - Project discovery - analyze structure, dependencies, and patterns.
-
-**D**
+- [`vibey discover`](#vibey-discover) - 
+Project discovery - analyze structure, dependenci...
 - [`vibey discover diff`](#vibey-discover-diff) - Compare two discovery versions.
+
+Shows differences...
 
 **H**
 - [`vibey discover history`](#vibey-discover-history) - List discovery version history.
 
+Shows previous di...
+
 **R**
 - [`vibey discover refresh`](#vibey-discover-refresh) - Refresh discovery if stale.
+
+Re-runs discovery onl...
 - [`vibey discover run`](#vibey-discover-run) - Run project discovery and analyze the codebase.
+
+A...
 
 **S**
 - [`vibey discover show`](#vibey-discover-show) - Show current discovery output.
+
+Displays the most ...
 - [`vibey discover status`](#vibey-discover-status) - Check if current discovery is stale.
+
+Reports whet...
 
 **D**
 - [`vibey docs`](#vibey-docs) - 
@@ -582,7 +617,16 @@ Find pot...
 
 Aut...
 
+**B**
+- [`vibey roadmap bulk`](#vibey-roadmap-bulk) - 
+Bulk operations on roadmap items.
+
+Commands for p...
+
 **C**
+- [`vibey roadmap bulk complete-sprint`](#vibey-roadmap-bulk-complete-sprint) - Mark all tasks in a sprint as completed.
+
+Complete...
 - [`vibey roadmap check-compatibility`](#vibey-roadmap-check-compatibility) - Check if sprint tasks fit in your platform's conte...
 - [`vibey roadmap check-hooks`](#vibey-roadmap-check-hooks) - Check git hook installation status
 
@@ -622,8 +666,7 @@ Validates all files m...
 **C**
 - [`vibey roadmap complete`](#vibey-roadmap-complete) - Complete a track, sprint, or task
 
-Examples:
-  vib...
+For sprints, va...
 - [`vibey roadmap context`](#vibey-roadmap-context) - Get AI-optimized context for a task
 - [`vibey roadmap create-from-plan`](#vibey-roadmap-create-from-plan) - Create roadmap sprint from a plan markdown file
 
@@ -755,9 +798,11 @@ Adds an o...
 **R**
 - [`vibey roadmap recalculate`](#vibey-roadmap-recalculate) - Recalculate sprint tasks for a different platform
 ...
+- [`vibey roadmap reconcile`](#vibey-roadmap-reconcile) - Detect and fix status inconsistencies in roadmap d...
 - [`vibey roadmap repair`](#vibey-roadmap-repair) - Auto-repair common roadmap integrity issues
 
 Repai...
+- [`vibey roadmap revert`](#vibey-roadmap-revert) - Revert a track, sprint, or task to a previous stat...
 
 **S**
 - [`vibey roadmap show`](#vibey-roadmap-show) - Show details for a track, sprint, or task
@@ -786,6 +831,59 @@ Removes the Vibey p...
 - [`vibey roadmap validate-structure`](#vibey-roadmap-validate-structure) - Validate roadmap directory structure is flat (no U...
 - [`vibey roadmap verify-change`](#vibey-roadmap-verify-change) - Verify a roadmap file change has a matching activi...
 - [`vibey roadmap verify-commits`](#vibey-roadmap-verify-commits) - Verify roadmap changes in a commit range have acti...
+
+**S**
+- [`vibey session`](#vibey-session) - 
+Manage AI-assisted coding sessions.
+
+Track sessio...
+
+**D**
+- [`vibey session decisions`](#vibey-session-decisions) - Show decisions made during a session.
+
+Lists all d...
+
+**E**
+- [`vibey session end`](#vibey-session-end) - End the current or specified session.
+
+Marks the s...
+- [`vibey session export`](#vibey-session-export) - Export session for continuation.
+
+Exports session ...
+
+**L**
+- [`vibey session list`](#vibey-session-list) - List sessions with optional filters.
+
+Shows all se...
+
+**P**
+- [`vibey session pause`](#vibey-session-pause) - Pause the current or specified session.
+
+Temporari...
+
+**R**
+- [`vibey session report`](#vibey-session-report) - Generate a session report.
+
+Creates a human-readab...
+- [`vibey session resume`](#vibey-session-resume) - Resume a paused session.
+
+Continues a previously p...
+
+**S**
+- [`vibey session show`](#vibey-session-show) - Show detailed information about a specific session...
+- [`vibey session start`](#vibey-session-start) - Start a new coding session.
+
+Creates a new session...
+- [`vibey session status`](#vibey-session-status) - Show the current active session status.
+
+Displays ...
+
+**T**
+- [`vibey session timeline`](#vibey-session-timeline) - Show session timeline of events.
+
+Displays a chron...
+
+**V**
 - [`vibey validate`](#vibey-validate) - 
 Validate framework assets and documentation.
 
@@ -2125,22 +2223,149 @@ Context provides structured storage for AI-assisted development work:
 - Decisions: Record architectural decisions (ADRs)
 - Sprints: Store sprint planning documents and artifacts
 
+
 **Usage:**
 ```bash
 vibey context COMMAND
 ```
 
-**Available Commands:**
+**Subcommands:**
 
 | Command | Description |
 |---------|-------------|
-| `init` | Initialize context directory structure |
-| `list` | List context items |
-| `show` | Show context details |
-| `archive` | Archive context to history |
-| `clean` | Clean old archived context |
-| `export` | Export context to file |
-| `search` | Search context by content |
+| `archive` | Archive context to history.
+
+Moves context from current/acti... |
+| `clean` | Clean old archived context.
+
+Removes archived context older ... |
+| `export` | Export context to file.
+
+Examples:
+  vibey context export 01... |
+| `init` | Initialize context directory structure.
+
+Creates the .vibey/... |
+| `list` | List context items.
+
+Examples:
+  vibey context list
+  vibey ... |
+| `search` | Search context by content.
+
+Examples:
+  vibey context search... |
+| `show` | Show context details.
+
+Examples:
+  vibey context show 01KC7M... |
+
+---
+
+<a id="vibey-context-archive"></a>
+
+#### `vibey context archive`
+
+Archive context to history.
+
+Moves context from current/active to history directory.
+
+**Usage:**
+```bash
+vibey context archive [OPTIONS] <CONTEXT_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `CONTEXT_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--type, -t` | Choice(['session', 'task']) | - | Context type (required) |
+
+**Examples:**
+
+```bash
+vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --type session
+```
+
+```bash
+vibey context archive 01KC81GRE7HFXA9J6FYFM7H3BR --type task
+```
+
+---
+
+<a id="vibey-context-clean"></a>
+
+#### `vibey context clean`
+
+Clean old archived context.
+
+Removes archived context older than the specified number of days.
+Uses --dry-run to preview before deleting.
+
+**Usage:**
+```bash
+vibey context clean [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--type, -t` | Choice(['all', 'session', 'task']) | `all` | Context type to clean |
+| `--older-than, -d` | INTEGER | `90` | Delete items older than N days |
+| `--dry-run` | flag | `False` | Show what would be deleted without deleting |
+
+**Examples:**
+
+```bash
+vibey context clean --older-than 90 --dry-run
+```
+
+```bash
+vibey context clean --type session --older-than 30
+```
+
+---
+
+<a id="vibey-context-export"></a>
+
+#### `vibey context export`
+
+Export context to file.
+
+**Usage:**
+```bash
+vibey context export [OPTIONS] <CONTEXT_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `CONTEXT_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--type, -t` | Choice(['decision', 'session', 'sprint', 'task']) | - | Context type |
+| `--output, -o` | Path(file, dir) | - | Output file path |
+
+**Examples:**
+
+```bash
+vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
+```
+
+```bash
+vibey context export user-journey-phase-4-4 --type sprint -o sprint-context.tar.gz
+```
 
 ---
 
@@ -2150,7 +2375,8 @@ vibey context COMMAND
 
 Initialize context directory structure.
 
-Creates the `.vibey/context/` directory with proper subdirectories and initial configuration files.
+Creates the .vibey/context/ directory with proper subdirectories
+and initial configuration files.
 
 **Usage:**
 ```bash
@@ -2180,10 +2406,10 @@ vibey context list [OPTIONS]
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task, decision, sprint, all]) | `all` | Context type to list |
-| `-s, --status` | TEXT | - | Filter by status |
-| `-n, --limit` | INTEGER | - | Maximum items to show |
-| `-f, --format` | Choice([table, yaml, json]) | `table` | Output format |
+| `--type, -t` | Choice(['all', 'decision', 'session', 'sprint', 'task']) | `all` | Context type to list |
+| `--status, -s` | TEXT | - | Filter by status |
+| `--limit, -n` | INTEGER | `20` | Maximum items to show |
+| `--format, -f` | Choice(['json', 'table', 'yaml']) | `table` | Output format |
 
 **Examples:**
 
@@ -2205,6 +2431,42 @@ vibey context list --format json
 
 ---
 
+<a id="vibey-context-search"></a>
+
+#### `vibey context search`
+
+Search context by content.
+
+**Usage:**
+```bash
+vibey context search [OPTIONS] <QUERY>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `QUERY` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--type, -t` | Choice(['all', 'decision', 'session', 'sprint', 'task']) | `all` | Context type to search |
+| `--limit, -n` | INTEGER | `20` | Maximum results |
+
+**Examples:**
+
+```bash
+vibey context search "ULID naming" --type decision
+```
+
+```bash
+vibey context search "phase 4" --limit 10
+```
+
+---
+
 <a id="vibey-context-show"></a>
 
 #### `vibey context show`
@@ -2213,21 +2475,21 @@ Show context details.
 
 **Usage:**
 ```bash
-vibey context show [OPTIONS] CONTEXT_ID
+vibey context show [OPTIONS] <CONTEXT_ID>
 ```
 
 **Arguments:**
 
 | Argument | Type | Required | Description |
 |----------|------|----------|-------------|
-| `CONTEXT_ID` | TEXT | Yes | ID of context item to show |
+| `CONTEXT_ID` | TEXT | Yes |  |
 
 **Options:**
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task, decision, sprint]) | - | Context type (auto-detected if not specified) |
-| `-f, --format` | Choice([yaml, json, text]) | `yaml` | Output format |
+| `--type, -t` | Choice(['decision', 'session', 'sprint', 'task']) | - | Context type (auto-detected if not specified) |
+| `--format, -f` | Choice(['json', 'text', 'yaml']) | `yaml` | Output format |
 
 **Examples:**
 
@@ -2241,148 +2503,6 @@ vibey context show 0001-adopt-ulid-naming --type decision
 
 ```bash
 vibey context show user-journey-phase-4-4 --type sprint
-```
-
----
-
-<a id="vibey-context-archive"></a>
-
-#### `vibey context archive`
-
-Archive context to history.
-
-Moves context from current/active to history directory.
-
-**Usage:**
-```bash
-vibey context archive [OPTIONS] CONTEXT_ID
-```
-
-**Arguments:**
-
-| Argument | Type | Required | Description |
-|----------|------|----------|-------------|
-| `CONTEXT_ID` | TEXT | Yes | ID of context item to archive |
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task]) | - | Context type (required) |
-
-**Examples:**
-
-```bash
-vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --type session
-```
-
-```bash
-vibey context archive 01KC81GRE7HFXA9J6FYFM7H3BR --type task
-```
-
----
-
-<a id="vibey-context-clean"></a>
-
-#### `vibey context clean`
-
-Clean old archived context.
-
-Removes archived context older than the specified number of days. Use `--dry-run` to preview before deleting.
-
-**Usage:**
-```bash
-vibey context clean [OPTIONS]
-```
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task, all]) | `all` | Context type to clean |
-| `-d, --older-than` | INTEGER | `90` | Delete items older than N days |
-| `--dry-run` | flag | `False` | Show what would be deleted without deleting |
-
-**Examples:**
-
-```bash
-vibey context clean --older-than 90 --dry-run
-```
-
-```bash
-vibey context clean --type session --older-than 30
-```
-
----
-
-<a id="vibey-context-export"></a>
-
-#### `vibey context export`
-
-Export context to file.
-
-**Usage:**
-```bash
-vibey context export [OPTIONS] CONTEXT_ID
-```
-
-**Arguments:**
-
-| Argument | Type | Required | Description |
-|----------|------|----------|-------------|
-| `CONTEXT_ID` | TEXT | Yes | ID of context item to export |
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task, decision, sprint]) | - | Context type |
-| `-o, --output` | PATH | - | Output file path |
-
-**Examples:**
-
-```bash
-vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
-```
-
-```bash
-vibey context export user-journey-phase-4-4 --type sprint -o sprint-context.tar.gz
-```
-
----
-
-<a id="vibey-context-search"></a>
-
-#### `vibey context search`
-
-Search context by content.
-
-**Usage:**
-```bash
-vibey context search [OPTIONS] QUERY
-```
-
-**Arguments:**
-
-| Argument | Type | Required | Description |
-|----------|------|----------|-------------|
-| `QUERY` | TEXT | Yes | Search query string |
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `-t, --type` | Choice([session, task, decision, sprint, all]) | `all` | Context type to search |
-| `-n, --limit` | INTEGER | `10` | Maximum results |
-
-**Examples:**
-
-```bash
-vibey context search "ULID naming" --type decision
-```
-
-```bash
-vibey context search "phase 4" --limit 10
 ```
 
 ---
@@ -2477,9 +2597,9 @@ vibey deploy run [OPTIONS]
 
 Project discovery - analyze structure, dependencies, and patterns.
 
-The discover command analyzes your project and generates structured output
-about its characteristics. Discovery results are versioned and can be used
-for context management and change tracking.
+The discover command analyzes your project and generates structured
+output about its characteristics. Discovery results are versioned
+and can be used for context management and change tracking.
 
 **Usage:**
 ```bash
@@ -2512,135 +2632,24 @@ vibey discover diff             # Compare versions
 
 | Command | Description |
 |---------|-------------|
-| `run` | Run project discovery and analyze the codebase. |
-| `show` | Show current discovery output. |
-| `status` | Check if current discovery is stale. |
-| `history` | List discovery version history. |
-| `diff` | Compare two discovery versions. |
-| `refresh` | Refresh discovery if stale. |
+| `diff` | Compare two discovery versions.
 
----
+Shows differences between d... |
+| `history` | List discovery version history.
 
-<a id="vibey-discover-run"></a>
+Shows previous discovery ru... |
+| `refresh` | Refresh discovery if stale.
 
-#### `vibey discover run`
+Re-runs discovery only if the c... |
+| `run` | Run project discovery and analyze the codebase.
 
-Run project discovery and analyze the codebase.
+Analyzes th... |
+| `show` | Show current discovery output.
 
-Analyzes the project structure, dependencies, patterns, and conventions.
-Results are saved to .vibey/discovery/ by default.
+Displays the most recent dis... |
+| `status` | Check if current discovery is stale.
 
-**Usage:**
-```bash
-vibey discover run [OPTIONS]
-```
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `--output, -o` | Choice(['yaml', 'json', 'text']) | `yaml` | Output format |
-| `--save/--no-save` | flag | `True` | Save discovery to history |
-| `--project, -p` | TEXT | `.` | Project root directory |
-
-**Examples:**
-
-```bash
-vibey discover run
-vibey discover run --output json
-vibey discover run --no-save
-vibey discover run -p /path/to/project
-```
-
----
-
-<a id="vibey-discover-show"></a>
-
-#### `vibey discover show`
-
-Show current discovery output.
-
-Displays the most recent discovery analysis. Use --section to
-show only specific parts of the discovery.
-
-**Usage:**
-```bash
-vibey discover show [OPTIONS]
-```
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `--format, -f` | Choice(['yaml', 'json', 'text']) | `text` | Output format |
-| `--section, -s` | Choice(['all', 'project', 'structure', 'dependencies', 'patterns', 'conventions', 'quality', 'recommendations']) | `all` | Section to display |
-
-**Examples:**
-
-```bash
-vibey discover show
-vibey discover show --format yaml
-vibey discover show --section dependencies
-```
-
----
-
-<a id="vibey-discover-status"></a>
-
-#### `vibey discover status`
-
-Check if current discovery is stale.
-
-Reports whether the discovery should be refreshed based on:
-- Age of the discovery
-- Git commit changes
-- File system changes
-
-**Usage:**
-```bash
-vibey discover status [OPTIONS]
-```
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `--max-age, -a` | INT | `24` | Hours before discovery is considered stale |
-
-**Examples:**
-
-```bash
-vibey discover status
-vibey discover status --max-age 48
-```
-
----
-
-<a id="vibey-discover-history"></a>
-
-#### `vibey discover history`
-
-List discovery version history.
-
-Shows previous discovery runs with timestamps and git commits.
-
-**Usage:**
-```bash
-vibey discover history [OPTIONS]
-```
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `--limit, -n` | INT | `10` | Maximum number of versions to show |
-
-**Examples:**
-
-```bash
-vibey discover history
-vibey discover history --limit 5
-```
+Reports whether the di... |
 
 ---
 
@@ -2662,15 +2671,52 @@ vibey discover diff [FROM_VERSION] [TO_VERSION]
 
 | Argument | Type | Required | Description |
 |----------|------|----------|-------------|
-| `FROM_VERSION` | TEXT | No | Earlier version (defaults to previous) |
-| `TO_VERSION` | TEXT | No | Later version (defaults to current) |
+| `FROM_VERSION` | TEXT | No |  |
+| `TO_VERSION` | TEXT | No |  |
 
 **Examples:**
 
 ```bash
 vibey discover diff
+```
+
+```bash
 vibey discover diff 2025-12-13T10-00-00
+```
+
+```bash
 vibey discover diff 2025-12-13T10-00-00 2025-12-14T10-00-00
+```
+
+---
+
+<a id="vibey-discover-history"></a>
+
+#### `vibey discover history`
+
+List discovery version history.
+
+Shows previous discovery runs with timestamps and git commits.
+
+**Usage:**
+```bash
+vibey discover history [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--limit, -n` | INTEGER | `10` | Maximum number of versions to show |
+
+**Examples:**
+
+```bash
+vibey discover history
+```
+
+```bash
+vibey discover history --limit 5
 ```
 
 ---
@@ -2699,7 +2745,123 @@ vibey discover refresh [OPTIONS]
 
 ```bash
 vibey discover refresh
+```
+
+```bash
 vibey discover refresh --force
+```
+
+---
+
+<a id="vibey-discover-run"></a>
+
+#### `vibey discover run`
+
+Run project discovery and analyze the codebase.
+
+Analyzes the project structure, dependencies, patterns, and conventions.
+Results are saved to .vibey/discovery/ by default.
+
+**Usage:**
+```bash
+vibey discover run [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--output, -o` | Choice(['json', 'text', 'yaml']) | `yaml` | Output format |
+| `--save` | flag | `True` | Save discovery to history |
+| `--project, -p` | TEXT | `.` | Project root directory |
+
+**Examples:**
+
+```bash
+vibey discover run
+```
+
+```bash
+vibey discover run --output json
+```
+
+```bash
+vibey discover run --no-save
+```
+
+```bash
+vibey discover run -p /path/to/project
+```
+
+---
+
+<a id="vibey-discover-show"></a>
+
+#### `vibey discover show`
+
+Show current discovery output.
+
+Displays the most recent discovery analysis. Use --section to
+show only specific parts of the discovery.
+
+**Usage:**
+```bash
+vibey discover show [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['json', 'text', 'yaml']) | `text` | Output format |
+| `--section, -s` | Choice(['all', 'conventions', 'dependencies', 'patterns', 'project', 'quality', 'recommendations', 'structure']) | `all` | Section to display |
+
+**Examples:**
+
+```bash
+vibey discover show
+```
+
+```bash
+vibey discover show --format yaml
+```
+
+```bash
+vibey discover show --section dependencies
+```
+
+---
+
+<a id="vibey-discover-status"></a>
+
+#### `vibey discover status`
+
+Check if current discovery is stale.
+
+Reports whether the discovery should be refreshed based on:
+- Age of the discovery
+- Git commit changes
+- File system changes
+
+**Usage:**
+```bash
+vibey discover status [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--max-age, -a` | INTEGER | `24` | Hours before discovery is considered stale |
+
+**Examples:**
+
+```bash
+vibey discover status
+```
+
+```bash
+vibey discover status --max-age 48
 ```
 
 ---
@@ -5067,6 +5229,9 @@ The roadmap system provides hierarchical project planning with:
 - Tasks: Specific work items within sprints
 - Dependencies: Blocker relationships between items
 
+Auto-sync: Database is automatically synced when YAML files are edited
+directly. Use --no-sync to skip this check for faster operations.
+
 **Usage:**
 ```bash
 vibey roadmap [OPTIONS] COMMAND
@@ -5077,6 +5242,7 @@ vibey roadmap [OPTIONS] COMMAND
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `--backend, -b` | Choice(['auto', 'sqlite', 'yaml']) | - | Storage backend: auto (default), sqlite, or yaml |
+| `--no-sync` | flag | `False` | Skip auto-sync check (faster for batch operations) |
 
 **Examples:**
 
@@ -5094,6 +5260,10 @@ vibey roadmap show sprint-1  # Show sprint details
 
 ```bash
 vibey roadmap start task-001 # Start a task
+```
+
+```bash
+vibey roadmap --no-sync list # Skip sync check
 ```
 
 **Subcommands:**
@@ -5120,6 +5290,10 @@ Track all sta... |
 | `auto-progress` | Check or apply automatic status progressions.
 
 Auto-progress... |
+| `bulk` | 
+Bulk operations on roadmap items.
+
+Commands for performing ... |
 | `check-compatibility` | Check if sprint tasks fit in your platform's context window
 ... |
 | `check-hooks` | Check git hook installation status
@@ -5134,8 +5308,7 @@ Manage roadmap integrity checkpoints.
 Create, restore, ver... |
 | `complete` | Complete a track, sprint, or task
 
-Examples:
-  vibey roadmap... |
+For sprints, validates th... |
 | `context` | Get AI-optimized context for a task |
 | `create-from-plan` | Create roadmap sprint from a plan markdown file
 
@@ -5183,10 +5356,16 @@ Adds an override to... |
 | `recalculate` | Recalculate sprint tasks for a different platform
 
 Splits ov... |
+| `reconcile` | Detect and fix status inconsistencies in roadmap data.
+
+Chec... |
 | `repair` | Auto-repair common roadmap integrity issues
 
 Repairs:
   - Pr... |
+| `revert` | Revert a track, sprint, or task to a previous status
+
+Allows... |
 | `show` | Show details for a track, sprint, or task
 
 For sprints, also... |
@@ -5605,6 +5784,78 @@ vibey roadmap auto-progress --disable   # Disable auto-progression
 
 ---
 
+<a id="vibey-roadmap-bulk"></a>
+
+#### `vibey roadmap bulk`
+
+Bulk operations on roadmap items.
+
+Commands for performing operations across multiple items at once,
+such as completing all tasks in a sprint.
+
+**Usage:**
+```bash
+vibey roadmap bulk COMMAND
+```
+
+**Examples:**
+
+```bash
+vibey roadmap bulk complete-sprint <sprint-id>  # Complete all tasks in sprint
+```
+
+```bash
+vibey roadmap bulk complete-sprint <id> --yes   # Skip confirmation
+```
+
+**Subcommands:**
+
+| Command | Description |
+|---------|-------------|
+| `complete-sprint` | Mark all tasks in a sprint as completed.
+
+Completes all non-... |
+
+---
+
+<a id="vibey-roadmap-bulk-complete-sprint"></a>
+
+#### `vibey roadmap bulk complete-sprint`
+
+Mark all tasks in a sprint as completed.
+
+Completes all non-completed tasks in the specified sprint at once.
+Updates sprint progress and creates activity log entries for each task.
+
+**Usage:**
+```bash
+vibey roadmap bulk complete-sprint [OPTIONS] <SPRINT_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SPRINT_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--yes, -y` | flag | `False` | Skip confirmation prompt |
+
+**Examples:**
+
+```bash
+vibey roadmap bulk complete-sprint 01KC7TNS0SC0FX8TPGN9SG4J1B
+```
+
+```bash
+vibey roadmap bulk complete-sprint dogfooding-bugs-10 --yes
+```
+
+---
+
 <a id="vibey-roadmap-check-compatibility"></a>
 
 #### `vibey roadmap check-compatibility`
@@ -5969,6 +6220,9 @@ vibey roadmap checkpoint verify my-backup
 
 Complete a track, sprint, or task
 
+For sprints, validates that all tasks are completed before allowing completion.
+Use --force to override this check (with warning).
+
 **Usage:**
 ```bash
 vibey roadmap complete [OPTIONS] <ITEM_ID>
@@ -5985,6 +6239,7 @@ vibey roadmap complete [OPTIONS] <ITEM_ID>
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `--no-commits` | flag | `False` | Skip commit evidence check (for non-code tasks) |
+| `--force, -f` | flag | `False` | Force completion even with incomplete tasks (sprints only) |
 
 **Examples:**
 
@@ -6002,6 +6257,10 @@ vibey roadmap complete my-track-1-task-001        # Complete a task
 
 ```bash
 vibey roadmap complete task-001 --no-commits      # Skip commit check
+```
+
+```bash
+vibey roadmap complete sprint-1 --force           # Force complete with incomplete tasks
 ```
 
 ---
@@ -6140,7 +6399,7 @@ vibey roadmap create-task [OPTIONS]
 | `--description, -d` | TEXT | `` | Task description |
 | `--type` | Choice(['design', 'development', 'documentation', 'infrastructure', 'research', 'review', 'testing']) | `development` | Task type |
 | `--priority, -p` | Choice(['critical', 'high', 'low', 'medium']) | `medium` | Task priority |
-| `--complexity, -c` | Choice(['complex', 'high', 'low', 'medium', 'trivial']) | `medium` | Task complexity |
+| `--complexity, -c` | Choice(['complex', 'medium', 'simple']) | `medium` | Task complexity (simple/medium/complex) |
 
 **Examples:**
 
@@ -7285,6 +7544,49 @@ vibey roadmap recalculate sprint-1 --dry-run
 
 ---
 
+<a id="vibey-roadmap-reconcile"></a>
+
+#### `vibey roadmap reconcile`
+
+Detect and fix status inconsistencies in roadmap data.
+
+Checks for status mismatches between parent/child objects:
+- Sprints marked completed but with incomplete tasks
+- Tracks marked completed but with incomplete sprints
+- Tasks marked completed but with null dates
+- Progress counts that don't match actual task counts
+
+By default, runs in dry-run mode (report only). Use --fix to apply corrections.
+
+**Usage:**
+```bash
+vibey roadmap reconcile [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--fix` | flag | `False` | Auto-fix detected issues |
+| `--dry-run` | flag | `False` | Show issues without fixing (default) |
+| `--verbose, -v` | flag | `False` | Show detailed information |
+
+**Examples:**
+
+```bash
+vibey roadmap reconcile                  # Report issues (dry-run)
+```
+
+```bash
+vibey roadmap reconcile --fix            # Fix detected issues
+```
+
+```bash
+vibey roadmap reconcile --verbose        # Detailed report
+```
+
+---
+
 <a id="vibey-roadmap-repair"></a>
 
 #### `vibey roadmap repair`
@@ -7326,6 +7628,49 @@ vibey roadmap repair --all                    # Apply all repairs
 
 ```bash
 vibey roadmap repair --references --verbose   # Remove broken refs (verbose)
+```
+
+---
+
+<a id="vibey-roadmap-revert"></a>
+
+#### `vibey roadmap revert`
+
+Revert a track, sprint, or task to a previous status
+
+Allows undoing premature completions or status changes.
+Only backward transitions are allowed (completed → in_progress → not_started).
+
+**Usage:**
+```bash
+vibey roadmap revert [OPTIONS] <ITEM_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `ITEM_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--to` | Choice(['in_progress', 'not_started']) | - | Target status to revert to |
+| `--yes, -y` | flag | `False` | Skip confirmation prompt |
+
+**Examples:**
+
+```bash
+vibey roadmap revert my-sprint --to in_progress     # Revert completed sprint
+```
+
+```bash
+vibey roadmap revert my-task --to not_started       # Reset task to not started
+```
+
+```bash
+vibey roadmap revert my-track --to in_progress -y   # Skip confirmation
 ```
 
 ---
@@ -7829,6 +8174,461 @@ vibey roadmap verify-commits abc123..def456
 
 ---
 
+<a id="vibey-session"></a>
+
+### `vibey session`
+
+Manage AI-assisted coding sessions.
+
+Track session lifecycle, log events and decisions, associate commits,
+and maintain context for session reconstruction.
+
+**Usage:**
+```bash
+vibey session COMMAND
+```
+
+**Examples:**
+
+```bash
+vibey session start                        # Start new session
+```
+
+```bash
+vibey session start "Feature work"         # Start with name
+```
+
+```bash
+vibey session status                       # Show active session
+```
+
+```bash
+vibey session end --summary "Completed X"  # End session
+```
+
+```bash
+vibey session list                         # List all sessions
+```
+
+**Subcommands:**
+
+| Command | Description |
+|---------|-------------|
+| `decisions` | Show decisions made during a session.
+
+Lists all decisions r... |
+| `end` | End the current or specified session.
+
+Marks the session as ... |
+| `export` | Export session for continuation.
+
+Exports session state incl... |
+| `list` | List sessions with optional filters.
+
+Shows all sessions mat... |
+| `pause` | Pause the current or specified session.
+
+Temporarily stops t... |
+| `report` | Generate a session report.
+
+Creates a human-readable report ... |
+| `resume` | Resume a paused session.
+
+Continues a previously paused sess... |
+| `show` | Show detailed information about a specific session.
+
+Display... |
+| `start` | Start a new coding session.
+
+Creates a new session to track ... |
+| `status` | Show the current active session status.
+
+Displays informatio... |
+| `timeline` | Show session timeline of events.
+
+Displays a chronological l... |
+
+---
+
+<a id="vibey-session-decisions"></a>
+
+#### `vibey session decisions`
+
+Show decisions made during a session.
+
+Lists all decisions recorded during the session with their rationale,
+alternatives considered, and whether they need revisiting.
+
+**Usage:**
+```bash
+vibey session decisions <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Examples:**
+
+```bash
+vibey session decisions 01ABC123...
+```
+
+---
+
+<a id="vibey-session-end"></a>
+
+#### `vibey session end`
+
+End the current or specified session.
+
+Marks the session as completed or abandoned, captures final git state,
+and calculates session statistics.
+
+**Usage:**
+```bash
+vibey session end [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--summary, -s` | TEXT | - | Session summary |
+| `--status` | Choice(['abandoned', 'completed']) | `completed` | End status |
+| `--session-id` | TEXT | - | Specific session ID to end (default: active) |
+
+**Examples:**
+
+```bash
+vibey session end                                    # End active session
+```
+
+```bash
+vibey session end --summary "Completed feature X"    # With summary
+```
+
+```bash
+vibey session end --status abandoned                 # Mark as abandoned
+```
+
+```bash
+vibey session end --session-id 01ABC123...          # End specific session
+```
+
+---
+
+<a id="vibey-session-export"></a>
+
+#### `vibey session export`
+
+Export session for continuation.
+
+Exports session state including incomplete tasks, goals, and decisions
+that need revisiting. Useful for resuming work in a new session.
+
+**Usage:**
+```bash
+vibey session export [OPTIONS] <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--output, -o` | Path(file, dir) | - | Write export to file |
+
+**Examples:**
+
+```bash
+vibey session export 01ABC123...               # Print to console
+```
+
+```bash
+vibey session export 01ABC123... -o state.json # Save to file
+```
+
+---
+
+<a id="vibey-session-list"></a>
+
+#### `vibey session list`
+
+List sessions with optional filters.
+
+Shows all sessions matching the specified filters, sorted by creation date.
+
+**Usage:**
+```bash
+vibey session list [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--status` | Choice(['abandoned', 'active', 'completed', 'paused']) | - | Filter by status |
+| `--track, -t` | TEXT | - | Filter by track ID |
+| `--sprint, -s` | TEXT | - | Filter by sprint ID |
+| `--since` | TEXT | - | Filter by date (ISO format or relative: 7d, 2w, 1m) |
+| `--limit, -n` | INTEGER | `20` | Maximum sessions to show |
+
+**Examples:**
+
+```bash
+vibey session list                      # List all sessions
+```
+
+```bash
+vibey session list --status completed   # Only completed sessions
+```
+
+```bash
+vibey session list --track my-track     # Filter by track
+```
+
+```bash
+vibey session list --since 7d -n 10     # Last 7 days, max 10
+```
+
+---
+
+<a id="vibey-session-pause"></a>
+
+#### `vibey session pause`
+
+Pause the current or specified session.
+
+Temporarily stops tracking while preserving state. Use 'resume' to continue.
+
+**Usage:**
+```bash
+vibey session pause [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--session-id` | TEXT | - | Specific session ID to pause (default: active) |
+
+**Examples:**
+
+```bash
+vibey session pause                       # Pause active session
+```
+
+```bash
+vibey session pause --session-id 01ABC... # Pause specific session
+```
+
+---
+
+<a id="vibey-session-report"></a>
+
+#### `vibey session report`
+
+Generate a session report.
+
+Creates a human-readable report of the session including summary,
+goals, tasks, commits, decisions, and timeline.
+
+**Usage:**
+```bash
+vibey session report [OPTIONS] <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['markdown', 'text']) | `markdown` | Output format |
+| `--output, -o` | Path(file, dir) | - | Write report to file |
+
+**Examples:**
+
+```bash
+vibey session report 01ABC123...              # Print to console
+```
+
+```bash
+vibey session report 01ABC123... -o report.md # Save to file
+```
+
+```bash
+vibey session report 01ABC123... -f text      # Plain text format
+```
+
+---
+
+<a id="vibey-session-resume"></a>
+
+#### `vibey session resume`
+
+Resume a paused session.
+
+Continues a previously paused session, restoring it as the active session.
+
+**Usage:**
+```bash
+vibey session resume <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Examples:**
+
+```bash
+vibey session resume 01ABC123DEF456GHI789JKL012
+```
+
+---
+
+<a id="vibey-session-show"></a>
+
+#### `vibey session show`
+
+Show detailed information about a specific session.
+
+Displays comprehensive session details including events, decisions,
+commits, and statistics.
+
+**Usage:**
+```bash
+vibey session show <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Examples:**
+
+```bash
+vibey session show 01ABC123DEF456GHI789JKL012
+```
+
+---
+
+<a id="vibey-session-start"></a>
+
+#### `vibey session start`
+
+Start a new coding session.
+
+Creates a new session to track work, decisions, and commits. Only one
+session can be active at a time.
+
+**Usage:**
+```bash
+vibey session start [OPTIONS] [NAME]
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `NAME` | TEXT | No |  |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--goal, -g` | TEXT | - | Session goal (can specify multiple) |
+| `--track, -t` | TEXT | - | Associate with track ID |
+| `--sprint, -s` | TEXT | - | Associate with sprint ID |
+| `--task, -T` | TEXT | - | Associate with task ID (can specify multiple) |
+
+**Examples:**
+
+```bash
+vibey session start                              # Auto-generated name
+```
+
+```bash
+vibey session start "Implement auth"             # Custom name
+```
+
+```bash
+vibey session start -g "Fix login bug" -g "Add tests"  # With goals
+```
+
+```bash
+vibey session start --track my-track --sprint sprint-1  # With associations
+```
+
+---
+
+<a id="vibey-session-status"></a>
+
+#### `vibey session status`
+
+Show the current active session status.
+
+Displays information about the currently active session, including
+goals, associations, and event/decision counts.
+
+**Usage:**
+```bash
+vibey session status
+```
+
+**Examples:**
+
+```bash
+vibey session status
+```
+
+---
+
+<a id="vibey-session-timeline"></a>
+
+#### `vibey session timeline`
+
+Show session timeline of events.
+
+Displays a chronological list of all events that occurred during
+the session with timestamps and details.
+
+**Usage:**
+```bash
+vibey session timeline <SESSION_ID>
+```
+
+**Arguments:**
+
+| Argument | Type | Required | Description |
+|----------|------|----------|-------------|
+| `SESSION_ID` | TEXT | Yes |  |
+
+**Examples:**
+
+```bash
+vibey session timeline 01ABC123...
+```
+
+---
+
 <a id="vibey-validate"></a>
 
 ### `vibey validate`
@@ -7951,4 +8751,4 @@ vibey validate docs --verbose
 
 *This documentation was auto-generated from the CLI source code.*
 
-*Generated at: 2025-12-12T17:26:03.924023+00:00*
+*Generated at: 2025-12-15T23:21:29.641766+00:00*

@@ -6,11 +6,11 @@ task:
   task_type: documentation
   title: Update MCP Reference with bugfix changes
   description: Update MCP Reference to reflect any tool changes from bugfixes
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-15T19:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-16T01:09:00+00:00'
+  completed: '2025-12-16T01:10:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

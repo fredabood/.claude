@@ -8,11 +8,11 @@ task:
   description: When using CLI commands like create-sprint, create-task, and db dump,
     the activity log entries are not created. This causes the pre-commit hook to block
     commits with 'No activity log entry for' errors, even though the CLI was used.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T15:22:56.066030+00:00'
-  started: null
-  completed: null
+  started: '2025-12-15T22:15:47+00:00'
+  completed: '2025-12-15T22:15:47+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

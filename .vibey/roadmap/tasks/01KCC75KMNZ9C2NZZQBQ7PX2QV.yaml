@@ -8,11 +8,11 @@ task:
   description: 21 task YAML files had legacy slug sprint_ids (e.g., user-journey-audit-43)
     instead of ULIDs. These caused database to have duplicate tasks with mismatched
     sprint references.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-13T16:02:16.923923+00:00'
-  started: null
-  completed: null
+  started: '2025-12-15T22:16:00+00:00'
+  completed: '2025-12-15T22:16:00+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

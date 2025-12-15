@@ -10,7 +10,7 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 15
+    sprints_total: 16
     sprints_completed: 0
     tasks_total: 90
     tasks_completed: 78
@@ -100,6 +100,10 @@ track:
     tasks_count: 0
   - id: dogfooding-bugs-15
     name: 'Sprint 14: YAML-DB Sync and Task Migration Bugs'
+    status: not_started
+    tasks_count: 0
+  - id: dogfooding-bugs-16
+    name: 'Sprint 10: ULID Support in CLI Commands'
     status: not_started
     tasks_count: 0
   dependencies: []

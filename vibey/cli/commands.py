@@ -2190,7 +2190,8 @@ def auto_progress_cmd(
         print("-" * 70)
 
         for r in results:
-            print(f"  {r.ticket_type.upper()}: {r.ticket_id}")
+            print(f"  {r.ticket_type.upper()}: {r.ticket_name}")
+            print(f"    ID: {r.ticket_id}")
             print(f"    {r.old_status} → {r.new_status}")
             print(f"    Reason: {r.reason}")
             print()
@@ -2211,7 +2212,8 @@ def auto_progress_cmd(
         print("-" * 70)
 
         for r in results:
-            print(f"  {r.ticket_type.upper()}: {r.ticket_id}")
+            print(f"  {r.ticket_type.upper()}: {r.ticket_name}")
+            print(f"    ID: {r.ticket_id}")
             print(f"    {r.old_status} → {r.new_status}")
             print(f"    Reason: {r.reason}")
             print()

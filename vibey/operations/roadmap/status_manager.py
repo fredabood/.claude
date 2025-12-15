@@ -68,6 +68,7 @@ class ProgressionResult:
     """Result of an auto-progression check or application."""
     ticket_id: str
     ticket_type: str  # task, sprint, track
+    ticket_name: str  # Human-readable name (track/sprint name or task title)
     old_status: str
     new_status: str
     applied: bool  # True if status was actually changed
@@ -175,6 +176,7 @@ class StatusManager:
                         results.append(ProgressionResult(
                             ticket_id=ticket.get("id", ""),
                             ticket_type=self._get_ticket_type(ticket),
+                            ticket_name=self._get_ticket_name(ticket),
                             old_status=transition.from_status,
                             new_status=transition.to_status,
                             applied=False,
@@ -218,6 +220,7 @@ class StatusManager:
                 results.append(ProgressionResult(
                     ticket_id=candidate.ticket_id,
                     ticket_type=candidate.ticket_type,
+                    ticket_name=candidate.ticket_name,
                     old_status=candidate.old_status,
                     new_status=candidate.new_status,
                     applied=True,
@@ -247,22 +250,39 @@ class StatusManager:
                 query_track_details,
             )
 
-            # Try task first
-            if "task" in ticket_id.lower():
-                result = query_task_details(self.root_dir, ticket_id)
+            # Check if it's a ULID (26 alphanumeric chars starting with 01)
+            is_ulid = len(ticket_id) == 26 and ticket_id.isalnum() and ticket_id.startswith('01')
+
+            if is_ulid:
+                # For ULIDs, check filesystem to determine type
+                roadmap_root = self.root_dir / ".vibey" / "roadmap"
+                if (roadmap_root / "tasks" / f"{ticket_id}.yaml").exists():
+                    result = query_task_details(self.root_dir, ticket_id)
+                    if result and "error" not in result:
+                        return result
+                elif (roadmap_root / "sprints" / f"{ticket_id}.yaml").exists():
+                    result = query_sprint_details(self.root_dir, ticket_id)
+                    if result and "error" not in result:
+                        return result
+                elif (roadmap_root / "tracks" / f"{ticket_id}.yaml").exists():
+                    result = query_track_details(self.root_dir, ticket_id)
+                    if result and "error" not in result:
+                        return result
+            else:
+                # Legacy slug-based ID - use string heuristics
+                if "task" in ticket_id.lower():
+                    result = query_task_details(self.root_dir, ticket_id)
+                    if result and "error" not in result:
+                        return result
+
+                if "task" not in ticket_id.lower():
+                    result = query_sprint_details(self.root_dir, ticket_id)
+                    if result and "error" not in result:
+                        return result
+
+                result = query_track_details(self.root_dir, ticket_id)
                 if result and "error" not in result:
                     return result
-
-            # Try sprint
-            if "task" not in ticket_id.lower():
-                result = query_sprint_details(self.root_dir, ticket_id)
-                if result and "error" not in result:
-                    return result
-
-            # Try track
-            result = query_track_details(self.root_dir, ticket_id)
-            if result and "error" not in result:
-                return result
 
             return None
         except Exception:
@@ -403,6 +423,7 @@ class StatusManager:
                         success = self._apply_progression(ProgressionResult(
                             ticket_id=parent_id,
                             ticket_type=self._get_ticket_type(parent),
+                            ticket_name=self._get_ticket_name(parent),
                             old_status=transition.from_status,
                             new_status=transition.to_status,
                             applied=False,
@@ -412,6 +433,7 @@ class StatusManager:
                             results.append(ProgressionResult(
                                 ticket_id=parent_id,
                                 ticket_type=self._get_ticket_type(parent),
+                                ticket_name=self._get_ticket_name(parent),
                                 old_status=transition.from_status,
                                 new_status=transition.to_status,
                                 applied=True,
@@ -427,15 +449,29 @@ class StatusManager:
 
     def _get_ticket_type(self, ticket: Dict[str, Any]) -> str:
         """Determine ticket type from data."""
+        # Task: has task_type field
         if "task_type" in ticket:
             return "task"
+        # Sprint (legacy format): has sprint_id and track_id without task_type
         elif "sprint_id" in ticket and "track_id" in ticket and "task_type" not in ticket:
             return "sprint"
+        # Track (legacy format): has track_id without sprint_id
         elif "track_id" in ticket and "sprint_id" not in ticket:
             return "track"
+        # Track (query_track_details format): has "sprints" field
+        elif "sprints" in ticket:
+            return "track"
+        # Sprint (query_sprint_details format): has "tasks" field and "development_gates"
+        elif "tasks" in ticket and "development_gates" in ticket:
+            return "sprint"
         elif "roadmap" in ticket.get("id", "").lower():
             return "roadmap"
         return "unknown"
+
+    def _get_ticket_name(self, ticket: Dict[str, Any]) -> str:
+        """Get human-readable name from ticket data."""
+        # Tasks have "title", tracks and sprints have "name"
+        return ticket.get("title") or ticket.get("name") or ticket.get("id", "Unknown")
 
     def _log_to_audit(self, results: List[ProgressionResult]) -> None:
         """Log progressions to audit trail."""

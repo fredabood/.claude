@@ -198,20 +198,98 @@ def query_roadmap_summary(root_dir: Path) -> Dict[str, Any]:
     }
 
 
+def _resolve_track_id(root_dir: Path, track_ref: str) -> Optional[str]:
+    """
+    Resolve a track reference (ID, name, or slug) to a track ID.
+
+    Tries in order:
+    1. Direct ID match (ULID)
+    2. Name match (case-insensitive, exact)
+    3. Partial name match (case-insensitive)
+    4. Slug match (convert hyphens to spaces)
+    5. Word-based match (first significant word)
+
+    Args:
+        root_dir: Root directory containing .vibey/
+        track_ref: Track reference (ID, name, or slug)
+
+    Returns:
+        Track ID if found, None otherwise
+    """
+    db_path = root_dir / ".vibey" / "roadmap.db"
+    if not db_path.exists():
+        return None
+
+    import sqlite3
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+
+    try:
+        # First try exact ID match
+        row = conn.execute("SELECT id FROM tracks WHERE id = ?", (track_ref,)).fetchone()
+        if row:
+            return row['id']
+
+        # Try case-insensitive name match
+        row = conn.execute(
+            "SELECT id FROM tracks WHERE LOWER(name) = LOWER(?) LIMIT 1",
+            (track_ref,)
+        ).fetchone()
+        if row:
+            return row['id']
+
+        # Try partial name match (case-insensitive)
+        row = conn.execute(
+            "SELECT id FROM tracks WHERE LOWER(name) LIKE LOWER(?) LIMIT 1",
+            (f"%{track_ref}%",)
+        ).fetchone()
+        if row:
+            return row['id']
+
+        # Try slug-style match (convert hyphens to spaces in search term)
+        search_with_spaces = track_ref.replace('-', ' ')
+        row = conn.execute(
+            "SELECT id FROM tracks WHERE LOWER(name) LIKE LOWER(?) LIMIT 1",
+            (f"%{search_with_spaces}%",)
+        ).fetchone()
+        if row:
+            return row['id']
+
+        # Try matching by first significant word (skip "cli", "api", etc.)
+        words = [w for w in track_ref.replace('-', ' ').split() if len(w) > 2]
+        for word in words:
+            row = conn.execute(
+                "SELECT id FROM tracks WHERE LOWER(name) LIKE LOWER(?) LIMIT 1",
+                (f"%{word}%",)
+            ).fetchone()
+            if row:
+                return row['id']
+
+        return None
+    finally:
+        conn.close()
+
+
 def query_track_details(root_dir: Path, track_id: str) -> Dict[str, Any]:
     """
     Get detailed track information.
 
     Args:
         root_dir: Root directory containing .vibey/
-        track_id: ID of the track to query
+        track_id: ID of the track to query (can be ID, name, or slug)
 
     Returns:
         Dictionary with track details
     """
     fs = FileSystemManager(root_dir)
-    track_path = fs.get_track_path(track_id)
     use_sqlite = _use_sqlite_backend(root_dir)
+
+    # Try to resolve track_id by name if it's not a direct match
+    resolved_id = _resolve_track_id(root_dir, track_id)
+    if resolved_id:
+        track_id = resolved_id
+
+    track_path = fs.get_track_path(track_id)
 
     if not use_sqlite and not track_path.exists():
         return {"error": f"Track '{track_id}' not found"}

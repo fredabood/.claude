@@ -8,7 +8,7 @@ task:
   description: '''vibey roadmap show "CLI Dogfooding Bug Fixes"'' returns ''Track
     not found'' but ''vibey roadmap show 01KC39XSXJ39N12HWJ93F77KQ9'' works. The show
     command should support both name and ID lookup.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-13T16:33:21.582911+00:00'
   started: null

@@ -8,11 +8,11 @@ task:
   description: The complete_sprint() function should refuse to complete a sprint if
     any tasks are not completed. Currently validation is wrapped in try/except and
     bypassed.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-13T00:20:51.760782+00:00'
-  started: null
-  completed: null
+  started: '2025-12-15T23:55:00+00:00'
+  completed: '2025-12-15T23:55:00+00:00'
   assigned_agent: unassigned
   priority: critical
   phase_label: null

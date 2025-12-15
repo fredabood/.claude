@@ -10,11 +10,11 @@ task:
     roadmap db rebuild'' to sync changes. Expected: Changes to YAML should be detected
     and synced automatically, or CLI commands should be the only way to modify roadmap
     state.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T06:52:30.948236+00:00'
-  started: null
-  completed: null
+  started: '2025-12-16T00:05:00+00:00'
+  completed: '2025-12-16T00:05:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

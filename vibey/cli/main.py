@@ -84,8 +84,12 @@ def cli(ctx, verbose: bool, quiet: bool):
     default=None,
     help='Storage backend: auto (default), sqlite, or yaml'
 )
+@click.option(
+    '--no-sync', is_flag=True,
+    help='Skip auto-sync check (faster for batch operations)'
+)
 @click.pass_context
-def roadmap(ctx, backend: Optional[str]):
+def roadmap(ctx, backend: Optional[str], no_sync: bool):
     """
     Manage roadmap system - tracks, sprints, tasks, and dependencies.
 
@@ -95,12 +99,16 @@ def roadmap(ctx, backend: Optional[str]):
     - Tasks: Specific work items within sprints
     - Dependencies: Blocker relationships between items
 
+    Auto-sync: Database is automatically synced when YAML files are edited
+    directly. Use --no-sync to skip this check for faster operations.
+
     Examples:
 
       vibey roadmap init           # Initialize new roadmap
       vibey roadmap status         # Show current status
       vibey roadmap show sprint-1  # Show sprint details
       vibey roadmap start task-001 # Start a task
+      vibey roadmap --no-sync list # Skip sync check
 
     Backend modes:
       auto   - Use SQLite if available, else YAML (default)
@@ -109,6 +117,14 @@ def roadmap(ctx, backend: Optional[str]):
     """
     ctx.ensure_object(dict)
     ctx.obj['BACKEND'] = backend
+    ctx.obj['NO_SYNC'] = no_sync
+
+    # Auto-sync: check if YAML files have been modified and rebuild if needed
+    if not no_sync and backend != 'yaml':
+        from pathlib import Path
+        from vibey.operations.roadmap.auto_sync import ensure_synced
+        root_dir = Path.cwd()
+        ensure_synced(root_dir, verbose=False, quiet=False)
 
 
 @roadmap.command('init')
@@ -342,19 +358,75 @@ def roadmap_start(ctx, item_id: str, skip_compatibility: bool, force: bool):
 @roadmap.command('complete')
 @click.argument('item_id')
 @click.option('--no-commits', is_flag=True, help='Skip commit evidence check (for non-code tasks)')
+@click.option('--force', '-f', is_flag=True, help='Force completion even with incomplete tasks (sprints only)')
 @click.pass_context
-def roadmap_complete(ctx, item_id: str, no_commits: bool):
+def roadmap_complete(ctx, item_id: str, no_commits: bool, force: bool):
     """Complete a track, sprint, or task
+
+    For sprints, validates that all tasks are completed before allowing completion.
+    Use --force to override this check (with warning).
 
     Examples:
       vibey roadmap complete my-track                    # Complete a track
       vibey roadmap complete my-track-1                  # Complete a sprint
       vibey roadmap complete my-track-1-task-001        # Complete a task
       vibey roadmap complete task-001 --no-commits      # Skip commit check
+      vibey roadmap complete sprint-1 --force           # Force complete with incomplete tasks
     """
     from vibey.cli.commands import roadmap_complete_cmd
 
-    exit_code = roadmap_complete_cmd(item_id, skip_commit_check=no_commits)
+    exit_code = roadmap_complete_cmd(item_id, skip_commit_check=no_commits, force=force)
+    sys.exit(exit_code)
+
+
+@roadmap.command('revert')
+@click.argument('item_id')
+@click.option('--to', 'target_status', required=True,
+              type=click.Choice(['not_started', 'in_progress']),
+              help='Target status to revert to')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
+@click.pass_context
+def roadmap_revert(ctx, item_id: str, target_status: str, yes: bool):
+    """Revert a track, sprint, or task to a previous status
+
+    Allows undoing premature completions or status changes.
+    Only backward transitions are allowed (completed → in_progress → not_started).
+
+    Examples:
+      vibey roadmap revert my-sprint --to in_progress     # Revert completed sprint
+      vibey roadmap revert my-task --to not_started       # Reset task to not started
+      vibey roadmap revert my-track --to in_progress -y   # Skip confirmation
+    """
+    from vibey.cli.commands import roadmap_revert_cmd
+
+    exit_code = roadmap_revert_cmd(item_id, target_status, skip_confirm=yes)
+    sys.exit(exit_code)
+
+
+@roadmap.command('reconcile')
+@click.option('--fix', is_flag=True, help='Auto-fix detected issues')
+@click.option('--dry-run', is_flag=True, help='Show issues without fixing (default)')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed information')
+@click.pass_context
+def roadmap_reconcile(ctx, fix: bool, dry_run: bool, verbose: bool):
+    """Detect and fix status inconsistencies in roadmap data.
+
+    Checks for status mismatches between parent/child objects:
+    - Sprints marked completed but with incomplete tasks
+    - Tracks marked completed but with incomplete sprints
+    - Tasks marked completed but with null dates
+    - Progress counts that don't match actual task counts
+
+    By default, runs in dry-run mode (report only). Use --fix to apply corrections.
+
+    Examples:
+      vibey roadmap reconcile                  # Report issues (dry-run)
+      vibey roadmap reconcile --fix            # Fix detected issues
+      vibey roadmap reconcile --verbose        # Detailed report
+    """
+    from vibey.cli.commands import reconcile_cmd
+
+    exit_code = reconcile_cmd(fix=fix, dry_run=dry_run, verbose=verbose)
     sys.exit(exit_code)
 
 
@@ -3496,6 +3568,47 @@ def db_validate(ctx, level: str, compare: bool, verbose: bool):
     from vibey.cli.commands import db_validate_cmd
 
     exit_code = db_validate_cmd(level=level, compare=compare, verbose=verbose)
+    sys.exit(exit_code)
+
+
+# ============================================================================
+# Bulk Operations Subcommand Group
+# ============================================================================
+
+@roadmap.group('bulk')
+@click.pass_context
+def roadmap_bulk(ctx):
+    """
+    Bulk operations on roadmap items.
+
+    Commands for performing operations across multiple items at once,
+    such as completing all tasks in a sprint.
+
+    Examples:
+
+      vibey roadmap bulk complete-sprint <sprint-id>  # Complete all tasks in sprint
+      vibey roadmap bulk complete-sprint <id> --yes   # Skip confirmation
+    """
+    pass
+
+
+@roadmap_bulk.command('complete-sprint')
+@click.argument('sprint_id')
+@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
+@click.pass_context
+def bulk_complete_sprint(ctx, sprint_id: str, yes: bool):
+    """Mark all tasks in a sprint as completed.
+
+    Completes all non-completed tasks in the specified sprint at once.
+    Updates sprint progress and creates activity log entries for each task.
+
+    Examples:
+      vibey roadmap bulk complete-sprint 01KC7TNS0SC0FX8TPGN9SG4J1B
+      vibey roadmap bulk complete-sprint dogfooding-bugs-10 --yes
+    """
+    from vibey.cli.commands import bulk_complete_sprint_cmd
+
+    exit_code = bulk_complete_sprint_cmd(sprint_id, skip_confirm=yes)
     sys.exit(exit_code)
 
 

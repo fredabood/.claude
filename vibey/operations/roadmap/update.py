@@ -946,7 +946,8 @@ def start_sprint(
 def complete_sprint(
     root_dir: Path,
     sprint_id: str,
-    completed_by: str = "system"
+    completed_by: str = "system",
+    force: bool = False
 ) -> int:
     """
     Mark a sprint as completed.
@@ -958,16 +959,61 @@ def complete_sprint(
         root_dir: Root directory containing .vibey/
         sprint_id: ID of the sprint to complete
         completed_by: Name of the user completing the sprint
+        force: Force completion even with incomplete tasks (with warning)
 
     Returns:
         Exit code: 0 for success, 1 for error
     """
+    import yaml
+
     fs = FileSystemManager(root_dir)
     sprint_path = fs.get_sprint_path(sprint_id)
+    roadmap_root = root_dir / ".vibey" / "roadmap"
 
     if not sprint_path.exists():
         print(f"❌ Sprint '{sprint_id}' not found")
         return 1
+
+    # ==========================================================================
+    # TASK COMPLETION VALIDATION
+    # Check if all tasks in the sprint are completed before allowing completion
+    # ==========================================================================
+
+    # Determine sprint ULID for task lookup
+    is_ulid = len(sprint_id) == 26 and sprint_id.isalnum() and sprint_id.startswith('01')
+    sprint_ulid = sprint_id
+
+    if not is_ulid:
+        # Load sprint to get its ULID
+        with open(sprint_path) as f:
+            sprint_data = yaml.safe_load(f)
+        sprint_ulid = sprint_data.get('sprint', {}).get('id', sprint_id)
+
+    # Find incomplete tasks for this sprint
+    incomplete_tasks = []
+    for task_file in (roadmap_root / "tasks").glob("*.yaml"):
+        with open(task_file) as f:
+            task_data = yaml.safe_load(f)
+        task = task_data.get('task', {})
+        if task.get('sprint_id') == sprint_ulid and task.get('status') != 'completed':
+            incomplete_tasks.append({
+                'id': task.get('id'),
+                'title': task.get('title', 'Untitled'),
+                'status': task.get('status', 'not_started'),
+            })
+
+    if incomplete_tasks and not force:
+        print(f"❌ Cannot complete sprint: {len(incomplete_tasks)} task(s) incomplete")
+        for task in incomplete_tasks:
+            print(f"   • {task['title']} ({task['status']})")
+        print(f"\n   Use --force to complete anyway.")
+        return 1
+
+    if incomplete_tasks and force:
+        print(f"⚠️  Force completing sprint with {len(incomplete_tasks)} incomplete task(s):")
+        for task in incomplete_tasks:
+            print(f"   • {task['title']} ({task['status']})")
+        print()
 
     # ==========================================================================
     # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
@@ -978,14 +1024,18 @@ def complete_sprint(
         sprint_ticket = load_sprint_ticket(root_dir, sprint_id)
         can_complete, blockers = sprint_ticket.can_transition_to(TicketStatus.COMPLETED)
 
-        if not can_complete:
+        if not can_complete and not force:
             print(f"❌ Cannot complete sprint: criteria not met")
             for blocker in blockers:
                 print(f"   • {blocker}")
+            print(f"\n   Use --force to complete anyway.")
             return 1
-    except Exception as e:
-        # Ticket model validation not available, continue with legacy checks
+    except FileNotFoundError:
+        # Ticket model files not available, continue with legacy checks
         pass
+    except Exception as e:
+        # Log error but continue with legacy checks
+        print(f"⚠️  Criteria validation warning: {e}")
 
     # ==========================================================================
     # LEGACY VALIDATION (kept for backward compatibility)

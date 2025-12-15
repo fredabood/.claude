@@ -804,7 +804,7 @@ def roadmap_start_cmd(item_id: str) -> int:
         return 1
 
 
-def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
+def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False, force: bool = False) -> int:
     """Complete a track, sprint, or task."""
     root_dir = Path.cwd()  # Project root
     roadmap_root = root_dir / ".vibey" / "roadmap"
@@ -817,7 +817,7 @@ def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
         if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
             return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
         elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
-            return complete_sprint(root_dir, item_id)
+            return complete_sprint(root_dir, item_id, force=force)
         elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
             return complete_track(root_dir, item_id)
         else:
@@ -836,7 +836,7 @@ def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
     # Try sprint first (more specific pattern)
     sprint_path = fs.get_sprint_path(item_id)
     if sprint_path.exists():
-        return complete_sprint(root_dir, item_id)
+        return complete_sprint(root_dir, item_id, force=force)
 
     # Try track
     track_path = fs.get_track_path(item_id)
@@ -851,6 +851,484 @@ def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
     print("  Task:   <sprint-id>-task-<num> (e.g., platform-context-management-5-task-001)")
     print("  ULID:   01XXXXXXXXXXXXXXXXXXXXXXXXX (26-char identifier)")
     return 1
+
+
+def roadmap_revert_cmd(item_id: str, target_status: str, skip_confirm: bool = False) -> int:
+    """Revert a track, sprint, or task to a previous status.
+
+    Args:
+        item_id: ID of the item to revert
+        target_status: Status to revert to ('not_started' or 'in_progress')
+        skip_confirm: Skip confirmation prompt
+
+    Returns:
+        Exit code (0 for success)
+    """
+    from datetime import datetime, timezone
+    import yaml
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Determine item type and get file path
+    is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+    item_type = None
+    item_path = None
+
+    if is_ulid:
+        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+            item_type = "task"
+            item_path = roadmap_root / "tasks" / f"{item_id}.yaml"
+        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+            item_type = "sprint"
+            item_path = roadmap_root / "sprints" / f"{item_id}.yaml"
+        elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
+            item_type = "track"
+            item_path = roadmap_root / "tracks" / f"{item_id}.yaml"
+    else:
+        # Legacy slug-based lookup
+        from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+        fs = FileSystemManager(root_dir)
+
+        if '-task-' in item_id:
+            item_type = "task"
+            # Need to find task file - search in tasks directory
+            for task_file in (roadmap_root / "tasks").glob("*.yaml"):
+                with open(task_file) as f:
+                    data = yaml.safe_load(f)
+                if data.get('task', {}).get('id') == item_id:
+                    item_path = task_file
+                    break
+        else:
+            sprint_path = fs.get_sprint_path(item_id)
+            if sprint_path.exists():
+                item_type = "sprint"
+                item_path = sprint_path
+            else:
+                track_path = fs.get_track_path(item_id)
+                if track_path.exists():
+                    item_type = "track"
+                    item_path = track_path
+
+    if not item_type or not item_path:
+        print(f"❌ Cannot find item: {item_id}")
+        return 1
+
+    # Load the item
+    with open(item_path) as f:
+        data = yaml.safe_load(f)
+
+    # Get current status
+    item_data = data.get(item_type, {})
+    current_status = item_data.get('status', 'unknown')
+    item_name = item_data.get('name') or item_data.get('title') or item_id
+
+    # Validate the transition
+    valid_transitions = {
+        'completed': ['in_progress', 'not_started'],
+        'in_progress': ['not_started'],
+        'not_started': [],
+    }
+
+    if target_status not in valid_transitions.get(current_status, []):
+        print(f"❌ Cannot revert {item_type} from '{current_status}' to '{target_status}'")
+        print(f"   Valid transitions from '{current_status}': {valid_transitions.get(current_status, [])}")
+        return 1
+
+    # Confirm unless skip_confirm
+    if not skip_confirm:
+        print(f"⚠️  About to revert {item_type}:")
+        print(f"   Name: {item_name}")
+        print(f"   ID: {item_id}")
+        print(f"   Status: {current_status} → {target_status}")
+        confirm = input("\nContinue? [y/N]: ").strip().lower()
+        if confirm not in ('y', 'yes'):
+            print("Cancelled.")
+            return 0
+
+    # Update the status
+    item_data['status'] = target_status
+
+    # Clear/update timestamps based on target status
+    if target_status == 'not_started':
+        item_data['started'] = None
+        item_data['completed'] = None
+    elif target_status == 'in_progress':
+        item_data['completed'] = None
+        # Keep started if it exists, otherwise set it now
+        if not item_data.get('started'):
+            item_data['started'] = datetime.now(timezone.utc).isoformat()
+
+    # Save the updated data
+    data[item_type] = item_data
+    with open(item_path, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+    # Log activity
+    try:
+        from vibey.operations.roadmap.activity_log import get_activity_log
+        activity_log = get_activity_log(root_dir)
+        activity_log.audit_manager.log_change(
+            object_type=item_type,
+            object_id=item_id,
+            field="status",
+            old_value=current_status,
+            new_value=target_status,
+            reason=f"Status reverted via CLI",
+            source="cli",
+        )
+    except Exception:
+        pass  # Activity logging is optional
+
+    # Rebuild database
+    try:
+        from vibey.cli.commands import db_rebuild_cmd
+        db_rebuild_cmd(force=True)
+    except Exception:
+        pass
+
+    print(f"✅ Reverted {item_type}: {item_name}")
+    print(f"   Status: {current_status} → {target_status}")
+
+    return 0
+
+
+def bulk_complete_sprint_cmd(sprint_id: str, skip_confirm: bool = False) -> int:
+    """Complete all tasks in a sprint.
+
+    Args:
+        sprint_id: ID of the sprint (ULID or legacy slug)
+        skip_confirm: Skip confirmation prompt
+
+    Returns:
+        Exit code (0 for success)
+    """
+    from datetime import datetime, timezone
+    import yaml
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Determine sprint file path
+    is_ulid = len(sprint_id) == 26 and sprint_id.isalnum() and sprint_id.startswith('01')
+
+    sprint_path = None
+    sprint_ulid = None
+
+    if is_ulid:
+        sprint_path = roadmap_root / "sprints" / f"{sprint_id}.yaml"
+        sprint_ulid = sprint_id
+        if not sprint_path.exists():
+            print(f"❌ Sprint not found: {sprint_id}")
+            return 1
+    else:
+        # Legacy slug-based lookup - search by name
+        for sprint_file in (roadmap_root / "sprints").glob("*.yaml"):
+            with open(sprint_file) as f:
+                data = yaml.safe_load(f)
+            sprint_data = data.get('sprint', {})
+            if sprint_data.get('name') == sprint_id or sprint_data.get('id') == sprint_id:
+                sprint_path = sprint_file
+                sprint_ulid = sprint_data.get('id')
+                break
+
+        if not sprint_path:
+            print(f"❌ Sprint not found: {sprint_id}")
+            return 1
+
+    # Load sprint data
+    with open(sprint_path) as f:
+        sprint_data = yaml.safe_load(f)
+
+    sprint_name = sprint_data.get('sprint', {}).get('name', sprint_id)
+
+    # Find all tasks for this sprint
+    tasks_to_complete = []
+    for task_file in (roadmap_root / "tasks").glob("*.yaml"):
+        with open(task_file) as f:
+            task_data = yaml.safe_load(f)
+
+        task = task_data.get('task', {})
+        if task.get('sprint_id') == sprint_ulid and task.get('status') != 'completed':
+            tasks_to_complete.append({
+                'path': task_file,
+                'data': task_data,
+                'id': task.get('id'),
+                'title': task.get('title', 'Untitled'),
+                'status': task.get('status', 'not_started'),
+            })
+
+    if not tasks_to_complete:
+        print(f"✅ All tasks in sprint '{sprint_name}' are already completed.")
+        return 0
+
+    # Show confirmation
+    if not skip_confirm:
+        print(f"⚠️  About to complete {len(tasks_to_complete)} task(s) in sprint '{sprint_name}':")
+        for task in tasks_to_complete:
+            print(f"   • {task['title']} ({task['status']} → completed)")
+        confirm = input("\nContinue? [y/N]: ").strip().lower()
+        if confirm not in ('y', 'yes'):
+            print("Cancelled.")
+            return 0
+
+    # Complete each task
+    now = datetime.now(timezone.utc).isoformat()
+    completed_count = 0
+
+    for task in tasks_to_complete:
+        task_data = task['data']
+        task_data['task']['status'] = 'completed'
+        task_data['task']['completed'] = now
+        if not task_data['task'].get('started'):
+            task_data['task']['started'] = now
+
+        with open(task['path'], 'w') as f:
+            yaml.dump(task_data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+        completed_count += 1
+        print(f"  ✓ {task['title']}")
+
+        # Log activity
+        try:
+            from vibey.operations.roadmap.activity_log import get_activity_log
+            activity_log = get_activity_log(root_dir)
+            activity_log.audit_manager.log_change(
+                object_type="task",
+                object_id=task['id'],
+                field="status",
+                old_value=task['status'],
+                new_value="completed",
+                reason="Bulk completed via CLI",
+                source="cli",
+            )
+        except Exception:
+            pass  # Activity logging is optional
+
+    # Rebuild database
+    try:
+        db_rebuild_cmd(force=True)
+    except Exception:
+        pass
+
+    print(f"\n✅ Completed {completed_count} task(s) in sprint '{sprint_name}'")
+
+    return 0
+
+
+def reconcile_cmd(fix: bool = False, dry_run: bool = False, verbose: bool = False) -> int:
+    """Detect and fix status inconsistencies in roadmap data.
+
+    Args:
+        fix: Auto-fix detected issues
+        dry_run: Show issues without fixing (default mode)
+        verbose: Show detailed information
+
+    Returns:
+        Exit code (0 for success, 1 if issues found and not fixed)
+    """
+    from datetime import datetime, timezone
+    from dataclasses import dataclass
+    from typing import List
+    import yaml
+
+    @dataclass
+    class Issue:
+        type: str
+        severity: str  # 'error' or 'warning'
+        entity_type: str
+        entity_id: str
+        entity_name: str
+        message: str
+        fix_action: str
+
+    root_dir = Path.cwd()
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    issues: List[Issue] = []
+
+    # Load all sprints and tasks for analysis
+    sprints = {}
+    for sprint_file in (roadmap_root / "sprints").glob("*.yaml"):
+        with open(sprint_file) as f:
+            data = yaml.safe_load(f)
+        sprint = data.get('sprint', {})
+        sprint['_path'] = sprint_file
+        sprints[sprint.get('id')] = sprint
+
+    tasks = {}
+    for task_file in (roadmap_root / "tasks").glob("*.yaml"):
+        with open(task_file) as f:
+            data = yaml.safe_load(f)
+        task = data.get('task', {})
+        task['_path'] = task_file
+        tasks[task.get('id')] = task
+
+    tracks = {}
+    for track_file in (roadmap_root / "tracks").glob("*.yaml"):
+        with open(track_file) as f:
+            data = yaml.safe_load(f)
+        track = data.get('track', {})
+        track['_path'] = track_file
+        tracks[track.get('id')] = track
+
+    # Check 1: Completed tasks with null dates
+    for task_id, task in tasks.items():
+        if task.get('status') == 'completed':
+            if not task.get('completed'):
+                issues.append(Issue(
+                    type='null_completed_date',
+                    severity='warning',
+                    entity_type='task',
+                    entity_id=task_id,
+                    entity_name=task.get('title', 'Unknown'),
+                    message='Completed task has null completed date',
+                    fix_action='Set completed date to now',
+                ))
+            if not task.get('started'):
+                issues.append(Issue(
+                    type='null_started_date',
+                    severity='warning',
+                    entity_type='task',
+                    entity_id=task_id,
+                    entity_name=task.get('title', 'Unknown'),
+                    message='Completed task has null started date',
+                    fix_action='Set started date to now',
+                ))
+
+    # Check 2: Completed sprints with incomplete tasks
+    sprint_tasks = {}  # sprint_id -> list of task statuses
+    for task_id, task in tasks.items():
+        sprint_id = task.get('sprint_id')
+        if sprint_id:
+            if sprint_id not in sprint_tasks:
+                sprint_tasks[sprint_id] = []
+            sprint_tasks[sprint_id].append(task.get('status', 'not_started'))
+
+    for sprint_id, sprint in sprints.items():
+        if sprint.get('status') == 'completed':
+            task_statuses = sprint_tasks.get(sprint_id, [])
+            incomplete = [s for s in task_statuses if s != 'completed']
+            if incomplete:
+                issues.append(Issue(
+                    type='completed_sprint_incomplete_tasks',
+                    severity='error',
+                    entity_type='sprint',
+                    entity_id=sprint_id,
+                    entity_name=sprint.get('name', 'Unknown'),
+                    message=f'Completed sprint has {len(incomplete)} incomplete task(s)',
+                    fix_action='Revert sprint status to in_progress',
+                ))
+
+    # Check 3: Completed tracks with incomplete sprints
+    track_sprints = {}  # track_id -> list of sprint statuses
+    for sprint_id, sprint in sprints.items():
+        track_id = sprint.get('track_id')
+        if track_id:
+            if track_id not in track_sprints:
+                track_sprints[track_id] = []
+            track_sprints[track_id].append(sprint.get('status', 'not_started'))
+
+    for track_id, track in tracks.items():
+        if track.get('status') == 'completed':
+            sprint_statuses = track_sprints.get(track_id, [])
+            incomplete = [s for s in sprint_statuses if s != 'completed']
+            if incomplete:
+                issues.append(Issue(
+                    type='completed_track_incomplete_sprints',
+                    severity='error',
+                    entity_type='track',
+                    entity_id=track_id,
+                    entity_name=track.get('name', 'Unknown'),
+                    message=f'Completed track has {len(incomplete)} incomplete sprint(s)',
+                    fix_action='Revert track status to in_progress',
+                ))
+
+    # Print results
+    if not issues:
+        print("✅ No inconsistencies found")
+        return 0
+
+    # Group issues by type
+    errors = [i for i in issues if i.severity == 'error']
+    warnings = [i for i in issues if i.severity == 'warning']
+
+    print(f"Found {len(issues)} issue(s): {len(errors)} error(s), {len(warnings)} warning(s)\n")
+
+    for issue in issues:
+        icon = "❌" if issue.severity == 'error' else "⚠️"
+        print(f"{icon} [{issue.entity_type}] {issue.entity_name}")
+        print(f"   ID: {issue.entity_id}")
+        print(f"   Issue: {issue.message}")
+        if verbose:
+            print(f"   Fix: {issue.fix_action}")
+        print()
+
+    # Fix issues if requested
+    if fix:
+        print("Applying fixes...\n")
+        fixed_count = 0
+        now = datetime.now(timezone.utc).isoformat()
+
+        for issue in issues:
+            if issue.type == 'null_completed_date':
+                task = tasks[issue.entity_id]
+                task_path = task['_path']
+                with open(task_path) as f:
+                    data = yaml.safe_load(f)
+                data['task']['completed'] = now
+                with open(task_path, 'w') as f:
+                    yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+                print(f"  ✓ Set completed date for task: {issue.entity_name}")
+                fixed_count += 1
+
+            elif issue.type == 'null_started_date':
+                task = tasks[issue.entity_id]
+                task_path = task['_path']
+                with open(task_path) as f:
+                    data = yaml.safe_load(f)
+                data['task']['started'] = now
+                with open(task_path, 'w') as f:
+                    yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+                print(f"  ✓ Set started date for task: {issue.entity_name}")
+                fixed_count += 1
+
+            elif issue.type == 'completed_sprint_incomplete_tasks':
+                sprint = sprints[issue.entity_id]
+                sprint_path = sprint['_path']
+                with open(sprint_path) as f:
+                    data = yaml.safe_load(f)
+                data['sprint']['status'] = 'in_progress'
+                data['sprint']['completed'] = None
+                with open(sprint_path, 'w') as f:
+                    yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+                print(f"  ✓ Reverted sprint to in_progress: {issue.entity_name}")
+                fixed_count += 1
+
+            elif issue.type == 'completed_track_incomplete_sprints':
+                track = tracks[issue.entity_id]
+                track_path = track['_path']
+                with open(track_path) as f:
+                    data = yaml.safe_load(f)
+                data['track']['status'] = 'in_progress'
+                data['track']['completed'] = None
+                with open(track_path, 'w') as f:
+                    yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+                print(f"  ✓ Reverted track to in_progress: {issue.entity_name}")
+                fixed_count += 1
+
+        # Rebuild database after fixes
+        try:
+            db_rebuild_cmd(force=True)
+        except Exception:
+            pass
+
+        print(f"\n✅ Fixed {fixed_count} issue(s)")
+        return 0
+    else:
+        print("Run with --fix to apply corrections")
+        return 1
 
 
 def roadmap_context_cmd(task_id: str) -> int:

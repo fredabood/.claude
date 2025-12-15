@@ -1,0 +1,75 @@
+sprint:
+  id: 01KCHHQT5TR65D02YPGK4N5WQP
+  name: 'Phase 5.5: Post-Bugfix Documentation Sync'
+  track_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: true
+  blocked_reason: Blocked by 27 open bugs in dogfooding-bugs track
+  created: '2025-12-15T19:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by:
+    - 01KCAH9JF0JX1KWDPJV65PAXJC
+    - 01KCAH9PG05Z3TB46Z74H9DBFV
+    - 01KCAH9ECZXRMJN05DQ9ZAS46V
+    - 01KCAH9TCSDKACPJQPP6TFCTK0
+    - 01KCH7051YHKTSVQ21JRB81VM9
+    - 01KCH7766JSCJ36G91HS4YRSBW
+    - 01KC8FV1V847TF6K5NXRFV6P3G
+    - 01KC8FTXZB94YTTB79VPK3SNRM
+    - 01KC8FV9S1CWR4ZZ0VH4CEF9WW
+    - 01KC8FGN8HVDFHC9MYVRFK3WHN
+    - 01KC8FV5SAHS4BNZYYXH3KGEF8
+    - 01KC8NA7RJTJKPRFABDZ2N4R9N
+    - 01KC9JGV5886MAAP1A02QPJJHW
+    - 01KC9JEBHTHJ4VV5PDW2N0JCV4
+    - 01KC9J6NXBB3G748D5R67DFJYH
+    - 01KC9JEJH4N15DS7NT0WMFPCHZ
+    - 01KC9J8R2FVP68GPFWCBJ5MN1X
+    - 01KC9J8FKMMYCVQEZ891EX5JTD
+    - 01KCC8ZBEZK4VYYYYVW8HM4DFW
+    - 01KCC8YGKPXGCVBZX29Y2M53KF
+    - 01KCCJ5D4KN02GX20FGF19AV6Y
+    - 01KCC75KMNZ9C2NZZQBQ7PX2QV
+    - 01KCC76RA9QWQPVYXMKBW28DWE
+    - 01KCEWQQQA930VK1J282TC9XGT
+    - 01KCEWQQQA930VK1J282TC9XGV
+    - 01KCAKHCZDGXXGAATBXSXW42Y3
+    - 01KCAKH33KHF0HWVTM5C7AP3Y2
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables: []
+  description: Documentation sync after resolving all dogfooding bugs. Ensures CLI documentation accurately reflects bug fixes.
+  goal: null
+  success_criteria: []
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

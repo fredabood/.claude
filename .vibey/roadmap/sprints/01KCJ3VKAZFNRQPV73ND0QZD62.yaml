@@ -1,28 +1,28 @@
 sprint:
   id: 01KCJ3VKAZFNRQPV73ND0QZD62
   name: 'Sprint 16: Silent Sprint Skipping Bug'
-  track_id: dogfooding-bugs
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: completed
   blocked: false
   blocked_reason: null
   created: '2025-12-15T22:59:48.706619+00:00'
-  started: null
+  started: '2025-12-15T23:08:47.444112+00:00'
   completion_gate_check_at: null
-  completed: null
+  completed: '2025-12-16T00:30:00+00:00'
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
-    development_tasks_completed: 0
+    development_tasks_total: 1
+    development_tasks_completed: 1
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 1
+    tasks_completed: 1
+    completion_percent: 100
   development_gates: []
   blocks: []
   blocked_by: []

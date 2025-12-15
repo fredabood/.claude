@@ -3012,6 +3012,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
     skipped_tracks = 0
     skipped_sprints = 0
     skipped_tasks = 0
+    skipped_files = []  # Track which files failed and why
 
     # Build slug -> ULID mappings from .id files
     def load_id_mapping(entity_dir):
@@ -3058,6 +3059,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
             loaded_tracks += 1
         except Exception as e:
             skipped_tracks += 1
+            skipped_files.append(('track', track_file.name, str(e)))
             continue
 
     # 2. Load all sprints from sprints/*.yaml
@@ -3072,6 +3074,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 track_id = getattr(sprint, 'track_id', None)
                 if not track_id:
                     skipped_sprints += 1
+                    skipped_files.append(('sprint', sprint_file.name, 'Missing track_id'))
                     continue
 
                 # Resolve slug to ULID if needed
@@ -3080,6 +3083,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 elif track_id not in valid_track_ulids:
                     # Unknown track_id, skip
                     skipped_sprints += 1
+                    skipped_files.append(('sprint', sprint_file.name, f'Unknown track_id: {track_id}'))
                     continue
 
                 # Build metadata dict
@@ -3112,6 +3116,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 loaded_sprints += 1
             except Exception as e:
                 skipped_sprints += 1
+                skipped_files.append(('sprint', sprint_file.name, str(e)))
                 continue
 
     # 3. Load all tasks from tasks/*.yaml
@@ -3126,6 +3131,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 track_id = getattr(task, 'track_id', None)
                 if not sprint_id:
                     skipped_tasks += 1
+                    skipped_files.append(('task', task_file.name, 'Missing sprint_id'))
                     continue
 
                 # Resolve sprint slug to ULID if needed
@@ -3133,6 +3139,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                     sprint_id = sprint_slug_to_ulid[sprint_id]
                 elif sprint_id not in valid_sprint_ulids:
                     skipped_tasks += 1
+                    skipped_files.append(('task', task_file.name, f'Unknown sprint_id: {sprint_id}'))
                     continue
 
                 # Resolve track slug to ULID if needed
@@ -3166,13 +3173,20 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                 loaded_tasks += 1
             except Exception as e:
                 skipped_tasks += 1
+                skipped_files.append(('task', task_file.name, str(e)))
                 continue
 
     # Print summary
     total_skipped = skipped_tracks + skipped_sprints + skipped_tasks
     if total_skipped > 0:
         print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
-        print(f"   Skipped {skipped_tracks} tracks, {skipped_sprints} sprints, {skipped_tasks} tasks (validation errors)")
+        print(f"   ⚠️  Skipped {skipped_tracks} tracks, {skipped_sprints} sprints, {skipped_tasks} tasks (validation errors)")
+        # Show details of skipped files (limit to first 10 to avoid spam)
+        print(f"\n   Skipped files:")
+        for entity_type, filename, reason in skipped_files[:10]:
+            print(f"     - {entity_type}s/{filename}: {reason}")
+        if len(skipped_files) > 10:
+            print(f"     ... and {len(skipped_files) - 10} more")
     else:
         print(f"   Loaded {loaded_tracks} tracks, {loaded_sprints} sprints, {loaded_tasks} tasks")
 

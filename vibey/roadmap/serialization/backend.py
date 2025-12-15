@@ -569,6 +569,11 @@ class SyncManager:
         sprints = []
         tasks = []
 
+        # Track skipped files for error reporting
+        import logging
+        logger = logging.getLogger(__name__)
+        skipped_files = []
+
         # Load tracks from flat structure
         tracks_dir = self.roadmap_dir / "tracks"
         if tracks_dir.exists():
@@ -578,8 +583,9 @@ class SyncManager:
                 try:
                     track = load_track(track_file)
                     tracks.append(track)
-                except Exception:
-                    pass
+                except Exception as e:
+                    skipped_files.append(('track', track_file.name, str(e)))
+                    logger.warning(f"Skipped track {track_file.name}: {e}")
 
         # Load sprints from flat structure
         sprints_dir = self.roadmap_dir / "sprints"
@@ -590,8 +596,9 @@ class SyncManager:
                 try:
                     sprint = load_sprint(sprint_file)
                     sprints.append(sprint)
-                except Exception:
-                    pass
+                except Exception as e:
+                    skipped_files.append(('sprint', sprint_file.name, str(e)))
+                    logger.warning(f"Skipped sprint {sprint_file.name}: {e}")
 
         # Load tasks from flat structure
         tasks_dir = self.roadmap_dir / "tasks"
@@ -602,8 +609,9 @@ class SyncManager:
                 try:
                     task = load_task(task_file)
                     tasks.append(task)
-                except Exception:
-                    pass
+                except Exception as e:
+                    skipped_files.append(('task', task_file.name, str(e)))
+                    logger.warning(f"Skipped task {task_file.name}: {e}")
 
         # Rebuild database
         # Drop and recreate schema (each function handles its own transactions)

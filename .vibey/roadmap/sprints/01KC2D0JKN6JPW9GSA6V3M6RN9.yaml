@@ -16,8 +16,8 @@ sprint:
   progress:
     development_tasks_total: 5
     development_tasks_completed: 5
-    completion_gate_tasks_total: 1
-    completion_gate_tasks_completed: 1
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
     tasks_total: 5

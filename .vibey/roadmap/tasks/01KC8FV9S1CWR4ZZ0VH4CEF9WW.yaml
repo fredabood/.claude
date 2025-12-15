@@ -8,7 +8,7 @@ task:
   description: CLI help shows --complexity accepts trivial/low/medium/high/complex
     but model validation rejects 'trivial' and 'low' with error 'not a valid Complexity'.
     CLI should validate against actual model enum.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T05:16:58.573230+00:00'
   started: null

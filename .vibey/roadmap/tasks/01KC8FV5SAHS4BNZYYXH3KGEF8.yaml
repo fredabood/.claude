@@ -7,7 +7,7 @@ task:
   title: edit command warns Unknown YAML file type for ULID files
   description: The 'roadmap edit file' command emits warning 'Unknown YAML file type'
     for ULID-named task/sprint files. Should recognize ULID naming pattern.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T05:16:54.520261+00:00'
   started: null

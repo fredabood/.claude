@@ -8,7 +8,7 @@ task:
   description: The 'roadmap complete' command rejects ULID task IDs with error 'Cannot
     find track or sprint with ID'. It expects legacy slug format. Should accept both
     formats.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T05:16:46.476242+00:00'
   started: null

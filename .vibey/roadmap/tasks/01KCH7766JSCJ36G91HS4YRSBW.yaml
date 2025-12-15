@@ -8,7 +8,7 @@ task:
   description: 'BUG: The pre-commit hook for validating task references doesn''t recognize
     ULID-formatted task IDs. Commits with ''Task: 01KC...'' footer are rejected with
     ''Commit does not reference a task''. Need to update task ID regex pattern.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-15T14:39:20.872371+00:00'
   started: null

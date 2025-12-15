@@ -6,10 +6,10 @@ task:
   task_type: development
   title: roadmap edit file --set appends field instead of updating existing
   description: 'When using ''vibey roadmap edit file <file> --set status=in_progress'',
-    the command appends ''status: in_progress'' at the end of the file instead of
+    the command appends ''status: completed'' at the end of the file instead of
     modifying the existing status field on line 5. This creates an invalid YAML structure
     with duplicate keys.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T15:18:30.760904+00:00'
   started: null

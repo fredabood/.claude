@@ -8,7 +8,7 @@ task:
   description: When editing or validating track/sprint/task YAML files that use ULID-based
     filenames, the command shows 'Unknown YAML file type' warnings. The file type
     detection doesn't recognize ULID filenames.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T15:21:34.528755+00:00'
   started: null

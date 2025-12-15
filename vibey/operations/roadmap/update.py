@@ -362,18 +362,37 @@ def complete_task(
         Exit code: 0 for success, 1 for error
     """
     fs = FileSystemManager(root_dir)
+    roadmap_root = root_dir / ".vibey" / "roadmap"
 
-    # Extract sprint ID from task ID (everything before -task-)
-    if '-task-' not in task_id:
-        print(f"❌ Invalid task ID format: {task_id}")
-        return 1
+    # Check if task_id is a ULID (26 alphanumeric chars starting with 01)
+    is_ulid = len(task_id) == 26 and task_id.isalnum() and task_id.startswith('01')
 
-    sprint_id = task_id.split('-task-')[0]
-    tasks_path = fs.get_tasks_path(sprint_id)
-
-    if not tasks_path.exists():
-        print(f"❌ Tasks file not found for sprint '{sprint_id}'")
-        return 1
+    if is_ulid:
+        # For ULIDs, load task directly from tasks/ directory
+        task_path = roadmap_root / "tasks" / f"{task_id}.yaml"
+        if not task_path.exists():
+            print(f"❌ Task file not found: {task_path}")
+            return 1
+        # Get sprint_id from task YAML
+        import yaml
+        with open(task_path) as f:
+            task_data = yaml.safe_load(f)
+        sprint_id = task_data.get('task', {}).get('sprint_id')
+        if not sprint_id:
+            print(f"❌ Task {task_id} has no sprint_id")
+            return 1
+        tasks_path = task_path  # For ULID, the task_path is the file itself
+    else:
+        # Legacy format: extract sprint ID from task ID (everything before -task-)
+        if '-task-' not in task_id:
+            print(f"❌ Invalid task ID format: {task_id}")
+            print("  Expected: <sprint-id>-task-<num> or 26-char ULID")
+            return 1
+        sprint_id = task_id.split('-task-')[0]
+        tasks_path = fs.get_tasks_path(sprint_id)
+        if not tasks_path.exists():
+            print(f"❌ Tasks file not found for sprint '{sprint_id}'")
+            return 1
 
     # ==========================================================================
     # CRITERIA-BASED VALIDATION (Sprint 9 - Smart Accessor Pattern)
@@ -397,15 +416,18 @@ def complete_task(
     # These checks will be consolidated into criteria in future sprints
     # ==========================================================================
 
-    # Load tasks
-    tasks = load_tasks(tasks_path)
-
-    # Find and update task
-    task = None
-    for t in tasks:
-        if t.id == task_id:
-            task = t
-            break
+    # Load task(s) based on ID format
+    if is_ulid:
+        # For ULID, load single task directly from file
+        task = load_task(tasks_path)  # tasks_path is the individual task file for ULIDs
+    else:
+        # For legacy format, load all tasks from sprint and find matching one
+        tasks = load_tasks(tasks_path)
+        task = None
+        for t in tasks:
+            if t.id == task_id:
+                task = t
+                break
 
     if not task:
         print(f"❌ Task '{task_id}' not found")

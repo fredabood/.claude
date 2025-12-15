@@ -8,7 +8,7 @@ task:
   description: The 'vibey roadmap start <ULID>' command fails with 'Cannot determine
     item type from ID'. It only accepts slug format (e.g., track-sprint-task-num)
     but should also accept raw ULIDs since that's the primary ID format.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T15:18:22.104397+00:00'
   started: null

@@ -7,7 +7,7 @@ task:
   title: CLI complexity choices don't match Complexity model enum
   description: CLI accepts trivial/low/medium/high/complex but model only has simple/medium/complex.
     Using low or trivial causes validation error.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-13T16:33:49.096935+00:00'
   started: null

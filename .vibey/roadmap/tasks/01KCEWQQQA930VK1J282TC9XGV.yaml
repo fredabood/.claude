@@ -26,7 +26,7 @@ task:
     characters starting with 01K).
 
     '
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-14T19:00:00+00:00'
   started: null

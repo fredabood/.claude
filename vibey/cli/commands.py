@@ -752,6 +752,20 @@ def roadmap_show_cmd(item_id: str) -> int:
 def roadmap_start_cmd(item_id: str) -> int:
     """Start a sprint or task."""
     root_dir = Path.cwd()  # Project root
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Check if it's a ULID (26 alphanumeric chars starting with 01)
+    is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+    if is_ulid:
+        # Determine type by checking filesystem
+        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+            return start_task(root_dir, item_id)
+        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+            return start_sprint(root_dir, item_id)
+        else:
+            print(f"Error: Cannot find task or sprint with ULID: {item_id}")
+            return 1
 
     if 'task' in item_id:
         return start_task(root_dir, item_id)
@@ -760,12 +774,29 @@ def roadmap_start_cmd(item_id: str) -> int:
     else:
         print(f"Error: Cannot determine item type from ID: {item_id}")
         print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
+        print("  or ULID:   01XXXXXXXXXXXXXXXXXXXXXXXXX (26-char identifier)")
         return 1
 
 
 def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
     """Complete a track, sprint, or task."""
     root_dir = Path.cwd()  # Project root
+    roadmap_root = root_dir / ".vibey" / "roadmap"
+
+    # Check if it's a ULID (26 alphanumeric chars starting with 01)
+    is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+    if is_ulid:
+        # Determine type by checking filesystem
+        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+            return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
+        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+            return complete_sprint(root_dir, item_id)
+        elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
+            return complete_track(root_dir, item_id)
+        else:
+            print(f"Error: Cannot find item with ULID: {item_id}")
+            return 1
 
     # Task IDs contain '-task-'
     if '-task-' in item_id:
@@ -792,6 +823,7 @@ def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False) -> int:
     print("  Track:  <track-name> (e.g., platform-context-management)")
     print("  Sprint: <track-name>-<num> (e.g., platform-context-management-5)")
     print("  Task:   <sprint-id>-task-<num> (e.g., platform-context-management-5-task-001)")
+    print("  ULID:   01XXXXXXXXXXXXXXXXXXXXXXXXX (26-char identifier)")
     return 1
 
 

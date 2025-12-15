@@ -132,6 +132,9 @@ def check_task_compatibility(
     task_name = task.get("name", task.get("title", "Unnamed Task"))
     task_status = task.get("status", "unknown")
     estimated_tokens = task.get("estimated_tokens", 0)
+    # Handle None values (YAML null) - treat as 0
+    if estimated_tokens is None:
+        estimated_tokens = 0
 
     is_completed = is_task_completed(task_status)
 

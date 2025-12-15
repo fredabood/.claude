@@ -231,8 +231,8 @@ def roadmap_create_sprint(ctx, track: str, name: str, goal: str,
               type=click.Choice(['critical', 'high', 'medium', 'low']),
               default='medium', help='Task priority')
 @click.option('--complexity', '-c',
-              type=click.Choice(['trivial', 'low', 'medium', 'high', 'complex']),
-              default='medium', help='Task complexity')
+              type=click.Choice(['simple', 'medium', 'complex']),
+              default='medium', help='Task complexity (simple/medium/complex)')
 @click.pass_context
 def roadmap_create_task(ctx, sprint: str, title: str, description: str,
                         task_type: str, priority: str, complexity: str):

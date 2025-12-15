@@ -397,6 +397,60 @@ Implement your contribution following project conventions.
            assert result is None
    ```
 
+### Error Handling Best Practices
+
+When writing code for Vibey, follow these error handling principles learned from production bugfixes:
+
+1. **Never silently skip errors**
+   - Always log or report when files/items are skipped during bulk operations
+   - Users should know what succeeded and what failed
+
+   ```python
+   # BAD: Silent skip
+   for file in files:
+       try:
+           process(file)
+       except Exception:
+           continue  # Silent failure - user has no idea!
+
+   # GOOD: Report skipped items
+   skipped = []
+   for file in files:
+       try:
+           process(file)
+       except Exception as e:
+           skipped.append((file, str(e)))
+           logger.warning(f"Skipped {file}: {e}")
+
+   if skipped:
+       click.echo(f"\n⚠️  Skipped {len(skipped)} files:")
+       for file, error in skipped[:10]:
+           click.echo(f"  - {file}: {error}")
+   ```
+
+2. **Validate data at boundaries**
+   - Validate inputs when they enter the system
+   - Fail fast with clear error messages
+
+   ```python
+   # BAD: Process invalid data
+   def process_task(task):
+       if task.status == "completed" and not task.completed:
+           # Silently continues with inconsistent data
+           pass
+
+   # GOOD: Validate and report
+   def process_task(task):
+       if task.status == "completed" and not task.completed:
+           raise ValidationError(
+               f"Task {task.id}: status=completed but completed timestamp is null"
+           )
+   ```
+
+3. **Use `--no-verify` sparingly**
+   - If you must bypass pre-commit hooks, document why in the commit message
+   - Address the underlying issue rather than habitually bypassing
+
 ### Checkpoint
 
 > **Verify:** Your changes are complete and follow conventions

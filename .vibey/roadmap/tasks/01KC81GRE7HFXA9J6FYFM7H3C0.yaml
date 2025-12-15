@@ -7,11 +7,11 @@ task:
   title: Write tests for vibey/roadmap/
   description: Fill all test coverage gaps in roadmap module. Focus on model validation,
     serialization round-trips, query correctness.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-12T01:06:32.007660+00:00'
-  started: null
-  completed: null
+  started: '2025-12-15T14:30:00+00:00'
+  completed: '2025-12-15T15:02:09+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

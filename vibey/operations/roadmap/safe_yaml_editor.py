@@ -409,18 +409,49 @@ class SafeYAMLEditor:
         """Internal validation of YAML structure."""
         result = ValidationResult(valid=True)
 
-        # Determine file type from path
-        if file_path.name == "task.yaml":
+        # Determine file type from path or content
+        file_type = self._detect_file_type(data, file_path)
+
+        if file_type == "task":
             self._validate_task_yaml(data, file_path, result)
-        elif file_path.name == "sprint.yaml":
+        elif file_type == "sprint":
             self._validate_sprint_yaml(data, file_path, result)
-        elif file_path.name == "track.yaml":
+        elif file_type == "track":
             self._validate_track_yaml(data, file_path, result)
-        else:
-            # Generic validation for other YAML files
+        # Don't warn for roadmap.yaml or other known files
+        elif file_path.name not in ("roadmap.yaml", ".id", "audit-trail.yaml"):
             result.add_warning(f"Unknown YAML file type: {file_path.name}")
 
         return result
+
+    def _detect_file_type(self, data: Dict[str, Any], file_path: Path) -> str:
+        """Detect YAML file type from directory structure or content."""
+        # Check parent directory (flat structure: tasks/, sprints/, tracks/)
+        parent_dir = file_path.parent.name
+        if parent_dir == "tasks":
+            return "task"
+        elif parent_dir == "sprints":
+            return "sprint"
+        elif parent_dir == "tracks":
+            return "track"
+
+        # Check filename (legacy structure: task.yaml, sprint.yaml, track.yaml)
+        if file_path.name == "task.yaml":
+            return "task"
+        elif file_path.name == "sprint.yaml":
+            return "sprint"
+        elif file_path.name == "track.yaml":
+            return "track"
+
+        # Check content root key
+        if "task" in data:
+            return "task"
+        elif "sprint" in data:
+            return "sprint"
+        elif "track" in data:
+            return "track"
+
+        return "unknown"
 
     def _validate_task_yaml(self, data: Dict[str, Any], file_path: Path, result: ValidationResult):
         """Validate task.yaml structure."""

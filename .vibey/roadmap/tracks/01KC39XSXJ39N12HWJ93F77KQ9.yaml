@@ -133,7 +133,9 @@ track:
   - id: dogfooding-bugs-20
     name: 'Sprint 18: Edit Command Validation Bugs'
     status: not_started
+    estimated_duration: null
     tasks_count: 0
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []

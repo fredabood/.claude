@@ -529,6 +529,11 @@ class SafeYAMLEditor:
             if sprint['status'] not in valid_statuses:
                 result.add_error(f"Invalid status: {sprint['status']} (must be one of {valid_statuses})")
 
+        # Validate completion logic
+        if sprint.get('status') == 'completed':
+            if not sprint.get('completed'):
+                result.add_error("Sprint marked completed but 'completed' timestamp missing")
+
         # Validate progress counters
         if 'progress' in sprint:
             progress = sprint['progress']
@@ -556,6 +561,11 @@ class SafeYAMLEditor:
             valid_statuses = ['not_started', 'in_progress', 'blocked', 'completed']
             if track['status'] not in valid_statuses:
                 result.add_error(f"Invalid status: {track['status']} (must be one of {valid_statuses})")
+
+        # Validate completion logic
+        if track.get('status') == 'completed':
+            if not track.get('completed'):
+                result.add_error("Track marked completed but 'completed' timestamp missing")
 
         # Validate progress counters
         if 'progress' in track:

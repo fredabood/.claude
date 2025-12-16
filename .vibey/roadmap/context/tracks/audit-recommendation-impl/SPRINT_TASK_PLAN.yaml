@@ -1,0 +1,548 @@
+# Sprint and Task Plan for Audit Recommendation Implementation
+# Generated: 2025-12-16
+# Track ID: 01KCMG30TJT8TYPH30WEM5T5Z9
+
+sprints:
+  - id: 01KCMGD94F773NWAMEX0146RZW
+    name: "Sprint 1: Critical Blockers"
+    description: "Fix critical issues that block basic usage"
+    effort_hours: 6
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S06
+        title: "Fix installation documentation"
+        description: "Update all installation instructions to show editable install (pip install -e .) from git clone instead of pip install vibey"
+        task_type: documentation
+        complexity: simple
+        source_ref: "QW001, F001"
+        files:
+          - docs/walkthroughs/WALKTHROUGH_NEW_USER.md
+          - docs/walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md
+          - docs/walkthroughs/WALKTHROUGH_CONTRIBUTOR.md
+          - docs/walkthroughs/WALKTHROUGH_PROJECT_LEAD.md
+          - docs/journeys/JOURNEY_NEW_USER.md
+          - README.md
+
+      - id: 01KCMGD94F773NWAMEX0146S07
+        title: "Update path references to flat ULID structure"
+        description: "Update all documentation to use flat ULID-based paths (.vibey/roadmap/tasks/ULID.yaml) instead of hierarchical paths"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "QW003, F006"
+        files:
+          - docs/journeys/*.md
+          - docs/walkthroughs/*.md
+          - docs/reference/*.md
+
+      - id: 01KCMGD94F773NWAMEX0146S08
+        title: "Fix version hardcoding in examples"
+        description: "Replace hardcoded version numbers (2.5.0) with semantic version examples (2.x.x) or dynamic version"
+        task_type: documentation
+        complexity: simple
+        source_ref: "QW004, F012"
+        files:
+          - docs/walkthroughs/*.md
+
+      - id: 01KCMGD94F773NWAMEX0146S09
+        title: "Fix broken documentation links"
+        description: "Audit and fix all internal documentation links that reference non-existent files"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "QW009, DOC002"
+        files:
+          - docs/journeys/*.md
+          - docs/walkthroughs/*.md
+          - README.md
+
+      - id: 01KCMGD94F773NWAMEX0146S0A
+        title: "Clean up commented code blocks"
+        description: "Remove commented code blocks throughout the codebase"
+        task_type: refactoring
+        complexity: simple
+        source_ref: "QW010, CD005"
+        files:
+          - vibey/**/*.py
+
+  - id: 01KCMGD94F773NWAMEX0146RZX
+    name: "Sprint 2: Reference Guide Improvements"
+    description: "Improve CLI and MCP reference documentation quality"
+    effort_hours: 8
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S0B
+        title: "Fix truncated CLI descriptions"
+        description: "Increase max description length in CLI reference generator to show full descriptions instead of truncating with '...'"
+        task_type: enhancement
+        complexity: simple
+        source_ref: "QW002, F002"
+        files:
+          - vibey/operations/docs/cli_introspector.py
+          - vibey/operations/docs/cli_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0C
+        title: "Fix command index organization"
+        description: "Update CLI reference template to use continuous alphabetical ordering instead of restarting alphabet for each command group"
+        task_type: enhancement
+        complexity: moderate
+        source_ref: "QW006, F005"
+        files:
+          - vibey/operations/docs/cli_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0D
+        title: "Add CLI quick start section"
+        description: "Add a Quick Start section at top of CLI reference with common workflows and most-used commands"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "QW007, F007"
+        files:
+          - docs/reference/CLI_REFERENCE.md
+          - vibey/operations/docs/cli_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0E
+        title: "Add MCP usage guidance section"
+        description: "Add 'When to Use' section to MCP reference explaining when to use CLI commands vs MCP tools"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "QW005, F003"
+        files:
+          - docs/reference/MCP_REFERENCE.md
+          - vibey/operations/docs/mcp_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0F
+        title: "Regenerate reference documentation"
+        description: "Regenerate CLI and MCP references after generator fixes using vibey docs generate-cli && vibey docs generate-mcp"
+        task_type: documentation
+        complexity: simple
+        source_ref: "QW008"
+        files:
+          - docs/reference/CLI_REFERENCE.md
+          - docs/reference/MCP_REFERENCE.md
+
+      - id: 01KCMGD94F773NWAMEX0146S0G
+        title: "Add cross-references between related commands"
+        description: "Add 'See Also' or 'Related Commands' sections linking related CLI commands"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "F008"
+        files:
+          - vibey/operations/docs/cli_reference_generator.py
+
+  - id: 01KCMGD94F773NWAMEX0146RZY
+    name: "Sprint 3: CLI Command Verification"
+    description: "Audit and fix CLI commands to match documentation"
+    effort_hours: 20
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S0H
+        title: "Audit all CLI commands for existence"
+        description: "Test all 169 documented CLI commands to verify they exist and work as documented"
+        task_type: testing
+        complexity: complex
+        source_ref: "SI002, F004"
+        files:
+          - vibey/cli/commands.py
+          - docs/reference/CLI_REFERENCE.md
+
+      - id: 01KCMGD94F773NWAMEX0146S0J
+        title: "Implement missing CLI command options"
+        description: "Implement any command options that are documented but don't exist (--filter, --detailed, --format, etc.)"
+        task_type: development
+        complexity: complex
+        source_ref: "SI002"
+        files:
+          - vibey/cli/commands.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0K
+        title: "Update documentation for CLI command variations"
+        description: "Update documentation to match actual command syntax for any commands that differ from docs"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "SI002"
+        files:
+          - docs/reference/CLI_REFERENCE.md
+          - docs/journeys/*.md
+          - docs/walkthroughs/*.md
+
+      - id: 01KCMGD94F773NWAMEX0146S0M
+        title: "Standardize command syntax across documentation"
+        description: "Ensure consistent command syntax patterns across all documentation (e.g., 'vibey roadmap show <type> <id>' vs 'vibey roadmap show <type> --id <id>')"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "User Journey Friction"
+        files:
+          - docs/journeys/*.md
+          - docs/walkthroughs/*.md
+
+  - id: 01KCMGD94F773NWAMEX0146RZZ
+    name: "Sprint 4: Code Consistency"
+    description: "Improve code consistency, error handling, and activity logging"
+    effort_hours: 14
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S0N
+        title: "Standardize error handling in CLI commands"
+        description: "Implement consistent error handling pattern across CLI commands - some silently fail, some raise, some log"
+        task_type: refactoring
+        complexity: moderate
+        source_ref: "DD002"
+        files:
+          - vibey/cli/commands.py
+          - vibey/cli/*.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0P
+        title: "Fix activity log integration gaps"
+        description: "Add activity logging to create-sprint and create-task commands which currently don't log operations"
+        task_type: bugfix
+        complexity: simple
+        source_ref: "DD003"
+        files:
+          - vibey/cli/commands.py
+          - vibey/operations/roadmap/activity_log.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0Q
+        title: "Consolidate ID validation functions"
+        description: "Consolidate duplicate ID validation logic from CLI validators, model validators, and serialization into single validation module"
+        task_type: refactoring
+        complexity: moderate
+        source_ref: "CD003"
+        files:
+          - vibey/common/validators.py
+          - vibey/cli/*.py
+          - vibey/roadmap/models/*.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0R
+        title: "Consolidate path construction utilities"
+        description: "Centralize repeated path building logic into single path utilities module"
+        task_type: refactoring
+        complexity: moderate
+        source_ref: "CD004"
+        files:
+          - vibey/common/paths.py
+          - vibey/roadmap/serialization/*.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0S
+        title: "Remove unused imports"
+        description: "Run ruff check vibey/ --select F401 and remove all unused imports"
+        task_type: refactoring
+        complexity: simple
+        source_ref: "CD006"
+        files:
+          - vibey/**/*.py
+
+  - id: 01KCMGD94F773NWAMEX0146S00
+    name: "Sprint 5: Test Infrastructure Repair"
+    description: "Fix broken test infrastructure to restore test coverage visibility"
+    effort_hours: 14
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S0T
+        title: "Fix ORM/Repository test infrastructure"
+        description: "Fix SQLAlchemy test fixture setup to restore 37 broken tests in test_orm.py and test_repository.py"
+        task_type: testing
+        complexity: complex
+        source_ref: "Priority 1.1"
+        files:
+          - tests/roadmap/models/ticket/test_orm.py
+          - tests/roadmap/models/ticket/test_repository.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0V
+        title: "Fix standards resolution tests"
+        description: "Restore 14 broken tests in test_standards_resolution.py"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 1.2"
+        files:
+          - tests/integration/test_standards_resolution.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0W
+        title: "Fix performance tests"
+        description: "Restore 10 broken tests in test_performance.py"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 1.3"
+        files:
+          - tests/operations/roadmap/test_performance.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0X
+        title: "Fix validators tests"
+        description: "Restore 12 broken tests in test_validators.py"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 1.4"
+        files:
+          - tests/unit/test_validators.py
+
+      - id: 01KCMGD94F773NWAMEX0146S0Y
+        title: "Fix git hooks tests"
+        description: "Restore 8 broken tests in test_git_hooks.py"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 1.5"
+        files:
+          - tests/test_git_hooks.py
+
+  - id: 01KCMGD94F773NWAMEX0146S01
+    name: "Sprint 6: Core Test Coverage"
+    description: "Add test coverage for critical CLI and operations code paths"
+    effort_hours: 24
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S0Z
+        title: "Add CLI command tests for roadmap operations"
+        description: "Add tests for roadmap_update, roadmap_complete, and error handling paths in commands.py (target 60% coverage)"
+        task_type: testing
+        complexity: complex
+        source_ref: "Priority 2.1, TD002"
+        files:
+          - tests/cli/test_commands.py
+          - vibey/cli/commands.py
+
+      - id: 01KCMGD94F773NWAMEX0146S10
+        title: "Add roadmap update operation tests"
+        description: "Add tests for update_task_status, update_sprint_progress, batch_update_tasks (target 50% coverage)"
+        task_type: testing
+        complexity: complex
+        source_ref: "Priority 2.2"
+        files:
+          - tests/operations/roadmap/test_update.py
+          - vibey/operations/roadmap/update.py
+
+      - id: 01KCMGD94F773NWAMEX0146S11
+        title: "Add transaction rollback tests"
+        description: "Add tests for error recovery: error during update -> rollback -> state intact"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 2.3"
+        files:
+          - tests/operations/roadmap/test_transactions.py
+
+      - id: 01KCMGD94F773NWAMEX0146S12
+        title: "Add database integrity tests"
+        description: "Add tests for vibey/roadmap/database/integrity_audit.py (currently 0% coverage)"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 3.1"
+        files:
+          - tests/roadmap/database/test_integrity_audit.py
+          - vibey/roadmap/database/integrity_audit.py
+
+      - id: 01KCMGD94F773NWAMEX0146S13
+        title: "Add advanced validator tests"
+        description: "Add tests for vibey/operations/roadmap/advanced_validator.py (currently 0% coverage)"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Priority 3.2"
+        files:
+          - tests/operations/roadmap/test_advanced_validator.py
+          - vibey/operations/roadmap/advanced_validator.py
+
+  - id: 01KCMGD94F773NWAMEX0146S02
+    name: "Sprint 7: MCP Test Coverage"
+    description: "Add comprehensive test coverage for MCP tools and server"
+    effort_hours: 16
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S14
+        title: "Add MCP tool unit tests"
+        description: "Add unit tests for all 76 MCP tools (target 95% coverage)"
+        task_type: testing
+        complexity: complex
+        source_ref: "SI003, TD001"
+        files:
+          - tests/mcp/test_tools.py
+          - vibey/mcp/tools/*.py
+
+      - id: 01KCMGD94F773NWAMEX0146S15
+        title: "Add MCP server integration tests"
+        description: "Add integration tests for MCP request/response cycle, tool discovery, error handling"
+        task_type: testing
+        complexity: complex
+        source_ref: "Integration Test Strategy 1.2"
+        files:
+          - tests/integration/test_mcp_server_flow.py
+
+      - id: 01KCMGD94F773NWAMEX0146S16
+        title: "Add MCP error documentation"
+        description: "Document error responses and codes for all MCP tools"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "Reference Guide Friction"
+        files:
+          - docs/reference/MCP_REFERENCE.md
+          - vibey/operations/docs/mcp_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S17
+        title: "Add MCP workflow examples"
+        description: "Document common MCP tool sequences (e.g., start task -> make changes -> complete task)"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "F010"
+        files:
+          - docs/reference/MCP_REFERENCE.md
+
+  - id: 01KCMGD94F773NWAMEX0146S03
+    name: "Sprint 8: Context System Enhancement"
+    description: "Document and enhance the context engineering system"
+    effort_hours: 16
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S18
+        title: "Create CONTEXT_ARCHITECTURE.md"
+        description: "Create central design document for context engineering system covering data flow, persistence, and API"
+        task_type: documentation
+        complexity: complex
+        source_ref: "SI004, DOC004, Context Engineering Gaps"
+        files:
+          - docs/architecture/CONTEXT_ARCHITECTURE.md
+
+      - id: 01KCMGD94F773NWAMEX0146S19
+        title: "Test and document context CLI commands"
+        description: "Test all context commands (init, list, show, export, sync, archive, clean) and document behavior"
+        task_type: testing
+        complexity: moderate
+        source_ref: "Context Engineering Gaps"
+        files:
+          - vibey/cli/commands.py
+          - docs/reference/CLI_REFERENCE.md
+
+      - id: 01KCMGD94F773NWAMEX0146S1A
+        title: "Implement token budget enforcement"
+        description: "Add explicit token budget parameters to context operations for model token limit management"
+        task_type: development
+        complexity: moderate
+        source_ref: "Context Engineering Gaps 3"
+        files:
+          - vibey/operations/context/writers.py
+          - vibey/operations/context/agent_context.py
+
+      - id: 01KCMGD94F773NWAMEX0146S1B
+        title: "Add context freshness tracking"
+        description: "Add context age tracking and refresh prompts for stale context"
+        task_type: development
+        complexity: moderate
+        source_ref: "Context Engineering Gaps 4"
+        files:
+          - vibey/operations/context/readers.py
+          - vibey/operations/context/capture.py
+
+      - id: 01KCMGD94F773NWAMEX0146S1C
+        title: "Add context management MCP tools"
+        description: "Create MCP tools for AI assistants to manage their own context"
+        task_type: development
+        complexity: moderate
+        source_ref: "Context Engineering Gaps"
+        files:
+          - vibey/mcp/tools/context.py
+
+  - id: 01KCMGD94F773NWAMEX0146S04
+    name: "Sprint 9: Documentation Completion"
+    description: "Complete remaining documentation gaps"
+    effort_hours: 12
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S1D
+        title: "Verify and update JOURNEY_CONTRIBUTOR.md"
+        description: "Verify contributor journey document exists and is accurate, update if needed"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "SI001, F009, DOC001"
+        files:
+          - docs/journeys/JOURNEY_CONTRIBUTOR.md
+
+      - id: 01KCMGD94F773NWAMEX0146S1E
+        title: "Add option defaults to CLI reference"
+        description: "Extract and display default values for all CLI command options from Click decorators"
+        task_type: enhancement
+        complexity: moderate
+        source_ref: "F013, Reference Guide Friction 5"
+        files:
+          - vibey/operations/docs/cli_introspector.py
+          - vibey/operations/docs/cli_reference_generator.py
+
+      - id: 01KCMGD94F773NWAMEX0146S1F
+        title: "Document CLI error responses"
+        description: "Add error documentation section to CLI reference with common errors and solutions per command group"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "F011, Reference Guide Friction 7"
+        files:
+          - docs/reference/CLI_REFERENCE.md
+
+      - id: 01KCMGD94F773NWAMEX0146S1G
+        title: "Update expected output in walkthroughs"
+        description: "Regenerate expected output examples from live system to ensure they match actual output"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "Walkthrough Friction"
+        files:
+          - docs/walkthroughs/*.md
+
+      - id: 01KCMGD94F773NWAMEX0146S1H
+        title: "Add MCP integration sections to walkthroughs"
+        description: "Add parallel MCP workflow sections to walkthroughs for AI assistant users"
+        task_type: documentation
+        complexity: moderate
+        source_ref: "User Journey Friction"
+        files:
+          - docs/walkthroughs/WALKTHROUGH_ACTIVE_DEVELOPER.md
+
+  - id: 01KCMGD94F773NWAMEX0146S05
+    name: "Sprint 10: Architecture & Cleanup"
+    description: "Address architectural improvements and legacy code removal"
+    effort_hours: 20
+    tasks:
+      - id: 01KCMGD94F773NWAMEX0146S1J
+        title: "Split commands.py into logical modules"
+        description: "Split 3000+ line commands.py into separate modules by command group (roadmap_commands.py, docs_commands.py, deploy_commands.py, etc.)"
+        task_type: refactoring
+        complexity: complex
+        source_ref: "SI005, DD001"
+        files:
+          - vibey/cli/commands.py
+          - vibey/cli/roadmap_commands.py
+          - vibey/cli/docs_commands.py
+          - vibey/cli/deploy_commands.py
+
+      - id: 01KCMGD94F773NWAMEX0146S1K
+        title: "Remove hierarchical directory support"
+        description: "Remove code paths that handle old hierarchical directory structure (replaced by flat ULID structure per ADR-0002)"
+        task_type: refactoring
+        complexity: moderate
+        source_ref: "CD001, Obsolete Code 1"
+        files:
+          - vibey/roadmap/serialization/*.py
+
+      - id: 01KCMGD94G81J9PMNVYGGJPJ5A
+        title: "Remove slug-based ID handling"
+        description: "Remove backward compatibility code for slug-based IDs (ULID is now standard per ADR-0001)"
+        task_type: refactoring
+        complexity: moderate
+        source_ref: "CD002, Obsolete Code 2"
+        files:
+          - vibey/cli/*.py
+          - vibey/roadmap/serialization/*.py
+
+      - id: 01KCMGD94G81J9PMNVYGGJPJ5B
+        title: "Remove old activity log format handlers"
+        description: "Remove legacy activity log format handlers (migrated to JSONL format)"
+        task_type: refactoring
+        complexity: simple
+        source_ref: "Obsolete Code 4"
+        files:
+          - vibey/operations/roadmap/activity_log.py
+
+      - id: 01KCMGD94G81J9PMNVYGGJPJ5C
+        title: "Add integration tests for CLI-Database flow"
+        description: "Add integration tests for complete user flows: CLI command -> Operations -> YAML/SQLite sync"
+        task_type: testing
+        complexity: complex
+        source_ref: "Integration Test Strategy 1.1, TD003"
+        files:
+          - tests/integration/test_cli_database_flow.py
+
+summary:
+  total_sprints: 10
+  total_tasks: 50
+  total_effort_hours: 150
+  priority_order:
+    - "Sprint 1: Critical Blockers (6h) - Unblocks all users"
+    - "Sprint 2: Reference Guide Improvements (8h) - Improves documentation quality"
+    - "Sprint 3: CLI Command Verification (20h) - Ensures documentation accuracy"
+    - "Sprint 4: Code Consistency (14h) - Improves maintainability"
+    - "Sprint 5: Test Infrastructure Repair (14h) - Restores test visibility"
+    - "Sprint 6: Core Test Coverage (24h) - Adds critical path tests"
+    - "Sprint 7: MCP Test Coverage (16h) - Ensures MCP reliability"
+    - "Sprint 8: Context System Enhancement (16h) - Completes context features"
+    - "Sprint 9: Documentation Completion (12h) - Fills remaining gaps"
+    - "Sprint 10: Architecture & Cleanup (20h) - Long-term maintainability"

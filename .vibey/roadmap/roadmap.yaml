@@ -88,10 +88,24 @@ roadmap:
     context:
       task_id: 01KCJ5KSDKNFXDKQG1B9RBEGKF
       sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:31:56.349331+00:00'
+    type: task_started
+    description: Task 'Fix edit file command to require completion date when setting
+      completed status' started
+    context:
+      task_id: 01KCMQCWDAE9HMY14VRSSTA5FR
+      sprint_id: dogfooding-bugs-20
+  - timestamp: '2025-12-16T23:32:26.206430+00:00'
+    type: task_completed
+    description: Task 'Fix edit file command to require completion date when setting
+      completed status' completed
+    context:
+      task_id: 01KCMQCWDAE9HMY14VRSSTA5FR
+      sprint_id: dogfooding-bugs-20
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-16T23:19:21.856379+00:00'
+    last_updated: '2025-12-16T23:32:26.206432+00:00'
     purpose: null
     description: null

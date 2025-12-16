@@ -1,0 +1,35 @@
+task:
+  id: 01KCMMK1MSFBZAM880C9K3BWPB
+  sprint_id: sprint-08
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Rename context directory to plans, add post-mortem structure
+  description: 'Current ''context'' directory is functionally ''plans''. Restructure
+    to: 1) Rename context/ to plans/ for pre-work artifacts, 2) Add post-mortems/
+    for completed work summaries, 3) Add runtime-context/ for model context during
+    execution. Update all references. Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:30:44.178942+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:30:44.178942+00:00'
+    token_efficiency: null
+    duration_hours: null

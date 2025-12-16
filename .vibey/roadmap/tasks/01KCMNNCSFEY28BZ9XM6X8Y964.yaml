@@ -1,0 +1,36 @@
+task:
+  id: 01KCMNNCSFEY28BZ9XM6X8Y964
+  sprint_id: sprint-10
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design planned status criterion for tickets
+  description: 'Design ''planned'' status as criterion-based calculation like completion
+    status. Leaf ticket planned=true when: 1) YAML file exists, 2) Tracked in database,
+    3) At least one context file exists, 4) User manually approves. Parent ticket
+    planned=true when all children planned=true. Use criterion system for evaluation.
+    Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:49:29.656835+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:49:29.656835+00:00'
+    token_efficiency: null
+    duration_hours: null

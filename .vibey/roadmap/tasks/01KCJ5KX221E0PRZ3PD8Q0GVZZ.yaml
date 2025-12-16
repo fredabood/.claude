@@ -8,11 +8,11 @@ task:
   description: The 'vibey roadmap edit file' command fails with 'Task ID mismatch'
     error when editing tasks with ULID-based IDs. The validation logic incorrectly
     compares ID formats.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-15T23:30:34.649973+00:00'
-  started: null
-  completed: null
+  started: '2025-12-16T23:11:59.801277+00:00'
+  completed: '2025-12-16T23:19:19.152453+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

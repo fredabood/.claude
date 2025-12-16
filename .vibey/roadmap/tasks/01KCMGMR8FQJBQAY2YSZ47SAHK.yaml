@@ -1,0 +1,33 @@
+task:
+  id: 01KCMGMR8FQJBQAY2YSZ47SAHK
+  sprint_id: sprint-02
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Fix truncated CLI descriptions
+  description: 'Increase max description length in CLI reference generator to show
+    full descriptions instead of truncating with ''...''. Source: QW002, F002'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T21:21:45.721862+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T21:21:45.721862+00:00'
+    token_efficiency: null
+    duration_hours: null

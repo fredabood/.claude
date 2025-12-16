@@ -1,0 +1,35 @@
+task:
+  id: 01KCMNDFWS0C2N2FJJBZRR3FC8
+  sprint_id: sprint-08
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement timestamp-based context linking with git commits
+  description: 'Implement context logging by timestamp, linked to tasks via: task.start_time
+    < context.timestamp < task.completed_time AND at least one file in the git commit
+    matches files the context is committed with. Context automatically associates
+    with relevant in-progress tasks. Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:45:10.694000+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:45:10.694000+00:00'
+    token_efficiency: null
+    duration_hours: null

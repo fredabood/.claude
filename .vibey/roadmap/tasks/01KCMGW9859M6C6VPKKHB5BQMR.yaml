@@ -1,0 +1,33 @@
+task:
+  id: 01KCMGW9859M6C6VPKKHB5BQMR
+  sprint_id: sprint-07
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Add MCP error documentation
+  description: 'Document error responses and codes for all MCP tools. Source: Reference
+    Guide Friction'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T21:25:52.528819+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T21:25:52.528819+00:00'
+    token_efficiency: null
+    duration_hours: null

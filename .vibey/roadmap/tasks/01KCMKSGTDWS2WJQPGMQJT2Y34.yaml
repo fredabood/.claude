@@ -1,0 +1,35 @@
+task:
+  id: 01KCMKSGTDWS2WJQPGMQJT2Y34
+  sprint_id: sprint-09
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Ensure 100% command coverage in action walkthroughs
+  description: 'After action-oriented walkthroughs are created, verify every CLI command
+    and MCP tool from reference guides has coverage in at least one walkthrough. Create
+    coverage matrix mapping commands to walkthroughs. Target: 100% coverage of 169
+    CLI commands and all MCP tools. Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:16:47.765118+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:16:47.765118+00:00'
+    token_efficiency: null
+    duration_hours: null

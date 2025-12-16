@@ -452,7 +452,7 @@ def create_sprint_cmd(track_id: str, name: str, goal: str,
         except Exception:
             pass  # Database rebuild is optional
 
-        # Log activity for pre-commit hook
+        # Log activity for pre-commit hook (V1 format - backward compat)
         try:
             from vibey.operations.roadmap.activity_log import log_sprint_added
             log_sprint_added(
@@ -464,6 +464,21 @@ def create_sprint_cmd(track_id: str, name: str, goal: str,
             )
         except Exception:
             pass  # Activity logging is optional
+
+        # Log command-level change (V2 format) - includes file hash for verification
+        try:
+            from vibey.operations.roadmap.audit_trail import log_command_change
+            log_command_change(
+                root_dir=root_dir,
+                command=f"vibey roadmap create-sprint --track {track_id} --name '{name}'",
+                object_type="sprint",
+                object_id=ulid,
+                changes=[("created", None, now.isoformat())],
+                file_path=sprint_path,
+                reason="Sprint created via CLI",
+            )
+        except Exception:
+            pass  # V2 logging is optional
 
         print(f"✅ Created sprint: {name}")
         print(f"   ID: {ulid}")
@@ -635,7 +650,7 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
         except Exception:
             pass  # Database rebuild is optional
 
-        # Log activity for pre-commit hook
+        # Log activity for pre-commit hook (V1 format - backward compat)
         try:
             from vibey.operations.roadmap.activity_log import log_task_added
             log_task_added(
@@ -647,6 +662,21 @@ def create_task_cmd(sprint_id: str, title: str, description: str,
             )
         except Exception:
             pass  # Activity logging is optional
+
+        # Log command-level change (V2 format) - includes file hash for verification
+        try:
+            from vibey.operations.roadmap.audit_trail import log_command_change
+            log_command_change(
+                root_dir=root_dir,
+                command=f"vibey roadmap create-task --sprint {sprint_id} --title '{title}'",
+                object_type="task",
+                object_id=ulid,
+                changes=[("created", None, now.isoformat())],
+                file_path=task_path,
+                reason="Task created via CLI",
+            )
+        except Exception:
+            pass  # V2 logging is optional
 
         print(f"✅ Created task: {title}")
         print(f"   ID: {ulid}")

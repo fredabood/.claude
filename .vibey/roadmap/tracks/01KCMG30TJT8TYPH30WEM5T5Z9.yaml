@@ -1,0 +1,90 @@
+track:
+  id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  name: User Journey Audit Recommendation Implementation
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-12-16T12:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 11
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0.0
+  sprints:
+  - id: sprint-01
+    name: 'Sprint 1: Critical Blockers'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-02
+    name: 'Sprint 2: Reference Guide Improvements'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-03
+    name: 'Sprint 3: CLI Command Verification'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-04
+    name: 'Sprint 4: Code Consistency'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-05
+    name: 'Sprint 5: Test Infrastructure Repair'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-06
+    name: 'Sprint 6: Core Test Coverage'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-07
+    name: 'Sprint 7: MCP Test Coverage'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-08
+    name: 'Sprint 8: Context System Enhancement'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-09
+    name: 'Sprint 9: Documentation Completion'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-10
+    name: 'Sprint 10: Architecture & Cleanup'
+    status: not_started
+    tasks_count: 0
+  - id: sprint-11
+    name: 'Sprint 11: Git Submodule Integration Scoping'
+    status: not_started
+    tasks_count: 0
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+    blocker_type: track
+    required_status: completed
+    current_status: completed
+    blocks_transition_to: in_progress
+    last_checked: '2025-12-16T12:00:00+00:00'
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value:
+  - Implements quick wins identified in audit
+  - Addresses technical debt systematically
+  - Improves developer and user experience
+  - Reduces friction across all personas
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude
+    last_updated: '2025-12-16T12:00:00+00:00'
+    design_doc: null
+    implementation_plan: .vibey/roadmap/context/tracks/audit-recommendation-impl/IMPLEMENTATION_PLAN.md
+    notes: Track created to implement recommendations from the User Journey Audit
+      track (01KC2D0JKVT80AFQ6C1PA8CKJT)

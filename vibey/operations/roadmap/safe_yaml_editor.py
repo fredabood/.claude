@@ -474,14 +474,22 @@ class SafeYAMLEditor:
             if task['status'] not in valid_statuses:
                 result.add_error(f"Invalid status: {task['status']} (must be one of {valid_statuses})")
 
-        # Validate task ID matches directory
+        # Validate task ID matches file/directory
+        # Flat structure: .vibey/roadmap/tasks/{ulid}.yaml -> check file stem
+        # Nested structure: .vibey/roadmap/{track}/{sprint}/{task}/task.yaml -> check parent directory
         if 'id' in task:
-            expected_id = file_path.parent.name
+            if file_path.parent.name == 'tasks':
+                # Flat structure: ID should match filename (without .yaml)
+                expected_id = file_path.stem
+            else:
+                # Nested structure: ID should match directory name
+                expected_id = file_path.parent.name
             if task['id'] != expected_id:
                 result.add_error(f"Task ID mismatch: {task['id']} != {expected_id}")
 
-        # Validate sprint ID matches parent directory
-        if 'sprint_id' in task:
+        # Validate sprint ID matches parent directory (only for nested structure)
+        # Skip this check for flat structure (tasks/{ulid}.yaml)
+        if 'sprint_id' in task and file_path.parent.name != 'tasks':
             expected_sprint = file_path.parent.parent.name
             if not task['sprint_id'].startswith(expected_sprint):
                 result.add_warning(f"Sprint ID may not match directory: {task['sprint_id']} vs {expected_sprint}")

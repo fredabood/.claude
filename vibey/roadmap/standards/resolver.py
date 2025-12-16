@@ -14,10 +14,16 @@ The resolution follows these rules:
 from pathlib import Path
 from typing import List, Optional, Dict
 from datetime import datetime, timezone
+import yaml
 
 from ..models import Standard, Roadmap, Track, Sprint, Task
 from ..serialization import load_roadmap, load_track, load_sprint, load_tasks
 from ...cli.roadmap_lib.filesystem import FileSystemManager
+
+
+def _is_ulid(item_id: str) -> bool:
+    """Check if item_id is a ULID (26 alphanumeric chars starting with 01)."""
+    return len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
 
 
 class ResolvedStandard:
@@ -169,7 +175,7 @@ class StandardsResolver:
         Inherits from: roadmap → track → sprint
 
         Args:
-            task_id: Task ID (e.g., "backend-1-task-001")
+            task_id: Task ID (e.g., "backend-1-task-001" or ULID like "01KC...")
 
         Returns:
             List of ResolvedStandard objects that apply to this task
@@ -177,13 +183,24 @@ class StandardsResolver:
         Raises:
             ValueError: If task ID is invalid or task not found
         """
-        # Parse task ID to get sprint and track
-        parts = task_id.split('-')
-        if len(parts) < 4 or parts[-2] != 'task':
-            raise ValueError(f"Invalid task ID format: {task_id}")
-
-        # Extract sprint_id (e.g., "backend-1" from "backend-1-task-001")
-        sprint_id = '-'.join(parts[:-2])
+        # Check if ULID format
+        if _is_ulid(task_id):
+            # Load task directly from tasks/ directory
+            task_path = self.root_dir / ".vibey" / "roadmap" / "tasks" / f"{task_id}.yaml"
+            if not task_path.exists():
+                raise ValueError(f"Task file not found: {task_path}")
+            with open(task_path) as f:
+                task_data = yaml.safe_load(f)
+            sprint_id = task_data.get('task', {}).get('sprint_id')
+            if not sprint_id:
+                raise ValueError(f"Task {task_id} has no sprint_id")
+        else:
+            # Parse legacy task ID to get sprint
+            parts = task_id.split('-')
+            if len(parts) < 4 or parts[-2] != 'task':
+                raise ValueError(f"Invalid task ID format: {task_id}")
+            # Extract sprint_id (e.g., "backend-1" from "backend-1-task-001")
+            sprint_id = '-'.join(parts[:-2])
 
         # Load sprint to get track_id
         sprint = self._get_sprint(sprint_id)

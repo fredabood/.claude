@@ -1,0 +1,35 @@
+task:
+  id: 01KCMP2MN4SVE70FB55TXAV2EH
+  sprint_id: sprint-11
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design requirements push-down from parent to submodules
+  description: 'Design how requirements push down from main project roadmap to submodule
+    roadmaps. Questions: 1) How are parent requirements expressed? 2) How do they
+    translate to submodule tasks? 3) How is completion rolled up? 4) Who owns the
+    requirement? Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:56:43.724442+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:56:43.724442+00:00'
+    token_efficiency: null
+    duration_hours: null

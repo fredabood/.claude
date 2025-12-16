@@ -1,0 +1,36 @@
+task:
+  id: 01KCMNXGP9X7P577QCKHF340W5
+  sprint_id: sprint-10
+  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Design decoupled directory structure
+  description: 'Design directory structure independent of semantic layer. Semantic
+    layer should ONLY dictate: 1) How model talks about work with user, 2) How model
+    interacts with semantic source of truth. Directory structure and internal config
+    should be implementation details. Propose new structure that decouples storage
+    from semantics. Source: User feedback'
+  status: not_started
+  blocked: false
+  created: '2025-12-16T22:53:55.789645+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-16T22:53:55.789645+00:00'
+    token_efficiency: null
+    duration_hours: null

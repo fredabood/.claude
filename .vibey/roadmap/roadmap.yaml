@@ -52,10 +52,46 @@ roadmap:
     description: 'Sprint ''Phase 5.5: Post-Bugfix Documentation Sync'' started'
     context:
       sprint_id: 01KCHHQT5TR65D02YPGK4N5WQP
+  - timestamp: '2025-12-16T23:11:47.758246+00:00'
+    type: task_started
+    description: Task 'Fix create-sprint and create-task to log to activity log' started
+    context:
+      task_id: 01KCJ5N4VCH2F5T9BYW1GXCV2F
+      sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:12:00.957302+00:00'
+    type: task_started
+    description: Task 'Fix roadmap edit file command for ULID task IDs' started
+    context:
+      task_id: 01KCJ5KX221E0PRZ3PD8Q0GVZZ
+      sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:12:02.657942+00:00'
+    type: task_started
+    description: Task 'Fix roadmap start command for ULID task IDs' started
+    context:
+      task_id: 01KCJ5KSDKNFXDKQG1B9RBEGKF
+      sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:19:10.685795+00:00'
+    type: task_completed
+    description: Task 'Fix create-sprint and create-task to log to activity log' completed
+    context:
+      task_id: 01KCJ5N4VCH2F5T9BYW1GXCV2F
+      sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:19:20.263098+00:00'
+    type: task_completed
+    description: Task 'Fix roadmap edit file command for ULID task IDs' completed
+    context:
+      task_id: 01KCJ5KX221E0PRZ3PD8Q0GVZZ
+      sprint_id: dogfooding-bugs-19
+  - timestamp: '2025-12-16T23:19:21.856378+00:00'
+    type: task_completed
+    description: Task 'Fix roadmap start command for ULID task IDs' completed
+    context:
+      task_id: 01KCJ5KSDKNFXDKQG1B9RBEGKF
+      sprint_id: dogfooding-bugs-19
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-15T23:20:12.928764+00:00'
+    last_updated: '2025-12-16T23:19:21.856379+00:00'
     purpose: null
     description: null

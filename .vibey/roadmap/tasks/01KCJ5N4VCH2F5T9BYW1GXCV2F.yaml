@@ -8,11 +8,11 @@ task:
   description: The create-sprint and create-task CLI commands don't log their actions
     to the activity log. This causes the pre-commit hook to block commits for files
     created by these commands.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-15T23:31:15.395574+00:00'
-  started: null
-  completed: null
+  started: '2025-12-16T23:11:46.575886+00:00'
+  completed: '2025-12-16T23:19:09.547441+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

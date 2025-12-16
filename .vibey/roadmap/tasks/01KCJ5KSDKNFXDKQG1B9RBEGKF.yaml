@@ -8,11 +8,11 @@ task:
   description: The 'vibey roadmap start' command fails with 'Invalid task ID format'
     when given ULID-based task IDs. The command expects slug format but should accept
     both slugs and ULIDs.
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-15T23:30:30.910768+00:00'
-  started: null
-  completed: null
+  started: '2025-12-16T23:12:01.500292+00:00'
+  completed: '2025-12-16T23:19:20.727248+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

@@ -54,6 +54,47 @@ from ...roadmap.standards import (
 from ...roadmap.models import EnforcementMode
 
 
+def _is_ulid(item_id: str) -> bool:
+    """Check if item_id is a ULID (26 alphanumeric chars starting with 01)."""
+    return len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+
+def _determine_item_type(item_id: str, root_dir: Path) -> str:
+    """
+    Determine item type from ID format or filesystem.
+
+    For legacy IDs, uses pattern matching:
+    - Contains '-task-' → task
+    - Contains '-' but not '-task-' → sprint
+    - Otherwise → track
+
+    For ULIDs, checks filesystem to find which directory contains the file.
+
+    Returns: "task", "sprint", or "track"
+    """
+    # Check if ULID format
+    if _is_ulid(item_id):
+        roadmap_root = root_dir / ".vibey" / "roadmap"
+        # Check which directory contains this ULID
+        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+            return "task"
+        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+            return "sprint"
+        elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
+            return "track"
+        # If file not found, try to infer from database or default to task
+        # (most common case for ULID lookups)
+        return "task"
+
+    # Legacy pattern-based detection
+    if '-task-' in item_id:
+        return "task"
+    elif item_id.count('-') >= 1:
+        return "sprint"
+    else:
+        return "track"
+
+
 class EnforcementResult:
     """Result of enforcing standards on an item."""
 
@@ -113,14 +154,14 @@ def enforce_standards(
     try:
         resolver = StandardsResolver(root_dir)
 
-        # Determine item type and resolve
-        if '-task-' in item_id:
+        # Determine item type (handles both legacy slugs and ULIDs)
+        item_type = _determine_item_type(item_id, root_dir)
+
+        if item_type == "task":
             resolved_standards = resolver.resolve_for_task(item_id)
-        elif item_id.count('-') >= 1 and not '-task-' in item_id:
-            # Sprint format: "track-N"
+        elif item_type == "sprint":
             resolved_standards = resolver.resolve_for_sprint(item_id)
         else:
-            # Track format: "track-name"
             resolved_standards = resolver.resolve_for_track(item_id)
 
     except Exception as e:
@@ -310,10 +351,12 @@ def get_effective_standards(
     """
     resolver = StandardsResolver(root_dir)
 
-    # Determine item type from ID format
-    if '-task-' in item_id:
+    # Determine item type (handles both legacy slugs and ULIDs)
+    item_type = _determine_item_type(item_id, root_dir)
+
+    if item_type == "task":
         return resolver.resolve_for_task(item_id)
-    elif item_id.count('-') >= 1 and not '-task-' in item_id:
+    elif item_type == "sprint":
         return resolver.resolve_for_sprint(item_id)
     else:
         return resolver.resolve_for_track(item_id)
@@ -337,16 +380,16 @@ def get_inherited_standards(
     """
     all_standards = get_effective_standards(item_id, root_dir)
 
-    # Determine the item's level
-    if '-task-' in item_id:
-        item_level = "task"  # Tasks don't have standards, all are inherited
-        return all_standards  # All standards are inherited for tasks
-    elif item_id.count('-') >= 1 and not '-task-' in item_id:
-        item_level = "sprint"
+    # Determine the item's level (handles both legacy slugs and ULIDs)
+    item_type = _determine_item_type(item_id, root_dir)
+
+    if item_type == "task":
+        # Tasks don't have standards, all are inherited
+        return all_standards
+    elif item_type == "sprint":
         # Filter out sprint-level standards
         return [s for s in all_standards if s.source_level != "sprint"]
     else:
-        item_level = "track"
         # Filter out track-level standards
         return [s for s in all_standards if s.source_level != "track"]
 
@@ -369,10 +412,12 @@ def get_local_standards(
     """
     all_standards = get_effective_standards(item_id, root_dir)
 
-    # Determine the item's level
-    if '-task-' in item_id:
+    # Determine the item's level (handles both legacy slugs and ULIDs)
+    item_type = _determine_item_type(item_id, root_dir)
+
+    if item_type == "task":
         return []  # Tasks don't have local standards
-    elif item_id.count('-') >= 1 and not '-task-' in item_id:
+    elif item_type == "sprint":
         # Sprint-level standards only
         return [s for s in all_standards if s.source_level == "sprint"]
     else:

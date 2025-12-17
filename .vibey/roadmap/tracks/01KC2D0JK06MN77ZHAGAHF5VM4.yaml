@@ -4,7 +4,7 @@ track:
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: true
-  priority: high
+  priority: medium
   created: '2025-11-23T00:00:00+00:00'
   started: null
   completed: null
@@ -44,12 +44,11 @@ track:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: unknown
-    blocker_type: external
-    required_status: resolved
-    current_status: pending
+  - blocker_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
+    blocker_type: track
+    required_status: completed
     blocks_transition_to: in_progress
-    last_checked: null
+    description: Requires unified ticket architecture and CLI/MCP integration points to be stabilized first
   depended_on_by: []
   quality_gates: []
   assigned_agents: []

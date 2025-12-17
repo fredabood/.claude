@@ -10,7 +10,7 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 22
+    sprints_total: 23
     sprints_completed: 8
     tasks_total: 113
     tasks_completed: 110
@@ -142,6 +142,10 @@ track:
     tasks_count: 0
   - id: dogfooding-bugs-22
     name: 'Sprint 22: Architecture Modernization Bugs'
+    status: not_started
+    tasks_count: 0
+  - id: dogfooding-bugs-23
+    name: 'Sprint 23: Architecture Modernization Bugs'
     status: not_started
     tasks_count: 0
   dependencies: []

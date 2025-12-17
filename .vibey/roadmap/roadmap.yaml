@@ -16,10 +16,10 @@ roadmap:
   progress:
     tracks_total: 47
     tracks_completed: 24
-    sprints_total: 224
+    sprints_total: 225
     sprints_completed: 42
     tasks_total: 1527
-    tasks_completed: 1203
+    tasks_completed: 1204
     completion_percent: 78
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -257,10 +257,22 @@ roadmap:
     context:
       task_id: 01KCMGPAZFAESKAG48GP9ESXTM
       sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T18:51:02.829651+00:00'
+    type: task_started
+    description: Task 'Implement missing CLI command options' started
+    context:
+      task_id: 01KCMGPER4DR1WFTSRPQ03J40S
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T18:55:45.773440+00:00'
+    type: task_completed
+    description: Task 'Implement missing CLI command options' completed
+    context:
+      task_id: 01KCMGPER4DR1WFTSRPQ03J40S
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T18:49:50.459496+00:00'
+    last_updated: '2025-12-17T18:55:45.773441+00:00'
     purpose: null
     description: null

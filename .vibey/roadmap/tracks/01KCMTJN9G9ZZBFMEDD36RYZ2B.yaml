@@ -13,8 +13,8 @@ track:
     sprints_total: 4
     sprints_completed: 0
     tasks_total: 10
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_completed: 1
+    completion_percent: 10
   sprints:
   - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
     name: 'Sprint 1: Codebase Audit'

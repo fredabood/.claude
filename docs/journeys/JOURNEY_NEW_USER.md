@@ -1,5 +1,8 @@
 # New User Journey
 
+> **Note:** This document has been consolidated into action-oriented walkthroughs.
+> See [GETTING_STARTED.md](../walkthroughs/GETTING_STARTED.md) for the current guide.
+
 > From discovery to first productive use of Vibey
 
 **Persona:** Nina the New User

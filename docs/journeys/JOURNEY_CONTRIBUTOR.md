@@ -1,5 +1,9 @@
 # Contributor Journey
 
+> **Note:** This document has been consolidated into action-oriented walkthroughs.
+> See [GETTING_STARTED.md](../walkthroughs/GETTING_STARTED.md) for setup and
+> [CONTRIBUTING.md](../../CONTRIBUTING.md) for contribution guidelines.
+
 > From first contribution to framework maintainer
 
 **Persona:** Chris the Contributor

@@ -1,5 +1,9 @@
 # Project Lead Journey
 
+> **Note:** This document has been consolidated into action-oriented walkthroughs.
+> See [ROADMAP_MANAGEMENT.md](../walkthroughs/ROADMAP_MANAGEMENT.md) and
+> [REPORTING_AND_STATUS.md](../walkthroughs/REPORTING_AND_STATUS.md) for current guides.
+
 > Managing roadmaps and coordinating work across tracks
 
 **Persona:** Pat the Project Lead

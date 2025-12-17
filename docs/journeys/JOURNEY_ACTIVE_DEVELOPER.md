@@ -1,5 +1,8 @@
 # Active Developer Journey
 
+> **Note:** This document has been consolidated into action-oriented walkthroughs.
+> See [DAILY_WORKFLOW.md](../walkthroughs/DAILY_WORKFLOW.md) for the current guide.
+
 > Daily productivity with Vibey-managed tasks
 
 **Persona:** Alex the Active Developer

@@ -5,14 +5,15 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Audit MCP to CLI command mapping for gaps
-  description: 'Compare all 169 CLI commands against 76 MCP tools to identify coverage
-    gaps. Document which CLI commands lack MCP equivalents and why. Expected: 100%
-    coverage. Current: ~45%. Source: User feedback - MCP should mirror CLI completely'
-  status: not_started
+  description: 'SUPERSEDED by unified decorator approach. Original: Compare all 169
+    CLI commands against 76 MCP tools to identify coverage gaps. Resolution: Unified
+    decorator automatically ensures parity - commands defined once propagate to both
+    interfaces. See vibey parity check command.'
+  status: completed
   blocked: false
   created: '2025-12-16T22:11:24.000223+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T16:35:59.965173+00:00'
+  completed: '2025-12-17T16:40:00.000000+00:00'
   assigned_agent: unassigned
   priority: critical
   phase_label: null
@@ -26,8 +27,10 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+    - vibey/unified/parity.py
+  commits:
+    - b510eaf0
   metadata:
     last_updated: null
     token_efficiency: null

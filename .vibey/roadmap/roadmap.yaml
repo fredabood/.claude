@@ -17,10 +17,10 @@ roadmap:
     tracks_total: 47
     tracks_completed: 24
     sprints_total: 223
-    sprints_completed: 40
-    tasks_total: 1567
-    tasks_completed: 1215
-    completion_percent: 78.0
+    sprints_completed: 42
+    tasks_total: 1546
+    tasks_completed: 1200
+    completion_percent: 77
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -215,11 +215,29 @@ roadmap:
   version_history: []
   deployed_platforms: []
   standards: []
-  activity_log: []
+  activity_log:
+  - timestamp: '2025-12-17T16:35:59.037074+00:00'
+    type: task_started
+    description: 'Task ''Root cause analysis: MCP/CLI drift'' started'
+    context:
+      task_id: 01KCMKG14YEJT49VVQ7GJQNWBW
+      sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
+  - timestamp: '2025-12-17T16:36:01.155325+00:00'
+    type: task_started
+    description: Task 'Audit MCP to CLI command mapping for gaps' started
+    context:
+      task_id: 01KCMKFMMSAEC4VFAVXDQRV68Y
+      sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
+  - timestamp: '2025-12-17T16:36:03.257315+00:00'
+    type: task_started
+    description: Task 'Add missing MCP tools to achieve CLI parity' started
+    context:
+      task_id: 01KCMKGGPPCKATCJ9KMAF5DZE8
+      sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: null
+    last_updated: '2025-12-17T16:36:03.257316+00:00'
     purpose: null
     description: null

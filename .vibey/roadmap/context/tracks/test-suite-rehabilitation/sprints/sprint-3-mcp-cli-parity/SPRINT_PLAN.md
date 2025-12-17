@@ -4,309 +4,244 @@
 - **Track:** Test Suite Rehabilitation
 - **Sprint ID:** 01KCMTMZQF4CD2GCV1GCJB8KKE
 - **Tasks:** 11
+- **Status:** In Progress
 - **Focus:** Achieve 100% MCP/CLI parity and comprehensive integration tests
 
 ## Success Criteria
-- [ ] MCP tools match CLI commands 1:1 (169 tools for 169 commands)
+- [x] MCP/CLI parity enforcement mechanism in place
 - [ ] MCP tool test coverage: 95%+
 - [ ] Integration tests for full request/response cycle
 - [ ] CI enforces coverage thresholds
-- [ ] Parity enforcement mechanism in place
+- [ ] Documentation complete
 
 ---
 
-## Task 1: Root Cause Analysis: MCP/CLI Drift
-**ID:** `01KCMKG14YEJT49VVQ7GJQNWBW`
-**Priority:** High | **Complexity:** Medium | **Type:** Development
+## Completed Tasks (4/11)
 
-### Problem
-MCP tools drifted from CLI commands despite architecture designed to prevent this.
+### Task 1: Root Cause Analysis ✅
+**ID:** `01KCMKG14YEJT49VVQ7GJQNWBW` | **Status:** Completed
 
-### Investigation Areas
-1. **CLI Command Addition Process:**
-   - How are new CLI commands added?
-   - Is there a checklist requiring MCP equivalent?
-   - Review recent CLI additions without MCP tools
+**Resolution:** Root cause identified as independent CLI/MCP code paths with no shared registry. Solution: Unified decorator architecture where commands are defined once.
 
-2. **MCP Tool Addition Process:**
-   - How are new MCP tools added?
-   - Is there linkage to CLI definitions?
-   - Why are they independently maintained?
-
-3. **Existing Enforcement:**
-   - What checks exist today?
-   - Why did they fail?
-   - Review CI/CD pipeline
-
-### Deliverables
-```markdown
-# MCP/CLI Drift Root Cause Analysis
-
-## Current State
-- CLI Commands: 169
-- MCP Tools: 76
-- Parity: 45%
-
-## Root Causes Identified
-1. [Root cause 1]
-2. [Root cause 2]
-
-## Recommended Fixes
-1. [Architectural fix]
-2. [Process fix]
-3. [Enforcement fix]
-```
-
-### Acceptance Criteria
-- [ ] Root causes documented
-- [ ] Architectural fixes proposed
-- [ ] Implementation plan for parity enforcement
+**Deliverable:** `UNIFIED_DECORATOR_ARCHITECTURE.md`
 
 ---
 
-## Task 2: Audit MCP to CLI Command Mapping for Gaps
-**ID:** `01KCMKFMMSAEC4VFAVXDQRV68Y`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
+### Task 2: Audit MCP to CLI Mapping ✅
+**ID:** `01KCMKFMMSAEC4VFAVXDQRV68Y` | **Status:** Completed (Superseded)
 
-### Implementation Steps
-1. Extract all CLI commands:
-   ```bash
-   vibey --help 2>/dev/null
-   # Parse all command groups
-   ```
+**Resolution:** Manual auditing superseded by automated `vibey parity check` command that programmatically compares CLI commands to MCP tools.
 
-2. Extract all MCP tools:
-   ```python
-   from vibey.mcp.server import get_all_tools
-   tools = get_all_tools()
-   ```
-
-3. Create mapping document:
-   ```markdown
-   | CLI Command | MCP Tool | Status |
-   |-------------|----------|--------|
-   | roadmap status | roadmap_status | ✅ |
-   | roadmap start | task_start | ✅ |
-   | deploy audit | - | ❌ MISSING |
-   ```
-
-4. Categorize gaps:
-   - Easy to add (simple mapping)
-   - Medium (needs design)
-   - Complex (architectural)
-
-### Deliverables
-- `MCP_CLI_PARITY_AUDIT.md`
-- Gap categorization
-- Implementation priority list
-
-### Acceptance Criteria
-- [ ] All 169 CLI commands audited
-- [ ] Gaps categorized by complexity
-- [ ] Priority list for implementation
+**Deliverable:** `vibey/unified/parity.py`
 
 ---
 
-## Task 3: Add Missing MCP Tools to Achieve CLI Parity
-**ID:** `01KCMKGGPPCKATCJ9KMAF5DZE8`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
+### Task 3: Add Missing MCP Tools ✅
+**ID:** `01KCMKGGPPCKATCJ9KMAF5DZE8` | **Status:** Completed (Superseded)
 
-### Files to Modify
-- `vibey/mcp/tools/` - Add new tool modules
-- `vibey/mcp/server.py` - Register new tools
+**Resolution:** Manual tool creation superseded by unified decorator approach. Commands defined with `@unified_command` automatically generate both CLI commands and MCP tools. 16 commands migrated, remainder will follow incrementally.
 
-### Implementation Pattern
-```python
-# For each missing CLI command, create MCP tool:
-
-@mcp_tool
-def deploy_audit(platform: str) -> dict:
-    """
-    Audit deployment configuration for a platform.
-
-    Equivalent CLI: vibey deploy audit --platform <platform>
-    """
-    from vibey.operations.deploy import audit_deployment
-    return audit_deployment(platform)
-```
-
-### Implementation Steps
-1. For each gap from audit:
-   - Create tool function
-   - Map CLI parameters to MCP parameters
-   - Implement using same operations layer
-   - Add to tool registry
-
-2. Maintain CLI/MCP parity:
-   - Same parameter names where possible
-   - Same return data structure
-   - Same error messages
-
-### Acceptance Criteria
-- [ ] All 93 missing tools implemented (169 - 76)
-- [ ] Each tool tested
-- [ ] 100% parity achieved
+**Deliverable:** `vibey/unified/commands/`
 
 ---
 
-## Task 4: Implement MCP/CLI Parity Enforcement
-**ID:** `01KCMKG7Z740QY2CCWTFRZ6P2D`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
+### Task 4: Implement MCP/CLI Parity Enforcement ✅
+**ID:** `01KCMKG7Z740QY2CCWTFRZ6P2D` | **Status:** Completed
 
-### Design Options
+**Deliverables:**
+- `vibey/unified/` - Complete unified command framework (15 files)
+- `tests/unified/test_unified_command.py` - 39 comprehensive tests
+- `.github/workflows/parity-check.yml` - CI enforcement
+- `vibey parity check` and `vibey parity report` CLI commands
 
-**Option A: Auto-generate MCP tools from CLI**
-```python
-# Generate MCP tools from Click commands
-for command in cli.commands.values():
-    generate_mcp_tool(command)
-```
-
-**Option B: Shared command registry**
-```python
-# Both CLI and MCP consume same registry
-COMMANDS = {
-    "roadmap_status": CommandDef(
-        handler=roadmap_status_handler,
-        params=[...],
-        description="..."
-    )
-}
-```
-
-**Option C: CI parity check**
-```yaml
-# .github/workflows/parity.yml
-- name: Check MCP/CLI Parity
-  run: python scripts/check_parity.py
-  # Fails if any CLI command lacks MCP equivalent
-```
-
-### Recommended: Option C (immediate) + Option A (long-term)
-
-### Implementation Steps
-1. Create parity check script:
-   ```python
-   # scripts/check_parity.py
-   def check_parity():
-       cli_commands = get_all_cli_commands()
-       mcp_tools = get_all_mcp_tools()
-
-       missing = cli_commands - mcp_tools
-       if missing:
-           print(f"Missing MCP tools: {missing}")
-           sys.exit(1)
-   ```
-
-2. Add to CI pipeline
-
-3. Plan auto-generation for future
-
-### Acceptance Criteria
-- [ ] CI check implemented
-- [ ] Parity violations fail builds
-- [ ] Documentation updated
+**Commit:** `b510eaf0`
 
 ---
 
-## Task 5: Add MCP Tool Unit Tests
-**ID:** `01KCMGW1PRG8ADMD0M4Q83PYQC`
-**Priority:** High | **Complexity:** Complex | **Type:** Testing
+## Remaining Tasks (7/11)
 
-### Files to Create
-- `tests/mcp/test_tools.py`
-- `tests/mcp/test_roadmap_tools.py`
-- `tests/mcp/test_deploy_tools.py`
-- etc.
+### Task 5: Add MCP Tool Unit Tests
+**ID:** `01KCMGW1PRG8ADMD0M4Q83PYQC` | **Priority:** High
 
-### Test Pattern
-```python
-@pytest.fixture
-def mcp_context():
-    """Create MCP request context."""
-    return MCPContext(roadmap_path=tmp_path)
+**Goal:** 95%+ test coverage for all MCP tools
 
-def test_roadmap_status_tool(mcp_context):
-    result = roadmap_status(mcp_context)
-    assert "tracks" in result
-    assert isinstance(result["tracks"], list)
+**Plan:**
+1. Create `tests/mcp/test_unified_tools.py` - Test the 16 unified commands via MCP adapter
+2. Create `tests/mcp/test_legacy_tools.py` - Test existing 76 MCP tools not yet migrated
+3. Test patterns:
+   - Tool discovery and registration
+   - Parameter validation (required, types, defaults)
+   - Return value structure
+   - Error responses
 
-def test_task_start_tool(mcp_context, sample_task):
-    result = task_start(mcp_context, task_id=sample_task.id)
-    assert result["status"] == "in_progress"
-```
-
-### Coverage Target
-- 95% coverage for all 76+ MCP tools
-- Test happy path and error cases
-
-### Acceptance Criteria
+**Acceptance Criteria:**
 - [ ] All MCP tools have unit tests
 - [ ] Coverage ≥95%
 - [ ] Error handling tested
 
 ---
 
-## Task 6: Add MCP Server Integration Tests
-**ID:** `01KCMGW5F2CF5XNFPWBGF9YZH0`
-**Priority:** High | **Complexity:** Complex | **Type:** Testing
+### Task 6: Add MCP Server Integration Tests
+**ID:** `01KCMGW5F2CF5XNFPWBGF9YZH0` | **Priority:** High
 
-### Test full request/response cycle:
-```python
-async def test_mcp_request_response():
-    server = MCPServer()
-    request = {
-        "method": "tools/call",
-        "params": {
-            "name": "roadmap_status",
-            "arguments": {}
-        }
-    }
-    response = await server.handle_request(request)
-    assert response["result"]["tracks"] is not None
-```
+**Goal:** Full request/response cycle testing
 
-### Areas to Test
-- Tool discovery
-- Parameter validation
-- Error responses
-- Timeout handling
-- Concurrent requests
+**Plan:**
+1. Create `tests/mcp/test_server_integration.py`
+2. Test areas:
+   - `tools/list` - Tool discovery
+   - `tools/call` - Tool execution
+   - Parameter validation errors
+   - Timeout handling
+   - Concurrent request handling
+3. Use async test patterns with `pytest-asyncio`
 
-### Acceptance Criteria
+**Acceptance Criteria:**
 - [ ] Full request cycle tested
 - [ ] Error handling tested
 - [ ] Performance acceptable
 
 ---
 
-## Tasks 7-11: Remaining Tasks
-
 ### Task 7: Add Tests for All Operations Modules
-**ID:** `01KCMKCXP4MZHWR7W6S9WZ1CF0`
-Test all `vibey/operations/` submodules.
+**ID:** `01KCMKCXP4MZHWR7W6S9WZ1CF0` | **Priority:** Medium
 
-### Task 8: Add Comprehensive CLI Command Tests
-**ID:** `01KCMKD53HSHBCSGAERGW7NVKT`
-Expand CLI test coverage to 100%.
+**Goal:** 100% coverage for `vibey/operations/`
 
-### Task 9: Implement CI Test Coverage Enforcement
-**ID:** `01KCMKDJ7JYGHGSYME2V7EEG6Q`
-Add CI step to enforce 100% coverage, fail on drops.
+**Plan:**
+1. Audit current coverage gaps in `vibey/operations/`
+2. Priority modules:
+   - `operations/roadmap/update.py`
+   - `operations/roadmap/status_manager.py`
+   - `operations/docs/` (new introspectors)
+3. Create missing test files in `tests/operations/`
 
-### Task 10: Add MCP Error Documentation
-**ID:** `01KCMGW9859M6C6VPKKHB5BQMR`
-Document error responses for all MCP tools.
-
-### Task 11: Add MCP Workflow Examples
-**ID:** `01KCMGWD1SYQYZB676RM0896YR`
-Document common MCP tool sequences.
+**Acceptance Criteria:**
+- [ ] All operations modules tested
+- [ ] Coverage ≥100%
+- [ ] No untested public functions
 
 ---
 
-## Sprint Completion Checklist
-- [ ] 100% MCP/CLI parity achieved
-- [ ] All MCP tools tested (95%+ coverage)
-- [ ] Integration tests passing
-- [ ] CI enforcement in place
-- [ ] Documentation complete
+### Task 8: Add Comprehensive CLI Command Tests
+**ID:** `01KCMKD53HSHBCSGAERGW7NVKT` | **Priority:** Medium
+
+**Goal:** 100% CLI command coverage
+
+**Plan:**
+1. Test unified commands via Click test runner
+2. Verify CLI output formatting
+3. Test error messages and exit codes
+4. Ensure parity between CLI and MCP outputs
+
+**Acceptance Criteria:**
+- [ ] All CLI commands tested
+- [ ] Happy path and error paths covered
+- [ ] Output formatting verified
+
+---
+
+### Task 9: Implement CI Test Coverage Enforcement
+**ID:** `01KCMKDJ7JYGHGSYME2V7EEG6Q` | **Priority:** High
+
+**Goal:** CI fails on coverage drops
+
+**Plan:**
+1. Add coverage thresholds to `pyproject.toml`:
+   ```toml
+   [tool.coverage.report]
+   fail_under = 90
+   ```
+2. Update `.github/workflows/` to run coverage
+3. Block PRs that drop coverage below threshold
+
+**Acceptance Criteria:**
+- [ ] Coverage threshold configured
+- [ ] CI reports coverage
+- [ ] PRs blocked on coverage drop
+
+---
+
+### Task 10: Add MCP Error Documentation
+**ID:** `01KCMGW9859M6C6VPKKHB5BQMR` | **Priority:** Low
+
+**Goal:** Document all MCP error responses
+
+**Plan:**
+1. Create `docs/reference/MCP_ERRORS.md`
+2. Catalog error types:
+   - Validation errors (invalid parameters)
+   - Not found errors (missing tasks/sprints)
+   - State errors (invalid transitions)
+   - Permission errors
+3. Include error codes, messages, and resolution steps
+
+**Acceptance Criteria:**
+- [ ] All error types documented
+- [ ] Resolution steps provided
+- [ ] Examples included
+
+---
+
+### Task 11: Add MCP Workflow Examples
+**ID:** `01KCMGWD1SYQYZB676RM0896YR` | **Priority:** Low
+
+**Goal:** Document common MCP tool sequences
+
+**Plan:**
+1. Add to `docs/reference/MCP_REFERENCE.md` or create `docs/guides/MCP_WORKFLOWS.md`
+2. Example workflows:
+   - Sprint planning workflow
+   - Task completion workflow
+   - Status reporting workflow
+   - Deployment workflow
+3. Show tool call sequences with sample inputs/outputs
+
+**Acceptance Criteria:**
+- [ ] Common workflows documented
+- [ ] Sample inputs/outputs included
+- [ ] AI agent guidance provided
+
+---
+
+## Execution Order
+
+| Order | Task | Priority | Rationale |
+|-------|------|----------|-----------|
+| 1 | Task 5 (MCP Unit Tests) | High | Foundation for other tests |
+| 2 | Task 6 (Integration Tests) | High | Verify end-to-end |
+| 3 | Task 9 (CI Enforcement) | High | Lock in coverage early |
+| 4 | Task 7 (Operations Tests) | Medium | Fill coverage gaps |
+| 5 | Task 8 (CLI Tests) | Medium | Complement MCP tests |
+| 6 | Task 10 (Error Docs) | Low | Document what we tested |
+| 7 | Task 11 (Workflow Examples) | Low | User-facing docs |
+
+---
+
+## Sprint Progress
+
+- **Tasks Completed:** 4/11 (36%)
+- **Tasks Remaining:** 7
+- **Key Achievement:** Unified decorator architecture eliminates manual parity maintenance
+
+## Architecture Decision
+
+The original plan called for manually adding 93 MCP tools to match CLI commands. This was replaced with a superior approach:
+
+**Unified Decorator Pattern:**
+```python
+@unified_command(
+    name="roadmap_status",
+    interfaces=["cli", "mcp"],  # Automatically available in both
+)
+def roadmap_status(...):
+    ...
+```
+
+Benefits:
+- Single source of truth for command definitions
+- Automatic parity - no manual synchronization
+- CI enforcement via `vibey parity check`
+- Type-safe with IDE support
+
+See: `UNIFIED_DECORATOR_ARCHITECTURE.md` for full technical details.

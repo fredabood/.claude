@@ -7,11 +7,11 @@ task:
   title: Document CLI error responses
   description: 'Add error documentation section to CLI reference with common errors
     and solutions per command group. Source: F011, Reference Guide Friction 7'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:27:01.831163+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:43:51.822193+00:00'
+  completed: '2025-12-17T02:44:16.036079+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

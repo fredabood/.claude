@@ -45,13 +45,13 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/fredabood/vibey.git
+git clone https://github.com/anthropics/vibey.git
 cd vibey
 
 # Explore structure
 ls -la
-ls vibey/          # Python package
-ls framework/      # Content files
+ls vibey/          # Python package (ALL code)
+ls .vibey/         # Framework data (roadmap, config)
 ls docs/           # Documentation
 ls tests/          # Test suite
 
@@ -69,7 +69,8 @@ vibey/
 │   ├── mcp/            # MCP server
 │   ├── roadmap/        # Roadmap models
 │   └── common/         # Shared utilities
-├── framework/          # Content (agents, workflows)
+├── .vibey/             # Framework data
+│   └── roadmap/        # Roadmap YAML + SQLite
 ├── docs/               # Documentation
 └── tests/              # Test suite
 ```
@@ -166,7 +167,7 @@ git commit -m "test: Verify hooks working"
 vibey roadmap status
 
 # Find available tasks
-vibey roadmap list tasks --filter not_started
+vibey roadmap list tasks --status not_started
 
 # See task details
 vibey roadmap show task <task-id>

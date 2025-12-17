@@ -9,11 +9,11 @@ task:
     MCP_REFERENCE.md format. Update cli_reference_generator.py to produce consistent
     structure with MCP reference including parameter tables, type information, and
     organized sections. Source: User feedback'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:07:42.216027+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:59:30.652089+00:00'
+  completed: '2025-12-17T01:59:32.257640+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

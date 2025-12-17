@@ -8,11 +8,11 @@ task:
   description: 'Add usage examples to CLI commands that lack them. Reference Guide
     Friction item 6 identified inconsistent example coverage across commands. Source:
     REFERENCE_GUIDE_FRICTION.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:56:36.288330+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:59:19.830603+00:00'
+  completed: '2025-12-17T01:59:21.428678+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

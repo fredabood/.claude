@@ -99,6 +99,9 @@ class CLIReferenceGenerator:
         # Command reference
         self._add_command_reference()
 
+        # Common errors
+        self._add_common_errors()
+
         # Footer
         self._add_footer()
 
@@ -297,6 +300,9 @@ class CLIReferenceGenerator:
                 self._line(f"| `{subcmd.name}` | {desc} |")
             self._line()
 
+        # Add "See Also" section for related commands
+        self._add_see_also(cmd)
+
         self._line("---")
         self._line()
 
@@ -304,6 +310,33 @@ class CLIReferenceGenerator:
         if cmd.is_group:
             for subcmd in cmd.subcommands:
                 self._document_command(subcmd, min(level + 1, self.config.max_heading_depth))
+
+    def _add_see_also(self, cmd: CommandInfo):
+        """Add 'See Also' section with related commands."""
+        # Define command relationships
+        relationships = {
+            "vibey roadmap status": ["vibey roadmap show", "vibey roadmap list"],
+            "vibey roadmap start": ["vibey roadmap complete", "vibey roadmap show"],
+            "vibey roadmap complete": ["vibey roadmap start", "vibey roadmap show"],
+            "vibey roadmap show": ["vibey roadmap status", "vibey roadmap list"],
+            "vibey roadmap list": ["vibey roadmap show", "vibey roadmap status"],
+            "vibey roadmap db rebuild": ["vibey roadmap db status", "vibey roadmap db validate"],
+            "vibey roadmap db status": ["vibey roadmap db rebuild", "vibey roadmap db validate"],
+            "vibey roadmap db validate": ["vibey roadmap db rebuild", "vibey roadmap db status"],
+            "vibey deploy run": ["vibey deploy list", "vibey deploy validate"],
+            "vibey deploy list": ["vibey deploy run", "vibey deploy validate"],
+            "vibey init": ["vibey roadmap status", "vibey deploy run"],
+            "vibey docs generate-cli": ["vibey docs generate-mcp", "vibey docs check-drift"],
+            "vibey docs generate-mcp": ["vibey docs generate-cli", "vibey docs check-drift"],
+        }
+
+        related = relationships.get(cmd.path)
+        if related:
+            self._line("**See Also:**")
+            for rel_cmd in related:
+                anchor = self._make_anchor(rel_cmd.replace(" ", "-"))
+                self._line(f"- [`{rel_cmd}`](#{anchor})")
+            self._line()
 
     def _build_usage(self, cmd: CommandInfo) -> str:
         """Build usage string for a command."""
@@ -383,6 +416,68 @@ class CLIReferenceGenerator:
             self._line(ex.command)
             self._line("```")
             self._line()
+
+    def _add_common_errors(self):
+        """Add common errors section."""
+        self._heading("Common Errors", 2)
+
+        self._line("### Database Errors")
+        self._line()
+        self._line("**Error:** `Database out of sync with YAML`")
+        self._line()
+        self._line("**Solution:** Rebuild the database from YAML sources:")
+        self._line("```bash")
+        self._line("vibey roadmap db rebuild")
+        self._line("```")
+        self._line()
+
+        self._line("**Error:** `Task not found: <id>`")
+        self._line()
+        self._line("**Solution:** Verify the task ID and check database status:")
+        self._line("```bash")
+        self._line("vibey roadmap db status")
+        self._line("vibey roadmap list tasks")
+        self._line("```")
+        self._line()
+
+        self._line("### Task Lifecycle Errors")
+        self._line()
+        self._line("**Error:** `Cannot complete task: Task has no commits`")
+        self._line()
+        self._line("**Solution:** Either add commits or mark as non-code task:")
+        self._line("```bash")
+        self._line("# Add commits")
+        self._line("vibey roadmap add-commit <task-id> <sha>")
+        self._line("")
+        self._line("# Or mark as non-code task")
+        self._line("vibey roadmap complete <task-id> --no-commits")
+        self._line("```")
+        self._line()
+
+        self._line("**Error:** `Cannot start task: Sprint not active`")
+        self._line()
+        self._line("**Solution:** Start the sprint first:")
+        self._line("```bash")
+        self._line("vibey roadmap start <sprint-id>")
+        self._line("```")
+        self._line()
+
+        self._line("### Activity Log Errors")
+        self._line()
+        self._line("**Error:** `No activity log entry for: <file>`")
+        self._line()
+        self._line("**Solution:** Use CLI commands instead of direct file edits:")
+        self._line("```bash")
+        self._line("# Use CLI to update tasks")
+        self._line("vibey roadmap update task <id> --status <status>")
+        self._line("")
+        self._line("# Or bypass with --no-verify (not recommended)")
+        self._line("git commit --no-verify -m 'message'")
+        self._line("```")
+        self._line()
+
+        self._line("---")
+        self._line()
 
     def _add_footer(self):
         """Add document footer."""

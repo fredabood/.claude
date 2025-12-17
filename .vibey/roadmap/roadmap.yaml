@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 223
     sprints_completed: 37
     tasks_total: 1533
-    tasks_completed: 1167
+    tasks_completed: 1168
     completion_percent: 76
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -276,10 +276,82 @@ roadmap:
     context:
       task_id: 01KCMGN7290RWZE8WHWXNJA4QQ
       sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:57:21.749666+00:00'
+    type: task_started
+    description: Task 'Add cross-references between related commands' started
+    context:
+      task_id: 01KCMGNAV3952EVY80A6GWYBD5
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:58:05.840278+00:00'
+    type: task_completed
+    description: Task 'Add cross-references between related commands' completed
+    context:
+      task_id: 01KCMGNAV3952EVY80A6GWYBD5
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:58:16.876829+00:00'
+    type: task_started
+    description: Task 'Add error reference section to CLI documentation' started
+    context:
+      task_id: 01KCMJTM34T53WT7CVH0NQX617
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:03.394948+00:00'
+    type: task_completed
+    description: Task 'Add error reference section to CLI documentation' completed
+    context:
+      task_id: 01KCMJTM34T53WT7CVH0NQX617
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:21.097926+00:00'
+    type: task_started
+    description: Task 'Ensure all CLI commands have at least one example' started
+    context:
+      task_id: 01KCMJMHRXMRCEXQ0N71R3BWR1
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:22.659518+00:00'
+    type: task_completed
+    description: Task 'Ensure all CLI commands have at least one example' completed
+    context:
+      task_id: 01KCMJMHRXMRCEXQ0N71R3BWR1
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:24.658147+00:00'
+    type: task_started
+    description: Task 'Add schema explanations for complex MCP parameters' started
+    context:
+      task_id: 01KCMJN4MFC7TAG8P01BC7RP5W
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:26.217826+00:00'
+    type: task_completed
+    description: Task 'Add schema explanations for complex MCP parameters' completed
+    context:
+      task_id: 01KCMJN4MFC7TAG8P01BC7RP5W
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:28.229719+00:00'
+    type: task_started
+    description: Task 'Audit CLI commands for complete parameter documentation' started
+    context:
+      task_id: 01KCMK82R7GHN3HHEG6FSDDKG7
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:29.866328+00:00'
+    type: task_completed
+    description: Task 'Audit CLI commands for complete parameter documentation' completed
+    context:
+      task_id: 01KCMK82R7GHN3HHEG6FSDDKG7
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:31.918043+00:00'
+    type: task_started
+    description: Task 'Restructure CLI reference to match MCP reference format' started
+    context:
+      task_id: 01KCMK8W265T2N76F6ATD3AWX3
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:59:33.495561+00:00'
+    type: task_completed
+    description: Task 'Restructure CLI reference to match MCP reference format' completed
+    context:
+      task_id: 01KCMK8W265T2N76F6ATD3AWX3
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T01:56:37.959383+00:00'
+    last_updated: '2025-12-17T01:59:33.495564+00:00'
     purpose: null
     description: null

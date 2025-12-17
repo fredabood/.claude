@@ -2,7 +2,7 @@
 
 **Version:** 2.5.0
 **Total Commands:** 200
-**Generated:** 2025-12-17T01:56:30.685316+00:00
+**Generated:** 2025-12-17T01:58:55.192038+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
 
@@ -2910,6 +2910,10 @@ List available deployment platforms
 vibey deploy list
 ```
 
+**See Also:**
+- [`vibey deploy run`](#vibey-deploy-run)
+- [`vibey deploy validate`](#vibey-deploy-validate)
+
 ---
 
 <a id="vibey-deploy-run"></a>
@@ -2931,6 +2935,10 @@ vibey deploy run [OPTIONS]
 | `--clean` | flag | `False` | Remove existing deployment first |
 | `--no-validate` | flag | `False` | Skip post-deployment validation |
 | `--no-roadmap-init` | flag | `False` | Skip roadmap initialization after deployment |
+
+**See Also:**
+- [`vibey deploy list`](#vibey-deploy-list)
+- [`vibey deploy validate`](#vibey-deploy-validate)
 
 ---
 
@@ -3436,6 +3444,10 @@ vibey docs generate-cli -f json           # Output as JSON
 vibey docs generate-cli --include-hidden  # Include hidden commands
 ```
 
+**See Also:**
+- [`vibey docs generate-mcp`](#vibey-docs-generate-mcp)
+- [`vibey docs check-drift`](#vibey-docs-check-drift)
+
 ---
 
 <a id="vibey-docs-generate-mcp"></a>
@@ -3473,6 +3485,10 @@ vibey docs generate-mcp -o docs/mcp.md    # Custom output path
 ```bash
 vibey docs generate-mcp -f json           # Output as JSON
 ```
+
+**See Also:**
+- [`vibey docs generate-cli`](#vibey-docs-generate-cli)
+- [`vibey docs check-drift`](#vibey-docs-check-drift)
 
 ---
 
@@ -6826,6 +6842,10 @@ vibey roadmap complete task-001 --no-commits      # Skip commit check
 vibey roadmap complete sprint-1 --force           # Force complete with incomplete tasks
 ```
 
+**See Also:**
+- [`vibey roadmap start`](#vibey-roadmap-start)
+- [`vibey roadmap show`](#vibey-roadmap-show)
+
 ---
 
 <a id="vibey-roadmap-context"></a>
@@ -7436,6 +7456,10 @@ vibey roadmap db rebuild
 vibey roadmap db rebuild --force  # Skip dirty check
 ```
 
+**See Also:**
+- [`vibey roadmap db status`](#vibey-roadmap-db-status)
+- [`vibey roadmap db validate`](#vibey-roadmap-db-validate)
+
 ---
 
 <a id="vibey-roadmap-db-status"></a>
@@ -7471,6 +7495,10 @@ vibey roadmap db status
 ```bash
 vibey roadmap db status -v  # Detailed view
 ```
+
+**See Also:**
+- [`vibey roadmap db rebuild`](#vibey-roadmap-db-rebuild)
+- [`vibey roadmap db validate`](#vibey-roadmap-db-validate)
 
 ---
 
@@ -7518,6 +7546,10 @@ vibey roadmap db validate --compare
 ```bash
 vibey roadmap db validate --compare --verbose
 ```
+
+**See Also:**
+- [`vibey roadmap db rebuild`](#vibey-roadmap-db-rebuild)
+- [`vibey roadmap db status`](#vibey-roadmap-db-status)
 
 ---
 
@@ -8322,6 +8354,10 @@ vibey roadmap show task-001
 vibey roadmap show my-track
 ```
 
+**See Also:**
+- [`vibey roadmap status`](#vibey-roadmap-status)
+- [`vibey roadmap list`](#vibey-roadmap-list)
+
 ---
 
 <a id="vibey-roadmap-start"></a>
@@ -8366,6 +8402,10 @@ vibey roadmap start task-001
 vibey roadmap start sprint-1 --skip-compatibility
 ```
 
+**See Also:**
+- [`vibey roadmap complete`](#vibey-roadmap-complete)
+- [`vibey roadmap show`](#vibey-roadmap-show)
+
 ---
 
 <a id="vibey-roadmap-status"></a>
@@ -8385,6 +8425,10 @@ vibey roadmap status [OPTIONS]
 |--------|------|---------|-------------|
 | `--track` | TEXT | - | Show status for specific track |
 | `--sprint` | TEXT | - | Show status for specific sprint |
+
+**See Also:**
+- [`vibey roadmap show`](#vibey-roadmap-show)
+- [`vibey roadmap list`](#vibey-roadmap-list)
 
 ---
 
@@ -9384,8 +9428,62 @@ vibey validate docs --verbose
 
 ---
 
+## Common Errors
+
+### Database Errors
+
+**Error:** `Database out of sync with YAML`
+
+**Solution:** Rebuild the database from YAML sources:
+```bash
+vibey roadmap db rebuild
+```
+
+**Error:** `Task not found: <id>`
+
+**Solution:** Verify the task ID and check database status:
+```bash
+vibey roadmap db status
+vibey roadmap list tasks
+```
+
+### Task Lifecycle Errors
+
+**Error:** `Cannot complete task: Task has no commits`
+
+**Solution:** Either add commits or mark as non-code task:
+```bash
+# Add commits
+vibey roadmap add-commit <task-id> <sha>
+
+# Or mark as non-code task
+vibey roadmap complete <task-id> --no-commits
+```
+
+**Error:** `Cannot start task: Sprint not active`
+
+**Solution:** Start the sprint first:
+```bash
+vibey roadmap start <sprint-id>
+```
+
+### Activity Log Errors
+
+**Error:** `No activity log entry for: <file>`
+
+**Solution:** Use CLI commands instead of direct file edits:
+```bash
+# Use CLI to update tasks
+vibey roadmap update task <id> --status <status>
+
+# Or bypass with --no-verify (not recommended)
+git commit --no-verify -m 'message'
+```
+
+---
+
 ---
 
 *This documentation was auto-generated from the CLI source code.*
 
-*Generated at: 2025-12-17T01:56:30.685316+00:00*
+*Generated at: 2025-12-17T01:58:55.192038+00:00*

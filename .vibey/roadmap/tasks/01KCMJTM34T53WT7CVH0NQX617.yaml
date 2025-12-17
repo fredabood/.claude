@@ -8,11 +8,11 @@ task:
   description: 'Add common errors section per command group documenting error codes,
     causes, and solutions. Users must currently figure out errors themselves. Source:
     REFERENCE_GUIDE_FRICTION.md item 7'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:59:55.294339+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:58:15.598971+00:00'
+  completed: '2025-12-17T01:59:02.130288+00:00'
   assigned_agent: unassigned
   priority: low
   phase_label: null

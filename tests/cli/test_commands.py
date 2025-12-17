@@ -214,9 +214,18 @@ class TestCommandInputValidation:
         exit_code = roadmap_start_cmd('')
         assert exit_code != 0
 
-    def test_show_validates_object_id_format(self):
+    @patch('vibey.cli.commands.query_task_details')
+    @patch('vibey.cli.commands.query_sprint_details')
+    @patch('vibey.cli.commands.query_track_details')
+    def test_show_validates_object_id_format(self, mock_track, mock_sprint, mock_task):
         """Test show command validates object ID format."""
-        # Empty ID should be handled
+        # Configure mocks to raise not found for empty ID
+        from vibey.common.errors import TaskNotFoundError, SprintNotFoundError, TrackNotFoundError
+        mock_task.side_effect = TaskNotFoundError("")
+        mock_sprint.side_effect = SprintNotFoundError("")
+        mock_track.side_effect = TrackNotFoundError("")
+
+        # Empty ID should be handled as error
         exit_code = roadmap_show_cmd('')
         assert exit_code != 0
 

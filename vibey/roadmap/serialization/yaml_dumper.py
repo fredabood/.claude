@@ -3,9 +3,10 @@ YAML dumper for roadmap objects.
 
 Saves Python dataclass objects to YAML files.
 
-Supports both nested (v1) and flat (v2) directory structures:
-- Nested: .vibey/roadmap/{track}/{sprint}/{task}/task.yaml
-- Flat: .vibey/roadmap/tracks/{ulid}.yaml, sprints/{ulid}.yaml, tasks/{ulid}.yaml
+Uses flat directory structure per ADR-0002:
+- .vibey/roadmap/tracks/{ulid}.yaml
+- .vibey/roadmap/sprints/{ulid}.yaml
+- .vibey/roadmap/tasks/{ulid}.yaml
 """
 
 from datetime import datetime
@@ -30,15 +31,6 @@ def _format_datetime(dt: Union[datetime, None]) -> Union[str, None]:
     if dt is None:
         return None
     return dt.isoformat() + 'Z' if dt.tzinfo is None else dt.isoformat()
-
-
-def _create_slug(name: str) -> str:
-    """Create a URL-friendly slug from a name."""
-    import re
-    slug = name.lower()
-    slug = re.sub(r'[^a-z0-9]+', '-', slug)
-    slug = slug.strip('-')
-    return slug[:100]  # Max length
 
 
 def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):

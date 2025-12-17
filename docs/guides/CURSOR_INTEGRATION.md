@@ -21,7 +21,11 @@ Cursor also supports `.cursorrules` for project-specific AI behavior customizati
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git
+cd vibey
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
@@ -239,4 +243,4 @@ The `--clean` flag removes existing files before regenerating.
 
 - [Cursor Documentation](https://docs.cursor.com/)
 - [Cursor MCP Setup](https://docs.cursor.com/context/model-context-protocol)
-- [Vibey MCP Server](../reference/MCP_SERVER.md)
+- [Vibey MCP Reference](../reference/MCP_REFERENCE.md)

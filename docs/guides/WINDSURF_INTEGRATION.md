@@ -19,7 +19,7 @@ Windsurf uses the same MCP configuration format as Claude Desktop, enabling:
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
@@ -205,4 +205,4 @@ vibey deploy --platform windsurf --clean
 
 - [Windsurf Documentation](https://docs.windsurf.com/)
 - [Codeium MCP Support](https://docs.windsurf.com/mcp)
-- [Vibey MCP Server](../reference/MCP_SERVER.md)
+- [Vibey MCP Reference](../reference/MCP_REFERENCE.md)

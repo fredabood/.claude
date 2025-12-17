@@ -76,7 +76,9 @@ Curious → Interested → Cautiously Optimistic
 
 | Action | Documentation | Commands |
 |--------|---------------|----------|
-| Install via pip | README.md#Installation | `pip install vibey` |
+| Clone repository | README.md#Installation | `git clone && cd vibey` |
+| Create virtual environment | - | `python3 -m venv .venv && source .venv/bin/activate` |
+| Install in editable mode | - | `pip install -e ".[dev]"` |
 | Verify installation | - | `vibey --version` |
 | Check help | - | `vibey --help` |
 | Explore subcommands | - | `vibey roadmap --help` |
@@ -84,8 +86,12 @@ Curious → Interested → Cautiously Optimistic
 ### Commands Used
 
 ```bash
-# Install Vibey
-pip install vibey
+# Clone and install Vibey
+git clone https://github.com/anthropics/vibey.git
+cd vibey
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
 
 # Verify installation
 vibey --version
@@ -315,7 +321,9 @@ All commands used in this journey:
 
 | Stage | Command | Purpose |
 |-------|---------|---------|
-| Installation | `pip install vibey` | Install framework |
+| Installation | `git clone && cd vibey` | Clone repository |
+| Installation | `python3 -m venv .venv && source .venv/bin/activate` | Create virtual environment |
+| Installation | `pip install -e ".[dev]"` | Install in editable mode |
 | Installation | `vibey --version` | Verify installation |
 | Installation | `vibey --help` | Explore commands |
 | First Steps | `vibey init` | Initialize in project |

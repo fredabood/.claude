@@ -6747,11 +6747,11 @@ vibey roadmap db query deps [OPTIONS] <ENTITY_ID>
 **Examples:**
 
 ```bash
-vibey roadmap db query deps sqlite-backend-2-task-001
+vibey roadmap db query deps 01KC2D0JK7READW9KAK1HBX4B8
 ```
 
 ```bash
-vibey roadmap db query deps sqlite-backend --direction up
+vibey roadmap db query deps 01KC2D0JK9JKQXGQW6MQEB0JZP --direction up
 ```
 
 ---

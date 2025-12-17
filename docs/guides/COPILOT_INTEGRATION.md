@@ -23,7 +23,7 @@ This enables access to all 46 Vibey MCP tools including:
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
@@ -279,4 +279,4 @@ The `--clean` flag removes existing files before regenerating.
 - [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
 - [Copilot Custom Instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
 - [Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
-- [Vibey MCP Server](../reference/MCP_SERVER.md)
+- [Vibey MCP Reference](../reference/MCP_REFERENCE.md)

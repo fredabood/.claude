@@ -19,7 +19,7 @@ Continue.dev was the **first AI coding assistant with full MCP support** (Decemb
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
@@ -195,4 +195,4 @@ The `--clean` flag removes existing files before regenerating.
 
 - [Continue.dev Documentation](https://docs.continue.dev/)
 - [Continue MCP Setup](https://docs.continue.dev/customize/deep-dives/mcp)
-- [Vibey MCP Server](../reference/MCP_SERVER.md)
+- [Vibey MCP Reference](../reference/MCP_REFERENCE.md)

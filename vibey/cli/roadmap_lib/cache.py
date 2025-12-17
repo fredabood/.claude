@@ -617,8 +617,7 @@ class RoadmapCache:
 
         self._indexes_built = True
 
-        elapsed = (time.time() - start_time) * 1000  # Convert to ms
-        # print(f"Built indexes in {elapsed:.1f}ms")
+        elapsed = (time.time() - start_time) * 1000  # Convert to ms (unused)
 
         # Save to disk for faster subsequent loads
         self._save_to_disk()

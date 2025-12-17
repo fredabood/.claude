@@ -321,21 +321,7 @@ class SummaryGenerator:
         2. Call Claude API
         3. Parse and format response
         """
-        # For now, fall back to structured summary
-        # Real implementation would call Anthropic API:
-        #
-        # import anthropic
-        # client = anthropic.Anthropic(api_key=self.api_key)
-        # response = client.messages.create(
-        #     model="claude-3-5-sonnet-20241022",
-        #     max_tokens=1024,
-        #     messages=[{
-        #         "role": "user",
-        #         "content": prompt
-        #     }]
-        # )
-        # return response.content[0].text
-
+        # Falls back to structured summary (AI integration not yet implemented)
         return self._generate_structured_summary(task, sprint_plan)
 
     def generate_sprint_summary(self, sprint_id: str) -> str:

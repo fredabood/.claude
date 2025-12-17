@@ -7,11 +7,11 @@ task:
   title: Fix version hardcoding in examples
   description: 'Replace hardcoded version numbers (2.5.0) with semantic version examples
     (2.x.x) or dynamic version throughout walkthroughs. Source: QW004, F012'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:21:11.796881+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:47:47.683603+00:00'
+  completed: '2025-12-17T01:49:18.528219+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null
@@ -28,6 +28,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-17T00:28:52.195407+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

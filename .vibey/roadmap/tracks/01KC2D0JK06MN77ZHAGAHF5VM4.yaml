@@ -44,11 +44,12 @@ track:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
-    blocker_type: track
-    required_status: completed
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    description: Requires unified ticket architecture and CLI/MCP integration points to be stabilized first
+    last_checked: null
   depended_on_by: []
   quality_gates: []
   assigned_agents: []

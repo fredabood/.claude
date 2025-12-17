@@ -1,5 +1,9 @@
 # Progress Tracking Guide
 
+> **Note:** This guide references deprecated `/vibey` slash commands. Use the CLI equivalents:
+> - `/vibey code` → `vibey roadmap status`
+> - Task management → `vibey roadmap start/complete <task-id>`
+
 **Version:** 1.0.0
 **Last Updated:** November 8, 2025
 **Applies To:** Vibey Framework v1.2.0+

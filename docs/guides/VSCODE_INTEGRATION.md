@@ -17,7 +17,7 @@ VS Code has **full native MCP support** without requiring any extension. This ma
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
@@ -251,4 +251,4 @@ vibey deploy --platform vscode --clean
 
 - [VS Code MCP Documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 - [MCP Announcement Blog](https://code.visualstudio.com/blogs/2025/06/12/full-mcp-spec-support)
-- [Vibey MCP Server Reference](../reference/MCP_SERVER.md)
+- [Vibey MCP Reference](../reference/MCP_REFERENCE.md)

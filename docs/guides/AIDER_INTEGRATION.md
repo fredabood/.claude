@@ -10,7 +10,7 @@ Vibey provides seamless integration with Aider through the `vibey deploy --platf
 
 ```bash
 # 1. Install Vibey (if not already installed)
-pip install vibey-framework
+git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project

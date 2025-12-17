@@ -14,180 +14,18 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 6
-    development_tasks_completed: 6
+    development_tasks_total: 0
+    development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 6
-    tasks_completed: 6
-    completion_percent: 100.0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   development_gates: []
   blocks: []
-  blocked_by:
-  - dependency_id: 01KCAH9JF0JX1KWDPJV65PAXJC
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCAH9PG05Z3TB46Z74H9DBFV
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCAH9ECZXRMJN05DQ9ZAS46V
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCAH9TCSDKACPJQPP6TFCTK0
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCH7051YHKTSVQ21JRB81VM9
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCH7766JSCJ36G91HS4YRSBW
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8FV1V847TF6K5NXRFV6P3G
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8FTXZB94YTTB79VPK3SNRM
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8FV9S1CWR4ZZ0VH4CEF9WW
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8FGN8HVDFHC9MYVRFK3WHN
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8FV5SAHS4BNZYYXH3KGEF8
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC8NA7RJTJKPRFABDZ2N4R9N
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9JGV5886MAAP1A02QPJJHW
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9JEBHTHJ4VV5PDW2N0JCV4
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9J6NXBB3G748D5R67DFJYH
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9JEJH4N15DS7NT0WMFPCHZ
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9J8R2FVP68GPFWCBJ5MN1X
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KC9J8FKMMYCVQEZ891EX5JTD
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCC8ZBEZK4VYYYYVW8HM4DFW
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCC8YGKPXGCVBZX29Y2M53KF
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCCJ5D4KN02GX20FGF19AV6Y
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCC75KMNZ9C2NZZQBQ7PX2QV
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCC76RA9QWQPVYXMKBW28DWE
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCEWQQQA930VK1J282TC9XGT
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCEWQQQA930VK1J282TC9XGV
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCAKHCZDGXXGAATBXSXW42Y3
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
-  - dependency_id: 01KCAKH33KHF0HWVTM5C7AP3Y2
-    dependency_type: sprint
-    current_status: not_started
-    required_status: completed
-    blocking_since: null
-    estimated_resolution: null
+  blocked_by: []
   depends_on: []
   depended_on_by: []
   plan_file: null

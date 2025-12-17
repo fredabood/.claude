@@ -14,129 +14,212 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 1
-    tracks_completed: 0
-    sprints_total: 0
-    sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tracks_total: 47
+    tracks_completed: 23
+    sprints_total: 223
+    sprints_completed: 37
+    tasks_total: 1564
+    tasks_completed: 1171
+    completion_percent: 75.0
   tracks:
+  - id: 01KC2D0JK06MN77ZHAGAHF5VKB
+    name: Aider Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JK06MN77ZHAGAHF5VKN
+    name: Amazon Q Developer Platform Port
+    status: wont_do
+    priority: medium
+  - id: 01KC2D0JK06MN77ZHAGAHF5VM4
+    name: Atlassian Integration (Jira & Confluence)
+    status: not_started
+    priority: medium
+  - id: 01KC2D0JK06MN77ZHAGAHF5VM9
+    name: Homebrew Package Distribution
+    status: not_started
+    priority: medium
+  - id: 01KC2D0JK1877YN6T0673VB24T
+    name: Claude Code Platform Validation
+    status: wont_do
+    priority: critical
+  - id: 01KC2D0JK1877YN6T0673VB254
+    name: Sourcegraph Cody Platform Port
+    status: wont_do
+    priority: low
+  - id: 01KC2D0JK1877YN6T0673VB25H
+    name: Continue.dev Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JK1877YN6T0673VB260
+    name: GitHub Copilot Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JK2A3KNMQVJDACN1X8X
+    name: Core Framework Enhancements
+    status: completed
+    priority: high
+  - id: 01KC2D0JK2A3KNMQVJDACN1X9M
+    name: Cursor Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JK325ABWVR9FQD5ZNPZ
+    name: Directory Structure Consolidation
+    status: completed
+    priority: medium
+  - id: 01KC2D0JK325ABWVR9FQD5ZNQW
+    name: Platform-Agnostic Architecture (Design & Implementation)
+    status: completed
+    priority: critical
+  - id: 01KC2D0JK49XGJV84YRRHEASMG
+    name: Hierarchical Documentation & Context Management System
+    status: completed
+    priority: high
+  - id: 01KC2D0JK5Y3BX5008PVANFCHN
+    name: Gemini Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JK6JC6706H9WP2NH5DA
+    name: Enhanced Git Integration
+    status: completed
+    priority: high
+  - id: 01KC2D0JK7READW9KAK1HBX4BS
+    name: Goose Platform Port
+    status: wont_do
+    priority: critical
+  - id: 01KC2D0JK8CHXNPPB2V3M632BK
+    name: Critical Infrastructure Fixes
+    status: completed
+    priority: critical
+  - id: 01KC2D0JK8CHXNPPB2V3M632CA
+    name: Interface Unification & Simplification
+    status: completed
+    priority: critical
   - id: 01KC2D0JK9JKQXGQW6MQEB0JZP
     name: JetBrains AI Assistant Port
     status: wont_do
     priority: medium
+  - id: 01KC2D0JK9JKQXGQW6MQEB0K05
+    name: MCP Server Foundation
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKA23EJA1W712Y5S703
+    name: Missing Agents Implementation
+    status: completed
+    priority: high
+  - id: 01KC2D0JKA23EJA1W712Y5S70G
+    name: Multi-Platform Architecture
+    status: completed
+    priority: medium
+  - id: 01KC2D0JKB120S3ZRAGX1K83MQ
+    name: Platform Context Management System
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKB120S3ZRAGX1K83NT
+    name: Python Package Structure & Distribution
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKCJCWQ76VRQJWBGQY9
+    name: Replit Agent Platform Port
+    status: wont_do
+    priority: medium
+  - id: 01KC2D0JKDQPXAYGH93V9Z82XH
+    name: Roadmap Integration into /vibey Commands
+    status: completed
+    priority: high
+  - id: 01KC2D0JKDQPXAYGH93V9Z82Y5
+    name: Roadmap Data Integrity & Validation System
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKFNSS8J3691657050V
+    name: Roadmap Data Integrity Remediation (Phase 2)
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKG48M2973YX4EGG3PS
+    name: Roadmap State Integrity Audit
+    status: wont_do
+    priority: critical
+  - id: 01KC2D0JKKVMZ8ZJNGPHV822QX
+    name: Roadmap Object Hierarchy Implementation
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
+    name: SQLite Database Backend
+    status: completed
+    priority: high
+  - id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
+    name: Roadmap Standards System
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKSA4C3QG7P7YGCG37J
+    name: Comprehensive Testing & Quality Assurance
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
+    name: Unified Architecture Migration
+    status: completed
+    priority: critical
+  - id: 01KC2D0JKVT80AFQ6C1PA8CKJT
+    name: User Journey Audit & Documentation Coverage
+    status: completed
+    priority: high
+  - id: 01KC2D0JKWWW8WMS7PPGDQ42GY
+    name: VS Code Native MCP Port
+    status: wont_do
+    priority: high
+  - id: 01KC2D0JKWWW8WMS7PPGDQ42HB
+    name: VS Code Roadmap Visualization Extension
+    status: not_started
+    priority: medium
+  - id: 01KC2D0JKY8WC5NT15KN5SW9YE
+    name: Windsurf/Codeium Platform Port
+    status: wont_do
+    priority: high
+  - id: 01KC39XSXJ39N12HWJ93F77KQ9
+    name: CLI Dogfooding Bug Fixes
+    status: completed
+    priority: critical
+  - id: 01KC7H29E0Z5BC7HK1CK222152
+    name: Embedded Task Migration
+    status: completed
+    priority: critical
+  - id: 01KC7TNS0SC0FX8TPGN9SG4J14
+    name: Platform Compatibility
+    status: in_progress
+    priority: medium
+  - id: 01KCMG30TJT8TYPH30WEM5T5Z9
+    name: '[ARCHIVED] User Journey Audit Recommendation Implementation'
+    status: wont_do
+    priority: low
   - id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
     name: Documentation Quality
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   - id: 01KCMTJKFKDJX7BWERZJ7SFJ96
     name: Test Suite Rehabilitation
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
     name: Architecture Modernization
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
     name: Context System V2
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
     name: Git Submodule Integration
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   dependencies: []
   blocked_by: []
   version_history: []
   deployed_platforms: []
   standards: []
-  activity_log:
-  - timestamp: '2025-12-15T22:57:41.138743+00:00'
-    type: sprint_started
-    description: 'Sprint ''Sprint 10: Status Management CLI Gaps'' started'
-    context:
-      sprint_id: 01KCAH8XENHWJDQSEGJNRY5B4G
-  - timestamp: '2025-12-15T22:58:16.649887+00:00'
-    type: sprint_started
-    description: 'Sprint ''Sprint 12: YAML-SQLite Auto-Sync'' started'
-    context:
-      sprint_id: 01KC8N9MCJ9FDF1X23BY7CA7E2
-  - timestamp: '2025-12-15T23:08:47.457427+00:00'
-    type: sprint_started
-    description: 'Sprint ''Sprint 16: Silent Sprint Skipping Bug'' started'
-    context:
-      sprint_id: 01KCJ3VKAZFNRQPV73ND0QZD62
-  - timestamp: '2025-12-15T23:20:12.928763+00:00'
-    type: sprint_started
-    description: 'Sprint ''Phase 5.5: Post-Bugfix Documentation Sync'' started'
-    context:
-      sprint_id: 01KCHHQT5TR65D02YPGK4N5WQP
-  - timestamp: '2025-12-16T23:11:47.758246+00:00'
-    type: task_started
-    description: Task 'Fix create-sprint and create-task to log to activity log' started
-    context:
-      task_id: 01KCJ5N4VCH2F5T9BYW1GXCV2F
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:12:00.957302+00:00'
-    type: task_started
-    description: Task 'Fix roadmap edit file command for ULID task IDs' started
-    context:
-      task_id: 01KCJ5KX221E0PRZ3PD8Q0GVZZ
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:12:02.657942+00:00'
-    type: task_started
-    description: Task 'Fix roadmap start command for ULID task IDs' started
-    context:
-      task_id: 01KCJ5KSDKNFXDKQG1B9RBEGKF
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:19:10.685795+00:00'
-    type: task_completed
-    description: Task 'Fix create-sprint and create-task to log to activity log' completed
-    context:
-      task_id: 01KCJ5N4VCH2F5T9BYW1GXCV2F
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:19:20.263098+00:00'
-    type: task_completed
-    description: Task 'Fix roadmap edit file command for ULID task IDs' completed
-    context:
-      task_id: 01KCJ5KX221E0PRZ3PD8Q0GVZZ
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:19:21.856378+00:00'
-    type: task_completed
-    description: Task 'Fix roadmap start command for ULID task IDs' completed
-    context:
-      task_id: 01KCJ5KSDKNFXDKQG1B9RBEGKF
-      sprint_id: dogfooding-bugs-19
-  - timestamp: '2025-12-16T23:31:56.349331+00:00'
-    type: task_started
-    description: Task 'Fix edit file command to require completion date when setting
-      completed status' started
-    context:
-      task_id: 01KCMQCWDAE9HMY14VRSSTA5FR
-      sprint_id: dogfooding-bugs-20
-  - timestamp: '2025-12-16T23:32:26.206430+00:00'
-    type: task_completed
-    description: Task 'Fix edit file command to require completion date when setting
-      completed status' completed
-    context:
-      task_id: 01KCMQCWDAE9HMY14VRSSTA5FR
-      sprint_id: dogfooding-bugs-20
+  activity_log: []
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-16T23:32:26.206432+00:00'
+    last_updated: null
     purpose: null
     description: null
-  tracks_total: 6

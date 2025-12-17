@@ -1,7 +1,7 @@
 sprint:
   id: 01KCMTKWCX621JWPZZ99DG2M2G
   name: 'Sprint 2: Reference Guide Improvements'
-  track_id: documentation-quality
+  track_id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
@@ -40,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-17T00:16:01.950616+00:00'
+    last_updated: null
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

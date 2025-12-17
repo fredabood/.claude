@@ -111,7 +111,7 @@ pip install -e ".[mcp]"
 ```bash
 # Check Vibey CLI
 vibey --version
-# Should show: Vibey CLI v2.5.0
+# Should show: Vibey CLI vX.Y.Z
 
 # Check help
 vibey --help

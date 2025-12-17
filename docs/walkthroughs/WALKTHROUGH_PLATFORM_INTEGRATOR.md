@@ -40,7 +40,7 @@ A working MCP integration that can query and manage roadmaps.
 ```bash
 # Verify Vibey installation
 vibey --version
-# Expected: Vibey Agent Framework v2.5.0
+# Expected: Vibey Agent Framework vX.Y.Z
 
 # Verify MCP server exists
 ls -la vibey/mcp/
@@ -147,8 +147,9 @@ Run the Vibey MCP server for integration.
 
    **Expected Output:**
    ```json
-   {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{},"resources":{},"prompts":{}},"serverInfo":{"name":"vibey","version":"2.5.0"}}}
+   {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{},"resources":{},"prompts":{}},"serverInfo":{"name":"vibey","version":"X.Y.Z"}}}
    ```
+   *(Version field will reflect installed version)*
 
 ### Checkpoint
 

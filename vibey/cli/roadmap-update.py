@@ -393,14 +393,6 @@ def update_sprint_progress(fs: FileSystemManager, sprint_id: str):
             else:
                 print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
-        # Log activity
-        # logger = ActivityLogger(fs.root_dir)
-        # logger.log_activity(
-        #     ActivityType.STATUS_CHANGED,
-        #     f"Sprint '{sprint.name}' progressed to {new_status.value}",
-        #     {"sprint_id": sprint_id, "old_status": old_status.value, "new_status": new_status.value}
-        # )
-
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
     blockers = computer.compute_sprint_blockers(sprint)
@@ -472,14 +464,6 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
             else:
                 print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
-        # Log activity
-        # logger = ActivityLogger(fs.root_dir)
-        # logger.log_activity(
-        #     ActivityType.STATUS_CHANGED,
-        #     f"Track '{track.name}' progressed to {new_status.value}",
-        #     {"track_id": track_id, "old_status": old_status.value, "new_status": new_status.value}
-        # )
-
     # Compute blockers
     computer = BlockerComputer(fs.root_dir)
     blockers = computer.compute_track_blockers(track)
@@ -543,14 +527,6 @@ def update_roadmap_progress(fs: FileSystemManager):
     if progressed and new_status:
         roadmap.status = new_status
         print(f"🎉 Roadmap '{roadmap.name}' progressed to {new_status.value}: {message}")
-
-        # Log activity
-        # logger = ActivityLogger(fs.root_dir)
-        # logger.log_activity(
-        #     ActivityType.STATUS_CHANGED,
-        #     f"Roadmap '{roadmap.name}' progressed to {new_status.value}",
-        #     {"old_status": roadmap.status.value, "new_status": new_status.value}
-        # )
 
     # Save roadmap
     save_roadmap(roadmap, roadmap_path)

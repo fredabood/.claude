@@ -8,11 +8,11 @@ task:
   description: 'Update all installation instructions to show editable install (pip
     install -e .) from git clone instead of pip install vibey. Affects README.md,
     all walkthroughs, and JOURNEY_NEW_USER.md. Source: QW001, F001'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:21:04.343837+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:38:43.354249+00:00'
+  completed: '2025-12-17T01:40:38.897380+00:00'
   assigned_agent: unassigned
   priority: critical
   phase_label: null
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-17T00:28:52.946460+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

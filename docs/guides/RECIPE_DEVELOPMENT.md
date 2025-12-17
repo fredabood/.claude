@@ -469,4 +469,4 @@ steps:
 
 - [Goose Integration Guide](./GOOSE_INTEGRATION.md)
 - [Frontmatter Schema Reference](../reference/FRONTMATTER_SCHEMA.md)
-- [Workflow Reference](../reference/WORKFLOWS.md)
+- [Workflow Reference](../WORKFLOWS.md)

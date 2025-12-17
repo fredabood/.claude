@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 20
-    sprints_completed: 19
-    tasks_total: 92
-    tasks_completed: 79
-    completion_percent: 85
+    sprints_completed: 8
+    tasks_total: 110
+    tasks_completed: 110
+    completion_percent: 100.0
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -118,23 +118,23 @@ track:
     estimated_duration: null
     tasks_count: 2
     started: null
-  - id: dogfooding-bugs-18
+  - id: 01KCJ3VKAZFNRQPV73ND0QZD62
     name: 'Sprint 16: Silent Sprint Skipping Bug'
     status: completed
     estimated_duration: null
-    tasks_count: 0
+    tasks_count: 1
     started: '2025-12-15T23:08:47.444112+00:00'
-  - id: dogfooding-bugs-19
+  - id: 01KCJ5KBC53DKH35F09SZS3W9S
     name: 'Sprint 17: Task Start/Edit Command Bugs'
     status: production_ready
     estimated_duration: null
-    tasks_count: 0
+    tasks_count: 3
     started: '2025-12-15T23:30:15.561033+00:00'
-  - id: dogfooding-bugs-20
+  - id: 01KCMQCNPM0H28BW0WQ02PDESG
     name: 'Sprint 18: Edit Command Validation Bugs'
     status: not_started
     estimated_duration: null
-    tasks_count: 0
+    tasks_count: 1
     started: null
   dependencies: []
   blocks: []

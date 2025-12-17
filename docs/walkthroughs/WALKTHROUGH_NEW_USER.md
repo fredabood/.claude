@@ -52,24 +52,39 @@ pip3 --version
 
 ### Goal
 
-Install the Vibey framework using pip.
+Install the Vibey framework from source using git clone and editable install.
 
 ### Instructions
 
 1. Open your terminal
 
-2. Install Vibey:
+2. Clone the repository:
 
    ```bash
-   pip3 install vibey
+   git clone https://github.com/anthropics/vibey.git
+   cd vibey
+   ```
+
+3. Create and activate a virtual environment:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate  # Windows: .venv\Scripts\activate
+   ```
+
+4. Install in editable mode with dev dependencies:
+
+   ```bash
+   pip install -e ".[dev]"
    ```
 
    **Expected Output:**
    ```
-   Successfully installed vibey-2.5.0
+   Successfully installed vibey-X.Y.Z ...
    ```
+   *(Version number will reflect current release)*
 
-3. Verify installation:
+5. Verify installation:
 
    ```bash
    vibey --version
@@ -77,12 +92,13 @@ Install the Vibey framework using pip.
 
    **Expected Output:**
    ```
-   Vibey Agent Framework v2.5.0
+   Vibey Agent Framework vX.Y.Z
    ```
+   *(Version number will reflect installed version)*
 
 ### Checkpoint
 
-> **Verify:** `vibey --version` shows version 2.5.0 or higher
+> **Verify:** `vibey --version` shows a valid version number
 
 ### Troubleshooting
 
@@ -91,15 +107,15 @@ Install the Vibey framework using pip.
 
 **Symptom:** Terminal doesn't recognize `vibey` command
 
-**Cause:** pip installed to a location not in your PATH
+**Cause:** Virtual environment not activated or pip installed to wrong location
 
 **Solution:**
 ```bash
-# Try using Python module syntax
-python3 -m vibey.cli.main --version
+# Make sure virtual environment is activated
+source .venv/bin/activate
 
-# Or add pip's bin directory to PATH
-export PATH="$HOME/.local/bin:$PATH"
+# If still not found, try Python module syntax
+python3 -m vibey.cli.main --version
 ```
 </details>
 
@@ -108,17 +124,14 @@ export PATH="$HOME/.local/bin:$PATH"
 
 **Symptom:** Permission error during installation
 
-**Cause:** Installing to system Python without permissions
+**Cause:** Not using a virtual environment
 
 **Solution:**
 ```bash
-# Install to user directory
-pip3 install --user vibey
-
-# Or use a virtual environment (recommended)
+# Always use a virtual environment (recommended)
 python3 -m venv .venv
 source .venv/bin/activate
-pip install vibey
+pip install -e ".[dev]"
 ```
 </details>
 

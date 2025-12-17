@@ -1,10 +1,10 @@
 track:
   id: 01KCMG30TJT8TYPH30WEM5T5Z9
-  name: User Journey Audit Recommendation Implementation
+  name: "[ARCHIVED] User Journey Audit Recommendation Implementation"
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: wont_do
   blocked: false
-  priority: high
+  priority: low
   created: '2025-12-16T12:00:00+00:00'
   started: null
   completed: null
@@ -83,8 +83,17 @@ track:
   standards: []
   metadata:
     created_by: claude
-    last_updated: '2025-12-16T12:00:00+00:00'
+    last_updated: '2025-12-17T00:00:00+00:00'
+    archived_at: '2025-12-17T00:00:00+00:00'
     design_doc: null
     implementation_plan: .vibey/roadmap/context/tracks/audit-recommendation-impl/IMPLEMENTATION_PLAN.md
-    notes: Track created to implement recommendations from the User Journey Audit
-      track (01KC2D0JKVT80AFQ6C1PA8CKJT)
+    notes: |
+      ARCHIVED: Track reorganized into 5 focused tracks on 2025-12-17.
+      All 107 tasks moved to:
+      - Documentation Quality (01KCMTJ9J0Y74KDQKGVCM7HS0R) - 34 tasks
+      - Test Suite Rehabilitation (01KCMTJKFKDJX7BWERZJ7SFJ96) - 26 tasks
+      - Architecture Modernization (01KCMTJN9G9ZZBFMEDD36RYZ2B) - 29 tasks
+      - Context System V2 (01KCMTJQ3JRRW6CZFC4E63W8D6) - 12 tasks
+      - Git Submodule Integration (01KCMTJRYBYR1CR69ZAHNFCSGR) - 6 tasks
+
+      Original purpose: Implement recommendations from User Journey Audit track.

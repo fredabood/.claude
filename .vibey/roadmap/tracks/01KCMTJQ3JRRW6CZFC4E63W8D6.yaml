@@ -3,7 +3,7 @@ track:
   name: Context System V2
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   priority: medium
   created: '2025-12-17T00:15:23.762586+00:00'
   started: null
@@ -12,27 +12,32 @@ track:
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 0
+    tasks_total: 12
     tasks_completed: 0
-    completion_percent: 0
+    completion_percent: 0.0
   sprints:
-  - id: context-system-v2-01
+  - id: 01KCMTY4ACHZQ53CH90J7ZSAAV
     name: 'Sprint 1: Context Architecture Design'
     status: not_started
-    tasks_count: 0
-  - id: context-system-v2-02
+    estimated_duration: null
+    tasks_count: 3
+    started: null
+  - id: 01KCMTY669JGT3WYPZB78ATWBT
     name: 'Sprint 2: Context Implementation'
     status: not_started
-    tasks_count: 0
+    estimated_duration: null
+    tasks_count: 9
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
-    blocker_type: track
-    required_status: completed
+  - blocker_id: unknown
+    blocker_type: external
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
-    description: Context system builds on the unified ticket architecture from Architecture Modernization
+    last_checked: null
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
@@ -41,9 +46,8 @@ track:
   commits: []
   standards: []
   metadata:
-    created_by: vibey-cli
-    last_updated: '2025-12-17T00:15:23.762586+00:00'
+    created_by: unknown
+    last_updated: null
     design_doc: null
     implementation_plan: null
-    notes: Enhance context engineering with git integration, post-mortems, and token
-      budget management
+    notes: null

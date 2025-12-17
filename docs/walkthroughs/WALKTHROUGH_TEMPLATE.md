@@ -45,7 +45,7 @@ Description of the end result.
 \`\`\`bash
 # Command to verify setup
 vibey --version
-# Expected output: Vibey Agent Framework v2.5.0
+# Expected output: Vibey Agent Framework vX.Y.Z
 \`\`\`
 
 ---

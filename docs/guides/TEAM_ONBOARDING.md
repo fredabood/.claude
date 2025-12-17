@@ -11,12 +11,16 @@ When a project has signing enabled, team members must be authorized before they 
 ### Step 1: Install Vibey
 
 ```bash
-pip install vibey
-```
+# Clone the repository
+git clone https://github.com/anthropics/vibey.git
+cd vibey
 
-Or if using the development version:
-```bash
-pip install -e /path/to/vibey
+# Create virtual environment
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Install in editable mode
+pip install -e ".[dev]"
 ```
 
 ### Step 2: Generate Your Keypair

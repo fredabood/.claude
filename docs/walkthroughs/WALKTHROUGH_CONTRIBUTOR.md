@@ -118,8 +118,9 @@ Create a working development environment with all dependencies.
 
    **Expected Output:**
    ```
-   Successfully installed vibey-2.5.0 ...
+   Successfully installed vibey-X.Y.Z ...
    ```
+   *(Version number will reflect current release)*
 
 3. Verify installation:
 
@@ -129,8 +130,9 @@ Create a working development environment with all dependencies.
 
    **Expected Output:**
    ```
-   Vibey Agent Framework v2.5.0
+   Vibey Agent Framework vX.Y.Z
    ```
+   *(Version number will reflect installed version)*
 
 4. Initialize Vibey in the repo:
 

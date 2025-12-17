@@ -1,5 +1,7 @@
 # Roadmap System Reference
 
+> **Note:** This document references historical `/vibey` slash commands in task names. The slash command interface was removed in v2.5.0. Use `vibey` CLI commands instead. See [CLI_REFERENCE.md](./CLI_REFERENCE.md).
+
 **Version:** 1.0.0
 **Last Updated:** November 8, 2025
 **Framework Version:** Vibey v1.3.0+

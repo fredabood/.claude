@@ -1,6 +1,16 @@
-# Command Reference
+# Command Reference (DEPRECATED)
 
-Complete reference for all Vibey slash commands.
+> **DEPRECATED:** This document describes the old `/vibey` slash command interface which was removed in v2.5.0.
+>
+> **Use instead:** [CLI_REFERENCE.md](./CLI_REFERENCE.md) for the current `vibey` CLI commands.
+>
+> The slash command interface has been replaced by the standard CLI:
+> - `/vibey plan` → `vibey roadmap` commands
+> - `/vibey code` → `vibey roadmap status` and task management commands
+> - `/vibey think` → Removed (use AI assistant directly)
+> - `/vibey manage` → `vibey roadmap` and `vibey deploy` commands
+
+Complete reference for all Vibey slash commands (deprecated).
 
 ---
 

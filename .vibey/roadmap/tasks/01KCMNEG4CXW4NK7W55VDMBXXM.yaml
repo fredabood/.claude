@@ -1,7 +1,7 @@
 task:
   id: 01KCMNEG4CXW4NK7W55VDMBXXM
-  sprint_id: sprint-08
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Add post-mortem generation for completed tasks
@@ -30,6 +30,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T22:45:43.726929+00:00'
+    last_updated: '2025-12-17T00:28:52.052163+00:00'
     token_efficiency: null
     duration_hours: null

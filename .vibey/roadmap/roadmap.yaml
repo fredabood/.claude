@@ -26,6 +26,36 @@ roadmap:
     name: JetBrains AI Assistant Port
     status: wont_do
     priority: medium
+  - id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
+    name: Documentation Quality
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
+  - id: 01KCMTJKFKDJX7BWERZJ7SFJ96
+    name: Test Suite Rehabilitation
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
+  - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
+    name: Architecture Modernization
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
+  - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+    name: Context System V2
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
+  - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+    name: Git Submodule Integration
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
   dependencies: []
   blocked_by: []
   version_history: []
@@ -109,3 +139,4 @@ roadmap:
     last_updated: '2025-12-16T23:32:26.206432+00:00'
     purpose: null
     description: null
+  tracks_total: 6

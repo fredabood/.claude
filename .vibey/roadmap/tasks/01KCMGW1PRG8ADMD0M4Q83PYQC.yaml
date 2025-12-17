@@ -1,7 +1,7 @@
 task:
   id: 01KCMGW1PRG8ADMD0M4Q83PYQC
-  sprint_id: sprint-07
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
+  track_id: 01KCMTJKFKDJX7BWERZJ7SFJ96
   roadmap_id: vibey-framework-v2
   task_type: testing
   title: Add MCP tool unit tests
@@ -28,6 +28,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:25:44.796594+00:00'
+    last_updated: '2025-12-17T00:28:52.797547+00:00'
     token_efficiency: null
     duration_hours: null

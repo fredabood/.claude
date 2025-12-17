@@ -1,7 +1,7 @@
 task:
   id: 01KCMGPJFBZ5BWETD1SBGE1N57
-  sprint_id: sprint-03
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  track_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Update documentation for CLI command variations
@@ -28,6 +28,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:22:45.360683+00:00'
+    last_updated: '2025-12-17T00:28:52.239174+00:00'
     token_efficiency: null
     duration_hours: null

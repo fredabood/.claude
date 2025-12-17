@@ -1,0 +1,52 @@
+track:
+  id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
+  name: Architecture Modernization
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-12-17T00:15:21.904964+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 4
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: architecture-modernization-01
+    name: 'Sprint 1: Codebase Audit'
+    status: not_started
+    tasks_count: 0
+  - id: architecture-modernization-02
+    name: 'Sprint 2: Architecture Design'
+    status: not_started
+    tasks_count: 0
+  - id: architecture-modernization-03
+    name: 'Sprint 3: Code Cleanup'
+    status: not_started
+    tasks_count: 0
+  - id: architecture-modernization-04
+    name: 'Sprint 4: Major Refactoring'
+    status: not_started
+    tasks_count: 0
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-cli
+    last_updated: '2025-12-17T00:15:21.904964+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: Implement semantic layer, refactor CLI structure, remove legacy code, and
+      improve code quality

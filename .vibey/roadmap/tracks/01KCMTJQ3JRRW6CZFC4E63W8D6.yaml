@@ -1,0 +1,44 @@
+track:
+  id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  name: Context System V2
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-12-17T00:15:23.762586+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 2
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: context-system-v2-01
+    name: 'Sprint 1: Context Architecture Design'
+    status: not_started
+    tasks_count: 0
+  - id: context-system-v2-02
+    name: 'Sprint 2: Context Implementation'
+    status: not_started
+    tasks_count: 0
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-cli
+    last_updated: '2025-12-17T00:15:23.762586+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: Enhance context engineering with git integration, post-mortems, and token
+      budget management

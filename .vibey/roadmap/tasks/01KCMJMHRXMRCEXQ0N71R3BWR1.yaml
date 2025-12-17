@@ -1,7 +1,7 @@
 task:
   id: 01KCMJMHRXMRCEXQ0N71R3BWR1
-  sprint_id: sprint-02
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  track_id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Ensure all CLI commands have at least one example
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:56:36.288330+00:00'
+    last_updated: '2025-12-17T00:28:52.518230+00:00'
     token_efficiency: null
     duration_hours: null

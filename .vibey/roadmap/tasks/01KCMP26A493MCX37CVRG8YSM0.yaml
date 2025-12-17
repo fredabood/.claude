@@ -1,7 +1,7 @@
 task:
   id: 01KCMP26A493MCX37CVRG8YSM0
-  sprint_id: sprint-11
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Define submodule detection and discovery
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T22:56:29.034118+00:00'
+    last_updated: '2025-12-17T00:28:52.659021+00:00'
     token_efficiency: null
     duration_hours: null

@@ -1,7 +1,7 @@
 task:
   id: 01KCMKQFF8ZJARPKDJNM3D7M9P
-  sprint_id: sprint-09
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  track_id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Consolidate persona journeys into action walkthroughs
@@ -30,6 +30,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T22:15:40.842858+00:00'
+    last_updated: '2025-12-17T00:28:52.427939+00:00'
     token_efficiency: null
     duration_hours: null

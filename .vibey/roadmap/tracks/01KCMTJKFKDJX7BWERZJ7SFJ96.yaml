@@ -1,0 +1,47 @@
+track:
+  id: 01KCMTJKFKDJX7BWERZJ7SFJ96
+  name: Test Suite Rehabilitation
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: medium
+  created: '2025-12-17T00:15:20.052004+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 3
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints:
+  - id: test-suite-rehabilitation-01
+    name: 'Sprint 1: Test Infrastructure Repair'
+    status: not_started
+    tasks_count: 0
+  - id: test-suite-rehabilitation-02
+    name: 'Sprint 2: Core Test Coverage'
+    status: not_started
+    tasks_count: 0
+  - id: test-suite-rehabilitation-03
+    name: 'Sprint 3: MCP/CLI Parity & Integration Tests'
+    status: not_started
+    tasks_count: 0
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables: []
+  strategic_value: []
+  commits: []
+  standards: []
+  metadata:
+    created_by: vibey-cli
+    last_updated: '2025-12-17T00:15:20.052004+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: Fix broken tests, add test coverage, and establish MCP/CLI parity enforcement

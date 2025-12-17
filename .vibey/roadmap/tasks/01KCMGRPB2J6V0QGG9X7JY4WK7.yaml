@@ -1,7 +1,7 @@
 task:
   id: 01KCMGRPB2J6V0QGG9X7JY4WK7
-  sprint_id: sprint-05
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTMW1Y64VTVEZ7TEJG1R56
+  track_id: 01KCMTJKFKDJX7BWERZJ7SFJ96
   roadmap_id: vibey-framework-v2
   task_type: testing
   title: Fix ORM/Repository test infrastructure
@@ -28,6 +28,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:23:54.851583+00:00'
+    last_updated: '2025-12-17T00:28:51.971409+00:00'
     token_efficiency: null
     duration_hours: null

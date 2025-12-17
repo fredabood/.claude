@@ -1,7 +1,7 @@
 task:
   id: 01KCMJSBWRE0MA9JFJYX9GHK3A
-  sprint_id: sprint-10
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
+  track_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement backup file cleanup policy
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:59:14.110182+00:00'
+    last_updated: '2025-12-17T00:28:52.362041+00:00'
     token_efficiency: null
     duration_hours: null

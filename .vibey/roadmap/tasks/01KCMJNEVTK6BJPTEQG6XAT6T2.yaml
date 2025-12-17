@@ -1,7 +1,7 @@
 task:
   id: 01KCMJNEVTK6BJPTEQG6XAT6T2
-  sprint_id: sprint-06
-  track_id: 01KCMG30TJT8TYPH30WEM5T5Z9
+  sprint_id: 01KCMTMXX4RRDQWNM4SKBPD95N
+  track_id: 01KCMTJKFKDJX7BWERZJ7SFJ96
   roadmap_id: vibey-framework-v2
   task_type: testing
   title: Add tests for Phase 2-3 new modules
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-16T21:57:06.053245+00:00'
+    last_updated: '2025-12-17T00:28:52.304506+00:00'
     token_efficiency: null
     duration_hours: null

@@ -27,7 +27,12 @@ track:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on: []
+  depends_on:
+  - blocker_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: in_progress
+    description: Context system builds on the unified ticket architecture from Architecture Modernization
   depended_on_by: []
   quality_gates: []
   assigned_agents: []

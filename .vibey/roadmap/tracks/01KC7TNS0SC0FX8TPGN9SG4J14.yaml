@@ -103,6 +103,11 @@ track:
     required_status: completed
     blocks_transition_to: completed
     description: Platform Compatibility should complete after Atlassian Integration
+  - blocker_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+    blocker_type: track
+    required_status: completed
+    blocks_transition_to: completed
+    description: Platform Compatibility requires Context System V2 for proper context handling
   depended_on_by: []
   quality_gates: []
   assigned_agents: []

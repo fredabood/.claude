@@ -15,6 +15,8 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 
 import logging
 from datetime import datetime, timezone
+from functools import lru_cache
+from pathlib import Path
 from typing import Any, ClassVar, List, Optional, Protocol, TYPE_CHECKING, Tuple
 
 from pydantic import Field, computed_field
@@ -110,6 +112,24 @@ class HierarchicalTicket(Ticket):
         """Clear all loaders (useful for testing)."""
         cls._loader = None
         cls._sibling_loader = None
+
+    # =========================================================================
+    # PLANNED STATUS CONFIGURATION
+    # =========================================================================
+
+    _roadmap_root: ClassVar[Optional[Path]] = None
+
+    @classmethod
+    def set_roadmap_root(cls, roadmap_root: Path) -> None:
+        """Configure roadmap root for planned status checking."""
+        cls._roadmap_root = roadmap_root
+        cls._clear_planned_cache()
+
+    @classmethod
+    def clear_roadmap_root(cls) -> None:
+        """Clear roadmap root configuration."""
+        cls._roadmap_root = None
+        cls._clear_planned_cache()
 
     # =========================================================================
     # ULID IDENTITY & ORDERING
@@ -514,6 +534,135 @@ class HierarchicalTicket(Ticket):
                 return DocumentationHealth.CRITICAL
 
         return DocumentationHealth.DEGRADED
+
+    # =========================================================================
+    # PLANNED STATUS (Hierarchical Aggregation)
+    # =========================================================================
+
+    @property
+    def is_planned(self) -> bool:
+        """
+        Check if ticket is planned (ready for implementation).
+
+        Behavior by ticket type:
+        - Leaf (no children): check planning criteria directly
+        - Parent (has children): all children must be planned
+
+        Returns:
+            True if ticket is fully planned
+        """
+        if not self.is_parent:
+            return self._check_local_planned()
+        return self._aggregate_planned()
+
+    def _check_local_planned(self) -> bool:
+        """Check if this leaf ticket is planned."""
+        if self._roadmap_root is None:
+            # Can't check without roadmap root - assume planned
+            return True
+
+        return self._cached_planned_check(self.id, str(self._roadmap_root))
+
+    @staticmethod
+    @lru_cache(maxsize=1000)
+    def _cached_planned_check(ticket_id: str, roadmap_root_str: str) -> bool:
+        """Cached planned status check for performance."""
+        from vibey.roadmap.criteria.planned import check_planned_status
+
+        roadmap_root = Path(roadmap_root_str)
+
+        # Determine type from filesystem
+        if (roadmap_root / "tasks" / f"{ticket_id}.yaml").exists():
+            ticket_type = "task"
+        elif (roadmap_root / "sprints" / f"{ticket_id}.yaml").exists():
+            ticket_type = "sprint"
+        else:
+            ticket_type = "track"
+
+        is_planned, _ = check_planned_status(
+            ticket_id=ticket_id,
+            ticket_type=ticket_type,
+            roadmap_root=roadmap_root,
+        )
+        return is_planned
+
+    @classmethod
+    def _clear_planned_cache(cls) -> None:
+        """Clear the planned status cache."""
+        cls._cached_planned_check.cache_clear()
+
+    def _aggregate_planned(self) -> bool:
+        """Aggregate planned status from children."""
+        for child in self.children_tickets:
+            if hasattr(child, 'is_planned'):
+                if not child.is_planned:
+                    return False
+            else:
+                # Child doesn't have is_planned - check filesystem directly
+                if self._roadmap_root is not None:
+                    if not self._cached_planned_check(child.id, str(self._roadmap_root)):
+                        return False
+        return True
+
+    @property
+    def planned_progress(self) -> Progress:
+        """
+        Progress toward being fully planned.
+
+        Returns:
+            Progress with total/completed children or criteria
+        """
+        if not self.is_parent:
+            # Leaf: check criteria
+            if self._roadmap_root is None:
+                return Progress(total=0, completed=0)
+
+            from vibey.roadmap.criteria.planned import create_planned_criteria
+
+            # Determine ticket type from filesystem
+            if (self._roadmap_root / "tasks" / f"{self.id}.yaml").exists():
+                ticket_type = "task"
+            elif (self._roadmap_root / "sprints" / f"{self.id}.yaml").exists():
+                ticket_type = "sprint"
+            else:
+                ticket_type = "track"
+
+            criteria = create_planned_criteria(
+                self.id,
+                ticket_type,
+                self._roadmap_root,
+            )
+            # Refresh targets to get current state
+            for c in criteria:
+                c.target.refresh()
+
+            total = len([c for c in criteria if c.required])
+            completed = len([c for c in criteria if c.required and c.is_met])
+            return Progress(total=total, completed=completed)
+
+        # Parent: aggregate from children
+        total = len(self.children)
+        completed = 0
+        for child in self.children_tickets:
+            if hasattr(child, 'is_planned') and child.is_planned:
+                completed += 1
+        return Progress(total=total, completed=completed)
+
+    @property
+    def unplanned_children(self) -> List[str]:
+        """
+        Get IDs of children that are not yet planned.
+
+        Only meaningful for parent tickets.
+        """
+        if not self.is_parent:
+            return []
+
+        unplanned = []
+        for child in self.children_tickets:
+            if hasattr(child, 'is_planned') and not child.is_planned:
+                unplanned.append(child.id)
+        return unplanned
 
     # =========================================================================
     # DEFERRED CHILDREN SUPPORT

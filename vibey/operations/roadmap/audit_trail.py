@@ -7,11 +7,9 @@ Tracks all changes to roadmap data for accountability, transparency, and debuggi
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any, Tuple
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 import subprocess
 import getpass
-
-import yaml
 
 
 @dataclass
@@ -34,49 +32,13 @@ class AuditEntry:
         return {k: v for k, v in asdict(self).items() if v is not None}
 
 
-@dataclass
-class AuditTrail:
-    """Complete audit trail."""
-
-    entries: List[AuditEntry] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-
-    def add_entry(self, entry: AuditEntry):
-        """Add an audit entry."""
-        self.entries.append(entry)
-        self.metadata['last_updated'] = datetime.now(timezone.utc).isoformat()
-        self.metadata['total_entries'] = len(self.entries)
-
-    def get_recent(self, limit: int = 20) -> List[AuditEntry]:
-        """Get recent entries."""
-        return self.entries[-limit:]
-
-    def get_for_object(self, object_id: str) -> List[AuditEntry]:
-        """Get all entries for a specific object."""
-        return [e for e in self.entries if e.object_id == object_id]
-
-    def get_field_history(self, object_id: str, field: str) -> List[AuditEntry]:
-        """Get history of changes to a specific field."""
-        return [e for e in self.entries if e.object_id == object_id and e.field == field]
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for YAML serialization."""
-        return {
-            'audit_log': [e.to_dict() for e in self.entries],
-            'metadata': self.metadata
-        }
-
-
 class AuditTrailManager:
     """Manages audit trail storage and operations.
 
-    Now uses JSONL format for storage (time-bucketed files).
-    Also supports legacy YAML file and SQLite database for backward compatibility.
-
-    Default behavior:
+    Uses JSONL format for storage (time-bucketed files per ADR-0002).
     - Writes to JSONL (primary) and optionally SQLite
     - Reads from JSONL
-    - Legacy YAML file is deprecated but can still be read
+    - Legacy YAML format removed in v2.5+
     """
 
     def __init__(self, root_dir: Path, use_sqlite: bool = False):
@@ -85,14 +47,11 @@ class AuditTrailManager:
 
         Args:
             root_dir: Project root directory containing .vibey/
-            use_sqlite: If True, also read from SQLite for queries (writes to both)
+            use_sqlite: If True, also write to SQLite (for queries)
         """
         self.root_dir = Path(root_dir)
         self.roadmap_dir = self.root_dir / ".vibey" / "roadmap"
         self.activity_log_dir = self.roadmap_dir / "activity_log"
-
-        # DEPRECATED: Legacy YAML file path (kept for migration support)
-        self.audit_file = self.roadmap_dir / "audit-trail.yaml"
 
         self.use_sqlite = use_sqlite
         self._db_available = None  # Lazy-check
@@ -104,15 +63,6 @@ class AuditTrailManager:
         )
         self._jsonl_writer = ActivityLogWriter(self.activity_log_dir)
         self._jsonl_reader = ActivityLogReader(self.activity_log_dir)
-
-    def _ensure_audit_file(self):
-        """DEPRECATED: Ensure audit trail file exists.
-
-        This is kept for backward compatibility but no longer actively used.
-        New entries are written to JSONL format.
-        """
-        # Ensure activity_log directory exists instead
-        self.activity_log_dir.mkdir(parents=True, exist_ok=True)
 
     def _is_db_available(self) -> bool:
         """Check if SQLite database is available."""
@@ -158,57 +108,6 @@ class AuditTrailManager:
         except Exception:
             pass
         return None
-
-    def load_trail(self) -> AuditTrail:
-        """Load audit trail from storage.
-
-        By default loads from YAML (source of truth).
-        If use_sqlite=True, loads from SQLite for better query performance.
-        """
-        if self.use_sqlite and self._is_db_available():
-            return self._load_trail_from_db()
-        return self._load_trail_from_yaml()
-
-    def _load_trail_from_yaml(self) -> AuditTrail:
-        """Load audit trail from YAML file."""
-        if not self.audit_file.exists():
-            return AuditTrail()
-
-        with open(self.audit_file, 'r') as f:
-            data = yaml.safe_load(f) or {}
-
-        entries = []
-        for entry_dict in data.get('audit_log', []):
-            entries.append(AuditEntry(**entry_dict))
-
-        trail = AuditTrail(entries=entries)
-        trail.metadata = data.get('metadata', {})
-        return trail
-
-    def _load_trail_from_db(self) -> AuditTrail:
-        """Load audit trail from SQLite database."""
-        try:
-            from vibey.roadmap.serialization.sql_loader import load_audit_trail
-            entry_dicts = load_audit_trail()
-
-            entries = []
-            for entry_dict in entry_dicts:
-                entries.append(AuditEntry(**entry_dict))
-
-            trail = AuditTrail(entries=entries)
-            trail.metadata = {
-                'total_entries': len(entries),
-                'source': 'sqlite',
-            }
-            return trail
-        except Exception:
-            # Fall back to YAML if DB read fails
-            return self._load_trail_from_yaml()
-
-    def _save_trail(self, trail: AuditTrail):
-        """Save audit trail to disk."""
-        with open(self.audit_file, 'w') as f:
-            yaml.safe_dump(trail.to_dict(), f, sort_keys=False, default_flow_style=False)
 
     def log_change(
         self,
@@ -397,65 +296,6 @@ class AuditTrailManager:
         lines.append("=" * 80)
 
         return "\n".join(lines)
-
-    def sync_to_database(self) -> int:
-        """
-        Sync all YAML audit trail entries to SQLite database.
-
-        This is useful for initial population or after manual YAML edits.
-
-        Returns:
-            Number of entries synced
-        """
-        if not self._is_db_available():
-            return 0
-
-        try:
-            from vibey.roadmap.serialization.sql_dumper import save_audit_trail
-
-            # Load from YAML
-            trail = self._load_trail_from_yaml()
-
-            # Save all entries to DB (clearing existing)
-            entry_dicts = [e.to_dict() for e in trail.entries]
-            save_audit_trail(entry_dicts, clear_existing=True)
-
-            return len(entry_dicts)
-        except Exception as e:
-            raise RuntimeError(f"Failed to sync audit trail to database: {e}") from e
-
-    def sync_from_database(self) -> int:
-        """
-        Sync all SQLite audit trail entries to YAML file.
-
-        This overwrites the YAML file with database contents.
-        Use with caution - this makes the database the source of truth.
-
-        Returns:
-            Number of entries synced
-        """
-        if not self._is_db_available():
-            return 0
-
-        try:
-            from vibey.roadmap.serialization.sql_loader import load_audit_trail
-
-            # Load from database
-            entry_dicts = load_audit_trail()
-
-            # Convert to AuditEntry objects
-            entries = [AuditEntry(**e) for e in entry_dicts]
-
-            # Create trail and save to YAML
-            trail = AuditTrail(entries=entries)
-            trail.metadata['last_updated'] = datetime.now(timezone.utc).isoformat()
-            trail.metadata['total_entries'] = len(entries)
-            trail.metadata['synced_from'] = 'sqlite'
-            self._save_trail(trail)
-
-            return len(entries)
-        except Exception as e:
-            raise RuntimeError(f"Failed to sync audit trail from database: {e}") from e
 
 
 def log_status_change(

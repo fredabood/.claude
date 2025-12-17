@@ -123,6 +123,20 @@ from vibey.cli.command_modules.context import (
     context_search_cmd,
 )
 
+from vibey.cli.command_modules.db import (
+    db_init_cmd,
+    db_rebuild_cmd,
+    db_dump_cmd,
+    db_status_cmd,
+    db_backup_cmd,
+    db_query_blocked_cmd,
+    db_query_progress_cmd,
+    db_query_deps_cmd,
+    db_query_stats_cmd,
+    db_validate_cmd,
+    db_config_cmd,
+)
+
 __all__ = [
     # Helpers
     "slugify",
@@ -202,4 +216,16 @@ __all__ = [
     "context_clean_cmd",
     "context_export_cmd",
     "context_search_cmd",
+    # Database
+    "db_init_cmd",
+    "db_rebuild_cmd",
+    "db_dump_cmd",
+    "db_status_cmd",
+    "db_backup_cmd",
+    "db_query_blocked_cmd",
+    "db_query_progress_cmd",
+    "db_query_deps_cmd",
+    "db_query_stats_cmd",
+    "db_validate_cmd",
+    "db_config_cmd",
 ]

@@ -19,8 +19,8 @@ roadmap:
     sprints_total: 226
     sprints_completed: 44
     tasks_total: 1537
-    tasks_completed: 1214
-    completion_percent: 78
+    tasks_completed: 1215
+    completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -437,10 +437,22 @@ roadmap:
     context:
       task_id: 01KCMGZEZD25B4133WNYTKYBEC
       sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
+  - timestamp: '2025-12-17T20:11:27.533244+00:00'
+    type: task_started
+    description: Task 'Remove slug-based ID handling' started
+    context:
+      task_id: 01KCMGZJW2W0G77EAQMBQXCM6X
+      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
+  - timestamp: '2025-12-17T20:14:50.786939+00:00'
+    type: task_completed
+    description: Task 'Remove slug-based ID handling' completed
+    context:
+      task_id: 01KCMGZJW2W0G77EAQMBQXCM6X
+      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T20:09:09.989618+00:00'
+    last_updated: '2025-12-17T20:14:50.786944+00:00'
     purpose: null
     description: null

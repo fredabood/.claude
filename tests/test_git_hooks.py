@@ -56,7 +56,8 @@ class TestPreCommitHook:
     def test_init_hook(self, temp_repo):
         """Test hook initialization."""
         hook = PreCommitHook(repo_path=str(temp_repo))
-        assert hook.repo_path == temp_repo
+        # Compare resolved paths (handles macOS /var -> /private/var symlinks)
+        assert hook.repo_path.samefile(temp_repo)
         assert isinstance(hook.config, HookConfig)
         assert isinstance(hook.issues, list)
 
@@ -96,7 +97,7 @@ class TestPreCommitHook:
 
         assert is_valid is False
         assert len(hook.issues) > 0
-        assert any("YAML syntax error" in issue.message for issue in hook.issues)
+        assert any("Invalid YAML syntax" in issue.message for issue in hook.issues)
 
     def test_config_loading(self, temp_repo):
         """Test configuration loading."""
@@ -160,7 +161,7 @@ class TestCommitMsgHook:
                 "status": "not_started",
                 "tasks": [
                     {
-                        "id": "test-task-001",
+                        "id": "test-1-task-001",
                         "name": "Test Task",
                         "status": "not_started"
                     }
@@ -183,15 +184,16 @@ class TestCommitMsgHook:
         commit_msg_file.write_text("feat: test commit")
 
         hook = CommitMsgHook(str(commit_msg_file), repo_path=str(temp_repo))
-        assert hook.commit_msg_file == commit_msg_file
-        assert hook.repo_path == temp_repo
+        # Compare resolved paths (handles macOS /var -> /private/var symlinks)
+        assert hook.commit_msg_file.samefile(commit_msg_file)
+        assert hook.repo_path.samefile(temp_repo)
 
     def test_read_commit_message(self, temp_repo):
         """Test reading commit message."""
         commit_msg_file = temp_repo / ".git" / "COMMIT_EDITMSG"
         commit_msg_file.parent.mkdir(parents=True, exist_ok=True)
 
-        message = "feat(test-task-001): implement feature\n\nTask: test-task-001"
+        message = "feat(test-1-task-001): implement feature\n\nTask: test-1-task-001"
         commit_msg_file.write_text(message)
 
         hook = CommitMsgHook(str(commit_msg_file), repo_path=str(temp_repo))
@@ -208,14 +210,14 @@ class TestCommitMsgHook:
         hook = CommitMsgHook(str(commit_msg_file), repo_path=str(temp_repo))
         tasks = hook._load_roadmap_tasks()
 
-        assert "test-task-001" in tasks
+        assert "test-1-task-001" in tasks
 
     def test_validate_task_exists_valid(self, temp_repo):
         """Test validating existing task."""
         commit_msg_file = temp_repo / ".git" / "COMMIT_EDITMSG"
         commit_msg_file.parent.mkdir(parents=True, exist_ok=True)
 
-        message = "feat(test-task-001): implement feature"
+        message = "feat(test-1-task-001): implement feature"
         commit_msg_file.write_text(message)
 
         hook = CommitMsgHook(str(commit_msg_file), repo_path=str(temp_repo))
@@ -230,7 +232,9 @@ class TestCommitMsgHook:
         commit_msg_file = temp_repo / ".git" / "COMMIT_EDITMSG"
         commit_msg_file.parent.mkdir(parents=True, exist_ok=True)
 
-        message = "feat(nonexistent-task): implement feature"
+        # Use footer format to create proper task reference
+        # Use valid format but non-existent task ID
+        message = "feat: implement feature\n\nTask: nonexistent-1-task-999"
         commit_msg_file.write_text(message)
 
         hook = CommitMsgHook(str(commit_msg_file), repo_path=str(temp_repo))
@@ -282,7 +286,7 @@ class TestTaskStatusUpdater:
                 },
                 "tasks": [
                     {
-                        "id": "test-task-001",
+                        "id": "test-1-task-001",
                         "name": "Test Task",
                         "status": "not_started"
                     }
@@ -301,13 +305,14 @@ class TestTaskStatusUpdater:
     def test_init_updater(self, temp_repo):
         """Test updater initialization."""
         updater = TaskStatusUpdater(repo_path=str(temp_repo))
-        assert updater.repo_path == temp_repo
-        assert updater.roadmap_dir == temp_repo / ".vibey" / "roadmap"
+        # Compare resolved paths (handles macOS /var -> /private/var symlinks)
+        assert updater.repo_path.samefile(temp_repo)
+        assert updater.roadmap_dir.samefile(temp_repo / ".vibey" / "roadmap")
 
     def test_find_task_file(self, temp_repo):
         """Test finding task file."""
         updater = TaskStatusUpdater(repo_path=str(temp_repo))
-        task_file = updater.find_task_file("test-task-001")
+        task_file = updater.find_task_file("test-1-task-001")
 
         assert task_file is not None
         assert task_file.name == "sprint.yaml"
@@ -319,7 +324,7 @@ class TestTaskStatusUpdater:
         # Process commit with status update
         result = updater.process_commit(
             commit_sha="abc1234",
-            commit_message="feat(test-task-001): implement\n\nTask: test-task-001\nStatus: completed",
+            commit_message="feat(test-1-task-001): implement\n\nTask: test-1-task-001\nStatus: completed",
             dry_run=False
         )
 
@@ -342,7 +347,7 @@ class TestTaskStatusUpdater:
         # Process with dry-run
         result = updater.process_commit(
             commit_sha="abc1234",
-            commit_message="feat(test-task-001): implement\n\nTask: test-task-001\nStatus: completed",
+            commit_message="feat(test-1-task-001): implement\n\nTask: test-1-task-001\nStatus: completed",
             dry_run=True
         )
 
@@ -401,7 +406,7 @@ class TestBranchLinker:
                 "status": "not_started",
                 "tasks": [
                     {
-                        "id": "test-task-001",
+                        "id": "test-1-task-001",
                         "name": "Test Task",
                         "status": "not_started"
                     }
@@ -420,16 +425,17 @@ class TestBranchLinker:
     def test_init_linker(self, temp_repo):
         """Test linker initialization."""
         linker = BranchLinker(repo_path=str(temp_repo))
-        assert linker.repo_path == temp_repo
+        # Compare resolved paths (handles macOS /var -> /private/var symlinks)
+        assert linker.repo_path.samefile(temp_repo)
         assert linker.is_git_repo()
 
     def test_parse_branch_name_task(self, temp_repo):
         """Test parsing task branch name."""
         linker = BranchLinker(repo_path=str(temp_repo))
-        branch_type, item_id = linker.parse_branch_name("task/test-task-001")
+        branch_type, item_id = linker.parse_branch_name("task/test-1-task-001")
 
         assert branch_type == BranchType.TASK
-        assert item_id == "test-task-001"
+        assert item_id == "test-1-task-001"
 
     def test_parse_branch_name_sprint(self, temp_repo):
         """Test parsing sprint branch name."""
@@ -459,21 +465,21 @@ class TestBranchLinker:
         """Test creating a branch."""
         linker = BranchLinker(repo_path=str(temp_repo))
 
-        success, error = linker.create_branch("task/test-task-001")
+        success, error = linker.create_branch("task/test-1-task-001")
 
         assert success is True
         assert error is None
-        assert linker.branch_exists("task/test-task-001")
+        assert linker.branch_exists("task/test-1-task-001")
 
     def test_link_branch_to_task(self, temp_repo):
         """Test linking branch to task."""
         linker = BranchLinker(repo_path=str(temp_repo))
 
         # Create branch first
-        linker.create_branch("task/test-task-001")
+        linker.create_branch("task/test-1-task-001")
 
         # Link to task
-        success, error = linker.link_branch_to_task("test-task-001", "task/test-task-001")
+        success, error = linker.link_branch_to_task("test-1-task-001", "task/test-1-task-001")
 
         assert success is True
         assert error is None
@@ -485,14 +491,14 @@ class TestBranchLinker:
 
         task = data["sprint"]["tasks"][0]
         assert "branch" in task
-        assert task["branch"]["name"] == "task/test-task-001"
+        assert task["branch"]["name"] == "task/test-1-task-001"
 
     def test_suggest_branch_name(self, temp_repo):
         """Test branch name suggestion."""
         linker = BranchLinker(repo_path=str(temp_repo))
-        suggested = linker.suggest_branch_name("test-task-001")
+        suggested = linker.suggest_branch_name("test-1-task-001")
 
-        assert suggested == "task/test-task-001"
+        assert suggested == "task/test-1-task-001"
 
 
 class TestValidationIssue:

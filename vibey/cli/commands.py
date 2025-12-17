@@ -833,81 +833,57 @@ def roadmap_show_cmd(item_id: str) -> int:
 
 
 def roadmap_start_cmd(item_id: str) -> int:
-    """Start a sprint or task."""
-    root_dir = Path.cwd()  # Project root
-    roadmap_root = root_dir / ".vibey" / "roadmap"
+    """Start a sprint or task using unified ticket architecture."""
+    from vibey.operations.roadmap.transitions import (
+        start_item,
+        TransitionBlockedError,
+    )
 
-    # Check if it's a ULID (26 alphanumeric chars starting with 01)
-    is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+    root_dir = Path.cwd()
 
-    if is_ulid:
-        # Determine type by checking filesystem
-        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
-            return start_task(root_dir, item_id)
-        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
-            return start_sprint(root_dir, item_id)
-        else:
-            print(f"Error: Cannot find task or sprint with ULID: {item_id}")
-            return 1
-
-    if 'task' in item_id:
-        return start_task(root_dir, item_id)
-    elif 'sprint' in item_id or item_id.count('-') >= 1:
-        return start_sprint(root_dir, item_id)
-    else:
-        print(f"Error: Cannot determine item type from ID: {item_id}")
-        print("Expected format: <track>-<sprint>-task-<num> or <track>-<sprint>[-name]")
-        print("  or ULID:   01XXXXXXXXXXXXXXXXXXXXXXXXX (26-char identifier)")
+    try:
+        result = start_item(root_dir, item_id)
+        print(f"✅ Started {result['type']} '{result['id']}'")
+        return 0
+    except TransitionBlockedError as e:
+        print(f"❌ Cannot start {item_id}:")
+        for reason in e.reasons:
+            print(f"   - {reason}")
+        return 1
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        return 1
+    except Exception as e:
+        print(f"Error: {e}")
         return 1
 
 
 def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False, force: bool = False) -> int:
-    """Complete a track, sprint, or task."""
-    root_dir = Path.cwd()  # Project root
-    roadmap_root = root_dir / ".vibey" / "roadmap"
+    """Complete a track, sprint, or task using unified ticket architecture."""
+    from vibey.operations.roadmap.transitions import (
+        complete_item,
+        TransitionBlockedError,
+    )
 
-    # Check if it's a ULID (26 alphanumeric chars starting with 01)
-    is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+    root_dir = Path.cwd()
 
-    if is_ulid:
-        # Determine type by checking filesystem
-        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
-            return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
-        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
-            return complete_sprint(root_dir, item_id, force=force)
-        elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
-            return complete_track(root_dir, item_id)
-        else:
-            print(f"Error: Cannot find item with ULID: {item_id}")
-            return 1
-
-    # Task IDs contain '-task-'
-    if '-task-' in item_id:
-        return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
-
-    # Check if it's a sprint (ends with -N where N is a number)
-    # Sprint format: track-name-N (e.g., platform-context-management-5)
-    from vibey.cli.roadmap_lib.filesystem import FileSystemManager
-    fs = FileSystemManager(root_dir)
-
-    # Try sprint first (more specific pattern)
-    sprint_path = fs.get_sprint_path(item_id)
-    if sprint_path.exists():
-        return complete_sprint(root_dir, item_id, force=force)
-
-    # Try track
-    track_path = fs.get_track_path(item_id)
-    if track_path.exists():
-        return complete_track(root_dir, item_id)
-
-    # Neither found
-    print(f"Error: Cannot find track or sprint with ID: {item_id}")
-    print("Expected format:")
-    print("  Track:  <track-name> (e.g., platform-context-management)")
-    print("  Sprint: <track-name>-<num> (e.g., platform-context-management-5)")
-    print("  Task:   <sprint-id>-task-<num> (e.g., platform-context-management-5-task-001)")
-    print("  ULID:   01XXXXXXXXXXXXXXXXXXXXXXXXX (26-char identifier)")
-    return 1
+    try:
+        result = complete_item(root_dir, item_id)
+        print(f"✅ Completed {result['type']} '{result['id']}'")
+        return 0
+    except TransitionBlockedError as e:
+        print(f"❌ Cannot complete {item_id}:")
+        for reason in e.reasons:
+            print(f"   - {reason}")
+        if force:
+            print("\n⚠️  Note: --force flag is not yet supported for bypassing criteria")
+        return 1
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        return 1
+    except Exception as e:
+        print(f"Error: {e}")
+        return 1
 
 
 def roadmap_revert_cmd(item_id: str, target_status: str, skip_confirm: bool = False) -> int:

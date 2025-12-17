@@ -339,6 +339,127 @@ def can_transition(
         return False, [f"Failed to load {entity_type}: {str(e)}"]
 
 
+def start_item(
+    root_dir: Path,
+    item_id: str,
+    force: bool = False,
+) -> dict:
+    """
+    Start a task, sprint, or track.
+
+    Auto-detects item type from filesystem and delegates to appropriate
+    transition function. This is the primary entry point for the unified
+    commands layer.
+
+    Supports both ULID and slug-based IDs through FileSystemManager resolution.
+
+    Args:
+        root_dir: Project root directory
+        item_id: ULID or slug of item to start
+        force: If True, bypass blocking criteria (not yet implemented)
+
+    Returns:
+        Dict with updated item info: {'id': str, 'status': str, 'type': str}
+
+    Raises:
+        TransitionBlockedError: If blocked and force=False
+        FileNotFoundError: If item doesn't exist
+    """
+    fs = FileSystemManager(root_dir)
+
+    # Try to detect type and resolve ID using FileSystemManager
+    # Order: task -> sprint -> track (tasks are most common)
+    try:
+        task_path = fs.get_task_path(item_id)
+        if task_path.exists():
+            # Extract ULID from path for transition
+            ulid = task_path.stem
+            ticket = transition_task(ulid, TicketStatus.IN_PROGRESS, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'task'}
+    except (ValueError, AttributeError):
+        pass
+
+    try:
+        sprint_path = fs.get_sprint_path(item_id)
+        if sprint_path.exists():
+            ulid = sprint_path.stem
+            ticket = transition_sprint(ulid, TicketStatus.IN_PROGRESS, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'sprint'}
+    except (ValueError, AttributeError):
+        pass
+
+    try:
+        track_path = fs.get_track_path(item_id)
+        if track_path.exists():
+            ulid = track_path.stem
+            ticket = transition_track(ulid, TicketStatus.IN_PROGRESS, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'track'}
+    except (ValueError, AttributeError):
+        pass
+
+    raise FileNotFoundError(f"Item not found: {item_id}")
+
+
+def complete_item(
+    root_dir: Path,
+    item_id: str,
+    notes: str = None,
+) -> dict:
+    """
+    Complete a task, sprint, or track.
+
+    Auto-detects item type from filesystem and delegates to appropriate
+    transition function. This is the primary entry point for the unified
+    commands layer.
+
+    Supports both ULID and slug-based IDs through FileSystemManager resolution.
+
+    Args:
+        root_dir: Project root directory
+        item_id: ULID or slug of item to complete
+        notes: Optional completion notes (stored in metadata)
+
+    Returns:
+        Dict with updated item info: {'id': str, 'status': str, 'type': str}
+
+    Raises:
+        TransitionBlockedError: If blocked by criteria
+        FileNotFoundError: If item doesn't exist
+    """
+    fs = FileSystemManager(root_dir)
+
+    # Try to detect type and resolve ID using FileSystemManager
+    # Order: task -> sprint -> track (tasks are most common)
+    try:
+        task_path = fs.get_task_path(item_id)
+        if task_path.exists():
+            ulid = task_path.stem
+            ticket = transition_task(ulid, TicketStatus.COMPLETED, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'task', 'notes': notes}
+    except (ValueError, AttributeError):
+        pass
+
+    try:
+        sprint_path = fs.get_sprint_path(item_id)
+        if sprint_path.exists():
+            ulid = sprint_path.stem
+            ticket = transition_sprint(ulid, TicketStatus.COMPLETED, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'sprint', 'notes': notes}
+    except (ValueError, AttributeError):
+        pass
+
+    try:
+        track_path = fs.get_track_path(item_id)
+        if track_path.exists():
+            ulid = track_path.stem
+            ticket = transition_track(ulid, TicketStatus.COMPLETED, root_dir)
+            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'track', 'notes': notes}
+    except (ValueError, AttributeError):
+        pass
+
+    raise FileNotFoundError(f"Item not found: {item_id}")
+
+
 # Export for convenient importing
 __all__ = [
     'TransitionBlockedError',
@@ -348,4 +469,6 @@ __all__ = [
     'transition_track',
     'transition_roadmap',
     'can_transition',
+    'start_item',
+    'complete_item',
 ]

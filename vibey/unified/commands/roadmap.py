@@ -10,7 +10,7 @@ should be deprecated.
 """
 
 from pathlib import Path
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from vibey.unified import (
     unified_command,
@@ -18,6 +18,38 @@ from vibey.unified import (
     ParamType,
     CommandResult,
 )
+
+if TYPE_CHECKING:
+    from vibey.roadmap.models.ticket import HierarchicalTicket
+
+
+def format_criteria_status(ticket: "HierarchicalTicket") -> str:
+    """
+    Format criteria status for CLI output.
+
+    Displays criteria grouped by which transition they block.
+    """
+    from vibey.roadmap.models.ticket.enums import TicketStatus
+
+    lines = []
+
+    # Group by transition target
+    for target_status in [TicketStatus.IN_PROGRESS, TicketStatus.COMPLETED]:
+        criteria = ticket.criteria_for_transition(target_status)
+        if not criteria:
+            continue
+
+        status_label = target_status.value.upper().replace('_', ' ')
+        lines.append(f"\nCriteria for {status_label}:")
+        for c in criteria:
+            icon = "✓" if c.is_met else "○"
+            req = "" if c.required else " (optional)"
+            lines.append(f"  {icon} {c.description}{req}")
+
+    if not lines:
+        lines.append("\n(No criteria defined)")
+
+    return "\n".join(lines)
 
 
 @unified_command(
@@ -175,6 +207,15 @@ def roadmap_show(
                 return CommandResult.ok(data=result, message=json.dumps(result, indent=2, default=str))
             else:
                 formatted = format_task_details(result)
+                # Add criteria status for text format
+                try:
+                    from vibey.operations.roadmap.query import load_task_ticket
+                    ticket = load_task_ticket(root_dir, item_id)
+                    criteria_text = format_criteria_status(ticket)
+                    formatted += criteria_text
+                except Exception:
+                    # If ticket loading fails, continue without criteria
+                    pass
                 return CommandResult.ok(data=result, message=formatted)
 
         return CommandResult.fail(error=f"Item not found: {item_id}")
@@ -216,8 +257,9 @@ def roadmap_start(
     Start a task or sprint.
 
     Sets status to 'in_progress' and records start timestamp.
+    Uses criteria-based validation via the unified ticket architecture.
     """
-    from vibey.operations.roadmap.transitions import start_item
+    from vibey.operations.roadmap.transitions import start_item, TransitionBlockedError
 
     root_dir = root_dir or Path.cwd()
 
@@ -225,10 +267,17 @@ def roadmap_start(
         result = start_item(root_dir, item_id, force=force)
         return CommandResult.ok(
             data=result,
-            message=f"Started {item_id}. Status: {result.get('status', 'in_progress')}"
+            message=f"Started {result.get('type', 'item')} '{item_id}'. Status: {result.get('status', 'in_progress')}"
         )
-    except Exception as e:
+    except TransitionBlockedError as e:
+        # Return structured error with blocking reasons
+        return CommandResult.fail(
+            error=f"Cannot start {item_id}: {'; '.join(e.reasons)}"
+        )
+    except FileNotFoundError as e:
         return CommandResult.fail(error=str(e))
+    except Exception as e:
+        return CommandResult.fail(error=f"Unexpected error: {str(e)}")
 
 
 @unified_command(
@@ -262,8 +311,9 @@ def roadmap_complete(
     Complete a task or sprint.
 
     Sets status to 'completed' and records completion timestamp.
+    Uses criteria-based validation via the unified ticket architecture.
     """
-    from vibey.operations.roadmap.transitions import complete_item
+    from vibey.operations.roadmap.transitions import complete_item, TransitionBlockedError
 
     root_dir = root_dir or Path.cwd()
 
@@ -271,10 +321,17 @@ def roadmap_complete(
         result = complete_item(root_dir, item_id, notes=notes)
         return CommandResult.ok(
             data=result,
-            message=f"Completed {item_id}. Status: {result.get('status', 'completed')}"
+            message=f"Completed {result.get('type', 'item')} '{item_id}'. Status: {result.get('status', 'completed')}"
         )
-    except Exception as e:
+    except TransitionBlockedError as e:
+        # Return structured error with blocking reasons
+        return CommandResult.fail(
+            error=f"Cannot complete {item_id}: {'; '.join(e.reasons)}"
+        )
+    except FileNotFoundError as e:
         return CommandResult.fail(error=str(e))
+    except Exception as e:
+        return CommandResult.fail(error=f"Unexpected error: {str(e)}")
 
 
 # =============================================================================

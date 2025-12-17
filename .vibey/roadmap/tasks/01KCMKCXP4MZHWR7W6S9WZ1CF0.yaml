@@ -8,11 +8,11 @@ task:
   description: 'Create tests for all vibey/operations/ submodules: roadmap/, docs/,
     context/, discovery/, auth/, git/. Cover all public functions and error paths.
     Target: 100% coverage. Source: CORE_LIBRARY_AUDIT_SUMMARY.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:09:54.949210+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T17:50:00.000000+00:00'
+  completed: '2025-12-17T18:00:00.000000+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null
@@ -26,8 +26,11 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+  - tests/operations/docs/test_reference_generators.py
+  commits:
+  - sha: 693964d5
+    message: 'test(docs): Add CLI reference generator tests'
   metadata:
     last_updated: null
     token_efficiency: null

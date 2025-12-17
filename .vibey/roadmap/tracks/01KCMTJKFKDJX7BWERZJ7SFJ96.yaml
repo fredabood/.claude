@@ -13,8 +13,8 @@ track:
     sprints_total: 3
     sprints_completed: 2
     tasks_total: 5
-    tasks_completed: 1
-    completion_percent: 20
+    tasks_completed: 4
+    completion_percent: 80
   sprints:
   - id: 01KCMTMW1Y64VTVEZ7TEJG1R56
     name: 'Sprint 1: Test Infrastructure Repair'

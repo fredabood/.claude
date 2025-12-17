@@ -16,10 +16,10 @@ roadmap:
   progress:
     tracks_total: 47
     tracks_completed: 24
-    sprints_total: 223
+    sprints_total: 224
     sprints_completed: 42
     tasks_total: 1546
-    tasks_completed: 1200
+    tasks_completed: 1203
     completion_percent: 77
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -196,7 +196,7 @@ roadmap:
     priority: medium
   - id: 01KCMTJKFKDJX7BWERZJ7SFJ96
     name: Test Suite Rehabilitation
-    status: not_started
+    status: in_progress
     priority: medium
   - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
     name: Architecture Modernization
@@ -234,10 +234,16 @@ roadmap:
     context:
       task_id: 01KCMKGGPPCKATCJ9KMAF5DZE8
       sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
+  - timestamp: '2025-12-17T16:48:52.629968+00:00'
+    type: task_started
+    description: Task 'Add MCP tool unit tests' started
+    context:
+      task_id: 01KCMGW1PRG8ADMD0M4Q83PYQC
+      sprint_id: 01KCMTMZQF4CD2GCV1GCJB8KKE
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T16:36:03.257316+00:00'
+    last_updated: '2025-12-17T16:48:52.629970+00:00'
     purpose: null
     description: null

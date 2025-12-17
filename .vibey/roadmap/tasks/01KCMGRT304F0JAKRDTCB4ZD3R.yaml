@@ -7,11 +7,11 @@ task:
   title: Fix standards resolution tests
   description: 'Restore 14 broken tests in test_standards_resolution.py. Source: Priority
     1.2'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:23:58.699717+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T14:19:28.358272+00:00'
+  completed: '2025-12-17T14:21:48.723691+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

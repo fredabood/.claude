@@ -6,11 +6,11 @@ task:
   task_type: testing
   title: Fix git hooks tests
   description: 'Restore 8 broken tests in test_git_hooks.py. Source: Priority 1.5'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:24:10.346130+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T14:30:17.837258+00:00'
+  completed: '2025-12-17T14:35:42.263121+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

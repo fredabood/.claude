@@ -6,11 +6,11 @@ task:
   task_type: testing
   title: Fix validators tests
   description: 'Restore 12 broken tests in test_validators.py. Source: Priority 1.4'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:24:06.419769+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T14:29:05.283226+00:00'
+  completed: '2025-12-17T14:30:04.584187+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

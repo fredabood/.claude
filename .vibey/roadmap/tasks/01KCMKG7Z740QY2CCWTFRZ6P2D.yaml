@@ -9,11 +9,11 @@ task:
     MCP tools from CLI definitions, OR 2) Shared command registry both consume, OR
     3) CI check that fails on drift. Ensure new CLI commands automatically have MCP
     equivalents. Source: User feedback'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:11:43.796293+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T16:22:30.913786+00:00'
+  completed: '2025-12-17T16:25:37.366768+00:00'
   assigned_agent: unassigned
   priority: critical
   phase_label: null

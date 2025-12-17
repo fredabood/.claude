@@ -60,6 +60,36 @@ from vibey.cli.command_modules.config import (
 from vibey.cli.command_modules.deploy import deploy_cmd
 from vibey.cli.command_modules.docs import docs_generate_cmd
 
+from vibey.cli.command_modules.edit import (
+    edit_file_cmd,
+    edit_bulk_cmd,
+    edit_validate_cmd,
+    edit_rollback_cmd,
+)
+
+from vibey.cli.command_modules.audit import (
+    audit_log_cmd,
+    audit_show_cmd,
+    audit_suspicious_cmd,
+    audit_report_cmd,
+    activity_cmd,
+    auto_progress_cmd,
+)
+
+from vibey.cli.command_modules.validate import (
+    validate_docs_cmd,
+    validate_assets_cmd,
+    validate_structure_cmd,
+)
+
+from vibey.cli.command_modules.migrate import (
+    migrate_to_roadmap_cmd,
+    migrate_embedded_tasks_cmd,
+    extract_embedded_cmd,
+    migrate_format_cmd,
+    migrate_docs_cmd,
+)
+
 __all__ = [
     # Helpers
     "slugify",
@@ -90,4 +120,26 @@ __all__ = [
     "deploy_cmd",
     # Docs
     "docs_generate_cmd",
+    # Edit
+    "edit_file_cmd",
+    "edit_bulk_cmd",
+    "edit_validate_cmd",
+    "edit_rollback_cmd",
+    # Audit
+    "audit_log_cmd",
+    "audit_show_cmd",
+    "audit_suspicious_cmd",
+    "audit_report_cmd",
+    "activity_cmd",
+    "auto_progress_cmd",
+    # Validate
+    "validate_docs_cmd",
+    "validate_assets_cmd",
+    "validate_structure_cmd",
+    # Migrate
+    "migrate_to_roadmap_cmd",
+    "migrate_embedded_tasks_cmd",
+    "extract_embedded_cmd",
+    "migrate_format_cmd",
+    "migrate_docs_cmd",
 ]

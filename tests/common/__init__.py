@@ -1,1 +1,1 @@
-"""Tests for vibey.common module."""
+# Tests for vibey.common module

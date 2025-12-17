@@ -9,7 +9,7 @@ task:
     (roadmap_commands.py, docs_commands.py, deploy_commands.py, etc.). Source: SI005,
     DD001'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-16T21:27:32.782496+00:00'
   started: null
   completed: null

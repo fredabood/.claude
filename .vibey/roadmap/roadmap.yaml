@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 226
     sprints_completed: 43
     tasks_total: 1527
-    tasks_completed: 1210
+    tasks_completed: 1211
     completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -379,10 +379,22 @@ roadmap:
     context:
       task_id: 01KCMMEA6M8VW610NS158G7F1H
       sprint_id: 01KCMTXH8QFZ64GD4CK7TSDY06
+  - timestamp: '2025-12-17T19:46:42.543645+00:00'
+    type: task_started
+    description: Task 'Design CLI refactor for first-class semantic layer' started
+    context:
+      task_id: 01KCMMEJ1RJJ9JTV98N3SZ88AG
+      sprint_id: 01KCMTXH8QFZ64GD4CK7TSDY06
+  - timestamp: '2025-12-17T19:47:51.310684+00:00'
+    type: task_completed
+    description: Task 'Design CLI refactor for first-class semantic layer' completed
+    context:
+      task_id: 01KCMMEJ1RJJ9JTV98N3SZ88AG
+      sprint_id: 01KCMTXH8QFZ64GD4CK7TSDY06
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T19:45:15.996681+00:00'
+    last_updated: '2025-12-17T19:47:51.310686+00:00'
     purpose: null
     description: null

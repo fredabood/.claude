@@ -364,40 +364,60 @@ def start_item(
     Raises:
         TransitionBlockedError: If blocked and force=False
         FileNotFoundError: If item doesn't exist
+        Exception: If ticket loader encounters validation errors (e.g., roadmap validation)
     """
     fs = FileSystemManager(root_dir)
 
-    # Try to detect type and resolve ID using FileSystemManager
-    # Order: task -> sprint -> track (tasks are most common)
+    # Determine item type from filesystem first, then attempt transition
+    # This ensures we raise the right errors for the right situations
+
+    item_type = None
+    item_path = None
+
+    # Check for task
     try:
         task_path = fs.get_task_path(item_id)
         if task_path.exists():
-            # Extract ULID from path for transition
-            ulid = task_path.stem
-            ticket = transition_task(ulid, TicketStatus.IN_PROGRESS, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'task'}
+            item_type = 'task'
+            item_path = task_path
     except (ValueError, AttributeError):
         pass
 
-    try:
-        sprint_path = fs.get_sprint_path(item_id)
-        if sprint_path.exists():
-            ulid = sprint_path.stem
-            ticket = transition_sprint(ulid, TicketStatus.IN_PROGRESS, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'sprint'}
-    except (ValueError, AttributeError):
-        pass
+    # Check for sprint if not a task
+    if item_type is None:
+        try:
+            sprint_path = fs.get_sprint_path(item_id)
+            if sprint_path.exists():
+                item_type = 'sprint'
+                item_path = sprint_path
+        except (ValueError, AttributeError):
+            pass
 
-    try:
-        track_path = fs.get_track_path(item_id)
-        if track_path.exists():
-            ulid = track_path.stem
-            ticket = transition_track(ulid, TicketStatus.IN_PROGRESS, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'track'}
-    except (ValueError, AttributeError):
-        pass
+    # Check for track if not a task or sprint
+    if item_type is None:
+        try:
+            track_path = fs.get_track_path(item_id)
+            if track_path.exists():
+                item_type = 'track'
+                item_path = track_path
+        except (ValueError, AttributeError):
+            pass
 
-    raise FileNotFoundError(f"Item not found: {item_id}")
+    # If no item found, raise FileNotFoundError
+    if item_type is None:
+        raise FileNotFoundError(f"Item not found: {item_id}")
+
+    # Now attempt the transition - any errors here should propagate
+    ulid = item_path.stem
+
+    if item_type == 'task':
+        ticket = transition_task(ulid, TicketStatus.IN_PROGRESS, root_dir)
+    elif item_type == 'sprint':
+        ticket = transition_sprint(ulid, TicketStatus.IN_PROGRESS, root_dir)
+    else:  # track
+        ticket = transition_track(ulid, TicketStatus.IN_PROGRESS, root_dir)
+
+    return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type}
 
 
 def complete_item(
@@ -425,39 +445,60 @@ def complete_item(
     Raises:
         TransitionBlockedError: If blocked by criteria
         FileNotFoundError: If item doesn't exist
+        Exception: If ticket loader encounters validation errors (e.g., roadmap validation)
     """
     fs = FileSystemManager(root_dir)
 
-    # Try to detect type and resolve ID using FileSystemManager
-    # Order: task -> sprint -> track (tasks are most common)
+    # Determine item type from filesystem first, then attempt transition
+    # This ensures we raise the right errors for the right situations
+
+    item_type = None
+    item_path = None
+
+    # Check for task
     try:
         task_path = fs.get_task_path(item_id)
         if task_path.exists():
-            ulid = task_path.stem
-            ticket = transition_task(ulid, TicketStatus.COMPLETED, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'task', 'notes': notes}
+            item_type = 'task'
+            item_path = task_path
     except (ValueError, AttributeError):
         pass
 
-    try:
-        sprint_path = fs.get_sprint_path(item_id)
-        if sprint_path.exists():
-            ulid = sprint_path.stem
-            ticket = transition_sprint(ulid, TicketStatus.COMPLETED, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'sprint', 'notes': notes}
-    except (ValueError, AttributeError):
-        pass
+    # Check for sprint if not a task
+    if item_type is None:
+        try:
+            sprint_path = fs.get_sprint_path(item_id)
+            if sprint_path.exists():
+                item_type = 'sprint'
+                item_path = sprint_path
+        except (ValueError, AttributeError):
+            pass
 
-    try:
-        track_path = fs.get_track_path(item_id)
-        if track_path.exists():
-            ulid = track_path.stem
-            ticket = transition_track(ulid, TicketStatus.COMPLETED, root_dir)
-            return {'id': ticket.id, 'status': ticket.status.value, 'type': 'track', 'notes': notes}
-    except (ValueError, AttributeError):
-        pass
+    # Check for track if not a task or sprint
+    if item_type is None:
+        try:
+            track_path = fs.get_track_path(item_id)
+            if track_path.exists():
+                item_type = 'track'
+                item_path = track_path
+        except (ValueError, AttributeError):
+            pass
 
-    raise FileNotFoundError(f"Item not found: {item_id}")
+    # If no item found, raise FileNotFoundError
+    if item_type is None:
+        raise FileNotFoundError(f"Item not found: {item_id}")
+
+    # Now attempt the transition - any errors here should propagate
+    ulid = item_path.stem
+
+    if item_type == 'task':
+        ticket = transition_task(ulid, TicketStatus.COMPLETED, root_dir)
+    elif item_type == 'sprint':
+        ticket = transition_sprint(ulid, TicketStatus.COMPLETED, root_dir)
+    else:  # track
+        ticket = transition_track(ulid, TicketStatus.COMPLETED, root_dir)
+
+    return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type, 'notes': notes}
 
 
 # Export for convenient importing

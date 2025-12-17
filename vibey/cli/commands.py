@@ -833,7 +833,11 @@ def roadmap_show_cmd(item_id: str) -> int:
 
 
 def roadmap_start_cmd(item_id: str) -> int:
-    """Start a sprint or task using unified ticket architecture."""
+    """Start a sprint or task.
+
+    Uses unified ticket architecture when possible, with fallback to legacy
+    implementation when the ticket loader encounters validation issues.
+    """
     from vibey.operations.roadmap.transitions import (
         start_item,
         TransitionBlockedError,
@@ -854,12 +858,47 @@ def roadmap_start_cmd(item_id: str) -> int:
         print(f"Error: {e}")
         return 1
     except Exception as e:
+        # Fallback to legacy implementation when unified approach fails
+        # This handles validation errors in the ticket loader
+        roadmap_root = root_dir / ".vibey" / "roadmap"
+
+        # Check if it's a ULID
+        is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+        if is_ulid:
+            if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+                return start_task(root_dir, item_id)
+            elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+                return start_sprint(root_dir, item_id)
+
+        # Legacy path resolution
+        from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+        fs = FileSystemManager(root_dir)
+
+        try:
+            task_path = fs.get_task_path(item_id)
+            if task_path.exists():
+                return start_task(root_dir, item_id)
+        except (ValueError, AttributeError):
+            pass
+
+        try:
+            sprint_path = fs.get_sprint_path(item_id)
+            if sprint_path.exists():
+                return start_sprint(root_dir, item_id)
+        except (ValueError, AttributeError):
+            pass
+
         print(f"Error: {e}")
         return 1
 
 
 def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False, force: bool = False) -> int:
-    """Complete a track, sprint, or task using unified ticket architecture."""
+    """Complete a track, sprint, or task.
+
+    Uses unified ticket architecture when possible, with fallback to legacy
+    implementation when the ticket loader encounters validation issues.
+    """
     from vibey.operations.roadmap.transitions import (
         complete_item,
         TransitionBlockedError,
@@ -882,6 +921,37 @@ def roadmap_complete_cmd(item_id: str, skip_commit_check: bool = False, force: b
         print(f"Error: {e}")
         return 1
     except Exception as e:
+        # Fallback to legacy implementation when unified approach fails
+        # This handles validation errors in the ticket loader
+        roadmap_root = root_dir / ".vibey" / "roadmap"
+
+        # Check if it's a ULID
+        is_ulid = len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+
+        if is_ulid:
+            if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
+                return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
+            elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
+                return complete_sprint(root_dir, item_id, force=force)
+            elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
+                return complete_track(root_dir, item_id)
+
+        # Legacy path resolution
+        from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+        fs = FileSystemManager(root_dir)
+
+        task_path = fs.get_task_path(item_id)
+        if task_path.exists():
+            return complete_task(root_dir, item_id, skip_commit_check=skip_commit_check)
+
+        sprint_path = fs.get_sprint_path(item_id)
+        if sprint_path.exists():
+            return complete_sprint(root_dir, item_id, force=force)
+
+        track_path = fs.get_track_path(item_id)
+        if track_path.exists():
+            return complete_track(root_dir, item_id)
+
         print(f"Error: {e}")
         return 1
 

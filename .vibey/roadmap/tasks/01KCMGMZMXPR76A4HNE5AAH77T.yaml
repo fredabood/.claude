@@ -7,11 +7,11 @@ task:
   title: Add CLI quick start section
   description: 'Add a Quick Start section at top of CLI reference with common workflows
     and most-used commands. Source: QW007, F007'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:21:53.290479+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:54:18.561041+00:00'
+  completed: '2025-12-17T01:55:07.771810+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

@@ -3,7 +3,7 @@
 **Server:** vibey-roadmap
 **Version:** 2.5.0
 
-**Generated:** 2025-12-15T23:22:05.408603+00:00
+**Generated:** 2025-12-17T01:56:31.066466+00:00
 
 This document provides comprehensive reference documentation for the Vibey MCP (Model Context Protocol) server, including all tools, resources, and prompts available for AI assistant integration.
 
@@ -12,6 +12,35 @@ This document provides comprehensive reference documentation for the Vibey MCP (
 | Tools | 76 |
 | Resources | 8 |
 | Prompts | 4 |
+
+---
+
+## When to Use MCP vs CLI
+
+### Use MCP Tools When:
+
+- **AI Assistant Integration** - Working within Claude, Cursor, or other AI tools
+- **Programmatic Access** - Building automation or integrations
+- **Structured Data** - Need JSON responses for processing
+- **Context Preservation** - AI needs to maintain conversation context
+
+### Use CLI Commands When:
+
+- **Terminal Workflows** - Direct command-line interaction
+- **Shell Scripts** - Automation via bash/shell
+- **Human Readable** - Want formatted, colorized output
+- **Quick Operations** - One-off commands
+
+### Common Operations Mapping
+
+| Operation | CLI Command | MCP Tool |
+|-----------|-------------|----------|
+| Get status | `vibey roadmap status` | `roadmap_status` |
+| Start task | `vibey roadmap start <id>` | `task_start` |
+| Complete task | `vibey roadmap complete <id>` | `task_complete` |
+| Query task | `vibey roadmap show <id>` | `task_query` |
+| List sprints | `vibey roadmap list sprints` | `sprint_list` |
+| Deploy config | `vibey deploy run --platform X` | N/A (CLI only) |
 
 ---
 

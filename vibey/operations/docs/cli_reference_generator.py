@@ -85,6 +85,9 @@ class CLIReferenceGenerator:
         # Header
         self._add_header()
 
+        # Quick start
+        self._add_quick_start()
+
         # Table of contents
         if self.config.include_toc:
             self._add_toc()
@@ -128,6 +131,35 @@ class CLIReferenceGenerator:
         self._line("---")
         self._line()
 
+    def _add_quick_start(self):
+        """Add quick start section with essential commands."""
+        self._heading("Quick Start", 2)
+
+        self._line("Get started with these essential commands:")
+        self._line()
+        self._line("```bash")
+        self._line("# Initialize Vibey in your project")
+        self._line("vibey init")
+        self._line()
+        self._line("# View roadmap status")
+        self._line("vibey roadmap status")
+        self._line()
+        self._line("# Start working on a task")
+        self._line("vibey roadmap start <task-id>")
+        self._line()
+        self._line("# Complete a task")
+        self._line("vibey roadmap complete <task-id>")
+        self._line()
+        self._line("# Deploy to a platform (e.g., cursor, vscode, copilot)")
+        self._line("vibey deploy run --platform cursor")
+        self._line()
+        self._line("# Get help for any command")
+        self._line("vibey <command> --help")
+        self._line("```")
+        self._line()
+        self._line("---")
+        self._line()
+
     def _add_toc(self):
         """Add table of contents."""
         self._heading("Table of Contents", 2)
@@ -164,24 +196,27 @@ class CLIReferenceGenerator:
         # Sort alphabetically by path
         all_commands.sort(key=lambda c: c.path)
 
-        # Group by first letter
-        current_letter = ""
+        # Group by command group (first-level subcommand)
+        current_group = ""
+        command_index = 0
         for cmd in all_commands:
             if cmd.hidden and not self.config.include_hidden:
                 continue
 
-            # Get the command name (last part of path)
-            cmd_name = cmd.path.split()[-1] if cmd.path else cmd.name
-            first_letter = cmd_name[0].upper() if cmd_name else "?"
+            # Get the command group (first subcommand after 'vibey')
+            parts = cmd.path.split()
+            cmd_group = parts[1] if len(parts) > 1 else parts[0]
+            first_letter = cmd_group[0].upper() if cmd_group else "?"
 
-            if first_letter != current_letter:
-                current_letter = first_letter
+            if cmd_group != current_group:
+                current_group = cmd_group
                 self._line()
-                self._line(f"**{current_letter}**")
+                self._line(f"**{cmd_group.title()}**")
 
+            command_index += 1
             anchor = self._make_anchor(cmd.path.replace(" ", "-"))
-            short = cmd.short_help or (cmd.help[:50] + "..." if cmd.help and len(cmd.help) > 50 else cmd.help) or ""
-            self._line(f"- [`{cmd.path}`](#{anchor}) - {short}")
+            short = cmd.short_help or (cmd.help[:150] + "..." if cmd.help and len(cmd.help) > 150 else cmd.help) or ""
+            self._line(f"{command_index}. [`{cmd.path}`](#{anchor}) - {short}")
 
         self._line()
         self._line("---")
@@ -256,7 +291,7 @@ class CLIReferenceGenerator:
             for subcmd in cmd.subcommands:
                 if subcmd.hidden and not self.config.include_hidden:
                     continue
-                desc = subcmd.short_help or (subcmd.help[:60] + "..." if subcmd.help and len(subcmd.help) > 60 else subcmd.help) or ""
+                desc = subcmd.short_help or (subcmd.help[:150] + "..." if subcmd.help and len(subcmd.help) > 150 else subcmd.help) or ""
                 # Escape pipe characters in description
                 desc = desc.replace("|", "\\|")
                 self._line(f"| `{subcmd.name}` | {desc} |")

@@ -2,9 +2,35 @@
 
 **Version:** 2.5.0
 **Total Commands:** 200
-**Generated:** 2025-12-15T23:21:29.641766+00:00
+**Generated:** 2025-12-17T01:56:30.685316+00:00
 
 This document provides comprehensive reference documentation for all `vibey` CLI commands.
+
+---
+
+## Quick Start
+
+Get started with these essential commands:
+
+```bash
+# Initialize Vibey in your project
+vibey init
+
+# View roadmap status
+vibey roadmap status
+
+# Start working on a task
+vibey roadmap start <task-id>
+
+# Complete a task
+vibey roadmap complete <task-id>
+
+# Deploy to a platform (e.g., cursor, vscode, copilot)
+vibey deploy run --platform cursor
+
+# Get help for any command
+vibey <command> --help
+```
 
 ---
 
@@ -99,803 +125,1040 @@ This document provides comprehensive reference documentation for all `vibey` CLI
 ## Command Index
 
 
-**A**
-- [`vibey artifact`](#vibey-artifact) - 
-Manage artifacts - first-class file-based entitie...
-- [`vibey artifact adopt`](#vibey-artifact-adopt) - Register an existing file as an artifact.
+**Artifact**
+1. [`vibey artifact`](#vibey-artifact) - 
+Manage artifacts - first-class file-based entities.
 
-**D**
-- [`vibey artifact delete`](#vibey-artifact-delete) - Delete an artifact from the registry (does not del...
+Artifacts are registered files that can be tracked, linked to tickets,
+and monitored for stalene...
+2. [`vibey artifact adopt`](#vibey-artifact-adopt) - Register an existing file as an artifact.
+3. [`vibey artifact delete`](#vibey-artifact-delete) - Delete an artifact from the registry (does not delete files).
+4. [`vibey artifact impact`](#vibey-artifact-impact) - Show tickets affected by changes to given files.
+5. [`vibey artifact list`](#vibey-artifact-list) - List all registered artifacts.
+6. [`vibey artifact orphans`](#vibey-artifact-orphans) - Show artifacts not referenced by any ticket.
+7. [`vibey artifact refresh`](#vibey-artifact-refresh) - Refresh content hashes for all artifacts.
+8. [`vibey artifact show`](#vibey-artifact-show) - Show details of a specific artifact.
+9. [`vibey artifact stale`](#vibey-artifact-stale) - Show stale documentation artifacts.
 
-**I**
-- [`vibey artifact impact`](#vibey-artifact-impact) - Show tickets affected by changes to given files.
+**Audit**
+10. [`vibey audit`](#vibey-audit) - 
+Audit and analyze codebase structure, documentation coverage, and file classification.
 
-**L**
-- [`vibey artifact list`](#vibey-artifact-list) - List all registered artifacts.
+The audit system provides tools for:
+- File inventory generat...
+11. [`vibey audit classify`](#vibey-audit-classify) - Classify files according to taxonomy.
 
-**O**
-- [`vibey artifact orphans`](#vibey-artifact-orphans) - Show artifacts not referenced by any ticket.
+Analyzes files in specified directory and generates a classification
+YAML file with category, purpose, dependen...
+12. [`vibey audit inventory`](#vibey-audit-inventory) - Generate file inventory for codebase audit.
 
-**R**
-- [`vibey artifact refresh`](#vibey-artifact-refresh) - Refresh content hashes for all artifacts.
+Scans specified directories and generates a structured inventory
+of all files with metadata (path, type, ...
 
-**S**
-- [`vibey artifact show`](#vibey-artifact-show) - Show details of a specific artifact.
-- [`vibey artifact stale`](#vibey-artifact-stale) - Show stale documentation artifacts.
-
-**A**
-- [`vibey audit`](#vibey-audit) - 
-Audit and analyze codebase structure, documentati...
-
-**C**
-- [`vibey audit classify`](#vibey-audit-classify) - Classify files according to taxonomy.
-
-Analyzes fi...
-
-**I**
-- [`vibey audit inventory`](#vibey-audit-inventory) - Generate file inventory for codebase audit.
-
-Scans...
-
-**A**
-- [`vibey auth`](#vibey-auth) - 
+**Auth**
+13. [`vibey auth`](#vibey-auth) - 
 Manage authentication keys for roadmap signing.
 
-...
-- [`vibey auth add-signer`](#vibey-auth-add-signer) - Add an authorized signer to this project.
+Set up Ed25519 keypairs for signing activity log entries,
+register authorized signers for your proje...
+14. [`vibey auth add-signer`](#vibey-auth-add-signer) - Add an authorized signer to this project.
 
-Registe...
+Registers a team member's public key so their changes
+can be verified.
 
-**E**
-- [`vibey auth export`](#vibey-auth-export) - Export your public key for sharing with project ow...
+Arguments:
+  EMAIL       Signer's e...
+15. [`vibey auth export`](#vibey-auth-export) - Export your public key for sharing with project owners.
 
-**I**
-- [`vibey auth init-project`](#vibey-auth-init-project) - Initialize signing for this project.
+Displays your public key in a format that can be shared
+with project owners for authorization...
+16. [`vibey auth init-project`](#vibey-auth-init-project) - Initialize signing for this project.
 
-Sets you up ...
+Sets you up as the first authorized signer (owner).
+Requires running 'vibey auth setup' first.
 
-**L**
-- [`vibey auth list`](#vibey-auth-list) - List authorized signers for this project.
+Creates:
+  .vibe...
+17. [`vibey auth list`](#vibey-auth-list) - List authorized signers for this project.
 
-Shows a...
+Shows all team members who can make signed roadmap changes.
 
-**R**
-- [`vibey auth revoke`](#vibey-auth-revoke) - Revoke a signer's authorization.
+Example:
+  vibey auth list
+  vibey auth list -...
+18. [`vibey auth revoke`](#vibey-auth-revoke) - Revoke a signer's authorization.
 
-Marks a signer a...
+Marks a signer as inactive. Their existing signed changes
+remain valid, but new changes won't be accepted.
 
-**S**
-- [`vibey auth setup`](#vibey-auth-setup) - Generate Ed25519 keypair for signing roadmap chang...
-- [`vibey auth status`](#vibey-auth-status) - Show current authentication status.
+Example:...
+19. [`vibey auth setup`](#vibey-auth-setup) - Generate Ed25519 keypair for signing roadmap changes.
 
-Displays whet...
+Creates a keypair in ~/.vibey/ for signing activity log entries.
+Your private key never leaves ...
+20. [`vibey auth status`](#vibey-auth-status) - Show current authentication status.
 
-**C**
-- [`vibey config`](#vibey-config) - 
+Displays whether you have keys configured and whether
+signing is enabled for the current project.
+
+
+**Config**
+21. [`vibey config`](#vibey-config) - 
 Manage framework configuration.
 
 Examples:
 
-  vib...
-
-**M**
-- [`vibey config migrate`](#vibey-config-migrate) - Migrate legacy config to modular format
-
-**P**
-- [`vibey config platform`](#vibey-config-platform) - 
+  vibey config show             # Show current config
+  vibey config validate         # Validate config f...
+22. [`vibey config migrate`](#vibey-config-migrate) - Migrate legacy config to modular format
+23. [`vibey config platform`](#vibey-config-platform) - 
 Manage platform detection and configuration.
 
-The...
+The platform system automatically detects your AI coding platform
+(Claude Code, Goose, Cursor, etc.) an...
+24. [`vibey config platform clear`](#vibey-config-platform-clear) - Clear platform configuration
 
-**C**
-- [`vibey config platform clear`](#vibey-config-platform-clear) - Clear platform configuration
-
-Removes manual platf...
-
-**D**
-- [`vibey config platform detect`](#vibey-config-platform-detect) - Force platform re-detection
-
-Runs platform detecti...
-
-**L**
-- [`vibey config platform list`](#vibey-config-platform-list) - List known platforms
-
-Shows all platforms that Vib...
-
-**S**
-- [`vibey config platform set`](#vibey-config-platform-set) - Set platform configuration manually
-
-Override auto...
-- [`vibey config platform show`](#vibey-config-platform-show) - Show current platform configuration
-
-Displays the ...
-
-**R**
-- [`vibey config rollback`](#vibey-config-rollback) - Rollback to a previous config backup
-
-**S**
-- [`vibey config show`](#vibey-config-show) - Show current configuration
-
-**V**
-- [`vibey config validate`](#vibey-config-validate) - Validate configuration files
-
-**C**
-- [`vibey content`](#vibey-content) - 
-Manage framework content (agents, workflows, temp...
-- [`vibey content create`](#vibey-content-create) - Create new content
-
-Creates a new agent, workflow,...
-
-**D**
-- [`vibey content delete`](#vibey-content-delete) - Delete content (moves to trash)
-
-Removes content b...
-
-**E**
-- [`vibey content edit`](#vibey-content-edit) - Edit existing content
-
-Updates frontmatter fields ...
-
-**L**
-- [`vibey content list`](#vibey-content-list) - List all content items
-
-Shows all agents, workflow...
-
-**S**
-- [`vibey content search`](#vibey-content-search) - Search content by keywords
-
-Searches content by na...
-- [`vibey content show`](#vibey-content-show) - Show content details
-
-Displays metadata and option...
-
-**V**
-- [`vibey content validate`](#vibey-content-validate) - Validate content frontmatter
-
-Checks content for r...
-
-**C**
-- [`vibey context`](#vibey-context) - Context management - manage session, task, and dec...
-
-**A**
-- [`vibey context archive`](#vibey-context-archive) - Archive context to history.
-
-Moves context from cu...
-
-**C**
-- [`vibey context clean`](#vibey-context-clean) - Clean old archived context.
-
-Removes archived cont...
-
-**E**
-- [`vibey context export`](#vibey-context-export) - Export context to file.
+Removes manual platform configuration, reverting to auto-detection.
 
 Examples:
-  vibey context...
+  vibey config platform clear
 
-**I**
-- [`vibey context init`](#vibey-context-init) - Initialize context directory structure.
+25. [`vibey config platform detect`](#vibey-config-platform-detect) - Force platform re-detection
 
-Creates t...
+Runs platform detection and shows results without changing configuration.
+Useful for debugging detection issues.
 
-**L**
-- [`vibey context list`](#vibey-context-list) - List context items.
+Example...
+26. [`vibey config platform list`](#vibey-config-platform-list) - List known platforms
 
-Examples:
-  vibey context lis...
-
-**S**
-- [`vibey context search`](#vibey-context-search) - Search context by content.
+Shows all platforms that Vibey can detect and their default context windows.
 
 Examples:
-  vibey cont...
-- [`vibey context show`](#vibey-context-show) - Show context details.
+  vibey config platform list
+
+27. [`vibey config platform set`](#vibey-config-platform-set) - Set platform configuration manually
+
+Override auto-detection by setting the platform manually.
+Useful when detection fails or when using a non-standar...
+28. [`vibey config platform show`](#vibey-config-platform-show) - Show current platform configuration
+
+Displays the detected platform, configured overrides, and effective
+platform settings that will be used for compa...
+29. [`vibey config rollback`](#vibey-config-rollback) - Rollback to a previous config backup
+30. [`vibey config show`](#vibey-config-show) - Show current configuration
+31. [`vibey config validate`](#vibey-config-validate) - Validate configuration files
+
+**Content**
+32. [`vibey content`](#vibey-content) - 
+Manage framework content (agents, workflows, templates, handoffs).
+
+Provides CRUD operations for content management with validation,
+backups, and sea...
+33. [`vibey content create`](#vibey-content-create) - Create new content
+
+Creates a new agent, workflow, template, or handoff with
+validated frontmatter and a starter body.
 
 Examples:
-  vibey context s...
+  vibey content crea...
+34. [`vibey content delete`](#vibey-content-delete) - Delete content (moves to trash)
 
-**D**
-- [`vibey deploy`](#vibey-deploy) - 
+Removes content by moving it to .vibey/trash/.
+Can be restored later if needed.
+
+Examples:
+  vibey content delete my-...
+35. [`vibey content edit`](#vibey-content-edit) - Edit existing content
+
+Updates frontmatter fields in existing content.
+Creates a backup before making changes.
+
+Examples:
+  vibey content edit coordin...
+36. [`vibey content list`](#vibey-content-list) - List all content items
+
+Shows all agents, workflows, templates, and other content with
+optional filtering by type and category.
+
+Examples:
+  vibey con...
+37. [`vibey content search`](#vibey-content-search) - Search content by keywords
+
+Searches content by name, description, tags, and body text.
+Results are ranked by relevance.
+
+Examples:
+  vibey content se...
+38. [`vibey content show`](#vibey-content-show) - Show content details
+
+Displays metadata and optionally the full body of a content item.
+
+Examples:
+  vibey content show coordinator
+  vibey content sh...
+39. [`vibey content validate`](#vibey-content-validate) - Validate content frontmatter
+
+Checks content for required fields and valid values.
+
+Examples:
+  vibey content validate coordinator
+  vibey content val...
+
+**Context**
+40. [`vibey context`](#vibey-context) - Context management - manage session, task, and decision context.
+
+Context provides structured storage for AI-assisted development work:
+- Sessions: Tr...
+41. [`vibey context archive`](#vibey-context-archive) - Archive context to history.
+
+Moves context from current/active to history directory.
+
+Examples:
+  vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --t...
+42. [`vibey context clean`](#vibey-context-clean) - Clean old archived context.
+
+Removes archived context older than the specified number of days.
+Uses --dry-run to preview before deleting.
+
+Examples:
+ ...
+43. [`vibey context export`](#vibey-context-export) - Export context to file.
+
+Examples:
+  vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
+  vibey context export user-journe...
+44. [`vibey context init`](#vibey-context-init) - Initialize context directory structure.
+
+Creates the .vibey/context/ directory with proper subdirectories
+and initial configuration files.
+
+Examples:
+...
+45. [`vibey context list`](#vibey-context-list) - List context items.
+
+Examples:
+  vibey context list
+  vibey context list --type session --status active
+  vibey context list --type decision --limit 1...
+46. [`vibey context search`](#vibey-context-search) - Search context by content.
+
+Examples:
+  vibey context search "ULID naming" --type decision
+  vibey context search "phase 4" --limit 10
+
+47. [`vibey context show`](#vibey-context-show) - Show context details.
+
+Examples:
+  vibey context show 01KC7MN54VXRB3APC5FV5XBDXX
+  vibey context show 0001-adopt-ulid-naming --type decision
+  vibey c...
+
+**Deploy**
+48. [`vibey deploy`](#vibey-deploy) - 
 Deploy framework to target platforms.
 
-Supports m...
+Supports multiple AI coding assistant platforms:
+- claude-code (Claude Code)
+- goose (Goose by Block)
+- gemini...
+49. [`vibey deploy list`](#vibey-deploy-list) - List available deployment platforms
+50. [`vibey deploy run`](#vibey-deploy-run) - Deploy framework to specified platform
 
-**L**
-- [`vibey deploy list`](#vibey-deploy-list) - List available deployment platforms
+**Discover**
+51. [`vibey discover`](#vibey-discover) - 
+Project discovery - analyze structure, dependencies, and patterns.
 
-**R**
-- [`vibey deploy run`](#vibey-deploy-run) - Deploy framework to specified platform
+The discover command analyzes your project and generates structured
+output about ...
+52. [`vibey discover diff`](#vibey-discover-diff) - Compare two discovery versions.
 
-**D**
-- [`vibey discover`](#vibey-discover) - 
-Project discovery - analyze structure, dependenci...
-- [`vibey discover diff`](#vibey-discover-diff) - Compare two discovery versions.
+Shows differences between discovery outputs. By default, compares
+the current discovery with the previous version.
 
-Shows differences...
+E...
+53. [`vibey discover history`](#vibey-discover-history) - List discovery version history.
 
-**H**
-- [`vibey discover history`](#vibey-discover-history) - List discovery version history.
+Shows previous discovery runs with timestamps and git commits.
 
-Shows previous di...
+Examples:
+  vibey discover history
+  vibey discover h...
+54. [`vibey discover refresh`](#vibey-discover-refresh) - Refresh discovery if stale.
 
-**R**
-- [`vibey discover refresh`](#vibey-discover-refresh) - Refresh discovery if stale.
+Re-runs discovery only if the current discovery is stale,
+unless --force is specified.
 
-Re-runs discovery onl...
-- [`vibey discover run`](#vibey-discover-run) - Run project discovery and analyze the codebase.
+Examples:
+  vibey discover refres...
+55. [`vibey discover run`](#vibey-discover-run) - Run project discovery and analyze the codebase.
 
-A...
+Analyzes the project structure, dependencies, patterns, and conventions.
+Results are saved to .vibey/...
+56. [`vibey discover show`](#vibey-discover-show) - Show current discovery output.
 
-**S**
-- [`vibey discover show`](#vibey-discover-show) - Show current discovery output.
+Displays the most recent discovery analysis. Use --section to
+show only specific parts of the discovery.
 
-Displays the most ...
-- [`vibey discover status`](#vibey-discover-status) - Check if current discovery is stale.
+Examples:
+  ...
+57. [`vibey discover status`](#vibey-discover-status) - Check if current discovery is stale.
 
-Reports whet...
+Reports whether the discovery should be refreshed based on:
+- Age of the discovery
+- Git commit changes
+- File s...
 
-**D**
-- [`vibey docs`](#vibey-docs) - 
+**Docs**
+58. [`vibey docs`](#vibey-docs) - 
 Generate and manage documentation.
 
 Examples:
 
-  ...
-
-**C**
-- [`vibey docs check-drift`](#vibey-docs-check-drift) - 
-Check if CLI documentation has drifted from imple...
-- [`vibey docs check-mcp-drift`](#vibey-docs-check-mcp-drift) - 
-Check if MCP documentation has drifted from imple...
-
-**G**
-- [`vibey docs generate`](#vibey-docs-generate) - Generate documentation from configuration
-- [`vibey docs generate-cli`](#vibey-docs-generate-cli) - 
-Auto-generate CLI reference documentation from co...
-- [`vibey docs generate-mcp`](#vibey-docs-generate-mcp) - 
-Auto-generate MCP server reference documentation ...
-
-**I**
-- [`vibey docs introspect`](#vibey-docs-introspect) - 
-Introspect CLI structure and output documentation...
-- [`vibey docs introspect-mcp`](#vibey-docs-introspect-mcp) - 
-Introspect MCP server structure and output docume...
-
-**E**
-- [`vibey export`](#vibey-export) - 
-Export Vibey assets to platform-specific formats....
-
-**G**
-- [`vibey export gemini`](#vibey-export-gemini) - Export Vibey to Gemini Code Assist extension forma...
-
-**L**
-- [`vibey export list`](#vibey-export-list) - List available export platforms
-
-Shows all platfor...
-
-**R**
-- [`vibey export run`](#vibey-export-run) - Export assets to platform format
-
-Generates platfo...
-
-**S**
-- [`vibey export stats`](#vibey-export-stats) - Show export statistics
-
-Displays counts of tools, ...
-
-**G**
-- [`vibey git`](#vibey-git) - 
-Analyze Git history for roadmap references.
-
-Extr...
-
-**A**
-- [`vibey git analyze`](#vibey-git-analyze) - 
-Analyze Git history for roadmap references.
-
-Pars...
-
-**B**
-- [`vibey git branch`](#vibey-git-branch) - 
-Manage task-branch linking.
-
-Create branches with...
-
-**C**
-- [`vibey git branch create`](#vibey-git-branch-create) - 
-Create a branch for a task with proper naming.
-
-C...
-
-**L**
-- [`vibey git branch link`](#vibey-git-branch-link) - 
-Link an existing branch to a task.
-
-Records branc...
-- [`vibey git branch list`](#vibey-git-branch-list) - 
-List all branches following Vibey naming conventi...
-
-**S**
-- [`vibey git branch status`](#vibey-git-branch-status) - 
-Show branch-task linkage status.
-
-Displays which ...
-
-**U**
-- [`vibey git branch unlink`](#vibey-git-branch-unlink) - 
-Unlink a branch from a task.
-
-Removes branch meta...
-
-**C**
-- [`vibey git check-merge`](#vibey-git-check-merge) - 
-Check for task completion conflicts before mergin...
-- [`vibey git contributors`](#vibey-git-contributors) - 
-Show contributor activity and statistics.
-
-Analyz...
-
-**H**
-- [`vibey git history`](#vibey-git-history) - 
-Show change history for an item.
-
-Tracks how a ta...
-- [`vibey git hooks`](#vibey-git-hooks) - 
-Manage Git hooks for Vibey roadmap integration.
-
-...
-
-**I**
-- [`vibey git hooks install`](#vibey-git-hooks-install) - 
-Install Git hooks for Vibey roadmap integration.
-...
-
-**S**
-- [`vibey git hooks status`](#vibey-git-hooks-status) - 
-Show Git hooks installation status.
-
-Displays whi...
-
-**U**
-- [`vibey git hooks uninstall`](#vibey-git-hooks-uninstall) - 
-Uninstall Vibey Git hooks.
-
-Removes pre-commit an...
-- [`vibey git hooks update`](#vibey-git-hooks-update) - 
-Update installed Git hooks to latest version.
-
-Re...
-
-**L**
-- [`vibey git link-commit`](#vibey-git-link-commit) - 
-Link a commit to a task and optionally update sta...
-
-**M**
-- [`vibey git mode`](#vibey-git-mode) - 
-Show current source-of-truth mode and reasoning.
-...
-
-**P**
-- [`vibey git pr-description`](#vibey-git-pr-description) - 
-Generate PR description from task context.
-
-Reads...
-- [`vibey git progress`](#vibey-git-progress) - 
-Show sprint progress over time (burndown chart).
-...
-
-**R**
-- [`vibey git repair`](#vibey-git-repair) - 
-Detect and repair roadmap inconsistencies.
-
-Attem...
-- [`vibey git repair-tags`](#vibey-git-repair-tags) - 
-Automatically repair dangling tags.
-
-Searches for...
-- [`vibey git rollback`](#vibey-git-rollback) - 
-Rollback roadmap to state at ref.
-
-Restores all r...
-
-**S**
-- [`vibey git sprint`](#vibey-git-sprint) - 
-Manage sprint boundary tags.
-
-Create and manage g...
-
-**D**
-- [`vibey git sprint delete`](#vibey-git-sprint-delete) - 
-Delete a sprint boundary tag.
-
-Removes a sprint s...
-
-**E**
-- [`vibey git sprint end`](#vibey-git-sprint-end) - 
-Create sprint end tag at current or specified com...
-
-**L**
-- [`vibey git sprint list`](#vibey-git-sprint-list) - 
-List sprint tags, optionally filtered by sprint I...
-
-**R**
-- [`vibey git sprint range`](#vibey-git-sprint-range) - 
-Show commit range for a sprint (start tag to end ...
-
-**S**
-- [`vibey git sprint start`](#vibey-git-sprint-start) - 
-Create sprint start tag at current or specified c...
-- [`vibey git state-at`](#vibey-git-state-at) - 
-Show roadmap state at a specific ref.
-
-Reconstruc...
-- [`vibey git sync`](#vibey-git-sync) - 
-Sync roadmap YAML from Git state (Git-primary mod...
-
-**T**
-- [`vibey git tag-move`](#vibey-git-tag-move) - 
-Manually move a tag to a different commit.
-
-Delet...
-- [`vibey git tag-range`](#vibey-git-tag-range) - 
-Get commits between boundary tags.
-
-Retrieves com...
-- [`vibey git tags`](#vibey-git-tags) - 
-List Vibey roadmap tags.
-
-Shows all Vibey tags (s...
-- [`vibey git tasks`](#vibey-git-tasks) - 
-Show commits for a specific task.
-
-Lists all comm...
-
-**U**
-- [`vibey git update-status`](#vibey-git-update-status) - 
-Update task status based on commit messages.
-
-Par...
-
-**V**
-- [`vibey git validate`](#vibey-git-validate) - 
-Validate git strategy requirements.
-
-Checks that ...
-- [`vibey git validate-roadmap`](#vibey-git-validate-roadmap) - 
-Validate roadmap YAML files and consistency.
-
-Che...
-- [`vibey git validate-tags`](#vibey-git-validate-tags) - 
-Detect dangling tags (pointing to missing commits...
-- [`vibey git velocity`](#vibey-git-velocity) - 
-Calculate sprint velocity metrics.
-
-Analyzes comm...
-
-**R**
-- [`vibey roadmap`](#vibey-roadmap) - 
-Manage roadmap system - tracks, sprints, tasks, a...
-
-**A**
-- [`vibey roadmap activity`](#vibey-roadmap-activity) - Show recent roadmap activity in a compact format.
-...
-- [`vibey roadmap add-commit`](#vibey-roadmap-add-commit) - Add a git commit to a task
+  vibey docs generate           # Generate all docs
+  vibey docs generate --overwrite
+  vibey docs con...
+59. [`vibey docs check-drift`](#vibey-docs-check-drift) - 
+Check if CLI documentation has drifted from implementation.
+
+Compares the committed CLI reference with freshly generated output.
+Use in CI to prevent...
+60. [`vibey docs check-mcp-drift`](#vibey-docs-check-mcp-drift) - 
+Check if MCP documentation has drifted from implementation.
+
+Compares the committed MCP reference with freshly generated output.
+Use in CI to prevent...
+61. [`vibey docs generate`](#vibey-docs-generate) - Generate documentation from configuration
+62. [`vibey docs generate-cli`](#vibey-docs-generate-cli) - 
+Auto-generate CLI reference documentation from code.
+
+Introspects the Click command tree and generates comprehensive
+reference documentation. Output ...
+63. [`vibey docs generate-mcp`](#vibey-docs-generate-mcp) - 
+Auto-generate MCP server reference documentation from code.
+
+Introspects the MCP server tools, resources, and prompts to generate
+comprehensive refer...
+64. [`vibey docs introspect`](#vibey-docs-introspect) - 
+Introspect CLI structure and output documentation data.
+
+Extracts structured data from the Click command tree for use in
+documentation generation, to...
+65. [`vibey docs introspect-mcp`](#vibey-docs-introspect-mcp) - 
+Introspect MCP server structure and output documentation data.
+
+Extracts structured data from the MCP server for use in
+documentation generation, too...
+
+**Export**
+66. [`vibey export`](#vibey-export) - 
+Export Vibey assets to platform-specific formats.
+
+The export system translates Vibey agents, workflows, and handoffs
+to platform-native formats usin...
+67. [`vibey export gemini`](#vibey-export-gemini) - Export Vibey to Gemini Code Assist extension format
+
+Generates a complete Gemini extension package with:
+- GEMINI.md context file (from agent frontmat...
+68. [`vibey export list`](#vibey-export-list) - List available export platforms
+
+Shows all platforms that Vibey can export to, with their capabilities.
 
 Examples:
-  vibey road...
-- [`vibey roadmap add-context`](#vibey-roadmap-add-context) - Add a context file to a roadmap object
+  vibey export list
 
-Context fi...
-- [`vibey roadmap add-standard`](#vibey-roadmap-add-standard) - Add a new standard to roadmap/track/sprint
+69. [`vibey export run`](#vibey-export-run) - Export assets to platform format
 
-Create...
-- [`vibey roadmap audit`](#vibey-roadmap-audit) - 
+Generates platform-specific files from Vibey assets (agents, workflows).
+
+Examples:
+  vibey export run --platform go...
+70. [`vibey export stats`](#vibey-export-stats) - Show export statistics
+
+Displays counts of tools, recipes, and other assets for a platform.
+
+Examples:
+  vibey export stats                 # Show MCP...
+
+**Git**
+71. [`vibey git`](#vibey-git) - 
+Analyze Git history for roadmap references.
+
+Extract task, sprint, and track references from commit messages,
+calculate velocity metrics, and analyze...
+72. [`vibey git analyze`](#vibey-git-analyze) - 
+Analyze Git history for roadmap references.
+
+Parses commit messages to extract task, sprint, and track references,
+and provides statistics on commit ...
+73. [`vibey git branch`](#vibey-git-branch) - 
+Manage task-branch linking.
+
+Create branches with proper naming conventions, link branches to tasks,
+and track branch lifecycle in roadmap YAML.
+
+Bra...
+74. [`vibey git branch create`](#vibey-git-branch-create) - 
+Create a branch for a task with proper naming.
+
+Creates a branch following the naming convention task/<task-id>
+and optionally links it to the task i...
+75. [`vibey git branch link`](#vibey-git-branch-link) - 
+Link an existing branch to a task.
+
+Records branch information in task metadata, including creation time,
+merge status, and current status.
+
+Examples...
+76. [`vibey git branch list`](#vibey-git-branch-list) - 
+List all branches following Vibey naming conventions.
+
+Shows branches that follow the task/*, sprint/*, or track/* naming pattern.
+
+Examples:
+
+  vibe...
+77. [`vibey git branch status`](#vibey-git-branch-status) - 
+Show branch-task linkage status.
+
+Displays which tasks have linked branches, their status (current, merged),
+and whether the branch still exists.
+
+Ex...
+78. [`vibey git branch unlink`](#vibey-git-branch-unlink) - 
+Unlink a branch from a task.
+
+Removes branch metadata from the task in roadmap YAML.
+
+Examples:
+
+  vibey git branch unlink git-integration-2-task-005...
+79. [`vibey git check-merge`](#vibey-git-check-merge) - 
+Check for task completion conflicts before merging a PR.
+
+Detects when a task is marked complete in both the PR branch
+and target branch, which may i...
+80. [`vibey git contributors`](#vibey-git-contributors) - 
+Show contributor activity and statistics.
+
+Analyzes contributor activity including commit counts, tasks worked,
+and code contribution volume.
+
+Exampl...
+81. [`vibey git history`](#vibey-git-history) - 
+Show change history for an item.
+
+Tracks how a task, sprint, or track changed over time by analyzing
+all commits and reconstructing state at each poi...
+82. [`vibey git hooks`](#vibey-git-hooks) - 
+Manage Git hooks for Vibey roadmap integration.
+
+Install, uninstall, and check status of pre-commit and commit-msg hooks
+that validate roadmap integr...
+83. [`vibey git hooks install`](#vibey-git-hooks-install) - 
+Install Git hooks for Vibey roadmap integration.
+
+Installs pre-commit and commit-msg hooks that validate:
+- YAML syntax in roadmap files
+- Commit mes...
+84. [`vibey git hooks status`](#vibey-git-hooks-status) - 
+Show Git hooks installation status.
+
+Displays which Vibey hooks are installed, their versions,
+and configuration settings.
+
+Examples:
+
+  vibey git ho...
+85. [`vibey git hooks uninstall`](#vibey-git-hooks-uninstall) - 
+Uninstall Vibey Git hooks.
+
+Removes pre-commit and commit-msg hooks installed by Vibey.
+Optionally removes backup files created during installation.
+...
+86. [`vibey git hooks update`](#vibey-git-hooks-update) - 
+Update installed Git hooks to latest version.
+
+Reinstalls hooks while preserving configuration.
+Existing hooks are backed up before updating.
+
+Exampl...
+87. [`vibey git link-commit`](#vibey-git-link-commit) - 
+Link a commit to a task and optionally update status.
+
+Manually records a commit SHA in a task's commits list and
+optionally updates the task status....
+88. [`vibey git mode`](#vibey-git-mode) - 
+Show current source-of-truth mode and reasoning.
+
+Displays which mode is active (yaml-only, hybrid, git-primary)
+and explains why that mode was chose...
+89. [`vibey git pr-description`](#vibey-git-pr-description) - 
+Generate PR description from task context.
+
+Reads task information from roadmap and generates a formatted
+PR description including task details, chec...
+90. [`vibey git progress`](#vibey-git-progress) - 
+Show sprint progress over time (burndown chart).
+
+Samples the sprint state at regular intervals to show how progress
+evolved over time. Useful for ge...
+91. [`vibey git repair`](#vibey-git-repair) - 
+Detect and repair roadmap inconsistencies.
+
+Attempts to fix common issues like:
+- YAML syntax errors (restore from git)
+- Invalid references
+- Orphan...
+92. [`vibey git repair-tags`](#vibey-git-repair-tags) - 
+Automatically repair dangling tags.
+
+Searches for commits matching the original tag and recreates
+the tags on the new commits. By default only repair...
+93. [`vibey git rollback`](#vibey-git-rollback) - 
+Rollback roadmap to state at ref.
+
+Restores all roadmap YAML files to their state at a specific commit.
+By default runs in dry-run mode to show what ...
+94. [`vibey git sprint`](#vibey-git-sprint) - 
+Manage sprint boundary tags.
+
+Create and manage git tags that mark sprint start and end points,
+enabling velocity calculations and state reconstructi...
+95. [`vibey git sprint delete`](#vibey-git-sprint-delete) - 
+Delete a sprint boundary tag.
+
+Removes a sprint start or end tag from the local repository,
+and optionally from the remote.
+
+Examples:
+
+  vibey git s...
+96. [`vibey git sprint end`](#vibey-git-sprint-end) - 
+Create sprint end tag at current or specified commit.
+
+Marks the completion of a sprint in git history with an annotated tag
+containing sprint comple...
+97. [`vibey git sprint list`](#vibey-git-sprint-list) - 
+List sprint tags, optionally filtered by sprint ID.
+
+Shows all sprint start/end tags with commit info and dates.
+
+Examples:
+
+  vibey git sprint list ...
+98. [`vibey git sprint range`](#vibey-git-sprint-range) - 
+Show commit range for a sprint (start tag to end tag).
+
+Displays the start and end commits for a sprint, and optionally
+lists all commits in the spri...
+99. [`vibey git sprint start`](#vibey-git-sprint-start) - 
+Create sprint start tag at current or specified commit.
+
+Marks the beginning of a sprint in git history with an annotated tag
+containing sprint metad...
+100. [`vibey git state-at`](#vibey-git-state-at) - 
+Show roadmap state at a specific ref.
+
+Reconstructs the roadmap state at any point in history by reading
+YAML files at that commit. Supports commits,...
+101. [`vibey git sync`](#vibey-git-sync) - 
+Sync roadmap YAML from Git state (Git-primary mode).
+
+Derives task and sprint status from git branches, tags, and commits.
+In Git-primary mode, Git i...
+102. [`vibey git tag-move`](#vibey-git-tag-move) - 
+Manually move a tag to a different commit.
+
+Deletes the tag from its current location and recreates it
+on the specified commit. Preserves annotation ...
+103. [`vibey git tag-range`](#vibey-git-tag-range) - 
+Get commits between boundary tags.
+
+Retrieves commits between start/end tags for a sprint or task.
+This is more efficient than parsing all commit mes...
+104. [`vibey git tags`](#vibey-git-tags) - 
+List Vibey roadmap tags.
+
+Shows all Vibey tags (sprint boundaries, task markers) with filtering options.
+
+Examples:
+
+  vibey git tags                ...
+105. [`vibey git tasks`](#vibey-git-tasks) - 
+Show commits for a specific task.
+
+Lists all commits that reference the specified task ID, including
+commit details, contributors, and status changes...
+106. [`vibey git update-status`](#vibey-git-update-status) - 
+Update task status based on commit messages.
+
+Parses commit messages for status indicators (completes, starts, blocks)
+and automatically updates task...
+107. [`vibey git validate`](#vibey-git-validate) - 
+Validate git strategy requirements.
+
+Checks that all strategy requirements are satisfied for the current mode.
+This includes branch naming convention...
+108. [`vibey git validate-roadmap`](#vibey-git-validate-roadmap) - 
+Validate roadmap YAML files and consistency.
+
+Checks for:
+- YAML syntax errors
+- Invalid task/sprint references
+- Git-roadmap consistency
+- Orphaned ...
+109. [`vibey git validate-tags`](#vibey-git-validate-tags) - 
+Detect dangling tags (pointing to missing commits).
+
+After rebase/squash operations, tags may point to commits that
+no longer exist. This command det...
+110. [`vibey git velocity`](#vibey-git-velocity) - 
+Calculate sprint velocity metrics.
+
+Analyzes commits for a sprint and calculates velocity metrics including
+commit frequency, task completion rate, c...
+
+**Roadmap**
+111. [`vibey roadmap`](#vibey-roadmap) - 
+Manage roadmap system - tracks, sprints, tasks, and dependencies.
+
+The roadmap system provides hierarchical project planning with:
+- Tracks: Major fe...
+112. [`vibey roadmap activity`](#vibey-roadmap-activity) - Show recent roadmap activity in a compact format.
+
+Display recent status changes, completions, and lifecycle events.
+This is a convenience command tha...
+113. [`vibey roadmap add-commit`](#vibey-roadmap-add-commit) - Add a git commit to a task
+
+Examples:
+  vibey roadmap add-commit task-001 4367bc8
+  vibey roadmap add-commit task-001 --auto
+
+114. [`vibey roadmap add-context`](#vibey-roadmap-add-context) - Add a context file to a roadmap object
+
+Context files are stored in /context/ directories alongside roadmap objects
+and are used to preserve research,...
+115. [`vibey roadmap add-standard`](#vibey-roadmap-add-standard) - Add a new standard to roadmap/track/sprint
+
+Creates a new standard that enforces a policy at the specified level.
+Standards cascade down the hierarchy...
+116. [`vibey roadmap audit`](#vibey-roadmap-audit) - 
 View and analyze roadmap change audit trail.
 
-Tra...
+Track all status changes with who/when/why for accountability.
+Detect suspicious changes and generate a...
+117. [`vibey roadmap audit log`](#vibey-roadmap-audit-log) - Show recent audit trail entries
 
-**L**
-- [`vibey roadmap audit log`](#vibey-roadmap-audit-log) - Show recent audit trail entries
+Display the most recent status changes across all roadmap objects.
 
-Display the most ...
+Examples:
+  vibey roadmap audit log              ...
+118. [`vibey roadmap audit report`](#vibey-roadmap-audit-report) - Generate detailed audit report
 
-**R**
-- [`vibey roadmap audit report`](#vibey-roadmap-audit-report) - Generate detailed audit report
+Create a comprehensive report of audit trail entries with filters.
 
-Create a comprehen...
+Examples:
+  vibey roadmap audit report            ...
+119. [`vibey roadmap audit show`](#vibey-roadmap-audit-show) - Show change history for a specific object
 
-**S**
-- [`vibey roadmap audit show`](#vibey-roadmap-audit-show) - Show change history for a specific object
+Display all status changes for a track, sprint, or task.
 
-Display...
-- [`vibey roadmap audit suspicious`](#vibey-roadmap-audit-suspicious) - Detect suspicious changes in audit trail
+Examples:
+  vibey roadmap audit show roadmap-syst...
+120. [`vibey roadmap audit suspicious`](#vibey-roadmap-audit-suspicious) - Detect suspicious changes in audit trail
 
-Find pot...
+Find potentially problematic changes like:
+- Status rollbacks (completed → not_started)
+- Progress decreases...
+121. [`vibey roadmap auto-progress`](#vibey-roadmap-auto-progress) - Check or apply automatic status progressions.
 
-**A**
-- [`vibey roadmap auto-progress`](#vibey-roadmap-auto-progress) - Check or apply automatic status progressions.
-
-Aut...
-
-**B**
-- [`vibey roadmap bulk`](#vibey-roadmap-bulk) - 
+Auto-progression advances ticket status when criteria are met.
+This feature must be enabled in .vibey/c...
+122. [`vibey roadmap bulk`](#vibey-roadmap-bulk) - 
 Bulk operations on roadmap items.
 
-Commands for p...
+Commands for performing operations across multiple items at once,
+such as completing all tasks in a sprint.
 
-**C**
-- [`vibey roadmap bulk complete-sprint`](#vibey-roadmap-bulk-complete-sprint) - Mark all tasks in a sprint as completed.
+Examp...
+123. [`vibey roadmap bulk complete-sprint`](#vibey-roadmap-bulk-complete-sprint) - Mark all tasks in a sprint as completed.
 
-Complete...
-- [`vibey roadmap check-compatibility`](#vibey-roadmap-check-compatibility) - Check if sprint tasks fit in your platform's conte...
-- [`vibey roadmap check-hooks`](#vibey-roadmap-check-hooks) - Check git hook installation status
+Completes all non-completed tasks in the specified sprint at once.
+Updates sprint progress and creates activ...
+124. [`vibey roadmap check-compatibility`](#vibey-roadmap-check-compatibility) - Check if sprint tasks fit in your platform's context window
 
-Shows whether ...
-- [`vibey roadmap check-standards`](#vibey-roadmap-check-standards) - Check which standards apply to an item
+Analyzes all incomplete tasks in a sprint and checks if they fit
+within your current plat...
+125. [`vibey roadmap check-hooks`](#vibey-roadmap-check-hooks) - Check git hook installation status
 
-Validates ...
-- [`vibey roadmap checkpoint`](#vibey-roadmap-checkpoint) - 
+Shows whether the Vibey pre-commit hook is installed and active.
+
+Examples:
+  vibey roadmap check-hooks
+
+126. [`vibey roadmap check-standards`](#vibey-roadmap-check-standards) - Check which standards apply to an item
+
+Validates all standards that apply to a roadmap item (task/sprint/track)
+and displays the results without taki...
+127. [`vibey roadmap checkpoint`](#vibey-roadmap-checkpoint) - 
 Manage roadmap integrity checkpoints.
 
-Create, re...
-- [`vibey roadmap checkpoint clean`](#vibey-roadmap-checkpoint-clean) - Clean old checkpoints
+Create, restore, verify, and compare backups of the .vibey/ directory
+with SHA-256 checksum verification and Y...
+128. [`vibey roadmap checkpoint clean`](#vibey-roadmap-checkpoint-clean) - Clean old checkpoints
 
-Removes old checkpoints whi...
-- [`vibey roadmap checkpoint compare`](#vibey-roadmap-checkpoint-compare) - Compare two checkpoints
+Removes old checkpoints while keeping the N most recent.
+Interactive confirmation required before deletion.
 
-Shows files added, remove...
-- [`vibey roadmap checkpoint create`](#vibey-roadmap-checkpoint-create) - Create a new integrity checkpoint
+Examples:
+  vibey ...
+129. [`vibey roadmap checkpoint compare`](#vibey-roadmap-checkpoint-compare) - Compare two checkpoints
 
-Creates a times...
+Shows files added, removed, and modified between two checkpoints
+using SHA-256 checksum comparison.
 
-**L**
-- [`vibey roadmap checkpoint list`](#vibey-roadmap-checkpoint-list) - List all available checkpoints
+Examples:
+  vibey roadma...
+130. [`vibey roadmap checkpoint create`](#vibey-roadmap-checkpoint-create) - Create a new integrity checkpoint
 
-Shows checkpoint n...
+Creates a timestamped backup of .vibey/ directory with SHA-256 checksums,
+manifest generation, and integrity verifi...
+131. [`vibey roadmap checkpoint list`](#vibey-roadmap-checkpoint-list) - List all available checkpoints
 
-**R**
-- [`vibey roadmap checkpoint restore`](#vibey-roadmap-checkpoint-restore) - Restore from a checkpoint
+Shows checkpoint name, size, creation date, and validation status.
 
-Restores .vibey/ direct...
+132. [`vibey roadmap checkpoint restore`](#vibey-roadmap-checkpoint-restore) - Restore from a checkpoint
 
-**V**
-- [`vibey roadmap checkpoint verify`](#vibey-roadmap-checkpoint-verify) - Verify checkpoint integrity
+Restores .vibey/ directory from checkpoint with automatic pre-rollback
+backup and verification. Use --verify-only to test w...
+133. [`vibey roadmap checkpoint verify`](#vibey-roadmap-checkpoint-verify) - Verify checkpoint integrity
 
-Validates all files m...
+Validates all files match SHA-256 checksums in manifest and
+verifies YAML syntax in all .yaml files.
 
-**C**
-- [`vibey roadmap complete`](#vibey-roadmap-complete) - Complete a track, sprint, or task
+Examples:
+  vibey r...
+134. [`vibey roadmap complete`](#vibey-roadmap-complete) - Complete a track, sprint, or task
 
-For sprints, va...
-- [`vibey roadmap context`](#vibey-roadmap-context) - Get AI-optimized context for a task
-- [`vibey roadmap create-from-plan`](#vibey-roadmap-create-from-plan) - Create roadmap sprint from a plan markdown file
+For sprints, validates that all tasks are completed before allowing completion.
+Use --force to override this check ...
+135. [`vibey roadmap context`](#vibey-roadmap-context) - Get AI-optimized context for a task
+136. [`vibey roadmap create-from-plan`](#vibey-roadmap-create-from-plan) - Create roadmap sprint from a plan markdown file
 
-P...
-- [`vibey roadmap create-sprint`](#vibey-roadmap-create-sprint) - Create a new sprint in a track.
+Parses a sprint plan markdown file and creates:
+- Sprint YAML in hierarchical structure
+- Task YAMLs ...
+137. [`vibey roadmap create-sprint`](#vibey-roadmap-create-sprint) - Create a new sprint in a track.
 
-Creates a new spr...
-- [`vibey roadmap create-task`](#vibey-roadmap-create-task) - Create a new task in a sprint.
+Creates a new sprint YAML file using ULID-based naming in the flat structure.
+The sprint is automatically linked to t...
+138. [`vibey roadmap create-task`](#vibey-roadmap-create-task) - Create a new task in a sprint.
 
-Creates a new task...
-- [`vibey roadmap create-track`](#vibey-roadmap-create-track) - Create a new track in the roadmap.
+Creates a new task YAML file using ULID-based naming in the flat structure.
+The task is automatically linked to the pa...
+139. [`vibey roadmap create-track`](#vibey-roadmap-create-track) - Create a new track in the roadmap.
 
-Creates a new ...
+Creates a new track YAML file using ULID-based naming in the flat structure.
+The track is automatically added to r...
+140. [`vibey roadmap db`](#vibey-roadmap-db) - 
+Database operations for roadmap state management.
 
-**D**
-- [`vibey roadmap db`](#vibey-roadmap-db) - 
-Database operations for roadmap state management....
+The database backend provides faster queries and automatic integrity
+enforcement via SQLite. Use t...
+141. [`vibey roadmap db backup`](#vibey-roadmap-db-backup) - Create a backup of the database.
 
-**B**
-- [`vibey roadmap db backup`](#vibey-roadmap-db-backup) - Create a backup of the database.
+Creates a timestamped copy of .vibey/roadmap.db for safekeeping.
 
-Creates a timest...
+Examples:
+  vibey roadmap db backup
+  vibey roadma...
+142. [`vibey roadmap db config`](#vibey-roadmap-db-config) - Show current backend configuration.
 
-**C**
-- [`vibey roadmap db config`](#vibey-roadmap-db-config) - Show current backend configuration.
+Displays the effective backend mode, database path, and validation settings.
 
-Displays the ...
+Examples:
+  vibey roadmap db config...
+143. [`vibey roadmap db dump`](#vibey-roadmap-db-dump) - Dump database state to YAML files.
 
-**D**
-- [`vibey roadmap db dump`](#vibey-roadmap-db-dump) - Dump database state to YAML files.
+Exports the current database state to hierarchical YAML files
+for version control. This is the reverse of 'db rebu...
+144. [`vibey roadmap db init`](#vibey-roadmap-db-init) - Initialize SQLite database from YAML files.
 
-Exports the cu...
+Creates .vibey/roadmap.db with all roadmap data loaded from YAML.
+Computes checksums for change detection...
+145. [`vibey roadmap db query`](#vibey-roadmap-db-query) - Query the database for roadmap insights.
 
-**I**
-- [`vibey roadmap db init`](#vibey-roadmap-db-init) - Initialize SQLite database from YAML files.
+These commands leverage SQLite's power to provide
+fast queries that would be expensive with YAML parsing.
 
-Creat...
+146. [`vibey roadmap db query blocked`](#vibey-roadmap-db-query-blocked) - List all blocked tasks with blocker information.
 
-**Q**
-- [`vibey roadmap db query`](#vibey-roadmap-db-query) - Query the database for roadmap insights.
+Shows tasks that are blocked by dependencies and what they're waiting for.
 
-These co...
+Examples:
+  vibey roadma...
+147. [`vibey roadmap db query deps`](#vibey-roadmap-db-query-deps) - Show dependency chain for a task, sprint, or track.
 
-**B**
-- [`vibey roadmap db query blocked`](#vibey-roadmap-db-query-blocked) - List all blocked tasks with blocker information.
+Examples:
+  vibey roadmap db query deps sqlite-backend-2-task-001
+  vibey roadmap db query deps s...
+148. [`vibey roadmap db query progress`](#vibey-roadmap-db-query-progress) - Show progress summary grouped by track, sprint, or status.
 
+Examples:
+  vibey roadmap db query progress
+  vibey roadmap db query progress --by sprint
 ...
+149. [`vibey roadmap db query stats`](#vibey-roadmap-db-query-stats) - Show overall roadmap statistics.
 
-**D**
-- [`vibey roadmap db query deps`](#vibey-roadmap-db-query-deps) - Show dependency chain for a task, sprint, or track...
+Displays completion rates, task counts by status, and other metrics.
 
-**P**
-- [`vibey roadmap db query progress`](#vibey-roadmap-db-query-progress) - Show progress summary grouped by track, sprint, or...
+Examples:
+  vibey roadmap db query stats
 
-**S**
-- [`vibey roadmap db query stats`](#vibey-roadmap-db-query-stats) - Show overall roadmap statistics.
+150. [`vibey roadmap db rebuild`](#vibey-roadmap-db-rebuild) - Rebuild database from YAML files.
 
-Displays complet...
+Drops all tables and reloads from YAML. Use after pulling changes
+or to fix database corruption.
 
-**R**
-- [`vibey roadmap db rebuild`](#vibey-roadmap-db-rebuild) - Rebuild database from YAML files.
-
-Drops all table...
-
-**S**
-- [`vibey roadmap db status`](#vibey-roadmap-db-status) - Show database status and health.
+WARNING: Uncommit...
+151. [`vibey roadmap db status`](#vibey-roadmap-db-status) - Show database status and health.
 
 Displays:
-- Data...
+- Database existence and location
+- Dirty flag (uncommitted changes)
+- Row counts vs YAML file counts
+- Sc...
+152. [`vibey roadmap db validate`](#vibey-roadmap-db-validate) - Validate database integrity and consistency.
 
-**V**
-- [`vibey roadmap db validate`](#vibey-roadmap-db-validate) - Validate database integrity and consistency.
+Validation levels:
+  schema     - Check tables, indexes, and constraints exist
+  references - Check fore...
+153. [`vibey roadmap doc-changelog`](#vibey-roadmap-doc-changelog) - Generate a documentation changelog
 
-Vali...
+Generates a markdown changelog showing which roadmap objects have
+impacted which documentation files.
 
-**D**
-- [`vibey roadmap doc-changelog`](#vibey-roadmap-doc-changelog) - Generate a documentation changelog
+Examples:
+ ...
+154. [`vibey roadmap edit`](#vibey-roadmap-edit) - 
+Safe YAML editing with automatic validation and backups.
 
-Generates a ma...
+All edit commands create automatic backups before modifying files and
+validate YAML syntax ...
+155. [`vibey roadmap edit bulk`](#vibey-roadmap-edit-bulk) - Bulk edit multiple YAML files with transaction semantics
 
-**E**
-- [`vibey roadmap edit`](#vibey-roadmap-edit) - 
-Safe YAML editing with automatic validation and b...
-
-**B**
-- [`vibey roadmap edit bulk`](#vibey-roadmap-edit-bulk) - Bulk edit multiple YAML files with transaction sem...
-
-**F**
-- [`vibey roadmap edit file`](#vibey-roadmap-edit-file) - Edit a single YAML file safely
-
-Modifies fields us...
-
-**R**
-- [`vibey roadmap edit rollback`](#vibey-roadmap-edit-rollback) - Rollback recent edit operations
-
-Restores files fr...
-
-**V**
-- [`vibey roadmap edit validate`](#vibey-roadmap-edit-validate) - Validate YAML file(s)
-
-Validates YAML syntax, sche...
-
-**E**
-- [`vibey roadmap extract-embedded`](#vibey-roadmap-extract-embedded) - Extract embedded tasks from sprint files to standa...
-
-**I**
-- [`vibey roadmap init`](#vibey-roadmap-init) - Initialize a new roadmap in .vibey/roadmap.yaml
-- [`vibey roadmap install-hooks`](#vibey-roadmap-install-hooks) - Install git pre-commit hook for roadmap validation...
-
-**L**
-- [`vibey roadmap link-doc`](#vibey-roadmap-link-doc) - Link a documentation file to a roadmap object
-
-Cre...
-- [`vibey roadmap list-docs`](#vibey-roadmap-list-docs) - List all tracked documentation files
-
-Shows all do...
-
-**M**
-- [`vibey roadmap migrate-docs`](#vibey-roadmap-migrate-docs) - Migrate documentation fields from YAML to markdown...
-- [`vibey roadmap migrate-format`](#vibey-roadmap-migrate-format) - Migrate YAML files from v1 format to v2 format.
-
-V...
-
-**O**
-- [`vibey roadmap override-standard`](#vibey-roadmap-override-standard) - Override a standard for a specific item
-
-Adds an o...
-
-**R**
-- [`vibey roadmap recalculate`](#vibey-roadmap-recalculate) - Recalculate sprint tasks for a different platform
+Uses all-or-nothing transaction: if ANY file fails validation,
+ALL changes are rolled back.
 ...
-- [`vibey roadmap reconcile`](#vibey-roadmap-reconcile) - Detect and fix status inconsistencies in roadmap d...
-- [`vibey roadmap repair`](#vibey-roadmap-repair) - Auto-repair common roadmap integrity issues
+156. [`vibey roadmap edit file`](#vibey-roadmap-edit-file) - Edit a single YAML file safely
 
-Repai...
-- [`vibey roadmap revert`](#vibey-roadmap-revert) - Revert a track, sprint, or task to a previous stat...
+Modifies fields using dot notation (e.g., task.status, task.priority).
+Creates automatic backup before editing.
 
-**S**
-- [`vibey roadmap show`](#vibey-roadmap-show) - Show details for a track, sprint, or task
+Examp...
+157. [`vibey roadmap edit rollback`](#vibey-roadmap-edit-rollback) - Rollback recent edit operations
 
-For spr...
-- [`vibey roadmap start`](#vibey-roadmap-start) - Start a sprint or task
+Restores files from automatic backups.
 
-When starting a sprint, ch...
-- [`vibey roadmap status`](#vibey-roadmap-status) - Show roadmap status - tracks, sprints, and tasks
-- [`vibey roadmap summarize`](#vibey-roadmap-summarize) - Summarize a sprint, task, or track
-- [`vibey roadmap sync`](#vibey-roadmap-sync) - Sync status from individual files to main roadmap....
-- [`vibey roadmap sync-commits`](#vibey-roadmap-sync-commits) - Scan git history and link commits to tasks based o...
-- [`vibey roadmap sync-docs`](#vibey-roadmap-sync-docs) - Synchronize documentation from .vibey/roadmap/ to ...
+Examples:
+  vibey roadmap edit rollback
+  vibey roadmap edit rollback --last-...
+158. [`vibey roadmap edit validate`](#vibey-roadmap-edit-validate) - Validate YAML file(s)
 
-**U**
-- [`vibey roadmap uninstall-hooks`](#vibey-roadmap-uninstall-hooks) - Uninstall git pre-commit hook
+Validates YAML syntax, schema, and business logic.
 
-Removes the Vibey p...
+Examples:
+  vibey roadmap edit validate task.yaml
+  vibey roadmap edit vali...
+159. [`vibey roadmap extract-embedded`](#vibey-roadmap-extract-embedded) - Extract embedded tasks from sprint files to standalone task files.
 
-**V**
-- [`vibey roadmap validate-advanced`](#vibey-roadmap-validate-advanced) - Advanced validation for complex integrity issues
+Scans all sprint YAML files for embedded tasks[] arrays and creates
+individual tas...
+160. [`vibey roadmap init`](#vibey-roadmap-init) - Initialize a new roadmap in .vibey/roadmap.yaml
+161. [`vibey roadmap install-hooks`](#vibey-roadmap-install-hooks) - Install git pre-commit hook for roadmap validation
 
-...
-- [`vibey roadmap validate-commits`](#vibey-roadmap-validate-commits) - Validate that all completed tasks have commit evid...
-- [`vibey roadmap validate-fast`](#vibey-roadmap-validate-fast) - Fast roadmap validation with caching and parallel ...
-- [`vibey roadmap validate-structure`](#vibey-roadmap-validate-structure) - Validate roadmap directory structure is flat (no U...
-- [`vibey roadmap verify-change`](#vibey-roadmap-verify-change) - Verify a roadmap file change has a matching activi...
-- [`vibey roadmap verify-commits`](#vibey-roadmap-verify-commits) - Verify roadmap changes in a commit range have acti...
+The pre-commit hook automatically validates roadmap data before
+allowing commits. This prevents co...
+162. [`vibey roadmap link-doc`](#vibey-roadmap-link-doc) - Link a documentation file to a roadmap object
 
-**S**
-- [`vibey session`](#vibey-session) - 
+Creates or updates a .meta.json sidecar file that tracks which roadmap
+objects have impacted this docum...
+163. [`vibey roadmap list-docs`](#vibey-roadmap-list-docs) - List all tracked documentation files
+
+Shows all documentation files that have .meta.json tracking files,
+along with their recent impacts.
+
+Examples:
+ ...
+164. [`vibey roadmap migrate-docs`](#vibey-roadmap-migrate-docs) - Migrate documentation fields from YAML to markdown files.
+
+This command migrates documentation-like fields from YAML to markdown:
+
+
+- version_strateg...
+165. [`vibey roadmap migrate-format`](#vibey-roadmap-migrate-format) - Migrate YAML files from v1 format to v2 format.
+
+V1 format uses legacy field names (created, assigned_agent, title).
+V2 format uses unified ticket arc...
+166. [`vibey roadmap override-standard`](#vibey-roadmap-override-standard) - Override a standard for a specific item
+
+Adds an override to a standard, allowing completion even if the standard
+would normally block it. The overrid...
+167. [`vibey roadmap recalculate`](#vibey-roadmap-recalculate) - Recalculate sprint tasks for a different platform
+
+Splits oversized tasks into subtasks that fit within the target
+platform's context window. Preserve...
+168. [`vibey roadmap reconcile`](#vibey-roadmap-reconcile) - Detect and fix status inconsistencies in roadmap data.
+
+Checks for status mismatches between parent/child objects:
+- Sprints marked completed but with...
+169. [`vibey roadmap repair`](#vibey-roadmap-repair) - Auto-repair common roadmap integrity issues
+
+Repairs:
+  - Progress counter mismatches (safe, auto-fixable)
+  - Broken task references (removes invalid...
+170. [`vibey roadmap revert`](#vibey-roadmap-revert) - Revert a track, sprint, or task to a previous status
+
+Allows undoing premature completions or status changes.
+Only backward transitions are allowed (c...
+171. [`vibey roadmap show`](#vibey-roadmap-show) - Show details for a track, sprint, or task
+
+For sprints, also shows platform compatibility status to help
+you understand if tasks fit in your context w...
+172. [`vibey roadmap start`](#vibey-roadmap-start) - Start a sprint or task
+
+When starting a sprint, checks if tasks fit in your platform's context
+window. If compatibility issues are found, you'll be pr...
+173. [`vibey roadmap status`](#vibey-roadmap-status) - Show roadmap status - tracks, sprints, and tasks
+174. [`vibey roadmap summarize`](#vibey-roadmap-summarize) - Summarize a sprint, task, or track
+175. [`vibey roadmap sync`](#vibey-roadmap-sync) - Sync status from individual files to main roadmap.yaml
+
+Reconciles track/sprint/task status from individual YAML files
+back to the main .vibey/roadmap...
+176. [`vibey roadmap sync-commits`](#vibey-roadmap-sync-commits) - Scan git history and link commits to tasks based on commit messages
+
+Automatically finds commits that reference task IDs and links them
+to the corresp...
+177. [`vibey roadmap sync-docs`](#vibey-roadmap-sync-docs) - Synchronize documentation from .vibey/roadmap/ to docs/roadmap/
+
+Copies markdown documentation from the roadmap source of truth to the
+user-facing doc...
+178. [`vibey roadmap uninstall-hooks`](#vibey-roadmap-uninstall-hooks) - Uninstall git pre-commit hook
+
+Removes the Vibey pre-commit validation hook from the repository.
+Only removes Vibey hooks - other hooks are left untou...
+179. [`vibey roadmap validate-advanced`](#vibey-roadmap-validate-advanced) - Advanced validation for complex integrity issues
+
+Detects:
+  - Circular dependencies between tasks
+  - Orphaned tasks (missing sprint references)
+  - ...
+180. [`vibey roadmap validate-commits`](#vibey-roadmap-validate-commits) - Validate that all completed tasks have commit evidence
+
+Checks all completed tasks and reports any that are missing commits.
+
+Examples:
+  vibey roadma...
+181. [`vibey roadmap validate-fast`](#vibey-roadmap-validate-fast) - Fast roadmap validation with caching and parallel loading
+
+Validation profiles:
+  quick: <3s - Syntax only
+  standard: <10s - Full validation (default...
+182. [`vibey roadmap validate-structure`](#vibey-roadmap-validate-structure) - Validate roadmap directory structure is flat (no ULID directories).
+
+Ensures the roadmap uses the flat ULID-based structure:
+  .vibey/roadmap/tracks/{...
+183. [`vibey roadmap verify-change`](#vibey-roadmap-verify-change) - Verify a roadmap file change has a matching activity log entry
+
+Checks if the file's current content hash matches a file_hash_after
+in the activity lo...
+184. [`vibey roadmap verify-commits`](#vibey-roadmap-verify-commits) - Verify roadmap changes in a commit range have activity log entries.
+
+Verifies all roadmap file changes in the specified commit range.
+Designed for CI/...
+
+**Session**
+185. [`vibey session`](#vibey-session) - 
 Manage AI-assisted coding sessions.
 
-Track sessio...
+Track session lifecycle, log events and decisions, associate commits,
+and maintain context for session reconstru...
+186. [`vibey session decisions`](#vibey-session-decisions) - Show decisions made during a session.
 
-**D**
-- [`vibey session decisions`](#vibey-session-decisions) - Show decisions made during a session.
+Lists all decisions recorded during the session with their rationale,
+alternatives considered, and whether they...
+187. [`vibey session end`](#vibey-session-end) - End the current or specified session.
 
-Lists all d...
+Marks the session as completed or abandoned, captures final git state,
+and calculates session statistics.
 
-**E**
-- [`vibey session end`](#vibey-session-end) - End the current or specified session.
+Exam...
+188. [`vibey session export`](#vibey-session-export) - Export session for continuation.
 
-Marks the s...
-- [`vibey session export`](#vibey-session-export) - Export session for continuation.
+Exports session state including incomplete tasks, goals, and decisions
+that need revisiting. Useful for resuming wor...
+189. [`vibey session list`](#vibey-session-list) - List sessions with optional filters.
 
-Exports session ...
+Shows all sessions matching the specified filters, sorted by creation date.
 
-**L**
-- [`vibey session list`](#vibey-session-list) - List sessions with optional filters.
+Examples:
+  vibey session list     ...
+190. [`vibey session pause`](#vibey-session-pause) - Pause the current or specified session.
 
-Shows all se...
+Temporarily stops tracking while preserving state. Use 'resume' to continue.
 
-**P**
-- [`vibey session pause`](#vibey-session-pause) - Pause the current or specified session.
+Examples:
+  vibey session pause...
+191. [`vibey session report`](#vibey-session-report) - Generate a session report.
 
-Temporari...
+Creates a human-readable report of the session including summary,
+goals, tasks, commits, decisions, and timeline.
 
-**R**
-- [`vibey session report`](#vibey-session-report) - Generate a session report.
+Example...
+192. [`vibey session resume`](#vibey-session-resume) - Resume a paused session.
 
-Creates a human-readab...
-- [`vibey session resume`](#vibey-session-resume) - Resume a paused session.
+Continues a previously paused session, restoring it as the active session.
 
-Continues a previously p...
+Examples:
+  vibey session resume 01ABC123DEF456G...
+193. [`vibey session show`](#vibey-session-show) - Show detailed information about a specific session.
 
-**S**
-- [`vibey session show`](#vibey-session-show) - Show detailed information about a specific session...
-- [`vibey session start`](#vibey-session-start) - Start a new coding session.
+Displays comprehensive session details including events, decisions,
+commits, and statistics.
 
-Creates a new session...
-- [`vibey session status`](#vibey-session-status) - Show the current active session status.
+Exa...
+194. [`vibey session start`](#vibey-session-start) - Start a new coding session.
 
-Displays ...
+Creates a new session to track work, decisions, and commits. Only one
+session can be active at a time.
 
-**T**
-- [`vibey session timeline`](#vibey-session-timeline) - Show session timeline of events.
+Examples:
+  vibey...
+195. [`vibey session status`](#vibey-session-status) - Show the current active session status.
 
-Displays a chron...
+Displays information about the currently active session, including
+goals, associations, and event/decision co...
+196. [`vibey session timeline`](#vibey-session-timeline) - Show session timeline of events.
 
-**V**
-- [`vibey validate`](#vibey-validate) - 
+Displays a chronological list of all events that occurred during
+the session with timestamps and details.
+
+Examples:...
+
+**Validate**
+197. [`vibey validate`](#vibey-validate) - 
 Validate framework assets and documentation.
 
-Run...
+Run validation checks on roadmap documentation organization
+and asset frontmatter (agents, workflows, h...
+198. [`vibey validate assets`](#vibey-validate-assets) - Validate asset frontmatter (agents, workflows, handoffs)
 
-**A**
-- [`vibey validate assets`](#vibey-validate-assets) - Validate asset frontmatter (agents, workflows, han...
+Checks that all markdown assets have valid YAML frontmatter
+required for MCP server dynamic ...
+199. [`vibey validate docs`](#vibey-validate-docs) - Validate documentation organization in roadmap
 
-**D**
-- [`vibey validate docs`](#vibey-validate-docs) - Validate documentation organization in roadmap
-
-En...
+Ensures all documentation follows organization standards:
+- Only core files (track.yaml, sprint.yaml, ...
 
 ---
 
@@ -947,7 +1210,7 @@ vibey artifact impact <files>    # Show affected tickets
 | Command | Description |
 |---------|-------------|
 | `adopt` | Register an existing file as an artifact. |
-| `delete` | Delete an artifact from the registry (does not delete files)... |
+| `delete` | Delete an artifact from the registry (does not delete files). |
 | `impact` | Show tickets affected by changes to given files. |
 | `list` | List all registered artifacts. |
 | `orphans` | Show artifacts not referenced by any ticket. |
@@ -1158,10 +1421,12 @@ vibey audit inventory --output FILE  # Save to specific file
 |---------|-------------|
 | `classify` | Classify files according to taxonomy.
 
-Analyzes files in spe... |
+Analyzes files in specified directory and generates a classification
+YAML file with category, purpose, dependen... |
 | `inventory` | Generate file inventory for codebase audit.
 
-Scans specified... |
+Scans specified directories and generates a structured inventory
+of all files with metadata (path, type, ... |
 
 ---
 
@@ -1284,25 +1549,44 @@ vibey auth export          # Share your public key
 |---------|-------------|
 | `add-signer` | Add an authorized signer to this project.
 
-Registers a team ... |
+Registers a team member's public key so their changes
+can be verified.
+
+Arguments:
+  EMAIL       Signer's e... |
 | `export` | Export your public key for sharing with project owners.
 
-Dis... |
+Displays your public key in a format that can be shared
+with project owners for authorization... |
 | `init-project` | Initialize signing for this project.
 
-Sets you up as the fir... |
+Sets you up as the first authorized signer (owner).
+Requires running 'vibey auth setup' first.
+
+Creates:
+  .vibe... |
 | `list` | List authorized signers for this project.
 
-Shows all team me... |
+Shows all team members who can make signed roadmap changes.
+
+Example:
+  vibey auth list
+  vibey auth list -... |
 | `revoke` | Revoke a signer's authorization.
 
-Marks a signer as inactive... |
+Marks a signer as inactive. Their existing signed changes
+remain valid, but new changes won't be accepted.
+
+Example:... |
 | `setup` | Generate Ed25519 keypair for signing roadmap changes.
 
-Creat... |
+Creates a keypair in ~/.vibey/ for signing activity log entries.
+Your private key never leaves ... |
 | `status` | Show current authentication status.
 
-Displays whether you ha... |
+Displays whether you have keys configured and whether
+signing is enabled for the current project.
+ |
 
 ---
 
@@ -1554,7 +1838,8 @@ vibey config migrate          # Migrate old config format
 | `platform` | 
 Manage platform detection and configuration.
 
-The platform ... |
+The platform system automatically detects your AI coding platform
+(Claude Code, Goose, Cursor, etc.) an... |
 | `rollback` | Rollback to a previous config backup |
 | `show` | Show current configuration |
 | `validate` | Validate configuration files |
@@ -1620,19 +1905,32 @@ vibey config platform set goose --context-window 100000
 |---------|-------------|
 | `clear` | Clear platform configuration
 
-Removes manual platform config... |
+Removes manual platform configuration, reverting to auto-detection.
+
+Examples:
+  vibey config platform clear
+ |
 | `detect` | Force platform re-detection
 
-Runs platform detection and sho... |
+Runs platform detection and shows results without changing configuration.
+Useful for debugging detection issues.
+
+Example... |
 | `list` | List known platforms
 
-Shows all platforms that Vibey can det... |
+Shows all platforms that Vibey can detect and their default context windows.
+
+Examples:
+  vibey config platform list
+ |
 | `set` | Set platform configuration manually
 
-Override auto-detection... |
+Override auto-detection by setting the platform manually.
+Useful when detection fails or when using a non-standar... |
 | `show` | Show current platform configuration
 
-Displays the detected p... |
+Displays the detected platform, configured overrides, and effective
+platform settings that will be used for compa... |
 
 ---
 
@@ -1884,25 +2182,53 @@ vibey content validate              # Validate all content
 |---------|-------------|
 | `create` | Create new content
 
-Creates a new agent, workflow, template,... |
+Creates a new agent, workflow, template, or handoff with
+validated frontmatter and a starter body.
+
+Examples:
+  vibey content crea... |
 | `delete` | Delete content (moves to trash)
 
-Removes content by moving i... |
+Removes content by moving it to .vibey/trash/.
+Can be restored later if needed.
+
+Examples:
+  vibey content delete my-... |
 | `edit` | Edit existing content
 
-Updates frontmatter fields in existin... |
+Updates frontmatter fields in existing content.
+Creates a backup before making changes.
+
+Examples:
+  vibey content edit coordin... |
 | `list` | List all content items
 
-Shows all agents, workflows, templat... |
+Shows all agents, workflows, templates, and other content with
+optional filtering by type and category.
+
+Examples:
+  vibey con... |
 | `search` | Search content by keywords
 
-Searches content by name, descri... |
+Searches content by name, description, tags, and body text.
+Results are ranked by relevance.
+
+Examples:
+  vibey content se... |
 | `show` | Show content details
 
-Displays metadata and optionally the f... |
+Displays metadata and optionally the full body of a content item.
+
+Examples:
+  vibey content show coordinator
+  vibey content sh... |
 | `validate` | Validate content frontmatter
 
-Checks content for required fi... |
+Checks content for required fields and valid values.
+
+Examples:
+  vibey content validate coordinator
+  vibey content val... |
 
 ---
 
@@ -2235,30 +2561,47 @@ vibey context COMMAND
 |---------|-------------|
 | `archive` | Archive context to history.
 
-Moves context from current/acti... |
+Moves context from current/active to history directory.
+
+Examples:
+  vibey context archive 01KC7MN54VXRB3APC5FV5XBDXX --t... |
 | `clean` | Clean old archived context.
 
-Removes archived context older ... |
+Removes archived context older than the specified number of days.
+Uses --dry-run to preview before deleting.
+
+Examples:
+ ... |
 | `export` | Export context to file.
 
 Examples:
-  vibey context export 01... |
+  vibey context export 01KC7MN54VXRB3APC5FV5XBDXX --type session -o session.yaml
+  vibey context export user-journe... |
 | `init` | Initialize context directory structure.
 
-Creates the .vibey/... |
+Creates the .vibey/context/ directory with proper subdirectories
+and initial configuration files.
+
+Examples:
+... |
 | `list` | List context items.
 
 Examples:
   vibey context list
-  vibey ... |
+  vibey context list --type session --status active
+  vibey context list --type decision --limit 1... |
 | `search` | Search context by content.
 
 Examples:
-  vibey context search... |
+  vibey context search "ULID naming" --type decision
+  vibey context search "phase 4" --limit 10
+ |
 | `show` | Show context details.
 
 Examples:
-  vibey context show 01KC7M... |
+  vibey context show 01KC7MN54VXRB3APC5FV5XBDXX
+  vibey context show 0001-adopt-ulid-naming --type decision
+  vibey c... |
 
 ---
 
@@ -2634,22 +2977,41 @@ vibey discover diff             # Compare versions
 |---------|-------------|
 | `diff` | Compare two discovery versions.
 
-Shows differences between d... |
+Shows differences between discovery outputs. By default, compares
+the current discovery with the previous version.
+
+E... |
 | `history` | List discovery version history.
 
-Shows previous discovery ru... |
+Shows previous discovery runs with timestamps and git commits.
+
+Examples:
+  vibey discover history
+  vibey discover h... |
 | `refresh` | Refresh discovery if stale.
 
-Re-runs discovery only if the c... |
+Re-runs discovery only if the current discovery is stale,
+unless --force is specified.
+
+Examples:
+  vibey discover refres... |
 | `run` | Run project discovery and analyze the codebase.
 
-Analyzes th... |
+Analyzes the project structure, dependencies, patterns, and conventions.
+Results are saved to .vibey/... |
 | `show` | Show current discovery output.
 
-Displays the most recent dis... |
+Displays the most recent discovery analysis. Use --section to
+show only specific parts of the discovery.
+
+Examples:
+  ... |
 | `status` | Check if current discovery is stale.
 
-Reports whether the di... |
+Reports whether the discovery should be refreshed based on:
+- Age of the discovery
+- Git commit changes
+- File s... |
 
 ---
 
@@ -2896,22 +3258,36 @@ vibey docs context            # Generate context docs
 | Command | Description |
 |---------|-------------|
 | `check-drift` | 
-Check if CLI documentation has drifted from implementation.... |
+Check if CLI documentation has drifted from implementation.
+
+Compares the committed CLI reference with freshly generated output.
+Use in CI to prevent... |
 | `check-mcp-drift` | 
-Check if MCP documentation has drifted from implementation.... |
+Check if MCP documentation has drifted from implementation.
+
+Compares the committed MCP reference with freshly generated output.
+Use in CI to prevent... |
 | `generate` | Generate documentation from configuration |
 | `generate-cli` | 
 Auto-generate CLI reference documentation from code.
 
-Intro... |
+Introspects the Click command tree and generates comprehensive
+reference documentation. Output ... |
 | `generate-mcp` | 
-Auto-generate MCP server reference documentation from code.... |
+Auto-generate MCP server reference documentation from code.
+
+Introspects the MCP server tools, resources, and prompts to generate
+comprehensive refer... |
 | `introspect` | 
 Introspect CLI structure and output documentation data.
 
-Ex... |
+Extracts structured data from the Click command tree for use in
+documentation generation, to... |
 | `introspect-mcp` | 
-Introspect MCP server structure and output documentation da... |
+Introspect MCP server structure and output documentation data.
+
+Extracts structured data from the MCP server for use in
+documentation generation, too... |
 
 ---
 
@@ -3208,16 +3584,27 @@ vibey export --list              # List available platforms
 |---------|-------------|
 | `gemini` | Export Vibey to Gemini Code Assist extension format
 
-Generat... |
+Generates a complete Gemini extension package with:
+- GEMINI.md context file (from agent frontmat... |
 | `list` | List available export platforms
 
-Shows all platforms that Vi... |
+Shows all platforms that Vibey can export to, with their capabilities.
+
+Examples:
+  vibey export list
+ |
 | `run` | Export assets to platform format
 
-Generates platform-specifi... |
+Generates platform-specific files from Vibey assets (agents, workflows).
+
+Examples:
+  vibey export run --platform go... |
 | `stats` | Show export statistics
 
-Displays counts of tools, recipes, a... |
+Displays counts of tools, recipes, and other assets for a platform.
+
+Examples:
+  vibey export stats                 # Show MCP... |
 
 ---
 
@@ -3411,104 +3798,140 @@ vibey git contributors
 | `analyze` | 
 Analyze Git history for roadmap references.
 
-Parses commit ... |
+Parses commit messages to extract task, sprint, and track references,
+and provides statistics on commit ... |
 | `branch` | 
 Manage task-branch linking.
 
-Create branches with proper na... |
+Create branches with proper naming conventions, link branches to tasks,
+and track branch lifecycle in roadmap YAML.
+
+Bra... |
 | `check-merge` | 
 Check for task completion conflicts before merging a PR.
 
-D... |
+Detects when a task is marked complete in both the PR branch
+and target branch, which may i... |
 | `contributors` | 
 Show contributor activity and statistics.
 
-Analyzes contrib... |
+Analyzes contributor activity including commit counts, tasks worked,
+and code contribution volume.
+
+Exampl... |
 | `history` | 
 Show change history for an item.
 
-Tracks how a task, sprint... |
+Tracks how a task, sprint, or track changed over time by analyzing
+all commits and reconstructing state at each poi... |
 | `hooks` | 
 Manage Git hooks for Vibey roadmap integration.
 
-Install, u... |
+Install, uninstall, and check status of pre-commit and commit-msg hooks
+that validate roadmap integr... |
 | `link-commit` | 
 Link a commit to a task and optionally update status.
 
-Manu... |
+Manually records a commit SHA in a task's commits list and
+optionally updates the task status.... |
 | `mode` | 
 Show current source-of-truth mode and reasoning.
 
-Displays ... |
+Displays which mode is active (yaml-only, hybrid, git-primary)
+and explains why that mode was chose... |
 | `pr-description` | 
 Generate PR description from task context.
 
-Reads task info... |
+Reads task information from roadmap and generates a formatted
+PR description including task details, chec... |
 | `progress` | 
 Show sprint progress over time (burndown chart).
 
-Samples t... |
+Samples the sprint state at regular intervals to show how progress
+evolved over time. Useful for ge... |
 | `repair` | 
 Detect and repair roadmap inconsistencies.
 
-Attempts to fix... |
+Attempts to fix common issues like:
+- YAML syntax errors (restore from git)
+- Invalid references
+- Orphan... |
 | `repair-tags` | 
 Automatically repair dangling tags.
 
-Searches for commits m... |
+Searches for commits matching the original tag and recreates
+the tags on the new commits. By default only repair... |
 | `rollback` | 
 Rollback roadmap to state at ref.
 
-Restores all roadmap YAM... |
+Restores all roadmap YAML files to their state at a specific commit.
+By default runs in dry-run mode to show what ... |
 | `sprint` | 
 Manage sprint boundary tags.
 
-Create and manage git tags th... |
+Create and manage git tags that mark sprint start and end points,
+enabling velocity calculations and state reconstructi... |
 | `state-at` | 
 Show roadmap state at a specific ref.
 
-Reconstructs the roa... |
+Reconstructs the roadmap state at any point in history by reading
+YAML files at that commit. Supports commits,... |
 | `sync` | 
 Sync roadmap YAML from Git state (Git-primary mode).
 
-Deriv... |
+Derives task and sprint status from git branches, tags, and commits.
+In Git-primary mode, Git i... |
 | `tag-move` | 
 Manually move a tag to a different commit.
 
-Deletes the tag... |
+Deletes the tag from its current location and recreates it
+on the specified commit. Preserves annotation ... |
 | `tag-range` | 
 Get commits between boundary tags.
 
-Retrieves commits betwe... |
+Retrieves commits between start/end tags for a sprint or task.
+This is more efficient than parsing all commit mes... |
 | `tags` | 
 List Vibey roadmap tags.
 
-Shows all Vibey tags (sprint boun... |
+Shows all Vibey tags (sprint boundaries, task markers) with filtering options.
+
+Examples:
+
+  vibey git tags                ... |
 | `tasks` | 
 Show commits for a specific task.
 
-Lists all commits that r... |
+Lists all commits that reference the specified task ID, including
+commit details, contributors, and status changes... |
 | `update-status` | 
 Update task status based on commit messages.
 
-Parses commit... |
+Parses commit messages for status indicators (completes, starts, blocks)
+and automatically updates task... |
 | `validate` | 
 Validate git strategy requirements.
 
-Checks that all strate... |
+Checks that all strategy requirements are satisfied for the current mode.
+This includes branch naming convention... |
 | `validate-roadmap` | 
 Validate roadmap YAML files and consistency.
 
 Checks for:
--... |
+- YAML syntax errors
+- Invalid task/sprint references
+- Git-roadmap consistency
+- Orphaned ... |
 | `validate-tags` | 
 Detect dangling tags (pointing to missing commits).
 
-After ... |
+After rebase/squash operations, tags may point to commits that
+no longer exist. This command det... |
 | `velocity` | 
 Calculate sprint velocity metrics.
 
-Analyzes commits for a ... |
+Analyzes commits for a sprint and calculates velocity metrics including
+commit frequency, task completion rate, c... |
 
 ---
 
@@ -3605,23 +4028,38 @@ vibey git branch list
 | `create` | 
 Create a branch for a task with proper naming.
 
-Creates a b... |
+Creates a branch following the naming convention task/<task-id>
+and optionally links it to the task i... |
 | `link` | 
 Link an existing branch to a task.
 
-Records branch informat... |
+Records branch information in task metadata, including creation time,
+merge status, and current status.
+
+Examples... |
 | `list` | 
 List all branches following Vibey naming conventions.
 
-Show... |
+Shows branches that follow the task/*, sprint/*, or track/* naming pattern.
+
+Examples:
+
+  vibe... |
 | `status` | 
 Show branch-task linkage status.
 
-Displays which tasks have... |
+Displays which tasks have linked branches, their status (current, merged),
+and whether the branch still exists.
+
+Ex... |
 | `unlink` | 
 Unlink a branch from a task.
 
-Removes branch metadata from ... |
+Removes branch metadata from the task in roadmap YAML.
+
+Examples:
+
+  vibey git branch unlink git-integration-2-task-005... |
 
 ---
 
@@ -3988,19 +4426,31 @@ vibey git hooks update            # Update existing hooks
 | `install` | 
 Install Git hooks for Vibey roadmap integration.
 
-Installs ... |
+Installs pre-commit and commit-msg hooks that validate:
+- YAML syntax in roadmap files
+- Commit mes... |
 | `status` | 
 Show Git hooks installation status.
 
-Displays which Vibey h... |
+Displays which Vibey hooks are installed, their versions,
+and configuration settings.
+
+Examples:
+
+  vibey git ho... |
 | `uninstall` | 
 Uninstall Vibey Git hooks.
 
-Removes pre-commit and commit-m... |
+Removes pre-commit and commit-msg hooks installed by Vibey.
+Optionally removes backup files created during installation.
+... |
 | `update` | 
 Update installed Git hooks to latest version.
 
-Reinstalls h... |
+Reinstalls hooks while preserving configuration.
+Existing hooks are backed up before updating.
+
+Exampl... |
 
 ---
 
@@ -4485,23 +4935,35 @@ vibey git sprint range git-integration-2         # Show commit range for sprint
 | `delete` | 
 Delete a sprint boundary tag.
 
-Removes a sprint start or en... |
+Removes a sprint start or end tag from the local repository,
+and optionally from the remote.
+
+Examples:
+
+  vibey git s... |
 | `end` | 
 Create sprint end tag at current or specified commit.
 
-Mark... |
+Marks the completion of a sprint in git history with an annotated tag
+containing sprint comple... |
 | `list` | 
 List sprint tags, optionally filtered by sprint ID.
 
-Shows ... |
+Shows all sprint start/end tags with commit info and dates.
+
+Examples:
+
+  vibey git sprint list ... |
 | `range` | 
 Show commit range for a sprint (start tag to end tag).
 
-Dis... |
+Displays the start and end commits for a sprint, and optionally
+lists all commits in the spri... |
 | `start` | 
 Create sprint start tag at current or specified commit.
 
-Ma... |
+Marks the beginning of a sprint in git history with an annotated tag
+containing sprint metad... |
 
 ---
 
@@ -5272,129 +5734,203 @@ vibey roadmap --no-sync list # Skip sync check
 |---------|-------------|
 | `activity` | Show recent roadmap activity in a compact format.
 
-Display r... |
+Display recent status changes, completions, and lifecycle events.
+This is a convenience command tha... |
 | `add-commit` | Add a git commit to a task
 
 Examples:
-  vibey roadmap add-co... |
+  vibey roadmap add-commit task-001 4367bc8
+  vibey roadmap add-commit task-001 --auto
+ |
 | `add-context` | Add a context file to a roadmap object
 
-Context files are st... |
+Context files are stored in /context/ directories alongside roadmap objects
+and are used to preserve research,... |
 | `add-standard` | Add a new standard to roadmap/track/sprint
 
-Creates a new st... |
+Creates a new standard that enforces a policy at the specified level.
+Standards cascade down the hierarchy... |
 | `audit` | 
 View and analyze roadmap change audit trail.
 
-Track all sta... |
+Track all status changes with who/when/why for accountability.
+Detect suspicious changes and generate a... |
 | `auto-progress` | Check or apply automatic status progressions.
 
-Auto-progress... |
+Auto-progression advances ticket status when criteria are met.
+This feature must be enabled in .vibey/c... |
 | `bulk` | 
 Bulk operations on roadmap items.
 
-Commands for performing ... |
+Commands for performing operations across multiple items at once,
+such as completing all tasks in a sprint.
+
+Examp... |
 | `check-compatibility` | Check if sprint tasks fit in your platform's context window
-... |
+
+Analyzes all incomplete tasks in a sprint and checks if they fit
+within your current plat... |
 | `check-hooks` | Check git hook installation status
 
-Shows whether the Vibey ... |
+Shows whether the Vibey pre-commit hook is installed and active.
+
+Examples:
+  vibey roadmap check-hooks
+ |
 | `check-standards` | Check which standards apply to an item
 
-Validates all standa... |
+Validates all standards that apply to a roadmap item (task/sprint/track)
+and displays the results without taki... |
 | `checkpoint` | 
 Manage roadmap integrity checkpoints.
 
-Create, restore, ver... |
+Create, restore, verify, and compare backups of the .vibey/ directory
+with SHA-256 checksum verification and Y... |
 | `complete` | Complete a track, sprint, or task
 
-For sprints, validates th... |
+For sprints, validates that all tasks are completed before allowing completion.
+Use --force to override this check ... |
 | `context` | Get AI-optimized context for a task |
 | `create-from-plan` | Create roadmap sprint from a plan markdown file
 
-Parses a sp... |
+Parses a sprint plan markdown file and creates:
+- Sprint YAML in hierarchical structure
+- Task YAMLs ... |
 | `create-sprint` | Create a new sprint in a track.
 
-Creates a new sprint YAML f... |
+Creates a new sprint YAML file using ULID-based naming in the flat structure.
+The sprint is automatically linked to t... |
 | `create-task` | Create a new task in a sprint.
 
-Creates a new task YAML file... |
+Creates a new task YAML file using ULID-based naming in the flat structure.
+The task is automatically linked to the pa... |
 | `create-track` | Create a new track in the roadmap.
 
-Creates a new track YAML... |
+Creates a new track YAML file using ULID-based naming in the flat structure.
+The track is automatically added to r... |
 | `db` | 
 Database operations for roadmap state management.
 
-The data... |
+The database backend provides faster queries and automatic integrity
+enforcement via SQLite. Use t... |
 | `doc-changelog` | Generate a documentation changelog
 
-Generates a markdown cha... |
+Generates a markdown changelog showing which roadmap objects have
+impacted which documentation files.
+
+Examples:
+ ... |
 | `edit` | 
 Safe YAML editing with automatic validation and backups.
 
-A... |
-| `extract-embedded` | Extract embedded tasks from sprint files to standalone task ... |
+All edit commands create automatic backups before modifying files and
+validate YAML syntax ... |
+| `extract-embedded` | Extract embedded tasks from sprint files to standalone task files.
+
+Scans all sprint YAML files for embedded tasks[] arrays and creates
+individual tas... |
 | `init` | Initialize a new roadmap in .vibey/roadmap.yaml |
 | `install-hooks` | Install git pre-commit hook for roadmap validation
 
-The pre-... |
+The pre-commit hook automatically validates roadmap data before
+allowing commits. This prevents co... |
 | `link-doc` | Link a documentation file to a roadmap object
 
-Creates or up... |
+Creates or updates a .meta.json sidecar file that tracks which roadmap
+objects have impacted this docum... |
 | `list-docs` | List all tracked documentation files
 
-Shows all documentatio... |
+Shows all documentation files that have .meta.json tracking files,
+along with their recent impacts.
+
+Examples:
+ ... |
 | `migrate-docs` | Migrate documentation fields from YAML to markdown files.
 
-T... |
+This command migrates documentation-like fields from YAML to markdown:
+
+
+- version_strateg... |
 | `migrate-format` | Migrate YAML files from v1 format to v2 format.
 
-V1 format u... |
+V1 format uses legacy field names (created, assigned_agent, title).
+V2 format uses unified ticket arc... |
 | `override-standard` | Override a standard for a specific item
 
-Adds an override to... |
+Adds an override to a standard, allowing completion even if the standard
+would normally block it. The overrid... |
 | `recalculate` | Recalculate sprint tasks for a different platform
 
-Splits ov... |
+Splits oversized tasks into subtasks that fit within the target
+platform's context window. Preserve... |
 | `reconcile` | Detect and fix status inconsistencies in roadmap data.
 
-Chec... |
+Checks for status mismatches between parent/child objects:
+- Sprints marked completed but with... |
 | `repair` | Auto-repair common roadmap integrity issues
 
 Repairs:
-  - Pr... |
+  - Progress counter mismatches (safe, auto-fixable)
+  - Broken task references (removes invalid... |
 | `revert` | Revert a track, sprint, or task to a previous status
 
-Allows... |
+Allows undoing premature completions or status changes.
+Only backward transitions are allowed (c... |
 | `show` | Show details for a track, sprint, or task
 
-For sprints, also... |
+For sprints, also shows platform compatibility status to help
+you understand if tasks fit in your context w... |
 | `start` | Start a sprint or task
 
-When starting a sprint, checks if ta... |
+When starting a sprint, checks if tasks fit in your platform's context
+window. If compatibility issues are found, you'll be pr... |
 | `status` | Show roadmap status - tracks, sprints, and tasks |
 | `summarize` | Summarize a sprint, task, or track |
 | `sync` | Sync status from individual files to main roadmap.yaml
 
-Reco... |
-| `sync-commits` | Scan git history and link commits to tasks based on commit m... |
-| `sync-docs` | Synchronize documentation from .vibey/roadmap/ to docs/roadm... |
+Reconciles track/sprint/task status from individual YAML files
+back to the main .vibey/roadmap... |
+| `sync-commits` | Scan git history and link commits to tasks based on commit messages
+
+Automatically finds commits that reference task IDs and links them
+to the corresp... |
+| `sync-docs` | Synchronize documentation from .vibey/roadmap/ to docs/roadmap/
+
+Copies markdown documentation from the roadmap source of truth to the
+user-facing doc... |
 | `uninstall-hooks` | Uninstall git pre-commit hook
 
-Removes the Vibey pre-commit ... |
+Removes the Vibey pre-commit validation hook from the repository.
+Only removes Vibey hooks - other hooks are left untou... |
 | `validate-advanced` | Advanced validation for complex integrity issues
 
 Detects:
- ... |
+  - Circular dependencies between tasks
+  - Orphaned tasks (missing sprint references)
+  - ... |
 | `validate-commits` | Validate that all completed tasks have commit evidence
 
-Chec... |
+Checks all completed tasks and reports any that are missing commits.
+
+Examples:
+  vibey roadma... |
 | `validate-fast` | Fast roadmap validation with caching and parallel loading
 
-V... |
-| `validate-structure` | Validate roadmap directory structure is flat (no ULID direct... |
-| `verify-change` | Verify a roadmap file change has a matching activity log ent... |
-| `verify-commits` | Verify roadmap changes in a commit range have activity log e... |
+Validation profiles:
+  quick: <3s - Syntax only
+  standard: <10s - Full validation (default... |
+| `validate-structure` | Validate roadmap directory structure is flat (no ULID directories).
+
+Ensures the roadmap uses the flat ULID-based structure:
+  .vibey/roadmap/tracks/{... |
+| `verify-change` | Verify a roadmap file change has a matching activity log entry
+
+Checks if the file's current content hash matches a file_hash_after
+in the activity lo... |
+| `verify-commits` | Verify roadmap changes in a commit range have activity log entries.
+
+Verifies all roadmap file changes in the specified commit range.
+Designed for CI/... |
 
 ---
 
@@ -5600,16 +6136,27 @@ vibey roadmap audit report               # Generate detailed report
 |---------|-------------|
 | `log` | Show recent audit trail entries
 
-Display the most recent sta... |
+Display the most recent status changes across all roadmap objects.
+
+Examples:
+  vibey roadmap audit log              ... |
 | `report` | Generate detailed audit report
 
-Create a comprehensive repor... |
+Create a comprehensive report of audit trail entries with filters.
+
+Examples:
+  vibey roadmap audit report            ... |
 | `show` | Show change history for a specific object
 
-Display all statu... |
+Display all status changes for a track, sprint, or task.
+
+Examples:
+  vibey roadmap audit show roadmap-syst... |
 | `suspicious` | Detect suspicious changes in audit trail
 
-Find potentially p... |
+Find potentially problematic changes like:
+- Status rollbacks (completed → not_started)
+- Progress decreases... |
 
 ---
 
@@ -5814,7 +6361,8 @@ vibey roadmap bulk complete-sprint <id> --yes   # Skip confirmation
 |---------|-------------|
 | `complete-sprint` | Mark all tasks in a sprint as completed.
 
-Completes all non-... |
+Completes all non-completed tasks in the specified sprint at once.
+Updates sprint progress and creates activ... |
 
 ---
 
@@ -6020,22 +6568,37 @@ vibey roadmap checkpoint compare cp1 cp2     # Compare two checkpoints
 |---------|-------------|
 | `clean` | Clean old checkpoints
 
-Removes old checkpoints while keeping... |
+Removes old checkpoints while keeping the N most recent.
+Interactive confirmation required before deletion.
+
+Examples:
+  vibey ... |
 | `compare` | Compare two checkpoints
 
-Shows files added, removed, and mod... |
+Shows files added, removed, and modified between two checkpoints
+using SHA-256 checksum comparison.
+
+Examples:
+  vibey roadma... |
 | `create` | Create a new integrity checkpoint
 
-Creates a timestamped bac... |
+Creates a timestamped backup of .vibey/ directory with SHA-256 checksums,
+manifest generation, and integrity verifi... |
 | `list` | List all available checkpoints
 
-Shows checkpoint name, size,... |
+Shows checkpoint name, size, creation date, and validation status.
+ |
 | `restore` | Restore from a checkpoint
 
-Restores .vibey/ directory from c... |
+Restores .vibey/ directory from checkpoint with automatic pre-rollback
+backup and verification. Use --verify-only to test w... |
 | `verify` | Verify checkpoint integrity
 
-Validates all files match SHA-2... |
+Validates all files match SHA-256 checksums in manifest and
+verifies YAML syntax in all .yaml files.
+
+Examples:
+  vibey r... |
 
 ---
 
@@ -6495,29 +7058,48 @@ vibey roadmap db backup     # Create database backup
 |---------|-------------|
 | `backup` | Create a backup of the database.
 
-Creates a timestamped copy... |
+Creates a timestamped copy of .vibey/roadmap.db for safekeeping.
+
+Examples:
+  vibey roadmap db backup
+  vibey roadma... |
 | `config` | Show current backend configuration.
 
-Displays the effective ... |
+Displays the effective backend mode, database path, and validation settings.
+
+Examples:
+  vibey roadmap db config... |
 | `dump` | Dump database state to YAML files.
 
-Exports the current data... |
+Exports the current database state to hierarchical YAML files
+for version control. This is the reverse of 'db rebu... |
 | `init` | Initialize SQLite database from YAML files.
 
-Creates .vibey/... |
+Creates .vibey/roadmap.db with all roadmap data loaded from YAML.
+Computes checksums for change detection... |
 | `query` | Query the database for roadmap insights.
 
-These commands lev... |
+These commands leverage SQLite's power to provide
+fast queries that would be expensive with YAML parsing.
+ |
 | `rebuild` | Rebuild database from YAML files.
 
-Drops all tables and relo... |
+Drops all tables and reloads from YAML. Use after pulling changes
+or to fix database corruption.
+
+WARNING: Uncommit... |
 | `status` | Show database status and health.
 
 Displays:
-- Database exist... |
+- Database existence and location
+- Dirty flag (uncommitted changes)
+- Row counts vs YAML file counts
+- Sc... |
 | `validate` | Validate database integrity and consistency.
 
-Validation lev... |
+Validation levels:
+  schema     - Check tables, indexes, and constraints exist
+  references - Check fore... |
 
 ---
 
@@ -6672,16 +7254,28 @@ vibey roadmap db query COMMAND
 |---------|-------------|
 | `blocked` | List all blocked tasks with blocker information.
 
-Shows task... |
+Shows tasks that are blocked by dependencies and what they're waiting for.
+
+Examples:
+  vibey roadma... |
 | `deps` | Show dependency chain for a task, sprint, or track.
 
-Example... |
+Examples:
+  vibey roadmap db query deps sqlite-backend-2-task-001
+  vibey roadmap db query deps s... |
 | `progress` | Show progress summary grouped by track, sprint, or status.
 
+Examples:
+  vibey roadmap db query progress
+  vibey roadmap db query progress --by sprint
 ... |
 | `stats` | Show overall roadmap statistics.
 
-Displays completion rates,... |
+Displays completion rates, task counts by status, and other metrics.
+
+Examples:
+  vibey roadmap db query stats
+ |
 
 ---
 
@@ -6747,11 +7341,11 @@ vibey roadmap db query deps [OPTIONS] <ENTITY_ID>
 **Examples:**
 
 ```bash
-vibey roadmap db query deps 01KC2D0JK7READW9KAK1HBX4B8
+vibey roadmap db query deps sqlite-backend-2-task-001
 ```
 
 ```bash
-vibey roadmap db query deps 01KC2D0JK9JKQXGQW6MQEB0JZP --direction up
+vibey roadmap db query deps sqlite-backend --direction up
 ```
 
 ---
@@ -7010,16 +7604,29 @@ vibey roadmap edit rollback
 |---------|-------------|
 | `bulk` | Bulk edit multiple YAML files with transaction semantics
 
-Us... |
+Uses all-or-nothing transaction: if ANY file fails validation,
+ALL changes are rolled back.
+... |
 | `file` | Edit a single YAML file safely
 
-Modifies fields using dot no... |
+Modifies fields using dot notation (e.g., task.status, task.priority).
+Creates automatic backup before editing.
+
+Examp... |
 | `rollback` | Rollback recent edit operations
 
-Restores files from automat... |
+Restores files from automatic backups.
+
+Examples:
+  vibey roadmap edit rollback
+  vibey roadmap edit rollback --last-... |
 | `validate` | Validate YAML file(s)
 
-Validates YAML syntax, schema, and bu... |
+Validates YAML syntax, schema, and business logic.
+
+Examples:
+  vibey roadmap edit validate task.yaml
+  vibey roadmap edit vali... |
 
 ---
 
@@ -8216,37 +8823,65 @@ vibey session list                         # List all sessions
 |---------|-------------|
 | `decisions` | Show decisions made during a session.
 
-Lists all decisions r... |
+Lists all decisions recorded during the session with their rationale,
+alternatives considered, and whether they... |
 | `end` | End the current or specified session.
 
-Marks the session as ... |
+Marks the session as completed or abandoned, captures final git state,
+and calculates session statistics.
+
+Exam... |
 | `export` | Export session for continuation.
 
-Exports session state incl... |
+Exports session state including incomplete tasks, goals, and decisions
+that need revisiting. Useful for resuming wor... |
 | `list` | List sessions with optional filters.
 
-Shows all sessions mat... |
+Shows all sessions matching the specified filters, sorted by creation date.
+
+Examples:
+  vibey session list     ... |
 | `pause` | Pause the current or specified session.
 
-Temporarily stops t... |
+Temporarily stops tracking while preserving state. Use 'resume' to continue.
+
+Examples:
+  vibey session pause... |
 | `report` | Generate a session report.
 
-Creates a human-readable report ... |
+Creates a human-readable report of the session including summary,
+goals, tasks, commits, decisions, and timeline.
+
+Example... |
 | `resume` | Resume a paused session.
 
-Continues a previously paused sess... |
+Continues a previously paused session, restoring it as the active session.
+
+Examples:
+  vibey session resume 01ABC123DEF456G... |
 | `show` | Show detailed information about a specific session.
 
-Display... |
+Displays comprehensive session details including events, decisions,
+commits, and statistics.
+
+Exa... |
 | `start` | Start a new coding session.
 
-Creates a new session to track ... |
+Creates a new session to track work, decisions, and commits. Only one
+session can be active at a time.
+
+Examples:
+  vibey... |
 | `status` | Show the current active session status.
 
-Displays informatio... |
+Displays information about the currently active session, including
+goals, associations, and event/decision co... |
 | `timeline` | Show session timeline of events.
 
-Displays a chronological l... |
+Displays a chronological list of all events that occurred during
+the session with timestamps and details.
+
+Examples:... |
 
 ---
 
@@ -8663,10 +9298,12 @@ vibey validate assets --type agents  # Validate only agents
 |---------|-------------|
 | `assets` | Validate asset frontmatter (agents, workflows, handoffs)
 
-Ch... |
+Checks that all markdown assets have valid YAML frontmatter
+required for MCP server dynamic ... |
 | `docs` | Validate documentation organization in roadmap
 
-Ensures all ... |
+Ensures all documentation follows organization standards:
+- Only core files (track.yaml, sprint.yaml, ... |
 
 ---
 
@@ -8751,4 +9388,4 @@ vibey validate docs --verbose
 
 *This documentation was auto-generated from the CLI source code.*
 
-*Generated at: 2025-12-15T23:21:29.641766+00:00*
+*Generated at: 2025-12-17T01:56:30.685316+00:00*

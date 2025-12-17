@@ -7,11 +7,11 @@ task:
   title: Fix truncated CLI descriptions
   description: 'Increase max description length in CLI reference generator to show
     full descriptions instead of truncating with ''...''. Source: QW002, F002'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:21:45.721862+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T01:52:40.467919+00:00'
+  completed: '2025-12-17T01:53:05.197188+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

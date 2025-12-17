@@ -12,9 +12,9 @@ track:
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 34
-    tasks_completed: 6
-    completion_percent: 18.0
+    tasks_total: 3
+    tasks_completed: 2
+    completion_percent: 66
   sprints:
   - id: 01KCMTKTGB41SQCSNG893TXB3B
     name: 'Sprint 1: Critical Documentation Fixes'
@@ -24,10 +24,10 @@ track:
     started: null
   - id: 01KCMTKWCX621JWPZZ99DG2M2G
     name: 'Sprint 2: Reference Guide Improvements'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 11
-    started: null
+    started: '2025-12-17T01:53:06.308246+00:00'
   - id: 01KCMTKY772B0Y6N5ANXZP1CZH
     name: 'Sprint 3: User Journey Documentation'
     status: not_started

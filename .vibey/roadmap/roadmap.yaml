@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 23
     sprints_total: 223
     sprints_completed: 37
-    tasks_total: 1564
-    tasks_completed: 1171
-    completion_percent: 75.0
+    tasks_total: 1533
+    tasks_completed: 1167
+    completion_percent: 76
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -215,11 +215,71 @@ roadmap:
   version_history: []
   deployed_platforms: []
   standards: []
-  activity_log: []
+  activity_log:
+  - timestamp: '2025-12-17T01:52:41.680500+00:00'
+    type: task_started
+    description: Task 'Fix truncated CLI descriptions' started
+    context:
+      task_id: 01KCMGMR8FQJBQAY2YSZ47SAHK
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:53:06.397407+00:00'
+    type: task_completed
+    description: Task 'Fix truncated CLI descriptions' completed
+    context:
+      task_id: 01KCMGMR8FQJBQAY2YSZ47SAHK
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:53:15.336354+00:00'
+    type: task_started
+    description: Task 'Fix command index organization' started
+    context:
+      task_id: 01KCMGMVY8VX3RT6E5V5QJ2ST3
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:54:08.966732+00:00'
+    type: task_completed
+    description: Task 'Fix command index organization' completed
+    context:
+      task_id: 01KCMGMVY8VX3RT6E5V5QJ2ST3
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:54:19.772630+00:00'
+    type: task_started
+    description: Task 'Add CLI quick start section' started
+    context:
+      task_id: 01KCMGMZMXPR76A4HNE5AAH77T
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:55:09.006298+00:00'
+    type: task_completed
+    description: Task 'Add CLI quick start section' completed
+    context:
+      task_id: 01KCMGMZMXPR76A4HNE5AAH77T
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:55:17.861954+00:00'
+    type: task_started
+    description: Task 'Add MCP usage guidance section' started
+    context:
+      task_id: 01KCMGN3B3CKCNWSP3V8ZE3EBQ
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:56:21.736652+00:00'
+    type: task_completed
+    description: Task 'Add MCP usage guidance section' completed
+    context:
+      task_id: 01KCMGN3B3CKCNWSP3V8ZE3EBQ
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:56:30.517961+00:00'
+    type: task_started
+    description: Task 'Regenerate reference documentation' started
+    context:
+      task_id: 01KCMGN7290RWZE8WHWXNJA4QQ
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
+  - timestamp: '2025-12-17T01:56:37.959382+00:00'
+    type: task_completed
+    description: Task 'Regenerate reference documentation' completed
+    context:
+      task_id: 01KCMGN7290RWZE8WHWXNJA4QQ
+      sprint_id: 01KCMTKWCX621JWPZZ99DG2M2G
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: null
+    last_updated: '2025-12-17T01:56:37.959383+00:00'
     purpose: null
     description: null

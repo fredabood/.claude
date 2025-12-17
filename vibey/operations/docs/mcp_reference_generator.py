@@ -87,6 +87,9 @@ class MCPReferenceGenerator:
         # Header
         self._add_header()
 
+        # Usage guidance (when to use MCP vs CLI)
+        self._add_usage_guidance()
+
         # Table of contents
         if self.config.include_toc:
             self._add_toc()
@@ -145,6 +148,41 @@ class MCPReferenceGenerator:
         self._line(f"| Tools | {len(self.structure.tools)} |")
         self._line(f"| Resources | {len(self.structure.resources)} |")
         self._line(f"| Prompts | {len(self.structure.prompts)} |")
+        self._line()
+
+        self._line("---")
+        self._line()
+
+    def _add_usage_guidance(self):
+        """Add guidance on when to use MCP vs CLI."""
+        self._heading("When to Use MCP vs CLI", 2)
+
+        self._line("### Use MCP Tools When:")
+        self._line()
+        self._line("- **AI Assistant Integration** - Working within Claude, Cursor, or other AI tools")
+        self._line("- **Programmatic Access** - Building automation or integrations")
+        self._line("- **Structured Data** - Need JSON responses for processing")
+        self._line("- **Context Preservation** - AI needs to maintain conversation context")
+        self._line()
+
+        self._line("### Use CLI Commands When:")
+        self._line()
+        self._line("- **Terminal Workflows** - Direct command-line interaction")
+        self._line("- **Shell Scripts** - Automation via bash/shell")
+        self._line("- **Human Readable** - Want formatted, colorized output")
+        self._line("- **Quick Operations** - One-off commands")
+        self._line()
+
+        self._line("### Common Operations Mapping")
+        self._line()
+        self._line("| Operation | CLI Command | MCP Tool |")
+        self._line("|-----------|-------------|----------|")
+        self._line("| Get status | `vibey roadmap status` | `roadmap_status` |")
+        self._line("| Start task | `vibey roadmap start <id>` | `task_start` |")
+        self._line("| Complete task | `vibey roadmap complete <id>` | `task_complete` |")
+        self._line("| Query task | `vibey roadmap show <id>` | `task_query` |")
+        self._line("| List sprints | `vibey roadmap list sprints` | `sprint_list` |")
+        self._line("| Deploy config | `vibey deploy run --platform X` | N/A (CLI only) |")
         self._line()
 
         self._line("---")

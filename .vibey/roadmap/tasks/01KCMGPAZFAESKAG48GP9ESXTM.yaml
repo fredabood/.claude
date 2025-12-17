@@ -7,10 +7,10 @@ task:
   title: Audit all CLI commands for existence
   description: 'Test all 169 documented CLI commands to verify they exist and work
     as documented. Source: SI002, F004'
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-16T21:22:37.678813+00:00'
-  started: null
+  started: '2025-12-17T18:45:28.770038+00:00'
   completed: null
   assigned_agent: unassigned
   priority: critical

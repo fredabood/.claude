@@ -298,6 +298,33 @@ class UnifiedActivityLog:
     # Track Activities
     # =========================================================================
 
+    def log_track_added(
+        self,
+        track_id: str,
+        name: str,
+        reason: str = "Track created via CLI",
+    ) -> AuditEntry:
+        """
+        Log a new track being created.
+
+        Args:
+            track_id: ID of the new track
+            name: Name of the track
+            reason: Reason for creation
+
+        Returns:
+            Audit entry created
+        """
+        return self.audit_manager.log_change(
+            object_type="track",
+            object_id=track_id,
+            field="created",
+            old_value=None,
+            new_value=f"Name: {name}",
+            reason=reason,
+            source="cli",
+        )
+
     def log_track_started(
         self,
         track_id: str,
@@ -740,6 +767,16 @@ def log_sprint_completed(
 ) -> AuditEntry:
     """Convenience function to log sprint completed."""
     return get_activity_log(root_dir).log_sprint_completed(sprint_id, old_status, reason)
+
+
+def log_track_added(
+    root_dir: Path,
+    track_id: str,
+    name: str,
+    reason: str = "Track created via CLI",
+) -> AuditEntry:
+    """Convenience function to log track creation."""
+    return get_activity_log(root_dir).log_track_added(track_id, name, reason)
 
 
 def log_track_started(

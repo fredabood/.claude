@@ -233,9 +233,87 @@ class FileSystemManager:
         mappings = self._id_mappings.get(entity_type, {})
         return mappings.get(ulid)
 
+    @property
+    def tracks_dir(self) -> Path:
+        """Get path to tracks directory."""
+        return self.roadmap_root / "tracks"
+
+    @property
+    def sprints_dir(self) -> Path:
+        """Get path to sprints directory."""
+        return self.roadmap_root / "sprints"
+
+    @property
+    def tasks_dir(self) -> Path:
+        """Get path to tasks directory."""
+        return self.roadmap_root / "tasks"
+
+    @property
+    def context_dir(self) -> Path:
+        """Get path to context directory."""
+        return self.roadmap_root / "context"
+
     def get_roadmap_path(self) -> Path:
         """Get path to roadmap.yaml (in roadmap root directory)."""
         return self.roadmap_root / self.ROADMAP_FILE
+
+    def get_entity_path(self, entity_id: str, entity_type: str) -> Path:
+        """
+        Get path to any entity YAML file by type.
+
+        Args:
+            entity_id: Entity ID (ULID)
+            entity_type: 'track', 'sprint', or 'task'
+
+        Returns:
+            Path to entity YAML file
+
+        Raises:
+            ValueError: If entity_type is invalid
+        """
+        if entity_type == "track":
+            return self.get_track_path(entity_id)
+        elif entity_type == "sprint":
+            return self.get_sprint_path(entity_id)
+        elif entity_type == "task":
+            return self.get_task_path(entity_id)
+        else:
+            raise ValueError(f"Invalid entity type: {entity_type}")
+
+    def entity_exists(self, entity_id: str, entity_type: str) -> bool:
+        """
+        Check if an entity exists by type.
+
+        Args:
+            entity_id: Entity ID (ULID)
+            entity_type: 'track', 'sprint', or 'task'
+
+        Returns:
+            True if entity exists, False otherwise
+        """
+        try:
+            return self.get_entity_path(entity_id, entity_type).exists()
+        except (ValueError, FileNotFoundError):
+            return False
+
+    def detect_entity_type(self, entity_id: str) -> Optional[str]:
+        """
+        Detect entity type from ID by checking filesystem.
+
+        Args:
+            entity_id: Entity ID (ULID)
+
+        Returns:
+            'task', 'sprint', or 'track' if found, None otherwise
+        """
+        # Check in order of likelihood (tasks are most common)
+        if (self.tasks_dir / f"{entity_id}.yaml").exists():
+            return "task"
+        if (self.sprints_dir / f"{entity_id}.yaml").exists():
+            return "sprint"
+        if (self.tracks_dir / f"{entity_id}.yaml").exists():
+            return "track"
+        return None
 
     def get_track_path(self, track_id: str) -> Path:
         """

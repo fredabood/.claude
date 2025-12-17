@@ -7,11 +7,11 @@ task:
   title: Fix activity log integration gaps
   description: 'Add activity logging to create-sprint and create-task commands which
     currently don''t log operations. Source: DD003'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:23:13.501811+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T20:32:49.290021+00:00'
+  completed: '2025-12-17T20:35:07.884016+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

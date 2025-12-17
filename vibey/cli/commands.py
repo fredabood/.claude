@@ -306,6 +306,33 @@ def create_track_cmd(name: str, slug: str | None, description: str,
         except Exception:
             pass  # Database rebuild is optional
 
+        # Log activity for pre-commit hook (V1 format - backward compat)
+        try:
+            from vibey.operations.roadmap.activity_log import log_track_added
+            log_track_added(
+                root_dir=root_dir,
+                track_id=ulid,
+                name=name,
+                reason="Track created via CLI",
+            )
+        except Exception:
+            pass  # Activity logging is optional
+
+        # Log command-level change (V2 format) - includes file hash for verification
+        try:
+            from vibey.operations.roadmap.audit_trail import log_command_change
+            log_command_change(
+                root_dir=root_dir,
+                command=f"vibey roadmap create-track --name '{name}' --slug '{slug}'",
+                object_type="track",
+                object_id=ulid,
+                changes=[("created", None, now.isoformat())],
+                file_path=track_path,
+                reason="Track created via CLI",
+            )
+        except Exception:
+            pass  # V2 logging is optional
+
         print(f"✅ Created track: {name}")
         print(f"   ID: {ulid}")
         print(f"   Slug: {slug}")

@@ -235,6 +235,34 @@ def is_ulid_format(id: str) -> bool:
     return len(ulid_str) == 26
 
 
+def is_raw_ulid(value: str) -> bool:
+    """
+    Check if a string is a raw ULID (26 alphanumeric chars, typically starting with 01).
+
+    Raw ULIDs are used directly as IDs in YAML files without a type prefix.
+    This is the standard format for roadmap entity IDs (tracks, sprints, tasks).
+
+    Args:
+        value: String to check
+
+    Returns:
+        bool: True if valid raw ULID format, False otherwise
+
+    Example:
+        >>> is_raw_ulid("01KCMGQHRKP26WEJK45T3HC6HW")
+        True
+        >>> is_raw_ulid("track_01KCMGQHRKP26WEJK45T3HC6HW")
+        False
+        >>> is_raw_ulid("documentation-system")
+        False
+    """
+    if not value or len(value) != 26:
+        return False
+    # ULID uses Crockford's Base32: 0-9, A-Z (case insensitive, excludes I, L, O, U)
+    # But for simplicity, we check alphanumeric (the ULID library handles strict validation)
+    return value.isalnum()
+
+
 def compare_ids_by_timestamp(id1: str, id2: str) -> int:
     """
     Compare two IDs by their creation timestamp.

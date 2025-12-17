@@ -15,14 +15,8 @@ from typing import Dict, Optional, Set
 from datetime import datetime, timezone
 import yaml
 import json
-import re
 
-
-def is_ulid(value: str) -> bool:
-    """Check if a string is a valid ULID (26 chars, alphanumeric)."""
-    if not value or len(value) != 26:
-        return False
-    return bool(re.match(r'^[0-9A-Z]{26}$', value, re.IGNORECASE))
+from vibey.roadmap.id_generator import is_raw_ulid as is_ulid
 
 
 class EmbeddedTaskExtractor:

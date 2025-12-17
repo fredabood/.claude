@@ -50,11 +50,8 @@ from ...roadmap.standards import (
     ValidationStatus,
 )
 from ...roadmap.models import EnforcementMode
-
-
-def _is_ulid(item_id: str) -> bool:
-    """Check if item_id is a ULID (26 alphanumeric chars starting with 01)."""
-    return len(item_id) == 26 and item_id.isalnum() and item_id.startswith('01')
+from ...roadmap.id_generator import is_raw_ulid as _is_ulid
+from ...cli.roadmap_lib.filesystem import FileSystemManager
 
 
 def _determine_item_type(item_id: str, root_dir: Path) -> str:
@@ -72,17 +69,10 @@ def _determine_item_type(item_id: str, root_dir: Path) -> str:
     """
     # Check if ULID format
     if _is_ulid(item_id):
-        roadmap_root = root_dir / ".vibey" / "roadmap"
-        # Check which directory contains this ULID
-        if (roadmap_root / "tasks" / f"{item_id}.yaml").exists():
-            return "task"
-        elif (roadmap_root / "sprints" / f"{item_id}.yaml").exists():
-            return "sprint"
-        elif (roadmap_root / "tracks" / f"{item_id}.yaml").exists():
-            return "track"
-        # If file not found, try to infer from database or default to task
-        # (most common case for ULID lookups)
-        return "task"
+        fs = FileSystemManager(root_dir)
+        item_type = fs.detect_entity_type(item_id)
+        # If file not found, default to task (most common case for ULID lookups)
+        return item_type or "task"
 
     # Legacy pattern-based detection
     if '-task-' in item_id:

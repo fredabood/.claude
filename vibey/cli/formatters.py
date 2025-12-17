@@ -200,6 +200,88 @@ def format_success(message: str) -> str:
     return f"✅ {message}"
 
 
+def format_warning(message: str) -> str:
+    """Format warning message for CLI display."""
+    return f"⚠️  Warning: {message}"
+
+
+class CLIError(Exception):
+    """
+    Base exception for CLI errors.
+
+    Usage:
+        raise CLIError("Something went wrong", exit_code=1, suggestion="Try X")
+    """
+
+    def __init__(
+        self,
+        message: str,
+        exit_code: int = 1,
+        suggestion: str | None = None,
+    ):
+        super().__init__(message)
+        self.message = message
+        self.exit_code = exit_code
+        self.suggestion = suggestion
+
+    def __str__(self) -> str:
+        result = format_error(self.message)
+        if self.suggestion:
+            result += f"\n   Suggestion: {self.suggestion}"
+        return result
+
+
+class EntityNotFoundError(CLIError):
+    """Raised when a roadmap entity (track/sprint/task) is not found."""
+
+    def __init__(self, entity_type: str, entity_id: str):
+        super().__init__(
+            f"{entity_type.capitalize()} not found: {entity_id}",
+            suggestion=f"Run 'vibey roadmap list {entity_type}s' to see available {entity_type}s"
+        )
+
+
+class ValidationError(CLIError):
+    """Raised when validation fails."""
+
+    def __init__(self, message: str, field: str | None = None):
+        full_message = f"{field}: {message}" if field else message
+        super().__init__(full_message)
+
+
+def handle_cli_error(func):
+    """
+    Decorator for CLI command error handling.
+
+    Catches CLIError and prints formatted message, then returns the exit code.
+    Catches generic Exception and prints as error with exit code 1.
+
+    Usage:
+        @handle_cli_error
+        def my_command():
+            if not something:
+                raise CLIError("Something failed")
+            return 0
+    """
+    import functools
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except CLIError as e:
+            print(str(e))
+            return e.exit_code
+        except KeyboardInterrupt:
+            print("\n" + format_warning("Operation cancelled by user"))
+            return 130  # Standard exit code for SIGINT
+        except Exception as e:
+            print(format_error(str(e)))
+            return 1
+
+    return wrapper
+
+
 def _get_status_icon(status: str) -> str:
     """Get emoji icon for status."""
     status_icons = {

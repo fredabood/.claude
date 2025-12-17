@@ -97,8 +97,8 @@ def test_roadmap_with_standards(tmp_path):
         standards=roadmap_standards,
     )
 
-    # Save roadmap to .vibey/roadmap.yaml (not .vibey/roadmap/roadmap.yaml)
-    save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+    # Save roadmap to .vibey/roadmap/roadmap.yaml
+    save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
     # Create track with 2 standards (one override, one new)
     track_standards = [
@@ -323,8 +323,8 @@ class TestOverrideHandling:
         )
 
         # Save roadmap to persist the override
-        vibey_dir = test_roadmap_with_standards / ".vibey"
-        save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+        roadmap_dir = test_roadmap_with_standards / ".vibey" / "roadmap"
+        save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
         # Clear cache to reload
         resolver.clear_cache()
@@ -355,8 +355,8 @@ class TestOverrideHandling:
         )
 
         # Save roadmap to persist the override
-        vibey_dir = test_roadmap_with_standards / ".vibey"
-        save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+        roadmap_dir = test_roadmap_with_standards / ".vibey" / "roadmap"
+        save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
         resolver.clear_cache()
 
@@ -386,8 +386,8 @@ class TestDisabledStandards:
         commit_std.enabled = False
 
         # Save roadmap to persist the change
-        vibey_dir = test_roadmap_with_standards / ".vibey"
-        save_roadmap(roadmap, vibey_dir / "roadmap.yaml")
+        roadmap_dir = test_roadmap_with_standards / ".vibey" / "roadmap"
+        save_roadmap(roadmap, roadmap_dir / "roadmap.yaml")
 
         resolver.clear_cache()
 

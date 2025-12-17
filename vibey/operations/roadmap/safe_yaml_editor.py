@@ -720,6 +720,172 @@ class SafeYAMLEditor:
             for old_backup in backups[:-self.max_backups]:
                 shutil.rmtree(old_backup)
 
+    def cleanup_old_backups(
+        self,
+        max_age_days: int = 7,
+        max_size_mb: Optional[float] = None,
+        dry_run: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Clean up old backup files based on age and/or size limits.
+
+        This method implements a configurable cleanup policy for the
+        .vibey/safe-edit-backups/ directory.
+
+        Args:
+            max_age_days: Remove backups older than this many days (default: 7)
+            max_size_mb: Optional total size limit in MB (oldest removed first)
+            dry_run: If True, report what would be deleted without deleting
+
+        Returns:
+            Dictionary with cleanup statistics:
+            - backups_removed: Count of backup directories removed
+            - checkpoints_removed: Count of checkpoint directories removed
+            - bytes_freed: Total bytes freed
+            - errors: List of any errors encountered
+        """
+        from datetime import timedelta
+
+        result = {
+            "backups_removed": 0,
+            "checkpoints_removed": 0,
+            "bytes_freed": 0,
+            "errors": [],
+            "would_remove": [] if dry_run else None,
+        }
+
+        if not self.backup_dir.exists():
+            return result
+
+        now = datetime.now(timezone.utc)
+        cutoff_date = now - timedelta(days=max_age_days)
+
+        # Collect all backup and checkpoint directories
+        all_backups = []
+        for backup_dir in self.backup_dir.glob("backup_*"):
+            if backup_dir.is_dir():
+                all_backups.append(("backup", backup_dir))
+        for checkpoint_dir in self.backup_dir.glob("checkpoint_*"):
+            if checkpoint_dir.is_dir():
+                all_backups.append(("checkpoint", checkpoint_dir))
+
+        # Sort by modification time (oldest first)
+        all_backups.sort(key=lambda x: x[1].stat().st_mtime)
+
+        # Calculate total size
+        total_size = sum(
+            self._get_dir_size(d) for _, d in all_backups
+        )
+        current_size = total_size
+
+        # Process each backup
+        for backup_type, backup_path in all_backups:
+            should_remove = False
+            reason = ""
+
+            # Check age
+            try:
+                mtime = datetime.fromtimestamp(
+                    backup_path.stat().st_mtime,
+                    tz=timezone.utc
+                )
+                if mtime < cutoff_date:
+                    should_remove = True
+                    reason = f"older than {max_age_days} days"
+            except Exception as e:
+                result["errors"].append(f"Error checking {backup_path}: {e}")
+                continue
+
+            # Check size limit (if specified and we haven't hit it yet)
+            if not should_remove and max_size_mb is not None:
+                max_size_bytes = max_size_mb * 1024 * 1024
+                if current_size > max_size_bytes:
+                    should_remove = True
+                    reason = f"over size limit ({max_size_mb}MB)"
+
+            if should_remove:
+                dir_size = self._get_dir_size(backup_path)
+
+                if dry_run:
+                    result["would_remove"].append({
+                        "path": str(backup_path),
+                        "type": backup_type,
+                        "size_bytes": dir_size,
+                        "reason": reason,
+                    })
+                else:
+                    try:
+                        shutil.rmtree(backup_path)
+                        if backup_type == "backup":
+                            result["backups_removed"] += 1
+                        else:
+                            result["checkpoints_removed"] += 1
+                        result["bytes_freed"] += dir_size
+                        current_size -= dir_size
+                    except Exception as e:
+                        result["errors"].append(f"Failed to remove {backup_path}: {e}")
+
+        return result
+
+    def _get_dir_size(self, path: Path) -> int:
+        """Calculate total size of a directory in bytes."""
+        total = 0
+        try:
+            for entry in path.rglob("*"):
+                if entry.is_file():
+                    total += entry.stat().st_size
+        except Exception:
+            pass
+        return total
+
+    def get_backup_statistics(self) -> Dict[str, Any]:
+        """
+        Get statistics about the backup directory.
+
+        Returns:
+            Dictionary with:
+            - total_backups: Count of backup directories
+            - total_checkpoints: Count of checkpoint directories
+            - total_size_bytes: Total size in bytes
+            - total_size_mb: Total size in MB
+            - oldest_backup: Path to oldest backup (if any)
+            - newest_backup: Path to newest backup (if any)
+        """
+        stats = {
+            "total_backups": 0,
+            "total_checkpoints": 0,
+            "total_size_bytes": 0,
+            "total_size_mb": 0.0,
+            "oldest_backup": None,
+            "newest_backup": None,
+        }
+
+        if not self.backup_dir.exists():
+            return stats
+
+        all_dirs = []
+
+        for backup_dir in self.backup_dir.glob("backup_*"):
+            if backup_dir.is_dir():
+                stats["total_backups"] += 1
+                stats["total_size_bytes"] += self._get_dir_size(backup_dir)
+                all_dirs.append(backup_dir)
+
+        for checkpoint_dir in self.backup_dir.glob("checkpoint_*"):
+            if checkpoint_dir.is_dir():
+                stats["total_checkpoints"] += 1
+                stats["total_size_bytes"] += self._get_dir_size(checkpoint_dir)
+                all_dirs.append(checkpoint_dir)
+
+        stats["total_size_mb"] = round(stats["total_size_bytes"] / (1024 * 1024), 2)
+
+        if all_dirs:
+            all_dirs.sort(key=lambda x: x.stat().st_mtime)
+            stats["oldest_backup"] = str(all_dirs[0])
+            stats["newest_backup"] = str(all_dirs[-1])
+
+        return stats
+
     def _log_change(
         self,
         file_path: Path,

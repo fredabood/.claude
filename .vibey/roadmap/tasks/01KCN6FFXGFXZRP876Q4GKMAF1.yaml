@@ -1,0 +1,37 @@
+task:
+  id: 01KCN6FFXGFXZRP876Q4GKMAF1
+  sprint_id: dogfooding-bugs-20
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: add-commit and git link-commit commands require slug format but tasks use
+    ULIDs
+  description: The 'vibey roadmap add-commit' and 'vibey git link-commit' commands
+    expect task IDs in slug format (track-sprint-task-NNN) but the flat directory
+    structure uses ULIDs. Commands should accept ULID format for consistency with
+    other roadmap commands like 'start', 'complete', 'show'. Found during Sprint 3
+    commit linking.
+  status: not_started
+  blocked: false
+  created: '2025-12-17T03:43:22.080103+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: '2025-12-17T03:43:22.080103+00:00'
+    token_efficiency: null
+    duration_hours: null

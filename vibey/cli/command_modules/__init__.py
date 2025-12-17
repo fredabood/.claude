@@ -90,6 +90,39 @@ from vibey.cli.command_modules.migrate import (
     migrate_docs_cmd,
 )
 
+from vibey.cli.command_modules.session import (
+    session_start_cmd,
+    session_end_cmd,
+    session_pause_cmd,
+    session_resume_cmd,
+    session_status_cmd,
+    session_show_cmd,
+    session_list_cmd,
+    session_report_cmd,
+    session_timeline_cmd,
+    session_export_cmd,
+    session_decisions_cmd,
+)
+
+from vibey.cli.command_modules.discover import (
+    discover_run_cmd,
+    discover_show_cmd,
+    discover_status_cmd,
+    discover_history_cmd,
+    discover_diff_cmd,
+    discover_refresh_cmd,
+)
+
+from vibey.cli.command_modules.context import (
+    context_init_cmd,
+    context_list_cmd,
+    context_show_cmd,
+    context_archive_cmd,
+    context_clean_cmd,
+    context_export_cmd,
+    context_search_cmd,
+)
+
 __all__ = [
     # Helpers
     "slugify",
@@ -142,4 +175,31 @@ __all__ = [
     "extract_embedded_cmd",
     "migrate_format_cmd",
     "migrate_docs_cmd",
+    # Session
+    "session_start_cmd",
+    "session_end_cmd",
+    "session_pause_cmd",
+    "session_resume_cmd",
+    "session_status_cmd",
+    "session_show_cmd",
+    "session_list_cmd",
+    "session_report_cmd",
+    "session_timeline_cmd",
+    "session_export_cmd",
+    "session_decisions_cmd",
+    # Discover
+    "discover_run_cmd",
+    "discover_show_cmd",
+    "discover_status_cmd",
+    "discover_history_cmd",
+    "discover_diff_cmd",
+    "discover_refresh_cmd",
+    # Context
+    "context_init_cmd",
+    "context_list_cmd",
+    "context_show_cmd",
+    "context_archive_cmd",
+    "context_clean_cmd",
+    "context_export_cmd",
+    "context_search_cmd",
 ]

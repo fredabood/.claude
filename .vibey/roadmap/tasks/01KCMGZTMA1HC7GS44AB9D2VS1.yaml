@@ -7,11 +7,11 @@ task:
   title: Add integration tests for CLI-Database flow
   description: 'Add integration tests for complete user flows: CLI command -> Operations
     -> YAML/SQLite sync. Source: Integration Test Strategy 1.1, TD003'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:27:48.665643+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T22:41:13.767914+00:00'
+  completed: '2025-12-17T22:42:42.166269+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

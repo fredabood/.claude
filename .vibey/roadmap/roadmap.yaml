@@ -17,9 +17,9 @@ roadmap:
     tracks_total: 47
     tracks_completed: 24
     sprints_total: 226
-    sprints_completed: 44
-    tasks_total: 1537
-    tasks_completed: 1223
+    sprints_completed: 45
+    tasks_total: 1541
+    tasks_completed: 1226
     completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -568,10 +568,75 @@ roadmap:
     description: 'Sprint ''Sprint 3: Code Cleanup'' completed'
     context:
       sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
+  - timestamp: '2025-12-17T22:06:12.149205+00:00'
+    type: sprint_started
+    description: 'Sprint ''Sprint 4: Major Refactoring'' started'
+    context:
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:06:23.362039+00:00'
+    type: task_started
+    description: Task 'Implement CLI refactor for semantic layer alignment' started
+    context:
+      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:15:02.494478+00:00'
+    type: task_completed
+    description: Task 'Implement CLI refactor for semantic layer alignment' completed
+    context:
+      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:16:40.672303+00:00'
+    type: task_completed
+    description: Task 'Implement CLI refactor for semantic layer alignment' completed
+    context:
+      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:18:39.167479+00:00'
+    type: task_started
+    description: Task 'Implement planned criterion targets' started
+    context:
+      task_id: 01KCMNP21ZPJMABMKHJYDQD7RR
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:25:04.993607+00:00'
+    type: task_completed
+    description: Task 'Implement planned criterion targets' completed
+    context:
+      task_id: 01KCMNP21ZPJMABMKHJYDQD7RR
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:25:42.705540+00:00'
+    type: task_started
+    description: Task 'Implement hierarchical planned status aggregation' started
+    context:
+      task_id: 01KCMNPC039DG15PZT0QHMTBCV
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:29:53.277967+00:00'
+    type: task_completed
+    description: Task 'Implement hierarchical planned status aggregation' completed
+    context:
+      task_id: 01KCMNPC039DG15PZT0QHMTBCV
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:30:08.593810+00:00'
+    type: task_started
+    description: Task 'Add CLI/MCP commands for planned status workflow' started
+    context:
+      task_id: 01KCMNPQQ8ETYF2X4N5WP95ENG
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:41:15.014271+00:00'
+    type: task_started
+    description: Task 'Add integration tests for CLI-Database flow' started
+    context:
+      task_id: 01KCMGZTMA1HC7GS44AB9D2VS1
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-17T22:42:43.409746+00:00'
+    type: task_completed
+    description: Task 'Add integration tests for CLI-Database flow' completed
+    context:
+      task_id: 01KCMGZTMA1HC7GS44AB9D2VS1
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T21:32:14.696122+00:00'
+    last_updated: '2025-12-17T22:42:43.409748+00:00'
     purpose: null
     description: null

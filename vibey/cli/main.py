@@ -5327,6 +5327,221 @@ def parity_report(ctx, output_format: str, output: str):
 
 
 # ============================================================================
+# Planned Status Commands - Planning workflow management
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def planned(ctx):
+    """Planned status workflow - check and approve planning criteria.
+
+    The planned status system helps ensure tickets have proper planning
+    before work begins. A ticket is "planned" when required criteria are met:
+    - YAML file exists (required)
+    - Context files exist (optional)
+    - Manual approval (optional, if configured)
+
+    Workflow:
+    1. Check if ticket is planned: vibey planned check <id>
+    2. List unplanned tickets: vibey planned list-unplanned
+    3. Get next work item: vibey planned next <track-id>
+    4. Approve planning: vibey planned approve <id>
+
+    Examples:
+
+      vibey planned check 01KC7MN54VXRB3APC5FV5XBDXX
+      vibey planned list-unplanned --scope tasks
+      vibey planned next 01KC2D0JK9JKQXGQW6MQEB0JZP
+      vibey planned approve 01KC7MN54VXRB3APC5FV5XBDXX
+    """
+    ctx.ensure_object(dict)
+
+
+@planned.command('check')
+@click.argument('ticket_id')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed criteria status')
+@click.pass_context
+def planned_check(ctx, ticket_id: str, verbose: bool):
+    """Check if a ticket is fully planned and ready for implementation.
+
+    Evaluates all planning criteria for the ticket and reports status.
+    A ticket is planned when all required criteria are met.
+
+    Examples:
+      vibey planned check 01KC7MN54VXRB3APC5FV5XBDXX
+      vibey planned check 01KC7MN54VXRB3APC5FV5XBDXX --verbose
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.planned_ops import check_planned
+
+    root_dir = Path.cwd()
+
+    try:
+        result = check_planned(root_dir, ticket_id)
+
+        # Format output
+        if result.is_planned:
+            icon = "✓"
+            status_msg = "fully planned"
+            style = "green"
+        else:
+            icon = "○"
+            status_msg = "not planned"
+            style = "yellow"
+
+        console.print(f"[{style}]{icon}[/{style}] {result.ticket_type.title()} {ticket_id} is {status_msg}")
+        console.print(f"  Progress: {result.criteria_met}/{result.criteria_total} criteria met")
+
+        if verbose and result.unmet_criteria:
+            console.print("\n  [bold]Unmet criteria:[/bold]")
+            for criterion in result.unmet_criteria:
+                console.print(f"    - {criterion}")
+
+        if result.unplanned_children:
+            console.print(f"\n  [bold]Unplanned children:[/bold] {len(result.unplanned_children)}")
+            if verbose:
+                for child_id in result.unplanned_children[:5]:
+                    console.print(f"    - {child_id}")
+                if len(result.unplanned_children) > 5:
+                    console.print(f"    ... and {len(result.unplanned_children) - 5} more")
+
+        sys.exit(0 if result.is_planned else 1)
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+    except Exception as e:
+        console.print(f"[red]Error checking planned status:[/red] {e}")
+        sys.exit(1)
+
+
+@planned.command('approve')
+@click.argument('ticket_id')
+@click.option('--approver', help='Name of approver')
+@click.option('--notes', help='Approval notes')
+@click.pass_context
+def planned_approve(ctx, ticket_id: str, approver: Optional[str], notes: Optional[str]):
+    """Manually approve a ticket's planning.
+
+    Sets a metadata flag indicating planning has been reviewed and approved.
+    Useful when automated criteria can't capture all planning requirements.
+
+    Examples:
+      vibey planned approve 01KC7MN54VXRB3APC5FV5XBDXX
+      vibey planned approve 01KC7MN54VXRB3APC5FV5XBDXX --approver "alice"
+      vibey planned approve 01KC7MN54VXRB3APC5FV5XBDXX --notes "Reviewed in planning meeting"
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.planned_ops import approve_planned
+
+    root_dir = Path.cwd()
+
+    try:
+        result = approve_planned(root_dir, ticket_id, approver, notes)
+        console.print(f"[green]✓[/green] Approved planning for {ticket_id}")
+        if approver:
+            console.print(f"  Approved by: {approver}")
+        console.print(f"  Timestamp: {result['approved_at']}")
+        sys.exit(0)
+
+    except FileNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+    except Exception as e:
+        console.print(f"[red]Error approving:[/red] {e}")
+        sys.exit(1)
+
+
+@planned.command('list-unplanned')
+@click.option('--scope', type=click.Choice(['all', 'tracks', 'sprints', 'tasks']),
+              default='tasks', help='What to list')
+@click.option('--track', '-t', help='Filter by track ID')
+@click.option('--sprint', '-s', help='Filter by sprint ID')
+@click.option('--limit', '-n', default=20, help='Maximum results')
+@click.pass_context
+def planned_list_unplanned(ctx, scope: str, track: Optional[str],
+                           sprint: Optional[str], limit: int):
+    """List tickets that are not yet planned.
+
+    Shows tickets missing required planning criteria. Use filters to
+    narrow down the scope.
+
+    Examples:
+      vibey planned list-unplanned
+      vibey planned list-unplanned --scope sprints
+      vibey planned list-unplanned --track 01KC2D0JK9JKQXGQW6MQEB0JZP
+      vibey planned list-unplanned --limit 50
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.planned_ops import list_unplanned
+
+    root_dir = Path.cwd()
+
+    try:
+        results = list_unplanned(
+            root_dir,
+            scope=scope,
+            track_id=track,
+            sprint_id=sprint,
+        )
+
+        # Apply limit
+        results = results[:limit]
+
+        if not results:
+            console.print(f"[green]✓[/green] All {scope} are planned!")
+            sys.exit(0)
+
+        console.print(f"[bold]Unplanned {scope} ({len(results)}):[/bold]")
+        for item in results:
+            console.print(f"  ○ {item['id']} - {item['title']}")
+
+        sys.exit(0)
+
+    except Exception as e:
+        console.print(f"[red]Error listing unplanned:[/red] {e}")
+        sys.exit(1)
+
+
+@planned.command('next')
+@click.argument('track_id')
+@click.pass_context
+def planned_next(ctx, track_id: str):
+    """Get the next planning work item for a track.
+
+    Returns what needs to be done to plan the next unplanned ticket
+    in the specified track. Useful for systematic planning workflow.
+
+    Examples:
+      vibey planned next 01KC2D0JK9JKQXGQW6MQEB0JZP
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap.planned_ops import get_next_planning_work
+
+    root_dir = Path.cwd()
+
+    try:
+        item = get_next_planning_work(root_dir, track_id)
+
+        if item is None:
+            console.print(f"[green]✓[/green] Track {track_id} is fully planned!")
+            sys.exit(0)
+
+        console.print(f"[bold]Next planning work for {track_id}:[/bold]")
+        console.print(f"  Ticket: {item.ticket_id}")
+        console.print(f"  Title: {item.ticket_title}")
+        console.print(f"  Criterion: {item.criterion}")
+        console.print(f"  Action: {item.action}")
+        console.print(f"  Required: {'Yes' if item.required else 'No'}")
+
+        sys.exit(0)
+
+    except Exception as e:
+        console.print(f"[red]Error getting next work:[/red] {e}")
+        sys.exit(1)
+
+
+# ============================================================================
 # Main Entry Point
 # ============================================================================
 

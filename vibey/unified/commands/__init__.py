@@ -11,5 +11,6 @@ Import command modules here to register them in the COMMAND_REGISTRY.
 from . import roadmap
 from . import deploy
 from . import docs
+from . import planned
 
-__all__ = ["roadmap", "deploy", "docs"]
+__all__ = ["roadmap", "deploy", "docs", "planned"]

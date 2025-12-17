@@ -39,8 +39,8 @@
 # Get overall status
 vibey roadmap status
 
-# See what's in progress
-vibey roadmap status --filter in_progress
+# See progress grouped by status
+vibey roadmap db query progress --by status
 
 # Review recent activity
 vibey roadmap activity --limit 10
@@ -72,8 +72,8 @@ accurate. Use `vibey discover diff` to see what changed.
 # See available tasks
 vibey roadmap show sprint <current-sprint>
 
-# Check blockers
-vibey roadmap list-blockers
+# Check blocked tasks
+vibey roadmap db query blocked
 
 # Start the chosen task
 vibey roadmap start <task-id>
@@ -239,7 +239,7 @@ vibey roadmap start <original-task-id>
 | Command | Purpose |
 |---------|---------|
 | `vibey roadmap auto-progress` | Auto-update counters |
-| `vibey roadmap list-blockers` | See blocked items |
+| `vibey roadmap db query blocked` | See blocked items |
 | `vibey roadmap update task <id>` | Modify task properties |
 
 ### Context Management

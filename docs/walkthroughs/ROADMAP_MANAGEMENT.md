@@ -207,7 +207,7 @@ This means `task-id` cannot start until `other-task-id` is completed.
 vibey roadmap dependency list --task <task-id>
 
 # Show all blocked tasks
-vibey roadmap list-blockers
+vibey roadmap db query blocked
 ```
 
 ### Remove a Dependency

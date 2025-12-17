@@ -127,7 +127,7 @@
 | `vibey roadmap get-field` | REPORTING_AND_STATUS |
 | `vibey roadmap history` | REPORTING_AND_STATUS |
 | `vibey roadmap list` | ROADMAP_MANAGEMENT, REPORTING_AND_STATUS |
-| `vibey roadmap list-blockers` | DAILY_WORKFLOW |
+| `vibey roadmap db query blocked` | DAILY_WORKFLOW |
 | `vibey roadmap restore` | ROADMAP_MANAGEMENT, TROUBLESHOOTING |
 | `vibey roadmap show` | GETTING_STARTED, DAILY_WORKFLOW, REPORTING_AND_STATUS |
 | `vibey roadmap start` | GETTING_STARTED, DAILY_WORKFLOW |

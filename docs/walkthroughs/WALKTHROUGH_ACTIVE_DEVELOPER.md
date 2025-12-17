@@ -84,7 +84,7 @@ Understand the current state before starting work.
 3. Review any blocked items:
 
    ```bash
-   vibey roadmap list-blockers
+   vibey roadmap db query blocked
    ```
 
 ### Checkpoint
@@ -222,7 +222,7 @@ Know what to do when you're blocked.
 
 ### Checkpoint
 
-> **Verify:** Blocked task shows in `list-blockers`
+> **Verify:** Blocked task shows in `vibey roadmap db query blocked`
 
 ---
 
@@ -377,7 +377,7 @@ Use the audit trail to understand your work patterns and verify changes.
 | `vibey roadmap complete <id>` | Finish task |
 | `vibey roadmap add-context` | Add notes |
 | `vibey roadmap update task --blocked` | Mark blocked |
-| `vibey roadmap list-blockers` | View blocked items |
+| `vibey roadmap db query blocked` | View blocked items |
 | `vibey roadmap checkpoint` | Save state |
 | `vibey context list` | List context items |
 | `vibey context show <id>` | View context details |
@@ -399,7 +399,7 @@ Use the audit trail to understand your work patterns and verify changes.
 # Session start
 vibey roadmap status
 vibey roadmap activity --limit 5
-vibey roadmap list-blockers
+vibey roadmap db query blocked
 vibey context list --type session --limit 3   # Review past sessions
 
 # During work

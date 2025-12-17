@@ -139,7 +139,7 @@ Track work across all tracks efficiently.
 3. Check blocked items across all tracks:
 
    ```bash
-   vibey roadmap list-blockers --all-tracks
+   vibey roadmap db query blocked --all-tracks
    ```
 
 4. View recent activity:
@@ -259,7 +259,7 @@ Use the audit trail for accountability and compliance documentation.
 | `create-track` | Create work tracks |
 | `create-sprint` | Create sprints |
 | `status --verbose` | Detailed view |
-| `list-blockers --all-tracks` | Cross-track blockers |
+| `db query blocked` | Cross-track blockers |
 | `summarize` | Generate reports |
 | `export` | Export data |
 | `checkpoint` | Save state |

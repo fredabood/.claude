@@ -269,10 +269,22 @@ roadmap:
     context:
       task_id: 01KCMGPER4DR1WFTSRPQ03J40S
       sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T18:55:58.071271+00:00'
+    type: task_started
+    description: Task 'Update documentation for CLI command variations' started
+    context:
+      task_id: 01KCMGPJFBZ5BWETD1SBGE1N57
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T19:02:00.587264+00:00'
+    type: task_completed
+    description: Task 'Update documentation for CLI command variations' completed
+    context:
+      task_id: 01KCMGPJFBZ5BWETD1SBGE1N57
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T18:55:45.773441+00:00'
+    last_updated: '2025-12-17T19:02:00.587266+00:00'
     purpose: null
     description: null

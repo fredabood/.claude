@@ -52,7 +52,7 @@ vibey discover history --limit 5
 vibey discover diff
 
 # Identify blockers
-vibey roadmap list-blockers --all-tracks
+vibey roadmap db query blocked --all-tracks
 
 # Generate planning summary
 vibey roadmap summarize --output weekly-planning.md
@@ -77,7 +77,7 @@ vibey roadmap status
 vibey roadmap activity --since yesterday
 
 # Check for new blockers
-vibey roadmap list-blockers
+vibey roadmap db query blocked
 
 # Auto-update progress counters
 vibey roadmap auto-progress --check
@@ -167,7 +167,7 @@ vibey roadmap list tasks --filter completed --since "2 weeks ago"
 
 ```bash
 # List all blockers
-vibey roadmap list-blockers
+vibey roadmap db query blocked
 
 # View blocker details
 vibey roadmap show task <blocked-task-id>
@@ -242,7 +242,7 @@ vibey roadmap summarize --type executive --output stakeholder-update.md
 | `status` | Overall progress |
 | `status --verbose` | Detailed breakdown |
 | `show track/sprint/task` | View specific item |
-| `list-blockers` | All blocked items |
+| `db query blocked` | All blocked items |
 | `activity` | Recent changes |
 
 ### Reporting Commands
@@ -361,7 +361,7 @@ vibey roadmap status
 vibey roadmap list-dependencies
 
 # Check blocked by other tracks
-vibey roadmap list-blockers --cross-track
+vibey roadmap db query blocked --cross-track
 ```
 
 ### Prioritization

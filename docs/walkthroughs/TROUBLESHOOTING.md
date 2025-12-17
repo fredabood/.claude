@@ -150,7 +150,7 @@ vibey roadmap status
 **Solution:**
 ```bash
 # Check blockers
-vibey roadmap list-blockers
+vibey roadmap db query blocked
 
 # View dependencies
 vibey roadmap dependency list --task <task-id>

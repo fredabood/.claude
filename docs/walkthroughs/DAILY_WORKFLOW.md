@@ -367,7 +367,7 @@ When using Vibey with AI assistants (Claude, Cursor, etc.):
 | Start task | `vibey roadmap start <id>` | `task_start` |
 | Complete task | `vibey roadmap complete <id>` | `task_complete` |
 | Query task | `vibey roadmap show <id>` | `task_query` |
-| List blockers | `vibey roadmap list-blockers` | `vibey_list_blockers` |
+| List blockers | `vibey roadmap db query blocked` | `vibey_list_blockers` |
 | Refresh progress | - | `vibey_refresh_progress` |
 
 The AI assistant uses MCP tools for the same operations.

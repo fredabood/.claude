@@ -37,7 +37,7 @@ This document maps Vibey features to user personas and their journeys, identifyi
 | `roadmap activity` | - | M | M | - | - | Yes |
 | `roadmap checkpoint` | - | S | M | - | - | Yes |
 | `roadmap summarize` | - | N | M | - | - | Yes |
-| `roadmap list-blockers` | - | M | M | - | - | Yes |
+| `roadmap db query blocked` | - | M | M | - | - | Yes |
 | `roadmap list-dependencies` | - | S | M | - | - | Yes |
 | `roadmap validate` | - | - | S | M | - | Yes |
 | `roadmap repair` | - | - | S | S | - | Yes |

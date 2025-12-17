@@ -7,11 +7,11 @@ task:
   title: Update documentation for CLI command variations
   description: 'Update documentation to match actual command syntax for any commands
     that differ from docs. Source: SI002'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:22:45.360683+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T18:55:56.868598+00:00'
+  completed: '2025-12-17T19:01:59.397484+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

@@ -10,11 +10,11 @@ task:
     hierarchical tickets, activity logging. Key source docs: UNIFIED_TICKET_ARCHITECTURE.md,
     sqlite-backend-6/architecture/*, unified-arch-*/schemas. Document which concepts
     are missing from user docs. Source: User feedback'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:23:32.575682+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:05:33.892581+00:00'
+  completed: '2025-12-17T02:06:55.532452+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

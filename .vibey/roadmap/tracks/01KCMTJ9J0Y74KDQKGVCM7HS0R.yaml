@@ -12,9 +12,9 @@ track:
   progress:
     sprints_total: 3
     sprints_completed: 0
-    tasks_total: 3
+    tasks_total: 4
     tasks_completed: 3
-    completion_percent: 100
+    completion_percent: 75
   sprints:
   - id: 01KCMTKTGB41SQCSNG893TXB3B
     name: 'Sprint 1: Critical Documentation Fixes'

@@ -8,10 +8,10 @@ task:
   description: 'Split 3000+ line commands.py into separate modules by command group
     (roadmap_commands.py, docs_commands.py, deploy_commands.py, etc.). Source: SI005,
     DD001'
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-16T21:27:32.782496+00:00'
-  started: null
+  started: '2025-12-17T21:08:50.492014+00:00'
   completed: null
   assigned_agent: unassigned
   priority: medium

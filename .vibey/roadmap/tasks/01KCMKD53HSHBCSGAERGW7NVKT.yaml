@@ -8,11 +8,11 @@ task:
   description: 'Expand CLI test coverage to 100% for all command modules in vibey/cli/.
     Include all subcommands, options, error handling, and edge cases. Update existing
     60% target to 100%. Source: User feedback, CORE_LIBRARY_AUDIT_SUMMARY.md'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:10:02.543223+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T18:10:00.000000+00:00'
+  completed: '2025-12-17T18:20:00.000000+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null
@@ -26,8 +26,11 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables: []
-  commits: []
+  deliverables:
+  - tests/cli/test_unified_cli_commands.py
+  commits:
+  - sha: 15a26809
+    message: 'test(cli): Add unified CLI command and parity tests'
   metadata:
     last_updated: null
     token_efficiency: null

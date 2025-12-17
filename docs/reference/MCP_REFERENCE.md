@@ -44,6 +44,38 @@ This document provides comprehensive reference documentation for the Vibey MCP (
 
 ---
 
+## Architecture Context
+
+Understanding Vibey's architecture helps AI assistants use MCP tools effectively:
+
+### The Unified Ticket Model
+
+MCP tools operate on Vibey's three-level hierarchy:
+
+- **Tracks** - Major project themes (`vibey_query_track`)
+- **Sprints** - Focused work periods (`sprint_list`, `vibey_refresh_progress`)
+- **Tasks** - Individual work items (`task_start`, `task_complete`, `task_query`)
+
+Progress computation flows upward: completing tasks via `task_complete` automatically updates sprint and track progress.
+
+### Entity Identification
+
+All MCP tools use 26-character ULID identifiers (e.g., `01KC2D0JK9JKQXGQW6MQEB0JZP`):
+- Pass ULIDs to tools like `task_query`, `task_start`, `task_complete`
+- ULIDs are time-sortable and globally unique
+- Use `roadmap_status` or `sprint_list` to discover entity IDs
+
+### MCP Tool Design Principles
+
+- **Structured Input/Output** - All tools accept and return JSON
+- **Idempotent Operations** - Safe to retry failed tool calls
+- **Error Information** - Clear error messages for debugging
+- **Context Preservation** - Tools maintain conversation context
+
+For complete architecture details, see [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md).
+
+---
+
 ## Table of Contents
 
 - [Quick Reference](#quick-reference)

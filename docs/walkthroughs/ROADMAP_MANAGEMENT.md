@@ -37,6 +37,13 @@ TRACK (Theme)              "Platform Compatibility"
 | **Sprint** | Focused work period | Days to weeks |
 | **Task** | Individual work item | Hours to days |
 
+> **The Unified Ticket Model:** This three-level hierarchy is called the "Unified Ticket Model"
+> in Vibey's architecture. Every work item has an assigned status, and progress flows upward
+> automatically—completing tasks updates sprint progress, which updates track progress. All
+> entities use ULIDs (26-character time-sortable identifiers) and are stored in both YAML files
+> (for git version control) and SQLite (for fast queries). See [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)
+> for details on how dual storage works.
+
 ---
 
 ## Creating a Track
@@ -64,11 +71,11 @@ vibey roadmap create-track \
 ### View Created Track
 
 ```bash
-# List all tracks
-vibey roadmap list tracks
+# Show all tracks via status
+vibey roadmap status
 
-# Show specific track
-vibey roadmap show track <track-id>
+# Show specific track details
+vibey roadmap show <track-id>
 ```
 
 ---
@@ -101,10 +108,10 @@ Avoid:
 
 ```bash
 # See sprint within track
-vibey roadmap show track <track-id>
+vibey roadmap show <track-id>
 
 # Detailed sprint view
-vibey roadmap show sprint <sprint-id>
+vibey roadmap show <sprint-id>
 ```
 
 ---
@@ -231,35 +238,76 @@ vibey roadmap check-standards
 
 ---
 
-## Querying and Filtering
+## Audit and Inventory
 
-### List with Filters
+### Inventory Files
 
 ```bash
-# Tasks by status
-vibey roadmap list tasks --status not_started
-vibey roadmap list tasks --status in_progress
-vibey roadmap list tasks --status completed
+vibey audit inventory
+```
 
-# Tasks in a sprint
-vibey roadmap list tasks --sprint <sprint-id>
+Lists all files tracked by the roadmap system.
 
-# Sprints in a track
-vibey roadmap list sprints --track <track-id>
+### Classify Items
+
+```bash
+vibey audit classify
+```
+
+Automatically classifies roadmap items by type and purpose.
+
+---
+
+## Checkpoints and Restore
+
+### Create a Checkpoint
+
+```bash
+vibey roadmap checkpoint --name "before-refactor"
+```
+
+Saves the current roadmap state for later restoration.
+
+### List Checkpoints
+
+```bash
+vibey roadmap checkpoint --list
+```
+
+### Restore from Checkpoint
+
+```bash
+vibey roadmap restore --checkpoint "before-refactor"
+```
+
+---
+
+## Querying and Filtering
+
+### View Status
+
+```bash
+# Overall roadmap status
+vibey roadmap status
+
+# Filter by status (if supported)
+vibey roadmap status --filter in_progress
 ```
 
 ### Show Details
 
 ```bash
 # Track with all sprints
-vibey roadmap show track <track-id>
+vibey roadmap show <track-id>
 
 # Sprint with all tasks
-vibey roadmap show sprint <sprint-id>
+vibey roadmap show <sprint-id>
 
 # Task details
-vibey roadmap show task <task-id>
+vibey roadmap show <task-id>
 ```
+
+Note: Use `vibey roadmap status` to see all items, then `vibey roadmap show <id>` for details.
 
 ---
 
@@ -345,34 +393,58 @@ vibey roadmap show track <track-id>
 ### Track Commands
 ```bash
 vibey roadmap create-track --name "..." --description "..."
-vibey roadmap list tracks
-vibey roadmap show track <id>
-vibey roadmap update track <id> --name "..."
+vibey roadmap show <track-id>
+vibey roadmap status                    # Shows all tracks
 ```
 
 ### Sprint Commands
 ```bash
 vibey roadmap create-sprint --track <id> --name "..."
-vibey roadmap list sprints --track <id>
-vibey roadmap show sprint <id>
-vibey roadmap update sprint <id> --description "..."
+vibey roadmap show <sprint-id>
+vibey roadmap start <sprint-id>
+vibey roadmap complete <sprint-id>
 ```
 
 ### Task Commands
 ```bash
 vibey roadmap create-task --sprint <id> --title "..."
-vibey roadmap list tasks --sprint <id>
-vibey roadmap show task <id>
-vibey roadmap update task <id> --status <status>
+vibey roadmap show <task-id>
+vibey roadmap start <task-id>
+vibey roadmap complete <task-id>
 ```
 
 ### Dependency Commands
 ```bash
-vibey roadmap dependency add --task <id> --depends-on <id>
-vibey roadmap dependency list --task <id>
-vibey roadmap dependency remove --task <id> --depends-on <id>
-vibey roadmap list-blockers
+# Note: Dependency commands may vary - check `vibey roadmap --help`
+vibey roadmap show <task-id>            # View task dependencies
 ```
+
+---
+
+## MCP Integration
+
+AI assistants can use MCP tools for roadmap management:
+
+### Query Tools
+
+| MCP Tool | Purpose |
+|----------|---------|
+| `vibey_query_track` | Query track details and progress |
+| `vibey_query_standards` | Query defined standards |
+| `vibey_list_blockers` | List blocked tasks |
+
+### Example: Query Track via MCP
+
+```json
+{
+  "tool": "vibey_query_track",
+  "arguments": {
+    "track_id": "01KC2D0JK9JKQXGQW6MQEB0JZP"
+  }
+}
+```
+
+Returns track details including sprints and progress.
 
 ---
 

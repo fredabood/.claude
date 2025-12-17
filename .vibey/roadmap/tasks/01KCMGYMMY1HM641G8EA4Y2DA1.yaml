@@ -7,11 +7,11 @@ task:
   title: Add MCP integration sections to walkthroughs
   description: 'Add parallel MCP workflow sections to walkthroughs for AI assistant
     users. Source: User Journey Friction'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:27:09.759686+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:50:48.840498+00:00'
+  completed: '2025-12-17T02:51:13.007190+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

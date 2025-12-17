@@ -57,7 +57,7 @@ pip install -e ".[dev]"
 
 ```bash
 vibey --version
-# Expected: Vibey Agent Framework vX.Y.Z
+# Expected output: vibey, version 2.5.0
 ```
 
 <details>
@@ -74,18 +74,11 @@ vibey --version
 
 ## Step 2: Initialize Vibey in Your Project
 
-Navigate to your project and initialize Vibey:
+Navigate to your project and initialize the roadmap:
 
 ```bash
 cd /path/to/your/project
-vibey init
-```
-
-**Expected Output:**
-```
-Initialized Vibey in current directory
-Created: .vibey/roadmap/
-Created: .vibey/roadmap.db
+vibey roadmap init --name "My Project"
 ```
 
 This creates the `.vibey/` directory structure:
@@ -220,6 +213,12 @@ Getting Started
 | **Status Flow** | not_started → in_progress → completed |
 | **Progress** | Computed automatically from completed tasks |
 
+> **Why This Architecture?** Vibey's three-level hierarchy (the "Unified Ticket Model")
+> enables automatic progress tracking. When you complete tasks, sprint and track
+> progress update automatically. Data is stored in YAML files (for git version control)
+> with a SQLite cache (for fast queries). See [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)
+> for the full picture.
+
 ---
 
 ## Command Reference
@@ -227,14 +226,62 @@ Getting Started
 | Command | Purpose |
 |---------|---------|
 | `vibey --version` | Check installation |
-| `vibey init` | Initialize in project |
+| `vibey roadmap init` | Initialize roadmap |
 | `vibey roadmap status` | View overall status |
 | `vibey roadmap create-track` | Create a track |
 | `vibey roadmap create-sprint` | Create a sprint |
 | `vibey roadmap create-task` | Create a task |
 | `vibey roadmap start <id>` | Start a task |
 | `vibey roadmap complete <id>` | Complete a task |
-| `vibey roadmap show <type> <id>` | View details |
+| `vibey roadmap show <id>` | View details |
+
+---
+
+## Optional: Authentication Setup
+
+For team environments with signed commits:
+
+### Initialize Project Authentication
+
+```bash
+vibey auth init-project
+```
+
+### Check Auth Status
+
+```bash
+vibey auth status
+```
+
+### Setup Authentication
+
+```bash
+vibey auth setup
+```
+
+### Add a Signer (Team Member)
+
+```bash
+vibey auth add-signer --name "Alice" --email "alice@example.com"
+```
+
+### List Authorized Signers
+
+```bash
+vibey auth list
+```
+
+### Export Auth Configuration
+
+```bash
+vibey auth export > auth-config.json
+```
+
+### Revoke a Signer
+
+```bash
+vibey auth revoke --email "removed@example.com"
+```
 
 ---
 
@@ -242,7 +289,7 @@ Getting Started
 
 1. **Daily Workflow** - [DAILY_WORKFLOW.md](./DAILY_WORKFLOW.md) - Task management cycle
 2. **Architecture** - [ARCHITECTURE_OVERVIEW.md](../architecture/ARCHITECTURE_OVERVIEW.md) - How Vibey works
-3. **CLI Reference** - [CLI_REFERENCE.md](../reference/CLI_REFERENCE.md) - All 200 commands
+3. **CLI Reference** - [CLI_REFERENCE.md](../reference/CLI_REFERENCE.md) - All commands
 4. **Help** - [GitHub Issues](https://github.com/anthropics/vibey/issues)
 
 ---

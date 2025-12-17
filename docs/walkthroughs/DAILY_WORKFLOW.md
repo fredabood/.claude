@@ -73,20 +73,22 @@ Shows only items currently being worked on.
 ### View Available Tasks
 
 ```bash
-# Show your current sprint
-vibey roadmap show sprint <sprint-id>
+# Show your current sprint with its tasks
+vibey roadmap show <sprint-id>
 
-# Or list all available tasks
-vibey roadmap list tasks --status not_started
+# Or view overall status to find sprints
+vibey roadmap status
 ```
 
 ### Check for Blockers
 
+Review the sprint to identify tasks with dependencies:
+
 ```bash
-vibey roadmap list-blockers
+vibey roadmap show <sprint-id>
 ```
 
-Shows tasks that are blocked by dependencies.
+Tasks with unfinished dependencies will show as blocked.
 
 ### Selection Criteria
 
@@ -117,7 +119,7 @@ This:
 
 ```bash
 # View task details anytime
-vibey roadmap show task <task-id>
+vibey roadmap show <task-id>
 ```
 
 Shows:
@@ -172,6 +174,12 @@ vibey roadmap status
 
 Check that progress updated correctly.
 
+> **How Progress Works:** When you complete a task, Vibey automatically recomputes sprint and
+> track progress. Completion percentages are calculated as `completed_tasks / total_tasks × 100`.
+> Sprint status flows through: `not_started` → `in_progress` → `completion_gate_check` →
+> `production_ready` → `deployed`. See [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)
+> for the full status flow diagram.
+
 ---
 
 ## Phase 5: Session End (5 minutes)
@@ -219,12 +227,11 @@ vibey roadmap start <original-task-id>
 ### Task is Blocked
 
 ```bash
-# Update task status to blocked
-vibey roadmap update task <task-id> --status blocked
-
 # Add context about what's blocking
 vibey roadmap add-context <task-id> --message "Blocked on: API spec from team X"
 ```
+
+Note: Use `vibey roadmap show <task-id>` to check current status.
 
 ### Sprint Completed
 
@@ -235,7 +242,7 @@ When all tasks in a sprint are done:
 vibey roadmap status
 
 # View completed sprint
-vibey roadmap show sprint <sprint-id>
+vibey roadmap show <sprint-id>
 ```
 
 ### Starting a New Sprint
@@ -265,15 +272,15 @@ vibey roadmap status --filter in_progress  # In-progress items
 ```bash
 vibey roadmap start <task-id>           # Start working
 vibey roadmap complete <task-id>        # Finish task
-vibey roadmap show task <task-id>       # View details
+vibey roadmap show <task-id>            # View details
 vibey roadmap add-context <id> -m "..." # Add notes
 ```
 
 ### Viewing Work
 ```bash
-vibey roadmap list tasks --sprint <id>  # Tasks in sprint
-vibey roadmap list-blockers             # Blocked items
-vibey roadmap show sprint <id>          # Sprint details
+vibey roadmap status                    # All items
+vibey roadmap show <sprint-id>          # Sprint with tasks
+vibey roadmap show <task-id>            # Task details
 ```
 
 ---
@@ -297,6 +304,57 @@ Link git commits to task completion for traceability.
 
 ---
 
+## Git Integration
+
+Vibey integrates with git to track commits and branches:
+
+### Link Commits to Tasks
+
+```bash
+vibey git link-commit --task <task-id> --commit <commit-sha>
+```
+
+### View Git History for Roadmap
+
+```bash
+vibey git history
+```
+
+### Check Git Progress
+
+```bash
+vibey git progress
+```
+
+### Analyze Git State
+
+```bash
+vibey git analyze
+```
+
+### Branch Management
+
+```bash
+# Create branch linked to task
+vibey git branch create --task <task-id> --name "feature/task-name"
+
+# List linked branches
+vibey git branch list
+
+# Check branch status
+vibey git branch status
+```
+
+### Sync Git and Roadmap
+
+```bash
+vibey git sync
+```
+
+Synchronizes git state with roadmap records.
+
+---
+
 ## MCP Integration
 
 When using Vibey with AI assistants (Claude, Cursor, etc.):
@@ -309,8 +367,23 @@ When using Vibey with AI assistants (Claude, Cursor, etc.):
 | Start task | `vibey roadmap start <id>` | `task_start` |
 | Complete task | `vibey roadmap complete <id>` | `task_complete` |
 | Query task | `vibey roadmap show <id>` | `task_query` |
+| List blockers | `vibey roadmap list-blockers` | `vibey_list_blockers` |
+| Refresh progress | - | `vibey_refresh_progress` |
 
 The AI assistant uses MCP tools for the same operations.
+
+### MCP Workflow Tools
+
+AI assistants can use workflow handoff tools for task transitions:
+
+| Tool | Purpose |
+|------|---------|
+| `vibey_handoff_initial_analysis` | Begin task analysis |
+| `vibey_handoff_planning_complete` | Planning phase done |
+| `vibey_handoff_implementation_complete` | Code complete |
+| `vibey_handoff_code_review` | Request code review |
+| `vibey_handoff_testing_complete` | Testing done |
+| `vibey_handoff_ai_to_human` | Escalate to human |
 
 ---
 

@@ -2,25 +2,58 @@
 Vibey Content Package.
 
 Contains the framework content (agents, workflows, templates, schemas, examples)
-that can be deployed to target projects.
+that can be deployed to target projects via the ``vibey content`` CLI commands.
+
+Content Directories
+-------------------
+- **agents/**: AI agent role definitions (markdown files)
+- **workflows/**: Workflow definitions for task automation
+- **templates/**: Output templates for various formats
+- **schemas/**: JSON schemas for validation
+- **examples/**: Example configurations and usage patterns
+- **config/**: Default configuration files
 
 This module provides accessor functions to get paths to content directories,
 which work correctly for both:
 - Editable installs (pip install -e .)
 - Regular pip installs
 
-Usage:
+Usage Examples
+--------------
+Getting paths::
+
     from vibey.content import get_content_root, get_agents_dir
 
     # Get path to content root
     content_root = get_content_root()
+    print(content_root)  # /path/to/vibey/content/
 
     # Get path to agents directory
     agents_dir = get_agents_dir()
 
-    # Iterate over agent files
-    for agent_file in agents_dir.rglob('*.md'):
+Iterating over content files::
+
+    from vibey.content import get_agents_dir
+
+    # Iterate over agent markdown files
+    for agent_file in get_agents_dir().rglob('*.md'):
         print(agent_file.name)
+
+    # Load agent definitions
+    agent_content = (get_agents_dir() / 'backend_engineer.md').read_text()
+
+CLI Commands
+------------
+The content system is also accessible via CLI::
+
+    vibey content list          # List all content items
+    vibey content show <id>     # View content details
+    vibey content search <q>    # Search content
+
+See Also
+--------
+- vibey/cli/commands.py: CLI command implementations
+- docs/walkthroughs/EXTENDING_VIBEY.md: Content management guide
 """
 
 from pathlib import Path

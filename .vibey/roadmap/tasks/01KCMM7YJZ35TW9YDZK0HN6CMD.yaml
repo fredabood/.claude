@@ -8,11 +8,11 @@ task:
   description: 'Update action-oriented walkthroughs to explain WHY commands work the
     way they do by referencing architectural concepts. Users should understand the
     unified ticket model, not just memorize commands. Source: User feedback'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:24:40.616853+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:44:58.548152+00:00'
+  completed: '2025-12-17T02:47:06.402640+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

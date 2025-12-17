@@ -444,10 +444,120 @@ roadmap:
     context:
       task_id: 01KCMGYCX56RWNQXPH01ZFMPS5
       sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:44:59.760825+00:00'
+    type: task_started
+    description: Task 'Integrate architectural concepts into action walkthroughs'
+      started
+    context:
+      task_id: 01KCMM7YJZ35TW9YDZK0HN6CMD
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:47:07.583955+00:00'
+    type: task_completed
+    description: Task 'Integrate architectural concepts into action walkthroughs'
+      completed
+    context:
+      task_id: 01KCMM7YJZ35TW9YDZK0HN6CMD
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:47:31.734596+00:00'
+    type: task_started
+    description: Task 'Ensure 100% command coverage in action walkthroughs' started
+    context:
+      task_id: 01KCMKSGTDWS2WJQPGMQJT2Y34
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:50:39.697008+00:00'
+    type: task_completed
+    description: Task 'Ensure 100% command coverage in action walkthroughs' completed
+    context:
+      task_id: 01KCMKSGTDWS2WJQPGMQJT2Y34
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:50:50.044124+00:00'
+    type: task_started
+    description: Task 'Add MCP integration sections to walkthroughs' started
+    context:
+      task_id: 01KCMGYMMY1HM641G8EA4Y2DA1
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:51:14.183567+00:00'
+    type: task_completed
+    description: Task 'Add MCP integration sections to walkthroughs' completed
+    context:
+      task_id: 01KCMGYMMY1HM641G8EA4Y2DA1
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:51:22.735945+00:00'
+    type: task_started
+    description: Task 'Create JOURNEY_PLUGIN_DEVELOPER.md' started
+    context:
+      task_id: 01KCMJPWGJPSEYZ5KFHYCY2WXW
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:52:03.379144+00:00'
+    type: task_completed
+    description: Task 'Create JOURNEY_PLUGIN_DEVELOPER.md' completed
+    context:
+      task_id: 01KCMJPWGJPSEYZ5KFHYCY2WXW
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:52:12.945487+00:00'
+    type: task_started
+    description: Task 'Integrate architectural concepts into reference guides' started
+    context:
+      task_id: 01KCMM6GGCPFZCY9MTF8RPXMK9
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:52:54.966849+00:00'
+    type: task_completed
+    description: Task 'Integrate architectural concepts into reference guides' completed
+    context:
+      task_id: 01KCMM6GGCPFZCY9MTF8RPXMK9
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:53:08.202919+00:00'
+    type: task_started
+    description: Task 'Test and verify all code examples in documentation' started
+    context:
+      task_id: 01KCMJSMEZ6SQ7D3B7P3Z1VQDD
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:55:26.395654+00:00'
+    type: task_completed
+    description: Task 'Test and verify all code examples in documentation' completed
+    context:
+      task_id: 01KCMJSMEZ6SQ7D3B7P3Z1VQDD
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:55:36.048191+00:00'
+    type: task_started
+    description: Task 'Update expected output in walkthroughs' started
+    context:
+      task_id: 01KCMGYGS6S0H42C36KRPJ5G42
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:56:37.985996+00:00'
+    type: task_completed
+    description: Task 'Update expected output in walkthroughs' completed
+    context:
+      task_id: 01KCMGYGS6S0H42C36KRPJ5G42
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:56:46.268664+00:00'
+    type: task_started
+    description: Task 'Add documentation to vibey/content/ module' started
+    context:
+      task_id: 01KCMK2KMF64SKKNYYJWM8AY0T
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:57:17.030348+00:00'
+    type: task_completed
+    description: Task 'Add documentation to vibey/content/ module' completed
+    context:
+      task_id: 01KCMK2KMF64SKKNYYJWM8AY0T
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T02:57:26.745968+00:00'
+    type: task_started
+    description: Task 'Archive historical documentation files' started
+    context:
+      task_id: 01KCMJQBNWC9ZYM09GHX21CW9A
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
+  - timestamp: '2025-12-17T03:08:08.795038+00:00'
+    type: task_completed
+    description: Task 'Archive historical documentation files' completed
+    context:
+      task_id: 01KCMJQBNWC9ZYM09GHX21CW9A
+      sprint_id: 01KCMTKY772B0Y6N5ANXZP1CZH
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T02:44:17.220852+00:00'
+    last_updated: '2025-12-17T03:08:08.795041+00:00'
     purpose: null
     description: null

@@ -34,6 +34,40 @@ vibey <command> --help
 
 ---
 
+## Architecture Context
+
+Understanding Vibey's architecture helps you use CLI commands effectively:
+
+### The Unified Ticket Model
+
+Vibey uses a three-level hierarchy:
+
+- **Tracks** - Major project themes or work streams (weeks to months)
+- **Sprints** - Focused work periods within a track (days to weeks)
+- **Tasks** - Individual work items (hours to days)
+
+Commands like `create-track`, `create-sprint`, `create-task` work within this hierarchy.
+Progress flows upward: completing tasks updates sprint progress, which updates track progress.
+
+### Dual Storage System
+
+- **YAML files** (`.vibey/roadmap/`) - Source of truth, version controlled
+- **SQLite database** (`.vibey/roadmap.db`) - Query cache for fast operations
+
+Commands like `roadmap db rebuild` sync the database from YAML.
+Commands like `roadmap status` query the SQLite cache for speed.
+
+### ULID Identifiers
+
+All entities use 26-character ULIDs (e.g., `01KC2D0JK9JKQXGQW6MQEB0JZP`):
+- Time-sortable (newer items have higher IDs)
+- URL-safe and globally unique
+- Used in all `show`, `start`, `complete` commands
+
+For complete architecture details, see [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md).
+
+---
+
 ## Table of Contents
 
 - [artifact](#artifact)

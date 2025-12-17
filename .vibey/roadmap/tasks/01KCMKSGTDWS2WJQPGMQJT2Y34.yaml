@@ -9,11 +9,11 @@ task:
     and MCP tool from reference guides has coverage in at least one walkthrough. Create
     coverage matrix mapping commands to walkthroughs. Target: 100% coverage of 169
     CLI commands and all MCP tools. Source: User feedback'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T22:16:47.765118+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:47:30.530903+00:00'
+  completed: '2025-12-17T02:50:38.517023+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

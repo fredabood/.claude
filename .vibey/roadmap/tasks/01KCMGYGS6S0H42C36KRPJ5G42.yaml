@@ -7,11 +7,11 @@ task:
   title: Update expected output in walkthroughs
   description: 'Regenerate expected output examples from live system to ensure they
     match actual output. Source: Walkthrough Friction'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:27:05.796832+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T02:55:34.818034+00:00'
+  completed: '2025-12-17T02:56:36.644797+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

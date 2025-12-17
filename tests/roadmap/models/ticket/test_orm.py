@@ -515,6 +515,40 @@ class TestPydanticOrmConversion:
 
     def test_task_ticket_orm_roundtrip(self, session, now):
         """TaskTicket round-trips correctly with task-specific fields."""
+        # Create parent hierarchy first (roadmap -> track -> sprint)
+        roadmap = RoadmapTicket(
+            id="roadmap-001",
+            name="Test Roadmap",
+            created_at=now,
+            updated_at=now,
+        )
+        orm_roadmap = RoadmapTicketORM.from_pydantic(roadmap)
+        session.add(orm_roadmap)
+
+        track = TrackTicket(
+            id="track-001",
+            name="Test Track",
+            created_at=now,
+            updated_at=now,
+            roadmap_id="roadmap-001",
+            parent_ref="roadmap-001",
+        )
+        orm_track = TrackTicketORM.from_pydantic(track)
+        session.add(orm_track)
+
+        sprint = SprintTicket(
+            id="sprint-001",
+            name="Test Sprint",
+            created_at=now,
+            updated_at=now,
+            track_id="track-001",
+            roadmap_id="roadmap-001",
+            parent_ref="track-001",
+        )
+        orm_sprint = SprintTicketORM.from_pydantic(sprint)
+        session.add(orm_sprint)
+        session.commit()
+
         pydantic_task = TaskTicket(
             id="task-001",
             name="Implementation Task",

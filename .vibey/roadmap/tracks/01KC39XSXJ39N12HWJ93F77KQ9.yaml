@@ -12,9 +12,9 @@ track:
   progress:
     sprints_total: 20
     sprints_completed: 8
-    tasks_total: 110
+    tasks_total: 113
     tasks_completed: 110
-    completion_percent: 100.0
+    completion_percent: 97.0
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -134,7 +134,7 @@ track:
     name: 'Sprint 18: Edit Command Validation Bugs'
     status: not_started
     estimated_duration: null
-    tasks_count: 1
+    tasks_count: 4
     started: null
   dependencies: []
   blocks: []

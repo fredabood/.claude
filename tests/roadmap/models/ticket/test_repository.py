@@ -25,6 +25,8 @@ from vibey.roadmap.models.ticket import (
     Criterion,
     TaskTicket,
     SprintTicket,
+    TrackTicket,
+    RoadmapTicket,
     # Target types
     CompletableTarget,
     FileExistsTarget,
@@ -112,6 +114,41 @@ def sample_task(now):
         roadmap_id="roadmap-001",
         parent_ref="sprint-001",
     )
+
+
+@pytest.fixture
+def parent_hierarchy(ticket_repo, session, now):
+    """Create parent hierarchy (roadmap -> track -> sprint) for task tests."""
+    roadmap = RoadmapTicket(
+        id="roadmap-001",
+        name="Test Roadmap",
+        created_at=now,
+        updated_at=now,
+    )
+    ticket_repo.save(roadmap)
+
+    track = TrackTicket(
+        id="track-001",
+        name="Test Track",
+        created_at=now,
+        updated_at=now,
+        roadmap_id="roadmap-001",
+        parent_ref="roadmap-001",
+    )
+    ticket_repo.save(track)
+
+    sprint = SprintTicket(
+        id="sprint-001",
+        name="Test Sprint",
+        created_at=now,
+        updated_at=now,
+        track_id="track-001",
+        roadmap_id="roadmap-001",
+        parent_ref="track-001",
+    )
+    ticket_repo.save(sprint)
+    session.commit()
+    return {"roadmap": roadmap, "track": track, "sprint": sprint}
 
 
 # =============================================================================
@@ -203,7 +240,7 @@ class TestTicketRepositoryCrud:
         loaded = ticket_repo.get("test-001")
         assert len(loaded.criteria) == 2
 
-    def test_save_task_ticket(self, ticket_repo, sample_task, session):
+    def test_save_task_ticket(self, ticket_repo, sample_task, session, parent_hierarchy):
         """Can save a TaskTicket."""
         ticket_repo.save(sample_task)
         session.commit()

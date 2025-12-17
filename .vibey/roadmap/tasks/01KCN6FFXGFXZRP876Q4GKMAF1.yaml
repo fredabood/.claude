@@ -1,6 +1,6 @@
 task:
   id: 01KCN6FFXGFXZRP876Q4GKMAF1
-  sprint_id: dogfooding-bugs-20
+  sprint_id: 01KCMQCNPM0H28BW0WQ02PDESG
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
@@ -32,6 +32,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-17T03:43:22.080103+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

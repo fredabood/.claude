@@ -124,8 +124,8 @@
 | `vibey roadmap dependency list` | ROADMAP_MANAGEMENT |
 | `vibey roadmap dependency remove` | ROADMAP_MANAGEMENT, TROUBLESHOOTING |
 | `vibey roadmap export` | REPORTING_AND_STATUS |
-| `vibey roadmap get-field` | REPORTING_AND_STATUS |
-| `vibey roadmap history` | REPORTING_AND_STATUS |
+| `vibey roadmap audit log` | REPORTING_AND_STATUS |
+| `vibey roadmap audit show` | REPORTING_AND_STATUS |
 | `vibey roadmap list` | ROADMAP_MANAGEMENT, REPORTING_AND_STATUS |
 | `vibey roadmap db query blocked` | DAILY_WORKFLOW |
 | `vibey roadmap restore` | ROADMAP_MANAGEMENT, TROUBLESHOOTING |

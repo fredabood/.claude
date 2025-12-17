@@ -83,7 +83,7 @@ Vibey transforms AI coding assistants into specialized development teams by prov
 
 ### CLI Interface
 
-- **169 commands** - Comprehensive project management
+- **203 commands** - Comprehensive project management
 - **Auto-generated documentation** - CLI and MCP references that can't drift
 
 ---
@@ -209,7 +209,7 @@ See [MCP Reference](docs/reference/MCP_REFERENCE.md) for complete documentation.
 
 ### Reference
 
-- **[CLI Reference](docs/reference/CLI_REFERENCE.md)** - All 169 commands (auto-generated)
+- **[CLI Reference](docs/reference/CLI_REFERENCE.md)** - All 203 commands (auto-generated)
 - **[MCP Reference](docs/reference/MCP_REFERENCE.md)** - 76+ MCP tools (auto-generated)
 - **[Roadmap System](docs/reference/ROADMAP_SYSTEM.md)** - Data model guide
 
@@ -307,7 +307,7 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 | Metric | Count |
 |--------|-------|
-| CLI Commands | 169 |
+| CLI Commands | 203 |
 | MCP Tools | 76 |
 | MCP Resources | 8 |
 | MCP Prompts | 4 |

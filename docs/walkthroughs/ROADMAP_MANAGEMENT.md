@@ -290,8 +290,8 @@ vibey roadmap restore --checkpoint "before-refactor"
 # Overall roadmap status
 vibey roadmap status
 
-# Filter by status (if supported)
-vibey roadmap status --filter in_progress
+# Progress grouped by status
+vibey roadmap db query progress --by status
 ```
 
 ### Show Details

@@ -281,10 +281,22 @@ roadmap:
     context:
       task_id: 01KCMGPJFBZ5BWETD1SBGE1N57
       sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T19:02:12.732670+00:00'
+    type: task_started
+    description: Task 'Standardize command syntax across documentation' started
+    context:
+      task_id: 01KCMGPP8HTCZV0ZPX3TPR2G1W
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+  - timestamp: '2025-12-17T19:05:53.975951+00:00'
+    type: task_completed
+    description: Task 'Standardize command syntax across documentation' completed
+    context:
+      task_id: 01KCMGPP8HTCZV0ZPX3TPR2G1W
+      sprint_id: 01KCMTXFCYYQM97JBH3ST8ZK7V
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-17T19:02:00.587266+00:00'
+    last_updated: '2025-12-17T19:05:53.975953+00:00'
     purpose: null
     description: null

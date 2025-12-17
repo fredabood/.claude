@@ -28,11 +28,11 @@ Shows:
 ### Filtered Status
 
 ```bash
-# Only in-progress items
-vibey roadmap status --filter in_progress
+# Query progress by status
+vibey roadmap db query progress --by status
 
-# Only completed items
-vibey roadmap status --filter completed
+# Query specific status breakdown
+vibey roadmap db query progress --by track
 ```
 
 ### Item Details
@@ -64,11 +64,11 @@ vibey roadmap activity --track <track-id>
 ### View History
 
 ```bash
-# History of changes
-vibey roadmap history
+# Recent changes across all items
+vibey roadmap audit log
 
 # History for specific item
-vibey roadmap history --id <item-id>
+vibey roadmap audit show <item-id>
 ```
 
 ---
@@ -134,15 +134,14 @@ vibey export run --format <format>
 
 ## Field Queries
 
-### Get Specific Field
+### View Item Details
 
 ```bash
-# Get a specific field value
-vibey roadmap get-field <item-id> --field status
-vibey roadmap get-field <item-id> --field progress
+# View item details including status and progress
+vibey roadmap show <item-id>
 ```
 
-Useful for scripting and automation.
+Use `vibey roadmap show` to view all fields for any track, sprint, or task.
 
 ---
 
@@ -203,17 +202,16 @@ Use `vibey roadmap status` to find item IDs, then `show` for details.
 ### Status Commands
 ```bash
 vibey roadmap status                    # Overall status
-vibey roadmap status --filter <status>  # Filtered status
+vibey roadmap db query progress --by status  # Progress by status
 vibey roadmap show <id>                 # Item details
-vibey roadmap get-field <id> --field x  # Get specific field
 ```
 
 ### Activity and History
 ```bash
 vibey roadmap activity --limit <n>      # Recent activity
 vibey roadmap activity --since <date>   # Activity since date
-vibey roadmap history                   # Change history
-vibey roadmap history --id <id>         # Item history
+vibey roadmap audit log                 # Change history
+vibey roadmap audit show <id>           # Item history
 ```
 
 ### Reports and Export

@@ -59,10 +59,10 @@ See what happened recently:
 ### Check In-Progress Work
 
 ```bash
-vibey roadmap status --filter in_progress
+vibey roadmap db query progress --by status
 ```
 
-Shows only items currently being worked on.
+Shows progress breakdown by status (not_started, in_progress, completed).
 
 ---
 
@@ -265,7 +265,7 @@ vibey roadmap create-task --sprint <sprint-id> --title "Task 1" ...
 ```bash
 vibey roadmap status                    # Overall status
 vibey roadmap activity --limit 10       # Recent activity
-vibey roadmap status --filter in_progress  # In-progress items
+vibey roadmap db query progress --by status  # Progress by status
 ```
 
 ### Task Management

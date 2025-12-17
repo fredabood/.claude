@@ -219,7 +219,7 @@ vibey roadmap start <original-task-id>
 | Command | Purpose |
 |---------|---------|
 | `vibey roadmap status` | Overview of all work |
-| `vibey roadmap status --filter in_progress` | What's being worked on |
+| `vibey roadmap db query progress --by status` | Progress grouped by status |
 | `vibey roadmap activity` | Recent activity log |
 | `vibey roadmap context` | Current working context |
 | `vibey roadmap checkpoint` | Save session state |

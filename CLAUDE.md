@@ -28,7 +28,7 @@ Vibey is a **roadmap management and AI orchestration framework** that helps deve
 
 | Component | Count |
 |-----------|-------|
-| CLI Commands | 169 |
+| CLI Commands | 203 |
 | MCP Tools | 76 |
 | Platform Adapters | 9 |
 | Database Tables | 26 |
@@ -367,7 +367,7 @@ pytest tests/ -k "test_pattern"
 
 ### References
 
-- [CLI Reference](docs/reference/CLI_REFERENCE.md) - All 169 commands
+- [CLI Reference](docs/reference/CLI_REFERENCE.md) - All 203 commands
 - [MCP Reference](docs/reference/MCP_REFERENCE.md) - All 76 tools
 - [ADRs](docs/architecture/adr/) - Architecture decisions
 

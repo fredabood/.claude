@@ -20,6 +20,14 @@ __version__ = "2.5.0"
 # Console for rich output
 console = Console()
 
+# Load unified commands to register them in the command registry
+# This import triggers command registration via @unified_command decorators
+try:
+    from vibey.unified import commands as unified_commands  # noqa: F401
+except ImportError:
+    # Unified commands module not available (e.g., during packaging)
+    pass
+
 
 def print_banner():
     """Print the Vibey CLI banner."""
@@ -5182,6 +5190,142 @@ def context_init(ctx):
 
     exit_code = context_init_cmd()
     sys.exit(exit_code)
+
+
+# ============================================================================
+# Parity Commands - CLI/MCP Interface Parity Checking
+# ============================================================================
+
+@cli.group()
+@click.pass_context
+def parity(ctx):
+    """CLI/MCP parity checking - verify command interface consistency.
+
+    The parity system ensures that commands defined with @unified_command
+    are consistently available in both CLI and MCP interfaces as intended.
+
+    Commands can be:
+    - Both interfaces (default): Available in CLI and MCP
+    - CLI only: Available only in CLI (e.g., interactive features)
+    - MCP only: Available only in MCP (e.g., agent-specific operations)
+
+    Examples:
+
+      vibey parity check         # Run parity check
+      vibey parity check -v      # Verbose output with command lists
+      vibey parity report        # Generate detailed report
+    """
+    ctx.ensure_object(dict)
+
+
+@parity.command('check')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed command lists')
+@click.option('--strict', is_flag=True, help='Treat warnings as errors')
+@click.pass_context
+def parity_check(ctx, verbose: bool, strict: bool):
+    """Check CLI/MCP parity for unified commands.
+
+    Verifies that all commands registered with @unified_command are
+    properly available in the interfaces they're configured for.
+
+    Returns exit code 0 if parity check passes, 1 if violations found.
+
+    Examples:
+      vibey parity check
+      vibey parity check --verbose
+      vibey parity check --strict
+    """
+    from vibey.unified import check_parity
+
+    report = check_parity()
+
+    # Print report
+    click.echo(report.format_report(verbose=verbose))
+
+    # Determine exit code
+    if strict:
+        # In strict mode, warnings also cause failure
+        if report.violations:
+            sys.exit(1)
+    else:
+        # Normal mode: only errors cause failure
+        if not report.is_passing:
+            sys.exit(1)
+
+    sys.exit(0)
+
+
+@parity.command('report')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['text', 'json', 'yaml']),
+              default='text', help='Output format')
+@click.option('--output', '-o', type=click.Path(), help='Output file path')
+@click.pass_context
+def parity_report(ctx, output_format: str, output: str):
+    """Generate detailed parity report.
+
+    Creates a comprehensive report of CLI/MCP command parity including:
+    - Command counts by interface
+    - List of commands in each category
+    - Any parity violations
+    - Exclusion reasons for single-interface commands
+
+    Examples:
+      vibey parity report
+      vibey parity report --format json
+      vibey parity report --format yaml -o parity-report.yaml
+    """
+    from vibey.unified import check_parity
+    import json
+
+    report = check_parity()
+
+    if output_format == 'text':
+        content = report.format_report(verbose=True)
+    elif output_format == 'json':
+        content = json.dumps({
+            'total_commands': report.total_commands,
+            'cli_only_commands': report.cli_only_commands,
+            'mcp_only_commands': report.mcp_only_commands,
+            'both_interfaces_commands': report.both_interfaces_commands,
+            'excluded_commands': report.excluded_commands,
+            'violations': [
+                {
+                    'command_name': v.command_name,
+                    'violation_type': v.violation_type,
+                    'description': v.description,
+                    'severity': v.severity,
+                }
+                for v in report.violations
+            ],
+            'is_passing': report.is_passing,
+        }, indent=2)
+    elif output_format == 'yaml':
+        import yaml
+        content = yaml.dump({
+            'total_commands': report.total_commands,
+            'cli_only_commands': report.cli_only_commands,
+            'mcp_only_commands': report.mcp_only_commands,
+            'both_interfaces_commands': report.both_interfaces_commands,
+            'excluded_commands': report.excluded_commands,
+            'violations': [
+                {
+                    'command_name': v.command_name,
+                    'violation_type': v.violation_type,
+                    'description': v.description,
+                    'severity': v.severity,
+                }
+                for v in report.violations
+            ],
+            'is_passing': report.is_passing,
+        }, default_flow_style=False)
+
+    if output:
+        with open(output, 'w') as f:
+            f.write(content)
+        click.echo(f"Report written to {output}")
+    else:
+        click.echo(content)
 
 
 # ============================================================================

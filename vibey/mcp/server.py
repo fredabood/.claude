@@ -26,6 +26,14 @@ from .tools.content_tools import get_content_tools, handle_content_tool
 from .utils.errors import VibeyMCPError
 from .discovery import ToolDiscovery
 
+# Import unified commands to register them in the command registry
+try:
+    from vibey.unified import commands as unified_commands  # noqa: F401
+    from vibey.unified.adapters import get_unified_mcp_tools, handle_unified_tool_call
+    UNIFIED_AVAILABLE = True
+except ImportError:
+    UNIFIED_AVAILABLE = False
+
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
@@ -163,6 +171,20 @@ class VibeyMCPServer:
             logger.error(f"Error discovering tools: {e}")
             # Continue with static tools even if discovery fails
 
+        # Unified command tools (from @unified_command decorator)
+        if UNIFIED_AVAILABLE:
+            try:
+                unified_tools = get_unified_mcp_tools()
+                # Avoid duplicates with existing tools
+                existing_names = {t['name'] for t in tools}
+                for tool in unified_tools:
+                    if tool['name'] not in existing_names:
+                        tools.append(tool)
+                        logger.debug(f"Added unified tool: {tool['name']}")
+                logger.debug(f"Added {len(unified_tools)} unified tools")
+            except Exception as e:
+                logger.error(f"Error loading unified tools: {e}")
+
         return tools
 
     def get_discovery_stats(self) -> Dict[str, Any]:
@@ -210,6 +232,20 @@ class VibeyMCPServer:
                 tool_def = self.tool_discovery.get_tool_by_name(tool_name)
                 if tool_def:
                     return await self._handle_dynamic_tool(tool_name, arguments, tool_def)
+
+            # Route to unified command tools (from @unified_command decorator)
+            if UNIFIED_AVAILABLE and tool_name.startswith("vibey_"):
+                try:
+                    result = await handle_unified_tool_call(
+                        tool_name,
+                        arguments,
+                        root_dir=self.framework_root,
+                    )
+                    # Check if this was actually handled (not unknown)
+                    if not (result.get("isError") and "Unknown tool" in str(result.get("content", []))):
+                        return result
+                except Exception as e:
+                    logger.debug(f"Unified handler not available for {tool_name}: {e}")
 
             # Unknown tool
             return {

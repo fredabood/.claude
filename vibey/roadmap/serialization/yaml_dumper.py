@@ -41,152 +41,6 @@ def _create_slug(name: str) -> str:
     return slug[:100]  # Max length
 
 
-def _save_task_hierarchical(task: Task, sprint_dir: Path):
-    """
-    Save a task to its own directory in hierarchical structure.
-
-    Args:
-        task: Task object to save
-        sprint_dir: Parent sprint directory
-    """
-    # Create task directory (use task ID as slug for now)
-    task_slug = task.id  # Simple: use ID as directory name
-    task_dir = sprint_dir / task_slug
-    task_dir.mkdir(parents=True, exist_ok=True)
-
-    # Create task.yaml file
-    task_file = task_dir / "task.yaml"
-
-    # Build task data (same format as legacy, but wrapped in {'task': ...})
-    task_data = {
-        'id': task.id,
-        'sprint_id': task.sprint_id,
-        'track_id': task.track_id,
-        'roadmap_id': task.roadmap_id,
-        'task_type': task.task_type.value,
-        'title': task.title,
-        'description': task.description,
-        'status': task.status.value,
-        'blocked': task.blocked,
-        'created': _format_datetime(task.created),
-        'started': _format_datetime(task.started),
-        'completed': _format_datetime(task.completed),
-        'assigned_agent': task.assigned_agent,
-        'priority': task.priority.value,
-        'phase_label': task.phase_label,
-        'estimated_tokens': task.estimated_tokens,
-        'actual_tokens': task.actual_tokens,
-        'complexity': task.complexity.value,
-    }
-
-    # Add gate_info if present (handle both dict and object)
-    if task.gate_info:
-        if isinstance(task.gate_info, dict):
-            task_data['gate_info'] = task.gate_info
-        else:
-            task_data['gate_info'] = {
-                'blocks_status': task.gate_info.blocks_status,
-                'threshold': task.gate_info.threshold,
-                'is_blocking': task.gate_info.is_blocking,
-                'score': getattr(task.gate_info, 'score', None),
-            }
-    else:
-        task_data['gate_info'] = None
-
-    # Add audit_results if present
-    if task.audit_results:
-        task_data['audit_results'] = {
-            'issues_found': task.audit_results.issues_found,
-            'issues_fixed': task.audit_results.issues_fixed,
-            'recommendations': task.audit_results.recommendations,
-        }
-    else:
-        task_data['audit_results'] = None
-
-    # Add dependencies
-    task_data['dependencies'] = [
-        {
-            'type': d.type.value,
-            'target_id': d.target_id,
-            'target_status': d.target_status,
-            'reason': d.reason,
-        }
-        for d in task.dependencies
-    ]
-
-    # Add blocks
-    task_data['blocks'] = [
-        {
-            'type': b.type.value,
-            'target_id': b.target_id,
-            'at_status': b.target_status,
-            'reason': b.reason,
-        }
-        for b in task.blocks
-    ]
-
-    # Add blockers
-    task_data['blocked_by'] = [
-        {
-            'dependency_id': b.dependency_id,
-            'dependency_type': b.dependency_type,
-            'current_status': b.current_status.value if hasattr(b.current_status, 'value') else b.current_status,
-            'required_status': b.required_status.value if hasattr(b.required_status, 'value') else b.required_status,
-            'blocking_since': _format_datetime(b.blocking_since),
-            'estimated_resolution': _format_datetime(b.estimated_resolution),
-        }
-        for b in task.blocked_by
-    ]
-
-    # Add depends_on (cached dependency status)
-    task_data['depends_on'] = [
-        {
-            'blocker_id': d.blocker_id,
-            'blocker_type': d.blocker_type,
-            'required_status': d.required_status.value if hasattr(d.required_status, 'value') else d.required_status,
-            'current_status': d.current_status.value if hasattr(d.current_status, 'value') else d.current_status,
-            'blocks_transition_to': d.blocks_transition_to,
-            'last_checked': _format_datetime(d.last_checked),
-        }
-        for d in task.depends_on
-    ]
-
-    # Add depended_on_by (reverse index)
-    task_data['depended_on_by'] = task.depended_on_by
-
-    # Add deliverables
-    task_data['deliverables'] = [
-        {
-            'type': d.type.value,
-            'paths': d.paths,
-        }
-        for d in task.deliverables
-    ]
-
-    # Add commits
-    task_data['commits'] = [
-        {
-            'sha': c.sha,
-            'message': c.message,
-            'date': _format_datetime(c.date),
-            'author': c.author,
-        }
-        for c in task.commits
-    ]
-
-    # Add metadata
-    task_data['metadata'] = {
-        'last_updated': _format_datetime(task.metadata.last_updated),
-        'token_efficiency': task.metadata.token_efficiency,
-        'duration_hours': task.metadata.duration_hours,
-    }
-
-    # Write to file (wrapped in {'task': ...})
-    data = {'task': task_data}
-    with open(task_file, 'w') as f:
-        yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
-
-
 def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):
     """
     Save a roadmap to YAML file.
@@ -614,17 +468,19 @@ def save_task(task: Task, file_path: Union[str, Path]):
     Args:
         task: Task object to save
         file_path: Path to save task
-            - Directory: saves to {file_path}/{task.id}/task.yaml (nested)
-            - File named task.yaml: saves single task (nested)
+            - File named task.yaml: saves single task
             - File in tasks/ directory: saves single task (flat)
             - Other file: legacy multi-task format
     """
     file_path = Path(file_path)
 
-    # If path is a directory (sprint dir), save to task subdirectory (nested structure)
+    # Flat structure only - hierarchical removed per ADR-0002
     if file_path.is_dir():
-        _save_task_hierarchical(task, file_path)
-        return
+        raise ValueError(
+            f"Cannot save task to directory '{file_path}'. "
+            "Hierarchical directory structure is no longer supported. "
+            "Use flat structure: tasks/{task_id}.yaml"
+        )
 
     # If path is a file, determine format based on location and name
     # Flat structure: tasks/{ulid}.yaml or tasks/{slug}.yaml
@@ -768,30 +624,23 @@ def _save_single_task_file(task: Task, file_path: Path):
 
 def save_tasks(tasks: list[Task], file_path: Union[str, Path]):
     """
-    Save tasks to YAML file or hierarchical directory structure.
-
-    Supports both formats:
-    - Legacy: single file with {'tasks': [...]} (when file_path is a file)
-    - Hierarchical: individual task.yaml files in task subdirectories (when file_path is a directory)
+    Save tasks to YAML file.
 
     Args:
         tasks: List of Task objects
-        file_path: Path to save tasks YAML file or sprint directory
+        file_path: Path to save tasks YAML file
     """
     file_path = Path(file_path)
 
-    # Detect format based on whether file_path is/should be a directory
-    # If it exists and is a directory, use hierarchical format
-    # Otherwise use legacy format
-    is_hierarchical = file_path.exists() and file_path.is_dir()
+    # Flat structure only - hierarchical removed per ADR-0002
+    if file_path.exists() and file_path.is_dir():
+        raise ValueError(
+            f"Cannot save tasks to directory '{file_path}'. "
+            "Hierarchical directory structure is no longer supported. "
+            "Use flat structure with individual task files."
+        )
 
-    if is_hierarchical:
-        # Save each task to its own directory
-        for task in tasks:
-            _save_task_hierarchical(task, file_path)
-        return
-
-    # Legacy flat format
+    # Flat format
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     data = {

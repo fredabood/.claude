@@ -11,10 +11,10 @@ track:
   estimated_duration: null
   progress:
     sprints_total: 4
-    sprints_completed: 1
-    tasks_total: 10
-    tasks_completed: 10
-    completion_percent: 100
+    sprints_completed: 2
+    tasks_total: 20
+    tasks_completed: 11
+    completion_percent: 55
   sprints:
   - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
     name: 'Sprint 1: Codebase Audit'
@@ -24,16 +24,16 @@ track:
     started: '2025-12-17T18:45:28.148757+00:00'
   - id: 01KCMTXH8QFZ64GD4CK7TSDY06
     name: 'Sprint 2: Architecture Design'
-    status: completion_gate_check
+    status: completed
     estimated_duration: null
     tasks_count: 6
     started: '2025-12-17T19:35:55.452415+00:00'
   - id: 01KCMTXK2X59MAT3YPMXP8E8BE
     name: 'Sprint 3: Code Cleanup'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 11
-    started: null
+    started: '2025-12-17T20:04:09.944142+00:00'
   - id: 01KCMTXMWJHPFH7J96KHHZTPB4
     name: 'Sprint 4: Major Refactoring'
     status: not_started

@@ -7,11 +7,11 @@ task:
   title: Remove unused imports
   description: 'Run ruff check vibey/ --select F401 and remove all unused imports.
     Source: CD006'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-16T21:23:25.121204+00:00'
-  started: null
-  completed: null
+  started: '2025-12-17T20:21:19.729241+00:00'
+  completed: '2025-12-17T20:25:40.960229+00:00'
   assigned_agent: unassigned
   priority: low
   phase_label: null

@@ -2,11 +2,11 @@ track:
   id: 01KCMTJKFKDJX7BWERZJ7SFJ96
   name: Test Suite Rehabilitation
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-12-17T00:15:20.052004+00:00'
-  started: null
+  started: '2025-12-17T14:14:20.465621+00:00'
   completed: null
   estimated_duration: null
   progress:

@@ -5,7 +5,7 @@ These commands deploy Vibey configurations to various AI platforms.
 """
 
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional
 
 from vibey.unified import (
     unified_command,

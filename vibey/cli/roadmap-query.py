@@ -9,7 +9,7 @@ import sys
 import argparse
 import json
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 from datetime import datetime
 
 # Add repository root to path for framework imports
@@ -20,7 +20,7 @@ sys.path.insert(0, str(repo_root))
 scripts_path = Path(__file__).parent
 sys.path.insert(0, str(scripts_path))
 
-from vibey.roadmap.models import Roadmap, Track, Sprint, Task, Status
+from vibey.roadmap.models import Status
 from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
 from roadmap_lib.dependencies import DependencyResolver

@@ -4,7 +4,6 @@ Activity logging utilities for roadmap state.
 Handles activity log entries in the roadmap.
 """
 
-from datetime import datetime
 from typing import Dict, Any, Optional
 from pathlib import Path
 import sys
@@ -13,7 +12,7 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from vibey.roadmap.models import Roadmap, ActivityType
+from vibey.roadmap.models import ActivityType
 from vibey.roadmap.serialization import load_roadmap, save_roadmap
 from .filesystem import FileSystemManager
 

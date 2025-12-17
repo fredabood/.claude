@@ -16,7 +16,7 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, Tuple
 import yaml
 
 

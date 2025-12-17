@@ -7,16 +7,13 @@ directory setup and initial configuration.
 
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Optional
 
 from vibey.roadmap.models import (
     Roadmap, VersionStrategy, Status, Progress, Metadata,
     ActivityType, VersionBumpTrigger,
 )
 from vibey.roadmap.serialization import save_roadmap
-from vibey.roadmap.validation import Validator
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager
-from vibey.cli.roadmap_lib.activity import ActivityLogger
 
 
 def init_roadmap(

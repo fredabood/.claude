@@ -6,7 +6,6 @@ Executes custom validation scripts and interprets their results.
 
 import subprocess
 from pathlib import Path
-from typing import Optional
 
 from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue
 from ...models import Standard, StandardType

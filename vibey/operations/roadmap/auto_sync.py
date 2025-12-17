@@ -5,8 +5,6 @@ database rebuild and triggers a rebuild if needed.
 """
 
 from pathlib import Path
-from typing import Optional
-import os
 
 
 def check_sync_needed(root_dir: Path, verbose: bool = False) -> bool:

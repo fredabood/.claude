@@ -5,8 +5,8 @@ Defines dataclasses for MCP Resource protocol types following the
 Model Context Protocol specification.
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
 
 @dataclass

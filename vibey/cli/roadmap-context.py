@@ -11,12 +11,11 @@ Usage:
     roadmap context <task-id> --show-full
 """
 
-import os
 import sys
 import argparse
 from pathlib import Path
 from collections import deque
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set
 
 # Add parent directory and roadmap-lib to path for imports
 scripts_dir = Path(__file__).parent

@@ -18,18 +18,16 @@ import argparse
 from pathlib import Path
 from datetime import datetime, timezone
 from collections import defaultdict
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Tuple
 
 # Add framework to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from roadmap.models import (
-    Task, Sprint, Track, Roadmap,
-    DependencyStatus, DependencyType,
-    TaskStatus, Status
+    Task, Sprint, Track, DependencyStatus
 )
 from roadmap.serialization.yaml_loader import load_roadmap, load_track, load_sprint, load_task
-from roadmap.serialization.yaml_dumper import save_roadmap, save_track, save_sprint, save_tasks
+from roadmap.serialization.yaml_dumper import save_track, save_sprint, save_tasks
 
 
 class FileSystem:

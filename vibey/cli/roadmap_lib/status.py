@@ -6,7 +6,6 @@ Handles automatic status progression based on completion conditions.
 
 from typing import Optional
 from pathlib import Path
-from datetime import datetime
 import sys
 
 # Add framework to path
@@ -14,10 +13,8 @@ framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
 from vibey.roadmap.models import (
-    Roadmap, Track, Sprint, Task,
-    Status, TaskStatus,
+    Roadmap, Track, Sprint, Status,
 )
-from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks, save_sprint
 from .filesystem import FileSystemManager
 
 

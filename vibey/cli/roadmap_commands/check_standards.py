@@ -2,7 +2,6 @@
 'roadmap check-standards' command - Check which standards apply to an item.
 """
 
-import sys
 from pathlib import Path
 
 from ...operations.roadmap import (

@@ -7,7 +7,6 @@ Tests that the CLI properly initializes and uses RoadmapCache.
 import sys
 from pathlib import Path
 import tempfile
-import subprocess
 
 # Add roadmap-lib to path
 test_dir = Path(__file__).parent

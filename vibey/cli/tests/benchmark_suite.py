@@ -8,7 +8,6 @@ import sys
 from pathlib import Path
 import tempfile
 import time
-from typing import Dict, List
 
 # Add roadmap-lib to path
 test_dir = Path(__file__).parent
@@ -17,7 +16,6 @@ roadmap_lib_dir = scripts_dir / "roadmap-lib"
 sys.path.insert(0, str(roadmap_lib_dir))
 
 from cache import RoadmapCache
-from filesystem import FileSystemManager, load_yaml
 from generate_synthetic_roadmap import generate_roadmap
 
 

@@ -30,12 +30,10 @@ from vibey.operations.roadmap import (
     start_sprint as ops_start_sprint,
     complete_sprint as ops_complete_sprint,
     complete_track as ops_complete_track,
-    refresh_progress as ops_refresh_progress,
     recalculate_all as ops_recalculate_all,
 )
 # Standards operations
 from vibey.operations.roadmap.standards_enforcement import get_effective_standards
-from vibey.roadmap.standards.resolver import ResolvedStandard
 from vibey.roadmap.models import EnforcementMode
 
 from ..utils.errors import (

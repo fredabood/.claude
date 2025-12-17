@@ -15,7 +15,6 @@ Tests:
 4. Critical tools are available
 """
 
-import asyncio
 import json
 import subprocess
 import sys

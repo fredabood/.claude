@@ -5,7 +5,7 @@ The @param decorator defines parameters that work across both CLI and MCP
 interfaces, with interface-specific options for customization.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable, List, Optional, TypeVar
 
 from .types import ParamType

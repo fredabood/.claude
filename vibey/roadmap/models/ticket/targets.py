@@ -20,7 +20,7 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import TYPE_CHECKING, Annotated, List, Literal, Optional, Union
+from typing import Annotated, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 

@@ -15,13 +15,12 @@ Usage:
     json_output = structure.to_json()
 """
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import List, Optional, Any, Dict
 import json
 import logging
-import re
 
 import click
 

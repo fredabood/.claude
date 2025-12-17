@@ -18,39 +18,30 @@ Task Reference: sqlite-backend-6-task-012
 """
 
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import List, Optional, Type, Union
 
 from sqlalchemy import (
     Boolean,
-    Column,
     DateTime,
     ForeignKey,
     Index,
     Integer,
     String,
     Text,
-    create_engine,
-    event,
 )
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
-    Session,
-    declared_attr,
     mapped_column,
     relationship,
 )
-from sqlalchemy.types import JSON
 
 from vibey.roadmap.models.ticket.enums import (
     Complexity,
-    DeliverableType,
-    GateStatus,
     Priority,
     TaskType,
     TicketStatus,
     TicketType,
-    ThresholdComparison,
 )
 
 
@@ -218,7 +209,6 @@ class TicketORM(Base):
             TicketORM instance
         """
         import json
-        from vibey.roadmap.models.ticket import Ticket, GitCommit
 
         orm_instance = cls(
             id=ticket.id,
@@ -258,7 +248,7 @@ class TicketORM(Base):
             Pydantic Ticket instance
         """
         import json
-        from vibey.roadmap.models.ticket import Ticket, Criterion, GitCommit, Requirement
+        from vibey.roadmap.models.ticket import Ticket, GitCommit, Requirement
 
         criteria = [c.to_pydantic() for c in self.criteria]
 
@@ -327,7 +317,6 @@ class RoadmapTicketORM(TicketORM):
     def from_pydantic(cls, ticket: "RoadmapTicket") -> "RoadmapTicketORM":
         """Create ORM instance from Pydantic RoadmapTicket."""
         import json
-        from vibey.roadmap.models.ticket import RoadmapTicket
 
         orm_instance = super().from_pydantic.__func__(cls, ticket)
         orm_instance.ticket_type = "roadmap"
@@ -344,8 +333,7 @@ class RoadmapTicketORM(TicketORM):
         """Convert to Pydantic RoadmapTicket."""
         import json
         from vibey.roadmap.models.ticket import (
-            RoadmapTicket, Criterion, GitCommit, Requirement,
-            VersionStrategy, ActivityLogEntry
+            RoadmapTicket, VersionStrategy, ActivityLogEntry
         )
 
         base = super().to_pydantic()
@@ -385,7 +373,6 @@ class TrackTicketORM(TicketORM):
     def from_pydantic(cls, ticket: "TrackTicket") -> "TrackTicketORM":
         """Create ORM instance from Pydantic TrackTicket."""
         import json
-        from vibey.roadmap.models.ticket import TrackTicket
 
         orm_instance = super().from_pydantic.__func__(cls, ticket)
         orm_instance.ticket_type = "track"
@@ -396,7 +383,7 @@ class TrackTicketORM(TicketORM):
     def to_pydantic(self) -> "TrackTicket":
         """Convert to Pydantic TrackTicket."""
         import json
-        from vibey.roadmap.models.ticket import TrackTicket, Criterion
+        from vibey.roadmap.models.ticket import TrackTicket
 
         base = super().to_pydantic()
 
@@ -435,7 +422,6 @@ class SprintTicketORM(TicketORM):
     def from_pydantic(cls, ticket: "SprintTicket") -> "SprintTicketORM":
         """Create ORM instance from Pydantic SprintTicket."""
         import json
-        from vibey.roadmap.models.ticket import SprintTicket
 
         orm_instance = super().from_pydantic.__func__(cls, ticket)
         orm_instance.ticket_type = "sprint"
@@ -452,7 +438,7 @@ class SprintTicketORM(TicketORM):
     def to_pydantic(self) -> "SprintTicket":
         """Convert to Pydantic SprintTicket."""
         import json
-        from vibey.roadmap.models.ticket import SprintTicket, Criterion, DevelopmentGate
+        from vibey.roadmap.models.ticket import SprintTicket, DevelopmentGate
 
         base = super().to_pydantic()
 
@@ -504,8 +490,6 @@ class TaskTicketORM(TicketORM):
     @classmethod
     def from_pydantic(cls, ticket: "TaskTicket") -> "TaskTicketORM":
         """Create ORM instance from Pydantic TaskTicket."""
-        import json
-        from vibey.roadmap.models.ticket import TaskTicket
 
         orm_instance = super().from_pydantic.__func__(cls, ticket)
         orm_instance.ticket_type = "task"
@@ -522,7 +506,7 @@ class TaskTicketORM(TicketORM):
 
     def to_pydantic(self) -> "TaskTicket":
         """Convert to Pydantic TaskTicket."""
-        from vibey.roadmap.models.ticket import TaskTicket, Criterion, GateInfo, AuditResults
+        from vibey.roadmap.models.ticket import TaskTicket, GateInfo, AuditResults
 
         base = super().to_pydantic()
 
@@ -665,7 +649,7 @@ class CriterionORM(Base):
         Returns:
             Pydantic Criterion instance
         """
-        from vibey.roadmap.models.ticket import Criterion, create_target
+        from vibey.roadmap.models.ticket import Criterion
 
         target = deserialize_target(self.target_type, self.target_json)
 

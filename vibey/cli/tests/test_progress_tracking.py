@@ -10,11 +10,9 @@ Tests the complete progress tracking workflow including:
 """
 
 import unittest
-import subprocess
 import tempfile
 import shutil
 import yaml
-import json
 from pathlib import Path
 from datetime import datetime, timezone
 

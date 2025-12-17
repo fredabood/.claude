@@ -15,12 +15,10 @@ import yaml
 from vibey.content import get_content_root
 from .models import (
     ContentType,
-    ContentItem,
-    ContentMetadata,
     ContentValidationResult,
     ContentOperationResult,
 )
-from .loader import ContentLoader, compose_content, extract_frontmatter
+from .loader import ContentLoader, compose_content
 from .backup import ContentBackup, get_backup_manager
 
 logger = logging.getLogger(__name__)

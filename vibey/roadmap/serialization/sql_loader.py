@@ -13,7 +13,7 @@ Schema Reference:
 """
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import List, Optional, Dict, Any
 
 from ..models import (
@@ -25,7 +25,6 @@ from ..models import (
     Progress,
     TrackSummary,
     Dependency,
-    Blocker,
     VersionHistoryEntry,
     ActivityLogEntry,
     Metadata,
@@ -45,7 +44,6 @@ from ..models import (
     TaskDependency,
     TaskBlocker,
     Deliverable,
-    GitCommit,
     TaskMetadata,
     Status,
     TaskStatus,
@@ -1208,14 +1206,13 @@ def load_audit_trail_field_history(object_id: str, field: str) -> List[dict]:
 # These functions load from the unified 'tickets' table and return
 # Pydantic ticket models (TaskTicket, SprintTicket, TrackTicket, RoadmapTicket).
 
-from ..database.connection import get_session, session_scope
+from ..database.connection import session_scope
 from ..models.ticket.orm import (
     TicketORM,
     RoadmapTicketORM,
     TrackTicketORM,
     SprintTicketORM,
     TaskTicketORM,
-    CriterionORM,
 )
 from ..models.ticket.domain import (
     TaskTicket,
@@ -1223,7 +1220,6 @@ from ..models.ticket.domain import (
     TrackTicket,
     RoadmapTicket,
 )
-from ..database.schema import has_unified_schema
 
 
 def load_task_ticket(
@@ -1477,7 +1473,7 @@ from ..models.ticket.targets import (
     ExternalTarget,
     ArtifactTarget,
 )
-from ..models.ticket.enums import CriterionTargetType, TicketStatus
+from ..models.ticket.enums import TicketStatus
 from pathlib import Path
 
 

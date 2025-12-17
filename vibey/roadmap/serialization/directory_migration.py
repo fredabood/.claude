@@ -17,11 +17,9 @@ This provides 98% reduction in directory count and 60% reduction in depth.
 
 import logging
 import shutil
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Tuple, Literal
 
-import yaml
 
 logger = logging.getLogger(__name__)
 

@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Set
+from typing import List, Optional, Tuple, Set
 
 
 class EnforcementMode(Enum):

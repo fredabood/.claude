@@ -11,10 +11,10 @@ Includes hierarchy-aware query functions that use smart accessors:
 """
 
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-from vibey.roadmap.models import Roadmap, Track, Sprint, Task, Status
+from vibey.roadmap.models import Roadmap, Track, Sprint, Task
 # Import ticket models for hierarchy-aware queries
 from vibey.roadmap.models.ticket import (
     HierarchicalTicket,
@@ -23,7 +23,6 @@ from vibey.roadmap.models.ticket import (
     SprintTicket,
     TaskTicket,
     GitCommit as TicketGitCommit,
-    TicketLoader,
     TicketStatus,
     Criterion,
 )
@@ -33,7 +32,7 @@ from vibey.roadmap.serialization import load_track as yaml_load_track
 from vibey.roadmap.serialization import load_sprint as yaml_load_sprint
 from vibey.roadmap.serialization import load_tasks as yaml_load_tasks
 from vibey.roadmap.serialization import load_task as yaml_load_task
-from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
+from vibey.cli.roadmap_lib.filesystem import FileSystemManager
 from vibey.cli.roadmap_lib.dependencies import DependencyResolver
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
 

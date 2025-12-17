@@ -934,7 +934,6 @@ def dump_task_ticket(task: "TaskTicket") -> dict:
         Dictionary with 'task' root key, suitable for YAML serialization
     """
     # Import here to avoid circular imports
-    from ..models.ticket.domain import TaskTicket
 
     task_data = {
         # Identity
@@ -1031,7 +1030,6 @@ def dump_sprint_ticket(sprint: "SprintTicket") -> dict:
     Returns:
         Dictionary with 'sprint' root key, suitable for YAML serialization
     """
-    from ..models.ticket.domain import SprintTicket
 
     sprint_data = {
         # Identity
@@ -1107,7 +1105,6 @@ def dump_track_ticket(track: "TrackTicket") -> dict:
     Returns:
         Dictionary with 'track' root key, suitable for YAML serialization
     """
-    from ..models.ticket.domain import TrackTicket
 
     track_data = {
         # Identity
@@ -1172,7 +1169,6 @@ def dump_roadmap_ticket(roadmap: "RoadmapTicket") -> dict:
     Returns:
         Dictionary with 'roadmap' root key, suitable for YAML serialization
     """
-    from ..models.ticket.domain import RoadmapTicket
 
     roadmap_data = {
         # Identity

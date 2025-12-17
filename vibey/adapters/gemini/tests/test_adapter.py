@@ -3,7 +3,6 @@
 import json
 import pytest
 from pathlib import Path
-import shutil
 
 from vibey.adapters.gemini.adapter import GeminiAdapter, GeminiExportResult
 from vibey.adapters.base import DeploymentResult

@@ -17,14 +17,13 @@ This provides 98% reduction in directory count (1300+ → ~30) and 60% reduction
 Task: unified-arch-1-task-002
 """
 
-import json
 import logging
 import shutil
 import subprocess
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import yaml
 

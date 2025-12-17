@@ -54,12 +54,10 @@ from vibey.roadmap.database.crud import (
     delete_task,
     list_tasks_by_sprint,
     list_tasks_by_track,
-    list_tasks_by_roadmap,
     task_exists,
     count_tasks,
     get_blocked_tasks,
 )
-from vibey.roadmap.database.crud.task import list_tasks_by_roadmap
 
 
 @pytest.fixture

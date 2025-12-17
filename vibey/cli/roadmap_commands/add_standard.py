@@ -2,7 +2,6 @@
 'roadmap add-standard' command - Add a new standard to roadmap/track/sprint.
 """
 
-import sys
 import json
 from pathlib import Path
 from datetime import datetime, timezone

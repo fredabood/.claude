@@ -11,13 +11,11 @@ Usage:
     roadmap summarize --all --completed
 """
 
-import os
 import sys
 import re
 import argparse
 from pathlib import Path
-from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 # Add parent directory and roadmap-lib to path for imports
 scripts_dir = Path(__file__).parent

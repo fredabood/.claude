@@ -11,7 +11,7 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Callable, List, Optional, Protocol
+from typing import Any, List, Optional, Protocol
 
 from pydantic import BaseModel, Field, computed_field
 

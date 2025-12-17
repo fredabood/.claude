@@ -6,7 +6,7 @@ enabling single-source command definitions that work across both interfaces.
 """
 
 from enum import Enum
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+from typing import Any, Dict, TYPE_CHECKING
 
 import click
 

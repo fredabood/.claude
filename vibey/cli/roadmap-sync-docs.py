@@ -15,7 +15,6 @@ Usage:
 import sys
 import argparse
 from pathlib import Path
-from typing import Optional
 
 # Add framework to path
 framework_root = Path(__file__).parent.parent

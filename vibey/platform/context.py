@@ -6,7 +6,6 @@ supports user overrides via configuration.
 """
 
 from typing import Optional, Dict, Any
-from pathlib import Path
 
 from vibey.platform.detector import (
     PlatformInfo,

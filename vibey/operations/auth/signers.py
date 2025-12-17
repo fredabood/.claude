@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import yaml
 
-from .keys import KeyManager, UserIdentity
+from .keys import KeyManager
 
 
 @dataclass

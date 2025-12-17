@@ -10,7 +10,7 @@ All operations should use this module for consistent activity tracking.
 
 from pathlib import Path
 from typing import Optional, Any, Dict
-from datetime import datetime, timezone
+from datetime import datetime
 
 from vibey.roadmap.models.common import ActivityType
 from vibey.operations.roadmap.audit_trail import (

@@ -7,7 +7,7 @@ without external dependencies (uses ANSI escape codes).
 
 import sys
 import os
-from typing import List, Dict, Optional, Union
+from typing import List, Dict, Optional
 from enum import Enum
 
 

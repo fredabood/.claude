@@ -41,12 +41,10 @@ def check_standards(task_id):
 """
 
 from pathlib import Path
-from typing import List, Tuple, Optional
-from datetime import datetime, timezone
+from typing import List, Tuple
 
 from ...roadmap.standards import (
     StandardsResolver,
-    ValidatorRegistry,
     create_default_registry,
     ValidationResult,
     ValidationStatus,

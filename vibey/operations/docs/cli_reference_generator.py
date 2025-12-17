@@ -12,15 +12,12 @@ Usage:
 """
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
 
 from vibey.operations.docs.cli_introspector import (
     CLIStructure,
     CommandInfo,
-    ParamInfo,
-    ExampleInfo,
     ParamKind,
     introspect_cli,
 )

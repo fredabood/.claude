@@ -5,8 +5,6 @@ Provides a unified interface for switching between YAML and SQLite backends.
 This allows the CLI and operations layer to work with either backend transparently.
 """
 
-from abc import ABC, abstractmethod
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional, Protocol, Union, runtime_checkable
 import hashlib
@@ -272,7 +270,7 @@ class SQLiteBackend:
 
     def _ensure_connection(self):
         """Ensure database connection is available."""
-        from ..database import get_connection, database_exists
+        from ..database import database_exists
 
         if not database_exists(str(self.db_path) if self.db_path else None):
             raise BackendError(
@@ -416,7 +414,7 @@ class SyncManager:
 
     def store_yaml_checksums(self) -> None:
         """Store checksums of all YAML files in the database."""
-        from ..database import get_connection, transaction
+        from ..database import transaction
 
         yaml_files = self.find_all_yaml_files()
 
@@ -471,7 +469,7 @@ class SyncManager:
 
     def mark_db_dirty(self) -> None:
         """Mark database as having uncommitted changes."""
-        from ..database import get_connection, transaction
+        from ..database import transaction
 
         with transaction(db_path=self.db_path) as conn:
             conn.execute("""
@@ -481,7 +479,7 @@ class SyncManager:
 
     def mark_db_clean(self) -> None:
         """Mark database as clean (no uncommitted changes)."""
-        from ..database import get_connection, transaction
+        from ..database import transaction
 
         with transaction(db_path=self.db_path) as conn:
             conn.execute("""
@@ -543,8 +541,6 @@ class SyncManager:
             DirtyDatabaseError: If database has uncommitted changes and force=False
         """
         from ..database import (
-            get_connection,
-            transaction,
             create_schema,
             create_views,
             create_triggers,
@@ -552,8 +548,6 @@ class SyncManager:
             drop_views,
             drop_triggers,
             disable_triggers_for_bulk_operations,
-            enable_triggers_for_bulk_operations,
-            rebuild_summary_tables,
         )
 
         # Pre-rebuild safety check

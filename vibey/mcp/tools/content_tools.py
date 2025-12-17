@@ -4,7 +4,7 @@ Content Tools.
 MCP tools for managing framework content (agents, workflows, templates, handoffs).
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 from vibey.operations.content import (
     ContentType,

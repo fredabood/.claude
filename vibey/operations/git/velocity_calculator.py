@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-from vibey.operations.git.log_analyzer import GitLogAnalyzer, CommitInfo, AnalysisResult
+from vibey.operations.git.log_analyzer import GitLogAnalyzer, CommitInfo
 from vibey.operations.git.commit_parser_schema import ParserConfig, TaskStatus
 
 

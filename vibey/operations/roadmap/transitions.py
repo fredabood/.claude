@@ -39,7 +39,7 @@ All transitions use the unified ticket architecture:
 """
 
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
+from typing import List, Tuple
 
 from vibey.roadmap.models.ticket import (
     TicketStatus,

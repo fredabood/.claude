@@ -29,10 +29,9 @@ Key Features:
 - Path helper functions for consistent access
 """
 
-import os
 import re
 from pathlib import Path
-from typing import Optional, Tuple, List, Dict
+from typing import Optional, Tuple, List
 from dataclasses import dataclass
 
 

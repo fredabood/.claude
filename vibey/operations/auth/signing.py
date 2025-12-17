@@ -9,7 +9,7 @@ import base64
 from typing import Optional, Dict, Any
 from dataclasses import dataclass
 
-from .keys import KeyManager, load_private_key, get_user_identity
+from .keys import KeyManager
 
 try:
     from cryptography.hazmat.primitives.asymmetric.ed25519 import (

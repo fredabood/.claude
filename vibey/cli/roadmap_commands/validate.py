@@ -4,7 +4,7 @@
 
 import sys
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 # Add framework to path
 framework_root = Path(__file__).parent.parent.parent
@@ -14,7 +14,7 @@ sys.path.insert(0, str(framework_root))
 roadmap_lib_path = Path(__file__).parent.parent / "roadmap-lib"
 sys.path.insert(0, str(roadmap_lib_path))
 
-from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
+from roadmap.serialization import load_roadmap, load_track, load_tasks
 from roadmap.validation import Validator
 from filesystem import FileSystemManager, find_roadmap_root
 from dependencies import DependencyResolver

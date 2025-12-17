@@ -23,8 +23,6 @@ from ..models.session import (
     SessionEvent,
     SessionEventType,
     Decision,
-    DecisionCategory,
-    DecisionConfidence,
     ContextSnapshot,
     SessionCommit,
     SessionStats,

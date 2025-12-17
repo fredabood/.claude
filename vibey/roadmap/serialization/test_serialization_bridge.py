@@ -12,7 +12,6 @@ import pytest
 import tempfile
 import os
 from datetime import datetime, timezone
-from pathlib import Path
 
 from vibey.roadmap.models import (
     Roadmap, Track, Sprint, Task,
@@ -21,7 +20,6 @@ from vibey.roadmap.models import (
     Progress, TrackProgress, SprintProgress,
     Metadata, TrackMetadata, SprintMetadata, TaskMetadata,
     TrackSummary, SprintSummary, TaskSummary,
-    DependencyStatus,
 )
 from vibey.roadmap.database import (
     get_connection, close_all_connections,

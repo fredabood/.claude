@@ -23,7 +23,6 @@ sys.path.insert(0, str(vibey_dir.parent))
 
 import yaml
 
-from vibey.roadmap.serialization.yaml_loader import load_task
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
 
 

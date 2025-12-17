@@ -4,7 +4,7 @@ Dependency resolution utilities for roadmap state.
 Handles dependency tracking and circular dependency detection.
 """
 
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Set, Optional
 from pathlib import Path
 from dataclasses import dataclass
 import sys
@@ -13,7 +13,7 @@ import sys
 framework_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(framework_root))
 
-from vibey.roadmap.models import Roadmap, Track, Sprint, Task
+from vibey.roadmap.models import Track, Sprint, Task
 from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from .filesystem import FileSystemManager
 

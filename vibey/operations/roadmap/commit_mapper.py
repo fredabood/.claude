@@ -26,7 +26,7 @@ Task: roadmap-integrity-fixes-1-task-001
 
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Tuple, Optional, Set
 import yaml

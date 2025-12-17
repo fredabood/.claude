@@ -6,7 +6,7 @@ parity across CLI and MCP interfaces, and generates reports.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set
+from typing import Dict, List
 
 from .command import CommandSpec, Interface
 from .registry import COMMAND_REGISTRY

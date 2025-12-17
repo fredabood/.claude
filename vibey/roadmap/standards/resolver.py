@@ -13,11 +13,10 @@ The resolution follows these rules:
 
 from pathlib import Path
 from typing import List, Optional, Dict
-from datetime import datetime, timezone
 import yaml
 
-from ..models import Standard, Roadmap, Track, Sprint, Task
-from ..serialization import load_roadmap, load_track, load_sprint, load_tasks
+from ..models import Standard, Roadmap, Track, Sprint
+from ..serialization import load_roadmap, load_track, load_sprint
 from ...cli.roadmap_lib.filesystem import FileSystemManager
 
 

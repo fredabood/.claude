@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import List, Optional, Any, Dict, Callable, Tuple
+from typing import List, Optional, Any, Dict, Tuple
 import json
 import logging
 

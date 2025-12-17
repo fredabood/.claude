@@ -8,7 +8,6 @@ Task: git-integration-4-task-005 (dogfooding fix)
 """
 
 import json
-import os
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Set, Optional

@@ -30,11 +30,7 @@ from datetime import datetime, timezone
 
 from .integrity_audit import (
     count_files_in_directory,
-    extract_declared_progress,
-    audit_discrepancies,
     run_full_audit,
-    FileCount,
-    Discrepancy,
     AuditReport,
 )
 

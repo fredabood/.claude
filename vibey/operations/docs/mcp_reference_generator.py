@@ -14,8 +14,6 @@ Task: 01KC81GRE23T0KSHR4ZCES476Z
 """
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from pathlib import Path
 from typing import List, Optional, Dict
 
 from vibey.operations.docs.mcp_introspector import (
@@ -23,9 +21,6 @@ from vibey.operations.docs.mcp_introspector import (
     ToolInfo,
     ResourceTemplateInfo,
     PromptInfo,
-    SchemaProperty,
-    ToolExample,
-    PromptArgument,
     introspect_mcp,
 )
 

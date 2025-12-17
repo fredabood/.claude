@@ -13,7 +13,6 @@ from pathlib import Path
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from rich.panel import Panel
-from rich.text import Text
 
 from vibey.roadmap.compatibility import (
     SprintCompatibility,

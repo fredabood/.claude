@@ -18,7 +18,7 @@ import argparse
 import shutil
 from pathlib import Path
 from datetime import datetime
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 
 def find_backups(search_dir: Path = Path('.')) -> List[Tuple[Path, datetime]]:

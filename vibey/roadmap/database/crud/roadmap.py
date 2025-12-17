@@ -7,11 +7,11 @@ Complex nested objects (progress, metadata, version_strategy) are stored as JSON
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Optional, List, Dict, Any
 from pathlib import Path
 
-from ..connection import get_connection, transaction
+from ..connection import get_connection
 
 
 def _serialize_datetime(dt: Optional[datetime]) -> Optional[str]:

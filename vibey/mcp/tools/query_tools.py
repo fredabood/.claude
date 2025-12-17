@@ -7,7 +7,6 @@ Sprint 10: Added standards query tools with inheritance chain display.
 """
 
 from typing import List, Dict, Any
-from pathlib import Path
 
 from ..adapters.roadmap_adapter import RoadmapAdapter
 from ..utils.errors import VibeyMCPError

@@ -12,7 +12,6 @@ import unittest
 import tempfile
 import shutil
 from pathlib import Path
-from datetime import datetime, timezone
 
 from vibey.roadmap.directory_manager import DirectoryManager
 from vibey.roadmap.id_generator import (

@@ -2,8 +2,6 @@
 'roadmap list-templates' command - List available standard templates.
 """
 
-import sys
-from pathlib import Path
 
 from ...roadmap.standards.templates import list_templates, get_template_info
 

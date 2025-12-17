@@ -6,7 +6,7 @@ Defines the abstract interface that all resource providers must implement.
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 import logging
 import re
 

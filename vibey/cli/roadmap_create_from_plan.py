@@ -18,15 +18,15 @@ import re
 import argparse
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 # Add framework to path
 repo_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(repo_root))
 
 from ulid import ULID
-from vibey.roadmap.models import Sprint, SprintProgress, SprintMetadata, Task, TaskMetadata, TaskStatus, TaskType, Priority, Complexity
-from vibey.roadmap.serialization import save_sprint, save_task, load_track, save_track
+from vibey.roadmap.models import Sprint, SprintProgress, Task, TaskStatus, TaskType, Priority, Complexity
+from vibey.roadmap.serialization import save_sprint, save_task
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager
 
 

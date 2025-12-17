@@ -19,7 +19,7 @@ import sys
 from dataclasses import dataclass, asdict, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional, Iterator, List, Dict, Union
+from typing import Any, Optional, Iterator, List, Dict
 
 
 # Cross-platform file locking

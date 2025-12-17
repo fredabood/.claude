@@ -15,9 +15,8 @@ Sprint: core-framework-2, Task 2
 
 import sys
 import yaml
-import json
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple
 
 # Try to import jsonschema, provide helpful error if missing
 try:

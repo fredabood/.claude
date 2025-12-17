@@ -12,13 +12,11 @@ Task: roadmap-integrity-fixes-1-task-003
 
 import hashlib
 import json
-import re
 import shutil
-import sys
 import yaml
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
 
 

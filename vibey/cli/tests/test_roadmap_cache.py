@@ -7,7 +7,6 @@ Tests the in-memory caching layer for roadmap queries.
 import sys
 from pathlib import Path
 import tempfile
-import shutil
 
 # Add roadmap-lib to path
 test_dir = Path(__file__).parent

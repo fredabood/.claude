@@ -14,7 +14,7 @@ sys.path.insert(0, str(framework_root))
 roadmap_lib_path = Path(__file__).parent.parent / "roadmap-lib"
 sys.path.insert(0, str(roadmap_lib_path))
 
-from filesystem import FileSystemManager, find_roadmap_root
+from filesystem import find_roadmap_root
 from agents import AgentRouter, AGENT_CAPABILITIES
 
 

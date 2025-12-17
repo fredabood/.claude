@@ -5,9 +5,7 @@ Tests the complete flow: tool handler → adapter → roadmap system.
 """
 
 import pytest
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
-from datetime import datetime, timezone
+from unittest.mock import Mock
 
 from vibey.mcp.tools.task_tools import (
     handle_start_task,

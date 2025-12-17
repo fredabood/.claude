@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from ..command import CommandSpec, Interface
-from ..param import ParamSpec
 from ..registry import COMMAND_REGISTRY
 from ..types import param_to_json_schema
 from ..formatters import DEFAULT_FORMATTER, CommandResult

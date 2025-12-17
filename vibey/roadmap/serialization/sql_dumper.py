@@ -117,7 +117,6 @@ def save_roadmap(roadmap: Roadmap, db_path: Optional['Path'] = None):
         roadmap: Roadmap object to save
         db_path: Optional path to database file
     """
-    from pathlib import Path
     with transaction(db_path=db_path) as conn:
         # Encode version_strategy and metadata as JSON
         version_strategy_json = json.dumps({
@@ -194,7 +193,6 @@ def save_track(track: Track, db_path: Optional['Path'] = None):
         track: Track object to save
         db_path: Optional path to database file
     """
-    from pathlib import Path
     with transaction(db_path=db_path) as conn:
         # Encode metadata as JSON
         metadata_json = json.dumps({
@@ -282,7 +280,6 @@ def save_sprint(sprint: Sprint, db_path: Optional['Path'] = None):
         sprint: Sprint object to save
         db_path: Optional path to database file
     """
-    from pathlib import Path
     with transaction(db_path=db_path) as conn:
         # Encode metadata as JSON
         metadata_json = json.dumps({
@@ -389,7 +386,6 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
         tasks: List of Task objects to save
         db_path: Optional path to database file
     """
-    from pathlib import Path
     with transaction(db_path=db_path) as conn:
         for task in tasks:
             # Encode metadata as JSON
@@ -537,7 +533,6 @@ def save_full_roadmap(
         tasks: List of all Task objects
         db_path: Optional path to database file
     """
-    from pathlib import Path
     with transaction(db_path=db_path) as conn:
         # Disable triggers for bulk operations
         disable_triggers_for_bulk_operations(conn)
@@ -650,14 +645,13 @@ def save_audit_trail(
 from pathlib import Path
 from typing import Union
 
-from ..database.connection import session_scope, get_session
+from ..database.connection import session_scope
 from ..models.ticket.orm import (
     TicketORM,
     RoadmapTicketORM,
     TrackTicketORM,
     SprintTicketORM,
     TaskTicketORM,
-    CriterionORM,
 )
 from ..models.ticket.domain import (
     TaskTicket,
@@ -665,7 +659,6 @@ from ..models.ticket.domain import (
     TrackTicket,
     RoadmapTicket,
 )
-from ..models.ticket.ticket import Ticket
 
 
 def save_task_ticket(

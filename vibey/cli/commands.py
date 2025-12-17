@@ -28,7 +28,7 @@ from vibey.operations.roadmap import (
 from vibey.operations.roadmap.summarize import summarize_sprint, summarize_task
 from vibey.operations.deployment import deploy_framework
 from vibey.operations.docs import generate_docs
-from vibey.operations.config import generate_config, update_config_value
+from vibey.operations.config import update_config_value
 from vibey.operations.migrations import (
     migrate_to_roadmap,
     migrate_embedded_tasks,
@@ -1907,7 +1907,6 @@ def roadmap_validate_fast_cmd(
         print_validation_report,
         clear_yaml_cache
     )
-    import time
 
     root_dir = Path.cwd()
 
@@ -2931,7 +2930,6 @@ def roadmap_validate_commits_cmd() -> int:
 def db_init_cmd(force: bool = False) -> int:
     """Initialize SQLite database from YAML files."""
     from datetime import datetime, timezone
-    import shutil
 
     root_dir = Path.cwd()
     vibey_dir = root_dir / ".vibey"
@@ -3447,7 +3445,6 @@ def db_dump_cmd(force: bool = False, verbose: bool = False) -> int:
             from vibey.operations.roadmap.jsonl_activity_log import (
                 ActivityLogWriter,
                 FieldChange,
-                compute_file_hash,
             )
             activity_log_dir = roadmap_dir / "activity_log"
             activity_log_dir.mkdir(parents=True, exist_ok=True)
@@ -4433,7 +4430,7 @@ def migrate_format_cmd(
     - _at suffix on timestamps
     """
     import shutil
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     import yaml
 

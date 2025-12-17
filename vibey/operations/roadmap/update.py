@@ -45,14 +45,13 @@ from typing import Optional, List, Tuple
 from vibey.roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Status, TaskStatus, ActivityType,
-    TrackSummary, SprintSummary, Progress, Metadata,
-    Dependency, DependencyType, GateInfo, DependencyStatus,
+    DependencyType,
 )
 from vibey.roadmap.serialization import (
     load_roadmap, load_track, load_sprint, load_task, load_tasks,
     save_roadmap, save_track, save_sprint, save_task, save_tasks,
 )
-from vibey.cli.roadmap_lib.filesystem import FileSystemManager, find_roadmap_root
+from vibey.cli.roadmap_lib.filesystem import FileSystemManager
 from vibey.cli.roadmap_lib.activity import ActivityLogger
 from vibey.cli.roadmap_lib.status import StatusManager
 from vibey.cli.roadmap_lib.blockers import BlockerComputer
@@ -64,7 +63,6 @@ from vibey.operations.roadmap.query import (
     load_task_ticket,
     load_sprint_ticket,
     load_track_ticket,
-    load_roadmap_ticket,
 )
 
 # Note: Ticket save functions are now in transitions.py module
@@ -230,12 +228,9 @@ except ImportError:
 # ============================================================================
 
 from vibey.operations.roadmap.transitions import (
-    TransitionBlockedError,
     transition_task,
     transition_sprint,
     transition_track,
-    transition_roadmap,
-    can_transition,
 )
 
 

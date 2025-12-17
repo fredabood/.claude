@@ -23,7 +23,6 @@ from .views import create_views
 from .triggers import (
     TRIGGER_DEFINITIONS,
     TRIGGER_ORDER,
-    TRIGGER_CATEGORIES,
     create_triggers,
     drop_triggers,
     trigger_exists,

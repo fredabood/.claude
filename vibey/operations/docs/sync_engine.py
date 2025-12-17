@@ -13,15 +13,14 @@ Key Features:
 """
 
 import hashlib
-import json
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
-from dataclasses import dataclass, asdict
+from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import fnmatch
 
-from .sync_manifest import SyncManifest, FileSyncRecord
+from .sync_manifest import SyncManifest
 
 
 @dataclass

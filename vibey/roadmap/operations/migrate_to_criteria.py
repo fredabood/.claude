@@ -14,18 +14,15 @@ Reference: Sprint 12 Task 009
 """
 
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple, Generator
+from typing import List, Dict, Any, Optional, Generator
 from datetime import datetime, timezone
-from glob import glob
 
 from ..serialization.yaml_loader import (
     load_task as yaml_load_task,
     load_sprint as yaml_load_sprint,
     load_track as yaml_load_track,
-    load_roadmap as yaml_load_roadmap,
 )
 from ..serialization.sql_dumper import dump_criteria
-from ..database import get_connection
 from ..database.schema import has_criteria_table, create_criteria_table
 
 
@@ -146,7 +143,7 @@ def _convert_dependency_to_criterion(dep, entity_id: str, index: int) -> "Criter
     """
     from ..models.ticket.completable import Criterion
     from ..models.ticket.targets import CompletableTarget, ExternalTarget
-    from ..models.ticket.enums import TicketStatus, CriterionTargetType
+    from ..models.ticket.enums import TicketStatus
 
     # Generate criterion ID
     criterion_id = f"{entity_id}-dep-{index:03d}"

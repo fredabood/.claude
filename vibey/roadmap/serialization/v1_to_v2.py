@@ -15,11 +15,10 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Tuple
 
 import yaml
 
-from ..id_generator import generate_id, is_ulid_format
 
 logger = logging.getLogger(__name__)
 

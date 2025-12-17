@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional, Tuple
 
-from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue, ValidationStatus
+from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue
 from ...models import Standard, StandardType
 
 

@@ -10,7 +10,7 @@ from typing import Dict, Any, List, Optional
 
 from .agents import AgentDefinition
 from .workflows import WorkflowDefinition
-from .handoffs import HandoffDefinition, HandoffVariable
+from .handoffs import HandoffDefinition
 
 logger = logging.getLogger(__name__)
 

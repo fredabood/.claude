@@ -13,7 +13,6 @@ import sqlite3
 import tempfile
 import pytest
 from pathlib import Path
-from datetime import datetime, timezone
 
 from vibey.roadmap.database.connection import (
     get_connection,
@@ -27,8 +26,6 @@ from vibey.roadmap.database.schema import (
     schema_exists,
     get_schema_version,
     drop_all_tables,
-    get_schema_ddl,
-    get_index_ddl,
     get_table_names,
     get_index_names,
     validate_schema,

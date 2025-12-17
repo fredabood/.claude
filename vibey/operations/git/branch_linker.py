@@ -9,7 +9,7 @@ Task: git-integration-2-task-005
 import yaml
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum

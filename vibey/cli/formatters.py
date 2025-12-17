@@ -5,11 +5,8 @@ This module converts JSON responses from operations modules into
 formatted text output for CLI users.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any
 from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
-from rich.text import Text
 
 console = Console()
 

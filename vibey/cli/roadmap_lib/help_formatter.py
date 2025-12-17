@@ -5,7 +5,7 @@ Provides rich, contextual help messages with examples and tips.
 """
 
 from typing import List, Dict, Optional
-from .formatting import header, bold, dim, colorize, Color, info, success
+from .formatting import header, bold, dim, colorize, Color
 
 
 class CLIHelpFormatter:

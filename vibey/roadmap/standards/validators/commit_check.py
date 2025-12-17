@@ -8,7 +8,7 @@ they can be marked as completed.
 from pathlib import Path
 from typing import Optional
 
-from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue, ValidationStatus
+from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue
 from ...models import Standard, StandardType
 from ...serialization import load_tasks
 

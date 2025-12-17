@@ -15,7 +15,7 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Callable, ClassVar, List, Optional, Protocol, TYPE_CHECKING, Tuple
+from typing import Any, ClassVar, List, Optional, Protocol, TYPE_CHECKING, Tuple
 
 from pydantic import Field, computed_field
 

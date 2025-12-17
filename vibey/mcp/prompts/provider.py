@@ -6,7 +6,7 @@ Defines the abstract interface that all prompt providers must implement.
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 import logging
 
 from .types import PromptDefinition, PromptResult

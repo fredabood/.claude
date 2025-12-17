@@ -11,7 +11,7 @@ Provides MCP Resources for vibey handoff templates, enabling:
 
 import json
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 

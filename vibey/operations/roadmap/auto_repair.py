@@ -13,12 +13,11 @@ Sprint: Post-Sprint 1 Enhancement
 
 import yaml
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 from vibey.operations.roadmap.advanced_validator import (
     ProgressMismatch,
     BrokenReference,
-    OrphanedTask,
     AdvancedValidationReport
 )
 

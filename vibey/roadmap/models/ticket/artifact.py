@@ -9,15 +9,14 @@ Design Reference: UNIFIED_TICKET_ARCHITECTURE.md Part 13.3
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Protocol
+from typing import Any, Dict, List, Optional, Protocol
 import hashlib
 
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, Field
 
 from vibey.roadmap.models.ticket.artifact_enums import (
     ArtifactType,
     ProvenanceType,
-    ArtifactVerification,
 )
 
 

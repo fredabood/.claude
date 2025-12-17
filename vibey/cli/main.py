@@ -6,7 +6,6 @@ framework commands into logical groups.
 """
 
 import sys
-from pathlib import Path
 from typing import Optional
 
 import click
@@ -1242,7 +1241,7 @@ def roadmap_override_standard(ctx, standard_id: str, item_id: str, reason: str, 
     from datetime import datetime, timezone
     from vibey.roadmap.models import StandardOverride
     from vibey.roadmap.serialization import (
-        load_roadmap, save_roadmap, load_track, save_track, load_sprint, save_sprint
+        load_roadmap, save_roadmap, load_track, save_track
     )
     from vibey.cli.roadmap_lib.filesystem import FileSystemManager
 
@@ -4459,7 +4458,6 @@ def audit_inventory(ctx, output: Optional[str], directories: tuple, output_forma
         save_inventory,
     )
     import json as json_mod
-    import yaml
 
     # Set up configuration
     config = FileInventoryConfig()

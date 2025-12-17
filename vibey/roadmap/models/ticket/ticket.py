@@ -26,12 +26,10 @@ from vibey.roadmap.models.ticket.support import Progress
 from vibey.roadmap.models.ticket.targets import (
     ArtifactTarget,
     CompletableTarget,
-    CriterionTarget,
     FileExistsTarget,
     ManualTarget,
     TestPassesTarget,
 )
-from vibey.roadmap.models.ticket.artifact_enums import ArtifactVerification
 
 
 class GitCommit(BaseModel):

@@ -4,7 +4,6 @@ MCP Prompt Manager.
 Orchestrates prompt providers and handles MCP prompt protocol operations.
 """
 
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import logging

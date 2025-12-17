@@ -17,9 +17,8 @@ Sprint: core-framework-2, Task 4
 """
 
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 import yaml
-import hashlib
 import os
 
 

@@ -2,9 +2,7 @@
 'roadmap add-from-template' command - Add a standard from a template.
 """
 
-import sys
 from pathlib import Path
-from datetime import datetime, timezone
 
 from ...roadmap.standards.templates import load_template, get_template_info
 from ...roadmap.serialization import (

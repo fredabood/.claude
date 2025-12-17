@@ -13,11 +13,9 @@ This validates that all components work together correctly.
 """
 
 import unittest
-import subprocess
 import tempfile
 import shutil
 import yaml
-import json
 import os
 from pathlib import Path
 from datetime import datetime, timezone

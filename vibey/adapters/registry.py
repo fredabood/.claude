@@ -4,7 +4,7 @@ Adapter Registry for managing platform adapters.
 
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 from .base import PlatformAdapter
 from .types import ExportResult, AdapterInfo

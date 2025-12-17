@@ -14,8 +14,7 @@ Performance targets:
 """
 
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
-from collections import deque
+from typing import Dict, List, Optional
 import time
 import json
 import subprocess

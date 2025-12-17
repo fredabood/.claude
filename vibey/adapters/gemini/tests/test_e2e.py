@@ -5,13 +5,12 @@ works correctly for the Gemini platform adapter.
 """
 
 import json
-import os
 import pytest
 import shutil
 import tempfile
 from pathlib import Path
 
-from vibey.adapters.gemini.adapter import GeminiAdapter, GeminiExportResult
+from vibey.adapters.gemini.adapter import GeminiAdapter
 from vibey.adapters.gemini.mcp_test import run_mcp_test
 
 

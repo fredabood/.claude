@@ -6,7 +6,6 @@ and replace the 24 manually-maintained counter fields.
 """
 
 import pytest
-import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 import tempfile
@@ -41,7 +40,6 @@ from .crud import (
     add_blocker,
     add_dependency,
     add_quality_gate,
-    update_quality_gate,
 )
 
 

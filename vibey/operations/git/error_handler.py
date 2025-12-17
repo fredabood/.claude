@@ -8,7 +8,6 @@ This module provides:
 - State validation and repair
 """
 
-import os
 import shutil
 import subprocess
 import tempfile

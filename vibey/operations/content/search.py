@@ -4,7 +4,6 @@ Content Search.
 Search content by keywords, tags, and other criteria.
 """
 
-import re
 from dataclasses import dataclass, field
 from typing import List, Optional
 

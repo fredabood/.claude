@@ -5,7 +5,7 @@ Tracks all changes to roadmap data for accountability, transparency, and debuggi
 """
 
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Optional, List, Dict, Any, Tuple
 from dataclasses import dataclass, asdict
 import subprocess
@@ -420,7 +420,6 @@ def log_command_change(
     from vibey.operations.roadmap.jsonl_activity_log import (
         ActivityLogWriter,
         FieldChange,
-        CommandActivityEvent,
         compute_file_hash,
     )
     from vibey.cli.roadmap_lib.filesystem import FileSystemManager

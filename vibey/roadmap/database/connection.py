@@ -19,7 +19,7 @@ from typing import Optional, Generator, Any, Union
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session
 
 # Thread-local storage for connections
 _local = threading.local()

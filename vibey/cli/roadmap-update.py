@@ -9,7 +9,7 @@ import sys
 import argparse
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Optional, List
+from typing import List
 
 # Add repository root to path for framework imports
 repo_root = Path(__file__).parent.parent.parent
@@ -20,10 +20,8 @@ scripts_path = Path(__file__).parent
 sys.path.insert(0, str(scripts_path))
 
 from vibey.roadmap.models import (
-    Roadmap, Track, Sprint, Task,
     Status, TaskStatus, ActivityType,
-    TrackSummary, SprintSummary, Progress, Metadata,
-    Dependency, DependencyType, GateInfo, DependencyStatus,
+    DependencyType,
 )
 from vibey.roadmap.serialization import (
     load_roadmap, load_track, load_sprint, load_tasks,

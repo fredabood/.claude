@@ -14,21 +14,19 @@ Task Reference: sqlite-backend-6-task-012
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional, Type, Union
+from typing import List, Optional
 
-from sqlalchemy import create_engine, select, and_, or_
+from sqlalchemy import create_engine, select, and_
 from sqlalchemy.orm import Session, sessionmaker
 
 from vibey.roadmap.models.ticket.enums import TicketStatus, TicketType
 from vibey.roadmap.models.ticket.orm import (
-    Base,
     CriterionORM,
     TicketORM,
     RoadmapTicketORM,
     TrackTicketORM,
     SprintTicketORM,
     TaskTicketORM,
-    get_ticket_orm_class,
     create_unified_schema,
 )
 
@@ -188,7 +186,6 @@ class TicketRepository:
             ticket: Pydantic model with new values
         """
         import json
-        from vibey.roadmap.models.ticket import GitCommit
 
         orm_ticket.name = ticket.name
         orm_ticket.description = ticket.description

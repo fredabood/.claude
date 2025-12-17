@@ -8,7 +8,7 @@ from pathlib import Path
 from fnmatch import fnmatch
 from typing import List
 
-from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue, ValidationStatus
+from ..validator_base import ValidatorBase, ValidationResult, ValidationIssue
 from ...models import Standard, StandardType
 from ...serialization import load_tasks
 

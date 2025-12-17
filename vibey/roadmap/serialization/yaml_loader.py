@@ -12,7 +12,7 @@ import logging
 import warnings
 from datetime import datetime, timezone, date
 from pathlib import Path
-from typing import Union, Dict, Any, List, Tuple, Optional
+from typing import Union, Dict, Any, List, Optional
 
 import yaml
 
@@ -24,23 +24,18 @@ from ..models.ticket.domain import (
     TaskTicket,
     GateInfo as PydanticGateInfo,
     AuditResults as PydanticAuditResults,
-    DevelopmentGate as PydanticDevelopmentGate,
     VersionStrategy as PydanticVersionStrategy,
-    VersionHistoryEntry as PydanticVersionHistoryEntry,
-    ActivityLogEntry as PydanticActivityLogEntry,
     PlatformDeployment as PydanticPlatformDeployment,
 )
-from ..models.ticket.ticket import GitCommit as PydanticGitCommit, Ticket
+from ..models.ticket.ticket import GitCommit as PydanticGitCommit
 from ..models.ticket.completable import Criterion
 from ..models.ticket.enums import (
     TicketStatus,
-    TicketType,
     TaskType as PydanticTaskType,
     Priority as PydanticPriority,
     Complexity as PydanticComplexity,
     DeliverableType as PydanticDeliverableType,
     CriterionTargetType,
-    GateStatus as PydanticGateStatus,
     ActivityType as PydanticActivityType,
 )
 from ..models.ticket.targets import (

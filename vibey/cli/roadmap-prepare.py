@@ -11,9 +11,7 @@ Usage:
     roadmap prepare <task-id> --show
 """
 
-import os
 import sys
-import yaml
 import argparse
 from pathlib import Path
 from datetime import datetime

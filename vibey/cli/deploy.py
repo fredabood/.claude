@@ -6,8 +6,7 @@ framework to different platforms.
 """
 
 from pathlib import Path
-from typing import Optional, List
-from datetime import datetime
+from typing import Optional
 
 from rich.console import Console
 from rich.panel import Panel

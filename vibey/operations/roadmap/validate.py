@@ -13,7 +13,6 @@ due to format mismatches.
 
 import yaml
 from pathlib import Path
-from typing import List, Dict
 
 from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
 

@@ -5,7 +5,7 @@ Computes blockers for objects based on dependencies and their statuses.
 """
 
 from datetime import datetime, timezone
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Any
 from pathlib import Path
 import sys
 
@@ -16,7 +16,6 @@ sys.path.insert(0, str(framework_root))
 from vibey.roadmap.models import (
     Roadmap, Track, Sprint, Task,
     Blocker, TrackBlocker, SprintBlocker, TaskBlocker,
-    Status, TaskStatus,
 )
 from vibey.roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from .filesystem import FileSystemManager

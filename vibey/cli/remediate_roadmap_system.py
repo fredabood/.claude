@@ -10,11 +10,9 @@ This script:
 4. Updates sprint and track progress
 """
 
-import os
 import sys
 from pathlib import Path
-from datetime import datetime, timezone
-import yaml
+from datetime import datetime
 
 # Add vibey to path
 REPO_ROOT = Path(__file__).parent.parent.parent
@@ -22,9 +20,8 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from vibey.roadmap.models.task import Task, TaskType, GitCommit
 from vibey.roadmap.models.sprint import Sprint
-from vibey.roadmap.models.track import Track
 from vibey.roadmap.models.common import Status, Priority
-from vibey.roadmap.serialization.yaml_dumper import dump_task_to_yaml, dump_sprint_to_yaml, dump_track_to_yaml
+from vibey.roadmap.serialization.yaml_dumper import dump_task_to_yaml, dump_sprint_to_yaml
 
 # Roadmap system track path
 TRACK_PATH = REPO_ROOT / ".vibey" / "roadmap" / "roadmap-system"

@@ -19,7 +19,6 @@ Design Reference: sqlite-backend-13-task-011
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -151,7 +150,6 @@ class StatusManager:
         results = []
 
         # Import here to avoid circular imports
-        from vibey.operations.roadmap.query import query_task_details, query_sprint_details
 
         # Get tickets to check
         if ticket_ids:
@@ -477,7 +475,6 @@ class StatusManager:
         """Log progressions to audit trail."""
         try:
             from vibey.operations.roadmap.activity_log import (
-                UnifiedActivityLog,
                 log_auto_progression,
             )
 

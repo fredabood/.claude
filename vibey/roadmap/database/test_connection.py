@@ -9,13 +9,11 @@ Tests:
 - Error handling
 """
 
-import os
 import sqlite3
 import tempfile
 import threading
 import pytest
 from pathlib import Path
-from unittest.mock import patch
 
 from vibey.roadmap.database.connection import (
     get_db_path,
@@ -26,8 +24,6 @@ from vibey.roadmap.database.connection import (
     temporary_connection,
     database_exists,
     get_database_info,
-    DatabaseError,
-    ConnectionError,
     TransactionError,
     DEFAULT_DB_FILENAME,
     DEFAULT_VIBEY_DIR,

@@ -12,7 +12,7 @@ import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Set
+from typing import List, Optional, Tuple
 
 
 @dataclass

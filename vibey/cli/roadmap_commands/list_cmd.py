@@ -15,12 +15,11 @@ sys.path.insert(0, str(framework_root))
 roadmap_lib_path = Path(__file__).parent.parent / "roadmap-lib"
 sys.path.insert(0, str(roadmap_lib_path))
 
-from roadmap.models import Status
 from roadmap.serialization import load_roadmap, load_track, load_sprint, load_tasks
 from filesystem import FileSystemManager, find_roadmap_root
 from formatting import (
     table, header, status_indicator, progress_bar,
-    colorize, bold, dim, Color, warning
+    colorize, bold, dim, Color
 )
 
 

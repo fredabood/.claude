@@ -19,7 +19,6 @@ The FileSystemManager automatically detects which format is in use and provides
 a unified interface for both.
 """
 
-import os
 import sys
 from pathlib import Path
 from typing import Optional, Dict, Literal

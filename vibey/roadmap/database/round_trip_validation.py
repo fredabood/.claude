@@ -23,11 +23,10 @@ Usage:
 """
 
 import difflib
-import shutil
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import List, Optional, Any
 from datetime import datetime, timezone
 import yaml
 

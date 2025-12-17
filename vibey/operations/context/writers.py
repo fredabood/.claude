@@ -19,7 +19,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import yaml
 

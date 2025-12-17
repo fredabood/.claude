@@ -16,11 +16,8 @@ Usage:
 
 import sys
 import argparse
-import json
 import yaml
 from pathlib import Path
-from datetime import datetime, timezone
-from typing import Dict, List, Optional
 
 # Add framework to path
 framework_root = Path(__file__).parent.parent

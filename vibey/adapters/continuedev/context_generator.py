@@ -16,7 +16,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from vibey.mcp.discovery.agents import AgentDefinition, AgentDiscovery
 from vibey.mcp.discovery.workflows import WorkflowDefinition, WorkflowDiscovery

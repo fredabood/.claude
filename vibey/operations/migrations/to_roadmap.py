@@ -25,7 +25,7 @@ from vibey.roadmap.models import (
     Sprint, Task, TaskStatus, Priority, Complexity
 )
 from vibey.roadmap.serialization import (
-    save_sprint, load_roadmap, save_roadmap
+    save_sprint
 )
 from vibey.roadmap.directory_manager import DirectoryManager
 

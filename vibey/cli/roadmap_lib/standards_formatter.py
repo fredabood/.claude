@@ -8,7 +8,7 @@ Sprint 10: Updated to properly display inheritance information from
 ResolvedStandard objects, showing source level and override status.
 """
 
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Union
 from pathlib import Path
 
 # Import standards models

@@ -11,12 +11,6 @@ from vibey.roadmap.models.common import (
     TaskStatus,
     Priority,
     TaskType,
-    GateStatus,
-    DependencyType,
-    Complexity,
-    DeliverableType,
-    ActivityType,
-    VersionBumpTrigger,
     DependencyStatus,
 )
 

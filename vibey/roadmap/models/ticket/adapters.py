@@ -17,13 +17,12 @@ Design Reference: sqlite-backend-6-task-013 (Migration Task)
 """
 
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+from typing import Any, Dict, List, TYPE_CHECKING
 import uuid
 
 from vibey.roadmap.models.ticket.completable import Criterion
 from vibey.roadmap.models.ticket.enums import (
     TicketStatus,
-    TicketType,
     TaskType,
     Priority,
 )

@@ -2,11 +2,8 @@
 'roadmap override-standard' command - Override a standard for a specific item.
 """
 
-import sys
 from pathlib import Path
-from datetime import datetime, timezone
 
-from ...roadmap.standards import StandardsResolver
 from ...roadmap.serialization import save_roadmap, save_track, save_sprint
 from ...cli.roadmap_lib.filesystem import FileSystemManager
 

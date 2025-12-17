@@ -15,7 +15,7 @@ Key Features:
 
 import yaml
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 from datetime import datetime
 
 

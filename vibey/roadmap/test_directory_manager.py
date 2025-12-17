@@ -13,16 +13,9 @@ Tests verify:
 import unittest
 import tempfile
 import shutil
-from pathlib import Path
 from vibey.roadmap.directory_manager import (
     DirectoryManager,
-    RoadmapPaths,
     create_track,
-    create_sprint,
-    create_task,
-    get_track_paths,
-    get_sprint_paths,
-    get_task_paths,
 )
 from vibey.roadmap.id_generator import (
     generate_track_id,

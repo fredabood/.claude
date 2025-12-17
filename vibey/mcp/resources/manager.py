@@ -10,7 +10,7 @@ from typing import Any, Dict, List, Optional
 import logging
 
 from .types import Resource, ResourceContent, ResourceTemplate
-from .exceptions import ProviderNotFoundError, ResourceNotFoundError
+from .exceptions import ProviderNotFoundError
 from .provider import ResourceProvider
 
 logger = logging.getLogger(__name__)

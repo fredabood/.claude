@@ -22,7 +22,7 @@ import json
 import yaml
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 from collections import Counter, defaultdict
 import re
 

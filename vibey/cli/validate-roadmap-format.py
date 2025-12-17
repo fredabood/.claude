@@ -23,7 +23,6 @@ import sys
 import argparse
 import yaml
 from pathlib import Path
-from typing import List, Dict, Tuple
 
 # Add framework to path
 framework_root = Path(__file__).parent.parent

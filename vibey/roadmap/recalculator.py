@@ -12,9 +12,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from math import ceil
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 import yaml
-import copy
 
 from vibey.platform import (
     PlatformInfo,
@@ -22,10 +21,8 @@ from vibey.platform import (
     format_token_count,
 )
 from vibey.roadmap.compatibility import (
-    check_sprint_compatibility,
     is_task_completed,
     load_sprint_tasks,
-    CompatibilityStatus,
 )
 
 

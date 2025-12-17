@@ -5,7 +5,6 @@ Provides consistent, helpful error messages across all commands.
 """
 
 from typing import List, Optional, Dict
-from .formatting import colorize, Color, bold
 from help_formatter import CLIHelpFormatter
 
 

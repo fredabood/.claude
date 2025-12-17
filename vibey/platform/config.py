@@ -6,7 +6,7 @@ Supports auto-detection with user overrides.
 """
 
 import os
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Dict, Any
@@ -19,9 +19,8 @@ from vibey.platform.detector import (
     DetectionMethod,
     detect_platform,
     get_platform_info,
-    KNOWN_PLATFORMS,
 )
-from vibey.platform.context import get_context_window, PLATFORM_CONTEXT_WINDOWS
+from vibey.platform.context import PLATFORM_CONTEXT_WINDOWS
 
 
 # Default config path

@@ -15,7 +15,6 @@ import yaml
 from vibey.platform import (
     PlatformInfo,
     get_effective_platform,
-    get_context_window,
     format_token_count,
 )
 

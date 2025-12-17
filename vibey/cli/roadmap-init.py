@@ -24,9 +24,7 @@ from vibey.roadmap.models import (
     ActivityType, VersionBumpTrigger,
 )
 from vibey.roadmap.serialization import save_roadmap
-from vibey.roadmap.validation import Validator
 from roadmap_lib.filesystem import FileSystemManager
-from roadmap_lib.activity import ActivityLogger
 
 
 def prompt_input(prompt: str, default: Optional[str] = None) -> str:

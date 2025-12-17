@@ -23,7 +23,6 @@ from ...roadmap.models.session import (
     SessionEventType,
     Decision,
     SessionCommit,
-    ContextSnapshot,
 )
 
 logger = logging.getLogger(__name__)

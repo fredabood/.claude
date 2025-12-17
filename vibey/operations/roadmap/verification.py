@@ -9,7 +9,7 @@ Includes signature verification for signed activity log entries.
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, List, Dict
+from typing import Optional, List
 import json
 
 from vibey.operations.roadmap.jsonl_activity_log import (

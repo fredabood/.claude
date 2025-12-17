@@ -1,619 +1,361 @@
-# Sprint 4: Major Refactoring
+# Sprint 4: Major Refactoring (Updated)
 
 ## Overview
 - **Track:** Architecture Modernization
 - **Sprint ID:** 01KCMTXMWJHPFH7J96KHHZTPB4
 - **Tasks:** 5
-- **Focus:** Implement CLI refactor, planned status system, and integration tests
+- **Focus:** Wire up existing unified ticket models to CLI, add planned status workflow
 
-## Success Criteria
-- [ ] CLI aligned with semantic layer architecture
-- [ ] Planned status criterion system operational
-- [ ] Integration tests covering CLI-Database flow
-- [ ] All refactoring from Sprint 2 designs implemented
+## Current State Assessment
+
+### What Already Exists
+
+| Component | Location | Status |
+|-----------|----------|--------|
+| **Unified Command System** | `vibey/unified/` | Complete - decorators, registry, adapters, parity checker |
+| **18 Unified Commands** | `vibey/unified/commands/` | Migrated - roadmap, docs, deploy commands |
+| **Ticket Model** | `vibey/roadmap/models/ticket/ticket.py` | Complete - extends Completable |
+| **Completable Base** | `vibey/roadmap/models/ticket/completable.py` | Complete - criteria, can_transition_to() |
+| **9 Criterion Targets** | `vibey/roadmap/models/ticket/targets.py` | Complete - see list below |
+| **Hierarchy Management** | `vibey/roadmap/models/ticket/hierarchical.py` | Complete |
+| **ORM Models** | `vibey/roadmap/models/ticket/orm.py` | Complete |
+| **Repository Layer** | `vibey/roadmap/models/ticket/repository.py` | Complete |
+| **265 Integration Tests** | `tests/integration/` | Exist but may not cover new models |
+
+**Existing Criterion Target Types:**
+1. `CompletableTarget` - Another completable must reach status
+2. `FileExistsTarget` - File(s) must exist
+3. `TestPassesTarget` - Test command must pass
+4. `TestCoverageTarget` - Coverage threshold
+5. `ThresholdTarget` - Generic metric threshold
+6. `ManualTarget` - Human approval required
+7. `ExternalTarget` - External system check
+8. `ArtifactTarget` - Artifact state check
+
+### What Does NOT Exist
+
+1. **PlannedCriterion** - Composite criterion for "planned" status
+2. **`vibey planned` command group** - CLI commands for planned workflow
+3. **Wiring** - New ticket models not integrated with existing CLI
+4. **CLI-to-new-model integration tests** - Tests for new architecture
 
 ---
 
-## Task 1: Implement CLI Refactor for Semantic Layer Alignment
+## Revised Task Breakdown
+
+### Task 1: Wire Unified Ticket Models to CLI
 **ID:** `01KCMMFTTPM8JA1GFD4QQA23VT`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
-
-### Problem
-Execute the CLI refactor designed in Sprint 2 to align with unified ticket architecture.
-
-### Prerequisites
-- Sprint 2 Task 4: CLI refactor design complete
-- Sprint 3: Code cleanup complete
-
-### Implementation Steps
-1. Create new command structure:
-   ```python
-   # vibey/cli/commands/ticket.py
-
-   import click
-   from vibey.operations.roadmap import ticket_ops
-
-   @click.group()
-   def ticket():
-       """Work item management (unified ticket commands)."""
-       pass
-
-   @ticket.command('list')
-   @click.option('--type', type=click.Choice(['track', 'sprint', 'task', 'all']))
-   @click.option('--status', type=click.Choice(['not_started', 'in_progress', 'completed']))
-   def list_tickets(type, status):
-       """List tickets (tracks, sprints, tasks)."""
-       tickets = ticket_ops.list_tickets(type_filter=type, status_filter=status)
-       for t in tickets:
-           click.echo(f"{t.id} [{t.type}] {t.title} ({t.status})")
-
-   @ticket.command('show')
-   @click.argument('id')
-   def show_ticket(id):
-       """Show ticket details."""
-       ticket = ticket_ops.get_ticket(id)
-       click.echo(format_ticket(ticket))
-
-   @ticket.command('start')
-   @click.argument('id')
-   def start_ticket(id):
-       """Start working on a ticket."""
-       ticket_ops.start_ticket(id)
-       click.echo(f"Started ticket {id}")
-
-   @ticket.command('complete')
-   @click.argument('id')
-   def complete_ticket(id):
-       """Mark a ticket as complete."""
-       ticket_ops.complete_ticket(id)
-       click.echo(f"Completed ticket {id}")
-   ```
-
-2. Create criteria commands:
-   ```python
-   # vibey/cli/commands/criteria.py
-
-   @click.group()
-   def criteria():
-       """Completion criteria management."""
-       pass
-
-   @criteria.command('list')
-   @click.argument('ticket_id')
-   def list_criteria(ticket_id):
-       """List completion criteria for a ticket."""
-       criteria = criteria_ops.list_for_ticket(ticket_id)
-       for c in criteria:
-           status = "✓" if c.met else "○"
-           click.echo(f"{status} {c.description}")
-
-   @criteria.command('check')
-   @click.argument('ticket_id')
-   def check_criteria(ticket_id):
-       """Evaluate all criteria for a ticket."""
-       results = criteria_ops.evaluate_all(ticket_id)
-       for r in results:
-           click.echo(f"{r.criterion}: {r.status}")
-   ```
-
-3. Add backward compatibility aliases:
-   ```python
-   # vibey/cli/main.py
-
-   # Legacy aliases for transition
-   cli.add_command(ticket.commands['list'], name='roadmap-list')
-
-   # Deprecation warnings
-   def deprecated_command(new_cmd):
-       def wrapper(f):
-           @functools.wraps(f)
-           def inner(*args, **kwargs):
-               click.echo(f"Warning: This command is deprecated. Use '{new_cmd}' instead.", err=True)
-               return f(*args, **kwargs)
-           return inner
-       return wrapper
-   ```
-
-4. Update MCP tools to match:
-   ```python
-   # Ensure MCP tools mirror CLI structure
-   @mcp_tool
-   def ticket_list(type_filter: str = None, status_filter: str = None):
-       """List tickets (maps to: vibey ticket list)."""
-       return ticket_ops.list_tickets(type_filter, status_filter)
-   ```
-
-### Files to Create/Modify
-- `vibey/cli/commands/ticket.py` (new)
-- `vibey/cli/commands/criteria.py` (new)
-- `vibey/cli/commands/artifact.py` (new)
-- `vibey/operations/roadmap/ticket_ops.py` (new)
-- `vibey/cli/main.py` (modify)
-- `vibey/mcp/tools/ticket_tools.py` (new)
-
-### Acceptance Criteria
-- [ ] New ticket commands implemented
-- [ ] Legacy commands aliased
-- [ ] MCP tools updated for parity
-- [ ] All tests pass
-
----
-
-## Task 2: Implement Planned Criterion Targets
-**ID:** `01KCMNP21ZPJMABMKHJYDQD7RR`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
-
-### Problem
-Implement the criterion targets designed in Sprint 2 for planned status evaluation.
-
-### Implementation Steps
-1. Create base criterion framework:
-   ```python
-   # vibey/roadmap/criteria/base.py
-
-   from abc import ABC, abstractmethod
-   from dataclasses import dataclass
-   from typing import Optional
-
-   @dataclass
-   class CriterionResult:
-       passed: bool
-       message: str
-       details: Optional[dict] = None
-
-   class CriterionTarget(ABC):
-       """Base class for criterion evaluation targets."""
-
-       @abstractmethod
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           """Evaluate if this target is met for the given ticket."""
-           pass
-   ```
-
-2. Implement FileExistsTarget:
-   ```python
-   # vibey/roadmap/criteria/targets.py
-
-   class FileExistsTarget(CriterionTarget):
-       """Check if YAML file exists for ticket."""
-
-       def __init__(self, paths: RoadmapPaths):
-           self.paths = paths
-
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           # Determine entity type from ULID prefix patterns
-           yaml_path = self._get_path(ticket_id)
-           exists = yaml_path.exists()
-
-           return CriterionResult(
-               passed=exists,
-               message=f"YAML file {'exists' if exists else 'missing'}",
-               details={"path": str(yaml_path)}
-           )
-   ```
-
-3. Implement DatabaseRecordTarget:
-   ```python
-   class DatabaseRecordTarget(CriterionTarget):
-       """Check if ticket exists in database."""
-
-       def __init__(self, db_path: Path):
-           self.db_path = db_path
-
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           exists = self._check_db_record(ticket_id)
-
-           return CriterionResult(
-               passed=exists,
-               message=f"Database record {'found' if exists else 'missing'}",
-               details={"ticket_id": ticket_id}
-           )
-   ```
-
-4. Implement ContextFileExistsTarget:
-   ```python
-   class ContextFileExistsTarget(CriterionTarget):
-       """Check if context directory/files exist."""
-
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           context_dir = self._get_context_dir(ticket_id)
-           has_context = context_dir.exists() and any(context_dir.iterdir())
-
-           return CriterionResult(
-               passed=has_context,
-               message=f"Context files {'present' if has_context else 'missing'}",
-               details={"context_dir": str(context_dir)}
-           )
-   ```
-
-5. Implement ManualApprovalTarget:
-   ```python
-   class ManualApprovalTarget(CriterionTarget):
-       """Check if user has manually approved planned status."""
-
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           ticket = self._load_ticket(ticket_id)
-           approved = ticket.metadata.get('planned_approved', False)
-
-           return CriterionResult(
-               passed=approved,
-               message=f"Manual approval: {'yes' if approved else 'pending'}",
-               details={"ticket_id": ticket_id}
-           )
-   ```
-
-6. Compose into PlannedCriterion:
-   ```python
-   # vibey/roadmap/criteria/planned.py
-
-   class PlannedCriterion:
-       """Composite criterion for planned status."""
-
-       def __init__(self, paths: RoadmapPaths, db_path: Path):
-           self.targets = [
-               FileExistsTarget(paths),
-               DatabaseRecordTarget(db_path),
-               ContextFileExistsTarget(paths),
-               ManualApprovalTarget(),
-           ]
-
-       def evaluate(self, ticket_id: str) -> CriterionResult:
-           results = [t.evaluate(ticket_id) for t in self.targets]
-           all_passed = all(r.passed for r in results)
-
-           return CriterionResult(
-               passed=all_passed,
-               message=f"Planned: {sum(r.passed for r in results)}/{len(results)} targets met",
-               details={"targets": [r.message for r in results]}
-           )
-   ```
-
-### Acceptance Criteria
-- [ ] All 4 target types implemented
-- [ ] PlannedCriterion composes targets
-- [ ] Unit tests for each target
-- [ ] Integration with ticket model
-
----
-
-## Task 3: Implement Hierarchical Planned Status Aggregation
-**ID:** `01KCMNPC039DG15PZT0QHMTBCV`
 **Priority:** High | **Complexity:** Medium | **Type:** Development
 
-### Problem
-Parent ticket planned status should aggregate from children.
+#### Problem
+The new `Ticket`, `Completable`, and `Criterion` models exist but aren't used by the CLI. The CLI still uses the old `Track`, `Sprint`, `Task` models directly.
 
-### Implementation Steps
-1. Add planned property to ticket model:
+#### Actual Work Required
+1. Create adapter layer to bridge old CLI → new models:
    ```python
-   # vibey/roadmap/models/ticket.py
+   # vibey/roadmap/models/ticket/adapters.py (may already exist)
 
-   class Ticket(BaseModel):
-       # ... existing fields
+   def task_to_ticket(task: Task) -> Ticket:
+       """Convert legacy Task to unified Ticket."""
+       ...
 
-       @property
-       def is_planned(self) -> bool:
-           """Check if ticket is planned (recursive for parents)."""
-           if self.is_leaf:
-               return self._evaluate_planned_criterion()
-           else:
-               return all(child.is_planned for child in self.children)
-
-       def _evaluate_planned_criterion(self) -> bool:
-           criterion = PlannedCriterion(self._paths, self._db_path)
-           return criterion.evaluate(self.id).passed
+   def ticket_to_task(ticket: Ticket) -> Task:
+       """Convert unified Ticket back to legacy Task."""
+       ...
    ```
 
-2. Add caching for efficiency:
-   ```python
-   @functools.lru_cache(maxsize=1000)
-   def get_planned_status(ticket_id: str) -> bool:
-       """Cached planned status lookup."""
-       ticket = load_ticket(ticket_id)
-       return ticket.is_planned
+2. Update key CLI operations to use new models:
+   - `roadmap start` → use `Ticket.start()`
+   - `roadmap complete` → use `Ticket.complete()`
+   - `roadmap show` → display criteria status
+
+3. Add criterion display to CLI output:
+   ```
+   Task: 01KCMGZB4G0322MRJZ8VX3KYM8
+   Status: in_progress
+
+   Criteria for COMPLETED:
+     ✓ Code implementation complete
+     ○ Tests passing (3/5 passing)
+     ○ Documentation updated
    ```
 
-3. Add database trigger for denormalization:
-   ```sql
-   -- Optional: Store computed planned status
-   ALTER TABLE tickets ADD COLUMN planned_status BOOLEAN DEFAULT FALSE;
+#### Files to Modify
+- `vibey/operations/roadmap/transitions.py` - Use Ticket model
+- `vibey/cli/roadmap_lib/formatting.py` - Display criteria
+- `vibey/unified/commands/roadmap.py` - Update unified commands
 
-   -- Update on changes
-   CREATE TRIGGER update_planned_status
-   AFTER UPDATE ON tickets
-   BEGIN
-       -- Recalculate for affected tickets
-   END;
-   ```
-
-4. Add CLI for planned status queries:
-   ```python
-   @ticket.command('planned')
-   @click.argument('id')
-   def check_planned(id):
-       """Check planned status of ticket."""
-       ticket = ticket_ops.get_ticket(id)
-       result = ticket.is_planned
-
-       if result:
-           click.echo(f"✓ Ticket {id} is fully planned")
-       else:
-           click.echo(f"○ Ticket {id} is not fully planned")
-           # Show which criteria failed
-   ```
-
-### Acceptance Criteria
-- [ ] Hierarchical aggregation works
-- [ ] Caching for performance
-- [ ] CLI command available
-- [ ] Tests for edge cases
+#### Acceptance Criteria
+- [ ] `roadmap start` uses `Ticket.can_start()` for blocking checks
+- [ ] `roadmap complete` uses `Ticket.can_complete()` for criteria checks
+- [ ] `roadmap show` displays criteria status
+- [ ] Backward compatible with existing YAML format
 
 ---
 
-## Task 4: Add CLI/MCP Commands for Planned Status Workflow
+### Task 2: Implement PlannedCriterion Composite
+**ID:** `01KCMNP21ZPJMABMKHJYDQD7RR`
+**Priority:** High | **Complexity:** Simple | **Type:** Development
+
+#### Problem
+Need a composite criterion that checks if a ticket is "planned" (ready for work).
+
+#### Actual Work Required
+The individual targets already exist! Just need to compose them:
+
+```python
+# vibey/roadmap/criteria/planned.py (NEW)
+
+from vibey.roadmap.models.ticket.completable import Criterion
+from vibey.roadmap.models.ticket.targets import (
+    FileExistsTarget,
+    ManualTarget,
+)
+from vibey.roadmap.models.ticket.enums import TicketStatus
+
+def create_planned_criteria(ticket_id: str, paths: RoadmapPaths) -> list[Criterion]:
+    """Create standard criteria for 'planned' status."""
+    return [
+        Criterion(
+            id=f"{ticket_id}-yaml-exists",
+            description="YAML file exists",
+            blocks_transition_to=TicketStatus.IN_PROGRESS,
+            target=FileExistsTarget(
+                path=str(paths.get_task_path(ticket_id)),
+                exists=True,
+            ),
+        ),
+        Criterion(
+            id=f"{ticket_id}-context-exists",
+            description="Context/task plan exists",
+            blocks_transition_to=TicketStatus.IN_PROGRESS,
+            target=FileExistsTarget(
+                path=str(paths.get_context_path(ticket_id)),
+                exists=True,
+            ),
+            required=False,  # Optional - not all tasks need context
+        ),
+        Criterion(
+            id=f"{ticket_id}-approved",
+            description="Planning approved",
+            blocks_transition_to=TicketStatus.IN_PROGRESS,
+            target=ManualTarget(
+                approved=False,
+                approver=None,
+            ),
+            required=False,  # Optional manual approval
+        ),
+    ]
+```
+
+#### Files to Create
+- `vibey/roadmap/criteria/__init__.py`
+- `vibey/roadmap/criteria/planned.py`
+
+#### Acceptance Criteria
+- [ ] PlannedCriterion uses existing target types
+- [ ] Configurable which checks are required vs optional
+- [ ] Unit tests for criterion composition
+
+---
+
+### Task 3: Update Hierarchical Aggregation for Planned Status
+**ID:** `01KCMNPC039DG15PZT0QHMTBCV`
+**Priority:** Medium | **Complexity:** Simple | **Type:** Development
+
+#### Problem
+The `hierarchical.py` exists but may not aggregate "planned" status up the hierarchy.
+
+#### Actual Work Required
+1. Verify `hierarchical.py` handles planned status aggregation
+2. Add `is_planned` computed property if missing:
+   ```python
+   @computed_field
+   @property
+   def is_planned(self) -> bool:
+       """Check if ticket is planned (all planning criteria met)."""
+       # For leaf tickets: check planning criteria
+       # For parent tickets: all children must be planned
+       if self.is_leaf:
+           return self._check_planning_criteria()
+       return all(child.is_planned for child in self.children)
+   ```
+
+3. Add caching via database trigger or computed column
+
+#### Files to Modify
+- `vibey/roadmap/models/ticket/ticket.py` - Add is_planned property
+- `vibey/roadmap/models/ticket/hierarchical.py` - Aggregation logic
+
+#### Acceptance Criteria
+- [ ] `ticket.is_planned` returns correct value for leaf tickets
+- [ ] Parent `is_planned` aggregates from children
+- [ ] Performance acceptable (caching if needed)
+
+---
+
+### Task 4: Add `planned` CLI Command Group
 **ID:** `01KCMNPQQ8ETYF2X4N5WP95ENG`
-**Priority:** Medium | **Complexity:** Medium | **Type:** Development
+**Priority:** High | **Complexity:** Medium | **Type:** Development
 
-### Problem
-Need commands to manage and query planned status for agent workflow.
+#### Problem
+No CLI commands exist for checking or managing "planned" status.
 
-### Implementation Steps
-1. Add planned status commands:
-   ```python
-   # vibey/cli/commands/planned.py
+#### Actual Work Required
+Create new unified commands for planned workflow:
 
-   @click.group()
-   def planned():
-       """Planned status workflow commands."""
-       pass
+```python
+# vibey/unified/commands/planned.py (NEW)
 
-   @planned.command('check')
-   @click.argument('id')
-   def check_planned(id):
-       """Check if a ticket is planned."""
-       result = planned_ops.check(id)
-       click.echo(format_planned_result(result))
+@unified_command(
+    name="planned_check",
+    description="Check if a ticket is fully planned",
+    cli_group="planned",
+    cli_name="check",
+    mcp_name="vibey_planned_check",
+)
+@param("ticket_id", type=ParamType.STRING, required=True)
+def planned_check(ticket_id: str, root_dir=None) -> CommandResult:
+    """Check planned status of a ticket."""
+    ...
 
-   @planned.command('approve')
-   @click.argument('id')
-   def approve_planned(id):
-       """Manually approve planned status for ticket."""
-       planned_ops.approve(id)
-       click.echo(f"Approved planned status for {id}")
+@unified_command(
+    name="planned_approve",
+    description="Manually approve a ticket's planning",
+    cli_group="planned",
+    cli_name="approve",
+    mcp_name="vibey_planned_approve",
+)
+@param("ticket_id", type=ParamType.STRING, required=True)
+def planned_approve(ticket_id: str, root_dir=None) -> CommandResult:
+    """Approve planned status for a ticket."""
+    ...
 
-   @planned.command('list-unplanned')
-   @click.option('--scope', default='all')
-   def list_unplanned(scope):
-       """List all unplanned tickets."""
-       unplanned = planned_ops.list_unplanned(scope)
-       for ticket in unplanned:
-           click.echo(f"{ticket.id} {ticket.title}")
+@unified_command(
+    name="planned_list_unplanned",
+    description="List tickets that are not yet planned",
+    cli_group="planned",
+    cli_name="list-unplanned",
+    mcp_name="vibey_list_unplanned",
+)
+@param("scope", type=ParamType.STRING, default="all")
+def planned_list_unplanned(scope: str = "all", root_dir=None) -> CommandResult:
+    """List unplanned tickets in scope."""
+    ...
 
-   @planned.command('work-until-planned')
-   @click.argument('track_id')
-   def work_until_planned(track_id):
-       """Show work remaining until track is fully planned."""
-       remaining = planned_ops.get_planning_work(track_id)
-       click.echo(f"Remaining planning work for {track_id}:")
-       for item in remaining:
-           click.echo(f"  - {item.ticket_id}: {item.missing_criteria}")
-   ```
+@unified_command(
+    name="planned_next_work",
+    description="Get next planning work item for a track",
+    cli_group="planned",
+    cli_name="next",
+    mcp_name="vibey_planned_next",
+)
+@param("track_id", type=ParamType.STRING, required=True)
+def planned_next_work(track_id: str, root_dir=None) -> CommandResult:
+    """Get next ticket that needs planning work."""
+    ...
+```
 
-2. Add MCP tools for agent workflow:
-   ```python
-   # vibey/mcp/tools/planned_tools.py
+#### Files to Create
+- `vibey/unified/commands/planned.py`
+- `vibey/operations/roadmap/planned_ops.py`
 
-   @mcp_tool
-   def planned_check(ticket_id: str) -> dict:
-       """Check planned status of a ticket."""
-       result = planned_ops.check(ticket_id)
-       return {
-           "planned": result.is_planned,
-           "criteria_met": result.criteria_met,
-           "criteria_total": result.criteria_total,
-           "missing": result.missing_criteria,
-       }
+#### Files to Modify
+- `vibey/cli/main.py` - Register planned command group
+- `vibey/unified/commands/__init__.py` - Export new commands
 
-   @mcp_tool
-   def planned_list_unplanned(scope: str = "all") -> list:
-       """List all unplanned tickets in scope."""
-       return [
-           {"id": t.id, "title": t.title, "type": t.type}
-           for t in planned_ops.list_unplanned(scope)
-       ]
-
-   @mcp_tool
-   def planned_get_next_work(track_id: str) -> dict:
-       """Get next planning work item for a track."""
-       work = planned_ops.get_next_planning_work(track_id)
-       return {
-           "ticket_id": work.ticket_id,
-           "action": work.required_action,
-           "details": work.details,
-       }
-   ```
-
-3. Agent workflow example:
-   ```markdown
-   ## Agent Workflow: Plan Until Done
-
-   1. Check track planned status: `vibey planned check <track_id>`
-   2. If not planned:
-      a. Get next work item: `vibey planned work-until-planned <track_id>`
-      b. Complete planning task (create context, add details)
-      c. Approve if ready: `vibey planned approve <ticket_id>`
-      d. Repeat from step 1
-   3. Track is fully planned, ready for implementation
-   ```
-
-### Acceptance Criteria
-- [ ] CLI commands for planned workflow
-- [ ] MCP tools mirror CLI
-- [ ] Agent can drive planning workflow
-- [ ] Documentation with examples
+#### Acceptance Criteria
+- [ ] `vibey planned check <id>` shows criteria status
+- [ ] `vibey planned approve <id>` marks manual approval
+- [ ] `vibey planned list-unplanned` shows unplanned tickets
+- [ ] `vibey planned next <track>` suggests next planning work
+- [ ] MCP tools mirror CLI commands
 
 ---
 
-## Task 5: Add Integration Tests for CLI-Database Flow
+### Task 5: Add Integration Tests for New Architecture
 **ID:** `01KCMGZTMA1HC7GS44AB9D2VS1`
-**Priority:** High | **Complexity:** Complex | **Type:** Testing
+**Priority:** High | **Complexity:** Medium | **Type:** Testing
 
-### Problem
-Need integration tests for complete user flows: CLI -> Operations -> YAML/SQLite sync.
+#### Problem
+265 integration tests exist but may not cover the new unified ticket models.
 
-### Implementation Steps
-1. Create integration test fixtures:
-   ```python
-   # tests/integration/conftest.py
+#### Actual Work Required
+Add tests specifically for:
+1. Ticket model ↔ YAML serialization round-trip
+2. CLI commands using new Ticket model
+3. Criteria evaluation during transitions
+4. Planned status workflow end-to-end
 
-   import pytest
-   from pathlib import Path
-   import tempfile
+```python
+# tests/integration/test_unified_ticket_flow.py (NEW)
 
-   @pytest.fixture
-   def roadmap_env(tmp_path):
-       """Create isolated roadmap environment for testing."""
-       roadmap_dir = tmp_path / ".vibey" / "roadmap"
-       roadmap_dir.mkdir(parents=True)
+def test_start_task_checks_criteria(roadmap_env):
+    """Starting a task should check IN_PROGRESS criteria."""
+    # Create task with blocking dependency
+    # Attempt to start - should fail
+    # Complete dependency
+    # Start should now succeed
 
-       # Create minimal structure
-       (roadmap_dir / "tracks").mkdir()
-       (roadmap_dir / "sprints").mkdir()
-       (roadmap_dir / "tasks").mkdir()
+def test_complete_task_checks_criteria(roadmap_env):
+    """Completing a task should check COMPLETED criteria."""
+    # Create task with completion criteria
+    # Attempt to complete - should fail
+    # Satisfy criteria
+    # Complete should now succeed
 
-       # Initialize database
-       db_path = roadmap_dir / "roadmap.db"
+def test_planned_status_aggregation(roadmap_env):
+    """Parent planned status should aggregate from children."""
+    # Create track with sprints and tasks
+    # Check track.is_planned = False
+    # Plan all tasks
+    # Check track.is_planned = True
+```
 
-       yield {
-           "root": tmp_path,
-           "roadmap": roadmap_dir,
-           "db": db_path,
-       }
-   ```
+#### Files to Create
+- `tests/integration/test_unified_ticket_flow.py`
+- `tests/integration/test_planned_workflow.py`
+- `tests/integration/test_criteria_evaluation.py`
 
-2. Test CLI -> YAML -> Database flow:
-   ```python
-   # tests/integration/test_cli_database_flow.py
-
-   from click.testing import CliRunner
-   from vibey.cli.main import cli
-
-   def test_create_track_flow(roadmap_env):
-       """Test creating track updates both YAML and database."""
-       runner = CliRunner()
-
-       # Create track via CLI
-       result = runner.invoke(cli, [
-           'roadmap', 'create-track',
-           '--name', 'Test Track',
-           '--roadmap-id', 'test-roadmap'
-       ], env={'VIBEY_ROADMAP_PATH': str(roadmap_env['roadmap'])})
-
-       assert result.exit_code == 0
-       track_id = extract_id_from_output(result.output)
-
-       # Verify YAML created
-       yaml_path = roadmap_env['roadmap'] / 'tracks' / f'{track_id}.yaml'
-       assert yaml_path.exists()
-
-       # Verify database record
-       result = runner.invoke(cli, ['roadmap', 'db', 'status'])
-       assert track_id in result.output
-
-   def test_update_task_flow(roadmap_env, sample_task):
-       """Test updating task syncs YAML and database."""
-       runner = CliRunner()
-
-       # Update task status
-       result = runner.invoke(cli, [
-           'roadmap', 'start', sample_task.id
-       ])
-       assert result.exit_code == 0
-
-       # Verify YAML updated
-       yaml_content = load_yaml(roadmap_env['roadmap'] / 'tasks' / f'{sample_task.id}.yaml')
-       assert yaml_content['task']['status'] == 'in_progress'
-
-       # Verify database updated
-       db_task = query_database(roadmap_env['db'], sample_task.id)
-       assert db_task['status'] == 'in_progress'
-   ```
-
-3. Test error handling flows:
-   ```python
-   def test_invalid_id_error(roadmap_env):
-       """Test invalid ID produces proper error."""
-       runner = CliRunner()
-
-       result = runner.invoke(cli, [
-           'roadmap', 'show', 'invalid-id'
-       ])
-
-       assert result.exit_code != 0
-       assert 'Invalid ID' in result.output or 'not found' in result.output
-
-   def test_database_rebuild_after_yaml_edit(roadmap_env, sample_track):
-       """Test database reflects external YAML edits after rebuild."""
-       # Edit YAML directly
-       yaml_path = roadmap_env['roadmap'] / 'tracks' / f'{sample_track.id}.yaml'
-       content = yaml_path.read_text()
-       content = content.replace('name: Old Name', 'name: New Name')
-       yaml_path.write_text(content)
-
-       # Rebuild database
-       runner = CliRunner()
-       result = runner.invoke(cli, ['roadmap', 'db', 'rebuild'])
-       assert result.exit_code == 0
-
-       # Verify database updated
-       result = runner.invoke(cli, ['roadmap', 'show', sample_track.id])
-       assert 'New Name' in result.output
-   ```
-
-4. Test concurrent operations:
-   ```python
-   def test_concurrent_updates(roadmap_env, sample_tasks):
-       """Test concurrent updates don't corrupt data."""
-       import concurrent.futures
-
-       def update_task(task_id):
-           runner = CliRunner()
-           return runner.invoke(cli, ['roadmap', 'update', task_id, '--priority', 'high'])
-
-       with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-           futures = [executor.submit(update_task, t.id) for t in sample_tasks]
-           results = [f.result() for f in futures]
-
-       # All should succeed or fail gracefully
-       assert all(r.exit_code in [0, 1] for r in results)
-
-       # Database should be consistent
-       runner = CliRunner()
-       result = runner.invoke(cli, ['roadmap', 'db', 'validate'])
-       assert result.exit_code == 0
-   ```
-
-### Files to Create
-- `tests/integration/__init__.py`
-- `tests/integration/conftest.py`
-- `tests/integration/test_cli_database_flow.py`
-- `tests/integration/test_cli_error_handling.py`
-- `tests/integration/test_yaml_sqlite_sync.py`
-
-### Acceptance Criteria
-- [ ] Integration test suite created
-- [ ] CLI -> Operations -> Storage flows tested
-- [ ] Error handling tested
-- [ ] Concurrent operations tested
-- [ ] CI runs integration tests
+#### Acceptance Criteria
+- [ ] Tests cover Ticket model serialization
+- [ ] Tests cover criteria-based transitions
+- [ ] Tests cover planned status aggregation
+- [ ] Tests cover planned CLI commands
+- [ ] All new tests pass in CI
 
 ---
 
 ## Sprint Completion Checklist
-- [ ] CLI refactor implemented
-- [ ] Planned criterion targets implemented
-- [ ] Hierarchical aggregation working
-- [ ] Planned workflow commands added
-- [ ] Integration tests passing
-- [ ] MCP parity maintained
+
+- [ ] Task 1: CLI wired to use Ticket model for transitions
+- [ ] Task 2: PlannedCriterion composite created
+- [ ] Task 3: Hierarchical planned aggregation working
+- [ ] Task 4: `vibey planned` command group available
+- [ ] Task 5: Integration tests for new architecture passing
+- [ ] All existing tests still pass
+- [ ] MCP tools have parity with CLI commands
 - [ ] Documentation updated
+
+## Dependencies
+
+- **Sprint 3 (completed):** Code cleanup, commands.py split
+- **Sprint 2 (completed):** Architecture designs
+
+## Risks
+
+1. **Breaking changes** - Wiring new models may break existing functionality
+   - Mitigation: Extensive integration tests, feature flags if needed
+
+2. **Performance** - Criteria evaluation may be slow
+   - Mitigation: Caching, database triggers for computed values
+
+## Estimated Complexity
+
+| Task | Original Estimate | Revised Estimate | Reason |
+|------|-------------------|------------------|--------|
+| Task 1 | Complex | Medium | Much exists, just needs wiring |
+| Task 2 | Complex | Simple | Targets already exist, just compose |
+| Task 3 | Medium | Simple | hierarchical.py exists |
+| Task 4 | Medium | Medium | Still needs full implementation |
+| Task 5 | Complex | Medium | Test patterns exist, adapt them |

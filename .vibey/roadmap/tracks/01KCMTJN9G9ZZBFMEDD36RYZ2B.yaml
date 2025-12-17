@@ -13,8 +13,8 @@ track:
     sprints_total: 4
     sprints_completed: 1
     tasks_total: 10
-    tasks_completed: 9
-    completion_percent: 90
+    tasks_completed: 10
+    completion_percent: 100
   sprints:
   - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
     name: 'Sprint 1: Codebase Audit'
@@ -24,7 +24,7 @@ track:
     started: '2025-12-17T18:45:28.148757+00:00'
   - id: 01KCMTXH8QFZ64GD4CK7TSDY06
     name: 'Sprint 2: Architecture Design'
-    status: in_progress
+    status: completion_gate_check
     estimated_duration: null
     tasks_count: 6
     started: '2025-12-17T19:35:55.452415+00:00'

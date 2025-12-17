@@ -19,8 +19,7 @@ task:
   estimated_tokens: 1
   actual_tokens: null
   complexity: complex
-  gate_info: Needs detailed task plan before implementation due to complexity (6190
-    line file)
+  gate_info: null
   audit_results: null
   dependencies: []
   blocks: []

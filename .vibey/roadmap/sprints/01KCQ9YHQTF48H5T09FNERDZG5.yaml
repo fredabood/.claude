@@ -1,0 +1,58 @@
+sprint:
+  id: 01KCQ9YHQTF48H5T09FNERDZG5
+  name: 'Sprint 0: Planning & Design Review'
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-17T23:25:00+00:00'
+  started: '2025-12-17T23:27:09.995697+00:00'
+  completion_gate_check_at: '2025-12-17T23:50:00+00:00'
+  completed: '2025-12-17T23:50:00+00:00'
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 5
+    development_tasks_completed: 5
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 5
+    tasks_completed: 5
+    completion_percent: 100
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+  - 01KCMTY4ACHZQ53CH90J7ZSAAV
+  plan_file: null
+  deliverables:
+  - Approved context system design
+  - User feedback incorporated
+  - Clear implementation direction
+  description: Planning sprint to review design with user, collect feedback, and get
+    approval before implementation begins.
+  goal: Get user buy-in on context system architecture before committing to implementation
+  success_criteria:
+  - User has reviewed three-phase context model
+  - Git integration approach approved
+  - Directory structure changes agreed upon
+  - Design document updated with feedback
+  risks:
+  - Major design changes may require replanning Sprint 1-2
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

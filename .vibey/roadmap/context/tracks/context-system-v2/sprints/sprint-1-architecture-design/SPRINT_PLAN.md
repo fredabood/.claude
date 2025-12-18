@@ -5,11 +5,25 @@
 - **Sprint ID:** 01KCMTY4ACHZQ53CH90J7ZSAAV
 - **Tasks:** 3
 - **Focus:** Design comprehensive context management architecture with git integration
+- **Prerequisites:** Sprint 0 design decisions approved
+
+## Design Decisions (from Sprint 0)
+
+Reference: `sprint-0-planning-design-review/DESIGN_DECISIONS.md`
+
+Key decisions incorporated:
+- Hybrid YAML + Markdown approach (YAML indexes markdown artifacts)
+- Storage: `context/plans/`, `context/runtime/`, `context/post-mortems/`
+- Git linking: file overlap + message ref + manual (no timestamp)
+- Pre-commit hook with bidirectional validation
+- Configurable enforcement levels
+- Commit message template
 
 ## Success Criteria
 - [ ] Context architecture document complete
-- [ ] Hybrid context management design approved
-- [ ] Directory restructure plan ready for implementation
+- [ ] Hybrid YAML + Markdown structure defined
+- [ ] Git linking design with pre-commit hook specified
+- [ ] Directory structure ready for implementation
 
 ---
 
@@ -21,7 +35,8 @@
 No central design document exists for context engineering system.
 
 ### Implementation Steps
-1. Create architecture document structure:
+
+1. Create architecture document incorporating Sprint 0 decisions:
    ```markdown
    # Context System Architecture
 
@@ -34,351 +49,421 @@ No central design document exists for context engineering system.
    - Runtime Context: Active session state
    - Post-Mortem Context: Completed work summaries
 
-   ## Data Flow
-   [Diagram showing context flow through system]
-
-   ## Persistence Model
-   - YAML for human-readable artifacts
-   - Git for version control and linking
+   ## Storage Model
+   - YAML for structured metadata (always loaded, small)
+   - Markdown for lengthy artifacts (loaded on demand)
    - SQLite for queries
+   - Git for version control and commit linking
 
-   ## API Surface
-   - CLI commands
-   - MCP tools
-   - Python API
+   ## Hybrid YAML + Markdown
+   YAML files index markdown artifacts:
+   - AI sees what exists and purpose
+   - AI decides what to load based on need
+   - Large context preserved without forced token cost
    ```
 
-2. Document data flow:
+2. Document the three-phase lifecycle:
    ```
    ┌─────────────────────────────────────────────────────────────┐
    │                     CONTEXT LIFECYCLE                       │
    └─────────────────────────────────────────────────────────────┘
 
-   PLANNING PHASE                EXECUTION PHASE              COMPLETION
-   ───────────────────────────────────────────────────────────────────────
-   ┌─────────────┐             ┌─────────────┐             ┌─────────────┐
-   │ plan_context│  ────────▶  │runtime_ctxt │  ────────▶  │ post_mortem │
-   │             │             │             │             │             │
-   │ - goals     │             │ - active    │             │ - summary   │
-   │ - approach  │             │ - files     │             │ - files     │
-   │ - refs      │             │ - decisions │             │ - lessons   │
-   └─────────────┘             └─────────────┘             └─────────────┘
-         ▲                           │                           │
-         │                           │                           │
-         └───────────────────────────┴───────────────────────────┘
-                         Git commit linking
+   PLANNING PHASE           EXECUTION PHASE           COMPLETION
+   ─────────────────────────────────────────────────────────────
+   ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+   │  PLAN CONTEXT   │ ──▶ │ RUNTIME CONTEXT │ ──▶ │   POST-MORTEM   │
+   │                 │     │                 │     │                 │
+   │  • Goals        │     │  • Active files │     │  • Summary      │
+   │  • Approach     │     │  • Decisions    │     │  • Files changed│
+   │  • Artifacts[]  │     │  • Discoveries  │     │  • Lessons      │
+   │  • Constraints  │     │  • Blockers     │     │  • Follow-ups   │
+   └─────────────────┘     └─────────────────┘     └─────────────────┘
+           │                       │                       │
+           └───────────────────────┴───────────────────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │    GIT COMMITS      │
+                    │  (file + msg link)  │
+                    └─────────────────────┘
    ```
 
-3. Define API specifications:
-   ```python
-   # Context API Surface
+3. Document storage structure:
+   ```
+   .vibey/roadmap/context/
+   ├── plans/                    # Pre-work artifacts
+   │   └── {ticket_id}/
+   │       ├── plan.yaml         # Structured metadata
+   │       ├── DESIGN_ANALYSIS.md
+   │       └── IMPLEMENTATION_PLAN.md
+   │
+   ├── runtime/                  # Active session state
+   │   └── {ticket_id}.yaml
+   │
+   └── post-mortems/             # Completion summaries
+       └── {ticket_id}.yaml
+   ```
 
+4. Define API surface:
+   ```python
    class ContextManager:
        def get_plan_context(self, ticket_id: str) -> PlanContext:
            """Get pre-work planning context for ticket."""
+
+       def get_plan_artifacts(self, ticket_id: str) -> List[ArtifactRef]:
+           """List available artifacts without loading content."""
+
+       def load_artifact(self, ticket_id: str, filename: str) -> str:
+           """Load specific artifact content on demand."""
 
        def get_runtime_context(self, ticket_id: str) -> RuntimeContext:
            """Get current execution context for ticket."""
 
        def save_post_mortem(self, ticket_id: str, summary: PostMortem) -> None:
            """Save completion summary for ticket."""
-
-       def link_commit(self, ticket_id: str, commit_sha: str) -> None:
-           """Link git commit to ticket context."""
    ```
-
-4. Document persistence strategy:
-   - Plan context: `.vibey/roadmap/context/plans/{ticket-slug}/`
-   - Runtime context: `.vibey/context/sessions/{ticket_id}.json`
-   - Post-mortems: `.vibey/roadmap/context/post-mortems/{ticket_id}.md`
 
 ### Deliverables
 - `docs/architecture/CONTEXT_ARCHITECTURE.md`
 - Data flow diagrams
 - API specifications
-- Persistence model documentation
+- Storage model documentation
 
 ### Acceptance Criteria
 - [ ] Architecture document complete
-- [ ] All three context types documented
-- [ ] Git integration strategy defined
-- [ ] API surface specified
+- [ ] Hybrid YAML + Markdown model documented
+- [ ] Three context phases specified
+- [ ] API surface defined
+- [ ] Storage paths documented
 
 ---
 
-## Task 2: Design Hybrid Context Management with Git Integration
+## Task 2: Design Git Integration with Pre-Commit Hook
 **ID:** `01KCMMJK5AQ727JVKPCED8RXVT`
 **Priority:** High | **Complexity:** Complex | **Type:** Development
 
 ### Problem
-Need to design context management that integrates deeply with git, capturing three dimensions: plan, runtime, and post-mortem.
+Need to design git commit linking that validates consistency between commit files, message refs, and task YAML.
 
-### Design Principles
-1. **Context is ticket-centric**: Context belongs to tickets, not sessions
-2. **Git is the linking mechanism**: Commits associate context with work
-3. **Three phases**: Plan → Runtime → Post-mortem
-4. **Automatic association**: Timestamp + file matching links context to tasks
+### Design Principles (from Sprint 0)
+1. **No timestamp-based linking** - Was source of parallel task ambiguity
+2. **Three link signals**: file overlap, message reference, manual
+3. **Bidirectional validation** - Neither YAML nor message assumed correct
+4. **Files can belong to multiple tasks** - Real work isn't cleanly partitioned
+5. **Configurable enforcement** - Different tolerance for friction
 
 ### Implementation Steps
-1. Design ticket context structure:
-   ```python
-   @dataclass
-   class TicketContext:
-       """Unified context for a ticket across all phases."""
 
-       ticket_id: str
-
-       # Phase 1: Planning (pre-work)
-       plan: PlanContext = None  # What we intend to do
-
-       # Phase 2: Runtime (during work)
-       runtime: RuntimeContext = None  # What model has during work
-
-       # Phase 3: Post-mortem (after work)
-       post_mortem: PostMortemContext = None  # Summary of accomplishment
-
-       # Git linking
-       commits: List[CommitLink] = field(default_factory=list)
-   ```
-
-2. Design plan context:
-   ```python
-   @dataclass
-   class PlanContext:
-       """Pre-work planning context."""
-
-       goals: List[str]  # What we're trying to accomplish
-       approach: str  # How we plan to do it
-       references: List[Reference]  # Relevant files/docs
-       constraints: List[str]  # Limitations to consider
-       success_criteria: List[str]  # How we'll know we're done
-
-       # Metadata
-       created_at: datetime
-       created_by: str  # Agent or human
-       approved: bool = False
-   ```
-
-3. Design runtime context:
-   ```python
-   @dataclass
-   class RuntimeContext:
-       """Active session context during work."""
-
-       active_files: List[Path]  # Files currently being worked on
-       decisions: List[Decision]  # Decisions made during work
-       discoveries: List[str]  # Things learned during work
-       blockers: List[str]  # Issues encountered
-       progress_notes: List[str]  # Status updates
-
-       # Session tracking
-       session_id: str
-       started_at: datetime
-       last_updated: datetime
-       token_usage: int
-   ```
-
-4. Design post-mortem context:
-   ```python
-   @dataclass
-   class PostMortemContext:
-       """Completion summary after work."""
-
-       summary: str  # What was accomplished
-       files_changed: List[FileChange]  # Files modified
-       key_decisions: List[str]  # Important choices made
-       lessons_learned: List[str]  # What to remember
-       follow_up_items: List[str]  # Things for future work
-
-       # Completion metadata
-       completed_at: datetime
-       duration_hours: float
-       token_total: int
-   ```
-
-5. Design git integration:
+1. Design commit link data model:
    ```python
    @dataclass
    class CommitLink:
        """Links git commit to ticket context."""
 
-       commit_sha: str
-       timestamp: datetime
-       files_changed: List[str]
+       sha: str
        message: str
-       linked_via: str  # 'timestamp_range' | 'file_match' | 'manual'
+       files: List[str]
+       linked_at: datetime
 
-   def auto_link_commits(ticket: Ticket) -> List[CommitLink]:
-       """
-       Auto-link commits to ticket based on:
-       1. Timestamp within task start/complete window
-       2. File overlap with known ticket files
-       """
-       commits = []
-       for commit in get_commits_in_range(ticket.started, ticket.completed):
-           if files_overlap(commit.files, ticket.known_files):
-               commits.append(CommitLink(
-                   commit_sha=commit.sha,
-                   timestamp=commit.timestamp,
-                   files_changed=commit.files,
-                   message=commit.message,
-                   linked_via='timestamp_range+file_match'
-               ))
-       return commits
+       signals: CommitLinkSignals
+       aggregate_confidence: float
+       link_source: str  # 'pre_commit_hook' | 'reconciliation' | 'manual'
+
+   @dataclass
+   class CommitLinkSignals:
+       file_overlap: FileOverlapSignal
+       message_ref: MessageRefSignal
+       manual: ManualSignal
+
+   @dataclass
+   class FileOverlapSignal:
+       matched: bool
+       files: List[str]  # Which files overlapped
+       confidence: float
+
+   @dataclass
+   class MessageRefSignal:
+       matched: bool
+       task_ids: List[str]  # Task IDs found in message
+       confidence: float
+
+   @dataclass
+   class ManualSignal:
+       matched: bool
+       linked_by: str  # User who linked
+       confidence: float = 1.0
+   ```
+
+2. Design pre-commit hook flow:
+   ```python
+   def pre_commit_hook():
+       """Validate commit against task tracking."""
+
+       # 1. Get staged files and commit message
+       staged_files = get_staged_files()
+       message = get_commit_message()
+
+       # 2. Parse task references from message
+       task_refs = parse_task_refs(message)
+
+       # 3. For each referenced task, check file consistency
+       for task_id in task_refs:
+           task_files = load_task_known_files(task_id)
+           discrepancies = compare_files(staged_files, task_files)
+
+           if discrepancies.files_not_in_yaml:
+               # Files in commit but not tracked in task YAML
+               handle_discrepancy(task_id, discrepancies, 'files_not_in_yaml')
+
+       # 4. Check for files matching OTHER tasks (not referenced)
+       for file in staged_files:
+           other_tasks = find_tasks_tracking_file(file)
+           if other_tasks and not any(t in task_refs for t in other_tasks):
+               suggest_adding_task_ref(other_tasks)
+
+       # 5. Check for files matching NO tasks
+       untracked = find_untracked_files(staged_files)
+       if untracked:
+           flag_untracked_work(untracked)
+   ```
+
+3. Design resolution options:
+   ```python
+   class DiscrepancyResolution(Enum):
+       UPDATE_YAML = "update_yaml"      # Add files to task tracking
+       UPDATE_MESSAGE = "update_message" # Change task reference
+       ADD_REFERENCE = "add_reference"   # Include additional task
+       PROCEED = "proceed"               # Override, commit as-is
+       CANCEL = "cancel"                 # Abort commit
+   ```
+
+4. Design configuration:
+   ```yaml
+   # .vibey/config/git_hooks.yaml
+   pre_commit:
+     enabled: true
+     mode: prompt  # off | warn | prompt | strict
+
+     on_mismatch:
+       files_not_in_yaml: prompt    # warn | prompt | block
+       yaml_files_not_in_commit: ignore  # Normal
+       no_task_ref: warn            # warn | prompt | block
+
+     template:
+       auto_install: true
+       path: .gitmessage
+   ```
+
+5. Design commit message template:
+   ```
+   # <type>(<scope>): <subject>
+   #
+   # Task: <TASK_ID or TASK_IDS>
+   #
+   # <body>
+   #
+   # ─────────────────────────────────────────────────────────
+   # TYPE: feat|fix|docs|style|refactor|test|chore
+   # TASK: vibey task ID(s), comma-separated for multiple
+   #       Example: 01KCQ9YS0KE8WSYKZ21XG6WBQX
+   #       Example: 01TASK_A, 01TASK_B
+   # ─────────────────────────────────────────────────────────
    ```
 
 ### Deliverables
-- `CONTEXT_DESIGN.md` - Full design document
-- Data model specifications
-- Git integration design
-- API design for context operations
+- `GIT_INTEGRATION_DESIGN.md` - Full design document
+- Commit link data model
+- Pre-commit hook specification
+- Configuration schema
+- Commit message template
 
 ### Acceptance Criteria
-- [ ] Three-phase model designed
-- [ ] Git integration specified
-- [ ] Auto-linking algorithm defined
-- [ ] API surface documented
+- [ ] Three link signals designed (file, message, manual)
+- [ ] Pre-commit hook flow specified
+- [ ] Bidirectional validation defined
+- [ ] Resolution options documented
+- [ ] Configuration schema complete
+- [ ] Commit message template created
 
 ---
 
-## Task 3: Rename Context Directory to Plans, Add Post-Mortem Structure
+## Task 3: Define Context Directory Structure
 **ID:** `01KCMMK1MSFBZAM880C9K3BWPB`
 **Priority:** High | **Complexity:** Medium | **Type:** Development
 
 ### Problem
-Current `context/` directory is functionally `plans/`. Need to restructure for clarity.
+Need to define the context directory structure with subdirectories for plans, runtime, and post-mortems.
 
-### Current State
+### Target State (from Sprint 0)
 ```
 .vibey/roadmap/context/
-├── tracks/
-│   └── {track-slug}/
-│       └── sprints/
-│           └── {sprint-slug}/
-│               ├── SPRINT_PLAN.md
-│               └── {artifact}.md
-```
-
-### Target State
-```
-.vibey/roadmap/
-├── plans/                    # Pre-work artifacts (renamed from context/)
-│   └── tracks/
-│       └── {track-slug}/
-│           └── sprints/
-│               └── {sprint-slug}/
-│                   ├── SPRINT_PLAN.md
-│                   └── {design}.md
+├── plans/                    # Pre-work artifacts
+│   └── {ticket_id}/
+│       ├── plan.yaml         # Structured metadata + artifact index
+│       ├── DESIGN_ANALYSIS.md
+│       ├── IMPLEMENTATION_PLAN.md
+│       └── API_DESIGN.md
 │
-├── runtime/                  # Runtime context (new)
-│   └── sessions/
-│       └── {ticket_id}.json
+├── runtime/                  # Active session state
+│   └── {ticket_id}.yaml
 │
-└── post-mortems/             # Completion summaries (new)
-    └── {ticket_id}.md
+└── post-mortems/             # Completion summaries
+    └── {ticket_id}.yaml
 ```
 
 ### Implementation Steps
-1. Create migration plan:
-   ```python
-   # Migration steps:
-   # 1. Rename .vibey/roadmap/context/ → .vibey/roadmap/plans/
-   # 2. Update all code references
-   # 3. Create empty runtime/ and post-mortems/ directories
-   # 4. Update git to track rename
+
+1. Define plan context YAML schema:
+   ```yaml
+   # context/plans/{ticket_id}/plan.yaml
+   plan_context:
+     ticket_id: 01TASK123
+     created_at: '2025-12-17T10:00:00Z'
+     created_by: claude
+     approved: false
+
+     goals:
+       - "Implement user authentication"
+       - "Support JWT and session-based auth"
+
+     approach: |
+       Use existing auth library, add middleware pattern.
+
+     constraints:
+       - "Must be backwards compatible"
+       - "No breaking changes to existing endpoints"
+
+     success_criteria:
+       - "All endpoints require authentication"
+       - "Tests pass with both auth methods"
+
+     known_files:
+       - path: src/auth.py
+         source: plan_reference
+         added: '2025-12-17T10:00:00Z'
+       - path: src/middleware.py
+         source: plan_reference
+         added: '2025-12-17T10:00:00Z'
+
+     artifacts:
+       - file: DESIGN_ANALYSIS.md
+         purpose: "Deep dive on existing auth system"
+         tokens_estimate: 4500
+       - file: IMPLEMENTATION_PLAN.md
+         purpose: "Step-by-step implementation approach"
+         tokens_estimate: 3200
    ```
 
-2. Identify code references to update:
-   ```bash
-   grep -rn "context/" vibey/
-   grep -rn '"context"' vibey/
-   grep -rn "context_dir\|context_path" vibey/
+2. Define runtime context YAML schema:
+   ```yaml
+   # context/runtime/{ticket_id}.yaml
+   runtime_context:
+     ticket_id: 01TASK123
+     session_id: sess_abc123
+     started_at: '2025-12-17T11:00:00Z'
+     last_updated: '2025-12-17T14:30:00Z'
+
+     active_files:
+       - src/auth.py
+       - src/jwt_handler.py
+
+     decisions:
+       - decision: "Chose PyJWT over python-jose"
+         rationale: "Better maintained, simpler API"
+         timestamp: '2025-12-17T12:15:00Z'
+
+     discoveries:
+       - "Existing rate limiter conflicts with auth middleware order"
+
+     blockers:
+       - "Need DB migration for user tokens table"
+
+     token_usage: 45000
    ```
 
-3. Create migration script:
-   ```python
-   # scripts/migrate_context_structure.py
+3. Define post-mortem YAML schema:
+   ```yaml
+   # context/post-mortems/{ticket_id}.yaml
+   post_mortem:
+     ticket_id: 01TASK123
+     completed_at: '2025-12-17T16:00:00Z'
+     duration_hours: 5.0
 
-   import os
-   import shutil
-   from pathlib import Path
+     summary: |
+       Implemented JWT authentication with decorator pattern.
+       All endpoints now require auth, tests passing.
 
-   def migrate_context_to_plans(roadmap_dir: Path):
-       """Migrate context/ to plans/ structure."""
+     files_changed:
+       - src/auth.py
+       - src/jwt_handler.py
+       - src/middleware.py
+       - tests/test_auth.py
 
-       context_dir = roadmap_dir / "context"
-       plans_dir = roadmap_dir / "plans"
-       runtime_dir = roadmap_dir / "runtime" / "sessions"
-       postmortems_dir = roadmap_dir / "post-mortems"
+     key_decisions:
+       - "PyJWT for token handling"
+       - "Decorator pattern for cleaner code"
 
-       # 1. Rename context/ to plans/
-       if context_dir.exists():
-           shutil.move(str(context_dir), str(plans_dir))
-           print(f"Renamed {context_dir} → {plans_dir}")
+     lessons_learned:
+       - "Middleware order matters - auth must come before rate limiting"
 
-       # 2. Create new directories
-       runtime_dir.mkdir(parents=True, exist_ok=True)
-       postmortems_dir.mkdir(parents=True, exist_ok=True)
-       print(f"Created {runtime_dir}")
-       print(f"Created {postmortems_dir}")
+     follow_up_items:
+       - "Add refresh token support"
+       - "Document auth flow in API docs"
 
-       # 3. Create .gitkeep files
-       (runtime_dir / ".gitkeep").touch()
-       (postmortems_dir / ".gitkeep").touch()
-
-   if __name__ == "__main__":
-       migrate_context_to_plans(Path(".vibey/roadmap"))
+     commit_links:
+       - sha: abc1234
+         message: "feat(auth): Add JWT validation"
+         files: [src/auth.py, src/jwt_handler.py]
+         signals:
+           file_overlap: {matched: true, confidence: 1.0}
+           message_ref: {matched: true, confidence: 1.0}
    ```
 
-4. Update path constants:
+4. Define path utilities:
    ```python
-   # vibey/common/paths.py
+   class ContextPaths:
+       def __init__(self, roadmap_dir: Path):
+           self.base = roadmap_dir / "context"
 
-   class RoadmapPaths:
-       # OLD
-       # def context_dir(self, ...) -> Path:
-       #     return self.base / "context" / ...
-
-       # NEW
-       def plans_dir(self, track_slug: str = None, sprint_slug: str = None) -> Path:
+       def plans_dir(self, ticket_id: str = None) -> Path:
            path = self.base / "plans"
-           if track_slug:
-               path = path / "tracks" / track_slug
-           if sprint_slug:
-               path = path / "sprints" / sprint_slug
+           if ticket_id:
+               path = path / ticket_id
            return path
 
-       def runtime_session(self, ticket_id: str) -> Path:
-           return self.base / "runtime" / "sessions" / f"{ticket_id}.json"
+       def plan_yaml(self, ticket_id: str) -> Path:
+           return self.plans_dir(ticket_id) / "plan.yaml"
 
-       def post_mortem(self, ticket_id: str) -> Path:
-           return self.base / "post-mortems" / f"{ticket_id}.md"
+       def plan_artifact(self, ticket_id: str, filename: str) -> Path:
+           return self.plans_dir(ticket_id) / filename
+
+       def runtime_yaml(self, ticket_id: str) -> Path:
+           return self.base / "runtime" / f"{ticket_id}.yaml"
+
+       def post_mortem_yaml(self, ticket_id: str) -> Path:
+           return self.base / "post-mortems" / f"{ticket_id}.yaml"
    ```
 
-5. Update all references:
-   - `vibey/cli/commands.py`
-   - `vibey/operations/roadmap/*.py`
-   - `vibey/mcp/tools/*.py`
-   - Tests
-
 ### Deliverables
-- Migration script
-- Updated path utilities
-- Updated code references
-- Git commit tracking rename
+- Directory structure specification
+- YAML schemas for all three context types
+- Path utility design
+- Migration notes for existing context/ content
 
 ### Acceptance Criteria
-- [ ] Directory renamed via git (preserves history)
-- [ ] New directories created
-- [ ] All code references updated
-- [ ] Tests pass with new structure
+- [ ] Plans directory structure defined
+- [ ] Runtime directory structure defined
+- [ ] Post-mortems directory structure defined
+- [ ] YAML schemas complete for all three types
+- [ ] Path utilities designed
+- [ ] Artifact indexing in plan.yaml specified
 
 ---
 
 ## Sprint Completion Checklist
 - [ ] CONTEXT_ARCHITECTURE.md created
-- [ ] Hybrid context design document complete
-- [ ] Three-phase model fully specified
-- [ ] Git integration design approved
-- [ ] Directory restructure planned
-- [ ] Migration script ready
+- [ ] Hybrid YAML + Markdown model documented
+- [ ] Git integration with pre-commit hook designed
+- [ ] Bidirectional validation specified
+- [ ] Commit message template defined
+- [ ] Directory structure with all three subdirs specified
+- [ ] YAML schemas for plans, runtime, post-mortems complete

@@ -3,7 +3,7 @@ track:
   name: Context System V2
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
+  blocked: false
   priority: medium
   created: '2025-12-17T00:15:23.762586+00:00'
   started: null
@@ -12,9 +12,9 @@ track:
   progress:
     sprints_total: 2
     sprints_completed: 0
-    tasks_total: 12
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   sprints:
   - id: 01KCMTY4ACHZQ53CH90J7ZSAAV
     name: 'Sprint 1: Context Architecture Design'

@@ -1,0 +1,34 @@
+task:
+  id: 01KCQ9YS0KE8WSYKZ21XG6WBQX
+  sprint_id: 01KCQ9YHQTF48H5T09FNERDZG5
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: documentation
+  title: Present context system design options
+  description: Walk through the proposed three-phase context model (Plan, Runtime,
+    Post-Mortem) with user. Present alternatives considered and rationale for recommended
+    approach.
+  status: completed
+  blocked: false
+  created: '2025-12-17T23:25:00+00:00'
+  started: '2025-12-17T23:27:10.649983+00:00'
+  completed: '2025-12-18T00:10:27.218633+00:00'
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

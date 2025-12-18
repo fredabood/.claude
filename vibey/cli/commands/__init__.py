@@ -74,6 +74,21 @@ from vibey.cli.commands.validate import (
     validate_structure_cmd,
 )
 
+# Session commands
+from vibey.cli.commands.session import (
+    session_start_cmd,
+    session_end_cmd,
+    session_pause_cmd,
+    session_resume_cmd,
+    session_status_cmd,
+    session_show_cmd,
+    session_list_cmd,
+    session_report_cmd,
+    session_timeline_cmd,
+    session_export_cmd,
+    session_decisions_cmd,
+)
+
 __all__ = [
     # Checkpoint
     'checkpoint_create_cmd',
@@ -112,4 +127,16 @@ __all__ = [
     'validate_docs_cmd',
     'validate_assets_cmd',
     'validate_structure_cmd',
+    # Session
+    'session_start_cmd',
+    'session_end_cmd',
+    'session_pause_cmd',
+    'session_resume_cmd',
+    'session_status_cmd',
+    'session_show_cmd',
+    'session_list_cmd',
+    'session_report_cmd',
+    'session_timeline_cmd',
+    'session_export_cmd',
+    'session_decisions_cmd',
 ]

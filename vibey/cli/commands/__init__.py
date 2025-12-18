@@ -110,6 +110,15 @@ from vibey.cli.commands.context import (
     context_search_cmd,
 )
 
+# Migrate commands
+from vibey.cli.commands.migrate import (
+    migrate_to_roadmap_cmd,
+    migrate_embedded_tasks_cmd,
+    extract_embedded_cmd,
+    migrate_format_cmd,
+    migrate_docs_cmd,
+)
+
 __all__ = [
     # Checkpoint
     'checkpoint_create_cmd',
@@ -175,4 +184,10 @@ __all__ = [
     'context_clean_cmd',
     'context_export_cmd',
     'context_search_cmd',
+    # Migrate
+    'migrate_to_roadmap_cmd',
+    'migrate_embedded_tasks_cmd',
+    'extract_embedded_cmd',
+    'migrate_format_cmd',
+    'migrate_docs_cmd',
 ]

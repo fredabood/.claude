@@ -59,6 +59,13 @@ from vibey.cli.commands.audit import (
     activity_cmd,
 )
 
+# Validate commands
+from vibey.cli.commands.validate import (
+    validate_docs_cmd,
+    validate_assets_cmd,
+    validate_structure_cmd,
+)
+
 __all__ = [
     # Checkpoint
     'checkpoint_create_cmd',
@@ -93,4 +100,8 @@ __all__ = [
     'audit_suspicious_cmd',
     'audit_report_cmd',
     'activity_cmd',
+    # Validate
+    'validate_docs_cmd',
+    'validate_assets_cmd',
+    'validate_structure_cmd',
 ]

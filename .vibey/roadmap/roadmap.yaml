@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 227
     sprints_completed: 56
     tasks_total: 1536
-    tasks_completed: 1231
+    tasks_completed: 1234
     completion_percent: 80
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -667,10 +667,22 @@ roadmap:
     context:
       task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
       sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-18T17:16:35.275771+00:00'
+    type: task_completed
+    description: Task 'Implement CLI refactor for semantic layer alignment' completed
+    context:
+      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-18T17:16:48.836173+00:00'
+    type: task_completed
+    description: Task 'Split commands.py into logical modules' completed
+    context:
+      task_id: 01KCMGZB4G0322MRJZ8VX3KYM8
+      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-18T16:58:52.945085+00:00'
+    last_updated: '2025-12-18T17:16:48.836181+00:00'
     purpose: null
     description: null

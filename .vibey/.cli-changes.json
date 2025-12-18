@@ -1,9 +1,12 @@
 {
   "files": [
     ".vibey/roadmap/roadmap.yaml",
+    ".vibey/roadmap/sprints/01KCMTXK2X59MAT3YPMXP8E8BE.yaml",
     ".vibey/roadmap/sprints/01KCMTXMWJHPFH7J96KHHZTPB4.yaml",
     ".vibey/roadmap/sprints/01KCQ9YHQTF48H5T09FNERDZG5.yaml",
     ".vibey/roadmap/sprints/01KCS5N87479C1CM0V1TDR527R.yaml",
+    ".vibey/roadmap/tasks/01KCMGZB4G0322MRJZ8VX3KYM8.yaml",
+    ".vibey/roadmap/tasks/01KCMGZTMA1HC7GS44AB9D2VS1.yaml",
     ".vibey/roadmap/tasks/01KCMMFTTPM8JA1GFD4QQA23VT.yaml",
     ".vibey/roadmap/tasks/01KCQ9YS0KE8WSYKZ21XG6WBQX.yaml",
     ".vibey/roadmap/tasks/01KCS5P67BF4GDW67HJ0SV9EWC.yaml",
@@ -11,5 +14,5 @@
     ".vibey/roadmap/tracks/01KCMTJN9G9ZZBFMEDD36RYZ2B.yaml",
     ".vibey/roadmap/tracks/01KCMTJQ3JRRW6CZFC4E63W8D6.yaml"
   ],
-  "last_updated": "2025-12-18T16:58:52.840244+00:00"
+  "last_updated": "2025-12-18T17:48:49.087566+00:00"
 }

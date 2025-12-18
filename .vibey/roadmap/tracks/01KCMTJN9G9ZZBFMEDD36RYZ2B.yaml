@@ -12,28 +12,48 @@ track:
   progress:
     sprints_total: 4
     sprints_completed: 2
-    tasks_total: 29
-    tasks_completed: 17
-    completion_percent: 59
+    tasks_total: 24
+    tasks_completed: 20
+    completion_percent: 83
   sprints:
-    - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
-      name: 'Sprint 1: Codebase Audit'
-      status: completed
-    - id: 01KCMTXH8QFZ64GD4CK7TSDY06
-      name: 'Sprint 2: Architecture Design'
-      status: completed
-    - id: 01KCMTXK2X59MAT3YPMXP8E8BE
-      name: 'Sprint 3: Code Cleanup'
-      status: in_progress
-    - id: 01KCMTXMWJHPFH7J96KHHZTPB4
-      name: 'Sprint 4: Major Refactoring'
-      status: in_progress
+  - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
+    name: 'Sprint 1: Codebase Audit'
+    status: completed
+    estimated_duration: null
+    tasks_count: null
+    started: '2025-12-17T18:45:28.148757+00:00'
+  - id: 01KCMTXH8QFZ64GD4CK7TSDY06
+    name: 'Sprint 2: Architecture Design'
+    status: completed
+    estimated_duration: null
+    tasks_count: null
+    started: '2025-12-17T19:35:55.452415+00:00'
+  - id: 01KCMTXK2X59MAT3YPMXP8E8BE
+    name: 'Sprint 3: Code Cleanup'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: null
+    started: '2025-12-17T20:04:09.944142+00:00'
+  - id: 01KCMTXMWJHPFH7J96KHHZTPB4
+    name: 'Sprint 4: Major Refactoring'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: null
+    started: '2025-12-17T22:06:12.111919+00:00'
   dependencies: []
   blocks: []
   blocked_by: []
+  depends_on: []
+  depended_on_by: []
   quality_gates: []
   assigned_agents: []
   deliverables: []
   strategic_value: []
   commits: []
-  metadata: {}
+  standards: []
+  metadata:
+    created_by: unknown
+    last_updated: '2025-01-01T00:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: null

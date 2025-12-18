@@ -18,9 +18,9 @@ roadmap:
     tracks_completed: 25
     sprints_total: 227
     sprints_completed: 56
-    tasks_total: 1541
-    tasks_completed: 1228
-    completion_percent: 79
+    tasks_total: 1536
+    tasks_completed: 1231
+    completion_percent: 80
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -661,10 +661,16 @@ roadmap:
     context:
       task_id: 01KCS5P67BF4GDW67HJ0SV9EWC
       sprint_id: dogfooding-bugs-24
+  - timestamp: '2025-12-18T16:58:52.945078+00:00'
+    type: task_started
+    description: Task 'Implement CLI refactor for semantic layer alignment' started
+    context:
+      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
+      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-18T16:47:19.701018+00:00'
+    last_updated: '2025-12-18T16:58:52.945085+00:00'
     purpose: null
     description: null

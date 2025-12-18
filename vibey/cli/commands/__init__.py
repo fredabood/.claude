@@ -89,6 +89,27 @@ from vibey.cli.commands.session import (
     session_decisions_cmd,
 )
 
+# Discover commands
+from vibey.cli.commands.discover import (
+    discover_run_cmd,
+    discover_show_cmd,
+    discover_status_cmd,
+    discover_history_cmd,
+    discover_diff_cmd,
+    discover_refresh_cmd,
+)
+
+# Context commands
+from vibey.cli.commands.context import (
+    context_init_cmd,
+    context_list_cmd,
+    context_show_cmd,
+    context_archive_cmd,
+    context_clean_cmd,
+    context_export_cmd,
+    context_search_cmd,
+)
+
 __all__ = [
     # Checkpoint
     'checkpoint_create_cmd',
@@ -139,4 +160,19 @@ __all__ = [
     'session_timeline_cmd',
     'session_export_cmd',
     'session_decisions_cmd',
+    # Discover
+    'discover_run_cmd',
+    'discover_show_cmd',
+    'discover_status_cmd',
+    'discover_history_cmd',
+    'discover_diff_cmd',
+    'discover_refresh_cmd',
+    # Context
+    'context_init_cmd',
+    'context_list_cmd',
+    'context_show_cmd',
+    'context_archive_cmd',
+    'context_clean_cmd',
+    'context_export_cmd',
+    'context_search_cmd',
 ]

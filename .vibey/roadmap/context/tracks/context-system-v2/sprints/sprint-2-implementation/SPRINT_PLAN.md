@@ -1,929 +1,627 @@
-# Sprint 2: Context Implementation
+# Sprint 2: Context Implementation (Integrated Architecture)
 
 ## Overview
 - **Track:** Context System V2
 - **Sprint ID:** 01KCMTY669JGT3WYPZB78ATWBT
-- **Tasks:** 9
-- **Focus:** Implement context management features, MCP tools, and documentation
+- **Focus:** Implement relationship entities, triangle validation, and context management
+- **Reference:** Sprint 0 DESIGN_DECISIONS.md (Integrated Architecture)
+
+## Key Architectural Decision
+
+**This sprint implements relationships within the existing Unified Ticket Architecture:**
+- No standalone `CommitLink` → Use `TicketCommitLink`
+- No standalone `KnownFile` → Use `TicketArtifactAssociation`
+- New `CommitArtifactChange` relationship entity
+- Unified pre-commit hook with triangle validation
 
 ## Success Criteria
+- [ ] Three relationship entity models implemented
+- [ ] SQLite schema extended with relationship tables
+- [ ] Unified pre-commit hook with triangle validation
+- [ ] `Task:` and `Completes:` commit message parsing
 - [ ] Context integrated into ticket data structure
-- [ ] Timestamp-based git commit linking working
-- [ ] Post-mortem generation functional
-- [ ] MCP tools for context management
-- [ ] Token budget enforcement implemented
-- [ ] Complete user documentation
+- [ ] MCP tools for relationship management
+- [ ] CLI commands for artifact association
 
 ---
 
-## Task 1: Integrate Context into Ticket-Level Data Structure
+## Task 1: Implement Relationship Entity Models
 **ID:** `01KCMNCZS970T6MSXDY2CZA2YH`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
+**Priority:** Critical | **Complexity:** Complex | **Type:** Development
 
 ### Problem
-Context management is currently separate from tickets. Needs to become first-class ticket attribute.
+Need to define the three relationship entities that form the triangle model.
 
-### Implementation Steps
-1. Extend ticket model:
-   ```python
-   # vibey/roadmap/models/ticket.py
+### Implementation
 
-   from typing import Optional
-   from .context import PlanContext, RuntimeContext, PostMortemContext
+**Location:** `vibey/roadmap/models/relationships.py`
 
-   class Ticket(BaseModel):
-       # ... existing fields
+```python
+from enum import Enum
+from datetime import datetime
+from typing import List, Optional
+from pydantic import BaseModel, Field
 
-       # Context (new fields)
-       plan_context: Optional[PlanContext] = None
-       runtime_context: Optional[RuntimeContext] = None
-       post_mortem: Optional[PostMortemContext] = None
 
-       def has_plan(self) -> bool:
-           """Check if ticket has planning context."""
-           return self.plan_context is not None
+class ReferenceType(str, Enum):
+    TASK_REFERENCE = "task_reference"      # Task: line
+    COMPLETION_CLAIM = "completion_claim"  # Completes: line
 
-       def is_contextually_complete(self) -> bool:
-           """Check if ticket has post-mortem context."""
-           return self.post_mortem is not None
-   ```
 
-2. Create context models:
-   ```python
-   # vibey/roadmap/models/context.py
+class AssociationSource(str, Enum):
+    PLAN_REFERENCE = "plan_reference"
+    RUNTIME_TRACKING = "runtime_tracking"
+    COMMIT_BOOTSTRAP = "commit_bootstrap"
+    MANUAL = "manual"
+    CRITERION_TARGET = "criterion_target"
 
-   from pydantic import BaseModel
-   from datetime import datetime
-   from typing import List, Optional
 
-   class PlanContext(BaseModel):
-       """Pre-work planning context."""
-       goals: List[str] = []
-       approach: str = ""
-       references: List[str] = []
-       constraints: List[str] = []
-       success_criteria: List[str] = []
-       created_at: datetime
-       approved: bool = False
+class ChangeType(str, Enum):
+    ADDED = "added"
+    MODIFIED = "modified"
+    DELETED = "deleted"
+    RENAMED = "renamed"
 
-   class RuntimeContext(BaseModel):
-       """Active execution context."""
-       active_files: List[str] = []
-       decisions: List[str] = []
-       discoveries: List[str] = []
-       blockers: List[str] = []
-       token_usage: int = 0
-       last_updated: datetime
 
-   class PostMortemContext(BaseModel):
-       """Completion summary."""
-       summary: str
-       files_changed: List[str] = []
-       key_decisions: List[str] = []
-       lessons_learned: List[str] = []
-       follow_up_items: List[str] = []
-       completed_at: datetime
-       duration_hours: float = 0.0
-   ```
+class FileOverlapSignal(BaseModel):
+    matched: bool
+    overlapping_artifact_ids: List[str] = Field(default_factory=list)
+    confidence: float
 
-3. Update YAML serialization:
-   ```python
-   # vibey/roadmap/serialization/yaml_loader.py
 
-   def load_task(path: Path) -> Task:
-       data = yaml.safe_load(path.read_text())
-       task_data = data['task']
+class MessageRefSignal(BaseModel):
+    matched: bool
+    ticket_ids: List[str] = Field(default_factory=list)
+    reference_type: Optional[ReferenceType] = None
+    confidence: float = 1.0
 
-       # Load inline context if present
-       if 'plan_context' in task_data:
-           task_data['plan_context'] = PlanContext(**task_data['plan_context'])
-       if 'runtime_context' in task_data:
-           task_data['runtime_context'] = RuntimeContext(**task_data['runtime_context'])
-       if 'post_mortem' in task_data:
-           task_data['post_mortem'] = PostMortemContext(**task_data['post_mortem'])
 
-       return Task(**task_data)
-   ```
+class ManualSignal(BaseModel):
+    matched: bool
+    linked_by: Optional[str] = None
+    linked_at: Optional[datetime] = None
+    confidence: float = 1.0
 
-4. Add context operations:
-   ```python
-   # vibey/operations/roadmap/context_ops.py
 
-   def set_plan_context(ticket_id: str, context: PlanContext) -> None:
-       """Set planning context for ticket."""
-       ticket = load_ticket(ticket_id)
-       ticket.plan_context = context
-       save_ticket(ticket)
+class LinkSignals(BaseModel):
+    file_overlap: Optional[FileOverlapSignal] = None
+    message_ref: Optional[MessageRefSignal] = None
+    manual: Optional[ManualSignal] = None
 
-   def update_runtime_context(ticket_id: str, **updates) -> None:
-       """Update runtime context during work."""
-       ticket = load_ticket(ticket_id)
-       if ticket.runtime_context is None:
-           ticket.runtime_context = RuntimeContext(last_updated=datetime.now())
-       for key, value in updates.items():
-           setattr(ticket.runtime_context, key, value)
-       ticket.runtime_context.last_updated = datetime.now()
-       save_ticket(ticket)
 
-   def save_post_mortem(ticket_id: str, summary: str, **details) -> None:
-       """Save post-mortem for completed ticket."""
-       ticket = load_ticket(ticket_id)
-       ticket.post_mortem = PostMortemContext(
-           summary=summary,
-           completed_at=datetime.now(),
-           **details
-       )
-       save_ticket(ticket)
-   ```
+class TicketCommitLink(BaseModel):
+    """Ticket <-> GitCommit relationship."""
+    ticket_id: str
+    commit_sha: str
+    reference_type: ReferenceType
+    signals: LinkSignals
+    aggregate_confidence: float
+    linked_at: datetime
+    link_source: str  # pre_commit_hook | post_commit | manual
+
+
+class TicketArtifactAssociation(BaseModel):
+    """Ticket <-> Artifact relationship."""
+    ticket_id: str
+    artifact_id: str
+    association_source: AssociationSource
+    added_at: datetime
+    added_by: Optional[str] = None
+
+
+class CommitArtifactChange(BaseModel):
+    """GitCommit <-> Artifact relationship."""
+    commit_sha: str
+    artifact_id: str
+    change_type: ChangeType
+    previous_path: Optional[str] = None  # For renames
+    lines_added: Optional[int] = None
+    lines_removed: Optional[int] = None
+    recorded_at: datetime
+```
 
 ### Acceptance Criteria
-- [ ] Context fields added to ticket model
-- [ ] YAML serialization handles context
-- [ ] Context operations implemented
-- [ ] Tests for context CRUD
+- [ ] All three relationship models implemented
+- [ ] Enums for ReferenceType, AssociationSource, ChangeType
+- [ ] Signal models for link detection
+- [ ] Unit tests for model validation
 
 ---
 
-## Task 2: Implement Timestamp-Based Context Linking with Git Commits
+## Task 2: Extend SQLite Schema with Relationship Tables
+**Priority:** Critical | **Complexity:** Medium | **Type:** Development
+
+### Problem
+Need database tables for the three relationship entities.
+
+### Implementation
+
+```sql
+-- TicketCommitLink: Ticket <-> GitCommit
+CREATE TABLE ticket_commit_links (
+    id TEXT PRIMARY KEY,
+    ticket_id TEXT NOT NULL,
+    commit_sha TEXT NOT NULL,
+    reference_type TEXT NOT NULL,  -- task_reference | completion_claim
+    signals TEXT NOT NULL,          -- JSON: LinkSignals
+    aggregate_confidence REAL NOT NULL,
+    linked_at TEXT NOT NULL,
+    link_source TEXT NOT NULL,
+
+    UNIQUE(ticket_id, commit_sha, reference_type),
+    FOREIGN KEY (ticket_id) REFERENCES tasks(id),
+    FOREIGN KEY (commit_sha) REFERENCES git_commits(sha)
+);
+
+CREATE INDEX idx_tcl_ticket ON ticket_commit_links(ticket_id);
+CREATE INDEX idx_tcl_commit ON ticket_commit_links(commit_sha);
+CREATE INDEX idx_tcl_type ON ticket_commit_links(reference_type);
+
+
+-- TicketArtifactAssociation: Ticket <-> Artifact
+CREATE TABLE ticket_artifact_associations (
+    id TEXT PRIMARY KEY,
+    ticket_id TEXT NOT NULL,
+    artifact_id TEXT NOT NULL,
+    association_source TEXT NOT NULL,
+    added_at TEXT NOT NULL,
+    added_by TEXT,
+
+    UNIQUE(ticket_id, artifact_id),
+    FOREIGN KEY (ticket_id) REFERENCES tasks(id),
+    FOREIGN KEY (artifact_id) REFERENCES artifacts(id)
+);
+
+CREATE INDEX idx_taa_ticket ON ticket_artifact_associations(ticket_id);
+CREATE INDEX idx_taa_artifact ON ticket_artifact_associations(artifact_id);
+CREATE INDEX idx_taa_source ON ticket_artifact_associations(association_source);
+
+
+-- CommitArtifactChange: GitCommit <-> Artifact
+CREATE TABLE commit_artifact_changes (
+    id TEXT PRIMARY KEY,
+    commit_sha TEXT NOT NULL,
+    artifact_id TEXT NOT NULL,
+    change_type TEXT NOT NULL,  -- added | modified | deleted | renamed
+    previous_path TEXT,
+    lines_added INTEGER,
+    lines_removed INTEGER,
+    recorded_at TEXT NOT NULL,
+
+    UNIQUE(commit_sha, artifact_id),
+    FOREIGN KEY (commit_sha) REFERENCES git_commits(sha),
+    FOREIGN KEY (artifact_id) REFERENCES artifacts(id)
+);
+
+CREATE INDEX idx_cac_commit ON commit_artifact_changes(commit_sha);
+CREATE INDEX idx_cac_artifact ON commit_artifact_changes(artifact_id);
+CREATE INDEX idx_cac_type ON commit_artifact_changes(change_type);
+```
+
+### Views for Triangle Queries
+
+```sql
+-- Commits that touched a ticket (via any path)
+CREATE VIEW v_ticket_commits AS
+SELECT DISTINCT
+    tcl.ticket_id,
+    tcl.commit_sha,
+    tcl.reference_type,
+    tcl.aggregate_confidence
+FROM ticket_commit_links tcl;
+
+-- Artifacts associated with a ticket (via any source)
+CREATE VIEW v_ticket_artifacts AS
+SELECT DISTINCT
+    taa.ticket_id,
+    taa.artifact_id,
+    a.paths,
+    taa.association_source
+FROM ticket_artifact_associations taa
+JOIN artifacts a ON a.id = taa.artifact_id;
+
+-- Full triangle: ticket -> commit -> artifacts changed
+CREATE VIEW v_ticket_commit_artifacts AS
+SELECT
+    tcl.ticket_id,
+    tcl.commit_sha,
+    cac.artifact_id,
+    cac.change_type,
+    taa.association_source IS NOT NULL AS artifact_was_associated
+FROM ticket_commit_links tcl
+JOIN commit_artifact_changes cac ON cac.commit_sha = tcl.commit_sha
+LEFT JOIN ticket_artifact_associations taa
+    ON taa.ticket_id = tcl.ticket_id AND taa.artifact_id = cac.artifact_id;
+```
+
+### Acceptance Criteria
+- [ ] Three relationship tables created
+- [ ] Appropriate indexes for query performance
+- [ ] Views for triangle queries
+- [ ] Migration script for existing databases
+
+---
+
+## Task 3: Implement Unified Pre-Commit Hook with Triangle Validation
 **ID:** `01KCMNDFWS0C2N2FJJBZRR3FC8`
-**Priority:** High | **Complexity:** Complex | **Type:** Development
+**Priority:** Critical | **Complexity:** Complex | **Type:** Development
 
 ### Problem
-Need automatic association between context and tickets via timestamp + file matching.
+Need a single pre-commit hook that validates across all three relationship edges.
 
-### Implementation Steps
-1. Create commit link model:
-   ```python
-   # vibey/roadmap/models/commit_link.py
+### Implementation
 
-   class CommitLink(BaseModel):
-       """Links git commit to ticket."""
-       commit_sha: str
-       timestamp: datetime
-       files_changed: List[str]
-       message: str
-       link_type: str  # 'timestamp' | 'file_match' | 'manual'
-       confidence: float  # 0.0 - 1.0
-   ```
+**Location:** `vibey/operations/git/hooks/pre_commit.py`
 
-2. Implement auto-linking algorithm:
-   ```python
-   # vibey/operations/git/commit_linker.py
+```python
+def run_pre_commit_hook(commit_message: str, staged_files: List[str], config: HookConfig) -> HookResult:
+    """
+    Unified pre-commit hook with triangle validation.
 
-   import subprocess
-   from datetime import datetime
-   from typing import List
+    Phases:
+    1. Collect Data - parse message, resolve artifacts
+    2. Triangle Validation - check consistency across relationships
+    3. Completion Verification - verify criteria for Completes: claims
+    4. Persist Relationships - create relationship records
+    """
 
-   def get_commits_in_range(start: datetime, end: datetime) -> List[dict]:
-       """Get git commits between timestamps."""
-       result = subprocess.run([
-           'git', 'log',
-           f'--since={start.isoformat()}',
-           f'--until={end.isoformat()}',
-           '--format=%H|%ai|%s',
-           '--name-only'
-       ], capture_output=True, text=True)
+    # Phase 1: Collect Data
+    task_refs = parse_task_references(commit_message)      # Task: lines
+    completion_refs = parse_completion_claims(commit_message)  # Completes: lines
+    staged_artifacts = resolve_to_artifacts(staged_files)
 
-       commits = []
-       for entry in result.stdout.strip().split('\n\n'):
-           if not entry:
-               continue
-           lines = entry.split('\n')
-           header = lines[0].split('|')
-           commits.append({
-               'sha': header[0],
-               'timestamp': datetime.fromisoformat(header[1].replace(' ', 'T')),
-               'message': header[2],
-               'files': lines[1:] if len(lines) > 1 else []
-           })
-       return commits
+    # Phase 2: Triangle Validation
+    validation_results = []
+    for ticket_id in task_refs:
+        result = validate_triangle(
+            ticket_id=ticket_id,
+            staged_artifacts=staged_artifacts,
+            config=config.artifact_consistency
+        )
+        validation_results.append(result)
 
-   def link_commits_to_ticket(ticket: Ticket) -> List[CommitLink]:
-       """Auto-link commits to ticket based on timestamp and files."""
-       if not ticket.started:
-           return []
+    # Handle validation issues based on mode
+    if config.artifact_consistency.mode == "prompt":
+        # Interactive resolution
+        resolutions = prompt_for_resolutions(validation_results)
+        apply_resolutions(resolutions)
+    elif config.artifact_consistency.mode == "strict":
+        if any(r.has_issues for r in validation_results):
+            return HookResult(blocked=True, reasons=format_issues(validation_results))
 
-       end_time = ticket.completed or datetime.now()
-       commits = get_commits_in_range(ticket.started, end_time)
+    # Phase 3: Completion Verification
+    for ticket_id in completion_refs:
+        ticket = load_ticket(ticket_id)
+        can_complete, reasons = ticket.can_transition_to(TicketStatus.COMPLETED)
+        if not can_complete:
+            return HookResult(
+                blocked=True,
+                reasons=[f"Cannot complete {ticket_id}: {r}" for r in reasons]
+            )
 
-       links = []
-       for commit in commits:
-           # Check file overlap if ticket has known files
-           if ticket.known_files:
-               overlap = set(commit['files']) & set(ticket.known_files)
-               if overlap:
-                   links.append(CommitLink(
-                       commit_sha=commit['sha'],
-                       timestamp=commit['timestamp'],
-                       files_changed=commit['files'],
-                       message=commit['message'],
-                       link_type='file_match',
-                       confidence=len(overlap) / len(commit['files'])
-                   ))
-           else:
-               # Timestamp-only linking (lower confidence)
-               links.append(CommitLink(
-                   commit_sha=commit['sha'],
-                   timestamp=commit['timestamp'],
-                   files_changed=commit['files'],
-                   message=commit['message'],
-                   link_type='timestamp',
-                   confidence=0.5
-               ))
-
-       return links
-   ```
-
-3. Add CLI command for commit linking:
-   ```python
-   @ticket.command('link-commits')
-   @click.argument('ticket_id')
-   @click.option('--auto/--manual', default=True)
-   def link_commits(ticket_id, auto):
-       """Link git commits to ticket."""
-       ticket = ticket_ops.get_ticket(ticket_id)
-
-       if auto:
-           links = link_commits_to_ticket(ticket)
-           for link in links:
-               click.echo(f"Linked: {link.commit_sha[:8]} ({link.link_type}, {link.confidence:.0%})")
-       else:
-           # Manual linking
-           sha = click.prompt("Commit SHA")
-           ticket_ops.manual_link_commit(ticket_id, sha)
-   ```
+    # Phase 4: Persist Relationships (done post-commit)
+    return HookResult(
+        blocked=False,
+        pending_relationships=build_pending_relationships(
+            task_refs, completion_refs, staged_artifacts
+        )
+    )
+```
 
 ### Acceptance Criteria
-- [ ] Commit linking algorithm works
-- [ ] File overlap detection functional
-- [ ] CLI command for linking
-- [ ] Links persisted with ticket
+- [ ] Four-phase hook implementation
+- [ ] `Task:` and `Completes:` parsing
+- [ ] Triangle validation logic
+- [ ] Configurable modes (off/warn/prompt/strict)
+- [ ] Integration with existing `can_transition_to()`
 
 ---
 
-## Task 3: Add Post-Mortem Generation for Completed Tasks
-**ID:** `01KCMNEG4CXW4NK7W55VDMBXXM`
+## Task 4: Implement Commit Message Template System
+**ID:** `01KCQDE6HGQ909SDAYK1JM0DTB`
 **Priority:** High | **Complexity:** Medium | **Type:** Development
 
 ### Problem
-Need automatic or prompted post-mortem generation when tasks complete.
+Need templated commit message format with both `Task:` and `Completes:` markers.
 
-### Implementation Steps
-1. Create post-mortem generator:
-   ```python
-   # vibey/operations/roadmap/post_mortem.py
+### Template
 
-   from datetime import datetime
-   from typing import Optional
+```
+# <type>(<scope>): <subject>
+#
+# Task: <TASK_ID>           # Associates commit with task
+# Completes: <TASK_ID>      # Claims task completion (optional)
+#
+# <body>
+#
+# Currently in-progress tasks:
+# - 01TASK_A: Description of task A
+# - 01TASK_B: Description of task B
+```
 
-   def generate_post_mortem_prompt(ticket: Ticket) -> str:
-       """Generate prompt for AI to create post-mortem."""
-       return f"""
-       Please provide a post-mortem summary for this completed task:
+### Implementation
 
-       Task: {ticket.title}
-       Description: {ticket.description}
-       Started: {ticket.started}
-       Completed: {ticket.completed}
+```python
+@cli.command('setup-template')
+def setup_commit_template():
+    """Install git commit message template."""
+    # Get in-progress tasks
+    in_progress = get_tasks_by_status(Status.IN_PROGRESS)
 
-       Please summarize:
-       1. What was accomplished
-       2. Key decisions made
-       3. Lessons learned
-       4. Any follow-up items
+    # Generate template with hints
+    template = generate_template(in_progress)
 
-       Format as structured JSON.
-       """
+    # Write to .git/commit-template
+    template_path = Path('.git/commit-template')
+    template_path.write_text(template)
 
-   def create_post_mortem_from_commits(ticket: Ticket) -> PostMortemContext:
-       """Create post-mortem from linked commits."""
-       links = ticket.commit_links or []
-
-       files_changed = set()
-       for link in links:
-           files_changed.update(link.files_changed)
-
-       messages = [link.message for link in links]
-
-       return PostMortemContext(
-           summary=f"Completed {ticket.title}. {len(links)} commits, {len(files_changed)} files changed.",
-           files_changed=list(files_changed),
-           key_decisions=messages[:5],  # First 5 commit messages as decisions
-           lessons_learned=[],
-           follow_up_items=[],
-           completed_at=ticket.completed or datetime.now(),
-           duration_hours=calculate_duration(ticket.started, ticket.completed)
-       )
-   ```
-
-2. Hook into task completion:
-   ```python
-   # vibey/operations/roadmap/update.py
-
-   def complete_task(task_id: str, generate_postmortem: bool = True) -> Task:
-       """Mark task as complete with optional post-mortem."""
-       task = load_task(task_id)
-       task.status = Status.COMPLETED
-       task.completed = datetime.now()
-
-       if generate_postmortem:
-           # Auto-generate from commits
-           task.post_mortem = create_post_mortem_from_commits(task)
-
-       save_task(task)
-       return task
-   ```
-
-3. Add CLI options:
-   ```python
-   @ticket.command('complete')
-   @click.argument('id')
-   @click.option('--summary', help='Post-mortem summary')
-   @click.option('--no-postmortem', is_flag=True, help='Skip post-mortem generation')
-   def complete_ticket(id, summary, no_postmortem):
-       """Complete ticket with optional post-mortem."""
-       if not no_postmortem:
-           if summary:
-               ticket_ops.complete_with_summary(id, summary)
-           else:
-               # Auto-generate
-               ticket_ops.complete_with_auto_postmortem(id)
-       else:
-           ticket_ops.complete(id)
-   ```
+    # Configure git
+    subprocess.run(['git', 'config', 'commit.template', str(template_path)])
+```
 
 ### Acceptance Criteria
-- [ ] Post-mortem auto-generation works
-- [ ] Manual summary option available
-- [ ] Hooks into completion workflow
-- [ ] Files changed extracted from commits
+- [ ] Template file generation
+- [ ] `vibey git setup-template` CLI command
+- [ ] In-progress tasks shown as hints
+- [ ] Both `Task:` and `Completes:` documented
 
 ---
 
-## Task 4: Add Context Management MCP Tools
+## Task 5: Extend GitCommit Model
+**Priority:** Medium | **Complexity:** Simple | **Type:** Development
+
+### Problem
+GitCommit needs to parse both `Task:` and `Completes:` lines.
+
+### Implementation
+
+```python
+class GitCommit(BaseModel):
+    sha: str
+    message: str
+    date: datetime
+    author: str
+    platform: str
+
+    # Existing
+    completes_tickets: List[str] = Field(default_factory=list)
+
+    # New
+    references_tickets: List[str] = Field(default_factory=list)
+
+    @classmethod
+    def from_git(cls, sha: str, repo_path: Path, platform: str) -> "GitCommit":
+        # ... existing parsing ...
+
+        # Parse both markers
+        references = []
+        completes = []
+        for line in body.split('\n'):
+            if line.startswith('Task:'):
+                refs = line.replace('Task:', '').strip().split(',')
+                references.extend(r.strip() for r in refs)
+            elif line.startswith('Completes:'):
+                ticket_id = line.replace('Completes:', '').strip()
+                completes.append(ticket_id)
+
+        return cls(
+            # ... existing fields ...
+            references_tickets=references,
+            completes_tickets=completes
+        )
+```
+
+### Acceptance Criteria
+- [ ] `references_tickets` field added
+- [ ] Parsing handles both single and comma-separated IDs
+- [ ] Backwards compatible with existing commits
+
+---
+
+## Task 6: Add Context Management MCP Tools
 **ID:** `01KCMGXG7BMKQNSFY2HS4G14XK`
 **Priority:** High | **Complexity:** Medium | **Type:** Development
 
 ### Problem
-AI assistants need MCP tools to manage their own context.
+AI assistants need MCP tools to manage relationships.
 
-### Implementation Steps
-1. Create context MCP tools:
-   ```python
-   # vibey/mcp/tools/context_tools.py
+### MCP Tools
 
-   @mcp_tool
-   def context_get_plan(ticket_id: str) -> dict:
-       """Get planning context for a ticket."""
-       ticket = ticket_ops.get_ticket(ticket_id)
-       if not ticket.plan_context:
-           return {"error": "No planning context found"}
-       return ticket.plan_context.model_dump()
+```python
+@mcp_tool
+def associate_artifact(ticket_id: str, artifact_id: str, source: str = "runtime_tracking") -> dict:
+    """Associate an artifact with a ticket."""
+    assoc = TicketArtifactAssociation(
+        ticket_id=ticket_id,
+        artifact_id=artifact_id,
+        association_source=AssociationSource(source),
+        added_at=datetime.now(timezone.utc)
+    )
+    save_association(assoc)
+    return {"status": "success", "association_id": assoc.id}
 
-   @mcp_tool
-   def context_set_plan(
-       ticket_id: str,
-       goals: List[str],
-       approach: str,
-       references: List[str] = None,
-       constraints: List[str] = None,
-       success_criteria: List[str] = None
-   ) -> dict:
-       """Set planning context for a ticket."""
-       context = PlanContext(
-           goals=goals,
-           approach=approach,
-           references=references or [],
-           constraints=constraints or [],
-           success_criteria=success_criteria or [],
-           created_at=datetime.now()
-       )
-       context_ops.set_plan_context(ticket_id, context)
-       return {"status": "success", "ticket_id": ticket_id}
 
-   @mcp_tool
-   def context_update_runtime(
-       ticket_id: str,
-       active_files: List[str] = None,
-       decisions: List[str] = None,
-       discoveries: List[str] = None,
-       blockers: List[str] = None
-   ) -> dict:
-       """Update runtime context during task execution."""
-       updates = {}
-       if active_files:
-           updates['active_files'] = active_files
-       if decisions:
-           updates['decisions'] = decisions
-       if discoveries:
-           updates['discoveries'] = discoveries
-       if blockers:
-           updates['blockers'] = blockers
+@mcp_tool
+def get_ticket_artifacts(ticket_id: str) -> dict:
+    """Get all artifacts associated with a ticket."""
+    associations = query_associations(ticket_id=ticket_id)
+    return {
+        "ticket_id": ticket_id,
+        "artifacts": [
+            {"artifact_id": a.artifact_id, "source": a.association_source}
+            for a in associations
+        ]
+    }
 
-       context_ops.update_runtime_context(ticket_id, **updates)
-       return {"status": "success", "ticket_id": ticket_id}
 
-   @mcp_tool
-   def context_get_runtime(ticket_id: str) -> dict:
-       """Get current runtime context for a ticket."""
-       ticket = ticket_ops.get_ticket(ticket_id)
-       if not ticket.runtime_context:
-           return {"error": "No runtime context found"}
-       return ticket.runtime_context.model_dump()
+@mcp_tool
+def get_ticket_commits(ticket_id: str) -> dict:
+    """Get all commits linked to a ticket."""
+    links = query_commit_links(ticket_id=ticket_id)
+    return {
+        "ticket_id": ticket_id,
+        "commits": [
+            {"sha": l.commit_sha, "type": l.reference_type, "confidence": l.aggregate_confidence}
+            for l in links
+        ]
+    }
 
-   @mcp_tool
-   def context_save_postmortem(
-       ticket_id: str,
-       summary: str,
-       key_decisions: List[str] = None,
-       lessons_learned: List[str] = None,
-       follow_up_items: List[str] = None
-   ) -> dict:
-       """Save post-mortem context after task completion."""
-       context_ops.save_post_mortem(
-           ticket_id,
-           summary=summary,
-           key_decisions=key_decisions or [],
-           lessons_learned=lessons_learned or [],
-           follow_up_items=follow_up_items or []
-       )
-       return {"status": "success", "ticket_id": ticket_id}
 
-   @mcp_tool
-   def context_link_commits(ticket_id: str, auto: bool = True) -> dict:
-       """Link git commits to ticket context."""
-       if auto:
-           links = commit_linker.link_commits_to_ticket(ticket_id)
-           return {
-               "status": "success",
-               "links_created": len(links),
-               "commits": [l.commit_sha[:8] for l in links]
-           }
-       else:
-           return {"error": "Manual linking not supported via MCP"}
-   ```
-
-2. Register tools in MCP server:
-   ```python
-   # vibey/mcp/server.py
-
-   from .tools.context_tools import (
-       context_get_plan,
-       context_set_plan,
-       context_update_runtime,
-       context_get_runtime,
-       context_save_postmortem,
-       context_link_commits,
-   )
-
-   CONTEXT_TOOLS = [
-       context_get_plan,
-       context_set_plan,
-       context_update_runtime,
-       context_get_runtime,
-       context_save_postmortem,
-       context_link_commits,
-   ]
-   ```
+@mcp_tool
+def get_artifact_history(artifact_id: str) -> dict:
+    """Get commit history for an artifact."""
+    changes = query_artifact_changes(artifact_id=artifact_id)
+    return {
+        "artifact_id": artifact_id,
+        "changes": [
+            {"sha": c.commit_sha, "type": c.change_type, "at": c.recorded_at.isoformat()}
+            for c in changes
+        ]
+    }
+```
 
 ### Acceptance Criteria
-- [ ] All 6 context MCP tools implemented
+- [ ] `associate_artifact` tool
+- [ ] `get_ticket_artifacts` tool
+- [ ] `get_ticket_commits` tool
+- [ ] `get_artifact_history` tool
 - [ ] Tools registered in MCP server
-- [ ] AI can manage its own context
-- [ ] Tests for each tool
 
 ---
 
-## Task 5: Implement Token Budget Enforcement
-**ID:** `01KCMGX8J70XCDJH51SYHVC6H4`
+## Task 7: Add CLI Commands for Relationship Management
+**Priority:** Medium | **Complexity:** Medium | **Type:** Development
+
+### Commands
+
+```bash
+# Associate artifact with ticket
+vibey task add-artifact <ticket_id> <artifact_id_or_path>
+
+# List ticket's artifacts
+vibey task artifacts <ticket_id>
+
+# List ticket's commits
+vibey task commits <ticket_id>
+
+# Link commit to ticket manually
+vibey task link-commit <ticket_id> <commit_sha>
+
+# Show artifact history
+vibey artifact history <artifact_id>
+
+# Validate triangle consistency
+vibey validate triangle <ticket_id>
+```
+
+### Acceptance Criteria
+- [ ] All commands implemented
+- [ ] Consistent output formatting
+- [ ] Error handling for invalid IDs
+
+---
+
+## Task 8: Integrate Context into Three-Phase Model
+**ID:** `01KCMNEG4CXW4NK7W55VDMBXXM`
 **Priority:** Medium | **Complexity:** Medium | **Type:** Development
 
 ### Problem
-Context operations need explicit token budget parameters for model token limit management.
+Plan/Runtime/Post-Mortem contexts should reference artifacts, not raw files.
 
-### Implementation Steps
-1. Add token counting utility:
-   ```python
-   # vibey/common/tokens.py
+### Implementation
 
-   import tiktoken
+```python
+class PlanContext(BaseModel):
+    goals: List[str] = []
+    approach: str = ""
+    constraints: List[str] = []
+    success_criteria: List[str] = []
 
-   def count_tokens(text: str, model: str = "gpt-4") -> int:
-       """Count tokens in text for given model."""
-       try:
-           encoding = tiktoken.encoding_for_model(model)
-       except KeyError:
-           encoding = tiktoken.get_encoding("cl100k_base")
-       return len(encoding.encode(text))
+    # Reference artifacts, not files
+    artifact_refs: List[ArtifactRef] = Field(default_factory=list)
 
-   def estimate_context_tokens(context: dict) -> int:
-       """Estimate tokens for context dictionary."""
-       import json
-       text = json.dumps(context, indent=2)
-       return count_tokens(text)
-   ```
+    created_at: datetime
+    approved: bool = False
 
-2. Add budget enforcement to context operations:
-   ```python
-   # vibey/operations/roadmap/context_ops.py
 
-   class TokenBudgetExceeded(Exception):
-       """Raised when token budget would be exceeded."""
-       pass
+class ArtifactRef(BaseModel):
+    artifact_id: str
+    purpose: str
+    tokens_estimate: Optional[int] = None
+```
 
-   def get_context_within_budget(
-       ticket_id: str,
-       token_budget: int = 4000,
-       prioritize: List[str] = None
-   ) -> dict:
-       """Get context within token budget."""
-       ticket = load_ticket(ticket_id)
-       context = {}
-
-       # Priority order: plan > runtime > post_mortem
-       sections = prioritize or ['plan_context', 'runtime_context', 'post_mortem']
-
-       total_tokens = 0
-       for section in sections:
-           section_data = getattr(ticket, section, None)
-           if section_data:
-               section_dict = section_data.model_dump()
-               section_tokens = estimate_context_tokens(section_dict)
-
-               if total_tokens + section_tokens <= token_budget:
-                   context[section] = section_dict
-                   total_tokens += section_tokens
-               else:
-                   # Truncate section to fit budget
-                   remaining = token_budget - total_tokens
-                   context[section] = truncate_to_tokens(section_dict, remaining)
-                   break
-
-       context['_meta'] = {
-           'tokens_used': total_tokens,
-           'budget': token_budget,
-           'sections_included': list(context.keys())
-       }
-       return context
-
-   def truncate_to_tokens(data: dict, max_tokens: int) -> dict:
-       """Truncate dict content to fit token limit."""
-       # Simplified: remove items until within budget
-       result = dict(data)
-       while estimate_context_tokens(result) > max_tokens:
-           # Remove least important key
-           if 'follow_up_items' in result:
-               result.pop('follow_up_items')
-           elif 'lessons_learned' in result:
-               result.pop('lessons_learned')
-           elif 'discoveries' in result:
-               result.pop('discoveries')
-           else:
-               break
-       return result
-   ```
-
-3. Add CLI option:
-   ```python
-   @context.command('get')
-   @click.argument('ticket_id')
-   @click.option('--budget', type=int, default=4000, help='Token budget')
-   def get_context(ticket_id, budget):
-       """Get context within token budget."""
-       ctx = context_ops.get_context_within_budget(ticket_id, budget)
-       click.echo(json.dumps(ctx, indent=2))
-   ```
+When plan context is set, automatically create `TicketArtifactAssociation` records with `source=plan_reference`.
 
 ### Acceptance Criteria
-- [ ] Token counting implemented
-- [ ] Budget enforcement working
-- [ ] Context truncation functional
-- [ ] CLI supports budget parameter
+- [ ] Context models reference artifacts
+- [ ] Auto-create associations from plan references
+- [ ] Token estimates preserved
 
 ---
 
-## Task 6: Add Context Freshness Tracking
-**ID:** `01KCMGXCCH84MG5BWK8MY8ZT83`
+## Task 9: Post-Mortem Generation from Relationships
 **Priority:** Medium | **Complexity:** Medium | **Type:** Development
 
 ### Problem
-Need to track context age and prompt refresh for stale context.
+Post-mortems should be generated from relationship data.
 
-### Implementation Steps
-1. Add freshness metadata:
-   ```python
-   # Add to context models
-   class RuntimeContext(BaseModel):
-       # ... existing fields
-       last_updated: datetime
-       refresh_after: Optional[datetime] = None  # Suggested refresh time
-   ```
+### Implementation
 
-2. Implement staleness detection:
-   ```python
-   # vibey/operations/roadmap/context_freshness.py
+```python
+def generate_post_mortem(ticket_id: str) -> PostMortemContext:
+    # Get all commits linked to ticket
+    commit_links = query_commit_links(ticket_id=ticket_id)
 
-   from datetime import datetime, timedelta
+    # Get all artifacts changed by those commits
+    artifacts_changed = set()
+    for link in commit_links:
+        changes = query_artifact_changes(commit_sha=link.commit_sha)
+        artifacts_changed.update(c.artifact_id for c in changes)
 
-   DEFAULT_FRESHNESS_HOURS = 24
+    # Get artifact details
+    artifacts = [get_artifact(aid) for aid in artifacts_changed]
+    files_changed = []
+    for a in artifacts:
+        files_changed.extend(a.paths)
 
-   def is_context_stale(context: RuntimeContext, max_age_hours: int = DEFAULT_FRESHNESS_HOURS) -> bool:
-       """Check if context is stale."""
-       if not context or not context.last_updated:
-           return True
-
-       age = datetime.now() - context.last_updated
-       return age > timedelta(hours=max_age_hours)
-
-   def get_context_age(context: RuntimeContext) -> timedelta:
-       """Get age of context."""
-       if not context or not context.last_updated:
-           return timedelta.max
-       return datetime.now() - context.last_updated
-
-   def suggest_refresh(ticket_id: str) -> Optional[str]:
-       """Suggest context refresh if stale."""
-       ticket = load_ticket(ticket_id)
-       if not ticket.runtime_context:
-           return "No runtime context - consider initializing"
-
-       if is_context_stale(ticket.runtime_context):
-           age = get_context_age(ticket.runtime_context)
-           return f"Context is {age.days}d {age.seconds//3600}h old - consider refreshing"
-
-       return None
-   ```
-
-3. Add MCP tool for freshness:
-   ```python
-   @mcp_tool
-   def context_check_freshness(ticket_id: str) -> dict:
-       """Check if context needs refresh."""
-       ticket = ticket_ops.get_ticket(ticket_id)
-       suggestion = suggest_refresh(ticket_id)
-
-       return {
-           "ticket_id": ticket_id,
-           "is_stale": suggestion is not None,
-           "suggestion": suggestion,
-           "last_updated": ticket.runtime_context.last_updated.isoformat() if ticket.runtime_context else None
-       }
-   ```
+    return PostMortemContext(
+        summary=f"Completed with {len(commit_links)} commits, {len(files_changed)} files changed",
+        files_changed=files_changed,
+        commit_count=len(commit_links),
+        # ... other fields
+    )
+```
 
 ### Acceptance Criteria
-- [ ] Freshness tracking implemented
-- [ ] Staleness detection working
-- [ ] Refresh suggestions available
-- [ ] MCP tool for freshness check
+- [ ] Post-mortem uses relationship data
+- [ ] Accurate file change tracking
+- [ ] Commit count included
 
 ---
 
-## Task 7: Test and Document Context CLI Commands
-**ID:** `01KCMGX4QAG1SNWA7J7AVGH3NP`
-**Priority:** Medium | **Complexity:** Medium | **Type:** Testing
-
-### Problem
-Context commands need testing and documentation.
-
-### Implementation Steps
-1. Test all context commands:
-   ```python
-   # tests/cli/test_context_commands.py
-
-   def test_context_init(cli_runner, roadmap_env):
-       result = cli_runner.invoke(['context', 'init', '--ticket', TEST_TICKET_ID])
-       assert result.exit_code == 0
-
-   def test_context_list(cli_runner, roadmap_env):
-       result = cli_runner.invoke(['context', 'list'])
-       assert result.exit_code == 0
-
-   def test_context_show(cli_runner, roadmap_env, sample_context):
-       result = cli_runner.invoke(['context', 'show', sample_context.ticket_id])
-       assert result.exit_code == 0
-       assert sample_context.ticket_id in result.output
-
-   def test_context_export(cli_runner, roadmap_env, sample_context):
-       result = cli_runner.invoke(['context', 'export', '--format', 'json'])
-       assert result.exit_code == 0
-
-   def test_context_sync(cli_runner, roadmap_env):
-       result = cli_runner.invoke(['context', 'sync'])
-       assert result.exit_code == 0
-
-   def test_context_archive(cli_runner, roadmap_env, completed_ticket):
-       result = cli_runner.invoke(['context', 'archive', completed_ticket.id])
-       assert result.exit_code == 0
-
-   def test_context_clean(cli_runner, roadmap_env):
-       result = cli_runner.invoke(['context', 'clean', '--dry-run'])
-       assert result.exit_code == 0
-   ```
-
-2. Document each command:
-   ```markdown
-   ## Context Commands
-
-   ### context init
-   Initialize context for a ticket.
-   ```bash
-   vibey context init --ticket <ticket_id>
-   ```
-
-   ### context list
-   List all context entries.
-   ```bash
-   vibey context list [--stale] [--format json|table]
-   ```
-
-   ### context show
-   Show context details.
-   ```bash
-   vibey context show <ticket_id> [--section plan|runtime|postmortem]
-   ```
-
-   ### context export
-   Export context in various formats.
-   ```bash
-   vibey context export --format json|yaml|markdown [--budget 4000]
-   ```
-   ```
-
-### Acceptance Criteria
-- [ ] All commands tested
-- [ ] Documentation complete
-- [ ] Examples provided
-- [ ] Edge cases handled
-
----
-
-## Task 8: Create Context Engineering User Guide
-**ID:** `01KCMJPG8YZKCRSXQDDY7KMW0P`
+## Task 10: Documentation and Testing
 **Priority:** Medium | **Complexity:** Medium | **Type:** Documentation
 
-### Problem
-Users need comprehensive guide for context system usage.
-
-### Implementation Steps
-Create `docs/guides/CONTEXT_USER_GUIDE.md`:
-
-```markdown
-# Context Engineering User Guide
-
-## Introduction
-The context system helps AI assistants maintain understanding
-across sessions and task boundaries.
-
-## Core Concepts
-
-### Three-Phase Context Model
-1. **Plan Context**: Preparation before work begins
-2. **Runtime Context**: Active state during work
-3. **Post-Mortem Context**: Summary after completion
-
-### Context Lifecycle
-```
-Plan → Runtime → Post-Mortem
-  │       │          │
-  └───────┴──────────┴── Git commits
-```
-
-## Getting Started
-
-### 1. Initialize Context for a Task
-```bash
-vibey context init --ticket 01KC2D0JK9JKQX...
-```
-
-### 2. Set Planning Context
-```bash
-vibey context plan set 01KC2D0JK9JK \
-  --goals "Implement feature X" \
-  --approach "Use pattern Y" \
-  --references "docs/design.md"
-```
-
-### 3. Update Runtime Context (during work)
-```bash
-vibey context runtime update 01KC2D0JK9JK \
-  --active-files "src/feature.py" \
-  --decision "Chose approach A over B because..."
-```
-
-### 4. Complete with Post-Mortem
-```bash
-vibey task complete 01KC2D0JK9JK \
-  --summary "Implemented feature X with pattern Y"
-```
-
-## Best Practices
-
-1. **Initialize early**: Set up context before starting work
-2. **Update frequently**: Keep runtime context current
-3. **Be specific**: Include file paths and decision rationale
-4. **Review post-mortems**: Learn from completed work
-
-## MCP Integration
-
-AI assistants can manage context via MCP tools:
-- `context_set_plan` - Set planning context
-- `context_update_runtime` - Update during work
-- `context_save_postmortem` - Save completion summary
-```
-
-### Acceptance Criteria
-- [ ] User guide complete
-- [ ] Examples for all workflows
-- [ ] Best practices documented
-- [ ] MCP integration explained
-
----
-
-## Task 9: Document All Context Output Formats
-**ID:** `01KCMJNWJYZFK331MSDEKJN7FJ`
-**Priority:** Low | **Complexity:** Simple | **Type:** Documentation
-
-### Problem
-Users may not know available context output formats.
-
-### Implementation Steps
-Create `docs/reference/CONTEXT_FORMATS.md`:
-
-```markdown
-# Context Output Formats
-
-## JSON Format
-```json
-{
-  "plan_context": {
-    "goals": ["..."],
-    "approach": "...",
-    "references": ["..."]
-  },
-  "runtime_context": {
-    "active_files": ["..."],
-    "decisions": ["..."]
-  },
-  "post_mortem": {
-    "summary": "...",
-    "files_changed": ["..."]
-  }
-}
-```
-
-## YAML Format
-```yaml
-plan_context:
-  goals:
-    - "..."
-  approach: "..."
-  references:
-    - "..."
-runtime_context:
-  active_files:
-    - "..."
-```
-
-## Markdown Format
-```markdown
-# Context for Task: {title}
-
-## Planning
-**Goals:**
-- ...
-
-**Approach:** ...
-
-## Runtime
-**Active Files:** ...
-**Decisions:** ...
-
-## Post-Mortem
-**Summary:** ...
-```
-
-## Usage
-```bash
-vibey context export --format json
-vibey context export --format yaml
-vibey context export --format markdown
-```
-```
-
-### Acceptance Criteria
-- [ ] All formats documented
-- [ ] Examples provided
-- [ ] Usage commands shown
+### Deliverables
+- [ ] Update CLI_REFERENCE.md with new commands
+- [ ] Update MCP_REFERENCE.md with new tools
+- [ ] Create RELATIONSHIP_MODEL.md architecture doc
+- [ ] Unit tests for relationship models
+- [ ] Integration tests for pre-commit hook
+- [ ] Integration tests for triangle validation
 
 ---
 
 ## Sprint Completion Checklist
-- [ ] Context integrated into ticket model
-- [ ] Git commit linking working
-- [ ] Post-mortem generation functional
-- [ ] MCP context tools implemented
-- [ ] Token budget enforcement working
-- [ ] Freshness tracking operational
-- [ ] CLI commands tested
-- [ ] User guide complete
-- [ ] Format documentation done
+
+- [ ] Three relationship entity models implemented
+- [ ] SQLite schema extended with tables and views
+- [ ] Unified pre-commit hook with triangle validation
+- [ ] `Task:` and `Completes:` parsing in GitCommit
+- [ ] Commit message template system
+- [ ] MCP tools for relationship management
+- [ ] CLI commands for relationship management
+- [ ] Context models reference artifacts
+- [ ] Post-mortem generation from relationships
+- [ ] Documentation updated
+- [ ] Tests passing

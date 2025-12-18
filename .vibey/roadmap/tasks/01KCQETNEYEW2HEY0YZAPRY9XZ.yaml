@@ -1,0 +1,43 @@
+task:
+  id: 01KCQETNEYEW2HEY0YZAPRY9XZ
+  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Extend SQLite schema with relationship tables
+  description: 'Add three relationship tables to SQLite schema: ticket_commit_links
+    (Ticket <-> GitCommit), ticket_artifact_associations (Ticket <-> Artifact),
+    commit_artifact_changes (GitCommit <-> Artifact). Include indexes for query
+    performance and views for triangle queries (v_ticket_commits, v_ticket_artifacts,
+    v_ticket_commit_artifacts). Create migration script for existing databases.
+    Source: Sprint 0 Design Decisions (Integrated Architecture)'
+  status: not_started
+  blocked: false
+  created: '2025-12-18T00:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: critical
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+    - 01KCMNCZS970T6MSXDY2CZA2YH
+  depends_on:
+    - 01KCMNCZS970T6MSXDY2CZA2YH
+  depended_on_by: []
+  deliverables:
+    - Three relationship tables with foreign keys
+    - Indexes for ticket_id, commit_sha, artifact_id
+    - Triangle query views
+    - Migration script
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

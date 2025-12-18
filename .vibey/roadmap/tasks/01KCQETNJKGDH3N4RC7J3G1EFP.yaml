@@ -1,0 +1,40 @@
+task:
+  id: 01KCQETNJKGDH3N4RC7J3G1EFP
+  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: 'Extend GitCommit model to parse Task/Completes markers'
+  description: 'Add references_tickets field to GitCommit model. Update from_git()
+    parser to extract both Task: lines (work references) and Completes: lines
+    (completion claims). Handle comma-separated task IDs on single line. Maintain
+    backwards compatibility with existing commits. Source: Sprint 0 Design Decisions
+    (Integrated Architecture)'
+  status: not_started
+  blocked: false
+  created: '2025-12-18T00:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by:
+    - 01KCMNDFWS0C2N2FJJBZRR3FC8
+  deliverables:
+    - references_tickets field on GitCommit
+    - Updated from_git() parser
+    - Unit tests for parsing
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

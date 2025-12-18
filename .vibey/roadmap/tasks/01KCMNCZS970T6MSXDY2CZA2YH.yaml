@@ -4,11 +4,13 @@ task:
   track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Integrate context into ticket-level data structure
-  description: 'Move context management from explicit sessions into ticket data structure.
-    Each ticket should have: plan_context (pre-work), runtime_context (during work),
-    post_mortem (after work). Context becomes first-class ticket attribute, not separate
-    entity. Source: User feedback'
+  title: Implement relationship entity models (Triangle Model)
+  description: 'Implement three relationship entities that integrate with Unified Ticket
+    Architecture: 1) TicketCommitLink (Ticket <-> GitCommit), 2) TicketArtifactAssociation
+    (Ticket <-> Artifact), 3) CommitArtifactChange (GitCommit <-> Artifact). Include
+    enums for ReferenceType, AssociationSource, ChangeType and signal models for link
+    detection. Location: vibey/roadmap/models/relationships.py. Source: Sprint 0 Design
+    Decisions (Integrated Architecture)'
   status: not_started
   blocked: false
   created: '2025-12-16T22:44:54.243621+00:00'

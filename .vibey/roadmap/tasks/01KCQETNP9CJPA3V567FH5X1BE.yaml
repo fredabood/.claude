@@ -1,0 +1,46 @@
+task:
+  id: 01KCQETNP9CJPA3V567FH5X1BE
+  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
+  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add CLI commands for relationship management
+  description: 'Implement CLI commands for managing triangle relationships: vibey
+    task add-artifact, vibey task artifacts, vibey task commits, vibey task
+    link-commit, vibey artifact history, vibey validate triangle. All commands
+    work with relationship entities (TicketCommitLink, TicketArtifactAssociation,
+    CommitArtifactChange). Source: Sprint 0 Design Decisions (Integrated Architecture)'
+  status: not_started
+  blocked: false
+  created: '2025-12-18T00:30:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+    - 01KCMNCZS970T6MSXDY2CZA2YH
+    - 01KCQETNEYEW2HEY0YZAPRY9XZ
+  depends_on:
+    - 01KCMNCZS970T6MSXDY2CZA2YH
+    - 01KCQETNEYEW2HEY0YZAPRY9XZ
+  depended_on_by: []
+  deliverables:
+    - vibey task add-artifact command
+    - vibey task artifacts command
+    - vibey task commits command
+    - vibey task link-commit command
+    - vibey artifact history command
+    - vibey validate triangle command
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

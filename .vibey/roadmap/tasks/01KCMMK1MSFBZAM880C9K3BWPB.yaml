@@ -4,11 +4,12 @@ task:
   track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
   roadmap_id: vibey-framework-v2
   task_type: development
-  title: Rename context directory to plans, add post-mortem structure
-  description: 'Current ''context'' directory is functionally ''plans''. Restructure
-    to: 1) Rename context/ to plans/ for pre-work artifacts, 2) Add post-mortems/
-    for completed work summaries, 3) Add runtime-context/ for model context during
-    execution. Update all references. Source: User feedback'
+  title: Define context directory structure with subdirectories
+  description: 'Keep existing context/ directory, add three subdirectories: 1) context/plans/
+    for pre-work planning artifacts (YAML + markdown), 2) context/runtime/ for active
+    session state, 3) context/post-mortems/ for completion summaries. Implement hybrid
+    YAML + markdown approach where YAML stores structured metadata and references
+    longer markdown artifacts. Source: Sprint 0 Design Decisions'
   status: not_started
   blocked: false
   created: '2025-12-16T22:30:44.178942+00:00'

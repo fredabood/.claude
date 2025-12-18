@@ -3,8 +3,16 @@ CLI command implementations.
 
 This package contains modular command implementations split by functionality.
 Each module contains related command functions that are imported and used by main.py.
+
+During the transition from commands.py to modular commands, this package re-exports
+all commands - both from the new modules and from the legacy commands.py file.
 """
 
+# Import everything from the legacy commands.py file for backwards compatibility
+# This will be removed once all commands are migrated to modules
+from vibey.cli.commands_legacy import *  # noqa: F401, F403
+
+# Then override with the new modular implementations
 # Checkpoint commands
 from vibey.cli.commands.checkpoint import (
     checkpoint_create_cmd,

@@ -6,7 +6,7 @@ framework commands into logical groups.
 """
 
 import sys
-from typing import Optional
+from typing import Optional, Tuple
 
 import click
 from rich.console import Console

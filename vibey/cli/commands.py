@@ -3349,9 +3349,8 @@ def db_rebuild_cmd(force: bool = False) -> int:
 
     # Check for uncommitted changes
     if not force:
+        from vibey.roadmap.database.connection import get_connection, close_all_connections
         try:
-            from vibey.roadmap.database.connection import get_connection, close_all_connections
-
             conn = get_connection(db_path=db_path)
             row = conn.execute("SELECT is_dirty FROM database_state WHERE id = 1").fetchone()
 

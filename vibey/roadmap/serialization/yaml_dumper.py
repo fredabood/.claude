@@ -11,7 +11,7 @@ Uses flat directory structure per ADR-0002:
 
 from datetime import datetime
 from pathlib import Path
-from typing import Union, Optional, TYPE_CHECKING
+from typing import List, Union, Optional, TYPE_CHECKING
 
 import yaml
 

@@ -10,11 +10,11 @@ track:
   completed: '2025-12-10T05:05:41.041645+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 23
-    sprints_completed: 8
-    tasks_total: 113
-    tasks_completed: 110
-    completion_percent: 97.0
+    sprints_total: 24
+    sprints_completed: 19
+    tasks_total: 99
+    tasks_completed: 96
+    completion_percent: 96
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'
@@ -139,15 +139,27 @@ track:
   - id: dogfooding-bugs-21
     name: 'Sprint 18: Track Status Auto-Update Bug'
     status: not_started
+    estimated_duration: null
     tasks_count: 0
+    started: null
   - id: dogfooding-bugs-22
     name: 'Sprint 22: Architecture Modernization Bugs'
     status: not_started
+    estimated_duration: null
     tasks_count: 0
+    started: null
   - id: dogfooding-bugs-23
     name: 'Sprint 23: Architecture Modernization Bugs'
     status: not_started
+    estimated_duration: null
     tasks_count: 0
+    started: null
+  - id: dogfooding-bugs-24
+    name: 'Sprint 19: Missing Typing Imports'
+    status: not_started
+    estimated_duration: null
+    tasks_count: 0
+    started: null
   dependencies: []
   blocks: []
   blocked_by: []

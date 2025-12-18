@@ -16,11 +16,11 @@ roadmap:
   progress:
     tracks_total: 47
     tracks_completed: 25
-    sprints_total: 226
-    sprints_completed: 46
-    tasks_total: 1534
-    tasks_completed: 1232
-    completion_percent: 80
+    sprints_total: 227
+    sprints_completed: 56
+    tasks_total: 1541
+    tasks_completed: 1228
+    completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -196,11 +196,11 @@ roadmap:
     priority: medium
   - id: 01KCMTJKFKDJX7BWERZJ7SFJ96
     name: Test Suite Rehabilitation
-    status: in_progress
+    status: completed
     priority: medium
   - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
     name: Architecture Modernization
-    status: completed
+    status: in_progress
     priority: medium
   - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
     name: Context System V2
@@ -655,10 +655,16 @@ roadmap:
     context:
       task_id: 01KCQ9YS0KE8WSYKZ21XG6WBQX
       sprint_id: 01KCQ9YHQTF48H5T09FNERDZG5
+  - timestamp: '2025-12-18T16:47:19.701010+00:00'
+    type: task_completed
+    description: Task 'Missing typing imports break CLI startup' completed
+    context:
+      task_id: 01KCS5P67BF4GDW67HJ0SV9EWC
+      sprint_id: dogfooding-bugs-24
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-18T00:10:28.424370+00:00'
+    last_updated: '2025-12-18T16:47:19.701018+00:00'
     purpose: null
     description: null

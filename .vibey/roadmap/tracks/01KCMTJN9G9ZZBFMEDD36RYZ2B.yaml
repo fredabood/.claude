@@ -2,19 +2,19 @@ track:
   id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
   name: Architecture Modernization
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-12-17T00:15:21.904964+00:00'
   started: '2025-12-17T19:34:12+00:00'
-  completed: '2025-12-17T22:46:26.764221+00:00'
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 4
-    sprints_completed: 4
+    sprints_completed: 2
     tasks_total: 29
-    tasks_completed: 29
-    completion_percent: 100
+    tasks_completed: 17
+    completion_percent: 59
   sprints:
     - id: 01KCMTXFCYYQM97JBH3ST8ZK7V
       name: 'Sprint 1: Codebase Audit'
@@ -24,10 +24,10 @@ track:
       status: completed
     - id: 01KCMTXK2X59MAT3YPMXP8E8BE
       name: 'Sprint 3: Code Cleanup'
-      status: completed
+      status: in_progress
     - id: 01KCMTXMWJHPFH7J96KHHZTPB4
       name: 'Sprint 4: Major Refactoring'
-      status: completed
+      status: in_progress
   dependencies: []
   blocks: []
   blocked_by: []

@@ -10,11 +10,11 @@ task:
     the rebuild fails with KeyError: ''progress'' or ''created''. The load_track_ticket()
     function exists and supports both formats, but db rebuild doesn''t use it. Workaround:
     convert track files to v1 format.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-17T22:57:37.174443+00:00'
-  started: null
-  completed: null
+  started: '2025-12-19T14:30:00+00:00'
+  completed: '2025-12-19T15:00:00+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

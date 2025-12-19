@@ -1,0 +1,36 @@
+task:
+  id: 01KCVMA0F3G5XHEG45BX363K6V
+  sprint_id: 01KCVMA0EQTVNHR3A98Q96DEDW
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Sprint progress not auto-updating when tasks completed via direct YAML edit
+  description: |
+    When tasks are completed by directly editing their YAML files (status: completed),
+    the parent sprint's progress counters (tasks_completed, completion_percent) are not
+    updated. This causes sprints to show incorrect progress even when all tasks are done.
+
+    Expected: Sprint progress should be recalculated on db rebuild or have a dedicated
+    command to sync progress from task statuses.
+
+    Workaround: Manually edit sprint YAML to update progress counters.
+  status: not_started
+  blocked: false
+  created: '2025-12-19T15:30:00+00:00'
+  started: null
+  completed: null
+  priority: high
+  complexity: medium
+  estimated_tokens: null
+  actual_tokens: null
+  gate_info: null
+  audit_results: []
+  assigned_agent: null
+  commits: []
+  standards: []
+  deliverables: []
+  acceptance_criteria: []
+  notes: null
+  metadata:
+    created_by: claude-agent
+    last_updated: '2025-12-19T15:30:00+00:00'

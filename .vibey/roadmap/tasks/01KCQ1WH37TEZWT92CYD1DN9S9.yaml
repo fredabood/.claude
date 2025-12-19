@@ -9,11 +9,11 @@ task:
     gate_info is set to a string value instead of null or dict, the loader fails with
     ''str'' object has no attribute ''get''. Should validate field type and provide
     a clear error message.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-17T21:01:35.280302+00:00'
-  started: null
-  completed: null
+  started: '2025-12-19T14:30:00+00:00'
+  completed: '2025-12-19T15:00:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

@@ -10,11 +10,11 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 24
-    sprints_completed: 8
-    tasks_total: 121
-    tasks_completed: 111
-    completion_percent: 92.0
+    sprints_total: 25
+    sprints_completed: 24
+    tasks_total: 126
+    tasks_completed: 123
+    completion_percent: 97.6
   sprints:
   - id: 01KC3AD75P4TW2MAWDWJC4YCMB
     name: 'Sprint 1: CLI Startup Unblock'

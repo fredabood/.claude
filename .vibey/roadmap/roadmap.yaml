@@ -213,9 +213,7 @@ roadmap:
   - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
     name: Semantic Platform Compatibility
     status: not_started
-    sprints_total: 0
-    tasks_total: 0
-    completion_percent: 0
+    priority: medium
   dependencies: []
   blocked_by: []
   version_history: []
@@ -256,11 +254,16 @@ roadmap:
     description: 'Sprint ''Sprint 4: Major Refactoring'' completed'
     context:
       sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-19T15:06:21.040734+00:00'
+    type: task_started
+    description: Task 'Track status doesn't auto-update when sprint starts' started
+    context:
+      task_id: 01KCPKC353W74AKSDJRWVMA4T0
+      sprint_id: 01KCPKBMW8FPY2ZXC9GW06Z7ZG
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-19T00:53:36.401927+00:00'
+    last_updated: '2025-12-19T15:06:21.040739+00:00'
     purpose: null
     description: null
-  tracks_total: 48

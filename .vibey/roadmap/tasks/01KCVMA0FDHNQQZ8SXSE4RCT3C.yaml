@@ -1,0 +1,38 @@
+task:
+  id: 01KCVMA0FDHNQQZ8SXSE4RCT3C
+  sprint_id: 01KCVMA0EQTVNHR3A98Q96DEDW
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: CLI roadmap complete command fails with standards validation errors
+  description: |
+    The `vibey roadmap complete <task-id>` command fails with various validation errors:
+    - "Standards resolution failed" with _convert_v2_track_to_v1 NameError
+    - "Track must complete all sprints" even when trying to complete a task
+    - StandardOverride.__init__() got unexpected keyword argument 'item_id'
+
+    This forces users to complete tasks by directly editing YAML files, which then
+    causes the sprint progress tracking bug (01KCVMA0F3G5XHEG45BX363K6V).
+
+    Expected: CLI complete command should work for tasks without requiring all
+    track sprints to be complete.
+  status: not_started
+  blocked: false
+  created: '2025-12-19T15:30:00+00:00'
+  started: null
+  completed: null
+  priority: high
+  complexity: complex
+  estimated_tokens: null
+  actual_tokens: null
+  gate_info: null
+  audit_results: []
+  assigned_agent: null
+  commits: []
+  standards: []
+  deliverables: []
+  acceptance_criteria: []
+  notes: null
+  metadata:
+    created_by: claude-agent
+    last_updated: '2025-12-19T15:30:00+00:00'

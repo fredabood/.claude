@@ -11,11 +11,11 @@ task:
     be integers''. The loader expects the old format (roadmap_id, blocked, progress
     with counts, sprints array as objects with id/name/status). Workaround: manually
     convert track file to old format.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-19T01:34:38.029885+00:00'
-  started: null
-  completed: null
+  started: '2025-12-19T14:30:00+00:00'
+  completed: '2025-12-19T15:00:00+00:00'
   assigned_agent: unassigned
   priority: medium
   phase_label: null

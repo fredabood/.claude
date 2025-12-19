@@ -8,11 +8,11 @@ task:
   description: 'When completing a sprint, a validation warning appears: ''IN_PROGRESS
     status requires started_at to be set''. The RoadmapTicket model validation is
     triggered but the roadmap.yaml may be missing started field.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-17T20:02:51.760537+00:00'
-  started: null
-  completed: null
+  started: '2025-12-19T15:10:00+00:00'
+  completed: '2025-12-19T15:10:03+00:00'
   assigned_agent: unassigned
   priority: low
   phase_label: null

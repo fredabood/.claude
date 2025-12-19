@@ -181,6 +181,18 @@ def transition_task(
         else:
             raise FileNotFoundError(f"Task file not found for {task_id}")
 
+    # Generate post-mortem for completed tasks
+    if target_status == TicketStatus.COMPLETED:
+        try:
+            from vibey.operations.context.post_mortem import auto_generate_on_complete
+            post_mortem_path = auto_generate_on_complete(task_id)
+            if post_mortem_path:
+                print(f"  Post-mortem saved: {post_mortem_path.name}")
+        except ImportError:
+            pass  # Post-mortem module not available
+        except Exception as e:
+            print(f"  Warning: Failed to generate post-mortem: {e}")
+
     return updated_ticket
 
 

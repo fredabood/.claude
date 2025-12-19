@@ -219,6 +219,13 @@ try:
 except ImportError:
     SYNC_HOOKS_AVAILABLE = False
 
+# Import post-mortem auto-generation hook
+try:
+    from vibey.operations.context.post_mortem import auto_generate_on_complete as generate_post_mortem_on_complete
+    POST_MORTEM_AVAILABLE = True
+except ImportError:
+    POST_MORTEM_AVAILABLE = False
+
 
 # ============================================================================
 # Centralized Status Transitions (Sprint 5 - Task 003)
@@ -542,6 +549,12 @@ def complete_task(
     # Trigger automatic documentation sync if enabled
     if SYNC_HOOKS_AVAILABLE:
         trigger_on_task_complete(task_id, enabled=True, verbose=False)
+
+    # Generate post-mortem for completed task
+    if POST_MORTEM_AVAILABLE:
+        post_mortem_path = generate_post_mortem_on_complete(task_id)
+        if post_mortem_path:
+            print(f"  Post-mortem saved: {post_mortem_path.name}")
 
     return 0
 

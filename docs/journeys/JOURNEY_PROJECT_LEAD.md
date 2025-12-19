@@ -157,10 +157,8 @@ vibey roadmap status --by-sprint
 #### Task-Level View
 
 ```bash
-# Tasks in specific state
-vibey roadmap list tasks --filter not_started --sprint <sprint-id>
-vibey roadmap list tasks --filter in_progress
-vibey roadmap list tasks --filter completed --since "2 weeks ago"
+# View tasks in a sprint
+vibey roadmap show <sprint-id>
 ```
 
 ### Handling Blockers

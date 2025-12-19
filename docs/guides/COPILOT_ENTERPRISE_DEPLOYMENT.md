@@ -132,7 +132,7 @@ git clone https://github.com/org/repo.git
 cd repo
 
 # Initialize Vibey (if not already done)
-vibey init
+vibey roadmap init
 
 # Deploy for Copilot
 vibey deploy --platform copilot

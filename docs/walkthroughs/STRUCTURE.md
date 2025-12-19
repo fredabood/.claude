@@ -39,7 +39,7 @@ docs/walkthroughs/
 
 **Content**:
 - Installation (pip, development setup)
-- `vibey init` - first project initialization
+- `vibey roadmap init` - first project initialization
 - Understanding tracks/sprints/tasks hierarchy
 - Creating first track, sprint, and task
 - Completing first task
@@ -114,7 +114,7 @@ docs/walkthroughs/
 **Content**:
 - Quick status: `vibey roadmap status`
 - Detailed views: `vibey roadmap show`
-- Listing items: `vibey roadmap list`
+- Listing items: `vibey roadmap status` and `vibey roadmap show`
 - Activity tracking: `vibey roadmap activity`
 - Summaries: `vibey roadmap summarize`
 - Exporting data: `vibey roadmap export`

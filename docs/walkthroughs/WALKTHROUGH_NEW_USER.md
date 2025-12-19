@@ -219,7 +219,7 @@ Set up Vibey in your project directory.
 2. Initialize Vibey:
 
    ```bash
-   vibey init
+   vibey roadmap init
    ```
 
    **Expected Output:**
@@ -263,7 +263,7 @@ vibey roadmap status
 
 # If you want to start fresh
 rm -rf .vibey/
-vibey init
+vibey roadmap init
 ```
 </details>
 
@@ -515,7 +515,7 @@ Go through the task lifecycle.
 | Command | Purpose |
 |---------|---------|
 | `vibey --version` | Check installation |
-| `vibey init` | Initialize in project |
+| `vibey roadmap init` | Initialize in project |
 | `vibey roadmap status` | View overall status |
 | `vibey roadmap create-track` | Create a track |
 | `vibey roadmap create-sprint` | Create a sprint |
@@ -543,7 +543,7 @@ pip3 install vibey
 vibey --version
 
 # Initialization
-vibey init
+vibey roadmap init
 vibey roadmap status
 
 # Create structure

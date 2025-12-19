@@ -123,10 +123,10 @@ vibey roadmap start <task-id>
 # Complete a task
 vibey roadmap complete <task-id>
 
-# List items
-vibey roadmap list tracks
-vibey roadmap list sprints --track <id>
-vibey roadmap list tasks --sprint <id>
+# View items (use status for overview, show for details)
+vibey roadmap status
+vibey roadmap show <track-id>
+vibey roadmap show <sprint-id>
 ```
 
 ### Documentation
@@ -302,11 +302,8 @@ Supported: Claude Code, Cursor, Copilot, VS Code, Goose, Gemini, Aider, Continue
 # View roadmap status
 vibey roadmap status
 
-# See active track
-vibey roadmap list tracks --status in_progress
-
-# See active sprint
-vibey roadmap list sprints --status in_progress
+# See active tracks and sprints (status shows all with progress indicators)
+vibey roadmap status
 ```
 
 ---

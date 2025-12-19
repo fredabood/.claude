@@ -36,7 +36,7 @@ pip install -e ".[dev]"
 ```bash
 # Initialize in your project
 cd /path/to/your-project
-vibey init
+vibey roadmap init
 
 # Check roadmap status
 vibey roadmap status

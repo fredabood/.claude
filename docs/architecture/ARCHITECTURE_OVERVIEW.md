@@ -141,7 +141,7 @@ vibey roadmap show 01KC2D0JK7READW9KAK1HBX4B8
 vibey roadmap start 01KC2D0JK7READW9KAK1HBX4B8
 ```
 
-You don't need to memorize IDs. Use `vibey roadmap list tasks` to see them, or use tab-completion in your shell.
+You don't need to memorize IDs. Use `vibey roadmap status` to see all items with their IDs, or `vibey roadmap show <id>` for details.
 
 ---
 
@@ -257,8 +257,8 @@ vibey roadmap start 01KC2D0JK7READW9KAK1HBX4B8
 # Complete a task
 vibey roadmap complete 01KC2D0JK7READW9KAK1HBX4B8
 
-# List all tasks in a sprint
-vibey roadmap list tasks --sprint 01KC2D0JKVT80AFQ6C1PA8CKJD
+# View sprint details (includes tasks)
+vibey roadmap show 01KC2D0JKVT80AFQ6C1PA8CKJD
 ```
 
 #### MCP Tool Examples
@@ -281,7 +281,7 @@ When using Claude or another AI assistant:
 | Start task | `vibey roadmap start <id>` | `task_start` |
 | Complete task | `vibey roadmap complete <id>` | `task_complete` |
 | Query task | `vibey roadmap show <id>` | `task_query` |
-| List sprints | `vibey roadmap list sprints` | `sprint_list` |
+| View status | `vibey roadmap status` | `roadmap_status` |
 | Deploy config | `vibey deploy run --platform X` | N/A (CLI only) |
 
 ---

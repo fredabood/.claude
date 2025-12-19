@@ -255,7 +255,7 @@ gh repo create org-name/vibey-template --template
 
 # Add Vibey configuration
 cd vibey-template
-vibey init
+vibey roadmap init
 vibey deploy --platform copilot
 
 # Push

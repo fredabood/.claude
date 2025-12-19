@@ -39,7 +39,7 @@ This document provides comprehensive reference documentation for the Vibey MCP (
 | Start task | `vibey roadmap start <id>` | `task_start` |
 | Complete task | `vibey roadmap complete <id>` | `task_complete` |
 | Query task | `vibey roadmap show <id>` | `task_query` |
-| List sprints | `vibey roadmap list sprints` | `sprint_list` |
+| View status | `vibey roadmap status` | `roadmap_status` |
 | Deploy config | `vibey deploy run --platform X` | N/A (CLI only) |
 
 ---

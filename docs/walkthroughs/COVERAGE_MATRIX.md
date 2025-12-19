@@ -27,7 +27,7 @@
 |---------|-------------|
 | `vibey --version` | GETTING_STARTED |
 | `vibey --help` | TROUBLESHOOTING |
-| `vibey init` | GETTING_STARTED |
+| `vibey roadmap init` | GETTING_STARTED |
 
 ### Auth Commands (100% covered)
 
@@ -126,7 +126,7 @@
 | `vibey roadmap export` | REPORTING_AND_STATUS |
 | `vibey roadmap audit log` | REPORTING_AND_STATUS |
 | `vibey roadmap audit show` | REPORTING_AND_STATUS |
-| `vibey roadmap list` | ROADMAP_MANAGEMENT, REPORTING_AND_STATUS |
+| `vibey roadmap status` | ROADMAP_MANAGEMENT, REPORTING_AND_STATUS |
 | `vibey roadmap db query blocked` | DAILY_WORKFLOW |
 | `vibey roadmap restore` | ROADMAP_MANAGEMENT, TROUBLESHOOTING |
 | `vibey roadmap show` | GETTING_STARTED, DAILY_WORKFLOW, REPORTING_AND_STATUS |

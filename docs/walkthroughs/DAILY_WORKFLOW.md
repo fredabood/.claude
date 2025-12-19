@@ -204,8 +204,8 @@ vibey roadmap activity --since today
 ### Plan Tomorrow
 
 ```bash
-# Check what's next
-vibey roadmap list tasks --status not_started --sprint <sprint-id>
+# Check what's next in the sprint
+vibey roadmap show <sprint-id>
 ```
 
 ---

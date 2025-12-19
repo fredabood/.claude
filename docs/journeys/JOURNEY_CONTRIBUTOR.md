@@ -166,8 +166,8 @@ git commit -m "test: Verify hooks working"
 # View roadmap status
 vibey roadmap status
 
-# Find available tasks
-vibey roadmap list tasks --status not_started
+# Find available tasks (check status for overview)
+vibey roadmap status
 
 # See task details
 vibey roadmap show task <task-id>

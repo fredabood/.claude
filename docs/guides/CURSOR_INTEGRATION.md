@@ -29,7 +29,7 @@ pip install -e ".[dev]"
 
 # 2. Initialize Vibey in your project
 cd your-project
-vibey init
+vibey roadmap init
 
 # 3. Deploy to Cursor
 vibey deploy --platform cursor

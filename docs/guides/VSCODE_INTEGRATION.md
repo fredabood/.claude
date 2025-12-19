@@ -21,7 +21,7 @@ git clone https://github.com/anthropics/vibey.git && cd vibey && python3 -m venv
 
 # 2. Initialize Vibey in your project
 cd your-project
-vibey init
+vibey roadmap init
 
 # 3. Deploy to VS Code
 vibey deploy --platform vscode

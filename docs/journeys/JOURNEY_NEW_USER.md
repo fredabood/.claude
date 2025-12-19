@@ -19,7 +19,7 @@
 │  Discovery  │ Installation│ First Steps │ Basic Usage │ Continued Learning  │
 │  (30 min)   │  (15 min)   │  (30 min)   │  (1 hour)   │   (ongoing)         │
 ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────────────┤
-│ - Hear about│ - pip/pipx  │ - vibey init│ - status    │ - Advanced features │
+│ - Hear about│ - pip/pipx  │ - roadmap   │ - status    │ - Advanced features │
 │   Vibey     │ - Clone repo│ - First     │ - show      │ - Join community    │
 │ - Read docs │ - Verify    │   roadmap   │ - start     │ - Provide feedback  │
 │ - Evaluate  │   install   │ - Config    │ - complete  │                     │
@@ -135,7 +135,7 @@ Uncertain → Relieved → Ready to proceed
 
 | Action | Documentation | Commands |
 |--------|---------------|----------|
-| Initialize Vibey | docs/getting-started/QUICK_START.md | `vibey init` |
+| Initialize Vibey | docs/getting-started/QUICK_START.md | `vibey roadmap init` |
 | Run project discovery | docs/reference/CLI_REFERENCE.md#vibey-discover | `vibey discover run` |
 | Understand structure | docs/reference/ROADMAP_SYSTEM.md | - |
 | View initial status | - | `vibey roadmap status` |
@@ -145,7 +145,7 @@ Uncertain → Relieved → Ready to proceed
 
 ```bash
 # Initialize Vibey in current project
-vibey init
+vibey roadmap init
 
 # Run project discovery to analyze your codebase
 vibey discover run
@@ -329,7 +329,7 @@ All commands used in this journey:
 | Installation | `pip install -e ".[dev]"` | Install in editable mode |
 | Installation | `vibey --version` | Verify installation |
 | Installation | `vibey --help` | Explore commands |
-| First Steps | `vibey init` | Initialize in project |
+| First Steps | `vibey roadmap init` | Initialize in project |
 | First Steps | `vibey roadmap status` | View status |
 | First Steps | `vibey roadmap create-track` | Create track |
 | Basic Usage | `vibey roadmap show <type> <id>` | View details |
@@ -369,7 +369,7 @@ A: No! Start with `status`, `start`, and `complete`. Add features as needed.
 A: Most operations are reversible. Use `show` commands to inspect state.
 
 **Q: Can I use Vibey with an existing project?**
-A: Yes! `vibey init` can be run in any directory with or without existing code.
+A: Yes! `vibey roadmap init` can be run in any directory with or without existing code.
 
 ---
 

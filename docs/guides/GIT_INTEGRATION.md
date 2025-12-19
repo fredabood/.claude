@@ -467,7 +467,7 @@ vibey git dependency-check <branch>
 4. Start using task branches
 
 ```bash
-vibey init
+vibey roadmap init
 vibey git strategy adopt feature-branch
 vibey git hooks install all
 ```

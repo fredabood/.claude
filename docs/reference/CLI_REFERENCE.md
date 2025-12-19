@@ -14,7 +14,7 @@ Get started with these essential commands:
 
 ```bash
 # Initialize Vibey in your project
-vibey init
+vibey roadmap init
 
 # View roadmap status
 vibey roadmap status

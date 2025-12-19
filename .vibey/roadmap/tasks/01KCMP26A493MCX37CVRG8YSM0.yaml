@@ -1,33 +1,32 @@
 task:
   id: 01KCMP26A493MCX37CVRG8YSM0
-  sprint_id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
-  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Define submodule detection and discovery
+  name: Define submodule detection and discovery
   description: 'Define how Vibey detects and discovers submodules in a git repo. Questions:
     1) Auto-detect .gitmodules? 2) Manual configuration? 3) How to identify which
     submodules have their own .vibey/roadmap? Source: User feedback'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T22:56:29.034118+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  status: completed
+  created_at: '2025-12-16T22:56:29.034118+00:00'
+  started_at: '2025-12-19T19:30:19.457156+00:00'
+  completed_at: '2025-12-19T19:45:00+00:00'
+  updated_at: '2025-12-19T19:30:19.457157+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

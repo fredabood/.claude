@@ -368,14 +368,18 @@ def complete_task(
         if not task_path.exists():
             print(f"❌ Task file not found: {task_path}")
             return 1
-        # Get sprint_id from task YAML
+        # Get sprint_id from task YAML (v1) or parent_ref (v2)
         import yaml
         with open(task_path) as f:
             task_data = yaml.safe_load(f)
+        # Try v1 format first (sprint_id), then v2 format (parent_ref)
         sprint_id = task_data.get('task', {}).get('sprint_id')
         if not sprint_id:
-            print(f"❌ Task {task_id} has no sprint_id")
-            return 1
+            sprint_id = task_data.get('task', {}).get('parent_ref')
+        if not sprint_id:
+            # For v2 format tasks without dependencies, sprint_id is optional
+            # The task can still be completed via the unified ticket path below
+            sprint_id = None
         tasks_path = task_path  # For ULID, the task_path is the file itself
     else:
         # Legacy format: extract sprint ID from task ID (everything before -task-)
@@ -413,8 +417,38 @@ def complete_task(
 
     # Load task(s) based on ID format
     if is_ulid:
-        # For ULID, load single task directly from file
-        task = load_task(tasks_path)  # tasks_path is the individual task file for ULIDs
+        # For ULID, check the format version and load appropriately
+        format_version = task_data.get('task', {}).get('format_version', 'v1')
+        if format_version == 'v2':
+            # v2 format: use unified ticket loader, then convert to legacy Task
+            from vibey.roadmap.serialization.yaml_loader import load_task_ticket as yaml_load_task_ticket
+            task_ticket = yaml_load_task_ticket(tasks_path)
+            # Convert TaskTicket to legacy Task for downstream compatibility
+            from vibey.roadmap.models.task import Task, TaskStatus as LegacyTaskStatus, TaskType, TaskMetadata
+            task = Task(
+                id=task_ticket.id,
+                sprint_id=task_ticket.sprint_id or '',
+                track_id=task_ticket.track_id or '',
+                roadmap_id=task_ticket.roadmap_id or 'vibey-framework-v2',
+                task_type=TaskType.DEVELOPMENT,
+                title=task_ticket.name,
+                description=task_ticket.description or '',
+                status=LegacyTaskStatus(task_ticket.status.value),
+                priority=task_ticket.priority.value if hasattr(task_ticket.priority, 'value') else 'medium',
+                created=task_ticket.created_at,
+                started=task_ticket.started_at,
+                completed=task_ticket.completed_at,
+                metadata=TaskMetadata(
+                    last_updated=task_ticket.updated_at,
+                ),
+                depends_on=[],
+                blocked_by=[],
+                depended_on_by=[],
+                deliverables=[],
+            )
+        else:
+            # v1 format: use legacy loader
+            task = load_task(tasks_path)  # tasks_path is the individual task file for ULIDs
     else:
         # For legacy format, load all tasks from sprint and find matching one
         tasks = load_tasks(tasks_path)
@@ -493,15 +527,16 @@ def complete_task(
         else:
             print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
-    # Update sprint progress
-    _update_sprint_progress(fs, sprint_id)
+    # Update sprint progress (if sprint_id is known)
+    if sprint_id:
+        _update_sprint_progress(fs, sprint_id)
 
     # Log activity
     logger = ActivityLogger(root_dir)
     logger.log_activity(
         ActivityType.TASK_COMPLETED,
         f"Task '{task.title}' completed",
-        {"task_id": task_id, "sprint_id": sprint_id}
+        {"task_id": task_id, "sprint_id": sprint_id or "unknown"}
     )
 
     # Trigger automatic documentation sync if enabled
@@ -543,13 +578,16 @@ def start_task(
         if not task_path.exists():
             print(f"❌ Task file not found: {task_path}")
             return 1
-        # Get sprint_id from task YAML
+        # Get sprint_id from task YAML (v1) or parent_ref (v2)
         with open(task_path) as f:
             task_data = yaml_mod.safe_load(f)
+        # Try v1 format first (sprint_id), then v2 format (parent_ref)
         sprint_id = task_data.get('task', {}).get('sprint_id')
         if not sprint_id:
-            print(f"❌ Task {task_id} has no sprint_id")
-            return 1
+            sprint_id = task_data.get('task', {}).get('parent_ref')
+        if not sprint_id:
+            # For v2 format tasks without dependencies, sprint_id is optional
+            sprint_id = None
         tasks_path = task_path  # For ULID, the task_path is the file itself
     else:
         # Legacy format: extract sprint ID from task ID (everything before -task-)
@@ -582,8 +620,38 @@ def start_task(
 
     # Load task(s) based on ID format
     if is_ulid:
-        # For ULID, load single task directly from file
-        task = load_task(tasks_path)  # tasks_path is the individual task file for ULIDs
+        # For ULID, check the format version and load appropriately
+        format_version = task_data.get('task', {}).get('format_version', 'v1')
+        if format_version == 'v2':
+            # v2 format: use unified ticket loader, then convert to legacy Task
+            from vibey.roadmap.serialization.yaml_loader import load_task_ticket as yaml_load_task_ticket
+            task_ticket = yaml_load_task_ticket(tasks_path)
+            # Convert TaskTicket to legacy Task for downstream compatibility
+            from vibey.roadmap.models.task import Task, TaskStatus as LegacyTaskStatus, TaskType, TaskMetadata
+            task = Task(
+                id=task_ticket.id,
+                sprint_id=task_ticket.sprint_id or '',
+                track_id=task_ticket.track_id or '',
+                roadmap_id=task_ticket.roadmap_id or 'vibey-framework-v2',
+                task_type=TaskType.DEVELOPMENT,
+                title=task_ticket.name,
+                description=task_ticket.description or '',
+                status=LegacyTaskStatus(task_ticket.status.value),
+                priority=task_ticket.priority.value if hasattr(task_ticket.priority, 'value') else 'medium',
+                created=task_ticket.created_at,
+                started=task_ticket.started_at,
+                completed=task_ticket.completed_at,
+                metadata=TaskMetadata(
+                    last_updated=task_ticket.updated_at,
+                ),
+                depends_on=[],
+                blocked_by=[],
+                depended_on_by=[],
+                deliverables=[],
+            )
+        else:
+            # v1 format: use legacy loader
+            task = load_task(tasks_path)  # tasks_path is the individual task file for ULIDs
     else:
         # For legacy format, load all tasks from sprint and find matching one
         tasks = load_tasks(tasks_path)
@@ -646,15 +714,16 @@ def start_task(
         else:
             print(f"  ⚠️  Failed to update dependent: {dependent_id}")
 
-    # Update sprint progress
-    _update_sprint_progress(fs, sprint_id)
+    # Update sprint progress (if sprint_id is known)
+    if sprint_id:
+        _update_sprint_progress(fs, sprint_id)
 
     # Log activity
     logger = ActivityLogger(root_dir)
     logger.log_activity(
         ActivityType.TASK_STARTED,
         f"Task '{task.title}' started",
-        {"task_id": task_id, "sprint_id": sprint_id}
+        {"task_id": task_id, "sprint_id": sprint_id or "unknown"}
     )
 
     return 0

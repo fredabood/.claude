@@ -740,14 +740,38 @@ class QueryTicketLoader:
     def _load_uncached(self, ticket_id: str) -> HierarchicalTicket:
         """Load ticket without caching."""
         # Determine ticket type from ID pattern
+        # Check for legacy slug-based task IDs (contain '-task-')
         if '-task-' in ticket_id:
             return self._load_task_as_ticket(ticket_id)
+        # Check for ULID-based task IDs (26-char alphanumeric, file exists in tasks dir)
+        elif self._is_ulid_task_id(ticket_id):
+            return self._load_ulid_task_as_ticket(ticket_id)
         elif self._is_sprint_id(ticket_id):
             return self._load_sprint_as_ticket(ticket_id)
         elif self._is_track_id(ticket_id):
             return self._load_track_as_ticket(ticket_id)
         else:
             return self._load_roadmap_as_ticket(ticket_id)
+
+    def _is_ulid_task_id(self, ticket_id: str) -> bool:
+        """Check if ID is a ULID-based task ID."""
+        # ULIDs are 26-char alphanumeric starting with 01
+        if len(ticket_id) != 26 or not ticket_id.isalnum() or not ticket_id.startswith('01'):
+            return False
+        # Check if task file exists in flat tasks directory
+        task_path = self.fs.roadmap_root / "tasks" / f"{ticket_id}.yaml"
+        return task_path.exists()
+
+    def _load_ulid_task_as_ticket(self, task_id: str) -> TaskTicket:
+        """Load a ULID-based task from flat directory and convert to TaskTicket."""
+        from vibey.roadmap.serialization.yaml_loader import load_task_ticket as yaml_load_task_ticket
+
+        task_path = self.fs.roadmap_root / "tasks" / f"{task_id}.yaml"
+        if not task_path.exists():
+            raise ValueError(f"Task not found: {task_id}")
+
+        # Load task using v2 loader which handles flat YAML format
+        return yaml_load_task_ticket(task_path)
 
     def _is_sprint_id(self, ticket_id: str) -> bool:
         """Check if ID looks like a sprint ID."""

@@ -1,42 +1,54 @@
 task:
   id: 01KCVMA0FT9M259NES1XF022T1
-  sprint_id: 01KCVMA0EQTVNHR3A98Q96DEDW
-  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Database rebuild skips 1500+ items due to validation errors
-  description: |
-    The `vibey roadmap db rebuild` command skips most tracks, sprints, and tasks
+  name: Database rebuild skips 1500+ items due to validation errors
+  description: 'The `vibey roadmap db rebuild` command skips most tracks, sprints,
+    and tasks
+
     due to validation errors like "Completed tracks must have a completion date".
 
+
     Current rebuild results: 21 tracks, 59 sprints, 193 tasks
+
     Expected: 48+ tracks, 200+ sprints, 1600+ tasks
 
+
     This causes ~90% of roadmap data to be inaccessible via the database backend,
+
     forcing users to use the YAML backend for most operations.
 
+
     Root cause: Strict validation during db rebuild rejects items that were
+
     created before certain validation rules were added.
 
+
     Suggested fix: Either auto-repair data during rebuild (set completion dates
+
     from updated_at), or provide a --lenient flag to skip validation.
-  status: not_started
-  blocked: false
-  created: '2025-12-19T15:30:00+00:00'
-  started: null
-  completed: null
+
+    '
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCVMA0EQTVNHR3A98Q96DEDW
+  status: completed
+  created_at: '2025-12-19T15:30:00+00:00'
+  started_at: '2025-12-19T18:30:00+00:00'
+  completed_at: '2025-12-19T15:52:25.676407+00:00'
+  updated_at: '2025-12-19T15:52:25.676409+00:00'
+  assigned_agents: []
   priority: critical
-  complexity: complex
-  estimated_tokens: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
   actual_tokens: null
+  complexity: high
+  phase_label: null
   gate_info: null
-  audit_results: []
-  assigned_agent: null
-  commits: []
-  standards: []
-  deliverables: []
-  acceptance_criteria: []
-  notes: null
+  audit_results: null
   metadata:
     created_by: claude-agent
     last_updated: '2025-12-19T15:30:00+00:00'

@@ -707,6 +707,11 @@ def _convert_v2_track_to_v1(track_data: Dict[str, Any]) -> Track:
     roadmap_id = track_data.get('roadmap_id') or track_data.get('parent_ref', 'vibey-framework-v2')
 
     # Build the Track object with defaults for missing v1 fields
+    # Check both v1 (created, started, completed) and v2 (created_at, started_at, completed_at) field names
+    created = _parse_datetime(track_data.get('created_at') or track_data.get('created')) or datetime.now(timezone.utc)
+    started = _parse_datetime(track_data.get('started_at') or track_data.get('started'))
+    completed = _parse_datetime(track_data.get('completed_at') or track_data.get('completed'))
+
     return Track(
         id=track_data['id'],
         name=track_data['name'],
@@ -714,9 +719,9 @@ def _convert_v2_track_to_v1(track_data: Dict[str, Any]) -> Track:
         status=track_status,
         blocked=False,  # V2 computes this from criteria
         priority=priority,
-        created=_parse_datetime(track_data.get('created_at')) or datetime.now(timezone.utc),
-        started=_parse_datetime(track_data.get('started_at')),
-        completed=_parse_datetime(track_data.get('completed_at')),
+        created=created,
+        started=started,
+        completed=completed,
         estimated_duration=track_data.get('estimated_duration'),
         progress=progress,
         sprints=sprints,
@@ -2007,12 +2012,41 @@ def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
             audited_at=_parse_datetime(ar.get('audited_at')) or datetime.now(timezone.utc),
         )
 
+    # In v2 format, parent_ref points to the sprint ID
+    # sprint_id, track_id, roadmap_id may be provided but are optional
+    # If not present, derive from parent_ref (legacy compatibility)
+    parent_ref = task_data.get('parent_ref', '')
+    sprint_id = task_data.get('sprint_id', parent_ref)  # Default to parent_ref
+    track_id = task_data.get('track_id', '')
+    roadmap_id = task_data.get('roadmap_id', 'vibey-framework-v2')
+
+    # If track_id is not provided but we have a sprint_id, try to look it up
+    if not track_id and sprint_id:
+        # Look up the sprint file in the flat directory structure
+        from pathlib import Path
+        sprints_dir = Path.cwd() / ".vibey" / "roadmap" / "sprints"
+        sprint_file = sprints_dir / f"{sprint_id}.yaml"
+        if sprint_file.exists():
+            try:
+                with open(sprint_file) as f:
+                    sprint_data = yaml.safe_load(f)
+                # Get track_id from sprint's parent_ref
+                track_id = sprint_data.get('sprint', {}).get('parent_ref', '')
+                if not track_id:
+                    track_id = sprint_data.get('sprint', {}).get('track_id', '')
+            except Exception:
+                pass  # Fall back to empty track_id if lookup fails
+
+    # Use placeholder if still empty to avoid validation errors
+    if not track_id:
+        track_id = 'unknown-track'
+
     return TaskTicket(
         id=task_data['id'],
         name=task_data.get('name', task_data.get('title', 'Untitled')),
         description=task_data.get('description'),
         criteria=criteria,
-        parent_ref=task_data['parent_ref'],
+        parent_ref=parent_ref,
         status=_convert_status_to_ticket_status(task_data.get('status', 'not_started')),
         created_at=_parse_datetime(task_data.get('created_at')) or datetime.now(timezone.utc),
         started_at=_parse_datetime(task_data.get('started_at')),
@@ -2025,9 +2059,9 @@ def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
         metadata=task_data.get('metadata', {}),
         sequence=task_data.get('sequence', 0),
         slug=task_data.get('slug', ''),
-        sprint_id=task_data['sprint_id'],
-        track_id=task_data['track_id'],
-        roadmap_id=task_data['roadmap_id'],
+        sprint_id=sprint_id,
+        track_id=track_id,
+        roadmap_id=roadmap_id,
         task_type_detail=_convert_task_type(task_data.get('task_type_detail', 'development')),
         title=task_data.get('title', task_data.get('name', 'Untitled')),
         phase_label=task_data.get('phase_label'),

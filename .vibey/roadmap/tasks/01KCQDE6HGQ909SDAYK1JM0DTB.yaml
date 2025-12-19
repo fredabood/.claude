@@ -1,36 +1,35 @@
 task:
   id: 01KCQDE6HGQ909SDAYK1JM0DTB
-  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
-  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Implement commit message template system with Task/Completes markers
+  name: Implement commit message template system with Task/Completes markers
   description: 'Create templated git commit message format with both Task: (work reference)
     and Completes: (completion claim) markers. Implement vibey git setup-template
     command that configures .git/commit-template. Template shows in-progress tasks
     as hints. Task: creates TicketCommitLink with reference_type=TASK_REFERENCE, Completes:
     creates with reference_type=COMPLETION_CLAIM. Source: Sprint 0 Design Decisions
     (Integrated Architecture)'
-  status: not_started
-  blocked: false
-  created: '2025-12-18T00:00:00+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
+  status: completed
+  created_at: '2025-12-18T00:00:00+00:00'
+  started_at: null
+  completed_at: '2025-12-19T17:35:22.868743+00:00'
+  updated_at: '2025-12-19T17:35:22.868744+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

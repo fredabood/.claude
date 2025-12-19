@@ -1,6 +1,6 @@
 task:
   id: 01KCT1AQY3T5S28E0ACSQT49ZT
-  sprint_id: dogfooding-bugs-22
+  sprint_id: 01KCPTCV2GCHCXB2E354DY4EZA
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
@@ -27,17 +27,8 @@ task:
   depends_on: []
   depended_on_by: []
   deliverables: []
-  commits:
-  - sha: d8d6410a49de8b80e126c5ee59cd80f1c0973ade
-    message: 'refactor(roadmap): Reorganize platform compatibility tracks'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-12-19T09:09:39-05:00'
-  - sha: 49f8b199357e69a296c93d39a8c0339b1799f814
-    message: 'fix(01KCN6FFXGFXZRP876Q4GKMAF1): Update add-commit command to accept
-      ULID task IDs'
-    author: '@fredabood <fredabood@gmail.com>'
-    date: '2025-12-19T10:07:19-05:00'
+  commits: []
   metadata:
-    last_updated: '2025-12-19T15:07:38.901730+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

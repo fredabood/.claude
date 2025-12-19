@@ -1546,6 +1546,35 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
 
     tasks = []
     for task_data in tasks_data:
+        # Handle v2 format: map parent_ref to sprint_id and name to title
+        if 'parent_ref' in task_data and 'sprint_id' not in task_data:
+            task_data['sprint_id'] = task_data['parent_ref']
+        if 'name' in task_data and 'title' not in task_data:
+            task_data['title'] = task_data['name']
+        # Handle v2 date fields: created_at/started_at/completed_at -> created/started/completed
+        if 'created_at' in task_data and 'created' not in task_data:
+            task_data['created'] = task_data['created_at']
+        if 'started_at' in task_data and 'started' not in task_data:
+            task_data['started'] = task_data['started_at']
+        if 'completed_at' in task_data and 'completed' not in task_data:
+            task_data['completed'] = task_data['completed_at']
+        # Handle v2 format: derive track_id from sprint if not present
+        if 'track_id' not in task_data and task_data.get('sprint_id'):
+            sprint_id = task_data['sprint_id']
+            sprints_dir = Path.cwd() / ".vibey" / "roadmap" / "sprints"
+            sprint_file = sprints_dir / f"{sprint_id}.yaml"
+            if sprint_file.exists():
+                try:
+                    with open(sprint_file) as sf:
+                        sprint_data = yaml.safe_load(sf)
+                    task_data['track_id'] = sprint_data.get('sprint', {}).get('parent_ref', '')
+                    if not task_data['track_id']:
+                        task_data['track_id'] = sprint_data.get('sprint', {}).get('track_id', '')
+                except Exception:
+                    task_data['track_id'] = ''
+            else:
+                task_data['track_id'] = ''
+
         # Parse gate info if present (backward compatible with field name variations)
         gate_info = None
         if 'gate_info' in task_data and task_data['gate_info']:

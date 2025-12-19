@@ -1,36 +1,35 @@
 task:
   id: 01KCMNCZS970T6MSXDY2CZA2YH
-  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
-  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Implement relationship entity models (Triangle Model)
+  name: Implement relationship entity models (Triangle Model)
   description: 'Implement three relationship entities that integrate with Unified
     Ticket Architecture: 1) TicketCommitLink (Ticket <-> GitCommit), 2) TicketArtifactAssociation
     (Ticket <-> Artifact), 3) CommitArtifactChange (GitCommit <-> Artifact). Include
     enums for ReferenceType, AssociationSource, ChangeType and signal models for link
     detection. Location: vibey/roadmap/models/relationships.py. Source: Sprint 0 Design
     Decisions (Integrated Architecture)'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T22:44:54.243621+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
+  status: completed
+  created_at: '2025-12-16T22:44:54.243621+00:00'
+  started_at: null
+  completed_at: '2025-12-19T17:35:22.151973+00:00'
+  updated_at: '2025-12-19T17:35:22.151974+00:00'
+  assigned_agents:
+  - unassigned
   priority: critical
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: high
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

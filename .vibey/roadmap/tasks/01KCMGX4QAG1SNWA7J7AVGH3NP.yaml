@@ -1,32 +1,31 @@
 task:
   id: 01KCMGX4QAG1SNWA7J7AVGH3NP
-  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
-  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-  roadmap_id: vibey-framework-v2
-  task_type: testing
-  title: Test and document context CLI commands
+  name: Test and document context CLI commands
   description: 'Test all context commands (init, list, show, export, sync, archive,
     clean) and document behavior. Source: Context Engineering Gaps'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T21:26:20.674257+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
+  status: completed
+  created_at: '2025-12-16T21:26:20.674257+00:00'
+  started_at: null
+  completed_at: '2025-12-19T17:35:24.707791+00:00'
+  updated_at: '2025-12-19T17:35:24.707792+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: testing
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

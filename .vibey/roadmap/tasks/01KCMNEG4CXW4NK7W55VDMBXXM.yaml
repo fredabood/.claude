@@ -1,34 +1,33 @@
 task:
   id: 01KCMNEG4CXW4NK7W55VDMBXXM
-  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
-  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Add post-mortem generation for completed tasks
+  name: Add post-mortem generation for completed tasks
   description: 'Implement automatic or prompted post-mortem generation when tasks
     complete. Post-mortem captures: what the model thinks it accomplished, files changed,
     key decisions made, lessons learned. Stored as part of ticket context. Source:
     User feedback'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T22:45:43.726929+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
+  status: completed
+  created_at: '2025-12-16T22:45:43.726929+00:00'
+  started_at: null
+  completed_at: '2025-12-19T17:35:23.936023+00:00'
+  updated_at: '2025-12-19T17:35:23.936025+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

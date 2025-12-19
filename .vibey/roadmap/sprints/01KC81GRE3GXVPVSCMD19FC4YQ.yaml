@@ -11,7 +11,7 @@ sprint:
   completion_gate_check_at: null
   completed: '2025-12-12T12:39:00+00:00'
   production_gate_check_at: null
-  production_ready_at: '2025-12-19T15:51:05.648119+00:00'
+  production_ready_at: '2025-12-12T12:39:00+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 0

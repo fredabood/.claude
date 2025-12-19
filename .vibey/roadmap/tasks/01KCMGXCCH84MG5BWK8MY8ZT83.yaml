@@ -1,32 +1,31 @@
 task:
   id: 01KCMGXCCH84MG5BWK8MY8ZT83
-  sprint_id: 01KCMTY669JGT3WYPZB78ATWBT
-  track_id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Add context freshness tracking
+  name: Add context freshness tracking
   description: 'Add context age tracking and refresh prompts for stale context. Source:
     Context Engineering Gaps 4'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T21:26:28.519900+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTY669JGT3WYPZB78ATWBT
+  status: completed
+  created_at: '2025-12-16T21:26:28.519900+00:00'
+  started_at: null
+  completed_at: '2025-12-19T17:35:25.417523+00:00'
+  updated_at: '2025-12-19T17:35:25.417523+00:00'
+  assigned_agents:
+  - unassigned
   priority: medium
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

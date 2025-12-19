@@ -10,8 +10,8 @@ sprint:
   started: '2025-12-12T05:13:00+00:00'
   completion_gate_check_at: null
   completed: '2025-12-12T05:29:00+00:00'
-  production_gate_check_at: '2025-12-19T15:52:52.474490+00:00'
-  production_ready_at: '2025-12-19T15:54:10.762846+00:00'
+  production_gate_check_at: null
+  production_ready_at: '2025-12-12T05:29:00+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 2

@@ -508,6 +508,21 @@ def unlink_artifact_from_ticket(
     return True
 
 
+def artifacts_for_ticket(ticket_id: str, root_dir: Path) -> List[Artifact]:
+    """
+    List artifacts referenced by a specific ticket.
+
+    Args:
+        ticket_id: ID of the ticket (task, sprint, or track)
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of Artifact objects referenced by the ticket
+    """
+    registry = _load_artifact_registry(root_dir)
+    return [a for a in registry.values() if ticket_id in a.referenced_by]
+
+
 # Export for convenient importing
 __all__ = [
     # Core operations
@@ -522,6 +537,7 @@ __all__ = [
     'delete_artifact',
     'link_artifact_to_ticket',
     'unlink_artifact_from_ticket',
+    'artifacts_for_ticket',
     # Utilities
     'generate_artifact_id',
 ]

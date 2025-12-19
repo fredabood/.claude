@@ -129,19 +129,22 @@ vibey <command> --help
 
 
 **Artifact**
-1. [`vibey artifact`](#vibey-artifact) - 
+1. [`vibey artifact`](#vibey-artifact) -
 Manage artifacts - first-class file-based entities.
 
 Artifacts are registered files that can be tracked, linked to tickets,
 and monitored for stalene...
 2. [`vibey artifact adopt`](#vibey-artifact-adopt) - Register an existing file as an artifact.
 3. [`vibey artifact delete`](#vibey-artifact-delete) - Delete an artifact from the registry (does not delete files).
-4. [`vibey artifact impact`](#vibey-artifact-impact) - Show tickets affected by changes to given files.
-5. [`vibey artifact list`](#vibey-artifact-list) - List all registered artifacts.
-6. [`vibey artifact orphans`](#vibey-artifact-orphans) - Show artifacts not referenced by any ticket.
-7. [`vibey artifact refresh`](#vibey-artifact-refresh) - Refresh content hashes for all artifacts.
-8. [`vibey artifact show`](#vibey-artifact-show) - Show details of a specific artifact.
-9. [`vibey artifact stale`](#vibey-artifact-stale) - Show stale documentation artifacts.
+4. [`vibey artifact for-task`](#vibey-artifact-for-task) - List artifacts linked to a specific task.
+5. [`vibey artifact impact`](#vibey-artifact-impact) - Show tickets affected by changes to given files.
+6. [`vibey artifact link`](#vibey-artifact-link) - Link an artifact to a task.
+7. [`vibey artifact list`](#vibey-artifact-list) - List all registered artifacts.
+8. [`vibey artifact orphans`](#vibey-artifact-orphans) - Show artifacts not referenced by any ticket.
+9. [`vibey artifact refresh`](#vibey-artifact-refresh) - Refresh content hashes for all artifacts.
+10. [`vibey artifact show`](#vibey-artifact-show) - Show details of a specific artifact.
+11. [`vibey artifact stale`](#vibey-artifact-stale) - Show stale documentation artifacts.
+12. [`vibey artifact unlink`](#vibey-artifact-unlink) - Unlink an artifact from a task.
 
 **Audit**
 10. [`vibey audit`](#vibey-audit) - 
@@ -687,22 +690,32 @@ Shows all Vibey tags (sprint boundaries, task markers) with filtering options.
 Examples:
 
   vibey git tags                ...
-105. [`vibey git tasks`](#vibey-git-tasks) - 
+105. [`vibey git tasks`](#vibey-git-tasks) -
 Show commits for a specific task.
 
 Lists all commits that reference the specified task ID, including
 commit details, contributors, and status changes...
-106. [`vibey git update-status`](#vibey-git-update-status) - 
+106. [`vibey git setup-template`](#vibey-git-setup-template) -
+Install git commit message template with task hints.
+
+Creates a commit template at .vibey/git/commit-template with Task: and
+Completes: markers, and lists in-progress tasks as hints...
+107. [`vibey git refresh-template`](#vibey-git-refresh-template) -
+Refresh the commit message template with current in-progress tasks.
+
+Updates the task hints in the existing commit template without changing
+the git configuration...
+108. [`vibey git update-status`](#vibey-git-update-status) -
 Update task status based on commit messages.
 
 Parses commit messages for status indicators (completes, starts, blocks)
 and automatically updates task...
-107. [`vibey git validate`](#vibey-git-validate) - 
+109. [`vibey git validate`](#vibey-git-validate) -
 Validate git strategy requirements.
 
 Checks that all strategy requirements are satisfied for the current mode.
 This includes branch naming convention...
-108. [`vibey git validate-roadmap`](#vibey-git-validate-roadmap) - 
+110. [`vibey git validate-roadmap`](#vibey-git-validate-roadmap) -
 Validate roadmap YAML files and consistency.
 
 Checks for:
@@ -710,12 +723,12 @@ Checks for:
 - Invalid task/sprint references
 - Git-roadmap consistency
 - Orphaned ...
-109. [`vibey git validate-tags`](#vibey-git-validate-tags) - 
+111. [`vibey git validate-tags`](#vibey-git-validate-tags) -
 Detect dangling tags (pointing to missing commits).
 
 After rebase/squash operations, tags may point to commits that
 no longer exist. This command det...
-110. [`vibey git velocity`](#vibey-git-velocity) - 
+112. [`vibey git velocity`](#vibey-git-velocity) -
 Calculate sprint velocity metrics.
 
 Analyzes commits for a sprint and calculates velocity metrics including
@@ -1402,6 +1415,117 @@ vibey artifact stale [OPTIONS]
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `--format, -f` | Choice(['simple', 'table']) | `table` | Output format |
+
+---
+
+<a id="vibey-artifact-for-task"></a>
+
+#### `vibey artifact for-task`
+
+List artifacts linked to a specific task.
+
+Shows all artifacts that have been associated with the given task ID.
+
+**Usage:**
+```bash
+vibey artifact for-task TASK_ID [OPTIONS]
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `TASK_ID` | The task ID to list artifacts for |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--format, -f` | Choice(['table', 'json', 'simple']) | `table` | Output format |
+
+**Examples:**
+
+```bash
+vibey artifact for-task 01KC2D0JK7READW9KAK1
+```
+
+```bash
+vibey artifact for-task task-id --format json
+```
+
+---
+
+<a id="vibey-artifact-link"></a>
+
+#### `vibey artifact link`
+
+Link an artifact to a task.
+
+Associates the artifact with the specified task, enabling tracking of which artifacts are relevant to each task.
+
+**Usage:**
+```bash
+vibey artifact link ARTIFACT_ID --task TASK_ID
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `ARTIFACT_ID` | The artifact ID to link |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--task, -t` | TEXT | (required) | Task ID to link artifact to |
+
+**Examples:**
+
+```bash
+vibey artifact link 01KC2D0JK9JKQXGQW6 --task 01KC2D0JK7READW9KAK1
+```
+
+```bash
+vibey artifact link artifact-id -t task-id
+```
+
+---
+
+<a id="vibey-artifact-unlink"></a>
+
+#### `vibey artifact unlink`
+
+Unlink an artifact from a task.
+
+Removes the association between the artifact and the specified task.
+
+**Usage:**
+```bash
+vibey artifact unlink ARTIFACT_ID --task TASK_ID
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `ARTIFACT_ID` | The artifact ID to unlink |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--task, -t` | TEXT | (required) | Task ID to unlink artifact from |
+
+**Examples:**
+
+```bash
+vibey artifact unlink 01KC2D0JK9JKQXGQW6 --task 01KC2D0JK7READW9KAK1
+```
+
+```bash
+vibey artifact unlink artifact-id -t task-id
+```
 
 ---
 
@@ -5490,6 +5614,68 @@ vibey git tasks git-integration-1-task-001
 
 ```bash
 vibey git tasks task-001 --format json
+```
+
+---
+
+<a id="vibey-git-setup-template"></a>
+
+#### `vibey git setup-template`
+
+Install git commit message template with task hints.
+
+Creates a commit template at .vibey/git/commit-template with Task: and
+Completes: markers, and lists in-progress tasks as hints. Configures git to
+use this template for commit messages.
+
+**Usage:**
+```bash
+vibey git setup-template [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--repo` | Path(exists, file, dir) | `.` | Path to git repository |
+| `--force` | flag | `False` | Overwrite existing template |
+
+**Examples:**
+
+```bash
+vibey git setup-template              # Install template
+```
+
+```bash
+vibey git setup-template --force      # Overwrite existing template
+```
+
+---
+
+<a id="vibey-git-refresh-template"></a>
+
+#### `vibey git refresh-template`
+
+Refresh the commit message template with current in-progress tasks.
+
+Updates the task hints in the existing commit template without changing the
+git configuration. Run this after starting new tasks to update the hints.
+
+**Usage:**
+```bash
+vibey git refresh-template [OPTIONS]
+```
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--repo` | Path(exists, file, dir) | `.` | Path to git repository |
+
+**Examples:**
+
+```bash
+vibey git refresh-template            # Refresh template hints
 ```
 
 ---

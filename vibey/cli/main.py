@@ -4218,6 +4218,181 @@ def artifact_for_task(ctx, task_id: str, output_format: str):
 
 
 # ============================================================================
+# Artifact History Command (Context System V2)
+# ============================================================================
+
+@artifact.command('history')
+@click.argument('artifact_path')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_history(ctx, artifact_path: str, output_format: str):
+    """Show all commits that changed an artifact.
+
+    Uses CommitArtifactChange records from the Context System V2 to show
+    the complete commit history for a file.
+
+    Examples:
+      vibey artifact history vibey/cli/main.py
+      vibey artifact history src/models.py --format json
+    """
+    from vibey.cli.commands.relationship import artifact_history_cmd
+
+    exit_code = artifact_history_cmd(artifact_path, output_format)
+    sys.exit(exit_code)
+
+
+# ============================================================================
+# Task Relationship Commands (Context System V2)
+# ============================================================================
+
+@roadmap.group('task')
+@click.pass_context
+def roadmap_task(ctx):
+    """
+    Manage task relationships with artifacts and commits.
+
+    Commands for linking tasks to artifacts and commits, viewing
+    relationships, and managing the triangle model.
+
+    The Triangle Model links:
+    - Tickets (tasks) <-> Artifacts (files)
+    - Tickets (tasks) <-> Commits (git)
+    - Commits <-> Artifacts
+
+    Examples:
+
+      vibey roadmap task add-artifact <task-id> <path>  # Associate artifact
+      vibey roadmap task artifacts <task-id>            # List artifacts
+      vibey roadmap task commits <task-id>              # List commits
+      vibey roadmap task link-commit <task-id> <sha>    # Link commit
+    """
+    pass
+
+
+@roadmap_task.command('add-artifact')
+@click.argument('task_id')
+@click.argument('artifact_path')
+@click.option('--no-create', is_flag=True, help='Do not create artifact if missing')
+@click.pass_context
+def task_add_artifact(ctx, task_id: str, artifact_path: str, no_create: bool):
+    """Associate an artifact with a task.
+
+    Creates a TicketArtifactAssociation with source=manual.
+    If the artifact doesn't exist in the registry, it will be created
+    unless --no-create is specified.
+
+    Examples:
+      vibey roadmap task add-artifact 01KC2D0JK7READW9KAK1HBX4B8 vibey/cli/main.py
+      vibey roadmap task add-artifact task-id src/models.py --no-create
+    """
+    from vibey.cli.commands.relationship import task_add_artifact_cmd
+
+    exit_code = task_add_artifact_cmd(task_id, artifact_path, create_if_missing=not no_create)
+    sys.exit(exit_code)
+
+
+@roadmap_task.command('artifacts')
+@click.argument('task_id')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json']),
+              default='table', help='Output format')
+@click.pass_context
+def task_artifacts(ctx, task_id: str, output_format: str):
+    """List all artifacts associated with a task.
+
+    Shows artifact details, association source, and when the
+    association was created.
+
+    Examples:
+      vibey roadmap task artifacts 01KC2D0JK7READW9KAK1HBX4B8
+      vibey roadmap task artifacts task-id --format json
+    """
+    from vibey.cli.commands.relationship import task_artifacts_cmd
+
+    exit_code = task_artifacts_cmd(task_id, output_format)
+    sys.exit(exit_code)
+
+
+@roadmap_task.command('commits')
+@click.argument('task_id')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json']),
+              default='table', help='Output format')
+@click.pass_context
+def task_commits(ctx, task_id: str, output_format: str):
+    """List all commits linked to a task.
+
+    Shows reference type (task_reference or completion_claim),
+    confidence score, link source, and commit details.
+
+    Examples:
+      vibey roadmap task commits 01KC2D0JK7READW9KAK1HBX4B8
+      vibey roadmap task commits task-id --format json
+    """
+    from vibey.cli.commands.relationship import task_commits_cmd
+
+    exit_code = task_commits_cmd(task_id, output_format)
+    sys.exit(exit_code)
+
+
+@roadmap_task.command('link-commit')
+@click.argument('task_id')
+@click.argument('commit_sha')
+@click.option('--type', '-t', 'reference_type',
+              type=click.Choice(['task_reference', 'completion_claim']),
+              default='task_reference', help='Type of reference')
+@click.pass_context
+def task_link_commit(ctx, task_id: str, commit_sha: str, reference_type: str):
+    """Manually link a commit to a task.
+
+    Creates a TicketCommitLink with source=manual and confidence=1.0.
+
+    Reference types:
+      task_reference   - Commit is related work on the task
+      completion_claim - Commit claims to complete the task
+
+    Examples:
+      vibey roadmap task link-commit 01KC2D0JK7READW9KAK1HBX4B8 abc123
+      vibey roadmap task link-commit task-id def456 --type completion_claim
+    """
+    from vibey.cli.commands.relationship import task_link_commit_cmd
+
+    exit_code = task_link_commit_cmd(task_id, commit_sha, reference_type)
+    sys.exit(exit_code)
+
+
+# ============================================================================
+# Validate Triangle Command (Context System V2)
+# ============================================================================
+
+@roadmap.command('validate-triangle')
+@click.option('--task-id', '-t', help='Validate specific task (default: all tasks)')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed validation output')
+@click.pass_context
+def validate_triangle(ctx, task_id: Optional[str], verbose: bool):
+    """Validate consistency across all three relationship edges.
+
+    The Triangle Model connects:
+    - Tickets <-> Artifacts (TicketArtifactAssociation)
+    - Tickets <-> Commits (TicketCommitLink)
+    - Commits <-> Artifacts (CommitArtifactChange)
+
+    This command checks for:
+    - Orphaned associations (artifacts associated but never touched by commits)
+    - Undocumented changes (artifacts changed but not associated)
+    - Empty commits (commits with no artifact changes recorded)
+
+    Examples:
+      vibey roadmap validate-triangle                    # Validate all tasks
+      vibey roadmap validate-triangle -t 01KC2D0JK7READW9 # Validate one task
+      vibey roadmap validate-triangle --verbose           # Detailed output
+    """
+    from vibey.cli.commands.relationship import validate_triangle_cmd
+
+    exit_code = validate_triangle_cmd(task_id, verbose)
+    sys.exit(exit_code)
+
+
+# ============================================================================
 # Auth Commands (vibey auth)
 # ============================================================================
 

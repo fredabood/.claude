@@ -208,6 +208,23 @@ from vibey.roadmap.models.ticket.adapters import (
     ModelAdapter,
 )
 
+from vibey.roadmap.models.ticket.relationships import (
+    # Enums
+    ReferenceType,
+    ChangeType,
+    AssociationSource,
+    LinkSource,
+    # Signal models
+    FileOverlapSignal,
+    MessageRefSignal,
+    ManualSignal,
+    LinkSignals,
+    # Relationship entities
+    TicketCommitLink,
+    TicketArtifactAssociation,
+    CommitArtifactChange,
+)
+
 __all__ = [
     # Enums - Ticket lifecycle
     "TicketStatus",
@@ -335,4 +352,18 @@ __all__ = [
     "extract_deliverable_paths",
     # Adapters - Main class
     "ModelAdapter",
+    # Relationship enums
+    "ReferenceType",
+    "ChangeType",
+    "AssociationSource",
+    "LinkSource",
+    # Relationship signal models
+    "FileOverlapSignal",
+    "MessageRefSignal",
+    "ManualSignal",
+    "LinkSignals",
+    # Relationship entities
+    "TicketCommitLink",
+    "TicketArtifactAssociation",
+    "CommitArtifactChange",
 ]

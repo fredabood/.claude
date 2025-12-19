@@ -1,0 +1,74 @@
+# Git Hooks Configuration for Vibey Repository
+# This file configures the unified pre-commit hook with triangle validation.
+#
+# Task: 01KCMNDFWS0C2N2FJJBZRR3FC8
+# Track: Context System V2
+# Sprint: Sprint 2: Context Implementation
+
+pre_commit:
+  # Master switch for the pre-commit hook
+  enabled: true
+
+  # Phase 2: Artifact/file consistency (triangle validation)
+  artifact_consistency:
+    # Overall mode for artifact checks
+    # off - Check skipped entirely
+    # warn - Show issues, commit proceeds
+    # prompt - Show issues, ask user for resolution (interactive)
+    # strict - Block commit until resolved
+    mode: prompt
+
+    # Specific behaviors for mismatches
+    on_mismatch:
+      # Files in commit but not in ticket's artifact associations
+      # Detected: Staged files that aren't associated with the referenced ticket
+      # Action: prompt user to add them or proceed anyway
+      staged_not_in_associations: prompt  # ignore | warn | prompt | block
+
+      # Files in ticket's associations but not in commit
+      # This is normal - not all files change every commit
+      # Usually informational only
+      associations_not_in_staged: ignore  # ignore | warn
+
+      # Staged files that aren't associated with ANY referenced task
+      # Suggests the commit might need additional Task: references
+      no_task_ref: warn  # ignore | warn | prompt | block
+
+  # Phase 3: Completion verification
+  completion_verification:
+    # Mode for Completes: claims
+    # off - Skip verification (not recommended)
+    # warn - Show warnings only
+    # strict - Block commit if criteria unmet
+    mode: strict
+
+    # Block commit if Completes: claimed but criteria unmet
+    block_on_unmet_criteria: true
+
+    # Show progress for each unmet criterion
+    show_criteria_progress: true
+
+  # Commit message template configuration
+  template:
+    # Automatically install .gitmessage template
+    auto_install: true
+
+    # Path to template file
+    path: .gitmessage
+
+    # Configure git to use template
+    configure_git: true
+
+  # Output formatting
+  output:
+    # Use colors in terminal output
+    use_colors: true
+
+    # Show detailed artifact paths in validation output
+    show_artifact_paths: true
+
+    # Verbosity level
+    # quiet - Minimal output
+    # normal - Standard output
+    # verbose - Detailed output
+    verbosity: normal

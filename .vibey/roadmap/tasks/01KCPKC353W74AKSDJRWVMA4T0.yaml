@@ -9,11 +9,11 @@ task:
     status should automatically update from not_started to in_progress. Currently
     the track remains not_started even though it has an in_progress sprint. Reproduce:
     Start a sprint in a not_started track, observe track status remains not_started.'
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-17T16:47:56.595855+00:00'
-  started: null
-  completed: null
+  started: '2025-12-19T15:06:19.819804+00:00'
+  completed: '2025-12-19T15:07:16.000000+00:00'
   assigned_agent: unassigned
   priority: high
   phase_label: null

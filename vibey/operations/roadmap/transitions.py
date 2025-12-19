@@ -339,6 +339,47 @@ def can_transition(
         return False, [f"Failed to load {entity_type}: {str(e)}"]
 
 
+def _auto_start_parent_track(root_dir: Path, sprint_ticket) -> dict:
+    """
+    Auto-start parent track when a sprint is started or completed.
+
+    If the parent track is in not_started status, automatically transition
+    it to in_progress. This ensures the track status reflects that work
+    has begun on at least one sprint.
+
+    Args:
+        root_dir: Project root directory
+        sprint_ticket: The SprintTicket that was just started/completed
+
+    Returns:
+        Dict with parent track info if updated, empty dict otherwise
+    """
+    result = {}
+
+    # Get parent track ID from sprint
+    track_id = getattr(sprint_ticket, 'track_id', None) or getattr(sprint_ticket, 'parent_ref', None)
+    if not track_id:
+        return result
+
+    try:
+        # Load parent track
+        track_ticket = load_track_ticket(root_dir, track_id)
+
+        # Only auto-start if track is not_started
+        if track_ticket.status == TicketStatus.NOT_STARTED:
+            updated_track = transition_track(track_id, TicketStatus.IN_PROGRESS, root_dir)
+            result = {
+                'parent_track_id': updated_track.id,
+                'parent_track_status': updated_track.status.value,
+                'parent_track_auto_started': True,
+            }
+    except (FileNotFoundError, TransitionBlockedError):
+        # Parent track not found or can't be transitioned - ignore silently
+        pass
+
+    return result
+
+
 def start_item(
     root_dir: Path,
     item_id: str,
@@ -353,6 +394,9 @@ def start_item(
 
     Supports both ULID and slug-based IDs through FileSystemManager resolution.
 
+    When starting a sprint, automatically starts the parent track if it's
+    in not_started status (Bug fix: 01KCPKC353W74AKSDJRWVMA4T0).
+
     Args:
         root_dir: Project root directory
         item_id: ULID or slug of item to start
@@ -360,6 +404,7 @@ def start_item(
 
     Returns:
         Dict with updated item info: {'id': str, 'status': str, 'type': str}
+        For sprints, may also include parent_track_* keys if parent was auto-started.
 
     Raises:
         TransitionBlockedError: If blocked and force=False
@@ -412,12 +457,19 @@ def start_item(
 
     if item_type == 'task':
         ticket = transition_task(ulid, TicketStatus.IN_PROGRESS, root_dir)
+        return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type}
     elif item_type == 'sprint':
         ticket = transition_sprint(ulid, TicketStatus.IN_PROGRESS, root_dir)
+        result = {'id': ticket.id, 'status': ticket.status.value, 'type': item_type}
+
+        # Auto-start parent track if it's not_started
+        parent_result = _auto_start_parent_track(root_dir, ticket)
+        result.update(parent_result)
+
+        return result
     else:  # track
         ticket = transition_track(ulid, TicketStatus.IN_PROGRESS, root_dir)
-
-    return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type}
+        return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type}
 
 
 def complete_item(
@@ -434,6 +486,9 @@ def complete_item(
 
     Supports both ULID and slug-based IDs through FileSystemManager resolution.
 
+    When completing a sprint, automatically starts the parent track if it's
+    in not_started status (Bug fix: 01KCPWXY40YD70WKT8BSPTXKCP).
+
     Args:
         root_dir: Project root directory
         item_id: ULID or slug of item to complete
@@ -441,6 +496,7 @@ def complete_item(
 
     Returns:
         Dict with updated item info: {'id': str, 'status': str, 'type': str}
+        For sprints, may also include parent_track_* keys if parent was auto-started.
 
     Raises:
         TransitionBlockedError: If blocked by criteria
@@ -493,12 +549,19 @@ def complete_item(
 
     if item_type == 'task':
         ticket = transition_task(ulid, TicketStatus.COMPLETED, root_dir)
+        return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type, 'notes': notes}
     elif item_type == 'sprint':
         ticket = transition_sprint(ulid, TicketStatus.COMPLETED, root_dir)
+        result = {'id': ticket.id, 'status': ticket.status.value, 'type': item_type, 'notes': notes}
+
+        # Auto-start parent track if it's not_started (completing a sprint means work is done)
+        parent_result = _auto_start_parent_track(root_dir, ticket)
+        result.update(parent_result)
+
+        return result
     else:  # track
         ticket = transition_track(ulid, TicketStatus.COMPLETED, root_dir)
-
-    return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type, 'notes': notes}
+        return {'id': ticket.id, 'status': ticket.status.value, 'type': item_type, 'notes': notes}
 
 
 # Export for convenient importing

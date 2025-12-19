@@ -1265,3 +1265,753 @@ def detect_circular_blockers(
         (row["start_type"], row["start_id"], row["current_type"], row["current_id"])
         for row in rows
     ]
+
+
+# =============================================================================
+# CONTEXT SYSTEM V2 - TICKET COMMIT LINKS
+# =============================================================================
+
+
+def create_ticket_commit_link(
+    ticket_id: str,
+    commit_sha: str,
+    reference_type: str,
+    link_source: str,
+    linked_at: Optional[datetime] = None,
+    aggregate_confidence: float = 0.0,
+    file_overlap_signal: Optional[Dict[str, Any]] = None,
+    message_ref_signal: Optional[Dict[str, Any]] = None,
+    manual_signal: Optional[Dict[str, Any]] = None,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Tuple[str, str]:
+    """
+    Create a ticket-commit link.
+
+    Args:
+        ticket_id: The ticket/task ID (ULID)
+        commit_sha: The git commit SHA
+        reference_type: Type of reference (task_reference, completion_claim)
+        link_source: Where the link originated (pre_commit_hook, post_commit, manual)
+        linked_at: When the link was created (defaults to now)
+        aggregate_confidence: Combined confidence score (0.0 to 1.0)
+        file_overlap_signal: JSON for FileOverlapSignal
+        message_ref_signal: JSON for MessageRefSignal
+        manual_signal: JSON for ManualSignal
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Tuple of (ticket_id, commit_sha) as the composite key
+
+    Raises:
+        sqlite3.IntegrityError: If link already exists
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    if linked_at is None:
+        linked_at = datetime.now()
+
+    conn.execute(
+        """
+        INSERT INTO ticket_commit_links (
+            ticket_id, commit_sha, reference_type, aggregate_confidence,
+            linked_at, link_source, file_overlap_signal, message_ref_signal, manual_signal
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            ticket_id,
+            commit_sha,
+            reference_type,
+            aggregate_confidence,
+            _serialize_datetime(linked_at),
+            link_source,
+            _serialize_json(file_overlap_signal),
+            _serialize_json(message_ref_signal),
+            _serialize_json(manual_signal),
+        ),
+    )
+
+    return (ticket_id, commit_sha)
+
+
+def get_ticket_commit_link(
+    ticket_id: str,
+    commit_sha: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Get a specific ticket-commit link.
+
+    Args:
+        ticket_id: The ticket/task ID
+        commit_sha: The git commit SHA
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Link dictionary or None if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    row = conn.execute(
+        "SELECT * FROM ticket_commit_links WHERE ticket_id = ? AND commit_sha = ?",
+        (ticket_id, commit_sha),
+    ).fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "ticket_id": row["ticket_id"],
+        "commit_sha": row["commit_sha"],
+        "reference_type": row["reference_type"],
+        "aggregate_confidence": row["aggregate_confidence"],
+        "linked_at": _deserialize_datetime(row["linked_at"]),
+        "link_source": row["link_source"],
+        "file_overlap_signal": _deserialize_json(row["file_overlap_signal"]),
+        "message_ref_signal": _deserialize_json(row["message_ref_signal"]),
+        "manual_signal": _deserialize_json(row["manual_signal"]),
+    }
+
+
+def get_commits_for_ticket(
+    ticket_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all commits linked to a ticket.
+
+    Args:
+        ticket_id: The ticket/task ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of link dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM ticket_commit_links WHERE ticket_id = ? ORDER BY linked_at DESC",
+        (ticket_id,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "commit_sha": row["commit_sha"],
+            "reference_type": row["reference_type"],
+            "aggregate_confidence": row["aggregate_confidence"],
+            "linked_at": _deserialize_datetime(row["linked_at"]),
+            "link_source": row["link_source"],
+            "file_overlap_signal": _deserialize_json(row["file_overlap_signal"]),
+            "message_ref_signal": _deserialize_json(row["message_ref_signal"]),
+            "manual_signal": _deserialize_json(row["manual_signal"]),
+        }
+        for row in rows
+    ]
+
+
+def get_tickets_for_commit(
+    commit_sha: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all tickets linked to a commit.
+
+    Args:
+        commit_sha: The git commit SHA
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of link dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM ticket_commit_links WHERE commit_sha = ? ORDER BY linked_at DESC",
+        (commit_sha,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "commit_sha": row["commit_sha"],
+            "reference_type": row["reference_type"],
+            "aggregate_confidence": row["aggregate_confidence"],
+            "linked_at": _deserialize_datetime(row["linked_at"]),
+            "link_source": row["link_source"],
+            "file_overlap_signal": _deserialize_json(row["file_overlap_signal"]),
+            "message_ref_signal": _deserialize_json(row["message_ref_signal"]),
+            "manual_signal": _deserialize_json(row["manual_signal"]),
+        }
+        for row in rows
+    ]
+
+
+def delete_ticket_commit_link(
+    ticket_id: str,
+    commit_sha: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a ticket-commit link.
+
+    Args:
+        ticket_id: The ticket/task ID
+        commit_sha: The git commit SHA
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        True if link was deleted, False if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    cursor = conn.execute(
+        "DELETE FROM ticket_commit_links WHERE ticket_id = ? AND commit_sha = ?",
+        (ticket_id, commit_sha),
+    )
+
+    return cursor.rowcount > 0
+
+
+# =============================================================================
+# CONTEXT SYSTEM V2 - TICKET ARTIFACT ASSOCIATIONS
+# =============================================================================
+
+
+def create_ticket_artifact_association(
+    ticket_id: str,
+    artifact_id: str,
+    association_source: str,
+    added_at: Optional[datetime] = None,
+    added_by: Optional[str] = None,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Tuple[str, str]:
+    """
+    Create a ticket-artifact association.
+
+    Args:
+        ticket_id: The ticket/task ID (ULID)
+        artifact_id: The artifact ID (ULID)
+        association_source: How this association was created
+        added_at: When the association was created (defaults to now)
+        added_by: Who/what created this association
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Tuple of (ticket_id, artifact_id) as the composite key
+
+    Raises:
+        sqlite3.IntegrityError: If association already exists
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    if added_at is None:
+        added_at = datetime.now()
+
+    conn.execute(
+        """
+        INSERT INTO ticket_artifact_associations (
+            ticket_id, artifact_id, association_source, added_at, added_by
+        ) VALUES (?, ?, ?, ?, ?)
+        """,
+        (
+            ticket_id,
+            artifact_id,
+            association_source,
+            _serialize_datetime(added_at),
+            added_by,
+        ),
+    )
+
+    return (ticket_id, artifact_id)
+
+
+def get_ticket_artifact_association(
+    ticket_id: str,
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Get a specific ticket-artifact association.
+
+    Args:
+        ticket_id: The ticket/task ID
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Association dictionary or None if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    row = conn.execute(
+        "SELECT * FROM ticket_artifact_associations WHERE ticket_id = ? AND artifact_id = ?",
+        (ticket_id, artifact_id),
+    ).fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "ticket_id": row["ticket_id"],
+        "artifact_id": row["artifact_id"],
+        "association_source": row["association_source"],
+        "added_at": _deserialize_datetime(row["added_at"]),
+        "added_by": row["added_by"],
+    }
+
+
+def get_artifacts_for_ticket(
+    ticket_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all artifacts associated with a ticket.
+
+    Args:
+        ticket_id: The ticket/task ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of association dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM ticket_artifact_associations WHERE ticket_id = ? ORDER BY added_at DESC",
+        (ticket_id,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "artifact_id": row["artifact_id"],
+            "association_source": row["association_source"],
+            "added_at": _deserialize_datetime(row["added_at"]),
+            "added_by": row["added_by"],
+        }
+        for row in rows
+    ]
+
+
+def get_tickets_for_artifact(
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all tickets associated with an artifact.
+
+    Args:
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of association dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM ticket_artifact_associations WHERE artifact_id = ? ORDER BY added_at DESC",
+        (artifact_id,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "artifact_id": row["artifact_id"],
+            "association_source": row["association_source"],
+            "added_at": _deserialize_datetime(row["added_at"]),
+            "added_by": row["added_by"],
+        }
+        for row in rows
+    ]
+
+
+def delete_ticket_artifact_association(
+    ticket_id: str,
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a ticket-artifact association.
+
+    Args:
+        ticket_id: The ticket/task ID
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        True if association was deleted, False if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    cursor = conn.execute(
+        "DELETE FROM ticket_artifact_associations WHERE ticket_id = ? AND artifact_id = ?",
+        (ticket_id, artifact_id),
+    )
+
+    return cursor.rowcount > 0
+
+
+# =============================================================================
+# CONTEXT SYSTEM V2 - COMMIT ARTIFACT CHANGES
+# =============================================================================
+
+
+def create_commit_artifact_change(
+    commit_sha: str,
+    artifact_id: str,
+    change_type: str,
+    recorded_at: Optional[datetime] = None,
+    previous_path: Optional[str] = None,
+    lines_added: Optional[int] = None,
+    lines_removed: Optional[int] = None,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Tuple[str, str]:
+    """
+    Create a commit-artifact change record.
+
+    Args:
+        commit_sha: The git commit SHA
+        artifact_id: The artifact ID (ULID)
+        change_type: Type of change (added, modified, deleted, renamed)
+        recorded_at: When this change was recorded (defaults to now)
+        previous_path: For renames, the path before the rename
+        lines_added: Number of lines added
+        lines_removed: Number of lines removed
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Tuple of (commit_sha, artifact_id) as the composite key
+
+    Raises:
+        sqlite3.IntegrityError: If change record already exists
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    if recorded_at is None:
+        recorded_at = datetime.now()
+
+    conn.execute(
+        """
+        INSERT INTO commit_artifact_changes (
+            commit_sha, artifact_id, change_type, previous_path,
+            lines_added, lines_removed, recorded_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            commit_sha,
+            artifact_id,
+            change_type,
+            previous_path,
+            lines_added,
+            lines_removed,
+            _serialize_datetime(recorded_at),
+        ),
+    )
+
+    return (commit_sha, artifact_id)
+
+
+def get_commit_artifact_change(
+    commit_sha: str,
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Get a specific commit-artifact change record.
+
+    Args:
+        commit_sha: The git commit SHA
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        Change dictionary or None if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    row = conn.execute(
+        "SELECT * FROM commit_artifact_changes WHERE commit_sha = ? AND artifact_id = ?",
+        (commit_sha, artifact_id),
+    ).fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "commit_sha": row["commit_sha"],
+        "artifact_id": row["artifact_id"],
+        "change_type": row["change_type"],
+        "previous_path": row["previous_path"],
+        "lines_added": row["lines_added"],
+        "lines_removed": row["lines_removed"],
+        "recorded_at": _deserialize_datetime(row["recorded_at"]),
+    }
+
+
+def get_artifacts_changed_by_commit(
+    commit_sha: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all artifacts changed by a commit.
+
+    Args:
+        commit_sha: The git commit SHA
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of change dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM commit_artifact_changes WHERE commit_sha = ? ORDER BY recorded_at DESC",
+        (commit_sha,),
+    ).fetchall()
+
+    return [
+        {
+            "commit_sha": row["commit_sha"],
+            "artifact_id": row["artifact_id"],
+            "change_type": row["change_type"],
+            "previous_path": row["previous_path"],
+            "lines_added": row["lines_added"],
+            "lines_removed": row["lines_removed"],
+            "recorded_at": _deserialize_datetime(row["recorded_at"]),
+        }
+        for row in rows
+    ]
+
+
+def get_commits_changing_artifact(
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all commits that changed an artifact.
+
+    Args:
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of change dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        "SELECT * FROM commit_artifact_changes WHERE artifact_id = ? ORDER BY recorded_at DESC",
+        (artifact_id,),
+    ).fetchall()
+
+    return [
+        {
+            "commit_sha": row["commit_sha"],
+            "artifact_id": row["artifact_id"],
+            "change_type": row["change_type"],
+            "previous_path": row["previous_path"],
+            "lines_added": row["lines_added"],
+            "lines_removed": row["lines_removed"],
+            "recorded_at": _deserialize_datetime(row["recorded_at"]),
+        }
+        for row in rows
+    ]
+
+
+def delete_commit_artifact_change(
+    commit_sha: str,
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> bool:
+    """
+    Delete a commit-artifact change record.
+
+    Args:
+        commit_sha: The git commit SHA
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        True if change was deleted, False if not found
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    cursor = conn.execute(
+        "DELETE FROM commit_artifact_changes WHERE commit_sha = ? AND artifact_id = ?",
+        (commit_sha, artifact_id),
+    )
+
+    return cursor.rowcount > 0
+
+
+# =============================================================================
+# CONTEXT SYSTEM V2 - TRIANGLE QUERIES
+# =============================================================================
+
+
+def get_ticket_commit_artifacts(
+    ticket_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all commit-artifact relationships for a ticket (triangle query).
+
+    This is the full picture: which commits touched which artifacts for this ticket.
+
+    Args:
+        ticket_id: The ticket/task ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of triangle relationship dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT
+            tcl.ticket_id,
+            tcl.commit_sha,
+            tcl.reference_type,
+            tcl.aggregate_confidence AS link_confidence,
+            tcl.link_source,
+            cac.artifact_id,
+            cac.change_type,
+            cac.lines_added,
+            cac.lines_removed,
+            taa.association_source AS direct_association_source
+        FROM ticket_commit_links tcl
+        JOIN commit_artifact_changes cac ON tcl.commit_sha = cac.commit_sha
+        LEFT JOIN ticket_artifact_associations taa
+            ON tcl.ticket_id = taa.ticket_id AND cac.artifact_id = taa.artifact_id
+        WHERE tcl.ticket_id = ?
+        ORDER BY tcl.linked_at DESC, cac.recorded_at DESC
+        """,
+        (ticket_id,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "commit_sha": row["commit_sha"],
+            "reference_type": row["reference_type"],
+            "link_confidence": row["link_confidence"],
+            "link_source": row["link_source"],
+            "artifact_id": row["artifact_id"],
+            "change_type": row["change_type"],
+            "lines_added": row["lines_added"],
+            "lines_removed": row["lines_removed"],
+            "direct_association_source": row["direct_association_source"],
+        }
+        for row in rows
+    ]
+
+
+def get_artifact_ticket_commits(
+    artifact_id: str,
+    conn: Optional[sqlite3.Connection] = None,
+    db_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Get all ticket-commit relationships that touched an artifact (reverse triangle query).
+
+    This shows which tickets and commits affected this artifact.
+
+    Args:
+        artifact_id: The artifact ID
+        conn: Database connection
+        db_path: Path to database file
+
+    Returns:
+        List of triangle relationship dictionaries
+    """
+    if conn is None:
+        conn = get_connection(db_path=db_path)
+
+    rows = conn.execute(
+        """
+        SELECT
+            tcl.ticket_id,
+            tcl.commit_sha,
+            tcl.reference_type,
+            tcl.aggregate_confidence AS link_confidence,
+            tcl.link_source,
+            cac.artifact_id,
+            cac.change_type,
+            cac.lines_added,
+            cac.lines_removed,
+            taa.association_source AS direct_association_source
+        FROM commit_artifact_changes cac
+        JOIN ticket_commit_links tcl ON cac.commit_sha = tcl.commit_sha
+        LEFT JOIN ticket_artifact_associations taa
+            ON tcl.ticket_id = taa.ticket_id AND cac.artifact_id = taa.artifact_id
+        WHERE cac.artifact_id = ?
+        ORDER BY cac.recorded_at DESC, tcl.linked_at DESC
+        """,
+        (artifact_id,),
+    ).fetchall()
+
+    return [
+        {
+            "ticket_id": row["ticket_id"],
+            "commit_sha": row["commit_sha"],
+            "reference_type": row["reference_type"],
+            "link_confidence": row["link_confidence"],
+            "link_source": row["link_source"],
+            "artifact_id": row["artifact_id"],
+            "change_type": row["change_type"],
+            "lines_added": row["lines_added"],
+            "lines_removed": row["lines_removed"],
+            "direct_association_source": row["direct_association_source"],
+        }
+        for row in rows
+    ]

@@ -1,6 +1,10 @@
 task:
   id: 01KCVMA0FDHNQQZ8SXSE4RCT3C
-  name: CLI roadmap complete command fails with standards validation errors
+  sprint_id: 01KCVMA0EQTVNHR3A98Q96DEDW
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: CLI roadmap complete command fails with standards validation errors
   description: 'The `vibey roadmap complete <task-id>` command fails with various
     validation errors:
 
@@ -21,28 +25,27 @@ task:
     track sprints to be complete.
 
     '
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KCVMA0EQTVNHR3A98Q96DEDW
   status: completed
-  created_at: '2025-12-19T15:30:00+00:00'
-  started_at: '2025-12-19T15:48:54.771926+00:00'
-  completed_at: '2025-12-19T15:52:29.351895+00:00'
-  updated_at: '2025-12-19T15:52:29.352067+00:00'
-  assigned_agents: []
+  blocked: false
+  created: '2025-12-19T15:30:00+00:00'
+  started: '2025-12-19T15:48:54.771926+00:00'
+  completed: '2025-12-19T15:52:29.351895+00:00'
+  assigned_agent: null
   priority: high
-  criteria: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
-  deferred: false
-  task_type_detail: development
+  phase_label: null
   estimated_tokens: 1
   actual_tokens: null
-  complexity: high
-  phase_label: null
+  complexity: complex
   gate_info: null
   audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
   metadata:
-    created_by: claude-agent
-    last_updated: '2025-12-19T15:30:00+00:00'
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

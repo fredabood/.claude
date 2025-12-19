@@ -10,12 +10,30 @@ track:
   completed: '2025-12-17T00:15:20.052004+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 3
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 26
+    tasks_completed: 26
+    completion_percent: 100.0
+  sprints:
+  - id: 01KCMTMW1Y64VTVEZ7TEJG1R56
+    name: 'Sprint 1: Test Infrastructure Repair'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: '2025-12-17T14:14:20.465621+00:00'
+  - id: 01KCMTMXX4RRDQWNM4SKBPD95N
+    name: 'Sprint 2: Core Test Coverage'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 10
+    started: '2025-12-17T14:36:08.542601+00:00'
+  - id: 01KCMTMZQF4CD2GCV1GCJB8KKE
+    name: 'Sprint 3: MCP/CLI Parity & Integration Tests'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 11
+    started: '2025-12-17T16:22:21.912518+00:00'
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +47,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-19T17:44:25.280267+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

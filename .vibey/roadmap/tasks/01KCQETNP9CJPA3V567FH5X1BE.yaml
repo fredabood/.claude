@@ -11,7 +11,7 @@ task:
     entities (TicketCommitLink, TicketArtifactAssociation, CommitArtifactChange).
     Source: Sprint 0 Design Decisions (Integrated Architecture)'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-18T00:30:00+00:00'
   started: null
   completed: null
@@ -26,12 +26,7 @@ task:
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_type: external
-    blocker_id: unknown
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
+  depends_on: []
   depended_on_by: []
   deliverables: []
   commits: []

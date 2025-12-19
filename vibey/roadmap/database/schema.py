@@ -4,7 +4,7 @@ SQLite schema definitions for roadmap database.
 This module contains the DDL for creating the database schema.
 Schema is populated in task-002.
 
-Tables (27 total):
+Tables (30 total):
 - Core Entities (4): roadmaps, tracks, sprints, tasks
 - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
 - Quality & Gates (2): quality_gates, development_gates
@@ -15,6 +15,7 @@ Tables (27 total):
 - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
 - Audit Trail (1): audit_trail
 - Artifact System (1): artifacts
+- Context System V2 (3): ticket_commit_links, ticket_artifact_associations, commit_artifact_changes
 """
 
 import sqlite3
@@ -35,7 +36,7 @@ def get_schema_ddl() -> str:
     Returns:
         SQL string with CREATE TABLE statements
 
-    Tables (27 total):
+    Tables (30 total):
     - Core Entities (4): roadmaps, tracks, sprints, tasks
     - Relationships (4): external_dependencies, entity_blocks, entity_blocked_by, entity_depends_on
     - Quality & Gates (2): quality_gates, development_gates
@@ -46,6 +47,7 @@ def get_schema_ddl() -> str:
     - Sync & Validation (3): yaml_checksums, database_state, sync_conflicts
     - Audit Trail (1): audit_trail
     - Artifact System (1): artifacts
+    - Context System V2 (3): ticket_commit_links, ticket_artifact_associations, commit_artifact_changes
     """
     return """
 -- =============================================================================
@@ -672,6 +674,99 @@ CREATE TABLE IF NOT EXISTS artifacts (
     -- Foreign keys
     FOREIGN KEY (documents_artifact_id) REFERENCES artifacts(id)
 );
+
+-- =============================================================================
+-- CONTEXT SYSTEM V2 RELATIONSHIP TABLES (3)
+-- Triangle Model: Ticket <-> GitCommit <-> Artifact
+-- =============================================================================
+
+-- 28. ticket_commit_links
+-- Ticket <-> GitCommit relationship (edge of Triangle Model)
+-- Links are established through message references, file overlap, or manual linking
+CREATE TABLE IF NOT EXISTS ticket_commit_links (
+    -- Primary key (composite)
+    ticket_id TEXT NOT NULL,
+    commit_sha TEXT NOT NULL,
+
+    -- Reference type
+    reference_type TEXT NOT NULL CHECK (reference_type IN (
+        'task_reference',    -- Commit mentions a task (Task: line)
+        'completion_claim'   -- Commit claims to complete a task (Completes: line)
+    )),
+
+    -- Confidence scoring
+    aggregate_confidence REAL NOT NULL DEFAULT 0.0,
+
+    -- Link metadata
+    linked_at TEXT NOT NULL,  -- ISO 8601 datetime
+    link_source TEXT NOT NULL CHECK (link_source IN (
+        'pre_commit_hook', 'post_commit', 'manual'
+    )),
+
+    -- Signal data (JSON) - each signal contributes to aggregate_confidence
+    file_overlap_signal TEXT,  -- JSON for FileOverlapSignal
+    message_ref_signal TEXT,   -- JSON for MessageRefSignal
+    manual_signal TEXT,        -- JSON for ManualSignal
+
+    PRIMARY KEY (ticket_id, commit_sha),
+    FOREIGN KEY (ticket_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
+
+-- 29. ticket_artifact_associations
+-- Ticket <-> Artifact relationship (edge of Triangle Model)
+-- Associations track how artifacts became linked to tickets
+CREATE TABLE IF NOT EXISTS ticket_artifact_associations (
+    -- Primary key (composite)
+    ticket_id TEXT NOT NULL,
+    artifact_id TEXT NOT NULL,
+
+    -- Association source
+    association_source TEXT NOT NULL CHECK (association_source IN (
+        'plan_reference',     -- Referenced in plan context before work started
+        'runtime_tracking',   -- AI logged file access via MCP during work
+        'commit_bootstrap',   -- First commit with message ref established association
+        'manual',             -- User explicitly linked via CLI command
+        'criterion_target'    -- FileExistsTarget in a criterion references this artifact
+    )),
+
+    -- Audit
+    added_at TEXT NOT NULL,  -- ISO 8601 datetime
+    added_by TEXT,           -- Who/what created this association (optional)
+
+    PRIMARY KEY (ticket_id, artifact_id),
+    FOREIGN KEY (ticket_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    FOREIGN KEY (artifact_id) REFERENCES artifacts(id) ON DELETE CASCADE
+);
+
+-- 30. commit_artifact_changes
+-- GitCommit <-> Artifact relationship (edge of Triangle Model)
+-- Records what changes were made to artifacts by each commit
+CREATE TABLE IF NOT EXISTS commit_artifact_changes (
+    -- Primary key (composite)
+    commit_sha TEXT NOT NULL,
+    artifact_id TEXT NOT NULL,
+
+    -- Change type
+    change_type TEXT NOT NULL CHECK (change_type IN (
+        'added',    -- New artifact created
+        'modified', -- Existing artifact content changed
+        'deleted',  -- Artifact removed
+        'renamed'   -- Artifact moved/renamed (previous_path will be set)
+    )),
+
+    -- For renames
+    previous_path TEXT,
+
+    -- Line statistics (optional)
+    lines_added INTEGER,
+    lines_removed INTEGER,
+
+    -- Audit
+    recorded_at TEXT NOT NULL,  -- ISO 8601 datetime
+
+    PRIMARY KEY (commit_sha, artifact_id),
+    FOREIGN KEY (artifact_id) REFERENCES artifacts(id) ON DELETE CASCADE
+);
 """
 
 
@@ -821,12 +916,49 @@ CREATE INDEX IF NOT EXISTS idx_artifacts_stale ON artifacts(is_stale) WHERE is_s
 
 -- Artifact existence (for filtering existing vs deleted)
 CREATE INDEX IF NOT EXISTS idx_artifacts_exists ON artifacts(file_exists) WHERE file_exists = 1;
+
+-- =============================================================================
+-- CONTEXT SYSTEM V2 INDEXES
+-- =============================================================================
+
+-- ticket_commit_links: lookup by ticket (find all commits for a ticket)
+CREATE INDEX IF NOT EXISTS idx_tcl_ticket ON ticket_commit_links(ticket_id);
+
+-- ticket_commit_links: lookup by commit (find all tickets for a commit)
+CREATE INDEX IF NOT EXISTS idx_tcl_commit ON ticket_commit_links(commit_sha);
+
+-- ticket_commit_links: by reference type (find completion claims)
+CREATE INDEX IF NOT EXISTS idx_tcl_ref_type ON ticket_commit_links(reference_type);
+
+-- ticket_commit_links: by link source (find manual links)
+CREATE INDEX IF NOT EXISTS idx_tcl_source ON ticket_commit_links(link_source);
+
+-- ticket_commit_links: by confidence (find high-confidence links)
+CREATE INDEX IF NOT EXISTS idx_tcl_confidence ON ticket_commit_links(aggregate_confidence);
+
+-- ticket_artifact_associations: lookup by ticket (find all artifacts for a ticket)
+CREATE INDEX IF NOT EXISTS idx_taa_ticket ON ticket_artifact_associations(ticket_id);
+
+-- ticket_artifact_associations: lookup by artifact (find all tickets for an artifact)
+CREATE INDEX IF NOT EXISTS idx_taa_artifact ON ticket_artifact_associations(artifact_id);
+
+-- ticket_artifact_associations: by association source
+CREATE INDEX IF NOT EXISTS idx_taa_source ON ticket_artifact_associations(association_source);
+
+-- commit_artifact_changes: lookup by commit (find all changes in a commit)
+CREATE INDEX IF NOT EXISTS idx_cac_commit ON commit_artifact_changes(commit_sha);
+
+-- commit_artifact_changes: lookup by artifact (find all commits that changed an artifact)
+CREATE INDEX IF NOT EXISTS idx_cac_artifact ON commit_artifact_changes(artifact_id);
+
+-- commit_artifact_changes: by change type (find all additions, deletions, etc.)
+CREATE INDEX IF NOT EXISTS idx_cac_change_type ON commit_artifact_changes(change_type);
 """
 
 
 def get_views_ddl() -> str:
     """
-    Get the DDL for creating artifact-related views.
+    Get the DDL for creating artifact-related and Context System V2 views.
 
     Returns:
         SQL string with CREATE VIEW statements
@@ -836,6 +968,9 @@ def get_views_ddl() -> str:
     2. v_documentation_graph - Links between docs and their sources
     3. v_stale_documentation - Documentation that needs updating
     4. v_artifact_criteria - Which criteria reference each artifact
+    5. v_ticket_commits - JOIN ticket_commit_links with task info
+    6. v_ticket_artifacts - JOIN ticket_artifact_associations with task info
+    7. v_ticket_commit_artifacts - Triangle query joining all three edges
 
     Note: Views referencing the criteria table require the unified ticket
     schema to be present. Views are created with IF NOT EXISTS to be
@@ -908,6 +1043,94 @@ FROM artifacts a
 JOIN criteria c ON json_extract(c.target_data, '$.artifact_id') = a.id
 WHERE c.target_type = 'artifact'
   AND a.file_exists = 1;
+
+-- =============================================================================
+-- CONTEXT SYSTEM V2 VIEWS (Triangle Model)
+-- =============================================================================
+
+-- 5. v_ticket_commits
+-- JOIN ticket_commit_links with task info for enriched ticket-commit relationships
+-- Provides task details alongside commit link information
+CREATE VIEW IF NOT EXISTS v_ticket_commits AS
+SELECT
+    tcl.ticket_id,
+    tcl.commit_sha,
+    tcl.reference_type,
+    tcl.aggregate_confidence,
+    tcl.linked_at,
+    tcl.link_source,
+    tcl.file_overlap_signal,
+    tcl.message_ref_signal,
+    tcl.manual_signal,
+    t.title AS task_title,
+    t.status AS task_status,
+    t.task_type AS task_type,
+    t.sprint_id,
+    t.track_id,
+    t.roadmap_id
+FROM ticket_commit_links tcl
+JOIN tasks t ON tcl.ticket_id = t.id;
+
+-- 6. v_ticket_artifacts
+-- JOIN ticket_artifact_associations with task and artifact info
+-- Provides enriched view of which artifacts are associated with which tickets
+CREATE VIEW IF NOT EXISTS v_ticket_artifacts AS
+SELECT
+    taa.ticket_id,
+    taa.artifact_id,
+    taa.association_source,
+    taa.added_at,
+    taa.added_by,
+    t.title AS task_title,
+    t.status AS task_status,
+    t.task_type AS task_type,
+    t.sprint_id,
+    t.track_id,
+    t.roadmap_id,
+    a.name AS artifact_name,
+    a.artifact_type AS artifact_type,
+    a.paths AS artifact_paths,
+    a.file_exists AS artifact_exists
+FROM ticket_artifact_associations taa
+JOIN tasks t ON taa.ticket_id = t.id
+JOIN artifacts a ON taa.artifact_id = a.id;
+
+-- 7. v_ticket_commit_artifacts
+-- Triangle query joining all three relationship tables
+-- Shows the full picture: tickets -> commits -> artifacts with all edges
+-- This is the core view for understanding which commits touched which artifacts for which tickets
+CREATE VIEW IF NOT EXISTS v_ticket_commit_artifacts AS
+SELECT
+    -- Ticket info
+    tcl.ticket_id,
+    t.title AS task_title,
+    t.status AS task_status,
+    t.sprint_id,
+    t.track_id,
+
+    -- Commit info
+    tcl.commit_sha,
+    tcl.reference_type,
+    tcl.aggregate_confidence AS link_confidence,
+    tcl.link_source,
+
+    -- Artifact info (from commit changes)
+    cac.artifact_id,
+    a.name AS artifact_name,
+    a.artifact_type,
+    cac.change_type,
+    cac.lines_added,
+    cac.lines_removed,
+
+    -- Association info (if ticket also has direct association to artifact)
+    taa.association_source AS direct_association_source
+FROM ticket_commit_links tcl
+JOIN tasks t ON tcl.ticket_id = t.id
+JOIN commit_artifact_changes cac ON tcl.commit_sha = cac.commit_sha
+JOIN artifacts a ON cac.artifact_id = a.id
+LEFT JOIN ticket_artifact_associations taa
+    ON tcl.ticket_id = taa.ticket_id
+    AND cac.artifact_id = taa.artifact_id;
 """
 
 
@@ -1081,6 +1304,10 @@ EXPECTED_TABLES = [
     "artifacts",
     # Criteria System (1) - Sprint 12
     "criteria",
+    # Context System V2 (3) - Triangle Model
+    "ticket_commit_links",
+    "ticket_artifact_associations",
+    "commit_artifact_changes",
 ]
 
 

@@ -31,7 +31,7 @@ Vibey is a **roadmap management and AI orchestration framework** that helps deve
 | CLI Commands | 203 |
 | MCP Tools | 76 |
 | Platform Adapters | 9 |
-| Database Tables | 26 |
+| Database Tables | 30 |
 
 ---
 

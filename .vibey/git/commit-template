@@ -1,0 +1,15 @@
+# <type>(<scope>): <subject>
+#
+# Task: <TASK_ID>           # Associates commit with task
+# Completes: <TASK_ID>      # Claims task completion (optional)
+#
+# <body>
+#
+# ─────────────────────────────────────────────────────────
+# TYPE: feat|fix|docs|style|refactor|test|chore
+# TASK: vibey task ID(s), comma-separated for multiple
+#       Example: 01KCQ9YS0KE8WSYKZ21XG6WBQX
+# ─────────────────────────────────────────────────────────
+#
+# Currently in-progress tasks:
+# - (no in-progress tasks found)

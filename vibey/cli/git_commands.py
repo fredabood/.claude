@@ -3481,5 +3481,207 @@ def check_merge_cmd(ctx, pr_branch: str, target_branch: str, repo: str, output_f
         sys.exit(1)
 
 
+# =============================================================================
+# Commit Template System
+# =============================================================================
+
+
+def _get_in_progress_tasks(root_dir: Path) -> List[Dict[str, Any]]:
+    """
+    Get all tasks with status 'in_progress' from the roadmap database.
+
+    Args:
+        root_dir: Root directory containing .vibey/
+
+    Returns:
+        List of dicts with task id and title
+    """
+    db_path = root_dir / ".vibey" / "roadmap.db"
+
+    if not db_path.exists():
+        return []
+
+    try:
+        from vibey.roadmap.database import get_connection
+        conn = get_connection(db_path=db_path)
+        rows = conn.execute(
+            "SELECT id, title FROM tasks WHERE status = 'in_progress' ORDER BY id"
+        ).fetchall()
+        return [{"id": row["id"], "title": row["title"]} for row in rows]
+    except Exception:
+        return []
+
+
+def _generate_commit_template(in_progress_tasks: List[Dict[str, Any]]) -> str:
+    """
+    Generate a commit message template with task hints.
+
+    Args:
+        in_progress_tasks: List of in-progress tasks with id and title
+
+    Returns:
+        The commit template string
+    """
+    # Build task hints section
+    if in_progress_tasks:
+        task_hints = "\n".join(
+            f"# - {task['id']}: {task['title']}"
+            for task in in_progress_tasks
+        )
+    else:
+        task_hints = "# - (no in-progress tasks found)"
+
+    template = f"""
+# <type>(<scope>): <subject>
+#
+# Task: <TASK_ID>           # Associates commit with task
+# Completes: <TASK_ID>      # Claims task completion (optional)
+#
+# <body>
+#
+# ─────────────────────────────────────────────────────────
+# TYPE: feat|fix|docs|style|refactor|test|chore
+# TASK: vibey task ID(s), comma-separated for multiple
+#       Example: 01KCQ9YS0KE8WSYKZ21XG6WBQX
+# ─────────────────────────────────────────────────────────
+#
+# Currently in-progress tasks:
+{task_hints}
+"""
+    return template.strip() + "\n"
+
+
+@git_group.command('setup-template')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.option('--force', is_flag=True, default=False, help='Overwrite existing template')
+@click.pass_context
+def setup_commit_template(ctx, repo: str, force: bool):
+    """
+    Install git commit message template with task hints.
+
+    Creates a commit template at .vibey/git/commit-template with
+    Task: and Completes: markers, and lists in-progress tasks as hints.
+    Configures git to use this template for commit messages.
+
+    Examples:
+
+      vibey git setup-template              # Install template
+      vibey git setup-template --force      # Overwrite existing template
+    """
+    try:
+        repo_path = Path(repo).resolve()
+        vibey_git_dir = repo_path / ".vibey" / "git"
+        template_path = vibey_git_dir / "commit-template"
+
+        # Check if template already exists
+        if template_path.exists() and not force:
+            console.print(f"[yellow]Template already exists at {template_path}[/yellow]")
+            console.print("[dim]Use --force to overwrite[/dim]")
+            sys.exit(1)
+
+        # Get in-progress tasks
+        in_progress = _get_in_progress_tasks(repo_path)
+
+        # Generate template
+        template_content = _generate_commit_template(in_progress)
+
+        # Create directory if needed
+        vibey_git_dir.mkdir(parents=True, exist_ok=True)
+
+        # Write template
+        template_path.write_text(template_content)
+
+        # Configure git to use template
+        import subprocess
+        result = subprocess.run(
+            ['git', 'config', 'commit.template', str(template_path)],
+            cwd=repo_path,
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode != 0:
+            console.print(f"[red]Error configuring git:[/red] {result.stderr}")
+            sys.exit(1)
+
+        # Success output
+        console.print()
+        console.print(Panel(
+            Text("Commit Template Installed", style="bold green"),
+            border_style="green"
+        ))
+        console.print()
+
+        console.print(f"[green]Template path:[/green] {template_path}")
+        console.print(f"[green]Git config updated:[/green] commit.template = {template_path}")
+
+        if in_progress:
+            console.print(f"\n[bold]In-progress tasks ({len(in_progress)}):[/bold]")
+            for task in in_progress[:10]:
+                console.print(f"  [cyan]{task['id']}[/cyan]: {task['title']}")
+            if len(in_progress) > 10:
+                console.print(f"  [dim]... and {len(in_progress) - 10} more[/dim]")
+        else:
+            console.print("\n[dim]No in-progress tasks found[/dim]")
+
+        console.print()
+        console.print("[dim]Use 'git commit' to see the template in action.[/dim]")
+        console.print("[dim]Run 'vibey git setup-template' again to refresh task hints.[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@git_group.command('refresh-template')
+@click.option('--repo', type=click.Path(exists=True), default=".", help='Path to git repository')
+@click.pass_context
+def refresh_commit_template(ctx, repo: str):
+    """
+    Refresh the commit message template with current in-progress tasks.
+
+    Updates the task hints in the existing commit template without
+    changing the git configuration.
+
+    Examples:
+
+      vibey git refresh-template            # Refresh template hints
+    """
+    try:
+        repo_path = Path(repo).resolve()
+        template_path = repo_path / ".vibey" / "git" / "commit-template"
+
+        if not template_path.exists():
+            console.print("[red]Error:[/red] Commit template not found.")
+            console.print("[dim]Run 'vibey git setup-template' first.[/dim]")
+            sys.exit(1)
+
+        # Get in-progress tasks
+        in_progress = _get_in_progress_tasks(repo_path)
+
+        # Generate updated template
+        template_content = _generate_commit_template(in_progress)
+
+        # Write template
+        template_path.write_text(template_content)
+
+        console.print(f"[green]Template refreshed:[/green] {template_path}")
+
+        if in_progress:
+            console.print(f"\n[bold]In-progress tasks ({len(in_progress)}):[/bold]")
+            for task in in_progress[:10]:
+                console.print(f"  [cyan]{task['id']}[/cyan]: {task['title']}")
+            if len(in_progress) > 10:
+                console.print(f"  [dim]... and {len(in_progress) - 10} more[/dim]")
+        else:
+            console.print("\n[dim]No in-progress tasks found[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+
 # Export the group for registration in main.py
 __all__ = ['git_group']

@@ -1,12 +1,12 @@
 sprint:
-  id: 01KC2D0JK06MN77ZHAGAHF5VM6
-  name: Jira Bidirectional Sync & Conflict Resolution
-  track_id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+  id: 01KCVF2NG3ZKX19VATWQGECVHK
+  name: Trello Integration
+  track_id: semantic-platform-compatibility
   roadmap_id: vibey-framework-v2
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-11-23T00:00:00+00:00'
+  created: '2025-12-19T14:09:04.517185+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -14,15 +14,15 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 7
+    development_tasks_total: 0
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 7
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
+    completion_percent: 0
   development_gates: []
   blocks: []
   blocked_by: []
@@ -40,7 +40,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: null
+    last_updated: '2025-12-19T14:09:04.517185+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

@@ -210,6 +210,12 @@ roadmap:
     name: Git Submodule Integration
     status: not_started
     priority: medium
+  - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
+    name: Semantic Platform Compatibility
+    status: not_started
+    sprints_total: 0
+    tasks_total: 0
+    completion_percent: 0
   dependencies: []
   blocked_by: []
   version_history: []
@@ -257,3 +263,4 @@ roadmap:
     last_updated: '2025-12-19T00:53:36.401927+00:00'
     purpose: null
     description: null
+  tracks_total: 48

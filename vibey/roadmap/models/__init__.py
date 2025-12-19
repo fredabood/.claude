@@ -120,6 +120,19 @@ from .session import (
     SessionStats,
 )
 
+from .relationships import (
+    ReferenceType,
+    AssociationSource,
+    ChangeType,
+    FileOverlapSignal,
+    MessageRefSignal,
+    ManualSignal,
+    LinkSignals,
+    TicketCommitLink,
+    TicketArtifactAssociation,
+    CommitArtifactChange,
+)
+
 __all__ = [
     # Roadmap
     "Roadmap",
@@ -187,6 +200,17 @@ __all__ = [
     "ContextSnapshot",
     "SessionCommit",
     "SessionStats",
+    # Relationships (Triangle Model)
+    "ReferenceType",
+    "AssociationSource",
+    "ChangeType",
+    "FileOverlapSignal",
+    "MessageRefSignal",
+    "ManualSignal",
+    "LinkSignals",
+    "TicketCommitLink",
+    "TicketArtifactAssociation",
+    "CommitArtifactChange",
 ]
 
 __version__ = "2.1"

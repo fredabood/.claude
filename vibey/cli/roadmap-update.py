@@ -178,12 +178,8 @@ def complete_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task - support both ULID and slug lookup
-    task = None
-    for t in tasks:
-        if t.id == task_id or getattr(t, 'slug', None) == task_id:
-            task = t
-            break
+    # Find task by ULID (per ADR-0001)
+    task = next((t for t in tasks if t.id == task_id), None)
 
     if not task:
         print(f"❌ Task '{task_id}' not found")
@@ -261,12 +257,8 @@ def start_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task - support both ULID and slug lookup
-    task = None
-    for t in tasks:
-        if t.id == task_id or getattr(t, 'slug', None) == task_id:
-            task = t
-            break
+    # Find task by ULID (per ADR-0001)
+    task = next((t for t in tasks if t.id == task_id), None)
 
     if not task:
         print(f"❌ Task '{task_id}' not found")
@@ -553,12 +545,8 @@ def assign_task(
     # Load tasks
     tasks = load_tasks(tasks_path)
 
-    # Find and update task - support both ULID and slug lookup
-    task = None
-    for t in tasks:
-        if t.id == task_id or getattr(t, 'slug', None) == task_id:
-            task = t
-            break
+    # Find task by ULID (per ADR-0001)
+    task = next((t for t in tasks if t.id == task_id), None)
 
     if not task:
         print(f"❌ Task '{task_id}' not found")

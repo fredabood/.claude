@@ -245,52 +245,23 @@ class BranchLinker:
         """
         Find the YAML file for a specific task.
 
-        First checks standalone task files (tasks/*.yaml), then falls back
-        to searching legacy sprint files with embedded tasks.
+        Uses direct ULID-based lookup in the flat tasks directory structure.
 
         Args:
-            task_id: Task ID to search for
+            task_id: Task ULID to search for
 
         Returns:
-            Path to task.yaml file (standalone) or sprint.yaml (legacy), or None
+            Path to task.yaml file, or None if not found
         """
         if not self.roadmap_dir.exists():
             return None
 
-        # First: Check for standalone task file (flat structure)
+        # Direct ULID lookup in flat tasks directory (per ADR-0001, ADR-0002)
         tasks_dir = self.roadmap_dir / "tasks"
         if tasks_dir.exists():
-            # Direct lookup for ULID-based task IDs
             task_file = tasks_dir / f"{task_id}.yaml"
             if task_file.exists():
                 return task_file
-
-            # Search all task files for slug-based IDs
-            for task_file in tasks_dir.glob("*.yaml"):
-                try:
-                    with open(task_file) as f:
-                        data = yaml.safe_load(f)
-                    task_data = data.get("task", {})
-                    if task_data.get("id") == task_id or task_data.get("slug") == task_id:
-                        return task_file
-                except Exception:
-                    continue
-
-        # Fallback: Search legacy sprint.yaml files with embedded tasks (DEPRECATED)
-        for sprint_file in self.roadmap_dir.rglob("sprint.yaml"):
-            try:
-                with open(sprint_file) as f:
-                    data = yaml.safe_load(f)
-
-                sprint = data.get("sprint", {})
-                tasks = sprint.get("tasks", [])
-
-                for task in tasks:
-                    if task.get("id") == task_id:
-                        return sprint_file
-
-            except Exception:
-                continue
 
         return None
 

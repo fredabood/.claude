@@ -240,7 +240,7 @@ class StatusManager:
         return results
 
     def _load_ticket(self, ticket_id: str) -> Optional[Dict[str, Any]]:
-        """Load a single ticket by ID."""
+        """Load a single ticket by ULID."""
         try:
             from vibey.operations.roadmap.query import (
                 query_task_details,
@@ -248,36 +248,17 @@ class StatusManager:
                 query_track_details,
             )
 
-            # Check if it's a ULID (26 alphanumeric chars starting with 01)
-            is_ulid = len(ticket_id) == 26 and ticket_id.isalnum() and ticket_id.startswith('01')
-
-            if is_ulid:
-                # For ULIDs, check filesystem to determine type
-                roadmap_root = self.root_dir / ".vibey" / "roadmap"
-                if (roadmap_root / "tasks" / f"{ticket_id}.yaml").exists():
-                    result = query_task_details(self.root_dir, ticket_id)
-                    if result and "error" not in result:
-                        return result
-                elif (roadmap_root / "sprints" / f"{ticket_id}.yaml").exists():
-                    result = query_sprint_details(self.root_dir, ticket_id)
-                    if result and "error" not in result:
-                        return result
-                elif (roadmap_root / "tracks" / f"{ticket_id}.yaml").exists():
-                    result = query_track_details(self.root_dir, ticket_id)
-                    if result and "error" not in result:
-                        return result
-            else:
-                # Legacy slug-based ID - use string heuristics
-                if "task" in ticket_id.lower():
-                    result = query_task_details(self.root_dir, ticket_id)
-                    if result and "error" not in result:
-                        return result
-
-                if "task" not in ticket_id.lower():
-                    result = query_sprint_details(self.root_dir, ticket_id)
-                    if result and "error" not in result:
-                        return result
-
+            # ULID-only lookup via filesystem (per ADR-0001, ADR-0002)
+            roadmap_root = self.root_dir / ".vibey" / "roadmap"
+            if (roadmap_root / "tasks" / f"{ticket_id}.yaml").exists():
+                result = query_task_details(self.root_dir, ticket_id)
+                if result and "error" not in result:
+                    return result
+            elif (roadmap_root / "sprints" / f"{ticket_id}.yaml").exists():
+                result = query_sprint_details(self.root_dir, ticket_id)
+                if result and "error" not in result:
+                    return result
+            elif (roadmap_root / "tracks" / f"{ticket_id}.yaml").exists():
                 result = query_track_details(self.root_dir, ticket_id)
                 if result and "error" not in result:
                     return result

@@ -1,17 +1,18 @@
 """
 Migration operations for Vibey roadmap system.
 
-This module provides migration functions for different data structure transitions:
-- Legacy sprint state to roadmap system
-- Embedded tasks to separate task files
+Note: Legacy migration functions (migrate_to_roadmap, migrate_to_hierarchical) have been
+removed as we now use the flat ULID-based structure per ADR-0002. The roadmap system
+has been fully migrated to use:
+- .vibey/roadmap/tracks/{ulid}.yaml
+- .vibey/roadmap/sprints/{ulid}.yaml
+- .vibey/roadmap/tasks/{ulid}.yaml
 
-Note: migrate_to_hierarchical was removed as we now use flat ULID-based structure.
+The embedded_tasks migration is also deprecated as all tasks are now standalone files.
 """
 
-from .to_roadmap import migrate_to_roadmap
 from .embedded_tasks import migrate_embedded_tasks
 
 __all__ = [
-    'migrate_to_roadmap',
-    'migrate_embedded_tasks',
+    "migrate_embedded_tasks",
 ]

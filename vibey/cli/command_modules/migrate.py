@@ -9,14 +9,16 @@ from typing import Optional
 
 
 def migrate_to_roadmap_cmd() -> int:
-    """Migrate legacy sprint files to roadmap."""
-    from vibey.operations.migrations import migrate_to_roadmap
-
-    return migrate_to_roadmap(
-        root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
-        dry_run=False,
-        backup=True
-    )
+    """DEPRECATED: Migrate legacy sprint files to roadmap.
+    
+    This function is deprecated per ADR-0002. The roadmap system now uses
+    flat ULID-based directory structure exclusively. Legacy hierarchical
+    migration is no longer supported.
+    """
+    print("This migration command has been deprecated.")
+    print("The roadmap system now uses flat ULID-based structure per ADR-0002.")
+    print("Legacy hierarchical directory migration is no longer supported.")
+    return 1
 
 
 def migrate_embedded_tasks_cmd() -> int:

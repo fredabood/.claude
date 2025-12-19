@@ -30,7 +30,6 @@ from vibey.operations.deployment import deploy_framework
 from vibey.operations.docs import generate_docs
 from vibey.operations.config import update_config_value
 from vibey.operations.migrations import (
-    migrate_to_roadmap,
     migrate_embedded_tasks,
 )
 
@@ -2491,13 +2490,7 @@ def config_update_cmd(key: str, value: str) -> int:
 # Migration Commands
 # ============================================================================
 
-def migrate_to_roadmap_cmd() -> int:
-    """Migrate legacy sprint files to roadmap."""
-    return migrate_to_roadmap(
-        root_dir=Path.cwd() / ".vibey",  # Migration expects .vibey/ path
-        dry_run=False,
-        backup=True
-    )
+# NOTE: migrate_to_roadmap_cmd was removed per ADR-0002 (flat ULID structure)
 
 
 def migrate_embedded_tasks_cmd() -> int:

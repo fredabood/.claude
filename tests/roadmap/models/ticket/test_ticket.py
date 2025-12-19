@@ -30,6 +30,7 @@ from vibey.roadmap.models.ticket import (
     InheritMode,
     EnforcementMode,
 )
+from vibey.roadmap.models.ticket.ticket import parse_task_markers
 
 
 # =============================================================================
@@ -113,6 +114,267 @@ class TestGitCommit:
             completes_tickets=["task-123", "task-124"],
         )
         assert commit.completes_tickets == ["task-123", "task-124"]
+
+    def test_commit_references_tickets(self):
+        """Test commit with ticket reference markers."""
+        commit = GitCommit(
+            sha="jkl012",
+            message="feat: progress on feature",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+            references_tickets=["01TASK_A", "01TASK_B"],
+        )
+        assert commit.references_tickets == ["01TASK_A", "01TASK_B"]
+
+    def test_commit_all_referenced_tickets(self):
+        """Test all_referenced_tickets combines both fields."""
+        commit = GitCommit(
+            sha="mno345",
+            message="feat: complete feature",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+            references_tickets=["01TASK_A", "01TASK_B"],
+            completes_tickets=["01TASK_C"],
+        )
+        assert set(commit.all_referenced_tickets) == {"01TASK_A", "01TASK_B", "01TASK_C"}
+
+    def test_commit_all_referenced_tickets_deduplicates(self):
+        """Test all_referenced_tickets removes duplicates."""
+        commit = GitCommit(
+            sha="pqr678",
+            message="feat: work on task",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+            references_tickets=["01TASK_A", "01TASK_B"],
+            completes_tickets=["01TASK_A"],  # Duplicate
+        )
+        all_refs = commit.all_referenced_tickets
+        assert len(all_refs) == 2
+        assert set(all_refs) == {"01TASK_A", "01TASK_B"}
+
+
+# =============================================================================
+# PARSE_TASK_MARKERS TESTS
+# =============================================================================
+
+
+class TestParseTaskMarkers:
+    """Tests for parse_task_markers function."""
+
+    def test_parse_single_task_marker(self):
+        """Test parsing a single Task: marker."""
+        message = """feat: add new feature
+
+Task: 01TASK_A
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01TASK_A"]
+        assert completes == []
+
+    def test_parse_comma_separated_task_markers(self):
+        """Test parsing comma-separated Task: markers."""
+        message = """feat: add new feature
+
+Task: 01TASK_A, 01TASK_B, 01TASK_C
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01TASK_A", "01TASK_B", "01TASK_C"]
+        assert completes == []
+
+    def test_parse_single_completes_marker(self):
+        """Test parsing a single Completes: marker."""
+        message = """feat: complete feature
+
+Completes: 01TASK_A
+"""
+        references, completes = parse_task_markers(message)
+        assert references == []
+        assert completes == ["01TASK_A"]
+
+    def test_parse_both_task_and_completes(self):
+        """Test parsing both Task: and Completes: markers."""
+        message = """feat: complete feature
+
+Task: 01TASK_A
+Completes: 01TASK_B
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01TASK_A"]
+        assert completes == ["01TASK_B"]
+
+    def test_parse_multiple_task_lines(self):
+        """Test parsing multiple Task: lines."""
+        message = """feat: work on multiple tasks
+
+Task: 01TASK_A
+Task: 01TASK_B
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01TASK_A", "01TASK_B"]
+        assert completes == []
+
+    def test_parse_empty_message(self):
+        """Test parsing empty message returns empty lists."""
+        references, completes = parse_task_markers("")
+        assert references == []
+        assert completes == []
+
+    def test_parse_message_without_markers(self):
+        """Test parsing message without markers returns empty lists."""
+        message = """feat: add new feature
+
+This is a commit message without any markers.
+"""
+        references, completes = parse_task_markers(message)
+        assert references == []
+        assert completes == []
+
+    def test_parse_whitespace_handling(self):
+        """Test that whitespace is properly stripped."""
+        message = """feat: add feature
+
+  Task:   01TASK_A  ,  01TASK_B
+  Completes:   01TASK_C
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01TASK_A", "01TASK_B"]
+        assert completes == ["01TASK_C"]
+
+    def test_parse_empty_task_line(self):
+        """Test that empty Task: line is handled."""
+        message = """feat: add feature
+
+Task:
+Completes: 01TASK_A
+"""
+        references, completes = parse_task_markers(message)
+        assert references == []
+        assert completes == ["01TASK_A"]
+
+    def test_parse_comma_separated_completes(self):
+        """Test parsing comma-separated Completes: markers."""
+        message = """feat: complete multiple tasks
+
+Completes: 01TASK_A, 01TASK_B
+"""
+        references, completes = parse_task_markers(message)
+        assert references == []
+        assert completes == ["01TASK_A", "01TASK_B"]
+
+    def test_parse_ulid_format_ids(self):
+        """Test parsing ULID format ticket IDs."""
+        message = """feat: work on task
+
+Task: 01KCQETNJKGDH3N4RC7J3G1EFP
+Completes: 01KCMTJQ3JRRW6CZFC4E63W8D6
+"""
+        references, completes = parse_task_markers(message)
+        assert references == ["01KCQETNJKGDH3N4RC7J3G1EFP"]
+        assert completes == ["01KCMTJQ3JRRW6CZFC4E63W8D6"]
+
+
+# =============================================================================
+# GITCOMMIT FROM_GIT TESTS
+# =============================================================================
+
+
+class TestGitCommitFromGit:
+    """Tests for GitCommit.from_git() factory method."""
+
+    def test_from_git_basic(self):
+        """Test from_git creates commit with basic fields."""
+        commit = GitCommit.from_git(
+            sha="abc123def456",
+            message="feat: add new feature",
+            date=datetime.now(timezone.utc),
+            author="developer@example.com",
+        )
+        assert commit.sha == "abc123def456"
+        assert commit.message == "feat: add new feature"
+        assert commit.author == "developer@example.com"
+        assert commit.submitted_at is not None
+
+    def test_from_git_parses_task_markers(self):
+        """Test from_git parses Task: markers."""
+        message = """feat: add new feature
+
+Task: 01TASK_A, 01TASK_B
+"""
+        commit = GitCommit.from_git(
+            sha="abc123",
+            message=message,
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+        )
+        assert commit.references_tickets == ["01TASK_A", "01TASK_B"]
+
+    def test_from_git_parses_completes_markers(self):
+        """Test from_git parses Completes: markers."""
+        message = """feat: complete feature
+
+Completes: 01TASK_A
+"""
+        commit = GitCommit.from_git(
+            sha="def456",
+            message=message,
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+        )
+        assert commit.completes_tickets == ["01TASK_A"]
+
+    def test_from_git_parses_both_markers(self):
+        """Test from_git parses both Task: and Completes: markers."""
+        message = """feat: progress and complete
+
+Task: 01TASK_A
+Completes: 01TASK_B
+"""
+        commit = GitCommit.from_git(
+            sha="ghi789",
+            message=message,
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+        )
+        assert commit.references_tickets == ["01TASK_A"]
+        assert commit.completes_tickets == ["01TASK_B"]
+
+    def test_from_git_with_platform(self):
+        """Test from_git with platform parameter."""
+        commit = GitCommit.from_git(
+            sha="jkl012",
+            message="feat: add feature",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+            platform="claude-code",
+        )
+        assert commit.platform == "claude-code"
+
+    def test_from_git_with_file_changes(self):
+        """Test from_git with file change lists."""
+        commit = GitCommit.from_git(
+            sha="mno345",
+            message="refactor: update models",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+            files_added=["src/new_file.py"],
+            files_modified=["src/existing.py"],
+            files_deleted=["src/old_file.py"],
+        )
+        assert commit.files_added == ["src/new_file.py"]
+        assert commit.files_modified == ["src/existing.py"]
+        assert commit.files_deleted == ["src/old_file.py"]
+
+    def test_from_git_empty_file_lists_default(self):
+        """Test from_git defaults file lists to empty."""
+        commit = GitCommit.from_git(
+            sha="pqr678",
+            message="docs: update readme",
+            date=datetime.now(timezone.utc),
+            author="dev@example.com",
+        )
+        assert commit.files_added == []
+        assert commit.files_modified == []
+        assert commit.files_deleted == []
 
 
 # =============================================================================

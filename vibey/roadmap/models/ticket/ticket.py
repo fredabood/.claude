@@ -15,7 +15,8 @@ Design Reference: sqlite-backend-6/context/architecture/02-CLASS-MODEL.md
 """
 
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field, computed_field, field_validator, model_validator
 
@@ -30,6 +31,46 @@ from vibey.roadmap.models.ticket.targets import (
     ManualTarget,
     TestPassesTarget,
 )
+
+
+def parse_task_markers(message: str) -> Tuple[List[str], List[str]]:
+    """
+    Parse Task: and Completes: markers from commit message.
+
+    Supports both single-value and comma-separated formats:
+    - Task: 01TASK_A
+    - Task: 01TASK_A, 01TASK_B
+    - Completes: 01TASK_A
+
+    Args:
+        message: The commit message to parse
+
+    Returns:
+        Tuple of (references, completes) - Lists of ticket IDs
+    """
+    references: List[str] = []
+    completes: List[str] = []
+
+    for line in message.split('\n'):
+        line_stripped = line.strip()
+
+        if line_stripped.startswith('Task:'):
+            # Extract value after "Task:"
+            value = line_stripped[5:].strip()
+            if value:
+                # Handle comma-separated IDs
+                refs = value.split(',')
+                references.extend(r.strip() for r in refs if r.strip())
+
+        elif line_stripped.startswith('Completes:'):
+            # Extract value after "Completes:"
+            value = line_stripped[10:].strip()
+            if value:
+                # Handle comma-separated IDs (though typically single value)
+                ticket_ids = value.split(',')
+                completes.extend(t.strip() for t in ticket_ids if t.strip())
+
+    return references, completes
 
 
 class GitCommit(BaseModel):
@@ -56,9 +97,13 @@ class GitCommit(BaseModel):
     )
 
     # Extracted from message
+    references_tickets: List[str] = Field(
+        default_factory=list,
+        description="Ticket IDs referenced by this commit (from Task: markers)"
+    )
     completes_tickets: List[str] = Field(
         default_factory=list,
-        description="Ticket IDs marked as completed by this commit"
+        description="Ticket IDs marked as completed by this commit (from Completes: markers)"
     )
 
     # File changes
@@ -80,6 +125,61 @@ class GitCommit(BaseModel):
     def all_affected_artifacts(self) -> List[str]:
         """All artifacts affected by this commit."""
         return self.creates_artifacts + self.modifies_artifacts + self.deletes_artifacts
+
+    @property
+    def all_referenced_tickets(self) -> List[str]:
+        """All tickets referenced by this commit (both Task: and Completes:)."""
+        # Use dict.fromkeys to deduplicate while preserving order
+        all_tickets = self.references_tickets + self.completes_tickets
+        return list(dict.fromkeys(all_tickets))
+
+    @classmethod
+    def from_git(
+        cls,
+        sha: str,
+        message: str,
+        date: datetime,
+        author: str,
+        platform: Optional[str] = None,
+        files_added: Optional[List[str]] = None,
+        files_modified: Optional[List[str]] = None,
+        files_deleted: Optional[List[str]] = None,
+    ) -> "GitCommit":
+        """
+        Create a GitCommit from git metadata, automatically parsing markers.
+
+        This factory method parses Task: and Completes: markers from the
+        commit message to populate references_tickets and completes_tickets.
+
+        Args:
+            sha: Full 40-char SHA or abbreviated
+            message: Full commit message (subject + body)
+            date: Commit date
+            author: Commit author
+            platform: Platform that created this commit (optional)
+            files_added: List of added file paths (optional)
+            files_modified: List of modified file paths (optional)
+            files_deleted: List of deleted file paths (optional)
+
+        Returns:
+            GitCommit instance with parsed ticket references
+        """
+        # Parse Task: and Completes: markers from message
+        references, completes = parse_task_markers(message)
+
+        return cls(
+            sha=sha,
+            message=message,
+            date=date,
+            author=author,
+            platform=platform,
+            submitted_at=datetime.now(timezone.utc),
+            references_tickets=references,
+            completes_tickets=completes,
+            files_added=files_added or [],
+            files_modified=files_modified or [],
+            files_deleted=files_deleted or [],
+        )
 
 
 class Ticket(Completable):
@@ -589,4 +689,5 @@ class Ticket(Completable):
 __all__ = [
     "GitCommit",
     "Ticket",
+    "parse_task_markers",
 ]

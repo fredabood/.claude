@@ -458,3 +458,216 @@ def context_search_cmd(
 
     print(f"\nFound {len(results)} matches")
     return 0
+
+
+def context_freshness_cmd(
+    ticket_id: str,
+    fresh_hours: int = 24,
+    stale_hours: int = 72,
+    output_format: str = "text",
+) -> int:
+    """Check freshness of context files for a ticket.
+
+    Args:
+        ticket_id: ULID of the ticket to check
+        fresh_hours: Hours within which context is considered fresh
+        stale_hours: Hours within which context is considered stale
+        output_format: Output format (text, json, yaml)
+
+    Returns:
+        Exit code (0 for success, 1 for error)
+    """
+    import json
+    from pathlib import Path
+
+    import yaml
+
+    from vibey.operations.context.freshness import (
+        FreshnessConfig,
+        check_context_freshness,
+        format_freshness_report,
+        get_overall_freshness,
+    )
+
+    # Validate ticket_id format (26-character ULID)
+    if len(ticket_id) != 26:
+        print(format_error(f"Invalid ticket ID: {ticket_id}. Expected 26-character ULID."))
+        return 1
+
+    # Check for valid ULID characters
+    valid_chars = set("0123456789ABCDEFGHJKMNPQRSTVWXYZabcdefghjkmnpqrstvwxyz")
+    if not all(c in valid_chars for c in ticket_id):
+        print(format_error(f"Invalid ticket ID: {ticket_id}. Contains invalid characters."))
+        return 1
+
+    roadmap_dir = Path.cwd() / ".vibey" / "roadmap"
+    if not roadmap_dir.exists():
+        print(format_error("Roadmap directory not found. Run 'vibey roadmap init' first."))
+        return 1
+
+    try:
+        config = FreshnessConfig(fresh_hours=fresh_hours, stale_hours=stale_hours)
+        results = check_context_freshness(ticket_id, roadmap_dir, config)
+
+        if output_format == "json":
+            # Convert to JSON-serializable format
+            json_results = {}
+            for ctx_type, info in results.items():
+                json_results[ctx_type] = {
+                    "level": info.level.value,
+                    "last_modified": info.last_modified.isoformat() if info.last_modified else None,
+                    "age_hours": info.age_hours,
+                    "message": info.message,
+                }
+            output = {
+                "ticket_id": ticket_id,
+                "overall": get_overall_freshness(results).value,
+                "contexts": json_results,
+            }
+            print(json.dumps(output, indent=2))
+
+        elif output_format == "yaml":
+            # Convert to YAML-serializable format
+            yaml_results = {}
+            for ctx_type, info in results.items():
+                yaml_results[ctx_type] = {
+                    "level": info.level.value,
+                    "last_modified": info.last_modified.isoformat() if info.last_modified else None,
+                    "age_hours": round(info.age_hours, 2) if info.age_hours else None,
+                    "message": info.message,
+                }
+            output = {
+                "ticket_id": ticket_id,
+                "overall": get_overall_freshness(results).value,
+                "contexts": yaml_results,
+            }
+            print(yaml.dump(output, default_flow_style=False, sort_keys=False))
+
+        else:
+            # Text format
+            print(format_freshness_report(ticket_id, results))
+
+        return 0
+
+    except ValueError as e:
+        print(format_error(str(e)))
+        return 1
+    except Exception as e:
+        print(format_error(f"Failed to check context freshness: {e}"))
+        return 1
+
+
+def context_budget_cmd(
+    ticket_id: Optional[str] = None,
+    max_tokens: int = 100000,
+    show_artifacts: bool = False,
+    output_format: str = "text",
+) -> int:
+    """Show token budget status for context loading.
+
+    Displays current token usage and remaining budget for context loading.
+    Can show budget for a specific ticket or the default configuration.
+
+    Args:
+        ticket_id: Optional ticket ID to show budget for
+        max_tokens: Maximum token budget (default 100000)
+        show_artifacts: Show individual artifact token counts
+        output_format: Output format (text, json, yaml)
+
+    Returns:
+        Exit code (0 for success, 1 for error)
+    """
+    import json
+    from pathlib import Path
+
+    import yaml
+
+    from vibey.operations.context import (
+        TokenBudget,
+        TokenUsageTracker,
+        format_budget_status,
+        check_budget,
+        estimate_file_tokens,
+    )
+
+    # Create budget configuration
+    budget = TokenBudget(max_tokens=max_tokens)
+
+    # Create usage tracker
+    usage = TokenUsageTracker()
+
+    # If ticket_id provided, try to load actual context data
+    if ticket_id:
+        context_dir = Path.cwd() / ".vibey" / "roadmap" / "context"
+
+        # Check for plan context
+        plan_dir = context_dir / "plans" / ticket_id
+        if plan_dir.exists():
+            plan_file = plan_dir / "plan.yaml"
+            if plan_file.exists():
+                usage.plan_context = estimate_file_tokens(plan_file)
+
+            # Count artifact files in plan directory
+            for artifact_file in plan_dir.glob("*.md"):
+                tokens = estimate_file_tokens(artifact_file)
+                usage.add_artifact(artifact_file.name, tokens)
+
+        # Check for runtime context
+        runtime_file = context_dir / "runtime" / f"{ticket_id}.yaml"
+        if runtime_file.exists():
+            usage.runtime_context = estimate_file_tokens(runtime_file)
+
+    # Generate output based on format
+    if output_format == "json":
+        result = check_budget(usage, budget)
+        data = {
+            "budget": {
+                "max_tokens": budget.max_tokens,
+                "reserved_tokens": budget.reserved_tokens,
+                "available_tokens": budget.available_tokens,
+                "warning_threshold": budget.warning_threshold,
+            },
+            "usage": usage.to_dict(),
+            "status": {
+                "within_budget": result.within_budget,
+                "remaining_tokens": result.remaining_tokens,
+                "usage_percent": result.usage_percent,
+                "warning": result.warning,
+                "message": result.message,
+            },
+        }
+        if show_artifacts and usage.artifact_breakdown:
+            data["artifacts"] = usage.artifact_breakdown
+        print(json.dumps(data, indent=2))
+
+    elif output_format == "yaml":
+        result = check_budget(usage, budget)
+        data = {
+            "budget": {
+                "max_tokens": budget.max_tokens,
+                "reserved_tokens": budget.reserved_tokens,
+                "available_tokens": budget.available_tokens,
+                "warning_threshold": budget.warning_threshold,
+            },
+            "usage": usage.to_dict(),
+            "status": {
+                "within_budget": result.within_budget,
+                "remaining_tokens": result.remaining_tokens,
+                "usage_percent": round(result.usage_percent, 4),
+                "warning": result.warning,
+                "message": result.message,
+            },
+        }
+        if show_artifacts and usage.artifact_breakdown:
+            data["artifacts"] = usage.artifact_breakdown
+        print(yaml.dump(data, default_flow_style=False, sort_keys=False))
+
+    else:
+        # Text format
+        output = format_budget_status(usage, budget)
+        print(output)
+
+        if ticket_id:
+            print(f"\nContext for ticket: {ticket_id}")
+
+    return 0

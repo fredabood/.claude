@@ -120,6 +120,33 @@ from .post_mortem import (
     load_post_mortem,
 )
 
+# Token Budget Enforcement
+from .token_budget import (
+    TokenBudget,
+    TokenUsageTracker,
+    BudgetCheckResult,
+    estimate_tokens,
+    estimate_file_tokens,
+    estimate_yaml_tokens,
+    check_budget,
+    can_load_artifact,
+    prioritize_artifacts,
+    calculate_artifact_priority_score,
+    format_budget_status,
+)
+
+# Freshness Tracking (Context System V2)
+from .freshness import (
+    FreshnessLevel,
+    FreshnessConfig,
+    FreshnessInfo,
+    ContextPaths,
+    check_file_freshness,
+    check_context_freshness,
+    get_overall_freshness,
+    format_freshness_report,
+)
+
 # V2 Context Models (Three-Phase Model with Artifact References)
 # These models integrate with the Unified Ticket Architecture
 from .models import (
@@ -232,4 +259,25 @@ __all__ = [
     "set_association_callback",
     "get_association_callback",
     "create_associations_from_plan",
+    # === Token Budget Enforcement ===
+    "TokenBudget",
+    "TokenUsageTracker",
+    "BudgetCheckResult",
+    "estimate_tokens",
+    "estimate_file_tokens",
+    "estimate_yaml_tokens",
+    "check_budget",
+    "can_load_artifact",
+    "prioritize_artifacts",
+    "calculate_artifact_priority_score",
+    "format_budget_status",
+    # === Freshness Tracking (Context System V2) ===
+    "FreshnessLevel",
+    "FreshnessConfig",
+    "FreshnessInfo",
+    "ContextPaths",
+    "check_file_freshness",
+    "check_context_freshness",
+    "get_overall_freshness",
+    "format_freshness_report",
 ]

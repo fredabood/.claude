@@ -5230,6 +5230,73 @@ def context_init(ctx):
     sys.exit(exit_code)
 
 
+@context.command('freshness')
+@click.argument('ticket_id')
+@click.option('--fresh-hours', type=int, default=24,
+              help='Hours within which context is considered fresh (default: 24)')
+@click.option('--stale-hours', type=int, default=72,
+              help='Hours within which context is considered stale (default: 72)')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['text', 'json', 'yaml']),
+              default='text', help='Output format')
+@click.pass_context
+def context_freshness(ctx, ticket_id: str, fresh_hours: int, stale_hours: int, output_format: str):
+    """Check freshness of context files for a ticket.
+
+    Shows how recently context files (plan, runtime, post-mortem) have been
+    modified to help determine if context data may be stale.
+
+    Examples:
+      vibey context freshness 01KCMGXCCH84MG5BWK8MY8ZT83
+      vibey context freshness 01KCMGXCCH84MG5BWK8MY8ZT83 --fresh-hours 12
+      vibey context freshness 01KCMGXCCH84MG5BWK8MY8ZT83 --format json
+    """
+    from vibey.cli.commands import context_freshness_cmd
+
+    exit_code = context_freshness_cmd(
+        ticket_id=ticket_id,
+        fresh_hours=fresh_hours,
+        stale_hours=stale_hours,
+        output_format=output_format,
+    )
+    sys.exit(exit_code)
+
+
+@context.command('budget')
+@click.option('--ticket', '-t', 'ticket_id', type=str,
+              help='Ticket ID to analyze context budget for')
+@click.option('--max-tokens', '-m', type=int, default=100000,
+              help='Maximum token budget (default: 100000)')
+@click.option('--show-artifacts', '-a', is_flag=True,
+              help='Show individual artifact token counts')
+@click.option('--format', '-f', 'output_format',
+              type=click.Choice(['text', 'json', 'yaml']),
+              default='text', help='Output format')
+@click.pass_context
+def context_budget(ctx, ticket_id: str, max_tokens: int, show_artifacts: bool, output_format: str):
+    """Show token budget status for context loading.
+
+    Displays current token usage and remaining budget to prevent
+    overloading AI context windows when loading plan, runtime,
+    and artifact context.
+
+    Examples:
+      vibey context budget
+      vibey context budget --ticket 01KCMGXCCH84MG5BWK8MY8ZT83
+      vibey context budget --max-tokens 50000 --show-artifacts
+      vibey context budget --format json
+    """
+    from vibey.cli.commands import context_budget_cmd
+
+    exit_code = context_budget_cmd(
+        ticket_id=ticket_id,
+        max_tokens=max_tokens,
+        show_artifacts=show_artifacts,
+        output_format=output_format,
+    )
+    sys.exit(exit_code)
+
+
 # ============================================================================
 # Parity Commands - CLI/MCP Interface Parity Checking
 # ============================================================================

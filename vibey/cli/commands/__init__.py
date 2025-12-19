@@ -108,6 +108,7 @@ from vibey.cli.commands.context import (
     context_clean_cmd,
     context_export_cmd,
     context_search_cmd,
+    context_freshness_cmd,
 )
 
 # Migrate commands
@@ -184,6 +185,7 @@ __all__ = [
     'context_clean_cmd',
     'context_export_cmd',
     'context_search_cmd',
+    'context_freshness_cmd',
     # Migrate
     'migrate_to_roadmap_cmd',
     'migrate_embedded_tasks_cmd',

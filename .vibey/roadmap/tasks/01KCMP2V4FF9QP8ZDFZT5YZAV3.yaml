@@ -1,34 +1,33 @@
 task:
   id: 01KCMP2V4FF9QP8ZDFZT5YZAV3
-  sprint_id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
-  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
-  roadmap_id: vibey-framework-v2
-  task_type: development
-  title: Design requirements pull-up from submodules to parent
+  name: Design requirements pull-up from submodules to parent
   description: 'Design how requirements/status pull up from submodule roadmaps to
     main project. Questions: 1) How does parent see submodule progress? 2) How are
     submodule blockers surfaced? 3) How to aggregate completion across submodules?
     Source: User feedback'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T22:56:50.366599+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  status: completed
+  created_at: '2025-12-16T22:56:50.366599+00:00'
+  started_at: '2025-12-19T19:39:33.132273+00:00'
+  completed_at: '2025-12-19T20:15:00+00:00'
+  updated_at: '2025-12-19T19:39:33.132274+00:00'
+  assigned_agents:
+  - unassigned
   priority: critical
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
   estimated_tokens: 1
   actual_tokens: null
-  complexity: complex
+  complexity: high
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

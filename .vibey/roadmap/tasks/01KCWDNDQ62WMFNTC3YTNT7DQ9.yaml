@@ -1,0 +1,31 @@
+task:
+  id: 01KCWDNDQ62WMFNTC3YTNT7DQ9
+  name: Create GitHub REST/GraphQL client
+  description: ''
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
+  status: not_started
+  created_at: '2025-12-19T23:03:36.422449+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-19T23:03:36.422449+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

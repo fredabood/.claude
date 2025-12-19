@@ -10,30 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 3
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 16
-    tasks_completed: 16
-    completion_percent: 100.0
-  sprints:
-  - id: 01KC2D0JKDQPXAYGH93V9Z82XJ
-    name: Foundation & Sprint Planning Integration
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 5
-    started: null
-  - id: 01KC2D0JKDQPXAYGH93V9Z82XR
-    name: Progress Tracking & Vibey Manager
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 6
-    started: null
-  - id: 01KC2D0JKDQPXAYGH93V9Z82XZ
-    name: Integration Finalization & Documentation (REVISED)
-    status: production_ready
-    estimated_duration: null
-    tasks_count: 5
-    started: null
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -47,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-19T19:39:05.595311+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

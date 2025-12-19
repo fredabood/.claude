@@ -10,54 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 7
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 28
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
-  sprints:
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM5
-    name: Jira Core Integration & Data Mapping
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM6
-    name: Jira Bidirectional Sync & Conflict Resolution
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM7
-    name: Confluence Documentation Integration
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM8
-    name: Unified Atlassian Experience & Polish
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KCVEM841D6HSRK980MMFXXTW
-    name: GitHub Issues & Projects Integration
-    status: not_started
-    estimated_duration: null
-    tasks_count: 0
-    started: null
-  - id: 01KCVF2NG3ZKX19VATWQGECVHK
-    name: Trello Integration
-    status: not_started
-    estimated_duration: null
-    tasks_count: 0
-    started: null
-  - id: 01KCVF2V5Q9999X5T49GZCKFYK
-    name: Asana Integration
-    status: not_started
-    estimated_duration: null
-    tasks_count: 0
-    started: null
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -71,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-19T19:38:44.816540+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

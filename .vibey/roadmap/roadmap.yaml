@@ -15,7 +15,7 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 46
-    tracks_completed: 25
+    tracks_completed: 26
     sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
@@ -174,6 +174,10 @@ roadmap:
     name: Windsurf/Codeium Platform Port
     status: wont_do
     priority: high
+  - id: 01KC39XSXJ39N12HWJ93F77KQ9
+    name: CLI Dogfooding Bug Fixes
+    status: production_ready
+    priority: critical
   - id: 01KC7H29E0Z5BC7HK1CK222152
     name: Embedded Task Migration
     status: production_ready
@@ -193,10 +197,6 @@ roadmap:
   - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
     name: Architecture Modernization
     status: production_ready
-    priority: medium
-  - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
-    name: Context System V2
-    status: not_started
     priority: medium
   - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
     name: Git Submodule Integration

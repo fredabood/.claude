@@ -1,36 +1,35 @@
 task:
   id: 01KCMP3EX1K7BVMF69WH8DC2DF
-  sprint_id: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
-  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
-  roadmap_id: vibey-framework-v2
-  task_type: documentation
-  title: Produce git submodule integration design document
+  name: Produce git submodule integration design document
   description: 'Consolidate research and design into comprehensive design document
     covering: 1) Detection/discovery, 2) Push-down mechanism, 3) Pull-up mechanism,
     4) Cross-repo dependencies, 5) CLI/MCP commands needed, 6) Implementation roadmap.
     REQUIRED: Must include detailed implementation instructions for ALL recommendations
-    with specific file paths, function signatures, data models, and step-by-step
-    implementation guidance sufficient for Sprint 2 execution. Source: User feedback'
-  status: not_started
-  blocked: false
-  created: '2025-12-16T22:57:10.609131+00:00'
-  started: null
-  completed: null
-  assigned_agent: unassigned
+    with specific file paths, function signatures, data models, and step-by-step implementation
+    guidance sufficient for Sprint 2 execution. Source: User feedback'
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  status: completed
+  created_at: '2025-12-16T22:57:10.609131+00:00'
+  started_at: '2025-12-19T19:42:51.224388+00:00'
+  completed_at: '2025-12-19T20:30:00+00:00'
+  updated_at: '2025-12-19T19:42:51.224389+00:00'
+  assigned_agents:
+  - unassigned
   priority: high
-  phase_label: null
+  criteria: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: documentation
   estimated_tokens: 1
   actual_tokens: null
   complexity: medium
+  phase_label: null
   gate_info: null
   audit_results: null
-  dependencies: []
-  blocks: []
-  blocked_by: []
-  depends_on: []
-  depended_on_by: []
-  deliverables: []
-  commits: []
   metadata:
     last_updated: null
     token_efficiency: null

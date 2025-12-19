@@ -8,6 +8,13 @@ from pathlib import Path
 
 from vibey.roadmap.id_generator import is_raw_ulid as is_ulid
 from vibey.cli.roadmap_lib.filesystem import FileSystemManager
+from vibey.cli.error_handler import (
+    cli_error,
+    item_not_found_error,
+    invalid_item_type_error,
+    format_cli_error,
+    ExitCode,
+)
 
 
 def handle_start(args):
@@ -20,8 +27,9 @@ def handle_start(args):
         fs = FileSystemManager(root_dir)
         item_type = fs.detect_entity_type(args.id)
         if not item_type:
-            print(f"Error: Cannot find item with ID: {args.id}")
-            sys.exit(1)
+            error = item_not_found_error(args.id)
+            print(format_cli_error(error), file=sys.stderr)
+            sys.exit(ExitCode.NOT_FOUND_ERROR)
     elif '-task-' in args.id:
         item_type = "task"
     else:
@@ -33,8 +41,9 @@ def handle_start(args):
     elif item_type == "sprint":
         cmd = ["python3", str(script_path), "--start-sprint", args.id]
     else:
-        print(f"Error: Cannot start a {item_type}. Only tasks and sprints can be started.")
-        sys.exit(1)
+        error = invalid_item_type_error(args.id, item_type, "start")
+        print(format_cli_error(error), file=sys.stderr)
+        sys.exit(ExitCode.VALIDATION_ERROR)
 
     if args.dir:
         cmd.extend(["--dir", str(args.dir)])

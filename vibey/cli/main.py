@@ -1077,6 +1077,46 @@ def roadmap_recalculate(ctx, sprint_id: str, platform: Optional[str],
         sys.exit(1)
 
 
+@roadmap.command('sync-progress')
+@click.option('--verify', is_flag=True, help='Verify consistency after recalculation')
+@click.option('--verbose', '-v', is_flag=True, help='Show detailed output')
+@click.pass_context
+def roadmap_sync_progress(ctx, verify: bool, verbose: bool):
+    """Recalculate all progress counters from task statuses.
+
+    When tasks are completed by directly editing YAML files (instead of using
+    'vibey roadmap complete'), the parent sprint and track progress counters
+    become stale. This command recalculates all progress from actual task
+    statuses.
+
+    This is useful after:
+    - Manually editing task YAML files
+    - Pulling changes from git that include completed tasks
+    - Any situation where progress counters seem incorrect
+
+    Examples:
+      vibey roadmap sync-progress
+      vibey roadmap sync-progress --verify
+      vibey roadmap sync-progress -v
+    """
+    from pathlib import Path
+    from vibey.operations.roadmap import recalculate_all
+
+    root_dir = Path.cwd()
+
+    if verbose:
+        console.print("[blue]Recalculating all progress counters from task statuses...[/blue]")
+
+    exit_code = recalculate_all(root_dir, verify=verify)
+
+    if exit_code == 0:
+        console.print("[green]Progress counters synchronized successfully.[/green]")
+    else:
+        console.print("[yellow]Progress synchronized with some issues (see above).[/yellow]")
+
+    sys.exit(exit_code)
+
+
 @roadmap.command('check-standards')
 @click.argument('item_id')
 @click.option('--verbose', '-v', is_flag=True, help='Show all standards including passed ones')

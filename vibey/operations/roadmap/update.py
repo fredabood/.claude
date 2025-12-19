@@ -1539,11 +1539,43 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
                 try:
                     task = load_task(task_file)
                     # Match by sprint slug or ULID
+                    # Support both v1 (sprint_id) and v2 (parent_ref) formats
                     task_sprint_id = getattr(task, 'sprint_id', None)
                     if task_sprint_id and (task_sprint_id == sprint_slug or task_sprint_id == sprint_ulid):
                         tasks.append(task)
-                except Exception:
-                    continue
+                except Exception as e:
+                    # Try raw YAML parse for v2 format tasks that fail load_task
+                    try:
+                        import yaml
+                        with open(task_file) as f:
+                            raw_data = yaml.safe_load(f)
+                        task_data = raw_data.get('task', raw_data)
+                        # Check v2 parent_ref field
+                        parent_ref = task_data.get('parent_ref', '')
+                        if parent_ref == sprint_ulid:
+                            # This is a v2 format task for this sprint
+                            # Create minimal task object for progress counting
+                            from vibey.roadmap.models import TaskType
+                            task_type_str = task_data.get('task_type_detail', task_data.get('task_type', 'development'))
+                            task_status_str = task_data.get('status', 'not_started')
+
+                            # Map task type string to enum
+                            task_type_map = {
+                                'development': TaskType.DEVELOPMENT,
+                                'completion_gate': TaskType.COMPLETION_GATE,
+                                'production_gate': TaskType.PRODUCTION_GATE,
+                            }
+                            task_type = task_type_map.get(task_type_str, TaskType.DEVELOPMENT)
+
+                            # Create a simple mock task for progress counting
+                            class MockTask:
+                                pass
+                            mock_task = MockTask()
+                            mock_task.task_type = task_type
+                            mock_task.status = TaskStatus(task_status_str)
+                            tasks.append(mock_task)
+                    except Exception:
+                        continue
         else:
             tasks = []
     else:

@@ -3380,6 +3380,15 @@ def db_rebuild_cmd(force: bool = False) -> int:
         print("\n✅ Database rebuilt successfully")
         # Remove backup on success
         backup_path.unlink()
+
+        # Also sync progress counters in YAML files
+        print("\n🔄 Synchronizing progress counters in YAML files...")
+        from vibey.operations.roadmap import recalculate_all
+        sync_result = recalculate_all(root_dir, verify=False)
+        if sync_result == 0:
+            print("✅ Progress counters synchronized")
+        else:
+            print("⚠️  Progress sync completed with some issues")
     else:
         print("\n❌ Rebuild failed, restoring backup...")
         shutil.move(backup_path, db_path)

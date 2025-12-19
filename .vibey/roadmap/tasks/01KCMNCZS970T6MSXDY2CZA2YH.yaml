@@ -5,8 +5,8 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Implement relationship entity models (Triangle Model)
-  description: 'Implement three relationship entities that integrate with Unified Ticket
-    Architecture: 1) TicketCommitLink (Ticket <-> GitCommit), 2) TicketArtifactAssociation
+  description: 'Implement three relationship entities that integrate with Unified
+    Ticket Architecture: 1) TicketCommitLink (Ticket <-> GitCommit), 2) TicketArtifactAssociation
     (Ticket <-> Artifact), 3) CommitArtifactChange (GitCommit <-> Artifact). Include
     enums for ReferenceType, AssociationSource, ChangeType and signal models for link
     detection. Location: vibey/roadmap/models/relationships.py. Source: Sprint 0 Design

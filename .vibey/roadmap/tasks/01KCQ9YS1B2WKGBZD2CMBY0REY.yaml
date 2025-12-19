@@ -5,9 +5,11 @@ task:
   roadmap_id: vibey-framework-v2
   task_type: documentation
   title: Review git integration approach
-  description: Present timestamp-based commit linking design. Discuss automatic vs manual linking, confidence scoring, and file overlap detection. Get user input on desired behavior.
+  description: Present timestamp-based commit linking design. Discuss automatic vs
+    manual linking, confidence scoring, and file overlap detection. Get user input
+    on desired behavior.
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-17T23:25:00+00:00'
   started: '2025-12-17T23:30:00+00:00'
   completed: '2025-12-17T23:45:00+00:00'
@@ -21,15 +23,15 @@ task:
   audit_results: null
   dependencies: []
   blocks: []
-  blocked_by:
-    - 01KCQ9YS0KE8WSYKZ21XG6WBQX
+  blocked_by: []
   depends_on:
-    - 01KCQ9YS0KE8WSYKZ21XG6WBQX
-  depended_on_by:
-    - 01KCQ9YS1RV2JFW3D1TAYJMEEX
-  deliverables:
-    - Git integration feedback
-    - Approved linking strategy
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
+    blocks_transition_to: in_progress
+  depended_on_by: []
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

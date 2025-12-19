@@ -1,7 +1,7 @@
 task:
   id: 01KCPTD33YDAEPMDVEDX63FTF0
-  sprint_id: dogfooding-bugs-22
-  track_id: dogfooding-bugs
+  sprint_id: 01KCPTCV2GCHCXB2E354DY4EZA
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: development
   title: Fix add-commit command to accept ULID format
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-17T18:50:49.372601+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

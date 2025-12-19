@@ -1,7 +1,7 @@
 task:
   id: 01KCS5P67BF4GDW67HJ0SV9EWC
-  sprint_id: dogfooding-bugs-24
-  track_id: dogfooding-bugs
+  sprint_id: 01KCS5N87479C1CM0V1TDR527R
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
   task_type: infrastructure
   title: Missing typing imports break CLI startup
@@ -29,6 +29,6 @@ task:
   deliverables: []
   commits: []
   metadata:
-    last_updated: '2025-12-18T16:46:34.773761+00:00'
+    last_updated: null
     token_efficiency: null
     duration_hours: null

@@ -29,12 +29,7 @@ task:
   blocked_by: []
   depends_on: []
   depended_on_by: []
-  deliverables:
-    - KnownFile model with source tracking
-    - context_add_known_file MCP tool
-    - vibey task add-file CLI command
-    - Auto-population from plan references
-    - Auto-population from linked commits
+  deliverables: []
   commits: []
   metadata:
     last_updated: null

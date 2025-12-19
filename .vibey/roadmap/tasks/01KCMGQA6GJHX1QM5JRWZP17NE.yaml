@@ -7,10 +7,10 @@ task:
   title: Standardize error handling in CLI commands
   description: 'Implement consistent error handling pattern across CLI commands -
     some silently fail, some raise, some log. Source: DD002'
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-16T21:23:09.652205+00:00'
-  started: null
+  started: '2025-12-19T00:31:30.959354+00:00'
   completed: null
   assigned_agent: unassigned
   priority: high

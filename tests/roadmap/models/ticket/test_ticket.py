@@ -904,29 +904,35 @@ class TestRequirementManagement:
 class TestValidation:
     """Tests for validation rules."""
 
-    def test_in_progress_requires_started_at(self):
-        """Test IN_PROGRESS status requires started_at."""
-        with pytest.raises(ValueError, match="started_at"):
-            Ticket(
-                id="task-001",
-                name="Task",
-                status=TicketStatus.IN_PROGRESS,
-                # Missing started_at
-            )
+    def test_in_progress_auto_sets_started_at(self):
+        """Test IN_PROGRESS status auto-sets started_at if missing."""
+        created = datetime.now(timezone.utc) - timedelta(hours=1)
+        ticket = Ticket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.IN_PROGRESS,
+            created_at=created,
+            # Missing started_at - should be auto-set
+        )
+        # started_at should be auto-set to created_at
+        assert ticket.started_at is not None
+        assert ticket.started_at == created
 
-    def test_completed_requires_completed_at(self):
-        """Test COMPLETED status requires completed_at."""
+    def test_completed_auto_sets_completed_at(self):
+        """Test COMPLETED status auto-sets completed_at if missing."""
         created = datetime.now(timezone.utc) - timedelta(hours=2)
         started = datetime.now(timezone.utc) - timedelta(hours=1)
-        with pytest.raises(ValueError, match="completed_at"):
-            Ticket(
-                id="task-001",
-                name="Task",
-                status=TicketStatus.COMPLETED,
-                created_at=created,
-                started_at=started,
-                # Missing completed_at
-            )
+        ticket = Ticket(
+            id="task-001",
+            name="Task",
+            status=TicketStatus.COMPLETED,
+            created_at=created,
+            started_at=started,
+            # Missing completed_at - should be auto-set
+        )
+        # completed_at should be auto-set to started_at
+        assert ticket.completed_at is not None
+        assert ticket.completed_at == started
 
     def test_started_at_must_be_after_created_at(self):
         """Test started_at must be >= created_at."""

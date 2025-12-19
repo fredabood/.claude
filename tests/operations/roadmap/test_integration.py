@@ -12,6 +12,8 @@ import sqlite3
 from pathlib import Path
 from datetime import datetime, timezone
 
+from vibey.roadmap.models.ticket import TicketStatus
+
 # Get the project root directory (where .vibey/ exists)
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 
@@ -153,24 +155,23 @@ class TestTicketLoaderIntegration:
         from vibey.roadmap.models.ticket import RoadmapTicket
         from pydantic import ValidationError
 
-        # Load the roadmap - may fail if data is inconsistent
-        # (e.g., IN_PROGRESS status without started_at)
-        try:
-            roadmap = load_roadmap_ticket(root_dir)
+        # Load the roadmap
+        # Note: Tickets with IN_PROGRESS status but missing started_at will have
+        # started_at auto-set to created_at by the model validator
+        roadmap = load_roadmap_ticket(root_dir)
 
-            # Verify type
-            assert isinstance(roadmap, RoadmapTicket)
+        # Verify type
+        assert isinstance(roadmap, RoadmapTicket)
 
-            # Verify basic fields
-            assert roadmap.id == "vibey-framework-v2"
+        # Verify basic fields
+        assert roadmap.id == "vibey-framework-v2"
 
-            # Verify children (tracks) are populated
-            assert len(roadmap.children) >= 30  # Many tracks exist
-        except ValidationError as e:
-            # Known issue: roadmap may have IN_PROGRESS status without started_at
-            # This is a data consistency issue, not a code bug
-            assert "IN_PROGRESS status requires started_at" in str(e)
-            pytest.skip("Roadmap data has inconsistent status/started_at")
+        # Verify children (tracks) are populated
+        assert len(roadmap.children) >= 30  # Many tracks exist
+
+        # Verify that IN_PROGRESS tickets have started_at set (auto-repaired if needed)
+        if roadmap.status == TicketStatus.IN_PROGRESS:
+            assert roadmap.started_at is not None
 
 
 class TestStatusTransitions:

@@ -194,11 +194,23 @@ class Ticket(Completable):
 
     @model_validator(mode="after")
     def validate_status_consistency(self) -> "Ticket":
-        """Validate status is consistent with timestamps."""
+        """
+        Validate and auto-repair status/timestamp consistency.
+
+        Instead of raising errors for missing timestamps, auto-set them
+        to allow loading legacy data that may be missing these fields.
+        This follows the same pattern as DevelopmentGate.validate_resolved_timestamp.
+        """
         if self.status == TicketStatus.IN_PROGRESS and self.started_at is None:
-            raise ValueError("IN_PROGRESS status requires started_at to be set")
+            # Auto-set started_at for IN_PROGRESS tickets missing this field
+            # Use created_at as fallback, or current time if neither exists
+            fallback_time = self.created_at if self.created_at else datetime.now(timezone.utc)
+            object.__setattr__(self, "started_at", fallback_time)
         if self.status == TicketStatus.COMPLETED and self.completed_at is None:
-            raise ValueError("COMPLETED status requires completed_at to be set")
+            # Auto-set completed_at for COMPLETED tickets missing this field
+            # Use started_at as fallback, or created_at, or current time
+            fallback_time = self.started_at or self.created_at or datetime.now(timezone.utc)
+            object.__setattr__(self, "completed_at", fallback_time)
         return self
 
     # =========================================================================

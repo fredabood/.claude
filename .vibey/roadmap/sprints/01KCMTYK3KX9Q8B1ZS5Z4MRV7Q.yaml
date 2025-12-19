@@ -14,25 +14,32 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 0
+    development_tasks_total: 5
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
+    tasks_total: 5
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
-  blocks: []
+  blocks:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY4
   blocked_by: []
   depends_on: []
-  depended_on_by: []
+  depended_on_by:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY4
   plan_file: null
-  deliverables: []
-  description: null
-  goal: null
-  success_criteria: []
+  deliverables:
+  - Design document with detailed implementation instructions
+  description: Research git submodule patterns and produce comprehensive design document
+  goal: Complete design document with implementation-ready specifications
+  success_criteria:
+  - All research tasks completed with documented findings
+  - Design document covers detection, push-down, pull-up, cross-repo deps
+  - Implementation instructions include file paths, function signatures, data models
+  - Step-by-step implementation guidance sufficient for Sprint 2 execution
   risks: []
   notes: null
   assigned_agents: []

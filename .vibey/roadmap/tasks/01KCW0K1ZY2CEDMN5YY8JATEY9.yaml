@@ -1,0 +1,39 @@
+task:
+  id: 01KCW0K1ZY2CEDMN5YY8JATEY9
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement cross-repo dependency tracking
+  description: 'Implement dependency tracking across repo boundaries: 1) CrossRepoDependencyResolver
+    to validate dependencies span repos, 2) Extend criterion system to evaluate
+    cross-repo blockers, 3) Dependency graph visualization across repos,
+    4) Circular dependency detection spanning multiple repos.'
+  status: not_started
+  blocked: true
+  created: '2025-12-19T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY7
+  - 01KCW0K1ZY2CEDMN5YY8JATEY8
+  depends_on:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY7
+  - 01KCW0K1ZY2CEDMN5YY8JATEY8
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

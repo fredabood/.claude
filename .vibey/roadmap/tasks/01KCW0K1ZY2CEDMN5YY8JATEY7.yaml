@@ -1,0 +1,39 @@
+task:
+  id: 01KCW0K1ZY2CEDMN5YY8JATEY7
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Implement requirements push-down mechanism
+  description: 'Implement push-down of requirements from parent to submodule roadmaps:
+    1) RequirementPusher class to translate parent requirements to submodule tasks,
+    2) Ownership tracking (parent vs submodule owned), 3) Sync mechanism to propagate
+    changes, 4) Conflict resolution when submodule has local changes.'
+  status: not_started
+  blocked: true
+  created: '2025-12-19T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: high
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  depends_on:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY5
+  - 01KCW0K1ZY2CEDMN5YY8JATEY6
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

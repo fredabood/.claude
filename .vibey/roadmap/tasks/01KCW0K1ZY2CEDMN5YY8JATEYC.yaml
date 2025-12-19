@@ -1,0 +1,40 @@
+task:
+  id: 01KCW0K1ZY2CEDMN5YY8JATEYC
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: testing
+  title: Integration tests and documentation
+  description: 'Complete submodule integration with tests and docs: 1) Integration
+    tests with mock submodule repos, 2) Test push-down and pull-up in isolation,
+    3) Test cross-repo dependency resolution, 4) Update CLI_REFERENCE.md with
+    submodule commands, 5) Update MCP_REFERENCE.md with submodule tools,
+    6) Add submodule user guide to docs/guides/.'
+  status: not_started
+  blocked: true
+  created: '2025-12-19T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - 01KCW0K1ZY2CEDMN5YY8JATEYA
+  - 01KCW0K1ZY2CEDMN5YY8JATEYB
+  depends_on:
+  - 01KCW0K1ZY2CEDMN5YY8JATEYA
+  - 01KCW0K1ZY2CEDMN5YY8JATEYB
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

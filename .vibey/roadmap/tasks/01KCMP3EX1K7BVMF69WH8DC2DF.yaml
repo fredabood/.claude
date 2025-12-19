@@ -8,7 +8,9 @@ task:
   description: 'Consolidate research and design into comprehensive design document
     covering: 1) Detection/discovery, 2) Push-down mechanism, 3) Pull-up mechanism,
     4) Cross-repo dependencies, 5) CLI/MCP commands needed, 6) Implementation roadmap.
-    Source: User feedback'
+    REQUIRED: Must include detailed implementation instructions for ALL recommendations
+    with specific file paths, function signatures, data models, and step-by-step
+    implementation guidance sufficient for Sprint 2 execution. Source: User feedback'
   status: not_started
   blocked: false
   created: '2025-12-16T22:57:10.609131+00:00'

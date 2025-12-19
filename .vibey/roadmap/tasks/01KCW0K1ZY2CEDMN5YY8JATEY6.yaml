@@ -1,0 +1,37 @@
+task:
+  id: 01KCW0K1ZY2CEDMN5YY8JATEY6
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Create cross-repo relationship data models
+  description: 'Define data models for cross-repo relationships: 1) SubmoduleReference
+    linking parent roadmap to submodule roadmap, 2) CrossRepoRequirement for push-down
+    requirements, 3) CrossRepoDependency for task dependencies across repos,
+    4) AggregatedProgress for roll-up metrics. Add to vibey/roadmap/models/.'
+  status: not_started
+  blocked: true
+  created: '2025-12-19T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - 01KCMP3EX1K7BVMF69WH8DC2DF
+  depends_on:
+  - 01KCMP3EX1K7BVMF69WH8DC2DF
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

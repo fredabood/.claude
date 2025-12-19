@@ -1,0 +1,38 @@
+task:
+  id: 01KCW0K1ZY2CEDMN5YY8JATEYB
+  sprint_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+  track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: Add MCP tools for submodule integration
+  description: 'Add MCP tools for AI assistant submodule access: 1) submodule_list
+    - list detected submodules, 2) submodule_status - get aggregated progress,
+    3) submodule_requirements - view/manage cross-repo requirements,
+    4) submodule_dependencies - query cross-repo dependency graph,
+    5) submodule_sync - trigger sync operations.'
+  status: not_started
+  blocked: true
+  created: '2025-12-19T19:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: unassigned
+  priority: medium
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY9
+  depends_on:
+  - 01KCW0K1ZY2CEDMN5YY8JATEY9
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

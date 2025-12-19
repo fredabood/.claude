@@ -10,7 +10,7 @@ task:
     submodules with .vibey/roadmap directories, 3) Builds submodule registry with
     paths and roadmap references. Follow Sprint 1 design document specifications.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null

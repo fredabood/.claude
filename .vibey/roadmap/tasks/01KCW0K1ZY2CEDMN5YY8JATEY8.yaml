@@ -10,7 +10,7 @@ task:
     from submodules to parent, 3) Completion roll-up calculations, 4) Status change
     propagation (submodule completion triggers parent updates).'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null

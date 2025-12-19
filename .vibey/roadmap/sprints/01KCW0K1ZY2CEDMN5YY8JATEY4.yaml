@@ -4,8 +4,8 @@ sprint:
   track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
-  blocked_reason: Blocked by Sprint 1 Research & Design - requires completed design document with implementation instructions
+  blocked: false
+  blocked_reason: null
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completion_gate_check_at: null

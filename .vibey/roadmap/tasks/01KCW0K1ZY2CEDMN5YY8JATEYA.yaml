@@ -11,7 +11,7 @@ task:
     4) vibey submodule sync - sync all submodule roadmaps, 5) vibey submodule deps
     - show cross-repo dependencies.'
   status: not_started
-  blocked: true
+  blocked: false
   created: '2025-12-19T19:00:00+00:00'
   started: null
   completed: null

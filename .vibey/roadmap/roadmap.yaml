@@ -19,7 +19,7 @@ roadmap:
     sprints_total: 228
     sprints_completed: 46
     tasks_total: 1576
-    tasks_completed: 1249
+    tasks_completed: 1251
     completion_percent: 79
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
@@ -228,10 +228,22 @@ roadmap:
     context:
       task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
       sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
+  - timestamp: '2025-12-19T00:48:59.920165+00:00'
+    type: task_completed
+    description: Task 'Remove slug-based ID handling' completed
+    context:
+      task_id: 01KCMGZJW2W0G77EAQMBQXCM6X
+      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
+  - timestamp: '2025-12-19T00:49:02.477972+00:00'
+    type: task_completed
+    description: Task 'Standardize error handling in CLI commands' completed
+    context:
+      task_id: 01KCMGQA6GJHX1QM5JRWZP17NE
+      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-19T00:42:12.226529+00:00'
+    last_updated: '2025-12-19T00:49:02.477973+00:00'
     purpose: null
     description: null

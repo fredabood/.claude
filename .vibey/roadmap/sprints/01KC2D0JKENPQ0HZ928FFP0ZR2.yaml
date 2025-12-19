@@ -4,7 +4,7 @@ sprint:
   track_id: 01KC2D0JKDQPXAYGH93V9Z82Y5
   roadmap_id: vibey-framework-v2
   status: production_ready
-  blocked: true
+  blocked: false
   blocked_reason: null
   created: '2025-11-12T19:30:00+00:00'
   started: null
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 7
     tasks_completed: 7
-    completion_percent: 100.0
+    completion_percent: 100
   development_gates: []
   blocks: []
   blocked_by: []

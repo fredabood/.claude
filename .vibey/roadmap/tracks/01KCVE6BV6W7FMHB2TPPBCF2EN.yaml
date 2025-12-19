@@ -10,48 +10,12 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 7
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 28
+    tasks_total: 0
     tasks_completed: 0
     completion_percent: 0
-  sprints:
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM5
-    name: Jira Core Integration & Data Mapping
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM6
-    name: Jira Bidirectional Sync & Conflict Resolution
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM7
-    name: Confluence Documentation Integration
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK06MN77ZHAGAHF5VM8
-    name: Unified Atlassian Experience & Polish
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: semantic-platform-compatibility-05
-    name: GitHub Issues & Projects Integration
-    status: not_started
-    tasks_count: 0
-  - id: semantic-platform-compatibility-06
-    name: Trello Integration
-    status: not_started
-    tasks_count: 0
-  - id: semantic-platform-compatibility-07
-    name: Asana Integration
-    status: not_started
-    tasks_count: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
@@ -64,8 +28,8 @@ track:
   commits: []
   standards: []
   metadata:
-    created_by: vibey-cli
-    last_updated: '2025-12-19T13:53:37.126994+00:00'
+    created_by: unknown
+    last_updated: '2025-12-19T16:16:27.848481+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

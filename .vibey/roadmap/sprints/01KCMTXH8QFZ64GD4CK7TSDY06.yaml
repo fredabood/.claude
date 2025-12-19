@@ -3,7 +3,7 @@ sprint:
   name: 'Sprint 2: Architecture Design'
   track_id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_ready
   blocked: false
   blocked_reason: null
   created: '2025-12-17T00:21:18.232449+00:00'
@@ -11,7 +11,7 @@ sprint:
   completion_gate_check_at: null
   completed: '2025-12-17T20:02:28.640733+00:00'
   production_gate_check_at: null
-  production_ready_at: null
+  production_ready_at: '2025-12-19T15:50:35.833659+00:00'
   deployed_at: null
   progress:
     development_tasks_total: 6
@@ -22,7 +22,7 @@ sprint:
     production_gate_tasks_completed: 0
     tasks_total: 6
     tasks_completed: 6
-    completion_percent: 100.0
+    completion_percent: 100
   development_gates: []
   blocks: []
   blocked_by: []

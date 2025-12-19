@@ -1,6 +1,6 @@
 track:
   id: 01KCMG30TJT8TYPH30WEM5T5Z9
-  name: "[ARCHIVED] User Journey Audit Recommendation Implementation"
+  name: '[ARCHIVED] User Journey Audit Recommendation Implementation'
   roadmap_id: vibey-framework-v2
   status: wont_do
   blocked: false
@@ -10,66 +10,16 @@ track:
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 11
+    sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
-  sprints:
-  - id: sprint-01
-    name: 'Sprint 1: Critical Blockers'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-02
-    name: 'Sprint 2: Reference Guide Improvements'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-03
-    name: 'Sprint 3: CLI Command Verification'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-04
-    name: 'Sprint 4: Code Consistency'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-05
-    name: 'Sprint 5: Test Infrastructure Repair'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-06
-    name: 'Sprint 6: Core Test Coverage'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-07
-    name: 'Sprint 7: MCP Test Coverage'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-08
-    name: 'Sprint 8: Context System Enhancement'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-09
-    name: 'Sprint 9: Documentation Completion'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-10
-    name: 'Sprint 10: Architecture & Cleanup'
-    status: not_started
-    tasks_count: 0
-  - id: sprint-11
-    name: 'Sprint 11: Git Submodule Integration Scoping'
-    status: not_started
-    tasks_count: 0
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: 01KC2D0JKVT80AFQ6C1PA8CKJT
-    blocker_type: track
-    required_status: completed
-    current_status: completed
-    blocks_transition_to: in_progress
-    last_checked: '2025-12-16T12:00:00+00:00'
+  depends_on: []
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
@@ -83,17 +33,7 @@ track:
   standards: []
   metadata:
     created_by: claude
-    last_updated: '2025-12-17T00:00:00+00:00'
-    archived_at: '2025-12-17T00:00:00+00:00'
+    last_updated: '2025-12-19T16:16:32.855198+00:00'
     design_doc: null
-    implementation_plan: .vibey/roadmap/context/tracks/audit-recommendation-impl/IMPLEMENTATION_PLAN.md
-    notes: |
-      ARCHIVED: Track reorganized into 5 focused tracks on 2025-12-17.
-      All 107 tasks moved to:
-      - Documentation Quality (01KCMTJ9J0Y74KDQKGVCM7HS0R) - 34 tasks
-      - Test Suite Rehabilitation (01KCMTJKFKDJX7BWERZJ7SFJ96) - 26 tasks
-      - Architecture Modernization (01KCMTJN9G9ZZBFMEDD36RYZ2B) - 29 tasks
-      - Context System V2 (01KCMTJQ3JRRW6CZFC4E63W8D6) - 12 tasks
-      - Git Submodule Integration (01KCMTJRYBYR1CR69ZAHNFCSGR) - 6 tasks
-
-      Original purpose: Implement recommendations from User Journey Audit track.
+    implementation_plan: null
+    notes: null

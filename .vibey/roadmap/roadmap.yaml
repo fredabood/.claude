@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 47
+    tracks_total: 46
     tracks_completed: 25
-    sprints_total: 228
-    sprints_completed: 46
-    tasks_total: 1576
-    tasks_completed: 1251
-    completion_percent: 79
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -31,9 +31,9 @@ roadmap:
     status: wont_do
     priority: medium
   - id: 01KC2D0JK06MN77ZHAGAHF5VM4
-    name: Atlassian Integration (Jira & Confluence)
-    status: not_started
-    priority: medium
+    name: '[MIGRATED] Atlassian Integration (Jira & Confluence)'
+    status: wont_do
+    priority: low
   - id: 01KC2D0JK06MN77ZHAGAHF5VM9
     name: Homebrew Package Distribution
     status: not_started
@@ -56,7 +56,7 @@ roadmap:
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X8X
     name: Core Framework Enhancements
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JK2A3KNMQVJDACN1X9M
     name: Cursor Platform Port
@@ -64,15 +64,15 @@ roadmap:
     priority: high
   - id: 01KC2D0JK325ABWVR9FQD5ZNPZ
     name: Directory Structure Consolidation
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KC2D0JK325ABWVR9FQD5ZNQW
     name: Platform-Agnostic Architecture (Design & Implementation)
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK49XGJV84YRRHEASMG
     name: Hierarchical Documentation & Context Management System
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JK5Y3BX5008PVANFCHN
     name: Gemini Platform Port
@@ -80,7 +80,7 @@ roadmap:
     priority: high
   - id: 01KC2D0JK6JC6706H9WP2NH5DA
     name: Enhanced Git Integration
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JK7READW9KAK1HBX4BS
     name: Goose Platform Port
@@ -88,11 +88,11 @@ roadmap:
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632BK
     name: Critical Infrastructure Fixes
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK8CHXNPPB2V3M632CA
     name: Interface Unification & Simplification
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JK9JKQXGQW6MQEB0JZP
     name: JetBrains AI Assistant Port
@@ -100,23 +100,23 @@ roadmap:
     priority: medium
   - id: 01KC2D0JK9JKQXGQW6MQEB0K05
     name: MCP Server Foundation
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKA23EJA1W712Y5S703
     name: Missing Agents Implementation
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKA23EJA1W712Y5S70G
     name: Multi-Platform Architecture
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KC2D0JKB120S3ZRAGX1K83MQ
     name: Platform Context Management System
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKB120S3ZRAGX1K83NT
     name: Python Package Structure & Distribution
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKCJCWQ76VRQJWBGQY9
     name: Replit Agent Platform Port
@@ -124,15 +124,15 @@ roadmap:
     priority: medium
   - id: 01KC2D0JKDQPXAYGH93V9Z82XH
     name: Roadmap Integration into /vibey Commands
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKDQPXAYGH93V9Z82Y5
     name: Roadmap Data Integrity & Validation System
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKFNSS8J3691657050V
     name: Roadmap Data Integrity Remediation (Phase 2)
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKG48M2973YX4EGG3PS
     name: Roadmap State Integrity Audit
@@ -140,27 +140,27 @@ roadmap:
     priority: critical
   - id: 01KC2D0JKKVMZ8ZJNGPHV822QX
     name: Roadmap Object Hierarchy Implementation
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKN6JPW9GSA6V3M6RMQ
     name: SQLite Database Backend
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKRGBQDPFWNXWNXV5ZW
     name: Roadmap Standards System
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKSA4C3QG7P7YGCG37J
     name: Comprehensive Testing & Quality Assurance
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKTE7Z4HCNHST8ZVW4R
     name: Unified Architecture Migration
-    status: completed
+    status: production_ready
     priority: critical
   - id: 01KC2D0JKVT80AFQ6C1PA8CKJT
     name: User Journey Audit & Documentation Coverage
-    status: completed
+    status: production_ready
     priority: high
   - id: 01KC2D0JKWWW8WMS7PPGDQ42GY
     name: VS Code Native MCP Port
@@ -174,33 +174,25 @@ roadmap:
     name: Windsurf/Codeium Platform Port
     status: wont_do
     priority: high
-  - id: 01KC39XSXJ39N12HWJ93F77KQ9
-    name: CLI Dogfooding Bug Fixes
-    status: completed
-    priority: critical
   - id: 01KC7H29E0Z5BC7HK1CK222152
     name: Embedded Task Migration
-    status: completed
+    status: production_ready
     priority: critical
-  - id: 01KC7TNS0SC0FX8TPGN9SG4J14
-    name: Platform Compatibility
-    status: in_progress
-    priority: medium
   - id: 01KCMG30TJT8TYPH30WEM5T5Z9
     name: '[ARCHIVED] User Journey Audit Recommendation Implementation'
     status: wont_do
     priority: low
   - id: 01KCMTJ9J0Y74KDQKGVCM7HS0R
     name: Documentation Quality
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KCMTJKFKDJX7BWERZJ7SFJ96
     name: Test Suite Rehabilitation
-    status: completed
+    status: production_ready
     priority: medium
   - id: 01KCMTJN9G9ZZBFMEDD36RYZ2B
     name: Architecture Modernization
-    status: in_progress
+    status: production_ready
     priority: medium
   - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
     name: Context System V2
@@ -219,51 +211,11 @@ roadmap:
   version_history: []
   deployed_platforms: []
   standards: []
-  activity_log:
-  - timestamp: '2025-12-19T00:39:33.061720+00:00'
-    type: task_completed
-    description: Task 'Remove hierarchical directory support' completed
-    context:
-      task_id: 01KCMGZEZD25B4133WNYTKYBEC
-      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
-  - timestamp: '2025-12-19T00:42:12.226527+00:00'
-    type: task_completed
-    description: Task 'Implement CLI refactor for semantic layer alignment' completed
-    context:
-      task_id: 01KCMMFTTPM8JA1GFD4QQA23VT
-      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
-  - timestamp: '2025-12-19T00:48:59.920165+00:00'
-    type: task_completed
-    description: Task 'Remove slug-based ID handling' completed
-    context:
-      task_id: 01KCMGZJW2W0G77EAQMBQXCM6X
-      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
-  - timestamp: '2025-12-19T00:49:02.477972+00:00'
-    type: task_completed
-    description: Task 'Standardize error handling in CLI commands' completed
-    context:
-      task_id: 01KCMGQA6GJHX1QM5JRWZP17NE
-      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
-  - timestamp: '2025-12-19T00:53:28.239247+00:00'
-    type: sprint_completed
-    description: 'Sprint ''Sprint 3: Code Cleanup'' completed'
-    context:
-      sprint_id: 01KCMTXK2X59MAT3YPMXP8E8BE
-  - timestamp: '2025-12-19T00:53:36.401925+00:00'
-    type: sprint_completed
-    description: 'Sprint ''Sprint 4: Major Refactoring'' completed'
-    context:
-      sprint_id: 01KCMTXMWJHPFH7J96KHHZTPB4
-  - timestamp: '2025-12-19T15:06:21.040734+00:00'
-    type: task_started
-    description: Task 'Track status doesn't auto-update when sprint starts' started
-    context:
-      task_id: 01KCPKC353W74AKSDJRWVMA4T0
-      sprint_id: 01KCPKBMW8FPY2ZXC9GW06Z7ZG
+  activity_log: []
   metadata:
     created_by: unknown
     framework_version: 1.0.0
     schema_version: '2.1'
-    last_updated: '2025-12-19T15:06:21.040739+00:00'
+    last_updated: null
     purpose: null
     description: null

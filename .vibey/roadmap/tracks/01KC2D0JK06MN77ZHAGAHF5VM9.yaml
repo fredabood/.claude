@@ -3,41 +3,23 @@ track:
   name: Homebrew Package Distribution
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: true
+  blocked: false
   priority: medium
   created: '2025-11-24T00:00:00+00:00'
   started: null
   completed: null
   estimated_duration: null
   progress:
-    sprints_total: 2
+    sprints_total: 0
     sprints_completed: 0
-    tasks_total: 12
+    tasks_total: 0
     tasks_completed: 0
-    completion_percent: 0.0
-  sprints:
-  - id: 01KC2D0JK06MN77ZHAGAHF5VMA
-    name: Homebrew Formula & Tap Setup
-    status: not_started
-    estimated_duration: null
-    tasks_count: 7
-    started: null
-  - id: 01KC2D0JK1877YN6T0673VB24S
-    name: Release Automation & Testing
-    status: not_started
-    estimated_duration: null
-    tasks_count: 5
-    started: null
+    completion_percent: 0
+  sprints: []
   dependencies: []
   blocks: []
   blocked_by: []
-  depends_on:
-  - blocker_id: unknown
-    blocker_type: external
-    required_status: resolved
-    current_status: pending
-    blocks_transition_to: in_progress
-    last_checked: null
+  depends_on: []
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
@@ -47,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: null
+    last_updated: '2025-12-19T16:15:53.331621+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

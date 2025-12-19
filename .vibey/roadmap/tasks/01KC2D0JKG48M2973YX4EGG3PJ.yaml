@@ -6,11 +6,11 @@ task:
   task_type: development
   title: Fix continue-port adapter naming
   description: ''
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-11T21:21:44.028255+00:00'
-  started: null
-  completed: null
+  started: '2025-11-24T00:00:00+00:00'
+  completed: '2025-11-24T00:00:00+00:00'
   assigned_agent: null
   priority: medium
   phase_label: null

@@ -4095,6 +4095,128 @@ def artifact_delete(ctx, artifact_id: str, force: bool):
         sys.exit(1)
 
 
+@artifact.command('link')
+@click.argument('artifact_id')
+@click.option('--task', '-t', 'task_id', required=True, help='Task ID to link artifact to')
+@click.pass_context
+def artifact_link(ctx, artifact_id: str, task_id: str):
+    """Link an artifact to a task.
+
+    Associates the artifact with the specified task, enabling
+    tracking of which artifacts are relevant to each task.
+
+    Examples:
+      vibey artifact link 01KC2D0JK9JKQXGQW6 --task 01KC2D0JK7READW9KAK1
+      vibey artifact link artifact-id -t task-id
+    """
+    from vibey.operations.roadmap.artifacts import link_artifact_to_ticket, show_artifact
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    # Verify artifact exists
+    artifact = show_artifact(artifact_id, root_dir)
+    if not artifact:
+        console.print(f"[red]Error:[/red] Artifact not found: {artifact_id}")
+        sys.exit(1)
+
+    if link_artifact_to_ticket(artifact_id, task_id, root_dir):
+        console.print(f"[green]✓[/green] Linked artifact [cyan]{artifact.name}[/cyan] to task [cyan]{task_id}[/cyan]")
+    else:
+        console.print(f"[red]Error:[/red] Failed to link artifact")
+        sys.exit(1)
+
+
+@artifact.command('unlink')
+@click.argument('artifact_id')
+@click.option('--task', '-t', 'task_id', required=True, help='Task ID to unlink artifact from')
+@click.pass_context
+def artifact_unlink(ctx, artifact_id: str, task_id: str):
+    """Unlink an artifact from a task.
+
+    Removes the association between the artifact and the specified task.
+
+    Examples:
+      vibey artifact unlink 01KC2D0JK9JKQXGQW6 --task 01KC2D0JK7READW9KAK1
+      vibey artifact unlink artifact-id -t task-id
+    """
+    from vibey.operations.roadmap.artifacts import unlink_artifact_from_ticket, show_artifact
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    # Verify artifact exists
+    artifact = show_artifact(artifact_id, root_dir)
+    if not artifact:
+        console.print(f"[red]Error:[/red] Artifact not found: {artifact_id}")
+        sys.exit(1)
+
+    if unlink_artifact_from_ticket(artifact_id, task_id, root_dir):
+        console.print(f"[green]✓[/green] Unlinked artifact [cyan]{artifact.name}[/cyan] from task [cyan]{task_id}[/cyan]")
+    else:
+        console.print(f"[red]Error:[/red] Artifact not linked to task or not found")
+        sys.exit(1)
+
+
+@artifact.command('for-task')
+@click.argument('task_id')
+@click.option('--format', '-f', 'output_format', type=click.Choice(['table', 'json', 'simple']),
+              default='table', help='Output format')
+@click.pass_context
+def artifact_for_task(ctx, task_id: str, output_format: str):
+    """List artifacts linked to a specific task.
+
+    Shows all artifacts that have been associated with the given task ID.
+
+    Examples:
+      vibey artifact for-task 01KC2D0JK7READW9KAK1
+      vibey artifact for-task task-id --format json
+    """
+    from vibey.operations.roadmap.artifacts import artifacts_for_ticket
+    from vibey.cli.roadmap_lib.filesystem import find_roadmap_root
+    import json
+
+    root_dir = find_roadmap_root()
+    if not root_dir:
+        console.print("[red]Error:[/red] No roadmap found.")
+        sys.exit(1)
+
+    artifacts = artifacts_for_ticket(task_id, root_dir)
+
+    if output_format == 'json':
+        data = [{'id': a.id, 'name': a.name, 'type': a.artifact_type.value, 'paths': a.paths} for a in artifacts]
+        console.print(json.dumps(data, indent=2))
+    elif output_format == 'simple':
+        for a in artifacts:
+            console.print(f"{a.id}\t{a.artifact_type.value}\t{a.name}")
+    else:
+        # Table format
+        if not artifacts:
+            console.print(f"[dim]No artifacts linked to task {task_id}[/dim]")
+        else:
+            from rich.table import Table
+            table = Table(title=f"Artifacts for Task {task_id}")
+            table.add_column("ID", style="dim")
+            table.add_column("Name", style="cyan")
+            table.add_column("Type")
+            table.add_column("Paths")
+
+            for a in artifacts:
+                table.add_row(
+                    a.id[:12] + "...",
+                    a.name,
+                    a.artifact_type.value,
+                    ", ".join(a.paths[:2]) + ("..." if len(a.paths) > 2 else "")
+                )
+            console.print(table)
+
+
 # ============================================================================
 # Auth Commands (vibey auth)
 # ============================================================================

@@ -68,3 +68,19 @@ def context_search_cmd(
     """Search context files."""
     from vibey.cli.commands import context_search_cmd as impl
     return impl(query=query, context_type=context_type, limit=limit)
+
+
+def context_budget_cmd(
+    ticket_id: Optional[str] = None,
+    max_tokens: int = 100000,
+    show_artifacts: bool = False,
+    output_format: str = "text",
+) -> int:
+    """Show token budget status for context loading."""
+    from vibey.cli.commands import context_budget_cmd as impl
+    return impl(
+        ticket_id=ticket_id,
+        max_tokens=max_tokens,
+        show_artifacts=show_artifacts,
+        output_format=output_format,
+    )

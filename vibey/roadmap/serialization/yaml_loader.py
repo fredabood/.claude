@@ -617,6 +617,124 @@ def _convert_legacy_commits(commits_data: List[Dict[str, Any]]) -> List[Pydantic
     return commits
 
 
+def _convert_v2_track_to_v1(track_data: Dict[str, Any]) -> Track:
+    """
+    Convert v2 format track data to v1 Track dataclass.
+
+    This enables backward compatibility: v2 YAML files can be loaded
+    using the legacy load_track() function needed by db_init and other code.
+
+    V2 format has: criteria, parent_ref, created_at, status as string, etc.
+    V1 format has: progress, sprints (list of SprintSummary), blocked_by, etc.
+
+    Args:
+        track_data: Parsed YAML data in v2 format
+
+    Returns:
+        Track dataclass (v1 model)
+    """
+    # Extract sprint IDs from criteria (v2 stores sprints as criteria)
+    sprint_ids = []
+    for criterion in track_data.get('criteria', []):
+        if isinstance(criterion, dict):
+            target = criterion.get('target', {})
+            if isinstance(target, dict) and target.get('type') == 'completable':
+                completable_id = target.get('completable_id', '')
+                # Check if it looks like a sprint ID (ULID format)
+                if completable_id and len(completable_id) == 26:
+                    sprint_ids.append({
+                        'id': completable_id,
+                        'status': target.get('current_status', 'not_started'),
+                    })
+
+    # Build sprints list from extracted sprint IDs (minimal info)
+    sprints = []
+    sprints_completed = 0
+    for sprint_info in sprint_ids:
+        sprint_status_str = sprint_info.get('status', 'not_started')
+        if isinstance(sprint_status_str, str):
+            sprint_status = Status(sprint_status_str) if sprint_status_str in ['not_started', 'in_progress', 'completed', 'blocked', 'paused', 'wont_do', 'superseded'] else Status.NOT_STARTED
+        else:
+            sprint_status = Status.NOT_STARTED
+
+        sprints.append(SprintSummary(
+            id=sprint_info['id'],
+            name=sprint_info['id'],  # Use ID as name placeholder
+            status=sprint_status,
+        ))
+        if sprint_status == Status.COMPLETED:
+            sprints_completed += 1
+
+    # Build minimal progress from sprints
+    progress = TrackProgress(
+        sprints_total=len(sprints),
+        sprints_completed=sprints_completed,
+        tasks_total=0,  # Unknown without loading sprints
+        tasks_completed=0,
+        completion_percent=int((sprints_completed / len(sprints) * 100)) if sprints else 0,
+    )
+
+    # Convert status string to Status enum
+    status_str = track_data.get('status', 'not_started')
+    try:
+        track_status = Status(status_str)
+    except ValueError:
+        # Handle v2 TicketStatus values that don't exist in v1 Status
+        status_mapping = {
+            'completion_gate_check': 'in_progress',
+            'production_gate_check': 'in_progress',
+            'production_ready': 'completed',
+            'deployed': 'completed',
+        }
+        track_status = Status(status_mapping.get(status_str, 'not_started'))
+
+    # Parse priority
+    priority_str = track_data.get('priority', 'medium')
+    try:
+        priority = Priority(priority_str.lower() if isinstance(priority_str, str) else 'medium')
+    except ValueError:
+        priority = Priority.MEDIUM
+
+    # Parse metadata
+    metadata_data = track_data.get('metadata', {})
+    metadata = TrackMetadata(
+        created_by=metadata_data.get('created_by', 'unknown'),
+        last_updated=_parse_datetime(track_data.get('updated_at')) or datetime.now(timezone.utc),
+        notes=track_data.get('description'),
+    )
+
+    # Get roadmap_id from parent_ref or dedicated field
+    roadmap_id = track_data.get('roadmap_id') or track_data.get('parent_ref', 'vibey-framework-v2')
+
+    # Build the Track object with defaults for missing v1 fields
+    return Track(
+        id=track_data['id'],
+        name=track_data['name'],
+        roadmap_id=roadmap_id,
+        status=track_status,
+        blocked=False,  # V2 computes this from criteria
+        priority=priority,
+        created=_parse_datetime(track_data.get('created_at')) or datetime.now(timezone.utc),
+        started=_parse_datetime(track_data.get('started_at')),
+        completed=_parse_datetime(track_data.get('completed_at')),
+        estimated_duration=track_data.get('estimated_duration'),
+        progress=progress,
+        sprints=sprints,
+        dependencies=[],  # V2 uses criteria instead
+        blocks=[],
+        blocked_by=[],
+        depends_on=[],  # Computed from criteria in v2
+        depended_on_by=[],
+        quality_gates=[],
+        assigned_agents=track_data.get('assigned_agents', []),
+        deliverables=[],
+        strategic_value=track_data.get('strategic_value', []),
+        commits=[],  # Would need to convert from PydanticGitCommit
+        metadata=metadata,
+        standards=[],
+    )
+
+
 def load_roadmap(file_path: Union[str, Path]) -> Roadmap:
     """
     Load a roadmap from YAML file.
@@ -812,6 +930,9 @@ def load_track(file_path: Union[str, Path]) -> Track:
     """
     Load a track from YAML file.
 
+    Supports both v1 (legacy) and v2 (Pydantic) YAML formats.
+    V2 format is detected and converted to the legacy Track dataclass.
+
     Args:
         file_path: Path to track YAML file
 
@@ -828,7 +949,13 @@ def load_track(file_path: Union[str, Path]) -> Track:
 
     track_data = data['track']
 
-    # Parse progress
+    # Detect format and convert v2 to v1 Track if needed
+    format_version = detect_yaml_format(track_data)
+    if format_version == 'v2':
+        logger.debug(f"Loading v2 format track {track_data.get('id')}, converting to v1 Track")
+        return _convert_v2_track_to_v1(track_data)
+
+    # V1 format: Parse progress
     prog_data = track_data['progress']
     progress = TrackProgress(
         sprints_total=prog_data['sprints_total'],
@@ -1418,6 +1545,12 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
         gate_info = None
         if 'gate_info' in task_data and task_data['gate_info']:
             gi_data = task_data['gate_info']
+            # Validate gate_info is a dict, not a string or other type
+            if not isinstance(gi_data, dict):
+                raise ValueError(
+                    f"Invalid gate_info field type: expected dict or null, got {type(gi_data).__name__}. "
+                    f"gate_info should be either null or a dict with keys like 'blocks_status', 'threshold', 'is_blocking', 'score'."
+                )
             # Determine blocks_status (default based on task_type if missing)
             blocks_status = gi_data.get('blocks_status')
             if not blocks_status:
@@ -1848,6 +1981,12 @@ def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
     gate_info_v2 = None
     if 'gate_info' in task_data and task_data['gate_info']:
         gi = task_data['gate_info']
+        # Validate gate_info is a dict, not a string or other type
+        if not isinstance(gi, dict):
+            raise ValueError(
+                f"Invalid gate_info field type: expected dict or null, got {type(gi).__name__}. "
+                f"gate_info should be either null or a dict with keys like 'blocks_status', 'threshold', 'is_blocking', 'score'."
+            )
         gate_info_v2 = GateInfo(
             blocks_status=_convert_status_to_ticket_status(gi.get('blocks_status', 'completed')),
             threshold=gi.get('threshold', 100),
@@ -1930,6 +2069,12 @@ def _migrate_task_to_ticket(task_data: Dict[str, Any]) -> TaskTicket:
     gate_info_v2 = None
     if 'gate_info' in task_data and task_data['gate_info']:
         gi = task_data['gate_info']
+        # Validate gate_info is a dict, not a string or other type
+        if not isinstance(gi, dict):
+            raise ValueError(
+                f"Invalid gate_info field type: expected dict or null, got {type(gi).__name__}. "
+                f"gate_info should be either null or a dict with keys like 'blocks_status', 'threshold', 'is_blocking', 'score'."
+            )
         blocks_status_str = gi.get('blocks_status', 'completed')
         gate_info_v2 = PydanticGateInfo(
             blocks_status=_convert_status_to_ticket_status(blocks_status_str),

@@ -1,0 +1,53 @@
+task:
+  id: 01KCY7Y55TB3GM73V85A6S821M
+  name: Fix track.production_ready_at AttributeError
+  description: |
+    Bug discovered during roadmap verification when running `vibey roadmap db rebuild --force`.
+
+    Error:
+    AttributeError: 'Track' object has no attribute 'production_ready_at'
+
+    Root Cause:
+    The track auto-progression code in vibey/operations/roadmap/update.py (line 1739)
+    and vibey/cli/roadmap-update.py (line 455) tried to access track.production_ready_at,
+    but the Track model only has 'started' and 'completed' timestamp fields.
+
+    Solution:
+    Removed the invalid PRODUCTION_READY status handling for tracks since tracks
+    only support NOT_STARTED, IN_PROGRESS, and COMPLETED status transitions.
+    Added clarifying comment about track timestamp limitations.
+
+    Files Modified:
+    - vibey/operations/roadmap/update.py (lines 1733-1740)
+    - vibey/cli/roadmap-update.py (lines 449-456)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCY7Y5263TVP5F4323X9GD9X
+  status: completed
+  created_at: '2025-12-20T10:00:00+00:00'
+  started_at: '2025-12-20T10:00:00+00:00'
+  completed_at: '2025-12-20T10:30:00+00:00'
+  updated_at: '2025-12-20T10:30:00+00:00'
+  assigned_agents:
+  - claude-code
+  priority: high
+  criteria:
+  - type: test
+    description: vibey roadmap db rebuild --force completes without error
+    status: met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: bug-fix
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

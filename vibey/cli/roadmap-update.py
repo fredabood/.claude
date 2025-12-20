@@ -447,13 +447,13 @@ def update_track_progress(fs: FileSystemManager, track_id: str):
         track.status = new_status
 
         # Set appropriate timestamp based on new status
+        # Note: Tracks only support started and completed timestamps
+        # (unlike tasks which also have production_ready_at)
         now = datetime.now(timezone.utc)
         if new_status == Status.IN_PROGRESS and not track.started:
             track.started = now
         elif new_status == Status.COMPLETED and not track.completed:
             track.completed = now
-        elif new_status == Status.PRODUCTION_READY and not track.production_ready_at:
-            track.production_ready_at = now
 
         track.metadata.last_modified = now
         print(f"🎉 Track '{track.name}' progressed to {new_status.value}: {message}")

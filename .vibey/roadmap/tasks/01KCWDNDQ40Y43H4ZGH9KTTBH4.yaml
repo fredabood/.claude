@@ -32,10 +32,10 @@ task:
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
-  status: not_started
+  status: completed
   created_at: '2025-12-19T23:03:36.420288+00:00'
-  started_at: null
-  completed_at: null
+  started_at: '2025-12-21T00:40:00+00:00'
+  completed_at: '2025-12-21T00:50:00+00:00'
   updated_at: '2025-12-19T23:03:36.420288+00:00'
   assigned_agents:
   - unassigned
@@ -43,16 +43,16 @@ task:
   criteria:
   - type: artifact
     description: vibey/adapters/pm/registry.py exists
-    status: not_met
+    status: met
   - type: code
     description: PMAdapterRegistry class with register/get/list methods
-    status: not_met
+    status: met
   - type: code
     description: Default adapter selection support
-    status: not_met
+    status: met
   - type: code
     description: "'@pm_adapter' decorator for auto-registration"
-    status: not_met
+    status: met
   depends_on:
   - 01KCWDNDQ40Y43H4ZGH9KTTBH2
   - 01KCWDNDQ40Y43H4ZGH9KTTBH3

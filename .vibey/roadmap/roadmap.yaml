@@ -15,7 +15,7 @@ roadmap:
   deployed: null
   progress:
     tracks_total: 46
-    tracks_completed: 26
+    tracks_completed: 28
     sprints_total: 0
     sprints_completed: 0
     tasks_total: 0
@@ -200,11 +200,11 @@ roadmap:
     priority: medium
   - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
     name: Git Submodule Integration
-    status: not_started
+    status: production_ready
     priority: medium
   - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
     name: Semantic Platform Compatibility
-    status: in_progress
+    status: production_ready
     priority: medium
   dependencies: []
   blocked_by: []

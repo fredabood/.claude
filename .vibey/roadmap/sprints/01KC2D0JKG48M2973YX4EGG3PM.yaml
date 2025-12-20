@@ -14,15 +14,15 @@ sprint:
   production_ready_at: '2025-11-24T00:00:00+00:00'
   deployed_at: null
   progress:
-    development_tasks_total: 0
-    development_tasks_completed: 0
+    development_tasks_total: 4
+    development_tasks_completed: 4
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 4
+    tasks_completed: 4
+    completion_percent: 100
   development_gates: []
   blocks: []
   blocked_by: []

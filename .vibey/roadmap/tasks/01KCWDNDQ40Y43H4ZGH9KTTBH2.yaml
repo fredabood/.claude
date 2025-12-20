@@ -1,7 +1,32 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH2
   name: Create vibey/adapters/pm/base.py with TicketAdapter ABC
-  description: ''
+  description: |
+    Create the abstract base class that all PM tool adapters must implement. This
+    defines the contract for read, write, and sync operations.
+
+    Implementation steps:
+    1. Create vibey/adapters/pm/ directory with __init__.py
+    2. Create SyncDirection enum: IMPORT, EXPORT, BIDIRECTIONAL
+    3. Create TicketAdapter ABC with:
+       - Identity properties: adapter_name, display_name (abstract)
+       - Capability properties: supported_hierarchy_types, supports_sprints,
+         supports_bidirectional_sync, supports_webhooks
+       - Read operations (abstract): list_projects, get_ticket, list_children, search_tickets
+       - Write operations (abstract): create_ticket, update_ticket, update_status, delete_ticket
+       - Sync operations: sync (with default NotImplementedError), detect_conflicts
+       - Mapping operations (abstract): map_to_generic, map_from_generic
+    4. Add comprehensive docstrings for each method
+    5. Reference existing PlatformAdapter pattern for consistency
+
+    Deliverables:
+    - vibey/adapters/pm/__init__.py
+    - vibey/adapters/pm/base.py
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1 (Generic Ticket model)
+
+    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.2
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +38,24 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/base.py exists
+    status: not_met
+  - type: code
+    description: TicketAdapter ABC with all abstract methods defined
+    status: not_met
+  - type: code
+    description: Read operations (list_projects, get_ticket, list_children, search_tickets)
+    status: not_met
+  - type: code
+    description: Write operations (create_ticket, update_ticket, update_status, delete_ticket)
+    status: not_met
+  - type: code
+    description: Mapping operations (map_to_generic, map_from_generic)
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
   commits_local: []
   requirements_local: []
   estimated_duration: null

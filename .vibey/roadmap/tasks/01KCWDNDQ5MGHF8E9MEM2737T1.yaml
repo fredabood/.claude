@@ -1,7 +1,36 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T1
   name: Refactor roadmap start/complete commands
-  description: ''
+  description: |
+    Refactor `vibey roadmap start` and `vibey roadmap complete` commands to use
+    TicketService while maintaining identical behavior.
+
+    Implementation steps:
+    1. Refactor roadmap start command:
+       - Replace direct status update with service.start(ticket_id)
+       - TicketService handles timestamp updates automatically
+       - Maintain validation (can't start completed task)
+    2. Refactor roadmap complete command:
+       - Replace direct status update with service.complete(ticket_id)
+       - Service handles completed_at timestamp
+       - Maintain parent status propagation logic
+    3. Update both commands:
+       - Use get_ticket to validate ID exists
+       - Use generic Ticket for display
+       - Add --adapter flag support
+    4. Handle edge cases:
+       - Starting already-in-progress task
+       - Completing not-started task
+       - Completing blocked task
+    5. Remove direct model imports
+    6. Test status transitions work correctly
+
+    Deliverables:
+    - Updated roadmap_start and roadmap_complete in commands.py
+    - Tests for status transitions
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T0 (status command refactored)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
@@ -13,7 +42,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: roadmap start uses service.start()
+    status: not_met
+  - type: code
+    description: roadmap complete uses service.complete()
+    status: not_met
+  - type: code
+    description: Timestamp updates work correctly
+    status: not_met
+  - type: test
+    description: Status transitions validated
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T0
   commits_local: []
   requirements_local: []
   estimated_duration: null

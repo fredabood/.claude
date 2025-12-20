@@ -1,7 +1,38 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T3
   name: Update MCP tools to use TicketService
-  description: ''
+  description: |
+    Update all MCP server tools to use TicketService instead of direct model
+    access, enabling AI assistants to work with any PM tool.
+
+    Implementation steps:
+    1. Identify all roadmap-related MCP tools in vibey/mcp/server.py
+    2. Create MCP service wrapper:
+       - vibey/mcp/services/ticket_service.py
+       - Similar to CLI wrapper but MCP-specific
+       - JSON serialization for Ticket objects
+    3. Update MCP tools:
+       - roadmap_status -> TicketService.list_projects() + children
+       - get_task -> TicketService.get_ticket()
+       - start_task -> TicketService.start()
+       - complete_task -> TicketService.complete()
+       - search_tasks -> TicketService.search()
+    4. Update tool schemas:
+       - Add adapter parameter to tools that need it
+       - Update return schemas to use generic Ticket
+    5. Maintain backwards compatibility:
+       - Tool names stay the same
+       - Response format compatible with existing prompts
+    6. Remove direct model imports from MCP server
+
+    Deliverables:
+    - vibey/mcp/services/ticket_service.py
+    - Updated vibey/mcp/server.py tools
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T2 (CLI commands refactored)
+
+    Reference: vibey/mcp/server.py (76 existing tools)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
@@ -13,7 +44,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/mcp/services/ticket_service.py exists
+    status: not_met
+  - type: code
+    description: All roadmap MCP tools use TicketService
+    status: not_met
+  - type: code
+    description: Tool schemas updated with adapter parameter
+    status: not_met
+  - type: test
+    description: MCP tools return correct data
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T2
   commits_local: []
   requirements_local: []
   estimated_duration: null

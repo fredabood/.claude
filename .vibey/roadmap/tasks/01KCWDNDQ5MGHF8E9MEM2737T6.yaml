@@ -1,7 +1,42 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T6
   name: Create Jira REST API client
-  description: ''
+  description: |
+    Create a typed Python client for Jira Cloud REST API v3 with automatic
+    authentication and error handling.
+
+    Implementation steps:
+    1. Create vibey/adapters/pm/atlassian/jira_client.py:
+       - JiraClient class with httpx async client
+       - __init__(auth: AtlassianOAuth, cloud_id: str)
+       - Automatic token refresh on 401
+    2. Implement project operations:
+       - get_projects() -> List[JiraProject]
+       - get_project(key: str) -> JiraProject
+    3. Implement sprint operations (Jira Software):
+       - get_boards() -> List[JiraBoard]
+       - get_sprints(board_id: int) -> List[JiraSprint]
+       - get_sprint(sprint_id: int) -> JiraSprint
+    4. Implement issue operations:
+       - get_issues(jql: str) -> List[JiraIssue]
+       - get_issue(key: str) -> JiraIssue
+       - create_issue(data: dict) -> JiraIssue
+       - update_issue(key: str, data: dict) -> JiraIssue
+       - transition_issue(key: str, transition_id: str)
+    5. Create Pydantic models for Jira entities:
+       - JiraProject, JiraBoard, JiraSprint, JiraIssue
+       - JiraStatus, JiraPriority, JiraIssueType
+    6. Add rate limiting and retry logic
+    7. Add pagination support for large result sets
+
+    Deliverables:
+    - vibey/adapters/pm/atlassian/jira_client.py
+    - vibey/adapters/pm/atlassian/jira_models.py
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T5 (OAuth authentication)
+
+    Reference: https://developer.atlassian.com/cloud/jira/platform/rest/v3/
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
@@ -13,7 +48,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/atlassian/jira_client.py exists
+    status: not_met
+  - type: code
+    description: Project, sprint, and issue operations implemented
+    status: not_met
+  - type: code
+    description: Pydantic models for all Jira entities
+    status: not_met
+  - type: code
+    description: Rate limiting and pagination
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T5
   commits_local: []
   requirements_local: []
   estimated_duration: null

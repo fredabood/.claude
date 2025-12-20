@@ -1,7 +1,19 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P7
   name: Implement bidirectional docs sync
-  description: ''
+  description: "Implement bidirectional documentation sync between Confluence\nand\
+    \ local Vibey context files.\n\nImplementation steps:\n1. Design sync strategy\
+    \ for docs:\n   - Map Confluence pages to .vibey/roadmap/context/ files\n   -\
+    \ Track sync state like ticket sync\n2. Implement doc import:\n   - vibey sync\
+    \ confluence import --space KEY\n   - Download pages as Markdown\n   - Preserve\
+    \ hierarchy in directory structure\n3. Implement doc export:\n   - vibey sync\
+    \ confluence export --path PATH\n   - Upload Markdown as Confluence pages\n  \
+    \ - Create/update as needed\n4. Handle bidirectional sync:\n   - Detect changes\
+    \ on both sides\n   - Conflict resolution for docs\n5. Add automation options:\n\
+    \   - Sync on commit (via hooks)\n   - Scheduled sync\n\nDeliverables:\n- Documentation\
+    \ sync functionality\n- CLI sync commands for docs\n- Sync automation hooks\n\n\
+    Dependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P5 (ConfluenceAdapter)\n- Requires:\
+    \ 01KCWDNDQ768HTSN9458MK07P6 (Markdown converter)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P3
@@ -13,7 +25,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: Import Confluence pages as Markdown
+    status: not_met
+  - type: code
+    description: Export Markdown to Confluence
+    status: not_met
+  - type: code
+    description: Bidirectional sync with conflicts
+    status: not_met
+  - type: code
+    description: CLI commands for doc sync
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +53,6 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07P5
+  - 01KCWDNDQ768HTSN9458MK07P6

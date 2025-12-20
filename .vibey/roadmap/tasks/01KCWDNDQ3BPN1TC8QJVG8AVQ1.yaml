@@ -1,7 +1,27 @@
 task:
   id: 01KCWDNDQ3BPN1TC8QJVG8AVQ1
   name: Review and finalize architecture with stakeholders
-  description: ''
+  description: |
+    Conduct architecture review of the unified adapter design with stakeholders to
+    validate decisions and gather feedback before implementation begins.
+
+    Implementation steps:
+    1. Prepare review materials: design doc, ADRs, diagrams
+    2. Walk through Generic Ticket model and HierarchyType mapping
+    3. Walk through TicketAdapter interface and method signatures
+    4. Discuss VibeyAdapter implementation approach
+    5. Review migration path and backwards compatibility strategy
+    6. Gather feedback on field mapping decisions
+    7. Document any required changes or concerns
+    8. Update design documents based on feedback
+    9. Obtain formal sign-off to proceed with implementation
+
+    Deliverables:
+    - Updated UNIFIED_ADAPTER_ARCHITECTURE.md (if changes needed)
+    - Architecture review notes/sign-off recorded
+
+    Dependencies:
+    - Requires: All prior Sprint 0 tasks (design doc, ADRs)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ3BPN1TC8QJVG8AVPX
@@ -13,7 +33,23 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: review
+    description: Design document reviewed and approved
+    status: not_met
+  - type: review
+    description: ADR-0006 (generic ticket model) reviewed and approved
+    status: not_met
+  - type: review
+    description: ADR-0007 (adapter pattern) reviewed and approved
+    status: not_met
+  - type: artifact
+    description: Any feedback incorporated into design documents
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ3BPN1TC8QJVG8AVPY
+  - 01KCWDNDQ3BPN1TC8QJVG8AVPZ
+  - 01KCWDNDQ3BPN1TC8QJVG8AVQ0
   commits_local: []
   requirements_local: []
   estimated_duration: null

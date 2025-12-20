@@ -1,7 +1,20 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P0
   name: Implement AsanaAdapter class
-  description: ''
+  description: "Create the AsanaAdapter that implements TicketAdapter for\nAsana projects,\
+    \ sections, and tasks.\n\nImplementation steps:\n1. Create vibey/adapters/pm/asana/adapter.py:\n\
+    \   - AsanaAdapter extending TicketAdapter\n2. Implement identity and capabilities:\n\
+    \   - adapter_name -> \"asana\"\n   - display_name -> \"Asana\"\n   - supports_sprints\
+    \ -> True (via sections)\n3. Implement hierarchy mapping:\n   - Workspace → (skipped,\
+    \ too high level)\n   - Project → PROJECT\n   - Section → ITERATION or WORKSTREAM\n\
+    \   - Task → WORK_ITEM\n   - Subtask → WORK_ITEM with parent\n4. Implement read\
+    \ operations:\n   - list_projects() -> user's projects\n   - get_ticket() -> get\
+    \ task or section\n   - list_children() -> tasks in section/project\n5. Implement\
+    \ write operations:\n   - create_ticket() -> create task\n   - update_ticket()\
+    \ -> update task\n   - update_status() -> complete task or move section\n6. Register\
+    \ with @pm_adapter decorator\n\nDeliverables:\n- vibey/adapters/pm/asana/__init__.py\n\
+    - vibey/adapters/pm/asana/adapter.py\n\nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07NZ\
+    \ (Asana client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07NY
@@ -13,7 +26,19 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/asana/adapter.py exists
+    status: not_met
+  - type: code
+    description: AsanaAdapter implements TicketAdapter
+    status: not_met
+  - type: code
+    description: Project→Section→Task hierarchy
+    status: not_met
+  - type: code
+    description: Subtask support
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +54,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07NZ

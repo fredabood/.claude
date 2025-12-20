@@ -1,19 +1,45 @@
 task:
   id: 01KCWDNDQ3BPN1TC8QJVG8AVPY
   name: Create UNIFIED_ADAPTER_ARCHITECTURE.md design document
-  description: ''
+  description: |
+    Create comprehensive design document for the unified adapter architecture that makes
+    Vibey just another adapter on equal footing with Jira, GitHub, Trello, and Asana.
+
+    Implementation steps:
+    1. Document current architecture pain points (tight coupling, Vibey-specific semantics)
+    2. Design Generic Ticket model with HierarchyType enum (PROJECT, WORKSTREAM, ITERATION, WORK_ITEM)
+    3. Design TicketAdapter ABC with read/write/sync operations
+    4. Design TicketService as CLI/MCP interface
+    5. Outline VibeyAdapter implementation that uses existing YAML+SQLite storage
+    6. Create field mapping reference table (Vibey↔Jira↔GitHub↔Trello↔Asana)
+    7. Define migration path with phased sprint structure
+
+    Deliverables:
+    - .vibey/roadmap/context/tracks/pm-tool-integrations/design/UNIFIED_ADAPTER_ARCHITECTURE.md
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ3BPN1TC8QJVG8AVPX
   status: completed
-  created_at: '2025-12-19T23:03:36.419203+00:00'
-  started_at: '2025-12-19T22:00:00+00:00'
-  completed_at: '2025-12-19T23:00:00+00:00'
+  created_at: '2025-12-19T17:00:00+00:00'
+  started_at: '2025-12-19T17:30:00+00:00'
+  completed_at: '2025-12-19T19:00:00+00:00'
   updated_at: '2025-12-19T23:03:36.419203+00:00'
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: Design document exists at .vibey/roadmap/context/tracks/pm-tool-integrations/design/UNIFIED_ADAPTER_ARCHITECTURE.md
+    status: met
+  - type: content
+    description: Document includes Generic Ticket model with HierarchyType enum
+    status: met
+  - type: content
+    description: Document includes TicketAdapter ABC with all required methods
+    status: met
+  - type: content
+    description: Document includes field mapping reference for all 5 platforms
+    status: met
   commits_local: []
   requirements_local: []
   estimated_duration: null

@@ -1,7 +1,35 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH3
   name: Create vibey/adapters/pm/types.py with SyncResult, PMCapabilities
-  description: ''
+  description: |
+    Create supporting types for the PM adapter system including sync results,
+    capabilities declarations, and conflict resolution types.
+
+    Implementation steps:
+    1. Create SyncResult Pydantic model:
+       - success: bool
+       - direction: SyncDirection
+       - items_imported, items_exported, items_updated: int
+       - conflicts: List[Dict[str, Any]]
+       - errors: List[str]
+       - started_at, completed_at: datetime
+    2. Create PMCapabilities dataclass/model:
+       - supported_hierarchy_types: List[HierarchyType]
+       - supports_sprints: bool
+       - supports_bidirectional_sync: bool
+       - supports_webhooks: bool
+       - supports_attachments: bool
+       - supports_comments: bool
+       - max_description_length: Optional[int]
+    3. Create ConflictResolution enum: LOCAL_WINS, REMOTE_WINS, MANUAL, MERGE
+    4. Create SyncConflict model for conflict details
+    5. Export all types from vibey/adapters/pm/__init__.py
+
+    Deliverables:
+    - vibey/adapters/pm/types.py (updated __init__.py)
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH1 (Generic Ticket model)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +41,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/types.py exists
+    status: not_met
+  - type: code
+    description: SyncResult model with all required fields
+    status: not_met
+  - type: code
+    description: PMCapabilities model with capability flags
+    status: not_met
+  - type: code
+    description: ConflictResolution enum and SyncConflict model
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
   commits_local: []
   requirements_local: []
   estimated_duration: null

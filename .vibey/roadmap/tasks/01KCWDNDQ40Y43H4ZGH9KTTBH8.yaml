@@ -1,7 +1,36 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH8
   name: Create vibey/adapters/pm/vibey/adapter.py
-  description: ''
+  description: |
+    Create the VibeyAdapter class that implements TicketAdapter for Vibey's native
+    YAML + SQLite roadmap system. This extracts Vibey-specific semantics into an adapter.
+
+    Implementation steps:
+    1. Create vibey/adapters/pm/vibey/ directory with __init__.py
+    2. Create VibeyAdapter class extending TicketAdapter:
+       - __init__(vibey_dir: Optional[Path] = None)
+       - Store _vibey_dir and _roadmap_dir paths
+    3. Implement identity properties:
+       - adapter_name -> "vibey"
+       - display_name -> "Vibey Roadmap"
+    4. Implement capability properties:
+       - supports_sprints -> True
+       - supports_bidirectional_sync -> True (can sync with other adapters)
+    5. Add class docstring explaining Vibey hierarchy mapping:
+       - Roadmap → PROJECT
+       - Track → WORKSTREAM
+       - Sprint → ITERATION
+       - Task → WORK_ITEM
+    6. Register with PMAdapterRegistry using @pm_adapter decorator
+
+    Deliverables:
+    - vibey/adapters/pm/vibey/__init__.py
+    - vibey/adapters/pm/vibey/adapter.py (class skeleton)
+
+    Dependencies:
+    - Requires: Sprint 1 complete (TicketAdapter ABC, registry)
+
+    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 4
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH7
@@ -13,7 +42,21 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/vibey/adapter.py exists
+    status: not_met
+  - type: code
+    description: VibeyAdapter class extends TicketAdapter
+    status: not_met
+  - type: code
+    description: adapter_name and display_name properties implemented
+    status: not_met
+  - type: code
+    description: Registered with PMAdapterRegistry
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH6
   commits_local: []
   requirements_local: []
   estimated_duration: null

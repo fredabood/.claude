@@ -1,7 +1,45 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737TA
   name: Write integration tests with Jira sandbox
-  description: ''
+  description: |
+    Create integration tests for JiraAdapter using a Jira Cloud sandbox
+    environment with mocked and live API testing.
+
+    Implementation steps:
+    1. Set up test infrastructure:
+       - Create tests/adapters/pm/jira/ directory
+       - Configure test Jira Cloud site (free tier)
+       - Store test credentials in environment variables
+    2. Create mock responses:
+       - tests/adapters/pm/jira/fixtures/
+       - Sample project, sprint, issue JSON responses
+       - Use responses library for HTTP mocking
+    3. Write unit tests with mocks:
+       - test_jira_client.py - API client tests
+       - test_jira_adapter.py - adapter method tests
+       - test_jira_mapping.py - field mapping tests
+    4. Write integration tests (live API):
+       - test_jira_integration.py
+       - Mark with @pytest.mark.integration
+       - Skip if no credentials available
+    5. Test scenarios:
+       - OAuth flow completion
+       - List projects
+       - Get issue by key
+       - Create and update issue
+       - Transition issue status
+       - Import project with sprints and issues
+    6. Add CI/CD configuration:
+       - Run mock tests on every PR
+       - Run integration tests nightly (with secrets)
+
+    Deliverables:
+    - tests/adapters/pm/jira/ test suite
+    - Mock fixtures
+    - CI/CD configuration
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T9 (import operations)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
@@ -13,7 +51,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: tests/adapters/pm/jira/ directory with tests
+    status: not_met
+  - type: artifact
+    description: Mock fixtures for offline testing
+    status: not_met
+  - type: test
+    description: Unit tests pass with mocks
+    status: not_met
+  - type: test
+    description: Integration tests pass with sandbox
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T9
   commits_local: []
   requirements_local: []
   estimated_duration: null

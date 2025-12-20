@@ -1,7 +1,19 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ3
   name: Implement export operations (Vibey→Jira)
-  description: ''
+  description: "Implement export operations from Vibey to Jira, creating and updating\n\
+    Jira issues from local tickets.\n\nImplementation steps:\n1. Implement sync()\
+    \ method for EXPORT direction:\n   - Find local tickets with external_id mapping\
+    \ to Jira\n   - Compare local and remote state\n   - Push changes to Jira\n2.\
+    \ Implement export CLI command:\n   - vibey export jira --ticket ID\n   - vibey\
+    \ export jira --all\n3. Handle entity creation in Jira:\n   - Create issues from\
+    \ WORK_ITEM tickets\n   - Handle required fields (project, issuetype)\n   - Map\
+    \ status, priority, assignee\n4. Handle entity updates:\n   - Update summary,\
+    \ description\n   - Transition status if changed\n   - Update custom fields\n\
+    5. Handle conflicts (local wins for now):\n   - Detect if remote was modified\n\
+    \   - Log conflicts for later resolution\n\nDeliverables:\n- Export functionality\
+    \ in JiraAdapter\n- CLI export commands\n\nDependencies:\n- Requires: 01KCWDNDQ5MGHF8E9MEM2737TA\
+    \ (import tested)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
@@ -13,7 +25,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: sync(EXPORT) pushes data to Jira
+    status: not_met
+  - type: code
+    description: CLI export commands work
+    status: not_met
+  - type: code
+    description: Create and update operations work
+    status: not_met
+  - type: code
+    description: Conflicts detected and logged
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +53,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737TA

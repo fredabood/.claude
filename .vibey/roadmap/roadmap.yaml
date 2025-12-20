@@ -204,7 +204,7 @@ roadmap:
     priority: medium
   - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
     name: Semantic Platform Compatibility
-    status: not_started
+    status: in_progress
     priority: medium
   dependencies: []
   blocked_by: []

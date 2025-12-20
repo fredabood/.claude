@@ -1,7 +1,40 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T7
   name: Implement JiraAdapter class
-  description: ''
+  description: |
+    Create the JiraAdapter that implements TicketAdapter for Jira Cloud,
+    using the Jira REST client and field mapping.
+
+    Implementation steps:
+    1. Create vibey/adapters/pm/jira/adapter.py:
+       - JiraAdapter extending TicketAdapter
+       - __init__(client: JiraClient)
+    2. Implement identity properties:
+       - adapter_name -> "jira"
+       - display_name -> "Jira Cloud"
+    3. Implement capability properties:
+       - supports_sprints -> True (with Jira Software)
+       - supports_bidirectional_sync -> True
+       - supports_webhooks -> True
+    4. Implement read operations:
+       - list_projects() -> convert JiraProjects to Tickets
+       - get_ticket(key) -> convert JiraIssue to Ticket
+       - list_children(key) -> issues in sprint/project
+       - search_tickets(jql) -> JQL query support
+    5. Implement write operations:
+       - create_ticket() -> create Jira issue
+       - update_ticket() -> update Jira issue
+       - update_status() -> transition issue
+       - delete_ticket() -> delete issue (if permitted)
+    6. Register with @pm_adapter decorator
+
+    Deliverables:
+    - vibey/adapters/pm/jira/__init__.py
+    - vibey/adapters/pm/jira/adapter.py
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T6 (Jira REST client)
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T8 (field mapping)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
@@ -13,7 +46,22 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/jira/adapter.py exists
+    status: not_met
+  - type: code
+    description: JiraAdapter implements all TicketAdapter methods
+    status: not_met
+  - type: code
+    description: Read operations work with Jira API
+    status: not_met
+  - type: code
+    description: Write operations work with Jira API
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T6
+  - 01KCWDNDQ5MGHF8E9MEM2737T8
   commits_local: []
   requirements_local: []
   estimated_duration: null

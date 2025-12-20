@@ -1,7 +1,35 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T2
   name: Refactor roadmap show/list commands
-  description: ''
+  description: |
+    Refactor `vibey roadmap show` and related list commands to use TicketService
+    while maintaining identical output format.
+
+    Implementation steps:
+    1. Refactor roadmap show command:
+       - Use service.get_ticket(id) instead of direct YAML load
+       - Use service.list_children(id) for nested display
+       - Format output from generic Ticket fields
+       - Maintain detailed view format
+    2. Refactor list-type commands:
+       - list-tracks: service.get_workstreams(project_id)
+       - list-sprints: service.get_iterations(track_id)
+       - list-tasks: service.get_work_items(sprint_id)
+    3. Refactor search functionality:
+       - Use service.search() with filter parameters
+       - Map CLI flags to search parameters
+    4. Update output formatting:
+       - Use format_ticket_for_display from CLI service
+       - Handle hierarchy_type for appropriate labels
+    5. Add --adapter flag to all commands
+    6. Remove all direct model imports
+
+    Deliverables:
+    - Updated show/list commands in commands.py
+    - Tests for display output
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T1 (start/complete refactored)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
@@ -13,7 +41,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: roadmap show uses service.get_ticket()
+    status: not_met
+  - type: code
+    description: List commands use appropriate service methods
+    status: not_met
+  - type: code
+    description: Search uses service.search()
+    status: not_met
+  - type: test
+    description: Output format matches original
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T1
   commits_local: []
   requirements_local: []
   estimated_duration: null

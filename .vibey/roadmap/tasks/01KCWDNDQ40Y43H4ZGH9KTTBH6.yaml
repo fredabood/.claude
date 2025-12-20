@@ -1,7 +1,43 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH6
   name: Write unit tests for core abstractions
-  description: ''
+  description: |
+    Create comprehensive unit tests for all Sprint 1 deliverables to ensure
+    the core abstractions work correctly before building adapters.
+
+    Implementation steps:
+    1. Create tests/core/ directory
+    2. Create tests/core/test_ticket.py:
+       - Test HierarchyType enum values
+       - Test TicketStatus enum values
+       - Test Ticket model creation and validation
+       - Test Ticket serialization/deserialization
+       - Test default values and optional fields
+    3. Create tests/adapters/pm/ directory
+    4. Create tests/adapters/pm/test_base.py:
+       - Test that TicketAdapter cannot be instantiated directly
+       - Test that subclasses must implement abstract methods
+       - Test capability property defaults
+    5. Create tests/adapters/pm/test_registry.py:
+       - Test adapter registration
+       - Test adapter retrieval
+       - Test default adapter selection
+       - Test error handling for unknown adapters
+    6. Create tests/services/test_ticket_service.py:
+       - Test service initialization with mock adapter
+       - Test all read operations
+       - Test all write operations
+       - Test convenience methods
+       - Test adapter switching
+
+    Deliverables:
+    - tests/core/test_ticket.py
+    - tests/adapters/pm/test_base.py
+    - tests/adapters/pm/test_registry.py
+    - tests/services/test_ticket_service.py
+
+    Dependencies:
+    - Requires: All Sprint 1 implementation tasks
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +49,28 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: tests/core/test_ticket.py exists with comprehensive tests
+    status: not_met
+  - type: artifact
+    description: tests/adapters/pm/test_base.py exists
+    status: not_met
+  - type: artifact
+    description: tests/adapters/pm/test_registry.py exists
+    status: not_met
+  - type: artifact
+    description: tests/services/test_ticket_service.py exists
+    status: not_met
+  - type: test
+    description: All tests pass
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH1
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH3
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH4
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH5
   commits_local: []
   requirements_local: []
   estimated_duration: null

@@ -2,12 +2,12 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: production_ready
+  status: in_progress
   blocked: false
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
   started: '2025-12-10T05:05:41.041645+00:00'
-  completed: '2025-12-19T16:00:00+00:00'
+  completed: null
   estimated_duration: null
   progress:
     sprints_total: 0
@@ -29,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-19T19:39:12.086331+00:00'
+    last_updated: '2025-12-20T14:33:07.185347+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

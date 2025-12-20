@@ -1,7 +1,19 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQG
   name: Implement TrelloAdapter class
-  description: ''
+  description: "Create the TrelloAdapter that implements TicketAdapter for\nTrello\
+    \ boards, lists, and cards.\n\nImplementation steps:\n1. Create vibey/adapters/pm/trello/adapter.py:\n\
+    \   - TrelloAdapter extending TicketAdapter\n2. Implement identity and capabilities:\n\
+    \   - adapter_name -> \"trello\"\n   - display_name -> \"Trello\"\n   - supports_sprints\
+    \ -> False (lists are not sprints)\n3. Implement hierarchy mapping:\n   - Board\
+    \ → PROJECT\n   - List → WORKSTREAM (or ITERATION if configured)\n   - Card →\
+    \ WORK_ITEM\n4. Implement read operations:\n   - list_projects() -> user's boards\n\
+    \   - get_ticket() -> get card or list\n   - list_children() -> cards in list/board\n\
+    5. Implement write operations:\n   - create_ticket() -> create card\n   - update_ticket()\
+    \ -> update card\n   - update_status() -> move card to list\n6. Register with\
+    \ @pm_adapter decorator\n\nDeliverables:\n- vibey/adapters/pm/trello/__init__.py\n\
+    - vibey/adapters/pm/trello/adapter.py\n\nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQF\
+    \ (Trello client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQE
@@ -13,7 +25,19 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/trello/adapter.py exists
+    status: not_met
+  - type: code
+    description: TrelloAdapter implements TicketAdapter
+    status: not_met
+  - type: code
+    description: Board→List→Card hierarchy mapped
+    status: not_met
+  - type: code
+    description: Moving cards changes status
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +53,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQF

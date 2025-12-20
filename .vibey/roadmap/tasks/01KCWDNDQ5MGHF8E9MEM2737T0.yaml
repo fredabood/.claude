@@ -1,7 +1,34 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T0
   name: Refactor roadmap status command
-  description: ''
+  description: |
+    Refactor the `vibey roadmap status` command to use TicketService instead of
+    direct model access while maintaining identical output and behavior.
+
+    Implementation steps:
+    1. Identify current implementation in vibey/cli/commands.py
+    2. Replace direct YAML/SQLite access with TicketService calls:
+       - list_projects() to get roadmap
+       - list_children() to get tracks
+       - get_workstreams/get_iterations for nested data
+    3. Update status calculation to use generic Ticket fields:
+       - children_total, children_completed
+       - completion_percent
+    4. Maintain existing output format (progress bars, colors, etc.)
+    5. Add --adapter flag to select PM tool (default: vibey)
+    6. Test that output matches exactly with original
+    7. Remove direct model imports from this command
+
+    Deliverables:
+    - Updated vibey/cli/commands.py roadmap_status function
+    - Tests verifying identical output
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBHE (CLI wrapper)
+
+    Backwards Compatibility:
+    - Output format must remain identical
+    - All existing flags must work
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
@@ -13,7 +40,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: roadmap status uses TicketService
+    status: not_met
+  - type: code
+    description: No direct model imports in command
+    status: not_met
+  - type: test
+    description: Output matches original implementation
+    status: not_met
+  - type: code
+    description: --adapter flag supported
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBHE
   commits_local: []
   requirements_local: []
   estimated_duration: null

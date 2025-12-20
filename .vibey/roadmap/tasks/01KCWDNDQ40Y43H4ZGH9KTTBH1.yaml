@@ -1,7 +1,33 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH1
   name: Create vibey/core/ticket.py with generic Ticket model
-  description: ''
+  description: |
+    Create the foundational Generic Ticket model that serves as the core abstraction
+    for all PM tool integrations. This model is tool-agnostic and uses generic terms.
+
+    Implementation steps:
+    1. Create vibey/core/ directory with __init__.py
+    2. Create HierarchyType enum: PROJECT, WORKSTREAM, ITERATION, WORK_ITEM
+    3. Create TicketStatus enum: NOT_STARTED, IN_PROGRESS, BLOCKED, COMPLETED, CANCELLED
+    4. Create Ticket Pydantic model with fields:
+       - Identity: id, external_id, source_adapter
+       - Classification: hierarchy_type, item_type
+       - Content: name, description
+       - Hierarchy: parent_id, children_ids
+       - Status: status, blocked, blocked_reason
+       - Timestamps: created_at, updated_at, started_at, completed_at
+       - Assignment: assignee, labels, priority
+       - Progress: children_total, children_completed, completion_percent
+       - Criteria: criteria list (from Unified Ticket Architecture)
+       - Metadata: metadata dict for adapter-specific data
+    5. Add docstrings explaining the generic nature and mapping concepts
+    6. Export all models from vibey/core/__init__.py
+
+    Deliverables:
+    - vibey/core/__init__.py
+    - vibey/core/ticket.py
+
+    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.1
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +39,22 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/core/ticket.py exists
+    status: not_met
+  - type: code
+    description: HierarchyType enum with PROJECT, WORKSTREAM, ITERATION, WORK_ITEM values
+    status: not_met
+  - type: code
+    description: TicketStatus enum with all required status values
+    status: not_met
+  - type: code
+    description: Ticket Pydantic model with all required fields
+    status: not_met
+  - type: code
+    description: Proper docstrings explaining generic nature
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null

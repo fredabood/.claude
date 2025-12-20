@@ -14,26 +14,26 @@ sprint:
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 8
+    development_tasks_total: 7
     development_tasks_completed: 0
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 8
+    tasks_total: 7
     tasks_completed: 0
     completion_percent: 0
   development_gates: []
   blocks: []
-  blocked_by:
-  - 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
-  depends_on:
-  - 01KCMTYK3KX9Q8B1ZS5Z4MRV7Q
+  blocked_by: []
+  depends_on: []
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Implement git submodule integration features based on Sprint 1 design document
-  goal: Working git submodule detection, push-down, pull-up, and cross-repo dependency tracking
+  description: Implement git submodule integration features based on Sprint 1 design
+    document
+  goal: Working git submodule detection, push-down, pull-up, and cross-repo dependency
+    tracking
   success_criteria:
   - Submodule detection works automatically via .gitmodules
   - Parent roadmap can push requirements to submodule roadmaps

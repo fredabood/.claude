@@ -1,7 +1,35 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHE
   name: Create CLI wrapper using TicketService
-  description: ''
+  description: |
+    Create a CLI service layer that wraps TicketService and provides CLI-specific
+    functionality like output formatting, error handling, and configuration.
+
+    Implementation steps:
+    1. Create vibey/cli/services/__init__.py
+    2. Create vibey/cli/services/roadmap_service.py with RoadmapCLIService:
+       - __init__() - instantiate TicketService with default adapter
+       - get_ticket_service() -> TicketService
+       - Wrapper methods that handle CLI concerns
+    3. Add CLI-specific functionality:
+       - format_ticket_for_display(ticket: Ticket) -> str
+       - format_ticket_list(tickets: List[Ticket]) -> str
+       - handle_not_found(ticket_id: str) - standard error message
+       - confirm_action(action: str, ticket: Ticket) -> bool
+    4. Add configuration integration:
+       - Load default adapter from .vibey/config
+       - Support --adapter flag override
+    5. Add progress indicator support for long operations
+    6. Integrate with existing Click context
+
+    Deliverables:
+    - vibey/cli/services/__init__.py
+    - vibey/cli/services/roadmap_service.py
+
+    Dependencies:
+    - Requires: Sprint 2 complete (VibeyAdapter)
+
+    Reference: vibey/cli/commands.py (existing CLI patterns)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBHD
@@ -13,7 +41,21 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/cli/services/roadmap_service.py exists
+    status: not_met
+  - type: code
+    description: RoadmapCLIService wraps TicketService
+    status: not_met
+  - type: code
+    description: Output formatting methods implemented
+    status: not_met
+  - type: code
+    description: Configuration integration for adapter selection
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBHC
   commits_local: []
   requirements_local: []
   estimated_duration: null

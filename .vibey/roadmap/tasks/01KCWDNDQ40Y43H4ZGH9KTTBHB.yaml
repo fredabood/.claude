@@ -1,7 +1,39 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHB
   name: Implement read operations (list_projects, get_ticket, etc.)
-  description: ''
+  description: |
+    Implement all TicketAdapter read operations in VibeyAdapter using existing
+    YAML loader and SQLite database.
+
+    Implementation steps:
+    1. Implement list_projects() -> List[Ticket]:
+       - Load roadmap from .vibey/roadmap/roadmap.yaml
+       - Convert to Ticket using map_to_generic
+       - Return as single-item list (Vibey has one roadmap per project)
+    2. Implement get_ticket(ticket_id: str) -> Optional[Ticket]:
+       - Query SQLite by ID to determine entity type
+       - Load appropriate YAML file (tracks/, sprints/, tasks/)
+       - Convert to Ticket
+       - Return None if not found
+    3. Implement list_children(parent_id: str) -> List[Ticket]:
+       - Query SQLite for children of parent_id
+       - Load each child YAML
+       - Convert all to Tickets
+    4. Implement search_tickets(...) -> List[Ticket]:
+       - Build SQLite query from parameters
+       - Support filtering by: query (name/description), hierarchy_type,
+         status, assignee, labels
+       - Convert results to Tickets
+    5. Use existing yaml_loader functions for YAML parsing
+    6. Add caching layer for frequently accessed data (optional)
+
+    Deliverables:
+    - Updated vibey/adapters/pm/vibey/adapter.py with read operations
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH9 (map_to_generic)
+
+    Reference: vibey/roadmap/serialization/yaml_loader.py
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH7
@@ -13,7 +45,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: list_projects returns roadmap as Ticket
+    status: not_met
+  - type: code
+    description: get_ticket finds and converts any entity type
+    status: not_met
+  - type: code
+    description: list_children returns child tickets
+    status: not_met
+  - type: code
+    description: search_tickets supports all filter parameters
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH9
   commits_local: []
   requirements_local: []
   estimated_duration: null

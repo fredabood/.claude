@@ -1,7 +1,39 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBHA
   name: Implement map_from_generic for all entity types
-  description: ''
+  description: |
+    Implement the map_from_generic method in VibeyAdapter to convert generic Ticket
+    objects back to Vibey models. This is the Generic→Vibey direction.
+
+    Implementation steps:
+    1. Implement map_from_generic(ticket: Ticket) -> Any dispatcher:
+       - Check ticket.hierarchy_type
+       - Route to appropriate private method
+    2. Implement _ticket_to_roadmap(ticket) -> Roadmap:
+       - Requires hierarchy_type == PROJECT
+       - Map back to Vibey Roadmap dataclass
+       - Handle missing optional fields with defaults
+    3. Implement _ticket_to_track(ticket) -> Track:
+       - Requires hierarchy_type == WORKSTREAM
+       - Map parent_id to roadmap_id
+       - Map priority, status
+    4. Implement _ticket_to_sprint(ticket) -> Sprint:
+       - Requires hierarchy_type == ITERATION
+       - Map parent_id to track_id
+       - Map blocked, blocked_reason, timestamps
+    5. Implement _ticket_to_task(ticket) -> Task:
+       - Requires hierarchy_type == WORK_ITEM
+       - Map parent_id to sprint_id
+       - Extract complexity, estimated_tokens from metadata
+    6. Implement _map_status_reverse(status: TicketStatus) -> str helper
+
+    Deliverables:
+    - Updated vibey/adapters/pm/vibey/adapter.py with reverse mapping
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH9 (forward mapping)
+
+    Note: This enables creating Vibey entities from generic tickets (e.g., imported from Jira)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH7
@@ -13,7 +45,24 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: map_from_generic method with hierarchy_type dispatch
+    status: not_met
+  - type: code
+    description: _ticket_to_roadmap creates valid Roadmap
+    status: not_met
+  - type: code
+    description: _ticket_to_track creates valid Track
+    status: not_met
+  - type: code
+    description: _ticket_to_sprint creates valid Sprint
+    status: not_met
+  - type: code
+    description: _ticket_to_task creates valid Task
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH9
   commits_local: []
   requirements_local: []
   estimated_duration: null

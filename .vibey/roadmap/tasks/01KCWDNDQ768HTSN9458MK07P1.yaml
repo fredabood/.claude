@@ -1,7 +1,17 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P1
   name: Implement field mapping (projects→tracks, sections→sprints, tasks→tasks)
-  description: ''
+  description: "Implement field mapping between Asana entities and generic\nTicket\
+    \ fields.\n\nImplementation steps:\n1. Create vibey/adapters/pm/asana/mapping.py:\n\
+    \   - AsanaFieldMapper class\n2. Implement status mapping:\n   - completed: true/false\
+    \ → COMPLETED/NOT_STARTED\n   - Section-based status (optional)\n3. Implement\
+    \ priority mapping:\n   - Asana custom fields or tags\n   - No built-in priority\
+    \ in Asana\n4. Map additional fields:\n   - Tags → labels\n   - Assignee → assignee\n\
+    \   - Due date → metadata\n   - Projects → can have multiple\n5. Handle custom\
+    \ fields:\n   - Map Asana custom fields to ticket metadata\n   - Support dropdown,\
+    \ number, text fields\n\nDeliverables:\n- vibey/adapters/pm/asana/mapping.py\n\
+    - Custom field mapping configuration\n\nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07NZ\
+    \ (Asana client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07NY
@@ -13,7 +23,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/asana/mapping.py exists
+    status: not_met
+  - type: code
+    description: Completed status mapping
+    status: not_met
+  - type: code
+    description: Tag-to-label mapping
+    status: not_met
+  - type: code
+    description: Custom field mapping
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +51,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07NZ

@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQF
   name: Create Trello REST API client
-  description: ''
+  description: "Create a typed Python client for Trello REST API.\n\nImplementation\
+    \ steps:\n1. Create vibey/adapters/pm/trello/client.py:\n   - TrelloClient class\n\
+    \   - API key + token authentication\n2. Implement board operations:\n   - get_boards()\
+    \ -> List[TrelloBoard]\n   - get_board(id) -> TrelloBoard\n3. Implement list operations:\n\
+    \   - get_lists(board_id) -> List[TrelloList]\n   - create_list(), update_list()\n\
+    4. Implement card operations:\n   - get_cards(list_id) -> List[TrelloCard]\n \
+    \  - get_card(id) -> TrelloCard\n   - create_card(), update_card(), move_card()\n\
+    5. Create Pydantic models:\n   - TrelloBoard, TrelloList, TrelloCard\n   - TrelloLabel,\
+    \ TrelloMember\n6. Handle authentication:\n   - API key + user token\n   - OAuth\
+    \ 1.0 for user consent\n\nDeliverables:\n- vibey/adapters/pm/trello/client.py\n\
+    - vibey/adapters/pm/trello/models.py\n\nDependencies:\n- Requires: Sprint 6 complete\n\
+    \nReference: https://developer.atlassian.com/cloud/trello/rest/"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQE
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/trello/client.py exists
+    status: not_met
+  - type: code
+    description: Board, list, card operations
+    status: not_met
+  - type: code
+    description: Pydantic models for Trello entities
+    status: not_met
+  - type: code
+    description: Authentication handling
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQD

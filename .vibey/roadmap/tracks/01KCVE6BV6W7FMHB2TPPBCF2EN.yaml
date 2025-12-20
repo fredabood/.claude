@@ -2,11 +2,11 @@ track:
   id: 01KCVE6BV6W7FMHB2TPPBCF2EN
   name: PM Tool Integrations
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: medium
   created: '2025-12-19T13:53:37.126994+00:00'
-  started: null
+  started: '2025-12-19T17:00:00+00:00'
   completed: null
   estimated_duration: null
   progress:
@@ -29,7 +29,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-19T19:51:49.169443+00:00'
+    last_updated: '2025-12-20T14:27:05.667267+00:00'
     design_doc: null
     implementation_plan: null
     notes: null

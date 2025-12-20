@@ -1,7 +1,35 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH5
   name: Create vibey/services/ticket_service.py with TicketService
-  description: ''
+  description: |
+    Create the service layer that CLI and MCP will use for all ticket operations.
+    This is the adapter-agnostic interface that enables swapping PM tools.
+
+    Implementation steps:
+    1. Create vibey/services/ directory with __init__.py
+    2. Create TicketService class:
+       - __init__(adapter: Optional[TicketAdapter] = None) - uses default if none
+       - adapter_name property
+       - set_adapter(adapter) method for switching adapters
+       - Read operations: list_projects, get_ticket, list_children,
+         get_workstreams, get_iterations, get_work_items, search
+       - Write operations: create, update, delete
+       - Convenience methods: start, complete, block (common operations)
+       - Sync operations: sync, detect_conflicts
+    3. Add proper type hints for all methods
+    4. Implement error handling with custom exceptions
+    5. Add logging for operations
+    6. Export from vibey/services/__init__.py
+
+    Deliverables:
+    - vibey/services/__init__.py
+    - vibey/services/ticket_service.py
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH4 (PMAdapterRegistry)
+
+    Reference: UNIFIED_ADAPTER_ARCHITECTURE.md Part 3.3
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +41,25 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/services/ticket_service.py exists
+    status: not_met
+  - type: code
+    description: TicketService class with adapter injection
+    status: not_met
+  - type: code
+    description: All read operations (list_projects, get_ticket, etc.)
+    status: not_met
+  - type: code
+    description: All write operations (create, update, delete)
+    status: not_met
+  - type: code
+    description: Convenience methods (start, complete, block)
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH4
   commits_local: []
   requirements_local: []
   estimated_duration: null

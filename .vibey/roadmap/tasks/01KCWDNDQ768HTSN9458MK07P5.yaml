@@ -1,7 +1,19 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P5
   name: Implement ConfluenceAdapter class
-  description: ''
+  description: "Create the ConfluenceAdapter that implements TicketAdapter for\nConfluence\
+    \ spaces and pages (documentation sync).\n\nImplementation steps:\n1. Create vibey/adapters/pm/confluence/adapter.py:\n\
+    \   - ConfluenceAdapter extending TicketAdapter\n2. Implement identity and capabilities:\n\
+    \   - adapter_name -> \"confluence\"\n   - display_name -> \"Confluence\"\n  \
+    \ - supports_sprints -> False\n3. Implement hierarchy mapping:\n   - Space → PROJECT\n\
+    \   - Page (top-level) → WORKSTREAM\n   - Page (child) → WORK_ITEM\n4. Implement\
+    \ read operations:\n   - list_projects() -> spaces\n   - get_ticket() -> page\
+    \ with content\n   - list_children() -> child pages\n5. Implement write operations:\n\
+    \   - create_ticket() -> create page\n   - update_ticket() -> update page\n  \
+    \ - Note: No status concept for pages\n6. Register with @pm_adapter decorator\n\
+    \nNote: This is primarily for documentation sync, not task tracking.\n\nDeliverables:\n\
+    - vibey/adapters/pm/confluence/__init__.py\n- vibey/adapters/pm/confluence/adapter.py\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P4 (Confluence client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P3
@@ -13,7 +25,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/confluence/adapter.py exists
+    status: not_met
+  - type: code
+    description: ConfluenceAdapter implements TicketAdapter
+    status: not_met
+  - type: code
+    description: Space→Page hierarchy
+    status: not_met
+  - type: code
+    description: Content read/write
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +53,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07P4

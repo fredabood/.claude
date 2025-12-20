@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ8MNRM4FKBXC4EN1PD
   name: End-to-end integration testing
-  description: ''
+  description: "Create comprehensive end-to-end integration tests covering\ncross-adapter\
+    \ scenarios.\n\nImplementation steps:\n1. Create E2E test infrastructure:\n  \
+    \ - tests/e2e/adapters/ directory\n   - Test fixtures and utilities\n2. Test cross-adapter\
+    \ workflows:\n   - Import from Jira, work in Vibey, export back\n   - Migrate\
+    \ GitHub Issues to Vibey\n   - Sync Trello board with Vibey roadmap\n3. Test adapter\
+    \ switching:\n   - Switch default adapter\n   - Commands work with different adapters\n\
+    4. Test migration scenarios:\n   - Full project migration\n   - Partial migration\
+    \ with filters\n   - Migration with conflicts\n5. Test sync scenarios:\n   - Bidirectional\
+    \ sync\n   - Conflict resolution\n   - Webhook-triggered sync\n6. Performance\
+    \ testing:\n   - Large project import\n   - Many concurrent operations\n\nDeliverables:\n\
+    - tests/e2e/adapters/ test suite\n- Performance benchmarks\n- Test documentation\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ8MNRM4FKBXC4EN1PC (documentation complete)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P8
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: tests/e2e/adapters/ exists
+    status: not_met
+  - type: test
+    description: Cross-adapter workflows pass
+    status: not_met
+  - type: test
+    description: Migration scenarios pass
+    status: not_met
+  - type: test
+    description: Performance benchmarks pass
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ8MNRM4FKBXC4EN1PC

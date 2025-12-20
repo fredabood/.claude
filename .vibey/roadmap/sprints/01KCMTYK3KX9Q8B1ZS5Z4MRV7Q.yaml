@@ -3,29 +3,32 @@ sprint:
   name: 'Sprint 1: Research & Design'
   track_id: 01KCMTJRYBYR1CR69ZAHNFCSGR
   roadmap_id: vibey-framework-v2
-  status: completed
+  status: production_gate_check
   blocked: false
   blocked_reason: null
   created: '2025-12-17T00:21:52.884331+00:00'
   started: null
   completion_gate_check_at: null
   completed: '2025-12-19T20:30:00+00:00'
-  production_gate_check_at: null
+  production_gate_check_at: '2025-12-20T14:30:15.616406+00:00'
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 5
-    development_tasks_completed: 0
+    development_tasks_total: 6
+    development_tasks_completed: 6
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 5
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 6
+    tasks_completed: 6
+    completion_percent: 100
   development_gates: []
   blocks:
-  - 01KCW0K1ZY2CEDMN5YY8JATEY4
+  - type: sprint
+    target_id: 01KCW0K1ZY2CEDMN5YY8JATEY4
+    at_status: not_started
+    reason: Blocks sprint from starting
   blocked_by: []
   depends_on: []
   depended_on_by:

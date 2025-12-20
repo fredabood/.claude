@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ8MNRM4FKBXC4EN1PC
   name: Write comprehensive documentation
-  description: ''
+  description: "Write comprehensive documentation for the PM adapter system.\n\nImplementation\
+    \ steps:\n1. Update CLI_REFERENCE.md:\n   - Add all new adapter commands\n   -\
+    \ Document --adapter flag\n   - Add migrate command\n2. Update MCP_REFERENCE.md:\n\
+    \   - Document adapter parameter in tools\n   - Add sync tools\n3. Create adapter\
+    \ user guides:\n   - docs/guides/JIRA_INTEGRATION.md\n   - docs/guides/GITHUB_INTEGRATION.md\n\
+    \   - docs/guides/TRELLO_INTEGRATION.md\n   - docs/guides/ASANA_INTEGRATION.md\n\
+    \   - docs/guides/CONFLUENCE_INTEGRATION.md\n4. Create developer guide:\n   -\
+    \ docs/guides/CREATING_ADAPTERS.md\n   - How to implement TicketAdapter\n   -\
+    \ Testing adapters\n5. Update CLAUDE.md:\n   - Add adapter architecture summary\n\
+    \   - Reference new guides\n\nDeliverables:\n- Updated reference documentation\n\
+    - Integration guides per adapter\n- Developer guide for new adapters\n\nDependencies:\n\
+    - Requires: All adapters implemented"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P8
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: CLI_REFERENCE.md updated
+    status: not_met
+  - type: artifact
+    description: MCP_REFERENCE.md updated
+    status: not_met
+  - type: artifact
+    description: Integration guides for all adapters
+    status: not_met
+  - type: artifact
+    description: CREATING_ADAPTERS.md developer guide
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ8MNRM4FKBXC4EN1PB

@@ -1,7 +1,44 @@
 task:
   id: 01KCWDNDQ5MGHF8E9MEM2737T8
   name: Implement Jira field mapping (issue types, statuses, priorities)
-  description: ''
+  description: |
+    Create configurable mapping between Jira fields and generic Ticket fields,
+    handling the semantic differences between systems.
+
+    Implementation steps:
+    1. Create vibey/adapters/pm/jira/mapping.py:
+       - JiraFieldMapper class
+       - Configurable mapping tables
+    2. Implement hierarchy type mapping:
+       - Epic → WORKSTREAM
+       - Sprint → ITERATION
+       - Story/Task/Bug/etc. → WORK_ITEM
+       - Project → PROJECT
+    3. Implement status mapping:
+       - "To Do", "Open", "Backlog" → NOT_STARTED
+       - "In Progress", "In Review" → IN_PROGRESS
+       - "Done", "Closed", "Resolved" → COMPLETED
+       - "Blocked" → BLOCKED
+       - Handle custom statuses via configuration
+    4. Implement priority mapping:
+       - Highest/Blocker → critical
+       - High → high
+       - Medium → medium
+       - Low/Lowest → low
+    5. Implement issue type mapping:
+       - Bug → task_type: bug
+       - Story → task_type: development
+       - Task → task_type: development
+       - Epic → handled at hierarchy level
+    6. Make mapping configurable per project
+    7. Support custom field mapping
+
+    Deliverables:
+    - vibey/adapters/pm/jira/mapping.py
+    - Default mapping configuration
+
+    Dependencies:
+    - Requires: 01KCWDNDQ5MGHF8E9MEM2737T6 (Jira client for fetching metadata)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ5MGHF8E9MEM2737T4
@@ -13,7 +50,21 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/jira/mapping.py exists
+    status: not_met
+  - type: code
+    description: Hierarchy type mapping (Epic→WORKSTREAM, etc.)
+    status: not_met
+  - type: code
+    description: Status mapping with custom status support
+    status: not_met
+  - type: code
+    description: Priority and issue type mapping
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ5MGHF8E9MEM2737T6
   commits_local: []
   requirements_local: []
   estimated_duration: null

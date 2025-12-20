@@ -1,0 +1,39 @@
+task:
+  id: 01KCY39YJW8A3YDNTFJY5KMDGR
+  name: Fix blocked_by/depends_on ULID strings cause parsing error
+  description: Simple ULID strings in blocked_by cause str object has no attribute
+    get error.
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCY39YJW8A3YDNTFJY5KMDGP
+  status: not_started
+  created_at: '2025-12-20T14:41:03.580061+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:41:03.580061+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: Bug is fixed
+    status: not_met
+  - type: test
+    description: Regression test added
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: bug
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,7 +1,19 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ7
   name: Add Jira webhook support for real-time sync
-  description: ''
+  description: "Add Jira webhook support for real-time sync notifications\ninstead\
+    \ of polling.\n\nImplementation steps:\n1. Create webhook endpoint:\n   - vibey/adapters/pm/jira/webhook.py\n\
+    \   - POST /webhook/jira endpoint\n   - Verify webhook signature\n2. Implement\
+    \ webhook handlers:\n   - issue_created -> create local ticket\n   - issue_updated\
+    \ -> update local ticket\n   - issue_deleted -> handle deletion\n   - sprint_started/closed\
+    \ -> update iteration\n3. Register webhooks with Jira:\n   - CLI: vibey webhook\
+    \ register jira\n   - Configure webhook URL (ngrok for dev)\n   - Select events\
+    \ to subscribe to\n4. Handle webhook processing:\n   - Queue webhook events\n\
+    \   - Process asynchronously\n   - Retry failed processing\n5. Add webhook management\
+    \ CLI:\n   - vibey webhook list jira\n   - vibey webhook unregister jira\n\nDeliverables:\n\
+    - Webhook handler endpoint\n- Webhook registration\n- CLI webhook commands\n\n\
+    Dependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ6 (conflict resolution)\n\n\
+    Note: Optional enhancement - manual sync still works without webhooks"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
@@ -13,7 +25,19 @@ task:
   assigned_agents:
   - unassigned
   priority: medium
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/jira/webhook.py exists
+    status: not_met
+  - type: code
+    description: Webhook handlers for Jira events
+    status: not_met
+  - type: code
+    description: Webhook registration with Jira
+    status: not_met
+  - type: code
+    description: CLI webhook commands
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +53,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQ6

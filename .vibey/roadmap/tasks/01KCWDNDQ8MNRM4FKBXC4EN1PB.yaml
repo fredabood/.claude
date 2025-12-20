@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ8MNRM4FKBXC4EN1PB
   name: Add cross-adapter migration tool
-  description: ''
+  description: "Create a tool for migrating data between different PM adapters.\n\n\
+    Implementation steps:\n1. Design migration flow:\n   - Source adapter → Generic\
+    \ Tickets → Target adapter\n   - Handle ID mapping\n   - Preserve relationships\n\
+    2. Implement migration CLI:\n   - vibey migrate --from jira --to vibey\n   - vibey\
+    \ migrate --from github --to jira\n3. Handle migration options:\n   - --dry-run:\
+    \ show what would be migrated\n   - --include: filter what to migrate\n   - --preserve-ids:\
+    \ keep external IDs\n4. Handle migration challenges:\n   - Different hierarchy\
+    \ depths\n   - Missing features in target\n   - Custom field mapping\n5. Generate\
+    \ migration report:\n   - Items migrated\n   - Items skipped (and why)\n   - Mapping\
+    \ file for reference\n\nDeliverables:\n- Migration tool implementation\n- CLI\
+    \ migrate command\n- Migration report generation\n\nDependencies:\n- Requires:\
+    \ 01KCWDNDQ768HTSN9458MK07P9 (adapter switching)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P8
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: medium
-  criteria: []
+  criteria:
+  - type: code
+    description: Migration between any two adapters
+    status: not_met
+  - type: code
+    description: CLI migrate command with options
+    status: not_met
+  - type: code
+    description: Dry-run support
+    status: not_met
+  - type: code
+    description: Migration report generated
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07P9

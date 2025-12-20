@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQD
   name: Write integration tests
-  description: ''
+  description: "Write integration tests for GitHubAdapter using mocked responses\n\
+    and optional live API testing.\n\nImplementation steps:\n1. Create test infrastructure:\n\
+    \   - tests/adapters/pm/github/ directory\n   - Mock fixtures for GitHub API responses\n\
+    2. Write unit tests with mocks:\n   - test_github_client.py\n   - test_github_adapter.py\n\
+    \   - test_github_mapping.py\n3. Test REST API operations:\n   - List repositories\n\
+    \   - Get/create/update issues\n   - Milestones CRUD\n4. Test GraphQL operations:\n\
+    \   - Projects v2 queries\n   - Custom field mutations\n5. Write integration tests:\n\
+    \   - test_github_integration.py\n   - Use test repository\n   - Skip without\
+    \ credentials\n6. Test import/export:\n   - Import repo issues\n   - Import project\
+    \ items\n   - Export to GitHub\n\nDeliverables:\n- tests/adapters/pm/github/ test\
+    \ suite\n- Mock fixtures\n- Test documentation\n\nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQC\
+    \ (Projects v2)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: tests/adapters/pm/github/ exists
+    status: not_met
+  - type: test
+    description: REST API tests pass
+    status: not_met
+  - type: test
+    description: GraphQL tests pass
+    status: not_met
+  - type: test
+    description: Integration tests pass
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQC

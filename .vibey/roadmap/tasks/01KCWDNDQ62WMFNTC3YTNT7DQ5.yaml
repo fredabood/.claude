@@ -1,7 +1,20 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQ5
   name: Implement bidirectional sync engine
-  description: ''
+  description: "Implement full bidirectional sync engine that keeps Vibey and Jira\n\
+    in sync automatically.\n\nImplementation steps:\n1. Implement sync() for BIDIRECTIONAL:\n\
+    \   - Load sync state\n   - Detect local changes\n   - Detect remote changes\n\
+    \   - Merge changes (prefer strategy)\n   - Push local changes\n   - Pull remote\
+    \ changes\n   - Update sync state\n2. Implement sync strategies:\n   - LOCAL_WINS:\
+    \ Local changes overwrite remote\n   - REMOTE_WINS: Remote changes overwrite local\n\
+    \   - MANUAL: Flag conflicts for user resolution\n3. Handle edge cases:\n   -\
+    \ Entity deleted locally but modified remotely\n   - Entity deleted remotely but\
+    \ modified locally\n   - Same field modified in both places\n4. Add CLI sync command:\n\
+    \   - vibey sync jira [--strategy STRATEGY]\n   - vibey sync jira --dry-run\n\
+    5. Add progress reporting:\n   - Show entities being synced\n   - Report conflicts\
+    \ found\n   - Summary of changes\n\nDeliverables:\n- Bidirectional sync in JiraAdapter\n\
+    - CLI sync command\n- Sync strategies\n\nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ4\
+    \ (state tracking)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ2
@@ -13,7 +26,19 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: code
+    description: sync(BIDIRECTIONAL) works correctly
+    status: not_met
+  - type: code
+    description: Multiple sync strategies supported
+    status: not_met
+  - type: code
+    description: Edge cases handled
+    status: not_met
+  - type: code
+    description: CLI sync command with dry-run
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +54,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQ4

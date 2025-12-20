@@ -1,7 +1,18 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07P6
   name: Implement Confluence↔Markdown converter
-  description: ''
+  description: "Implement bidirectional conversion between Confluence storage\nformat\
+    \ and Markdown.\n\nImplementation steps:\n1. Create vibey/adapters/pm/confluence/converter.py:\n\
+    \   - ConfluenceMarkdownConverter class\n2. Implement Confluence → Markdown:\n\
+    \   - Parse Confluence storage format (XHTML-like)\n   - Convert headings, paragraphs,\
+    \ lists\n   - Convert tables\n   - Handle macros (code, info, warning)\n   - Convert\
+    \ links and images\n3. Implement Markdown → Confluence:\n   - Parse Markdown\n\
+    \   - Generate Confluence storage format\n   - Handle code blocks with language\n\
+    \   - Convert tables to Confluence format\n4. Handle edge cases:\n   - Confluence-specific\
+    \ macros → custom markers\n   - Complex tables\n   - Embedded content\n5. Add\
+    \ validation:\n   - Verify round-trip conversion\n   - Flag unsupported elements\n\
+    \nDeliverables:\n- vibey/adapters/pm/confluence/converter.py\n- Conversion test\
+    \ suite\n\nDependencies:\n- Requires: 01KCWDNDQ768HTSN9458MK07P4 (client for testing)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ768HTSN9458MK07P3
@@ -13,7 +24,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/confluence/converter.py exists
+    status: not_met
+  - type: code
+    description: Confluence→Markdown conversion
+    status: not_met
+  - type: code
+    description: Markdown→Confluence conversion
+    status: not_met
+  - type: test
+    description: Round-trip conversion works
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +52,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ768HTSN9458MK07P4

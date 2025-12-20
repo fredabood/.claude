@@ -1,7 +1,16 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07NX
   name: Write integration tests
-  description: ''
+  description: "Write tests for TrelloAdapter with mocked and live API testing.\n\n\
+    Implementation steps:\n1. Create test infrastructure:\n   - tests/adapters/pm/trello/\
+    \ directory\n   - Mock fixtures for Trello API\n2. Write unit tests:\n   - test_trello_client.py\n\
+    \   - test_trello_adapter.py\n   - test_trello_mapping.py\n3. Test card operations:\n\
+    \   - Get cards from list\n   - Create and update cards\n   - Move cards between\
+    \ lists\n4. Test status mapping:\n   - Moving card updates status\n   - Status\
+    \ update moves card\n5. Write integration tests:\n   - test_trello_integration.py\n\
+    \   - Use test board\n   - Skip without credentials\n\nDeliverables:\n- tests/adapters/pm/trello/\
+    \ test suite\n- Mock fixtures\n\nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQG\
+    \ (TrelloAdapter)\n- Requires: 01KCWDNDQ768HTSN9458MK07NW (field mapping)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQE
@@ -13,7 +22,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: tests/adapters/pm/trello/ exists
+    status: not_met
+  - type: test
+    description: Client tests pass
+    status: not_met
+  - type: test
+    description: Adapter tests pass
+    status: not_met
+  - type: test
+    description: Integration tests pass
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +50,6 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQG
+  - 01KCWDNDQ768HTSN9458MK07NW

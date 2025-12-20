@@ -1,7 +1,20 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQC
   name: Implement Projects v2 support
-  description: ''
+  description: "Implement full support for GitHub Projects v2 as an alternative\n\
+    to milestone-based organization.\n\nImplementation steps:\n1. Enhance GitHubClient\
+    \ for Projects v2 GraphQL:\n   - Query project by number\n   - List project items\
+    \ with fields\n   - Mutation for field updates\n2. Implement Projects v2 as WORKSTREAM:\n\
+    \   - Project → WORKSTREAM (alternative to milestone)\n   - Project items are\
+    \ issues\n   - Custom fields for status, priority\n3. Map Project custom fields:\n\
+    \   - Single select → enum mapping\n   - Text → string\n   - Number → numeric\n\
+    \   - Date → datetime\n   - Iteration → ITERATION ticket\n4. Implement status\
+    \ tracking:\n   - Use Status field for workflow\n   - Map to TicketStatus\n5.\
+    \ Add CLI support:\n   - vibey import github --project PROJECT_NUMBER\n   - Support\
+    \ both repo issues and project items\n\nDeliverables:\n- Enhanced GitHub client\
+    \ for Projects v2\n- Projects v2 field mapping\n- CLI import support\n\nDependencies:\n\
+    - Requires: 01KCWDNDQ62WMFNTC3YTNT7DQA (GitHubAdapter)\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQB\
+    \ (field mapping)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
@@ -13,7 +26,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: code
+    description: Projects v2 GraphQL queries work
+    status: not_met
+  - type: code
+    description: Custom fields mapped correctly
+    status: not_met
+  - type: code
+    description: Status field drives ticket status
+    status: not_met
+  - type: code
+    description: CLI import from Projects v2
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +54,6 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQA
+  - 01KCWDNDQ62WMFNTC3YTNT7DQB

@@ -1,7 +1,20 @@
 task:
   id: 01KCWDNDQ62WMFNTC3YTNT7DQA
   name: Implement GitHubAdapter class
-  description: ''
+  description: "Create the GitHubAdapter that implements TicketAdapter for\nGitHub\
+    \ Issues and Projects v2.\n\nImplementation steps:\n1. Create vibey/adapters/pm/github/adapter.py:\n\
+    \   - GitHubAdapter extending TicketAdapter\n   - __init__(client: GitHubClient)\n\
+    2. Implement identity and capabilities:\n   - adapter_name -> \"github\"\n   -\
+    \ display_name -> \"GitHub\"\n   - supports_sprints -> False (use Projects instead)\n\
+    3. Implement hierarchy mapping:\n   - Repository → PROJECT\n   - Milestone → ITERATION\n\
+    \   - Issue → WORK_ITEM\n   - Projects v2 → alternative WORKSTREAM\n4. Implement\
+    \ read operations:\n   - list_projects() -> repos user has access to\n   - get_ticket()\
+    \ -> get issue or milestone\n   - list_children() -> issues in milestone/repo\n\
+    \   - search_tickets() -> issue search\n5. Implement write operations:\n   - create_ticket()\
+    \ -> create issue\n   - update_ticket() -> update issue\n   - update_status()\
+    \ -> open/close issue\n6. Register with @pm_adapter decorator\n\nDeliverables:\n\
+    - vibey/adapters/pm/github/__init__.py\n- vibey/adapters/pm/github/adapter.py\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQ9 (GitHub client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQ8
@@ -13,7 +26,19 @@ task:
   assigned_agents:
   - unassigned
   priority: critical
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/github/adapter.py exists
+    status: not_met
+  - type: code
+    description: GitHubAdapter implements TicketAdapter
+    status: not_met
+  - type: code
+    description: Hierarchy mapping works correctly
+    status: not_met
+  - type: code
+    description: All CRUD operations work
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +54,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQ9

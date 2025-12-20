@@ -1,7 +1,17 @@
 task:
   id: 01KCWDNDQ768HTSN9458MK07NW
   name: Implement field mapping (boards→tracks, lists→sprints, cards→tasks)
-  description: ''
+  description: "Implement field mapping between Trello entities and generic\nTicket\
+    \ fields.\n\nImplementation steps:\n1. Create vibey/adapters/pm/trello/mapping.py:\n\
+    \   - TrelloFieldMapper class\n2. Implement status mapping via lists:\n   - Configurable\
+    \ list→status mapping\n   - Default: \"To Do\"→NOT_STARTED, \"Doing\"→IN_PROGRESS,\
+    \ \"Done\"→COMPLETED\n   - Support custom list names\n3. Implement priority mapping\
+    \ via labels:\n   - Color-based: red→critical, orange→high, etc.\n   - Or label\
+    \ name-based\n4. Map additional fields:\n   - Labels → labels\n   - Members →\
+    \ assignee\n   - Due date → metadata\n   - Checklists → criteria\n5. Handle card\
+    \ positions:\n   - Track position in list\n   - Store in metadata for ordering\n\
+    \nDeliverables:\n- vibey/adapters/pm/trello/mapping.py\n- Default mapping configuration\n\
+    \nDependencies:\n- Requires: 01KCWDNDQ62WMFNTC3YTNT7DQF (Trello client)"
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ62WMFNTC3YTNT7DQE
@@ -13,7 +23,19 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/trello/mapping.py exists
+    status: not_met
+  - type: code
+    description: List-to-status mapping
+    status: not_met
+  - type: code
+    description: Label-to-priority mapping
+    status: not_met
+  - type: code
+    description: Checklist-to-criteria mapping
+    status: not_met
   commits_local: []
   requirements_local: []
   estimated_duration: null
@@ -29,3 +51,5 @@ task:
     last_updated: null
     token_efficiency: null
     duration_hours: null
+  depends_on:
+  - 01KCWDNDQ62WMFNTC3YTNT7DQF

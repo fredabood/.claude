@@ -1,7 +1,34 @@
 task:
   id: 01KCWDNDQ40Y43H4ZGH9KTTBH4
   name: Create vibey/adapters/pm/registry.py with PMAdapterRegistry
-  description: ''
+  description: |
+    Create the registry pattern for discovering and managing PM tool adapters.
+    Mirrors the existing AdapterRegistry in vibey/adapters/registry.py.
+
+    Implementation steps:
+    1. Create PMAdapterRegistry class:
+       - _adapters: Dict[str, Type[TicketAdapter]] class variable
+       - _default_adapter: Optional[str] class variable
+       - register(name, adapter_class) class method
+       - unregister(name) class method
+       - get(name) -> TicketAdapter class method
+       - get_default() -> TicketAdapter class method
+       - set_default(name) class method
+       - list_adapters() -> List[str] class method
+       - get_capabilities(name) -> PMCapabilities class method
+    2. Add @pm_adapter decorator for auto-registration
+    3. Implement lazy loading for adapter classes
+    4. Add configuration support for default adapter selection
+    5. Handle adapter not found errors gracefully
+
+    Deliverables:
+    - vibey/adapters/pm/registry.py
+
+    Dependencies:
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH2 (TicketAdapter ABC)
+    - Requires: 01KCWDNDQ40Y43H4ZGH9KTTBH3 (PMCapabilities type)
+
+    Reference: vibey/adapters/registry.py (existing pattern)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCWDNDQ40Y43H4ZGH9KTTBH0
@@ -13,7 +40,22 @@ task:
   assigned_agents:
   - unassigned
   priority: high
-  criteria: []
+  criteria:
+  - type: artifact
+    description: vibey/adapters/pm/registry.py exists
+    status: not_met
+  - type: code
+    description: PMAdapterRegistry class with register/get/list methods
+    status: not_met
+  - type: code
+    description: Default adapter selection support
+    status: not_met
+  - type: code
+    description: "'@pm_adapter' decorator for auto-registration"
+    status: not_met
+  depends_on:
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH2
+  - 01KCWDNDQ40Y43H4ZGH9KTTBH3
   commits_local: []
   requirements_local: []
   estimated_duration: null

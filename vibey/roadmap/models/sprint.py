@@ -183,9 +183,8 @@ class Sprint:
             raise ValueError(f"Sprint ID {self.id} must start with track ID {self.track_id}")
 
         # Validate dates (use safe comparison for mixed timezone-aware/naive datetimes)
+        # Note: We allow started < created to support retroactive sprint creation.
         from vibey.roadmap.models.common import safe_datetime_compare
-        if safe_datetime_compare(self.started, self.created) == -1:
-            raise ValueError("Start date must be after or equal to creation date")
 
         # Validate blocked status matches depends_on
         has_unsatisfied_deps = any(not dep.is_satisfied() for dep in self.depends_on)

@@ -275,9 +275,9 @@ class Task:
                     raise ValueError("Production gates must block 'production_ready' status")
 
         # Validate dates (use safe comparison for mixed timezone-aware/naive datetimes)
+        # Note: We allow started < created to support retroactive task creation,
+        # where work begins before the task is formally added to the system.
         from vibey.roadmap.models.common import safe_datetime_compare
-        if safe_datetime_compare(self.started, self.created) == -1:
-            raise ValueError("Start date must be after or equal to creation date")
 
         if safe_datetime_compare(self.completed, self.started) == -1:
             raise ValueError("Completion date must be after or equal to start date")

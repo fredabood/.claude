@@ -275,11 +275,14 @@ class Ticket(Completable):
     @field_validator("started_at")
     @classmethod
     def started_after_created(cls, v: Optional[datetime], info) -> Optional[datetime]:
-        """Validate started_at >= created_at."""
-        if v is not None and "created_at" in info.data:
-            created = info.data["created_at"]
-            if v < created:
-                raise ValueError("started_at cannot be before created_at")
+        """
+        Validate started_at vs created_at.
+
+        Note: We allow started_at < created_at to support retroactive task creation,
+        where work begins before the task is formally added to the system.
+        This is a valid real-world scenario and should not cause validation failure.
+        """
+        # Allow started_at to be before created_at (retroactive task creation)
         return v
 
     @field_validator("completed_at")

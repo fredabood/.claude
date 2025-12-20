@@ -1343,18 +1343,29 @@ def load_sprint(file_path: Union[str, Path]) -> Sprint:
                 estimated_resolution=_parse_datetime(b.get('estimated_resolution')),
             ))
 
-    # Parse depends_on (new cached dependency tracking)
-    depends_on = [
-        DependencyStatus(
-            blocker_id=d.get('blocker_id', d.get('dependency_id', 'unknown')),  # Backward compat
-            blocker_type=d.get('blocker_type', d.get('dependency_type', 'track')),  # Backward compat
-            required_status=d.get('required_status', d.get('target_status', 'completed')),  # Backward compat
-            current_status=d.get('current_status', 'not_started'),  # Default
-            blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for sprints
-            last_checked=_parse_datetime(d.get('last_checked', datetime.now())),
-        )
-        for d in sprint_data.get('depends_on', [])
-    ]
+    # Parse depends_on (new cached dependency tracking, backward compatible with simple strings)
+    depends_on = []
+    for d in sprint_data.get('depends_on', []):
+        if isinstance(d, str):
+            # Simple string format (legacy) - sprint ID as dependency
+            depends_on.append(DependencyStatus(
+                blocker_id=d,
+                blocker_type='sprint',
+                required_status='completed',
+                current_status='not_started',
+                blocks_transition_to='completed',
+                last_checked=datetime.now(),
+            ))
+        elif isinstance(d, dict):
+            # Structured format with full dependency info
+            depends_on.append(DependencyStatus(
+                blocker_id=d.get('blocker_id', d.get('dependency_id', 'unknown')),  # Backward compat
+                blocker_type=d.get('blocker_type', d.get('dependency_type', 'track')),  # Backward compat
+                required_status=d.get('required_status', d.get('target_status', 'completed')),  # Backward compat
+                current_status=d.get('current_status', 'not_started'),  # Default
+                blocks_transition_to=d.get('blocks_transition_to', 'completed'),  # Default to soft blocker for sprints
+                last_checked=_parse_datetime(d.get('last_checked', datetime.now())),
+            ))
 
     # Parse depended_on_by (reverse index)
     depended_on_by = sprint_data.get('depended_on_by', [])

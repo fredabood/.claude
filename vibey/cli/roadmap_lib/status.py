@@ -183,7 +183,25 @@ class StatusManager:
         """
         current_status = track.status
 
-        if current_status == Status.IN_PROGRESS:
+        if current_status == Status.NOT_STARTED:
+            # Auto-start track if sprints have started or tasks have been completed
+            has_active_sprints = any(
+                s.status in (Status.IN_PROGRESS, Status.COMPLETED, Status.PRODUCTION_READY)
+                for s in track.sprints
+            )
+            has_progress = track.progress.tasks_completed > 0
+            was_explicitly_started = track.started is not None
+
+            if has_active_sprints:
+                return True, Status.IN_PROGRESS, "Sprints have started, auto-starting track"
+            elif has_progress:
+                return True, Status.IN_PROGRESS, "Tasks have been completed, auto-starting track"
+            elif was_explicitly_started:
+                return True, Status.IN_PROGRESS, "Track was explicitly started"
+            else:
+                return False, None, "No sprints started yet"
+
+        elif current_status == Status.IN_PROGRESS:
             can_progress, reason = self.can_progress_track(track, Status.COMPLETED)
             if can_progress:
                 return True, Status.COMPLETED, reason

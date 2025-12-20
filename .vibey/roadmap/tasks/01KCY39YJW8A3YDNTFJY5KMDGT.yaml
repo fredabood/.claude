@@ -1,7 +1,9 @@
 task:
   id: 01KCY39YJW8A3YDNTFJY5KMDGT
   name: Fix YAML progress counters not synced with database
-  description: Track YAML shows stale progress while DB has correct counts.
+  description: Track YAML shows stale progress while DB has correct counts. Deferred
+    - requires design decision on whether to keep progress in YAML (Option B) or use
+    database as single source of truth (Option A recommended).
   format_version: v2
   ticket_type: task
   parent_ref: 01KCY39YJW8A3YDNTFJY5KMDGP
@@ -24,7 +26,7 @@ task:
   commits_local: []
   requirements_local: []
   estimated_duration: null
-  deferred: false
+  deferred: true
   task_type_detail: bug
   estimated_tokens: 1
   actual_tokens: null

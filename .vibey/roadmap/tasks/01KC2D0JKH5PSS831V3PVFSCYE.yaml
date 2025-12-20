@@ -6,7 +6,7 @@ task:
   task_type: development
   title: Normalize sprint status naming
   description: ''
-  status: not_started
+  status: wont_do
   blocked: false
   created: '2025-12-11T21:21:44.059858+00:00'
   started: null

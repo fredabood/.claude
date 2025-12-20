@@ -6,7 +6,7 @@ task:
   task_type: development
   title: Add commit f9bc7c2 to commits arrays
   description: ''
-  status: not_started
+  status: wont_do
   blocked: false
   created: '2025-12-11T21:21:44.039230+00:00'
   started: null

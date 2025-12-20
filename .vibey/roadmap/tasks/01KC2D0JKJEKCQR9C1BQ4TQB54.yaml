@@ -6,7 +6,7 @@ task:
   task_type: development
   title: Fix timestamp inconsistencies
   description: ''
-  status: not_started
+  status: wont_do
   blocked: false
   created: '2025-12-11T21:21:44.091130+00:00'
   started: null

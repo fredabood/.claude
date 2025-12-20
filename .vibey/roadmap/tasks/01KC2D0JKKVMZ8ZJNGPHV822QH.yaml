@@ -6,7 +6,7 @@ task:
   task_type: development
   title: Run quality gates
   description: ''
-  status: not_started
+  status: wont_do
   blocked: false
   created: '2025-12-11T21:21:44.146506+00:00'
   started: null

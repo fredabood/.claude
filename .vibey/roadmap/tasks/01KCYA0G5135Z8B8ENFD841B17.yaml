@@ -1,0 +1,62 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B17
+  name: Add MCP tools for token metrics
+  description: |
+    Add MCP tools for AI assistants to query and manage token metrics:
+
+    1. Query Tools:
+       - get_task_token_estimates(task_id) -> TokenEstimate
+       - get_sprint_token_summary(sprint_id) -> TokenSummary
+       - get_track_token_summary(track_id) -> TokenSummary
+       - get_remaining_budget(task_id) -> BudgetStatus
+
+    2. Update Tools:
+       - set_task_token_estimates(task_id, estimates: TokenEstimate)
+       - set_task_token_budget(task_id, input_budget, output_budget)
+       - record_token_usage(task_id, input_tokens, output_tokens)
+
+    3. Estimation Tools:
+       - estimate_task_tokens(task_id) -> TokenEstimate
+       - estimate_from_description(description, task_type, complexity) -> TokenEstimate
+
+    4. Report Tools:
+       - get_token_usage_report(track_id?, sprint_id?, date_range?) -> Report
+
+    Files:
+    - vibey/mcp/tools/token_tools.py (new)
+    - vibey/mcp/server.py (register tools)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/mcp/tools/token_tools.py exists
+    status: not_met
+  - type: code
+    description: All token MCP tools registered
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B16
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

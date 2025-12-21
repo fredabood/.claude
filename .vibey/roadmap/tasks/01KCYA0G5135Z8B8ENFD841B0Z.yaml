@@ -1,0 +1,68 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B0Z
+  name: Create token estimation service
+  description: |
+    Create a new service for estimating token usage:
+
+    vibey/services/token_estimator.py:
+
+    class TokenEstimator:
+        def estimate_task(self, task: Task) -> TokenEstimate:
+            '''Estimate tokens for a task based on type and complexity.'''
+
+        def estimate_from_description(
+            self,
+            description: str,
+            task_type: str,
+            complexity: str
+        ) -> TokenEstimate:
+            '''Estimate tokens from task description.'''
+
+    @dataclass
+    class TokenEstimate:
+        input_min: int
+        input_max: int
+        input_target: int
+        output_min: int
+        output_max: int
+        output_target: int
+        confidence: float  # 0.0-1.0
+
+    Base estimation factors:
+    - Description length → context tokens needed
+    - Task type → typical input/output ratios
+    - Complexity → multipliers for each level
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0S
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/token_estimator.py exists
+    status: not_met
+  - type: test
+    description: Unit tests for TokenEstimator
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

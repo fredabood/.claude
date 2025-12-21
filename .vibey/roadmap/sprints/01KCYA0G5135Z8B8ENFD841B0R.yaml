@@ -1,0 +1,60 @@
+sprint:
+  id: 01KCYA0G5135Z8B8ENFD841B0R
+  name: 'Sprint 1: Data Model Updates'
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Updated Task model with token estimation fields
+  - Updated Sprint/Track models with aggregated token fields
+  - Database schema migration for new fields
+  description: |
+    Add new token estimation fields to the data models:
+    - input_tokens_min, input_tokens_max, input_tokens_target
+    - output_tokens_min, output_tokens_max, output_tokens_target
+    - input_tokens_budget (optional max limit)
+    - output_tokens_budget (optional max limit)
+    - actual_input_tokens, actual_output_tokens (for tracking)
+  goal: Update data models to support comprehensive token estimation
+  success_criteria:
+  - All models updated with new token fields
+  - Database schema migrated
+  - Existing data preserved with sensible defaults
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

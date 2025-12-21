@@ -1,0 +1,64 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B11
+  name: Add historical data calibration
+  description: |
+    Calibrate estimation algorithms using historical task data:
+
+    1. Collect Historical Data:
+       - Query completed tasks with actual_input_tokens and actual_output_tokens
+       - Group by task_type and complexity
+       - Calculate mean, median, std dev for each group
+
+    2. Calibration Process:
+       - Compare estimates to actuals for completed tasks
+       - Calculate adjustment factors per task type
+       - Store calibration data in .vibey/config/token_calibration.yaml
+
+    3. Apply Calibration:
+       - Load calibration data on estimator init
+       - Adjust base estimates using calibration factors
+       - Improve confidence scores based on sample size
+
+    4. Continuous Learning:
+       - Update calibration after each task completion
+       - Track estimate accuracy over time
+       - Alert when estimates consistently off
+
+    Files:
+    - vibey/services/token_estimator.py (add calibration)
+    - .vibey/config/token_calibration.yaml (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0S
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: code
+    description: Calibration system implemented
+    status: not_met
+  - type: artifact
+    description: token_calibration.yaml schema defined
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B10
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,63 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B10
+  name: Implement task-type-specific estimation algorithms
+  description: |
+    Create estimation algorithms for each task type:
+
+    Task Types and Characteristics:
+    - development: High output (code), medium input (context)
+    - documentation: High output (docs), low input
+    - testing: Medium output (tests), medium input (code to test)
+    - research: Low output (findings), high input (exploration)
+    - review: Low output (comments), high input (code to review)
+    - infrastructure: Variable, depends on scope
+    - design: Medium output (specs), low input
+    - gate: Minimal tokens (validation only)
+
+    Base estimates per type (in tokens):
+    | Type          | Input Range    | Output Range   |
+    |---------------|----------------|----------------|
+    | development   | 5000-50000     | 2000-20000     |
+    | documentation | 2000-20000     | 3000-30000     |
+    | testing       | 3000-30000     | 2000-15000     |
+    | research      | 10000-100000   | 1000-10000     |
+    | review        | 5000-50000     | 500-5000       |
+
+    Implementation:
+    - Create ESTIMATION_PROFILES dict with base ranges
+    - Apply complexity multipliers (simple=0.5, medium=1.0, complex=2.0, very_complex=4.0)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0S
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: ESTIMATION_PROFILES defined for all task types
+    status: not_met
+  - type: test
+    description: Tests verify estimates for each task type
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B0Z
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

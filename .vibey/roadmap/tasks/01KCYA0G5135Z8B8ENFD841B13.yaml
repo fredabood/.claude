@@ -1,0 +1,68 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B13
+  name: Implement runtime token tracking
+  description: |
+    Track actual token usage during task execution:
+
+    1. Token Tracking Interface:
+       vibey/services/token_tracker.py:
+
+       class TokenTracker:
+           def __init__(self, task_id: str):
+               self.task_id = task_id
+               self.input_tokens = 0
+               self.output_tokens = 0
+
+           def record_usage(self, input_tokens: int, output_tokens: int):
+               '''Record token usage from an API call.'''
+
+           def get_remaining_budget(self) -> Tuple[int, int]:
+               '''Returns (input_remaining, output_remaining).'''
+
+           def save(self):
+               '''Persist current usage to task YAML.'''
+
+    2. Integration Points:
+       - MCP tool calls
+       - CLI command execution
+       - Agent task runners
+
+    3. Persistence:
+       - Update task.actual_input_tokens and task.actual_output_tokens
+       - Aggregate to sprint and track levels
+       - Log usage history in activity log
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/token_tracker.py exists
+    status: not_met
+  - type: code
+    description: Integration with MCP and CLI
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B12
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

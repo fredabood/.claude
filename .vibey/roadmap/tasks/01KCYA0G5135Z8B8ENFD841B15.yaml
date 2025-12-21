@@ -1,0 +1,73 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B15
+  name: Add CLI token commands
+  description: |
+    Add new CLI commands for viewing and managing token metrics:
+
+    1. View Task Tokens:
+       vibey roadmap tokens <task-id>
+
+       Output:
+       Token Estimates for Task: <name>
+       ─────────────────────────────────
+       Input Tokens:
+         Min:      5,000
+         Target:  10,000
+         Max:     20,000
+         Budget:  25,000
+         Actual:   8,234 (82% of target)
+
+       Output Tokens:
+         Min:      2,000
+         Target:   5,000
+         Max:     10,000
+         Budget:  12,000
+         Actual:   4,521 (90% of target)
+
+    2. View Sprint/Track Tokens:
+       vibey roadmap tokens --sprint <id>
+       vibey roadmap tokens --track <id>
+
+    3. Set Token Estimates:
+       vibey roadmap update task <id> \
+         --input-tokens-target 10000 \
+         --output-tokens-target 5000 \
+         --input-tokens-budget 25000
+
+    4. Auto-estimate:
+       vibey roadmap estimate <task-id>
+       # Uses TokenEstimator to set min/max/target
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: vibey roadmap tokens command implemented
+    status: not_met
+  - type: code
+    description: vibey roadmap estimate command implemented
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

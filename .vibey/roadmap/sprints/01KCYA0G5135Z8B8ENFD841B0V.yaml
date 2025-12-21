@@ -1,0 +1,63 @@
+sprint:
+  id: 01KCYA0G5135Z8B8ENFD841B0V
+  name: 'Sprint 4: CLI & Reporting'
+  track_id: 01KCYA0G5135Z8B8ENFD841B0Q
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCYA0G5135Z8B8ENFD841B0T
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - CLI commands for token metrics
+  - Token usage reports
+  - MCP tools for token management
+  description: |
+    Add CLI and reporting capabilities:
+    - vibey roadmap tokens <task-id> - View token estimates/actuals
+    - vibey roadmap tokens --track <id> - View track token summary
+    - vibey roadmap tokens --budget - View budget utilization
+    - Token usage reports (by track, sprint, task type)
+    - MCP tools for querying token metrics
+  goal: Provide visibility into token usage and budgets
+  success_criteria:
+  - CLI commands display token metrics clearly
+  - Reports show estimates vs actuals
+  - Budget utilization easily visible
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

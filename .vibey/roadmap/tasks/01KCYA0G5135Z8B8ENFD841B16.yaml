@@ -1,0 +1,71 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B16
+  name: Create token usage reports
+  description: |
+    Implement token usage reporting commands:
+
+    1. Summary Report:
+       vibey roadmap tokens report
+
+       Token Usage Report
+       ══════════════════════════════════════════════════
+       Period: 2025-12-01 to 2025-12-20
+
+       By Track:
+       ┌─────────────────────────┬──────────┬──────────┬─────────┐
+       │ Track                   │ Est. In  │ Est. Out │ Actual  │
+       ├─────────────────────────┼──────────┼──────────┼─────────┤
+       │ PM Tool Integrations    │  150,000 │   75,000 │  82,341 │
+       │ Dogfooding Bug Fixes    │   50,000 │   25,000 │  31,234 │
+       └─────────────────────────┴──────────┴──────────┴─────────┘
+
+       By Task Type:
+       ┌─────────────────┬──────────┬──────────┬──────────┐
+       │ Type            │ Tasks    │ Avg In   │ Avg Out  │
+       ├─────────────────┼──────────┼──────────┼──────────┤
+       │ development     │      45  │   12,345 │    5,678 │
+       │ testing         │      23  │    8,234 │    3,456 │
+       │ documentation   │      12  │    5,678 │    7,890 │
+       └─────────────────┴──────────┴──────────┴──────────┘
+
+    2. Budget Utilization:
+       vibey roadmap tokens budget
+
+    3. Export:
+       vibey roadmap tokens report --format csv > tokens.csv
+       vibey roadmap tokens report --format json > tokens.json
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: code
+    description: Token usage report command implemented
+    status: not_met
+  - type: code
+    description: CSV and JSON export supported
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B15
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

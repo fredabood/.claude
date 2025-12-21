@@ -1,0 +1,52 @@
+track:
+  id: 01KCYA0G5135Z8B8ENFD841B0Q
+  name: Robust Token Estimation System
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  priority: high
+  created: '2025-12-20T12:00:00+00:00'
+  started: null
+  completed: null
+  estimated_duration: null
+  progress:
+    sprints_total: 0
+    sprints_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  sprints: []
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  quality_gates: []
+  assigned_agents: []
+  deliverables:
+  - Enhanced ticket models with min/max/target token estimates
+  - Separate input and output token tracking
+  - Optional token budget constraints per ticket
+  - Token estimation algorithms for different task types
+  - CLI commands for viewing and managing token metrics
+  strategic_value:
+  - Better resource planning and cost estimation
+  - Prevent runaway token consumption
+  - Enable data-driven task complexity assessment
+  - Support for budget-constrained agentic workflows
+  commits: []
+  standards: []
+  metadata:
+    created_by: claude-code
+    last_updated: '2025-12-20T12:00:00+00:00'
+    design_doc: null
+    implementation_plan: null
+    notes: |
+      This track implements a comprehensive token estimation and budgeting system.
+
+      Key features:
+      1. Min/Max/Target estimates for both input and output tokens
+      2. Optional max token budgets (hard limits) for input and output
+      3. Estimation algorithms based on task type and complexity
+      4. CLI integration for viewing and managing token metrics
+      5. Budget enforcement during task execution

@@ -1,0 +1,62 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B12
+  name: Add budget validation on task creation
+  description: |
+    Validate token budgets when tasks are created or updated:
+
+    Validation Rules:
+    1. If budget set, must be >= target estimate
+    2. If min/max set, must satisfy min <= target <= max
+    3. Sprint budget must be >= sum of task budgets
+    4. Track budget must be >= sum of sprint budgets
+
+    Implementation:
+    1. Add validation to Task.__post_init__()
+    2. Add validation to Sprint.__post_init__()
+    3. Add validation to Track.__post_init__()
+    4. Add CLI validation in roadmap create/update commands
+
+    Error Messages:
+    - "Token budget ({budget}) must be >= target estimate ({target})"
+    - "Invalid token range: min ({min}) > target ({target})"
+    - "Sprint budget ({budget}) insufficient for task budgets ({sum})"
+
+    Files:
+    - vibey/roadmap/models/task.py
+    - vibey/roadmap/models/sprint.py
+    - vibey/roadmap/models/track.py
+    - vibey/operations/roadmap/update.py
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: Budget validation in model __post_init__ methods
+    status: not_met
+  - type: test
+    description: Tests for invalid budget configurations
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

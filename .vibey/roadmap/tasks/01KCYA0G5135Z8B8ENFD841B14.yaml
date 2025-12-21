@@ -1,0 +1,71 @@
+task:
+  id: 01KCYA0G5135Z8B8ENFD841B14
+  name: Add warning and hard-stop thresholds
+  description: |
+    Implement configurable thresholds for budget enforcement:
+
+    1. Warning Thresholds (configurable):
+       - 80% of budget: First warning
+       - 90% of budget: Urgent warning
+       - 100% of budget: Budget exceeded
+
+    2. Enforcement Modes:
+       - warn: Log warnings but continue execution
+       - soft_stop: Warn and prompt for confirmation to continue
+       - hard_stop: Terminate execution when budget exceeded
+
+    3. Configuration:
+       .vibey/config/token_budgets.yaml:
+       ```yaml
+       enforcement:
+         mode: warn  # warn, soft_stop, hard_stop
+         warning_thresholds: [0.8, 0.9, 1.0]
+         allow_override: true
+       ```
+
+    4. Warning Messages:
+       - "[TOKEN WARNING] Task {id} at 80% of input budget ({used}/{budget})"
+       - "[TOKEN WARNING] Task {id} at 90% of output budget ({used}/{budget})"
+       - "[TOKEN EXCEEDED] Task {id} exceeded budget. Mode: {mode}"
+
+    5. Override Mechanism:
+       - CLI flag: --ignore-token-budget
+       - Environment variable: VIBEY_IGNORE_TOKEN_BUDGET=1
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
+  status: not_started
+  created_at: '2025-12-20T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: token_budgets.yaml configuration schema
+    status: not_met
+  - type: code
+    description: Warning and enforcement modes implemented
+    status: not_met
+  - type: test
+    description: Tests for each enforcement mode
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B13
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

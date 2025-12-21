@@ -1,0 +1,113 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NZ
+  name: Implement IndependentTaskIdentifier for parallel grouping
+  description: |
+    Create system to identify tasks that can execute in parallel:
+
+    ```python
+    class IndependentTaskIdentifier:
+        def __init__(self, dependency_graph: CriterionDependencyGraph):
+            self.graph = dependency_graph
+
+        def find_parallel_groups(
+            self,
+            tasks: List[HierarchicalTicket],
+        ) -> List[ParallelGroup]:
+            '''
+            Identify groups of tasks that can execute in parallel.
+
+            Tasks are independent if:
+            1. No direct dependency between them
+            2. No transitive dependency
+            3. No file conflicts (modifying same files)
+            4. No criterion conflicts
+            '''
+
+        def has_dependency(self, task_a: str, task_b: str) -> bool:
+            '''Check if task_a depends on task_b or vice versa.'''
+
+        def has_file_conflict(self, task_a: str, task_b: str) -> bool:
+            '''
+            Check if tasks modify overlapping files.
+
+            Uses task plans to identify files each will modify.
+            '''
+
+        def get_max_parallelism(self, tasks: List[HierarchicalTicket]) -> int:
+            '''Get maximum number of tasks that can run in parallel.'''
+
+        def suggest_execution_order(
+            self,
+            tasks: List[HierarchicalTicket],
+        ) -> List[List[HierarchicalTicket]]:
+            '''
+            Suggest optimal execution order with parallelism.
+
+            Returns list of "waves" where each wave can run in parallel.
+
+            Example:
+            [
+                [Task A, Task B, Task C],  # Wave 1: all independent
+                [Task D],                   # Wave 2: depends on A
+                [Task E, Task F],           # Wave 3: depends on D
+            ]
+            '''
+    ```
+
+    ParallelGroup:
+    ```python
+    @dataclass
+    class ParallelGroup:
+        tasks: List[HierarchicalTicket]
+        wave_number: int
+        max_concurrent: int
+        estimated_duration: Optional[timedelta]
+        file_coverage: Set[Path]  # All files this group touches
+
+        def has_conflict_with(self, other: 'ParallelGroup') -> bool:
+            '''Check if this group conflicts with another.'''
+    ```
+
+    Files:
+    - vibey/services/implementation/parallel.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NR
+  status: not_started
+  created_at: '2025-12-20T16:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T16:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/parallel.py exists
+    status: not_met
+  - type: code
+    description: Independent tasks correctly identified
+    status: not_met
+  - type: code
+    description: File conflicts detected
+    status: not_met
+  - type: code
+    description: Execution waves properly ordered
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NY
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,84 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89NP
+  name: 'Sprint 7: Pre-Execution Validation'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89NG
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Task plan verification and generation
+  - Roadmap state verification (YAML ↔ SQLite)
+  - Bug logging ticket designation
+  description: |
+    Implement pre-execution validation to ensure tasks are ready for execution:
+
+    1. Task Plan Verification:
+       - Check if task has a comprehensive plan
+       - If no plan exists, generate one before execution
+       - Save plan to sprint context directory
+       - Validate plan covers all acceptance criteria
+
+    2. Roadmap State Verification:
+       - Before each task, verify YAML matches SQLite
+       - Run `vibey roadmap db status` equivalent check
+       - Auto-fix discrepancies or abort with clear error
+       - Log any sync issues found
+
+    3. Bug Logging Designation:
+       - Configure a designated ticket for logging CLI bugs
+       - When bugs are discovered during execution, auto-create child tickets
+       - Track bugs found vs bugs fixed during session
+       - Support configurable bug logging behavior
+
+    From tested prompts:
+    ```
+    1) verify the roadmap state is correct and the yaml matches the sqlite database
+    2) use CLI to correct any issues
+    3) log any CLI new bugs as a child ticket to: [bug_logging_ticket]
+    ```
+  goal: Ensure tasks are ready and roadmap state is valid before execution
+  success_criteria:
+  - Tasks without plans get plans generated
+  - YAML/SQLite sync verified before each task
+  - CLI bugs logged to designated ticket
+  risks:
+  - Plan generation may consume significant tokens
+  notes: Based on implementation_prompt.md tested patterns
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

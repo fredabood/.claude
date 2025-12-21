@@ -1,0 +1,144 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NX
+  name: Implement PostMortemGenerator for task retrospectives
+  description: |
+    Create system to generate post-mortems after task completion:
+
+    ```python
+    class PostMortemGenerator:
+        def __init__(self, context_root: Path):
+            self.context_root = context_root
+
+        def generate(
+            self,
+            task: HierarchicalTicket,
+            result: ExecutionResult,
+            context: ExecutionContext,
+        ) -> PostMortem:
+            '''
+            Generate post-mortem analysis for completed task.
+
+            Analyzes:
+            - What was accomplished
+            - What worked well
+            - What didn't work
+            - Unexpected discoveries
+            - Lessons learned
+            - Suggestions for similar tasks
+            '''
+
+        def save(self, task: HierarchicalTicket, post_mortem: PostMortem):
+            '''Save post-mortem to task context directory.'''
+            path = self.get_post_mortem_path(task)
+            path.write_text(post_mortem.to_markdown())
+
+        def get_post_mortem_path(self, task: HierarchicalTicket) -> Path:
+            '''Get path for post-mortem file.'''
+            # .vibey/roadmap/context/sprints/{sprint}/tasks/{task}/POST_MORTEM.md
+
+        def aggregate_sprint_learnings(self, sprint_id: str) -> str:
+            '''Aggregate learnings from all tasks in sprint.'''
+    ```
+
+    PostMortem structure:
+    ```python
+    @dataclass
+    class PostMortem:
+        task_id: str
+        completed_at: datetime
+        duration: timedelta
+        tokens_used: int
+
+        # Analysis
+        accomplishments: List[str]
+        what_worked: List[str]
+        what_didnt_work: List[str]
+        discoveries: List[str]
+        lessons_learned: List[str]
+
+        # Metrics
+        estimated_tokens: Optional[int]
+        actual_tokens: int
+        token_efficiency: float  # actual / estimated
+
+        # Artifacts
+        files_modified: List[Path]
+        commits: List[str]
+        bugs_logged: List[str]
+
+        def to_markdown(self) -> str:
+            '''Generate markdown post-mortem document.'''
+    ```
+
+    Post-mortem template:
+    ```markdown
+    # Post-Mortem: {task.name}
+
+    **Completed:** {completed_at}
+    **Duration:** {duration}
+    **Tokens:** {actual_tokens} (estimated: {estimated_tokens})
+
+    ## Accomplishments
+    - {accomplishment}
+
+    ## What Worked Well
+    - {success}
+
+    ## What Didn't Work
+    - {issue}
+
+    ## Discoveries
+    - {discovery}
+
+    ## Lessons Learned
+    - {lesson}
+
+    ## Artifacts
+    - Files: {files_modified}
+    - Commits: {commits}
+    - Bugs logged: {bugs_logged}
+    ```
+
+    Files:
+    - vibey/services/implementation/post_mortem.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NQ
+  status: not_started
+  created_at: '2025-12-20T16:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T16:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/post_mortem.py exists
+    status: not_met
+  - type: code
+    description: Post-mortems generated for all completed tasks
+    status: not_met
+  - type: code
+    description: Post-mortems saved to correct context path
+    status: not_met
+  - type: code
+    description: Sprint learnings can be aggregated
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NW
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

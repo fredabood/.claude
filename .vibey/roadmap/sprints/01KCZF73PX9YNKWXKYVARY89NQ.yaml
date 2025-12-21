@@ -1,0 +1,95 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89NQ
+  name: 'Sprint 8: Context & Documentation'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T16:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89NP
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Context compaction between tasks
+  - Post-mortem generation after task completion
+  - Learning capture to sprint context
+  description: |
+    Implement context management and documentation capture:
+
+    1. Context Compaction:
+       - After each task, compact context to manage token budget
+       - Summarize completed work for future reference
+       - Preserve essential state for next task
+       - Clear transient execution details
+
+    2. Post-Mortem Generation:
+       - After each task completion, generate post-mortem
+       - Capture what worked, what didn't, lessons learned
+       - Record actual vs estimated tokens/time
+       - Note any unexpected issues or discoveries
+
+    3. Learning Capture:
+       - Save post-mortems to sprint context directory
+       - Aggregate learnings across tasks in sprint
+       - Update sprint-level documentation
+       - Build knowledge base for future executions
+
+    From tested prompts:
+    ```
+    5) compact your context
+    7) save post mortem to appropriate context
+    ```
+
+    Context structure:
+    ```
+    .vibey/roadmap/context/sprints/{sprint-slug}/
+    ├── SPRINT_PLAN.md
+    ├── tasks/
+    │   ├── {task-slug}/
+    │   │   ├── TASK_PLAN.md
+    │   │   └── POST_MORTEM.md
+    │   └── ...
+    └── SPRINT_RETROSPECTIVE.md
+    ```
+  goal: Manage context efficiently and capture learnings
+  success_criteria:
+  - Context compacted between tasks
+  - Post-mortems generated and saved
+  - Learnings accessible for future tasks
+  risks:
+  - Compaction may lose important context
+  notes: Based on implementation_prompt.md tested patterns
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

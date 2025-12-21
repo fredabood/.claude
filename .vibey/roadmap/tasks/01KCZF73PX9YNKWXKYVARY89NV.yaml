@@ -1,0 +1,141 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NV
+  name: Implement BugLogger for automatic bug ticket creation
+  description: |
+    Create system to automatically log CLI bugs during execution:
+
+    ```python
+    class BugLogger:
+        def __init__(self, bug_ticket_id: str, roadmap_root: Path):
+            self.bug_ticket_id = bug_ticket_id
+            self.roadmap_root = roadmap_root
+            self.bugs_logged: List[str] = []
+
+        def log_bug(
+            self,
+            title: str,
+            description: str,
+            context: ExecutionContext,
+            severity: BugSeverity = BugSeverity.MEDIUM,
+        ) -> str:
+            '''
+            Create child ticket under bug_ticket_id for discovered bug.
+
+            Returns created ticket ID.
+            '''
+
+        def detect_cli_error(self, output: str, command: str) -> Optional[BugReport]:
+            '''
+            Analyze CLI output for potential bugs.
+
+            Detects:
+            - Unhandled exceptions
+            - Validation errors that seem like bugs
+            - Unexpected behavior patterns
+            - Error messages suggesting implementation issues
+            '''
+
+        def create_bug_ticket(self, report: BugReport) -> HierarchicalTicket:
+            '''
+            Create bug ticket with:
+            - Clear title describing the bug
+            - Steps to reproduce
+            - Expected vs actual behavior
+            - Stack trace if available
+            - Context (task being executed, command run)
+            '''
+
+        def get_session_bugs(self) -> List[str]:
+            '''Get all bug ticket IDs created this session.'''
+
+        def generate_bug_summary(self) -> str:
+            '''Generate summary of bugs found during session.'''
+    ```
+
+    Bug ticket template:
+    ```yaml
+    task:
+      id: {generated_ulid}
+      name: "Bug: {short_description}"
+      description: |
+        ## Bug Report
+
+        **Discovered during:** Task {task_id}
+        **Command:** `{command}`
+        **Severity:** {severity}
+
+        ### Description
+        {description}
+
+        ### Steps to Reproduce
+        1. {step}
+        ...
+
+        ### Expected Behavior
+        {expected}
+
+        ### Actual Behavior
+        {actual}
+
+        ### Stack Trace
+        ```
+        {stack_trace}
+        ```
+      parent_ref: {bug_ticket_id}
+      status: not_started
+      priority: {severity_to_priority}
+    ```
+
+    Configuration:
+    ```yaml
+    implement:
+      bug_logging:
+        enabled: true
+        parent_ticket: "01KC..."  # Designated bug logging ticket
+        auto_detect: true
+        severity_threshold: medium  # Only log medium+ severity
+    ```
+
+    Files:
+    - vibey/services/implementation/bug_logger.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NP
+  status: not_started
+  created_at: '2025-12-20T16:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T16:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/bug_logger.py exists
+    status: not_met
+  - type: code
+    description: Bugs logged as child tickets
+    status: not_met
+  - type: code
+    description: CLI errors auto-detected from output
+    status: not_met
+  - type: code
+    description: Bug tickets include reproduction steps
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NN
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

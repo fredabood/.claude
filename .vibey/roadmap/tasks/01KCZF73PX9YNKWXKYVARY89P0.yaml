@@ -1,0 +1,131 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89P0
+  name: Implement AgentSpawner for parallel execution
+  description: |
+    Create system to spawn and manage parallel agent processes:
+
+    ```python
+    class AgentSpawner:
+        def __init__(self, config: ImplementConfig):
+            self.config = config
+            self.max_concurrent = config.max_concurrent_agents or 3
+            self.active_agents: Dict[str, AgentProcess] = {}
+
+        async def spawn_agents(
+            self,
+            group: ParallelGroup,
+        ) -> List[AgentProcess]:
+            '''
+            Spawn agents for all tasks in parallel group.
+
+            Each agent:
+            1. Gets isolated context
+            2. Works on separate git branch (if configured)
+            3. Reports progress via shared state
+            '''
+
+        async def spawn_agent(
+            self,
+            task: HierarchicalTicket,
+            context: TaskContext,
+        ) -> AgentProcess:
+            '''
+            Spawn single Claude Code agent for task.
+
+            Command:
+            claude --print --dangerously-skip-permissions \
+              --system-prompt "{system_prompt}" \
+              "{task_prompt}"
+            '''
+
+        async def wait_for_all(
+            self,
+            agents: List[AgentProcess],
+            timeout: Optional[int] = None,
+        ) -> List[ExecutionResult]:
+            '''Wait for all agents to complete.'''
+
+        async def cancel_all(self, agents: List[AgentProcess]):
+            '''Cancel all running agents.'''
+
+        def get_agent_status(self, agent_id: str) -> AgentStatus:
+            '''Get status of specific agent.'''
+    ```
+
+    AgentProcess:
+    ```python
+    @dataclass
+    class AgentProcess:
+        agent_id: str
+        task_id: str
+        process: asyncio.Process
+        started_at: datetime
+        branch: Optional[str]  # Git branch if isolated
+        status: AgentStatus
+        output_buffer: List[str]
+
+        async def wait(self) -> ExecutionResult:
+            '''Wait for process completion.'''
+
+        async def cancel(self):
+            '''Send cancel signal to agent.'''
+
+        def get_output(self) -> str:
+            '''Get current output buffer.'''
+    ```
+
+    Branch isolation (optional):
+    ```bash
+    # Before spawning agent
+    git checkout -b implement/{task_id}
+
+    # Agent executes on branch
+
+    # After completion
+    git checkout main
+    git merge implement/{task_id}
+    ```
+
+    Files:
+    - vibey/services/implementation/spawner.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NR
+  status: not_started
+  created_at: '2025-12-20T16:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T16:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/spawner.py exists
+    status: not_met
+  - type: code
+    description: Agents spawn in parallel with max limit
+    status: not_met
+  - type: code
+    description: Branch isolation works when enabled
+    status: not_met
+  - type: test
+    description: Agent cancellation works correctly
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NZ
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

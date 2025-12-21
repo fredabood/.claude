@@ -1,0 +1,155 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89P1
+  name: Implement ResultAggregator for conflict resolution
+  description: |
+    Create system to aggregate results and resolve conflicts:
+
+    ```python
+    class ResultAggregator:
+        def __init__(self, config: ImplementConfig):
+            self.config = config
+
+        def aggregate(
+            self,
+            results: List[ExecutionResult],
+        ) -> AggregatedResult:
+            '''
+            Aggregate results from parallel agents.
+
+            Handles:
+            1. Collecting all execution results
+            2. Detecting file conflicts
+            3. Merging commits appropriately
+            4. Updating roadmap state atomically
+            '''
+
+        def detect_conflicts(
+            self,
+            results: List[ExecutionResult],
+        ) -> List[FileConflict]:
+            '''
+            Detect files modified by multiple agents.
+
+            Returns list of conflicts needing resolution.
+            '''
+
+        async def resolve_conflicts(
+            self,
+            conflicts: List[FileConflict],
+            strategy: ConflictStrategy,
+        ) -> List[Resolution]:
+            '''
+            Resolve file conflicts.
+
+            Strategies:
+            - PROMPT: Ask user to resolve
+            - ABORT: Rollback all parallel changes
+            - MERGE: Attempt automatic merge
+            - LAST_WINS: Use last completion's version
+            '''
+
+        def merge_commits(
+            self,
+            results: List[ExecutionResult],
+        ) -> List[str]:
+            '''
+            Merge commits from isolated branches.
+
+            If branch isolation was used:
+            1. Checkout main
+            2. Merge each branch in order
+            3. Handle merge conflicts
+            4. Return final commit hashes
+            '''
+
+        def update_roadmap_atomically(
+            self,
+            results: List[ExecutionResult],
+        ):
+            '''Update all task statuses atomically.'''
+    ```
+
+    Conflict handling:
+    ```python
+    @dataclass
+    class FileConflict:
+        file_path: Path
+        agents: List[str]  # Agent IDs that modified this file
+        contents: Dict[str, str]  # agent_id -> file content
+        conflict_type: ConflictType  # CONTENT, BOTH_CREATED, BOTH_DELETED
+
+    class ConflictStrategy(Enum):
+        PROMPT = "prompt"       # Ask user
+        ABORT = "abort"         # Rollback everything
+        MERGE = "merge"         # Try auto-merge
+        LAST_WINS = "last_wins"  # Use last agent's version
+        FIRST_WINS = "first_wins"  # Use first agent's version
+
+    @dataclass
+    class Resolution:
+        conflict: FileConflict
+        strategy_used: ConflictStrategy
+        resolved_content: str
+        required_manual: bool
+    ```
+
+    Aggregated result:
+    ```python
+    @dataclass
+    class AggregatedResult:
+        individual_results: List[ExecutionResult]
+        conflicts_found: List[FileConflict]
+        conflicts_resolved: List[Resolution]
+        final_commits: List[str]
+        total_tokens: int
+        total_duration: timedelta
+        success_count: int
+        failure_count: int
+    ```
+
+    Files:
+    - vibey/services/implementation/aggregator.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NR
+  status: not_started
+  created_at: '2025-12-20T16:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T16:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/aggregator.py exists
+    status: not_met
+  - type: code
+    description: File conflicts detected correctly
+    status: not_met
+  - type: code
+    description: All conflict strategies implemented
+    status: not_met
+  - type: code
+    description: Roadmap state updated atomically
+    status: not_met
+  - type: test
+    description: Branch merging works without data loss
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89P0
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

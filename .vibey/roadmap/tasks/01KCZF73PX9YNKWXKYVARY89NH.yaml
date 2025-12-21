@@ -1,0 +1,102 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NH
+  name: Implement CriterionDependencyGraph builder
+  description: |
+    Create system to build and query criterion dependency graphs:
+
+    ```python
+    class CriterionDependencyGraph:
+        '''
+        Graph of all criteria across tickets with dependency relationships.
+
+        Nodes: Individual criteria (identified by ticket_id + criterion_index)
+        Edges: Dependencies between criteria (explicit and inferred)
+        '''
+
+        def __init__(self, roadmap_root: Path):
+            self.root = roadmap_root
+            self.graph: nx.DiGraph = nx.DiGraph()
+
+        def build(self, scope: Optional[str] = None) -> 'CriterionDependencyGraph':
+            '''
+            Build dependency graph for all criteria.
+
+            1. Load all tickets with criteria
+            2. Parse criterion definitions
+            3. Infer dependencies from:
+               - Explicit depends_on relationships
+               - File path references in criteria
+               - Code artifact references
+               - Test file associations
+            4. Build directed graph of dependencies
+            '''
+
+        def get_upstream_criteria(self, ticket_id: str) -> List[Criterion]:
+            '''Get all criteria that this ticket's criteria depend on.'''
+
+        def get_downstream_criteria(self, ticket_id: str) -> List[Criterion]:
+            '''Get all criteria that depend on this ticket's criteria.'''
+
+        def get_affected_criteria(self, files: List[Path]) -> List[Criterion]:
+            '''Get all criteria that could be affected by changes to files.'''
+
+        def get_transitive_closure(self, ticket_id: str) -> Set[str]:
+            '''Get all transitively connected ticket IDs.'''
+    ```
+
+    Criterion reference structure:
+    ```python
+    @dataclass
+    class CriterionRef:
+        ticket_id: str
+        criterion_index: int
+        criterion_type: str  # artifact, code, test, etc.
+        description: str
+        file_refs: List[Path]  # Files this criterion checks
+        status: str  # met, not_met, blocked
+    ```
+
+    Files:
+    - vibey/services/implementation/dependency_graph.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  status: not_started
+  created_at: '2025-12-20T15:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T15:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/dependency_graph.py exists
+    status: not_met
+  - type: code
+    description: Graph captures explicit depends_on relationships
+    status: not_met
+  - type: code
+    description: Graph infers dependencies from file references
+    status: not_met
+  - type: test
+    description: Transitive closure correctly computed
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NF
+  commits_local: []
+  requirements_local:
+  - networkx
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

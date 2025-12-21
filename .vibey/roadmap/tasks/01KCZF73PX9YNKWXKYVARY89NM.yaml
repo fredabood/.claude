@@ -1,0 +1,130 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NM
+  name: Implement IntentionalRegressionHandler for deprecation/sunset
+  description: |
+    Create system to handle intentional regressions:
+
+    ```python
+    @dataclass
+    class RegressionAcknowledgment:
+        '''Record of intentional regression acknowledgment.'''
+
+        regression_id: str  # ticket_id:criterion_index
+        acknowledged_by: str  # agent or user
+        acknowledged_at: datetime
+        reason: RegressionReason
+        justification: str
+        related_ticket: Optional[str]  # Deprecation ticket, etc.
+        expires_at: Optional[datetime]  # For temporary regressions
+
+
+    class RegressionReason(Enum):
+        DEPRECATION = "deprecation"        # Feature being removed
+        SUNSET = "sunset"                  # Legacy system retirement
+        BREAKING_CHANGE = "breaking_change"  # Intentional API change
+        REFACTOR = "refactor"              # Temporary during refactor
+        TEST_FLAKE = "test_flake"          # Known flaky test
+        EXTERNAL_DEP = "external_dep"      # External dependency issue
+
+
+    class IntentionalRegressionHandler:
+        def __init__(self, config_path: Path):
+            self.config_path = config_path
+            self.acknowledgments: Dict[str, RegressionAcknowledgment] = {}
+
+        def acknowledge_regression(
+            self,
+            regression: Regression,
+            reason: RegressionReason,
+            justification: str,
+        ) -> RegressionAcknowledgment:
+            '''
+            Acknowledge an intentional regression.
+
+            Requires:
+            - Valid reason from RegressionReason enum
+            - Justification explaining why this is intentional
+            - Optional link to related ticket
+            '''
+
+        def is_acknowledged(self, criterion_ref: CriterionRef) -> bool:
+            '''Check if a criterion has an active acknowledgment.'''
+
+        def get_acknowledgment(self, criterion_ref: CriterionRef) -> Optional[RegressionAcknowledgment]:
+            '''Get acknowledgment details if exists.'''
+
+        def cleanup_expired(self):
+            '''Remove expired acknowledgments.'''
+
+        def list_active_acknowledgments(self) -> List[RegressionAcknowledgment]:
+            '''List all active regression acknowledgments.'''
+
+        def prompt_for_acknowledgment(
+            self,
+            regression: Regression,
+        ) -> Optional[RegressionAcknowledgment]:
+            '''
+            Interactive prompt to acknowledge regression.
+
+            Regression detected: Test suite passes
+
+            Is this intentional? [y/N]: y
+            Reason:
+              1. Deprecation
+              2. Sunset/Legacy removal
+              3. Breaking change
+              4. Refactor in progress
+              5. Test flake
+              6. External dependency
+            Select: 1
+
+            Justification: Removing v1 API per RFC-123
+            Related ticket (optional): 01KC...
+            '''
+    ```
+
+    Storage: .vibey/implementation/acknowledgments.yaml
+
+    Files:
+    - vibey/services/implementation/acknowledgment.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  status: not_started
+  created_at: '2025-12-20T15:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T15:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/acknowledgment.py exists
+    status: not_met
+  - type: code
+    description: Acknowledgments persist to YAML
+    status: not_met
+  - type: code
+    description: Interactive prompt works for manual acknowledgment
+    status: not_met
+  - type: code
+    description: Expired acknowledgments cleaned up
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NK
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,144 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NN
+  name: Integrate regression prevention with ImplementationLoop
+  description: |
+    Wire regression prevention into the main execution loop:
+
+    ```python
+    class ImplementationLoop:
+        def __init__(
+            self,
+            selector: TaskSelector,
+            executor: TaskExecutor,
+            config: ImplementConfig,
+            regression_detector: RegressionDetector,  # NEW
+        ):
+            self.regression_detector = regression_detector
+            self.snapshot_manager = regression_detector.snapshot_manager
+
+        async def run(self) -> LoopResult:
+            while not self.should_stop():
+                task = self.selector.get_next_task()
+                if task is None:
+                    break
+
+                # NEW: Capture pre-execution snapshot
+                snapshot = self.snapshot_manager.capture_snapshot(task)
+
+                # Execute task
+                self.state.current_task = task
+                result = await self.executor.execute(task)
+
+                # NEW: Check for regressions before completing
+                if result.succeeded:
+                    regression_report = self.regression_detector.detect_regressions(
+                        before=snapshot,
+                        task=task,
+                    )
+
+                    if regression_report.has_unacknowledged_regressions:
+                        result = self.handle_regressions(task, regression_report)
+
+                self.handle_result(task, result)
+
+            return self.state.to_result()
+
+        def handle_regressions(
+            self,
+            task: HierarchicalTicket,
+            report: RegressionReport,
+        ) -> ExecutionResult:
+            '''
+            Handle detected regressions.
+
+            Options based on config:
+            1. Block completion (default)
+            2. Prompt for acknowledgment (interactive mode)
+            3. Auto-acknowledge with reason (if configured)
+            4. Rollback changes (if checkpoint enabled)
+            '''
+
+        def should_block_on_regression(self, report: RegressionReport) -> bool:
+            '''
+            Determine if regressions should block completion.
+
+            Check config for:
+            - regression_policy: block | warn | ignore
+            - allow_acknowledged: true | false
+            - auto_rollback: true | false
+            '''
+    ```
+
+    Configuration:
+    ```yaml
+    implement:
+      regression:
+        enabled: true
+        policy: block  # block, warn, ignore
+        auto_rollback_on_regression: false
+        require_acknowledgment: true
+        allowed_regression_reasons:
+          - deprecation
+          - sunset
+          - breaking_change
+    ```
+
+    CLI integration:
+    ```bash
+    # View regression report
+    vibey implement regressions
+
+    # Acknowledge a regression
+    vibey implement acknowledge <criterion-ref> --reason deprecation --justification "..."
+
+    # Force complete with regressions (requires --force)
+    vibey implement complete --force --acknowledge-regressions
+    ```
+
+    Files:
+    - vibey/services/implementation/loop.py (update)
+    - vibey/cli/implement.py (update)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89NG
+  status: not_started
+  created_at: '2025-12-20T15:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T15:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: Snapshot captured before each task execution
+    status: not_met
+  - type: code
+    description: Regressions detected after task completion
+    status: not_met
+  - type: code
+    description: Unacknowledged regressions block task completion
+    status: not_met
+  - type: code
+    description: CLI commands for regression management work
+    status: not_met
+  - type: test
+    description: End-to-end test for regression detection flow
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NM
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

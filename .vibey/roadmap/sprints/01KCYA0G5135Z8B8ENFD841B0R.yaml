@@ -30,17 +30,24 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables:
-  - Updated Task model with token estimation fields
-  - Updated Sprint/Track models with aggregated token fields
-  - Database schema migration for new fields
+  - TokenEstimate model with min/max/target/budget/actual fields
+  - Ticket class (L1) with input_tokens and output_tokens fields
+  - HierarchicalTicket (L2) with aggregation computed properties
+  - YAML and SQLite serialization for token fields
   description: |
-    Add new token estimation fields to the data models:
-    - input_tokens_min, input_tokens_max, input_tokens_target
-    - output_tokens_min, output_tokens_max, output_tokens_target
-    - input_tokens_budget (optional max limit)
-    - output_tokens_budget (optional max limit)
-    - actual_input_tokens, actual_output_tokens (for tracking)
-  goal: Update data models to support comprehensive token estimation
+    Add token estimation to the unified ticket architecture:
+
+    Layer 1 (Ticket):
+    - input_tokens: Optional[TokenEstimate] - Local input estimate
+    - output_tokens: Optional[TokenEstimate] - Local output estimate
+
+    Layer 2 (HierarchicalTicket):
+    - input_tokens_aggregated: TokenEstimate - Sum from descendants
+    - output_tokens_aggregated: TokenEstimate - Sum from descendants
+
+    Parent tickets aggregate child tokens automatically. Budgets are
+    set on parent tickets to constrain total child consumption.
+  goal: Add token estimation fields using unified ticket architecture
   success_criteria:
   - All models updated with new token fields
   - Database schema migrated

@@ -24,15 +24,15 @@ track:
   quality_gates: []
   assigned_agents: []
   deliverables:
-  - Enhanced ticket models with min/max/target token estimates
-  - Separate input and output token tracking
-  - Optional token budget constraints per ticket
-  - Token estimation algorithms for different task types
+  - Token estimation fields on Ticket class (Layer 1)
+  - Automatic aggregation via HierarchicalTicket (Layer 2)
+  - Parent tickets aggregate child token consumption
+  - Optional token budget constraints with enforcement
   - CLI commands for viewing and managing token metrics
   strategic_value:
   - Better resource planning and cost estimation
   - Prevent runaway token consumption
-  - Enable data-driven task complexity assessment
+  - Hierarchical budget management (parent budgets cover children)
   - Support for budget-constrained agentic workflows
   commits: []
   standards: []

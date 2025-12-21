@@ -1,31 +1,41 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0W
-  name: Update Task model with token estimation fields
+  name: Add token estimation fields to Ticket class (Layer 1)
   description: |
-    Add new token estimation fields to the Task model:
+    Add token estimation fields to the base Ticket class in the unified
+    ticket architecture. These fields represent LOCAL token estimates
+    for this ticket only (not aggregated from children).
 
-    Input Token Fields:
-    - input_tokens_min: Optional[int] - Minimum expected input tokens
-    - input_tokens_max: Optional[int] - Maximum expected input tokens
-    - input_tokens_target: Optional[int] - Target/expected input tokens
-    - input_tokens_budget: Optional[int] - Hard limit for input tokens
-    - actual_input_tokens: Optional[int] - Actual input tokens used
+    New Pydantic model for token estimates:
+    ```python
+    class TokenEstimate(BaseModel):
+        '''Token estimation with min/max/target range.'''
+        min: Optional[int] = None
+        max: Optional[int] = None
+        target: Optional[int] = None
+        budget: Optional[int] = None  # Hard limit
+        actual: Optional[int] = None  # Recorded usage
 
-    Output Token Fields:
-    - output_tokens_min: Optional[int] - Minimum expected output tokens
-    - output_tokens_max: Optional[int] - Maximum expected output tokens
-    - output_tokens_target: Optional[int] - Target/expected output tokens
-    - output_tokens_budget: Optional[int] - Hard limit for output tokens
-    - actual_output_tokens: Optional[int] - Actual output tokens used
+        @model_validator(mode='after')
+        def validate_range(self) -> 'TokenEstimate':
+            if self.min and self.target and self.min > self.target:
+                raise ValueError('min must be <= target')
+            if self.target and self.max and self.target > self.max:
+                raise ValueError('target must be <= max')
+            if self.budget and self.target and self.budget < self.target:
+                raise ValueError('budget must be >= target')
+            return self
+    ```
+
+    Add to Ticket class:
+    - input_tokens: Optional[TokenEstimate] = None
+    - output_tokens: Optional[TokenEstimate] = None
 
     Files to modify:
-    - vibey/roadmap/models/task.py
-    - vibey/roadmap/models/ticket/ticket.py (if using unified model)
+    - vibey/roadmap/models/ticket/ticket.py
 
-    Validation rules:
-    - min <= target <= max (when all specified)
-    - budget >= target (when both specified)
-    - All fields optional for backwards compatibility
+    Design note: These are LOCAL estimates. Aggregation happens in
+    HierarchicalTicket (Layer 2) via computed properties.
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0R
@@ -39,10 +49,13 @@ task:
   priority: high
   criteria:
   - type: code
-    description: Task model has all 10 new token fields
+    description: TokenEstimate model exists with min/max/target/budget/actual
+    status: not_met
+  - type: code
+    description: Ticket class has input_tokens and output_tokens fields
     status: not_met
   - type: test
-    description: Validation rules for min/target/max/budget enforced
+    description: Validation rules for min <= target <= max enforced
     status: not_met
   depends_on: []
   commits_local: []

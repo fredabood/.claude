@@ -1,28 +1,46 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0X
-  name: Update Sprint and Track models with aggregated token fields
+  name: Add token aggregation to HierarchicalTicket (Layer 2)
   description: |
-    Add aggregated token fields to Sprint and Track models:
+    Add computed properties to HierarchicalTicket that aggregate token
+    estimates from child tickets, following the same pattern as
+    `commits_aggregated`.
 
-    Sprint Model:
-    - input_tokens_budget: Optional[int] - Total input budget for sprint
-    - output_tokens_budget: Optional[int] - Total output budget for sprint
-    - estimated_input_tokens: int - Sum of task input_tokens_target
-    - estimated_output_tokens: int - Sum of task output_tokens_target
-    - actual_input_tokens: int - Sum of task actual_input_tokens
-    - actual_output_tokens: int - Sum of task actual_output_tokens
+    New computed properties:
+    ```python
+    @computed_field
+    @property
+    def input_tokens_aggregated(self) -> TokenEstimate:
+        '''Aggregate input token estimates from all descendants.'''
+        if not self.is_parent:
+            return self.input_tokens or TokenEstimate()
 
-    Track Model:
-    - input_tokens_budget: Optional[int] - Total input budget for track
-    - output_tokens_budget: Optional[int] - Total output budget for track
-    - estimated_input_tokens: int - Sum of sprint estimates
-    - estimated_output_tokens: int - Sum of sprint estimates
-    - actual_input_tokens: int - Sum of sprint actuals
-    - actual_output_tokens: int - Sum of sprint actuals
+        # Sum up child tokens
+        total = TokenEstimate()
+        for child in self.children_tickets:
+            child_tokens = child.input_tokens_aggregated
+            total.min = (total.min or 0) + (child_tokens.min or 0)
+            total.max = (total.max or 0) + (child_tokens.max or 0)
+            total.target = (total.target or 0) + (child_tokens.target or 0)
+            total.actual = (total.actual or 0) + (child_tokens.actual or 0)
+
+        # Budget comes from this ticket (not aggregated)
+        total.budget = self.input_tokens.budget if self.input_tokens else None
+        return total
+
+    @computed_field
+    @property
+    def output_tokens_aggregated(self) -> TokenEstimate:
+        '''Aggregate output token estimates from all descendants.'''
+        # Same pattern as input_tokens_aggregated
+    ```
 
     Files to modify:
-    - vibey/roadmap/models/sprint.py
-    - vibey/roadmap/models/track.py
+    - vibey/roadmap/models/ticket/hierarchical.py
+
+    Design note: Parent tickets set their own budget, but estimates
+    and actuals are aggregated from children. This allows setting a
+    budget constraint on a sprint that covers all its tasks.
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0R
@@ -36,10 +54,13 @@ task:
   priority: high
   criteria:
   - type: code
-    description: Sprint model has aggregated token fields
+    description: HierarchicalTicket has input_tokens_aggregated property
     status: not_met
   - type: code
-    description: Track model has aggregated token fields
+    description: HierarchicalTicket has output_tokens_aggregated property
+    status: not_met
+  - type: test
+    description: Parent tickets correctly aggregate child token estimates
     status: not_met
   depends_on:
   - 01KCYA0G5135Z8B8ENFD841B0W

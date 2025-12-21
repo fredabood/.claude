@@ -1,41 +1,51 @@
 task:
   id: 01KCYA0G5135Z8B8ENFD841B0Y
-  name: Create database schema migration for token fields
+  name: Update YAML and database serialization for token fields
   description: |
-    Add new columns to SQLite database schema:
+    Update serialization to persist token estimation fields.
 
-    Tasks table additions:
-    - input_tokens_min INTEGER
-    - input_tokens_max INTEGER
-    - input_tokens_target INTEGER
-    - input_tokens_budget INTEGER
-    - actual_input_tokens INTEGER
-    - output_tokens_min INTEGER
-    - output_tokens_max INTEGER
-    - output_tokens_target INTEGER
-    - output_tokens_budget INTEGER
-    - actual_output_tokens INTEGER
+    YAML Format (in ticket YAML files):
+    ```yaml
+    ticket:
+      id: 01ABC...
+      name: Some Task
+      input_tokens:
+        min: 5000
+        max: 20000
+        target: 10000
+        budget: 25000
+        actual: 8234
+      output_tokens:
+        min: 2000
+        max: 10000
+        target: 5000
+        budget: 12000
+        actual: 4521
+    ```
 
-    Sprints table additions:
-    - input_tokens_budget INTEGER
-    - output_tokens_budget INTEGER
-    - estimated_input_tokens INTEGER DEFAULT 0
-    - estimated_output_tokens INTEGER DEFAULT 0
-    - actual_input_tokens INTEGER DEFAULT 0
-    - actual_output_tokens INTEGER DEFAULT 0
-
-    Tracks table additions:
-    - input_tokens_budget INTEGER
-    - output_tokens_budget INTEGER
-    - estimated_input_tokens INTEGER DEFAULT 0
-    - estimated_output_tokens INTEGER DEFAULT 0
-    - actual_input_tokens INTEGER DEFAULT 0
-    - actual_output_tokens INTEGER DEFAULT 0
+    SQLite Schema (single table for all tickets):
+    ```sql
+    -- Add to tickets table
+    ALTER TABLE tickets ADD COLUMN input_tokens_min INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_max INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_target INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_budget INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_actual INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_min INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_max INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_target INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_budget INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_actual INTEGER;
+    ```
 
     Files to modify:
+    - vibey/roadmap/serialization/yaml_loader.py
+    - vibey/roadmap/serialization/yaml_dumper.py
     - vibey/operations/roadmap/database.py (schema)
     - vibey/roadmap/serialization/sql_loader.py
     - vibey/roadmap/serialization/sql_dumper.py
+
+    Note: Aggregated values are computed at runtime, not stored.
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0R

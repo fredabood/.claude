@@ -23,12 +23,7 @@ track:
   depended_on_by: []
   quality_gates: []
   assigned_agents: []
-  deliverables:
-  - Token estimation fields on Ticket class (Layer 1)
-  - Automatic aggregation via HierarchicalTicket (Layer 2)
-  - Parent tickets aggregate child token consumption
-  - Optional token budget constraints with enforcement
-  - CLI commands for viewing and managing token metrics
+  deliverables: []
   strategic_value:
   - Better resource planning and cost estimation
   - Prevent runaway token consumption
@@ -38,15 +33,7 @@ track:
   standards: []
   metadata:
     created_by: claude-code
-    last_updated: '2025-12-20T12:00:00+00:00'
+    last_updated: '2025-12-21T03:37:28.715030+00:00'
     design_doc: null
     implementation_plan: null
-    notes: |
-      This track implements a comprehensive token estimation and budgeting system.
-
-      Key features:
-      1. Min/Max/Target estimates for both input and output tokens
-      2. Optional max token budgets (hard limits) for input and output
-      3. Estimation algorithms based on task type and complexity
-      4. CLI integration for viewing and managing token metrics
-      5. Budget enforcement during task execution
+    notes: null

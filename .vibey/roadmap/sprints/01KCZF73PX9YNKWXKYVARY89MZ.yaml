@@ -1,0 +1,85 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89MZ
+  name: 'Sprint 4: CLI Integration'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MY
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - vibey implement command
+  - Configuration options
+  - Control commands (status, pause, resume, stop)
+  description: |
+    Add CLI commands for implementation mode:
+
+    1. Main Command:
+       vibey implement [OPTIONS]
+
+       Options:
+       --track <id>        Only tasks in this track
+       --sprint <id>       Only tasks in this sprint
+       --max-tasks <n>     Stop after N tasks
+       --max-tokens <n>    Stop after N tokens
+       --dry-run           Show what would run without executing
+       --background        Run as background process
+
+    2. Control Commands:
+       vibey implement status   Show current execution state
+       vibey implement pause    Pause execution after current task
+       vibey implement resume   Resume paused execution
+       vibey implement stop     Stop execution immediately
+
+    3. Configuration:
+       .vibey/config/implement.yaml:
+       ```yaml
+       defaults:
+         max_tasks_per_session: 10
+         max_tokens_per_session: 100000
+         retry_failed_tasks: false
+         approval_required: [critical, complex]
+       ```
+  goal: Add CLI commands for controlling implementation mode
+  success_criteria:
+  - vibey implement starts execution loop
+  - Control commands work correctly
+  - Configuration is respected
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

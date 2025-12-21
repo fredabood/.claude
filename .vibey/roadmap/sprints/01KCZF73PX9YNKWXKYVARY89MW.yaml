@@ -1,0 +1,60 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89MW
+  name: 'Sprint 1: Core Loop Architecture'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - ImplementationLoop class with main execution loop
+  - TaskSelector for finding planned + unblocked tasks
+  - LoopState for tracking execution state
+  description: "Build the core execution loop for implementation mode:\n\n1. TaskSelector:\
+    \ Query for next task to execute\n   - Find tasks with status=planned and blocked=false\n\
+    \   - Respect dependency ordering\n   - Support filtering by track/sprint\n\n\
+    2. ImplementationLoop: Main while loop\n   - Initialize with configuration\n \
+    \  - Run until no more tasks or stopped\n   - Handle interrupts gracefully\n\n\
+    3. LoopState: Track execution state\n   - Current task being executed\n   - Tasks\
+    \ completed this session\n   - Errors encountered\n   - Start/end times\n"
+  goal: Implement the core execution loop architecture
+  success_criteria:
+  - TaskSelector correctly identifies planned+unblocked tasks
+  - ImplementationLoop runs until no work remains
+  - State is persisted across interrupts
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

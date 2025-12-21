@@ -1,0 +1,82 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89N7
+  name: Implement real-time progress display
+  description: |
+    Create progress display system for implementation mode:
+
+    ```python
+    class ProgressDisplay:
+        def __init__(self, state: LoopState, console: Console = None):
+            self.state = state
+            self.console = console or Console()
+
+        def show_status(self):
+            '''
+            Display current execution status:
+
+            Implementation Mode: Running
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            Current Task: Implement user authentication
+            Progress: 5/12 tasks (41.7%)
+
+            Tokens: 15,234 input / 8,456 output
+            Duration: 00:23:45
+            Remaining: ~00:32:00 (estimated)
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            '''
+
+        def show_task_start(self, task: HierarchicalTicket):
+            '''Display task starting notification.'''
+
+        def show_task_complete(self, task: HierarchicalTicket, result: ExecutionResult):
+            '''Display task completion with result.'''
+
+        def show_summary(self, state: LoopState):
+            '''Display final execution summary.'''
+
+        def estimate_remaining(self) -> timedelta:
+            '''Estimate time remaining based on average task duration.'''
+    ```
+
+    Use Rich library for terminal formatting.
+
+    Files:
+    - vibey/services/implementation/display.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89MY
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/display.py exists
+    status: not_met
+  - type: code
+    description: Progress shows current task and overall progress
+    status: not_met
+  - type: code
+    description: Display updates in real-time during execution
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89N6
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

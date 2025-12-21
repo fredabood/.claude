@@ -1,0 +1,83 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89N8
+  name: Implement structured logging for execution
+  description: |
+    Create structured logging system for implementation mode:
+
+    ```python
+    class ExecutionLogger:
+        def __init__(self, activity_log_path: Path):
+            self.log_path = activity_log_path
+            self.session_id: Optional[str] = None
+
+        def start_session(self, session_id: str):
+            '''Log session start event.'''
+            self._log({
+                "event": "session_start",
+                "session_id": session_id,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            })
+
+        def log_task_start(self, task: HierarchicalTicket):
+            '''Log task execution start.'''
+
+        def log_task_complete(self, task: HierarchicalTicket, result: ExecutionResult):
+            '''Log task completion with result.'''
+
+        def log_task_error(self, task: HierarchicalTicket, error: Exception):
+            '''Log task execution error.'''
+
+        def end_session(self, state: LoopState):
+            '''Log session end with summary.'''
+
+        def _log(self, event: dict):
+            '''Append event to JSONL activity log.'''
+    ```
+
+    Log format (JSONL):
+    ```json
+    {"event": "task_complete", "task_id": "01KC...", "status": "success", "tokens_input": 1234, ...}
+    ```
+
+    Integration with existing activity log system.
+
+    Files:
+    - vibey/services/implementation/logging.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89MY
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/logging.py exists
+    status: not_met
+  - type: code
+    description: All execution events logged to JSONL
+    status: not_met
+  - type: code
+    description: Logs integrate with existing activity log system
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89N6
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

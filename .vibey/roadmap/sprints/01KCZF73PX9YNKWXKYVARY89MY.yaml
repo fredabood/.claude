@@ -1,0 +1,76 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89MY
+  name: 'Sprint 3: Progress & Monitoring'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MX
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Real-time progress display
+  - Structured logging for execution
+  - Error recovery and retry logic
+  description: |
+    Add progress monitoring and error handling:
+
+    1. Progress Display:
+       - Show current task being executed
+       - Display overall progress (X/Y tasks)
+       - Token usage summary
+       - Estimated time remaining
+
+    2. Logging:
+       - Log each task start/complete/fail
+       - Record to activity log (JSONL)
+       - Include execution metadata
+       - Support log levels (debug, info, warn, error)
+
+    3. Error Recovery:
+       - Catch and log execution errors
+       - Mark task as blocked with error reason
+       - Option to retry failed tasks
+       - Continue to next task on failure
+  goal: Implement progress monitoring and error recovery
+  success_criteria:
+  - Progress visible during execution
+  - All events logged to activity log
+  - Errors handled gracefully without crashing loop
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

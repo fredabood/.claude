@@ -1,0 +1,77 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89MX
+  name: 'Sprint 2: Task Execution Engine'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MW
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - TaskContextBuilder for assembling task context
+  - TaskExecutor for running tasks via agent
+  - ExecutionResult for capturing outcomes
+  description: |
+    Build the task execution engine:
+
+    1. TaskContextBuilder: Assemble context for task execution
+       - Load task description and criteria
+       - Load relevant files (from task plan)
+       - Include parent ticket context (sprint goals, etc.)
+       - Build system prompt with task instructions
+
+    2. TaskExecutor: Execute task via agent subprocess
+       - Spawn Claude Code agent with task context
+       - Stream output for monitoring
+       - Capture result (success, failure, blocked)
+       - Record token usage
+
+    3. ExecutionResult: Capture execution outcome
+       - Success/failure/blocked status
+       - Files modified
+       - Commits created
+       - Tokens consumed
+       - Error messages if failed
+  goal: Implement task execution via agent subprocess
+  success_criteria:
+  - Context builder includes all relevant task information
+  - Executor successfully spawns and monitors agent
+  - Results capture all execution metadata
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

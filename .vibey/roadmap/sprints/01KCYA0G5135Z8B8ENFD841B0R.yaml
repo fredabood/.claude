@@ -34,19 +34,28 @@ sprint:
   - Ticket class (L1) with input_tokens and output_tokens fields
   - HierarchicalTicket (L2) with aggregation computed properties
   - YAML and SQLite serialization for token fields
-  description: |
-    Add token estimation to the unified ticket architecture:
+  description: 'Add token estimation to the unified ticket architecture:
+
 
     Layer 1 (Ticket):
+
     - input_tokens: Optional[TokenEstimate] - Local input estimate
+
     - output_tokens: Optional[TokenEstimate] - Local output estimate
 
+
     Layer 2 (HierarchicalTicket):
+
     - input_tokens_aggregated: TokenEstimate - Sum from descendants
+
     - output_tokens_aggregated: TokenEstimate - Sum from descendants
 
+
     Parent tickets aggregate child tokens automatically. Budgets are
+
     set on parent tickets to constrain total child consumption.
+
+    '
   goal: Add token estimation fields using unified ticket architecture
   success_criteria:
   - All models updated with new token fields

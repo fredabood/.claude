@@ -1,0 +1,93 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NE
+  name: Implement checkpoint and rollback support
+  description: |
+    Create checkpoint/rollback system for safe execution:
+
+    ```python
+    class CheckpointManager:
+        def __init__(self, repo_root: Path):
+            self.repo_root = repo_root
+
+        def create_checkpoint(self, task: HierarchicalTicket) -> str:
+            '''
+            Create git checkpoint before task execution.
+
+            1. Stage any uncommitted changes
+            2. Create checkpoint commit
+            3. Tag with task ID: checkpoint/{task_id}
+
+            Returns checkpoint tag name.
+            '''
+
+        def rollback(self, checkpoint_tag: str):
+            '''
+            Rollback to checkpoint.
+
+            1. Reset to checkpoint commit
+            2. Remove checkpoint tag
+            3. Log rollback event
+            '''
+
+        def list_checkpoints(self) -> List[Checkpoint]:
+            '''List all checkpoint tags.'''
+
+        def cleanup_old_checkpoints(self, keep_last: int = 10):
+            '''Remove old checkpoint tags.'''
+
+        def get_changes_since_checkpoint(self, tag: str) -> List[Path]:
+            '''Get files changed since checkpoint.'''
+    ```
+
+    Configuration:
+    ```yaml
+    safety:
+      checkpoint:
+        enabled: true
+        auto_rollback_on_failure: false
+        keep_last: 10
+    ```
+
+    Files:
+    - vibey/services/implementation/checkpoint.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89N0
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/checkpoint.py exists
+    status: not_met
+  - type: code
+    description: Checkpoint created before each task
+    status: not_met
+  - type: code
+    description: Rollback restores to checkpoint state
+    status: not_met
+  - type: test
+    description: Old checkpoints cleaned up automatically
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NC
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

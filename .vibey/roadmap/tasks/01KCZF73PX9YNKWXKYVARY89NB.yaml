@@ -1,0 +1,94 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NB
+  name: Implement control commands (status, pause, resume, stop)
+  description: |
+    Add control commands for managing running implementation:
+
+    ```python
+    @implement.command()
+    def status():
+        '''
+        Show current implementation mode status.
+
+        Output:
+        - Session ID and start time
+        - Current task being executed
+        - Progress (X/Y tasks completed)
+        - Token usage
+        - Status (running/paused/stopped)
+        '''
+
+    @implement.command()
+    def pause():
+        '''
+        Pause execution after current task completes.
+
+        Sets state.status = PAUSED
+        Loop will stop after current task finishes.
+        '''
+
+    @implement.command()
+    def resume():
+        '''
+        Resume paused execution.
+
+        Loads state from .vibey/implementation/state.yaml
+        Continues from where it left off.
+        '''
+
+    @implement.command()
+    def stop():
+        '''
+        Stop execution immediately.
+
+        Sends SIGINT to running agent subprocess.
+        Marks current task as blocked.
+        Saves state for potential resume.
+        '''
+    ```
+
+    State file: .vibey/implementation/state.yaml
+
+    Files:
+    - vibey/cli/implement.py (update)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89MZ
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: vibey implement status shows current state
+    status: not_met
+  - type: code
+    description: vibey implement pause stops after current task
+    status: not_met
+  - type: code
+    description: vibey implement resume continues from saved state
+    status: not_met
+  - type: code
+    description: vibey implement stop terminates immediately
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NA
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

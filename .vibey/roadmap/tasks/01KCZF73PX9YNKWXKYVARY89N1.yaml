@@ -1,0 +1,76 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89N1
+  name: Implement TaskSelector for finding executable tasks
+  description: |
+    Create TaskSelector class to find the next task to execute:
+
+    ```python
+    class TaskSelector:
+        def __init__(self, roadmap_root: Path):
+            self.root = roadmap_root
+
+        def get_next_task(
+            self,
+            track_id: Optional[str] = None,
+            sprint_id: Optional[str] = None,
+        ) -> Optional[HierarchicalTicket]:
+            '''
+            Find next planned+unblocked task.
+
+            Selection criteria:
+            1. status == 'planned'
+            2. blocked == False
+            3. All depends_on are completed
+            4. Ordered by priority, then creation date
+            '''
+
+        def get_all_executable(self, ...) -> List[HierarchicalTicket]:
+            '''Get all currently executable tasks.'''
+
+        def count_remaining(self, ...) -> int:
+            '''Count tasks that could be executed.'''
+    ```
+
+    Implementation:
+    - Query database for planned tasks
+    - Filter by blocked=False
+    - Check dependency status
+    - Order by priority (critical > high > medium > low)
+    - Return first match or None
+
+    Files:
+    - vibey/services/implementation/selector.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89MW
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/selector.py exists
+    status: not_met
+  - type: test
+    description: TaskSelector correctly identifies executable tasks
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -1,0 +1,101 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89NF
+  name: Implement human approval gates
+  description: |
+    Create human approval gate system for critical tasks:
+
+    ```python
+    class ApprovalGate:
+        def __init__(self, config: ImplementConfig):
+            self.config = config
+
+        def requires_approval(self, task: HierarchicalTicket) -> bool:
+            '''
+            Check if task requires human approval.
+
+            Approval required for:
+            - complexity: [complex, very_complex]
+            - priority: critical
+            - task_type: infrastructure, security
+            - Files: migrations, configs
+            '''
+
+        async def request_approval(self, task: HierarchicalTicket) -> ApprovalResult:
+            '''
+            Request human approval for task.
+
+            1. Display task details
+            2. Wait for user input (y/n/s)
+            3. Handle timeout
+            4. Return approval decision
+            '''
+
+        def notify(self, task: HierarchicalTicket, channel: str):
+            '''Send notification for approval request.'''
+    ```
+
+    Approval flow:
+    ```
+    Task requires approval: Implement database migration
+
+    Details:
+    - Complexity: complex
+    - Priority: critical
+    - Files: migrations/001_add_users.py
+
+    [A]pprove / [S]kip / [Q]uit? _
+    ```
+
+    Configuration:
+    ```yaml
+    safety:
+      require_approval:
+        - complexity: [complex, very_complex]
+        - priority: critical
+        - task_type: infrastructure
+      approval_timeout: 300  # seconds
+    ```
+
+    Files:
+    - vibey/services/implementation/approval.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89N0
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/approval.py exists
+    status: not_met
+  - type: code
+    description: Critical tasks pause for approval
+    status: not_met
+  - type: code
+    description: Approval timeout handled correctly
+    status: not_met
+  - type: test
+    description: Skipped tasks marked as blocked
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89NC
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

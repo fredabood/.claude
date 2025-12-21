@@ -1,0 +1,83 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89N5
+  name: Implement TaskExecutor for running tasks via agent
+  description: |
+    Create TaskExecutor class to execute tasks via Claude Code agent:
+
+    ```python
+    class TaskExecutor:
+        def __init__(self, config: ImplementConfig):
+            self.config = config
+
+        async def execute(self, context: TaskContext) -> ExecutionResult:
+            '''
+            Execute task via Claude Code agent subprocess.
+
+            Steps:
+            1. Prepare agent command with context
+            2. Spawn subprocess with proper environment
+            3. Stream output for monitoring
+            4. Wait for completion or timeout
+            5. Parse result and return ExecutionResult
+            '''
+
+        async def spawn_agent(self, context: TaskContext) -> asyncio.Process:
+            '''Spawn Claude Code agent with task prompt.'''
+
+        async def stream_output(self, process: asyncio.Process) -> str:
+            '''Stream and capture agent output.'''
+
+        def parse_result(self, output: str, returncode: int) -> ExecutionResult:
+            '''Parse agent output to determine success/failure.'''
+    ```
+
+    Agent invocation:
+    ```bash
+    claude --print --dangerously-skip-permissions \
+      --system-prompt "..." \
+      "Execute task: {task_description}"
+    ```
+
+    Files:
+    - vibey/services/implementation/executor.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89MX
+  status: not_started
+  created_at: '2025-12-20T14:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T14:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/executor.py exists
+    status: not_met
+  - type: code
+    description: Executor spawns Claude Code agent subprocess
+    status: not_met
+  - type: code
+    description: Output is streamed for monitoring
+    status: not_met
+  - type: test
+    description: Executor handles timeout gracefully
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89N4
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: complex
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

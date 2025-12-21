@@ -1,0 +1,91 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89N0
+  name: 'Sprint 5: Safety & Guardrails'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T14:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 3
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 3
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89MZ
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Token budget enforcement
+  - Checkpoint/rollback support
+  - Human approval gates
+  description: |
+    Add safety guardrails for autonomous execution:
+
+    1. Token Budget Enforcement:
+       - Check remaining budget before each task
+       - Stop execution when budget exhausted
+       - Support per-task and per-session budgets
+       - Integration with token estimation system
+
+    2. Checkpoint/Rollback:
+       - Create git checkpoint before each task
+       - Tag checkpoint with task ID
+       - Option to rollback failed tasks
+       - Preserve rollback history
+
+    3. Human Approval Gates:
+       - Configurable approval requirements
+       - Pause for approval on critical tasks
+       - Notification system (terminal, email, webhook)
+       - Timeout handling for approvals
+
+    Configuration:
+    ```yaml
+    safety:
+      require_approval:
+        - complexity: [complex, very_complex]
+        - priority: critical
+        - task_type: infrastructure
+      checkpoint:
+        enabled: true
+        auto_rollback_on_failure: false
+      budget:
+        per_session: 100000
+        per_task: 25000
+    ```
+  goal: Implement safety guardrails for autonomous execution
+  success_criteria:
+  - Budget limits are enforced
+  - Checkpoints created before each task
+  - Approval gates pause execution correctly
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

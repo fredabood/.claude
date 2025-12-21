@@ -1,0 +1,127 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89P5
+  name: Implement TicketCommitLinker for commit-ticket association
+  description: |
+    Create system to link all commits to tickets:
+
+    ```python
+    class TicketCommitLinker:
+        def __init__(self, repo_root: Path):
+            self.repo_root = repo_root
+
+        def create_linked_commit(
+            self,
+            ticket: HierarchicalTicket,
+            message: str,
+            files: Optional[List[Path]] = None,
+            commit_type: str = "feat",
+        ) -> str:
+            '''
+            Create commit with ticket metadata.
+
+            Commit message format:
+            {type}({ticket_id}): {message}
+
+            {detailed_description}
+
+            Task: {ticket_id}
+            Sprint: {sprint_id}
+            Track: {track_id}
+            Agent: claude-code
+            Session: {session_id}
+            '''
+
+        def validate_commit_message(self, message: str, ticket: HierarchicalTicket) -> bool:
+            '''Validate commit message follows required format.'''
+
+        def update_ticket_commits(self, ticket: HierarchicalTicket, commit_hash: str):
+            '''
+            Update ticket YAML with commit reference.
+
+            Adds to commits_local field:
+            - hash: abc123
+              message: "feat(01KC...): Add user auth"
+              timestamp: 2025-12-20T17:00:00Z
+            '''
+
+        def get_ticket_commits(self, ticket: HierarchicalTicket) -> List[CommitRef]:
+            '''Get all commits associated with ticket.'''
+
+        def generate_commit_summary(self, ticket: HierarchicalTicket) -> str:
+            '''Generate summary of all commits for ticket.'''
+
+        def get_commits_since(self, since: datetime) -> List[CommitRef]:
+            '''Get all implementation mode commits since datetime.'''
+    ```
+
+    Commit types:
+    ```python
+    class CommitType(Enum):
+        FEAT = "feat"       # New feature
+        FIX = "fix"         # Bug fix
+        WIP = "wip"         # Work in progress
+        REFACTOR = "refactor"
+        DOCS = "docs"
+        TEST = "test"
+        CHORE = "chore"
+    ```
+
+    Commit message templates:
+    ```yaml
+    implement:
+      git:
+        commit_format: |
+          {type}({ticket_id}): {message}
+
+          {body}
+
+          Task: {ticket_id}
+          Sprint: {sprint_id}
+          Track: {track_id}
+        require_ticket_reference: true
+        auto_update_ticket: true
+    ```
+
+    Files:
+    - vibey/services/implementation/git/commit_linker.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89P2
+  status: not_started
+  created_at: '2025-12-20T17:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T17:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/git/commit_linker.py exists
+    status: not_met
+  - type: code
+    description: All commits include ticket metadata
+    status: not_met
+  - type: code
+    description: Ticket YAML updated with commit references
+    status: not_met
+  - type: code
+    description: Commit message format enforced
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89P3
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

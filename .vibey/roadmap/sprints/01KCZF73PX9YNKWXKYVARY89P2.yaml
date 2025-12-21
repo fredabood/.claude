@@ -1,0 +1,115 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89P2
+  name: 'Sprint 10: Git Process Integration'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T17:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89NR
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Ticket-linked branch management
+  - Commit frequency enforcement
+  - Ticket-linked commit messages
+  - Requirements system enforcement in implementation mode
+  description: |
+    Implement tight git integration for disciplined autonomous execution:
+
+    1. Ticket-Linked Branching:
+       - Create feature branch per ticket: `implement/{ticket_id}`
+       - Branch naming conventions enforced
+       - Auto-checkout before task execution
+       - Merge back to main after completion
+
+    2. Commit Frequency:
+       - Require commits at defined intervals
+       - Commit after each logical change
+       - Configurable min/max commit frequency
+       - WIP commits for long-running tasks
+
+    3. Ticket-Linked Commits:
+       - All commits reference ticket ID
+       - Commit message format enforcement
+       - Auto-populate commit metadata
+       - Link commits to task in roadmap
+
+    4. Requirements Enforcement:
+       - Stricter requirements validation in implementation mode
+       - Block execution if git state is dirty
+       - Require clean working tree before task start
+       - Enforce branch protection rules
+
+    Git workflow:
+    ```
+    Task Start:
+    1. Verify clean working tree
+    2. Create branch: implement/{ticket_id}
+    3. Execute task
+
+    During Execution:
+    4. Commit frequently with ticket reference
+    5. Push to remote branch
+
+    Task Complete:
+    6. Final commit with completion message
+    7. Merge to main (or create PR)
+    8. Update ticket with commit references
+    9. Delete feature branch
+    ```
+
+    Commit message format:
+    ```
+    feat(ticket-id): Short description
+
+    Detailed changes...
+
+    Task: {ticket_id}
+    Sprint: {sprint_id}
+    Track: {track_id}
+    ```
+  goal: Enforce disciplined git practices during autonomous execution
+  success_criteria:
+  - Every task executes on dedicated branch
+  - All commits linked to tickets
+  - Commit frequency requirements met
+  - Clean git history maintained
+  risks:
+  - Merge conflicts from parallel execution
+  - Branch proliferation if cleanup fails
+  notes: Tighter coupling with git processes as requested
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

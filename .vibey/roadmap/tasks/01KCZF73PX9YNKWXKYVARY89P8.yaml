@@ -1,0 +1,134 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89P8
+  name: Implement ContentVersioner core versioning system
+  description: |
+    Create core content versioning infrastructure:
+
+    ```python
+    @dataclass
+    class ContentVersion:
+        '''Immutable version of content at a point in time.'''
+
+        version_id: str  # ULID
+        ticket_id: str
+        stage: VersionStage  # PLAN, EXECUTION, POST_MORTEM
+        content_hash: str  # SHA256 of content
+        content: str  # Full content snapshot
+        timestamp: datetime
+        author: str  # agent ID or user
+        parent_version: Optional[str]  # Previous version ID
+        change_summary: Optional[str]
+        metadata: Dict[str, Any]
+
+        def to_yaml(self) -> str:
+            '''Serialize version to YAML.'''
+
+        @classmethod
+        def from_yaml(cls, yaml_str: str) -> 'ContentVersion':
+            '''Deserialize from YAML.'''
+
+
+    class VersionStage(Enum):
+        PLAN = "plan"
+        EXECUTION = "execution"
+        POST_MORTEM = "post_mortem"
+
+
+    class ContentVersioner:
+        def __init__(self, versions_root: Path):
+            self.versions_root = versions_root
+
+        def create_version(
+            self,
+            ticket_id: str,
+            stage: VersionStage,
+            content: str,
+            author: str,
+            change_summary: Optional[str] = None,
+        ) -> ContentVersion:
+            '''
+            Create new version of content.
+
+            1. Compute content hash
+            2. Get parent version (current)
+            3. Create version record
+            4. Save to version directory
+            5. Update current symlink
+            '''
+
+        def get_current(self, ticket_id: str, stage: VersionStage) -> Optional[ContentVersion]:
+            '''Get current (latest) version for stage.'''
+
+        def get_version(self, version_id: str) -> Optional[ContentVersion]:
+            '''Get specific version by ID.'''
+
+        def get_history(
+            self,
+            ticket_id: str,
+            stage: Optional[VersionStage] = None,
+        ) -> List[ContentVersion]:
+            '''Get version history for ticket, optionally filtered by stage.'''
+
+        def compute_hash(self, content: str) -> str:
+            '''Compute SHA256 hash of content.'''
+
+        def has_changed(self, ticket_id: str, stage: VersionStage, content: str) -> bool:
+            '''Check if content differs from current version.'''
+    ```
+
+    Storage structure:
+    ```
+    .vibey/roadmap/versions/
+    └── {ticket_id}/
+        ├── plan/
+        │   ├── {version_id}.yaml
+        │   └── current.yaml -> {latest_version_id}.yaml
+        ├── execution/
+        │   └── ...
+        └── post_mortem/
+            └── ...
+    ```
+
+    Files:
+    - vibey/services/implementation/versioning/core.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  status: not_started
+  created_at: '2025-12-20T18:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T18:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/versioning/core.py exists
+    status: not_met
+  - type: code
+    description: Versions created with content hash
+    status: not_met
+  - type: code
+    description: Parent version chain maintained
+    status: not_met
+  - type: code
+    description: Version history retrievable
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89P6
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

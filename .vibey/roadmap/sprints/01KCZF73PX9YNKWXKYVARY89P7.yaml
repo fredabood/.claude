@@ -1,0 +1,107 @@
+sprint:
+  id: 01KCZF73PX9YNKWXKYVARY89P7
+  name: 'Sprint 11: Content Versioning'
+  track_id: 01KCZF73PX9YNKWXKYVARY89MV
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-20T18:00:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 4
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 4
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KCZF73PX9YNKWXKYVARY89P2
+    blocker_type: sprint
+    status: not_started
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Plan stage versioning
+  - Execution stage versioning
+  - Post-mortem stage versioning
+  - Unified version history across lifecycle
+  description: |
+    Implement strict content versioning across all 3 stages of ticket implementation:
+
+    Stage 1: PLAN
+    - Initial task plan creation
+    - Plan revisions during refinement
+    - Pre-execution plan snapshot
+
+    Stage 2: EXECUTION
+    - Execution state at start
+    - Intermediate execution snapshots
+    - Execution completion state
+
+    Stage 3: POST-MORTEM
+    - Initial post-mortem generation
+    - Post-mortem revisions
+    - Final archived version
+
+    Version tracking:
+    ```
+    .vibey/roadmap/versions/{ticket_id}/
+    ├── plan/
+    │   ├── v1_2025-12-20T10:00:00.yaml
+    │   ├── v2_2025-12-20T11:00:00.yaml
+    │   └── current -> v2_...
+    ├── execution/
+    │   ├── start_2025-12-20T12:00:00.yaml
+    │   ├── checkpoint_2025-12-20T12:30:00.yaml
+    │   └── complete_2025-12-20T13:00:00.yaml
+    └── post_mortem/
+        ├── v1_2025-12-20T13:30:00.yaml
+        └── current -> v1_...
+    ```
+
+    Each version includes:
+    - Content hash (SHA256)
+    - Timestamp
+    - Author (agent/user)
+    - Parent version reference
+    - Change summary
+    - Full content snapshot
+
+    Benefits:
+    - Complete audit trail
+    - Rollback capability
+    - Change diffing
+    - Compliance/governance
+  goal: Maintain complete version history of all ticket content
+  success_criteria:
+  - Every plan change creates new version
+  - Execution states captured at key points
+  - Post-mortems versioned on update
+  - Versions can be compared/diffed
+  - Rollback to any version possible
+  risks:
+  - Storage growth from version history
+  notes: Strict versioning for all 3 implementation stages
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: null
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

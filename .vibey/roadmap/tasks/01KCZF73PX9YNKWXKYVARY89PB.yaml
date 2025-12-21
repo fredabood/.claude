@@ -1,0 +1,157 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89PB
+  name: Implement PostMortemVersioner for post-mortem stage versioning
+  description: |
+    Create versioning system for the POST_MORTEM stage:
+
+    ```python
+    class PostMortemVersioner:
+        def __init__(self, versioner: ContentVersioner):
+            self.versioner = versioner
+
+        def version_initial_post_mortem(
+            self,
+            ticket: HierarchicalTicket,
+            post_mortem: PostMortem,
+            author: str,
+        ) -> ContentVersion:
+            '''
+            Create initial post-mortem version.
+
+            Generated immediately after task completion.
+            Contains auto-generated analysis.
+            '''
+
+        def version_post_mortem_revision(
+            self,
+            ticket: HierarchicalTicket,
+            revised: PostMortem,
+            author: str,
+            reason: str,
+        ) -> ContentVersion:
+            '''
+            Version post-mortem revision.
+
+            Called when:
+            - Human adds insights
+            - Additional analysis added
+            - Corrections made
+            - Learnings refined
+            '''
+
+        def version_post_mortem_finalization(
+            self,
+            ticket: HierarchicalTicket,
+            final: PostMortem,
+            author: str,
+        ) -> ContentVersion:
+            '''
+            Create final archived version.
+
+            Marks post-mortem as complete and archived.
+            No further revisions expected.
+            '''
+
+        def get_post_mortem_evolution(
+            self,
+            ticket_id: str,
+        ) -> List[PostMortemDelta]:
+            '''
+            Show how post-mortem evolved over time.
+
+            Useful for seeing how understanding
+            of a task changed over time.
+            '''
+    ```
+
+    Post-mortem version metadata:
+    ```python
+    @dataclass
+    class PostMortemVersionMetadata:
+        pm_status: str  # draft, reviewed, finalized, archived
+        learnings_count: int
+        recommendations_count: int
+        reviewed_by: Optional[str]
+        finalized_at: Optional[datetime]
+        linked_to_knowledge_base: bool
+    ```
+
+    Version lifecycle:
+    ```
+    Task Complete
+         │
+         ▼
+    Initial PM (v1) ──► Auto-generated analysis
+         │
+         ▼
+    Revision (v2) ────► Human adds insights
+         │
+         ▼
+    Revision (v3) ────► Corrections/refinements
+         │
+         ▼
+    Finalized (v4) ───► Archived, linked to KB
+    ```
+
+    Integration:
+    ```python
+    # In PostMortemGenerator
+    def generate(self, task, result, context) -> PostMortem:
+        pm = self._generate_post_mortem(task, result, context)
+
+        # Version the initial post-mortem
+        self.pm_versioner.version_initial_post_mortem(
+            ticket=task,
+            post_mortem=pm,
+            author="claude-code",
+        )
+
+        return pm
+    ```
+
+    Files:
+    - vibey/services/implementation/versioning/post_mortem.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  status: not_started
+  created_at: '2025-12-20T18:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T18:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/versioning/post_mortem.py exists
+    status: not_met
+  - type: code
+    description: Initial post-mortem versioned on creation
+    status: not_met
+  - type: code
+    description: Revisions create new versions
+    status: not_met
+  - type: code
+    description: Finalization marks version as archived
+    status: not_met
+  - type: code
+    description: Post-mortem evolution trackable
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89P8
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

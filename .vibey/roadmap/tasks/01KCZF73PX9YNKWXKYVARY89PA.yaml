@@ -1,0 +1,154 @@
+task:
+  id: 01KCZF73PX9YNKWXKYVARY89PA
+  name: Implement ExecutionVersioner for execution stage versioning
+  description: |
+    Create versioning system for the EXECUTION stage:
+
+    ```python
+    class ExecutionVersioner:
+        def __init__(self, versioner: ContentVersioner):
+            self.versioner = versioner
+
+        def version_execution_start(
+            self,
+            ticket: HierarchicalTicket,
+            context: TaskContext,
+            author: str,
+        ) -> ContentVersion:
+            '''
+            Capture state at execution start.
+
+            Records:
+            - Task state (planned -> in_progress)
+            - Initial context provided
+            - Criterion snapshot (from regression prevention)
+            - Git state (branch, commit)
+            - Timestamp
+            '''
+
+        def version_execution_checkpoint(
+            self,
+            ticket: HierarchicalTicket,
+            state: LoopState,
+            progress: float,
+            author: str,
+        ) -> ContentVersion:
+            '''
+            Capture intermediate execution checkpoint.
+
+            Called:
+            - At configured intervals
+            - Before risky operations
+            - On pause/resume
+            '''
+
+        def version_execution_complete(
+            self,
+            ticket: HierarchicalTicket,
+            result: ExecutionResult,
+            author: str,
+        ) -> ContentVersion:
+            '''
+            Capture state at execution completion.
+
+            Records:
+            - Final status (success/failure/blocked)
+            - All commits made
+            - Files modified
+            - Tokens consumed
+            - Duration
+            - Criterion states (post-execution)
+            '''
+
+        def version_execution_rollback(
+            self,
+            ticket: HierarchicalTicket,
+            rollback_to: str,
+            reason: str,
+            author: str,
+        ) -> ContentVersion:
+            '''Record rollback event in version history.'''
+
+        def get_execution_timeline(
+            self,
+            ticket_id: str,
+        ) -> List[ExecutionEvent]:
+            '''Get timeline of execution events from versions.'''
+    ```
+
+    Execution version content:
+    ```python
+    @dataclass
+    class ExecutionSnapshot:
+        ticket_id: str
+        event_type: str  # start, checkpoint, complete, rollback
+        timestamp: datetime
+
+        # State
+        status: str
+        progress_percent: float
+        current_step: Optional[str]
+
+        # Resources
+        tokens_input: int
+        tokens_output: int
+        duration_so_far: timedelta
+
+        # Git state
+        branch: str
+        commits: List[str]
+        files_modified: List[str]
+
+        # Criteria
+        criteria_snapshot: Dict[str, str]  # criterion_id -> status
+
+        def to_yaml(self) -> str:
+            '''Serialize to YAML for versioning.'''
+    ```
+
+    Files:
+    - vibey/services/implementation/versioning/execution.py (new)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCZF73PX9YNKWXKYVARY89P7
+  status: not_started
+  created_at: '2025-12-20T18:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-20T18:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/implementation/versioning/execution.py exists
+    status: not_met
+  - type: code
+    description: Execution start state captured
+    status: not_met
+  - type: code
+    description: Checkpoints captured during execution
+    status: not_met
+  - type: code
+    description: Completion state with all metadata captured
+    status: not_met
+  - type: code
+    description: Execution timeline reconstructable from versions
+    status: not_met
+  depends_on:
+  - 01KCZF73PX9YNKWXKYVARY89P8
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

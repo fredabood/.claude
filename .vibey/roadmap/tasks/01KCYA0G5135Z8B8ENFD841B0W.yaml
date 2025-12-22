@@ -31,11 +31,17 @@ task:
 
     class TokenEnforcement(BaseModel):
         '''Budget enforcement settings (per-direction or ticket-level).'''
+        # Core enforcement
         mode: str = "warn"                          # warn, soft_stop, hard_stop
         thresholds: List[float] = [0.8, 0.9, 1.0]   # Warning thresholds
         allow_override: bool = True                  # Allow CLI/env override
         grace_percent: float = 0.0                   # Overage grace (0.1 = 10%)
         escalation: Optional[List[EscalationStep]] = None  # Auto-escalation
+
+        # Hierarchical enforcement (all optional, disabled by default)
+        require_children_sum_valid: bool = False    # Validation: sum(children) <= parent
+        check_ancestors_during_execution: bool = False  # Runtime: check parent budgets
+        block_new_children_when_exceeded: bool = False  # Pre-start: block if parent exceeded
 
 
     class Tokens(BaseModel):
@@ -113,6 +119,9 @@ task:
     status: not_met
   - type: test
     description: Per-direction enforcement settings respected
+    status: not_met
+  - type: code
+    description: Hierarchical enforcement flags on TokenEnforcement
     status: not_met
   depends_on: []
   commits_local: []

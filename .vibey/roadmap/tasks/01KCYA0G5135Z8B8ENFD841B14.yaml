@@ -118,10 +118,99 @@ task:
                return False
        ```
 
-    7. Hierarchical Enforcement:
-       - Task execution: Check task budget (immediate feedback)
-       - After completion: Verify sprint/track budgets
-       - Block new tasks if parent budget exceeded (don't kill running)
+    7. Hybrid Hierarchical Enforcement (all optional, disabled by default):
+
+       Three optional flags on TokenEnforcement:
+       - require_children_sum_valid: Validation-time constraint
+       - check_ancestors_during_execution: Runtime ancestor checks
+       - block_new_children_when_exceeded: Pre-start blocking
+
+       ```python
+       class BudgetChecker:
+           def can_start_task(self, task: HierarchicalTicket) -> CanStartResult:
+               '''Check before starting a task.'''
+               # Check own budget headroom
+               if self._exceeds_own_budget(task):
+                   return CanStartResult(allowed=False, reason="Task budget exceeded")
+
+               # Optional: Check if any ancestor is exceeded
+               for ancestor in task.ancestors:
+                   enforcement = self.get_enforcement(ancestor, 'total')
+                   if not enforcement.block_new_children_when_exceeded:
+                       continue  # Skip if not enabled
+
+                   if self._ancestor_exceeded(ancestor):
+                       return CanStartResult(
+                           allowed=False,
+                           reason=f"Ancestor {ancestor.id} budget exceeded",
+                           ancestor_id=ancestor.id,
+                       )
+
+               return CanStartResult(allowed=True)
+
+           def check_during_execution(
+               self,
+               task: HierarchicalTicket,
+               new_usage: int,
+               direction: str,
+           ) -> ExecutionCheckResult:
+               '''Check during task execution.'''
+               # Always check own budget
+               result = self._check_own_budget(task, new_usage, direction)
+               if result.should_stop:
+                   return result
+
+               # Optional: Check ancestors if enabled
+               enforcement = self.get_enforcement(task, direction)
+               if enforcement.check_ancestors_during_execution:
+                   for ancestor in task.ancestors:
+                       ancestor_result = self._check_ancestor_budget(
+                           ancestor, task, new_usage, direction
+                       )
+                       if ancestor_result.should_stop:
+                           return ancestor_result
+
+               return ExecutionCheckResult(should_stop=False)
+
+           def _check_ancestor_budget(
+               self,
+               ancestor: HierarchicalTicket,
+               child: HierarchicalTicket,
+               child_new_usage: int,
+               direction: str,
+           ) -> ExecutionCheckResult:
+               '''Check if child's new usage would exceed ancestor's budget.'''
+               # Get ancestor's aggregated usage (includes all descendants)
+               agg_tokens = getattr(ancestor, f'{direction}_tokens_aggregated')
+               if not agg_tokens or not agg_tokens.budget:
+                   return ExecutionCheckResult(should_stop=False)
+
+               # Project new aggregated usage
+               current_child_usage = getattr(child, f'{direction}_tokens')
+               current_child_usage = current_child_usage.usage if current_child_usage else 0
+               usage_delta = child_new_usage - (current_child_usage or 0)
+               projected_usage = (agg_tokens.usage or 0) + usage_delta
+
+               ratio = projected_usage / agg_tokens.budget
+               enforcement = self.get_enforcement(ancestor, direction)
+               effective_mode = self.get_effective_mode(enforcement, ratio)
+
+               if effective_mode == 'hard_stop':
+                   effective_limit = 1 + enforcement.grace_percent
+                   if ratio >= effective_limit:
+                       return ExecutionCheckResult(
+                           should_stop=True,
+                           reason=f"Would exceed ancestor {ancestor.id} budget",
+                           ancestor_id=ancestor.id,
+                       )
+
+               return ExecutionCheckResult(should_stop=False)
+       ```
+
+       Use Cases:
+       - Strict: All three enabled - prevents any way to exceed parent
+       - Flexible: Only block_new_children - allows pooled budgets
+       - Permissive: All disabled - just track usage, no blocking
 
     8. Override Mechanism:
        - CLI flag: --ignore-token-budget
@@ -162,13 +251,19 @@ task:
     description: Automatic escalation based on usage ratio
     status: not_met
   - type: code
-    description: Hierarchical enforcement (block new tasks if parent exceeded)
+    description: can_start_task checks block_new_children_when_exceeded
+    status: not_met
+  - type: code
+    description: check_during_execution respects check_ancestors_during_execution
     status: not_met
   - type: test
     description: Tests for each enforcement mode (warn/soft_stop/hard_stop)
     status: not_met
   - type: test
     description: Tests for escalation and grace periods
+    status: not_met
+  - type: test
+    description: Tests for optional hierarchical enforcement flags
     status: not_met
   depends_on:
   - 01KCYA0G5135Z8B8ENFD841B13

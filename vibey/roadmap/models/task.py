@@ -243,6 +243,9 @@ class Task:
     deliverables: List[Deliverable] = field(default_factory=list)
     commits: List[GitCommit] = field(default_factory=list)
 
+    # Deferral flag - task is intentionally put on hold
+    deferred: bool = False
+
     def __post_init__(self):
         """Validate task data."""
         # Check if task ID is a ULID (26 chars, alphanumeric, uppercase)

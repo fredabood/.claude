@@ -445,8 +445,9 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                     gate_info, audit_results,
                     commits_json, deliverables_json, dependencies_json, standards_json,
                     assigned_agents_json, estimated_duration,
+                    deferred,
                     metadata
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 task.id,
                 task.sprint_id,
@@ -474,6 +475,7 @@ def save_tasks(tasks: List[Task], db_path: Optional['Path'] = None):
                 standards_json,
                 assigned_agents_json,
                 estimated_duration,
+                int(getattr(task, 'deferred', False)),
                 metadata_json,
             ))
 

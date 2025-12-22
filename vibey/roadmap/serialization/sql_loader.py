@@ -1067,6 +1067,7 @@ def _load_task_from_row(conn, row) -> Task:
         started=started,
         completed=completed,
         assigned_agent=task_data.get('assigned_agent'),
+        deferred=bool(task_data.get('deferred', False)),
         priority=Priority(task_data['priority']) if task_data.get('priority') else Priority.MEDIUM,
         phase_label=task_data.get('phase_label'),
         estimated_tokens=task_data.get('estimated_tokens') or 1,

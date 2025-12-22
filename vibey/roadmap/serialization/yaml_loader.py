@@ -1836,6 +1836,7 @@ def load_tasks(file_path: Union[str, Path]) -> List[Task]:
             deliverables=deliverables,
             commits=commits,
             metadata=metadata,
+            deferred=task_data.get('deferred', False),
         )
 
         tasks.append(task)
@@ -2111,6 +2112,7 @@ def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
         complexity=_convert_complexity(task_data.get('complexity', 'medium')),
         gate_info=gate_info_v2,
         audit_results=audit_results_v2,
+        deferred=task_data.get('deferred', False),
     )
 
 
@@ -2207,6 +2209,7 @@ def _migrate_task_to_ticket(task_data: Dict[str, Any]) -> TaskTicket:
         complexity=_convert_complexity(task_data.get('complexity', 'medium')),
         gate_info=gate_info_v2,
         audit_results=audit_results_v2,
+        deferred=task_data.get('deferred', False),
     )
 
 

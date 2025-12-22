@@ -3269,6 +3269,7 @@ def _load_roadmap_to_db_flat(conn, roadmap, vibey_dir, now, db_create_track, db_
                     description=task.description,
                     status=_normalize_status(task_status),
                     blocked=task.blocked,
+                    deferred=getattr(task, 'deferred', False),
                     priority=task.priority.value if hasattr(task, 'priority') and task.priority else 'medium',
                     created=task.created or now,
                     started=task.started,

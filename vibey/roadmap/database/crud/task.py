@@ -53,6 +53,7 @@ def create_task(
     created: datetime,
     description: Optional[str] = None,
     blocked: bool = False,
+    deferred: bool = False,
     assigned_agent: Optional[str] = None,
     priority: Optional[str] = None,
     phase_label: Optional[str] = None,
@@ -108,11 +109,11 @@ def create_task(
         """
         INSERT INTO tasks (
             id, sprint_id, track_id, roadmap_id, task_type, title, description,
-            status, blocked, created, started, completed,
+            status, blocked, deferred, created, started, completed,
             assigned_agent, priority, phase_label,
             estimated_tokens, actual_tokens, complexity,
             gate_info, audit_results, metadata
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             id,
@@ -124,6 +125,7 @@ def create_task(
             description,
             status,
             1 if blocked else 0,
+            1 if deferred else 0,
             _serialize_datetime(created),
             _serialize_datetime(started),
             _serialize_datetime(completed),

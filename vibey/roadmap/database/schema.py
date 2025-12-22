@@ -218,6 +218,9 @@ CREATE TABLE IF NOT EXISTS tasks (
     assigned_agents_json TEXT,  -- JSON array of agent names working on this task
     estimated_duration TEXT,  -- Human/AI-provided time estimate
 
+    -- Deferral Flag (task is intentionally put on hold)
+    deferred INTEGER NOT NULL DEFAULT 0,
+
     -- Metadata (JSON)
     metadata TEXT
 );

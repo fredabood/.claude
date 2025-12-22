@@ -169,22 +169,32 @@ Update the revert transition map to support:
 
 | Task | Title | Status | Priority | Depends On |
 |------|-------|--------|----------|------------|
-| 1 | Add deferred column to database schema | Not Started | Medium | Task 5 |
+| 1 | Add deferred column to database schema | **COMPLETED** | Medium | Task 5 |
 | 2 | Sprint auto-progress should skip deferred tasks | Not Started | Medium | Task 1 |
 | 3 | CLI edit validation doesn't recognize production_ready | **COMPLETED** | High | - |
 | 4 | CLI revert doesn't support production_ready transitions | **COMPLETED** | Medium | - |
 | 5 | Fix blocker_type CHECK constraint violation | **COMPLETED** | Critical | - |
 
-**Completion:** 3/5 tasks (60%)
+**Completion:** 4/5 tasks (80%)
 
 ## Completed Tasks
+
+### Task 1 - COMPLETED (2025-12-22)
+- Added `deferred` column to tasks table schema in `vibey/roadmap/database/schema.py` line 222
+- Updated `create_task` CRUD function to accept and write deferred field
+- Updated `_load_roadmap_to_db_flat` to pass `deferred=task.deferred` when creating tasks
+- Updated sql_dumper.py to write deferred field in save_tasks()
+- Updated sql_loader.py to read deferred field in _load_task_from_row()
+- Updated Task dataclass in task.py to include deferred field
+- Updated yaml_loader.py for both v1 Task and v2 TaskTicket loaders
+- Verified: Task 01KCY39YJW8A3YDNTFJY5KMDGT now has deferred=1 in database
 
 ### Task 5 - COMPLETED (2025-12-22)
 - Issue: Database rebuild failed with CHECK constraint error for blocker_type
 - Root cause: Schema only allowed 'track', 'sprint', 'task' but YAML data had 'external'
 - Solution: Updated `vibey/roadmap/database/schema.py` lines 254, 258, 273, 277
 - Added 'external' as valid blocker_type in entity_blocks and entity_blocked_by tables
-- Database now successfully rebuilds: 50 tracks, 255 sprints, 1683 tasks
+- Database now successfully rebuilds: 50 tracks, 255 sprints, 1682 tasks
 
 ### Task 3 - COMPLETED (2025-12-22)
 - Updated `safe_yaml_editor.py` to import `TicketStatus` enum and use it for validation
@@ -196,10 +206,6 @@ Update the revert transition map to support:
 - Updated `commands_legacy.py` valid_transitions to support full lifecycle
 - Added proper timestamp clearing for all status levels
 - Commit: f8988188
-
-### Task 1 - NOT STARTED (unblocked by Task 5)
-- Schema already has `deferred` column in `schema.py` at line 1465
-- Database rebuild now works - ready to verify deferred field persistence
 
 ## Related Work
 - Sprint 10: Validation and Sync Bugs (Task 4 - deferred) - original bug for YAML progress sync

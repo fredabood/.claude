@@ -207,8 +207,22 @@ task:
                return ExecutionCheckResult(should_stop=False)
        ```
 
-       Use Cases:
-       - Strict: All three enabled - prevents any way to exceed parent
+       Orthogonal Flags - All 8 Combinations Valid:
+       The three flags are fully independent. No invalid combinations.
+
+       | require_children | check_ancestors | block_new_children | Use Case |
+       |:---:|:---:|:---:|---|
+       | ❌ | ❌ | ❌ | Permissive: Track only, no blocking |
+       | ❌ | ❌ | ✅ | Lazy blocking: Prevent new tasks when over |
+       | ❌ | ✅ | ❌ | Runtime-only: Stop running, allow new |
+       | ❌ | ✅ | ✅ | Pooled + protected: Flexible with safety |
+       | ✅ | ❌ | ❌ | Upfront only: Validate, trust runtime |
+       | ✅ | ❌ | ✅ | Upfront + pre-start: Validate + block |
+       | ✅ | ✅ | ❌ | Validate + runtime: Catch violations |
+       | ✅ | ✅ | ✅ | Strict: Maximum protection |
+
+       Common Presets:
+       - Strict: All three enabled - mathematically prevents exceeding parent
        - Flexible: Only block_new_children - allows pooled budgets
        - Permissive: All disabled - just track usage, no blocking
 

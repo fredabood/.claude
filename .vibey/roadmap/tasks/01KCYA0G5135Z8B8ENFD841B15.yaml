@@ -65,10 +65,19 @@ task:
        - Escalation steps
        - Current effective mode based on usage
 
-    6. Auto-estimate:
+    6. Manual Estimation:
        vibey roadmap estimate <task-id>
        # Uses TokenEstimator to set estimate.min/max/target
        # Does not set budgets or enforcement (those are manual)
+
+       vibey roadmap estimate <sprint-id>
+       # Estimate all tasks in sprint
+
+       vibey roadmap estimate <track-id>
+       # Estimate all tasks in track
+
+    Note: For automatic estimation triggers (on creation, on start, on
+    calibration update), see the auto-estimation configuration task.
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0V

@@ -1,0 +1,182 @@
+task:
+  id: 01KD3W94DXHNB5VAF9B5WK8QFJ
+  name: Add auto-estimation trigger configuration
+  description: |
+    Implement configurable automatic token estimation triggers with three modes
+    that users can select based on their workflow preferences.
+
+    1. Configuration Model:
+       ```python
+       class AutoEstimationTrigger(str, Enum):
+           DISABLED = "disabled"          # No auto-estimation
+           ON_CREATION = "on_creation"    # Conservative
+           ON_START_WARN = "on_start_warn"  # Moderate
+           ON_CALIBRATION_UPDATE = "on_calibration_update"  # Aggressive
+
+       class AutoEstimationConfig(BaseModel):
+           '''Project-level auto-estimation settings.'''
+           trigger: AutoEstimationTrigger = AutoEstimationTrigger.DISABLED
+           require_task_type: bool = True   # Need task_type for estimation
+           require_complexity: bool = True  # Need complexity for estimation
+           warn_on_start_missing: bool = True  # Warn if no estimate at start
+           re_estimate_threshold: float = 0.2  # Re-estimate if calibration changes >20%
+           exclude_task_types: List[str] = []  # Skip these types
+       ```
+
+    2. Project Configuration:
+       .vibey/config/token_estimation.yaml:
+       ```yaml
+       auto_estimation:
+         trigger: on_start_warn  # disabled | on_creation | on_start_warn | on_calibration_update
+         require_task_type: true
+         require_complexity: true
+         warn_on_start_missing: true
+         re_estimate_threshold: 0.2
+         exclude_task_types:
+           - documentation  # Don't auto-estimate docs
+       ```
+
+    3. Trigger Behaviors:
+
+       **disabled** (default):
+       - No automatic estimation
+       - User must run `vibey roadmap estimate <task-id>` manually
+
+       **on_creation** (conservative):
+       - Auto-estimate when task is created via CLI or MCP
+       - Only if task_type and complexity are set (when required)
+       - Silent - no warnings if prerequisites missing
+       ```python
+       def on_task_created(task: Ticket):
+           config = load_auto_estimation_config()
+           if config.trigger != AutoEstimationTrigger.ON_CREATION:
+               return
+           if config.require_task_type and not task.task_type_detail:
+               return
+           if config.require_complexity and not task.complexity:
+               return
+           if task.task_type_detail in config.exclude_task_types:
+               return
+           estimate_task_tokens(task.id)
+       ```
+
+       **on_start_warn** (moderate):
+       - Everything from on_creation, PLUS:
+       - Warn on status change to in_progress if no estimate exists
+       - Allows user to proceed or estimate first
+       ```python
+       def on_task_status_change(task: Ticket, old_status: str, new_status: str):
+           config = load_auto_estimation_config()
+           if config.trigger not in [AutoEstimationTrigger.ON_START_WARN,
+                                     AutoEstimationTrigger.ON_CALIBRATION_UPDATE]:
+               return
+
+           if new_status == 'in_progress' and config.warn_on_start_missing:
+               if not task.input_tokens or not task.input_tokens.estimate:
+                   logger.warning(
+                       f"Task {task.id} started without token estimate. "
+                       f"Run 'vibey roadmap estimate {task.id}' to set estimates."
+                   )
+       ```
+
+       **on_calibration_update** (aggressive):
+       - Everything from on_start_warn, PLUS:
+       - Re-estimate unstarted tasks when historical calibration updates
+       - Triggered after task completion when calibration data changes significantly
+       ```python
+       def on_calibration_updated(old_calibration: dict, new_calibration: dict):
+           config = load_auto_estimation_config()
+           if config.trigger != AutoEstimationTrigger.ON_CALIBRATION_UPDATE:
+               return
+
+           # Check if calibration changed significantly
+           for task_type, new_data in new_calibration.items():
+               old_data = old_calibration.get(task_type, {})
+               if abs(new_data['avg'] - old_data.get('avg', 0)) / max(new_data['avg'], 1) > config.re_estimate_threshold:
+                   # Re-estimate all unstarted tasks of this type
+                   unstarted_tasks = get_tasks_by_type_and_status(task_type, 'not_started')
+                   for task in unstarted_tasks:
+                       estimate_task_tokens(task.id, force=True)
+                       logger.info(f"Re-estimated {task.id} due to calibration update")
+       ```
+
+    4. CLI Configuration:
+       ```bash
+       # View current setting
+       vibey config get token_estimation.auto_estimation.trigger
+
+       # Set trigger mode
+       vibey config set token_estimation.auto_estimation.trigger on_creation
+       vibey config set token_estimation.auto_estimation.trigger on_start_warn
+       vibey config set token_estimation.auto_estimation.trigger on_calibration_update
+       vibey config set token_estimation.auto_estimation.trigger disabled
+
+       # Configure options
+       vibey config set token_estimation.auto_estimation.require_task_type true
+       vibey config set token_estimation.auto_estimation.warn_on_start_missing true
+       vibey config set token_estimation.auto_estimation.re_estimate_threshold 0.3
+       ```
+
+    5. Integration Points:
+       - vibey/operations/roadmap/create.py - on_task_created hook
+       - vibey/operations/roadmap/update.py - on_task_status_change hook
+       - vibey/services/token_estimator.py - on_calibration_updated hook
+
+    Files:
+    - vibey/services/auto_estimation.py (new)
+    - .vibey/config/token_estimation.yaml (config schema)
+    - vibey/operations/roadmap/create.py (hook integration)
+    - vibey/operations/roadmap/update.py (hook integration)
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KCYA0G5135Z8B8ENFD841B0V
+  status: not_started
+  created_at: '2025-12-22T12:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-22T12:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: artifact
+    description: vibey/services/auto_estimation.py exists
+    status: not_met
+  - type: code
+    description: AutoEstimationTrigger enum with 4 modes (disabled/on_creation/on_start_warn/on_calibration_update)
+    status: not_met
+  - type: code
+    description: on_task_created hook triggers auto-estimation when configured
+    status: not_met
+  - type: code
+    description: on_task_status_change warns if no estimate when starting
+    status: not_met
+  - type: code
+    description: on_calibration_updated re-estimates unstarted tasks
+    status: not_met
+  - type: code
+    description: CLI commands for viewing and setting auto-estimation config
+    status: not_met
+  - type: test
+    description: Tests for each trigger mode behavior
+    status: not_met
+  - type: test
+    description: Tests for exclude_task_types filtering
+    status: not_met
+  depends_on:
+  - 01KCYA0G5135Z8B8ENFD841B15
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: development
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: medium
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -52,6 +52,63 @@ task:
 
         def get_commits_since(self, since: datetime) -> List[CommitRef]:
             '''Get all implementation mode commits since datetime.'''
+
+        def on_post_commit(self, commit_hash: str, ticket: HierarchicalTicket):
+            '''
+            Post-commit hook handler. Triggers:
+            1. Token usage recording
+            2. Context dump
+            3. Ticket YAML update
+            '''
+            # 1. Record token usage
+            token_tracker = TokenTracker.get_active(ticket.id)
+            if token_tracker:
+                token_tracker.on_commit(commit_hash)
+
+            # 2. Dump context
+            self.context_dumper.dump_commit_context(
+                ticket_id=ticket.id,
+                commit_sha=commit_hash,
+                output_dir=Path(f".vibey/context/commits/{commit_hash}/"),
+            )
+
+            # 3. Update ticket
+            self.update_ticket_commits(ticket, commit_hash)
+    ```
+
+    Post-commit context dump:
+    ```python
+    class CommitContextDumper:
+        def dump_commit_context(
+            self,
+            ticket_id: str,
+            commit_sha: str,
+            output_dir: Path,
+        ):
+            '''
+            Dump full context state at commit time.
+
+            Creates:
+            .vibey/context/commits/<sha>/
+            ├── usage.yaml       # Token usage (from TokenTracker)
+            ├── context.yaml     # Current conversation/task context
+            ├── files.yaml       # Files modified in this commit
+            ├── decisions.yaml   # Key decisions made
+            └── state.yaml       # Task state snapshot
+            '''
+            output_dir.mkdir(parents=True, exist_ok=True)
+
+            # Context snapshot
+            self._dump_context(output_dir / "context.yaml", ticket_id)
+
+            # Files modified
+            self._dump_files(output_dir / "files.yaml", commit_sha)
+
+            # Decisions (if tracked)
+            self._dump_decisions(output_dir / "decisions.yaml", ticket_id)
+
+            # Task state
+            self._dump_state(output_dir / "state.yaml", ticket_id)
     ```
 
     Commit types:
@@ -84,6 +141,10 @@ task:
 
     Files:
     - vibey/services/implementation/git/commit_linker.py (new)
+    - vibey/services/implementation/git/context_dumper.py (new)
+
+    Cross-reference: Token Estimation Sprint 3 (TokenTracker.on_commit)
+    provides the token usage recording called by on_post_commit().
   format_version: v2
   ticket_type: task
   parent_ref: 01KCZF73PX9YNKWXKYVARY89P2
@@ -99,6 +160,9 @@ task:
   - type: artifact
     description: vibey/services/implementation/git/commit_linker.py exists
     status: not_met
+  - type: artifact
+    description: vibey/services/implementation/git/context_dumper.py exists
+    status: not_met
   - type: code
     description: All commits include ticket metadata
     status: not_met
@@ -107,6 +171,15 @@ task:
     status: not_met
   - type: code
     description: Commit message format enforced
+    status: not_met
+  - type: code
+    description: on_post_commit triggers token usage recording
+    status: not_met
+  - type: code
+    description: on_post_commit triggers context dump
+    status: not_met
+  - type: artifact
+    description: Context dump creates usage.yaml, context.yaml, files.yaml, state.yaml
     status: not_met
   depends_on:
   - 01KCZF73PX9YNKWXKYVARY89P3

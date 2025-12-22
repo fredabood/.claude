@@ -1,0 +1,46 @@
+task:
+  id: 01KD438MN86VRXS70K6BPZNB51
+  name: Add deferred column to database schema
+  description: |
+    The YAML files have a `deferred: true` field for tasks that are intentionally
+    put on hold, but this field is not stored in the SQLite database. This causes
+    data loss when querying the database.
+
+    Root cause: The tasks table schema doesn't have a `deferred` column.
+
+    Solution: Add a `deferred INTEGER NOT NULL DEFAULT 0` column to the tasks table
+    and update the sql_dumper to write it and sql_loader to read it.
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
+  status: not_started
+  created_at: '2025-12-22T21:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-22T21:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: medium
+  criteria:
+  - type: code
+    description: deferred column exists in tasks table
+    status: not_met
+  - type: test
+    description: Deferred tasks round-trip correctly YAML -> DB -> YAML
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: bug
+  estimated_tokens: 500
+  actual_tokens: null
+  complexity: simple
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

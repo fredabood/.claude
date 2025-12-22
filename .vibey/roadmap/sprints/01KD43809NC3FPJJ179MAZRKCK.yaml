@@ -3,26 +3,26 @@ sprint:
   name: 'Sprint 28: Deferred Task Schema and Progress Bugs'
   track_id: 01KC39XSXJ39N12HWJ93F77KQ9
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   blocked_reason: null
   created: '2025-12-22T21:00:00+00:00'
-  started: null
+  started: '2025-12-22T22:56:48.608338+00:00'
   completion_gate_check_at: null
   completed: null
   production_gate_check_at: null
   production_ready_at: null
   deployed_at: null
   progress:
-    development_tasks_total: 4
-    development_tasks_completed: 0
+    development_tasks_total: 5
+    development_tasks_completed: 2
     completion_gate_tasks_total: 0
     completion_gate_tasks_completed: 0
     production_gate_tasks_total: 0
     production_gate_tasks_completed: 0
-    tasks_total: 4
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 5
+    tasks_completed: 2
+    completion_percent: 40
   development_gates: []
   blocks: []
   blocked_by: []
@@ -30,7 +30,8 @@ sprint:
   depended_on_by: []
   plan_file: null
   deliverables: []
-  description: Bugs discovered during roadmap state verification - deferred field not stored in database, sprints with only deferred incomplete tasks remain in_progress
+  description: Bugs discovered during roadmap state verification - deferred field
+    not stored in database, sprints with only deferred incomplete tasks remain in_progress
   goal: Fix deferred field storage and sprint auto-progression with deferred tasks
   success_criteria:
   - Deferred field is stored in database schema

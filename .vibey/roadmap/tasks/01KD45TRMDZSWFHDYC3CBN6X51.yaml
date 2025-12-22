@@ -1,0 +1,55 @@
+task:
+  id: 01KD45TRMDZSWFHDYC3CBN6X51
+  name: Fix blocker_type CHECK constraint violation in YAML data
+  description: |
+    Database rebuild fails with CHECK constraint error:
+    "CHECK constraint failed: blocker_type IN ('track', 'sprint', 'task')"
+
+    This indicates one or more YAML files have an invalid blocker_type value
+    in their blocks/blocked_by/depends_on fields.
+
+    Root cause: Some entity has a blocker_type that is not one of:
+    'track', 'sprint', 'task'
+
+    Solution:
+    1. Search all YAML files for blocker_type fields
+    2. Identify invalid values (e.g., 'roadmap', empty string, typos)
+    3. Correct the invalid values to valid types
+    4. Verify database rebuild succeeds
+
+    This task blocks Task 1 (deferred column) because the database cannot
+    be rebuilt until this data integrity issue is fixed.
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
+  status: not_started
+  created_at: '2025-12-22T23:10:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-22T23:10:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: critical
+  criteria:
+  - type: code
+    description: All blocker_type values are valid (track, sprint, or task)
+    status: not_met
+  - type: test
+    description: Database rebuild completes without CHECK constraint errors
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: bug
+  estimated_tokens: 300
+  actual_tokens: null
+  complexity: simple
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -251,11 +251,11 @@ CREATE TABLE IF NOT EXISTS entity_blocks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     -- Blocker (the entity doing the blocking)
-    blocker_type TEXT NOT NULL CHECK (blocker_type IN ('track', 'sprint', 'task')),
+    blocker_type TEXT NOT NULL CHECK (blocker_type IN ('track', 'sprint', 'task', 'external')),
     blocker_id TEXT NOT NULL,
 
     -- Blocked (the entity being blocked)
-    blocked_type TEXT NOT NULL CHECK (blocked_type IN ('track', 'sprint', 'task')),
+    blocked_type TEXT NOT NULL CHECK (blocked_type IN ('track', 'sprint', 'task', 'external')),
     blocked_id TEXT NOT NULL,
 
     -- Context
@@ -270,11 +270,11 @@ CREATE TABLE IF NOT EXISTS entity_blocked_by (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     -- Blocked entity (waiting)
-    blocked_type TEXT NOT NULL CHECK (blocked_type IN ('track', 'sprint', 'task')),
+    blocked_type TEXT NOT NULL CHECK (blocked_type IN ('track', 'sprint', 'task', 'external')),
     blocked_id TEXT NOT NULL,
 
     -- Blocking entity (must complete first)
-    blocker_type TEXT NOT NULL CHECK (blocker_type IN ('track', 'sprint', 'task')),
+    blocker_type TEXT NOT NULL CHECK (blocker_type IN ('track', 'sprint', 'task', 'external')),
     blocker_id TEXT NOT NULL,
 
     -- Dependency business logic

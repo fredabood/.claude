@@ -169,14 +169,22 @@ Update the revert transition map to support:
 
 | Task | Title | Status | Priority | Depends On |
 |------|-------|--------|----------|------------|
-| 1 | Add deferred column to database schema | In Progress | Medium | - |
+| 1 | Add deferred column to database schema | Not Started | Medium | Task 5 |
 | 2 | Sprint auto-progress should skip deferred tasks | Not Started | Medium | Task 1 |
 | 3 | CLI edit validation doesn't recognize production_ready | **COMPLETED** | High | - |
 | 4 | CLI revert doesn't support production_ready transitions | **COMPLETED** | Medium | - |
+| 5 | Fix blocker_type CHECK constraint violation | **COMPLETED** | Critical | - |
 
-**Completion:** 2/4 tasks (50%)
+**Completion:** 3/5 tasks (60%)
 
 ## Completed Tasks
+
+### Task 5 - COMPLETED (2025-12-22)
+- Issue: Database rebuild failed with CHECK constraint error for blocker_type
+- Root cause: Schema only allowed 'track', 'sprint', 'task' but YAML data had 'external'
+- Solution: Updated `vibey/roadmap/database/schema.py` lines 254, 258, 273, 277
+- Added 'external' as valid blocker_type in entity_blocks and entity_blocked_by tables
+- Database now successfully rebuilds: 50 tracks, 255 sprints, 1683 tasks
 
 ### Task 3 - COMPLETED (2025-12-22)
 - Updated `safe_yaml_editor.py` to import `TicketStatus` enum and use it for validation
@@ -189,10 +197,9 @@ Update the revert transition map to support:
 - Added proper timestamp clearing for all status levels
 - Commit: f8988188
 
-### Task 1 - IN PROGRESS
+### Task 1 - NOT STARTED (unblocked by Task 5)
 - Schema already has `deferred` column in `schema.py` at line 1465
-- Database rebuild fails with CHECK constraint error (pre-existing data issue)
-- Blocked by: Database integrity issue needs resolution first
+- Database rebuild now works - ready to verify deferred field persistence
 
 ## Related Work
 - Sprint 10: Validation and Sync Bugs (Task 4 - deferred) - original bug for YAML progress sync

@@ -19,37 +19,29 @@ task:
 
     This task blocks Task 1 (deferred column) because the database cannot
     be rebuilt until this data integrity issue is fixed.
-  format_version: v2
-  ticket_type: task
-  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
-  status: not_started
-  created_at: '2025-12-22T23:10:00+00:00'
-  started_at: null
-  completed_at: null
-  updated_at: '2025-12-22T23:10:00+00:00'
-  assigned_agents:
-  - unassigned
-  priority: critical
+  sprint_id: 01KD43809NC3FPJJ179MAZRKCK
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  status: completed
+  blocked: false
+  created: '2025-12-22T23:10:00+00:00'
+  started: '2025-12-22T23:24:00+00:00'
+  completed: '2025-12-22T23:28:00+00:00'
   criteria:
   - type: code
-    description: All blocker_type values are valid (track, sprint, or task)
-    status: not_met
+    description: All blocker_type values are valid (track, sprint, task, or external)
+    status: met
   - type: test
     description: Database rebuild completes without CHECK constraint errors
-    status: not_met
+    status: met
+  priority: critical
+  complexity: simple
+  task_type: bug
+  assigned_agents: []
   depends_on: []
-  commits_local: []
-  requirements_local: []
-  estimated_duration: null
+  commits: []
   deferred: false
-  task_type_detail: bug
   estimated_tokens: 300
   actual_tokens: null
-  complexity: simple
-  phase_label: null
-  gate_info: null
-  audit_results: null
   metadata:
     last_updated: null
-    token_efficiency: null
-    duration_hours: null

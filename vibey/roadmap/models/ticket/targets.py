@@ -697,6 +697,140 @@ class ArtifactTarget(CriterionTarget):
         self.expected_hash = self.artifact_hash
 
 
+class TokenEstimateTarget(CriterionTarget):
+    """
+    Criterion met when token estimates are set on a ticket.
+
+    Used for planned status criteria to ensure cost estimation
+    before autonomous execution begins.
+
+    Supports checking:
+    - Input token estimate exists
+    - Output token estimate exists
+    - Budget is set (optional)
+    """
+
+    type: Literal[CriterionTargetType.TOKEN_ESTIMATE] = CriterionTargetType.TOKEN_ESTIMATE
+
+    ticket_id: str = Field(
+        description="ID of the ticket to check for token estimates"
+    )
+    require_input_estimate: bool = Field(
+        default=True,
+        description="Require input_tokens.estimate to be set"
+    )
+    require_output_estimate: bool = Field(
+        default=True,
+        description="Require output_tokens.estimate to be set"
+    )
+    require_budget: bool = Field(
+        default=False,
+        description="Also require budget to be set (not just estimate)"
+    )
+
+    # Cached state
+    has_input_estimate: bool = Field(
+        default=False,
+        description="Whether input token estimate exists"
+    )
+    has_output_estimate: bool = Field(
+        default=False,
+        description="Whether output token estimate exists"
+    )
+    has_input_budget: bool = Field(
+        default=False,
+        description="Whether input token budget exists"
+    )
+    has_output_budget: bool = Field(
+        default=False,
+        description="Whether output token budget exists"
+    )
+    last_checked: Optional[datetime] = Field(
+        default=None,
+        description="When token estimates were last checked"
+    )
+
+    @property
+    def is_automatic(self) -> bool:
+        """TokenEstimateTarget is automatic - can check ticket registry."""
+        return True
+
+    def refresh(self, context: Optional[RefreshContext] = None) -> None:
+        """Update cached state from ticket registry."""
+        if context is None or context.ticket_registry is None:
+            return
+
+        ticket = context.ticket_registry.get_ticket(self.ticket_id)
+        if ticket is None:
+            self.has_input_estimate = False
+            self.has_output_estimate = False
+            self.has_input_budget = False
+            self.has_output_budget = False
+            self.last_checked = datetime.now(timezone.utc)
+            return
+
+        # Check input tokens
+        input_tokens = getattr(ticket, 'input_tokens', None)
+        if input_tokens:
+            self.has_input_estimate = (
+                input_tokens.estimate is not None and
+                input_tokens.estimate.target is not None
+            )
+            self.has_input_budget = input_tokens.budget is not None
+        else:
+            self.has_input_estimate = False
+            self.has_input_budget = False
+
+        # Check output tokens
+        output_tokens = getattr(ticket, 'output_tokens', None)
+        if output_tokens:
+            self.has_output_estimate = (
+                output_tokens.estimate is not None and
+                output_tokens.estimate.target is not None
+            )
+            self.has_output_budget = output_tokens.budget is not None
+        else:
+            self.has_output_estimate = False
+            self.has_output_budget = False
+
+        self.last_checked = datetime.now(timezone.utc)
+
+    def is_satisfied(self) -> bool:
+        """Check if required token estimates/budgets exist."""
+        # Check estimates
+        if self.require_input_estimate and not self.has_input_estimate:
+            return False
+        if self.require_output_estimate and not self.has_output_estimate:
+            return False
+
+        # Check budgets (if required)
+        if self.require_budget:
+            if self.require_input_estimate and not self.has_input_budget:
+                return False
+            if self.require_output_estimate and not self.has_output_budget:
+                return False
+
+        return True
+
+    def get_status_description(self) -> str:
+        """Get human-readable status description."""
+        missing = []
+
+        if self.require_input_estimate and not self.has_input_estimate:
+            missing.append("input estimate")
+        if self.require_output_estimate and not self.has_output_estimate:
+            missing.append("output estimate")
+        if self.require_budget:
+            if self.require_input_estimate and not self.has_input_budget:
+                missing.append("input budget")
+            if self.require_output_estimate and not self.has_output_budget:
+                missing.append("output budget")
+
+        if not missing:
+            return "Token estimates set"
+        return f"Missing: {', '.join(missing)}"
+
+
 # Union type for all target types (for Pydantic discriminated union)
 AnyTarget = Annotated[
     Union[
@@ -708,6 +842,7 @@ AnyTarget = Annotated[
         ManualTarget,
         ExternalTarget,
         ArtifactTarget,
+        TokenEstimateTarget,
     ],
     Field(discriminator="type"),
 ]
@@ -741,6 +876,7 @@ def create_target(
         CriterionTargetType.MANUAL: ManualTarget,
         CriterionTargetType.EXTERNAL: ExternalTarget,
         CriterionTargetType.ARTIFACT: ArtifactTarget,
+        CriterionTargetType.TOKEN_ESTIMATE: TokenEstimateTarget,
     }
 
     target_class = target_classes.get(target_type)
@@ -763,6 +899,7 @@ __all__ = [
     "ManualTarget",
     "ExternalTarget",
     "ArtifactTarget",
+    "TokenEstimateTarget",
     # Union type
     "AnyTarget",
     # Factory function

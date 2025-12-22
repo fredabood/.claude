@@ -216,6 +216,9 @@ class CriterionTargetType(str, Enum):
     # Artifact types (Sprint 7)
     ARTIFACT = "artifact"  # Artifact entity must exist and be valid
 
+    # Token estimation (Token Estimation Track)
+    TOKEN_ESTIMATE = "token_estimate"  # Token estimate must be set
+
     # Code verification types (Sprint 10)
     # SYMBOL_EXISTS = "symbol_exists"  # Code symbol must exist
     # COMMAND_EXISTS = "command_exists"  # CLI command must exist

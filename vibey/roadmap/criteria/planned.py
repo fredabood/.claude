@@ -7,6 +7,7 @@ A ticket is considered "planned" when certain conditions are met:
 1. YAML file exists (required by default)
 2. Context files exist (optional by default)
 3. Manual approval given (disabled by default)
+4. Token estimates set (optional by default)
 
 All criteria are built from existing target types - this module just
 provides a convenient factory for creating the common "planned" pattern.
@@ -18,7 +19,11 @@ from typing import List, Optional
 
 from vibey.roadmap.models.ticket.completable import Criterion
 from vibey.roadmap.models.ticket.enums import TicketStatus
-from vibey.roadmap.models.ticket.targets import FileExistsTarget, ManualTarget
+from vibey.roadmap.models.ticket.targets import (
+    FileExistsTarget,
+    ManualTarget,
+    TokenEstimateTarget,
+)
 
 
 @dataclass
@@ -32,11 +37,18 @@ class PlannedCriteriaConfig:
     check_yaml_exists: bool = True
     check_context_exists: bool = True
     check_manual_approval: bool = False
+    check_token_estimate: bool = False
 
     # Which checks are required vs optional
     yaml_required: bool = True
     context_required: bool = False
     approval_required: bool = False
+    token_estimate_required: bool = False
+
+    # Token estimate options
+    require_input_estimate: bool = True
+    require_output_estimate: bool = True
+    require_budget: bool = False
 
 
 DEFAULT_PLANNED_CONFIG = PlannedCriteriaConfig()
@@ -101,6 +113,32 @@ def create_planned_criteria(
                     approver=None,
                 ),
                 required=config.approval_required,
+            )
+        )
+
+    # 4. Token estimates
+    if config.check_token_estimate:
+        desc_parts = []
+        if config.require_input_estimate:
+            desc_parts.append("input")
+        if config.require_output_estimate:
+            desc_parts.append("output")
+        estimate_desc = " and ".join(desc_parts) + " token estimate"
+        if config.require_budget:
+            estimate_desc += " with budget"
+
+        criteria.append(
+            Criterion(
+                id=f"{ticket_id}-token-estimate",
+                description=f"Token estimates set ({estimate_desc})",
+                blocks_transition_to=TicketStatus.IN_PROGRESS,
+                target=TokenEstimateTarget(
+                    ticket_id=ticket_id,
+                    require_input_estimate=config.require_input_estimate,
+                    require_output_estimate=config.require_output_estimate,
+                    require_budget=config.require_budget,
+                ),
+                required=config.token_estimate_required,
             )
         )
 
@@ -207,4 +245,6 @@ def _suggest_action(criterion: Criterion) -> str:
         return "Create required file"
     elif isinstance(criterion.target, ManualTarget):
         return "Get planning approval via 'vibey planned approve <id>'"
+    elif isinstance(criterion.target, TokenEstimateTarget):
+        return "Run 'vibey roadmap estimate <id>' to set token estimates"
     return "Satisfy criterion"

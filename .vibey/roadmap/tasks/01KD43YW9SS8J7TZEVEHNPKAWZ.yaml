@@ -1,0 +1,50 @@
+task:
+  id: 01KD43YW9SS8J7TZEVEHNPKAWZ
+  name: CLI edit validation doesn't recognize production_ready status
+  description: |
+    The `vibey roadmap edit file` command fails with validation error when
+    editing files that have status=production_ready. The validator only
+    recognizes ['not_started', 'in_progress', 'blocked', 'completed'].
+
+    Error message:
+    "Invalid status: production_ready (must be one of ['not_started', 'in_progress', 'blocked', 'completed'])"
+
+    Root cause: The SafeYamlEditor validator has an incomplete list of valid statuses.
+
+    Solution: Update the validator to include all TicketStatus enum values:
+    - not_started, in_progress, paused, completion_gate_check, completed,
+    - production_gate_check, production_ready, deployed, wont_do, superseded
+  format_version: v2
+  ticket_type: task
+  parent_ref: 01KD43809NC3FPJJ179MAZRKCK
+  status: not_started
+  created_at: '2025-12-22T21:00:00+00:00'
+  started_at: null
+  completed_at: null
+  updated_at: '2025-12-22T21:00:00+00:00'
+  assigned_agents:
+  - unassigned
+  priority: high
+  criteria:
+  - type: code
+    description: CLI edit accepts all TicketStatus values
+    status: not_met
+  - type: test
+    description: Can edit file with production_ready status
+    status: not_met
+  depends_on: []
+  commits_local: []
+  requirements_local: []
+  estimated_duration: null
+  deferred: false
+  task_type_detail: bug
+  estimated_tokens: 300
+  actual_tokens: null
+  complexity: simple
+  phase_label: null
+  gate_info: null
+  audit_results: null
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null

@@ -6,17 +6,21 @@
 
 ## Sprint Overview
 
-This sprint addresses bugs discovered during roadmap state verification. Two issues were found related to how deferred tasks are handled:
+This sprint addresses bugs discovered during roadmap state verification. Four issues were found:
 
 1. The `deferred` field exists in YAML but is not stored in the SQLite database
 2. Sprints with only deferred incomplete tasks don't auto-progress to completed status
+3. CLI edit command doesn't recognize `production_ready` as valid status
+4. CLI revert command doesn't support reverting from `production_ready`
 
 ### Sprint Goal
-Fix deferred field storage and sprint auto-progression with deferred tasks
+Fix deferred field storage, sprint auto-progression, and CLI status validation
 
 ### Success Criteria
 - Deferred field is stored in database schema
 - Sprints with only deferred incomplete tasks auto-progress to completed/production_ready
+- CLI edit recognizes all TicketStatus values
+- CLI revert supports production_ready -> in_progress
 
 ---
 
@@ -95,14 +99,82 @@ incomplete_count = sum(1 for t in tasks if t.status != 'completed' and not t.def
 
 ---
 
+### Task 3: CLI edit validation doesn't recognize production_ready status
+**ID:** 01KD43YW9SS8J7TZEVEHNPKAWZ
+**Status:** Not Started
+**Priority:** High
+**Complexity:** Simple
+**Estimated Tokens:** 300
+
+#### Problem Statement
+The `vibey roadmap edit file` command fails with validation error when editing files that have status=production_ready. The validator only recognizes a subset of status values.
+
+#### Error Message
+```
+Invalid status: production_ready (must be one of ['not_started', 'in_progress', 'blocked', 'completed'])
+```
+
+#### Root Cause
+The SafeYamlEditor validator in `vibey/operations/roadmap/safe_yaml_editor.py` has an incomplete list of valid statuses. It doesn't include all TicketStatus enum values.
+
+#### Solution
+Update the status validator to use the TicketStatus enum directly:
+```python
+from vibey.roadmap.models.ticket.enums import TicketStatus
+VALID_STATUSES = [s.value for s in TicketStatus]
+```
+
+#### Files to Modify
+- `vibey/operations/roadmap/safe_yaml_editor.py` - Update status validation
+
+#### Verification
+- `vibey roadmap edit file track.yaml --set status=in_progress` succeeds on production_ready file
+
+---
+
+### Task 4: CLI revert doesn't support production_ready to in_progress
+**ID:** 01KD43YW9SS8J7TZEVEHNPKAX0
+**Status:** Not Started
+**Priority:** Medium
+**Complexity:** Simple
+**Estimated Tokens:** 400
+
+#### Problem Statement
+The `vibey roadmap revert` command cannot revert tracks/sprints from production_ready status back to in_progress. This prevents correcting premature production_ready transitions.
+
+#### Error Message
+```
+Cannot revert track from 'production_ready' to 'in_progress'. Valid transitions from 'production_ready': []
+```
+
+#### Root Cause
+The revert command in `vibey/cli/commands.py` or related module has a limited set of allowed transitions.
+
+#### Solution
+Update the revert transition map to support:
+- production_ready -> in_progress
+- production_ready -> completed
+- deployed -> production_ready
+- deployed -> in_progress
+
+#### Files to Modify
+- `vibey/cli/commands.py` or `vibey/operations/roadmap/update.py` - Add revert transitions
+
+#### Verification
+- `vibey roadmap revert <track-id> --to in_progress` succeeds from production_ready
+
+---
+
 ## Sprint Summary
 
 | Task | Title | Status | Priority | Depends On |
 |------|-------|--------|----------|------------|
 | 1 | Add deferred column to database schema | Not Started | Medium | - |
 | 2 | Sprint auto-progress should skip deferred tasks | Not Started | Medium | Task 1 |
+| 3 | CLI edit validation doesn't recognize production_ready | Not Started | High | - |
+| 4 | CLI revert doesn't support production_ready transitions | Not Started | Medium | - |
 
-**Completion:** 0/2 tasks (0%)
+**Completion:** 0/4 tasks (0%)
 
 ## Related Work
 - Sprint 10: Validation and Sync Bugs (Task 4 - deferred) - original bug for YAML progress sync

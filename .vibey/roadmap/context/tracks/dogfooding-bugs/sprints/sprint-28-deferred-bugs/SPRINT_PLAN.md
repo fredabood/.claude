@@ -169,12 +169,30 @@ Update the revert transition map to support:
 
 | Task | Title | Status | Priority | Depends On |
 |------|-------|--------|----------|------------|
-| 1 | Add deferred column to database schema | Not Started | Medium | - |
+| 1 | Add deferred column to database schema | In Progress | Medium | - |
 | 2 | Sprint auto-progress should skip deferred tasks | Not Started | Medium | Task 1 |
-| 3 | CLI edit validation doesn't recognize production_ready | Not Started | High | - |
-| 4 | CLI revert doesn't support production_ready transitions | Not Started | Medium | - |
+| 3 | CLI edit validation doesn't recognize production_ready | **COMPLETED** | High | - |
+| 4 | CLI revert doesn't support production_ready transitions | **COMPLETED** | Medium | - |
 
-**Completion:** 0/4 tasks (0%)
+**Completion:** 2/4 tasks (50%)
+
+## Completed Tasks
+
+### Task 3 - COMPLETED (2025-12-22)
+- Updated `safe_yaml_editor.py` to import `TicketStatus` enum and use it for validation
+- Now accepts all valid statuses instead of hardcoded subset
+- Commit: f8988188
+
+### Task 4 - COMPLETED (2025-12-22)
+- Updated `main.py` revert command to accept more target statuses
+- Updated `commands_legacy.py` valid_transitions to support full lifecycle
+- Added proper timestamp clearing for all status levels
+- Commit: f8988188
+
+### Task 1 - IN PROGRESS
+- Schema already has `deferred` column in `schema.py` at line 1465
+- Database rebuild fails with CHECK constraint error (pre-existing data issue)
+- Blocked by: Database integrity issue needs resolution first
 
 ## Related Work
 - Sprint 10: Validation and Sync Bugs (Task 4 - deferred) - original bug for YAML progress sync

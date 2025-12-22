@@ -24,11 +24,26 @@ task:
             return self
 
 
+    class EscalationStep(BaseModel):
+        '''Automatic mode escalation at usage threshold.'''
+        at: float              # Usage ratio threshold (0.0-1.0+)
+        mode: str              # Mode to escalate to
+
+    class TokenEnforcement(BaseModel):
+        '''Budget enforcement settings (per-direction or ticket-level).'''
+        mode: str = "warn"                          # warn, soft_stop, hard_stop
+        thresholds: List[float] = [0.8, 0.9, 1.0]   # Warning thresholds
+        allow_override: bool = True                  # Allow CLI/env override
+        grace_percent: float = 0.0                   # Overage grace (0.1 = 10%)
+        escalation: Optional[List[EscalationStep]] = None  # Auto-escalation
+
+
     class Tokens(BaseModel):
         '''All token data for one direction (input or output).'''
         estimate: Optional[TokenEstimate] = None
         budget: Optional[int] = None   # Hard limit for this direction
         usage: Optional[int] = None    # Actual consumption
+        enforcement: Optional[TokenEnforcement] = None  # Per-direction override
 
         @model_validator(mode='after')
         def validate_budget(self) -> 'Tokens':
@@ -41,17 +56,23 @@ task:
     Add to Ticket class:
     ```python
     class Ticket:
-        # Token tracking per direction
+        # Token tracking per direction (each with own enforcement)
         input_tokens: Optional[Tokens] = None
         output_tokens: Optional[Tokens] = None
 
         # Optional combined budget at ticket level
         total_token_budget: Optional[int] = None
+        total_token_enforcement: Optional[TokenEnforcement] = None
     ```
+
+    Enforcement resolution order (per direction):
+    1. ticket.input_tokens.enforcement (direction-specific)
+    2. .vibey/config/token_budgets.yaml (project default)
+    3. Built-in defaults (warn, [0.8, 0.9, 1.0])
 
     Lifecycle by status:
     - not_started: estimate populated, budget optional, usage null
-    - in_progress: estimate + budget, usage accumulating
+    - in_progress: estimate + budget, usage accumulating, enforcement active
     - completed: estimate preserved, usage final
 
     Files to modify:
@@ -76,16 +97,22 @@ task:
     description: TokenEstimate model exists with min/max/target
     status: not_met
   - type: code
-    description: Tokens model exists with estimate/budget/usage
+    description: TokenEnforcement model exists with mode/thresholds/grace/escalation
+    status: not_met
+  - type: code
+    description: Tokens model exists with estimate/budget/usage/enforcement
     status: not_met
   - type: code
     description: Ticket class has input_tokens and output_tokens fields
     status: not_met
   - type: code
-    description: Ticket class has total_token_budget field
+    description: Ticket class has total_token_budget and total_token_enforcement
     status: not_met
   - type: test
     description: Validation rules for min <= target <= max enforced
+    status: not_met
+  - type: test
+    description: Per-direction enforcement settings respected
     status: not_met
   depends_on: []
   commits_local: []

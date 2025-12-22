@@ -2,7 +2,8 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B0Y
   name: Update YAML and database serialization for token fields
   description: |
-    Update serialization to persist token models (Tokens, TokenEstimate).
+    Update serialization to persist token models (Tokens, TokenEstimate,
+    TokenEnforcement).
 
     YAML Format (in ticket YAML files):
     ```yaml
@@ -16,6 +17,15 @@ task:
           target: 10000
         budget: 25000
         usage: 8234  # null until execution
+        enforcement:  # Optional per-direction override
+          mode: warn
+          thresholds: [0.8, 0.9, 1.0]
+          grace_percent: 0.1
+          escalation:
+            - at: 0.9
+              mode: soft_stop
+            - at: 1.0
+              mode: hard_stop
       output_tokens:
         estimate:
           min: 2000
@@ -23,12 +33,17 @@ task:
           target: 5000
         budget: 12000
         usage: 4521
-      total_token_budget: 35000  # Optional combined limit
+        enforcement:
+          mode: hard_stop  # Stricter for output
+      total_token_budget: 35000
+      total_token_enforcement:
+        mode: soft_stop
     ```
 
     SQLite Schema:
     ```sql
     -- Add to tickets table (flattened for query efficiency)
+    -- Estimate fields
     ALTER TABLE tickets ADD COLUMN input_tokens_estimate_min INTEGER;
     ALTER TABLE tickets ADD COLUMN input_tokens_estimate_max INTEGER;
     ALTER TABLE tickets ADD COLUMN input_tokens_estimate_target INTEGER;
@@ -40,6 +55,11 @@ task:
     ALTER TABLE tickets ADD COLUMN output_tokens_budget INTEGER;
     ALTER TABLE tickets ADD COLUMN output_tokens_usage INTEGER;
     ALTER TABLE tickets ADD COLUMN total_token_budget INTEGER;
+
+    -- Enforcement fields (JSON for complex nested structure)
+    ALTER TABLE tickets ADD COLUMN input_tokens_enforcement TEXT;  -- JSON
+    ALTER TABLE tickets ADD COLUMN output_tokens_enforcement TEXT;  -- JSON
+    ALTER TABLE tickets ADD COLUMN total_token_enforcement TEXT;    -- JSON
     ```
 
     Files to modify:
@@ -52,6 +72,7 @@ task:
     Notes:
     - Aggregated values computed at runtime (not stored)
     - Nested structure in YAML, flattened in SQLite
+    - Enforcement stored as JSON in SQLite (complex nested structure)
     - Handle null/missing values gracefully
   format_version: v2
   ticket_type: task
@@ -72,10 +93,19 @@ task:
     description: YAML dumper serializes Tokens correctly
     status: not_met
   - type: code
+    description: YAML handles TokenEnforcement with escalation steps
+    status: not_met
+  - type: code
     description: Database schema includes flattened token columns
+    status: not_met
+  - type: code
+    description: Enforcement stored as JSON in SQLite
     status: not_met
   - type: test
     description: Round-trip YAML → DB → YAML preserves token data
+    status: not_met
+  - type: test
+    description: Round-trip preserves per-direction enforcement settings
     status: not_met
   depends_on:
   - 01KCYA0G5135Z8B8ENFD841B0X

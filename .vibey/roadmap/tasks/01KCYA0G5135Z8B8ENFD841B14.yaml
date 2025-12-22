@@ -2,56 +2,135 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B14
   name: Add warning and hard-stop thresholds
   description: |
-    Implement configurable thresholds for budget enforcement.
-    Uses input_tokens.budget/usage and output_tokens.budget/usage.
+    Implement the full budget enforcement system with per-direction settings,
+    grace periods, and automatic escalation.
 
-    1. Warning Thresholds (configurable):
-       - 80% of budget: First warning
-       - 90% of budget: Urgent warning
-       - 100% of budget: Budget exceeded
-
-    2. Enforcement Modes:
+    1. Enforcement Modes:
        - warn: Log warnings but continue execution
        - soft_stop: Warn and prompt for confirmation to continue
        - hard_stop: Terminate execution when budget exceeded
 
-    3. Configuration:
+    2. Enforcement Resolution Order (per direction):
+       ```python
+       def get_enforcement(task: Ticket, direction: str) -> TokenEnforcement:
+           tokens = getattr(task, f'{direction}_tokens')
+
+           # 1. Per-direction override
+           if tokens and tokens.enforcement:
+               return tokens.enforcement
+
+           # 2. Project defaults
+           config = load_config('.vibey/config/token_budgets.yaml')
+           if config and config.get('enforcement'):
+               return TokenEnforcement(**config['enforcement'])
+
+           # 3. Built-in defaults
+           return TokenEnforcement(
+               mode='warn',
+               thresholds=[0.8, 0.9, 1.0],
+               allow_override=True,
+               grace_percent=0.0,
+           )
+       ```
+
+    3. Project Default Configuration:
        .vibey/config/token_budgets.yaml:
        ```yaml
        enforcement:
-         mode: warn  # warn, soft_stop, hard_stop
-         warning_thresholds: [0.8, 0.9, 1.0]
+         mode: warn
+         thresholds: [0.8, 0.9, 1.0]
          allow_override: true
+         grace_percent: 0.0
+         escalation:
+           - at: 0.9
+             mode: soft_stop
+           - at: 1.0
+             mode: hard_stop
        ```
 
-    4. Budget Check Logic:
+    4. Grace Period Logic:
        ```python
-       def check_budget_thresholds(task: Ticket, config: dict) -> List[Warning]:
-           warnings = []
-           thresholds = config['enforcement']['warning_thresholds']
-
-           for direction, tokens in [('input', task.input_tokens),
-                                      ('output', task.output_tokens)]:
-               if tokens and tokens.budget and tokens.usage:
-                   ratio = tokens.usage / tokens.budget
-                   for threshold in thresholds:
-                       if ratio >= threshold:
-                           warnings.append(
-                               f"[TOKEN {'EXCEEDED' if ratio >= 1.0 else 'WARNING'}] "
-                               f"Task {task.id} at {ratio:.0%} of {direction} budget "
-                               f"({tokens.usage:,}/{tokens.budget:,})"
-                           )
-           return warnings
+       def should_hard_stop(usage: int, budget: int, grace: float) -> bool:
+           effective_limit = budget * (1 + grace)
+           return usage >= effective_limit
        ```
 
-    5. Warning Messages:
-       - "[TOKEN WARNING] Task {id} at 80% of input budget ({usage}/{budget})"
-       - "[TOKEN WARNING] Task {id} at 90% of output budget ({usage}/{budget})"
-       - "[TOKEN EXCEEDED] Task {id} exceeded budget. Mode: {mode}"
+    5. Escalation Logic:
+       ```python
+       def get_effective_mode(
+           enforcement: TokenEnforcement,
+           usage_ratio: float
+       ) -> str:
+           if not enforcement.escalation:
+               return enforcement.mode
 
-    6. Override Mechanism:
+           effective_mode = enforcement.mode
+           for step in sorted(enforcement.escalation, key=lambda s: s.at):
+               if usage_ratio >= step.at:
+                   effective_mode = step.mode
+           return effective_mode
+       ```
+
+    6. Budget Checker Implementation:
+       ```python
+       class BudgetChecker:
+           def check_thresholds(self, task: Ticket) -> List[BudgetWarning]:
+               warnings = []
+
+               for direction in ['input', 'output']:
+                   tokens = getattr(task, f'{direction}_tokens')
+                   if not tokens or not tokens.budget or not tokens.usage:
+                       continue
+
+                   enforcement = self.get_enforcement(task, direction)
+                   ratio = tokens.usage / tokens.budget
+                   effective_mode = self.get_effective_mode(enforcement, ratio)
+
+                   # Check each threshold
+                   for threshold in enforcement.thresholds:
+                       if ratio >= threshold:
+                           warnings.append(BudgetWarning(
+                               direction=direction,
+                               threshold=threshold,
+                               ratio=ratio,
+                               mode=effective_mode,
+                               grace_remaining=(
+                                   (1 + enforcement.grace_percent) - ratio
+                                   if ratio >= 1.0 else None
+                               ),
+                           ))
+
+               return warnings
+
+           def should_stop(self, task: Ticket, direction: str) -> bool:
+               tokens = getattr(task, f'{direction}_tokens')
+               if not tokens or not tokens.budget or not tokens.usage:
+                   return False
+
+               enforcement = self.get_enforcement(task, direction)
+               ratio = tokens.usage / tokens.budget
+               effective_mode = self.get_effective_mode(enforcement, ratio)
+
+               if effective_mode == 'hard_stop':
+                   effective_limit = 1 + enforcement.grace_percent
+                   return ratio >= effective_limit
+
+               return False
+       ```
+
+    7. Hierarchical Enforcement:
+       - Task execution: Check task budget (immediate feedback)
+       - After completion: Verify sprint/track budgets
+       - Block new tasks if parent budget exceeded (don't kill running)
+
+    8. Override Mechanism:
        - CLI flag: --ignore-token-budget
        - Environment variable: VIBEY_IGNORE_TOKEN_BUDGET=1
+       - Only works if enforcement.allow_override=true
+
+    Files:
+    - vibey/services/budget_checker.py (new)
+    - vibey/services/token_tracker.py (integrate with checker)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0T
@@ -65,13 +144,31 @@ task:
   priority: medium
   criteria:
   - type: artifact
-    description: token_budgets.yaml configuration schema
+    description: token_budgets.yaml configuration schema with escalation
+    status: not_met
+  - type: artifact
+    description: vibey/services/budget_checker.py exists
     status: not_met
   - type: code
-    description: Warning and enforcement modes implemented
+    description: Enforcement resolution order (ticket → project → defaults)
+    status: not_met
+  - type: code
+    description: Per-direction enforcement settings respected
+    status: not_met
+  - type: code
+    description: Grace period logic implemented
+    status: not_met
+  - type: code
+    description: Automatic escalation based on usage ratio
+    status: not_met
+  - type: code
+    description: Hierarchical enforcement (block new tasks if parent exceeded)
     status: not_met
   - type: test
-    description: Tests for each enforcement mode
+    description: Tests for each enforcement mode (warn/soft_stop/hard_stop)
+    status: not_met
+  - type: test
+    description: Tests for escalation and grace periods
     status: not_met
   depends_on:
   - 01KCYA0G5135Z8B8ENFD841B13

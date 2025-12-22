@@ -2,25 +2,65 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B13
   name: Implement runtime token tracking
   description: |
-    Track actual token usage during task execution:
+    Track actual token usage during task execution. Updates the `usage`
+    field within the `Tokens` objects on the task.
 
     1. Token Tracking Interface:
        vibey/services/token_tracker.py:
 
+       ```python
+       from vibey.roadmap.models.ticket import Tokens
+
        class TokenTracker:
            def __init__(self, task_id: str):
                self.task_id = task_id
-               self.input_tokens = 0
-               self.output_tokens = 0
+               self._input_accumulated = 0
+               self._output_accumulated = 0
 
            def record_usage(self, input_tokens: int, output_tokens: int):
-               '''Record token usage from an API call.'''
+               '''
+               Record token usage from an API call.
+               Accumulates during execution.
+               '''
+               self._input_accumulated += input_tokens
+               self._output_accumulated += output_tokens
 
-           def get_remaining_budget(self) -> Tuple[int, int]:
-               '''Returns (input_remaining, output_remaining).'''
+           def get_remaining_budget(self) -> Tuple[Optional[int], Optional[int]]:
+               '''
+               Returns (input_remaining, output_remaining).
+               None if no budget set for that direction.
+               '''
+               task = self._load_task()
+               input_remaining = None
+               output_remaining = None
+
+               if task.input_tokens and task.input_tokens.budget:
+                   input_remaining = task.input_tokens.budget - self._input_accumulated
+
+               if task.output_tokens and task.output_tokens.budget:
+                   output_remaining = task.output_tokens.budget - self._output_accumulated
+
+               return (input_remaining, output_remaining)
 
            def save(self):
-               '''Persist current usage to task YAML.'''
+               '''
+               Persist accumulated usage to task YAML.
+               Updates task.input_tokens.usage and task.output_tokens.usage.
+               '''
+               task = self._load_task()
+
+               if task.input_tokens:
+                   task.input_tokens.usage = self._input_accumulated
+               else:
+                   task.input_tokens = Tokens(usage=self._input_accumulated)
+
+               if task.output_tokens:
+                   task.output_tokens.usage = self._output_accumulated
+               else:
+                   task.output_tokens = Tokens(usage=self._output_accumulated)
+
+               self._save_task(task)
+       ```
 
     2. Integration Points:
        - MCP tool calls
@@ -28,8 +68,8 @@ task:
        - Agent task runners
 
     3. Persistence:
-       - Update task.actual_input_tokens and task.actual_output_tokens
-       - Aggregate to sprint and track levels
+       - Update task.input_tokens.usage and task.output_tokens.usage
+       - Aggregated values computed at runtime via HierarchicalTicket
        - Log usage history in activity log
   format_version: v2
   ticket_type: task

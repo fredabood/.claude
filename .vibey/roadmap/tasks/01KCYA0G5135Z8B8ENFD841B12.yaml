@@ -2,30 +2,45 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B12
   name: Add budget validation on task creation
   description: |
-    Validate token budgets when tasks are created or updated:
+    Validate token budgets when tasks are created or updated.
+    Leverages the validators already on Tokens and TokenEstimate models.
 
-    Validation Rules:
-    1. If budget set, must be >= target estimate
-    2. If min/max set, must satisfy min <= target <= max
-    3. Sprint budget must be >= sum of task budgets
-    4. Track budget must be >= sum of sprint budgets
+    Validation Rules (per direction - input and output):
+    1. TokenEstimate: min <= target <= max (validated in model)
+    2. Tokens: budget >= estimate.target (validated in model)
+    3. Ticket: total_token_budget >= sum of input+output budgets
+
+    Hierarchical Budget Validation:
+    4. Sprint total_token_budget >= sum of task total_token_budgets
+    5. Track total_token_budget >= sum of sprint total_token_budgets
 
     Implementation:
-    1. Add validation to Task.__post_init__()
-    2. Add validation to Sprint.__post_init__()
-    3. Add validation to Track.__post_init__()
-    4. Add CLI validation in roadmap create/update commands
+    ```python
+    # Model validators (already in Tokens/TokenEstimate from Sprint 1)
+    # Additional validation for hierarchical constraints:
+
+    class Ticket:
+        @model_validator(mode='after')
+        def validate_total_budget(self) -> 'Ticket':
+            if self.total_token_budget:
+                input_budget = self.input_tokens.budget if self.input_tokens else 0
+                output_budget = self.output_tokens.budget if self.output_tokens else 0
+                if self.total_token_budget < (input_budget or 0) + (output_budget or 0):
+                    raise ValueError(
+                        f'total_token_budget ({self.total_token_budget}) must be >= '
+                        f'sum of input ({input_budget}) + output ({output_budget}) budgets'
+                    )
+            return self
+    ```
 
     Error Messages:
-    - "Token budget ({budget}) must be >= target estimate ({target})"
+    - "Input token budget ({budget}) must be >= target estimate ({target})"
     - "Invalid token range: min ({min}) > target ({target})"
-    - "Sprint budget ({budget}) insufficient for task budgets ({sum})"
+    - "Sprint total_token_budget ({budget}) insufficient for task budgets ({sum})"
 
     Files:
-    - vibey/roadmap/models/task.py
-    - vibey/roadmap/models/sprint.py
-    - vibey/roadmap/models/track.py
-    - vibey/operations/roadmap/update.py
+    - vibey/roadmap/models/ticket/ticket.py (hierarchical validation)
+    - vibey/operations/roadmap/update.py (CLI validation)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0T

@@ -2,17 +2,27 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B11
   name: Add historical data calibration
   description: |
-    Calibrate estimation algorithms using historical task data:
+    Calibrate estimation algorithms using historical task data. Uses the
+    preserved estimate and recorded usage from completed tasks.
 
     1. Collect Historical Data:
-       - Query completed tasks with actual_input_tokens and actual_output_tokens
+       - Query completed tasks with input_tokens.usage and output_tokens.usage
+       - Also retrieve input_tokens.estimate and output_tokens.estimate
        - Group by task_type and complexity
        - Calculate mean, median, std dev for each group
 
     2. Calibration Process:
-       - Compare estimates to actuals for completed tasks
+       - Compare estimate.target to actual usage for completed tasks
        - Calculate adjustment factors per task type
        - Store calibration data in .vibey/config/token_calibration.yaml
+
+       ```python
+       # Example calibration analysis
+       for task in completed_tasks:
+           input_accuracy = task.input_tokens.usage / task.input_tokens.estimate.target
+           output_accuracy = task.output_tokens.usage / task.output_tokens.estimate.target
+           # Track by task_type, complexity
+       ```
 
     3. Apply Calibration:
        - Load calibration data on estimator init
@@ -21,12 +31,15 @@ task:
 
     4. Continuous Learning:
        - Update calibration after each task completion
-       - Track estimate accuracy over time
+       - Track estimate accuracy over time (estimate.target vs usage)
        - Alert when estimates consistently off
 
     Files:
     - vibey/services/token_estimator.py (add calibration)
     - .vibey/config/token_calibration.yaml (new)
+
+    Note: Estimates are preserved on completed tasks specifically to enable
+    this retroactive accuracy analysis.
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0S

@@ -2,7 +2,7 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B0Y
   name: Update YAML and database serialization for token fields
   description: |
-    Update serialization to persist token estimation fields.
+    Update serialization to persist token models (Tokens, TokenEstimate).
 
     YAML Format (in ticket YAML files):
     ```yaml
@@ -10,32 +10,36 @@ task:
       id: 01ABC...
       name: Some Task
       input_tokens:
-        min: 5000
-        max: 20000
-        target: 10000
+        estimate:
+          min: 5000
+          max: 20000
+          target: 10000
         budget: 25000
-        actual: 8234
+        usage: 8234  # null until execution
       output_tokens:
-        min: 2000
-        max: 10000
-        target: 5000
+        estimate:
+          min: 2000
+          max: 10000
+          target: 5000
         budget: 12000
-        actual: 4521
+        usage: 4521
+      total_token_budget: 35000  # Optional combined limit
     ```
 
-    SQLite Schema (single table for all tickets):
+    SQLite Schema:
     ```sql
-    -- Add to tickets table
-    ALTER TABLE tickets ADD COLUMN input_tokens_min INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_max INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_target INTEGER;
+    -- Add to tickets table (flattened for query efficiency)
+    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_min INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_max INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_estimate_target INTEGER;
     ALTER TABLE tickets ADD COLUMN input_tokens_budget INTEGER;
-    ALTER TABLE tickets ADD COLUMN input_tokens_actual INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_min INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_max INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_target INTEGER;
+    ALTER TABLE tickets ADD COLUMN input_tokens_usage INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_min INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_max INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_estimate_target INTEGER;
     ALTER TABLE tickets ADD COLUMN output_tokens_budget INTEGER;
-    ALTER TABLE tickets ADD COLUMN output_tokens_actual INTEGER;
+    ALTER TABLE tickets ADD COLUMN output_tokens_usage INTEGER;
+    ALTER TABLE tickets ADD COLUMN total_token_budget INTEGER;
     ```
 
     Files to modify:
@@ -45,7 +49,10 @@ task:
     - vibey/roadmap/serialization/sql_loader.py
     - vibey/roadmap/serialization/sql_dumper.py
 
-    Note: Aggregated values are computed at runtime, not stored.
+    Notes:
+    - Aggregated values computed at runtime (not stored)
+    - Nested structure in YAML, flattened in SQLite
+    - Handle null/missing values gracefully
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0R
@@ -53,16 +60,22 @@ task:
   created_at: '2025-12-20T12:00:00+00:00'
   started_at: null
   completed_at: null
-  updated_at: '2025-12-20T12:00:00+00:00'
+  updated_at: '2025-12-22T12:00:00+00:00'
   assigned_agents:
   - unassigned
   priority: high
   criteria:
   - type: code
-    description: Database schema includes new token columns
+    description: YAML loader handles nested Tokens structure
+    status: not_met
+  - type: code
+    description: YAML dumper serializes Tokens correctly
+    status: not_met
+  - type: code
+    description: Database schema includes flattened token columns
     status: not_met
   - type: test
-    description: db rebuild works with new schema
+    description: Round-trip YAML → DB → YAML preserves token data
     status: not_met
   depends_on:
   - 01KCYA0G5135Z8B8ENFD841B0X

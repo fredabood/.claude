@@ -2,25 +2,41 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B17
   name: Add MCP tools for token metrics
   description: |
-    Add MCP tools for AI assistants to query and manage token metrics:
+    Add MCP tools for AI assistants to query and manage token metrics.
+    Uses the Tokens/TokenEstimate models from Sprint 1.
 
     1. Query Tools:
-       - get_task_token_estimates(task_id) -> TokenEstimate
-       - get_sprint_token_summary(sprint_id) -> TokenSummary
-       - get_track_token_summary(track_id) -> TokenSummary
-       - get_remaining_budget(task_id) -> BudgetStatus
+       - get_task_tokens(task_id) -> {input_tokens: Tokens, output_tokens: Tokens, total_budget: int}
+       - get_sprint_token_summary(sprint_id) -> TokenSummary (aggregated)
+       - get_track_token_summary(track_id) -> TokenSummary (aggregated)
+       - get_remaining_budget(task_id) -> {input: int|null, output: int|null, total: int|null}
 
     2. Update Tools:
-       - set_task_token_estimates(task_id, estimates: TokenEstimate)
-       - set_task_token_budget(task_id, input_budget, output_budget)
-       - record_token_usage(task_id, input_tokens, output_tokens)
+       - set_task_token_estimate(task_id, direction: 'input'|'output',
+           min: int, max: int, target: int)
+       - set_task_token_budget(task_id, input_budget: int, output_budget: int,
+           total_budget: int)
+       - record_token_usage(task_id, input_tokens: int, output_tokens: int)
+         # Adds to existing usage
 
     3. Estimation Tools:
-       - estimate_task_tokens(task_id) -> TokenEstimate
-       - estimate_from_description(description, task_type, complexity) -> TokenEstimate
+       - estimate_task_tokens(task_id) -> {
+           input_estimate: TokenEstimate,
+           output_estimate: TokenEstimate,
+           confidence: float
+         }
+       - estimate_from_description(description, task_type, complexity) -> same
 
     4. Report Tools:
        - get_token_usage_report(track_id?, sprint_id?, date_range?) -> Report
+
+    Return types use the actual model structure:
+    ```python
+    class TokensResponse(TypedDict):
+        estimate: Optional[dict]  # {min, max, target}
+        budget: Optional[int]
+        usage: Optional[int]
+    ```
 
     Files:
     - vibey/mcp/tools/token_tools.py (new)

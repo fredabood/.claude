@@ -2,41 +2,52 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B15
   name: Add CLI token commands
   description: |
-    Add new CLI commands for viewing and managing token metrics:
+    Add new CLI commands for viewing and managing token metrics.
+    Displays data from the Tokens model (estimate/budget/usage).
 
     1. View Task Tokens:
        vibey roadmap tokens <task-id>
 
        Output:
-       Token Estimates for Task: <name>
+       Token Data for Task: <name>
        ─────────────────────────────────
        Input Tokens:
-         Min:      5,000
-         Target:  10,000
-         Max:     20,000
-         Budget:  25,000
-         Actual:   8,234 (82% of target)
+         Estimate:
+           Min:      5,000
+           Target:  10,000
+           Max:     20,000
+         Budget:    25,000
+         Usage:      8,234 (82% of target, 33% of budget)
 
        Output Tokens:
-         Min:      2,000
-         Target:   5,000
-         Max:     10,000
-         Budget:  12,000
-         Actual:   4,521 (90% of target)
+         Estimate:
+           Min:      2,000
+           Target:   5,000
+           Max:     10,000
+         Budget:    12,000
+         Usage:      4,521 (90% of target, 38% of budget)
 
-    2. View Sprint/Track Tokens:
+       Total Token Budget: 35,000
+
+    2. View Sprint/Track Tokens (aggregated):
        vibey roadmap tokens --sprint <id>
        vibey roadmap tokens --track <id>
+       # Uses *_tokens_aggregated computed properties from HierarchicalTicket
 
-    3. Set Token Estimates:
+    3. Set Token Data:
        vibey roadmap update task <id> \
-         --input-tokens-target 10000 \
-         --output-tokens-target 5000 \
-         --input-tokens-budget 25000
+         --input-estimate-target 10000 \
+         --input-estimate-min 5000 \
+         --input-estimate-max 20000 \
+         --input-budget 25000 \
+         --output-estimate-target 5000 \
+         --output-budget 12000 \
+         --total-token-budget 35000
 
     4. Auto-estimate:
        vibey roadmap estimate <task-id>
-       # Uses TokenEstimator to set min/max/target
+       # Uses TokenEstimator to set estimate.min/max/target
+       # Does not set budgets (those are manual)
   format_version: v2
   ticket_type: task
   parent_ref: 01KCYA0G5135Z8B8ENFD841B0V

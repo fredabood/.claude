@@ -2,7 +2,8 @@ task:
   id: 01KCYA0G5135Z8B8ENFD841B14
   name: Add warning and hard-stop thresholds
   description: |
-    Implement configurable thresholds for budget enforcement:
+    Implement configurable thresholds for budget enforcement.
+    Uses input_tokens.budget/usage and output_tokens.budget/usage.
 
     1. Warning Thresholds (configurable):
        - 80% of budget: First warning
@@ -23,12 +24,32 @@ task:
          allow_override: true
        ```
 
-    4. Warning Messages:
-       - "[TOKEN WARNING] Task {id} at 80% of input budget ({used}/{budget})"
-       - "[TOKEN WARNING] Task {id} at 90% of output budget ({used}/{budget})"
+    4. Budget Check Logic:
+       ```python
+       def check_budget_thresholds(task: Ticket, config: dict) -> List[Warning]:
+           warnings = []
+           thresholds = config['enforcement']['warning_thresholds']
+
+           for direction, tokens in [('input', task.input_tokens),
+                                      ('output', task.output_tokens)]:
+               if tokens and tokens.budget and tokens.usage:
+                   ratio = tokens.usage / tokens.budget
+                   for threshold in thresholds:
+                       if ratio >= threshold:
+                           warnings.append(
+                               f"[TOKEN {'EXCEEDED' if ratio >= 1.0 else 'WARNING'}] "
+                               f"Task {task.id} at {ratio:.0%} of {direction} budget "
+                               f"({tokens.usage:,}/{tokens.budget:,})"
+                           )
+           return warnings
+       ```
+
+    5. Warning Messages:
+       - "[TOKEN WARNING] Task {id} at 80% of input budget ({usage}/{budget})"
+       - "[TOKEN WARNING] Task {id} at 90% of output budget ({usage}/{budget})"
        - "[TOKEN EXCEEDED] Task {id} exceeded budget. Mode: {mode}"
 
-    5. Override Mechanism:
+    6. Override Mechanism:
        - CLI flag: --ignore-token-budget
        - Environment variable: VIBEY_IGNORE_TOKEN_BUDGET=1
   format_version: v2

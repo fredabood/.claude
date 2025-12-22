@@ -19,6 +19,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
 
+from vibey.roadmap.models.ticket.enums import TicketStatus
+
+# Derive valid statuses from the enum (single source of truth)
+VALID_TICKET_STATUSES = [s.value for s in TicketStatus]
+
 
 # ============================================================================
 # Data Classes
@@ -468,9 +473,8 @@ class SafeYAMLEditor:
 
         # Validate status enum
         if 'status' in task:
-            valid_statuses = ['not_started', 'in_progress', 'completed', 'blocked', 'cancelled']
-            if task['status'] not in valid_statuses:
-                result.add_error(f"Invalid status: {task['status']} (must be one of {valid_statuses})")
+            if task['status'] not in VALID_TICKET_STATUSES:
+                result.add_error(f"Invalid status: {task['status']} (must be one of {VALID_TICKET_STATUSES})")
 
         # Validate task ID matches file/directory
         # Flat structure: .vibey/roadmap/tasks/{ulid}.yaml -> check file stem
@@ -523,9 +527,8 @@ class SafeYAMLEditor:
 
         # Validate status enum
         if 'status' in sprint:
-            valid_statuses = ['not_started', 'in_progress', 'completion_gate_check', 'completed']
-            if sprint['status'] not in valid_statuses:
-                result.add_error(f"Invalid status: {sprint['status']} (must be one of {valid_statuses})")
+            if sprint['status'] not in VALID_TICKET_STATUSES:
+                result.add_error(f"Invalid status: {sprint['status']} (must be one of {VALID_TICKET_STATUSES})")
 
         # Validate completion logic
         if sprint.get('status') == 'completed':
@@ -556,9 +559,8 @@ class SafeYAMLEditor:
 
         # Validate status enum
         if 'status' in track:
-            valid_statuses = ['not_started', 'in_progress', 'blocked', 'completed']
-            if track['status'] not in valid_statuses:
-                result.add_error(f"Invalid status: {track['status']} (must be one of {valid_statuses})")
+            if track['status'] not in VALID_TICKET_STATUSES:
+                result.add_error(f"Invalid status: {track['status']} (must be one of {VALID_TICKET_STATUSES})")
 
         # Validate completion logic
         if track.get('status') == 'completed':

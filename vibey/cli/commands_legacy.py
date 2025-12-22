@@ -1027,8 +1027,15 @@ def roadmap_revert_cmd(item_id: str, target_status: str, skip_confirm: bool = Fa
     item_name = item_data.get('name') or item_data.get('title') or item_id
 
     # Validate the transition
+    # Supports reverting through the full lifecycle:
+    # deployed -> production_ready -> completed -> in_progress -> not_started
     valid_transitions = {
+        'deployed': ['production_ready', 'completed', 'in_progress', 'not_started'],
+        'production_ready': ['completed', 'in_progress', 'not_started'],
+        'production_gate_check': ['completed', 'in_progress', 'not_started'],
         'completed': ['in_progress', 'not_started'],
+        'completion_gate_check': ['in_progress', 'not_started'],
+        'paused': ['in_progress', 'not_started'],
         'in_progress': ['not_started'],
         'not_started': [],
     }
@@ -1056,11 +1063,20 @@ def roadmap_revert_cmd(item_id: str, target_status: str, skip_confirm: bool = Fa
     if target_status == 'not_started':
         item_data['started'] = None
         item_data['completed'] = None
+        item_data['production_ready_at'] = None
+        item_data['deployed_at'] = None
     elif target_status == 'in_progress':
         item_data['completed'] = None
+        item_data['production_ready_at'] = None
+        item_data['deployed_at'] = None
         # Keep started if it exists, otherwise set it now
         if not item_data.get('started'):
             item_data['started'] = datetime.now(timezone.utc).isoformat()
+    elif target_status == 'completed':
+        item_data['production_ready_at'] = None
+        item_data['deployed_at'] = None
+    elif target_status == 'production_ready':
+        item_data['deployed_at'] = None
 
     # Save the updated data
     data[item_type] = item_data

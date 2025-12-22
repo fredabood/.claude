@@ -389,7 +389,7 @@ def roadmap_complete(ctx, item_id: str, no_commits: bool, force: bool):
 @roadmap.command('revert')
 @click.argument('item_id')
 @click.option('--to', 'target_status', required=True,
-              type=click.Choice(['not_started', 'in_progress']),
+              type=click.Choice(['not_started', 'in_progress', 'completed', 'production_ready']),
               help='Target status to revert to')
 @click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
 @click.pass_context

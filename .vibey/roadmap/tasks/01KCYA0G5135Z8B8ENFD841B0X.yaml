@@ -32,8 +32,8 @@ task:
     \nDesign notes:\n- Estimates and usage aggregate UP from children\n- Budgets are\
     \ set at each level (not aggregated)\n- Parent budget covers all descendant usage\n\
     - Enables sprint-level and track-level budget constraints\n"
-  status: not_started
-  blocked: true
+  status: in_progress
+  blocked: false
   created: '2025-12-20T12:00:00+00:00'
   started: null
   completed: null

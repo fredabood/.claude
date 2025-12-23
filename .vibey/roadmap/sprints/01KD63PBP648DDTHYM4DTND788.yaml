@@ -32,7 +32,7 @@ sprint:
     required_status: completed
     current_status: not_started
     blocks_transition_to: completed
-    last_checked: '2025-12-23T18:05:37.632395Z'
+    last_checked: '2025-12-23T18:05:37.632395+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:

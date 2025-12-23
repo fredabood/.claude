@@ -49,60 +49,108 @@ if TYPE_CHECKING:
 # BASE ESTIMATION FACTORS
 # =============================================================================
 
-# Base token estimates by task type (for target, with min/max multipliers)
-# These represent typical token counts for medium complexity tasks
-TASK_TYPE_BASE_TOKENS: Dict[str, Dict[str, int]] = {
+# Estimation Profiles: Token ranges by task type
+# Based on task characteristics:
+# - development: High output (code), medium input (context)
+# - documentation: High output (docs), low input
+# - testing: Medium output (tests), medium input (code to test)
+# - research: Low output (findings), high input (exploration)
+# - review: Low output (comments), high input (code to review)
+# - infrastructure: Variable, depends on scope
+# - design: Medium output (specs), low input
+# - gate: Minimal tokens (validation only)
+
+ESTIMATION_PROFILES: Dict[str, Dict[str, tuple[int, int]]] = {
+    # Task type: {input: (min, max), output: (min, max)}
     "development": {
-        "input_target": 15000,    # Reading code, understanding context
-        "output_target": 8000,    # Writing code, tests, docs
+        "input_range": (5000, 50000),    # Medium input (context reading)
+        "output_range": (2000, 20000),   # High output (code generation)
     },
     "documentation": {
-        "input_target": 8000,     # Reading existing docs/code
-        "output_target": 12000,   # Writing documentation
+        "input_range": (2000, 20000),    # Low input
+        "output_range": (3000, 30000),   # High output (docs)
     },
     "testing": {
-        "input_target": 10000,    # Reading code to test
-        "output_target": 6000,    # Writing test code
+        "input_range": (3000, 30000),    # Medium input (code to test)
+        "output_range": (2000, 15000),   # Medium output (tests)
     },
     "research": {
-        "input_target": 20000,    # Reading many sources
-        "output_target": 5000,    # Summary/recommendations
+        "input_range": (10000, 100000),  # High input (exploration)
+        "output_range": (1000, 10000),   # Low output (findings)
     },
     "review": {
-        "input_target": 12000,    # Reading code to review
-        "output_target": 3000,    # Review comments
+        "input_range": (5000, 50000),    # High input (code to review)
+        "output_range": (500, 5000),     # Low output (comments)
     },
     "infrastructure": {
-        "input_target": 12000,    # Config files, dependencies
-        "output_target": 6000,    # Config changes, scripts
+        "input_range": (3000, 40000),    # Variable, depends on scope
+        "output_range": (2000, 25000),   # Variable, depends on scope
+    },
+    "design": {
+        "input_range": (2000, 15000),    # Low input
+        "output_range": (3000, 20000),   # Medium output (specs)
     },
     "gate": {
-        "input_target": 5000,     # Gate check artifacts
-        "output_target": 2000,    # Gate status/report
+        "input_range": (1000, 5000),     # Minimal (validation only)
+        "output_range": (500, 2000),     # Minimal (gate result)
     },
 }
 
-# Complexity multipliers for min/target/max
+# Legacy format for backward compatibility
+# These represent typical token counts for medium complexity tasks
+TASK_TYPE_BASE_TOKENS: Dict[str, Dict[str, int]] = {
+    task_type: {
+        "input_target": (profile["input_range"][0] + profile["input_range"][1]) // 2,
+        "output_target": (profile["output_range"][0] + profile["output_range"][1]) // 2,
+    }
+    for task_type, profile in ESTIMATION_PROFILES.items()
+}
+
+# Complexity multipliers as specified in the task:
+# simple=0.5, medium=1.0, complex=2.0, very_complex=4.0
+# These are applied to the base ranges
 COMPLEXITY_MULTIPLIERS: Dict[str, Dict[str, float]] = {
-    "low": {
-        "min_factor": 0.5,      # 50% of target for min
+    "simple": {
+        "factor": 0.5,          # Half the base estimate
+        "min_factor": 0.8,      # 80% of scaled target for min
+        "target_factor": 1.0,   # Base target (after complexity scaling)
+        "max_factor": 1.3,      # 130% of scaled target for max
+    },
+    "low": {  # Alias for simple
+        "factor": 0.5,
+        "min_factor": 0.8,
+        "target_factor": 1.0,
+        "max_factor": 1.3,
+    },
+    "medium": {
+        "factor": 1.0,          # Base estimate
+        "min_factor": 0.7,      # 70% of target for min
         "target_factor": 1.0,   # Base target
         "max_factor": 1.5,      # 150% of target for max
     },
-    "medium": {
-        "min_factor": 0.6,      # 60% of target for min
-        "target_factor": 1.3,   # 30% higher than base
-        "max_factor": 2.0,      # 200% of target for max
+    "complex": {
+        "factor": 2.0,          # Double the base estimate
+        "min_factor": 0.6,      # 60% of scaled target for min
+        "target_factor": 1.0,   # Base target (after complexity scaling)
+        "max_factor": 2.0,      # 200% of scaled target for max
     },
-    "high": {
-        "min_factor": 0.7,      # 70% of target for min
-        "target_factor": 2.0,   # Double the base
-        "max_factor": 3.0,      # 300% of target for max
+    "high": {  # Alias for complex
+        "factor": 2.0,
+        "min_factor": 0.6,
+        "target_factor": 1.0,
+        "max_factor": 2.0,
     },
-    "critical": {
-        "min_factor": 0.8,      # 80% of target for min
-        "target_factor": 3.0,   # Triple the base
-        "max_factor": 5.0,      # 500% of target for max
+    "very_complex": {
+        "factor": 4.0,          # Quadruple the base estimate
+        "min_factor": 0.5,      # 50% of scaled target for min
+        "target_factor": 1.0,   # Base target (after complexity scaling)
+        "max_factor": 2.5,      # 250% of scaled target for max
+    },
+    "critical": {  # Alias for very_complex
+        "factor": 4.0,
+        "min_factor": 0.5,
+        "target_factor": 1.0,
+        "max_factor": 2.5,
     },
 }
 
@@ -110,6 +158,12 @@ COMPLEXITY_MULTIPLIERS: Dict[str, Dict[str, float]] = {
 DEFAULT_BASE_TOKENS: Dict[str, int] = {
     "input_target": 10000,
     "output_target": 5000,
+}
+
+# Default estimation profile for unknown task types
+DEFAULT_ESTIMATION_PROFILE: Dict[str, tuple[int, int]] = {
+    "input_range": (5000, 50000),
+    "output_range": (2000, 20000),
 }
 
 # Default complexity when not specified
@@ -265,14 +319,21 @@ class TokenEstimator:
 
         This is the core estimation method that calculates token estimates
         based on:
-        - Base tokens for the task type
-        - Complexity multipliers for min/target/max range
+        - ESTIMATION_PROFILES for base token ranges by task type
+        - Complexity multipliers (simple=0.5, medium=1.0, complex=2.0, very_complex=4.0)
         - Description analysis for additional adjustments
+
+        The estimation algorithm:
+        1. Get input/output ranges from ESTIMATION_PROFILES for the task type
+        2. Calculate target as midpoint of the range
+        3. Apply complexity factor to scale the target
+        4. Apply description factor for additional adjustments
+        5. Calculate min/max based on complexity-specific variance factors
 
         Args:
             description: Task description text
             task_type: Type of task (development, documentation, etc.)
-            complexity: Complexity level (low, medium, high, critical)
+            complexity: Complexity level (simple, medium, complex, very_complex)
 
         Returns:
             EstimationResult with confidence score
@@ -281,10 +342,10 @@ class TokenEstimator:
         task_type_lower = task_type.lower().strip()
         complexity_lower = complexity.lower().strip()
 
-        # Get base tokens for task type
-        base_tokens = self.task_type_tokens.get(
+        # Get estimation profile for task type (uses ESTIMATION_PROFILES)
+        profile = ESTIMATION_PROFILES.get(
             task_type_lower,
-            DEFAULT_BASE_TOKENS.copy()
+            DEFAULT_ESTIMATION_PROFILE.copy()
         )
 
         # Get complexity multipliers
@@ -293,23 +354,40 @@ class TokenEstimator:
             self.complexity_multipliers.get(self.default_complexity, COMPLEXITY_MULTIPLIERS["medium"])
         )
 
+        # Get the complexity factor (simple=0.5, medium=1.0, complex=2.0, very_complex=4.0)
+        complexity_factor = multipliers.get("factor", 1.0)
+
         # Analyze description for additional factors
         description_factor, description_confidence = self._analyze_description(description)
 
-        # Calculate input estimate
-        input_target = int(base_tokens["input_target"] * multipliers["target_factor"] * description_factor)
+        # Calculate input estimate using the profile ranges
+        input_range = profile["input_range"]
+        input_base_target = (input_range[0] + input_range[1]) // 2  # Midpoint
+        input_target = int(input_base_target * complexity_factor * description_factor)
+        # Scale min/max based on complexity variance
+        input_min = int(input_target * multipliers["min_factor"])
+        input_max = int(input_target * multipliers["max_factor"])
+        # Ensure min doesn't go below profile minimum
+        input_min = max(input_min, int(input_range[0] * complexity_factor * 0.5))
         input_estimate = TokenEstimate(
-            min=int(input_target * multipliers["min_factor"]),
+            min=input_min,
             target=input_target,
-            max=int(input_target * multipliers["max_factor"]),
+            max=input_max,
         )
 
-        # Calculate output estimate
-        output_target = int(base_tokens["output_target"] * multipliers["target_factor"] * description_factor)
+        # Calculate output estimate using the profile ranges
+        output_range = profile["output_range"]
+        output_base_target = (output_range[0] + output_range[1]) // 2  # Midpoint
+        output_target = int(output_base_target * complexity_factor * description_factor)
+        # Scale min/max based on complexity variance
+        output_min = int(output_target * multipliers["min_factor"])
+        output_max = int(output_target * multipliers["max_factor"])
+        # Ensure min doesn't go below profile minimum
+        output_min = max(output_min, int(output_range[0] * complexity_factor * 0.5))
         output_estimate = TokenEstimate(
-            min=int(output_target * multipliers["min_factor"]),
+            min=output_min,
             target=output_target,
-            max=int(output_target * multipliers["max_factor"]),
+            max=output_max,
         )
 
         # Calculate confidence score
@@ -454,8 +532,8 @@ class TokenEstimator:
         """
         confidence = 0.2  # Base confidence
 
-        # Known task type
-        if task_type in self.task_type_tokens:
+        # Known task type (check ESTIMATION_PROFILES)
+        if task_type in ESTIMATION_PROFILES:
             confidence += 0.3
         else:
             confidence += 0.1  # Unknown type uses defaults
@@ -477,8 +555,8 @@ class TokenEstimator:
         return max(0.0, min(1.0, confidence))
 
     def get_supported_task_types(self) -> list[str]:
-        """Get list of supported task types."""
-        return list(self.task_type_tokens.keys())
+        """Get list of supported task types from ESTIMATION_PROFILES."""
+        return list(ESTIMATION_PROFILES.keys())
 
     def get_supported_complexities(self) -> list[str]:
         """Get list of supported complexity levels."""
@@ -526,8 +604,10 @@ __all__ = [
     # Convenience functions
     "estimate_tokens",
     # Configuration constants
+    "ESTIMATION_PROFILES",
     "TASK_TYPE_BASE_TOKENS",
     "COMPLEXITY_MULTIPLIERS",
     "DEFAULT_BASE_TOKENS",
+    "DEFAULT_ESTIMATION_PROFILE",
     "DEFAULT_COMPLEXITY",
 ]

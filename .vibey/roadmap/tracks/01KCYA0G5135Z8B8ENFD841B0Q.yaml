@@ -13,8 +13,8 @@ track:
     sprints_total: 4
     sprints_completed: 0
     tasks_total: 13
-    tasks_completed: 3
-    completion_percent: 23.0
+    tasks_completed: 4
+    completion_percent: 31.0
   sprints:
   - id: 01KCYA0G5135Z8B8ENFD841B0R
     name: 'Sprint 1: Data Model Updates'

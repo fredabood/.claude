@@ -41,10 +41,10 @@ task:
   blocks: []
   blocked_by: []
   depends_on:
-  - blocker_type: task
-    blocker_id: 01KCYA0G5135Z8B8ENFD841B10
-    required_status: completed
-    current_status: not_started
+  - blocker_type: external
+    blocker_id: unknown
+    required_status: resolved
+    current_status: pending
     blocks_transition_to: in_progress
   depended_on_by: []
   deliverables: []

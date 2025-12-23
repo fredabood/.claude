@@ -6,6 +6,7 @@ Ticket extends Completable with work-specific semantics:
 - Assignment (agents, priority)
 - Work evidence (commits)
 - Hierarchy (parent_ref)
+- Token tracking (estimates, budgets, usage, enforcement)
 
 Design Principle: Ticket IS a Completable with additional work tracking.
 Completion is determined by criteria (inherited from Completable).
@@ -19,6 +20,261 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field, computed_field, field_validator, model_validator
+
+
+# =============================================================================
+# TOKEN MODELS
+# =============================================================================
+
+
+class TokenEstimate(BaseModel):
+    """
+    Planning estimate with min/max/target range.
+
+    Used to estimate expected token usage for a ticket before execution.
+    The range allows for uncertainty in estimates while providing
+    guidance for budget allocation.
+
+    Lifecycle by status:
+    - not_started: estimate populated, budget optional, usage null
+    - in_progress: estimate + budget, usage accumulating
+    - completed: estimate preserved, usage final
+    """
+
+    min: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Minimum expected tokens (optimistic estimate)"
+    )
+    max: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Maximum expected tokens (pessimistic estimate)"
+    )
+    target: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Target token count (most likely estimate)"
+    )
+
+    @model_validator(mode='after')
+    def validate_range(self) -> 'TokenEstimate':
+        """Validate that min <= target <= max."""
+        if self.min is not None and self.target is not None and self.min > self.target:
+            raise ValueError('min must be <= target')
+        if self.target is not None and self.max is not None and self.target > self.max:
+            raise ValueError('target must be <= max')
+        if self.min is not None and self.max is not None and self.min > self.max:
+            raise ValueError('min must be <= max')
+        return self
+
+    @property
+    def has_range(self) -> bool:
+        """Check if a full range (min, max) is defined."""
+        return self.min is not None and self.max is not None
+
+    @property
+    def range_size(self) -> Optional[int]:
+        """Get the size of the estimate range (max - min)."""
+        if self.min is not None and self.max is not None:
+            return self.max - self.min
+        return None
+
+
+class EscalationStep(BaseModel):
+    """
+    Automatic mode escalation at usage threshold.
+
+    When token usage reaches the specified ratio of budget,
+    enforcement mode is automatically escalated to the specified mode.
+
+    Example:
+        EscalationStep(at=0.9, mode="soft_stop")
+        # At 90% budget usage, switch to soft_stop mode
+    """
+
+    at: float = Field(
+        description="Usage ratio threshold (0.0-1.0+, where 1.0 = 100% of budget)"
+    )
+    mode: str = Field(
+        description="Mode to escalate to (warn, soft_stop, hard_stop)"
+    )
+
+    @field_validator('at')
+    @classmethod
+    def validate_threshold(cls, v: float) -> float:
+        """Validate threshold is non-negative."""
+        if v < 0:
+            raise ValueError('at must be >= 0')
+        return v
+
+    @field_validator('mode')
+    @classmethod
+    def validate_mode(cls, v: str) -> str:
+        """Validate mode is a recognized value."""
+        valid_modes = {'warn', 'soft_stop', 'hard_stop'}
+        if v not in valid_modes:
+            raise ValueError(f"mode must be one of: {', '.join(sorted(valid_modes))}")
+        return v
+
+
+class TokenEnforcement(BaseModel):
+    """
+    Budget enforcement settings (per-direction or ticket-level).
+
+    Controls how token budgets are enforced during execution:
+    - warn: Notify but allow continued execution
+    - soft_stop: Request pause, allow override
+    - hard_stop: Terminate execution immediately
+
+    Enforcement resolution order (per direction):
+    1. ticket.input_tokens.enforcement (direction-specific)
+    2. .vibey/config/token_budgets.yaml (project default)
+    3. Built-in defaults (warn, [0.8, 0.9, 1.0])
+    """
+
+    # Core enforcement
+    mode: str = Field(
+        default="warn",
+        description="Enforcement mode: warn, soft_stop, hard_stop"
+    )
+    thresholds: List[float] = Field(
+        default_factory=lambda: [0.8, 0.9, 1.0],
+        description="Warning thresholds as ratios (0.8 = 80%)"
+    )
+    allow_override: bool = Field(
+        default=True,
+        description="Allow CLI/env override of enforcement"
+    )
+    grace_percent: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=1.0,
+        description="Overage grace as ratio (0.1 = 10% over budget allowed)"
+    )
+    escalation: Optional[List[EscalationStep]] = Field(
+        default=None,
+        description="Auto-escalation steps at usage thresholds"
+    )
+
+    # Hierarchical enforcement (all optional, disabled by default)
+    require_children_sum_valid: bool = Field(
+        default=False,
+        description="Validation: sum(children budgets) <= parent budget"
+    )
+    check_ancestors_during_execution: bool = Field(
+        default=False,
+        description="Runtime: check parent budgets during execution"
+    )
+    block_new_children_when_exceeded: bool = Field(
+        default=False,
+        description="Pre-start: block child creation if parent exceeded"
+    )
+
+    @field_validator('mode')
+    @classmethod
+    def validate_mode(cls, v: str) -> str:
+        """Validate mode is a recognized value."""
+        valid_modes = {'warn', 'soft_stop', 'hard_stop'}
+        if v not in valid_modes:
+            raise ValueError(f"mode must be one of: {', '.join(sorted(valid_modes))}")
+        return v
+
+    @field_validator('thresholds')
+    @classmethod
+    def validate_thresholds(cls, v: List[float]) -> List[float]:
+        """Validate thresholds are positive and sorted."""
+        if not v:
+            return v
+        for threshold in v:
+            if threshold <= 0:
+                raise ValueError('thresholds must be positive')
+        return sorted(v)
+
+    def get_active_mode(self, usage_ratio: float) -> str:
+        """
+        Get the active enforcement mode based on usage ratio.
+
+        Checks escalation steps to determine if mode should be escalated.
+        """
+        active_mode = self.mode
+        if self.escalation:
+            for step in sorted(self.escalation, key=lambda s: s.at):
+                if usage_ratio >= step.at:
+                    active_mode = step.mode
+        return active_mode
+
+    def get_triggered_thresholds(self, usage_ratio: float) -> List[float]:
+        """Get list of thresholds that have been triggered."""
+        return [t for t in self.thresholds if usage_ratio >= t]
+
+
+class Tokens(BaseModel):
+    """
+    All token data for one direction (input or output).
+
+    Container for token estimate, budget, usage, and enforcement
+    settings for a single direction. Ticket has separate Tokens
+    for input and output.
+
+    Design note: These are LOCAL values for this ticket only.
+    Aggregation happens in HierarchicalTicket (Layer 2) via
+    computed properties.
+    """
+
+    estimate: Optional[TokenEstimate] = Field(
+        default=None,
+        description="Planning estimate with min/max/target range"
+    )
+    budget: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Hard limit for this direction"
+    )
+    usage: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Actual consumption (accumulated during execution)"
+    )
+    enforcement: Optional[TokenEnforcement] = Field(
+        default=None,
+        description="Per-direction override of enforcement settings"
+    )
+
+    @model_validator(mode='after')
+    def validate_budget(self) -> 'Tokens':
+        """Validate budget >= estimate.target if both are set."""
+        if self.budget is not None and self.estimate is not None and self.estimate.target is not None:
+            if self.budget < self.estimate.target:
+                raise ValueError('budget must be >= estimate.target')
+        return self
+
+    @property
+    def usage_ratio(self) -> Optional[float]:
+        """Get usage as a ratio of budget (None if no budget or usage)."""
+        if self.budget is None or self.budget == 0 or self.usage is None:
+            return None
+        return self.usage / self.budget
+
+    @property
+    def remaining(self) -> Optional[int]:
+        """Get remaining tokens (budget - usage, None if no budget)."""
+        if self.budget is None:
+            return None
+        usage = self.usage or 0
+        return max(0, self.budget - usage)
+
+    @property
+    def is_over_budget(self) -> bool:
+        """Check if usage exceeds budget."""
+        if self.budget is None or self.usage is None:
+            return False
+        return self.usage > self.budget
+
+    @property
+    def is_within_budget(self) -> bool:
+        """Check if usage is within budget (or no budget set)."""
+        return not self.is_over_budget
 
 from vibey.roadmap.models.ticket.completable import Completable, Criterion
 from vibey.roadmap.models.ticket.enums import Priority, TicketStatus
@@ -266,6 +522,32 @@ class Ticket(Completable):
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
         description="Additional metadata"
+    )
+
+    # =========================================================================
+    # TOKEN TRACKING (Layer 1 - Local Values Only)
+    # =========================================================================
+    # Token tracking per direction (each with own enforcement)
+    # These are LOCAL values. Aggregation happens in HierarchicalTicket (Layer 2).
+
+    input_tokens: Optional[Tokens] = Field(
+        default=None,
+        description="Token tracking for input direction (estimate, budget, usage, enforcement)"
+    )
+    output_tokens: Optional[Tokens] = Field(
+        default=None,
+        description="Token tracking for output direction (estimate, budget, usage, enforcement)"
+    )
+
+    # Optional combined budget at ticket level
+    total_token_budget: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Combined budget for input + output tokens"
+    )
+    total_token_enforcement: Optional[TokenEnforcement] = Field(
+        default=None,
+        description="Ticket-level enforcement settings (applies to combined usage)"
     )
 
     # =========================================================================
@@ -690,6 +972,12 @@ class Ticket(Completable):
 # =============================================================================
 
 __all__ = [
+    # Token models
+    "TokenEstimate",
+    "EscalationStep",
+    "TokenEnforcement",
+    "Tokens",
+    # Ticket models
     "GitCommit",
     "Ticket",
     "parse_task_markers",

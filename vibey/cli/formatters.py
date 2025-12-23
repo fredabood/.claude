@@ -322,8 +322,11 @@ def _get_status_icon(status: str) -> str:
         'not_started': '⚪',
         'in_progress': '🔵',
         'completed': '✅',
+        'production_ready': '✅',
+        'production_gate_check': '🔍',
         'blocked': '🔴',
         'paused': '⏸️',
+        'wont_do': '⛔',
     }
     return status_icons.get(status, '❓')
 

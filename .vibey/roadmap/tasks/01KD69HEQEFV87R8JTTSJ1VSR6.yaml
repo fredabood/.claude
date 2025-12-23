@@ -1,0 +1,56 @@
+task:
+  id: 01KD69HEQEFV87R8JTTSJ1VSR6
+  sprint_id: 01KD43809NC3FPJJ179MAZRKCK
+  track_id: 01KC39XSXJ39N12HWJ93F77KQ9
+  roadmap_id: vibey-framework-v2
+  task_type: development
+  title: "CLI: vibey roadmap db rebuild fails with missing SQLAlchemy"
+  description: |
+    When running `vibey roadmap db rebuild`, the command fails with:
+    ```
+    ModuleNotFoundError: No module named 'sqlalchemy'
+    ```
+
+    This indicates SQLAlchemy is not properly included as a dependency for the
+    roadmap database operations, or is not being installed during pip install.
+
+    **Reproduction:**
+    1. Install vibey: `pip install -e .`
+    2. Run: `vibey roadmap db rebuild`
+    3. Observe: ModuleNotFoundError
+
+    **Expected:** Command should work after standard pip install
+
+    **Workaround:** Install SQLAlchemy manually: `pip install sqlalchemy`
+
+    **Root Cause Investigation:**
+    - Check pyproject.toml dependencies
+    - Check if SQLAlchemy is in optional extras but required for db operations
+    - Ensure ORM imports are properly guarded
+
+    **Found during:** Token Estimation Sprint 1 task execution
+  status: not_started
+  blocked: false
+  created: '2025-12-23T20:00:00+00:00'
+  started: null
+  completed: null
+  assigned_agent: null
+  priority: high
+  phase_label: null
+  estimated_tokens: 1
+  actual_tokens: null
+  complexity: simple
+  gate_info: null
+  audit_results: null
+  dependencies: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  deliverables: []
+  commits: []
+  metadata:
+    last_updated: null
+    token_efficiency: null
+    duration_hours: null
+    reported_by: token-estimation-sprint-1

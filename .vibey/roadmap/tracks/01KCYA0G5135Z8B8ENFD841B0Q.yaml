@@ -2,11 +2,11 @@ track:
   id: 01KCYA0G5135Z8B8ENFD841B0Q
   name: Robust Token Estimation System
   roadmap_id: vibey-framework-v2
-  status: not_started
+  status: in_progress
   blocked: false
   priority: high
   created: '2025-12-20T12:00:00+00:00'
-  started: null
+  started: '2025-12-23T18:42:16Z'
   completed: null
   estimated_duration: null
   progress:
@@ -18,10 +18,10 @@ track:
   sprints:
   - id: 01KCYA0G5135Z8B8ENFD841B0R
     name: 'Sprint 1: Data Model Updates'
-    status: not_started
+    status: in_progress
     estimated_duration: null
     tasks_count: 3
-    started: null
+    started: '2025-12-23T18:42:16Z'
   - id: 01KCYA0G5135Z8B8ENFD841B0S
     name: 'Sprint 2: Estimation Algorithms'
     status: not_started

@@ -2,7 +2,7 @@ track:
   id: 01KC39XSXJ39N12HWJ93F77KQ9
   name: CLI Dogfooding Bug Fixes
   roadmap_id: vibey-framework-v2
-  status: in_progress
+  status: production_ready
   blocked: false
   priority: critical
   created: '2025-12-10T05:05:41.041645+00:00'
@@ -10,12 +10,180 @@ track:
   completed: '2025-12-22T22:45:25.705724+00:00'
   estimated_duration: null
   progress:
-    sprints_total: 0
+    sprints_total: 28
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
-  sprints: []
+    tasks_total: 135
+    tasks_completed: 133
+    completion_percent: 99.0
+  sprints:
+  - id: 01KC3AD75P4TW2MAWDWJC4YCMB
+    name: 'Sprint 1: CLI Startup Unblock'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 9
+    started: '2025-12-10T06:00:00+00:00'
+  - id: 01KC3AD76EK6TBPW0GEJD0P4M0
+    name: 'Sprint 2: ULID File Loading System'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 17
+    started: '2025-12-10T08:00:00+00:00'
+  - id: 01KC3AD77W9RD0RMA3S9N41EMF
+    name: 'Sprint 3: Database Synchronization'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 12
+    started: '2025-12-10T11:00:00+00:00'
+  - id: 01KC3AD78WY4Q2GB43KYWKKPYF
+    name: 'Sprint 4: Progress Auto-Update'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: '2025-12-10T12:00:00+00:00'
+  - id: 01KC3AD79BX8XBJY4R19NAF04A
+    name: 'Sprint 5: CLI Create Commands'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: '2025-12-10T17:00:00+00:00'
+  - id: 01KC3AD79XYWMC7HAGR0GPKV0A
+    name: 'Sprint 6: Tooling Polish'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: '2025-12-10T19:00:00+00:00'
+  - id: 01KC3AD7AEV9GYXG873QF4QEK3
+    name: 'Sprint 7: Activity Log Migration'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: '2025-12-10T21:00:00+00:00'
+  - id: 01KC4P55YG0C05YSWXR2YCS3C4
+    name: 'Sprint 8: Sync and Complete Command Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 2
+    started: '2025-12-11T02:30:00+00:00'
+  - id: 01KC4QN9S0778RKMVWB6RZ8QCT
+    name: 'Sprint 9: Flat Structure Task Loading'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 3
+    started: '2025-12-10T18:29:28.864113+00:00'
+  - id: 01KC4ZWAGDKBH0NK3X0SDN6YXN
+    name: 'Sprint 10: Hierarchical to Flat Structure Migration'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 14
+    started: '2025-12-11T18:00:00+00:00'
+  - id: 01KC8FG9CH36XTDCKYZPPEEQ93
+    name: 'Sprint 11: Database Dump Activity Log Bug'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KC8N9MCJ9FDF1X23BY7CA7E2
+    name: 'Sprint 12: YAML-SQLite Auto-Sync'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 1
+    started: '2025-12-15T22:58:16.638767+00:00'
+  - id: 01KC9J5GNH6NZDW61996R79M38
+    name: 'Sprint 13: Auto-Progress and Edit Command Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: null
+  - id: 01KCAH8XENHWJDQSEGJNRY5B4G
+    name: 'Sprint 10: Status Management CLI Gaps'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 4
+    started: '2025-12-15T22:57:41.127756+00:00'
+  - id: 01KCC74TQ2KB6CD81FJ7SJ709N
+    name: 'Sprint 14: YAML-DB Sync and Task Migration Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: null
+  - id: 01KCEWQQQA930VK1J282TC9XGS
+    name: 'Sprint 15: Roadmap Start Command Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 2
+    started: null
+  - id: 01KCH6XCTG0KQ4SCTBDQ4WQWAJ
+    name: 'Sprint 10: ULID Support in CLI Commands'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 2
+    started: null
+  - id: 01KCJ3VKAZFNRQPV73ND0QZD62
+    name: 'Sprint 16: Silent Sprint Skipping Bug'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 1
+    started: '2025-12-15T23:08:47.444112+00:00'
+  - id: 01KCJ5KBC53DKH35F09SZS3W9S
+    name: 'Sprint 17: Task Start/Edit Command Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 3
+    started: '2025-12-15T23:30:15.561033+00:00'
+  - id: 01KCMQCNPM0H28BW0WQ02PDESG
+    name: 'Sprint 18: Edit Command Validation Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 4
+    started: '2025-12-19T14:00:00+00:00'
+  - id: 01KCPKBMW8FPY2ZXC9GW06Z7ZG
+    name: 'Sprint 18: Track Status Auto-Update Bug'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 1
+    started: '2025-12-19T14:00:00+00:00'
+  - id: 01KCPTCV2GCHCXB2E354DY4EZA
+    name: 'Sprint 22: Architecture Modernization Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 2
+    started: '2025-12-19T14:00:00+00:00'
+  - id: 01KCPWXMWN4YYZJYT773SWE934
+    name: 'Sprint 23: Architecture Modernization Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 6
+    started: '2025-12-19T14:00:00+00:00'
+  - id: 01KCS5N87479C1CM0V1TDR527R
+    name: 'Sprint 19: Missing Typing Imports'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 1
+    started: '2025-12-19T14:00:00+00:00'
+  - id: 01KCVMA0EQTVNHR3A98Q96DEDW
+    name: 'Sprint 24: Progress Tracking and CLI Validation Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 3
+    started: '2025-12-19T15:49:54.690683+00:00'
+  - id: 01KCY39YJW8A3YDNTFJY5KMDGP
+    name: 'Sprint 10: Validation and Sync Bugs'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 5
+    started: '2025-12-20T15:57:20.390417+00:00'
+  - id: 01KCY7Y5263TVP5F4323X9GD9X
+    name: 'Sprint 27: Track Production Ready AttributeError'
+    status: production_ready
+    estimated_duration: null
+    tasks_count: 1
+    started: '2025-12-20T10:00:00+00:00'
+  - id: 01KD43809NC3FPJJ179MAZRKCK
+    name: 'Sprint 28: Deferred Task Schema and Progress Bugs'
+    status: in_progress
+    estimated_duration: null
+    tasks_count: 3
+    started: '2025-12-22T22:56:48.608338+00:00'
   dependencies: []
   blocks: []
   blocked_by: []
@@ -29,7 +197,7 @@ track:
   standards: []
   metadata:
     created_by: unknown
-    last_updated: '2025-12-23T15:36:44.392917+00:00'
+    last_updated: null
     design_doc: null
     implementation_plan: null
     notes: null

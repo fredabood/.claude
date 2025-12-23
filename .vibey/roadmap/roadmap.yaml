@@ -14,13 +14,13 @@ roadmap:
   completed: null
   deployed: null
   progress:
-    tracks_total: 46
-    tracks_completed: 28
-    sprints_total: 0
+    tracks_total: 52
+    tracks_completed: 0
+    sprints_total: 267
     sprints_completed: 0
-    tasks_total: 0
-    tasks_completed: 0
-    completion_percent: 0
+    tasks_total: 1681
+    tasks_completed: 1341
+    completion_percent: 80.0
   tracks:
   - id: 01KC2D0JK06MN77ZHAGAHF5VKB
     name: Aider Platform Port
@@ -182,6 +182,10 @@ roadmap:
     name: Embedded Task Migration
     status: production_ready
     priority: critical
+  - id: 01KC7TNS0SC0FX8TPGN9SG4J14
+    name: Coding Platform Compatibility
+    status: production_ready
+    priority: medium
   - id: 01KCMG30TJT8TYPH30WEM5T5Z9
     name: '[ARCHIVED] User Journey Audit Recommendation Implementation'
     status: wont_do
@@ -198,14 +202,34 @@ roadmap:
     name: Architecture Modernization
     status: production_ready
     priority: medium
+  - id: 01KCMTJQ3JRRW6CZFC4E63W8D6
+    name: Context System V2
+    status: production_ready
+    priority: medium
   - id: 01KCMTJRYBYR1CR69ZAHNFCSGR
     name: Git Submodule Integration
     status: production_ready
     priority: medium
   - id: 01KCVE6BV6W7FMHB2TPPBCF2EN
-    name: Semantic Platform Compatibility
+    name: PM Tool Integrations
     status: production_ready
     priority: medium
+  - id: 01KCYA0G5135Z8B8ENFD841B0Q
+    name: Robust Token Estimation System
+    status: in_progress
+    priority: high
+  - id: 01KCZF73PX9YNKWXKYVARY89MV
+    name: Implementation Mode (Autonomous Execution)
+    status: not_started
+    priority: high
+  - id: 01KD617KB2XD77QC428SZ2Q5RW
+    name: Agent Workflow & Handoff Architecture Review
+    status: in_progress
+    priority: high
+  - id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
+    name: Ticket Template System
+    status: in_progress
+    priority: high
   dependencies: []
   blocked_by: []
   version_history: []

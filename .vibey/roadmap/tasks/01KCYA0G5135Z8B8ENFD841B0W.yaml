@@ -48,10 +48,10 @@ task:
     \ final\n\nFiles to modify:\n- vibey/roadmap/models/ticket/ticket.py\n- vibey/roadmap/models/ticket/__init__.py\
     \ (export new models)\n\nDesign note: These are LOCAL values. Aggregation happens\
     \ in\nHierarchicalTicket (Layer 2) via computed properties.\n"
-  status: not_started
+  status: in_progress
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: null
+  started: '2025-12-23T18:43:57Z'
   completed: null
   assigned_agent: null
   priority: high

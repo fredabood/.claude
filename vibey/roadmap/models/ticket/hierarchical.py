@@ -38,7 +38,7 @@ from vibey.roadmap.models.ticket.targets import (
     TestPassesTarget,
     ThresholdTarget,
 )
-from vibey.roadmap.models.ticket.ticket import GitCommit, Ticket
+from vibey.roadmap.models.ticket.ticket import GitCommit, Ticket, Tokens, TokenEstimate
 from vibey.roadmap.models.ticket.artifact_enums import (
     ArtifactVerification,
     DocumentationHealth,
@@ -822,6 +822,126 @@ class HierarchicalTicket(Ticket):
             child.computed_tokens
             for child in self.children_tickets
         )
+
+    # =========================================================================
+    # TOKEN AGGREGATION (Layer 2 - Aggregate from Children)
+    # =========================================================================
+
+    @computed_field
+    @property
+    def input_tokens_aggregated(self) -> Tokens:
+        """
+        Aggregate input token data from all descendants.
+
+        - Leaf tickets (is_ultimate_child): return local input_tokens
+        - Parent tickets: aggregate estimates and usage from children
+
+        Design notes:
+        - Estimates and usage aggregate UP from children
+        - Budgets are set at each level (not aggregated from children)
+        - Parent budget covers all descendant usage
+        """
+        if not self.is_parent:
+            return self.input_tokens or Tokens()
+
+        # Aggregate estimates from children
+        estimate = TokenEstimate(min=0, max=0, target=0)
+        total_usage = 0
+
+        for child in self.children_tickets:
+            child_tokens = child.input_tokens_aggregated
+            if child_tokens.estimate:
+                estimate = TokenEstimate(
+                    min=(estimate.min or 0) + (child_tokens.estimate.min or 0),
+                    max=(estimate.max or 0) + (child_tokens.estimate.max or 0),
+                    target=(estimate.target or 0) + (child_tokens.estimate.target or 0),
+                )
+            if child_tokens.usage:
+                total_usage += child_tokens.usage
+
+        return Tokens(
+            estimate=estimate,
+            # Budget comes from THIS ticket (not aggregated from children)
+            budget=self.input_tokens.budget if self.input_tokens else None,
+            # Usage is sum of children
+            usage=total_usage if total_usage > 0 else None,
+        )
+
+    @computed_field
+    @property
+    def output_tokens_aggregated(self) -> Tokens:
+        """
+        Aggregate output token data from all descendants.
+
+        - Leaf tickets (is_ultimate_child): return local output_tokens
+        - Parent tickets: aggregate estimates and usage from children
+
+        Design notes:
+        - Estimates and usage aggregate UP from children
+        - Budgets are set at each level (not aggregated from children)
+        - Parent budget covers all descendant usage
+        """
+        if not self.is_parent:
+            return self.output_tokens or Tokens()
+
+        # Aggregate estimates from children
+        estimate = TokenEstimate(min=0, max=0, target=0)
+        total_usage = 0
+
+        for child in self.children_tickets:
+            child_tokens = child.output_tokens_aggregated
+            if child_tokens.estimate:
+                estimate = TokenEstimate(
+                    min=(estimate.min or 0) + (child_tokens.estimate.min or 0),
+                    max=(estimate.max or 0) + (child_tokens.estimate.max or 0),
+                    target=(estimate.target or 0) + (child_tokens.estimate.target or 0),
+                )
+            if child_tokens.usage:
+                total_usage += child_tokens.usage
+
+        return Tokens(
+            estimate=estimate,
+            # Budget comes from THIS ticket (not aggregated from children)
+            budget=self.output_tokens.budget if self.output_tokens else None,
+            # Usage is sum of children
+            usage=total_usage if total_usage > 0 else None,
+        )
+
+    @computed_field
+    @property
+    def total_tokens_aggregated(self) -> dict:
+        """
+        Combined token summary for input and output.
+
+        Returns a dictionary with:
+        - estimate_total: Combined target estimate (input + output)
+        - usage_total: Combined actual usage (input + output)
+        - budget: The total_token_budget for this ticket (if set)
+        - within_budget: Whether usage is within budget
+        """
+        input_agg = self.input_tokens_aggregated
+        output_agg = self.output_tokens_aggregated
+
+        estimate_total = (
+            (input_agg.estimate.target or 0 if input_agg.estimate else 0) +
+            (output_agg.estimate.target or 0 if output_agg.estimate else 0)
+        )
+        usage_total = (
+            (input_agg.usage or 0) +
+            (output_agg.usage or 0)
+        )
+
+        # Check if within budget
+        within_budget = True
+        if self.total_token_budget is not None and usage_total > 0:
+            within_budget = usage_total <= self.total_token_budget
+
+        return {
+            'estimate_total': estimate_total,
+            'usage_total': usage_total,
+            'budget': self.total_token_budget,
+            'within_budget': within_budget,
+        }
 
     def _load_ticket(self, ticket_id: str) -> "HierarchicalTicket":
         """Load a ticket by ID using the configured loader."""

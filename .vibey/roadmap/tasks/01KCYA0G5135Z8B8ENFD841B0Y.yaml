@@ -36,10 +36,10 @@ task:
     \ in YAML, flattened in SQLite\n- Enforcement stored as JSON in SQLite (complex\
     \ nested structure)\n- Handle null/missing values gracefully\n"
   status: completed
-  blocked: false
+  blocked: true
   created: '2025-12-20T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-23T18:55:00+00:00'
+  completed: '2025-12-23T19:00:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

@@ -51,8 +51,8 @@ task:
   status: completed
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: '2025-12-23T18:43:57Z'
-  completed: null
+  started: '2025-12-23T18:43:57+00:00'
+  completed: '2025-12-23T18:55:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

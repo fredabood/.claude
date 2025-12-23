@@ -26,8 +26,16 @@ Usage:
 """
 
 from vibey.services.ticket_service import TicketService, TicketServiceError
+from vibey.services.token_estimator import (
+    TokenEstimator,
+    EstimationResult,
+    estimate_tokens,
+)
 
 __all__ = [
     "TicketService",
     "TicketServiceError",
+    "TokenEstimator",
+    "EstimationResult",
+    "estimate_tokens",
 ]

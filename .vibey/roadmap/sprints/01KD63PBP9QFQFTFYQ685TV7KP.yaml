@@ -6,7 +6,7 @@ sprint:
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-23T17:15:00.000000+00:00'
+  created: '2025-12-23T17:15:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -27,31 +27,38 @@ sprint:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KD63PBP70XXPP3VRZGXP21M2
+  - blocker_id: 01KD63PBP70XXPP3VRZGXP21M2
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-12-23T18:04:27.297121Z'
   depended_on_by: []
   plan_file: null
   deliverables:
-    - Documentation Update template
-    - User Journey Update template
-    - Unit Test Creation template
-    - Integration Test template
-    - Code Review template
-    - Feature Release template
-  description: Create built-in templates for common development workflows that can be used out-of-the-box or customized.
+  - Documentation Update template
+  - User Journey Update template
+  - Unit Test Creation template
+  - Integration Test template
+  - Code Review template
+  - Feature Release template
+  description: Create built-in templates for common development workflows that can
+    be used out-of-the-box or customized.
   goal: Provide ready-to-use templates for common workflows
   success_criteria:
-    - Each template covers complete workflow
-    - Templates include appropriate criteria
-    - Templates have clear stage progression
-    - Templates can be customized by users
+  - Each template covers complete workflow
+  - Templates include appropriate criteria
+  - Templates have clear stage progression
+  - Templates can be customized by users
   risks: []
-  notes: These templates encode best practices for common development activities and ensure consistency across the project.
+  notes: These templates encode best practices for common development activities and
+    ensure consistency across the project.
   assigned_agents: []
   quality_gates: []
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-23T17:15:00.000000+00:00'
+    last_updated: '2025-12-23T17:15:00+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

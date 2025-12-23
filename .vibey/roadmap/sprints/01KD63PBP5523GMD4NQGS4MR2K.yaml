@@ -4,9 +4,9 @@ sprint:
   track_id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
   roadmap_id: vibey-framework-v2
   status: not_started
-  blocked: false
+  blocked: true
   blocked_reason: null
-  created: '2025-12-23T17:15:00.000000+00:00'
+  created: '2025-12-23T17:15:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -27,24 +27,30 @@ sprint:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KD63PBP40YZX3EQDJNSDC95K
+  - blocker_id: 01KD63PBP40YZX3EQDJNSDC95K
+    blocker_type: sprint
+    required_status: completed
+    current_status: completion_gate_check
+    blocks_transition_to: completed
+    last_checked: '2025-12-23T23:05:46.607488+00:00'
   depended_on_by: []
   plan_file: null
   deliverables:
-    - Template model class
-    - TemplateStage model class
-    - TemplateCriterion model class
-    - Parent/child relationship implementation
-    - YAML serialization for templates
-    - SQL schema for templates
-  description: Implement the core template data models including Template, TemplateStage, TemplateCriterion, and their relationships.
+  - Template model class
+  - TemplateStage model class
+  - TemplateCriterion model class
+  - Parent/child relationship implementation
+  - YAML serialization for templates
+  - SQL schema for templates
+  description: Implement the core template data models including Template, TemplateStage,
+    TemplateCriterion, and their relationships.
   goal: Create the template data model layer
   success_criteria:
-    - Template model with all required fields
-    - Stage hierarchy working correctly
-    - Criteria inheritance implemented
-    - YAML round-trip serialization working
-    - SQLite schema created
+  - Template model with all required fields
+  - Stage hierarchy working correctly
+  - Criteria inheritance implemented
+  - YAML round-trip serialization working
+  - SQLite schema created
   risks: []
   notes: null
   assigned_agents: []
@@ -52,7 +58,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-23T17:15:00.000000+00:00'
+    last_updated: '2025-12-23T17:15:00+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

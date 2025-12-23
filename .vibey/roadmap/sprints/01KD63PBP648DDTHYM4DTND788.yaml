@@ -6,7 +6,7 @@ sprint:
   status: not_started
   blocked: false
   blocked_reason: null
-  created: '2025-12-23T17:15:00.000000+00:00'
+  created: '2025-12-23T17:15:00+00:00'
   started: null
   completion_gate_check_at: null
   completed: null
@@ -27,22 +27,28 @@ sprint:
   blocks: []
   blocked_by: []
   depends_on:
-    - 01KD63PBP5523GMD4NQGS4MR2K
+  - blocker_id: 01KD63PBP5523GMD4NQGS4MR2K
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-12-23T18:05:37.632395Z'
   depended_on_by: []
   plan_file: null
   deliverables:
-    - Template creation operations
-    - Template instantiation (create tickets from template)
-    - Template update operations
-    - Template deletion with safety checks
-    - Template versioning support
-  description: Implement CRUD operations for templates including the critical instantiation process that creates tickets from templates.
+  - Template creation operations
+  - Template instantiation (create tickets from template)
+  - Template update operations
+  - Template deletion with safety checks
+  - Template versioning support
+  description: Implement CRUD operations for templates including the critical instantiation
+    process that creates tickets from templates.
   goal: Enable full template lifecycle management
   success_criteria:
-    - Templates can be created, read, updated, deleted
-    - Instantiation creates correct ticket hierarchy
-    - Criteria properly copied to instantiated tickets
-    - Template versioning tracks changes
+  - Templates can be created, read, updated, deleted
+  - Instantiation creates correct ticket hierarchy
+  - Criteria properly copied to instantiated tickets
+  - Template versioning tracks changes
   risks: []
   notes: null
   assigned_agents: []
@@ -50,7 +56,7 @@ sprint:
   commits: []
   standards: []
   metadata:
-    last_updated: '2025-12-23T17:15:00.000000+00:00'
+    last_updated: '2025-12-23T17:15:00+00:00'
     estimated_duration: null
     actual_duration: null
     estimated_tokens: null

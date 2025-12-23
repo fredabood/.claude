@@ -35,8 +35,8 @@ task:
     \nNotes:\n- Aggregated values computed at runtime (not stored)\n- Nested structure\
     \ in YAML, flattened in SQLite\n- Enforcement stored as JSON in SQLite (complex\
     \ nested structure)\n- Handle null/missing values gracefully\n"
-  status: not_started
-  blocked: true
+  status: in_progress
+  blocked: false
   created: '2025-12-20T12:00:00+00:00'
   started: null
   completed: null

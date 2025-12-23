@@ -59,7 +59,7 @@ def roadmap_init_cmd(name: str, version: str) -> int:
     )
 
 
-def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None) -> int:
+def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None, include_wont_do: bool = False) -> int:
     """Show roadmap status."""
     root_dir = Path.cwd()  # Project root
 
@@ -72,7 +72,7 @@ def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None
             print(format_track_details(result))
         else:
             result = query_roadmap_summary(root_dir)
-            print(format_roadmap_summary(result))
+            print(format_roadmap_summary(result, include_wont_do=include_wont_do))
         return 0
     except Exception as e:
         print(format_error(str(e)))

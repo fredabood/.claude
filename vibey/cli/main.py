@@ -149,12 +149,13 @@ def roadmap_init(ctx, name: str, version: str):
 @roadmap.command('status')
 @click.option('--track', help='Show status for specific track')
 @click.option('--sprint', help='Show status for specific sprint')
+@click.option('--include-wont-do', '-w', is_flag=True, help='Include wont_do items (hidden by default)')
 @click.pass_context
-def roadmap_status(ctx, track: Optional[str], sprint: Optional[str]):
+def roadmap_status(ctx, track: Optional[str], sprint: Optional[str], include_wont_do: bool):
     """Show roadmap status - tracks, sprints, and tasks"""
     from vibey.cli.commands import roadmap_status_cmd
 
-    exit_code = roadmap_status_cmd(track, sprint)
+    exit_code = roadmap_status_cmd(track, sprint, include_wont_do=include_wont_do)
     sys.exit(exit_code)
 
 

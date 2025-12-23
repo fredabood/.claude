@@ -666,6 +666,32 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
                     track = load_track(track_summary.id, root_dir=root_dir)
                 else:
                     track = load_track(track_path, root_dir=root_dir)
+                # Include sprint summaries with their statuses and progress for filtering
+                sprints_data = []
+                for s in track.sprints:
+                    sprint_info = {
+                        "id": s.id,
+                        "name": s.name,
+                        "status": s.status.value,
+                        "tasks_count": s.tasks_count or 0,
+                        "tasks_completed": 0,
+                        "tasks_total": 0,
+                    }
+                    # Try to load sprint for detailed progress
+                    try:
+                        sprint_path = fs.get_sprint_path(s.id)
+                        if use_sqlite:
+                            sprint = load_sprint(s.id, root_dir=root_dir)
+                        elif sprint_path.exists():
+                            sprint = load_sprint(sprint_path, root_dir=root_dir)
+                        else:
+                            sprint = None
+                        if sprint:
+                            sprint_info["tasks_completed"] = sprint.progress.tasks_completed
+                            sprint_info["tasks_total"] = sprint.progress.tasks_total
+                    except Exception:
+                        pass  # Use defaults
+                    sprints_data.append(sprint_info)
                 tracks_data.append({
                     "id": track.id,
                     "name": track.name,
@@ -677,6 +703,7 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
                         "sprints_total": track.progress.sprints_total,
                         "completion_percent": track.progress.completion_percent,
                     },
+                    "sprints": sprints_data,
                 })
             except Exception:
                 # Fall back to summary data if track can't be loaded
@@ -691,6 +718,7 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
                         "sprints_total": 0,
                         "completion_percent": 0,
                     },
+                    "sprints": [],
                 })
         else:
             # Track file doesn't exist, use summary
@@ -705,6 +733,7 @@ def _get_tracks_with_progress(fs: FileSystemManager, track_summaries, root_dir: 
                     "sprints_total": 0,
                     "completion_percent": 0,
                 },
+                "sprints": [],
             })
     return tracks_data
 

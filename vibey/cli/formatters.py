@@ -11,12 +11,13 @@ from rich.console import Console
 console = Console()
 
 
-def format_roadmap_summary(data: Dict[str, Any]) -> str:
+def format_roadmap_summary(data: Dict[str, Any], include_wont_do: bool = False) -> str:
     """
     Format roadmap summary for CLI display.
 
     Args:
         data: Roadmap summary dict from query_roadmap_summary()
+        include_wont_do: If True, include tracks with wont_do status (hidden by default)
 
     Returns:
         Formatted string for display
@@ -31,19 +32,52 @@ def format_roadmap_summary(data: Dict[str, Any]) -> str:
     output.append("=" * 70)
     output.append("")
 
-    tracks = data.get('tracks', [])
+    all_tracks = data.get('tracks', [])
+
+    # Filter out wont_do tracks unless explicitly requested
+    if include_wont_do:
+        tracks = all_tracks
+    else:
+        tracks = [t for t in all_tracks if t.get('status') != 'wont_do']
+
     if not tracks:
-        output.append("No tracks found. The roadmap is empty.")
+        if all_tracks and not include_wont_do:
+            output.append("No active tracks found. Use --include-wont-do to show all tracks.")
+        else:
+            output.append("No tracks found. The roadmap is empty.")
         return "\n".join(output)
 
-    output.append(f"📊 Tracks: {len(tracks)}")
+    # Show count with hidden tracks note
+    if include_wont_do:
+        output.append(f"📊 Tracks: {len(tracks)}")
+    else:
+        hidden_count = len(all_tracks) - len(tracks)
+        if hidden_count > 0:
+            output.append(f"📊 Tracks: {len(tracks)} ({hidden_count} wont_do hidden, use -w to show)")
+        else:
+            output.append(f"📊 Tracks: {len(tracks)}")
     output.append("")
 
     for track in tracks:
         status_icon = _get_status_icon(track.get('status'))
-        progress = track.get('progress', {})
-        tasks_done = progress.get('tasks_completed', 0)
-        tasks_total = progress.get('tasks_total', 0)
+
+        # Calculate progress, optionally excluding wont_do sprints
+        sprints = track.get('sprints', [])
+        if include_wont_do:
+            active_sprints = sprints
+        else:
+            active_sprints = [s for s in sprints if s.get('status') != 'wont_do']
+
+        # If we have sprint data, calculate from it; otherwise use stored progress
+        if active_sprints or (sprints and not include_wont_do):
+            tasks_done = sum(s.get('tasks_completed', 0) for s in active_sprints)
+            tasks_total = sum(s.get('tasks_total', 0) for s in active_sprints)
+        else:
+            # Fallback to stored progress
+            progress = track.get('progress', {})
+            tasks_done = progress.get('tasks_completed', 0)
+            tasks_total = progress.get('tasks_total', 0)
+
         pct = (tasks_done / tasks_total * 100) if tasks_total > 0 else 0
 
         output.append(f"{status_icon} {track.get('id', 'unknown')}")

@@ -15,10 +15,10 @@ def roadmap_init_cmd(name: str, version: str) -> int:
     return impl(name=name, version=version)
 
 
-def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None) -> int:
+def roadmap_status_cmd(track: Optional[str] = None, sprint: Optional[str] = None, include_wont_do: bool = False) -> int:
     """Show roadmap status."""
     from vibey.cli.commands import roadmap_status_cmd as impl
-    return impl(track=track, sprint=sprint)
+    return impl(track=track, sprint=sprint, include_wont_do=include_wont_do)
 
 
 def roadmap_sync_cmd(verbose: bool = False) -> int:

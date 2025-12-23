@@ -15,6 +15,9 @@ def format_roadmap_summary(data: Dict[str, Any], include_wont_do: bool = False) 
     """
     Format roadmap summary for CLI display.
 
+    Shows detailed view of incomplete tracks with sprint breakdowns,
+    and a compact summary of completed tracks.
+
     Args:
         data: Roadmap summary dict from query_roadmap_summary()
         include_wont_do: If True, include tracks with wont_do status (hidden by default)
@@ -26,11 +29,10 @@ def format_roadmap_summary(data: Dict[str, Any], include_wont_do: bool = False) 
         return f"❌ Error: {data['error']}"
 
     output = []
-    output.append("=" * 70)
+    output.append("=" * 78)
     output.append(f"📋 Roadmap: {data.get('name', 'Unknown')}")
     output.append(f"Version: {data.get('version', 'Unknown')}")
-    output.append("=" * 70)
-    output.append("")
+    output.append("=" * 78)
 
     all_tracks = data.get('tracks', [])
 
@@ -47,44 +49,154 @@ def format_roadmap_summary(data: Dict[str, Any], include_wont_do: bool = False) 
             output.append("No tracks found. The roadmap is empty.")
         return "\n".join(output)
 
-    # Show count with hidden tracks note
-    if include_wont_do:
-        output.append(f"📊 Tracks: {len(tracks)}")
-    else:
-        hidden_count = len(all_tracks) - len(tracks)
-        if hidden_count > 0:
-            output.append(f"📊 Tracks: {len(tracks)} ({hidden_count} wont_do hidden, use -w to show)")
-        else:
-            output.append(f"📊 Tracks: {len(tracks)}")
-    output.append("")
+    # Categorize tracks
+    in_progress_tracks = []
+    not_started_tracks = []
+    completed_tracks = []
 
     for track in tracks:
-        status_icon = _get_status_icon(track.get('status'))
-
-        # Calculate progress, optionally excluding wont_do sprints
+        track_status = track.get('status', '')
         sprints = track.get('sprints', [])
-        if include_wont_do:
-            active_sprints = sprints
-        else:
-            active_sprints = [s for s in sprints if s.get('status') != 'wont_do']
+        if not include_wont_do:
+            sprints = [s for s in sprints if s.get('status') != 'wont_do']
 
-        # If we have sprint data, calculate from it; otherwise use stored progress
-        if active_sprints or (sprints and not include_wont_do):
-            tasks_done = sum(s.get('tasks_completed', 0) for s in active_sprints)
-            tasks_total = sum(s.get('tasks_total', 0) for s in active_sprints)
-        else:
-            # Fallback to stored progress
-            progress = track.get('progress', {})
-            tasks_done = progress.get('tasks_completed', 0)
-            tasks_total = progress.get('tasks_total', 0)
-
+        tasks_done = sum(s.get('tasks_completed', 0) for s in sprints)
+        tasks_total = sum(s.get('tasks_total', 0) for s in sprints)
         pct = (tasks_done / tasks_total * 100) if tasks_total > 0 else 0
 
-        output.append(f"{status_icon} {track.get('id', 'unknown')}")
-        output.append(f"   {track.get('name', 'Unknown Track')}")
-        output.append(f"   Progress: {tasks_done}/{tasks_total} tasks ({pct:.0f}%)")
-        output.append(f"   {_render_progress_bar(pct)}")
+        track_info = {
+            **track,
+            'sprints': sprints,
+            'tasks_done': tasks_done,
+            'tasks_total': tasks_total,
+            'pct': pct,
+        }
+
+        if track_status == 'in_progress':
+            in_progress_tracks.append(track_info)
+        elif track_status == 'not_started':
+            not_started_tracks.append(track_info)
+        elif pct < 100 and tasks_total > 0:
+            # Incomplete but marked production_ready - anomaly
+            in_progress_tracks.append(track_info)
+        else:
+            completed_tracks.append(track_info)
+
+    # Sort in_progress by completion percentage descending
+    in_progress_tracks.sort(key=lambda t: t['pct'], reverse=True)
+
+    # Calculate totals
+    total_incomplete = len(in_progress_tracks) + len(not_started_tracks)
+    total_completed = len(completed_tracks)
+    hidden_count = len(all_tracks) - len(tracks)
+
+    # Header summary
+    output.append("")
+    if hidden_count > 0:
+        output.append(f"📊 {total_incomplete} incomplete, {total_completed} complete ({hidden_count} wont_do hidden, use -w)")
+    else:
+        output.append(f"📊 {total_incomplete} incomplete, {total_completed} complete")
+
+    # === IN-PROGRESS TRACKS ===
+    if in_progress_tracks:
         output.append("")
+        output.append("=" * 78)
+        output.append("🔵 IN-PROGRESS TRACKS")
+        output.append("=" * 78)
+
+        for track in in_progress_tracks:
+            output.append("")
+            tasks_remaining = track['tasks_total'] - track['tasks_done']
+            output.append(f"📦 {track.get('name', 'Unknown')} — {track['pct']:.0f}% ({track['tasks_done']}/{track['tasks_total']} tasks)")
+
+            sprints = track.get('sprints', [])
+            # Count sprint statuses
+            sprints_complete = sum(1 for s in sprints if s.get('status') == 'production_ready')
+            sprints_in_progress = sum(1 for s in sprints if s.get('status') == 'in_progress')
+            sprints_not_started = sum(1 for s in sprints if s.get('status') == 'not_started')
+
+            output.append(f"   Sprints: {sprints_complete} complete, {sprints_in_progress} in_progress, {sprints_not_started} not_started")
+
+            # Show incomplete sprints with task progress
+            incomplete_sprints = [s for s in sprints if s.get('status') != 'production_ready']
+            # Sort by completion percentage descending
+            incomplete_sprints.sort(
+                key=lambda s: (s.get('tasks_completed', 0) / max(s.get('tasks_total', 1), 1)),
+                reverse=True
+            )
+
+            for sprint in incomplete_sprints:
+                s_icon = _get_status_icon(sprint.get('status'))
+                s_done = sprint.get('tasks_completed', 0)
+                s_total = sprint.get('tasks_total', 0)
+                s_pct = (s_done / s_total * 100) if s_total > 0 else 0
+                output.append(f"   {s_icon} {sprint.get('name', 'Unknown')} ({s_done}/{s_total} tasks, {s_pct:.0f}%)")
+
+    # === NOT-STARTED TRACKS ===
+    if not_started_tracks:
+        output.append("")
+        output.append("=" * 78)
+        output.append("⚪ NOT-STARTED TRACKS")
+        output.append("=" * 78)
+
+        for track in not_started_tracks:
+            output.append("")
+            output.append(f"📦 {track.get('name', 'Unknown')} — {track['tasks_total']} tasks")
+
+            sprints = track.get('sprints', [])
+            output.append(f"   Sprints: {len(sprints)}")
+
+            for sprint in sprints:
+                s_total = sprint.get('tasks_total', 0)
+                output.append(f"   ⚪ {sprint.get('name', 'Unknown')} ({s_total} tasks)")
+
+    # === COMPLETED TRACKS (compact) ===
+    if completed_tracks:
+        output.append("")
+        output.append("=" * 78)
+        output.append(f"✅ COMPLETED TRACKS ({len(completed_tracks)})")
+        output.append("=" * 78)
+        output.append("")
+
+        # Show as compact list
+        for track in completed_tracks:
+            tasks_info = f"{track['tasks_done']}/{track['tasks_total']}" if track['tasks_total'] > 0 else "no tasks"
+            output.append(f"   ✅ {track.get('name', 'Unknown')} ({tasks_info})")
+
+    # === SUMMARY TABLE ===
+    output.append("")
+    output.append("=" * 78)
+    output.append("📊 SUMMARY")
+    output.append("=" * 78)
+    output.append("")
+    output.append("Track                                    | Status      | Sprints      | Tasks       | %")
+    output.append("-" * 78)
+
+    # Show incomplete tracks in summary
+    for track in in_progress_tracks + not_started_tracks:
+        name = track.get('name', 'Unknown')[:39]
+        status = track.get('status', '')[:11]
+        sprints = track.get('sprints', [])
+        sprints_complete = sum(1 for s in sprints if s.get('status') == 'production_ready')
+        sprints_ip = sum(1 for s in sprints if s.get('status') == 'in_progress')
+
+        sprint_str = f"{sprints_complete}/{len(sprints)}"
+        if sprints_ip > 0:
+            sprint_str += f" ({sprints_ip}ip)"
+
+        task_str = f"{track['tasks_done']}/{track['tasks_total']}"
+        pct_str = f"{track['pct']:.0f}%"
+
+        output.append(f"{name:<40} | {status:<11} | {sprint_str:<12} | {task_str:<11} | {pct_str}")
+
+    output.append("-" * 78)
+
+    # Totals
+    total_tasks_done = sum(t['tasks_done'] for t in in_progress_tracks + not_started_tracks)
+    total_tasks = sum(t['tasks_total'] for t in in_progress_tracks + not_started_tracks)
+    total_sprints = sum(len(t.get('sprints', [])) for t in in_progress_tracks + not_started_tracks)
+    output.append(f"TOTALS: {total_incomplete} incomplete tracks, {total_sprints} sprints, {total_tasks - total_tasks_done} tasks remaining")
+    output.append("")
 
     return "\n".join(output)
 

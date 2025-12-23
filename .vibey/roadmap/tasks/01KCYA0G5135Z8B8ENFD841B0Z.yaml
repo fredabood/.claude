@@ -30,11 +30,11 @@ task:
     \ → typical input/output ratios\n- Complexity → multipliers for each level\n\n\
     The service generates estimates that integrate with the Tokens model\nfrom Sprint\
     \ 1, keeping estimate/budget/usage cleanly separated.\n"
-  status: not_started
+  status: completed
   blocked: false
   created: '2025-12-20T12:00:00+00:00'
-  started: null
-  completed: null
+  started: '2025-12-23T22:00:00+00:00'
+  completed: '2025-12-23T22:30:00+00:00'
   assigned_agent: null
   priority: high
   phase_label: null

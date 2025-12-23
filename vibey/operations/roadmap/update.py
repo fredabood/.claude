@@ -1586,6 +1586,7 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
                             mock_task = MockTask()
                             mock_task.task_type = task_type
                             mock_task.status = TaskStatus(task_status_str)
+                            mock_task.deferred = task_data.get('deferred', False)
                             tasks.append(mock_task)
                     except Exception:
                         continue
@@ -1599,20 +1600,26 @@ def _update_sprint_progress(fs: FileSystemManager, sprint_id: str):
         tasks = load_tasks(tasks_path)
 
     # Calculate progress by task type
+    # NOTE: Deferred tasks are excluded from progress calculations.
+    # A sprint with only deferred incomplete tasks will auto-progress to completed.
     from vibey.roadmap.models import TaskType
 
-    # Development tasks
-    dev_tasks = [t for t in tasks if t.task_type == TaskType.DEVELOPMENT]
+    # Helper to check if task is deferred
+    def is_deferred(t):
+        return getattr(t, 'deferred', False)
+
+    # Development tasks (exclude deferred from totals)
+    dev_tasks = [t for t in tasks if t.task_type == TaskType.DEVELOPMENT and not is_deferred(t)]
     dev_total = len(dev_tasks)
     dev_completed = len([t for t in dev_tasks if t.status == TaskStatus.COMPLETED])
 
-    # Completion gate tasks
-    comp_gate_tasks = [t for t in tasks if t.task_type == TaskType.COMPLETION_GATE]
+    # Completion gate tasks (exclude deferred from totals)
+    comp_gate_tasks = [t for t in tasks if t.task_type == TaskType.COMPLETION_GATE and not is_deferred(t)]
     comp_gate_total = len(comp_gate_tasks)
     comp_gate_completed = len([t for t in comp_gate_tasks if t.status == TaskStatus.COMPLETED])
 
-    # Production gate tasks
-    prod_gate_tasks = [t for t in tasks if t.task_type == TaskType.PRODUCTION_GATE]
+    # Production gate tasks (exclude deferred from totals)
+    prod_gate_tasks = [t for t in tasks if t.task_type == TaskType.PRODUCTION_GATE and not is_deferred(t)]
     prod_gate_total = len(prod_gate_tasks)
     prod_gate_completed = len([t for t in prod_gate_tasks if t.status == TaskStatus.COMPLETED])
 

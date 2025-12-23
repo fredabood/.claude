@@ -170,12 +170,12 @@ Update the revert transition map to support:
 | Task | Title | Status | Priority | Depends On |
 |------|-------|--------|----------|------------|
 | 1 | Add deferred column to database schema | **COMPLETED** | Medium | Task 5 |
-| 2 | Sprint auto-progress should skip deferred tasks | Not Started | Medium | Task 1 |
+| 2 | Sprint auto-progress should skip deferred tasks | **COMPLETED** | Medium | Task 1 |
 | 3 | CLI edit validation doesn't recognize production_ready | **COMPLETED** | High | - |
 | 4 | CLI revert doesn't support production_ready transitions | **COMPLETED** | Medium | - |
 | 5 | Fix blocker_type CHECK constraint violation | **COMPLETED** | Critical | - |
 
-**Completion:** 4/5 tasks (80%)
+**Completion:** 5/5 tasks (100%)
 
 ## Completed Tasks
 
@@ -206,6 +206,13 @@ Update the revert transition map to support:
 - Updated `commands_legacy.py` valid_transitions to support full lifecycle
 - Added proper timestamp clearing for all status levels
 - Commit: f8988188
+
+### Task 2 - COMPLETED (2025-12-23)
+- Modified `vibey/operations/roadmap/update.py` lines 1602-1624
+- Added helper `is_deferred()` function to check task deferred status
+- Modified progress calculations to exclude deferred tasks from totals
+- Added `deferred` attribute to MockTask for v2 format tasks
+- Verified: Sprint with only deferred incomplete tasks now auto-progresses
 
 ## Related Work
 - Sprint 10: Validation and Sync Bugs (Task 4 - deferred) - original bug for YAML progress sync

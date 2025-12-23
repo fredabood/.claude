@@ -1,0 +1,56 @@
+sprint:
+  id: 01KD63PBP40YZX3EQDJNSDC95K
+  name: 'Sprint 0: Template System Design'
+  track_id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
+  roadmap_id: vibey-framework-v2
+  status: in_progress
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-23T17:15:00.000000+00:00'
+  started: '2025-12-23T17:15:00.000000+00:00'
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on: []
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+    - Template data model design document
+    - Template schema specification
+    - Parent/child relationship design
+    - Template instantiation process design
+  description: Design the template system architecture including data models, schema, parent/child relationships, and instantiation process.
+  goal: Define the complete template system architecture
+  success_criteria:
+    - Template model fully specified
+    - Stage/step hierarchy defined
+    - Criteria inheritance rules documented
+    - Instantiation workflow designed
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-23T17:15:00.000000+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

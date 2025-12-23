@@ -1,0 +1,59 @@
+sprint:
+  id: 01KD63PBP70XXPP3VRZGXP21M2
+  name: 'Sprint 3: Template CLI Commands'
+  track_id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-23T17:15:00.000000+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+    - 01KD63PBP648DDTHYM4DTND788
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+    - vibey template create command
+    - vibey template list command
+    - vibey template show command
+    - vibey template instantiate command
+    - vibey template update command
+    - vibey template delete command
+  description: Create CLI commands for template management including create, list, show, instantiate, update, and delete operations.
+  goal: Provide full CLI access to template system
+  success_criteria:
+    - All template CRUD commands working
+    - Instantiate command creates proper ticket hierarchy
+    - List shows available templates with metadata
+    - Show displays full template structure
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-23T17:15:00.000000+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

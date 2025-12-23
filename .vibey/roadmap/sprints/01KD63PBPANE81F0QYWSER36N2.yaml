@@ -1,0 +1,64 @@
+sprint:
+  id: 01KD63PBPANE81F0QYWSER36N2
+  name: 'Sprint 5: Template Integration'
+  track_id: 01KD63P4NHSQJ9ZVYGR6MR9JW9
+  roadmap_id: vibey-framework-v2
+  status: not_started
+  blocked: false
+  blocked_reason: null
+  created: '2025-12-23T17:15:00+00:00'
+  started: null
+  completion_gate_check_at: null
+  completed: null
+  production_gate_check_at: null
+  production_ready_at: null
+  deployed_at: null
+  progress:
+    development_tasks_total: 0
+    development_tasks_completed: 0
+    completion_gate_tasks_total: 0
+    completion_gate_tasks_completed: 0
+    production_gate_tasks_total: 0
+    production_gate_tasks_completed: 0
+    tasks_total: 0
+    tasks_completed: 0
+    completion_percent: 0
+  development_gates: []
+  blocks: []
+  blocked_by: []
+  depends_on:
+  - blocker_id: 01KD63PBP9QFQFTFYQ685TV7KP
+    blocker_type: sprint
+    required_status: completed
+    current_status: not_started
+    blocks_transition_to: completed
+    last_checked: '2025-12-23T12:23:47.905629Z'
+  depended_on_by: []
+  plan_file: null
+  deliverables:
+  - Template suggestions in ticket creation workflow
+  - Automatic template application based on ticket type
+  - Template criteria enforcement during ticket lifecycle
+  - MCP tools for template operations
+  - Template analytics and usage reporting
+  description: Integrate templates into the existing ticket creation and management
+    workflows, including automatic suggestions and criteria enforcement.
+  goal: Seamlessly integrate templates into daily workflow
+  success_criteria:
+  - Templates suggested when creating tickets
+  - Criteria from templates enforced during completion
+  - MCP tools available for AI assistants
+  - Usage analytics help identify popular templates
+  risks: []
+  notes: null
+  assigned_agents: []
+  quality_gates: []
+  commits: []
+  standards: []
+  metadata:
+    last_updated: '2025-12-23T17:15:00+00:00'
+    estimated_duration: null
+    actual_duration: null
+    estimated_tokens: null
+    actual_tokens: null
+    agents_used: null

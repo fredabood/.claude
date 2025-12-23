@@ -1501,7 +1501,28 @@ CREATE TABLE IF NOT EXISTS tickets (
     -- Legacy reference columns (for migration tracking)
     legacy_sprint_id TEXT,
     legacy_track_id TEXT,
-    legacy_roadmap_id TEXT
+    legacy_roadmap_id TEXT,
+
+    -- Token Tracking (v2 - Robust Token Estimation System)
+    -- Input token fields
+    input_tokens_estimate_min INTEGER,
+    input_tokens_estimate_max INTEGER,
+    input_tokens_estimate_target INTEGER,
+    input_tokens_budget INTEGER,
+    input_tokens_usage INTEGER,
+    input_tokens_enforcement TEXT,  -- JSON for TokenEnforcement
+
+    -- Output token fields
+    output_tokens_estimate_min INTEGER,
+    output_tokens_estimate_max INTEGER,
+    output_tokens_estimate_target INTEGER,
+    output_tokens_budget INTEGER,
+    output_tokens_usage INTEGER,
+    output_tokens_enforcement TEXT,  -- JSON for TokenEnforcement
+
+    -- Combined/total token fields
+    total_token_budget INTEGER,
+    total_token_enforcement TEXT    -- JSON for TokenEnforcement
 );
 
 -- Criteria table (polymorphic targets)

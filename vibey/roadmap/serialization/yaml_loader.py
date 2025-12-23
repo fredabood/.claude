@@ -27,7 +27,13 @@ from ..models.ticket.domain import (
     VersionStrategy as PydanticVersionStrategy,
     PlatformDeployment as PydanticPlatformDeployment,
 )
-from ..models.ticket.ticket import GitCommit as PydanticGitCommit
+from ..models.ticket.ticket import (
+    GitCommit as PydanticGitCommit,
+    TokenEstimate,
+    EscalationStep,
+    TokenEnforcement,
+    Tokens,
+)
 from ..models.ticket.completable import Criterion
 from ..models.ticket.enums import (
     TicketStatus,
@@ -139,6 +145,98 @@ def _map_task_type(value: str) -> str:
         # 'development', 'completion_gate', 'production_gate' stay the same
     }
     return mapping.get(value, value)
+
+
+# =============================================================================
+# TOKEN PARSING HELPERS
+# =============================================================================
+
+
+def _parse_token_estimate(data: Optional[Dict[str, Any]]) -> Optional[TokenEstimate]:
+    """
+    Parse TokenEstimate from YAML data.
+
+    Args:
+        data: Dictionary with min/max/target fields, or None
+
+    Returns:
+        TokenEstimate object, or None if data is None or empty
+    """
+    if data is None or not data:
+        return None
+
+    return TokenEstimate(
+        min=data.get('min'),
+        max=data.get('max'),
+        target=data.get('target'),
+    )
+
+
+def _parse_escalation_step(data: Dict[str, Any]) -> EscalationStep:
+    """
+    Parse EscalationStep from YAML data.
+
+    Args:
+        data: Dictionary with 'at' and 'mode' fields
+
+    Returns:
+        EscalationStep object
+    """
+    return EscalationStep(
+        at=data['at'],
+        mode=data['mode'],
+    )
+
+
+def _parse_token_enforcement(data: Optional[Dict[str, Any]]) -> Optional[TokenEnforcement]:
+    """
+    Parse TokenEnforcement from YAML data.
+
+    Args:
+        data: Dictionary with enforcement settings, or None
+
+    Returns:
+        TokenEnforcement object, or None if data is None
+    """
+    if data is None:
+        return None
+
+    # Parse escalation steps if present
+    escalation = None
+    if 'escalation' in data and data['escalation']:
+        escalation = [_parse_escalation_step(s) for s in data['escalation']]
+
+    return TokenEnforcement(
+        mode=data.get('mode', 'warn'),
+        thresholds=data.get('thresholds', [0.8, 0.9, 1.0]),
+        allow_override=data.get('allow_override', True),
+        grace_percent=data.get('grace_percent', 0.0),
+        escalation=escalation,
+        require_children_sum_valid=data.get('require_children_sum_valid', False),
+        check_ancestors_during_execution=data.get('check_ancestors_during_execution', False),
+        block_new_children_when_exceeded=data.get('block_new_children_when_exceeded', False),
+    )
+
+
+def _parse_tokens(data: Optional[Dict[str, Any]]) -> Optional[Tokens]:
+    """
+    Parse Tokens from YAML data.
+
+    Args:
+        data: Dictionary with token fields, or None
+
+    Returns:
+        Tokens object, or None if data is None or empty
+    """
+    if data is None or not data:
+        return None
+
+    return Tokens(
+        estimate=_parse_token_estimate(data.get('estimate')),
+        budget=data.get('budget'),
+        usage=data.get('usage'),
+        enforcement=_parse_token_enforcement(data.get('enforcement')),
+    )
 
 
 logger = logging.getLogger(__name__)
@@ -2113,6 +2211,11 @@ def _load_task_ticket_v2(task_data: Dict[str, Any]) -> TaskTicket:
         gate_info=gate_info_v2,
         audit_results=audit_results_v2,
         deferred=task_data.get('deferred', False),
+        # Token tracking (v2 format - Ticket class fields)
+        input_tokens=_parse_tokens(task_data.get('input_tokens')),
+        output_tokens=_parse_tokens(task_data.get('output_tokens')),
+        total_token_budget=task_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(task_data.get('total_token_enforcement')),
     )
 
 
@@ -2210,6 +2313,12 @@ def _migrate_task_to_ticket(task_data: Dict[str, Any]) -> TaskTicket:
         gate_info=gate_info_v2,
         audit_results=audit_results_v2,
         deferred=task_data.get('deferred', False),
+        # Token tracking (v2 format - Ticket class fields)
+        # Note: v1 format doesn't have token fields, so these will be None
+        input_tokens=_parse_tokens(task_data.get('input_tokens')),
+        output_tokens=_parse_tokens(task_data.get('output_tokens')),
+        total_token_budget=task_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(task_data.get('total_token_enforcement')),
     )
 
 
@@ -2310,6 +2419,11 @@ def _load_sprint_ticket_v2(sprint_data: Dict[str, Any]) -> SprintTicket:
         estimated_tokens=sprint_data.get('estimated_tokens'),
         actual_tokens=sprint_data.get('actual_tokens'),
         development_gates=dev_gates,
+        # Token tracking (v2 format - Ticket class fields)
+        input_tokens=_parse_tokens(sprint_data.get('input_tokens')),
+        output_tokens=_parse_tokens(sprint_data.get('output_tokens')),
+        total_token_budget=sprint_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(sprint_data.get('total_token_enforcement')),
     )
 
 
@@ -2442,6 +2556,12 @@ def _migrate_sprint_to_ticket(sprint_data: Dict[str, Any]) -> SprintTicket:
         estimated_tokens=sprint_data.get('metadata', {}).get('estimated_tokens'),
         actual_tokens=sprint_data.get('metadata', {}).get('actual_tokens'),
         development_gates=dev_gates,
+        # Token tracking (v2 format - Ticket class fields)
+        # Note: v1 format doesn't have token fields, so these will be None
+        input_tokens=_parse_tokens(sprint_data.get('input_tokens')),
+        output_tokens=_parse_tokens(sprint_data.get('output_tokens')),
+        total_token_budget=sprint_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(sprint_data.get('total_token_enforcement')),
     )
 
 
@@ -2516,6 +2636,11 @@ def _load_track_ticket_v2(track_data: Dict[str, Any]) -> TrackTicket:
         slug=track_data.get('slug', ''),
         roadmap_id=track_data['roadmap_id'],
         strategic_value=track_data.get('strategic_value', []),
+        # Token tracking (v2 format - Ticket class fields)
+        input_tokens=_parse_tokens(track_data.get('input_tokens')),
+        output_tokens=_parse_tokens(track_data.get('output_tokens')),
+        total_token_budget=track_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(track_data.get('total_token_enforcement')),
     )
 
 
@@ -2606,6 +2731,12 @@ def _migrate_track_to_ticket(track_data: Dict[str, Any]) -> TrackTicket:
         slug='',
         roadmap_id=roadmap_id,
         strategic_value=track_data.get('strategic_value', []),
+        # Token tracking (v2 format - Ticket class fields)
+        # Note: v1 format doesn't have token fields, so these will be None
+        input_tokens=_parse_tokens(track_data.get('input_tokens')),
+        output_tokens=_parse_tokens(track_data.get('output_tokens')),
+        total_token_budget=track_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(track_data.get('total_token_enforcement')),
     )
 
 
@@ -2731,6 +2862,11 @@ def _load_roadmap_ticket_v2(roadmap_data: Dict[str, Any]) -> RoadmapTicket:
         deployed_at=_parse_datetime(roadmap_data.get('deployed_at')),
         deployed_platforms=deployed_platforms,
         activity_log=activity_log,
+        # Token tracking (v2 format - Ticket class fields)
+        input_tokens=_parse_tokens(roadmap_data.get('input_tokens')),
+        output_tokens=_parse_tokens(roadmap_data.get('output_tokens')),
+        total_token_budget=roadmap_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(roadmap_data.get('total_token_enforcement')),
     )
 
 
@@ -2863,4 +2999,10 @@ def _migrate_roadmap_to_ticket(roadmap_data: Dict[str, Any]) -> RoadmapTicket:
         deployed_at=_parse_datetime(roadmap_data.get('deployed')),
         deployed_platforms=deployed_platforms,
         activity_log=activity_log,
+        # Token tracking (v2 format - Ticket class fields)
+        # Note: v1 format doesn't have token fields, so these will be None
+        input_tokens=_parse_tokens(roadmap_data.get('input_tokens')),
+        output_tokens=_parse_tokens(roadmap_data.get('output_tokens')),
+        total_token_budget=roadmap_data.get('total_token_budget'),
+        total_token_enforcement=_parse_token_enforcement(roadmap_data.get('total_token_enforcement')),
     )

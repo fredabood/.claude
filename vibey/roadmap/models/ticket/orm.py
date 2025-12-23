@@ -43,6 +43,12 @@ from vibey.roadmap.models.ticket.enums import (
     TicketStatus,
     TicketType,
 )
+from vibey.roadmap.models.ticket.ticket import (
+    TokenEstimate,
+    EscalationStep,
+    TokenEnforcement,
+    Tokens,
+)
 
 
 # =============================================================================
@@ -53,6 +59,85 @@ from vibey.roadmap.models.ticket.enums import (
 class Base(DeclarativeBase):
     """SQLAlchemy declarative base for ticket models."""
     pass
+
+
+# =============================================================================
+# TOKEN SERIALIZATION HELPERS
+# =============================================================================
+
+
+def _serialize_token_enforcement(enforcement: Optional[TokenEnforcement]) -> Optional[str]:
+    """Serialize TokenEnforcement to JSON string for database storage."""
+    if enforcement is None:
+        return None
+    import json
+    data = {
+        'mode': enforcement.mode,
+        'thresholds': enforcement.thresholds,
+        'allow_override': enforcement.allow_override,
+        'grace_percent': enforcement.grace_percent,
+        'escalation': [
+            {'at': s.at, 'mode': s.mode}
+            for s in enforcement.escalation
+        ] if enforcement.escalation else None,
+        'require_children_sum_valid': enforcement.require_children_sum_valid,
+        'check_ancestors_during_execution': enforcement.check_ancestors_during_execution,
+        'block_new_children_when_exceeded': enforcement.block_new_children_when_exceeded,
+    }
+    return json.dumps(data)
+
+
+def _deserialize_token_enforcement(json_str: Optional[str]) -> Optional[TokenEnforcement]:
+    """Deserialize JSON string to TokenEnforcement."""
+    if json_str is None:
+        return None
+    import json
+    data = json.loads(json_str)
+    escalation = None
+    if data.get('escalation'):
+        escalation = [
+            EscalationStep(at=s['at'], mode=s['mode'])
+            for s in data['escalation']
+        ]
+    return TokenEnforcement(
+        mode=data.get('mode', 'warn'),
+        thresholds=data.get('thresholds', [0.8, 0.9, 1.0]),
+        allow_override=data.get('allow_override', True),
+        grace_percent=data.get('grace_percent', 0.0),
+        escalation=escalation,
+        require_children_sum_valid=data.get('require_children_sum_valid', False),
+        check_ancestors_during_execution=data.get('check_ancestors_during_execution', False),
+        block_new_children_when_exceeded=data.get('block_new_children_when_exceeded', False),
+    )
+
+
+def _tokens_from_orm(
+    estimate_min: Optional[int],
+    estimate_max: Optional[int],
+    estimate_target: Optional[int],
+    budget: Optional[int],
+    usage: Optional[int],
+    enforcement_json: Optional[str],
+) -> Optional[Tokens]:
+    """Create Tokens object from ORM fields."""
+    # Check if any field is set
+    if all(x is None for x in [estimate_min, estimate_max, estimate_target, budget, usage, enforcement_json]):
+        return None
+
+    estimate = None
+    if any(x is not None for x in [estimate_min, estimate_max, estimate_target]):
+        estimate = TokenEstimate(
+            min=estimate_min,
+            max=estimate_max,
+            target=estimate_target,
+        )
+
+    return Tokens(
+        estimate=estimate,
+        budget=budget,
+        usage=usage,
+        enforcement=_deserialize_token_enforcement(enforcement_json),
+    )
 
 
 # =============================================================================
@@ -165,6 +250,30 @@ class TicketORM(Base):
     phase_label: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     # -------------------------------------------------------------------------
+    # Token Tracking (v2 - Robust Token Estimation System)
+    # -------------------------------------------------------------------------
+
+    # Input token fields
+    input_tokens_estimate_min: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    input_tokens_estimate_max: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    input_tokens_estimate_target: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    input_tokens_budget: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    input_tokens_usage: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    input_tokens_enforcement: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON
+
+    # Output token fields
+    output_tokens_estimate_min: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    output_tokens_estimate_max: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    output_tokens_estimate_target: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    output_tokens_budget: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    output_tokens_usage: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    output_tokens_enforcement: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON
+
+    # Combined/total token fields
+    total_token_budget: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    total_token_enforcement: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON
+
+    # -------------------------------------------------------------------------
     # Relationships
     # -------------------------------------------------------------------------
 
@@ -210,6 +319,10 @@ class TicketORM(Base):
         """
         import json
 
+        # Extract input token fields
+        input_tokens = getattr(ticket, 'input_tokens', None)
+        output_tokens = getattr(ticket, 'output_tokens', None)
+
         orm_instance = cls(
             id=ticket.id,
             name=ticket.name,
@@ -230,6 +343,21 @@ class TicketORM(Base):
             requirements_local_json=json.dumps([r.model_dump(mode='json') for r in ticket.requirements_local]) if ticket.requirements_local else None,
             deferred=ticket.deferred,
             metadata_json=json.dumps(ticket.metadata) if ticket.metadata else None,
+            # Token tracking fields
+            input_tokens_estimate_min=input_tokens.estimate.min if input_tokens and input_tokens.estimate else None,
+            input_tokens_estimate_max=input_tokens.estimate.max if input_tokens and input_tokens.estimate else None,
+            input_tokens_estimate_target=input_tokens.estimate.target if input_tokens and input_tokens.estimate else None,
+            input_tokens_budget=input_tokens.budget if input_tokens else None,
+            input_tokens_usage=input_tokens.usage if input_tokens else None,
+            input_tokens_enforcement=_serialize_token_enforcement(input_tokens.enforcement) if input_tokens else None,
+            output_tokens_estimate_min=output_tokens.estimate.min if output_tokens and output_tokens.estimate else None,
+            output_tokens_estimate_max=output_tokens.estimate.max if output_tokens and output_tokens.estimate else None,
+            output_tokens_estimate_target=output_tokens.estimate.target if output_tokens and output_tokens.estimate else None,
+            output_tokens_budget=output_tokens.budget if output_tokens else None,
+            output_tokens_usage=output_tokens.usage if output_tokens else None,
+            output_tokens_enforcement=_serialize_token_enforcement(output_tokens.enforcement) if output_tokens else None,
+            total_token_budget=getattr(ticket, 'total_token_budget', None),
+            total_token_enforcement=_serialize_token_enforcement(getattr(ticket, 'total_token_enforcement', None)),
         )
 
         # Add criteria
@@ -270,6 +398,24 @@ class TicketORM(Base):
         if self.metadata_json:
             metadata = json.loads(self.metadata_json)
 
+        # Build token objects from ORM fields
+        input_tokens = _tokens_from_orm(
+            self.input_tokens_estimate_min,
+            self.input_tokens_estimate_max,
+            self.input_tokens_estimate_target,
+            self.input_tokens_budget,
+            self.input_tokens_usage,
+            self.input_tokens_enforcement,
+        )
+        output_tokens = _tokens_from_orm(
+            self.output_tokens_estimate_min,
+            self.output_tokens_estimate_max,
+            self.output_tokens_estimate_target,
+            self.output_tokens_budget,
+            self.output_tokens_usage,
+            self.output_tokens_enforcement,
+        )
+
         return Ticket(
             id=self.id,
             name=self.name,
@@ -288,6 +434,11 @@ class TicketORM(Base):
             deferred=self.deferred,
             metadata=metadata,
             criteria=criteria,
+            # Token tracking fields
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            total_token_budget=self.total_token_budget,
+            total_token_enforcement=_deserialize_token_enforcement(self.total_token_enforcement),
         )
 
     def __repr__(self) -> str:

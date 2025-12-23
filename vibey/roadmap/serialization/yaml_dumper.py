@@ -33,6 +33,125 @@ def _format_datetime(dt: Union[datetime, None]) -> Union[str, None]:
     return dt.isoformat() + 'Z' if dt.tzinfo is None else dt.isoformat()
 
 
+# =============================================================================
+# TOKEN SERIALIZATION HELPERS
+# =============================================================================
+
+
+def _dump_token_estimate(estimate: Optional["TokenEstimate"]) -> Optional[dict]:
+    """
+    Serialize TokenEstimate to dict for YAML output.
+
+    Args:
+        estimate: TokenEstimate object or None
+
+    Returns:
+        Dictionary with min/max/target fields, or None if estimate is None
+    """
+    if estimate is None:
+        return None
+
+    # Only include non-None fields
+    result = {}
+    if estimate.min is not None:
+        result['min'] = estimate.min
+    if estimate.max is not None:
+        result['max'] = estimate.max
+    if estimate.target is not None:
+        result['target'] = estimate.target
+
+    return result if result else None
+
+
+def _dump_escalation_step(step: "EscalationStep") -> dict:
+    """
+    Serialize EscalationStep to dict for YAML output.
+
+    Args:
+        step: EscalationStep object
+
+    Returns:
+        Dictionary with 'at' and 'mode' fields
+    """
+    return {
+        'at': step.at,
+        'mode': step.mode,
+    }
+
+
+def _dump_token_enforcement(enforcement: Optional["TokenEnforcement"]) -> Optional[dict]:
+    """
+    Serialize TokenEnforcement to dict for YAML output.
+
+    Args:
+        enforcement: TokenEnforcement object or None
+
+    Returns:
+        Dictionary with enforcement settings, or None if enforcement is None
+    """
+    if enforcement is None:
+        return None
+
+    result = {
+        'mode': enforcement.mode,
+        'thresholds': enforcement.thresholds,
+    }
+
+    # Only include non-default optional fields
+    if enforcement.allow_override is not True:
+        result['allow_override'] = enforcement.allow_override
+    if enforcement.grace_percent != 0.0:
+        result['grace_percent'] = enforcement.grace_percent
+    if enforcement.escalation:
+        result['escalation'] = [_dump_escalation_step(s) for s in enforcement.escalation]
+
+    # Hierarchical enforcement flags (only include if True)
+    if enforcement.require_children_sum_valid:
+        result['require_children_sum_valid'] = True
+    if enforcement.check_ancestors_during_execution:
+        result['check_ancestors_during_execution'] = True
+    if enforcement.block_new_children_when_exceeded:
+        result['block_new_children_when_exceeded'] = True
+
+    return result
+
+
+def _dump_tokens(tokens: Optional["Tokens"]) -> Optional[dict]:
+    """
+    Serialize Tokens to dict for YAML output.
+
+    Args:
+        tokens: Tokens object or None
+
+    Returns:
+        Dictionary with token fields, or None if tokens is None
+    """
+    if tokens is None:
+        return None
+
+    result = {}
+
+    # Include estimate if present
+    estimate_data = _dump_token_estimate(tokens.estimate)
+    if estimate_data:
+        result['estimate'] = estimate_data
+
+    # Include budget if present
+    if tokens.budget is not None:
+        result['budget'] = tokens.budget
+
+    # Include usage if present
+    if tokens.usage is not None:
+        result['usage'] = tokens.usage
+
+    # Include enforcement if present
+    enforcement_data = _dump_token_enforcement(tokens.enforcement)
+    if enforcement_data:
+        result['enforcement'] = enforcement_data
+
+    return result if result else None
+
+
 def save_roadmap(roadmap: Roadmap, file_path: Union[str, Path]):
     """
     Save a roadmap to YAML file.
@@ -1017,6 +1136,26 @@ def dump_task_ticket(task: "TaskTicket") -> dict:
     # Metadata
     task_data['metadata'] = task.metadata if task.metadata else {}
 
+    # Token tracking (v2 format - Ticket class fields)
+    # Only include if present (supports incremental adoption)
+    if hasattr(task, 'input_tokens') and task.input_tokens is not None:
+        input_tokens_data = _dump_tokens(task.input_tokens)
+        if input_tokens_data:
+            task_data['input_tokens'] = input_tokens_data
+
+    if hasattr(task, 'output_tokens') and task.output_tokens is not None:
+        output_tokens_data = _dump_tokens(task.output_tokens)
+        if output_tokens_data:
+            task_data['output_tokens'] = output_tokens_data
+
+    if hasattr(task, 'total_token_budget') and task.total_token_budget is not None:
+        task_data['total_token_budget'] = task.total_token_budget
+
+    if hasattr(task, 'total_token_enforcement') and task.total_token_enforcement is not None:
+        enforcement_data = _dump_token_enforcement(task.total_token_enforcement)
+        if enforcement_data:
+            task_data['total_token_enforcement'] = enforcement_data
+
     return {'task': task_data}
 
 
@@ -1092,6 +1231,26 @@ def dump_sprint_ticket(sprint: "SprintTicket") -> dict:
     # Metadata
     sprint_data['metadata'] = sprint.metadata if sprint.metadata else {}
 
+    # Token tracking (v2 format - Ticket class fields)
+    # Only include if present (supports incremental adoption)
+    if hasattr(sprint, 'input_tokens') and sprint.input_tokens is not None:
+        input_tokens_data = _dump_tokens(sprint.input_tokens)
+        if input_tokens_data:
+            sprint_data['input_tokens'] = input_tokens_data
+
+    if hasattr(sprint, 'output_tokens') and sprint.output_tokens is not None:
+        output_tokens_data = _dump_tokens(sprint.output_tokens)
+        if output_tokens_data:
+            sprint_data['output_tokens'] = output_tokens_data
+
+    if hasattr(sprint, 'total_token_budget') and sprint.total_token_budget is not None:
+        sprint_data['total_token_budget'] = sprint.total_token_budget
+
+    if hasattr(sprint, 'total_token_enforcement') and sprint.total_token_enforcement is not None:
+        enforcement_data = _dump_token_enforcement(sprint.total_token_enforcement)
+        if enforcement_data:
+            sprint_data['total_token_enforcement'] = enforcement_data
+
     return {'sprint': sprint_data}
 
 
@@ -1155,6 +1314,26 @@ def dump_track_ticket(track: "TrackTicket") -> dict:
 
     # Metadata
     track_data['metadata'] = track.metadata if track.metadata else {}
+
+    # Token tracking (v2 format - Ticket class fields)
+    # Only include if present (supports incremental adoption)
+    if hasattr(track, 'input_tokens') and track.input_tokens is not None:
+        input_tokens_data = _dump_tokens(track.input_tokens)
+        if input_tokens_data:
+            track_data['input_tokens'] = input_tokens_data
+
+    if hasattr(track, 'output_tokens') and track.output_tokens is not None:
+        output_tokens_data = _dump_tokens(track.output_tokens)
+        if output_tokens_data:
+            track_data['output_tokens'] = output_tokens_data
+
+    if hasattr(track, 'total_token_budget') and track.total_token_budget is not None:
+        track_data['total_token_budget'] = track.total_token_budget
+
+    if hasattr(track, 'total_token_enforcement') and track.total_token_enforcement is not None:
+        enforcement_data = _dump_token_enforcement(track.total_token_enforcement)
+        if enforcement_data:
+            track_data['total_token_enforcement'] = enforcement_data
 
     return {'track': track_data}
 
@@ -1269,6 +1448,26 @@ def dump_roadmap_ticket(roadmap: "RoadmapTicket") -> dict:
 
     # Metadata
     roadmap_data['metadata'] = roadmap.metadata if roadmap.metadata else {}
+
+    # Token tracking (v2 format - Ticket class fields)
+    # Only include if present (supports incremental adoption)
+    if hasattr(roadmap, 'input_tokens') and roadmap.input_tokens is not None:
+        input_tokens_data = _dump_tokens(roadmap.input_tokens)
+        if input_tokens_data:
+            roadmap_data['input_tokens'] = input_tokens_data
+
+    if hasattr(roadmap, 'output_tokens') and roadmap.output_tokens is not None:
+        output_tokens_data = _dump_tokens(roadmap.output_tokens)
+        if output_tokens_data:
+            roadmap_data['output_tokens'] = output_tokens_data
+
+    if hasattr(roadmap, 'total_token_budget') and roadmap.total_token_budget is not None:
+        roadmap_data['total_token_budget'] = roadmap.total_token_budget
+
+    if hasattr(roadmap, 'total_token_enforcement') and roadmap.total_token_enforcement is not None:
+        enforcement_data = _dump_token_enforcement(roadmap.total_token_enforcement)
+        if enforcement_data:
+            roadmap_data['total_token_enforcement'] = enforcement_data
 
     return {'roadmap': roadmap_data}
 
